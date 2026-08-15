@@ -40,6 +40,7 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [GDELT 2.0 DOC](https://www.gdeltproject.org/) | Serie de volumen mediático | Público; máx. 1 petición/5 s |
 | [UNGRD ArcGIS](https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0) | 85k emergencias EDAN 1914→2024 (línea base) | Público |
 | [Socrata `wwkg-r6te`](https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te) | El mismo registro hasta 2022 (métrica de brecha) | Público |
+| [DANE proyecciones municipales](https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion) | Población municipal 2026 total, cabecera y rural (serie por área 2018-2042) | Público; XLSX oficial |
 | [ChatMap OSM Colombia](https://chatmap.hotosm.org/colombia.html) ([uMap](https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482), [proyecto HOT](https://www.hotosm.org/en/projects/2026-colombia-earthquake-response/)) | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
 | [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
 

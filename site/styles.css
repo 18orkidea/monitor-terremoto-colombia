@@ -103,7 +103,7 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #timeline a { color: var(--s1); text-decoration: none; }
 #colombia-acts p { margin: 6px 0; font-size: 13px; }
 #colombia-acts a { color: var(--s1); text-decoration: none; }
-#timeline-section, #colombia-acts-section,
+#timeline-section, #colombia-acts-section, #municipios-section,
 #chart-section, #alerts-section {
   margin: 14px 20px; background: var(--surface-1); border: 1px solid var(--border);
   border-radius: 10px; padding: 14px; overflow-x: auto;

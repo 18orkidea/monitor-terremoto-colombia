@@ -27,9 +27,11 @@
   for (const a of aois) selA.add(new Option(aoiLabel(a), a));
   for (const o of origenes) selO.add(new Option(o, o));
 
-  // permite enlazar directo: noticias.html#aoi=Pereira
+  // permite enlazar directo: noticias.html#aoi=Pereira o noticias.html?q=Armenia
+  const query = new URLSearchParams(location.search);
   const hash = new URLSearchParams(location.hash.slice(1));
   if (hash.get("aoi")) selA.value = hash.get("aoi");
+  if (query.get("q")) document.getElementById("buscar").value = query.get("q");
 
   const lista = document.getElementById("lista");
   const resumen = document.getElementById("resumen");

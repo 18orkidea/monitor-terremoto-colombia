@@ -187,7 +187,8 @@ class TestPublicacionBienFormada(unittest.TestCase):
             self.assertIn("poblacion", a["resumen"])
 
     def test_geojson_validos(self):
-        for name in ("aois.geojson", "chatmap.geojson", "ungrd_sismos.geojson"):
+        for name in ("aois.geojson", "chatmap.geojson", "ungrd_sismos.geojson",
+                     "municipios.geojson"):
             p = ROOT / "data" / "public" / name
             if not p.exists():
                 continue
@@ -195,6 +196,12 @@ class TestPublicacionBienFormada(unittest.TestCase):
             self.assertEqual(gj["type"], "FeatureCollection", name)
             for f in gj["features"][:5]:
                 self.assertIn("geometry", f, name)
+
+    def test_municipios_resumen(self):
+        mon = self._mon()
+        self.assertIn("municipios", mon)
+        self.assertGreaterEqual(mon["municipios"]["total"],
+                                mon["municipios"]["fuera_aoi"])
 
     def test_exposicion_coherente(self):
         exp = self._mon().get("exposicion")

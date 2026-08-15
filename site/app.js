@@ -54,9 +54,10 @@
     catch { return null; }
   }
   const base = "../data/public/";
-  const [mon, aois, chat, dyfi, sismos, shake, alerts,
+  const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
          dmgPts, dmgLines, notAnalysed] = await Promise.all([
-    j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "chatmap.geojson"),
+    j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
+    j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
     j(base + "shakemap_mmi.geojson"), j(base + "alerts.json"),
     j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
@@ -104,6 +105,7 @@
     }).addTo(map);
   }
   const aoiLayerById = {};
+  const munLayerById = {};
   if (aois) {
     layers["Zonas Copernicus (AOI)"] = L.geoJSON(aois, {
       style: (f) => ({
@@ -236,6 +238,32 @@
       },
     });
   }
+  if (municipios && municipios.features.length) {
+    const MUN_COLOR = {
+      en_aoi: css("--s1"), intensidad_alta: css("--warning"),
+      mencion_prensa: css("--s2"), fuera_aoi: css("--muted"),
+    };
+    layers[`Municipios mencionados / intensidad (${municipios.features.length})`] =
+      L.geoJSON(municipios, {
+        pointToLayer: (f, ll) => L.circleMarker(ll, {
+          radius: f.properties.en_aoi_copernicus ? 6 : 5,
+          color: "#fff", weight: 1.5,
+          fillColor: MUN_COLOR[f.properties.estado] || css("--muted"),
+          fillOpacity: 0.85,
+        }),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          munLayerById[p.municipio] = l;
+          l.bindPopup(`<strong>${p.municipio}</strong> (${p.departamento})<br>` +
+            `${p.en_aoi_copernicus ? "Dentro de AOI Copernicus" : "Fuera de AOI Copernicus"}<br>` +
+            `Población DANE 2026: ${fmt(p.poblacion_2026)} ` +
+            `<span style="color:var(--muted)">cabecera ${fmt(p.cabecera_2026)} · rural ${fmt(p.rural_2026)}</span><br>` +
+            `DYFI: ${fmt(p.dyfi_max_cdi)} · respuestas: ${fmt(p.dyfi_respuestas)}<br>` +
+            `Prensa: ${fmt(p.n_noticias)} · fuentes: ${(p.fuentes || []).join(", ") || "—"}<br>` +
+            `<span style="color:var(--muted)">No equivale a daño satelital ni EDAN oficial.</span>`);
+        },
+      }).addTo(map);
+  }
   L.control.layers(null, layers, { collapsed: true }).addTo(map);
 
   // el grid asienta su tamaño tarde: reencuadrar cuando el contenedor cambie
@@ -293,6 +321,36 @@
       if (l) { map.fitBounds(l.getBounds().pad(0.3)); l.openPopup(); }
     });
     tbody.appendChild(tr);
+  }
+
+  // ---- municipios fuera/dentro de AOI con señal de prensa o intensidad
+  const mtbody = document.querySelector("#municipios-tabla tbody");
+  const muniRows = (municipios && municipios.features || [])
+    .map((f) => f.properties)
+    .sort((a, b) => Number(b.en_aoi_copernicus) - Number(a.en_aoi_copernicus) ||
+      (b.dyfi_max_cdi || 0) - (a.dyfi_max_cdi || 0) ||
+      (b.n_noticias || 0) - (a.n_noticias || 0) ||
+      a.municipio.localeCompare(b.municipio));
+  for (const m of muniRows) {
+    const tr = document.createElement("tr");
+    const estado = m.en_aoi_copernicus ? "En AOI Copernicus" :
+      ((m.dyfi_max_cdi || 0) >= 6 ? "Fuera de AOI · intensidad alta" :
+        (m.n_noticias ? "Fuera de AOI · mencionado" : "Fuera de AOI · intensidad sentida"));
+    const color = m.en_aoi_copernicus ? css("--s1") :
+      ((m.dyfi_max_cdi || 0) >= 6 ? css("--warning") : css("--s2"));
+    tr.innerHTML =
+      `<td><strong>${m.municipio}</strong><br><span style="color:var(--muted)">${m.departamento}</span></td>` +
+      `<td><span class="badge" style="--bc:${color}">${estado}</span></td>` +
+      `<td class="num" title="DANE PPED municipal por área, 2026">${fmt(m.poblacion_2026)}</td>` +
+      `<td class="num">${fmt(m.dyfi_max_cdi)}</td>` +
+      `<td class="num">${fmt(m.dyfi_respuestas)}</td>` +
+      `<td class="num">${m.n_noticias ? `<a href="noticias.html?q=${encodeURIComponent(m.municipio)}">${fmt(m.n_noticias)}</a>` : "—"}</td>` +
+      `<td>${(m.fuentes || []).join(", ") || "—"}</td>`;
+    tr.addEventListener("click", () => {
+      const l = munLayerById[m.municipio];
+      if (l) { map.setView(l.getLatLng(), 10); l.openPopup(); }
+    });
+    mtbody.appendChild(tr);
   }
 
   // ---- cronología institucional + entregas Copernicus, en un solo hilo temporal

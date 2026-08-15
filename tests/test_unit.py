@@ -171,6 +171,56 @@ class TestResumenAoi(unittest.TestCase):
         self.assertIsNone(r["vias_afectadas_km"])
 
 
+class TestMunicipiosInfluencia(unittest.TestCase):
+    def test_prensa_agrega_municipio_fuera_de_aoi(self):
+        from municipios import build_municipios
+        rows, gj = build_municipios([
+            {"titulo": "Armenia reporta afectaciones tras el terremoto",
+             "medio": "medio", "fecha": "2026-08-15", "url": "https://x.test"}
+        ], None, {})
+        armenia = next(r for r in rows if r["municipio"] == "Armenia")
+        self.assertEqual(armenia["n_noticias"], 1)
+        self.assertEqual(armenia["estado"], "mencion_prensa")
+        self.assertFalse(armenia["en_aoi_copernicus"])
+        self.assertEqual(gj["type"], "FeatureCollection")
+
+    def test_dyfi_alto_agrega_zarzal(self):
+        from municipios import build_municipios
+        rows, _ = build_municipios([], {
+            "features": [{"properties": {"name": "UTM:(18N)<br>Zarzal",
+                                         "cdi": 7.9, "nresp": 1, "dist": 123}}]
+        }, {})
+        zarzal = next(r for r in rows if r["municipio"] == "Zarzal")
+        self.assertEqual(zarzal["dyfi_max_cdi"], 7.9)
+        self.assertEqual(zarzal["estado"], "intensidad_alta")
+
+    def test_enriquece_poblacion_dane(self):
+        from municipios import build_municipios
+        rows, _ = build_municipios([
+            {"titulo": "Armenia fue mencionada", "medio": "medio"}
+        ], None, {}, {
+            "armenia|quindio": {"divipola": "63001", "poblacion_2026": 310000,
+                                "cabecera_2026": 300000, "rural_2026": 10000}
+        })
+        armenia = next(r for r in rows if r["municipio"] == "Armenia")
+        self.assertEqual(armenia["divipola"], "63001")
+        self.assertEqual(armenia["poblacion_2026"], 310000)
+
+    def test_poblacion_dane_por_alias_oficial(self):
+        from municipios import build_municipios
+        rows, _ = build_municipios([], {
+            "features": [{"properties": {"name": "UTM:(18N)<br>Buga",
+                                         "cdi": 6.7, "nresp": 1, "dist": 90}}]
+        }, {}, {
+            "guadalajara de buga|valle del cauca": {
+                "divipola": "76111", "poblacion_2026": 132000,
+                "cabecera_2026": 115000, "rural_2026": 17000}
+        })
+        buga = next(r for r in rows if r["municipio"] == "Buga")
+        self.assertEqual(buga["divipola"], "76111")
+        self.assertEqual(buga["poblacion_2026"], 132000)
+
+
 class TestFeedsComunitarios(unittest.TestCase):
     RSS = b"""<?xml version="1.0"?><rss version="2.0"><channel>
       <item><title>Sismo en Quibd\xc3\xb3 deja da\xc3\xb1os</title>

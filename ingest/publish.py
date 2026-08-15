@@ -283,40 +283,6 @@ def run() -> dict:
             evento["felt"] = ev.get("properties", {}).get("felt")
             break
 
-    monitor = {
-        # granularidad de día, no de hora: dos corridas el mismo día deben
-        # producir bytes idénticos (idempotencia => sin commits espurios)
-        "generado": snap, "fecha": snap,
-        "evento": evento,
-        "aois": sorted(aois, key=lambda a: a["numero"] or 0),
-        "media_volume": media, "entregas": entregas,
-        "brechas_oficiales": gaps, "exposicion": exposicion,
-        "citizen": {"chatmap_total": len(cit_feats),
-                    "en_aoi": sum(1 for f in cit_feats
-                                  if f["properties"].get("aoi"))},
-        "activation_index": index,
-        "institucional": institucional,
-        "colombia_activaciones": colombia_acts,
-    }
-    (PUBLIC / "monitor.json").write_text(
-        json.dumps(monitor, indent=1, ensure_ascii=False))
-
-    # exportación CSV del cruce
-    buf = io.StringIO()
-    w = csv.writer(buf)
-    w.writerow(["aoi", "estado", "etiqueta", "poblacion", "edificios_afectados",
-                "vias_afectadas_km", "interrupciones_viales", "n_prensa",
-                "n_ciudadano", "n_oficial", "entrega_producto", "fuente"])
-    for a in monitor["aois"]:
-        w.writerow([a["aoi"], a["cruce"]["estado"], a["cruce"]["etiqueta"],
-                    a["resumen"]["poblacion"], a["resumen"]["edificios_afectados"],
-                    a["resumen"]["vias_afectadas_km"],
-                    a["resumen"]["interrupciones_viales"],
-                    a["cruce"].get("n_prensa"), a["cruce"].get("n_ciudadano"),
-                    a["cruce"].get("n_oficial"), a["producto"]["entrega"],
-                    "Copernicus EMSR916 + GDACS EMM + ChatMap"])
-    (PUBLIC / "crosscheck.csv").write_text(buf.getvalue())
-
     # página de titulares: EMM completo + feeds comunitarios, con AOIs emparejados
     from crosscheck import match_text_to_aois
     noticias = []
@@ -342,6 +308,65 @@ def run() -> dict:
     (PUBLIC / "noticias.json").write_text(json.dumps(
         {"generado": snap, "total": len(noticias), "items": noticias},
         ensure_ascii=False))
+
+    # Municipios en el área de influencia: menciones de prensa + intensidad
+    # percibida, aunque no sean AOIs Copernicus.
+    from municipios import build_municipios
+    dyfi = None
+    dyfi_path = PUBLIC / "dyfi_cells.geojson"
+    if dyfi_path.exists():
+        dyfi = json.loads(dyfi_path.read_text())
+    poblacion = None
+    pop_path = PUBLIC / "dane_population_2026.json"
+    if pop_path.exists():
+        poblacion = (json.loads(pop_path.read_text()).get("items") or {})
+    # Excluir el AOI regional: cubre el área de influencia completa, pero no
+    # equivale a una zona urbana analizada con producto de daño.
+    extents_detalle = {k: v for k, v in extents.items() if k != "Western Colombia"}
+    municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
+                                                 poblacion)
+    (PUBLIC / "municipios.json").write_text(json.dumps(
+        {"generado": snap, "total": len(municipios), "items": municipios},
+        ensure_ascii=False))
+    (PUBLIC / "municipios.geojson").write_text(json.dumps(
+        municipios_gj, ensure_ascii=False))
+
+    monitor = {
+        # granularidad de día, no de hora: dos corridas el mismo día deben
+        # producir bytes idénticos (idempotencia => sin commits espurios)
+        "generado": snap, "fecha": snap,
+        "evento": evento,
+        "aois": sorted(aois, key=lambda a: a["numero"] or 0),
+        "media_volume": media, "entregas": entregas,
+        "brechas_oficiales": gaps, "exposicion": exposicion,
+        "citizen": {"chatmap_total": len(cit_feats),
+                    "en_aoi": sum(1 for f in cit_feats
+                                  if f["properties"].get("aoi"))},
+        "municipios": {"total": len(municipios),
+                       "fuera_aoi": sum(1 for m in municipios
+                                        if not m["en_aoi_copernicus"])},
+        "activation_index": index,
+        "institucional": institucional,
+        "colombia_activaciones": colombia_acts,
+    }
+    (PUBLIC / "monitor.json").write_text(
+        json.dumps(monitor, indent=1, ensure_ascii=False))
+
+    # exportación CSV del cruce
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["aoi", "estado", "etiqueta", "poblacion", "edificios_afectados",
+                "vias_afectadas_km", "interrupciones_viales", "n_prensa",
+                "n_ciudadano", "n_oficial", "entrega_producto", "fuente"])
+    for a in monitor["aois"]:
+        w.writerow([a["aoi"], a["cruce"]["estado"], a["cruce"]["etiqueta"],
+                    a["resumen"]["poblacion"], a["resumen"]["edificios_afectados"],
+                    a["resumen"]["vias_afectadas_km"],
+                    a["resumen"]["interrupciones_viales"],
+                    a["cruce"].get("n_prensa"), a["cruce"].get("n_ciudadano"),
+                    a["cruce"].get("n_oficial"), a["producto"]["entrega"],
+                    "Copernicus EMSR916 + GDACS EMM + ChatMap"])
+    (PUBLIC / "crosscheck.csv").write_text(buf.getvalue())
 
     conn.close()
     return {"aois": len(aois), "citizen": len(cit_feats), "sismos_hist": len(sismos),

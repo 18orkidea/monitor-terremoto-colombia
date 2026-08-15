@@ -691,6 +691,10 @@
   "chatmap_total": 430,
   "en_aoi": 362
  },
+ "municipios": {
+  "total": 24,
+  "fuera_aoi": 19
+ },
  "activation_index": [
   {
    "code": "EMSR673",
