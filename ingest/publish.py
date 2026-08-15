@@ -104,6 +104,16 @@ def run() -> dict:
     from sources.copernicus_layers import counts_by_aoi
     detecciones = counts_by_aoi()
 
+    # titulares de prensa guardados como evidencia (hasta 3 por AOI)
+    prensa_por_aoi: dict = {}
+    for r in conn.execute(
+            "SELECT aoi_name, cita, fuente, fecha, url FROM evidence"
+            " WHERE tipo='prensa' AND snapshot_date="
+            " (SELECT MAX(snapshot_date) FROM evidence WHERE tipo='prensa')"
+            " ORDER BY fecha"):
+        prensa_por_aoi.setdefault(r[0], []).append(
+            {"titular": r[1], "medio": r[2], "fecha": r[3], "url": r[4]})
+
     aois, features = [], []
     for aoi, r in best.items():
         _, aoi_num, ptype, mon_n, ver_n, status, feas, exp, deliv, dl = r
@@ -115,6 +125,7 @@ def run() -> dict:
                          "status": status, "entrega": deliv, "descarga": dl},
             "resumen": resumen_aoi(stats), "stats": stats,
             "detecciones": detecciones.get(aoi) or {},
+            "prensa_ejemplos": prensa_por_aoi.get(aoi) or [],
             "cruce": {**cc, "etiqueta": ESTADO_LABEL.get(cc["estado"], cc["estado"])},
             "n_productos": len(all_prods.get(aoi, [])),
         }
@@ -231,6 +242,35 @@ def run() -> dict:
                  "SELECT code, name, category, countries, event_time"
                  " FROM activation_index WHERE exists_public=1 ORDER BY code")]
 
+    # cronología institucional (feed GDACS: UNOSAT, ECHO, Copernicus…)
+    institucional = []
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / "gdacs_news_institucional.json"
+        if f.exists():
+            institucional = [
+                {"fecha": x.get("pubdate"), "titulo": x.get("title"),
+                 "url": x.get("link")}
+                for x in json.loads(f.read_text())]
+            break
+
+    # todas las activaciones Copernicus de Colombia (detalle si lo tenemos)
+    colombia_acts = []
+    for code, name, cat, ev_time in conn.execute(
+            "SELECT code, name, category, event_time FROM activation_index"
+            " WHERE countries LIKE '%Colombia%' ORDER BY code"):
+        det = conn.execute(
+            "SELECT closed, COUNT(DISTINCT p.aoi_name), COUNT(*)"
+            " FROM activations a LEFT JOIN products p ON p.code=a.code"
+            "  AND p.snapshot_date=a.snapshot_date"
+            " WHERE a.code=? AND a.snapshot_date="
+            "  (SELECT MAX(snapshot_date) FROM activations WHERE code=?)",
+            (code, code)).fetchone()
+        colombia_acts.append({
+            "code": code, "name": name, "category": cat, "event_time": ev_time,
+            "closed": bool(det[0]) if det and det[0] is not None else None,
+            "n_aois": det[1] if det else 0, "n_productos": det[2] if det else 0,
+            "visor": f"https://rapidmapping.emergency.copernicus.eu/{code}/"})
+
     evento = {"codigo": "EMSR916", "usgs_id": "us6000tjl2",
               "gdacs": "EQ1557236", "glide": "EQ-2026-000146-COL"}
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
@@ -255,6 +295,8 @@ def run() -> dict:
                     "en_aoi": sum(1 for f in cit_feats
                                   if f["properties"].get("aoi"))},
         "activation_index": index,
+        "institucional": institucional,
+        "colombia_activaciones": colombia_acts,
     }
     (PUBLIC / "monitor.json").write_text(
         json.dumps(monitor, indent=1, ensure_ascii=False))

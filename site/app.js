@@ -220,15 +220,58 @@
       `<td class="num" title="Destruidos · Dañados · Posiblemente dañados (puntos Copernicus)">${detTxt}</td>` +
       `<td class="num">${fmt(det["Vías dañadas"])}</td>` +
       `<td class="num">${fmt(det["Interrupciones/crisis"])}</td>` +
-      `<td class="num">${fmt(c.n_prensa)}</td>` +
+      `<td class="num">${(c.n_prensa && a.prensa_ejemplos.length)
+        ? `<a href="#" class="prensa-toggle" title="Ver titulares de ejemplo">${fmt(c.n_prensa)} ▾</a>`
+        : fmt(c.n_prensa)}</td>` +
       `<td class="num">${fmt(c.n_ciudadano)}</td>` +
       `<td>${(a.producto.entrega || "—").slice(0, 10)} <span style="color:var(--muted)">${a.producto.tipo} v${a.producto.version}${a.producto.status !== "F" ? " · " + ({ W: "en espera", I: "en producción", N: "no producido" }[a.producto.status] || a.producto.status) : ""}</span></td>`;
-    tr.addEventListener("click", () => {
+    tr.addEventListener("click", (ev) => {
+      if (ev.target.closest(".prensa-toggle")) {
+        ev.preventDefault();
+        const next = tr.nextElementSibling;
+        if (next && next.classList.contains("prensa-detalle")) { next.remove(); return; }
+        const dtr = document.createElement("tr");
+        dtr.className = "prensa-detalle";
+        dtr.innerHTML = `<td colspan="9"><strong>Titulares de ejemplo (GDACS EMM):</strong><ul>` +
+          a.prensa_ejemplos.map((n) =>
+            `<li>${(n.fecha || "").slice(0, 10)} · <em>${n.medio || "?"}</em> — ` +
+            `<a href="${n.url}" target="_blank" rel="noopener">${n.titular}</a></li>`).join("") +
+          `</ul></td>`;
+        tr.after(dtr);
+        return;
+      }
       const l = aoiLayerById[a.aoi];
       if (l) { map.fitBounds(l.getBounds().pad(0.3)); l.openPopup(); }
     });
     tbody.appendChild(tr);
   }
+
+  // ---- cronología institucional + entregas Copernicus, en un solo hilo temporal
+  const hitos = [
+    ...(mon.institucional || []).map((h) => ({
+      fecha: h.fecha, texto: h.titulo, url: h.url, tipo: "institucional" })),
+    ...(mon.entregas || []).map((e) => ({
+      fecha: e.fecha, tipo: "entrega",
+      texto: `Copernicus entrega datos de daño: ${e.aoi} (${e.producto} v${e.version})` })),
+  ].filter((h) => h.fecha).sort((x, y) => x.fecha.localeCompare(y.fecha));
+  document.getElementById("timeline").innerHTML = hitos.map((h) =>
+    `<li class="${h.tipo}"><span class="t-fecha">${h.fecha.slice(0, 16).replace("T", " ")}</span> ` +
+    (h.url ? `<a href="${h.url}" target="_blank" rel="noopener">${h.texto}</a>` : h.texto) +
+    `</li>`).join("") || "<li>Sin hitos registrados aún.</li>";
+
+  // ---- otras activaciones Copernicus en Colombia
+  const actsEl = document.getElementById("colombia-acts");
+  const acts = (mon.colombia_activaciones || []).filter((x) => x.code !== "EMSR916");
+  actsEl.innerHTML = acts.length
+    ? acts.map((x) =>
+      `<p><a href="${x.visor}" target="_blank" rel="noopener"><strong>${x.code}</strong></a> — ` +
+      `${x.name} · ${x.category} · ${(x.event_time || "").slice(0, 10)} · ` +
+      `${x.n_aois} zona(s) analizadas` +
+      `${x.closed === false ? ' · <span class="badge" style="--bc:var(--warning)">activación abierta</span>' : ""}</p>`).join("") +
+      `<p class="note">Índice completo vigilado: ${(mon.activation_index || []).length} activaciones` +
+      ` públicas (todas las emergencias mapeadas por Copernicus desde jul-2023, cualquier país)` +
+      ` — disponible en <a href="../data/public/monitor.json" target="_blank">monitor.json</a>.</p>`
+    : "<p class='note'>Ninguna otra activación de Colombia en el rango público.</p>";
   document.getElementById("leyenda").innerHTML = Object.entries({
     coincide: "Coincide (evidencia oficial)", prensa: "Reportado en prensa",
     ciudadano: "Reportado por ciudadanos", pendiente: "Pendiente de validar",
