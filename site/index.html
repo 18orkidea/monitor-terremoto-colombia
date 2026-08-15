@@ -47,7 +47,7 @@
 }
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20260816">
 </head>
 <body>
 <header>
@@ -82,18 +82,74 @@
 <section class="intro">
   <p>El <strong>terremoto del 10 de agosto de 2026 en Colombia</strong> (magnitud 7,4,
   epicentro en San José del Palmar, Chocó) es el sismo más fuerte registrado en el país en
-  más de un siglo. Este mapa interactivo reúne, en un solo lugar y con actualización diaria,
-  los <strong>daños verificados por satélite</strong> del programa europeo Copernicus
-  (activación EMSR916) en <strong>Cali, Pereira, Quibdó, Istmina y Buenaventura</strong>,
-  los <strong>reportes ciudadanos con foto</strong> enviados por WhatsApp a través de
-  ChatMap (OpenStreetMap Colombia), la intensidad sísmica de USGS y lo que publican las
-  fuentes oficiales colombianas (UNGRD) — incluyendo lo que <em>no</em> publican: la brecha
-  de reporte que este monitor mide y documenta con cada cifra rastreable a su fuente.</p>
+  más de un siglo. Este observatorio reúne, en un solo lugar y con actualización diaria,
+  <strong>cuatro miradas independientes sobre el mismo desastre</strong>: los daños
+  verificados por satélite del programa europeo Copernicus (622 edificios clasificados uno a
+  uno en Cali, Pereira, Quibdó, Istmina y Buenaventura), los <strong>reportes ciudadanos con
+  foto</strong> enviados por WhatsApp (ChatMap · OpenStreetMap Colombia), los
+  <strong>titulares de prensa</strong> de feeds internacionales y regionales abiertos, y los
+  <strong>balances oficiales citados en medios</strong>, extraídos a diario con IA. El punto
+  no es solo mostrar los datos, sino <strong>cruzarlos y medir sus brechas</strong>: qué ve
+  el satélite que nadie reporta, qué reporta la comunidad que nadie mira, y qué publican —
+  y qué no — las fuentes oficiales. Cada cifra es rastreable hasta su origen.</p>
+
+  <details id="como-leer">
+    <summary><strong>📖 Cómo leer este monitor</strong> — guía rápida de cada sección</summary>
+    <ol>
+      <li><strong><a href="#banner-brechas">La banda amarilla</a></strong> (arriba) resume las dos brechas centrales: cuánto
+      tiempo llevan calladas las fuentes oficiales abiertas y cuánta población expuesta al
+      sismo queda fuera de las zonas mapeadas por satélite.</li>
+      <li><strong><a href="#mapa">El mapa</a></strong>: cada polígono es una zona analizada por Copernicus (AOI),
+      coloreada por su estado del cruce. Los puntos con borde blanco son
+      <em>edificios dañados vistos por satélite</em> (rojo = destruido, naranja = dañado,
+      amarillo = posiblemente dañado); los puntos violeta son <em>reportes ciudadanos</em> —
+      haz clic para ver la foto. La ★ es el epicentro. Con el control de capas (arriba a la
+      derecha) puedes activar la intensidad percibida (DYFI), las vías dañadas, las zonas sin
+      analizar y los sismos históricos desde 1914.</li>
+      <li><strong><a href="#panel">La tabla del cruce</a></strong>: una fila por zona. La columna «Estado del cruce»
+      es el corazón del monitor — <em>solo la evidencia oficial</em> (EDAN o balance de entidad
+      estatal) permite llegar a «Coincide»; la prensa y los reportes ciudadanos alcanzan estados
+      intermedios explícitos. Pasa el ratón por cualquier cabecera para ver qué mide exactamente,
+      y haz clic en el número de «Prensa» para desplegar los titulares que lo sustentan.</li>
+      <li><strong><a href="#municipios-section">Municipios</a></strong>: ciudades del área de influencia con menciones en prensa,
+      intensidad percibida o reportes ciudadanos — aunque Copernicus no las haya mapeado. Es la
+      lista de «dónde más mirar».</li>
+      <li><strong><a href="#chart-section">Brecha de atención</a></strong> (gráfico): barras = noticias por día; línea
+      violeta = reportes ciudadanos; ▲ = entregas de datos satelitales. Se lee de un vistazo
+      que los datos de daño llegan cuando la prensa ya se fue — y que la comunidad sigue.</li>
+      <li><strong><a href="#timeline-section">Cronología</a></strong>: quién reaccionó cuándo (UNOSAT, ECHO, Copernicus).</li>
+      <li><strong><a href="balances.html">Balances</a></strong> (página aparte): las cifras de
+      fallecidos/heridos/viviendas que los medios publican citando a UNGRD o SGC, extraídas con
+      IA. Ojo con la etiqueta: es <em>prensa que cita lo oficial</em>, no el balance oficial —
+      los liveblogs se marcan y se penalizan.</li>
+      <li><strong><a href="noticias.html">Titulares</a></strong> (página aparte): las 3.000+
+      noticias filtrables por zona, medio y texto. ¿Falta un medio regional? El registro de
+      feeds es abierto — se añade con un PR.</li>
+      <li><strong><a href="#glosario">Descargas y verificación</a></strong>: botones CSV/JSON arriba; glosario de
+      acrónimos y metodología con enlaces a todas las fuentes al pie. Si una cifra no cuadra,
+      cada snapshot crudo está en el repositorio con su hash.</li>
+    </ol>
+  </details>
 </section>
+
+
+<nav id="indice" aria-label="Índice de secciones">
+  <a href="#mapa">🗺️ Mapa</a>
+  <a href="#panel">Cruce por zona</a>
+  <a href="#municipios-section">Municipios</a>
+  <a href="#chart-section">Brecha de atención</a>
+  <a href="#timeline-section">Cronología</a>
+  <a href="#balances-section">Balances</a>
+  <a href="#colombia-acts-section">Otras activaciones</a>
+  <a href="#alerts-section">Alertas</a>
+  <a href="#glosario">Glosario</a>
+  <a href="#metodologia">Metodología</a>
+  <a href="noticias.html">Titulares ↗</a>
+</nav>
 
 <section class="banner" id="banner-brechas"></section>
 
-<main>
+<main id="mapa">
   <div id="map"></div>
   <aside id="panel">
     <h2>Cruce por zona (AOI)</h2>
@@ -209,7 +265,7 @@
   </dl>
 </section>
 
-<footer>
+<footer id="metodologia">
   <div class="support-line support-line-footer">
     <span>🇨🇴 ❤️ Este proyecto es mantenido por <a href="https://col.social/@jp" target="_blank" rel="me noopener">@jp@col.social</a> con apoyo de <a href="https://orkidea.eu" target="_blank" rel="noopener">Orkidea</a>. Tus donaciones ayudan a sostener servidores, scraping y procesos que recolectan datos abiertos.</span>
     <a class="repo-link" href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener" aria-label="Repositorio público en GitHub">

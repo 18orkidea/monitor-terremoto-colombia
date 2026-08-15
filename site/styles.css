@@ -75,6 +75,34 @@ h2 { font-size: 15px; margin: 0 0 8px; }
 }
 .intro { margin: 4px 20px 0; max-width: 1000px; }
 .intro p { font-size: 13.5px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+html { scroll-behavior: smooth; }
+section[id], main[id], footer[id] { scroll-margin-top: 12px; }
+#indice {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin: 10px 20px 0; max-width: 1000px;
+}
+#indice a {
+  padding: 4px 11px; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface-1); color: var(--ink-2); text-decoration: none;
+  font-size: 12px; white-space: nowrap;
+}
+#indice a:hover {
+  color: var(--s1); border-color: color-mix(in srgb, var(--s1) 45%, transparent);
+  background: color-mix(in srgb, var(--s1) 7%, var(--surface-1));
+}
+#como-leer {
+  margin-top: 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface-1); font-size: 13px;
+}
+#como-leer summary {
+  padding: 9px 14px; cursor: pointer; color: var(--ink); user-select: none;
+}
+#como-leer summary:hover { background: color-mix(in srgb, var(--s1) 6%, transparent); border-radius: 8px; }
+#como-leer[open] summary { border-bottom: 1px solid var(--grid); }
+#como-leer ol { margin: 10px 0; padding: 0 18px 4px 34px; line-height: 1.6; color: var(--ink-2); }
+#como-leer li { margin-bottom: 8px; }
+#como-leer li strong { color: var(--ink); }
+#como-leer a { color: var(--s1); }
 .banner {
   margin: 8px 20px; padding: 10px 14px; border-radius: 8px;
   background: color-mix(in srgb, var(--warning) 14%, var(--surface-1));
