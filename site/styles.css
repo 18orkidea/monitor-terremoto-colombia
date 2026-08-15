@@ -105,6 +105,20 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
   color: var(--ink);
 }
 #alerts { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.6; }
+#glosario {
+  margin: 14px 20px; background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px;
+}
+#glosario dl {
+  display: grid; grid-template-columns: max-content 1fr;
+  gap: 6px 14px; margin: 0; font-size: 12.5px; line-height: 1.5;
+}
+#glosario dt { font-weight: 600; color: var(--ink); }
+#glosario dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 700px) {
+  #glosario dl { grid-template-columns: 1fr; gap: 2px; }
+  #glosario dd { margin-bottom: 8px; }
+}
 footer { padding: 10px 20px 24px; font-size: 12px; color: var(--muted); line-height: 1.5; max-width: 1000px; }
 footer a { color: var(--s1); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
