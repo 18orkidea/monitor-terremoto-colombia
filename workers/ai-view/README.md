@@ -54,6 +54,8 @@ El flujo diario es `search -> scrape -> extracción`:
    `temporal_prensa` o `busqueda_web_temporal`.
 7. Publica las cifras extraídas, siempre con `requiere_revision_humana:true`; prensa y
    web abierta no se promueven a EDAN ni a coincidencia oficial.
+8. Marca `is_liveblog:true` y `historical_reliability:"baja"` cuando la URL o el título
+   indican directo/en vivo/liveblog, porque puede mezclar varias actualizaciones.
 
 Cada ejecución conserva `search_date`, `search_query` y `snapshot_id`. Para Firecrawl el
 `snapshot_id` combina fecha y URL, de modo que el mismo medio puede aparecer en varios días

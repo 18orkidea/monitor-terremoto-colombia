@@ -54,14 +54,15 @@
     catch { return null; }
   }
   const base = "../data/public/";
+  const OFFICIAL_FEED = "https://monitor-terremoto-colombia-oficiales-ai.gestion-321.workers.dev/oficiales.json";
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
-         dmgPts, dmgLines, notAnalysed] = await Promise.all([
+         dmgPts, dmgLines, notAnalysed, oficiales] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
     j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
     j(base + "shakemap_mmi.geojson"), j(base + "alerts.json"),
     j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
-    j(base + "not_analysed.geojson"),
+    j(base + "not_analysed.geojson"), j(OFFICIAL_FEED),
   ]);
   if (!mon) {
     document.getElementById("banner-brechas").innerHTML =
@@ -388,6 +389,7 @@
 
   // ---- gráfico temporal (SVG a mano; un solo eje: nº de items/día)
   drawChart(mon.media_volume || [], mon.entregas || []);
+  renderBalancesSummary(oficiales);
 
   // ---- alertas
   const ul = document.getElementById("alerts");
@@ -456,5 +458,48 @@
       tip.style.top = (ev.clientY - 10) + "px";
     });
     el.addEventListener("mouseleave", () => tip.style.display = "none");
+  }
+
+  function metricCount(item) {
+    return Object.values(item.cifras || {}).filter((v) => v != null).length;
+  }
+
+  function isLiveblog(item) {
+    const text = `${item.title || ""} ${item.publication_url || item.url || ""}`.toLowerCase();
+    return item.is_liveblog || /en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog/.test(text);
+  }
+
+  function bestSnapshot(items) {
+    return [...items].sort((a, b) =>
+      Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
+      metricCount(b) - metricCount(a) ||
+      Number(b.official) - Number(a.official) ||
+      ((b.captured_at || "").localeCompare(a.captured_at || "")))[0] || null;
+  }
+
+  function renderBalancesSummary(feed) {
+    const el = document.getElementById("balances-resumen");
+    if (!el) return;
+    const items = (feed && feed.items || []).filter((x) => x.search_date);
+    if (!items.length) {
+      el.innerHTML = `<p class="note">Sin balances rastreados todavía.</p>`;
+      return;
+    }
+    const latestDate = items.map((x) => x.search_date).sort().at(-1);
+    const latest = bestSnapshot(items.filter((x) => x.search_date === latestDate));
+    const c = latest.cifras || {};
+    const sources = (latest.reported_data_source || []).map((s) =>
+      s.url ? `<a href="${s.url}" target="_blank" rel="noopener">${s.id}</a>` : s.id).join(", ") || "—";
+    const publisher = latest.publisher || {};
+    el.innerHTML =
+      `<div class="metric-card"><span>Fecha</span><strong>${latestDate}</strong></div>` +
+      `<div class="metric-card"><span>Fallecidos</span><strong>${fmt(c.fallecidos)}</strong></div>` +
+      `<div class="metric-card"><span>Heridos</span><strong>${fmt(c.heridos)}</strong></div>` +
+      `<div class="metric-card"><span>Desaparecidos</span><strong>${fmt(c.desaparecidos)}</strong></div>` +
+      `<div class="metric-card"><span>Familias afectadas</span><strong>${fmt(c.familias_afectadas)}</strong></div>` +
+      `<p class="note full">Último snapshot en medio que cita fuentes oficiales: <a href="${latest.publication_url || latest.url}" target="_blank" rel="noopener">${latest.title}</a> · ` +
+      `publica ${publisher.name || publisher.domain || "—"} · fuente citada: ${sources}. ` +
+      `${isLiveblog(latest) ? "<span class='badge' style='--bc:var(--warning)'>liveblog</span> " : ""}` +
+      `<a href="balances.html">Ver histórico y tabla trazable →</a></p>`;
   }
 })();

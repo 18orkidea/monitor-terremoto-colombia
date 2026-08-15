@@ -104,11 +104,13 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #colombia-acts p { margin: 6px 0; font-size: 13px; }
 #colombia-acts a { color: var(--s1); text-decoration: none; }
 #timeline-section, #colombia-acts-section, #municipios-section,
-#chart-section, #alerts-section {
+#chart-section, #balances-section, #alerts-section,
+#balance-hero, #balance-chart-section, #balance-table-section {
   margin: 14px 20px; background: var(--surface-1); border: 1px solid var(--border);
   border-radius: 10px; padding: 14px; overflow-x: auto;
 }
 #chart svg { display: block; }
+#balance-chart svg { display: block; }
 #chart .tooltip, #map .leaflet-popup-content { font-size: 12px; }
 .tooltip {
   position: fixed; pointer-events: none; z-index: 999;
@@ -135,6 +137,29 @@ footer { padding: 10px 20px 24px; font-size: 12px; color: var(--muted); line-hei
 footer a { color: var(--s1); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 .note a { color: var(--s1); }
+.metric-strip {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 8px; align-items: stretch;
+}
+.metric-card {
+  border: 1px solid var(--border); border-radius: 8px; padding: 9px 10px;
+  background: color-mix(in srgb, var(--surface-1) 88%, var(--page));
+}
+.metric-card span {
+  display: block; color: var(--muted); font-size: 11px; margin-bottom: 2px;
+}
+.metric-card strong { display: block; font-size: 17px; font-variant-numeric: tabular-nums; }
+.metric-strip .full { grid-column: 1 / -1; margin: 2px 0 0; }
+#balance-filtros {
+  display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; align-items: center;
+}
+#balance-filtros input, #balance-filtros select {
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface-1); color: var(--ink); font-size: 13px;
+}
+#balance-filtros input { min-width: 260px; }
+#balance-table a, #balances-resumen a, #balance-cards a { color: var(--s1); text-decoration: none; }
+#balance-table a:hover, #balances-resumen a:hover, #balance-cards a:hover { text-decoration: underline; }
 .leaflet-container { background: var(--page); font: inherit; }
 .leaflet-popup-content img { max-width: 220px; border-radius: 6px; display: block; margin-top: 6px; }
 @media (max-width: 900px) {

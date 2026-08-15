@@ -470,6 +470,7 @@ async function discoverWithFirecrawl(entry, source, env, runDate) {
       prefetched_text: scraped.text || result.description || result.title || "",
       source: candidateSource,
       publisher: inferPublisher(result.url, result, scraped),
+      is_liveblog: isLiveblog(result.url, text),
       original_source_level: sourceLevel,
       search_date: runDate,
       search_query: result.query,
@@ -634,6 +635,8 @@ async function processDocument(candidate, env) {
     search_query: candidate.search_query || null,
     publisher: candidate.publisher || inferPublisher(candidate.url, candidate, {}),
     reported_data_source: inferReportedDataSource(`${candidate.title} ${candidate.summary || ""} ${text}`),
+    is_liveblog: candidate.is_liveblog || isLiveblog(candidate.url, evidenceText),
+    historical_reliability: (candidate.is_liveblog || isLiveblog(candidate.url, evidenceText)) ? "baja" : "media",
     source_id: candidate.source.id,
     source_name: candidate.source.name,
     source_level: candidate.source.level,
@@ -850,7 +853,13 @@ function scoreSearchResult(result) {
   if (isOfficialUngrChannel(result.url, text) || isOfficialInstitutionChannel(result.url, text)) score += 4;
   if (classifySourceLevel(result.url, text) === "temporal_prensa") score += 1;
   if (hasUnrelatedEventContext(text)) score -= 20;
+  if (isLiveblog(result.url, text)) score -= 6;
   return score;
+}
+
+function isLiveblog(url, text) {
+  const n = norm(`${url || ""} ${text || ""}`);
+  return /\b(en vivo|directo|live[-_\s]?news|ultima hora|última hora|minuto a minuto|liveblog)\b/i.test(n);
 }
 
 function isOfficialUngrChannel(url, text) {

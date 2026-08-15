@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balances en medios que citan fuentes oficiales | Monitor de brechas</title>
+<meta name="description" content="Evolución diaria de balances publicados por medios que citan fuentes oficiales tras el terremoto M7.4 de Colombia: publicación, fuente citada, cifras y URL trazable.">
+<link rel="canonical" href="https://brechas.orkidea.eu/site/balances.html">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Balances en medios que citan fuentes oficiales</h1>
+    <p class="sub"><a href="index.html">← volver al mapa</a> · Separa el canal que
+    publica una nota de la fuente oficial citada dentro del texto.</p>
+  </div>
+  <div class="meta">
+    <span id="generado">—</span>
+    <a class="btn" href="noticias.html">Titulares</a>
+    <a class="btn" href="https://monitor-terremoto-colombia-oficiales-ai.gestion-321.workers.dev/oficiales.json" target="_blank" rel="noopener">JSON</a>
+  </div>
+</header>
+
+<section id="balance-hero">
+  <div id="balance-cards" class="metric-strip"></div>
+  <p class="note">Estos valores son snapshots extraídos de páginas públicas. El publicador
+  suele ser un medio; UNGRD, SGC, Gobernación, Presidencia o Alcaldía aparecen como fuentes
+  citadas dentro del texto. Los liveblogs se muestran, pero pesan menos en la serie.</p>
+</section>
+
+<section id="balance-chart-section">
+  <h2>Serie del mejor snapshot no-liveblog por día</h2>
+  <p class="sub">El punto diario prioriza completitud, fuente citada y estabilidad histórica; los liveblogs se penalizan.</p>
+  <div id="balance-chart"></div>
+</section>
+
+<section id="balance-table-section">
+  <h2>Tabla trazable de snapshots</h2>
+  <div id="balance-filtros">
+    <input id="balance-buscar" type="search" placeholder="Buscar publicador, fuente o título…">
+    <select id="balance-fecha"><option value="">Todas las fechas</option></select>
+    <select id="balance-nivel"><option value="">Todos los niveles</option></select>
+  </div>
+  <p id="balance-resumen">Cargando…</p>
+  <table id="balance-table">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Publicador / fuente citada</th>
+        <th class="num">Fallecidos</th>
+        <th class="num">Heridos</th>
+        <th class="num">Desap.</th>
+        <th class="num">Familias</th>
+        <th class="num">Personas</th>
+        <th class="num">Viviendas</th>
+        <th>Trazabilidad</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<script src="balances.js?v=20260816-1"></script>
+</body>
+</html>
