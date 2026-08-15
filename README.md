@@ -1,8 +1,29 @@
 # Monitor de brechas de reporte de desastres — Colombia
 
-Monitor histórico y diario del terremoto M7.4 del 10-ago-2026 (San José del Palmar, Chocó)
-y del ecosistema de datos de desastres en Colombia. No produce datos nuevos: **audita los
-que existen** — quién publica, quién calla, cuándo llega cada cifra y qué queda subestimado.
+**🌐 [brechas.orkidea.eu](https://brechas.orkidea.eu/site/)** · terremoto M7.4 · 10-ago-2026 · San José del Palmar (Chocó)
+
+Observatorio abierto del terremoto más fuerte registrado en Colombia en más de un siglo — y
+del ecosistema de datos que lo rodea. No produce cifras nuevas: **audita las que existen** —
+quién publica, quién calla, cuándo llega cada dato y qué queda subestimado. Todo con
+actualización diaria automática y cada cifra rastreable hasta su petición de origen.
+
+## Qué contiene
+
+- **[Mapa interactivo](https://brechas.orkidea.eu/site/)** — daño satelital punto a punto
+  (622 edificios clasificados por Copernicus), zonas AOI con estado del cruce, intensidad
+  ShakeMap, 430+ reportes ciudadanos con foto (ChatMap/WhatsApp), municipios del área de
+  influencia con población DANE, y 1.173 sismos históricos de contexto.
+- **[Titulares](https://brechas.orkidea.eu/site/noticias.html)** — 3.000+ noticias del
+  evento emparejadas por zona, desde GDACS-EMM y un **registro abierto de feeds**
+  ([`feeds/registry.json`](feeds/registry.json)) al que cualquiera puede sumar un medio
+  con un PR. Los medios regionales cambian el cruce: Istmina solo existe en la prensa del Chocó.
+- **[Balances en medios](https://brechas.orkidea.eu/site/balances.html)** — un worker con IA
+  (Firecrawl + Qwen, cron diario) rastrea los balances publicados en prensa que citan
+  fuentes oficiales (UNGRD, SGC, gobernaciones), extrae las cifras con su evidencia y las
+  presenta como lo que son: *prensa que cita lo oficial*, nunca EDAN.
+- **Cronología de la respuesta internacional** — UNOSAT, ECHO, Copernicus y entregas de
+  producto en un solo hilo temporal.
+- **Exportaciones** — CSV del cruce, GeoJSON por capa, JSON completo, feed RSS de balances.
 
 ## Las tres brechas que mide
 
@@ -10,9 +31,11 @@ que existen** — quién publica, quién calla, cuándo llega cada cifra y qué 
    las fuentes oficiales abiertas de Colombia (UNGRD en datos.gov.co: parado en 2022;
    registro ArcGIS UNGRD: parado en feb-2024; SNIGRD: sin API pública) no cubren el evento.
 2. **Brecha de atención** — la cobertura mediática cae ~92 % en 5 días y toca mínimo el día
-   en que se publican los datos de daño (Quibdó e Istmina, 14-ago).
+   en que se publican los datos de daño (Quibdó e Istmina, 14-ago), mientras el reporte
+   ciudadano sigue subiendo.
 3. **Brecha de cobertura** — población expuesta (PAGER/ShakeMap) fuera de las zonas
-   mapeadas por satélite y sin reporte de ningún tipo.
+   mapeadas por satélite y sin reporte de ningún tipo: ~11,9 M de personas a MMI≥6, de las
+   que las zonas mapeadas cubren el 8,7 %.
 
 ## Uso
 
