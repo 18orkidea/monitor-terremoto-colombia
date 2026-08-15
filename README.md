@@ -34,17 +34,18 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 
 | Fuente | Qué aporta | Acceso |
 |---|---|---|
-| Copernicus EMS `public-activations` | AOIs, productos, stats de daño, versiones | Público; `code` obligatorio; retención ≈ jul-2023→hoy; huecos puntuales normales |
-| USGS FDSN (`us6000tjl2`) | ShakeMap (rejilla+contornos MMI), PAGER (exposición), DYFI | Público |
-| GDACS | Evento, feed EMM (2.911 noticias), feed institucional | Público; ventana ~5 días → snapshot diario obligatorio |
-| GDELT 2.0 DOC | Serie de volumen mediático | Público; máx. 1 petición/5 s |
-| UNGRD ArcGIS (`services2…/YVLx8xYoDXKccDfJ`) | 85k emergencias EDAN 1914→2024 (línea base) | Público |
-| Socrata `wwkg-r6te` | El mismo registro hasta 2022 (métrica de brecha) | Público |
-| ChatMap OSM Colombia | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
-| EMSC seismicportal | 1.339 felt reports (contraste con DYFI) | Público |
+| [Copernicus EMS `public-activations`](https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR916) ([visor EMSR916](https://rapidmapping.emergency.copernicus.eu/EMSR916/)) | AOIs, productos, stats de daño, versiones, capas vectoriales | Público; `code` obligatorio; retención ≈ jul-2023→hoy; huecos puntuales normales |
+| [USGS FDSN `us6000tjl2`](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2) | [ShakeMap](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap/intensity) (rejilla+contornos MMI), [PAGER](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/pager) (exposición), [DYFI](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/dyfi/intensity) | Público |
+| [GDACS EQ1557236](https://www.gdacs.org/report.aspx?eventid=1557236&episodeid=1724218&eventtype=EQ) | Evento, [feed EMM](https://www.gdacs.org/gdacsapi/api/emm/getemmnewsbykey?eventtype=EQ&eventid=1557236) (2.911 noticias), [feed institucional](https://www.gdacs.org/gdacsapi/api/news/getnewsbygdacskey?eventtype=EQ&eventid=1557236) | Público; ventana ~5 días → snapshot diario obligatorio |
+| [GDELT 2.0 DOC](https://www.gdeltproject.org/) | Serie de volumen mediático | Público; máx. 1 petición/5 s |
+| [UNGRD ArcGIS](https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0) | 85k emergencias EDAN 1914→2024 (línea base) | Público |
+| [Socrata `wwkg-r6te`](https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te) | El mismo registro hasta 2022 (métrica de brecha) | Público |
+| [ChatMap OSM Colombia](https://chatmap.hotosm.org/colombia.html) ([uMap](https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482), [proyecto HOT](https://www.hotosm.org/en/projects/2026-colombia-earthquake-response/)) | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
+| [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
 
-Sin acceso programático (documentado, no usado): SNIGRD/geoportal UNGRD (Keycloak),
-SGC Sismo Sentido (SPA sin API), UNITAR-UNOSAT (sin API), ReliefWeb (requiere appname).
+Sin acceso programático (documentado, no usado): [SNIGRD](https://sni.gestiondelriesgo.gov.co/)/geoportal
+UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA sin API),
+[UNITAR-UNOSAT](https://unosat.org/products/4250) (sin API), ReliefWeb (requiere appname).
 
 ## Reglas de rigor
 

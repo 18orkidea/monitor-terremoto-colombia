@@ -32,10 +32,17 @@
     <h2>Cruce por zona (AOI)</h2>
     <table id="tabla">
       <thead>
-        <tr><th>Zona</th><th>Estado del cruce</th><th class="num">Población</th>
-        <th class="num" title="Detecciones satelitales por grado">Satélite<br>destr.·dañ.·posib.</th>
-        <th class="num">Vías dañ.</th><th class="num">Interr.</th>
-        <th class="num">Prensa</th><th class="num">Ciudadanos</th><th>Entrega</th></tr>
+        <tr>
+        <th title="Área de Interés (AOI) definida en la activación Copernicus EMSR916. Clic en la fila para centrar el mapa en la zona.">Zona</th>
+        <th title="Clasificación del cruce de fuentes. 'Coincide' exige evidencia oficial (EDAN/entidad estatal); prensa y reportes ciudadanos solo alcanzan estados intermedios; 'No comparable 1:1' = producto satelital sin estadísticas de daño todavía.">Estado del cruce</th>
+        <th class="num" title="Población estimada por Copernicus dentro del AOI (stat 'Estimated population' del producto de grading).">Población</th>
+        <th class="num" title="Edificios detectados con daño por fotointerpretación satelital (capa builtUpP de Copernicus), por grado: destruidos · dañados · posiblemente dañados. Cada punto es visible en el mapa.">Satélite<br>destr.·dañ.·posib.</th>
+        <th class="num" title="Tramos de vía con daño visible desde satélite (capa transportationL, excluidos los tramos sin daño).">Vías dañ.</th>
+        <th class="num" title="Interrupciones viales y puntos de información de crisis detectados por Copernicus (capa ancillaryCrisisInfoP).">Interr.</th>
+        <th class="num" title="Noticias del feed GDACS-EMM ligadas al evento que mencionan esta zona por topónimo. No equivale a validación oficial.">Prensa</th>
+        <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada dentro de este AOI y verificación automática coherente (foto, fecha posterior al sismo, intensidad plausible).">Ciudadanos</th>
+        <th title="Fecha de entrega del producto Copernicus más reciente para la zona, con tipo, versión y estado (en espera / en producción / entregado).">Entrega</th>
+        </tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -65,11 +72,27 @@
 <footer>
   <p><strong>Metodología.</strong> Actualización diaria automática. Cada cifra es rastreable
   a una petición registrada (URL, estado HTTP, sha256, timestamp) y a un snapshot inmutable.
-  Fuentes: Copernicus EMS · USGS (ShakeMap, PAGER, DYFI) · GDACS (evento, EMM, feed
-  institucional) · GDELT · UNGRD (ArcGIS y Socrata) · ChatMap OSM Colombia · EMSC.
+  Fuentes:
+  <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">Copernicus EMS Rapid Mapping (EMSR916)</a>
+  · <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2" target="_blank" rel="noopener">USGS us6000tjl2</a>
+  (<a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap/intensity" target="_blank" rel="noopener">ShakeMap</a>,
+  <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/pager" target="_blank" rel="noopener">PAGER</a>,
+  <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/dyfi/intensity" target="_blank" rel="noopener">DYFI</a>)
+  · <a href="https://www.gdacs.org/report.aspx?eventid=1557236&amp;episodeid=1724218&amp;eventtype=EQ" target="_blank" rel="noopener">GDACS EQ1557236</a> (evento, noticias EMM e institucionales)
+  · <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT 2.0</a>
+  · UNGRD (<a href="https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0" target="_blank" rel="noopener">registro ArcGIS 1914-2024</a>
+  y <a href="https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te" target="_blank" rel="noopener">datos.gov.co hasta 2022</a>)
+  · <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a>
+  (<a href="https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482" target="_blank" rel="noopener">uMap de la activación</a>)
+  · <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC seismicportal</a>.
+  Sin acceso programático: <a href="https://sni.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">SNIGRD</a>,
+  <a href="https://sismosentido2.sgc.gov.co/" target="_blank" rel="noopener">SGC Sismo Sentido</a>,
+  <a href="https://unosat.org/products/4250" target="_blank" rel="noopener">UNITAR-UNOSAT</a>.
   Los reportes ciudadanos se publican con coordenada redondeada (~110 m).</p>
-  <p>Extensión documentada: asentamientos bajo dosel con HRSL (Meta), Google Open Buildings
-  v3 y SAR banda L (NISAR) — ver README.</p>
+  <p>Extensión documentada: asentamientos bajo dosel con
+  <a href="https://data.humdata.org/dataset/2f865527-b7bf-466c-b620-c12b8d07a053" target="_blank" rel="noopener">HRSL Colombia (Meta)</a>,
+  <a href="https://sites.research.google/gr/open-buildings/" target="_blank" rel="noopener">Google Open Buildings v3</a>
+  y SAR banda L (<a href="https://science.nasa.gov/mission/nisar/data/" target="_blank" rel="noopener">NISAR</a>) — ver README.</p>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
