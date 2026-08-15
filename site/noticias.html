@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Titulares del terremoto de Colombia 2026 — todas las noticias por zona | Monitor de brechas</title>
+<meta name="description" content="Todos los titulares de prensa ligados al terremoto M7.4 de Colombia (10-ago-2026), emparejados por zona afectada: Cali, Pereira, Quibdó, Istmina, Buenaventura. Feeds abiertos: cualquiera puede añadir uno.">
+<link rel="canonical" href="https://brechas.orkidea.eu/site/noticias.html">
+<link rel="stylesheet" href="styles.css">
+<style>
+  #filtros { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
+  #filtros input, #filtros select {
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+    background: var(--surface-1); color: var(--ink); font-size: 13px;
+  }
+  #filtros input { min-width: 220px; }
+  #lista { list-style: none; margin: 0; padding: 0; }
+  #lista li { padding: 8px 0; border-bottom: 1px solid var(--grid); font-size: 13.5px; line-height: 1.5; }
+  #lista .meta-n { color: var(--muted); font-size: 12px; }
+  #lista a { color: var(--s1); text-decoration: none; }
+  #lista a:hover { text-decoration: underline; }
+  .chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px;
+          background: color-mix(in srgb, var(--s1) 12%, var(--surface-1));
+          border: 1px solid var(--border); margin-left: 6px; }
+  #resumen { color: var(--ink-2); font-size: 13px; margin: 4px 0 14px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px 30px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Titulares del terremoto — todas las noticias</h1>
+    <p class="sub"><a href="index.html">← volver al mapa</a> · Fuentes: GDACS EMM + feeds
+    aportados por la comunidad (<a href="https://github.com/JP-infoRes/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a> —
+    ¿conoces un buen feed local? <a href="https://github.com/JP-infoRes/monitor-terremoto-colombia/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">añádelo con un PR</a>)</p>
+  </div>
+</header>
+<div class="wrap">
+  <div id="filtros">
+    <input id="buscar" type="search" placeholder="Buscar en titulares…">
+    <select id="f-aoi"><option value="">Todas las zonas</option></select>
+    <select id="f-origen"><option value="">Todas las fuentes</option></select>
+  </div>
+  <p id="resumen">Cargando…</p>
+  <ul id="lista"></ul>
+</div>
+<script src="noticias.js"></script>
+</body>
+</html>

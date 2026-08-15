@@ -1,0 +1,61 @@
+{
+  "_doc": "Registro de feeds de noticias del monitor. Para añadir uno: PR con una entrada nueva (ver CONTRIBUTING.md). tipo: 'rss' (Atom/RSS estándar) o 'builtin' (implementado en ingest/sources/). Los items se filtran por palabras clave del evento y se emparejan con las zonas por topónimo.",
+  "feeds": [
+    {
+      "id": "gdacs-emm",
+      "nombre": "GDACS EMM (Europe Media Monitor)",
+      "tipo": "builtin",
+      "url": "https://www.gdacs.org/gdacsapi/api/emm/getemmnewsbykey?eventtype=EQ&eventid=1557236",
+      "idioma": "multi",
+      "activo": true,
+      "nota": "Feed principal: noticias mundiales ya ligadas al evento por GDACS."
+    },
+    {
+      "id": "eltiempo-colombia",
+      "nombre": "El Tiempo — Colombia",
+      "tipo": "rss",
+      "url": "https://www.eltiempo.com/rss/colombia.xml",
+      "idioma": "es",
+      "activo": true,
+      "nota": "Sección Colombia; se filtra por palabras clave del sismo."
+    },
+    {
+      "id": "eldiario-pereira",
+      "nombre": "El Diario — Pereira",
+      "tipo": "rss",
+      "url": "https://www.eldiario.com.co/feed/",
+      "idioma": "es",
+      "activo": true,
+      "nota": "Prensa regional de Pereira/Risaralda, zona AOI02."
+    },
+    {
+      "id": "choco7dias",
+      "nombre": "Chocó 7 días",
+      "tipo": "rss",
+      "url": "https://choco7dias.com/feed/",
+      "idioma": "es",
+      "activo": true,
+      "nota": "Prensa regional del Chocó (Quibdó, Istmina): la zona con menos cobertura internacional."
+    },
+    {
+      "id": "elcolombiano",
+      "nombre": "El Colombiano — Colombia",
+      "tipo": "rss",
+      "url": "https://www.elcolombiano.com/rss/Colombia.xml",
+      "idioma": "es",
+      "activo": true,
+      "nota": "Sección Colombia."
+    },
+    {
+      "id": "googlenews-es",
+      "nombre": "Google News (agregador es-CO)",
+      "tipo": "rss",
+      "url": "https://news.google.com/rss/search?q=terremoto+Colombia&hl=es-CO&gl=CO&ceid=CO:es",
+      "idioma": "es",
+      "activo": true,
+      "nota": "Agregador: cubre El Espectador y demás medios sin RSS propio. El Espectador no expone RSS directo (verificado 4 rutas, ago-2026)."
+    }
+  ],
+  "palabras_clave": ["terremoto", "sismo", "temblor", "earthquake", "réplica", "replicas",
+                     "damnificad", "EMSR916", "San José del Palmar"]
+}

@@ -28,7 +28,7 @@ def step(name, fn, *a, **kw):
 def main():
     backfill = "--backfill" in sys.argv
     from sources import copernicus, copernicus_layers, usgs, gdacs, gdelt, \
-        ungrd_arcgis, ungrd_socrata, chatmap, emsc
+        ungrd_arcgis, ungrd_socrata, chatmap, emsc, community_feeds
     import verify_citizen, crosscheck, alerts, publish
 
     step("copernicus", copernicus.run, backfill=backfill)
@@ -40,6 +40,7 @@ def main():
     step("ungrd_socrata", ungrd_socrata.run)
     step("chatmap", chatmap.run)
     step("emsc", emsc.run)
+    step("community_feeds", community_feeds.run)
     step("verify_citizen", verify_citizen.run)
     step("crosscheck", crosscheck.run)
     step("alerts", alerts.run, RESULTS.get("copernicus") or {})

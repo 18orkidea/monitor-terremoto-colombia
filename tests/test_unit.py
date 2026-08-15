@@ -171,6 +171,39 @@ class TestResumenAoi(unittest.TestCase):
         self.assertIsNone(r["vias_afectadas_km"])
 
 
+class TestFeedsComunitarios(unittest.TestCase):
+    RSS = b"""<?xml version="1.0"?><rss version="2.0"><channel>
+      <item><title>Sismo en Quibd\xc3\xb3 deja da\xc3\xb1os</title>
+        <link>https://x.co/1</link><pubDate>Fri, 15 Aug 2026 10:00:00 GMT</pubDate></item>
+      <item><title>Sin enlace</title></item>
+    </channel></rss>"""
+    ATOM = b"""<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom">
+      <entry><title>Replica del terremoto</title>
+        <link href="https://x.co/2"/><updated>2026-08-15T11:00:00Z</updated></entry></feed>"""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest" / "sources"))
+
+    def test_rss(self):
+        from community_feeds import parse_rss
+        items = parse_rss(self.RSS)
+        self.assertEqual(len(items), 1, "items sin enlace se descartan")
+        self.assertEqual(items[0]["url"], "https://x.co/1")
+        self.assertTrue(items[0]["fecha"].startswith("2026-08-15"))
+
+    def test_atom(self):
+        from community_feeds import parse_rss
+        items = parse_rss(self.ATOM)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["url"], "https://x.co/2")
+
+    def test_xml_roto_no_revienta(self):
+        from community_feeds import parse_rss
+        self.assertEqual(parse_rss(b"<html>no soy rss"), [])
+        self.assertEqual(parse_rss(b""), [])
+
+
 TOPONYMS = None
 
 

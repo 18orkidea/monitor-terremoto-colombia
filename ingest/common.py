@@ -143,6 +143,12 @@ CREATE TABLE IF NOT EXISTS citizen_reports (
   snapshot_date TEXT NOT NULL,
   PRIMARY KEY (origen, id_externo)
 );
+CREATE TABLE IF NOT EXISTS news_items (
+  url TEXT PRIMARY KEY,
+  feed_id TEXT NOT NULL,
+  fecha TEXT, titulo TEXT, medio TEXT,
+  snapshot_date TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS crosscheck (
   aoi_name TEXT NOT NULL, snapshot_date TEXT NOT NULL,
   estado TEXT NOT NULL,

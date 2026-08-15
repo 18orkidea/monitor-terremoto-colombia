@@ -317,9 +317,35 @@ def run() -> dict:
                     "Copernicus EMSR916 + GDACS EMM + ChatMap"])
     (PUBLIC / "crosscheck.csv").write_text(buf.getvalue())
 
+    # página de titulares: EMM completo + feeds comunitarios, con AOIs emparejados
+    from crosscheck import match_text_to_aois
+    noticias = []
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / "gdacs_emm.json"
+        if f.exists():
+            for x in json.loads(f.read_text()):
+                titulo = (x.get("title") or "").strip()
+                noticias.append({
+                    "fecha": (x.get("pubdate") or "")[:19], "titulo": titulo[:200],
+                    "medio": x.get("source"), "url": x.get("link"),
+                    "origen": "gdacs-emm",
+                    "aois": match_text_to_aois(
+                        titulo + " " + (x.get("description") or "")[:300]),
+                })
+            break
+    for url, fid, fecha, titulo, medio in conn.execute(
+            "SELECT url, feed_id, fecha, titulo, medio FROM news_items"):
+        noticias.append({"fecha": fecha, "titulo": titulo, "medio": medio,
+                         "url": url, "origen": fid,
+                         "aois": match_text_to_aois(titulo)})
+    noticias.sort(key=lambda n: n.get("fecha") or "", reverse=True)
+    (PUBLIC / "noticias.json").write_text(json.dumps(
+        {"generado": snap, "total": len(noticias), "items": noticias},
+        ensure_ascii=False))
+
     conn.close()
     return {"aois": len(aois), "citizen": len(cit_feats), "sismos_hist": len(sismos),
-            "media_dias": len(media)}
+            "media_dias": len(media), "noticias": len(noticias)}
 
 
 if __name__ == "__main__":

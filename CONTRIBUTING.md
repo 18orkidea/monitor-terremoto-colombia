@@ -18,6 +18,25 @@ para varias de las tareas más valiosas.
 - **Correcciones**: ¿una cifra no cuadra con su fuente? Cada número es rastreable
   (`data/snapshots/` + tabla `sources_log`). Abre un issue con el dato y el snapshot.
 
+### Añadir un feed de noticias (la contribución más fácil)
+
+El monitor lee los feeds de [`feeds/registry.json`](feeds/registry.json). Para añadir un
+medio local o regional que cubra las zonas afectadas:
+
+1. Añade una entrada al registro con un PR:
+   ```json
+   { "id": "mi-medio", "nombre": "Mi Medio — Región", "tipo": "rss",
+     "url": "https://mimedio.co/rss.xml", "idioma": "es", "activo": true,
+     "nota": "Cobertura local de Chocó" }
+   ```
+2. Comprueba que la URL devuelve RSS/Atom válido (`curl -sL <url> | head -5`).
+3. Nada más: el pipeline lo ingiere a diario, filtra por las palabras clave del evento,
+   empareja por topónimo y los titulares aparecen en [la página de
+   noticias](site/noticias.html). Los feeds que fallan no rompen la corrida.
+
+Los medios pequeños de las zonas menos cubiertas (Chocó, San Juan) son los más valiosos:
+Istmina tiene hoy **cero** titulares en los feeds internacionales.
+
 ### Con código
 
 - Buenas primeras tareas: nuevas fuentes (`ingest/sources/` — un módulo por fuente, toda

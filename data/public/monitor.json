@@ -57,7 +57,7 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 529,
+    "n_prensa": 541,
     "n_oficial": 0,
     "n_ciudadano": 253,
     "etiqueta": "No comparable 1:1"
@@ -137,7 +137,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 514,
+    "n_prensa": 518,
     "n_oficial": 0,
     "n_ciudadano": 1,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -235,7 +235,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 372,
+    "n_prensa": 388,
     "n_oficial": 0,
     "n_ciudadano": 53,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -315,7 +315,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 514,
+    "n_prensa": 518,
     "n_oficial": 0,
     "n_ciudadano": 2,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -397,7 +397,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 68,
+    "n_prensa": 69,
     "n_oficial": 0,
     "n_ciudadano": 49,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -454,13 +454,20 @@
     "Damaged": 9,
     "Destroyed": 1
    },
-   "prensa_ejemplos": [],
+   "prensa_ejemplos": [
+    {
+     "titular": "Jhon Córdoba envió ayudas humanitarias a Istmina y otros municipios del Chocó tras el terremoto",
+     "medio": "Chocó 7 días",
+     "fecha": "2026-08-15T02:43:22",
+     "url": "https://choco7dias.com/jhon-cordoba-envio-ayudas-humanitarias-a-istmina-y-otros-municipios-del-choco-tras-el-terremoto/"
+    }
+   ],
    "cruce": {
-    "estado": "pendiente",
-    "n_prensa": 0,
+    "estado": "prensa",
+    "n_prensa": 1,
     "n_oficial": 0,
     "n_ciudadano": 0,
-    "etiqueta": "Pendiente de validar"
+    "etiqueta": "Reportado en prensa, sin validación oficial"
    },
    "n_productos": 1
   },

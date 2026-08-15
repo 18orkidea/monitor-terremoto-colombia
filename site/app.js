@@ -238,7 +238,7 @@
           a.prensa_ejemplos.map((n) =>
             `<li>${(n.fecha || "").slice(0, 10)} · <em>${n.medio || "?"}</em> — ` +
             `<a href="${n.url}" target="_blank" rel="noopener">${n.titular}</a></li>`).join("") +
-          `</ul></td>`;
+          `</ul><a href="noticias.html#aoi=${encodeURIComponent(a.aoi)}">Ver todos los titulares de ${a.aoi} →</a></td>`;
         tr.after(dtr);
         return;
       }

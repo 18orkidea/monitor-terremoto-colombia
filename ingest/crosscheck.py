@@ -54,6 +54,13 @@ def match_news_to_aois(emm_items: list[dict], conn, snap: str) -> dict[str, int]
     return counts
 
 
+def match_text_to_aois(text: str) -> list[str]:
+    """AOIs mencionados en un texto (por topónimo, acentos normalizados)."""
+    t = _norm(text)
+    return [aoi for aoi, tops in AOI_TOPONYMS.items()
+            if any(re.search(rf"\b{re.escape(x)}\b", t) for x in tops)]
+
+
 def run(emm_items: list[dict] | None = None) -> dict:
     conn = db()
     snap = today()
@@ -61,6 +68,18 @@ def run(emm_items: list[dict] | None = None) -> dict:
         from sources.gdacs import emm_items as _load
         emm_items = _load()
     press = match_news_to_aois(emm_items or [], conn, snap)
+
+    # feeds comunitarios: mismos topónimos, misma evidencia
+    for url, fecha, titulo, medio in conn.execute(
+            "SELECT url, fecha, titulo, medio FROM news_items"):
+        for aoi in match_text_to_aois(titulo):
+            press[aoi] = press.get(aoi, 0) + 1
+            if press[aoi] <= 3:
+                conn.execute(
+                    "INSERT INTO evidence (aoi_name, tipo, url, fuente, fecha,"
+                    " cita, capturado_por, snapshot_date)"
+                    " VALUES (?,?,?,?,?,?,'auto',?)",
+                    (aoi, "prensa", url, medio, fecha, titulo[:200], snap))
 
     aois = [r[0] for r in conn.execute(
         "SELECT DISTINCT aoi_name FROM products WHERE code='EMSR916'")]
