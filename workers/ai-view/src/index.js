@@ -25,6 +25,34 @@ const GENERIC_PAGE_TERMS = [
   "inicio transparencia"
 ];
 
+const FIRECRAWL_QUERIES = [
+  {
+    label: "UNGRD portal terremoto",
+    query: "site:portal.gestiondelriesgo.gov.co/Paginas/Noticias/2026 UNGRD terremoto sismo Chocó agosto 2026",
+    includeDomains: ["portal.gestiondelriesgo.gov.co"]
+  },
+  {
+    label: "UNGRD YouTube",
+    query: "site:youtube.com UNGRD terremoto sismo Chocó agosto 2026 San José del Palmar",
+    includeDomains: ["youtube.com", "youtu.be"]
+  },
+  {
+    label: "UNGRD Facebook",
+    query: "site:facebook.com/GestionUNGRD UNGRD terremoto sismo Chocó agosto 2026",
+    includeDomains: ["facebook.com"]
+  },
+  {
+    label: "UNGRD Instagram",
+    query: "site:instagram.com/ungrd_oficial UNGRD terremoto sismo Chocó agosto 2026",
+    includeDomains: ["instagram.com"]
+  },
+  {
+    label: "UNGRD LinkedIn",
+    query: "site:linkedin.com/company/ungrd UNGRD terremoto sismo Chocó agosto 2026",
+    includeDomains: ["linkedin.com"]
+  }
+];
+
 const MUNICIPIOS = [
   ["Armenia", "Quindío"],
   ["Calarcá", "Quindío"],
@@ -54,6 +82,23 @@ const MUNICIPIOS = [
 ];
 
 const OFFICIAL_SOURCES = [
+  {
+    id: "ungrd-firecrawl-multicanal",
+    name: "Firecrawl - búsqueda multicanal UNGRD",
+    level: "oficial_comunicacion",
+    department: null,
+    url: "https://linktr.ee/comunicacionesungrd",
+    entrypoints: [
+      {
+        type: "firecrawl_search",
+        role: "multicanal_ungrd",
+        url: "https://api.firecrawl.dev/v2/search",
+        note: "Busca portal, YouTube, Facebook, Instagram y LinkedIn oficiales de UNGRD; requiere FIRECRAWL_API_KEY.",
+        queries: FIRECRAWL_QUERIES,
+        limit: 4
+      }
+    ]
+  },
   {
     id: "ungrd-noticias",
     name: "UNGRD - Noticias",
@@ -235,7 +280,7 @@ async function runCollection(env) {
   const sourceAnalysis = [];
 
   for (const source of OFFICIAL_SOURCES) {
-    const discovered = await discoverSource(source);
+    const discovered = await discoverSource(source, env);
     candidates.push(...discovered.candidates);
     sourceAnalysis.push(discovered.analysis);
   }
@@ -275,7 +320,7 @@ async function runCollection(env) {
   return { ok: true, candidates: candidates.length, total: feed.total, source_analysis: sourceAnalysis };
 }
 
-async function discoverSource(source) {
+async function discoverSource(source, env) {
   const candidates = [];
   const entrypoints = source.entrypoints || [{ type: "html", role: "principal", url: source.url }];
   const checks = [];
@@ -283,6 +328,19 @@ async function discoverSource(source) {
   for (const entry of entrypoints) {
     const check = { role: entry.role, type: entry.type, url: entry.url, note: entry.note || null };
     try {
+      if (entry.type === "firecrawl_search") {
+        const selected = await discoverWithFirecrawl(entry, source, env);
+        check.ok = selected.result !== "missing_secret";
+        check.http_status = selected.result === "missing_secret" ? null : 200;
+        check.links_found = selected.links_found;
+        check.candidates = selected.candidates.length;
+        check.credits_used = selected.credits_used;
+        check.jobs = selected.jobs;
+        check.result = selected.result;
+        candidates.push(...selected.candidates);
+        checks.push(check);
+        continue;
+      }
       const response = await fetch(entry.url, {
         headers: { "user-agent": "monitor-terremoto-colombia-oficiales/1.0" },
         signal: AbortSignal.timeout(12000)
@@ -324,6 +382,85 @@ async function discoverSource(source) {
       department: source.department,
       checks
     }
+  };
+}
+
+async function discoverWithFirecrawl(entry, source, env) {
+  if (!env.FIRECRAWL_API_KEY) {
+    return {
+      candidates: [],
+      links_found: 0,
+      credits_used: 0,
+      jobs: [],
+      result: "missing_secret"
+    };
+  }
+
+  const candidates = [];
+  const jobs = [];
+  let credits = 0;
+
+  for (const q of entry.queries || []) {
+    const response = await fetch(env.FIRECRAWL_API_URL || "https://api.firecrawl.dev/v2/search", {
+      method: "POST",
+      headers: {
+        "authorization": `Bearer ${env.FIRECRAWL_API_KEY}`,
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        query: q.query,
+        limit: entry.limit || 4,
+        sources: ["web"],
+        includeDomains: q.includeDomains || undefined,
+        country: "CO",
+        timeout: 45000,
+        ignoreInvalidURLs: true,
+        scrapeOptions: {
+          formats: ["markdown"],
+          onlyMainContent: true,
+          onlyCleanContent: true,
+          removeBase64Images: true,
+          blockAds: true,
+          timeout: 30000
+        }
+      })
+    });
+    const data = await response.json().catch(() => ({}));
+    jobs.push({
+      label: q.label,
+      ok: response.ok && data.success !== false,
+      http_status: response.status,
+      id: data.id || null,
+      results: data.data?.web?.length || 0,
+      warning: data.warning || null
+    });
+    credits += data.creditsUsed || 0;
+    if (!response.ok || data.success === false) continue;
+
+    for (const result of data.data?.web || []) {
+      const text = `${result.title || ""} ${result.description || ""} ${result.markdown || ""}`;
+      if (!isOfficialUngrChannel(result.url, text)) continue;
+      if (!isCandidateLink({ title: result.title, summary: text, url: result.url })) continue;
+      candidates.push({
+        url: result.url,
+        title: result.title || result.url,
+        summary: result.description || "",
+        prefetched_text: result.markdown || result.description || result.title || "",
+        source,
+        discovered_from: `firecrawl:${q.label}`,
+        discovery_role: entry.role,
+        extraction_method: "firecrawl_search_markdown",
+        firecrawl_job_id: data.id || null
+      });
+    }
+  }
+
+  return {
+    candidates: dedupe(candidates, (x) => x.url),
+    links_found: jobs.reduce((sum, job) => sum + job.results, 0),
+    credits_used: credits,
+    jobs,
+    result: candidates.length ? "candidate_links" : "no_event_specific_links"
   };
 }
 
@@ -390,18 +527,26 @@ async function extractOne(request, env) {
 }
 
 async function processDocument(candidate, env) {
-  const head = await fetch(candidate.url, { method: "GET", headers: { "user-agent": "monitor-terremoto-colombia-oficiales/1.0" } });
-  if (!head.ok) throw new Error(`HTTP ${head.status}`);
-  const contentType = head.headers.get("content-type") || "";
-  const bytes = await head.arrayBuffer();
-  const hash = await sha256(bytes);
+  let bytes;
+  let contentType = "";
   let text = "";
-  let extractionMethod = "html_text";
+  let extractionMethod = candidate.extraction_method || "html_text";
 
-  if (isVisualDocument(candidate.url, contentType)) {
+  if (candidate.prefetched_text) {
+    text = candidate.prefetched_text;
+    bytes = new TextEncoder().encode(text).buffer;
+  } else {
+    const head = await fetch(candidate.url, { method: "GET", headers: { "user-agent": "monitor-terremoto-colombia-oficiales/1.0" } });
+    if (!head.ok) throw new Error(`HTTP ${head.status}`);
+    contentType = head.headers.get("content-type") || "";
+    bytes = await head.arrayBuffer();
+  }
+  const hash = await sha256(bytes);
+
+  if (!candidate.prefetched_text && isVisualDocument(candidate.url, contentType)) {
     text = await parseWithQwenOcr(candidate.url, env);
     extractionMethod = env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20";
-  } else {
+  } else if (!candidate.prefetched_text) {
     text = stripHtml(new TextDecoder().decode(bytes)).replace(/\s+/g, " ").trim();
   }
 
@@ -417,6 +562,7 @@ async function processDocument(candidate, env) {
     content_sha256: hash,
     captured_at: new Date().toISOString(),
     extraction_method: extractionMethod,
+    firecrawl_job_id: candidate.firecrawl_job_id || null,
     discovered_from: candidate.discovered_from || null,
     discovery_role: candidate.discovery_role || null,
     text_excerpt: text.slice(0, 700),
@@ -543,6 +689,17 @@ function isCandidateLink(link) {
   const text = `${link.title || ""} ${link.summary || ""} ${link.url || ""}`;
   if (isGenericPage(text)) return false;
   return hasEventTerm(text) && (hasDamageTerm(text) || hasImpactedPlace(text) || hasEventDate(text));
+}
+
+function isOfficialUngrChannel(url, text) {
+  const u = String(url || "").toLowerCase();
+  const n = norm(text);
+  if (u.includes("portal.gestiondelriesgo.gov.co") || u.includes("gestiondelriesgo.gov.co")) return true;
+  if (u.includes("facebook.com/gestionungrd")) return true;
+  if (u.includes("instagram.com/ungrd_oficial")) return true;
+  if (u.includes("linkedin.com/company/ungrd")) return true;
+  if ((u.includes("youtube.com") || u.includes("youtu.be")) && n.includes("ungrd")) return true;
+  return false;
 }
 
 function isSpecificEventEvidence(text) {

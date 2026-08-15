@@ -14,6 +14,7 @@
   },
   "vars": {
     "QWEN_OCR_MODEL": "qwen-vl-ocr-2025-11-20",
-    "QWEN_API_URL": "https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation"
+    "QWEN_API_URL": "https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+    "FIRECRAWL_API_URL": "https://api.firecrawl.dev/v2/search"
   }
 }
