@@ -1,5 +1,6 @@
 {
-  "_doc": "Registro de feeds de noticias del monitor. Para añadir uno: PR con una entrada nueva (ver CONTRIBUTING.md). tipo: 'rss' (Atom/RSS estándar) o 'builtin' (implementado en ingest/sources/). Los items se filtran por palabras clave del evento y se emparejan con las zonas por topónimo.",
+  "_doc": "Registro de feeds de noticias del monitor. Para añadir uno: PR con una entrada nueva (ver CONTRIBUTING.md). tipo: 'rss' (Atom/RSS estándar) o 'builtin' (implementado en ingest/sources/). Los items se filtran por palabras clave del evento y se emparejan con las zonas por topónimo. Además, el pipeline genera búsquedas Google News por cada municipio listado en ingest/municipios.py.",
+  "busquedas_municipales_google_news": true,
   "feeds": [
     {
       "id": "gdacs-emm",

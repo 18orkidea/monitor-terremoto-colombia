@@ -12,10 +12,13 @@ import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from pathlib import Path
+from urllib.parse import quote_plus
 
 from common import db, fetch, today, ROOT
+from municipios import MUNICIPIOS
 
 REGISTRY = ROOT / "feeds" / "registry.json"
+GOOGLE_NEWS_RSS = "https://news.google.com/rss/search"
 
 
 def _parse_date(s: str) -> str:
@@ -51,6 +54,45 @@ def parse_rss(body: bytes) -> list[dict]:
     return [i for i in items if i["url"] and i["titulo"]]
 
 
+def _slug(s: str) -> str:
+    from municipios import _norm
+    return re.sub(r"[^a-z0-9]+", "-", _norm(s)).strip("-")
+
+
+def municipal_google_news_feeds() -> list[dict]:
+    """Búsquedas Google News por municipio observado en el área de influencia."""
+    from municipios import _norm
+    feeds = []
+    for municipio, meta in MUNICIPIOS.items():
+        depto = meta["departamento"]
+        query = f'("terremoto" OR "sismo" OR "temblor") "{_norm(municipio)}" "{_norm(depto)}"'
+        feeds.append({
+            "id": f"googlenews-municipio-{_slug(municipio)}",
+            "nombre": f"Google News — {municipio}",
+            "tipo": "rss",
+            "url": f"{GOOGLE_NEWS_RSS}?q={quote_plus(query)}&hl=es-CO&gl=CO&ceid=CO:es",
+            "idioma": "es",
+            "activo": True,
+            "municipio": municipio,
+            "nota": "Búsqueda generada desde la lista de municipios de influencia.",
+        })
+    return feeds
+
+
+def iter_feeds(reg: dict) -> list[dict]:
+    feeds = list(reg.get("feeds", []))
+    if reg.get("busquedas_municipales_google_news", True):
+        feeds.extend(municipal_google_news_feeds())
+    return feeds
+
+
+def _relevante(item: dict, feed: dict, pat: re.Pattern | None) -> bool:
+    title = item["titulo"].lower()
+    if feed.get("municipio"):
+        return True
+    return not pat or bool(pat.search(title))
+
+
 def run() -> dict:
     if not REGISTRY.exists():
         return {"error": "sin feeds/registry.json"}
@@ -60,7 +102,7 @@ def run() -> dict:
     conn = db()
     snap = today()
     out = {}
-    for feed in reg.get("feeds", []):
+    for feed in iter_feeds(reg):
         if not feed.get("activo") or feed.get("tipo") != "rss":
             continue  # los 'builtin' (GDACS EMM) los ingesta su propio módulo
         fid = feed["id"]
@@ -72,7 +114,7 @@ def run() -> dict:
         items = parse_rss(body)
         kept = 0
         for it in items:
-            if pat and not pat.search(it["titulo"].lower()):
+            if not _relevante(it, feed, pat):
                 continue
             conn.execute(
                 "INSERT INTO news_items (url, feed_id, fecha, titulo, medio,"

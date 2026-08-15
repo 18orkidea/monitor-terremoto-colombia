@@ -40,8 +40,11 @@
   function render() {
     const q = document.getElementById("buscar").value.toLowerCase();
     const fa = selA.value, fo = selO.value;
+    const hay = (n) => [
+      n.titulo, n.medio, n.origen, ...(n.aois || [])
+    ].join(" ").toLowerCase();
     const sel = items.filter((n) =>
-      (!q || (n.titulo || "").toLowerCase().includes(q)) &&
+      (!q || hay(n).includes(q)) &&
       (!fa || (n.aois || []).includes(fa)) &&
       (!fo || n.origen === fo));
     resumen.textContent =

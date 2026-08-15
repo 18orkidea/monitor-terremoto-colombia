@@ -253,6 +253,22 @@ class TestFeedsComunitarios(unittest.TestCase):
         self.assertEqual(parse_rss(b"<html>no soy rss"), [])
         self.assertEqual(parse_rss(b""), [])
 
+    def test_feeds_google_news_por_municipio(self):
+        from community_feeds import municipal_google_news_feeds
+        feeds = municipal_google_news_feeds()
+        ids = {f["id"] for f in feeds}
+        self.assertIn("googlenews-municipio-armenia", ids)
+        self.assertIn("googlenews-municipio-zarzal", ids)
+        armenia = next(f for f in feeds if f["id"] == "googlenews-municipio-armenia")
+        self.assertIn("%22armenia%22", armenia["url"])
+        self.assertIn("%22quindio%22", armenia["url"])
+
+    def test_feed_municipal_no_depende_del_filtro_general(self):
+        from community_feeds import _relevante
+        item = {"titulo": "Afectaciones reportadas en Armenia"}
+        feed = {"municipio": "Armenia"}
+        self.assertTrue(_relevante(item, feed, None))
+
 
 TOPONYMS = None
 
