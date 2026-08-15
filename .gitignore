@@ -1,0 +1,17 @@
+# Videos ciudadanos: se conservan localmente con sha256 registrado en la BD,
+# pero no se versionan (tamaño). Las imágenes sí entran en git.
+data/media/*.mp4
+data/media/*.mov
+data/media/*.avi
+data/media/*.webm
+data/media/*.opus
+data/media/*.ogg
+data/media/*.m4a
+
+# ficheros de trabajo de SQLite (WAL)
+data/monitor.sqlite-wal
+data/monitor.sqlite-shm
+
+__pycache__/
+*.pyc
+.DS_Store

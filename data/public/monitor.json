@@ -1,0 +1,2200 @@
+{
+ "generado": "2026-08-15",
+ "fecha": "2026-08-15",
+ "evento": {
+  "codigo": "EMSR916",
+  "usgs_id": "us6000tjl2",
+  "gdacs": "EQ1557236",
+  "glide": "EQ-2026-000146-COL",
+  "coordinates": [
+   -76.2422,
+   4.8436,
+   110.285
+  ],
+  "mag": 7.4,
+  "place": "5 km S of San José del Palmar, Colombia",
+  "felt": 1160
+ },
+ "aois": [
+  {
+   "aoi": "Western Colombia",
+   "numero": 0,
+   "producto": {
+    "tipo": "GRM",
+    "monitoreo": 0,
+    "version": 1,
+    "status": "W",
+    "entrega": null,
+    "descarga": ""
+   },
+   "resumen": {
+    "poblacion": null,
+    "edificios_afectados": null,
+    "vias_afectadas_km": null,
+    "interrupciones_viales": null
+   },
+   "stats": {},
+   "cruce": {
+    "estado": "no_comparable",
+    "n_prensa": 529,
+    "n_oficial": 0,
+    "n_ciudadano": 313,
+    "etiqueta": "No comparable 1:1"
+   },
+   "n_productos": 1
+  },
+  {
+   "aoi": "Northern Cali",
+   "numero": 1,
+   "producto": {
+    "tipo": "GRA",
+    "monitoreo": 0,
+    "version": 2,
+    "status": "F",
+    "entrega": "2026-08-12T21:48:05.935025",
+    "descarga": "https://rapidmapping.emergency.copernicus.eu/backend/EMSR916/AOI01/GRA_PRODUCT/EMSR916_AOI01_GRA_PRODUCT_v2.zip"
+   },
+   "resumen": {
+    "poblacion": 340000.0,
+    "edificios_afectados": 7.0,
+    "vias_afectadas_km": null,
+    "interrupciones_viales": null
+   },
+   "stats": {
+    "Built-up": {
+     "Residential Buildings": {
+      "unit": "",
+      "total": 11788.0,
+      "affected": 7.0,
+      "total_raw": 11788,
+      "affected_raw": 7
+     }
+    },
+    "Estimated population": {
+     "None": {
+      "unit": "",
+      "total": 340000.0,
+      "affected": null,
+      "total_raw": 340000,
+      "affected_raw": null
+     }
+    },
+    "NA": {
+     "None": {
+      "unit": "",
+      "total": null,
+      "affected": null,
+      "total_raw": "NA",
+      "affected_raw": null
+     }
+    }
+   },
+   "cruce": {
+    "estado": "prensa",
+    "n_prensa": 514,
+    "n_oficial": 0,
+    "n_ciudadano": 0,
+    "etiqueta": "Reportado en prensa, sin validación oficial"
+   },
+   "n_productos": 1
+  },
+  {
+   "aoi": "Pereira",
+   "numero": 2,
+   "producto": {
+    "tipo": "GRA",
+    "monitoreo": 0,
+    "version": 1,
+    "status": "F",
+    "entrega": "2026-08-12T05:18:20.823334",
+    "descarga": "https://rapidmapping.emergency.copernicus.eu/backend/EMSR916/AOI02/GRA_PRODUCT/EMSR916_AOI02_GRA_PRODUCT_v1.zip"
+   },
+   "resumen": {
+    "poblacion": 190000.0,
+    "edificios_afectados": 182.0,
+    "vias_afectadas_km": 0.8,
+    "interrupciones_viales": 11.0
+   },
+   "stats": {
+    "Blocked road / interruption": {
+     "None": {
+      "unit": "",
+      "total": null,
+      "affected": 11.0,
+      "total_raw": "NA",
+      "affected_raw": 11
+     }
+    },
+    "Built-up": {
+     "Residential Buildings": {
+      "unit": "",
+      "total": null,
+      "affected": 182.0,
+      "total_raw": "NA",
+      "affected_raw": 182
+     }
+    },
+    "Estimated population": {
+     "None": {
+      "unit": "",
+      "total": 190000.0,
+      "affected": null,
+      "total_raw": 190000,
+      "affected_raw": null
+     }
+    },
+    "Transportation": {
+     "Local Road": {
+      "unit": "km",
+      "total": 185.7,
+      "affected": 0.6,
+      "total_raw": 185.7,
+      "affected_raw": 0.6
+     },
+     "Secondary Road": {
+      "unit": "km",
+      "total": 41.4,
+      "affected": 0.2,
+      "total_raw": 41.4,
+      "affected_raw": 0.2
+     }
+    }
+   },
+   "cruce": {
+    "estado": "prensa",
+    "n_prensa": 372,
+    "n_oficial": 0,
+    "n_ciudadano": 0,
+    "etiqueta": "Reportado en prensa, sin validación oficial"
+   },
+   "n_productos": 1
+  },
+  {
+   "aoi": "Cali Center",
+   "numero": 3,
+   "producto": {
+    "tipo": "GRA",
+    "monitoreo": 0,
+    "version": 1,
+    "status": "F",
+    "entrega": "2026-08-12T03:48:40.818287",
+    "descarga": "https://rapidmapping.emergency.copernicus.eu/backend/EMSR916/AOI03/GRA_PRODUCT/EMSR916_AOI03_GRA_PRODUCT_v1.zip"
+   },
+   "resumen": {
+    "poblacion": 94000.0,
+    "edificios_afectados": 14.0,
+    "vias_afectadas_km": null,
+    "interrupciones_viales": null
+   },
+   "stats": {
+    "Built-up": {
+     "Residential Buildings": {
+      "unit": "",
+      "total": null,
+      "affected": 14.0,
+      "total_raw": "NA",
+      "affected_raw": 14
+     }
+    },
+    "Estimated population": {
+     "None": {
+      "unit": "",
+      "total": 94000.0,
+      "affected": null,
+      "total_raw": 94000,
+      "affected_raw": null
+     }
+    },
+    "NA": {
+     "None": {
+      "unit": "",
+      "total": null,
+      "affected": null,
+      "total_raw": "NA",
+      "affected_raw": null
+     }
+    }
+   },
+   "cruce": {
+    "estado": "prensa",
+    "n_prensa": 514,
+    "n_oficial": 0,
+    "n_ciudadano": 0,
+    "etiqueta": "Reportado en prensa, sin validación oficial"
+   },
+   "n_productos": 1
+  },
+  {
+   "aoi": "Quibdo Centre",
+   "numero": 4,
+   "producto": {
+    "tipo": "GRA",
+    "monitoreo": 0,
+    "version": 1,
+    "status": "F",
+    "entrega": "2026-08-14T00:48:04.123420",
+    "descarga": "https://rapidmapping.emergency.copernicus.eu/backend/EMSR916/AOI04/GRA_PRODUCT/EMSR916_AOI04_GRA_PRODUCT_v1.zip"
+   },
+   "resumen": {
+    "poblacion": 73000.0,
+    "edificios_afectados": 74.0,
+    "vias_afectadas_km": null,
+    "interrupciones_viales": 2.0
+   },
+   "stats": {
+    "Blocked road / interruption": {
+     "None": {
+      "unit": "",
+      "total": null,
+      "affected": 2.0,
+      "total_raw": "NA",
+      "affected_raw": 2
+     }
+    },
+    "Built-up": {
+     "Residential Buildings": {
+      "unit": "",
+      "total": 8817.0,
+      "affected": 74.0,
+      "total_raw": 8817,
+      "affected_raw": 74
+     }
+    },
+    "Estimated population": {
+     "None": {
+      "unit": "",
+      "total": 73000.0,
+      "affected": null,
+      "total_raw": 73000,
+      "affected_raw": null
+     }
+    }
+   },
+   "cruce": {
+    "estado": "prensa",
+    "n_prensa": 68,
+    "n_oficial": 0,
+    "n_ciudadano": 49,
+    "etiqueta": "Reportado en prensa, sin validación oficial"
+   },
+   "n_productos": 1
+  },
+  {
+   "aoi": "Istmina",
+   "numero": 5,
+   "producto": {
+    "tipo": "GRA",
+    "monitoreo": 0,
+    "version": 1,
+    "status": "F",
+    "entrega": "2026-08-14T03:37:40.320366",
+    "descarga": "https://rapidmapping.emergency.copernicus.eu/backend/EMSR916/AOI05/GRA_PRODUCT/EMSR916_AOI05_GRA_PRODUCT_v1.zip"
+   },
+   "resumen": {
+    "poblacion": 23000.0,
+    "edificios_afectados": 10.0,
+    "vias_afectadas_km": null,
+    "interrupciones_viales": null
+   },
+   "stats": {
+    "Built-up": {
+     "Residential Buildings": {
+      "unit": "",
+      "total": 4883.0,
+      "affected": 10.0,
+      "total_raw": 4883,
+      "affected_raw": 10
+     }
+    },
+    "Estimated population": {
+     "None": {
+      "unit": "",
+      "total": 23000.0,
+      "affected": null,
+      "total_raw": 23000,
+      "affected_raw": null
+     }
+    },
+    "NA": {
+     "None": {
+      "unit": "",
+      "total": null,
+      "affected": null,
+      "total_raw": "NA",
+      "affected_raw": null
+     }
+    }
+   },
+   "cruce": {
+    "estado": "pendiente",
+    "n_prensa": 0,
+    "n_oficial": 0,
+    "n_ciudadano": 0,
+    "etiqueta": "Pendiente de validar"
+   },
+   "n_productos": 1
+  },
+  {
+   "aoi": "Buenaventura",
+   "numero": 6,
+   "producto": {
+    "tipo": "GRA",
+    "monitoreo": 1,
+    "version": 2,
+    "status": "F",
+    "entrega": "2026-08-14T12:20:32.055124",
+    "descarga": "https://rapidmapping.emergency.copernicus.eu/backend/EMSR916/AOI06/GRA_MONIT01/EMSR916_AOI06_GRA_MONIT01_v2.zip"
+   },
+   "resumen": {
+    "poblacion": 320000.0,
+    "edificios_afectados": 335.0,
+    "vias_afectadas_km": null,
+    "interrupciones_viales": null
+   },
+   "stats": {
+    "Built-up": {
+     "Other non-residential buildings": {
+      "unit": "",
+      "total": null,
+      "affected": 11.0,
+      "total_raw": "NA",
+      "affected_raw": 11
+     },
+     "Residential Buildings": {
+      "unit": "",
+      "total": null,
+      "affected": 322.0,
+      "total_raw": "NA",
+      "affected_raw": 322
+     },
+     "School, university and research buildings": {
+      "unit": "",
+      "total": null,
+      "affected": 2.0,
+      "total_raw": "NA",
+      "affected_raw": 2
+     }
+    },
+    "Estimated population": {
+     "None": {
+      "unit": "",
+      "total": 320000.0,
+      "affected": null,
+      "total_raw": 320000,
+      "affected_raw": null
+     }
+    },
+    "NA": {
+     "None": {
+      "unit": "",
+      "total": null,
+      "affected": null,
+      "total_raw": "NA",
+      "affected_raw": null
+     }
+    }
+   },
+   "cruce": {
+    "estado": "prensa",
+    "n_prensa": 27,
+    "n_oficial": 0,
+    "n_ciudadano": 0,
+    "etiqueta": "Reportado en prensa, sin validación oficial"
+   },
+   "n_productos": 2
+  }
+ ],
+ "media_volume": [
+  {
+   "fecha": "2026-08-08",
+   "emm": null,
+   "gdelt": 0.0122,
+   "fuentes": null,
+   "chatmap": null
+  },
+  {
+   "fecha": "2026-08-09",
+   "emm": null,
+   "gdelt": 0.0165,
+   "fuentes": null,
+   "chatmap": null
+  },
+  {
+   "fecha": "2026-08-10",
+   "emm": 1042,
+   "gdelt": 1.8642,
+   "fuentes": 409,
+   "chatmap": 45
+  },
+  {
+   "fecha": "2026-08-11",
+   "emm": 918,
+   "gdelt": 2.6773,
+   "fuentes": 467,
+   "chatmap": 93
+  },
+  {
+   "fecha": "2026-08-12",
+   "emm": 557,
+   "gdelt": 1.5606,
+   "fuentes": 344,
+   "chatmap": 84
+  },
+  {
+   "fecha": "2026-08-13",
+   "emm": 301,
+   "gdelt": 1.08,
+   "fuentes": 200,
+   "chatmap": 123
+  },
+  {
+   "fecha": "2026-08-14",
+   "emm": 93,
+   "gdelt": 0.848,
+   "fuentes": 71,
+   "chatmap": 77
+  },
+  {
+   "fecha": "2026-08-15",
+   "emm": null,
+   "gdelt": 0.8729,
+   "fuentes": null,
+   "chatmap": 8
+  }
+ ],
+ "entregas": [
+  {
+   "aoi": "Buenaventura",
+   "fecha": "2026-08-13",
+   "producto": "GRA",
+   "version": 1
+  },
+  {
+   "aoi": "Buenaventura",
+   "fecha": "2026-08-14",
+   "producto": "GRA",
+   "version": 2
+  },
+  {
+   "aoi": "Cali Center",
+   "fecha": "2026-08-12",
+   "producto": "GRA",
+   "version": 1
+  },
+  {
+   "aoi": "Istmina",
+   "fecha": "2026-08-14",
+   "producto": "GRA",
+   "version": 1
+  },
+  {
+   "aoi": "Northern Cali",
+   "fecha": "2026-08-12",
+   "producto": "GRA",
+   "version": 2
+  },
+  {
+   "aoi": "Pereira",
+   "fecha": "2026-08-12",
+   "producto": "GRA",
+   "version": 1
+  },
+  {
+   "aoi": "Quibdo Centre",
+   "fecha": "2026-08-14",
+   "producto": "GRA",
+   "version": 1
+  }
+ ],
+ "brechas_oficiales": {
+  "ungrd_socrata": {
+   "total": "25857",
+   "desde": "2019-01-01T00:00:00.000",
+   "hasta": "2022-12-31T00:00:00.000"
+  },
+  "ungrd_arcgis": {
+   "max_fecha": "2024-02-17",
+   "total": 85664
+  }
+ },
+ "exposicion": {
+  "expuesta_mmi6plus": 11889891,
+  "en_aois_copernicus": 1040000.0,
+  "sin_mapeo_satelital": 10849891.0,
+  "pct_cubierta": 8.7,
+  "fuente": "USGS PAGER exposures + Copernicus Estimated population",
+  "nota": "Aproximación: bandas MMI y AOIs no son geometrías equivalentes; ver README para la extensión con HRSL/Open Buildings."
+ },
+ "citizen": {
+  "chatmap_total": 430,
+  "en_aoi": 362
+ },
+ "activation_index": [
+  {
+   "code": "EMSR673",
+   "name": "Wildfire in western Attica, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-07-17T15:00:00"
+  },
+  {
+   "code": "EMSR674",
+   "name": "Wildfire in Eastern Peloponnese Region, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-07-17T12:30:00"
+  },
+  {
+   "code": "EMSR675",
+   "name": "Wildfire on Rhodes island, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-07-18T17:00:00"
+  },
+  {
+   "code": "EMSR676",
+   "name": "Wildfire in Aigio, Peloponnese, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-07-23T13:50:00"
+  },
+  {
+   "code": "EMSR677",
+   "name": "Wildfire in Corfu, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-07-23T15:50:00"
+  },
+  {
+   "code": "EMSR678",
+   "name": "Wildfire in Euboea Prefecture, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-07-23T10:30:00"
+  },
+  {
+   "code": "EMSR679",
+   "name": "Wildfire in Thessaly region, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-07-26T10:30:00"
+  },
+  {
+   "code": "EMSR680",
+   "name": "Flood in Slovenia",
+   "category": "Flood",
+   "countries": "Slovenia",
+   "event_time": "2023-08-04T09:00:00"
+  },
+  {
+   "code": "EMSR681",
+   "name": "Wildfire in Portugal",
+   "category": "Wildfire",
+   "countries": "Portugal",
+   "event_time": "2023-08-04T14:00:00"
+  },
+  {
+   "code": "EMSR682",
+   "name": "Wildfire in Portbou, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2023-08-04T14:30:00"
+  },
+  {
+   "code": "EMSR683",
+   "name": "Flood in Norway",
+   "category": "Flood",
+   "countries": "Norway",
+   "event_time": "2023-08-08T09:00:00"
+  },
+  {
+   "code": "EMSR684",
+   "name": "Flood in Sweden",
+   "category": "Flood",
+   "countries": "Sweden",
+   "event_time": "2023-08-15T00:00:00"
+  },
+  {
+   "code": "EMSR685",
+   "name": "Fire in Tenerife, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2023-08-15T22:35:00"
+  },
+  {
+   "code": "EMSR686",
+   "name": "Wildfire in East Macedonia, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-08-19T02:49:00"
+  },
+  {
+   "code": "EMSR687",
+   "name": "Wildfire in Sterea Ellada Region, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-08-21T05:59:00"
+  },
+  {
+   "code": "EMSR688",
+   "name": "Wildfire in Euboea Island, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-08-21T08:11:00"
+  },
+  {
+   "code": "EMSR689",
+   "name": "Wildfire in Rodopi, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-08-21T10:03:00"
+  },
+  {
+   "code": "EMSR690",
+   "name": "Wildfire in North Attica, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2023-08-22T08:56:00"
+  },
+  {
+   "code": "EMSR691",
+   "name": "Landslide in western Slovenia",
+   "category": "Mass movement",
+   "countries": "Slovenia",
+   "event_time": "2023-08-06T00:30:00"
+  },
+  {
+   "code": "EMSR692",
+   "name": "Flood in Greece",
+   "category": "Flood",
+   "countries": "Greece",
+   "event_time": "2023-09-05T10:30:00"
+  },
+  {
+   "code": "EMSR693",
+   "name": "Flood in Burgas, Bulgaria",
+   "category": "Flood",
+   "countries": "Bulgaria",
+   "event_time": "2023-09-05T20:00:00"
+  },
+  {
+   "code": "EMSR694",
+   "name": "Flood in Spain",
+   "category": "Flood",
+   "countries": "Spain",
+   "event_time": "2023-09-03T17:00:00"
+  },
+  {
+   "code": "EMSR695",
+   "name": "Earthquake in Marrakesh-Safi Region, Morocco",
+   "category": "Earthquake",
+   "countries": "Morocco",
+   "event_time": "2023-09-08T22:11:00"
+  },
+  {
+   "code": "EMSR696",
+   "name": "Flood in Libya",
+   "category": "Flood",
+   "countries": "Libya",
+   "event_time": "2023-09-11T02:00:00"
+  },
+  {
+   "code": "EMSR697",
+   "name": "Flood in Thessaly and Sterea Ellada regions, Greece",
+   "category": "Flood",
+   "countries": "Greece",
+   "event_time": "2023-09-27T17:00:00"
+  },
+  {
+   "code": "EMSR698",
+   "name": "Flood in Scotland, United Kingdom",
+   "category": "Flood",
+   "countries": "United Kingdom",
+   "event_time": "2023-10-07T12:00:00"
+  },
+  {
+   "code": "EMSR699",
+   "name": "Industrial accident in Osijek, Croatia",
+   "category": "Industrial accident",
+   "countries": "Croatia",
+   "event_time": "2023-10-04T00:00:00"
+  },
+  {
+   "code": "EMSR701",
+   "name": "Flood in Schleswig Holstein region, Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2023-10-20T14:00:00"
+  },
+  {
+   "code": "EMSR702",
+   "name": "Tropical Cyclone LOLA in Vanuatu and Solomon Islands",
+   "category": "Storm",
+   "countries": "Vanuatu",
+   "event_time": "2023-10-24T08:00:00"
+  },
+  {
+   "code": "EMSR703",
+   "name": "Tropical cyclone OTIS-23 in Acapulco, Mexico",
+   "category": "Storm",
+   "countries": "Mexico",
+   "event_time": "2023-10-25T06:25:00"
+  },
+  {
+   "code": "EMSR704",
+   "name": "Wildfire in Valencia region, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2023-11-02T13:30:00"
+  },
+  {
+   "code": "EMSR705",
+   "name": "Flood in Tuscany region, Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2023-11-02T22:00:00"
+  },
+  {
+   "code": "EMSR706",
+   "name": "Flood in northern France",
+   "category": "Flood",
+   "countries": "France",
+   "event_time": "2023-11-07T00:00:00"
+  },
+  {
+   "code": "EMSR707",
+   "name": "Cologne Festival, Germany",
+   "category": "Other",
+   "countries": "Germany",
+   "event_time": "2023-11-11T10:00:00"
+  },
+  {
+   "code": "EMSR708",
+   "name": "Flood in Belgium",
+   "category": "Flood",
+   "countries": "Belgium",
+   "event_time": "2023-11-10T06:00:00"
+  },
+  {
+   "code": "EMSR709",
+   "name": "Wildfires in Bolivia",
+   "category": "Wildfire",
+   "countries": "Bolivia",
+   "event_time": "2023-11-20T06:00:00"
+  },
+  {
+   "code": "EMSR710",
+   "name": "Flood in Romania",
+   "category": "Flood",
+   "countries": "Romania",
+   "event_time": "2023-12-01T06:00:00"
+  },
+  {
+   "code": "EMSR711",
+   "name": "Flood in southwestern France",
+   "category": "Flood",
+   "countries": "France",
+   "event_time": "2023-12-14T12:00:00"
+  },
+  {
+   "code": "EMSR712",
+   "name": "Flood in Lower Saxony region, Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2023-12-24T08:00:00"
+  },
+  {
+   "code": "EMSR713",
+   "name": "Flood in Saarland region,  Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2024-01-02T18:00:00"
+  },
+  {
+   "code": "EMSR714",
+   "name": "Tropical Cyclone BELAL-24 in Réunion Island",
+   "category": "Storm",
+   "countries": "France",
+   "event_time": "2024-01-15T22:00:00"
+  },
+  {
+   "code": "EMSR715",
+   "name": "Wildfire in Valparaiso region, Chile",
+   "category": "Wildfire",
+   "countries": "Chile",
+   "event_time": "2024-02-03T06:00:00"
+  },
+  {
+   "code": "EMSR716",
+   "name": "Cargo Ship Oil Spill in Aruba",
+   "category": "Transport accident",
+   "countries": "Trinidad and Tobago,Aruba",
+   "event_time": "2024-03-02T00:00:00"
+  },
+  {
+   "code": "EMSR717",
+   "name": "Wildfires in Mexico",
+   "category": "Wildfire",
+   "countries": "Mexico",
+   "event_time": "2024-03-28T09:00:00"
+  },
+  {
+   "code": "EMSR718",
+   "name": "Flood in Ireland",
+   "category": "Flood",
+   "countries": "Ireland",
+   "event_time": "2024-04-11T18:00:00"
+  },
+  {
+   "code": "EMSR719",
+   "name": "Wildfire in Tàrbena, Alicante, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2024-04-14T12:18:00"
+  },
+  {
+   "code": "EMSR720",
+   "name": "Flood in Rio Grande Do Sul State, Brazil",
+   "category": "Flood",
+   "countries": "Brazil",
+   "event_time": "2024-05-02T00:00:00"
+  },
+  {
+   "code": "EMSR721",
+   "name": "Flood in Lombardy, Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2024-05-14T14:00:00"
+  },
+  {
+   "code": "EMSR722",
+   "name": "Flood in Saarland region, Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2024-05-17T08:00:00"
+  },
+  {
+   "code": "EMSR725",
+   "name": "Flood in Sweden",
+   "category": "Flood",
+   "countries": "Sweden",
+   "event_time": "2024-05-20T18:00:00"
+  },
+  {
+   "code": "EMSR726",
+   "name": "Forest Fires in Toledo District, Belize",
+   "category": "Wildfire",
+   "countries": "Belize",
+   "event_time": "2024-05-23T01:00:00"
+  },
+  {
+   "code": "EMSR727",
+   "name": "Wildfires in Guatemala",
+   "category": "Wildfire",
+   "countries": "Guatemala",
+   "event_time": "2024-05-24T00:00:00"
+  },
+  {
+   "code": "EMSR728",
+   "name": "Flood in Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2024-05-31T12:00:00"
+  },
+  {
+   "code": "EMSR729",
+   "name": "Wildfire in Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-06-19T10:14:00"
+  },
+  {
+   "code": "EMSR730",
+   "name": "Wildfire in Latas, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-06-21T10:46:00"
+  },
+  {
+   "code": "EMSR731",
+   "name": "Wildfire in Alpochori, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-06-21T14:00:00"
+  },
+  {
+   "code": "EMSR732",
+   "name": "Windstorm in Lorraine, France",
+   "category": "Storm",
+   "countries": "France",
+   "event_time": "2024-06-29T15:00:00"
+  },
+  {
+   "code": "EMSR733",
+   "name": "Wildfire in Attica, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-06-29T11:50:00"
+  },
+  {
+   "code": "EMSR734",
+   "name": "Tropical Cyclone BERYL-24, Caribbean and Central America.",
+   "category": "Storm",
+   "countries": "Mexico,Saint Vincent and the Grenadines,Grenada,Barbados,Jamaica",
+   "event_time": "2024-07-01T06:00:00"
+  },
+  {
+   "code": "EMSR735",
+   "name": "Wildfire in Kos, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-07-01T09:00:00"
+  },
+  {
+   "code": "EMSR736",
+   "name": "Wildfire in Gjirokastra and Vlora, Albania",
+   "category": "Wildfire",
+   "countries": "Albania",
+   "event_time": "2024-07-09T09:25:00"
+  },
+  {
+   "code": "EMSR737",
+   "name": "Wildfire in Korinthia, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-07-11T10:30:00"
+  },
+  {
+   "code": "EMSR738",
+   "name": "Wildfire in Bulgaria",
+   "category": "Wildfire",
+   "countries": "Bulgaria",
+   "event_time": "2024-07-18T12:00:00"
+  },
+  {
+   "code": "EMSR739",
+   "name": "Wildfires in Slovenia",
+   "category": "Wildfire",
+   "countries": "Slovenia",
+   "event_time": "2024-07-18T06:00:00"
+  },
+  {
+   "code": "EMSR740",
+   "name": "Wildfire in the Slavyanka Mountain, Bulgaria and Greece",
+   "category": "Wildfire",
+   "countries": "Bulgaria",
+   "event_time": "2024-07-24T15:00:00"
+  },
+  {
+   "code": "EMSR741",
+   "name": "Oil Spill in Manila Bay, Philippines",
+   "category": "Other",
+   "countries": "Philippines",
+   "event_time": "2024-07-25T09:00:00"
+  },
+  {
+   "code": "EMSR742",
+   "name": "Storm in Latvia",
+   "category": "Storm",
+   "countries": "Latvia",
+   "event_time": "2024-07-28T15:00:00"
+  },
+  {
+   "code": "EMSR743",
+   "name": "Wildfire in Central Greece, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-07-29T12:00:00"
+  },
+  {
+   "code": "EMSR744",
+   "name": "Wildfire in Evia Island, Central Greece, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-07-31T13:00:00"
+  },
+  {
+   "code": "EMSR745",
+   "name": "Wildfire in Crete, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-08-07T13:42:00"
+  },
+  {
+   "code": "EMSR746",
+   "name": "Wildfire in Attica region, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-08-11T12:00:00"
+  },
+  {
+   "code": "EMSR747",
+   "name": "Wildfire in Central Macedonia region, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-08-09T15:30:00"
+  },
+  {
+   "code": "EMSR748",
+   "name": "Wildfire in Central Madeira, Portugal",
+   "category": "Wildfire",
+   "countries": "Portugal",
+   "event_time": "2024-08-14T12:00:00"
+  },
+  {
+   "code": "EMSR749",
+   "name": "Wildfire in Kavala, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-08-22T09:34:00"
+  },
+  {
+   "code": "EMSR750",
+   "name": "Flood in Sudan",
+   "category": "Flood",
+   "countries": "Sudan",
+   "event_time": "2024-08-25T12:00:00"
+  },
+  {
+   "code": "EMSR751",
+   "name": "Mass movement in Campania Region, Italy",
+   "category": "Mass movement",
+   "countries": "Italy",
+   "event_time": "2024-08-27T12:00:00"
+  },
+  {
+   "code": "EMSR752",
+   "name": "Wildfires in Saxony-Anhalt, Germany",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2024-09-06T00:00:00"
+  },
+  {
+   "code": "EMSR753",
+   "name": "Flood in Borno, Nigeria",
+   "category": "Flood",
+   "countries": "Nigeria",
+   "event_time": "2024-09-10T00:00:00"
+  },
+  {
+   "code": "EMSR754",
+   "name": "Flood in Viet Nam",
+   "category": "Flood",
+   "countries": "Viet Nam",
+   "event_time": "2024-09-09T06:00:00"
+  },
+  {
+   "code": "EMSR755",
+   "name": "Flood in Brandenbourg, Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2024-09-14T12:00:00"
+  },
+  {
+   "code": "EMSR756",
+   "name": "Flood in South West Poland",
+   "category": "Flood",
+   "countries": "Poland,Czechia",
+   "event_time": "2024-09-14T00:00:00"
+  },
+  {
+   "code": "EMSR757",
+   "name": "Flood in March, Morava Basins, Slovakia",
+   "category": "Flood",
+   "countries": "Slovakia",
+   "event_time": "2024-09-13T15:00:00"
+  },
+  {
+   "code": "EMSR758",
+   "name": "Flood in Galati and Vaslui counties, Romania",
+   "category": "Flood",
+   "countries": "Romania",
+   "event_time": "2024-09-14T05:00:00"
+  },
+  {
+   "code": "EMSR759",
+   "name": "Flood on the Danube in Hungary, Austria, and Slovakia",
+   "category": "Flood",
+   "countries": "Hungary,Austria,Slovakia",
+   "event_time": "2024-09-13T06:00:00"
+  },
+  {
+   "code": "EMSR760",
+   "name": "Wildfire in Portugal",
+   "category": "Wildfire",
+   "countries": "Portugal",
+   "event_time": "2024-09-15T11:00:00"
+  },
+  {
+   "code": "EMSR761",
+   "name": "Flood in Dresden, Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2024-09-18T12:00:00"
+  },
+  {
+   "code": "EMSR762",
+   "name": "Flood in Emilia-Romagna, Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2024-09-18T06:00:00"
+  },
+  {
+   "code": "EMSR763",
+   "name": "Flood in Germany",
+   "category": "Flood",
+   "countries": "Germany",
+   "event_time": "2024-09-22T12:00:00"
+  },
+  {
+   "code": "EMSR764",
+   "name": "Flood in Lower Austria, Austria",
+   "category": "Flood",
+   "countries": "Austria",
+   "event_time": "2024-09-14T12:00:00"
+  },
+  {
+   "code": "EMSR765",
+   "name": "Wildfire in Bolivia",
+   "category": "Wildfire",
+   "countries": "Bolivia",
+   "event_time": "2024-08-04T12:00:00"
+  },
+  {
+   "code": "EMSR766",
+   "name": "Flood in Croatia",
+   "category": "Flood",
+   "countries": "Croatia",
+   "event_time": "2024-09-25T12:00:00"
+  },
+  {
+   "code": "EMSR767",
+   "name": "Wildfire in Corinthia, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-09-29T08:00:00"
+  },
+  {
+   "code": "EMSR768",
+   "name": "Flood in Croatia and Slovenia",
+   "category": "Flood",
+   "countries": "Slovenia,Croatia",
+   "event_time": "2024-10-04T14:00:00"
+  },
+  {
+   "code": "EMSR769",
+   "name": "Wildfire in Geraki, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2024-10-04T13:49:00"
+  },
+  {
+   "code": "EMSR770",
+   "name": "Flood in Bosnia and Herzegovina",
+   "category": "Flood",
+   "countries": "Bosnia and Herzegovina",
+   "event_time": "2024-10-04T00:00:00"
+  },
+  {
+   "code": "EMSR771",
+   "name": "Flood in Emilia- Romagna, Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2024-10-20T12:00:00"
+  },
+  {
+   "code": "EMSR772",
+   "name": "Flood in Cameroon",
+   "category": "Flood",
+   "countries": "Cameroon",
+   "event_time": "2024-10-25T12:00:00"
+  },
+  {
+   "code": "EMSR773",
+   "name": "Flood in Valencia Region, Spain",
+   "category": "Flood",
+   "countries": "Spain",
+   "event_time": "2024-10-29T14:30:00"
+  },
+  {
+   "code": "EMSR774",
+   "name": "Floods in Veracruz, Mexico",
+   "category": "Flood",
+   "countries": "Mexico",
+   "event_time": "2024-10-28T06:00:00"
+  },
+  {
+   "code": "EMSR775",
+   "name": "Flood in Norway",
+   "category": "Flood",
+   "countries": "Norway",
+   "event_time": "2024-10-31T23:00:00"
+  },
+  {
+   "code": "EMSR776",
+   "name": "Flood in Panama",
+   "category": "Flood",
+   "countries": "Panama",
+   "event_time": "2024-11-04T05:30:00"
+  },
+  {
+   "code": "EMSR777",
+   "name": "Tropical Storm Sara in Belize",
+   "category": "Storm",
+   "countries": "Belize",
+   "event_time": "2024-11-15T03:00:00"
+  },
+  {
+   "code": "EMSR778",
+   "name": "Tropical Storm Sara in Honduras",
+   "category": "Storm",
+   "countries": "Honduras",
+   "event_time": "2024-11-16T23:30:00"
+  },
+  {
+   "code": "EMSR779",
+   "name": "Flood in Cameroon",
+   "category": "Flood",
+   "countries": "Cameroon",
+   "event_time": "2024-11-21T00:00:00"
+  },
+  {
+   "code": "EMSR780",
+   "name": "Tropical Cyclone CHIDO in Mayotte, France",
+   "category": "Storm",
+   "countries": "France",
+   "event_time": "2024-12-14T02:00:00"
+  },
+  {
+   "code": "EMSR781",
+   "name": "Tropical Cyclone CHIDO in Mozambique",
+   "category": "Storm",
+   "countries": "Mozambique",
+   "event_time": "2024-12-15T02:00:00"
+  },
+  {
+   "code": "EMSR782",
+   "name": "Earthquake in Vanuatu",
+   "category": "Earthquake",
+   "countries": "Vanuatu",
+   "event_time": "2024-12-17T02:00:00"
+  },
+  {
+   "code": "EMSR783",
+   "name": "Flood in Scotland, United Kingdom",
+   "category": "Flood",
+   "countries": "United Kingdom",
+   "event_time": "2024-12-30T18:18:00"
+  },
+  {
+   "code": "EMSR784",
+   "name": "Wildfire in New Caledonia, France",
+   "category": "Wildfire",
+   "countries": "France",
+   "event_time": "2025-01-08T12:00:00"
+  },
+  {
+   "code": "EMSR785",
+   "name": "Wildfire in Amsterdam Island, France",
+   "category": "Wildfire",
+   "countries": "France",
+   "event_time": "2025-01-16T00:00:00"
+  },
+  {
+   "code": "EMSR786",
+   "name": "Storm in Ireland",
+   "category": "Storm",
+   "countries": "Ireland",
+   "event_time": "2025-01-24T01:00:00"
+  },
+  {
+   "code": "EMSR787",
+   "name": "Storm in United Kingdom",
+   "category": "Storm",
+   "countries": "United Kingdom",
+   "event_time": "2025-01-24T10:00:00"
+  },
+  {
+   "code": "EMSR788",
+   "name": "Flood in Ille-et-Vilaine, France",
+   "category": "Flood",
+   "countries": "France",
+   "event_time": "2025-01-30T00:00:00"
+  },
+  {
+   "code": "EMSR789",
+   "name": "Flood in Ecuador",
+   "category": "Flood",
+   "countries": "Ecuador",
+   "event_time": "2025-02-26T15:58:00"
+  },
+  {
+   "code": "EMSR790",
+   "name": "Storm in La Reunion, France",
+   "category": "Storm",
+   "countries": "France",
+   "event_time": "2025-02-27T19:00:00"
+  },
+  {
+   "code": "EMSR791",
+   "name": "Snowfall impact in Guria, Georgia",
+   "category": "Other",
+   "countries": "Georgia",
+   "event_time": "2025-02-20T00:00:00"
+  },
+  {
+   "code": "EMSR792",
+   "name": "Flood in Valencia, Spain",
+   "category": "Flood",
+   "countries": "Spain",
+   "event_time": "2025-03-05T12:00:00"
+  },
+  {
+   "code": "EMSR793",
+   "name": "Tropical Cyclone JUDE in Mozambique",
+   "category": "Storm",
+   "countries": "Mozambique",
+   "event_time": "2025-03-10T01:00:00"
+  },
+  {
+   "code": "EMSR794",
+   "name": "Flood in Madrid, Toledo and Guadalajara Provinces, Spain",
+   "category": "Flood",
+   "countries": "Spain",
+   "event_time": "2025-03-08T12:00:00"
+  },
+  {
+   "code": "EMSR795",
+   "name": "Flood in Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2025-03-14T12:00:00"
+  },
+  {
+   "code": "EMSR796",
+   "name": "Flood In Ecuador",
+   "category": "Flood",
+   "countries": "Ecuador",
+   "event_time": "2025-02-26T13:58:00"
+  },
+  {
+   "code": "EMSR797",
+   "name": "Flood in northern Bosnia-Herzegovina",
+   "category": "Flood",
+   "countries": "Bosnia and Herzegovina",
+   "event_time": "2025-03-27T18:00:00"
+  },
+  {
+   "code": "EMSR798",
+   "name": "Earthquakes in Myanmar",
+   "category": "Earthquake",
+   "countries": "Myanmar",
+   "event_time": "2025-03-28T08:00:00"
+  },
+  {
+   "code": "EMSR799",
+   "name": "Flood in Bolivia",
+   "category": "Flood",
+   "countries": "Bolivia",
+   "event_time": "2025-04-04T00:00:00"
+  },
+  {
+   "code": "EMSR800",
+   "name": "Flood in Lombardy - Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2025-04-17T00:00:00"
+  },
+  {
+   "code": "EMSR801",
+   "name": "Wildfire in Poland",
+   "category": "Wildfire",
+   "countries": "Poland",
+   "event_time": "2025-04-20T12:30:00"
+  },
+  {
+   "code": "EMSR802",
+   "name": "Flood in Romania",
+   "category": "Flood",
+   "countries": "Romania",
+   "event_time": "2025-05-26T10:00:00"
+  },
+  {
+   "code": "EMSR803",
+   "name": "Public event in Austria",
+   "category": "Other",
+   "countries": "Austria",
+   "event_time": "2025-06-11T12:00:00"
+  },
+  {
+   "code": "EMSR804",
+   "name": "Wildfires in western Germany",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2025-06-14T14:45:00"
+  },
+  {
+   "code": "EMSR805",
+   "name": "Tropical Cyclone ERICK-25 in Mexico",
+   "category": "Storm",
+   "countries": "Mexico",
+   "event_time": "2025-06-19T12:00:00"
+  },
+  {
+   "code": "EMSR806",
+   "name": "Wildfires on Chios Island Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-06-22T11:00:00"
+  },
+  {
+   "code": "EMSR807",
+   "name": "Wildfire in Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-06-26T09:35:00"
+  },
+  {
+   "code": "EMSR808",
+   "name": "Storm in Gironde Coast, France",
+   "category": "Storm",
+   "countries": "France",
+   "event_time": "2025-06-24T22:00:00"
+  },
+  {
+   "code": "EMSR809",
+   "name": "Wildfire in Crete, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-02T13:12:00"
+  },
+  {
+   "code": "EMSR810",
+   "name": "Wildfire in Saxony, Germany",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2025-07-02T14:30:00"
+  },
+  {
+   "code": "EMSR811",
+   "name": "Wildfire in Latakia, Syria",
+   "category": "Wildfire",
+   "countries": "Syria",
+   "event_time": "2025-07-03T12:00:00"
+  },
+  {
+   "code": "EMSR812",
+   "name": "Wildfire in Pauls, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2025-07-07T12:40:00"
+  },
+  {
+   "code": "EMSR813",
+   "name": "Flood in Ecuador",
+   "category": "Flood",
+   "countries": "Ecuador",
+   "event_time": "2025-07-03T02:00:00"
+  },
+  {
+   "code": "EMSR814",
+   "name": "Earthquake in Guatemala",
+   "category": "Earthquake",
+   "countries": "Guatemala",
+   "event_time": "2025-07-08T21:41:00"
+  },
+  {
+   "code": "EMSR815",
+   "name": "Wildfire in Peloponnese, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-22T13:20:00"
+  },
+  {
+   "code": "EMSR816",
+   "name": "Wildfire in Albania",
+   "category": "Wildfire",
+   "countries": "Albania",
+   "event_time": "2025-07-23T00:00:00"
+  },
+  {
+   "code": "EMSR817",
+   "name": "Wildfires in Castilla y Leon Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2025-07-18T14:10:00"
+  },
+  {
+   "code": "EMSR818",
+   "name": "Wildfire in Kythira Island, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-26T12:26:00"
+  },
+  {
+   "code": "EMSR819",
+   "name": "Wildfire in Evia Island, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-26T14:41:00"
+  },
+  {
+   "code": "EMSR820",
+   "name": "Wildfire in East Attica, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-26T16:24:00"
+  },
+  {
+   "code": "EMSR821",
+   "name": "Wildfire in Peloponnese, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-26T13:08:00"
+  },
+  {
+   "code": "EMSR822",
+   "name": "Wildfire in Bulgaria and Republic of Serbia",
+   "category": "Wildfire",
+   "countries": "Bulgaria",
+   "event_time": "2025-07-26T08:00:00"
+  },
+  {
+   "code": "EMSR823",
+   "name": "Wildfire in Crete Island, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-26T12:29:00"
+  },
+  {
+   "code": "EMSR824",
+   "name": "Wildfire in Portugal",
+   "category": "Wildfire",
+   "countries": "Portugal",
+   "event_time": "2025-07-26T15:16:00"
+  },
+  {
+   "code": "EMSR825",
+   "name": "Wildfire in Central Macedonia, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-07-29T14:00:00"
+  },
+  {
+   "code": "EMSR826",
+   "name": "Wildfire in Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2025-07-28T23:10:00"
+  },
+  {
+   "code": "EMSR827",
+   "name": "Public Event in Bavaria, Germany",
+   "category": "Other",
+   "countries": "Germany",
+   "event_time": "2025-08-11T12:00:00"
+  },
+  {
+   "code": "EMSR828",
+   "name": "Wildfire in Attica, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-08-08T11:04:00"
+  },
+  {
+   "code": "EMSR829",
+   "name": "Wildfire in Western Greece, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-08-08T15:22:00"
+  },
+  {
+   "code": "EMSR830",
+   "name": "Wildfire in Campania, Italy",
+   "category": "Wildfire",
+   "countries": "Italy",
+   "event_time": "2025-08-09T07:00:00"
+  },
+  {
+   "code": "EMSR831",
+   "name": "Wildfire in Beiras e Serra da Estrela, Portugal",
+   "category": "Wildfire",
+   "countries": "Portugal",
+   "event_time": "2025-08-09T16:21:00"
+  },
+  {
+   "code": "EMSR832",
+   "name": "Wildfires in Zakynthos island, Greece.",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-08-12T04:00:00"
+  },
+  {
+   "code": "EMSR833",
+   "name": "Wildfires in Western Greece region, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-08-12T09:40:00"
+  },
+  {
+   "code": "EMSR834",
+   "name": "Wildfire in Chios, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-08-12T11:17:00"
+  },
+  {
+   "code": "EMSR835",
+   "name": "Wildfire in Ipeiros, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2025-08-12T06:59:00"
+  },
+  {
+   "code": "EMSR836",
+   "name": "Wildfires in Montenegro",
+   "category": "Wildfire",
+   "countries": "Montenegro",
+   "event_time": "2025-08-10T00:00:00"
+  },
+  {
+   "code": "EMSR837",
+   "name": "Wildfires in West Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2025-08-15T12:30:00"
+  },
+  {
+   "code": "EMSR838",
+   "name": "Flood in Pakistan",
+   "category": "Flood",
+   "countries": "Pakistan",
+   "event_time": "2025-08-29T12:00:00"
+  },
+  {
+   "code": "EMSR839",
+   "name": "Earthquake in Afghanistan",
+   "category": "Earthquake",
+   "countries": "Afghanistan",
+   "event_time": "2025-08-31T19:17:00"
+  },
+  {
+   "code": "EMSR841",
+   "name": "Flood in Vasternorrland County, Sweden",
+   "category": "Flood",
+   "countries": "Sweden",
+   "event_time": "2025-09-06T18:00:00"
+  },
+  {
+   "code": "EMSR842",
+   "name": "Wildfire in Spain and Portugal",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2025-09-08T19:00:00"
+  },
+  {
+   "code": "EMSR843",
+   "name": "Flood in Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2025-09-22T05:00:00"
+  },
+  {
+   "code": "EMSR844",
+   "name": "Flood in Viet Nam",
+   "category": "Flood",
+   "countries": "Viet Nam",
+   "event_time": "2025-10-08T03:00:00"
+  },
+  {
+   "code": "EMSR845",
+   "name": "Flood in Mexico",
+   "category": "Flood",
+   "countries": "Mexico",
+   "event_time": "2025-10-12T16:00:00"
+  },
+  {
+   "code": "EMSR846",
+   "name": "Flood in  Panama",
+   "category": "Flood",
+   "countries": "Panama",
+   "event_time": "2025-10-14T22:00:00"
+  },
+  {
+   "code": "EMSR847",
+   "name": "Tropical Cyclone Melissa in the Caribbean",
+   "category": "Storm",
+   "countries": "Haiti,Cuba,Jamaica",
+   "event_time": "2025-10-26T12:00:00"
+  },
+  {
+   "code": "EMSR848",
+   "name": "Flood in central Viet Nam",
+   "category": "Flood",
+   "countries": "Viet Nam",
+   "event_time": "2025-10-29T13:00:00"
+  },
+  {
+   "code": "EMSR849",
+   "name": "Storm Claudia in Ireland",
+   "category": "Storm",
+   "countries": "Ireland",
+   "event_time": "2025-11-14T12:00:00"
+  },
+  {
+   "code": "EMSR850",
+   "name": "Flood in  Albania",
+   "category": "Flood",
+   "countries": "Albania",
+   "event_time": "2025-11-18T23:00:00"
+  },
+  {
+   "code": "EMSR851",
+   "name": "Flood in  Sri Lanka",
+   "category": "Flood",
+   "countries": "Sri Lanka",
+   "event_time": "2025-11-30T23:00:00"
+  },
+  {
+   "code": "EMSR852",
+   "name": "Wildfire in New Caledonia",
+   "category": "Wildfire",
+   "countries": "France,New Caledonia",
+   "event_time": "2025-11-30T23:00:00"
+  },
+  {
+   "code": "EMSR853",
+   "name": "Flood in  Bolivia",
+   "category": "Flood",
+   "countries": "Bolivia",
+   "event_time": "2025-12-13T23:00:00"
+  },
+  {
+   "code": "EMSR854",
+   "name": "Flood in Bosnia and Herzegovina",
+   "category": "Flood",
+   "countries": "Bosnia and Herzegovina",
+   "event_time": "2026-01-06T15:45:00"
+  },
+  {
+   "code": "EMSR855",
+   "name": "Flood in  Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2026-01-06T12:00:00"
+  },
+  {
+   "code": "EMSR856",
+   "name": "Flood in  Albania and Montenegro",
+   "category": "Flood",
+   "countries": "Albania,Montenegro",
+   "event_time": "2026-01-06T19:00:00"
+  },
+  {
+   "code": "EMSR857",
+   "name": "Flood in  Mozambique and South Africa",
+   "category": "Flood",
+   "countries": "Mozambique,South Africa",
+   "event_time": "2026-01-10T23:00:00"
+  },
+  {
+   "code": "EMSR858",
+   "name": "Flood in  Southern Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2026-01-20T00:00:00"
+  },
+  {
+   "code": "EMSR859",
+   "name": "Wildfires in the Biobio and Nuble Regions, Chile",
+   "category": "Wildfire",
+   "countries": "Chile",
+   "event_time": "2026-01-16T19:00:00"
+  },
+  {
+   "code": "EMSR860",
+   "name": "Storm in Leinster Province, Ireland",
+   "category": "Storm",
+   "countries": "Ireland",
+   "event_time": "2026-01-27T00:00:00"
+  },
+  {
+   "code": "EMSR861",
+   "name": "Storm Kristin and Flooding in Central Portugal, Galicia and Andalusia, Spain",
+   "category": "Flood",
+   "countries": "Spain,Portugal",
+   "event_time": "2026-01-28T04:00:00"
+  },
+  {
+   "code": "EMSR862",
+   "name": "Olympic Winter Games in Italy",
+   "category": "Other",
+   "countries": "Italy",
+   "event_time": "2026-02-06T07:00:00"
+  },
+  {
+   "code": "EMSR863",
+   "name": "Tropical Cyclone FYTIA in  Madagascar",
+   "category": "Storm",
+   "countries": "Madagascar",
+   "event_time": "2026-01-30T23:00:00"
+  },
+  {
+   "code": "EMSR864",
+   "name": "Flood in Portugal and Spain",
+   "category": "Flood",
+   "countries": "Portugal",
+   "event_time": "2026-02-03T00:00:00"
+  },
+  {
+   "code": "EMSR865",
+   "name": "Flood in Cordoba, Colombia",
+   "category": "Flood",
+   "countries": "Colombia",
+   "event_time": "2026-01-26T05:30:00"
+  },
+  {
+   "code": "EMSR866",
+   "name": "Flood in New Aquitaine, France",
+   "category": "Flood",
+   "countries": "France",
+   "event_time": "2026-02-12T11:00:00"
+  },
+  {
+   "code": "EMSR867",
+   "name": "Tropical Cyclone GEZANI-26 in Madagascar",
+   "category": "Storm",
+   "countries": "Madagascar",
+   "event_time": "2026-02-10T15:00:00"
+  },
+  {
+   "code": "EMSR868",
+   "name": "Flood in Evros River basin, Greece",
+   "category": "Flood",
+   "countries": "Greece",
+   "event_time": "2026-02-18T22:00:00"
+  },
+  {
+   "code": "EMSR870",
+   "name": "Flood in Ecuador",
+   "category": "Flood",
+   "countries": "Ecuador",
+   "event_time": "2026-03-02T23:00:00"
+  },
+  {
+   "code": "EMSR871",
+   "name": "Flood in Abruzzo, Molise and Basilicata regions, Italy",
+   "category": "Flood",
+   "countries": "Italy",
+   "event_time": "2026-03-31T15:00:00"
+  },
+  {
+   "code": "EMSR872",
+   "name": "Tropical Cyclone Sinlaku in Micronesia",
+   "category": "Storm",
+   "countries": "Micronesia",
+   "event_time": "2026-04-08T22:00:00"
+  },
+  {
+   "code": "EMSR873",
+   "name": "Wildfire in Tuscany, Italy",
+   "category": "Wildfire",
+   "countries": "Italy",
+   "event_time": "2026-04-28T22:00:00"
+  },
+  {
+   "code": "EMSR874",
+   "name": "Wildfire in Rhineland-Palatinate, Germany",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2026-05-01T14:45:00"
+  },
+  {
+   "code": "EMSR875",
+   "name": "Wildfire in Bavaria, Germany",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2026-05-03T10:00:00"
+  },
+  {
+   "code": "EMSR877",
+   "name": "Public Event in Burgenland, Austria",
+   "category": "Other",
+   "countries": "Austria",
+   "event_time": "2026-06-11T12:00:00"
+  },
+  {
+   "code": "EMSR878",
+   "name": "Wildfire in Mazovia, Poland",
+   "category": "Wildfire",
+   "countries": "Poland",
+   "event_time": "2026-05-27T22:00:00"
+  },
+  {
+   "code": "EMSR881",
+   "name": "Forest fire in Huelva, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-06-08T11:30:00"
+  },
+  {
+   "code": "EMSR882",
+   "name": "Earthquake in the southern Philippines",
+   "category": "Earthquake",
+   "countries": "Philippines",
+   "event_time": "2026-06-06T22:00:00"
+  },
+  {
+   "code": "EMSR883",
+   "name": "Wildfire in Greenland",
+   "category": "Wildfire",
+   "countries": "Greenland,Denmark",
+   "event_time": "2026-06-15T22:00:00"
+  },
+  {
+   "code": "EMSR884",
+   "name": "Earthquake in Venezuela",
+   "category": "Earthquake",
+   "countries": "Venezuela",
+   "event_time": "2026-06-24T16:04:00"
+  },
+  {
+   "code": "EMSR885",
+   "name": "Wildfire in Aragon, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-06-25T13:10:00"
+  },
+  {
+   "code": "EMSR886",
+   "name": "Wildfire in Rhineland-Palatinate, Germany",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2026-06-27T15:00:00"
+  },
+  {
+   "code": "EMSR887",
+   "name": "Wildfire in Congosto, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-06-24T19:17:00"
+  },
+  {
+   "code": "EMSR888",
+   "name": "Wildfires in Les Gavarres, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-07-03T07:16:00"
+  },
+  {
+   "code": "EMSR889",
+   "name": "Wildfire in Pyrenees Regional Park, France",
+   "category": "Wildfire",
+   "countries": "France",
+   "event_time": "2026-07-05T08:25:00"
+  },
+  {
+   "code": "EMSR890",
+   "name": "Wildfire in Diois, France",
+   "category": "Wildfire",
+   "countries": "France",
+   "event_time": "2026-07-07T09:00:00"
+  },
+  {
+   "code": "EMSR892",
+   "name": "Wildfire in Andalusia, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-07-09T14:25:00"
+  },
+  {
+   "code": "EMSR893",
+   "name": "Wildfire in Island of Korcula, Croatia",
+   "category": "Wildfire",
+   "countries": "Croatia",
+   "event_time": "2026-07-11T18:30:00"
+  },
+  {
+   "code": "EMSR894",
+   "name": "Wildfire in Fontainebleau, France",
+   "category": "Wildfire",
+   "countries": "France",
+   "event_time": "2026-07-12T15:00:00"
+  },
+  {
+   "code": "EMSR895",
+   "name": "Wildfire in Glenmore, United Kingdom",
+   "category": "Wildfire",
+   "countries": "United Kingdom",
+   "event_time": "2026-07-15T11:00:00"
+  },
+  {
+   "code": "EMSR896",
+   "name": "Wildfire in Aragon, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-07-15T13:25:00"
+  },
+  {
+   "code": "EMSR897",
+   "name": "Wildfire in Tintwistle, United Kingdom",
+   "category": "Wildfire",
+   "countries": "United Kingdom",
+   "event_time": "2026-07-16T23:00:00"
+  },
+  {
+   "code": "EMSR898",
+   "name": "Wildfire in La Mierla, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-07-19T22:00:00"
+  },
+  {
+   "code": "EMSR899",
+   "name": "Wildfire in Saumos, France",
+   "category": "Wildfire",
+   "countries": "France",
+   "event_time": "2026-07-22T18:00:00"
+  },
+  {
+   "code": "EMSR900",
+   "name": "Wildfire in Central Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-07-20T01:07:00"
+  },
+  {
+   "code": "EMSR901",
+   "name": "Wildfire in Primstal, Germany",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2026-07-23T15:30:00"
+  },
+  {
+   "code": "EMSR902",
+   "name": "Wildfire in Biscarrosse, France",
+   "category": "Wildfire",
+   "countries": "France",
+   "event_time": "2026-07-23T14:00:00"
+  },
+  {
+   "code": "EMSR903",
+   "name": "Wildfire in Le Kef and Beja Governorates, Tunisia",
+   "category": "Wildfire",
+   "countries": "Tunisia",
+   "event_time": "2026-07-24T14:15:00"
+  },
+  {
+   "code": "EMSR904",
+   "name": "Wildfire in Aviemore, United Kingdom",
+   "category": "Wildfire",
+   "countries": "United Kingdom",
+   "event_time": "2026-07-24T17:06:00"
+  },
+  {
+   "code": "EMSR905",
+   "name": "Wildfires in Plana Baixa, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-07-25T10:07:00"
+  },
+  {
+   "code": "EMSR906",
+   "name": "Wildfires in Province of Leon, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-07-22T03:00:00"
+  },
+  {
+   "code": "EMSR907",
+   "name": "Wildfires in Crete Island, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2026-07-29T10:25:00"
+  },
+  {
+   "code": "EMSR908",
+   "name": "Wildfires in Castilla y Leon, Spain and Norte, Portugal",
+   "category": "Wildfire",
+   "countries": "Spain,Portugal",
+   "event_time": "2026-07-28T23:07:00"
+  },
+  {
+   "code": "EMSR909",
+   "name": "Wildfires in Viotia, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2026-07-31T03:35:00"
+  },
+  {
+   "code": "EMSR910",
+   "name": "Wildfire in Achaia, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2026-07-31T14:05:00"
+  },
+  {
+   "code": "EMSR912",
+   "name": "Volcano eruption in Guatemala",
+   "category": "Volcanic activity",
+   "countries": "Guatemala",
+   "event_time": "2026-08-02T23:00:00"
+  },
+  {
+   "code": "EMSR913",
+   "name": "Wildfire in Huelva, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-08-06T10:00:00"
+  },
+  {
+   "code": "EMSR914",
+   "name": "Wildfire in Serbia",
+   "category": "Wildfire",
+   "countries": "Serbia",
+   "event_time": "2026-08-02T10:00:00"
+  },
+  {
+   "code": "EMSR915",
+   "name": "Wildfire in Mallakaster municipality, Albania",
+   "category": "Wildfire",
+   "countries": "Albania",
+   "event_time": "2026-08-05T06:00:00"
+  },
+  {
+   "code": "EMSR916",
+   "name": "Earthquake in Colombia",
+   "category": "Earthquake",
+   "countries": "Colombia",
+   "event_time": "2026-08-10T12:30:00"
+  },
+  {
+   "code": "EMSR917",
+   "name": "Wildfire in Lura National Park, Albania",
+   "category": "Wildfire",
+   "countries": "Albania",
+   "event_time": "2026-08-11T12:00:00"
+  },
+  {
+   "code": "EMSR918",
+   "name": "Wildfire in Central Macedonia, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2026-08-13T09:00:00"
+  },
+  {
+   "code": "EMSR920",
+   "name": "Wildfire in Huertgen Forest, Germany and Belgium",
+   "category": "Wildfire",
+   "countries": "Germany",
+   "event_time": "2026-08-13T12:55:00"
+  },
+  {
+   "code": "EMSR921",
+   "name": "Wildfire in Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-08-10T10:08:00"
+  }
+ ]
+}

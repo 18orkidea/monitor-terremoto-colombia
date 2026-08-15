@@ -1,0 +1,280 @@
+"""Genera data/public/*: los artefactos que consume el mapa y las exportaciones.
+
+Privacidad: de citizen_reports sólo salen lat_pub/lon_pub (redondeadas) y la
+URL del medio; jamás la coordenada exacta.
+"""
+from __future__ import annotations
+
+import csv
+import io
+import json
+
+from common import db, today, utcnow, PUBLIC, snapshot_dir
+from geo import wkt_to_geojson
+
+ESTADO_LABEL = {
+    "coincide": "Coincide cualitativamente",
+    "prensa": "Reportado en prensa, sin validación oficial",
+    "ciudadano": "Reportado por ciudadanos, sin eco oficial ni satelital validado",
+    "pendiente": "Pendiente de validar",
+    "no_comparable": "No comparable 1:1",
+}
+
+
+def latest_products(conn, code="EMSR916"):
+    """Producto más reciente por AOI (mayor monitoring_number, luego versión)."""
+    snap = conn.execute(
+        "SELECT MAX(snapshot_date) FROM products WHERE code=?", (code,)).fetchone()[0]
+    rows = conn.execute(
+        "SELECT aoi_name, aoi_number, ptype, monitoring_number, version_number,"
+        " status_code, feasible, expected_delivery, delivery_time, download_path"
+        " FROM products WHERE code=? AND snapshot_date=?"
+        " ORDER BY aoi_number, monitoring_number DESC, version_number DESC",
+        (code, snap)).fetchall()
+    best, all_products = {}, {}
+    for r in rows:
+        aoi = r[0]
+        all_products.setdefault(aoi, []).append(r)
+        if aoi not in best:
+            best[aoi] = r
+    return snap, best, all_products
+
+
+def aoi_stats(conn, code, aoi, ptype, mon_n, ver_n, snap):
+    rows = conn.execute(
+        "SELECT category, subcategory, unit, total, affected, total_raw, affected_raw"
+        " FROM stats WHERE code=? AND aoi_name=? AND ptype=? AND monitoring_number=?"
+        " AND version_number=? AND snapshot_date=?",
+        (code, aoi, ptype, mon_n, ver_n, snap)).fetchall()
+    out = {}
+    for cat, sub, unit, total, aff, traw, araw in rows:
+        out.setdefault(cat, {})[sub] = {
+            "unit": unit, "total": total, "affected": aff,
+            "total_raw": json.loads(traw) if traw else None,
+            "affected_raw": json.loads(araw) if araw else None}
+    return out
+
+
+def resumen_aoi(stats: dict) -> dict:
+    """Cifras clave al estilo del análisis original."""
+    pob = None
+    edif = vias = interrupciones = 0.0
+    has_edif = has_vias = has_int = False
+    for cat, subs in stats.items():
+        for sub, v in subs.items():
+            if cat == "Estimated population" and v.get("total") is not None:
+                pob = v["total"]
+            elif cat == "Built-up" and v.get("affected") is not None:
+                edif += v["affected"]; has_edif = True
+            elif cat == "Transportation" and v.get("affected") is not None:
+                vias += v["affected"]; has_vias = True
+            elif cat == "Blocked road / interruption" and v.get("affected") is not None:
+                interrupciones += v["affected"]; has_int = True
+    return {"poblacion": pob,
+            "edificios_afectados": edif if has_edif else None,
+            "vias_afectadas_km": round(vias, 2) if has_vias else None,
+            "interrupciones_viales": interrupciones if has_int else None}
+
+
+def aoi_extents_from_snapshots(code="EMSR916") -> dict:
+    from common import SNAPSHOTS
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / f"copernicus_{code}.json"
+        if f.exists():
+            data = json.loads(f.read_text())
+            for r in data.get("results", []):
+                return {a.get("name"): a.get("extent") for a in r.get("aois") or []}
+    return {}
+
+
+def run() -> dict:
+    conn = db()
+    snap = today()
+    PUBLIC.mkdir(parents=True, exist_ok=True)
+
+    snap_prod, best, all_prods = latest_products(conn)
+    extents = aoi_extents_from_snapshots()
+    cross = {r[0]: {"estado": r[1], "n_prensa": r[2], "n_oficial": r[3],
+                    "n_ciudadano": r[4]}
+             for r in conn.execute(
+                 "SELECT aoi_name, estado, n_prensa, n_oficial, n_ciudadano"
+                 " FROM crosscheck WHERE snapshot_date="
+                 " (SELECT MAX(snapshot_date) FROM crosscheck)")}
+
+    aois, features = [], []
+    for aoi, r in best.items():
+        _, aoi_num, ptype, mon_n, ver_n, status, feas, exp, deliv, dl = r
+        stats = aoi_stats(conn, "EMSR916", aoi, ptype, mon_n, ver_n, snap_prod)
+        cc = cross.get(aoi, {"estado": "pendiente"})
+        entry = {
+            "aoi": aoi, "numero": aoi_num,
+            "producto": {"tipo": ptype, "monitoreo": mon_n, "version": ver_n,
+                         "status": status, "entrega": deliv, "descarga": dl},
+            "resumen": resumen_aoi(stats), "stats": stats,
+            "cruce": {**cc, "etiqueta": ESTADO_LABEL.get(cc["estado"], cc["estado"])},
+            "n_productos": len(all_prods.get(aoi, [])),
+        }
+        aois.append(entry)
+        gj = wkt_to_geojson(extents.get(aoi) or "")
+        if gj:
+            features.append({"type": "Feature", "geometry": gj,
+                             "properties": {"aoi": aoi, "estado": cc["estado"],
+                                            "etiqueta": entry["cruce"]["etiqueta"],
+                                            **entry["resumen"]}})
+    (PUBLIC / "aois.geojson").write_text(json.dumps(
+        {"type": "FeatureCollection", "features": features}, ensure_ascii=False))
+
+    media = [dict(zip(["fecha", "emm", "gdelt", "fuentes", "chatmap"], r))
+             for r in conn.execute(
+                 "SELECT fecha, MAX(n_noticias_emm), MAX(gdelt_vol), MAX(n_fuentes),"
+                 " MAX(n_chatmap) FROM media_volume WHERE event_key='EQ1557236'"
+                 " GROUP BY fecha ORDER BY fecha")]
+    entregas = [{"aoi": r[0], "fecha": (r[1] or "")[:10], "producto": r[2],
+                 "version": r[3]}
+                for r in conn.execute(
+                    "SELECT aoi_name, delivery_time, ptype, version_number"
+                    " FROM products WHERE code='EMSR916' AND delivery_time IS NOT NULL"
+                    " AND snapshot_date=?", (snap_prod,))]
+
+    cit_feats = []
+    for r in conn.execute(
+            "SELECT id_externo, ts, lat_pub, lon_pub, media_url, media_local,"
+            " score, checks, estado, mensaje FROM citizen_reports"
+            " WHERE lat_pub IS NOT NULL"):
+        rid, ts, lat, lon, murl, mlocal, score, checks, estado, msg = r
+        # preferir la copia local para imágenes (el endpoint de activación puede
+        # cerrar); los videos quedan fuera de git, así que mantienen la URL remota
+        is_img = bool(mlocal) and mlocal.lower().endswith(
+            (".jpg", ".jpeg", ".png", ".webp"))
+        media_ref = ("../" + mlocal) if is_img else murl
+        cit_feats.append({"type": "Feature",
+                          "geometry": {"type": "Point", "coordinates": [lon, lat]},
+                          "properties": {"id": rid, "time": ts, "media": media_ref,
+                                         "score": score, "estado": estado,
+                                         "aoi": (json.loads(checks or "{}")).get("aoi"),
+                                         "mmi": (json.loads(checks or "{}")).get("mmi"),
+                                         "mensaje": (msg or "")[:280]}})
+    (PUBLIC / "chatmap.geojson").write_text(json.dumps(
+        {"type": "FeatureCollection", "features": cit_feats}, ensure_ascii=False))
+
+    sismos = []
+    for r in conn.execute(
+            "SELECT fecha, municipio, departamento, muertos, heridos,"
+            " viv_destruidas, viv_averiadas, lat, lon FROM official_events"
+            " WHERE source='ungrd_arcgis' AND UPPER(evento) LIKE '%SISMO%'"
+            " AND lat IS NOT NULL AND lon IS NOT NULL"):
+        sismos.append({"type": "Feature",
+                       "geometry": {"type": "Point", "coordinates": [r[8], r[7]]},
+                       "properties": {"fecha": r[0], "municipio": r[1],
+                                      "departamento": r[2], "muertos": r[3],
+                                      "heridos": r[4], "viv_destruidas": r[5],
+                                      "viv_averiadas": r[6]}})
+    (PUBLIC / "ungrd_sismos.geojson").write_text(json.dumps(
+        {"type": "FeatureCollection", "features": sismos}, ensure_ascii=False))
+
+    gaps = {}
+    from common import SNAPSHOTS
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / "ungrd_socrata_agg.json"
+        if f.exists():
+            row = json.loads(f.read_text())[0]
+            gaps["ungrd_socrata"] = {"total": row.get("n"),
+                                     "desde": row.get("desde"),
+                                     "hasta": row.get("hasta")}
+            break
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / "ungrd_arcgis_agg.json"
+        if f.exists():
+            raw = json.loads(f.read_text())
+            at = (raw.get("features") or [{}])[0].get("attributes", {})
+            maxf = at.get("maxf")
+            if isinstance(maxf, (int, float)):
+                from datetime import datetime, timezone
+                maxf = datetime.fromtimestamp(
+                    maxf / 1000, tz=timezone.utc).strftime("%Y-%m-%d")
+            gaps["ungrd_arcgis"] = {"max_fecha": maxf, "total": at.get("n")}
+            break
+
+    # Exposición no mapeada: población expuesta (PAGER, MMI>=6) vs población
+    # dentro de AOIs Copernicus. El déficit son los asentamientos sin mirar.
+    exposicion = None
+    from common import SNAPSHOTS
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / "usgs_pager_exposures.json"
+        if f.exists():
+            exp = json.loads(f.read_text())
+            pe = exp.get("population_exposure") or exp
+            mmis = pe.get("mmi") or []
+            aggr = pe.get("aggregated_exposure") or pe.get("exposure") or []
+            expuesta_6 = sum(v for m, v in zip(mmis, aggr)
+                             if isinstance(v, (int, float)) and m >= 6)
+            pob_aoi = sum(a["resumen"]["poblacion"] or 0 for a in aois)
+            if expuesta_6:
+                exposicion = {
+                    "expuesta_mmi6plus": expuesta_6,
+                    "en_aois_copernicus": pob_aoi,
+                    "sin_mapeo_satelital": max(0, expuesta_6 - pob_aoi),
+                    "pct_cubierta": round(100 * pob_aoi / expuesta_6, 1),
+                    "fuente": "USGS PAGER exposures + Copernicus Estimated population",
+                    "nota": ("Aproximación: bandas MMI y AOIs no son geometrías"
+                             " equivalentes; ver README para la extensión con"
+                             " HRSL/Open Buildings."),
+                }
+            break
+
+    index = [dict(zip(["code", "name", "category", "countries", "event_time"], r))
+             for r in conn.execute(
+                 "SELECT code, name, category, countries, event_time"
+                 " FROM activation_index WHERE exists_public=1 ORDER BY code")]
+
+    evento = {"codigo": "EMSR916", "usgs_id": "us6000tjl2",
+              "gdacs": "EQ1557236", "glide": "EQ-2026-000146-COL"}
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / "usgs_us6000tjl2.json"
+        if f.exists():
+            ev = json.loads(f.read_text())
+            evento["coordinates"] = ev.get("geometry", {}).get("coordinates")
+            evento["mag"] = ev.get("properties", {}).get("mag")
+            evento["place"] = ev.get("properties", {}).get("place")
+            evento["felt"] = ev.get("properties", {}).get("felt")
+            break
+
+    monitor = {
+        # granularidad de día, no de hora: dos corridas el mismo día deben
+        # producir bytes idénticos (idempotencia => sin commits espurios)
+        "generado": snap, "fecha": snap,
+        "evento": evento,
+        "aois": sorted(aois, key=lambda a: a["numero"] or 0),
+        "media_volume": media, "entregas": entregas,
+        "brechas_oficiales": gaps, "exposicion": exposicion,
+        "citizen": {"chatmap_total": len(cit_feats),
+                    "en_aoi": sum(1 for f in cit_feats
+                                  if f["properties"].get("aoi"))},
+        "activation_index": index,
+    }
+    (PUBLIC / "monitor.json").write_text(
+        json.dumps(monitor, indent=1, ensure_ascii=False))
+
+    # exportación CSV del cruce
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["aoi", "estado", "etiqueta", "poblacion", "edificios_afectados",
+                "vias_afectadas_km", "interrupciones_viales", "n_prensa",
+                "n_ciudadano", "n_oficial", "entrega_producto", "fuente"])
+    for a in monitor["aois"]:
+        w.writerow([a["aoi"], a["cruce"]["estado"], a["cruce"]["etiqueta"],
+                    a["resumen"]["poblacion"], a["resumen"]["edificios_afectados"],
+                    a["resumen"]["vias_afectadas_km"],
+                    a["resumen"]["interrupciones_viales"],
+                    a["cruce"].get("n_prensa"), a["cruce"].get("n_ciudadano"),
+                    a["cruce"].get("n_oficial"), a["producto"]["entrega"],
+                    "Copernicus EMSR916 + GDACS EMM + ChatMap"])
+    (PUBLIC / "crosscheck.csv").write_text(buf.getvalue())
+
+    conn.close()
+    return {"aois": len(aois), "citizen": len(cit_feats), "sismos_hist": len(sismos),
+            "media_dias": len(media)}
+
+
+if __name__ == "__main__":
+    print(json.dumps(run(), indent=1))

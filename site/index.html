@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitor de brechas — Terremoto Colombia M7.4 (EMSR916)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Monitor de brechas de reporte — Terremoto de Colombia</h1>
+    <p class="sub">M7.4 · 10-ago-2026 · San José del Palmar (Chocó) ·
+      Copernicus <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">EMSR916</a> ·
+      GLIDE EQ-2026-000146-COL · alerta PAGER <span class="badge critical">roja</span></p>
+  </div>
+  <div class="meta">
+    <span id="generado">—</span>
+    <a class="btn" href="../data/public/crosscheck.csv" download>CSV del cruce</a>
+    <a class="btn" href="../data/public/monitor.json" target="_blank">JSON</a>
+  </div>
+</header>
+
+<section class="banner" id="banner-brechas"></section>
+
+<main>
+  <div id="map"></div>
+  <aside id="panel">
+    <h2>Cruce por zona (AOI)</h2>
+    <table id="tabla">
+      <thead>
+        <tr><th>Zona</th><th>Estado del cruce</th><th class="num">Población</th>
+        <th class="num">Edif. afect.</th><th class="num">Vías km</th>
+        <th class="num">Prensa</th><th class="num">Ciudadanos</th><th>Entrega</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p class="note">«Oficial» exige EDAN/balance de entidad estatal — ninguna fuente
+    oficial abierta cubre 2026 todavía (ver banda superior). La prensa y los reportes
+    ciudadanos no equivalen a un balance oficial.</p>
+    <div id="leyenda"></div>
+  </aside>
+</main>
+
+<section id="chart-section">
+  <h2>Brecha de atención: noticias vs. entregas de datos vs. reporte ciudadano</h2>
+  <p class="sub">Cuando llegan los datos de daño verificados (▲), la prensa ya se fue —
+  pero el reporte ciudadano sigue subiendo.</p>
+  <div id="chart"></div>
+</section>
+
+<section id="alerts-section">
+  <h2>Alertas del monitor</h2>
+  <ul id="alerts"></ul>
+</section>
+
+<footer>
+  <p><strong>Metodología.</strong> Actualización diaria automática. Cada cifra es rastreable
+  a una petición registrada (URL, estado HTTP, sha256, timestamp) y a un snapshot inmutable.
+  Fuentes: Copernicus EMS · USGS (ShakeMap, PAGER, DYFI) · GDACS (evento, EMM, feed
+  institucional) · GDELT · UNGRD (ArcGIS y Socrata) · ChatMap OSM Colombia · EMSC.
+  Los reportes ciudadanos se publican con coordenada redondeada (~110 m).</p>
+  <p>Extensión documentada: asentamientos bajo dosel con HRSL (Meta), Google Open Buildings
+  v3 y SAR banda L (NISAR) — ver README.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
