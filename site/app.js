@@ -8,6 +8,47 @@
   const fmt = (n) => n == null ? "—" :
     Number(n).toLocaleString("es-CO", { maximumFractionDigits: 1 });
 
+  // ---- traducción de etiquetas que llegan en inglés desde las fuentes.
+  // El nombre original se conserva (title/paréntesis) para poder identificarlo
+  // en los productos de Copernicus.
+  const AOI_ES = {
+    "Northern Cali": "Cali Norte", "Cali Center": "Cali Centro",
+    "Quibdo Centre": "Quibdó Centro", "Western Colombia": "Occidente de Colombia",
+    "Pereira": "Pereira", "Istmina": "Istmina", "Buenaventura": "Buenaventura",
+  };
+  const aoiEs = (n) => AOI_ES[n] || n;
+  const aoiLabel = (n) => {
+    const es = aoiEs(n);
+    return es === n ? n : `${es} <span style="color:var(--muted)">(${n})</span>`;
+  };
+  const DICT = {
+    // tipos de objeto (capas Copernicus)
+    "Residential": "Residencial", "Residential Buildings": "Edificios residenciales",
+    "11-Residential Buildings": "Edificios residenciales",
+    "Main roads": "Vías principales", "Local Road": "Vía local",
+    "Secondary Road": "Vía secundaria", "Primary Road": "Vía primaria",
+    "211-Highways, Streets and Roads": "Autopistas, calles y carreteras",
+    "21120-Primary Road": "Vía primaria", "21130-Secondary Road": "Vía secundaria",
+    "21140-Local Road": "Vía local",
+    "Building point": "Punto de edificio", "Photo-interpretation": "Fotointerpretación",
+    "Not Applicable": "No aplica", "Unknown": "Desconocido",
+    "Destroyed": "Destruido", "Damaged": "Dañado",
+    "Possibly damaged": "Posiblemente dañado",
+    "GRA": "Evaluación de daños", "GRM": "Seguimiento de daños",
+    "DEL": "Delineación", "REF": "Referencia", "FEP": "Primera estimación",
+    // categorías de activación (índice Copernicus)
+    "Earthquake": "Terremoto", "Flood": "Inundación", "Wildfire": "Incendio forestal",
+    "Storm": "Tormenta", "Landslide": "Deslizamiento",
+    "Volcanic eruption": "Erupción volcánica",
+  };
+  const t = (s) => DICT[s] || s;
+  // hitos del feed institucional GDACS (patrones)
+  const tHito = (s) => (s || "")
+    .replace(/UNITAR-UNOSAT Activation/i, "Activación UNITAR-UNOSAT")
+    .replace(/EC\/ECHO daily map/i, "Mapa diario EC/ECHO")
+    .replace(/Copernicus EMS activation/i, "Activación Copernicus EMS")
+    .replace(/^M7\.4 in Colombia/i, "M7.4 en Colombia");
+
   async function j(path) {
     try { const r = await fetch(path); return r.ok ? await r.json() : null; }
     catch { return null; }
@@ -72,7 +113,7 @@
       onEachFeature: (f, l) => {
         const p = f.properties;
         aoiLayerById[p.aoi] = l;
-        l.bindPopup(`<strong>${p.aoi}</strong><br>${p.etiqueta}<br>` +
+        l.bindPopup(`<strong>${aoiLabel(p.aoi)}</strong><br>${p.etiqueta}<br>` +
           `Población: ${fmt(p.poblacion)} · Edificios afectados: ${fmt(p.edificios_afectados)}<br>` +
           `Vías: ${fmt(p.vias_afectadas_km)} km · Interrupciones: ${fmt(p.interrupciones_viales)}`);
       },
@@ -100,9 +141,12 @@
         }),
         onEachFeature: (f, l) => {
           const p = f.properties;
-          l.bindPopup(`<strong>${GRADO_ES[p.damage_gra] || p.damage_gra}</strong>` +
-            ` · ${p.simplified || p.obj_type || ""}<br>${p.aoi} · ` +
-            `<span style="color:var(--muted)">${p.det_method || ""} (Copernicus)</span>`);
+          const objeto = p.simplified || p.obj_type || "";
+          const metodo = p.det_method || "";
+          l.bindPopup(`<strong>${GRADO_ES[p.damage_gra] || t(p.damage_gra)}</strong>` +
+            ` · ${t(objeto)}${objeto && t(objeto) !== objeto ? ` <span style="color:var(--muted)">(${objeto})</span>` : ""}` +
+            `<br>${aoiLabel(p.aoi)} · ` +
+            `<span style="color:var(--muted)">${t(metodo)}${metodo && t(metodo) !== metodo ? ` (${metodo})` : ""} · Copernicus</span>`);
         },
       }).addTo(map);
     if (crisis.features.length) {
@@ -112,9 +156,12 @@
             radius: 6, weight: 2, color: css("--critical"),
             fillColor: "#fff", fillOpacity: 0.9,
           }),
-          onEachFeature: (f, l) => l.bindPopup(
-            `<strong>${f.properties.obj_type || "Interrupción"}</strong><br>` +
-            `${f.properties.aoi} · <span style="color:var(--muted)">Copernicus</span>`),
+          onEachFeature: (f, l) => {
+            const obj = f.properties.obj_type || "Interrupción";
+            l.bindPopup(
+              `<strong>${t(obj)}</strong>${t(obj) !== obj ? ` <span style="color:var(--muted)">(${obj})</span>` : ""}<br>` +
+              `${aoiLabel(f.properties.aoi)} · <span style="color:var(--muted)">Copernicus</span>`);
+          },
         }).addTo(map);
     }
   }
@@ -123,8 +170,8 @@
       L.geoJSON(dmgLines, {
         style: () => ({ color: css("--critical"), weight: 4, opacity: 0.85 }),
         onEachFeature: (f, l) => l.bindPopup(
-          `<strong>Vía dañada</strong> · ${f.properties.info || f.properties.obj_type || ""}` +
-          `<br>${f.properties.aoi} · <span style="color:var(--muted)">Copernicus</span>`),
+          `<strong>Vía dañada</strong> · ${t(f.properties.info || f.properties.obj_type || "")}` +
+          `<br>${aoiLabel(f.properties.aoi)} · <span style="color:var(--muted)">Copernicus</span>`),
       }).addTo(map);
   }
   if (notAnalysed && notAnalysed.features.length) {
@@ -133,7 +180,7 @@
         style: () => ({ color: css("--muted"), weight: 1, dashArray: "3 4",
                         fillColor: css("--muted"), fillOpacity: 0.18 }),
         onEachFeature: (f, l) => l.bindTooltip(
-          `Sin analizar (${f.properties.aoi}) — hueco de cobertura`),
+          `Sin analizar (${aoiEs(f.properties.aoi)}) — hueco de cobertura`),
       });
   }
 
@@ -160,7 +207,7 @@
           ? `<a href="${p.media}" target="_blank" rel="noopener"><img src="${p.media}" loading="lazy" alt="foto ciudadana"></a>`
           : (p.media ? `<a href="${p.media}" target="_blank" rel="noopener">ver medio</a>` : "");
         l.bindPopup(`<strong>Reporte ciudadano</strong> · ${p.time || ""}<br>` +
-          `${p.aoi ? "Dentro de AOI: " + p.aoi + "<br>" : ""}` +
+          `${p.aoi ? "Dentro de AOI: " + aoiLabel(p.aoi) + "<br>" : ""}` +
           `${p.mmi != null ? "MMI estimado: " + fmt(p.mmi) + "<br>" : ""}` +
           `${(p.mensaje || "")}<br>${media}` +
           `<br><span style="color:var(--muted)">coordenada redondeada ~110 m · score ${p.score ?? "?"}</span>`);
@@ -216,7 +263,7 @@
       ? `<strong>${fmt(detTotal)}</strong> <span style="color:var(--muted)">(${grados.map((g) => det[g] || 0).join("·")})</span>`
       : "—";
     tr.innerHTML =
-      `<td><strong>${a.aoi}</strong></td>` +
+      `<td><strong>${aoiLabel(a.aoi)}</strong></td>` +
       `<td><span class="badge" style="--bc:${ESTADO_COLOR[c.estado] || css("--muted")}">${c.etiqueta || c.estado}</span></td>` +
       `<td class="num">${fmt(a.resumen.poblacion)}</td>` +
       `<td class="num" title="Destruidos · Dañados · Posiblemente dañados (puntos Copernicus)">${detTxt}</td>` +
@@ -226,7 +273,7 @@
         ? `<a href="#" class="prensa-toggle" title="Ver titulares de ejemplo">${fmt(c.n_prensa)} ▾</a>`
         : fmt(c.n_prensa)}</td>` +
       `<td class="num">${fmt(c.n_ciudadano)}</td>` +
-      `<td>${(a.producto.entrega || "—").slice(0, 10)} <span style="color:var(--muted)">${a.producto.tipo} v${a.producto.version}${a.producto.status !== "F" ? " · " + ({ W: "en espera", I: "en producción", N: "no producido" }[a.producto.status] || a.producto.status) : ""}</span></td>`;
+      `<td>${(a.producto.entrega || "—").slice(0, 10)} <span style="color:var(--muted)">${t(a.producto.tipo)} (${a.producto.tipo}) v${a.producto.version}${a.producto.status !== "F" ? " · " + ({ W: "en espera", I: "en producción", N: "no producido" }[a.producto.status] || a.producto.status) : ""}</span></td>`;
     tr.addEventListener("click", (ev) => {
       if (ev.target.closest(".prensa-toggle")) {
         ev.preventDefault();
@@ -238,7 +285,7 @@
           a.prensa_ejemplos.map((n) =>
             `<li>${(n.fecha || "").slice(0, 10)} · <em>${n.medio || "?"}</em> — ` +
             `<a href="${n.url}" target="_blank" rel="noopener">${n.titular}</a></li>`).join("") +
-          `</ul><a href="noticias.html#aoi=${encodeURIComponent(a.aoi)}">Ver todos los titulares de ${a.aoi} →</a></td>`;
+          `</ul><a href="noticias.html#aoi=${encodeURIComponent(a.aoi)}">Ver todos los titulares de ${aoiEs(a.aoi)} →</a></td>`;
         tr.after(dtr);
         return;
       }
@@ -251,10 +298,10 @@
   // ---- cronología institucional + entregas Copernicus, en un solo hilo temporal
   const hitos = [
     ...(mon.institucional || []).map((h) => ({
-      fecha: h.fecha, texto: h.titulo, url: h.url, tipo: "institucional" })),
+      fecha: h.fecha, texto: tHito(h.titulo), url: h.url, tipo: "institucional" })),
     ...(mon.entregas || []).map((e) => ({
       fecha: e.fecha, tipo: "entrega",
-      texto: `Copernicus entrega datos de daño: ${e.aoi} (${e.producto} v${e.version})` })),
+      texto: `Copernicus entrega datos de daño: ${aoiEs(e.aoi)} (${t(e.producto)} / ${e.producto} v${e.version})` })),
   ].filter((h) => h.fecha).sort((x, y) => x.fecha.localeCompare(y.fecha));
   document.getElementById("timeline").innerHTML = hitos.map((h) =>
     `<li class="${h.tipo}"><span class="t-fecha">${h.fecha.slice(0, 16).replace("T", " ")}</span> ` +
@@ -267,7 +314,7 @@
   actsEl.innerHTML = acts.length
     ? acts.map((x) =>
       `<p><a href="${x.visor}" target="_blank" rel="noopener"><strong>${x.code}</strong></a> — ` +
-      `${x.name} · ${x.category} · ${(x.event_time || "").slice(0, 10)} · ` +
+      `${x.name} · ${t(x.category)}${t(x.category) !== x.category ? ` (${x.category})` : ""} · ${(x.event_time || "").slice(0, 10)} · ` +
       `${x.n_aois} zona(s) analizadas` +
       `${x.closed === false ? ' · <span class="badge" style="--bc:var(--warning)">activación abierta</span>' : ""}</p>`).join("") +
       `<p class="note">Índice completo vigilado: ${(mon.activation_index || []).length} activaciones` +
@@ -288,7 +335,7 @@
   const ul = document.getElementById("alerts");
   const items = (alerts && alerts.alertas) || [];
   ul.innerHTML = items.length
-    ? items.map((a) => `<li><strong>${a.tipo.replaceAll("_", " ")}</strong> — ${a.aoi || a.code || ""} ${a.producto ? "· " + a.producto : ""} ${a.name ? "· " + a.name : ""} ${a.nivel === "alta" ? "⚠️" : ""}</li>`).join("")
+    ? items.map((a) => `<li><strong>${a.tipo.replaceAll("_", " ")}</strong> — ${a.aoi ? aoiEs(a.aoi) : (a.code || "")} ${a.producto ? "· " + t(a.producto) + " (" + a.producto + ")" : ""} ${a.name ? "· " + a.name : ""} ${a.nivel === "alta" ? "⚠️" : ""}</li>`).join("")
     : "<li>Sin cambios desde la última corrida.</li>";
 
   function drawChart(media, entregas) {
@@ -316,7 +363,7 @@
       if (v) s += `<text x="${x(i)}" y="${yy - 4}" text-anchor="middle" font-size="10" fill="${css("--ink-2")}">${v.toLocaleString("es-CO")}</text>`;
       s += `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${d.fecha.slice(5)}</text>`;
       if (delivByDay[d.fecha]) {
-        const names = delivByDay[d.fecha].map((e) => e.aoi).join(", ");
+        const names = delivByDay[d.fecha].map((e) => aoiEs(e.aoi)).join(", ");
         s += `<g data-deliv="${names.replaceAll('"', "")}"><path d="M ${x(i) - 5} ${M.t - 8} l 10 0 l -5 8 z" fill="${css("--critical")}"/></g>`;
       }
     });

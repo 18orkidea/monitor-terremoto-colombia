@@ -10,11 +10,21 @@
     return;
   }
   const items = data.items || [];
+  const AOI_ES = {
+    "Northern Cali": "Cali Norte", "Cali Center": "Cali Centro",
+    "Quibdo Centre": "Quibdó Centro", "Western Colombia": "Occidente de Colombia",
+    "Pereira": "Pereira", "Istmina": "Istmina", "Buenaventura": "Buenaventura",
+  };
+  const aoiEs = (n) => AOI_ES[n] || n;
+  const aoiLabel = (n) => {
+    const es = aoiEs(n);
+    return es === n ? n : `${es} (${n})`;
+  };
   const aois = [...new Set(items.flatMap((n) => n.aois || []))].sort();
   const origenes = [...new Set(items.map((n) => n.origen))].sort();
   const selA = document.getElementById("f-aoi");
   const selO = document.getElementById("f-origen");
-  for (const a of aois) selA.add(new Option(a, a));
+  for (const a of aois) selA.add(new Option(aoiLabel(a), a));
   for (const o of origenes) selO.add(new Option(o, o));
 
   // permite enlazar directo: noticias.html#aoi=Pereira
@@ -38,7 +48,7 @@
       ` · actualizado ${data.generado}`;
     lista.innerHTML = sel.slice(0, MAX).map((n) =>
       `<li><span class="meta-n">${(n.fecha || "").slice(0, 16).replace("T", " ")} · ${n.medio || n.origen}</span>` +
-      (n.aois || []).map((a) => `<span class="chip">${a}</span>`).join("") +
+      (n.aois || []).map((a) => `<span class="chip" title="${a}">${aoiEs(a)}</span>`).join("") +
       `<br><a href="${n.url}" target="_blank" rel="noopener">${n.titulo}</a></li>`).join("") ||
       "<li>Nada que mostrar con estos filtros.</li>";
   }
