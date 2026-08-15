@@ -42,3 +42,16 @@ jobs:
             git commit -m "snapshot $(date -u +%F): actualización diaria"
             git push
           fi
+
+      # Requiere el secret CLOUDFLARE_API_TOKEN (permiso: Cloudflare Pages - Edit).
+      # Sin el secret, este paso se salta y el sitio simplemente no se redespliega.
+      - name: Desplegar a Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
+        run: |
+          ./deploy/build_dist.sh
+          npx --yes wrangler@4 pages deploy dist \
+            --project-name monitor-terremoto-colombia --branch main
+        # wrangler lee CLOUDFLARE_API_TOKEN del entorno:
+        # (el token nunca aparece en el repo; solo en Settings → Secrets)

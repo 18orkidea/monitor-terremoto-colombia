@@ -15,3 +15,12 @@ data/monitor.sqlite-shm
 __pycache__/
 *.pyc
 .DS_Store
+dist/
+
+# nunca versionar credenciales
+.env
+.env.*
+*.pem
+*.key
+*token*
+!package-lock.json
