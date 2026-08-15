@@ -4,6 +4,27 @@ const KEYWORDS = [
   "san jose del palmar", "san josé del palmar", "emergencia"
 ];
 
+const EVENT_TERMS = [
+  "terremoto", "sismo", "temblor", "movimiento sismico", "movimiento sísmico",
+  "san jose del palmar", "san josé del palmar", "chocó", "choco"
+];
+
+const DAMAGE_TERMS = [
+  "edan", "rud", "damnific", "afectad", "vivienda", "herido", "fallecid",
+  "colaps", "averiad", "ayuda humanitaria", "calamidad", "emergencia"
+];
+
+const GENERIC_PAGE_TERMS = [
+  "consolidado anual de emergencias",
+  "emergencias anuales",
+  "mapa sitio",
+  "zona privada",
+  "biblioteca",
+  "directorio",
+  "normatividad",
+  "inicio transparencia"
+];
+
 const MUNICIPIOS = [
   ["Armenia", "Quindío"],
   ["Calarcá", "Quindío"],
@@ -38,35 +59,123 @@ const OFFICIAL_SOURCES = [
     name: "UNGRD - Noticias",
     level: "nacional",
     department: null,
-    url: "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/"
+    url: "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/",
+    entrypoints: [
+      {
+        type: "html",
+        role: "listado_sharepoint",
+        url: "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/",
+        note: "Listado SharePoint de noticias; los datos útiles están en /Paginas/Noticias/2026/*.aspx."
+      },
+      {
+        type: "html",
+        role: "vista_sharepoint",
+        url: "https://portal.gestiondelriesgo.gov.co/paginas/forms/allitems.aspx?rootfolder=/paginas/noticias&folderctid=0x0120000d115b77361a2449a3a8cae36d6f2767",
+        note: "Vista de biblioteca SharePoint; puede exponer enlaces aunque el RSS de lista falle."
+      }
+    ]
   },
   {
     id: "snigrd-alertas",
     name: "SNIGRD - Alertas",
     level: "nacional",
     department: null,
-    url: "https://www.gestiondelriesgo.gov.co/snigrd/alertas.aspx"
+    url: "https://www.gestiondelriesgo.gov.co/snigrd/alertas.aspx",
+    entrypoints: [
+      {
+        type: "html",
+        role: "alertas",
+        url: "https://www.gestiondelriesgo.gov.co/snigrd/alertas.aspx",
+        note: "Portal SNIGRD; útil solo si enlaza alertas o páginas con evento específico."
+      }
+    ]
   },
   {
     id: "gob-valle-riesgo",
     name: "Gobernación del Valle - Gestión del Riesgo",
     level: "gobernacion",
     department: "Valle del Cauca",
-    url: "https://www.valledelcauca.gov.co/riesgo/"
+    url: "https://www.valledelcauca.gov.co/riesgo/",
+    entrypoints: [
+      {
+        type: "html",
+        role: "riesgo",
+        url: "https://www.valledelcauca.gov.co/riesgo/",
+        note: "Sección de Gestión del Riesgo; puede devolver 502, se considera fuente inestable."
+      },
+      {
+        type: "html",
+        role: "noticias",
+        url: "https://www.valledelcauca.gov.co/publicaciones/noticias/",
+        note: "Listado de publicaciones/noticias del dominio oficial."
+      }
+    ]
   },
   {
     id: "gob-quindio-udegerd",
     name: "Gobierno del Quindío - UDEGERD",
     level: "gobernacion",
     department: "Quindío",
-    url: "https://quindio.gov.co/unidad-departamental-para-la-gestion-del-riesgo-de-desastres-udegerd-quindio"
+    url: "https://quindio.gov.co/unidad-departamental-para-la-gestion-del-riesgo-de-desastres-udegerd-quindio",
+    entrypoints: [
+      {
+        type: "html",
+        role: "udegerd",
+        url: "https://quindio.gov.co/unidad-departamental-para-la-gestion-del-riesgo-de-desastres-udegerd-quindio",
+        note: "Página UDEGERD; puede bloquear tráfico automatizado con Cloudflare."
+      }
+    ]
   },
   {
     id: "gob-caldas-riesgo",
     name: "Gobernación de Caldas - Gestión del Riesgo",
     level: "gobernacion",
     department: "Caldas",
-    url: "https://www.caldas.gov.co/component/sppagebuilder/?Itemid=1509&id=108&view=page"
+    url: "https://www.caldas.gov.co/component/sppagebuilder/?Itemid=1509&id=108&view=page",
+    entrypoints: [
+      {
+        type: "rss",
+        role: "noticias_rss",
+        url: "https://www.caldas.gov.co/noticias-gobernacion?format=feed&type=rss",
+        note: "RSS Joomla de Noticias Gobernación; es el canal más útil para datos publicados."
+      },
+      {
+        type: "html",
+        role: "riesgo",
+        url: "https://www.caldas.gov.co/component/sppagebuilder/?Itemid=1509&id=108&view=page",
+        note: "Página de Gestión del Riesgo; se usa como respaldo para enlaces internos."
+      }
+    ]
+  },
+  {
+    id: "gob-risaralda-noticias",
+    name: "Gobernación de Risaralda - Noticias",
+    level: "gobernacion",
+    department: "Risaralda",
+    url: "https://www.risaralda.gov.co/publicaciones/noticias/",
+    entrypoints: [
+      {
+        type: "html",
+        role: "noticias",
+        url: "https://www.risaralda.gov.co/publicaciones/noticias/",
+        note: "Portal oficial de noticias; puede bloquear 403 a tráfico automatizado."
+      }
+    ]
+  },
+  {
+    id: "gob-choco-noticias",
+    name: "Gobernación del Chocó - Noticias",
+    level: "gobernacion",
+    department: "Chocó",
+    url: "https://www.choco.gov.co/noticias",
+    entrypoints: [
+      {
+        type: "html",
+        role: "spa_noticias",
+        url: "https://www.choco.gov.co/noticias",
+        note: "Sitio SPA Angular; requiere descubrir API interna desde bundles si el HTML no trae noticias."
+      }
+    ]
   }
 ];
 
@@ -117,18 +226,25 @@ function emptyFeed() {
 
 async function runCollection(env) {
   const previous = await publicFeed(env);
-  const seen = new Map((previous.items || []).map((item) => [item.url, item]));
+  const seen = new Map(
+    (previous.items || [])
+      .filter((item) => isSpecificEventEvidence(`${item.title} ${item.cita} ${item.text_excerpt}`))
+      .map((item) => [item.url, item])
+  );
   const candidates = [];
+  const sourceAnalysis = [];
 
   for (const source of OFFICIAL_SOURCES) {
-    candidates.push(...await discoverSource(source));
+    const discovered = await discoverSource(source);
+    candidates.push(...discovered.candidates);
+    sourceAnalysis.push(discovered.analysis);
   }
 
   for (const candidate of candidates.slice(0, 40)) {
     if (seen.has(candidate.url)) continue;
     try {
       const item = await processDocument(candidate, env);
-      if (item && item.relacionado_evento) seen.set(item.url, item);
+      if (item && item.relacionado_evento && item.evidencia_evento_especifico) seen.set(item.url, item);
     } catch (error) {
       seen.set(candidate.url, {
         ...candidate,
@@ -147,6 +263,7 @@ async function runCollection(env) {
       .filter((x) => x.relacionado_evento)
       .sort((a, b) => (b.fecha || b.captured_at || "").localeCompare(a.fecha || a.captured_at || "")),
     sources: OFFICIAL_SOURCES,
+    source_analysis: sourceAnalysis,
     extraction: {
       private: true,
       model: env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20",
@@ -155,20 +272,59 @@ async function runCollection(env) {
   };
   await env.OFFICIAL_DATA.put("oficiales.json", JSON.stringify(feed));
   await env.OFFICIAL_DATA.put("oficiales.rss", renderRss(feed));
-  return { ok: true, candidates: candidates.length, total: feed.total };
+  return { ok: true, candidates: candidates.length, total: feed.total, source_analysis: sourceAnalysis };
 }
 
 async function discoverSource(source) {
-  const response = await fetch(source.url, { headers: { "user-agent": "monitor-terremoto-colombia-oficiales/1.0" } });
-  if (!response.ok) return [];
-  const html = await response.text();
-  const links = extractLinks(html, source.url);
-  const own = sameHost(source.url);
-  return links
-    .filter((link) => own(link.url))
-    .filter((link) => relevant(`${link.title} ${link.url}`))
-    .slice(0, 20)
-    .map((link) => ({ ...link, source }));
+  const candidates = [];
+  const entrypoints = source.entrypoints || [{ type: "html", role: "principal", url: source.url }];
+  const checks = [];
+
+  for (const entry of entrypoints) {
+    const check = { role: entry.role, type: entry.type, url: entry.url, note: entry.note || null };
+    try {
+      const response = await fetch(entry.url, {
+        headers: { "user-agent": "monitor-terremoto-colombia-oficiales/1.0" },
+        signal: AbortSignal.timeout(12000)
+      });
+      check.http_status = response.status;
+      check.ok = response.ok;
+      if (!response.ok) {
+        check.result = "no_usable";
+        checks.push(check);
+        continue;
+      }
+      const body = await response.text();
+      const parsed = entry.type === "rss"
+        ? extractFeedItems(body, entry.url)
+        : extractLinks(body, entry.url);
+      check.links_found = parsed.length;
+      const own = sameHost(source.url);
+      const selected = parsed
+        .filter((link) => own(link.url))
+        .filter((link) => isCandidateLink(link))
+        .slice(0, 20)
+        .map((link) => ({ ...link, source, discovered_from: entry.url, discovery_role: entry.role }));
+      check.candidates = selected.length;
+      check.result = selected.length ? "candidate_links" : "no_event_specific_links";
+      candidates.push(...selected);
+    } catch (error) {
+      check.ok = false;
+      check.result = "error";
+      check.error = String(error.message || error).slice(0, 240);
+    }
+    checks.push(check);
+  }
+
+  return {
+    candidates: dedupe(candidates, (x) => x.url),
+    analysis: {
+      source_id: source.id,
+      source_name: source.name,
+      department: source.department,
+      checks
+    }
+  };
 }
 
 function extractLinks(html, base) {
@@ -180,6 +336,28 @@ function extractLinks(html, base) {
     const title = stripHtml(match[2]).trim() || href;
     try {
       out.push({ url: new URL(href, base).toString(), title });
+    } catch {
+      // enlace inválido: se ignora
+    }
+  }
+  return dedupe(out, (x) => x.url);
+}
+
+function extractFeedItems(xml, base) {
+  const out = [];
+  const re = /<item\b[\s\S]*?<\/item>/gi;
+  for (const item of xml.matchAll(re)) {
+    const raw = item[0];
+    const title = textBetween(raw, "title") || "";
+    const link = textBetween(raw, "link") || "";
+    const description = stripHtml(textBetween(raw, "description") || "");
+    if (!link) continue;
+    try {
+      out.push({
+        url: new URL(decodeXml(link.trim()), base).toString(),
+        title: decodeXml(stripHtml(title)).trim(),
+        summary: decodeXml(description).replace(/\s+/g, " ").trim()
+      });
     } catch {
       // enlace inválido: se ignora
     }
@@ -228,6 +406,7 @@ async function processDocument(candidate, env) {
   }
 
   const structured = structureOfficialText(text, candidate);
+  const evidenceText = `${candidate.title} ${candidate.summary || ""} ${text}`;
   return {
     url: candidate.url,
     title: candidate.title,
@@ -238,7 +417,10 @@ async function processDocument(candidate, env) {
     content_sha256: hash,
     captured_at: new Date().toISOString(),
     extraction_method: extractionMethod,
+    discovered_from: candidate.discovered_from || null,
+    discovery_role: candidate.discovery_role || null,
     text_excerpt: text.slice(0, 700),
+    evidencia_evento_especifico: isSpecificEventEvidence(evidenceText),
     ...structured
   };
 }
@@ -293,7 +475,7 @@ function structureOfficialText(text, candidate) {
   if (candidate.source.department) departamentos.add(candidate.source.department);
 
   return {
-    relacionado_evento: relevant(text),
+    relacionado_evento: isSpecificEventEvidence(`${candidate.title} ${candidate.summary || ""} ${text}`),
     fecha: findDate(text),
     departamentos: [...departamentos].sort(),
     municipios: municipios.sort(),
@@ -323,8 +505,8 @@ function classify(text) {
 function confidence(text) {
   const hasOfficialDamage = /edan|rud|damnific|viviendas?|heridos?|fallecid/i.test(text);
   const hasNumber = /\d/.test(text);
-  if (hasOfficialDamage && hasNumber) return "media";
-  if (relevant(text)) return "baja";
+  if (hasOfficialDamage && hasNumber && isSpecificEventEvidence(text)) return "media";
+  if (isSpecificEventEvidence(text)) return "baja";
   return "ninguna";
 }
 
@@ -357,6 +539,42 @@ function relevant(text) {
   return KEYWORDS.some((kw) => n.includes(norm(kw)));
 }
 
+function isCandidateLink(link) {
+  const text = `${link.title || ""} ${link.summary || ""} ${link.url || ""}`;
+  if (isGenericPage(text)) return false;
+  return hasEventTerm(text) && (hasDamageTerm(text) || hasImpactedPlace(text) || hasEventDate(text));
+}
+
+function isSpecificEventEvidence(text) {
+  if (isGenericPage(text)) return false;
+  return hasEventTerm(text) && (hasDamageTerm(text) || hasImpactedPlace(text) || hasEventDate(text));
+}
+
+function hasEventTerm(text) {
+  const n = norm(text);
+  return EVENT_TERMS.some((term) => n.includes(norm(term)));
+}
+
+function hasDamageTerm(text) {
+  const n = norm(text);
+  return DAMAGE_TERMS.some((term) => n.includes(norm(term)));
+}
+
+function hasImpactedPlace(text) {
+  const n = norm(text);
+  return MUNICIPIOS.some(([name, dept]) => n.includes(norm(name)) || n.includes(norm(dept)));
+}
+
+function hasEventDate(text) {
+  const n = norm(text);
+  return /10\s+de\s+agosto\s+de\s+2026|agosto\s+de\s+2026|2026-08|10-ago-2026|10\/08\/2026/.test(n);
+}
+
+function isGenericPage(text) {
+  const n = norm(text);
+  return GENERIC_PAGE_TERMS.some((term) => n.includes(norm(term)));
+}
+
 function isVisualDocument(url, contentType) {
   return /application\/pdf|image\//i.test(contentType) || /\.(pdf|png|jpe?g|webp)(\?|$)/i.test(url);
 }
@@ -385,6 +603,20 @@ function stripHtml(html) {
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">");
+}
+
+function textBetween(xml, tag) {
+  const match = xml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
+  return match ? match[1].replace(/^<!\[CDATA\[/, "").replace(/\]\]>$/, "") : "";
+}
+
+function decodeXml(value) {
+  return String(value || "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
 }
 
 function norm(s) {
