@@ -211,8 +211,10 @@
     const c = a.cruce || {};
     const det = a.detecciones || {};
     const grados = ["Destroyed", "Damaged", "Possibly damaged"];
-    const detTxt = grados.some((g) => det[g])
-      ? grados.map((g) => det[g] || 0).join("·") : "—";
+    const detTotal = grados.reduce((s, g) => s + (det[g] || 0), 0);
+    const detTxt = detTotal
+      ? `<strong>${fmt(detTotal)}</strong> <span style="color:var(--muted)">(${grados.map((g) => det[g] || 0).join("·")})</span>`
+      : "—";
     tr.innerHTML =
       `<td><strong>${a.aoi}</strong></td>` +
       `<td><span class="badge" style="--bc:${ESTADO_COLOR[c.estado] || css("--muted")}">${c.etiqueta || c.estado}</span></td>` +
