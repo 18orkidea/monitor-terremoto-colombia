@@ -344,7 +344,7 @@
       `<td class="num" title="DANE PPED municipal por área, 2026">${fmt(m.poblacion_2026)}</td>` +
       `<td class="num">${fmt(m.dyfi_max_cdi)}</td>` +
       `<td class="num">${fmt(m.dyfi_respuestas)}</td>` +
-      `<td class="num">${m.n_noticias ? `<a href="noticias.html?q=${encodeURIComponent(m.municipio)}">${fmt(m.n_noticias)}</a>` : "—"}</td>` +
+      `<td class="num">${m.n_noticias ? `<a href="noticias.html?municipio=${encodeURIComponent(m.municipio)}">${fmt(m.n_noticias)}</a>` : "—"}</td>` +
       `<td>${(m.fuentes || []).join(", ") || "—"}</td>`;
     tr.addEventListener("click", () => {
       const l = munLayerById[m.municipio];

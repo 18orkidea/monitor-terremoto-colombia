@@ -43,6 +43,7 @@ def parse_rss(body: bytes) -> list[dict]:
             "titulo": (it.findtext("title") or "").strip(),
             "url": (it.findtext("link") or "").strip(),
             "fecha": _parse_date(it.findtext("pubDate") or ""),
+            "resumen": (it.findtext("description") or "").strip(),
         })
     for it in root.iter("{http://www.w3.org/2005/Atom}entry"):   # Atom
         link = it.find("atom:link", ns)
@@ -50,6 +51,7 @@ def parse_rss(body: bytes) -> list[dict]:
             "titulo": (it.findtext("atom:title", default="", namespaces=ns) or "").strip(),
             "url": (link.get("href") if link is not None else "").strip(),
             "fecha": (it.findtext("atom:updated", default="", namespaces=ns) or "")[:19],
+            "resumen": (it.findtext("atom:summary", default="", namespaces=ns) or "").strip(),
         })
     return [i for i in items if i["url"] and i["titulo"]]
 
@@ -74,6 +76,8 @@ def municipal_google_news_feeds() -> list[dict]:
             "idioma": "es",
             "activo": True,
             "municipio": municipio,
+            "municipios": [municipio],
+            "departamentos": [depto],
             "nota": "Búsqueda generada desde la lista de municipios de influencia.",
         })
     return feeds
@@ -86,11 +90,17 @@ def iter_feeds(reg: dict) -> list[dict]:
     return feeds
 
 
+def feed_index(reg: dict | None = None) -> dict[str, dict]:
+    if reg is None:
+        reg = json.loads(REGISTRY.read_text()) if REGISTRY.exists() else {}
+    return {feed["id"]: feed for feed in iter_feeds(reg)}
+
+
 def _relevante(item: dict, feed: dict, pat: re.Pattern | None) -> bool:
-    title = item["titulo"].lower()
+    text = f"{item.get('titulo') or ''} {item.get('resumen') or ''}".lower()
     if feed.get("municipio"):
-        return True
-    return not pat or bool(pat.search(title))
+        return not pat or bool(pat.search(text))
+    return not pat or bool(pat.search(text))
 
 
 def run() -> dict:

@@ -265,9 +265,19 @@ class TestFeedsComunitarios(unittest.TestCase):
 
     def test_feed_municipal_no_depende_del_filtro_general(self):
         from community_feeds import _relevante
-        item = {"titulo": "Afectaciones reportadas en Armenia"}
+        import re
+        pat = re.compile("sismo|terremoto|temblor")
+        item = {"titulo": "Sismo deja afectaciones reportadas en Armenia"}
         feed = {"municipio": "Armenia"}
-        self.assertTrue(_relevante(item, feed, None))
+        self.assertTrue(_relevante(item, feed, pat))
+        self.assertFalse(_relevante({"titulo": "Pico y placa en Armenia"}, feed, pat))
+
+    def test_etiqueta_municipios_y_departamentos_en_texto(self):
+        from municipios import match_departamentos_text, match_municipios_text
+        municipios = match_municipios_text("Sismo en Zarzal y Armenia")
+        self.assertEqual(municipios, ["Armenia", "Zarzal"])
+        self.assertEqual(match_departamentos_text("", municipios),
+                         ["Quindío", "Valle del Cauca"])
 
 
 TOPONYMS = None

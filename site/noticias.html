@@ -22,6 +22,8 @@
   .chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px;
           background: color-mix(in srgb, var(--s1) 12%, var(--surface-1));
           border: 1px solid var(--border); margin-left: 6px; }
+  .chip.mun { background: color-mix(in srgb, var(--s2) 12%, var(--surface-1)); }
+  .chip.dep { background: color-mix(in srgb, var(--warning) 12%, var(--surface-1)); }
   #resumen { color: var(--ink-2); font-size: 13px; margin: 4px 0 14px; }
   .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px 30px; }
 </style>
@@ -39,11 +41,13 @@
   <div id="filtros">
     <input id="buscar" type="search" placeholder="Buscar en titulares…">
     <select id="f-aoi"><option value="">Todas las zonas</option></select>
+    <select id="f-depto"><option value="">Todos los departamentos</option></select>
+    <select id="f-municipio"><option value="">Todos los municipios</option></select>
     <select id="f-origen"><option value="">Todas las fuentes</option></select>
   </div>
   <p id="resumen">Cargando…</p>
   <ul id="lista"></ul>
 </div>
-<script src="noticias.js?v=20260815-2"></script>
+<script src="noticias.js?v=20260815-3"></script>
 </body>
 </html>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Mon, 10 Aug 26 00:00:00 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;VENTA LOTES&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&amp;gt;Mié, 22/04/2026 - 08:27&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+  &amp;lt;div class="field field--name-field-lp-price field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Precio&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;4.500.000.000&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=81819&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3363" hreflang="es"&amp;gt;Inmuebles&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Subtítulo&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;3122612255&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 10 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-10-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 10 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/65" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Luis David Patiño&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-10T00:00:00-05:00" title="Lunes, Agosto 10, 2026 - 00:00" class="datetime"&amp;gt;Lun, 10/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90303&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="rU4W8KH3gp-OB8J04_owNqwu9n1H3iGmd3KhZ_l-h3M"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="lazy" src="/sites/default/files/portadas/2026-08/LP-01A-10-08-26%20%281%29.jpg" width="794" height="1035" alt="Portada 10 de agosto del 2026" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 10 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Mon, 10 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">90303 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Encuentro de la comunidad Mujeres Con Ideales</title>
+  <link>https://www.lapatria.com/galerias/encuentro-de-la-comunidad-mujeres-con-ideales</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Encuentro de la comunidad Mujeres Con Ideales&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/59" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Alejandro Calderin&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-10T00:00:00-05:00" title="Lunes, Agosto 10, 2026 - 00:00" class="datetime"&amp;gt;Lun, 10/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;En el restaurante La Beautiful Comida Inusual se realizó el encuentro de la comunidad Mujeres Con Ideales en donde compartieron un espacio de diferentes charlas.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/encuentro-de-la-comunidad-mujeres-con-ideales" data-a2a-title="Encuentro de la comunidad Mujeres Con Ideales"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fencuentro-de-la-comunidad-mujeres-con-ideales&amp;amp;amp;title=Encuentro%20de%20la%20comunidad%20Mujeres%20Con%20Ideales"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Mon, 10 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">90124 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 9 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-9-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 9 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/33" typeof="schema:Person" property="schema:name" datatype="" content="Santiago Zapata Zapata"&amp;gt;Santiago Zapat…&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-08T18:03:44-05:00" title="Sábado, Agosto 8, 2026 - 18:03" class="datetime"&amp;gt;Sáb, 08/08/2026 - 18:03&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90255&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="7yz6xILBZV2Q-k6E3M2g7jf2Ll8Zc-1G5CLo_x5NHeI"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="lazy" src="/sites/default/files/portadas/2026-08/Portada%209%20de%20agosto%20del%202026.jpg" width="537" height="700" alt="Portada 9 de agosto del 2026" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 9 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Sat, 08 Aug 2026 23:03:44 +0000</pubDate>
+          <dc:creator>Santiago Zapata Zapata</dc:creator>
+          <guid isPermaLink="false">90255 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON AGOSTO 8 - 2026</title>
+  <link>https://www.lapatria.com/publicacion/papel-salmon-agosto-8-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;PAPEL SALMON AGOSTO 8 - 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/38" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;GLORIA LUZ ANGEL&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-08T10:53:58-05:00" title="Sábado, Agosto 8, 2026 - 10:53" class="datetime"&amp;gt;Sáb, 08/08/2026 - 10:53&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90230&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="ER4LtCznWV77Kj2tneyEOByPz-PZ0xP6hxWUMagr3Tw"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="lazy" src="/sites/default/files/portadas/2026-08/Portada%20PAPEL%20SALMON%20AGOSTO%208%20-%202026.jpg" width="450" height="586" alt="PAPEL SALMON AGOSTO 8 - 2026" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Libro que conmemora los 50 años del periódico &amp;lt;em&amp;gt;El País&amp;lt;/em&amp;gt; de España, por Javier Cercas.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Sat, 08 Aug 2026 15:53:58 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">90230 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Entrega de certificados de Icontec</title>
+  <link>https://www.lapatria.com/galerias/entrega-de-certificados-de-icontec</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Entrega de certificados de Icontec&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/59" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Alejandro Calderin&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-08T00:00:00-05:00" title="Sábado, Agosto 8, 2026 - 00:00" class="datetime"&amp;gt;Sáb, 08/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;En el Hotel Carretero se realizó la entrega de certificados y reconocimeintos de Incontec a diferentes compañías de la ciudad.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/entrega-de-certificados-de-icontec" data-a2a-title="Entrega de certificados de Icontec"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fentrega-de-certificados-de-icontec&amp;amp;amp;title=Entrega%20de%20certificados%20de%20Icontec"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Sat, 08 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">90118 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 8 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-8-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 8 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/33" typeof="schema:Person" property="schema:name" datatype="" content="Santiago Zapata Zapata"&amp;gt;Santiago Zapat…&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-07T23:12:40-05:00" title="Viernes, Agosto 7, 2026 - 23:12" class="datetime"&amp;gt;Vie, 07/08/2026 - 23:12&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90216&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="zLqbF-j836BXeMu-8Dx6vPIQXRuqi-BDDfFmYV63Ljo"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="lazy" src="/sites/default/files/portadas/2026-08/Portada%208%20de%20agosto%20del%202026.jpg" width="537" height="700" alt="Portada 8 de agosto del 2026" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 8 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Sat, 08 Aug 2026 04:12:40 +0000</pubDate>
+          <dc:creator>Santiago Zapata Zapata</dc:creator>
+          <guid isPermaLink="false">90216 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 7 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-7-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 7 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/33" typeof="schema:Person" property="schema:name" datatype="" content="Santiago Zapata Zapata"&amp;gt;Santiago Zapat…&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-07T00:11:14-05:00" title="Viernes, Agosto 7, 2026 - 00:11" class="datetime"&amp;gt;Vie, 07/08/2026 - 00:11&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90144&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="bzJXqwsGW-sjCs7drcaDEkDMSxpWrM5DhoEO--RXdIY"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="lazy" src="/sites/default/files/portadas/2026-08/Portada%207%20de%20agosto%20del%202026.jpg" width="537" height="700" alt="Portada 7 de agosto del 2026" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 7 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Fri, 07 Aug 2026 05:11:14 +0000</pubDate>
+          <dc:creator>Santiago Zapata Zapata</dc:creator>
+          <guid isPermaLink="false">90144 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>        Homenaje a una vida dedicada a salvar corazones</title>
+  <link>https://www.lapatria.com/galerias/homenaje-una-vida-dedicada-salvar-corazones</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;        Homenaje a una vida dedicada a salvar corazones&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Anónimo (no verificado)&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-07T00:00:00-05:00" title="Viernes, Agosto 7, 2026 - 00:00" class="datetime"&amp;gt;Vie, 07/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;La Fundación Pequeño Corazón y el trabajo de tres décadas de Mónica Giraldo Mejía fueron reconocidos por LA PATRIA con la distinción Caldense del Año 2025. Durante la ceremonia, realizada en la Basílica Menor de la Inmaculada Concepción, la homenajeada destacó que detrás de las 9 mil 600 valoraciones especializadas sin ningún costo y las mil 670 cirugías de corazón gestionadas para niños y jóvenes de todo el país "existe un nombre, una familia, una historia y un corazón que pudo continuar latiendo".&amp;lt;br&amp;gt;&amp;amp;nbsp;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/homenaje-una-vida-dedicada-salvar-corazones" data-a2a-title="        Homenaje a una vida dedicada a salvar corazones"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fhomenaje-una-vida-dedicada-salvar-corazones&amp;amp;amp;title=%20%20%20%20%20%20%20%20Homenaje%20a%20una%20vida%20dedicada%20a%20salvar%20corazones"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Fri, 07 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Anónimo</dc:creator>
+          <guid isPermaLink="false">90140 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Celebran sexto aniversario</title>
+  <link>https://www.lapatria.com/galerias/celebran-sexto-aniversario</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Celebran sexto aniversario&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/59" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Alejandro Calderin&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-07T00:00:00-05:00" title="Viernes, Agosto 7, 2026 - 00:00" class="datetime"&amp;gt;Vie, 07/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;La Red de Escritoras de Caldas cumplió el pasado 25 de julio seis años de trabajo cultural y social para contribuir al fortalecimiento del pensamiento y lo celebró junto con un grupo de mujeres y hombres asistente a la celebración.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/celebran-sexto-aniversario" data-a2a-title="Celebran sexto aniversario"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fcelebran-sexto-aniversario&amp;amp;amp;title=Celebran%20sexto%20aniversario"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Fri, 07 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">90107 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>

@@ -18,6 +18,7 @@
       "url": "https://www.eltiempo.com/rss/colombia.xml",
       "idioma": "es",
       "activo": true,
+      "filtro": "evento_sismico",
       "nota": "Sección Colombia; se filtra por palabras clave del sismo."
     },
     {
@@ -27,6 +28,9 @@
       "url": "https://www.eldiario.com.co/feed/",
       "idioma": "es",
       "activo": true,
+      "departamentos": ["Risaralda"],
+      "municipios": ["Pereira", "Dosquebradas", "Santa Rosa de Cabal"],
+      "filtro": "evento_sismico",
       "nota": "Prensa regional de Pereira/Risaralda, zona AOI02."
     },
     {
@@ -36,7 +40,46 @@
       "url": "https://choco7dias.com/feed/",
       "idioma": "es",
       "activo": true,
+      "departamentos": ["Chocó"],
+      "municipios": ["Quibdó", "Istmina", "San José del Palmar"],
+      "filtro": "evento_sismico",
       "nota": "Prensa regional del Chocó (Quibdó, Istmina): la zona con menos cobertura internacional."
+    },
+    {
+      "id": "diario-occidente",
+      "nombre": "Diario Occidente — Valle del Cauca",
+      "tipo": "rss",
+      "url": "https://occidente.co/feed/",
+      "idioma": "es",
+      "activo": true,
+      "departamentos": ["Valle del Cauca"],
+      "municipios": ["Cali", "Buenaventura", "Buga", "Cartago", "Dagua", "Jamundí", "Palmira", "Roldanillo", "Sevilla", "Tuluá", "Zarzal"],
+      "filtro": "evento_sismico",
+      "nota": "RSS regional del Valle del Cauca; se filtra por palabras clave del sismo."
+    },
+    {
+      "id": "qhubo-cali",
+      "nombre": "Q'hubo Cali — Valle del Cauca",
+      "tipo": "rss",
+      "url": "https://www.qhubocali.com/feed/",
+      "idioma": "es",
+      "activo": true,
+      "departamentos": ["Valle del Cauca"],
+      "municipios": ["Cali", "Buenaventura", "Palmira", "Jamundí"],
+      "filtro": "evento_sismico",
+      "nota": "RSS local de Cali/Valle; se filtra por palabras clave del sismo."
+    },
+    {
+      "id": "la-patria-caldas",
+      "nombre": "La Patria — Caldas",
+      "tipo": "rss",
+      "url": "https://www.lapatria.com/rss.xml",
+      "idioma": "es",
+      "activo": true,
+      "departamentos": ["Caldas"],
+      "municipios": ["Manizales", "Villamaría"],
+      "filtro": "evento_sismico",
+      "nota": "RSS regional de Caldas/Eje Cafetero; se filtra por palabras clave del sismo."
     },
     {
       "id": "elcolombiano",
@@ -45,6 +88,7 @@
       "url": "https://www.elcolombiano.com/rss/Colombia.xml",
       "idioma": "es",
       "activo": true,
+      "filtro": "evento_sismico",
       "nota": "Sección Colombia."
     },
     {
@@ -54,7 +98,32 @@
       "url": "https://news.google.com/rss/search?q=terremoto+Colombia&hl=es-CO&gl=CO&ceid=CO:es",
       "idioma": "es",
       "activo": true,
+      "filtro": "evento_sismico",
       "nota": "Agregador: cubre El Espectador y demás medios sin RSS propio. El Espectador no expone RSS directo (verificado 4 rutas, ago-2026)."
+    },
+    {
+      "id": "googlenews-elpais-cali",
+      "nombre": "Google News — El País Cali",
+      "tipo": "rss",
+      "url": "https://news.google.com/rss/search?q=site%3Aelpais.com.co+%28terremoto+OR+sismo+OR+temblor%29&hl=es-CO&gl=CO&ceid=CO:es",
+      "idioma": "es",
+      "activo": true,
+      "departamentos": ["Valle del Cauca"],
+      "municipios": ["Cali", "Buenaventura", "Palmira", "Jamundí"],
+      "filtro": "evento_sismico",
+      "nota": "El País no expuso RSS directo válido; se usa Google News RSS restringido al dominio."
+    },
+    {
+      "id": "googlenews-cronica-quindio",
+      "nombre": "Google News — La Crónica del Quindío",
+      "tipo": "rss",
+      "url": "https://news.google.com/rss/search?q=site%3Acronicadelquindio.com+%28terremoto+OR+sismo+OR+temblor%29&hl=es-CO&gl=CO&ceid=CO:es",
+      "idioma": "es",
+      "activo": true,
+      "departamentos": ["Quindío"],
+      "municipios": ["Armenia", "Calarcá", "La Tebaida", "Montenegro", "Salento"],
+      "filtro": "evento_sismico",
+      "nota": "La Crónica no expuso RSS/Atom directo válido; se usa Google News RSS restringido al dominio."
     }
   ],
   "palabras_clave": ["terremoto", "sismo", "temblor", "earthquake", "réplica", "replicas",

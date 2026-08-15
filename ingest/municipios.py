@@ -77,6 +77,22 @@ def _mentioned(text: str, tops: list[str]) -> bool:
     return any(re.search(rf"\b{re.escape(t)}\b", n) for t in tops)
 
 
+def match_municipios_text(text: str) -> list[str]:
+    return [mun for mun, meta in MUNICIPIOS.items()
+            if _mentioned(text, meta["toponimos"])]
+
+
+def match_departamentos_text(text: str, municipios: list[str] | None = None) -> list[str]:
+    found = {MUNICIPIOS[m]["departamento"] for m in (municipios or [])
+             if m in MUNICIPIOS}
+    n = _norm(text)
+    for meta in MUNICIPIOS.values():
+        depto = meta["departamento"]
+        if re.search(rf"\b{re.escape(_norm(depto))}\b", n):
+            found.add(depto)
+    return sorted(found)
+
+
 def _dyfi_municipio(name: str) -> str:
     m = re.search(r"<br>([^<]+)$", name or "")
     return m.group(1).strip() if m else (name or "").strip()

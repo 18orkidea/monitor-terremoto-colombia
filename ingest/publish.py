@@ -283,27 +283,44 @@ def run() -> dict:
             evento["felt"] = ev.get("properties", {}).get("felt")
             break
 
-    # página de titulares: EMM completo + feeds comunitarios, con AOIs emparejados
+    # página de titulares: EMM completo + feeds comunitarios, con AOIs y
+    # territorio emparejados para filtros por departamento/municipio.
     from crosscheck import match_text_to_aois
+    from municipios import match_departamentos_text, match_municipios_text
+    from sources.community_feeds import feed_index
+    feeds = feed_index()
+
+    def noticia(fecha, titulo, medio, url, origen, extra_text="", feed=None):
+        text = f"{titulo} {medio or ''} {extra_text or ''}"
+        municipios = set(match_municipios_text(text))
+        departamentos = set(match_departamentos_text(text, sorted(municipios)))
+        if feed:
+            municipios.update(feed.get("municipios") or [])
+            departamentos.update(feed.get("departamentos") or [])
+        return {
+            "fecha": fecha, "titulo": titulo[:200], "medio": medio, "url": url,
+            "origen": origen,
+            "aois": match_text_to_aois(text),
+            "municipios": sorted(municipios),
+            "departamentos": sorted(departamentos),
+        }
+
     noticias = []
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
         f = d / "gdacs_emm.json"
         if f.exists():
             for x in json.loads(f.read_text()):
                 titulo = (x.get("title") or "").strip()
-                noticias.append({
-                    "fecha": (x.get("pubdate") or "")[:19], "titulo": titulo[:200],
-                    "medio": x.get("source"), "url": x.get("link"),
-                    "origen": "gdacs-emm",
-                    "aois": match_text_to_aois(
-                        titulo + " " + (x.get("description") or "")[:300]),
-                })
+                noticias.append(noticia(
+                    (x.get("pubdate") or "")[:19], titulo, x.get("source"),
+                    x.get("link"), "gdacs-emm",
+                    extra_text=(x.get("description") or "")[:300],
+                    feed=feeds.get("gdacs-emm")))
             break
     for url, fid, fecha, titulo, medio in conn.execute(
             "SELECT url, feed_id, fecha, titulo, medio FROM news_items"):
-        noticias.append({"fecha": fecha, "titulo": titulo, "medio": medio,
-                         "url": url, "origen": fid,
-                         "aois": match_text_to_aois(titulo)})
+        noticias.append(noticia(
+            fecha, titulo, medio, url, fid, feed=feeds.get(fid)))
     noticias.sort(key=lambda n: n.get("fecha") or "", reverse=True)
     (PUBLIC / "noticias.json").write_text(json.dumps(
         {"generado": snap, "total": len(noticias), "items": noticias},

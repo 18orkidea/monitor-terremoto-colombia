@@ -203,6 +203,15 @@ class TestPublicacionBienFormada(unittest.TestCase):
         self.assertGreaterEqual(mon["municipios"]["total"],
                                 mon["municipios"]["fuera_aoi"])
 
+    def test_noticias_tienen_etiquetas_territoriales(self):
+        p = ROOT / "data" / "public" / "noticias.json"
+        if not p.exists():
+            self.skipTest("sin noticias.json")
+        data = json.loads(p.read_text())
+        tagged = [n for n in data["items"]
+                  if n.get("departamentos") or n.get("municipios")]
+        self.assertGreater(len(tagged), 0)
+
     def test_exposicion_coherente(self):
         exp = self._mon().get("exposicion")
         if not exp:
