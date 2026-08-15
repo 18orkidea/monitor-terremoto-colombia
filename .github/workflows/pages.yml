@@ -33,6 +33,9 @@ jobs:
           find data/media -maxdepth 1 \( -name '*.jpg' -o -name '*.png' -o -name '*.webp' \) \
             -size -25M -exec cp {} dist/data/media/ \; 2>/dev/null || true
           touch dist/.nojekyll
+          # raíz del dominio → /site/ (redirección relativa: vale para
+          # brechas.orkidea.eu y para 18orkidea.github.io/monitor-…/)
+          printf '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./site/"><title>Monitor de brechas</title></head><body><a href="./site/">Ir al monitor</a></body></html>' > dist/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

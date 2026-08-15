@@ -1,6 +1,6 @@
 /* Balances rastreados: feed público del Worker Cloudflare. */
 (async function () {
-  const FEED = "https://monitor-terremoto-colombia-oficiales-ai.gestion-321.workers.dev/oficiales.json";
+  const FEED = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json";
   const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const fmt = (n) => n == null ? "—" : Number(n).toLocaleString("es-CO", { maximumFractionDigits: 0 });
   const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ({
