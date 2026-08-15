@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "monitor-terremoto-colombia-ai-view",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-15",
+  "ai": {
+    "binding": "AI"
+  },
+  "vars": {
+    "DATA_BASE_URL": "https://raw.githubusercontent.com/JP-infoRes/monitor-terremoto-colombia/main/data/public"
+  }
+}
