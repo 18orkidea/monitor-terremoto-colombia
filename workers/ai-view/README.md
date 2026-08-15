@@ -50,6 +50,10 @@ El flujo diario es `search -> scrape -> extracción`:
 6. Publica las cifras extraídas, siempre con `requiere_revision_humana:true`; prensa y
    web abierta no se promueven a EDAN ni a coincidencia oficial.
 
+Cada ejecución conserva `search_date`, `search_query` y `snapshot_id`. Para Firecrawl el
+`snapshot_id` combina fecha y URL, de modo que el mismo medio puede aparecer en varios días
+y servir para reconstruir cómo evolucionaron las cifras.
+
 Ejecución manual con fecha:
 
 ```bash
@@ -57,6 +61,17 @@ curl -X POST "$WORKER/internal/run" \
   -H "Authorization: Bearer $INTERNAL_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"date":"15-08-2026"}'
+```
+
+Carga histórica desde el inicio del evento:
+
+```bash
+for d in 10-08-2026 11-08-2026 12-08-2026 13-08-2026 14-08-2026 15-08-2026; do
+  curl -X POST "$WORKER/internal/run" \
+    -H "Authorization: Bearer $INTERNAL_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d "{\"date\":\"$d\"}"
+done
 ```
 
 ## Canales analizados

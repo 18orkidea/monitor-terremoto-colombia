@@ -25,6 +25,10 @@ const GENERIC_PAGE_TERMS = [
   "inicio transparencia"
 ];
 
+const UNRELATED_EVENT_TERMS = [
+  "indonesia", "peru", "mexico", "chile", "japon", "japón", "rusia", "turquia", "turquía"
+];
+
 const FIRECRAWL_DAILY_QUERY_TEMPLATES = [
   {
     label: "UNGRD reporte terremoto por fecha",
@@ -256,9 +260,9 @@ async function runCollection(env, options = {}) {
   const seen = new Map(
     (previous.items || [])
       .filter((item) => item.source_id !== "ungrd-firecrawl-multicanal")
-      .filter((item) => item.source_id !== "firecrawl-busqueda-diaria")
+      .filter((item) => item.source_id !== "firecrawl-busqueda-diaria" || (item.search_date && item.search_date !== runDate))
       .filter((item) => isSpecificEventEvidence(`${item.title} ${item.cita} ${item.text_excerpt}`))
-      .map((item) => [item.url, item])
+      .map((item) => [itemKey(item), item])
   );
   const candidates = [];
   const sourceAnalysis = [];
@@ -270,13 +274,15 @@ async function runCollection(env, options = {}) {
   }
 
   for (const candidate of candidates.slice(0, 40)) {
-    if (seen.has(candidate.url)) continue;
+    const key = itemKey(candidate);
+    if (seen.has(key)) continue;
     try {
       const item = await processDocument(candidate, env);
-      if (item && item.relacionado_evento && item.evidencia_evento_especifico) seen.set(item.url, item);
+      if (item && item.relacionado_evento && item.evidencia_evento_especifico) seen.set(itemKey(item), item);
     } catch (error) {
-      seen.set(candidate.url, {
+      seen.set(key, {
         ...candidate,
+        snapshot_id: key,
         relacionado_evento: false,
         estado: "error_extraccion",
         error: String(error.message || error),
@@ -451,6 +457,8 @@ async function discoverWithFirecrawl(entry, source, env, runDate) {
       prefetched_text: scraped.text || result.description || result.title || "",
       source: candidateSource,
       original_source_level: sourceLevel,
+      search_date: runDate,
+      search_query: result.query,
       discovered_from: `firecrawl:${result.query_label}`,
       discovery_role: entry.role,
       extraction_method: scraped.ok ? "firecrawl_search_then_scrape" : "firecrawl_search_snippet",
@@ -603,6 +611,9 @@ async function processDocument(candidate, env) {
   return {
     url: candidate.url,
     title: candidate.title,
+    snapshot_id: itemKey(candidate),
+    search_date: candidate.search_date || null,
+    search_query: candidate.search_query || null,
     source_id: candidate.source.id,
     source_name: candidate.source.name,
     source_level: candidate.source.level,
@@ -688,7 +699,9 @@ function structureOfficialText(text, candidate) {
       viviendas_averiadas: findMetricNumber(text, "viviendas_averiadas"),
       viviendas_destruidas: findMetricNumber(text, "viviendas_destruidas"),
       heridos: findMetricNumber(text, "heridos"),
-      fallecidos: findMetricNumber(text, "fallecidos")
+      fallecidos: findMetricNumber(text, "fallecidos"),
+      desaparecidos: findMetricNumber(text, "desaparecidos"),
+      rescatados: findMetricNumber(text, "rescatados")
     },
     requiere_revision_humana: true,
     confianza: confidence(text),
@@ -771,6 +784,14 @@ function findMetricNumber(text, metric) {
     fallecidos: [
       new RegExp(`${number}\\s+(fallecid|muert)`, "i"),
       new RegExp(`(fallecid|muert)\\w*\\D{0,30}${number}`, "i")
+    ],
+    desaparecidos: [
+      new RegExp(`${number}\\s+desaparecid`, "i"),
+      new RegExp(`desaparecid\\w*\\D{0,30}${number}`, "i")
+    ],
+    rescatados: [
+      new RegExp(`${number}\\s+rescatad`, "i"),
+      new RegExp(`rescatad\\w*\\D{0,30}${number}`, "i")
     ]
   };
   for (const pattern of patterns[metric] || []) {
@@ -839,7 +860,8 @@ function classifySourceLevel(url, text) {
 
 function isSpecificEventEvidence(text) {
   if (isGenericPage(text)) return false;
-  return hasEventTerm(text) && (hasDamageTerm(text) || hasImpactedPlace(text) || hasEventDate(text));
+  if (hasUnrelatedEventContext(text)) return false;
+  return hasEventTerm(text) && hasColombiaContext(text) && (hasDamageTerm(text) || hasImpactedPlace(text) || hasEventDate(text));
 }
 
 function hasEventTerm(text) {
@@ -855,6 +877,18 @@ function hasDamageTerm(text) {
 function hasImpactedPlace(text) {
   const n = norm(text);
   return MUNICIPIOS.some(([name, dept]) => n.includes(norm(name)) || n.includes(norm(dept)));
+}
+
+function hasColombiaContext(text) {
+  const n = norm(text);
+  return n.includes("colombia") || n.includes("ungrd") || n.includes("sgc") || hasImpactedPlace(text);
+}
+
+function hasUnrelatedEventContext(text) {
+  const n = norm(text).slice(0, 500);
+  return UNRELATED_EVENT_TERMS.some((term) => n.includes(norm(term))) &&
+    !n.includes("colombia") &&
+    !n.includes("ungrd");
 }
 
 function hasEventDate(text) {
@@ -884,6 +918,13 @@ function dedupe(items, keyFn) {
     seen.add(key);
     return true;
   });
+}
+
+function itemKey(item) {
+  if (item.source_id === "firecrawl-busqueda-diaria" || item.source?.id === "firecrawl-busqueda-diaria") {
+    return `${item.search_date || "sin-fecha"}:${item.url}`;
+  }
+  return item.url;
 }
 
 function stripHtml(html) {
