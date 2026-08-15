@@ -3,7 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Monitor de brechas — Terremoto Colombia M7.4 (EMSR916)</title>
+<title>Terremoto de Colombia 2026 (M7.4): mapa de daños por ciudad — Cali, Pereira, Quibdó, Buenaventura | Monitor de brechas</title>
+<meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite Copernicus EMSR916, reportes ciudadanos con foto, intensidad USGS y comparación diaria con las fuentes oficiales UNGRD.">
+<meta name="robots" content="index, follow">
+<!-- Al publicar (GitHub Pages / dominio propio), añadir:
+<link rel="canonical" href="https://TU-DOMINIO/site/">
+<meta property="og:url" content="https://TU-DOMINIO/site/"> -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños y monitor de brechas de reporte">
+<meta property="og:description" content="Daños verificados por satélite (Copernicus EMSR916), 430+ reportes ciudadanos con foto y la brecha de las fuentes oficiales, actualizado a diario. Cali, Pereira, Quibdó, Istmina y Buenaventura.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños por ciudad">
+<meta name="twitter:description" content="Mapa interactivo con daños satelitales, reportes ciudadanos y brechas de reporte oficial, actualizado a diario.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Monitor de brechas — Terremoto de Colombia 2026",
+  "inLanguage": "es",
+  "about": {
+    "@type": "Event",
+    "name": "Terremoto de Colombia de 2026 (M7.4)",
+    "startDate": "2026-08-10T12:30:00Z",
+    "location": {
+      "@type": "Place",
+      "name": "San José del Palmar, Chocó, Colombia",
+      "geo": { "@type": "GeoCoordinates", "latitude": 4.8436, "longitude": -76.2422 }
+    }
+  },
+  "mainEntity": {
+    "@type": "Dataset",
+    "name": "Cruce diario de daños del terremoto de Colombia 2026",
+    "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
+    "creator": { "@type": "Organization", "name": "Monitor de brechas de reporte de desastres" },
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "temporalCoverage": "2026-08-10/..",
+    "spatialCoverage": { "@type": "Place", "name": "Occidente de Colombia" },
+    "distribution": [
+      { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "../data/public/crosscheck.csv" },
+      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "../data/public/monitor.json" }
+    ]
+  }
+}
+</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -23,6 +66,18 @@
     <a class="btn" href="../data/public/monitor.json" target="_blank">JSON</a>
   </div>
 </header>
+
+<section class="intro">
+  <p>El <strong>terremoto del 10 de agosto de 2026 en Colombia</strong> (magnitud 7,4,
+  epicentro en San José del Palmar, Chocó) es el sismo más fuerte registrado en el país en
+  más de un siglo. Este mapa interactivo reúne, en un solo lugar y con actualización diaria,
+  los <strong>daños verificados por satélite</strong> del programa europeo Copernicus
+  (activación EMSR916) en <strong>Cali, Pereira, Quibdó, Istmina y Buenaventura</strong>,
+  los <strong>reportes ciudadanos con foto</strong> enviados por WhatsApp a través de
+  ChatMap (OpenStreetMap Colombia), la intensidad sísmica de USGS y lo que publican las
+  fuentes oficiales colombianas (UNGRD) — incluyendo lo que <em>no</em> publican: la brecha
+  de reporte que este monitor mide y documenta con cada cifra rastreable a su fuente.</p>
+</section>
 
 <section class="banner" id="banner-brechas"></section>
 

@@ -53,6 +53,8 @@ h2 { font-size: 15px; margin: 0 0 8px; }
 .btn.primary {
   background: var(--s1); color: #fff; border-color: transparent; font-weight: 600;
 }
+.intro { margin: 4px 20px 0; max-width: 1000px; }
+.intro p { font-size: 13.5px; line-height: 1.6; color: var(--ink-2); margin: 0; }
 .banner {
   margin: 8px 20px; padding: 10px 14px; border-radius: 8px;
   background: color-mix(in srgb, var(--warning) 14%, var(--surface-1));
