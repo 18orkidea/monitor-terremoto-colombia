@@ -21,6 +21,16 @@ from geo import MMIGrid, point_in_wkt_polygon
 QUAKE_TS = "2026-08-10T12:30:00"
 
 
+def _bbox_area(wkt: str) -> float:
+    from geo import wkt_to_rings
+    rings = wkt_to_rings(wkt or "")
+    if not rings:
+        return float("inf")
+    xs = [p[0] for p in rings[0]]
+    ys = [p[1] for p in rings[0]]
+    return (max(xs) - min(xs)) * (max(ys) - min(ys))
+
+
 def run() -> dict:
     conn = db()
     grid = None
@@ -67,7 +77,9 @@ def run() -> dict:
                 score += 1
         aoi_hit = None
         if lat is not None and lon is not None:
-            for name, wkt in aoi_extents.items():
+            # el más específico gana: probar AOIs de menor a mayor área
+            for name, wkt in sorted(aoi_extents.items(),
+                                    key=lambda kv: _bbox_area(kv[1])):
                 if wkt and point_in_wkt_polygon(lon, lat, wkt):
                     aoi_hit = name
                     break

@@ -1,0 +1,120 @@
+"""Capas vectoriales de daño de Copernicus (el detalle que las stats resumen).
+
+Por cada AOI, del producto más reciente:
+  builtUpP             → puntos de edificios con damage_gra (Destroyed/Damaged/…)
+  ancillaryCrisisInfoP → puntos de interrupciones / info de crisis
+  transportationL      → tramos de vía afectados
+  notAnalysedA         → zonas SIN analizar (la brecha de cobertura, literal)
+
+Salida: data/public/damage_points.geojson, damage_lines.geojson,
+not_analysed.geojson — cada feature lleva `aoi` y `layer` para mapa y tabla.
+"""
+from __future__ import annotations
+
+import json
+from collections import Counter
+from pathlib import Path
+
+from common import db, fetch_json, snapshot_dir, SNAPSHOTS, PUBLIC
+
+CODE = "EMSR916"
+LAYER_KINDS = {
+    "builtUpP": "points",
+    "ancillaryCrisisInfoP": "points",
+    "transportationL": "lines",
+    "notAnalysedA": "areas",
+}
+
+
+def _latest_snapshot_activation():
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / f"copernicus_{CODE}.json"
+        if f.exists():
+            data = json.loads(f.read_text())
+            if data.get("results"):
+                return data["results"][0]
+    return None
+
+
+def _best_product(aoi: dict):
+    prods = [p for p in aoi.get("products") or [] if p.get("layers")]
+    if not prods:
+        return None
+    return max(prods, key=lambda p: (p.get("monitoringNumber") or 0,
+                                     (p.get("version") or {}).get("number") or 0))
+
+
+def run() -> dict:
+    act = _latest_snapshot_activation()
+    if not act:
+        return {"error": "sin snapshot de la activación"}
+    conn = db()
+    out = {"capas": 0, "features": {}}
+    buckets = {"points": [], "lines": [], "areas": []}
+
+    for aoi in act.get("aois") or []:
+        p = _best_product(aoi)
+        if not p:
+            continue
+        for layer in p.get("layers") or []:
+            name = layer.get("name", "")
+            jurl = layer.get("json")
+            kind = next((k for key, k in LAYER_KINDS.items() if key in name), None)
+            if not jurl or not kind:
+                continue
+            fname = name.split("/")[-1].replace("_VT", "") + ".json"
+            st, gj = fetch_json(jurl, note=f"capa {fname}",
+                                snapshot_name=f"layer_{fname}", conn=conn)
+            if not gj:
+                continue
+            out["capas"] += 1
+            layer_key = next(key for key in LAYER_KINDS if key in name)
+            for f in gj.get("features") or []:
+                f.setdefault("properties", {})
+                # la red de transporte viene completa: quedarnos solo con lo
+                # afectado (el resto son 10k tramos "No visible damage")
+                if layer_key == "transportationL" and \
+                        f["properties"].get("damage_gra") in (
+                            "No visible damage", "Not Analysed", None):
+                    continue
+                f["properties"]["aoi"] = aoi.get("name")
+                f["properties"]["layer"] = layer_key
+                buckets[kind].append(f)
+
+    PUBLIC.mkdir(parents=True, exist_ok=True)
+    for kind, fname in (("points", "damage_points.geojson"),
+                        ("lines", "damage_lines.geojson"),
+                        ("areas", "not_analysed.geojson")):
+        (PUBLIC / fname).write_text(json.dumps(
+            {"type": "FeatureCollection", "features": buckets[kind]},
+            ensure_ascii=False))
+        out["features"][kind] = len(buckets[kind])
+    conn.commit()
+    conn.close()
+    return out
+
+
+def counts_by_aoi() -> dict:
+    """Conteos por AOI y grado, para la tabla: {aoi: {grado|categoria: n}}."""
+    res: dict = {}
+    p = PUBLIC / "damage_points.geojson"
+    if p.exists():
+        for f in json.loads(p.read_text())["features"]:
+            pr = f["properties"]
+            aoi = pr.get("aoi")
+            if pr.get("layer") == "builtUpP":
+                key = pr.get("damage_gra") or "Sin grado"
+            else:
+                key = "Interrupciones/crisis"
+            res.setdefault(aoi, Counter())[key] += 1
+    l = PUBLIC / "damage_lines.geojson"
+    if l.exists():
+        for f in json.loads(l.read_text())["features"]:
+            pr = f["properties"]
+            res.setdefault(pr.get("aoi"), Counter())["Vías dañadas"] += 1
+    return {a: dict(c) for a, c in res.items()}
+
+
+if __name__ == "__main__":
+    print(json.dumps(run(), indent=1))
+    print(json.dumps(counts_by_aoi(), indent=1, ensure_ascii=False))

@@ -13,10 +13,13 @@
     catch { return null; }
   }
   const base = "../data/public/";
-  const [mon, aois, chat, dyfi, sismos, shake, alerts] = await Promise.all([
+  const [mon, aois, chat, dyfi, sismos, shake, alerts,
+         dmgPts, dmgLines, notAnalysed] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
     j(base + "shakemap_mmi.geojson"), j(base + "alerts.json"),
+    j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
+    j(base + "not_analysed.geojson"),
   ]);
   if (!mon) {
     document.getElementById("banner-brechas").textContent =
@@ -72,6 +75,63 @@
     map.fitBounds(layers["Zonas Copernicus (AOI)"].getBounds().pad(0.15));
   } else { map.setView([4.5, -76.3], 8); }
 
+  // ---- detecciones de daño de Copernicus (la faceta punto a punto)
+  const GRADO_COLOR = {
+    "Destroyed": css("--critical"), "Damaged": "#ec835a",
+    "Possibly damaged": css("--warning"),
+  };
+  const GRADO_ES = { "Destroyed": "Destruido", "Damaged": "Dañado",
+                     "Possibly damaged": "Posiblemente dañado" };
+  if (dmgPts && dmgPts.features.length) {
+    const edificios = { type: "FeatureCollection",
+      features: dmgPts.features.filter((f) => f.properties.layer === "builtUpP") };
+    const crisis = { type: "FeatureCollection",
+      features: dmgPts.features.filter((f) => f.properties.layer !== "builtUpP") };
+    layers[`Edificios dañados — satélite (${edificios.features.length})`] =
+      L.geoJSON(edificios, {
+        pointToLayer: (f, ll) => L.circleMarker(ll, {
+          radius: 5.5, weight: 1.5, color: "#fff", fillOpacity: 0.9,
+          fillColor: GRADO_COLOR[f.properties.damage_gra] || css("--muted"),
+        }),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          l.bindPopup(`<strong>${GRADO_ES[p.damage_gra] || p.damage_gra}</strong>` +
+            ` · ${p.simplified || p.obj_type || ""}<br>${p.aoi} · ` +
+            `<span style="color:var(--muted)">${p.det_method || ""} (Copernicus)</span>`);
+        },
+      }).addTo(map);
+    if (crisis.features.length) {
+      layers[`Interrupciones / crisis (${crisis.features.length})`] =
+        L.geoJSON(crisis, {
+          pointToLayer: (f, ll) => L.circleMarker(ll, {
+            radius: 6, weight: 2, color: css("--critical"),
+            fillColor: "#fff", fillOpacity: 0.9,
+          }),
+          onEachFeature: (f, l) => l.bindPopup(
+            `<strong>${f.properties.obj_type || "Interrupción"}</strong><br>` +
+            `${f.properties.aoi} · <span style="color:var(--muted)">Copernicus</span>`),
+        }).addTo(map);
+    }
+  }
+  if (dmgLines && dmgLines.features.length) {
+    layers[`Vías dañadas — satélite (${dmgLines.features.length})`] =
+      L.geoJSON(dmgLines, {
+        style: () => ({ color: css("--critical"), weight: 4, opacity: 0.85 }),
+        onEachFeature: (f, l) => l.bindPopup(
+          `<strong>Vía dañada</strong> · ${f.properties.info || f.properties.obj_type || ""}` +
+          `<br>${f.properties.aoi} · <span style="color:var(--muted)">Copernicus</span>`),
+      }).addTo(map);
+  }
+  if (notAnalysed && notAnalysed.features.length) {
+    layers[`Zonas sin analizar (${notAnalysed.features.length})`] =
+      L.geoJSON(notAnalysed, {
+        style: () => ({ color: css("--muted"), weight: 1, dashArray: "3 4",
+                        fillColor: css("--muted"), fillOpacity: 0.18 }),
+        onEachFeature: (f, l) => l.bindTooltip(
+          `Sin analizar (${f.properties.aoi}) — hueco de cobertura`),
+      });
+  }
+
   if (mon.evento && mon.evento.coordinates) {
     const [elon, elat] = mon.evento.coordinates;
     L.marker([elat, elon], {
@@ -86,8 +146,8 @@
   if (chat) {
     layers[`Reportes ciudadanos ChatMap (${chat.features.length})`] = L.geoJSON(chat, {
       pointToLayer: (f, ll) => L.circleMarker(ll, {
-        radius: 5, color: css("--s2"), weight: 1.5,
-        fillColor: css("--s2"), fillOpacity: 0.55,
+        radius: 5, color: css("--s7"), weight: 1.5,
+        fillColor: css("--s7"), fillOpacity: 0.55,
       }),
       onEachFeature: (f, l) => {
         const p = f.properties;
@@ -144,12 +204,17 @@
   for (const a of mon.aois) {
     const tr = document.createElement("tr");
     const c = a.cruce || {};
+    const det = a.detecciones || {};
+    const grados = ["Destroyed", "Damaged", "Possibly damaged"];
+    const detTxt = grados.some((g) => det[g])
+      ? grados.map((g) => det[g] || 0).join("·") : "—";
     tr.innerHTML =
       `<td><strong>${a.aoi}</strong></td>` +
       `<td><span class="badge" style="--bc:${ESTADO_COLOR[c.estado] || css("--muted")}">${c.etiqueta || c.estado}</span></td>` +
       `<td class="num">${fmt(a.resumen.poblacion)}</td>` +
-      `<td class="num">${fmt(a.resumen.edificios_afectados)}</td>` +
-      `<td class="num">${fmt(a.resumen.vias_afectadas_km)}</td>` +
+      `<td class="num" title="Destruidos · Dañados · Posiblemente dañados (puntos Copernicus)">${detTxt}</td>` +
+      `<td class="num">${fmt(det["Vías dañadas"])}</td>` +
+      `<td class="num">${fmt(det["Interrupciones/crisis"])}</td>` +
       `<td class="num">${fmt(c.n_prensa)}</td>` +
       `<td class="num">${fmt(c.n_ciudadano)}</td>` +
       `<td>${(a.producto.entrega || "—").slice(0, 10)} <span style="color:var(--muted)">${a.producto.tipo} v${a.producto.version}${a.producto.status !== "F" ? " · " + ({ W: "en espera", I: "en producción", N: "no producido" }[a.producto.status] || a.producto.status) : ""}</span></td>`;
@@ -206,13 +271,13 @@
       }
     });
     const line = media.map((d, i) => `${i ? "L" : "M"} ${x(i)} ${y(d.chatmap || 0)}`).join(" ");
-    s += `<path d="${line}" fill="none" stroke="${css("--s2")}" stroke-width="2"/>`;
+    s += `<path d="${line}" fill="none" stroke="${css("--s7")}" stroke-width="2"/>`;
     media.forEach((d, i) => {
-      s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap || 0)}" r="4" fill="${css("--s2")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
+      s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap || 0)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
     });
     s += `<g font-size="11">` +
       `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias (GDACS EMM)</text>` +
-      `<circle cx="${M.l + 190}" cy="9" r="5" fill="${css("--s2")}"/><text x="${M.l + 200}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text>` +
+      `<circle cx="${M.l + 190}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 200}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text>` +
       `<path d="M ${M.l + 420} 4 l 10 0 l -5 8 z" fill="${css("--critical")}"/><text x="${M.l + 434}" y="13" fill="${css("--ink-2")}">Entrega de producto Copernicus</text></g>`;
     s += `</svg>`;
     el.innerHTML = s;

@@ -34,11 +34,12 @@
     "interrupciones_viales": null
    },
    "stats": {},
+   "detecciones": {},
    "cruce": {
     "estado": "no_comparable",
     "n_prensa": 529,
     "n_oficial": 0,
-    "n_ciudadano": 313,
+    "n_ciudadano": 253,
     "etiqueta": "No comparable 1:1"
    },
    "n_productos": 1
@@ -89,11 +90,16 @@
      }
     }
    },
+   "detecciones": {
+    "Destroyed": 2,
+    "Damaged": 3,
+    "Possibly damaged": 2
+   },
    "cruce": {
     "estado": "prensa",
     "n_prensa": 514,
     "n_oficial": 0,
-    "n_ciudadano": 0,
+    "n_ciudadano": 1,
     "etiqueta": "Reportado en prensa, sin validación oficial"
    },
    "n_productos": 1
@@ -160,11 +166,18 @@
      }
     }
    },
+   "detecciones": {
+    "Interrupciones/crisis": 11,
+    "Destroyed": 76,
+    "Damaged": 85,
+    "Possibly damaged": 21,
+    "Vías dañadas": 24
+   },
    "cruce": {
     "estado": "prensa",
     "n_prensa": 372,
     "n_oficial": 0,
-    "n_ciudadano": 0,
+    "n_ciudadano": 53,
     "etiqueta": "Reportado en prensa, sin validación oficial"
    },
    "n_productos": 1
@@ -215,11 +228,16 @@
      }
     }
    },
+   "detecciones": {
+    "Destroyed": 8,
+    "Possibly damaged": 3,
+    "Damaged": 3
+   },
    "cruce": {
     "estado": "prensa",
     "n_prensa": 514,
     "n_oficial": 0,
-    "n_ciudadano": 0,
+    "n_ciudadano": 2,
     "etiqueta": "Reportado en prensa, sin validación oficial"
    },
    "n_productos": 1
@@ -269,6 +287,13 @@
       "affected_raw": null
      }
     }
+   },
+   "detecciones": {
+    "Interrupciones/crisis": 2,
+    "Damaged": 8,
+    "Destroyed": 18,
+    "Possibly damaged": 48,
+    "Vías dañadas": 2
    },
    "cruce": {
     "estado": "prensa",
@@ -324,6 +349,10 @@
       "affected_raw": null
      }
     }
+   },
+   "detecciones": {
+    "Damaged": 9,
+    "Destroyed": 1
    },
    "cruce": {
     "estado": "pendiente",
@@ -394,11 +423,16 @@
      }
     }
    },
+   "detecciones": {
+    "Damaged": 167,
+    "Destroyed": 134,
+    "Possibly damaged": 34
+   },
    "cruce": {
     "estado": "prensa",
     "n_prensa": 27,
     "n_oficial": 0,
-    "n_ciudadano": 0,
+    "n_ciudadano": 4,
     "etiqueta": "Reportado en prensa, sin validación oficial"
    },
    "n_productos": 2

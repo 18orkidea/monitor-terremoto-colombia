@@ -101,6 +101,9 @@ def run() -> dict:
                  " FROM crosscheck WHERE snapshot_date="
                  " (SELECT MAX(snapshot_date) FROM crosscheck)")}
 
+    from sources.copernicus_layers import counts_by_aoi
+    detecciones = counts_by_aoi()
+
     aois, features = [], []
     for aoi, r in best.items():
         _, aoi_num, ptype, mon_n, ver_n, status, feas, exp, deliv, dl = r
@@ -111,6 +114,7 @@ def run() -> dict:
             "producto": {"tipo": ptype, "monitoreo": mon_n, "version": ver_n,
                          "status": status, "entrega": deliv, "descarga": dl},
             "resumen": resumen_aoi(stats), "stats": stats,
+            "detecciones": detecciones.get(aoi) or {},
             "cruce": {**cc, "etiqueta": ESTADO_LABEL.get(cc["estado"], cc["estado"])},
             "n_productos": len(all_prods.get(aoi, [])),
         }
