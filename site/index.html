@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Terremoto de Colombia 2026 (M7.4): mapa de daños por ciudad — Cali, Pereira, Quibdó, Buenaventura | Monitor de brechas</title>
-<meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite Copernicus EMSR916, reportes ciudadanos con foto, intensidad USGS y comparación diaria con las fuentes oficiales UNGRD.">
+<title>Terremoto de Colombia 2026 (M7.4): daños, municipios y prensa — Cali, Pereira, Quibdó, Buenaventura | Monitor de brechas</title>
+<meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite Copernicus EMSR916, municipios con prensa o intensidad percibida, población DANE, reportes ciudadanos, USGS y brecha frente a fuentes oficiales UNGRD.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://brechas.orkidea.eu/site/">
 <meta property="og:url" content="https://brechas.orkidea.eu/site/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños y monitor de brechas de reporte">
-<meta property="og:description" content="Daños verificados por satélite (Copernicus EMSR916), 430+ reportes ciudadanos con foto y la brecha de las fuentes oficiales, actualizado a diario. Cali, Pereira, Quibdó, Istmina y Buenaventura.">
+<meta property="og:description" content="Daños verificados por satélite (Copernicus EMSR916), municipios mencionados en prensa o DYFI, población DANE, 430+ reportes ciudadanos con foto y brecha de fuentes oficiales.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños por ciudad">
 <meta name="twitter:description" content="Mapa interactivo con daños satelitales, reportes ciudadanos y brechas de reporte oficial, actualizado a diario.">
@@ -34,7 +34,7 @@
   "mainEntity": {
     "@type": "Dataset",
     "name": "Cruce diario de daños del terremoto de Colombia 2026",
-    "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
+    "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), municipios con prensa o intensidad percibida, población DANE 2026, reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
     "creator": { "@type": "Organization", "name": "Monitor de brechas de reporte de desastres" },
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "temporalCoverage": "2026-08-10/..",
@@ -94,7 +94,7 @@
         <th class="num" title="Total de edificios detectados con daño por fotointerpretación satelital (capa builtUpP de Copernicus) y, entre paréntesis, el desglose por grado: destruidos · dañados · posiblemente dañados. La suma de las 6 zonas (622) coincide con el total declarado por la activación. Cada punto es visible en el mapa.">Edif. satélite<br>(destr.·dañ.·posib.)</th>
         <th class="num" title="Tramos de vía con daño visible desde satélite (capa transportationL, excluidos los tramos sin daño).">Vías dañ.</th>
         <th class="num" title="Interrupciones viales y puntos de información de crisis detectados por Copernicus (capa ancillaryCrisisInfoP).">Interr.</th>
-        <th class="num" title="Noticias del feed GDACS-EMM ligadas al evento que mencionan esta zona por topónimo. No equivale a validación oficial.">Prensa</th>
+        <th class="num" title="Noticias de GDACS-EMM y feeds abiertos ligadas al evento que mencionan esta zona por topónimo. No equivale a validación oficial.">Prensa</th>
         <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada dentro de este AOI y verificación automática coherente (foto, fecha posterior al sismo, intensidad plausible).">Ciudadanos</th>
         <th title="Fecha de entrega del producto Copernicus más reciente para la zona, con tipo, versión y estado (en espera / en producción / entregado).">Entrega</th>
         </tr>
@@ -114,9 +114,9 @@
 
 <section id="municipios-section">
   <h2>Municipios mencionados o con intensidad percibida</h2>
-  <p class="sub">Ciudades dentro del área de influencia que aparecen en prensa, DYFI o
-  reportes ciudadanos, aunque no todas hayan sido mapeadas por Copernicus. No equivale a
-  daño satelital ni a EDAN oficial.</p>
+  <p class="sub">Ciudades dentro del área de influencia que aparecen en prensa, búsquedas
+  municipales Google News, DYFI o reportes ciudadanos, aunque no todas hayan sido mapeadas
+  por Copernicus. No equivale a daño satelital ni a EDAN oficial.</p>
   <table id="municipios-tabla">
     <thead>
       <tr>
@@ -170,9 +170,13 @@
     <dt>ShakeMap</dt><dd>Mapa de intensidad del USGS que estima el MMI en cada punto del territorio.</dd>
     <dt>PAGER</dt><dd>Sistema del USGS que estima población expuesta y pérdidas probables minutos después de un sismo (alerta verde/amarilla/naranja/roja).</dd>
     <dt>DYFI / CDI</dt><dd><em>Did You Feel It?</em>: reportes ciudadanos de intensidad del USGS; el CDI es la intensidad calculada a partir de ellos.</dd>
+    <dt>DANE / PPED</dt><dd>Departamento Administrativo Nacional de Estadística; aquí se usan sus proyecciones municipales de población 2026 de la operación PPED.</dd>
+    <dt>DIVIPOLA</dt><dd>Codificación oficial de departamentos y municipios de Colombia; permite empatar nombres municipales con fuentes oficiales.</dd>
     <dt>GDACS</dt><dd><em>Global Disaster Alert and Coordination System</em> (ONU/Comisión Europea): alertas y coordinación internacional de desastres.</dd>
-    <dt>EMM</dt><dd><em>Europe Media Monitor</em>: rastreador de noticias de la Comisión Europea; aquí, las noticias ligadas al evento.</dd>
+    <dt>EMM</dt><dd><em>Europe Media Monitor</em>: rastreador de noticias de la Comisión Europea; aquí, las noticias ligadas al evento por GDACS.</dd>
     <dt>GDELT</dt><dd>Proyecto que monitoriza medios de todo el mundo; aquí mide el volumen de cobertura mediática por día.</dd>
+    <dt>Google News</dt><dd>Agregador de titulares; aquí se usa con una búsqueda general del evento y búsquedas por municipio para no perder cobertura local.</dd>
+    <dt>RSS / Atom</dt><dd>Formatos estándar de sindicación de noticias usados para leer medios locales y agregadores sin scraping manual.</dd>
     <dt>GLIDE</dt><dd>Identificador global único de desastres (<em>GLobal IDEntifier</em>); el de este sismo es EQ-2026-000146-COL.</dd>
     <dt>UNGRD</dt><dd>Unidad Nacional para la Gestión del Riesgo de Desastres de Colombia: la entidad oficial que consolida emergencias.</dd>
     <dt>EDAN</dt><dd>Evaluación de Daños y Análisis de Necesidades: el balance oficial en terreno (viviendas, personas afectadas, servicios).</dd>
@@ -197,6 +201,8 @@
   <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/dyfi/intensity" target="_blank" rel="noopener">DYFI</a>)
   · <a href="https://www.gdacs.org/report.aspx?eventid=1557236&amp;episodeid=1724218&amp;eventtype=EQ" target="_blank" rel="noopener">GDACS EQ1557236</a> (evento, noticias EMM e institucionales)
   · <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT 2.0</a>
+  · <a href="https://news.google.com/" target="_blank" rel="noopener">Google News</a> (búsqueda general y búsquedas municipales generadas)
+  · <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE PPED</a> (población municipal 2026)
   · UNGRD (<a href="https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0" target="_blank" rel="noopener">registro ArcGIS 1914-2024</a>
   y <a href="https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te" target="_blank" rel="noopener">datos.gov.co hasta 2022</a>)
   · <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a>
@@ -213,6 +219,6 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js?v=20260815-4"></script>
+<script src="app.js?v=20260815-5"></script>
 </body>
 </html>

@@ -309,7 +309,7 @@
         if (next && next.classList.contains("prensa-detalle")) { next.remove(); return; }
         const dtr = document.createElement("tr");
         dtr.className = "prensa-detalle";
-        dtr.innerHTML = `<td colspan="9"><strong>Titulares de ejemplo (GDACS EMM):</strong><ul>` +
+        dtr.innerHTML = `<td colspan="9"><strong>Titulares de ejemplo (EMM/feeds):</strong><ul>` +
           a.prensa_ejemplos.map((n) =>
             `<li>${(n.fecha || "").slice(0, 10)} · <em>${n.medio || "?"}</em> — ` +
             `<a href="${n.url}" target="_blank" rel="noopener">${n.titular}</a></li>`).join("") +
@@ -431,7 +431,7 @@
       s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap || 0)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
     });
     s += `<g font-size="11">` +
-      `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias (GDACS EMM)</text>` +
+      `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias (EMM/feeds)</text>` +
       `<circle cx="${M.l + 190}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 200}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text>` +
       `<path d="M ${M.l + 420} 4 l 10 0 l -5 8 z" fill="${css("--critical")}"/><text x="${M.l + 434}" y="13" fill="${css("--ink-2")}">Entrega de producto Copernicus</text></g>`;
     s += `</svg>`;
@@ -447,7 +447,7 @@
       if (t.dataset.deliv) html = `<strong>Entrega Copernicus</strong><br>${t.dataset.deliv}`;
       else {
         const d = media[+t.dataset.i];
-        html = `<strong>${d.fecha}</strong><br>Noticias EMM: ${fmt(d.emm)}<br>` +
+        html = `<strong>${d.fecha}</strong><br>Noticias EMM/feeds: ${fmt(d.emm)}<br>` +
           `ChatMap: ${fmt(d.chatmap)}<br>GDELT vol: ${d.gdelt ?? "—"}` +
           `${d.fuentes ? "<br>Medios distintos: " + fmt(d.fuentes) : ""}`;
       }

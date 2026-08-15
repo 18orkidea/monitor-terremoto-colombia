@@ -37,6 +37,11 @@ medio local o regional que cubra las zonas afectadas:
 Los medios pequeños de las zonas menos cubiertas (Chocó, San Juan) son los más valiosos:
 Istmina tiene hoy **cero** titulares en los feeds internacionales.
 
+Además del registro manual, el pipeline genera búsquedas Google News por cada municipio en
+`ingest/municipios.py`. Si falta una ciudad afectada, añádela allí con departamento,
+coordenada aproximada y topónimos; la siguiente corrida buscará titulares para ese
+municipio y lo cruzará con DYFI, DANE y Copernicus.
+
 ### Con código
 
 - Buenas primeras tareas: nuevas fuentes (`ingest/sources/` — un módulo por fuente, toda

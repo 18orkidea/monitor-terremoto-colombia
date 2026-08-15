@@ -38,6 +38,7 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [USGS FDSN `us6000tjl2`](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2) | [ShakeMap](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap/intensity) (rejilla+contornos MMI), [PAGER](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/pager) (exposición), [DYFI](https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/dyfi/intensity) | Público |
 | [GDACS EQ1557236](https://www.gdacs.org/report.aspx?eventid=1557236&episodeid=1724218&eventtype=EQ) | Evento, [feed EMM](https://www.gdacs.org/gdacsapi/api/emm/getemmnewsbykey?eventtype=EQ&eventid=1557236) (2.911 noticias), [feed institucional](https://www.gdacs.org/gdacsapi/api/news/getnewsbygdacskey?eventtype=EQ&eventid=1557236) | Público; ventana ~5 días → snapshot diario obligatorio |
 | [GDELT 2.0 DOC](https://www.gdeltproject.org/) | Serie de volumen mediático | Público; máx. 1 petición/5 s |
+| [Google News RSS](https://news.google.com/) | Búsqueda general del evento y búsquedas generadas por municipio de influencia | Público; agregador, se guarda snapshot por búsqueda |
 | [UNGRD ArcGIS](https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0) | 85k emergencias EDAN 1914→2024 (línea base) | Público |
 | [Socrata `wwkg-r6te`](https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te) | El mismo registro hasta 2022 (métrica de brecha) | Público |
 | [DANE proyecciones municipales](https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion) | Población municipal 2026 total, cabecera y rural (serie por área 2018-2042) | Público; XLSX oficial |
@@ -47,6 +48,17 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 Sin acceso programático (documentado, no usado): [SNIGRD](https://sni.gestiondelriesgo.gov.co/)/geoportal
 UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA sin API),
 [UNITAR-UNOSAT](https://unosat.org/products/4250) (sin API), ReliefWeb (requiere appname).
+
+## Acrónimos básicos
+
+- **AOI**: área de interés definida por Copernicus.
+- **CDI/DYFI**: intensidad ciudadana calculada por USGS a partir de reportes "Did You Feel It?".
+- **DANE/PPED**: proyecciones oficiales de población usadas para población municipal 2026.
+- **DIVIPOLA**: codificación oficial colombiana de departamentos y municipios.
+- **EDAN**: Evaluación de Daños y Análisis de Necesidades; es la evidencia oficial exigida para declarar coincidencia.
+- **EMM/GDACS**: rastreador de noticias y sistema global de alertas/coordinación de desastres.
+- **MMI/ShakeMap/PAGER**: intensidad estimada, mapa de sacudida y exposición/pérdidas probables de USGS.
+- **RSS/Atom**: formatos de feeds abiertos usados para ingerir medios y agregadores.
 
 ## Reglas de rigor
 
