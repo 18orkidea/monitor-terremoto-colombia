@@ -1,8 +1,9 @@
 # Feed oficial con lectura IA privada
 
-Worker para recolectar canales oficiales colombianos, convertir documentos
-visuales/PDF a texto estructurado con Qwen OCR y publicar solo el resultado
-validado como datos.
+Worker para recolectar canales colombianos, convertir documentos visuales/PDF a
+texto estructurado con Qwen OCR y publicar solo el resultado validado como datos.
+Las fuentes descubiertas por búsqueda web se etiquetan como temporales hasta que
+exista confirmación oficial.
 
 Modelo OCR:
 
@@ -34,13 +35,37 @@ El Worker usa KV (`OFFICIAL_DATA`) para persistir el feed público.
 `FIRECRAWL_API_KEY` es opcional. Si no está configurado, el Worker sigue
 revisando RSS/HTML oficiales y marca el conector Firecrawl como `missing_secret`.
 
+## Firecrawl: búsqueda diaria y scraping
+
+El flujo diario es `search -> scrape -> extracción`:
+
+1. Construye la consulta con fecha variable: `UNGRD reporte de terremoto DD-MM-YYYY`.
+2. Llama `POST https://api.firecrawl.dev/v2/search` con `sources:["web"]`, `limit:10`,
+   `scrapeOptions.formats:[]`, `maxAge:172800000` y parser `pdf`.
+3. Toma las 3 primeras URLs únicas del día.
+4. Entra a cada URL con `POST https://api.firecrawl.dev/v2/scrape` usando markdown,
+   contenido principal y parser PDF.
+5. Clasifica cada URL como `oficial_comunicacion`, `gobierno_local_por_verificar`,
+   `temporal_prensa` o `busqueda_web_temporal`.
+6. Publica las cifras extraídas, siempre con `requiere_revision_humana:true`; prensa y
+   web abierta no se promueven a EDAN ni a coincidencia oficial.
+
+Ejecución manual con fecha:
+
+```bash
+curl -X POST "$WORKER/internal/run" \
+  -H "Authorization: Bearer $INTERNAL_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"date":"15-08-2026"}'
+```
+
 ## Canales analizados
 
 - **UNGRD Noticias**: SharePoint público. La portada y la vista de biblioteca se leen bien,
   pero los datos útiles deben estar en noticias específicas `/Paginas/Noticias/2026/*.aspx`.
-- **Firecrawl multicanal UNGRD**: búsqueda semántica sobre portal UNGRD, YouTube,
-  Facebook, Instagram y LinkedIn oficiales. Devuelve markdown ya limpio cuando el resultado
-  es accesible, y permite capturar piezas dispersas que no aparecen en la web institucional.
+- **Firecrawl búsqueda diaria**: consulta web por fecha y scrapea las 3 primeras URLs
+  encontradas. Permite capturar fuentes oficiales o no oficiales dispersas; quedan
+  etiquetadas por nivel de fuente para revisión.
 - **SNIGRD Alertas**: HTML público. Se revisa como canal de alertas, pero no se aceptan
   páginas generales como evidencia del terremoto.
 - **Gobernación de Caldas**: Joomla con RSS usable en
@@ -70,5 +95,5 @@ Smoke test de Firecrawl:
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"query":"site:portal.gestiondelriesgo.gov.co UNGRD terremoto sismo Chocó agosto 2026","limit":3,"sources":["web"],"scrapeOptions":{"formats":["markdown"],"onlyMainContent":true}}'
+  -d '{"query":"UNGRD reporte de terremoto 15-08-2026","limit":10,"sources":["web"],"scrapeOptions":{"formats":[],"onlyMainContent":true,"maxAge":172800000,"parsers":["pdf"]}}'
 ```

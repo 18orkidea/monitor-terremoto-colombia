@@ -25,31 +25,10 @@ const GENERIC_PAGE_TERMS = [
   "inicio transparencia"
 ];
 
-const FIRECRAWL_QUERIES = [
+const FIRECRAWL_DAILY_QUERY_TEMPLATES = [
   {
-    label: "UNGRD portal terremoto",
-    query: "site:portal.gestiondelriesgo.gov.co/Paginas/Noticias/2026 UNGRD terremoto sismo Chocó agosto 2026",
-    includeDomains: ["portal.gestiondelriesgo.gov.co"]
-  },
-  {
-    label: "UNGRD YouTube",
-    query: "site:youtube.com UNGRD terremoto sismo Chocó agosto 2026 San José del Palmar",
-    includeDomains: ["youtube.com", "youtu.be"]
-  },
-  {
-    label: "UNGRD Facebook",
-    query: "site:facebook.com/GestionUNGRD UNGRD terremoto sismo Chocó agosto 2026",
-    includeDomains: ["facebook.com"]
-  },
-  {
-    label: "UNGRD Instagram",
-    query: "site:instagram.com/ungrd_oficial UNGRD terremoto sismo Chocó agosto 2026",
-    includeDomains: ["instagram.com"]
-  },
-  {
-    label: "UNGRD LinkedIn",
-    query: "site:linkedin.com/company/ungrd UNGRD terremoto sismo Chocó agosto 2026",
-    includeDomains: ["linkedin.com"]
+    label: "UNGRD reporte terremoto por fecha",
+    query: "UNGRD reporte de terremoto {date_dmy}"
   }
 ];
 
@@ -83,19 +62,20 @@ const MUNICIPIOS = [
 
 const OFFICIAL_SOURCES = [
   {
-    id: "ungrd-firecrawl-multicanal",
-    name: "Firecrawl - búsqueda multicanal UNGRD",
-    level: "oficial_comunicacion",
+    id: "firecrawl-busqueda-diaria",
+    name: "Firecrawl - búsqueda diaria por fecha",
+    level: "busqueda_web_temporal",
     department: null,
-    url: "https://linktr.ee/comunicacionesungrd",
+    url: "https://api.firecrawl.dev/v2/search",
     entrypoints: [
       {
         type: "firecrawl_search",
-        role: "multicanal_ungrd",
+        role: "busqueda_diaria_fecha",
         url: "https://api.firecrawl.dev/v2/search",
-        note: "Busca portal, YouTube, Facebook, Instagram y LinkedIn oficiales de UNGRD; requiere FIRECRAWL_API_KEY.",
-        queries: FIRECRAWL_QUERIES,
-        limit: 4
+        note: "Search por fecha variable y scrape de las 3 primeras URLs; clasifica oficial/prensa/temporal sin promover a EDAN.",
+        queries: FIRECRAWL_DAILY_QUERY_TEMPLATES,
+        limit: 10,
+        scrape_limit: 3
       }
     ]
   },
@@ -236,7 +216,8 @@ export default {
     if (url.pathname === "/internal/run" && request.method === "POST") {
       const auth = authorize(request, env);
       if (auth) return auth;
-      return json(await runCollection(env));
+      const body = await safeJson(request);
+      return json(await runCollection(env, { date: body?.date }));
     }
     if (url.pathname === "/internal/extract" && request.method === "POST") {
       const auth = authorize(request, env);
@@ -269,10 +250,13 @@ function emptyFeed() {
   };
 }
 
-async function runCollection(env) {
+async function runCollection(env, options = {}) {
+  const runDate = normalizeRunDate(options.date) || todayInBogota();
   const previous = await publicFeed(env);
   const seen = new Map(
     (previous.items || [])
+      .filter((item) => item.source_id !== "ungrd-firecrawl-multicanal")
+      .filter((item) => item.source_id !== "firecrawl-busqueda-diaria")
       .filter((item) => isSpecificEventEvidence(`${item.title} ${item.cita} ${item.text_excerpt}`))
       .map((item) => [item.url, item])
   );
@@ -280,7 +264,7 @@ async function runCollection(env) {
   const sourceAnalysis = [];
 
   for (const source of OFFICIAL_SOURCES) {
-    const discovered = await discoverSource(source, env);
+    const discovered = await discoverSource(source, env, runDate);
     candidates.push(...discovered.candidates);
     sourceAnalysis.push(discovered.analysis);
   }
@@ -303,6 +287,7 @@ async function runCollection(env) {
 
   const feed = {
     generated_at: new Date().toISOString(),
+    run_date: runDate,
     total: [...seen.values()].filter((x) => x.relacionado_evento).length,
     items: [...seen.values()]
       .filter((x) => x.relacionado_evento)
@@ -317,10 +302,10 @@ async function runCollection(env) {
   };
   await env.OFFICIAL_DATA.put("oficiales.json", JSON.stringify(feed));
   await env.OFFICIAL_DATA.put("oficiales.rss", renderRss(feed));
-  return { ok: true, candidates: candidates.length, total: feed.total, source_analysis: sourceAnalysis };
+  return { ok: true, run_date: runDate, candidates: candidates.length, total: feed.total, source_analysis: sourceAnalysis };
 }
 
-async function discoverSource(source, env) {
+async function discoverSource(source, env, runDate) {
   const candidates = [];
   const entrypoints = source.entrypoints || [{ type: "html", role: "principal", url: source.url }];
   const checks = [];
@@ -329,7 +314,7 @@ async function discoverSource(source, env) {
     const check = { role: entry.role, type: entry.type, url: entry.url, note: entry.note || null };
     try {
       if (entry.type === "firecrawl_search") {
-        const selected = await discoverWithFirecrawl(entry, source, env);
+        const selected = await discoverWithFirecrawl(entry, source, env, runDate);
         check.ok = selected.result !== "missing_secret";
         check.http_status = selected.result === "missing_secret" ? null : 200;
         check.links_found = selected.links_found;
@@ -385,7 +370,7 @@ async function discoverSource(source, env) {
   };
 }
 
-async function discoverWithFirecrawl(entry, source, env) {
+async function discoverWithFirecrawl(entry, source, env, runDate) {
   if (!env.FIRECRAWL_API_KEY) {
     return {
       candidates: [],
@@ -399,8 +384,11 @@ async function discoverWithFirecrawl(entry, source, env) {
   const candidates = [];
   const jobs = [];
   let credits = 0;
+  const topResults = [];
+  const dateDmy = toDmy(runDate);
 
   for (const q of entry.queries || []) {
+    const query = q.query.replace("{date_dmy}", dateDmy).replace("{date_iso}", runDate);
     const response = await fetch(env.FIRECRAWL_API_URL || "https://api.firecrawl.dev/v2/search", {
       method: "POST",
       headers: {
@@ -408,7 +396,7 @@ async function discoverWithFirecrawl(entry, source, env) {
         "content-type": "application/json"
       },
       body: JSON.stringify({
-        query: q.query,
+        query,
         limit: entry.limit || 4,
         sources: ["web"],
         includeDomains: q.includeDomains || undefined,
@@ -416,11 +404,10 @@ async function discoverWithFirecrawl(entry, source, env) {
         timeout: 45000,
         ignoreInvalidURLs: true,
         scrapeOptions: {
-          formats: ["markdown"],
+          formats: [],
           onlyMainContent: true,
-          onlyCleanContent: true,
-          removeBase64Images: true,
-          blockAds: true,
+          maxAge: 172800000,
+          parsers: ["pdf"],
           timeout: 30000
         }
       })
@@ -431,6 +418,7 @@ async function discoverWithFirecrawl(entry, source, env) {
       ok: response.ok && data.success !== false,
       http_status: response.status,
       id: data.id || null,
+      query,
       results: data.data?.web?.length || 0,
       warning: data.warning || null
     });
@@ -438,21 +426,41 @@ async function discoverWithFirecrawl(entry, source, env) {
     if (!response.ok || data.success === false) continue;
 
     for (const result of data.data?.web || []) {
-      const text = `${result.title || ""} ${result.description || ""} ${result.markdown || ""}`;
-      if (!isOfficialUngrChannel(result.url, text)) continue;
-      if (!isCandidateLink({ title: result.title, summary: text, url: result.url })) continue;
-      candidates.push({
-        url: result.url,
-        title: result.title || result.url,
-        summary: result.description || "",
-        prefetched_text: result.markdown || result.description || result.title || "",
-        source,
-        discovered_from: `firecrawl:${q.label}`,
-        discovery_role: entry.role,
-        extraction_method: "firecrawl_search_markdown",
-        firecrawl_job_id: data.id || null
-      });
+      topResults.push({ ...result, query_label: q.label, query, firecrawl_job_id: data.id || null });
     }
+  }
+
+  for (const result of dedupe(topResults, (x) => x.url).slice(0, entry.scrape_limit || 3)) {
+    const scraped = await scrapeWithFirecrawl(result.url, env);
+    credits += scraped.credits_used || 0;
+    const text = `${result.title || ""} ${result.description || ""} ${scraped.text || ""}`;
+    const sourceLevel = classifySourceLevel(result.url, text);
+    const candidateSource = {
+      ...source,
+      level: sourceLevel,
+      name: sourceLevel === "oficial_comunicacion"
+        ? "Firecrawl - fuente oficial encontrada"
+        : sourceLevel === "temporal_prensa"
+          ? "Firecrawl - prensa temporal encontrada"
+          : source.name
+    };
+    candidates.push({
+      url: result.url,
+      title: result.title || scraped.title || result.url,
+      summary: result.description || scraped.description || "",
+      prefetched_text: scraped.text || result.description || result.title || "",
+      source: candidateSource,
+      original_source_level: sourceLevel,
+      discovered_from: `firecrawl:${result.query_label}`,
+      discovery_role: entry.role,
+      extraction_method: scraped.ok ? "firecrawl_search_then_scrape" : "firecrawl_search_snippet",
+      firecrawl_job_id: result.firecrawl_job_id,
+      firecrawl_scrape_status: scraped.status,
+      firecrawl_scrape_error: scraped.error || null,
+      temporal_source_policy: sourceLevel === "oficial_comunicacion"
+        ? "comunicacion_oficial_no_edan"
+        : "fuente_temporal_no_oficial_requiere_verificacion"
+    });
   }
 
   return {
@@ -461,6 +469,46 @@ async function discoverWithFirecrawl(entry, source, env) {
     credits_used: credits,
     jobs,
     result: candidates.length ? "candidate_links" : "no_event_specific_links"
+  };
+}
+
+async function scrapeWithFirecrawl(url, env) {
+  const response = await fetch(env.FIRECRAWL_SCRAPE_API_URL || "https://api.firecrawl.dev/v2/scrape", {
+    method: "POST",
+    headers: {
+      "authorization": `Bearer ${env.FIRECRAWL_API_KEY}`,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({
+      url,
+      formats: ["markdown"],
+      onlyMainContent: true,
+      onlyCleanContent: true,
+      removeBase64Images: true,
+      blockAds: true,
+      maxAge: 172800000,
+      parsers: ["pdf"],
+      timeout: 30000
+    })
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.success === false) {
+    return {
+      ok: false,
+      status: response.status,
+      credits_used: data.creditsUsed || 0,
+      text: "",
+      error: data.error || data.message || `HTTP ${response.status}`
+    };
+  }
+  const payload = data.data || data;
+  return {
+    ok: true,
+    status: response.status,
+    credits_used: data.creditsUsed || 0,
+    title: payload.metadata?.title || payload.title || "",
+    description: payload.metadata?.description || "",
+    text: payload.markdown || payload.content || payload.text || ""
   };
 }
 
@@ -558,11 +606,17 @@ async function processDocument(candidate, env) {
     source_id: candidate.source.id,
     source_name: candidate.source.name,
     source_level: candidate.source.level,
-    official: true,
+    official: candidate.source.level === "oficial_comunicacion" ||
+      candidate.source.level === "nacional" ||
+      candidate.source.level === "gobernacion",
+    temporal_source_policy: candidate.temporal_source_policy || null,
+    original_source_level: candidate.original_source_level || candidate.source.level,
     content_sha256: hash,
     captured_at: new Date().toISOString(),
     extraction_method: extractionMethod,
     firecrawl_job_id: candidate.firecrawl_job_id || null,
+    firecrawl_scrape_status: candidate.firecrawl_scrape_status || null,
+    firecrawl_scrape_error: candidate.firecrawl_scrape_error || null,
     discovered_from: candidate.discovered_from || null,
     discovery_role: candidate.discovery_role || null,
     text_excerpt: text.slice(0, 700),
@@ -627,12 +681,14 @@ function structureOfficialText(text, candidate) {
     municipios: municipios.sort(),
     estado: classify(text),
     cifras: {
-      personas_afectadas: findNumber(text, /(personas|habitantes)\s+(afectad|damnificad)/i),
-      familias_afectadas: findNumber(text, /familias\s+(afectad|damnificad)/i),
-      viviendas_averiadas: findNumber(text, /viviendas?\s+(averiad|afectad)/i),
-      viviendas_destruidas: findNumber(text, /viviendas?\s+(destruid|colapsad)/i),
-      heridos: findNumber(text, /heridos?/i),
-      fallecidos: findNumber(text, /(fallecid|muert)/i)
+      departamentos_afectados: findMetricNumber(text, "departamentos"),
+      municipios_afectados: findMetricNumber(text, "municipios"),
+      personas_afectadas: findMetricNumber(text, "personas"),
+      familias_afectadas: findMetricNumber(text, "familias"),
+      viviendas_averiadas: findMetricNumber(text, "viviendas_averiadas"),
+      viviendas_destruidas: findMetricNumber(text, "viviendas_destruidas"),
+      heridos: findMetricNumber(text, "heridos"),
+      fallecidos: findMetricNumber(text, "fallecidos")
     },
     requiere_revision_humana: true,
     confianza: confidence(text),
@@ -680,6 +736,53 @@ function findNumber(text, pattern) {
   return m ? Number(m[0].replace(/[.,]/g, "")) : null;
 }
 
+function findMetricNumber(text, metric) {
+  const number = "(\\d{1,3}(?:[.,]\\d{3})*|\\d+)";
+  const patterns = {
+    departamentos: [
+      new RegExp(`${number}\\s+departamentos?\\s+afectad`, "i"),
+      new RegExp(`departamentos?\\s+afectad\\w*\\D{0,30}${number}`, "i")
+    ],
+    municipios: [
+      new RegExp(`${number}\\s+municipios?\\s+afectad`, "i"),
+      new RegExp(`municipios?\\s+afectad\\w*\\D{0,30}${number}`, "i")
+    ],
+    personas: [
+      new RegExp(`${number}\\s+(personas|habitantes)\\s+(afectad|damnificad)`, "i"),
+      new RegExp(`(personas|habitantes)\\s+(afectad|damnificad)\\w*\\D{0,40}${number}`, "i"),
+      new RegExp(`${number}\\s+(personas|habitantes)(?:\\W|$)`, "i")
+    ],
+    familias: [
+      new RegExp(`${number}\\s+familias?\\s+(afectad|damnificad)?`, "i"),
+      new RegExp(`familias?\\s+(afectad|damnificad)\\w*\\D{0,40}${number}`, "i")
+    ],
+    viviendas_averiadas: [
+      new RegExp(`${number}\\s+viviendas?\\s+(averiad|afectad)`, "i"),
+      new RegExp(`viviendas?\\s+(averiad|afectad)\\w*\\D{0,40}${number}`, "i")
+    ],
+    viviendas_destruidas: [
+      new RegExp(`${number}\\s+viviendas?\\s+(destruid|colapsad)`, "i"),
+      new RegExp(`viviendas?\\s+(destruid|colapsad)\\w*\\D{0,40}${number}`, "i")
+    ],
+    heridos: [
+      new RegExp(`${number}\\s+heridos?`, "i"),
+      new RegExp(`heridos?\\D{0,30}${number}`, "i")
+    ],
+    fallecidos: [
+      new RegExp(`${number}\\s+(fallecid|muert)`, "i"),
+      new RegExp(`(fallecid|muert)\\w*\\D{0,30}${number}`, "i")
+    ]
+  };
+  for (const pattern of patterns[metric] || []) {
+    const match = text.match(pattern);
+    if (!match) continue;
+    const value = match.slice(1).find((part) => part && /^\d/.test(part)) ||
+      match[0].match(/\d{1,3}(?:[.,]\d{3})*|\d+/)?.[0];
+    if (value) return Number(value.replace(/[.,]/g, ""));
+  }
+  return null;
+}
+
 function relevant(text) {
   const n = norm(text);
   return KEYWORDS.some((kw) => n.includes(norm(kw)));
@@ -698,8 +801,40 @@ function isOfficialUngrChannel(url, text) {
   if (u.includes("facebook.com/gestionungrd")) return true;
   if (u.includes("instagram.com/ungrd_oficial")) return true;
   if (u.includes("linkedin.com/company/ungrd")) return true;
-  if ((u.includes("youtube.com") || u.includes("youtu.be")) && n.includes("ungrd")) return true;
+  if (u.includes("youtube.com") || u.includes("youtu.be")) {
+    return /uploaded by.{0,80}(ungrd|unidad nacional para la gestion del riesgo)/i.test(n) ||
+      /channel\/[^)\s]+ungrd|@ungrd/i.test(u);
+  }
   return false;
+}
+
+function classifySourceLevel(url, text) {
+  const u = String(url || "").toLowerCase();
+  const n = norm(text);
+  if (
+    u.includes("gestiondelriesgo.gov.co") ||
+    u.includes("facebook.com/gestionungrd") ||
+    u.includes("instagram.com/ungrd_oficial") ||
+    u.includes("linkedin.com/company/ungrd") ||
+    isOfficialUngrChannel(url, text)
+  ) {
+    return "oficial_comunicacion";
+  }
+  if (
+    u.includes(".gov.co") ||
+    u.includes("gov.co/") ||
+    n.includes("gobernacion") ||
+    n.includes("alcaldia") ||
+    n.includes("unidad de gestion del riesgo")
+  ) {
+    return "gobierno_local_por_verificar";
+  }
+  if (
+    /\b(eltiempo|elespectador|semana|larepublica|bluradio|rcnradio|caracol|wradio|infobae|elpais|qhubo|diariooccidente|cronicadelquindio|eldiario|latarde|choco7dias)\b/i.test(u)
+  ) {
+    return "temporal_prensa";
+  }
+  return "busqueda_web_temporal";
 }
 
 function isSpecificEventEvidence(text) {
@@ -724,7 +859,7 @@ function hasImpactedPlace(text) {
 
 function hasEventDate(text) {
   const n = norm(text);
-  return /10\s+de\s+agosto\s+de\s+2026|agosto\s+de\s+2026|2026-08|10-ago-2026|10\/08\/2026/.test(n);
+  return /10\s+de\s+agosto\s+de\s+2026|15\s+de\s+agosto\s+de\s+2026|agosto\s+de\s+2026|2026-08|10-ago-2026|10\/08\/2026|15-08-2026|15\/08\/2026/.test(n);
 }
 
 function isGenericPage(text) {
@@ -774,6 +909,40 @@ function decodeXml(value) {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'");
+}
+
+async function safeJson(request) {
+  try {
+    return await request.json();
+  } catch {
+    return null;
+  }
+}
+
+function normalizeRunDate(value) {
+  if (!value) return null;
+  const raw = String(value).trim();
+  let m = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+  m = raw.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/);
+  if (m) return `${m[3]}-${String(Number(m[2])).padStart(2, "0")}-${String(Number(m[1])).padStart(2, "0")}`;
+  return null;
+}
+
+function todayInBogota() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Bogota",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(new Date());
+  const byType = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${byType.year}-${byType.month}-${byType.day}`;
+}
+
+function toDmy(isoDate) {
+  const [year, month, day] = String(isoDate || "").split("-");
+  return `${day}-${month}-${year}`;
 }
 
 function norm(s) {
