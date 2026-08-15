@@ -22,8 +22,13 @@
     j(base + "not_analysed.geojson"),
   ]);
   if (!mon) {
-    document.getElementById("banner-brechas").textContent =
-      "Sin datos: ejecuta primero `python ingest/run_daily.py` (o sirve el repo con `python -m http.server`).";
+    document.getElementById("banner-brechas").innerHTML =
+      !/^https?:$/.test(location.protocol)
+        ? "<strong>Página abierta como fichero (file://):</strong> el navegador " +
+          "bloquea la carga de datos por seguridad. Sirve el repo por HTTP — " +
+          "desde la carpeta del proyecto: <code>python3 -m http.server 8123</code> " +
+          "y abre <code>http://localhost:8123/site/</code>."
+        : "Sin datos: ejecuta primero <code>python ingest/run_daily.py</code>.";
     return;
   }
   document.getElementById("generado").textContent = "Actualizado " + mon.generado;
