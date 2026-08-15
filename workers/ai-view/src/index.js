@@ -1,252 +1,463 @@
-const MODELS = {
-  qwen: {
-    id: "@cf/qwen/qwq-32b",
-    label: "Qwen QwQ 32B",
-    note: "razonamiento; útil para hipótesis y brechas"
-  },
-  deepseek: {
-    id: "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-    label: "DeepSeek R1 Distill Qwen 32B",
-    note: "razonamiento; contraste independiente"
-  },
-  kimi: {
-    id: "@cf/moonshotai/kimi-k2.6",
-    label: "Moonshot Kimi K2.6",
-    note: "contexto largo; síntesis narrativa"
-  }
-};
+const KEYWORDS = [
+  "terremoto", "sismo", "temblor", "movimiento sismico", "movimiento sísmico",
+  "edan", "rud", "damnific", "afectad", "vivienda", "herido", "fallecid",
+  "san jose del palmar", "san josé del palmar", "emergencia"
+];
 
-const DEFAULT_QUESTION =
-  "Identifica municipios subrepresentados y explica qué evidencia falta para convertir señales en reporte oficial colombiano.";
+const MUNICIPIOS = [
+  ["Armenia", "Quindío"],
+  ["Calarcá", "Quindío"],
+  ["La Tebaida", "Quindío"],
+  ["Montenegro", "Quindío"],
+  ["Salento", "Quindío"],
+  ["Zarzal", "Valle del Cauca"],
+  ["Cartago", "Valle del Cauca"],
+  ["Tuluá", "Valle del Cauca"],
+  ["Buga", "Valle del Cauca"],
+  ["Palmira", "Valle del Cauca"],
+  ["Roldanillo", "Valle del Cauca"],
+  ["Sevilla", "Valle del Cauca"],
+  ["Caicedonia", "Valle del Cauca"],
+  ["Jamundí", "Valle del Cauca"],
+  ["Dagua", "Valle del Cauca"],
+  ["Pereira", "Risaralda"],
+  ["Dosquebradas", "Risaralda"],
+  ["Santa Rosa de Cabal", "Risaralda"],
+  ["Manizales", "Caldas"],
+  ["Villamaría", "Caldas"],
+  ["Cali", "Valle del Cauca"],
+  ["Buenaventura", "Valle del Cauca"],
+  ["Quibdó", "Chocó"],
+  ["Istmina", "Chocó"],
+  ["San José del Palmar", "Chocó"]
+];
+
+const OFFICIAL_SOURCES = [
+  {
+    id: "ungrd-noticias",
+    name: "UNGRD - Noticias",
+    level: "nacional",
+    department: null,
+    url: "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/"
+  },
+  {
+    id: "snigrd-alertas",
+    name: "SNIGRD - Alertas",
+    level: "nacional",
+    department: null,
+    url: "https://www.gestiondelriesgo.gov.co/snigrd/alertas.aspx"
+  },
+  {
+    id: "gob-valle-riesgo",
+    name: "Gobernación del Valle - Gestión del Riesgo",
+    level: "gobernacion",
+    department: "Valle del Cauca",
+    url: "https://www.valledelcauca.gov.co/riesgo/"
+  },
+  {
+    id: "gob-quindio-udegerd",
+    name: "Gobierno del Quindío - UDEGERD",
+    level: "gobernacion",
+    department: "Quindío",
+    url: "https://quindio.gov.co/unidad-departamental-para-la-gestion-del-riesgo-de-desastres-udegerd-quindio"
+  },
+  {
+    id: "gob-caldas-riesgo",
+    name: "Gobernación de Caldas - Gestión del Riesgo",
+    level: "gobernacion",
+    department: "Caldas",
+    url: "https://www.caldas.gov.co/component/sppagebuilder/?Itemid=1509&id=108&view=page"
+  }
+];
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (request.method === "OPTIONS") return cors(new Response(null, { status: 204 }));
-    if (url.pathname === "/") return html();
-    if (url.pathname === "/api/models") return json({ models: MODELS });
-    if (url.pathname === "/api/analyze" && request.method === "POST") {
+    if (url.pathname === "/") return json(await publicFeed(env));
+    if (url.pathname === "/oficiales.json" || url.pathname === "/api/oficiales.json") {
+      return json(await publicFeed(env));
+    }
+    if (url.pathname === "/oficiales.rss") return rss(await publicFeed(env));
+    if (url.pathname === "/internal/run" && request.method === "POST") {
       const auth = authorize(request, env);
       if (auth) return auth;
-      return analyze(request, env);
+      return json(await runCollection(env));
+    }
+    if (url.pathname === "/internal/extract" && request.method === "POST") {
+      const auth = authorize(request, env);
+      if (auth) return auth;
+      return json(await extractOne(request, env));
     }
     return json({ error: "not_found" }, 404);
+  },
+
+  async scheduled(_event, env, ctx) {
+    ctx.waitUntil(runCollection(env));
   }
 };
 
+async function publicFeed(env) {
+  const saved = await env.OFFICIAL_DATA.get("oficiales.json", "json");
+  return saved || emptyFeed();
+}
+
+function emptyFeed() {
+  return {
+    generated_at: null,
+    items: [],
+    sources: OFFICIAL_SOURCES,
+    extraction: {
+      private: true,
+      model: "qwen-vl-ocr-2025-11-20",
+      note: "La inferencia IA no es pública; solo se publica el JSON validado."
+    }
+  };
+}
+
+async function runCollection(env) {
+  const previous = await publicFeed(env);
+  const seen = new Map((previous.items || []).map((item) => [item.url, item]));
+  const candidates = [];
+
+  for (const source of OFFICIAL_SOURCES) {
+    candidates.push(...await discoverSource(source));
+  }
+
+  for (const candidate of candidates.slice(0, 40)) {
+    if (seen.has(candidate.url)) continue;
+    try {
+      const item = await processDocument(candidate, env);
+      if (item && item.relacionado_evento) seen.set(item.url, item);
+    } catch (error) {
+      seen.set(candidate.url, {
+        ...candidate,
+        relacionado_evento: false,
+        estado: "error_extraccion",
+        error: String(error.message || error),
+        captured_at: new Date().toISOString()
+      });
+    }
+  }
+
+  const feed = {
+    generated_at: new Date().toISOString(),
+    total: [...seen.values()].filter((x) => x.relacionado_evento).length,
+    items: [...seen.values()]
+      .filter((x) => x.relacionado_evento)
+      .sort((a, b) => (b.fecha || b.captured_at || "").localeCompare(a.fecha || a.captured_at || "")),
+    sources: OFFICIAL_SOURCES,
+    extraction: {
+      private: true,
+      model: env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20",
+      note: "La inferencia IA no se expone; solo se publica el feed estructurado."
+    }
+  };
+  await env.OFFICIAL_DATA.put("oficiales.json", JSON.stringify(feed));
+  await env.OFFICIAL_DATA.put("oficiales.rss", renderRss(feed));
+  return { ok: true, candidates: candidates.length, total: feed.total };
+}
+
+async function discoverSource(source) {
+  const response = await fetch(source.url, { headers: { "user-agent": "monitor-terremoto-colombia-oficiales/1.0" } });
+  if (!response.ok) return [];
+  const html = await response.text();
+  const links = extractLinks(html, source.url);
+  const own = sameHost(source.url);
+  return links
+    .filter((link) => own(link.url))
+    .filter((link) => relevant(`${link.title} ${link.url}`))
+    .slice(0, 20)
+    .map((link) => ({ ...link, source }));
+}
+
+function extractLinks(html, base) {
+  const out = [];
+  const re = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  for (const match of html.matchAll(re)) {
+    const href = match[1];
+    if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) continue;
+    const title = stripHtml(match[2]).trim() || href;
+    try {
+      out.push({ url: new URL(href, base).toString(), title });
+    } catch {
+      // enlace inválido: se ignora
+    }
+  }
+  return dedupe(out, (x) => x.url);
+}
+
+async function extractOne(request, env) {
+  const body = await request.json();
+  if (!body.url) return { error: "url_required" };
+  const candidate = {
+    url: body.url,
+    title: body.title || body.url,
+    source: body.source || {
+      id: "manual",
+      name: "Documento oficial manual",
+      level: "manual",
+      department: body.department || null,
+      url: body.url
+    }
+  };
+  const item = await processDocument(candidate, env);
+  const feed = await publicFeed(env);
+  const items = [item, ...(feed.items || []).filter((x) => x.url !== item.url)]
+    .filter((x) => x.relacionado_evento);
+  const next = { ...feed, generated_at: new Date().toISOString(), total: items.length, items };
+  await env.OFFICIAL_DATA.put("oficiales.json", JSON.stringify(next));
+  await env.OFFICIAL_DATA.put("oficiales.rss", renderRss(next));
+  return item;
+}
+
+async function processDocument(candidate, env) {
+  const head = await fetch(candidate.url, { method: "GET", headers: { "user-agent": "monitor-terremoto-colombia-oficiales/1.0" } });
+  if (!head.ok) throw new Error(`HTTP ${head.status}`);
+  const contentType = head.headers.get("content-type") || "";
+  const bytes = await head.arrayBuffer();
+  const hash = await sha256(bytes);
+  let text = "";
+  let extractionMethod = "html_text";
+
+  if (isVisualDocument(candidate.url, contentType)) {
+    text = await parseWithQwenOcr(candidate.url, env);
+    extractionMethod = env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20";
+  } else {
+    text = stripHtml(new TextDecoder().decode(bytes)).replace(/\s+/g, " ").trim();
+  }
+
+  const structured = structureOfficialText(text, candidate);
+  return {
+    url: candidate.url,
+    title: candidate.title,
+    source_id: candidate.source.id,
+    source_name: candidate.source.name,
+    source_level: candidate.source.level,
+    official: true,
+    content_sha256: hash,
+    captured_at: new Date().toISOString(),
+    extraction_method: extractionMethod,
+    text_excerpt: text.slice(0, 700),
+    ...structured
+  };
+}
+
+async function parseWithQwenOcr(documentUrl, env) {
+  if (!env.QWEN_API_KEY) {
+    throw new Error("QWEN_API_KEY no configurado");
+  }
+  const response = await fetch(env.QWEN_API_URL, {
+    method: "POST",
+    headers: {
+      "authorization": `Bearer ${env.QWEN_API_KEY}`,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({
+      model: env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20",
+      input: {
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                image: documentUrl,
+                min_pixels: 3072,
+                max_pixels: 8388608,
+                enable_rotate: true
+              }
+            ]
+          }
+        ]
+      },
+      parameters: {
+        ocr_options: { task: "document_parsing" }
+      }
+    })
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(`Qwen OCR HTTP ${response.status}: ${JSON.stringify(data).slice(0, 300)}`);
+  return data.output?.choices?.[0]?.message?.content?.[0]?.text || "";
+}
+
+function structureOfficialText(text, candidate) {
+  const lower = norm(text);
+  const municipios = MUNICIPIOS
+    .filter(([name]) => lower.includes(norm(name)))
+    .map(([name]) => name);
+  const departamentos = new Set(
+    MUNICIPIOS
+      .filter(([name, dept]) => municipios.includes(name) || lower.includes(norm(dept)))
+      .map(([, dept]) => dept)
+  );
+  if (candidate.source.department) departamentos.add(candidate.source.department);
+
+  return {
+    relacionado_evento: relevant(text),
+    fecha: findDate(text),
+    departamentos: [...departamentos].sort(),
+    municipios: municipios.sort(),
+    estado: classify(text),
+    cifras: {
+      personas_afectadas: findNumber(text, /(personas|habitantes)\s+(afectad|damnificad)/i),
+      familias_afectadas: findNumber(text, /familias\s+(afectad|damnificad)/i),
+      viviendas_averiadas: findNumber(text, /viviendas?\s+(averiad|afectad)/i),
+      viviendas_destruidas: findNumber(text, /viviendas?\s+(destruid|colapsad)/i),
+      heridos: findNumber(text, /heridos?/i),
+      fallecidos: findNumber(text, /(fallecid|muert)/i)
+    },
+    requiere_revision_humana: true,
+    confianza: confidence(text),
+    cita: findQuote(text)
+  };
+}
+
+function classify(text) {
+  const n = norm(text);
+  if (n.includes("edan") || n.includes("rud") || n.includes("damnific")) return "oficial_posible_edan_rud";
+  if (n.includes("vivienda") || n.includes("afectad") || n.includes("herido") || n.includes("fallecid")) return "oficial_con_posibles_cifras";
+  if (n.includes("sismo") || n.includes("terremoto") || n.includes("temblor")) return "oficial_menciona_evento";
+  return "oficial_no_relacionado";
+}
+
+function confidence(text) {
+  const hasOfficialDamage = /edan|rud|damnific|viviendas?|heridos?|fallecid/i.test(text);
+  const hasNumber = /\d/.test(text);
+  if (hasOfficialDamage && hasNumber) return "media";
+  if (relevant(text)) return "baja";
+  return "ninguna";
+}
+
+function findQuote(text) {
+  const sentences = text.split(/(?<=[.!?])\s+/).filter((s) => relevant(s));
+  return (sentences[0] || text.slice(0, 240)).slice(0, 280);
+}
+
+function findDate(text) {
+  const m = text.match(/\b(\d{1,2})\s+de\s+([a-záéíóú]+)\s+de\s+(20\d{2})\b/i);
+  if (!m) return null;
+  const months = {
+    enero: "01", febrero: "02", marzo: "03", abril: "04", mayo: "05", junio: "06",
+    julio: "07", agosto: "08", septiembre: "09", octubre: "10", noviembre: "11", diciembre: "12"
+  };
+  const mm = months[norm(m[2])];
+  return mm ? `${m[3]}-${mm}-${String(Number(m[1])).padStart(2, "0")}` : null;
+}
+
+function findNumber(text, pattern) {
+  const idx = text.search(pattern);
+  if (idx < 0) return null;
+  const chunk = text.slice(Math.max(0, idx - 80), idx + 120);
+  const m = chunk.match(/\b\d{1,3}(?:[.,]\d{3})*|\b\d+\b/);
+  return m ? Number(m[0].replace(/[.,]/g, "")) : null;
+}
+
+function relevant(text) {
+  const n = norm(text);
+  return KEYWORDS.some((kw) => n.includes(norm(kw)));
+}
+
+function isVisualDocument(url, contentType) {
+  return /application\/pdf|image\//i.test(contentType) || /\.(pdf|png|jpe?g|webp)(\?|$)/i.test(url);
+}
+
+function sameHost(base) {
+  const host = new URL(base).host.replace(/^www\./, "");
+  return (url) => new URL(url).host.replace(/^www\./, "") === host;
+}
+
+function dedupe(items, keyFn) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = keyFn(item);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function stripHtml(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function norm(s) {
+  return String(s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+async function sha256(buffer) {
+  const digest = await crypto.subtle.digest("SHA-256", buffer);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 function authorize(request, env) {
-  if (!env.ACCESS_TOKEN) {
+  if (!env.INTERNAL_TOKEN) {
     return json({
-      error: "access_token_not_configured",
-      detail: "Configure el secreto ACCESS_TOKEN con `wrangler secret put ACCESS_TOKEN`."
+      error: "internal_token_not_configured",
+      detail: "Configure `wrangler secret put INTERNAL_TOKEN`."
     }, 503);
   }
   const header = request.headers.get("authorization") || "";
   const token = header.replace(/^Bearer\s+/i, "");
-  if (!token || token !== env.ACCESS_TOKEN) {
-    return json({ error: "unauthorized" }, 401);
-  }
-  return null;
-}
-
-async function analyze(request, env) {
-  let body = {};
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: "invalid_json" }, 400);
-  }
-
-  const selected = MODELS[body.model] || MODELS.qwen;
-  const data = await loadData(env.DATA_BASE_URL);
-  const prompt = buildPrompt(data, body.question || DEFAULT_QUESTION);
-  const started = Date.now();
-
-  const result = await env.AI.run(selected.id, {
-    messages: [
-      {
-        role: "system",
-        content:
-          "Eres un analista de gestión del riesgo. Responde en español, con cautela metodológica. " +
-          "No conviertas prensa, DYFI o Copernicus en EDAN oficial. Separa señal, evidencia satelital y fuente oficial colombiana."
-      },
-      { role: "user", content: prompt }
-    ],
-    max_tokens: 900,
-    temperature: 0.2
-  });
-
-  return json({
-    model: selected,
-    ms: Date.now() - started,
-    generated_at: new Date().toISOString(),
-    answer: normalizeAnswer(result),
-    usage: result.usage || null,
-    data_summary: summarizeData(data)
-  });
-}
-
-async function loadData(base) {
-  const [monitor, municipios, noticias] = await Promise.all([
-    fetchJson(`${base}/monitor.json`),
-    fetchJson(`${base}/municipios.json`),
-    fetchJson(`${base}/noticias.json`)
-  ]);
-  return { monitor, municipios, noticias };
-}
-
-async function fetchJson(url) {
-  const response = await fetch(url, {
-    headers: { "user-agent": "monitor-terremoto-colombia-ai-view/1.0" }
-  });
-  if (!response.ok) throw new Error(`HTTP ${response.status} ${url}`);
-  return response.json();
-}
-
-function summarizeData(data) {
-  const municipios = data.municipios?.items || [];
-  const noticias = data.noticias?.items || [];
-  const departamentos = {};
-  for (const n of noticias) {
-    for (const d of n.departamentos || []) departamentos[d] = (departamentos[d] || 0) + 1;
-  }
-  return {
-    generado: data.monitor?.generado || data.municipios?.generado,
-    total_municipios: municipios.length,
-    fuera_aoi: municipios.filter((m) => !m.en_aoi_copernicus).length,
-    total_noticias: noticias.length,
-    noticias_por_departamento: departamentos
-  };
-}
-
-function buildPrompt(data, question) {
-  const municipios = (data.municipios?.items || [])
-    .slice()
-    .sort((a, b) =>
-      Number(a.en_aoi_copernicus) - Number(b.en_aoi_copernicus) ||
-      (b.dyfi_max_cdi || 0) - (a.dyfi_max_cdi || 0) ||
-      (b.n_noticias || 0) - (a.n_noticias || 0)
-    )
-    .slice(0, 18)
-    .map((m) => ({
-      municipio: m.municipio,
-      departamento: m.departamento,
-      poblacion_2026: m.poblacion_2026,
-      en_aoi_copernicus: m.en_aoi_copernicus,
-      estado: m.estado,
-      dyfi_max_cdi: m.dyfi_max_cdi,
-      dyfi_respuestas: m.dyfi_respuestas,
-      n_noticias: m.n_noticias,
-      fuentes: m.fuentes
-    }));
-
-  const aois = (data.monitor?.aois || []).map((a) => ({
-    aoi: a.aoi,
-    estado_cruce: a.cruce?.estado,
-    prensa: a.cruce?.n_prensa,
-    ciudadano: a.cruce?.n_ciudadano,
-    edificios_afectados: a.resumen?.edificios_afectados,
-    vias_afectadas_km: a.resumen?.vias_afectadas_km
-  }));
-
-  return [
-    `Pregunta: ${question}`,
-    "",
-    "Datos disponibles, resumidos desde el monitor:",
-    JSON.stringify(
-      {
-        evento: data.monitor?.evento,
-        resumen: summarizeData(data),
-        aois,
-        municipios
-      },
-      null,
-      2
-    ),
-    "",
-    "Devuelve: 1) hallazgos, 2) municipios subrepresentados, 3) límites de inferencia, 4) qué fuente oficial colombiana faltaría."
-  ].join("\n");
-}
-
-function normalizeAnswer(result) {
-  if (typeof result === "string") return result;
-  if (result.response) return result.response;
-  if (result.choices?.[0]?.message?.content) return result.choices[0].message.content;
-  return JSON.stringify(result);
-}
-
-function html() {
-  return new Response(PAGE, {
-    headers: { "content-type": "text/html; charset=utf-8" }
-  });
+  return token === env.INTERNAL_TOKEN ? null : json({ error: "unauthorized" }, 401);
 }
 
 function json(value, status = 200) {
-  return cors(
-    new Response(JSON.stringify(value), {
-      status,
-      headers: { "content-type": "application/json; charset=utf-8" }
-    })
-  );
+  return cors(new Response(JSON.stringify(value), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": status === 200 ? "public, max-age=300" : "no-store"
+    }
+  }));
+}
+
+function rss(feed) {
+  return cors(new Response(renderRss(feed), {
+    headers: {
+      "content-type": "application/rss+xml; charset=utf-8",
+      "cache-control": "public, max-age=300"
+    }
+  }));
+}
+
+function renderRss(feed) {
+  const items = (feed.items || []).slice(0, 80).map((item) => `
+    <item>
+      <title>${xml(item.title || item.url)}</title>
+      <link>${xml(item.url)}</link>
+      <guid>${xml(item.content_sha256 || item.url)}</guid>
+      <description>${xml(`${item.source_name || ""} · ${item.estado || ""} · ${item.cita || ""}`)}</description>
+    </item>`).join("");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+  <rss version="2.0"><channel>
+    <title>Reportes oficiales estructurados - Terremoto Colombia</title>
+    <link>https://github.com/JP-infoRes/monitor-terremoto-colombia</link>
+    <description>Feed generado por Worker interno con Qwen OCR; solo datos estructurados públicos.</description>
+    ${items}
+  </channel></rss>`;
+}
+
+function xml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function cors(response) {
   response.headers.set("access-control-allow-origin", "*");
   response.headers.set("access-control-allow-methods", "GET,POST,OPTIONS");
-  response.headers.set("access-control-allow-headers", "content-type");
+  response.headers.set("access-control-allow-headers", "content-type,authorization");
   return response;
 }
-
-const PAGE = `<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vista IA - Monitor terremoto Colombia</title>
-<style>
-body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0;background:#f7f8fa;color:#17202a}
-main{max-width:980px;margin:0 auto;padding:28px 18px}
-h1{font-size:28px;margin:0 0 6px} p{color:#52606d}
-.bar{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
-select,textarea,button{font:inherit;border:1px solid #c9d1da;border-radius:6px;background:white}
-select,button{padding:9px 12px} textarea{width:100%;min-height:90px;padding:10px;box-sizing:border-box}
-button{background:#1155cc;color:white;border-color:#1155cc;cursor:pointer}
-button:disabled{opacity:.65;cursor:wait}
-pre{white-space:pre-wrap;background:white;border:1px solid #dde3ea;border-radius:8px;padding:14px;line-height:1.45}
-.meta{font-size:13px;color:#6b7280}
-</style>
-</head>
-<body>
-<main>
-<h1>Vista con modelos chinos - Workers AI</h1>
-<p>Contrasta el monitor con Qwen, DeepSeek o Kimi. La salida es análisis asistido, no fuente oficial.</p>
-<input id="token" type="password" placeholder="Token de acceso" style="width:100%;box-sizing:border-box;padding:10px;border:1px solid #c9d1da;border-radius:6px;margin:8px 0 10px">
-<textarea id="q">${DEFAULT_QUESTION}</textarea>
-<div class="bar">
-<select id="model">
-<option value="qwen">Qwen QwQ 32B</option>
-<option value="deepseek">DeepSeek R1 Distill Qwen 32B</option>
-<option value="kimi">Moonshot Kimi K2.6</option>
-</select>
-<button id="run">Analizar</button>
-</div>
-<p class="meta" id="meta"></p>
-<pre id="out">Listo.</pre>
-</main>
-<script>
-const out=document.getElementById('out'), meta=document.getElementById('meta'), btn=document.getElementById('run');
-btn.onclick=async()=>{
-  btn.disabled=true; out.textContent='Consultando Workers AI...'; meta.textContent='';
-  try{
-    const token=document.getElementById('token').value;
-    const r=await fetch('/api/analyze',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+token},body:JSON.stringify({model:document.getElementById('model').value,question:document.getElementById('q').value})});
-    const j=await r.json();
-    if(!r.ok) throw new Error(j.error||r.status);
-    meta.textContent=j.model.label+' · '+j.ms+' ms · municipios '+j.data_summary.total_municipios+' · noticias '+j.data_summary.total_noticias;
-    out.textContent=j.answer;
-  }catch(e){out.textContent='Error: '+e.message}
-  btn.disabled=false;
-};
-</script>
-</body>
-</html>`;

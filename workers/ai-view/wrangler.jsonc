@@ -1,12 +1,19 @@
 {
   "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
-  "name": "monitor-terremoto-colombia-ai-view",
+  "name": "monitor-terremoto-colombia-oficiales-ai",
   "main": "src/index.js",
   "compatibility_date": "2026-08-15",
-  "ai": {
-    "binding": "AI"
+  "kv_namespaces": [
+    {
+      "binding": "OFFICIAL_DATA",
+      "id": "c4ea80d8e28041ce81f8e7065e09338f"
+    }
+  ],
+  "triggers": {
+    "crons": ["17 */6 * * *"]
   },
   "vars": {
-    "DATA_BASE_URL": "https://raw.githubusercontent.com/JP-infoRes/monitor-terremoto-colombia/main/data/public"
+    "QWEN_OCR_MODEL": "qwen-vl-ocr-2025-11-20",
+    "QWEN_API_URL": "https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation"
   }
 }

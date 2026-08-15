@@ -1,32 +1,39 @@
-# Vista IA con Workers AI
+# Feed oficial con lectura IA privada
 
-Worker experimental para contrastar el monitor con modelos disponibles en
-Cloudflare Workers AI:
+Worker para recolectar canales oficiales colombianos, convertir documentos
+visuales/PDF a texto estructurado con Qwen OCR y publicar solo el resultado
+validado como datos.
 
-- `@cf/qwen/qwq-32b`
-- `@cf/deepseek-ai/deepseek-r1-distill-qwen-32b`
-- `@cf/moonshotai/kimi-k2.6`
+Modelo OCR:
 
-La vista no reemplaza fuentes oficiales. Es una ayuda de lectura para formular
-hipótesis sobre municipios subrepresentados, límites de inferencia y evidencia
-oficial faltante.
+- `qwen-vl-ocr-2025-11-20`
 
-## Seguridad
+La inferencia no queda expuesta. El público solo lee:
 
-`/api/analyze` exige un secreto `ACCESS_TOKEN`. Si el secreto no existe, el
-Worker responde `503` y no ejecuta inferencia.
+- `/oficiales.json`
+- `/api/oficiales.json`
+- `/oficiales.rss`
+
+Las rutas internas requieren `INTERNAL_TOKEN`:
+
+- `POST /internal/run`
+- `POST /internal/extract`
+
+## Secretos
 
 ```bash
 cd workers/ai-view
-wrangler secret put ACCESS_TOKEN
+wrangler secret put INTERNAL_TOKEN
+wrangler secret put QWEN_API_KEY
 wrangler deploy
 ```
 
-El uso de `/api/analyze` consume Workers AI. No desplegar sin token.
+El Worker usa KV (`OFFICIAL_DATA`) para persistir el feed público.
 
 ## Desarrollo
 
 ```bash
 wrangler deploy --dry-run
 wrangler dev --remote
+curl -X POST "$WORKER/internal/run" -H "Authorization: Bearer $INTERNAL_TOKEN"
 ```

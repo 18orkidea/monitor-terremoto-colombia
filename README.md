@@ -22,6 +22,18 @@ python ingest/run_daily.py              # corrida diaria (GitHub Actions la hace
 python -m http.server -d . 8000         # ver el mapa: http://localhost:8000/site/
 ```
 
+Extracción privada de documentos oficiales con IA:
+
+```bash
+cd workers/ai-view
+wrangler secret put INTERNAL_TOKEN
+wrangler secret put QWEN_API_KEY
+wrangler deploy
+```
+
+Ese Worker no expone inferencia pública: usa Qwen OCR para leer PDFs/imagenes oficiales,
+guarda el resultado en KV y publica solo `/oficiales.json` y `/oficiales.rss`.
+
 Tests (ciegos: verifican código, supuestos e hipótesis por separado):
 
 ```bash
@@ -44,6 +56,7 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [DANE proyecciones municipales](https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion) | Población municipal 2026 total, cabecera y rural (serie por área 2018-2042) | Público; XLSX oficial |
 | [ChatMap OSM Colombia](https://chatmap.hotosm.org/colombia.html) ([uMap](https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482), [proyecto HOT](https://www.hotosm.org/en/projects/2026-colombia-earthquake-response/)) | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
 | [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
+| Worker interno `monitor-terremoto-colombia-oficiales-ai` | Monitoreo de canales oficiales y extracción estructurada de documentos con `qwen-vl-ocr-2025-11-20` | Privado para inferencia; público solo JSON/RSS estructurado |
 
 Sin acceso programático (documentado, no usado): [SNIGRD](https://sni.gestiondelriesgo.gov.co/)/geoportal
 UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA sin API),
@@ -58,6 +71,7 @@ UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA si
 - **EDAN**: Evaluación de Daños y Análisis de Necesidades; es la evidencia oficial exigida para declarar coincidencia.
 - **EMM/GDACS**: rastreador de noticias y sistema global de alertas/coordinación de desastres.
 - **MMI/ShakeMap/PAGER**: intensidad estimada, mapa de sacudida y exposición/pérdidas probables de USGS.
+- **OCR/Qwen**: reconocimiento y parsing de documentos visuales; se usa solo como extracción asistida, no como fuente oficial.
 - **RSS/Atom**: formatos de feeds abiertos usados para ingerir medios y agregadores.
 
 ## Reglas de rigor
@@ -91,5 +105,6 @@ data/
   media/          # fotos ciudadanas (videos fuera de git, hash registrado)
   public/         # artefactos que consume el mapa
 site/             # Leaflet sin build: index.html + app.js + styles.css
+workers/ai-view/ # Worker privado: lee documentos oficiales con Qwen OCR y publica JSON/RSS
 tests/            # ciegos: unit (código), supuestos (APIs), hipótesis (datos)
 ```
