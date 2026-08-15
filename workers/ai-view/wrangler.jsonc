@@ -10,7 +10,7 @@
     }
   ],
   "triggers": {
-    "crons": ["17 9 * * *"]
+    "crons": ["0 4 * * *"]
   },
   "vars": {
     "QWEN_OCR_MODEL": "qwen-vl-ocr-2025-11-20",

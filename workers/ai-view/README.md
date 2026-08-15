@@ -39,20 +39,36 @@ revisando RSS/HTML oficiales y marca el conector Firecrawl como `missing_secret`
 
 El flujo diario es `search -> scrape -> extracción`:
 
-1. Construye la consulta con fecha variable: `UNGRD reporte de terremoto DD-MM-YYYY`.
+1. Construye consultas con fecha variable, fuentes oficiales objetivo y campos objetivo:
+   - `UNGRD SGC terremoto Colombia DD-MM-YYYY fallecidos heridos desaparecidos rescatados balance oficial`
+   - `Gobernación Alcaldía terremoto Colombia DD-MM-YYYY personas familias viviendas municipios departamentos afectados`
+   - `Presidencia Colombia UNGRD SGC terremoto DD-MM-YYYY reporte oficial afectados`
 2. Llama `POST https://api.firecrawl.dev/v2/search` con `sources:["web"]`, `limit:10`,
    `scrapeOptions.formats:[]`, `maxAge:172800000` y parser `pdf`.
-3. Toma las 3 primeras URLs únicas del día.
-4. Entra a cada URL con `POST https://api.firecrawl.dev/v2/scrape` usando markdown,
+3. Ordena las URLs por presencia de métricas, cifras, contexto Colombia/UNGRD y tipo de fuente.
+4. Toma las 3 primeras URLs únicas del día.
+5. Entra a cada URL con `POST https://api.firecrawl.dev/v2/scrape` usando markdown,
    contenido principal y parser PDF.
-5. Clasifica cada URL como `oficial_comunicacion`, `gobierno_local_por_verificar`,
+6. Clasifica cada URL como `oficial_comunicacion`, `oficial_institucional`,
+   `gobierno_local_por_verificar`,
    `temporal_prensa` o `busqueda_web_temporal`.
-6. Publica las cifras extraídas, siempre con `requiere_revision_humana:true`; prensa y
+7. Publica las cifras extraídas, siempre con `requiere_revision_humana:true`; prensa y
    web abierta no se promueven a EDAN ni a coincidencia oficial.
 
 Cada ejecución conserva `search_date`, `search_query` y `snapshot_id`. Para Firecrawl el
 `snapshot_id` combina fecha y URL, de modo que el mismo medio puede aparecer en varios días
 y servir para reconstruir cómo evolucionaron las cifras.
+
+Cada item conserva dos niveles de atribución:
+
+- `publication_url`: URL exacta de la página scrapeada.
+- `publisher`: canal que publicó el contenido scrapeado (`name`, `domain`, `channel`, `url`).
+- `reported_data_source`: entidad citada como fuente de los datos dentro del texto, por
+  ejemplo UNGRD, SGC, Presidencia, Gobernación o Alcaldía cuando aparece; incluye `url`
+  cuando se puede asignar una URL canónica.
+
+El cron de producción corre a las `23:00` de Colombia (`0 4 * * *` en UTC de
+Cloudflare) para recoger el cierre informativo del día.
 
 Ejecución manual con fecha:
 
@@ -78,9 +94,9 @@ done
 
 - **UNGRD Noticias**: SharePoint público. La portada y la vista de biblioteca se leen bien,
   pero los datos útiles deben estar en noticias específicas `/Paginas/Noticias/2026/*.aspx`.
-- **Firecrawl búsqueda diaria**: consulta web por fecha y scrapea las 3 primeras URLs
-  encontradas. Permite capturar fuentes oficiales o no oficiales dispersas; quedan
-  etiquetadas por nivel de fuente para revisión.
+- **Firecrawl búsqueda diaria**: consulta web por fecha enfocada en UNGRD, SGC,
+  Presidencia, Gobernación y Alcaldía, y scrapea las 3 primeras URLs priorizadas.
+  Si aparecen medios no oficiales, quedan etiquetados como temporales.
 - **SNIGRD Alertas**: HTML público. Se revisa como canal de alertas, pero no se aceptan
   páginas generales como evidencia del terremoto.
 - **Gobernación de Caldas**: Joomla con RSS usable en
@@ -110,5 +126,5 @@ Smoke test de Firecrawl:
 curl -X POST https://api.firecrawl.dev/v2/search \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"query":"UNGRD reporte de terremoto 15-08-2026","limit":10,"sources":["web"],"scrapeOptions":{"formats":[],"onlyMainContent":true,"maxAge":172800000,"parsers":["pdf"]}}'
+  -d '{"query":"UNGRD SGC terremoto Colombia 15-08-2026 fallecidos heridos desaparecidos rescatados balance oficial","limit":10,"sources":["web"],"scrapeOptions":{"formats":[],"onlyMainContent":true,"maxAge":172800000,"parsers":["pdf"]}}'
 ```

@@ -31,8 +31,16 @@ const UNRELATED_EVENT_TERMS = [
 
 const FIRECRAWL_DAILY_QUERY_TEMPLATES = [
   {
-    label: "UNGRD reporte terremoto por fecha",
-    query: "UNGRD reporte de terremoto {date_dmy}"
+    label: "UNGRD SGC balance oficial por fecha",
+    query: "UNGRD SGC terremoto Colombia {date_dmy} fallecidos heridos desaparecidos rescatados balance oficial"
+  },
+  {
+    label: "Gobernacion Alcaldia afectacion por fecha",
+    query: "Gobernación Alcaldía terremoto Colombia {date_dmy} personas familias viviendas municipios departamentos afectados"
+  },
+  {
+    label: "Presidencia reporte oficial por fecha",
+    query: "Presidencia Colombia UNGRD SGC terremoto {date_dmy} reporte oficial afectados"
   }
 ];
 
@@ -76,7 +84,7 @@ const OFFICIAL_SOURCES = [
         type: "firecrawl_search",
         role: "busqueda_diaria_fecha",
         url: "https://api.firecrawl.dev/v2/search",
-        note: "Search por fecha variable y scrape de las 3 primeras URLs; clasifica oficial/prensa/temporal sin promover a EDAN.",
+        note: "Search por fecha variable orientado a UNGRD, SGC, Gobernación, Presidencia y Alcaldía; scrapea las 3 primeras URLs priorizadas.",
         queries: FIRECRAWL_DAILY_QUERY_TEMPLATES,
         limit: 10,
         scrape_limit: 3
@@ -436,7 +444,10 @@ async function discoverWithFirecrawl(entry, source, env, runDate) {
     }
   }
 
-  for (const result of dedupe(topResults, (x) => x.url).slice(0, entry.scrape_limit || 3)) {
+  const rankedResults = dedupe(topResults, (x) => x.url)
+    .sort((a, b) => scoreSearchResult(b) - scoreSearchResult(a));
+
+  for (const result of rankedResults.slice(0, entry.scrape_limit || 3)) {
     const scraped = await scrapeWithFirecrawl(result.url, env);
     credits += scraped.credits_used || 0;
     const text = `${result.title || ""} ${result.description || ""} ${scraped.text || ""}`;
@@ -446,6 +457,8 @@ async function discoverWithFirecrawl(entry, source, env, runDate) {
       level: sourceLevel,
       name: sourceLevel === "oficial_comunicacion"
         ? "Firecrawl - fuente oficial encontrada"
+        : sourceLevel === "oficial_institucional"
+          ? "Firecrawl - fuente institucional oficial encontrada"
         : sourceLevel === "temporal_prensa"
           ? "Firecrawl - prensa temporal encontrada"
           : source.name
@@ -456,6 +469,7 @@ async function discoverWithFirecrawl(entry, source, env, runDate) {
       summary: result.description || scraped.description || "",
       prefetched_text: scraped.text || result.description || result.title || "",
       source: candidateSource,
+      publisher: inferPublisher(result.url, result, scraped),
       original_source_level: sourceLevel,
       search_date: runDate,
       search_query: result.query,
@@ -467,6 +481,8 @@ async function discoverWithFirecrawl(entry, source, env, runDate) {
       firecrawl_scrape_error: scraped.error || null,
       temporal_source_policy: sourceLevel === "oficial_comunicacion"
         ? "comunicacion_oficial_no_edan"
+        : sourceLevel === "oficial_institucional"
+          ? "institucion_oficial_no_edan"
         : "fuente_temporal_no_oficial_requiere_verificacion"
     });
   }
@@ -515,6 +531,7 @@ async function scrapeWithFirecrawl(url, env) {
     status: response.status,
     credits_used: data.creditsUsed || 0,
     title: payload.metadata?.title || payload.title || "",
+    siteName: payload.metadata?.siteName || payload.metadata?.["og:site_name"] || "",
     description: payload.metadata?.description || "",
     text: payload.markdown || payload.content || payload.text || ""
   };
@@ -610,16 +627,21 @@ async function processDocument(candidate, env) {
   const evidenceText = `${candidate.title} ${candidate.summary || ""} ${text}`;
   return {
     url: candidate.url,
+    publication_url: candidate.url,
     title: candidate.title,
     snapshot_id: itemKey(candidate),
     search_date: candidate.search_date || null,
     search_query: candidate.search_query || null,
+    publisher: candidate.publisher || inferPublisher(candidate.url, candidate, {}),
+    reported_data_source: inferReportedDataSource(`${candidate.title} ${candidate.summary || ""} ${text}`),
     source_id: candidate.source.id,
     source_name: candidate.source.name,
     source_level: candidate.source.level,
     official: candidate.source.level === "oficial_comunicacion" ||
+      candidate.source.level === "oficial_institucional" ||
       candidate.source.level === "nacional" ||
-      candidate.source.level === "gobernacion",
+      candidate.source.level === "gobernacion" ||
+      candidate.source.level === "gobierno_local_por_verificar",
     temporal_source_policy: candidate.temporal_source_policy || null,
     original_source_level: candidate.original_source_level || candidate.source.level,
     content_sha256: hash,
@@ -779,19 +801,19 @@ function findMetricNumber(text, metric) {
     ],
     heridos: [
       new RegExp(`${number}\\s+heridos?`, "i"),
-      new RegExp(`heridos?\\D{0,30}${number}`, "i")
+      new RegExp(`heridos?\\s*[:;\\-–]\\s*${number}`, "i")
     ],
     fallecidos: [
       new RegExp(`${number}\\s+(fallecid|muert)`, "i"),
-      new RegExp(`(fallecid|muert)\\w*\\D{0,30}${number}`, "i")
+      new RegExp(`(fallecid|muert)\\w*\\s*[:;\\-–]\\s*${number}`, "i")
     ],
     desaparecidos: [
       new RegExp(`${number}\\s+desaparecid`, "i"),
-      new RegExp(`desaparecid\\w*\\D{0,30}${number}`, "i")
+      new RegExp(`desaparecid\\w*\\s*[:;\\-–]\\s*${number}`, "i")
     ],
     rescatados: [
       new RegExp(`${number}\\s+rescatad`, "i"),
-      new RegExp(`rescatad\\w*\\D{0,30}${number}`, "i")
+      new RegExp(`rescatad\\w*\\s*[:;\\-–]\\s*${number}`, "i")
     ]
   };
   for (const pattern of patterns[metric] || []) {
@@ -813,6 +835,22 @@ function isCandidateLink(link) {
   const text = `${link.title || ""} ${link.summary || ""} ${link.url || ""}`;
   if (isGenericPage(text)) return false;
   return hasEventTerm(text) && (hasDamageTerm(text) || hasImpactedPlace(text) || hasEventDate(text));
+}
+
+function scoreSearchResult(result) {
+  const text = norm(`${result.title || ""} ${result.description || ""} ${result.url || ""}`);
+  const wanted = [
+    "fallecid", "muert", "herid", "desaparecid", "rescatad",
+    "personas afectad", "familias afectad", "viviendas",
+    "municipios afectad", "departamentos afectad", "balance", "reporte"
+  ];
+  let score = wanted.reduce((sum, term) => sum + (text.includes(norm(term)) ? 2 : 0), 0);
+  if (/\d/.test(text)) score += 2;
+  if (hasColombiaContext(text)) score += 3;
+  if (isOfficialUngrChannel(result.url, text) || isOfficialInstitutionChannel(result.url, text)) score += 4;
+  if (classifySourceLevel(result.url, text) === "temporal_prensa") score += 1;
+  if (hasUnrelatedEventContext(text)) score -= 20;
+  return score;
 }
 
 function isOfficialUngrChannel(url, text) {
@@ -841,21 +879,123 @@ function classifySourceLevel(url, text) {
   ) {
     return "oficial_comunicacion";
   }
+  if (isOfficialInstitutionChannel(url, text)) {
+    return "oficial_institucional";
+  }
   if (
     u.includes(".gov.co") ||
-    u.includes("gov.co/") ||
-    n.includes("gobernacion") ||
-    n.includes("alcaldia") ||
-    n.includes("unidad de gestion del riesgo")
+    u.includes("gov.co/")
   ) {
     return "gobierno_local_por_verificar";
   }
   if (
-    /\b(eltiempo|elespectador|semana|larepublica|bluradio|rcnradio|caracol|wradio|infobae|elpais|qhubo|diariooccidente|cronicadelquindio|eldiario|latarde|choco7dias)\b/i.test(u)
+    /\b(eltiempo|elespectador|semana|larepublica|bluradio|rcnradio|caracol|wradio|infobae|france24|elpais|qhubo|diariooccidente|cronicadelquindio|eldiario|latarde|choco7dias)\b/i.test(u)
   ) {
     return "temporal_prensa";
   }
   return "busqueda_web_temporal";
+}
+
+function isOfficialInstitutionChannel(url, text) {
+  const u = String(url || "").toLowerCase();
+  return (
+    u.includes("sgc.gov.co") ||
+    u.includes("presidencia.gov.co") ||
+    u.includes("presidencia.gov") ||
+    u.includes(".gov.co") ||
+    u.includes("gov.co/")
+  );
+}
+
+function inferPublisher(url, result = {}, scraped = {}) {
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    parsed = { hostname: "" };
+  }
+  const domain = parsed.hostname.replace(/^www\./, "");
+  const platform = inferChannel(url);
+  return {
+    name: scraped.siteName || result.siteName || scraped.title || result.source || publisherNameFromDomain(domain),
+    domain,
+    channel: platform,
+    url
+  };
+}
+
+function publisherNameFromDomain(domain) {
+  const known = {
+    "eltiempo.com": "El Tiempo",
+    "elespectador.com": "El Espectador",
+    "semana.com": "Semana",
+    "bluradio.com": "Blu Radio",
+    "rcnradio.com": "RCN Radio",
+    "caracol.com.co": "Caracol Radio",
+    "wradio.com.co": "W Radio",
+    "portal.gestiondelriesgo.gov.co": "UNGRD",
+    "gestiondelriesgo.gov.co": "UNGRD",
+    "sgc.gov.co": "Servicio Geológico Colombiano",
+    "presidencia.gov.co": "Presidencia de Colombia"
+  };
+  return known[domain] || domain || null;
+}
+
+function inferChannel(url) {
+  const u = String(url || "").toLowerCase();
+  if (u.includes("youtube.com") || u.includes("youtu.be")) return "youtube";
+  if (u.includes("facebook.com")) return "facebook";
+  if (u.includes("instagram.com")) return "instagram";
+  if (u.includes("linkedin.com")) return "linkedin";
+  if (u.includes("x.com") || u.includes("twitter.com")) return "x_twitter";
+  if (/\.pdf($|\?)/i.test(u)) return "pdf";
+  return "web";
+}
+
+function inferReportedDataSource(text) {
+  const n = norm(text);
+  const sources = [];
+  if (n.includes("ungrd") || n.includes("unidad nacional para la gestion del riesgo")) {
+    sources.push({
+      id: "UNGRD",
+      name: "Unidad Nacional para la Gestión del Riesgo de Desastres",
+      type: "oficial_nacional",
+      url: "https://portal.gestiondelriesgo.gov.co/"
+    });
+  }
+  if (n.includes("servicio geologico colombiano") || /\bsgc\b/i.test(text)) {
+    sources.push({
+      id: "SGC",
+      name: "Servicio Geológico Colombiano",
+      type: "oficial_nacional",
+      url: "https://www.sgc.gov.co/"
+    });
+  }
+  if (n.includes("presidencia de la republica") || n.includes("presidencia de colombia")) {
+    sources.push({
+      id: "presidencia",
+      name: "Presidencia de Colombia",
+      type: "oficial_nacional",
+      url: "https://www.presidencia.gov.co/"
+    });
+  }
+  if (n.includes("gobernacion")) {
+    sources.push({
+      id: "gobernacion",
+      name: "Gobernación citada en el texto",
+      type: "oficial_departamental_por_verificar",
+      url: null
+    });
+  }
+  if (n.includes("alcaldia")) {
+    sources.push({
+      id: "alcaldia",
+      name: "Alcaldía citada en el texto",
+      type: "oficial_municipal_por_verificar",
+      url: null
+    });
+  }
+  return dedupe(sources, (x) => x.id);
 }
 
 function isSpecificEventEvidence(text) {
