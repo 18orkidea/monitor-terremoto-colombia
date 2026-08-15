@@ -1189,7 +1189,7 @@ function renderRss(feed) {
   return `<?xml version="1.0" encoding="UTF-8"?>
   <rss version="2.0"><channel>
     <title>Reportes oficiales estructurados - Terremoto Colombia</title>
-    <link>https://github.com/JP-infoRes/monitor-terremoto-colombia</link>
+    <link>https://github.com/18orkidea/monitor-terremoto-colombia</link>
     <description>Feed generado por Worker interno con Qwen OCR; solo datos estructurados públicos.</description>
     ${items}
   </channel></rss>`;

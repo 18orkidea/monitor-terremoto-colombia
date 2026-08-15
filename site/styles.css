@@ -46,6 +46,26 @@ h2 { font-size: 15px; margin: 0 0 8px; }
 .sub { color: var(--ink-2); font-size: 13px; margin: 0; }
 .sub a { color: var(--s1); }
 .meta { text-align: right; font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.support-line {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  color: var(--ink-2); font-size: 12px; line-height: 1.35;
+}
+.support-line a { color: var(--s1); text-decoration: none; font-weight: 600; }
+.support-line a:hover { text-decoration: underline; }
+.support-pill, .repo-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 8px; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface-1); color: var(--ink) !important; font-size: 11.5px;
+}
+.repo-link svg { width: 14px; height: 14px; fill: currentColor; flex: 0 0 auto; }
+.coffee-link { border-color: color-mix(in srgb, #bd5fff 35%, var(--border)); }
+.support-line-header {
+  width: 100%; justify-content: flex-end; padding-top: 2px;
+}
+.support-line-footer {
+  justify-content: space-between; padding: 10px 0 14px; margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
 .btn {
   border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px;
   text-decoration: none; color: var(--ink); background: var(--surface-1); font-size: 12px;
@@ -164,4 +184,6 @@ footer a:hover { text-decoration: underline; }
 .leaflet-popup-content img { max-width: 220px; border-radius: 6px; display: block; margin-top: 6px; }
 @media (max-width: 900px) {
   #map { min-height: 46vh; }
+  header { flex-direction: column; }
+  .meta, .support-line-header { justify-content: flex-start; text-align: left; }
 }
