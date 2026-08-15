@@ -302,7 +302,7 @@
     ...(mon.entregas || []).map((e) => ({
       fecha: e.fecha, tipo: "entrega",
       texto: `Copernicus entrega datos de daño: ${aoiEs(e.aoi)} (${t(e.producto)} / ${e.producto} v${e.version})` })),
-  ].filter((h) => h.fecha).sort((x, y) => x.fecha.localeCompare(y.fecha));
+  ].filter((h) => h.fecha).sort((x, y) => y.fecha.localeCompare(x.fecha));
   document.getElementById("timeline").innerHTML = hitos.map((h) =>
     `<li class="${h.tipo}"><span class="t-fecha">${h.fecha.slice(0, 16).replace("T", " ")}</span> ` +
     (h.url ? `<a href="${h.url}" target="_blank" rel="noopener">${h.texto}</a>` : h.texto) +
