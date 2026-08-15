@@ -26,9 +26,12 @@ jobs:
 
       - name: Build static artifact
         run: |
-          mkdir -p dist/site dist/data
+          mkdir -p dist/site dist/data dist/data/media
           cp -R site/. dist/site/
           cp -R data/public dist/data/public
+          # fotos ciudadanas (solo imágenes; los videos no están en el repo)
+          find data/media -maxdepth 1 \( -name '*.jpg' -o -name '*.png' -o -name '*.webp' \) \
+            -size -25M -exec cp {} dist/data/media/ \; 2>/dev/null || true
           touch dist/.nojekyll
 
       - name: Setup Pages

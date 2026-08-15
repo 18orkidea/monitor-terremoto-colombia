@@ -79,7 +79,12 @@ UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA si
 - **`Coincide cualitativamente` exige evidencia oficial** (EDAN/entidad estatal). Prensa y
   reportes ciudadanos alimentan estados intermedios explícitos; nunca promueven solos.
 - Los `"NA"` de Copernicus se conservan como NULL + literal crudo — jamás se convierten en 0.
-- Coordenadas ciudadanas publicadas redondeadas a ~110 m; el EXIF nunca se publica.
+- Coordenadas ciudadanas **en el mapa** redondeadas a ~110 m; el EXIF nunca se publica
+  (verificado: 0 de 355 fotos traen EXIF — WhatsApp lo elimina). Nota de transparencia:
+  la base `data/monitor.sqlite` y los snapshots crudos conservan la coordenada original
+  de ChatMap porque son el registro de trazabilidad — el mismo dato que la fuente
+  (chatmap.hotosm.org) ya publica en abierto; el redondeo es una capa de prudencia en la
+  presentación, no un secreto.
 - Toda cifra es rastreable: `sources_log` (URL, HTTP, sha256, timestamp) + snapshot inmutable
   en `data/snapshots/YYYY-MM-DD/`.
 
