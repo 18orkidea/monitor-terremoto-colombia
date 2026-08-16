@@ -24,7 +24,7 @@
  "name":"Titulares del terremoto de Colombia 2026 por zona",
  "inLanguage":"es","isPartOf":{"@type":"WebSite","name":"Monitor de brechas","url":"https://brechas.orkidea.eu/site/"}}
 </script>
-<link rel="stylesheet" href="styles.css?v=20260816.8">
+<link rel="stylesheet" href="styles.css?v=20260816.9">
 <style>
   #filtros { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
   #filtros input, #filtros select {
@@ -47,10 +47,11 @@
 </style>
 </head>
 <body>
+<nav id="site-nav" aria-label="Navegación del sitio"></nav>
 <header>
   <div>
     <h1>Titulares del terremoto — todas las noticias</h1>
-    <p class="sub"><a href="index.html">← volver al mapa</a> · Fuentes: GDACS EMM,
+    <p class="sub">Fuentes: GDACS EMM,
     feeds aportados por la comunidad y búsquedas Google News por municipio (<a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a> —
     ¿conoces un buen feed local? <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">añádelo con un PR</a>)</p>
   </div>
@@ -100,7 +101,10 @@
   </div>
   <p id="resumen">Cargando…</p>
   <ul id="lista"></ul>
+  <nav id="paginado" aria-label="Paginación de titulares"></nav>
 </div>
-<script src="noticias.js?v=20260816.8-3"></script>
+<script src="noticias.js?v=20260816.9-3"></script>
+<div id="site-footer"></div>
+<script src="common.js?v=20260816.9"></script>
 </body>
 </html>

@@ -44,7 +44,9 @@
 
   const lista = document.getElementById("lista");
   const resumen = document.getElementById("resumen");
-  const MAX = 400;
+  const pagEl = document.getElementById("paginado");
+  const POR_PAGINA = 50;
+  let pagina = 1;
 
   function render() {
     const q = document.getElementById("buscar").value.toLowerCase();
@@ -59,22 +61,50 @@
       (!fd || (n.departamentos || []).includes(fd)) &&
       (!fm || (n.municipios || []).includes(fm)) &&
       (!fo || n.origen === fo));
+    const paginas = Math.max(1, Math.ceil(sel.length / POR_PAGINA));
+    if (pagina > paginas) pagina = paginas;
+    const desde = (pagina - 1) * POR_PAGINA;
     resumen.textContent =
       `${sel.length.toLocaleString("es-CO")} de ${items.length.toLocaleString("es-CO")} titulares` +
-      (sel.length > MAX ? ` — mostrando los ${MAX} más recientes` : "") +
+      (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "") +
       ` · actualizado ${data.generado}`;
-    lista.innerHTML = sel.slice(0, MAX).map((n) =>
+    lista.innerHTML = sel.slice(desde, desde + POR_PAGINA).map((n) =>
       `<li><span class="meta-n">${(n.fecha || "").slice(0, 16).replace("T", " ")} · ${n.medio || n.origen}</span>` +
       (n.aois || []).map((a) => `<span class="chip" title="${a}">${aoiEs(a)}</span>`).join("") +
       (n.departamentos || []).map((d) => `<span class="chip dep">${d}</span>`).join("") +
       (n.municipios || []).map((m) => `<span class="chip mun">${m}</span>`).join("") +
       `<br><a href="${n.url}" target="_blank" rel="noopener">${n.titulo}</a></li>`).join("") ||
       "<li>Nada que mostrar con estos filtros.</li>";
+    renderPaginado(paginas);
   }
-  document.getElementById("buscar").addEventListener("input", render);
-  selA.addEventListener("change", render);
-  selD.addEventListener("change", render);
-  selM.addEventListener("change", render);
-  selO.addEventListener("change", render);
+
+  function renderPaginado(paginas) {
+    if (!pagEl) return;
+    if (paginas <= 1) { pagEl.innerHTML = ""; return; }
+    // ventana compacta: 1 … p-1 p p+1 … N
+    const nums = [...new Set([1, 2, pagina - 1, pagina, pagina + 1, paginas - 1, paginas]
+      .filter((n) => n >= 1 && n <= paginas))].sort((a, b) => a - b);
+    let html = `<button ${pagina === 1 ? "disabled" : ""} data-p="${pagina - 1}">‹ Anterior</button>`;
+    let prev = 0;
+    for (const n of nums) {
+      if (n - prev > 1) html += `<span style="color:var(--muted)">…</span>`;
+      html += `<button data-p="${n}" class="${n === pagina ? "actual" : ""}">${n}</button>`;
+      prev = n;
+    }
+    html += `<button ${pagina === paginas ? "disabled" : ""} data-p="${pagina + 1}">Siguiente ›</button>`;
+    pagEl.innerHTML = html;
+    pagEl.querySelectorAll("button[data-p]").forEach((b) =>
+      b.addEventListener("click", () => {
+        pagina = +b.dataset.p;
+        render();
+        document.getElementById("filtros").scrollIntoView({ behavior: "smooth" });
+      }));
+  }
+  const filtrar = () => { pagina = 1; render(); };
+  document.getElementById("buscar").addEventListener("input", filtrar);
+  selA.addEventListener("change", filtrar);
+  selD.addEventListener("change", filtrar);
+  selM.addEventListener("change", filtrar);
+  selO.addEventListener("change", filtrar);
   render();
 })();
