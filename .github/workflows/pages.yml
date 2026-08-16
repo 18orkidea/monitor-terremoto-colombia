@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # el commit diario lo hace el bot con GITHUB_TOKEN y ese push NO dispara
+  # workflows (anti-recursión de GitHub); workflow_run sí se entera
+  workflow_run:
+    workflows: ["Monitor diario"]
+    types: [completed]
 
 permissions:
   contents: read
