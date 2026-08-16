@@ -52,7 +52,7 @@
 }
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=20260816.9">
+<link rel="stylesheet" href="styles.css?v=20260816.10">
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
@@ -225,9 +225,65 @@
   <ul id="alerts"></ul>
 </section>
 
-<section id="glosario">
-  <h2>Glosario de acrónimos</h2>
-  <dl>
+<section id="metodologia">
+  <details id="metodologia-box">
+    <summary><strong>📚 Metodología y glosario</strong> — cómo se construye cada cifra y qué significa cada sigla</summary>
+
+    <h3>Metodología</h3>
+    <p>El monitor no produce cifras: <strong>audita y cruza las que existen</strong>. Cada día,
+    de forma automática, ocurren tres ciclos:</p>
+    <ol>
+      <li><strong>23:00 (Colombia)</strong> — un proceso con IA busca en la prensa los
+      balances del día que citan fuentes oficiales (UNGRD, SGC, gobernaciones), descarga los
+      artículos y extrae las cifras con su cita textual. Los <em>liveblogs</em> se marcan y
+      pesan menos. Alimenta la página de <a href="balances.html">Balances</a>.</li>
+      <li><strong>05:30 (Colombia)</strong> — el pipeline principal consulta todas las
+      fuentes (Copernicus, USGS, GDACS, GDELT, UNGRD, ChatMap, EMSC y los feeds de prensa
+      del <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a>),
+      guarda un <strong>snapshot inmutable</strong> de cada respuesta cruda, recalcula el
+      cruce y publica el sitio. Los videos ciudadanos se archivan en almacenamiento
+      permanente (ChatMap no garantiza retención — su feed de noticias global, de hecho, fue
+      purgado el 16-ago y esa serie ya solo existe en nuestros snapshots).</li>
+      <li><strong>En cada corrida</strong> — una batería de tests verifica el código, los
+      contratos de las APIs externas y las hipótesis del proyecto contra los datos frescos.
+      Si una fuente cambia o calla, salta una alerta en la portada.</li>
+    </ol>
+    <p><strong>Trazabilidad:</strong> toda petición HTTP queda registrada con URL, estado,
+    huella sha256 y timestamp; ninguna cifra publicada carece de fila en ese registro. Los
+    snapshots crudos se versionan en el
+    <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">repositorio público</a>,
+    así que cualquier número puede reconstruirse y rebatirse.</p>
+    <p><strong>Reglas del cruce:</strong> «Coincide cualitativamente» exige evidencia
+    oficial (EDAN o balance de entidad estatal) — la prensa y los reportes ciudadanos solo
+    alcanzan estados intermedios explícitos, por muchos que sean. Los «NA» de las fuentes se
+    conservan como tales, jamás se convierten en ceros. Los reportes ciudadanos pasan una
+    verificación automática (intensidad plausible, dentro de zona mapeada, fecha posterior
+    al sismo, duplicados por hash) y se publican con coordenada redondeada a ~110 m, sin
+    EXIF y sin datos personales.</p>
+    <p><strong>Fuentes:</strong>
+    <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">Copernicus EMS (EMSR916)</a> ·
+    <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2" target="_blank" rel="noopener">USGS</a>
+    (<a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap/intensity" target="_blank" rel="noopener">ShakeMap</a>,
+    <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/pager" target="_blank" rel="noopener">PAGER</a>,
+    <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/dyfi/intensity" target="_blank" rel="noopener">DYFI</a>) ·
+    <a href="https://www.gdacs.org/report.aspx?eventid=1557236&amp;episodeid=1724218&amp;eventtype=EQ" target="_blank" rel="noopener">GDACS</a> ·
+    <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a> ·
+    UNGRD (<a href="https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0" target="_blank" rel="noopener">ArcGIS</a>,
+    <a href="https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te" target="_blank" rel="noopener">datos.gov.co</a>) ·
+    <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE</a> ·
+    <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a> ·
+    <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC</a>.
+    Sin acceso programático (documentado):
+    <a href="https://sni.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">SNIGRD</a>,
+    <a href="https://sismosentido2.sgc.gov.co/" target="_blank" rel="noopener">SGC Sismo Sentido</a>,
+    <a href="https://unosat.org/products/4250" target="_blank" rel="noopener">UNITAR-UNOSAT</a>.
+    Extensión documentada para asentamientos bajo dosel:
+    <a href="https://data.humdata.org/dataset/2f865527-b7bf-466c-b620-c12b8d07a053" target="_blank" rel="noopener">HRSL</a>,
+    <a href="https://sites.research.google/gr/open-buildings/" target="_blank" rel="noopener">Open Buildings v3</a>,
+    <a href="https://science.nasa.gov/mission/nisar/data/" target="_blank" rel="noopener">NISAR</a>.</p>
+
+    <h3 id="glosario">Glosario de acrónimos</h3>
+    <dl>
     <dt>AOI</dt><dd><em>Area of Interest</em>: zona delimitada que Copernicus analiza en detalle (aquí: Cali norte y centro, Pereira, Quibdó, Istmina, Buenaventura y una regional).</dd>
     <dt>EMS / EMSR916</dt><dd><em>Emergency Management Service</em> de Copernicus (UE); EMSR916 es el código de la activación de mapeo rápido para este terremoto.</dd>
     <dt>GRA / GRM</dt><dd>Tipos de producto Copernicus: <em>Grading</em> (clasifica el daño edificio a edificio) y <em>Grading Monitoring</em> (seguimiento posterior de la misma zona).</dd>
@@ -254,50 +310,13 @@
     <dt>SAR / NISAR</dt><dd>Radar de apertura sintética: «ve» a través de nubes y parcialmente del dosel forestal; NISAR es la misión NASA-ISRO de banda L con datos abiertos.</dd>
     <dt>GeoJSON / CSV</dt><dd>Formatos abiertos de descarga: geometrías con datos (GeoJSON) y tabla simple (CSV).</dd>
   </dl>
+  </details>
 </section>
 
-<footer id="metodologia">
-  <div class="support-line support-line-footer">
-    <span>🇨🇴 ❤️ Este proyecto es mantenido por <a href="https://col.social/@jp" target="_blank" rel="me noopener">@jp@col.social</a> con apoyo de <a href="https://orkidea.eu" target="_blank" rel="noopener">Orkidea</a>. Tus donaciones ayudan a sostener servidores, scraping y procesos que recolectan datos abiertos.</span>
-    <a class="repo-link" href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener" aria-label="Repositorio público en GitHub">
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.67 0 8.2c0 3.62 2.29 6.69 5.47 7.77.4.08.55-.18.55-.4v-1.52c-2.22.5-2.69-.97-2.69-.97-.36-.95-.89-1.2-.89-1.2-.73-.51.05-.5.05-.5.8.06 1.23.85 1.23.85.72 1.26 1.88.9 2.34.69.07-.53.28-.9.51-1.1-1.78-.21-3.64-.91-3.64-4.04 0-.89.31-1.62.82-2.2-.08-.2-.36-1.03.08-2.16 0 0 .67-.22 2.2.84A7.44 7.44 0 0 1 8 3.99c.68 0 1.36.09 2 .27 1.52-1.06 2.19-.84 2.19-.84.44 1.13.16 1.96.08 2.16.51.58.82 1.31.82 2.2 0 3.14-1.87 3.83-3.65 4.03.29.26.54.76.54 1.53v2.23c0 .22.14.48.55.4A8.13 8.13 0 0 0 16 8.2C16 3.67 12.42 0 8 0z"/></svg>
-      <span>GitHub</span>
-    </a>
-    <a class="support-pill coffee-link" href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener" aria-label="Invitame a un café">
-      <span aria-hidden="true">☕</span>
-      <span>Invitame a un café</span>
-    </a>
-  </div>
-  <p><strong>Metodología.</strong> Actualización diaria automática. Cada cifra es rastreable
-  a una petición registrada (URL, estado HTTP, sha256, timestamp) y a un snapshot inmutable.
-  Fuentes:
-  <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">Copernicus EMS Rapid Mapping (EMSR916)</a>
-  · <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2" target="_blank" rel="noopener">USGS us6000tjl2</a>
-  (<a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap/intensity" target="_blank" rel="noopener">ShakeMap</a>,
-  <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/pager" target="_blank" rel="noopener">PAGER</a>,
-  <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/dyfi/intensity" target="_blank" rel="noopener">DYFI</a>)
-  · <a href="https://www.gdacs.org/report.aspx?eventid=1557236&amp;episodeid=1724218&amp;eventtype=EQ" target="_blank" rel="noopener">GDACS EQ1557236</a> (evento, noticias EMM e institucionales)
-  · <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT 2.0</a>
-  · <a href="https://news.google.com/" target="_blank" rel="noopener">Google News</a> (búsqueda general y búsquedas municipales generadas)
-  · <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE PPED</a> (población municipal 2026)
-  · UNGRD (<a href="https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0" target="_blank" rel="noopener">registro ArcGIS 1914-2024</a>
-  y <a href="https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te" target="_blank" rel="noopener">datos.gov.co hasta 2022</a>)
-  · <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a>
-  (<a href="https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482" target="_blank" rel="noopener">uMap de la activación</a>)
-  · <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC seismicportal</a>.
-  Sin acceso programático: <a href="https://sni.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">SNIGRD</a>,
-  <a href="https://sismosentido2.sgc.gov.co/" target="_blank" rel="noopener">SGC Sismo Sentido</a>,
-  <a href="https://unosat.org/products/4250" target="_blank" rel="noopener">UNITAR-UNOSAT</a>.
-  Los reportes ciudadanos se publican con coordenada redondeada (~110 m).</p>
-  <p>Extensión documentada: asentamientos bajo dosel con
-  <a href="https://data.humdata.org/dataset/2f865527-b7bf-466c-b620-c12b8d07a053" target="_blank" rel="noopener">HRSL Colombia (Meta)</a>,
-  <a href="https://sites.research.google/gr/open-buildings/" target="_blank" rel="noopener">Google Open Buildings v3</a>
-  y SAR banda L (<a href="https://science.nasa.gov/mission/nisar/data/" target="_blank" rel="noopener">NISAR</a>) — ver README.</p>
-</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js?v=20260816.9-6"></script>
+<script src="app.js?v=20260816.10-6"></script>
 <div id="site-footer"></div>
-<script src="common.js?v=20260816.9"></script>
+<script src="common.js?v=20260816.10"></script>
 </body>
 </html>

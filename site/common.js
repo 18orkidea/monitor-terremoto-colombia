@@ -50,3 +50,17 @@
       `Código MIT · datos derivados CC BY 4.0 · los datos crudos conservan la licencia de cada fuente.</p>`;
   }
 })();
+
+/* al navegar a un ancla que vive dentro de un <details> cerrado, abrirlo
+   (Chrome/Firefox lo hacen solos; Safari no) */
+(function () {
+  function abrirDestino() {
+    if (!location.hash) return;
+    let t = null;
+    try { t = document.querySelector(location.hash); } catch { return; }
+    const d = t && t.closest("details");
+    if (d) d.open = true;
+  }
+  window.addEventListener("hashchange", abrirDestino);
+  abrirDestino();
+})();
