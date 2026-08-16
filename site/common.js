@@ -64,3 +64,12 @@
   window.addEventListener("hashchange", abrirDestino);
   abrirDestino();
 })();
+
+/* Cloudflare Web Analytics (sin cookies): un solo punto para las tres páginas */
+(function () {
+  var s = document.createElement("script");
+  s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+  s.defer = true;
+  s.setAttribute("data-cf-beacon", '{"token": "32d0d392db2240d88939d6278eaebd41"}');
+  document.head.appendChild(s);
+})();
