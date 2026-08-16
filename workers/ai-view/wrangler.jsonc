@@ -12,6 +12,11 @@
   "triggers": {
     "crons": ["0 4 * * *"]
   },
+  // Workers Logs: registro persistente de cada corrida (errores de Firecrawl/
+  // Qwen incluidos) visible en dashboard → Workers → Logs. Gratis a este volumen.
+  "observability": {
+    "enabled": true
+  },
   "vars": {
     "QWEN_OCR_MODEL": "qwen-vl-ocr-2025-11-20",
     "QWEN_API_URL": "https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",

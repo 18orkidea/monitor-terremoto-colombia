@@ -92,6 +92,24 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
 
     # 5) balance nuevo en medios (worker IA): delta del último día vs el anterior
     st, feed = fetch_json(FEED_BALANCES, note="alerts balances", conn=conn)
+    # detector de silencio: el worker corre a diario; si lleva >48 h sin
+    # generar (clave caducada, cuota agotada, cron roto), avisar en alta
+    gen = (feed or {}).get("generated_at")
+    if not feed:
+        alerts.append({
+            "tipo": "worker_balances_caido", "nivel": "alta",
+            "texto": f"El feed de balances no responde (HTTP {st}): revisar el "
+                     f"worker en Cloudflare"})
+    elif gen:
+        edad_h = (datetime.now(timezone.utc)
+                  - datetime.fromisoformat(gen.replace("Z", "+00:00"))
+                  ).total_seconds() / 3600
+        if edad_h > 48:
+            alerts.append({
+                "tipo": "worker_balances_silencio", "nivel": "alta",
+                "texto": f"El worker de balances lleva {edad_h:.0f} h sin generar "
+                         f"(última: {gen[:16]}): revisar logs en Cloudflare "
+                         f"(¿clave de Firecrawl/Qwen caducada?)"})
     if feed and feed.get("items"):
         por_dia = {}
         for it in feed["items"]:
