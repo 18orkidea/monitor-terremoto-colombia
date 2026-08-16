@@ -21,10 +21,10 @@ jobs:
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Secrets R2 no configurados"; exit 1
           fi
-          N=$(aws s3 ls s3://monitor-terremoto-media/ \
+          echo "longitud del Access Key ID: ${#AWS_ACCESS_KEY_ID} (debe ser 32)"
+          if ! aws s3 ls s3://monitor-terremoto-media/ \
             --endpoint-url https://fe26e2674ce7e3cdf6b07397be7ee8e8.r2.cloudflarestorage.com \
-            | wc -l)
-          echo "✅ Credenciales válidas — objetos en el bucket: $N"
-          if [ "$N" -lt 1 ]; then
-            echo "::warning::El bucket responde pero está vacío"
+            > /tmp/ls.txt 2> /tmp/err.txt; then
+            echo "::error::Credenciales R2 inválidas: $(cat /tmp/err.txt)"; exit 1
           fi
+          echo "✅ Credenciales válidas — objetos en el bucket: $(wc -l < /tmp/ls.txt)"
