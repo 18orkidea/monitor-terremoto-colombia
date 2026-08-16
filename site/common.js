@@ -19,6 +19,7 @@
         `<a href="${p.href}"${p.href === actual ? ' class="activa"' : ""}>${p.label}</a>`
       ).join("") +
       `<a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener" class="nav-cta">📍 Reportar daño</a>` +
+      `<button id="btn-compartir" title="Compartir esta página">↗ Compartir</button>` +
       `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener" title="Código y datos abiertos">GitHub</a>` +
       `<a href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener" title="Apoya los servidores y la recolección de datos">☕</a>` +
       `</div>`;
@@ -72,4 +73,53 @@
   s.defer = true;
   s.setAttribute("data-cf-beacon", '{"token": "32d0d392db2240d88939d6278eaebd41"}');
   document.head.appendChild(s);
+})();
+
+/* Compartir: nativo (móvil) o menú de redes (escritorio) */
+(function () {
+  const btn = document.getElementById("btn-compartir");
+  if (!btn) return;
+  const datos = () => ({
+    title: document.title,
+    text: document.querySelector('meta[name="description"]')?.content || document.title,
+    url: document.querySelector('link[rel="canonical"]')?.href || location.href,
+  });
+  let menu = null;
+  function cerrarMenu() { if (menu) { menu.remove(); menu = null; } }
+  btn.addEventListener("click", async () => {
+    const d = datos();
+    if (navigator.share) {
+      try { await navigator.share(d); } catch { /* usuario canceló */ }
+      return;
+    }
+    if (menu) { cerrarMenu(); return; }
+    const u = encodeURIComponent(d.url), t = encodeURIComponent(d.title);
+    const redes = [
+      ["WhatsApp", `https://wa.me/?text=${t}%20${u}`],
+      ["Telegram", `https://t.me/share/url?url=${u}&text=${t}`],
+      ["X", `https://twitter.com/intent/tweet?url=${u}&text=${t}`],
+      ["Facebook", `https://www.facebook.com/sharer/sharer.php?u=${u}`],
+      ["LinkedIn", `https://www.linkedin.com/sharing/share-offsite/?url=${u}`],
+      ["Bluesky", `https://bsky.app/intent/compose?text=${t}%20${u}`],
+    ];
+    menu = document.createElement("div");
+    menu.id = "menu-compartir";
+    menu.innerHTML = redes.map(([n, h]) =>
+      `<a href="${h}" target="_blank" rel="noopener">${n}</a>`).join("") +
+      `<a href="#" data-copiar>📋 Copiar enlace</a>`;
+    const r = btn.getBoundingClientRect();
+    menu.style.top = (r.bottom + 6) + "px";
+    menu.style.right = Math.max(8, window.innerWidth - r.right) + "px";
+    document.body.appendChild(menu);
+    menu.querySelector("[data-copiar]").addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      try { await navigator.clipboard.writeText(d.url); ev.target.textContent = "✓ Copiado"; }
+      catch { ev.target.textContent = d.url; }
+      setTimeout(cerrarMenu, 900);
+    });
+    setTimeout(() => document.addEventListener("click", function fuera(e) {
+      if (!menu || menu.contains(e.target) || e.target === btn) return;
+      cerrarMenu(); document.removeEventListener("click", fuera);
+    }), 0);
+  });
 })();

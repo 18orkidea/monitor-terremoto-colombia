@@ -260,3 +260,20 @@ footer a:hover { text-decoration: underline; }
 #paginado button:hover:not(:disabled) { color: var(--s1); border-color: var(--s1); }
 #paginado button.actual { background: var(--s1); color: #fff; border-color: transparent; font-weight: 600; }
 #paginado button:disabled { opacity: .4; cursor: default; }
+
+/* botón y menú de compartir */
+#btn-compartir {
+  padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface-1); color: var(--ink-2); font-size: 13px; cursor: pointer;
+}
+#btn-compartir:hover { color: var(--s1); border-color: var(--s1); }
+#menu-compartir {
+  position: fixed; z-index: 1300; display: flex; flex-direction: column;
+  background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.16); padding: 6px; min-width: 170px;
+}
+#menu-compartir a {
+  padding: 7px 12px; border-radius: 6px; text-decoration: none;
+  color: var(--ink); font-size: 13px;
+}
+#menu-compartir a:hover { background: color-mix(in srgb, var(--s1) 10%, transparent); color: var(--s1); }
