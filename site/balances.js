@@ -112,38 +112,56 @@
     const el = document.getElementById("balance-chart");
     if (!rows.length) { el.textContent = "Sin serie."; return; }
     const W = Math.max(760, Math.min(el.clientWidth || 980, 1160));
-    const H = 310;
-    const M = { t: 22, r: 18, b: 44, l: 58 };
-    const metrics = [
-      ["fallecidos", "Fallecidos", css("--critical")],
-      ["heridos", "Heridos", css("--s2")],
-      ["desaparecidos", "Desaparecidos", css("--warning")],
-      ["familias_afectadas", "Familias", css("--s1")]
+    const M = { t: 24, r: 18, b: 40, l: 58 };
+    // paneles con escala propia: mezclar familias (~54.000) con fallecidos
+    // (~300) en un solo eje aplasta la serie que más importa
+    const paneles = [
+      // fallecidos y desaparecidos comparten magnitud (~300): emparejados se
+      // comparan entre sí, que es la lectura que importa
+      { titulo: "Fallecidos y desaparecidos", alto: 200, metrics: [
+        ["fallecidos", "Fallecidos", css("--critical")],
+        ["desaparecidos", "Desaparecidos", css("--warning")],
+      ]},
+      { titulo: "Heridos", alto: 150, metrics: [
+        ["heridos", "Heridos", css("--s2")],
+      ]},
+      { titulo: "Familias afectadas", alto: 150, metrics: [
+        ["familias_afectadas", "Familias", css("--s1")],
+      ]},
     ];
-    const maxY = Math.max(1, ...rows.flatMap((r) => metrics.map(([k]) => r.cifras?.[k] || 0)));
     const x = (i) => M.l + (i + 0.5) * (W - M.l - M.r) / rows.length;
-    const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
-    let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Evolución de balances">`;
-    for (const t of [0, 0.25, 0.5, 0.75, 1]) {
-      const v = Math.round(maxY * t), yy = y(v);
-      svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${yy}" y2="${yy}" stroke="${css("--grid")}" />` +
-        `<text x="${M.l - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="${css("--muted")}">${fmt(v)}</text>`;
-    }
-    metrics.forEach(([key, label, color], mi) => {
-      const d = rows.map((r, i) => `${i ? "L" : "M"} ${x(i)} ${y(r.cifras?.[key] || 0)}`).join(" ");
-      svg += `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" />`;
-      rows.forEach((r, i) => {
-        const val = r.cifras?.[key];
-        if (val != null) svg += `<circle data-i="${i}" data-k="${key}" cx="${x(i)}" cy="${y(val)}" r="4" fill="${color}" stroke="${css("--surface-1")}" stroke-width="2" />`;
+    let html = "";
+    for (const p of paneles) {
+      const H = p.alto;
+      const maxY = Math.max(1, ...rows.flatMap((r) => p.metrics.map(([k]) => r.cifras?.[k] || 0)));
+      const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
+      let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${p.titulo} por día">`;
+      for (const t of [0, 0.5, 1]) {
+        const v = Math.round(maxY * t), yy = y(v);
+        svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${yy}" y2="${yy}" stroke="${css("--grid")}" />` +
+          `<text x="${M.l - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="${css("--muted")}">${fmt(v)}</text>`;
+      }
+      p.metrics.forEach(([key, label, color], mi) => {
+        const d = rows.map((r, i) => `${i ? "L" : "M"} ${x(i)} ${y(r.cifras?.[key] || 0)}`).join(" ");
+        svg += `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" />`;
+        rows.forEach((r, i) => {
+          const val = r.cifras?.[key];
+          if (val != null) svg += `<circle data-i="${i}" data-k="${key}" cx="${x(i)}" cy="${y(val)}" r="4" fill="${color}" stroke="${css("--surface-1")}" stroke-width="2" />`;
+        });
+        // etiqueta directa sobre el último valor: se lee sin ir a la leyenda
+        const last = rows[rows.length - 1];
+        const lv = last.cifras?.[key];
+        if (lv != null) svg += `<text x="${W - M.r - 2}" y="${Math.max(12, y(lv) - 7)}" text-anchor="end" font-size="10" font-weight="600" fill="${color}">${fmt(lv)}</text>`;
+        svg += `<circle cx="${M.l + mi * 148}" cy="9" r="5" fill="${color}" />` +
+          `<text x="${M.l + 10 + mi * 148}" y="13" fill="${css("--ink-2")}" font-size="11">${label}</text>`;
       });
-      svg += `<circle cx="${M.l + mi * 148}" cy="9" r="5" fill="${color}" />` +
-        `<text x="${M.l + 10 + mi * 148}" y="13" fill="${css("--ink-2")}" font-size="11">${label}</text>`;
-    });
-    rows.forEach((r, i) =>
-      svg += `<text x="${x(i)}" y="${H - M.b + 16}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${r.search_date.slice(5)}</text>`
-    );
-    svg += "</svg>";
-    el.innerHTML = svg;
+      rows.forEach((r, i) =>
+        svg += `<text x="${x(i)}" y="${H - M.b + 16}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${r.search_date.slice(5)}</text>`
+      );
+      svg += "</svg>";
+      html += svg;
+    }
+    el.innerHTML = html;
 
     const tip = document.createElement("div");
     tip.className = "tooltip"; tip.style.display = "none";
