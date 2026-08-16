@@ -46,6 +46,14 @@ jobs:
             --exclude "*" --include "*.mp4" --include "*.mov" --include "*.webm" \
             --include "*.opus" --include "*.ogg" --include "*.m4a" --size-only
 
+      # Copia independiente del RUD en la Wayback Machine (nadie lo archivaba
+      # durante la semana del sismo; que no vuelva a pasar). No fatal.
+      - name: Archivar RUD en Wayback
+        run: |
+          curl -sS -m 90 -o /dev/null \
+            "https://web.archive.org/save/https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T" \
+            || echo "::warning::Wayback save falló hoy"
+
       - name: Commit del snapshot si hay cambios
         run: |
           git config user.name "monitor-bot"
