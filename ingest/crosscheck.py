@@ -7,8 +7,10 @@ Estados (de menos a más confirmado):
   prensa                 — además hay noticias que mencionan el AOI (URL + fecha)
   coincide               — existe evidencia OFICIAL. Nunca se asigna sin ella.
 
-Regla dura: 'coincide' exige una fila evidence tipo='oficial'. Con UNGRD parado
-en 2024, ningún AOI de 2026 puede llegar ahí automáticamente.
+Regla dura: 'coincide' exige una fila evidence tipo='oficial' Y producto
+satelital con stats. Desde el 16-ago-2026 el RUD (Registro Único de
+Damnificados, UNGRD) cubre el evento y genera esa evidencia automáticamente
+para los municipios que las autoridades locales van registrando.
 """
 from __future__ import annotations
 
@@ -54,6 +56,46 @@ def match_news_to_aois(emm_items: list[dict], conn, snap: str) -> dict[str, int]
     return counts
 
 
+# municipio(s) oficiales que corresponden a cada AOI (nombres como en el RUD)
+AOI_MUNICIPIOS = {
+    "Northern Cali": [("VALLE DEL CAUCA", "CALI")],
+    "Cali Center": [("VALLE DEL CAUCA", "CALI")],
+    "Pereira": [("RISARALDA", "PEREIRA")],
+    "Quibdo Centre": [("CHOCÓ", "QUIBDÓ")],
+    "Istmina": [("CHOCÓ", "ISTMINA")],
+    "Buenaventura": [("VALLE DEL CAUCA", "BUENAVENTURA")],
+    "Western Colombia": [("CHOCÓ", "SAN JOSÉ DEL PALMAR")],
+}
+
+
+def evidencia_oficial_rud(conn, snap: str) -> dict[str, int]:
+    """Evidencia oficial automática desde el RUD (UNGRD): si el municipio del
+    AOI tiene registro de damnificados, la brecha oficial se cerró para él."""
+    conn.execute("DELETE FROM evidence WHERE capturado_por='auto'"
+                 " AND tipo='oficial' AND snapshot_date=?", (snap,))
+    counts = {}
+    for aoi, munis in AOI_MUNICIPIOS.items():
+        for dep, mun in munis:
+            row = conn.execute(
+                "SELECT familias, personas, viv_destruidas, viv_averiadas, fecha"
+                " FROM official_events WHERE source='ungrd_rud'"
+                " AND departamento=? AND municipio=?", (dep, mun)).fetchone()
+            if row:
+                fam, per, dest, aver, fecha = row
+                conn.execute(
+                    "INSERT INTO evidence (aoi_name, tipo, url, fuente, fecha,"
+                    " cita, capturado_por, snapshot_date)"
+                    " VALUES (?,?,?,?,?,?,'auto',?)",
+                    (aoi, "oficial",
+                     "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T",
+                     "UNGRD — Registro Único de Damnificados", fecha,
+                     f"RUD {mun} ({dep}): {fam or 0:.0f} familias, "
+                     f"{per or 0:.0f} personas, {dest or 0:.0f} viviendas "
+                     f"destruidas, {aver or 0:.0f} averiadas", snap))
+                counts[aoi] = counts.get(aoi, 0) + 1
+    return counts
+
+
 def match_text_to_aois(text: str) -> list[str]:
     """AOIs mencionados en un texto (por topónimo, acentos normalizados)."""
     t = _norm(text)
@@ -68,6 +110,7 @@ def run(emm_items: list[dict] | None = None) -> dict:
         from sources.gdacs import emm_items as _load
         emm_items = _load()
     press = match_news_to_aois(emm_items or [], conn, snap)
+    oficial_rud = evidencia_oficial_rud(conn, snap)
 
     # feeds comunitarios: mismos topónimos, misma evidencia
     for url, fecha, titulo, medio in conn.execute(
@@ -96,10 +139,12 @@ def run(emm_items: list[dict] | None = None) -> dict:
             "SELECT COUNT(*) FROM citizen_reports WHERE estado IN"
             " ('coherente','validado','publicado')"
             " AND json_extract(checks,'$.aoi')=?", (aoi,)).fetchone()[0]
-        if n_of > 0:
-            estado = "coincide"
-        elif not has_stats:
+        if not has_stats:
+            # sin producto satelital entregado no hay cruce que evaluar,
+            # aunque exista evidencia oficial (p. ej. Western Colombia)
             estado = "no_comparable"
+        elif n_of > 0:
+            estado = "coincide"
         elif n_pr > 0:
             estado = "prensa"
         elif n_ci > 0:

@@ -136,6 +136,36 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                          f"{c.get('desaparecidos') or '?'} desaparecidos",
                 "fecha_balance": ult, "cifras": c})
 
+    # 6b) RUD: el registro oficial de damnificados crece — contar el delta
+    hoy_rud = conn.execute(
+        "SELECT COUNT(*), COALESCE(SUM(familias),0) FROM official_events"
+        " WHERE source='ungrd_rud'").fetchone()
+    prev_rud = None
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        if d.name >= snap:
+            continue
+        f = d / "rud_2026T.json"
+        if f.exists():
+            rows = json.loads(f.read_text())
+            rows = rows if isinstance(rows, list) else rows.get("data") or []
+            prev_rud = (len(rows), sum(int(r.get("familias") or 0) for r in rows))
+            break
+    if hoy_rud and hoy_rud[0]:
+        if prev_rud is None:
+            alerts.append({
+                "tipo": "rud_activo", "nivel": "alta",
+                "texto": f"El RUD (registro oficial de damnificados) cubre el "
+                         f"evento: {hoy_rud[0]} municipios, "
+                         f"{hoy_rud[1]:,.0f} familias registradas".replace(",", ".")})
+        elif (hoy_rud[0], hoy_rud[1]) != prev_rud:
+            d_mun = hoy_rud[0] - prev_rud[0]
+            d_fam = hoy_rud[1] - prev_rud[1]
+            alerts.append({
+                "tipo": "rud_actualizado", "nivel": "info",
+                "texto": f"RUD actualizado: {'+' if d_mun >= 0 else ''}{d_mun} "
+                         f"municipios, {'+' if d_fam >= 0 else ''}{d_fam:,.0f} "
+                         f"familias vs snapshot anterior".replace(",", ".")})
+
     # 6) ¿despertó la fuente oficial? (nivel alta: cambia el cruce entero)
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
         f = d / "ungrd_arcgis_agg.json"

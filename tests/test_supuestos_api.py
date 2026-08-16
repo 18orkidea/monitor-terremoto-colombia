@@ -86,6 +86,23 @@ class TestSupuestosOficiales(unittest.TestCase):
 
 
 @unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosRUD(unittest.TestCase):
+    """El RUD es un endpoint interno no documentado: si cambia, avisar."""
+
+    def test_rud_responde_con_esquema(self):
+        st, d = fetch_json(
+            "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T",
+            note="test supuesto rud")
+        if st != 200:
+            self.fail(f"RUD HTTP {st}: el endpoint cambió o cayó — revisar "
+                      "ingest/sources/ungrd_rud.py y buscar el reemplazo")
+        rows = d if isinstance(d, list) else (d or {}).get("data") or []
+        self.assertTrue(rows, "RUD respondió vacío")
+        for campo in ("departamento", "municipio", "fecha_evento", "familias"):
+            self.assertIn(campo, rows[0], f"campo {campo} desapareció del RUD")
+
+
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
 class TestSupuestosFeeds(unittest.TestCase):
     def test_gdacs_emm_con_fechas(self):
         st, d = fetch_json("https://www.gdacs.org/gdacsapi/api/emm/getemmnewsbykey",

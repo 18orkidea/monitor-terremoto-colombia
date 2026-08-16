@@ -86,10 +86,10 @@ class TestCrosscheckReglas(unittest.TestCase):
 
     def _run(self, evidence_oficial=0, prensa=0, ciudadano=0, has_stats=True):
         # réplica de la lógica de decisión de crosscheck.run (mantener en sincronía)
-        if evidence_oficial > 0:
-            return "coincide"
         if not has_stats:
             return "no_comparable"
+        if evidence_oficial > 0:
+            return "coincide"
         if prensa > 0:
             return "prensa"
         if ciudadano > 0:
@@ -110,6 +110,11 @@ class TestCrosscheckReglas(unittest.TestCase):
 
     def test_sin_stats_no_comparable(self):
         self.assertEqual(self._run(has_stats=False, prensa=10), "no_comparable")
+
+    def test_oficial_sin_satelite_tampoco_compara(self):
+        # RUD puede tener registro donde Copernicus aún no entregó producto
+        self.assertEqual(self._run(has_stats=False, evidence_oficial=1),
+                         "no_comparable")
 
 
 class TestToponimos(unittest.TestCase):

@@ -29,7 +29,7 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
 
 1. **Brecha de reporte oficial** — Copernicus entrega daño verificado por satélite en días;
    las fuentes oficiales abiertas de Colombia (UNGRD en datos.gov.co: parado en 2022;
-   registro ArcGIS UNGRD: parado en feb-2024; SNIGRD: sin API pública) no cubren el evento.
+   registro ArcGIS UNGRD: parado en feb-2024; SNIGRD: sin API pública) no cubren el evento — pero desde el 16-ago el RUD sí: la brecha pasó a ser municipal (municipios registrados vs sin registrar).
 2. **Brecha de atención** — la cobertura mediática cae ~92 % en 5 días y toca mínimo el día
    en que se publican los datos de daño (Quibdó e Istmina, 14-ago), mientras el reporte
    ciudadano sigue subiendo.
@@ -78,6 +78,7 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [Socrata `wwkg-r6te`](https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te) | El mismo registro hasta 2022 (métrica de brecha) | Público |
 | [DANE proyecciones municipales](https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion) | Población municipal 2026 total, cabecera y rural (serie por área 2018-2042) | Público; XLSX oficial |
 | [ChatMap OSM Colombia](https://chatmap.hotosm.org/colombia.html) ([uMap](https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482), [proyecto HOT](https://www.hotosm.org/en/projects/2026-colombia-earthquake-response/)) | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
+| [UNGRD RUD](https://rud.gestiondelriesgo.gov.co/) (`/home/json.php?temp=2026T`) | **La primera fuente oficial que cubre el evento**: damnificados por municipio (familias, personas, viviendas), cargado por autoridades locales | Público de lectura, NO documentado (descubierto 16-ago); vigilado por test de supuesto |
 | [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
 | Worker interno `monitor-terremoto-colombia-oficiales-ai` | Monitoreo de canales oficiales y extracción estructurada de documentos con `qwen-vl-ocr-2025-11-20` | Privado para inferencia; público solo JSON/RSS estructurado |
 

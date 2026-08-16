@@ -232,6 +232,17 @@ def run() -> dict:
             gaps["ungrd_arcgis"] = {"max_fecha": maxf, "total": at.get("n")}
             break
 
+    # RUD: la fuente oficial que SÍ cubre el evento (por municipio)
+    rud = conn.execute(
+        "SELECT COUNT(*), SUM(familias), SUM(personas), SUM(viv_destruidas),"
+        " SUM(viv_averiadas) FROM official_events WHERE source='ungrd_rud'"
+    ).fetchone()
+    if rud and rud[0]:
+        gaps["ungrd_rud"] = {
+            "municipios": rud[0], "familias": rud[1], "personas": rud[2],
+            "viv_destruidas": rud[3], "viv_averiadas": rud[4],
+            "fuente": "https://rud.gestiondelriesgo.gov.co/"}
+
     # Exposición no mapeada: población expuesta (PAGER, MMI>=6) vs población
     # dentro de AOIs Copernicus. El déficit son los asentamientos sin mirar.
     exposicion = None

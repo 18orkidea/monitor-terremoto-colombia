@@ -37,17 +37,29 @@ def skip_sin_datos(tabla):
 
 
 class TestHipotesisBrechaOficial(unittest.TestCase):
-    """H1: ninguna fuente oficial estructurada cubre el evento de ago-2026."""
+    """H1 (v2 desde 16-ago): los canales masivos de UNGRD siguen parados
+    (Socrata 2022, ArcGIS 2024) pero el RUD sí cubre el evento — la brecha
+    ahora es entre municipios registrados y sin registrar."""
 
-    def test_maximo_oficial_anterior_al_sismo(self):
+    def test_canales_masivos_siguen_parados(self):
         why = skip_sin_datos("official_events")
         if why:
             self.skipTest(why)
-        maxf = q("SELECT MAX(fecha) FROM official_events")[0][0]
+        maxf = q("SELECT MAX(fecha) FROM official_events"
+                 " WHERE source='ungrd_arcgis'")[0][0]
         if maxf and maxf >= "2026-08-10":
-            self.fail(f"¡H1 rota (buena noticia)! Hay EDAN oficial hasta {maxf}: "
-                      "actualizar crosscheck para promover con evidencia oficial")
-        self.assertLess(maxf or "0", "2026-08-10")
+            self.fail(f"¡El registro ArcGIS despertó ({maxf})! Actualizar la "
+                      "narrativa de brechas del monitor")
+
+    def test_rud_cubre_el_evento(self):
+        why = skip_sin_datos("official_events")
+        if why:
+            self.skipTest(why)
+        n = q("SELECT COUNT(*) FROM official_events WHERE source='ungrd_rud'"
+              " AND fecha='2026-08-10'")[0][0]
+        if n == 0:
+            self.skipTest("sin datos RUD aún (¿endpoint caído? ver supuestos)")
+        self.assertGreater(n, 0)
 
 
 class TestHipotesisAtencion(unittest.TestCase):

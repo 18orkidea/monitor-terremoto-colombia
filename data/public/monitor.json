@@ -58,7 +58,7 @@
    "cruce": {
     "estado": "no_comparable",
     "n_prensa": 803,
-    "n_oficial": 0,
+    "n_oficial": 1,
     "n_ciudadano": 258,
     "etiqueta": "No comparable 1:1"
    },
@@ -136,11 +136,11 @@
     }
    ],
    "cruce": {
-    "estado": "prensa",
+    "estado": "coincide",
     "n_prensa": 672,
-    "n_oficial": 0,
+    "n_oficial": 1,
     "n_ciudadano": 1,
-    "etiqueta": "Reportado en prensa, sin validación oficial"
+    "etiqueta": "Coincide cualitativamente"
    },
    "n_productos": 1
   },
@@ -314,11 +314,11 @@
     }
    ],
    "cruce": {
-    "estado": "prensa",
+    "estado": "coincide",
     "n_prensa": 672,
-    "n_oficial": 0,
+    "n_oficial": 1,
     "n_ciudadano": 2,
-    "etiqueta": "Reportado en prensa, sin validación oficial"
+    "etiqueta": "Coincide cualitativamente"
    },
    "n_productos": 1
   },
@@ -396,11 +396,11 @@
     }
    ],
    "cruce": {
-    "estado": "prensa",
+    "estado": "coincide",
     "n_prensa": 104,
-    "n_oficial": 0,
+    "n_oficial": 1,
     "n_ciudadano": 49,
-    "etiqueta": "Reportado en prensa, sin validación oficial"
+    "etiqueta": "Coincide cualitativamente"
    },
    "n_productos": 1
   },
@@ -475,11 +475,11 @@
     }
    ],
    "cruce": {
-    "estado": "prensa",
+    "estado": "coincide",
     "n_prensa": 16,
-    "n_oficial": 0,
+    "n_oficial": 1,
     "n_ciudadano": 0,
-    "etiqueta": "Reportado en prensa, sin validación oficial"
+    "etiqueta": "Coincide cualitativamente"
    },
    "n_productos": 1
   },
@@ -705,6 +705,14 @@
   "ungrd_arcgis": {
    "max_fecha": "2024-02-17",
    "total": 85664
+  },
+  "ungrd_rud": {
+   "municipios": 75,
+   "familias": 21092.0,
+   "personas": 49408.0,
+   "viv_destruidas": 1607.0,
+   "viv_averiadas": 6651.0,
+   "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
  },
  "exposicion": {

@@ -85,7 +85,15 @@
     `<strong>${(soc.hasta || "?").slice(0, 10)}</strong> (hace ${fmt(dias(soc.hasta))} días); ` +
     `el registro ArcGIS de UNGRD hasta <strong>${arc.max_fecha || "?"}</strong> ` +
     `(hace ${fmt(dias(arc.max_fecha))} días). El SNIGRD (2026) no expone API pública. ` +
-    `Mientras tanto, Copernicus entregó ${mon.entregas.length} productos y la comunidad ` +
+    (g.ungrd_rud ? `<br><strong>La brecha empezó a cerrarse:</strong> el ` +
+      `<a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">RUD</a> ` +
+      `(registro oficial de damnificados) ya cubre el evento — ` +
+      `<strong>${fmt(g.ungrd_rud.municipios)}</strong> municipios con ` +
+      `<strong>${fmt(g.ungrd_rud.familias)}</strong> familias y ` +
+      `${fmt(g.ungrd_rud.viv_destruidas)} viviendas destruidas registradas. ` +
+      `La brecha ahora es municipal: donde las autoridades locales aún no registran ` +
+      `(p. ej. Pereira y Buenaventura), el satélite sigue siendo la única evidencia. ` : "") +
+    `Copernicus entregó ${mon.entregas.length} productos y la comunidad ` +
     `aportó ${mon.citizen.chatmap_total} reportes con foto.` +
     (mon.exposicion ? `<br><strong>Exposición sin mapeo:</strong> ~${fmt(mon.exposicion.expuesta_mmi6plus)} ` +
       `personas expuestas a MMI≥6 (PAGER); las zonas mapeadas por Copernicus cubren ` +
