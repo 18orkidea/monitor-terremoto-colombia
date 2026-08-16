@@ -45,12 +45,6 @@ def run() -> dict:
     if p.exists():
         grid = MMIGrid(json.loads(p.read_text()))
 
-    aois = conn.execute(
-        "SELECT DISTINCT a.code, p.aoi_name, x.extent_wkt FROM products p"
-        " JOIN activations x ON x.code=p.code"
-        " JOIN (SELECT code, MAX(snapshot_date) sd FROM activations GROUP BY code) a"
-        "  ON a.code=x.code AND a.sd=x.snapshot_date"
-    ).fetchall()
     # extent por AOI: la activación guarda un extent global; los AOI extents
     # están en los snapshots crudos de Copernicus
     aoi_extents = {}

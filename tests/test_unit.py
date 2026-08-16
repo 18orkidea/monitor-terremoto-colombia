@@ -4,7 +4,6 @@ Se ejecutan sin red y sin base de datos previa. Las expectativas vienen de la
 documentación del proyecto y de las specs de las fuentes, no de mirar la
 salida del código — si un test falla, el código está mal, no el test.
 """
-import json
 import sys
 import unittest
 from pathlib import Path

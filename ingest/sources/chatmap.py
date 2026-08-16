@@ -10,7 +10,6 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import Counter
-from pathlib import Path
 
 from common import db, fetch, fetch_json, today, MEDIA
 

@@ -110,7 +110,7 @@ def run(emm_items: list[dict] | None = None) -> dict:
         from sources.gdacs import emm_items as _load
         emm_items = _load()
     press = match_news_to_aois(emm_items or [], conn, snap)
-    oficial_rud = evidencia_oficial_rud(conn, snap)
+    evidencia_oficial_rud(conn, snap)   # inserta evidencia oficial (efecto)
 
     # feeds comunitarios: mismos topónimos, misma evidencia
     for url, fecha, titulo, medio in conn.execute(

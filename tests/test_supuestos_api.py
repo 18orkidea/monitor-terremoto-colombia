@@ -4,7 +4,6 @@ cambió y hay que revisar la fuente correspondiente.
 
 Saltar con: SKIP_ONLINE=1 python -m unittest tests/test_supuestos_api.py
 """
-import json
 import os
 import sys
 import unittest

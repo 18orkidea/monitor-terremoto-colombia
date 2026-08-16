@@ -27,7 +27,8 @@ cd workers/ai-view
 wrangler secret put INTERNAL_TOKEN
 wrangler secret put QWEN_API_KEY
 wrangler secret put FIRECRAWL_API_KEY
-wrangler deploy
+npm install          # instala wrangler pineado (package.json) — reproducible
+npx wrangler deploy
 ```
 
 El Worker usa KV (`OFFICIAL_DATA`) para persistir el feed público.

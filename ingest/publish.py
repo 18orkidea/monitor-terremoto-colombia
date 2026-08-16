@@ -9,7 +9,7 @@ import csv
 import io
 import json
 
-from common import db, today, utcnow, DATA, PUBLIC, snapshot_dir
+from common import db, today, DATA, PUBLIC
 from geo import wkt_to_geojson
 
 ESTADO_LABEL = {

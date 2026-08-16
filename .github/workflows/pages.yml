@@ -21,6 +21,9 @@ concurrency:
 
 jobs:
   deploy:
+    # tras el daily solo se despliega si la corrida terminó bien — antes se
+    # redesplegaba también tras corridas fallidas
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

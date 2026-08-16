@@ -31,6 +31,14 @@ jobs:
           python -m unittest tests.test_unit -v
           python -m unittest tests.test_hipotesis -v
 
+      # Los supuestos rotos AVISAN, no tumban la corrida (regla R11): una API
+      # externa que cambia puede ser hasta buena noticia — hay que enterarse.
+      - name: Vigilar los contratos de las fuentes externas (no fatal)
+        continue-on-error: true
+        run: |
+          python -m unittest tests.test_supuestos_api -v \
+            || echo "::warning::Algún supuesto sobre una fuente externa cambió — revisar la salida"
+
       # Archivo permanente de videos ciudadanos (ChatMap no garantiza retención).
       # Requiere secrets R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY (token S3 de R2,
       # solo bucket monitor-terremoto-media). Sin ellos, se salta.

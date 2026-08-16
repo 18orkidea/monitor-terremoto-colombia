@@ -1,0 +1,20 @@
+# Solo configuración de herramientas de desarrollo (CI). El runtime del
+# pipeline sigue siendo stdlib pura — sin dependencias, sin build (R14).
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+# mínimo con dientes: errores reales (E) y variables/imports rotos (F).
+# Sin reglas de estilo masivas: reformatear ensuciaría el blame, que
+# también es archivo histórico del proyecto.
+select = ["E", "F"]
+ignore = [
+  "E501",  # líneas largas: el código tiene plantillas HTML/SQL legibles así
+  "E402",  # imports tras sys.path.insert: patrón deliberado del pipeline
+  "E731",  # lambdas asignadas: se usan como helpers cortos con nombre
+  "E701", "E702",  # estilo compacto deliberado (a; b) en cierres de conexión
+  "E401",  # import a, b en una línea: run_daily agrupa los pasos así
+  "E741",  # `l` como variable: convención de Leaflet en callbacks geo
+]
