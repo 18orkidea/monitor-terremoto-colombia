@@ -584,63 +584,72 @@
    "emm": null,
    "gdelt": 0.0122,
    "fuentes": null,
-   "chatmap": null
+   "chatmap": null,
+   "feeds": null
   },
   {
    "fecha": "2026-08-09",
    "emm": null,
    "gdelt": 0.0165,
    "fuentes": null,
-   "chatmap": null
+   "chatmap": null,
+   "feeds": null
   },
   {
    "fecha": "2026-08-10",
    "emm": 1042,
    "gdelt": 1.8642,
    "fuentes": 409,
-   "chatmap": 45
+   "chatmap": 45,
+   "feeds": 166
   },
   {
    "fecha": "2026-08-11",
    "emm": 918,
    "gdelt": 2.6773,
    "fuentes": 467,
-   "chatmap": 93
+   "chatmap": 93,
+   "feeds": 193
   },
   {
    "fecha": "2026-08-12",
    "emm": 557,
    "gdelt": 1.5606,
    "fuentes": 344,
-   "chatmap": 84
+   "chatmap": 84,
+   "feeds": 225
   },
   {
    "fecha": "2026-08-13",
    "emm": 301,
    "gdelt": 1.08,
    "fuentes": 200,
-   "chatmap": 123
+   "chatmap": 123,
+   "feeds": 265
   },
   {
    "fecha": "2026-08-14",
    "emm": 93,
    "gdelt": 0.848,
    "fuentes": 71,
-   "chatmap": 77
+   "chatmap": 77,
+   "feeds": 277
   },
   {
    "fecha": "2026-08-15",
    "emm": null,
    "gdelt": 0.9958,
    "fuentes": null,
-   "chatmap": 14
+   "chatmap": 14,
+   "feeds": 316
   },
   {
    "fecha": "2026-08-16",
    "emm": null,
    "gdelt": 0.6941,
    "fuentes": null,
-   "chatmap": null
+   "chatmap": null,
+   "feeds": 96
   }
  ],
  "entregas": [

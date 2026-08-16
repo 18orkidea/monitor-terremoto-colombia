@@ -139,11 +139,25 @@ def run() -> dict:
     (PUBLIC / "aois.geojson").write_text(json.dumps(
         {"type": "FeatureCollection", "features": features}, ensure_ascii=False))
 
+    # serie de los feeds abiertos del monitor (por fecha de publicación del
+    # titular; >= 2026-08-08 para excluir artículos históricos que el filtro
+    # de palabras clave atrapa en los RSS)
+    feeds_por_dia = dict(conn.execute(
+        "SELECT substr(fecha,1,10) d, COUNT(*) FROM news_items"
+        " WHERE fecha >= '2026-08-08' GROUP BY d"))
+
     media = [dict(zip(["fecha", "emm", "gdelt", "fuentes", "chatmap"], r))
              for r in conn.execute(
                  "SELECT fecha, MAX(n_noticias_emm), MAX(gdelt_vol), MAX(n_fuentes),"
                  " MAX(n_chatmap) FROM media_volume WHERE event_key='EQ1557236'"
                  " GROUP BY fecha ORDER BY fecha")]
+    vistos = {m["fecha"] for m in media}
+    for d in sorted(set(feeds_por_dia) - vistos):   # días solo presentes en feeds
+        media.append({"fecha": d, "emm": None, "gdelt": None,
+                      "fuentes": None, "chatmap": None})
+    media.sort(key=lambda m: m["fecha"])
+    for m in media:
+        m["feeds"] = feeds_por_dia.get(m["fecha"])
     entregas = [{"aoi": r[0], "fecha": (r[1] or "")[:10], "producto": r[2],
                  "version": r[3]}
                 for r in conn.execute(

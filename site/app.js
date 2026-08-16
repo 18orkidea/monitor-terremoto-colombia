@@ -445,7 +445,7 @@
     const W = Math.max(680, Math.min(el.clientWidth || 900, 1100)), H = 260;
     const M = { t: 28, r: 16, b: 40, l: 48 };
     const days = media.map((d) => d.fecha);
-    const maxY = Math.max(...media.map((d) => Math.max(d.emm || 0, d.chatmap || 0)));
+    const maxY = Math.max(...media.map((d) => Math.max(d.emm || 0, d.feeds || 0, d.chatmap || 0)));
     const x = (i) => M.l + (i + 0.5) * (W - M.l - M.r) / days.length;
     const bw = Math.min(34, (W - M.l - M.r) / days.length * 0.55);
     const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
@@ -468,15 +468,28 @@
         s += `<g data-deliv="${names.replaceAll('"', "")}"><path d="M ${x(i) - 5} ${M.t - 8} l 10 0 l -5 8 z" fill="${css("--critical")}"/></g>`;
       }
     });
+    // feeds abiertos del monitor: la serie que sigue viva tras la purga de EMM
+    const lineF = media.filter((d) => d.feeds != null);
+    if (lineF.length) {
+      const pf = media.map((d, i) => d.feeds == null ? null : `${x(i)},${y(d.feeds)}`)
+        .map((p, i, arr) => p == null ? null : `${arr.slice(0, i).some(q => q != null) ? "L" : "M"} ${p.replace(",", " ")}`)
+        .filter(Boolean).join(" ");
+      s += (`<path d="${pf}" fill="none" stroke="${css("--s3")}" stroke-width="2" stroke-dasharray="1 0"/>`);
+      media.forEach((d, i) => {
+        if (d.feeds == null) return;
+        s += (`<circle data-i="${i}" cx="${x(i)}" cy="${y(d.feeds)}" r="4" fill="${css("--s3")}" stroke="${css("--surface-1")}" stroke-width="2"/>`);
+      });
+    }
     const line = media.map((d, i) => `${i ? "L" : "M"} ${x(i)} ${y(d.chatmap || 0)}`).join(" ");
     s += `<path d="${line}" fill="none" stroke="${css("--s7")}" stroke-width="2"/>`;
     media.forEach((d, i) => {
       s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap || 0)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
     });
     s += `<g font-size="11">` +
-      `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias (EMM/feeds)</text>` +
-      `<circle cx="${M.l + 190}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 200}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text>` +
-      `<path d="M ${M.l + 420} 4 l 10 0 l -5 8 z" fill="${css("--critical")}"/><text x="${M.l + 434}" y="13" fill="${css("--ink-2")}">Entrega de producto Copernicus</text></g>`;
+      `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias EMM (global, purgado)</text>` +
+      `<circle cx="${M.l + 205}" cy="9" r="5" fill="${css("--s3")}"/><text x="${M.l + 214}" y="13" fill="${css("--ink-2")}">Feeds abiertos del monitor</text>` +
+      `<circle cx="${M.l + 385}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 394}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text>` +
+      `<path d="M ${M.l + 600} 4 l 10 0 l -5 8 z" fill="${css("--critical")}"/><text x="${M.l + 614}" y="13" fill="${css("--ink-2")}">Entrega de producto Copernicus</text></g>`;
     s += `</svg>`;
     el.innerHTML = s;
 
@@ -490,7 +503,8 @@
       if (t.dataset.deliv) html = `<strong>Entrega Copernicus</strong><br>${t.dataset.deliv}`;
       else {
         const d = media[+t.dataset.i];
-        html = `<strong>${d.fecha}</strong><br>Noticias EMM/feeds: ${fmt(d.emm)}<br>` +
+        html = `<strong>${d.fecha}</strong><br>Noticias EMM (global): ${fmt(d.emm)}<br>` +
+          `Feeds abiertos: ${fmt(d.feeds)}<br>` +
           `ChatMap: ${fmt(d.chatmap)}<br>GDELT vol: ${d.gdelt ?? "—"}` +
           `${d.fuentes ? "<br>Medios distintos: " + fmt(d.fuentes) : ""}`;
       }
