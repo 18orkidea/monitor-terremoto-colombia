@@ -1,0 +1,37 @@
+# Monitor de brechas — Terremoto de Colombia 2026
+
+> Observatorio abierto del terremoto M7.4 del 10 de agosto de 2026 en Colombia (epicentro
+> San José del Palmar, Chocó). Cruza a diario cuatro miradas independientes — daño satelital
+> de Copernicus (622 edificios clasificados uno a uno), reportes ciudadanos por WhatsApp
+> (ChatMap/OSM Colombia), titulares de prensa de feeds abiertos y balances citados en medios
+> extraídos con IA — y mide las brechas del reporte oficial. Cada cifra es rastreable hasta
+> su petición de origen (snapshots inmutables + hash sha256).
+
+Reglas de rigor: «Coincide cualitativamente» exige evidencia oficial (EDAN); la prensa y los
+reportes ciudadanos solo alcanzan estados intermedios. Los balances citados en medios NO son
+el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
+
+## Páginas
+
+- [Mapa y cruce por zona](https://brechas.orkidea.eu/site/): mapa interactivo con daño
+  satelital punto a punto, reportes ciudadanos, municipios con población DANE, cronología y
+  alertas del día
+- [Titulares por zona](https://brechas.orkidea.eu/site/noticias.html): miles de titulares del
+  evento emparejados por zona afectada, con feeds abiertos a la comunidad
+- [Balances en medios](https://brechas.orkidea.eu/site/balances.html): serie diaria de cifras
+  (fallecidos, heridos, desaparecidos, familias) que la prensa publica citando a UNGRD/SGC
+
+## Datos (CC BY 4.0)
+
+- [JSON del monitor](https://brechas.orkidea.eu/data/public/monitor.json): cruce, series y
+  exposición
+- [CSV del cruce](https://brechas.orkidea.eu/data/public/crosscheck.csv)
+- [Noticias emparejadas](https://brechas.orkidea.eu/data/public/noticias.json)
+- [GeoJSON de daño satelital](https://brechas.orkidea.eu/data/public/damage_points.geojson)
+- [Feed de balances (JSON)](https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json)
+
+## Código y metodología
+
+- [Repositorio (MIT) con snapshots crudos](https://github.com/18orkidea/monitor-terremoto-colombia)
+- [Metodología completa](https://brechas.orkidea.eu/site/#metodologia)
+- Mantenido por @jp@col.social (https://col.social/@jp) con apoyo de Orkidea

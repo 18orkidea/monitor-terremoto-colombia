@@ -43,6 +43,18 @@ jobs:
           find data/media -maxdepth 1 \( -name '*.jpg' -o -name '*.png' -o -name '*.webp' \) \
             -size -25M -exec cp {} dist/data/media/ \; 2>/dev/null || true
           touch dist/.nojekyll
+          # robots.txt + llms.txt + sitemap en la raíz del dominio
+          cp deploy/root/* dist/
+          HOY=$(date -u +%F)
+          cat > dist/sitemap.xml <<XML
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url><loc>https://brechas.orkidea.eu/site/</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>1.0</priority></url>
+            <url><loc>https://brechas.orkidea.eu/site/noticias.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
+            <url><loc>https://brechas.orkidea.eu/site/balances.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
+          </urlset>
+          XML
+          sed -i 's/^          //' dist/sitemap.xml
           # raíz del dominio → /site/ (redirección relativa: vale para
           # brechas.orkidea.eu y para 18orkidea.github.io/monitor-…/)
           printf '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./site/"><title>Monitor de brechas</title></head><body><a href="./site/">Ir al monitor</a></body></html>' > dist/index.html

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://brechas.orkidea.eu/sitemap.xml

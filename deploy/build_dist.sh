@@ -27,16 +27,14 @@ cat > dist/index.html <<'HTML'
 </html>
 HTML
 
-cat > dist/robots.txt <<'TXT'
-User-agent: *
-Allow: /
-Sitemap: https://brechas.orkidea.eu/sitemap.xml
-TXT
-
+cp deploy/root/* dist/
+HOY=$(date -u +%F)
 cat > dist/sitemap.xml <<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://brechas.orkidea.eu/site/</loc><changefreq>daily</changefreq><lastmod>$(date -u +%F)</lastmod></url>
+  <url><loc>https://brechas.orkidea.eu/site/</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>1.0</priority></url>
+  <url><loc>https://brechas.orkidea.eu/site/noticias.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
+  <url><loc>https://brechas.orkidea.eu/site/balances.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
 </urlset>
 XML
 
