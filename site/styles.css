@@ -182,15 +182,15 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #metodologia-box li { margin-bottom: 6px; }
 #metodologia-box a { color: var(--s1); text-decoration: none; }
 #metodologia-box a:hover { text-decoration: underline; }
-#glosario dl {
+#metodologia-box dl {
   display: grid; grid-template-columns: max-content 1fr;
   gap: 6px 14px; margin: 0; font-size: 12.5px; line-height: 1.5;
 }
-#glosario dt { font-weight: 600; color: var(--ink); }
-#glosario dd { margin: 0; color: var(--ink-2); }
+#metodologia-box dt { font-weight: 600; color: var(--ink); }
+#metodologia-box dd { margin: 0; color: var(--ink-2); }
 @media (max-width: 700px) {
-  #glosario dl { grid-template-columns: 1fr; gap: 2px; }
-  #glosario dd { margin-bottom: 8px; }
+  #metodologia-box dl { grid-template-columns: 1fr; gap: 2px; }
+  #metodologia-box dd { margin-bottom: 8px; }
 }
 footer { padding: 10px 20px 24px; font-size: 12px; color: var(--muted); line-height: 1.5; max-width: 1000px; }
 footer a { color: var(--s1); text-decoration: none; }
