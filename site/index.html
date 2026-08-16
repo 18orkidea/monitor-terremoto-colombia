@@ -47,7 +47,7 @@
 }
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=20260816.2">
+<link rel="stylesheet" href="styles.css?v=20260816.3">
 </head>
 <body>
 <header>
@@ -188,13 +188,13 @@
   <table id="municipios-tabla">
     <thead>
       <tr>
-        <th>Municipio</th>
-        <th>Estado</th>
-        <th class="num">Población 2026</th>
-        <th class="num">Intensidad DYFI</th>
-        <th class="num">Respuestas</th>
-        <th class="num">Prensa</th>
-        <th>Fuentes</th>
+        <th title="Municipio del área de influencia del sismo. Clic en la fila para verlo en el mapa.">Municipio</th>
+        <th title="Situación respecto al mapeo satelital: dentro de una zona analizada por Copernicus, o fuera de ellas con señales de afectación (intensidad alta o menciones en prensa).">Estado</th>
+        <th class="num" title="Población municipal proyectada 2026 (DANE, proyecciones postcensales por área).">Población 2026</th>
+        <th class="num" title="Intensidad máxima percibida reportada por ciudadanos al sistema DYFI del USGS (escala CDI, 1-10).">Intensidad DYFI</th>
+        <th class="num" title="Número de reportes ciudadanos «lo sentí» (DYFI/USGS) asociados al municipio.">Respuestas</th>
+        <th class="num" title="Titulares que mencionan el municipio, desde GDACS-EMM, feeds regionales abiertos y búsquedas municipales. Clic para verlos.">Prensa</th>
+        <th title="Qué sistemas registran señal en este municipio (prensa, DYFI, reportes ciudadanos, Copernicus).">Fuentes</th>
       </tr>
     </thead>
     <tbody></tbody>

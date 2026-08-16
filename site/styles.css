@@ -124,7 +124,11 @@ main {
 table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
 th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--grid); }
 th { color: var(--muted); font-weight: 600; font-size: 11.5px; }
-th[title] { cursor: help; text-decoration: underline dotted color-mix(in srgb, var(--muted) 60%, transparent); text-underline-offset: 3px; }
+th[title], th[data-tip] { cursor: help; text-decoration: underline dotted color-mix(in srgb, var(--muted) 60%, transparent); text-underline-offset: 3px; }
+.th-tip {
+  position: fixed; z-index: 1200; line-height: 1.5; font-weight: 400;
+  text-align: left; white-space: normal;
+}
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }

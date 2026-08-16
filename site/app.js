@@ -329,6 +329,38 @@
     document.getElementById("map").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  // ---- tooltips propios para las cabeceras: instantáneos y visibles también
+  // en táctil (el title nativo tarda ~1 s y en móvil no existe)
+  (function cabecerasConTooltip() {
+    const tip = document.createElement("div");
+    tip.className = "tooltip th-tip";
+    tip.style.display = "none";
+    document.body.appendChild(tip);
+    let fijado = null;
+    const mostrar = (th) => {
+      tip.textContent = th.dataset.tip;
+      tip.style.display = "block";
+      const r = th.getBoundingClientRect();
+      const w = Math.min(340, window.innerWidth - 24);
+      tip.style.maxWidth = w + "px";
+      let x = r.left;
+      if (x + w > window.innerWidth - 12) x = window.innerWidth - w - 12;
+      tip.style.left = Math.max(12, x) + "px";
+      tip.style.top = (r.bottom + 6) + "px";
+    };
+    const ocultar = () => { tip.style.display = "none"; fijado = null; };
+    for (const th of document.querySelectorAll("th[title]")) {
+      th.dataset.tip = th.getAttribute("title");
+      th.removeAttribute("title");   // evitar el tooltip nativo duplicado
+      th.addEventListener("mouseenter", () => mostrar(th));
+      th.addEventListener("mouseleave", () => { if (fijado !== th) ocultar(); });
+      th.addEventListener("click", () => {   // táctil: tocar fija/oculta
+        if (fijado === th) { ocultar(); } else { fijado = th; mostrar(th); }
+      });
+    }
+    window.addEventListener("scroll", ocultar, { passive: true });
+  })();
+
   // ---- municipios fuera/dentro de AOI con señal de prensa o intensidad
   const mtbody = document.querySelector("#municipios-tabla tbody");
   const muniRows = (municipios && municipios.features || [])
