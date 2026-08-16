@@ -1,5 +1,33 @@
 {
- "generado": "2026-08-15T16:43:43Z",
- "fecha": "2026-08-15",
- "alertas": []
+ "generado": "2026-08-16",
+ "fecha": "2026-08-16",
+ "alertas": [
+  {
+   "tipo": "nueva_activacion",
+   "nivel": "info",
+   "code": "EMSR922",
+   "name": "Wildfire in Montenegro",
+   "countries": [
+    "Montenegro"
+   ]
+  },
+  {
+   "tipo": "nueva_activacion",
+   "nivel": "info",
+   "code": "EMSR923",
+   "name": "Wildfire In Skyros, Greece",
+   "countries": [
+    "Greece"
+   ]
+  },
+  {
+   "tipo": "nueva_activacion",
+   "nivel": "info",
+   "code": "EMSR924",
+   "name": "Wildfire in Friuli, Italy",
+   "countries": [
+    "Italy"
+   ]
+  }
+ ]
 }

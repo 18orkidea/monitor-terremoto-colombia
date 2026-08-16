@@ -1,6 +1,6 @@
 {
- "generado": "2026-08-15",
- "fecha": "2026-08-15",
+ "generado": "2026-08-16",
+ "fecha": "2026-08-16",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -13,7 +13,7 @@
   ],
   "mag": 7.4,
   "place": "5 km S of San José del Palmar, Colombia",
-  "felt": 1160
+  "felt": 1177
  },
  "aois": [
   {
@@ -57,9 +57,9 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 541,
+    "n_prensa": 796,
     "n_oficial": 0,
-    "n_ciudadano": 253,
+    "n_ciudadano": 258,
     "etiqueta": "No comparable 1:1"
    },
    "n_productos": 1
@@ -137,7 +137,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 518,
+    "n_prensa": 667,
     "n_oficial": 0,
     "n_ciudadano": 1,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -215,10 +215,10 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Veteran volunteer digs for survivors after Colombia quake By Nelson Bocanegra PEREIRA, Colombia, Aug 13 (Reuters) - With his lean, sinewy frame, and standing just over 5 feet (1.6 meters) tall, Julio ",
-     "medio": "kelo",
+     "titular": "Veteran volunteer digs for survivors after Colombia quake",
+     "medio": "whbl",
      "fecha": "2026-08-13T20:56:00",
-     "url": "https://kelo.com/2026/08/13/veteran-volunteer-digs-for-survivors-after-colombia-quake/"
+     "url": "https://whbl.com/2026/08/13/veteran-volunteer-digs-for-survivors-after-colombia-quake/"
     },
     {
      "titular": "Hopes fade in Colombia as window to find quake survivors shuts",
@@ -235,9 +235,9 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 388,
+    "n_prensa": 509,
     "n_oficial": 0,
-    "n_ciudadano": 53,
+    "n_ciudadano": 54,
     "etiqueta": "Reportado en prensa, sin validación oficial"
    },
    "n_productos": 1
@@ -315,7 +315,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 518,
+    "n_prensa": 667,
     "n_oficial": 0,
     "n_ciudadano": 2,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -397,7 +397,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 69,
+    "n_prensa": 104,
     "n_oficial": 0,
     "n_ciudadano": 49,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -456,15 +456,27 @@
    },
    "prensa_ejemplos": [
     {
+     "titular": "Clamor desde Istmina y Sipí, en el Chocó, donde el terremoto también causó graves daños: “No tenemos cómo atender la situación” - Revista Semana",
+     "medio": "Google News — Istmina",
+     "fecha": "2026-08-12T03:01:57",
+     "url": "https://news.google.com/rss/articles/CBMiigJBVV95cUxNREdNYllNU1h5MlJxR2ZZWWdUWDI2Ui1DUzhDR01lUEdVZ2RXOUNkSUU1SE9fcDM3MDE0QTVkNHk4d3Z2Z2JjVGh4RHluaTQyN1JFalpaYXloVHgtUXR6SjA4dWZ4Zkg4ajN4d0oya3JvVGdrSktPdm5iRVk1a19hWW1IZURBWS1UMEZPOTBDaGxuODRtanB2SXpfY2V6VzZ2eldSaHJpQXdQdWdjNE82SmpoSFVaMjM3alhtZjhkTm9hdW43YzRBVDktMDRZVkFSSTk2c1VoRUx0UUJBTUJQaE9ZclFLLXQtOE93Q2JtN2Z6SzVzVW1DbWxURmtBQmt4ZWdiZllDeUxxZ9IBjwJBVV95cUxOU3ZHR3pkRFFqczNaQlozc0V2Um5haEVGRDNWX3ZsQkc5Smx5dzBsNl9Id3kzU292bTEyRS1fSG5aTEZTUDBNUmMydlFHMG1vTnJDZG5lZnQwWENiVW9YVlZQY3F3QWtnR01OSzdXdkd1a0NWSHB3anJ1YWxLZHZjS0NXTno1N3FOc2RScUtfTm1Xdll5ZGEtRmtheHBocVhYeU9sMmpHMFUtelJ1NHRabGdqX1FMZ085QkEtamdxa3JZaFNzbHRCUWY2QkFXanVpTWxoUnlWMzN2dmxXT24wOWI3cmxjcW45ODFHUzNmOWMyenNUZDF3aW5mdVRSSHBUSmt5RFBpcUllTzd5TWxN?oc=5"
+    },
+    {
      "titular": "Jhon Córdoba envió ayudas humanitarias a Istmina y otros municipios del Chocó tras el terremoto",
      "medio": "Chocó 7 días",
      "fecha": "2026-08-15T02:43:22",
      "url": "https://choco7dias.com/jhon-cordoba-envio-ayudas-humanitarias-a-istmina-y-otros-municipios-del-choco-tras-el-terremoto/"
+    },
+    {
+     "titular": "Jhon Córdoba envió ayudas humanitarias a Istmina y otros municipios del Chocó tras el terremoto - Chocó 7 días",
+     "medio": "Google News — Istmina",
+     "fecha": "2026-08-15T03:08:36",
+     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOakIzNDdPVXFjdm5ELUdmaW5tRG56ZWkzaVMxd3hZQ3ktYWxzSDJFZE9DUFZER0dhVy1nWGZZNUE5TWFJcmZxVDlIZDBiNGJxdGRqMkhwRmI1QURHbVo0MjhtdTltZnpOS3ltNHFuTGVNVGM5RjEyUzEzVjJhMDRTMnZBWHR1SVBsc2M5NzdjY1BRR0RWajZXVjk1MXdGSGliNjdJVTAxTmpBbjBlcnlORUxyMmk4WXVfRDNN?oc=5"
     }
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 1,
+    "n_prensa": 15,
     "n_oficial": 0,
     "n_ciudadano": 0,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -558,7 +570,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 27,
+    "n_prensa": 96,
     "n_oficial": 0,
     "n_ciudadano": 4,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -619,9 +631,16 @@
   {
    "fecha": "2026-08-15",
    "emm": null,
-   "gdelt": 0.8729,
+   "gdelt": 0.9958,
    "fuentes": null,
-   "chatmap": 8
+   "chatmap": 14
+  },
+  {
+   "fecha": "2026-08-16",
+   "emm": null,
+   "gdelt": 0.8449,
+   "fuentes": null,
+   "chatmap": null
   }
  ],
  "entregas": [
@@ -688,8 +707,8 @@
   "nota": "Aproximación: bandas MMI y AOIs no son geometrías equivalentes; ver README para la extensión con HRSL/Open Buildings."
  },
  "citizen": {
-  "chatmap_total": 430,
-  "en_aoi": 362
+  "chatmap_total": 436,
+  "en_aoi": 368
  },
  "municipios": {
   "total": 25,
@@ -2361,6 +2380,27 @@
    "category": "Wildfire",
    "countries": "Spain",
    "event_time": "2026-08-10T10:08:00"
+  },
+  {
+   "code": "EMSR922",
+   "name": "Wildfire in Montenegro",
+   "category": "Wildfire",
+   "countries": "Montenegro",
+   "event_time": "2026-08-14T22:00:00"
+  },
+  {
+   "code": "EMSR923",
+   "name": "Wildfire In Skyros, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2026-08-15T10:50:00"
+  },
+  {
+   "code": "EMSR924",
+   "name": "Wildfire in Friuli, Italy",
+   "category": "Wildfire",
+   "countries": "Italy",
+   "event_time": "2026-08-13T22:00:00"
   }
  ],
  "institucional": [
