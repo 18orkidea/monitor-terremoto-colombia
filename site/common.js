@@ -4,8 +4,10 @@
 (function () {
   const PAGES = [
     { href: "index.html", label: "🗺️ Mapa" },
-    { href: "noticias.html", label: "📰 Titulares" },
+    { href: "municipios.html", label: "🏘️ Municipios" },
+    { href: "rud.html", label: "🏛️ RUD" },
     { href: "balances.html", label: "📊 Balances" },
+    { href: "noticias.html", label: "📰 Titulares" },
   ];
   const actual = (location.pathname.split("/").pop() || "index.html");
 
@@ -35,8 +37,10 @@
       `rastreable a su origen.</div>` +
       `<div><strong>Secciones</strong><br>` +
       `<a href="index.html">Mapa y cruce por zona</a><br>` +
+      `<a href="municipios.html">Municipios del área de influencia</a><br>` +
+      `<a href="rud.html">RUD: registro oficial día a día</a><br>` +
+      `<a href="balances.html">Balances en medios y comparativa</a><br>` +
       `<a href="noticias.html">Titulares por zona</a><br>` +
-      `<a href="balances.html">Balances en medios</a><br>` +
       `<a href="index.html#glosario">Glosario</a> · <a href="index.html#metodologia">Metodología</a></div>` +
       `<div><strong>Datos abiertos (CC BY 4.0)</strong><br>` +
       `<a href="../data/public/crosscheck.csv" download>CSV del cruce</a><br>` +

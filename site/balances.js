@@ -1,11 +1,7 @@
-/* Balances rastreados: feed público del Worker Cloudflare. */
+/* Balances rastreados: feed público del Worker Cloudflare. Usa ui.js. */
 (async function () {
   const FEED = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json";
-  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  const fmt = (n) => n == null ? "—" : Number(n).toLocaleString("es-CO", { maximumFractionDigits: 0 });
-  const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  }[c]));
+  const { fmt, esc, cssVar: css, fetchJson } = window.UI;
 
   async function getJson(url) {
     const r = await fetch(url);
@@ -36,10 +32,55 @@
   renderCards(best.at(-1), items.length, dates.length);
   renderChart(best);
   renderTable();
+  renderComparativa(feed);
 
   document.getElementById("balance-buscar").addEventListener("input", renderTable);
   selDate.addEventListener("change", renderTable);
   selLevel.addEventListener("change", renderTable);
+
+  /* Comparativa de fuentes: tarjetas (una por mirada) + tabla RUD vs medios.
+     Los datos del RUD/satélite/ciudadano vienen de monitor.json. */
+  async function renderComparativa(feedOficiales) {
+    const cardsEl = document.getElementById("comparativa-cards");
+    const tbody = document.querySelector("#comparativa-tabla tbody");
+    if (!cardsEl || !tbody) return;
+    const mon = await fetchJson("../data/public/monitor.json");
+    const fuentes = window.UI.comparativaFuentes(mon, feedOficiales);
+    const por = Object.fromEntries(fuentes.map((f) => [f.id, f]));
+
+    const principal = {
+      satelite: (f) => [fmt(f.cifras.edificios_dañados), "edificios dañados"],
+      rud: (f) => [fmt(f.cifras.familias), "familias registradas"],
+      medios: (f) => [fmt(f.cifras.familias), "familias afectadas"],
+      ciudadano: (f) => [fmt(f.cifras.reportes), "reportes con foto"],
+    };
+    window.UI.metricCards(cardsEl, fuentes.map((f) => {
+      const [valor, unidad] = principal[f.id](f);
+      return { label: f.nombre, value: valor,
+               sub: `${unidad} · ${f.alcance}${f.fecha ? ` · ${f.fecha}` : ""}`,
+               href: f.href };
+    }));
+
+    const rud = por.rud && por.rud.cifras || {};
+    const med = por.medios && por.medios.cifras || {};
+    const filas = [
+      ["Municipios afectados", rud.municipios, med.municipios],
+      ["Familias", rud.familias, med.familias],
+      ["Personas", rud.personas, med.personas],
+      ["Viviendas destruidas", rud.viv_destruidas, med.viv_destruidas],
+      ["Viviendas averiadas", rud.viv_averiadas, med.viv_averiadas],
+      ["Fallecidos", null, med.fallecidos],
+      ["Heridos", null, med.heridos],
+      ["Desaparecidos", null, med.desaparecidos],
+    ];
+    tbody.innerHTML = filas.map(([nombre, r, m]) => {
+      const diff = (r != null && m != null) ? Math.abs(m - r) : null;
+      return `<tr><td>${nombre}</td>` +
+        `<td class="num">${r == null ? '<span style="color:var(--muted)" title="El RUD no registra este indicador">no registra</span>' : fmt(r)}</td>` +
+        `<td class="num">${fmt(m)}</td>` +
+        `<td class="num">${diff == null ? "—" : fmt(diff)}</td></tr>`;
+    }).join("");
+  }
 
   function metricCount(item) {
     return Object.values(item.cifras || {}).filter((v) => v != null).length;

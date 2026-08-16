@@ -381,6 +381,14 @@ def run() -> dict:
     (PUBLIC / "municipios.geojson").write_text(json.dumps(
         municipios_gj, ensure_ascii=False))
 
+    # Hitos curados (respuesta local + cambios del monitor): el fichero fuente
+    # vive en feeds/ y se publica tal cual junto al resto de datos.
+    from common import ROOT
+    hitos_src = ROOT / "feeds" / "hitos_monitor.json"
+    if hitos_src.exists():
+        (PUBLIC / "hitos_monitor.json").write_text(
+            hitos_src.read_text(encoding="utf-8"), encoding="utf-8")
+
     # RUD en el tiempo: serie diaria agregada + detalle municipal del último día
     rud_serie = [dict(zip(["fecha", "municipios", "familias", "personas",
                            "viv_destruidas", "viv_averiadas"], r))

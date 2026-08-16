@@ -1,0 +1,42 @@
+{
+  "descripcion": "Hitos curados de la respuesta local y del propio monitor. Complementan los hitos internacionales (feed institucional GDACS) y las entregas Copernicus, que llegan por API. Cada cambio relevante del monitor (fuentes nuevas, purgas, rediseños) se documenta aquí para que la cronología muestre cómo se va cerrando — o moviendo — la brecha de reporte.",
+  "tipos": {
+    "evento": "El sismo y sus réplicas mayores",
+    "local": "Respuesta oficial y local (UNGRD, RUD, balances citados en medios)",
+    "monitor": "Cambios del propio monitor: fuentes que entran o desaparecen, rediseños"
+  },
+  "hitos": [
+    {
+      "fecha": "2026-08-10",
+      "tipo": "evento",
+      "texto": "Terremoto M7.4 con epicentro en San José del Palmar (Chocó), el más fuerte registrado en Colombia en más de un siglo",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2"
+    },
+    {
+      "fecha": "2026-08-15",
+      "tipo": "monitor",
+      "texto": "Primera corrida diaria del monitor: cruce satélite–prensa–reporte ciudadano con snapshots inmutables"
+    },
+    {
+      "fecha": "2026-08-15",
+      "tipo": "monitor",
+      "texto": "Alta de feeds regionales y búsquedas municipales de noticias: la cobertura local (p. ej. Istmina) entra en la medición"
+    },
+    {
+      "fecha": "2026-08-16",
+      "tipo": "local",
+      "texto": "El RUD de la UNGRD cubre el evento: primera fuente oficial abierta (75 municipios, 21.275 familias registradas)",
+      "url": "https://rud.gestiondelriesgo.gov.co/"
+    },
+    {
+      "fecha": "2026-08-16",
+      "tipo": "monitor",
+      "texto": "GDACS purga la serie global de noticias EMM; sobrevive solo en los snapshots del monitor, que sigue midiendo con sus feeds abiertos"
+    },
+    {
+      "fecha": "2026-08-16",
+      "tipo": "monitor",
+      "texto": "Nueva versión del sitio: portada resumida, páginas propias para municipios y RUD, cronología unificada con la respuesta local y comparativa de fuentes en Balances"
+    }
+  ]
+}

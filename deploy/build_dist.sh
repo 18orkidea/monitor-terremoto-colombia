@@ -35,6 +35,8 @@ cat > dist/sitemap.xml <<XML
   <url><loc>https://brechas.orkidea.eu/site/</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>1.0</priority></url>
   <url><loc>https://brechas.orkidea.eu/site/noticias.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
   <url><loc>https://brechas.orkidea.eu/site/balances.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
+  <url><loc>https://brechas.orkidea.eu/site/municipios.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.7</priority></url>
+  <url><loc>https://brechas.orkidea.eu/site/rud.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.7</priority></url>
 </urlset>
 XML
 

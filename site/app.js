@@ -1,12 +1,11 @@
-/* Monitor de brechas — frontend sin build. Lee data/public/*. */
+/* Monitor de brechas — frontend sin build. Lee data/public/*. Usa ui.js. */
 (async function () {
-  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const css = window.UI.cssVar;
   const ESTADO_COLOR = {
     coincide: css("--good"), prensa: css("--s1"), ciudadano: css("--s7"),
     pendiente: css("--warning"), no_comparable: css("--muted"),
   };
-  const fmt = (n) => n == null ? "—" :
-    Number(n).toLocaleString("es-CO", { maximumFractionDigits: 1 });
+  const fmt = (n) => window.UI.fmt(n, 1);
 
   // ---- traducción de etiquetas que llegan en inglés desde las fuentes.
   // El nombre original se conserva (title/paréntesis) para poder identificarlo
@@ -49,20 +48,18 @@
     .replace(/Copernicus EMS activation/i, "Activación Copernicus EMS")
     .replace(/^M7\.4 in Colombia/i, "M7.4 en Colombia");
 
-  async function j(path) {
-    try { const r = await fetch(path); return r.ok ? await r.json() : null; }
-    catch { return null; }
-  }
+  const j = window.UI.fetchJson;
   const base = "../data/public/";
   const OFFICIAL_FEED = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json";
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
-         dmgPts, dmgLines, notAnalysed, oficiales] = await Promise.all([
+         dmgPts, dmgLines, notAnalysed, oficiales, hitosCurados] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
     j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
     j(base + "shakemap_mmi.geojson"), j(base + "alerts.json"),
     j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
     j(base + "not_analysed.geojson"), j(OFFICIAL_FEED),
+    j(base + "hitos_monitor.json"),
   ]);
   if (!mon) {
     document.getElementById("banner-brechas").innerHTML =
@@ -75,8 +72,6 @@
     return;
   }
   document.getElementById("generado").textContent = "Actualizado " + mon.generado;
-  window.__monitorData = mon;
-  if (window.__renderRud) window.__renderRud();
 
   // ---- banda de brechas oficiales
   const g = mon.brechas_oficiales || {};
@@ -371,49 +366,53 @@
     window.addEventListener("scroll", ocultar, { passive: true });
   })();
 
-  // ---- municipios fuera/dentro de AOI con señal de prensa o intensidad
-  const mtbody = document.querySelector("#municipios-tabla tbody");
-  const muniRows = (municipios && municipios.features || [])
-    .map((f) => f.properties)
-    .sort((a, b) => Number(b.en_aoi_copernicus) - Number(a.en_aoi_copernicus) ||
-      (b.dyfi_max_cdi || 0) - (a.dyfi_max_cdi || 0) ||
-      (b.n_noticias || 0) - (a.n_noticias || 0) ||
-      a.municipio.localeCompare(b.municipio));
-  for (const m of muniRows) {
-    const tr = document.createElement("tr");
-    const estado = m.en_aoi_copernicus ? "En AOI Copernicus" :
-      ((m.dyfi_max_cdi || 0) >= 6 ? "Fuera de AOI · intensidad alta" :
-        (m.n_noticias ? "Fuera de AOI · mencionado" : "Fuera de AOI · intensidad sentida"));
-    const color = m.en_aoi_copernicus ? css("--s1") :
-      ((m.dyfi_max_cdi || 0) >= 6 ? css("--warning") : css("--s2"));
-    tr.innerHTML =
-      `<td><strong>${m.municipio}</strong><br><span style="color:var(--muted)">${m.departamento}</span></td>` +
-      `<td><span class="badge" style="--bc:${color}">${estado}</span></td>` +
-      `<td class="num" title="DANE PPED municipal por área, 2026">${fmt(m.poblacion_2026)}</td>` +
-      `<td class="num">${fmt(m.dyfi_max_cdi)}</td>` +
-      `<td class="num">${fmt(m.dyfi_respuestas)}</td>` +
-      `<td class="num">${m.n_noticias ? `<a href="noticias.html?municipio=${encodeURIComponent(m.municipio)}">${fmt(m.n_noticias)}</a>` : "—"}</td>` +
-      `<td>${(m.fuentes || []).join(", ") || "—"}</td>`;
-    tr.addEventListener("click", (ev) => {
-      if (ev.target.closest("a")) return;  // el enlace a noticias no debe saltar al mapa
-      const l = munLayerById[m.municipio];
-      if (l) { map.setView(l.getLatLng(), 10); l.openPopup(); irAlMapa(); }
-    });
-    mtbody.appendChild(tr);
-  }
-
-  // ---- cronología institucional + entregas Copernicus, en un solo hilo temporal
+  // ---- cronología unificada: respuesta internacional + local + hitos del monitor
+  //      (feed institucional GDACS + entregas Copernicus + fichero curado + derivados)
+  const ETIQUETA_TIPO = { institucional: "internacional", entrega: "internacional",
+                          evento: "evento", local: "local", monitor: "monitor" };
   const hitos = [
     ...(mon.institucional || []).map((h) => ({
       fecha: h.fecha, texto: tHito(h.titulo), url: h.url, tipo: "institucional" })),
     ...(mon.entregas || []).map((e) => ({
       fecha: e.fecha, tipo: "entrega",
       texto: `Copernicus entrega datos de daño: ${aoiEs(e.aoi)} (${t(e.producto)} / ${e.producto} v${e.version})` })),
+    ...((hitosCurados && hitosCurados.hitos) || []).map((h) => ({
+      fecha: h.fecha, texto: h.texto, url: h.url, tipo: h.tipo })),
   ].filter((h) => h.fecha).sort((x, y) => y.fecha.localeCompare(x.fecha));
-  document.getElementById("timeline").innerHTML = hitos.map((h) =>
-    `<li class="${h.tipo}"><span class="t-fecha">${h.fecha.slice(0, 16).replace("T", " ")}</span> ` +
-    (h.url ? `<a href="${h.url}" target="_blank" rel="noopener">${h.texto}</a>` : h.texto) +
-    `</li>`).join("") || "<li>Sin hitos registrados aún.</li>";
+  // derivado: primer balance en medios que cita fuentes oficiales
+  {
+    const fechas = ((oficiales && oficiales.items) || [])
+      .map((x) => x.search_date).filter(Boolean).sort();
+    if (fechas.length) hitos.push({
+      fecha: fechas[0], tipo: "local", url: "balances.html",
+      texto: "Primer balance en medios citando fuentes oficiales (UNGRD/SGC) rastreado por el monitor" });
+    hitos.sort((x, y) => y.fecha.localeCompare(x.fecha));
+  }
+  window.__hitos = hitos;   // los usa drawChart para anotar la gráfica
+  const timelineEl = document.getElementById("timeline");
+  const chipsEl = document.getElementById("crono-filtros");
+  const FILTROS = [["todos", "Todos"], ["internacional", "🌍 Internacional"],
+                   ["local", "🇨🇴 Local/oficial"], ["monitor", "🔧 Monitor"]];
+  function pintaCronologia(filtro) {
+    const vista = hitos.filter((h) => filtro === "todos" ||
+      ETIQUETA_TIPO[h.tipo] === filtro || h.tipo === "evento");
+    timelineEl.innerHTML = vista.map((h) =>
+      `<li class="${h.tipo}"><span class="t-fecha">${h.fecha.slice(0, 16).replace("T", " ")}</span> ` +
+      `<span class="t-tipo">${ETIQUETA_TIPO[h.tipo] || h.tipo}</span>` +
+      (h.url ? `<a href="${h.url}" target="_blank" rel="noopener">${h.texto}</a>` : h.texto) +
+      `</li>`).join("") || "<li>Sin hitos registrados aún.</li>";
+  }
+  if (chipsEl) {
+    chipsEl.innerHTML = FILTROS.map(([k, label], i) =>
+      `<button class="chip${i ? "" : " activa"}" data-filtro="${k}">${label}</button>`).join("");
+    chipsEl.addEventListener("click", (ev) => {
+      const b = ev.target.closest(".chip");
+      if (!b) return;
+      chipsEl.querySelectorAll(".chip").forEach((c) => c.classList.toggle("activa", c === b));
+      pintaCronologia(b.dataset.filtro);
+    });
+  }
+  pintaCronologia("todos");
 
   // ---- otras activaciones Copernicus en Colombia
   const actsEl = document.getElementById("colombia-acts");
@@ -436,8 +435,8 @@
     `<span class="badge" style="--bc:${ESTADO_COLOR[k]}">${v}</span>`).join("");
 
   // ---- gráfico temporal (SVG a mano; un solo eje: nº de items/día)
-  drawChart(mon.media_volume || [], mon.entregas || []);
-  renderBalancesSummary(oficiales);
+  drawChart(mon.media_volume || [], mon.entregas || [], hitos);
+  renderFuentes();
 
   // ---- alertas
   const ul = document.getElementById("alerts");
@@ -449,7 +448,7 @@
         `${a.texto || (a.tipo || "").replaceAll("_", " ")}</li>`).join("")
     : "<li>Sin novedades de Colombia en la corrida de hoy.</li>";
 
-  function drawChart(media, entregas) {
+  function drawChart(media, entregas, hitosCrono) {
     const el = document.getElementById("chart");
     if (!media.length) { el.textContent = "Sin serie temporal todavía."; return; }
     const W = Math.max(680, Math.min(el.clientWidth || 900, 1100)), H = 260;
@@ -495,6 +494,26 @@
     media.forEach((d, i) => {
       s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap || 0)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
     });
+
+    // hitos de la cronología anotados sobre la serie (las entregas ya tienen ▲)
+    const HITO_COLOR = { evento: css("--critical"), local: css("--good"),
+                         monitor: css("--warning"), institucional: css("--muted") };
+    const dayIdx = Object.fromEntries(days.map((d, i) => [d, i]));
+    const porDia = {};
+    for (const h of (hitosCrono || [])) {
+      if (h.tipo === "entrega") continue;
+      const i = dayIdx[(h.fecha || "").slice(0, 10)];
+      if (i != null) (porDia[i] ||= []).push(h);
+    }
+    for (const [i, dia] of Object.entries(porDia)) {
+      const xx = x(+i);
+      s += `<line x1="${xx}" x2="${xx}" y1="${M.t}" y2="${H - M.b}" stroke="${css("--baseline")}" stroke-width="1" stroke-dasharray="3 3"/>`;
+      dia.forEach((h, k) => {
+        const texto = `${h.fecha.slice(0, 10)} · ${h.texto.replaceAll('"', "&quot;")}`;
+        s += `<circle data-hito="${texto}" cx="${xx}" cy="${M.t + 6 + k * 11}" r="4.5" ` +
+          `fill="${HITO_COLOR[h.tipo] || css("--muted")}" stroke="${css("--surface-1")}" stroke-width="1.5"/>`;
+      });
+    }
     s += `<g font-size="11">` +
       `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias EMM (global, purgado)</text>` +
       `<circle cx="${M.l + 205}" cy="9" r="5" fill="${css("--s3")}"/><text x="${M.l + 214}" y="13" fill="${css("--ink-2")}">Feeds abiertos del monitor</text>` +
@@ -503,118 +522,35 @@
     s += `</svg>`;
     el.innerHTML = s;
 
-    const tip = document.createElement("div");
-    tip.className = "tooltip"; tip.style.display = "none";
-    document.body.appendChild(tip);
-    el.addEventListener("mousemove", (ev) => {
-      const t = ev.target.closest("[data-i],[data-deliv]");
-      if (!t) { tip.style.display = "none"; return; }
-      let html = "";
-      if (t.dataset.deliv) html = `<strong>Entrega Copernicus</strong><br>${t.dataset.deliv}`;
-      else {
-        const d = media[+t.dataset.i];
-        html = `<strong>${d.fecha}</strong><br>Noticias EMM (global): ${fmt(d.emm)}<br>` +
-          `Feeds abiertos: ${fmt(d.feeds)}<br>` +
-          `ChatMap: ${fmt(d.chatmap)}<br>GDELT vol: ${d.gdelt ?? "—"}` +
-          `${d.fuentes ? "<br>Medios distintos: " + fmt(d.fuentes) : ""}`;
-      }
-      tip.innerHTML = html; tip.style.display = "block";
-      tip.style.left = (ev.clientX + 12) + "px";
-      tip.style.top = (ev.clientY - 10) + "px";
+    window.UI.attachTooltip(el, (t) => {
+      if (t.dataset.hito) return `<strong>Hito</strong><br>${t.dataset.hito}`;
+      if (t.dataset.deliv) return `<strong>Entrega Copernicus</strong><br>${t.dataset.deliv}`;
+      if (t.dataset.i == null) return null;
+      const d = media[+t.dataset.i];
+      return `<strong>${d.fecha}</strong><br>Noticias EMM (global): ${fmt(d.emm)}<br>` +
+        `Feeds abiertos: ${fmt(d.feeds)}<br>` +
+        `ChatMap: ${fmt(d.chatmap)}<br>GDELT vol: ${d.gdelt ?? "—"}` +
+        `${d.fuentes ? "<br>Medios distintos: " + fmt(d.fuentes) : ""}`;
     });
-    el.addEventListener("mouseleave", () => tip.style.display = "none");
   }
 
-  function metricCount(item) {
-    return Object.values(item.cifras || {}).filter((v) => v != null).length;
-  }
-
-  function isLiveblog(item) {
-    const text = `${item.title || ""} ${item.publication_url || item.url || ""}`.toLowerCase();
-    return item.is_liveblog || /en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog/.test(text);
-  }
-
-  function bestSnapshot(items) {
-    return [...items].sort((a, b) =>
-      Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
-      metricCount(b) - metricCount(a) ||
-      Number(b.official) - Number(a.official) ||
-      ((b.captured_at || "").localeCompare(a.captured_at || "")))[0] || null;
-  }
-
-  function renderBalancesSummary(feed) {
-    const el = document.getElementById("balances-resumen");
+  /* Tarjetas de la comparativa de fuentes (portada resumen). */
+  function renderFuentes() {
+    const el = document.getElementById("fuentes-cards");
     if (!el) return;
-    const items = (feed && feed.items || []).filter((x) => x.search_date);
-    if (!items.length) {
-      el.innerHTML = `<p class="note">Sin balances rastreados todavía.</p>`;
-      return;
-    }
-    const latestDate = items.map((x) => x.search_date).sort().at(-1);
-    const latest = bestSnapshot(items.filter((x) => x.search_date === latestDate));
-    const c = latest.cifras || {};
-    const sources = (latest.reported_data_source || []).map((s) =>
-      s.url ? `<a href="${s.url}" target="_blank" rel="noopener">${s.id}</a>` : s.id).join(", ") || "—";
-    const publisher = latest.publisher || {};
-    el.innerHTML =
-      `<div class="metric-card"><span>Fecha</span><strong>${latestDate}</strong></div>` +
-      `<div class="metric-card"><span>Fallecidos</span><strong>${fmt(c.fallecidos)}</strong></div>` +
-      `<div class="metric-card"><span>Heridos</span><strong>${fmt(c.heridos)}</strong></div>` +
-      `<div class="metric-card"><span>Desaparecidos</span><strong>${fmt(c.desaparecidos)}</strong></div>` +
-      `<div class="metric-card"><span>Familias afectadas</span><strong>${fmt(c.familias_afectadas)}</strong></div>` +
-      `<p class="note full">Último snapshot en medio que cita fuentes oficiales: <a href="${latest.publication_url || latest.url}" target="_blank" rel="noopener">${latest.title}</a> · ` +
-      `publica ${publisher.name || publisher.domain || "—"} · fuente citada: ${sources}. ` +
-      `${isLiveblog(latest) ? "<span class='badge' style='--bc:var(--warning)'>liveblog</span> " : ""}` +
-      `<a href="balances.html">Ver histórico y tabla trazable →</a></p>`;
+    const fuentes = window.UI.comparativaFuentes(mon, oficiales);
+    const fmt0 = (n) => window.UI.fmt(n, 0);
+    const principal = {
+      satelite: (f) => [fmt0(f.cifras.edificios_dañados), "edificios dañados vistos por satélite"],
+      rud: (f) => [fmt0(f.cifras.familias), "familias registradas oficialmente"],
+      medios: (f) => [fmt0(f.cifras.familias), "familias afectadas según medios"],
+      ciudadano: (f) => [fmt0(f.cifras.reportes), "reportes ciudadanos con foto"],
+    };
+    window.UI.metricCards(el, fuentes.map((f) => {
+      const [valor, unidad] = principal[f.id](f);
+      return { label: f.nombre, value: valor,
+               sub: `${unidad} · ${f.alcance}${f.fecha ? ` · ${f.fecha}` : ""}`,
+               href: f.href };
+    }));
   }
 })();
-
-/* ---- RUD día a día: curva de familias registradas + detalle municipal */
-window.__renderRud = function renderRud() {
-  const mon2 = window.__monitorData;
-  if (!mon2 || !mon2.rud || !mon2.rud.serie.length) return;
-  const css2 = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  const fmt2 = (n) => n == null ? "—" : Number(n).toLocaleString("es-CO", { maximumFractionDigits: 0 });
-  const serie = mon2.rud.serie;
-  const el = document.getElementById("rud-chart");
-  if (el) {
-    const W = Math.max(680, Math.min(el.clientWidth || 900, 1100)), H = 200;
-    const M = { t: 26, r: 70, b: 34, l: 64 };
-    const maxY = Math.max(...serie.map((d) => d.familias || 0)) * 1.1;
-    const x = (i) => serie.length === 1 ? W / 2 :
-      M.l + i * (W - M.l - M.r) / (serie.length - 1);
-    const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
-    let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Familias registradas en el RUD por día">`;
-    for (const t of [0, 0.5, 1]) {
-      const v = Math.round(maxY * t), yy = y(v);
-      s += `<line x1="${M.l}" x2="${W - M.r}" y1="${yy}" y2="${yy}" stroke="${css2("--grid")}"/>` +
-        `<text x="${M.l - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="${css2("--muted")}">${fmt2(v)}</text>`;
-    }
-    const linea = serie.map((d, i) => `${i ? "L" : "M"} ${x(i)} ${y(d.familias || 0)}`).join(" ");
-    s += `<path d="${linea}" fill="none" stroke="${css2("--good")}" stroke-width="2.5"/>`;
-    serie.forEach((d, i) => {
-      s += `<circle cx="${x(i)}" cy="${y(d.familias || 0)}" r="5" fill="${css2("--good")}" stroke="${css2("--surface-1")}" stroke-width="2"><title>${d.fecha}: ${fmt2(d.familias)} familias, ${fmt2(d.municipios)} municipios</title></circle>` +
-        `<text x="${x(i)}" y="${y(d.familias || 0) - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="${css2("--good")}">${fmt2(d.familias)}</text>` +
-        `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${css2("--muted")}">${d.fecha.slice(5)}</text>`;
-    });
-    s += `<text x="${M.l}" y="14" font-size="11" fill="${css2("--ink-2")}">Familias registradas (acumulado por día de captura)</text></svg>`;
-    el.innerHTML = s;
-  }
-  const tbody = document.querySelector("#rud-tabla tbody");
-  if (tbody) {
-    const TOP = 15;
-    const munis = mon2.rud.municipios;
-    tbody.innerHTML = munis.slice(0, TOP).map((m) =>
-      `<tr><td><strong>${m.municipio}</strong>${m.nuevo ? ' <span class="badge" style="--bc:var(--good)">nuevo</span>' : ""}<br><span style="color:var(--muted)">${m.departamento}</span></td>` +
-      `<td class="num">${fmt2(m.familias)}</td><td class="num">${fmt2(m.personas)}</td>` +
-      `<td class="num">${fmt2(m.viv_destruidas)}</td><td class="num">${fmt2(m.viv_averiadas)}</td>` +
-      `<td class="num">${m.delta_familias == null ? "—" : (m.delta_familias >= 0 ? "+" : "") + fmt2(m.delta_familias)}</td></tr>`).join("");
-    const ult = serie[serie.length - 1];
-    document.getElementById("rud-nota").textContent =
-      `Mostrando los ${Math.min(TOP, munis.length)} municipios con más familias de los ` +
-      `${ult.municipios} registrados (${fmt2(ult.familias)} familias en total). ` +
-      `La columna Δ compara con el día anterior de la serie; «nuevo» marca municipios que ` +
-      `entraron al registro hoy. Serie iniciada el 16-ago-2026.`;
-  }
-};
-window.__renderRud();
