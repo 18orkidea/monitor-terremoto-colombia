@@ -57,7 +57,7 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 796,
+    "n_prensa": 803,
     "n_oficial": 0,
     "n_ciudadano": 258,
     "etiqueta": "No comparable 1:1"
@@ -137,7 +137,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 667,
+    "n_prensa": 672,
     "n_oficial": 0,
     "n_ciudadano": 1,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -235,7 +235,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 509,
+    "n_prensa": 511,
     "n_oficial": 0,
     "n_ciudadano": 54,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -315,7 +315,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 667,
+    "n_prensa": 672,
     "n_oficial": 0,
     "n_ciudadano": 2,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -476,7 +476,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 15,
+    "n_prensa": 16,
     "n_oficial": 0,
     "n_ciudadano": 0,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -570,7 +570,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 96,
+    "n_prensa": 98,
     "n_oficial": 0,
     "n_ciudadano": 4,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -638,7 +638,7 @@
   {
    "fecha": "2026-08-16",
    "emm": null,
-   "gdelt": 0.8449,
+   "gdelt": 0.6941,
    "fuentes": null,
    "chatmap": null
   }
