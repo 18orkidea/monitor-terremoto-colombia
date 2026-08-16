@@ -26,6 +26,12 @@
       "fecha": "2026-08-16",
       "tipo": "monitor",
       "texto": "Nueva versión del sitio: portada resumida, páginas propias para municipios y RUD, cronología unificada con la respuesta local y comparativa de fuentes en Balances"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "El monitor se profesionaliza: reglas de desarrollo escritas, agentes revisores, deploy único, snapshots intradía verificables, la base de datos pasa a dumps CSV legibles y las limitaciones del archivo quedan documentadas",
+      "url": "https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
     }
   ]
 }
