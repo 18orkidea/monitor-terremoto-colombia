@@ -26,3 +26,10 @@ dist/
 *.key
 *token*
 !package-lock.json
+
+# .claude/: solo se versionan launch, agentes y skills — las notas de trabajo
+# y la memoria personal viven fuera del repo (ver CLAUDE.md)
+.claude/*
+!.claude/launch.json
+!.claude/agents/
+!.claude/skills/
