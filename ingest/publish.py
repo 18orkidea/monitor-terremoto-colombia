@@ -381,6 +381,34 @@ def run() -> dict:
     (PUBLIC / "municipios.geojson").write_text(json.dumps(
         municipios_gj, ensure_ascii=False))
 
+    # RUD en el tiempo: serie diaria agregada + detalle municipal del último día
+    rud_serie = [dict(zip(["fecha", "municipios", "familias", "personas",
+                           "viv_destruidas", "viv_averiadas"], r))
+                 for r in conn.execute(
+                     "SELECT snapshot_date, COUNT(*), SUM(familias), SUM(personas),"
+                     " SUM(viv_destruidas), SUM(viv_averiadas) FROM rud_daily"
+                     " GROUP BY snapshot_date ORDER BY snapshot_date")]
+    ult_dia = rud_serie[-1]["fecha"] if rud_serie else None
+    dia_prev = rud_serie[-2]["fecha"] if len(rud_serie) > 1 else None
+    rud_municipios = []
+    if ult_dia:
+        prev = {}
+        if dia_prev:
+            prev = {(r[0], r[1]): r[2] for r in conn.execute(
+                "SELECT departamento, municipio, familias FROM rud_daily"
+                " WHERE snapshot_date=?", (dia_prev,))}
+        for dep, mun, fam, per, dest, aver in conn.execute(
+                "SELECT departamento, municipio, familias, personas,"
+                " viv_destruidas, viv_averiadas FROM rud_daily"
+                " WHERE snapshot_date=? ORDER BY familias DESC", (ult_dia,)):
+            fila = {"departamento": dep, "municipio": mun, "familias": fam,
+                    "personas": per, "viv_destruidas": dest, "viv_averiadas": aver}
+            if dia_prev:
+                antes = prev.get((dep, mun))
+                fila["delta_familias"] = (fam or 0) - (antes or 0) if antes is not None else None
+                fila["nuevo"] = (dep, mun) not in prev
+            rud_municipios.append(fila)
+
     monitor = {
         # granularidad de día, no de hora: dos corridas el mismo día deben
         # producir bytes idénticos (idempotencia => sin commits espurios)
@@ -389,6 +417,7 @@ def run() -> dict:
         "aois": sorted(aois, key=lambda a: a["numero"] or 0),
         "media_volume": media, "entregas": entregas,
         "brechas_oficiales": gaps, "exposicion": exposicion,
+        "rud": {"serie": rud_serie, "municipios": rud_municipios},
         "citizen": {"chatmap_total": len(cit_feats),
                     "en_aoi": sum(1 for f in cit_feats
                                   if f["properties"].get("aoi"))},

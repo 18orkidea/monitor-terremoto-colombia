@@ -149,6 +149,14 @@ CREATE TABLE IF NOT EXISTS news_items (
   fecha TEXT, titulo TEXT, medio TEXT,
   snapshot_date TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS rud_daily (
+  snapshot_date TEXT NOT NULL,
+  departamento TEXT NOT NULL, municipio TEXT NOT NULL,
+  familias REAL, personas REAL,
+  viv_destruidas REAL, viv_averiadas REAL,
+  habitables REAL, nohabitables REAL,
+  PRIMARY KEY (snapshot_date, departamento, municipio)
+);
 CREATE TABLE IF NOT EXISTS crosscheck (
   aoi_name TEXT NOT NULL, snapshot_date TEXT NOT NULL,
   estado TEXT NOT NULL,

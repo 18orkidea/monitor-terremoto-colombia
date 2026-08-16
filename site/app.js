@@ -75,6 +75,8 @@
     return;
   }
   document.getElementById("generado").textContent = "Actualizado " + mon.generado;
+  window.__monitorData = mon;
+  if (window.__renderRud) window.__renderRud();
 
   // ---- banda de brechas oficiales
   const g = mon.brechas_oficiales || {};
@@ -566,3 +568,53 @@
       `<a href="balances.html">Ver histórico y tabla trazable →</a></p>`;
   }
 })();
+
+/* ---- RUD día a día: curva de familias registradas + detalle municipal */
+window.__renderRud = function renderRud() {
+  const mon2 = window.__monitorData;
+  if (!mon2 || !mon2.rud || !mon2.rud.serie.length) return;
+  const css2 = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const fmt2 = (n) => n == null ? "—" : Number(n).toLocaleString("es-CO", { maximumFractionDigits: 0 });
+  const serie = mon2.rud.serie;
+  const el = document.getElementById("rud-chart");
+  if (el) {
+    const W = Math.max(680, Math.min(el.clientWidth || 900, 1100)), H = 200;
+    const M = { t: 26, r: 70, b: 34, l: 64 };
+    const maxY = Math.max(...serie.map((d) => d.familias || 0)) * 1.1;
+    const x = (i) => serie.length === 1 ? W / 2 :
+      M.l + i * (W - M.l - M.r) / (serie.length - 1);
+    const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
+    let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Familias registradas en el RUD por día">`;
+    for (const t of [0, 0.5, 1]) {
+      const v = Math.round(maxY * t), yy = y(v);
+      s += `<line x1="${M.l}" x2="${W - M.r}" y1="${yy}" y2="${yy}" stroke="${css2("--grid")}"/>` +
+        `<text x="${M.l - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="${css2("--muted")}">${fmt2(v)}</text>`;
+    }
+    const linea = serie.map((d, i) => `${i ? "L" : "M"} ${x(i)} ${y(d.familias || 0)}`).join(" ");
+    s += `<path d="${linea}" fill="none" stroke="${css2("--good")}" stroke-width="2.5"/>`;
+    serie.forEach((d, i) => {
+      s += `<circle cx="${x(i)}" cy="${y(d.familias || 0)}" r="5" fill="${css2("--good")}" stroke="${css2("--surface-1")}" stroke-width="2"><title>${d.fecha}: ${fmt2(d.familias)} familias, ${fmt2(d.municipios)} municipios</title></circle>` +
+        `<text x="${x(i)}" y="${y(d.familias || 0) - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="${css2("--good")}">${fmt2(d.familias)}</text>` +
+        `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${css2("--muted")}">${d.fecha.slice(5)}</text>`;
+    });
+    s += `<text x="${M.l}" y="14" font-size="11" fill="${css2("--ink-2")}">Familias registradas (acumulado por día de captura)</text></svg>`;
+    el.innerHTML = s;
+  }
+  const tbody = document.querySelector("#rud-tabla tbody");
+  if (tbody) {
+    const TOP = 15;
+    const munis = mon2.rud.municipios;
+    tbody.innerHTML = munis.slice(0, TOP).map((m) =>
+      `<tr><td><strong>${m.municipio}</strong>${m.nuevo ? ' <span class="badge" style="--bc:var(--good)">nuevo</span>' : ""}<br><span style="color:var(--muted)">${m.departamento}</span></td>` +
+      `<td class="num">${fmt2(m.familias)}</td><td class="num">${fmt2(m.personas)}</td>` +
+      `<td class="num">${fmt2(m.viv_destruidas)}</td><td class="num">${fmt2(m.viv_averiadas)}</td>` +
+      `<td class="num">${m.delta_familias == null ? "—" : (m.delta_familias >= 0 ? "+" : "") + fmt2(m.delta_familias)}</td></tr>`).join("");
+    const ult = serie[serie.length - 1];
+    document.getElementById("rud-nota").textContent =
+      `Mostrando los ${Math.min(TOP, munis.length)} municipios con más familias de los ` +
+      `${ult.municipios} registrados (${fmt2(ult.familias)} familias en total). ` +
+      `La columna Δ compara con el día anterior de la serie; «nuevo» marca municipios que ` +
+      `entraron al registro hoy. Serie iniciada el 16-ago-2026.`;
+  }
+};
+window.__renderRud();

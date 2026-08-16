@@ -52,7 +52,7 @@
 }
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=20260816.15">
+<link rel="stylesheet" href="styles.css?v=20260816.16">
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
@@ -105,7 +105,8 @@
       <li><strong><a href="#municipios-section">Municipios</a></strong>: ciudades del área de influencia con menciones en prensa,
       intensidad percibida o reportes ciudadanos — aunque Copernicus no las haya mapeado. Es la
       lista de «dónde más mirar».</li>
-      <li><strong><a href="#chart-section">Brecha de atención</a></strong> (gráfico): barras = noticias por día; línea
+      <li><strong><a href="#rud-section">RUD oficial</a>
+  <a href="#chart-section">Brecha de atención</a></strong> (gráfico): barras = noticias por día; línea
       violeta = reportes ciudadanos; ▲ = entregas de datos satelitales. Se lee de un vistazo
       que los datos de daño llegan cuando la prensa ya se fue — y que la comunidad sigue.</li>
       <li><strong><a href="#timeline-section">Cronología</a></strong>: quién reaccionó cuándo (UNOSAT, ECHO, Copernicus).</li>
@@ -128,6 +129,7 @@
   <a href="#mapa">🗺️ Mapa</a>
   <a href="#panel">Cruce por zona</a>
   <a href="#municipios-section">Municipios</a>
+  <a href="#rud-section">RUD oficial</a>
   <a href="#chart-section">Brecha de atención</a>
   <a href="#timeline-section">Cronología</a>
   <a href="#balances-section">Balances</a>
@@ -190,6 +192,28 @@
     </thead>
     <tbody></tbody>
   </table>
+</section>
+
+<section id="rud-section">
+  <h2>Registro oficial de damnificados (RUD), día a día</h2>
+  <p class="sub">La primera fuente oficial que cubre el evento: familias registradas por
+  las autoridades municipales en el <a href="https://rud.gestiondelriesgo.gov.co/"
+  target="_blank" rel="noopener">RUD de la UNGRD</a>. La curva mide cómo avanza el
+  registro — y qué municipios faltan. Que un municipio no aparezca no significa
+  «sin daño»: significa «sin registro aún».</p>
+  <div id="rud-chart"></div>
+  <div style="overflow-x:auto"><table id="rud-tabla">
+    <thead><tr>
+      <th title="Municipio registrado en el RUD. Ordenado por familias.">Municipio</th>
+      <th class="num" title="Familias damnificadas registradas">Familias</th>
+      <th class="num" title="Personas damnificadas registradas">Personas</th>
+      <th class="num" title="Viviendas destruidas según el registro municipal">Viv. destruidas</th>
+      <th class="num" title="Viviendas averiadas según el registro municipal">Viv. averiadas</th>
+      <th class="num" title="Cambio de familias respecto al día anterior de la serie">Δ día</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="note" id="rud-nota"></p>
 </section>
 
 <section id="chart-section">
@@ -315,8 +339,8 @@
 
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js?v=20260816.15-6"></script>
+<script src="app.js?v=20260816.16-6"></script>
 <div id="site-footer"></div>
-<script src="common.js?v=20260816.15"></script>
+<script src="common.js?v=20260816.16"></script>
 </body>
 </html>

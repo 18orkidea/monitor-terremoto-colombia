@@ -57,6 +57,13 @@ def run() -> dict:
             (f"{dep}|{mun}|{fecha}", fecha, dep, mun, r.get("evento"),
              _n(r.get("personas")), _n(r.get("familias")),
              _n(r.get("destruidas")), _n(r.get("averiadas"))))
+        conn.execute(
+            "INSERT OR REPLACE INTO rud_daily (snapshot_date, departamento,"
+            " municipio, familias, personas, viv_destruidas, viv_averiadas,"
+            " habitables, nohabitables) VALUES (?,?,?,?,?,?,?,?,?)",
+            (today(), dep, mun, _n(r.get("familias")), _n(r.get("personas")),
+             _n(r.get("destruidas")), _n(r.get("averiadas")),
+             _n(r.get("habitables")), _n(r.get("nohabitables"))))
         n += 1
     conn.commit()
     tot = conn.execute(
