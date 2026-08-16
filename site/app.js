@@ -432,9 +432,12 @@
   // ---- alertas
   const ul = document.getElementById("alerts");
   const items = (alerts && alerts.alertas) || [];
+  const h2a = document.querySelector("#alerts-section h2");
+  if (h2a && alerts && alerts.fecha) h2a.textContent = `Alertas de hoy (${alerts.fecha})`;
   ul.innerHTML = items.length
-    ? items.map((a) => `<li><strong>${a.tipo.replaceAll("_", " ")}</strong> — ${a.aoi ? aoiEs(a.aoi) : (a.code || "")} ${a.producto ? "· " + t(a.producto) + " (" + a.producto + ")" : ""} ${a.name ? "· " + a.name : ""} ${a.nivel === "alta" ? "⚠️" : ""}</li>`).join("")
-    : "<li>Sin cambios desde la última corrida.</li>";
+    ? items.map((a) => `<li>${a.nivel === "alta" ? "⚠️ " : ""}` +
+        `${a.texto || (a.tipo || "").replaceAll("_", " ")}</li>`).join("")
+    : "<li>Sin novedades de Colombia en la corrida de hoy.</li>";
 
   function drawChart(media, entregas) {
     const el = document.getElementById("chart");

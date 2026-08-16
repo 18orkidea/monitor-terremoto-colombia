@@ -17,7 +17,7 @@ from common import db, fetch, fetch_json, today, MEDIA
 MAP_ID = "89319bbb-a14a-4dfd-b9a1-c83b8b55785f"
 API = f"https://chatmap.hotosm.org/api/v1/map/{MAP_ID}"
 EVENT_KEY = "EQ1557236"
-MAX_MEDIA_BYTES = 40 * 1024 * 1024
+MAX_MEDIA_BYTES = 300 * 1024 * 1024   # el archivo vive en R2 (10 GB gratis)
 IMG_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 
 

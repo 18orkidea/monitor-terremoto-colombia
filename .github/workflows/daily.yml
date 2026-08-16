@@ -31,6 +31,21 @@ jobs:
           python -m unittest tests.test_unit -v
           python -m unittest tests.test_hipotesis -v
 
+      # Archivo permanente de videos ciudadanos (ChatMap no garantiza retención).
+      # Requiere secrets R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY (token S3 de R2,
+      # solo bucket monitor-terremoto-media). Sin ellos, se salta.
+      - name: Archivar videos ciudadanos en R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        if: ${{ env.AWS_ACCESS_KEY_ID != '' }}
+        run: |
+          aws s3 sync data/media/ s3://monitor-terremoto-media/ \
+            --endpoint-url https://fe26e2674ce7e3cdf6b07397be7ee8e8.r2.cloudflarestorage.com \
+            --exclude "*" --include "*.mp4" --include "*.mov" --include "*.webm" \
+            --include "*.opus" --include "*.ogg" --include "*.m4a" --size-only
+
       - name: Commit del snapshot si hay cambios
         run: |
           git config user.name "monitor-bot"

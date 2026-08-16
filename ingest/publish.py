@@ -157,11 +157,19 @@ def run() -> dict:
             " score, checks, estado, mensaje FROM citizen_reports"
             " WHERE lat_pub IS NOT NULL"):
         rid, ts, lat, lon, murl, mlocal, score, checks, estado, msg = r
-        # preferir la copia local para imágenes (el endpoint de activación puede
-        # cerrar); los videos quedan fuera de git, así que mantienen la URL remota
+        # imágenes: copia local en git. Videos/audio: archivo permanente en R2
+        # (ChatMap es un endpoint de activación sin política de retención).
+        R2_BASE = "https://pub-ca7861342f67400d94b3cb8ae8300a58.r2.dev/"
         is_img = bool(mlocal) and mlocal.lower().endswith(
             (".jpg", ".jpeg", ".png", ".webp"))
-        media_ref = ("../" + mlocal) if is_img else murl
+        is_av = (murl or "").lower().endswith((".mp4", ".mov", ".webm", ".opus",
+                                               ".ogg", ".m4a"))
+        if is_img:
+            media_ref = "../" + mlocal
+        elif is_av:
+            media_ref = R2_BASE + murl.rsplit("/", 1)[-1]
+        else:
+            media_ref = murl
         cit_feats.append({"type": "Feature",
                           "geometry": {"type": "Point", "coordinates": [lon, lat]},
                           "properties": {"id": rid, "time": ts, "media": media_ref,

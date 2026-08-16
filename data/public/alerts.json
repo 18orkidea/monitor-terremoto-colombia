@@ -3,31 +3,34 @@
  "fecha": "2026-08-16",
  "alertas": [
   {
-   "tipo": "nueva_activacion",
+   "tipo": "reportes_ciudadanos",
    "nivel": "info",
-   "code": "EMSR922",
-   "name": "Wildfire in Montenegro",
-   "countries": [
-    "Montenegro"
-   ]
+   "texto": "14 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 14
   },
   {
-   "tipo": "nueva_activacion",
+   "tipo": "titulares_nuevos",
    "nivel": "info",
-   "code": "EMSR923",
-   "name": "Wildfire In Skyros, Greece",
-   "countries": [
-    "Greece"
-   ]
+   "texto": "213 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 213
   },
   {
-   "tipo": "nueva_activacion",
+   "tipo": "balance_en_medios",
    "nivel": "info",
-   "code": "EMSR924",
-   "name": "Wildfire in Friuli, Italy",
-   "countries": [
-    "Italy"
-   ]
+   "texto": "Balance en medios citando fuentes oficiales (2026-08-15): 294 fallecidos (+0 vs día anterior), 3935 heridos, 320 desaparecidos",
+   "fecha_balance": "2026-08-15",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 448,
+    "personas_afectadas": 115461,
+    "familias_afectadas": 54008,
+    "viviendas_averiadas": 81506,
+    "viviendas_destruidas": 14493,
+    "heridos": 3935,
+    "fallecidos": 294,
+    "desaparecidos": 320,
+    "rescatados": 188
+   }
   }
  ]
 }

@@ -130,7 +130,7 @@ ingest/           # pipeline (solo stdlib de Python)
 data/
   monitor.sqlite  # series + procedencia
   snapshots/      # respuestas crudas por día (inmutables)
-  media/          # fotos ciudadanas (videos fuera de git, hash registrado)
+  media/          # fotos ciudadanas (videos en R2, hash registrado)
   public/         # artefactos que consume el mapa
 site/             # Leaflet sin build: index.html + app.js + styles.css
 workers/ai-view/ # Worker privado: lee documentos oficiales con Qwen OCR y publica JSON/RSS
