@@ -294,5 +294,77 @@ def setUpModule():
     TOPONYMS = AOI_TOPONYMS
 
 
+class TestDumpRoundtrip(unittest.TestCase):
+    """El sqlite no se versiona; los dumps CSV sí. Si el ciclo dump→rebuild
+    perdiera un solo valor (un NULL vuelto cero, una tilde rota), el archivo
+    histórico quedaría corrupto en silencio — este test lo impide."""
+
+    def test_ida_y_vuelta_fiel(self):
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            origen = sqlite3.connect(tmp / "a.sqlite")
+            origen.executescript(SCHEMA)
+            # muestras con lo traicionero: NULL, 0, tildes, comas, comillas, saltos
+            origen.execute(
+                "INSERT INTO rud_daily VALUES ('2026-08-16','CHOCÓ','ISTMINA',"
+                "969.0,2811.0,NULL,0.0,NULL,22.0)")
+            origen.execute(
+                "INSERT INTO news_items VALUES ('https://x/y?a=1','feed-1',"
+                "'2026-08-16','Título, con \"comillas\" y\nsalto','Medio Ñandú',"
+                "'2026-08-16')")
+            origen.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                "snapshot_path,note) VALUES ('2026-08-16T00:00:00Z','u',200,"
+                "NULL,0,NULL,'NA no es cero')")
+            origen.commit()
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                dump_db.dump(origen)
+                dump_db.rebuild(tmp / "b.sqlite")
+                copia = sqlite3.connect(tmp / "b.sqlite")
+                for tabla in dump_db.TABLAS:
+                    cols = [r[1] for r in origen.execute(
+                        f"PRAGMA table_info({tabla})")]
+                    sel = f"SELECT {', '.join(cols)} FROM {tabla} ORDER BY {cols[0]}"
+                    self.assertEqual(
+                        origen.execute(sel).fetchall(),
+                        copia.execute(sel).fetchall(),
+                        f"la tabla {tabla} no sobrevivió al ciclo dump→rebuild")
+                copia.close()
+            finally:
+                dump_db.DUMPS = dumps_orig
+            origen.close()
+
+
+class TestParidadLiveblog(unittest.TestCase):
+    """La regla editorial «liveblog» vive en dos lenguajes: el worker la marca
+    en origen (workers/ai-view) y el frontend la reaplica (site/ui.js). Si los
+    términos divergen, una cobertura «en vivo» podría pesar distinto según
+    quién la mire — este test compara los términos de ambas regex."""
+
+    ROOT = Path(__file__).parent.parent
+
+    def _terminos(self, texto: str) -> set[str]:
+        import re
+        # la alternancia siempre empieza en «en vivo» y termina en «liveblog»
+        m = re.search(r"en vivo\|[^\n/]*?liveblog", texto)
+        self.assertIsNotNone(m, "no se encontró la regex de liveblog")
+        crudo = m.group(0).replace("\\b", "").replace("(", "").replace(")", "")
+        return {t.strip() for t in crudo.split("|") if t.strip()}
+
+    def test_worker_y_frontend_marcan_los_mismos_terminos(self):
+        ui = (self.ROOT / "site" / "ui.js").read_text(encoding="utf-8")
+        worker = (self.ROOT / "workers" / "ai-view" / "src" / "index.js").read_text(
+            encoding="utf-8")
+        self.assertEqual(
+            self._terminos(ui), self._terminos(worker),
+            "los términos de liveblog divergieron entre site/ui.js y el worker "
+            "— unificar antes de publicar (regla R8)")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

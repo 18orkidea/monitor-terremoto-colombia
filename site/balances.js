@@ -1,20 +1,15 @@
 /* Balances rastreados: feed público del Worker Cloudflare. Usa ui.js. */
 (async function () {
-  const FEED = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json";
-  const { fmt, esc, cssVar: css, fetchJson } = window.UI;
+  const { fmt, esc, cssVar: css, fetchJson, isLiveblog, bestSnapshot,
+          metricCount } = window.UI;
+  const FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
+  const btnJson = document.querySelector(".meta a.btn");
+  if (btnJson) btnJson.href = FEED;
 
-  async function getJson(url) {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return r.json();
-  }
-
-  let feed;
-  try {
-    feed = await getJson(FEED);
-  } catch (err) {
+  const feed = await fetchJson(FEED);
+  if (!feed) {
     document.getElementById("balance-resumen").textContent =
-      `No se pudo cargar el feed de balances: ${err.message || err}`;
+      "No se pudo cargar el feed de balances (el worker no respondió).";
     return;
   }
 
@@ -80,30 +75,6 @@
         `<td class="num">${fmt(m)}</td>` +
         `<td class="num">${diff == null ? "—" : fmt(diff)}</td></tr>`;
     }).join("");
-  }
-
-  function metricCount(item) {
-    return Object.values(item.cifras || {}).filter((v) => v != null).length;
-  }
-
-  function sourceScore(item) {
-    if (item.official && item.source_level === "oficial_institucional") return 4;
-    if (item.official) return 3;
-    if ((item.reported_data_source || []).length) return 2;
-    return 0;
-  }
-
-  function isLiveblog(item) {
-    const text = `${item.title || ""} ${item.publication_url || item.url || ""}`.toLowerCase();
-    return item.is_liveblog || /en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog/.test(text);
-  }
-
-  function bestSnapshot(dayItems) {
-    return [...dayItems].sort((a, b) =>
-      Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
-      metricCount(b) - metricCount(a) ||
-      sourceScore(b) - sourceScore(a) ||
-      ((b.captured_at || "").localeCompare(a.captured_at || "")))[0];
   }
 
   function labelLevel(level) {
@@ -204,22 +175,14 @@
     }
     el.innerHTML = html;
 
-    const tip = document.createElement("div");
-    tip.className = "tooltip"; tip.style.display = "none";
-    document.body.appendChild(tip);
-    el.addEventListener("mousemove", (ev) => {
-      const dot = ev.target.closest("[data-i]");
-      if (!dot) { tip.style.display = "none"; return; }
+    window.UI.attachTooltip(el, (dot) => {
+      if (dot.dataset.i == null) return null;
       const r = rows[+dot.dataset.i];
       const c = r.cifras || {};
-      tip.innerHTML = `<strong>${r.search_date}</strong><br>${esc(publisherName(r))}${isLiveblog(r) ? " · liveblog" : ""}<br>` +
+      return `<strong>${r.search_date}</strong><br>${esc(publisherName(r))}${isLiveblog(r) ? " · liveblog" : ""}<br>` +
         `Fallecidos: ${fmt(c.fallecidos)} · Heridos: ${fmt(c.heridos)}<br>` +
         `Desaparecidos: ${fmt(c.desaparecidos)} · Familias: ${fmt(c.familias_afectadas)}`;
-      tip.style.display = "block";
-      tip.style.left = (ev.clientX + 12) + "px";
-      tip.style.top = (ev.clientY - 10) + "px";
     });
-    el.addEventListener("mouseleave", () => tip.style.display = "none");
   }
 
   function renderTable() {

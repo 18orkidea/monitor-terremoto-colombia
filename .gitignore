@@ -8,6 +8,9 @@ data/media/*.opus
 data/media/*.ogg
 data/media/*.m4a
 
+# la BD no se versiona: se reconstruye desde data/dumps/*.csv (dump_db.py)
+data/monitor.sqlite
+
 # ficheros de trabajo de SQLite (WAL)
 data/monitor.sqlite-wal
 data/monitor.sqlite-shm

@@ -29,7 +29,11 @@ def main():
     backfill = "--backfill" in sys.argv
     from sources import copernicus, copernicus_layers, usgs, gdacs, gdelt, dane, \
         ungrd_arcgis, ungrd_socrata, ungrd_rud, chatmap, emsc, community_feeds
-    import verify_citizen, crosscheck, alerts, publish
+    import dump_db, verify_citizen, crosscheck, alerts, publish
+
+    # el sqlite no se versiona: en un clon nuevo (o en CI) se reconstruye
+    # desde los dumps CSV antes de empezar
+    step("rebuild_db", dump_db.rebuild)
 
     step("copernicus", copernicus.run, backfill=backfill)
     step("copernicus_layers", copernicus_layers.run)
@@ -47,6 +51,8 @@ def main():
     step("crosscheck", crosscheck.run)
     step("alerts", alerts.run, RESULTS.get("copernicus") or {})
     step("publish", publish.run)
+    # al cerrar: volcar la BD a dumps CSV — lo que git versiona y diffea
+    step("dump_db", dump_db.dump)
 
     print("\n== RESUMEN ==")
     for k, v in RESULTS.items():

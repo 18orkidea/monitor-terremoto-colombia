@@ -50,7 +50,7 @@
 
   const j = window.UI.fetchJson;
   const base = "../data/public/";
-  const OFFICIAL_FEED = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json";
+  const OFFICIAL_FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
          dmgPts, dmgLines, notAnalysed, oficiales, hitosCurados] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),

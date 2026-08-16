@@ -45,7 +45,7 @@
       `<div><strong>Datos abiertos (CC BY 4.0)</strong><br>` +
       `<a href="../data/public/crosscheck.csv" download>CSV del cruce</a><br>` +
       `<a href="../data/public/monitor.json" target="_blank">JSON del monitor</a><br>` +
-      `<a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.rss" target="_blank" rel="noopener">RSS de balances</a><br>` +
+      `<a href="${window.UI.OFICIALES_BASE}/oficiales.rss" target="_blank" rel="noopener">RSS de balances</a><br>` +
       `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">Repositorio y snapshots</a></div>` +
       `</div>` +
       `<p class="sf-line">🇨🇴 ❤️ Mantenido por <a href="https://col.social/@jp" target="_blank" rel="me noopener">@jp@col.social</a> ` +

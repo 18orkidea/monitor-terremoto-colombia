@@ -73,7 +73,14 @@ window.UI = (function () {
     return tip;
   }
 
-  /* ---- balances en medios: selección del mejor snapshot (regla compartida) */
+  /* ---- feed de balances (worker externo): URL única del frontend.
+     El worker guarda la copia viva; el repo archiva un snapshot diario en
+     feeds/balances/. Cambiarla aquí y solo aquí. */
+  const OFICIALES_BASE = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev";
+
+  /* ---- balances en medios: selección del mejor snapshot (regla compartida;
+     la marca is_liveblog original la pone el worker — test de paridad en
+     tests/test_unit.py) */
   function isLiveblog(item) {
     const text = `${item.title || ""} ${item.publication_url || item.url || ""}`.toLowerCase();
     return item.is_liveblog ||
@@ -81,11 +88,17 @@ window.UI = (function () {
   }
   const metricCount = (item) =>
     Object.values(item.cifras || {}).filter((v) => v != null).length;
+  const sourceScore = (item) => {
+    if (item.official && item.source_level === "oficial_institucional") return 4;
+    if (item.official) return 3;
+    if ((item.reported_data_source || []).length) return 2;
+    return 0;
+  };
   function bestSnapshot(items) {
     return [...items].sort((a, b) =>
       Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
       metricCount(b) - metricCount(a) ||
-      Number(b.official) - Number(a.official) ||
+      sourceScore(b) - sourceScore(a) ||
       ((b.captured_at || "").localeCompare(a.captured_at || "")))[0] || null;
   }
 
@@ -145,5 +158,6 @@ window.UI = (function () {
   }
 
   return { fmt, norm, cssVar, esc, fetchJson, tablaBuscable, metricCards,
-           attachTooltip, isLiveblog, bestSnapshot, comparativaFuentes };
+           attachTooltip, isLiveblog, bestSnapshot, metricCount,
+           comparativaFuentes, OFICIALES_BASE };
 })();
