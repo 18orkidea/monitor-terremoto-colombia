@@ -28,7 +28,7 @@
  "distribution":[{"@type":"DataDownload","encodingFormat":"application/json",
    "contentUrl":"https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json"}]}
 </script>
-<link rel="stylesheet" href="styles.css?v=20260816.7">
+<link rel="stylesheet" href="styles.css?v=20260816.8">
 </head>
 <body>
 <header>
@@ -54,6 +54,41 @@
     </div>
   </div>
 </header>
+
+<section class="intro">
+  <p>Tras el <strong>terremoto M7,4 de Colombia</strong>, las cifras de <strong>fallecidos,
+  heridos, desaparecidos y familias afectadas</strong> circulan antes por la prensa que por
+  los canales oficiales abiertos. Esta página rastrea a diario los <strong>balances que los
+  medios publican citando a las fuentes oficiales</strong> — UNGRD, Servicio Geológico
+  Colombiano, gobernaciones y alcaldías — y los convierte en una serie temporal trazable:
+  cada cifra con su fecha, su publicador, la fuente que cita y el enlace al artículo.</p>
+  <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
+  oficial. Es lo que la prensa dice que dicen las fuentes oficiales — útil porque vuela más
+  rápido que los canales formales, y peligroso si se confunde con un EDAN. Por eso cada
+  snapshot lleva su nivel de confianza y los <em>liveblogs</em> (coberturas «en vivo» que
+  mezclan actualizaciones de horas distintas) se marcan y pesan menos.</p>
+  <details>
+    <summary><strong>Metodología y preguntas frecuentes</strong></summary>
+    <ol>
+      <li><strong>¿Cómo se recogen?</strong> Un proceso automático busca cada noche (23:00
+      de Colombia) balances del día en la prensa, descarga los artículos y extrae las cifras
+      con un modelo de lenguaje, guardando la cita textual y el hash del contenido. Todo
+      snapshot exige revisión humana antes de considerarse consolidado.</li>
+      <li><strong>¿Por qué difieren las cifras entre medios el mismo día?</strong> Porque
+      citan cortes distintos del consolidado oficial (mañana vs tarde), o arrastran datos de
+      liveblogs. La serie diaria elige el mejor snapshot no-liveblog: el más completo, con
+      fuente citada y estable respecto a la víspera.</li>
+      <li><strong>¿Qué significa cada nivel?</strong> «Prensa temporal» = artículo fechado
+      de un medio; «Web temporal» = página sin fecha editorial firme; el distintivo
+      <em>liveblog</em> marca coberturas en vivo (fiabilidad histórica baja).</li>
+      <li><strong>¿Dónde están los datos?</strong> El feed completo es público en
+      <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" target="_blank" rel="noopener">JSON</a>
+      y <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.rss" target="_blank" rel="noopener">RSS</a>,
+      bajo licencia CC&nbsp;BY&nbsp;4.0. El día que UNGRD publique el EDAN en datos
+      abiertos, esta página quedará felizmente obsoleta.</li>
+    </ol>
+  </details>
+</section>
 
 <section id="balance-hero">
   <div id="balance-cards" class="metric-strip"></div>
@@ -107,6 +142,6 @@
     </a>
   </div>
 </footer>
-<script src="balances.js?v=20260816.7-1"></script>
+<script src="balances.js?v=20260816.8-1"></script>
 </body>
 </html>
