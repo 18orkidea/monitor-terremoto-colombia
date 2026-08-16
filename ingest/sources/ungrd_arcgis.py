@@ -51,7 +51,8 @@ def run(full: bool = False) -> dict:
                 "where": "1=1", "f": "json", "outFields": ",".join(FIELDS),
                 "resultOffset": offset, "resultRecordCount": PAGE,
                 "orderByFields": "OBJECTID_1",
-            }, note=f"ungrd arcgis offset={offset}", conn=conn)
+            }, note=f"ungrd arcgis offset={offset}", conn=conn,
+                snapshot_name=f"ungrd_arcgis_offset{offset}.json")
             feats = (page or {}).get("features") or []
             if not feats:
                 break

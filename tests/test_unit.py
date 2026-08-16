@@ -82,19 +82,13 @@ class TestMMIGrid(unittest.TestCase):
 
 
 class TestCrosscheckReglas(unittest.TestCase):
-    """La regla dura del proyecto: nada llega a 'coincide' sin evidencia oficial."""
+    """La regla dura del proyecto: nada llega a 'coincide' sin evidencia
+    oficial. Se testea la función REAL (crosscheck.decidir_estado), no una
+    réplica — si la regla cambia en el código, estos tests lo notan."""
 
     def _run(self, evidence_oficial=0, prensa=0, ciudadano=0, has_stats=True):
-        # réplica de la lógica de decisión de crosscheck.run (mantener en sincronía)
-        if not has_stats:
-            return "no_comparable"
-        if evidence_oficial > 0:
-            return "coincide"
-        if prensa > 0:
-            return "prensa"
-        if ciudadano > 0:
-            return "ciudadano"
-        return "pendiente"
+        from crosscheck import decidir_estado
+        return decidir_estado(has_stats, evidence_oficial, prensa, ciudadano)
 
     def test_defecto_es_pendiente(self):
         self.assertEqual(self._run(), "pendiente")
@@ -292,6 +286,51 @@ def setUpModule():
     global TOPONYMS
     from crosscheck import AOI_TOPONYMS
     TOPONYMS = AOI_TOPONYMS
+
+
+class TestSnapshotsIntradia(unittest.TestCase):
+    """Los snapshots son inmutables e intradía: el primer cuerpo del día
+    conserva el nombre canónico; un cuerpo distinto el mismo día se archiva
+    con sufijo _sha8. Jamás un sha256 en el log sin cuerpo recuperable."""
+
+    def test_dos_cuerpos_distintos_dos_snapshots(self):
+        import sqlite3
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn = sqlite3.connect(":memory:")
+            conn.executescript(common.SCHEMA)
+
+            class Resp:
+                def __init__(self, b): self.status, self._b = 200, b
+                def read(self): return self._b
+                def __enter__(self): return self
+                def __exit__(self, *a): return False
+
+            cuerpos = [b'{"a":1}', b'{"a":1}', b'{"a":2}']
+            with mock.patch.object(common, "ROOT", tmp), \
+                 mock.patch.object(common, "SNAPSHOTS", tmp / "snapshots"), \
+                 mock.patch.object(common.urllib.request, "urlopen",
+                                   side_effect=[Resp(b) for b in cuerpos]):
+                for _ in cuerpos:
+                    common.fetch("https://x/f", snapshot_name="fuente.json",
+                                 conn=conn)
+            dia = tmp / "snapshots" / common.today()
+            nombres = sorted(p.name for p in dia.iterdir())
+            self.assertEqual(len(nombres), 2, nombres)  # canónico + _sha8
+            self.assertIn("fuente.json", nombres)
+            self.assertTrue(any("_" in n and n != "fuente.json" for n in nombres))
+            # cada fila del log apunta a un cuerpo cuyo sha coincide
+            import hashlib
+            for spath, sha in conn.execute(
+                    "SELECT snapshot_path, sha256 FROM sources_log"):
+                self.assertIsNotNone(spath, "fila con cuerpo sin snapshot_path")
+                cuerpo = (tmp / spath).read_bytes()
+                self.assertEqual(hashlib.sha256(cuerpo).hexdigest(), sha,
+                                 "el snapshot no corresponde al sha del log")
+            conn.close()
 
 
 class TestDumpRoundtrip(unittest.TestCase):

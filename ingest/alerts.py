@@ -91,7 +91,8 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                      f"feeds de prensa", "n": n_news})
 
     # 5) balance nuevo en medios (worker IA): delta del último día vs el anterior
-    st, feed = fetch_json(FEED_BALANCES, note="alerts balances", conn=conn)
+    st, feed = fetch_json(FEED_BALANCES, note="alerts balances", conn=conn,
+                          snapshot_name="oficiales_feed.json")
     # detector de silencio: el worker corre a diario; si lleva >48 h sin
     # generar (clave caducada, cuota agotada, cron roto), avisar en alta
     gen = (feed or {}).get("generated_at")

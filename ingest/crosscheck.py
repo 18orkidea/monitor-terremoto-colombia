@@ -139,18 +139,7 @@ def run(emm_items: list[dict] | None = None) -> dict:
             "SELECT COUNT(*) FROM citizen_reports WHERE estado IN"
             " ('coherente','validado','publicado')"
             " AND json_extract(checks,'$.aoi')=?", (aoi,)).fetchone()[0]
-        if not has_stats:
-            # sin producto satelital entregado no hay cruce que evaluar,
-            # aunque exista evidencia oficial (p. ej. Western Colombia)
-            estado = "no_comparable"
-        elif n_of > 0:
-            estado = "coincide"
-        elif n_pr > 0:
-            estado = "prensa"
-        elif n_ci > 0:
-            estado = "ciudadano"
-        else:
-            estado = "pendiente"
+        estado = decidir_estado(has_stats, n_of, n_pr, n_ci)
         detalle = {"noticias": n_pr, "ciudadanos_en_aoi": n_ci,
                    "evidencia_oficial": n_of, "stats": has_stats}
         conn.execute(
@@ -163,6 +152,25 @@ def run(emm_items: list[dict] | None = None) -> dict:
     conn.commit()
     conn.close()
     return out
+
+
+def decidir_estado(has_stats: bool, n_oficial: int, n_prensa: int,
+                   n_ciudadano: int) -> str:
+    """La regla dura del cruce (R1/R2), como función pura testeable.
+
+    Sin producto satelital entregado no hay cruce que evaluar, aunque exista
+    evidencia oficial (p. ej. Western Colombia). Solo la evidencia oficial
+    promueve a «coincide»; prensa y ciudadanos alcanzan estados intermedios.
+    """
+    if not has_stats:
+        return "no_comparable"
+    if n_oficial > 0:
+        return "coincide"
+    if n_prensa > 0:
+        return "prensa"
+    if n_ciudadano > 0:
+        return "ciudadano"
+    return "pendiente"
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ import csv
 import io
 import json
 
-from common import db, today, utcnow, PUBLIC, snapshot_dir
+from common import db, today, utcnow, DATA, PUBLIC, snapshot_dir
 from geo import wkt_to_geojson
 
 ESTADO_LABEL = {
@@ -168,9 +168,19 @@ def run() -> dict:
     cit_feats = []
     for r in conn.execute(
             "SELECT id_externo, ts, lat_pub, lon_pub, media_url, media_local,"
-            " score, checks, estado, mensaje FROM citizen_reports"
+            " media_sha256, score, checks, estado, mensaje FROM citizen_reports"
             " WHERE lat_pub IS NOT NULL"):
-        rid, ts, lat, lon, murl, mlocal, score, checks, estado, msg = r
+        rid, ts, lat, lon, murl, mlocal, msha, score, checks, estado, msg = r
+        # verificación de lo publicado: el fichero local debe coincidir con el
+        # sha256 registrado en la BD; discrepancia = warning, nunca rotura
+        if mlocal and msha:
+            import hashlib
+            from common import ROOT as _ROOT
+            f_local = _ROOT / mlocal
+            if f_local.exists() and hashlib.sha256(
+                    f_local.read_bytes()).hexdigest() != msha:
+                print(f"::warning::medio {mlocal} no coincide con su sha256 "
+                      f"registrado — posible corrupción del archivo")
         # imágenes: copia local en git. Videos/audio: archivo permanente en R2
         # (ChatMap es un endpoint de activación sin política de retención).
         R2_BASE = "https://pub-ca7861342f67400d94b3cb8ae8300a58.r2.dev/"
@@ -193,6 +203,26 @@ def run() -> dict:
                                          "mensaje": (msg or "")[:280]}})
     (PUBLIC / "chatmap.geojson").write_text(json.dumps(
         {"type": "FeatureCollection", "features": cit_feats}, ensure_ascii=False))
+
+    # Manifest de R2: los videos ciudadanos viven solo en el bucket (no caben
+    # en git); este manifiesto versionado (clave + sha256 + bytes) hace el
+    # bucket auditable desde el repo — si un objeto cambia o falta, se nota.
+    from common import ROOT as _ROOT
+    manifest = []
+    for fname, msha, mlocal in conn.execute(
+            "SELECT media_url, media_sha256, media_local FROM citizen_reports"
+            " WHERE media_sha256 IS NOT NULL ORDER BY media_url"):
+        clave = (fname or "").rsplit("/", 1)[-1]
+        if not clave.lower().endswith((".mp4", ".mov", ".webm", ".opus",
+                                       ".ogg", ".m4a")):
+            continue
+        f_local = _ROOT / mlocal if mlocal else None
+        manifest.append({"objeto": clave, "sha256": msha,
+                         "bytes": f_local.stat().st_size
+                         if f_local and f_local.exists() else None})
+    (DATA / "r2_manifest.json").write_text(json.dumps(
+        {"generado": snap, "bucket": "monitor-terremoto-media",
+         "objetos": manifest}, ensure_ascii=False, indent=1))
 
     sismos = []
     for r in conn.execute(

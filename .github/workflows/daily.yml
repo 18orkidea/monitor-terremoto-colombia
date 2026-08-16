@@ -46,13 +46,19 @@ jobs:
             --exclude "*" --include "*.mp4" --include "*.mov" --include "*.webm" \
             --include "*.opus" --include "*.ogg" --include "*.m4a" --size-only
 
-      # Copia independiente del RUD en la Wayback Machine (nadie lo archivaba
-      # durante la semana del sismo; que no vuelva a pasar). No fatal.
-      - name: Archivar RUD en Wayback
+      # Copia independiente en la Wayback Machine de las fuentes más frágiles
+      # (nadie archivaba el RUD durante la semana del sismo; que no vuelva a
+      # pasar). Solo 3 URLs — la Wayback ratelimita. No fatal.
+      - name: Archivar fuentes frágiles en Wayback
         run: |
-          curl -sS -m 90 -o /dev/null \
-            "https://web.archive.org/save/https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T" \
-            || echo "::warning::Wayback save falló hoy"
+          for url in \
+            "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T" \
+            "https://chatmap.hotosm.org/api/v1/map/89319bbb-a14a-4dfd-b9a1-c83b8b55785f" \
+            "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json"; do
+            curl -sS -m 90 -o /dev/null "https://web.archive.org/save/${url}" \
+              || echo "::warning::Wayback save falló hoy para ${url}"
+            sleep 10
+          done
 
       # El feed de balances vive en el KV de un worker externo: si el worker
       # muere, la serie desaparece. Snapshot diario al repo para que todo lo
