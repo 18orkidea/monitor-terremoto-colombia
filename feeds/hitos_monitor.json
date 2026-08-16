@@ -1,5 +1,5 @@
 {
-  "descripcion": "Hitos curados de la respuesta local y del propio monitor. Complementan los hitos internacionales (feed institucional GDACS) y las entregas Copernicus, que llegan por API. Cada cambio relevante del monitor (fuentes nuevas, purgas, rediseños) se documenta aquí para que la cronología muestre cómo se va cerrando — o moviendo — la brecha de reporte.",
+  "descripcion": "Hitos curados NO derivables de los datos. Los demás se generan solos en el sitio: alta del RUD (primer día de rud.serie), primer balance en medios (primer search_date del feed de oficiales) y purga de la serie EMM (primer día sin dato tras la serie). Aquí solo va lo que ninguna fuente registra: el evento raíz y los cambios del propio monitor (fuentes nuevas, rediseños).",
   "tipos": {
     "evento": "El sismo y sus réplicas mayores",
     "local": "Respuesta oficial y local (UNGRD, RUD, balances citados en medios)",
@@ -21,17 +21,6 @@
       "fecha": "2026-08-15",
       "tipo": "monitor",
       "texto": "Alta de feeds regionales y búsquedas municipales de noticias: la cobertura local (p. ej. Istmina) entra en la medición"
-    },
-    {
-      "fecha": "2026-08-16",
-      "tipo": "local",
-      "texto": "El RUD de la UNGRD cubre el evento: primera fuente oficial abierta (75 municipios, 21.275 familias registradas)",
-      "url": "https://rud.gestiondelriesgo.gov.co/"
-    },
-    {
-      "fecha": "2026-08-16",
-      "tipo": "monitor",
-      "texto": "GDACS purga la serie global de noticias EMM; sobrevive solo en los snapshots del monitor, que sigue midiendo con sus feeds abiertos"
     },
     {
       "fecha": "2026-08-16",

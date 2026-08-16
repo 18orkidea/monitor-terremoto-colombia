@@ -379,16 +379,27 @@
     ...((hitosCurados && hitosCurados.hitos) || []).map((h) => ({
       fecha: h.fecha, texto: h.texto, url: h.url, tipo: h.tipo })),
   ].filter((h) => h.fecha).sort((x, y) => y.fecha.localeCompare(x.fecha));
-  // derivado: primer balance en medios que cita fuentes oficiales
+  // hitos automáticos, derivados de los propios datos (sin curación manual):
+  // primer balance en medios, alta del RUD y purga de la serie EMM.
   {
     const fechas = ((oficiales && oficiales.items) || [])
       .map((x) => x.search_date).filter(Boolean).sort();
     if (fechas.length) hitos.push({
       fecha: fechas[0], tipo: "local", url: "balances.html",
       texto: "Primer balance en medios citando fuentes oficiales (UNGRD/SGC) rastreado por el monitor" });
+    const rudSerie = (mon.rud && mon.rud.serie) || [];
+    if (rudSerie.length) hitos.push({
+      fecha: rudSerie[0].fecha, tipo: "local", url: "rud.html",
+      texto: `El RUD de la UNGRD cubre el evento: primera fuente oficial abierta ` +
+        `(${fmt(rudSerie[0].municipios)} municipios, ${fmt(rudSerie[0].familias)} familias registradas)` });
+    const mv = mon.media_volume || [];
+    const ultEmm = mv.map((d, i) => d.emm != null ? i : -1).filter((i) => i >= 0).at(-1);
+    if (ultEmm != null && ultEmm < mv.length - 1) hitos.push({
+      fecha: mv[ultEmm + 1].fecha, tipo: "monitor",
+      texto: `GDACS purga la serie global de noticias EMM (último dato: ${mv[ultEmm].fecha}); ` +
+        `sobrevive solo en los snapshots del monitor, que sigue midiendo con sus feeds abiertos` });
     hitos.sort((x, y) => y.fecha.localeCompare(x.fecha));
   }
-  window.__hitos = hitos;   // los usa drawChart para anotar la gráfica
   const timelineEl = document.getElementById("timeline");
   const chipsEl = document.getElementById("crono-filtros");
   const FILTROS = [["todos", "Todos"], ["internacional", "🌍 Internacional"],
@@ -434,8 +445,9 @@
   }).map(([k, v]) =>
     `<span class="badge" style="--bc:${ESTADO_COLOR[k]}">${v}</span>`).join("");
 
-  // ---- gráfico temporal (SVG a mano; un solo eje: nº de items/día)
-  drawChart(mon.media_volume || [], mon.entregas || [], hitos);
+  // ---- gráfico temporal (volumen) + banda de hitos aparte, misma escala de fechas
+  drawChart(mon.media_volume || []);
+  drawCronoBanda(mon.media_volume || [], hitos);
   renderFuentes();
 
   // ---- alertas
@@ -448,18 +460,21 @@
         `${a.texto || (a.tipo || "").replaceAll("_", " ")}</li>`).join("")
     : "<li>Sin novedades de Colombia en la corrida de hoy.</li>";
 
-  function drawChart(media, entregas, hitosCrono) {
+  // eje X compartido entre la gráfica de volumen y la banda de hitos
+  function ejeX(el, media) {
+    const W = Math.max(680, Math.min(el.clientWidth || 900, 1100));
+    const M = { t: 28, r: 16, b: 40, l: 48 };
+    const x = (i) => M.l + (i + 0.5) * (W - M.l - M.r) / media.length;
+    return { W, M, x };
+  }
+
+  function drawChart(media) {
     const el = document.getElementById("chart");
     if (!media.length) { el.textContent = "Sin serie temporal todavía."; return; }
-    const W = Math.max(680, Math.min(el.clientWidth || 900, 1100)), H = 260;
-    const M = { t: 28, r: 16, b: 40, l: 48 };
-    const days = media.map((d) => d.fecha);
+    const { W, M, x } = ejeX(el, media), H = 260;
     const maxY = Math.max(...media.map((d) => Math.max(d.emm || 0, d.feeds || 0, d.chatmap || 0)));
-    const x = (i) => M.l + (i + 0.5) * (W - M.l - M.r) / days.length;
-    const bw = Math.min(34, (W - M.l - M.r) / days.length * 0.55);
+    const bw = Math.min(34, (W - M.l - M.r) / media.length * 0.55);
     const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
-    const delivByDay = {};
-    for (const e of entregas) (delivByDay[e.fecha] ||= []).push(e);
 
     let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Noticias y reportes ciudadanos por día">`;
     for (const t of [0, 0.25, 0.5, 0.75, 1]) {
@@ -472,10 +487,6 @@
       s += `<rect data-i="${i}" x="${xx}" y="${yy}" width="${bw}" height="${Math.max(0, H - M.b - yy)}" rx="3" fill="${css("--s1")}"/>`;
       if (v) s += `<text x="${x(i)}" y="${yy - 4}" text-anchor="middle" font-size="10" fill="${css("--ink-2")}">${v.toLocaleString("es-CO")}</text>`;
       s += `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${d.fecha.slice(5)}</text>`;
-      if (delivByDay[d.fecha]) {
-        const names = delivByDay[d.fecha].map((e) => aoiEs(e.aoi)).join(", ");
-        s += `<g data-deliv="${names.replaceAll('"', "")}"><path d="M ${x(i) - 5} ${M.t - 8} l 10 0 l -5 8 z" fill="${css("--critical")}"/></g>`;
-      }
     });
     // feeds abiertos del monitor: la serie que sigue viva tras la purga de EMM
     const lineF = media.filter((d) => d.feeds != null);
@@ -495,36 +506,14 @@
       s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap || 0)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
     });
 
-    // hitos de la cronología anotados sobre la serie (las entregas ya tienen ▲)
-    const HITO_COLOR = { evento: css("--critical"), local: css("--good"),
-                         monitor: css("--warning"), institucional: css("--muted") };
-    const dayIdx = Object.fromEntries(days.map((d, i) => [d, i]));
-    const porDia = {};
-    for (const h of (hitosCrono || [])) {
-      if (h.tipo === "entrega") continue;
-      const i = dayIdx[(h.fecha || "").slice(0, 10)];
-      if (i != null) (porDia[i] ||= []).push(h);
-    }
-    for (const [i, dia] of Object.entries(porDia)) {
-      const xx = x(+i);
-      s += `<line x1="${xx}" x2="${xx}" y1="${M.t}" y2="${H - M.b}" stroke="${css("--baseline")}" stroke-width="1" stroke-dasharray="3 3"/>`;
-      dia.forEach((h, k) => {
-        const texto = `${h.fecha.slice(0, 10)} · ${h.texto.replaceAll('"', "&quot;")}`;
-        s += `<circle data-hito="${texto}" cx="${xx}" cy="${M.t + 6 + k * 11}" r="4.5" ` +
-          `fill="${HITO_COLOR[h.tipo] || css("--muted")}" stroke="${css("--surface-1")}" stroke-width="1.5"/>`;
-      });
-    }
     s += `<g font-size="11">` +
       `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias EMM (global, purgado)</text>` +
       `<circle cx="${M.l + 205}" cy="9" r="5" fill="${css("--s3")}"/><text x="${M.l + 214}" y="13" fill="${css("--ink-2")}">Feeds abiertos del monitor</text>` +
-      `<circle cx="${M.l + 385}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 394}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text>` +
-      `<path d="M ${M.l + 600} 4 l 10 0 l -5 8 z" fill="${css("--critical")}"/><text x="${M.l + 614}" y="13" fill="${css("--ink-2")}">Entrega de producto Copernicus</text></g>`;
+      `<circle cx="${M.l + 385}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 394}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text></g>`;
     s += `</svg>`;
     el.innerHTML = s;
 
     window.UI.attachTooltip(el, (t) => {
-      if (t.dataset.hito) return `<strong>Hito</strong><br>${t.dataset.hito}`;
-      if (t.dataset.deliv) return `<strong>Entrega Copernicus</strong><br>${t.dataset.deliv}`;
       if (t.dataset.i == null) return null;
       const d = media[+t.dataset.i];
       return `<strong>${d.fecha}</strong><br>Noticias EMM (global): ${fmt(d.emm)}<br>` +
@@ -532,6 +521,59 @@
         `ChatMap: ${fmt(d.chatmap)}<br>GDELT vol: ${d.gdelt ?? "—"}` +
         `${d.fuentes ? "<br>Medios distintos: " + fmt(d.fuentes) : ""}`;
     });
+  }
+
+  /* Banda de cronología: los hitos separados del volumen, misma escala de fechas.
+     Tres carriles (internacional / local-oficial / monitor); ▲ = entrega Copernicus. */
+  function drawCronoBanda(media, hitosCrono) {
+    const el = document.getElementById("crono-banda");
+    if (!el || !media.length) return;
+    const { W, M, x } = ejeX(el, media);
+    const LANES = [
+      { key: "internacional", emoji: "🌍", nombre: "Respuesta internacional", color: css("--s1") },
+      { key: "local", emoji: "🇨🇴", nombre: "Respuesta local/oficial", color: css("--good") },
+      { key: "monitor", emoji: "🔧", nombre: "Cambios del monitor", color: css("--warning") },
+    ];
+    const laneDe = (h) => h.tipo === "institucional" || h.tipo === "entrega" ? 0 :
+      (h.tipo === "local" || h.tipo === "evento" ? 1 : 2);
+    const LH = 26, H = 6 + LANES.length * LH + 18;
+    const dayIdx = Object.fromEntries(media.map((d, i) => [d.fecha, i]));
+    // agrupar por carril+día para repartir los marcadores del mismo día
+    const grupos = {};
+    for (const h of (hitosCrono || [])) {
+      const i = dayIdx[(h.fecha || "").slice(0, 10)];
+      if (i != null) (grupos[`${laneDe(h)}|${i}`] ||= []).push(h);
+    }
+    let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Hitos de la respuesta por día y por tipo">`;
+    // rejilla vertical por día (misma posición que las barras de arriba)
+    media.forEach((d, i) => {
+      s += `<line x1="${x(i)}" x2="${x(i)}" y1="4" y2="${H - 16}" stroke="${css("--grid")}" stroke-width="1" stroke-dasharray="2 3"/>` +
+        `<text x="${x(i)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="${css("--muted")}">${d.fecha.slice(5)}</text>`;
+    });
+    LANES.forEach((lane, li) => {
+      const yy = 6 + li * LH + LH / 2;
+      s += `<text x="${M.l - 8}" y="${yy + 4}" text-anchor="end" font-size="12">${lane.emoji}<title>${lane.nombre}</title></text>`;
+      if (li) s += `<line x1="${M.l}" x2="${W - M.r}" y1="${6 + li * LH}" y2="${6 + li * LH}" stroke="${css("--grid")}" stroke-width="0.5"/>`;
+    });
+    for (const [clave, dia] of Object.entries(grupos)) {
+      const [li, i] = clave.split("|").map(Number);
+      const yy = 6 + li * LH + LH / 2;
+      dia.forEach((h, k) => {
+        const xx = x(i) + (k - (dia.length - 1) / 2) * 11;
+        const texto = `${h.fecha.slice(0, 10)} · ${(ETIQUETA_TIPO[h.tipo] || h.tipo)} · ` +
+          h.texto.replaceAll('"', "&quot;");
+        const color = h.tipo === "evento" ? css("--critical") : LANES[li].color;
+        s += h.tipo === "entrega"
+          ? `<path data-hito="${texto}" d="M ${xx - 5} ${yy - 4} l 10 0 l -5 9 z" fill="${css("--critical")}"/>`
+          : h.tipo === "evento"
+            ? `<text data-hito="${texto}" x="${xx}" y="${yy + 5}" text-anchor="middle" font-size="13" fill="${color}">★</text>`
+            : `<circle data-hito="${texto}" cx="${xx}" cy="${yy}" r="5" fill="${color}" stroke="${css("--surface-1")}" stroke-width="1.5"/>`;
+      });
+    }
+    s += `</svg>`;
+    el.innerHTML = s;
+    window.UI.attachTooltip(el, (t) =>
+      t.dataset.hito ? `<strong>Hito</strong><br>${t.dataset.hito}` : null);
   }
 
   /* Tarjetas de la comparativa de fuentes (portada resumen). */

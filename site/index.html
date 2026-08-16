@@ -190,14 +190,17 @@
 
 <section id="brecha-section" class="page-section">
   <h2>Brecha de atención y cronología: cómo se va cerrando</h2>
-  <p class="sub">Barras = noticias por día; línea verde = feeds abiertos del monitor;
-  línea violeta = reportes ciudadanos; ▲ = entregas de datos satelitales. Las líneas
-  verticales punteadas marcan los hitos de la respuesta —
-  <span style="color:var(--good)">local/oficial</span>,
-  internacional y <span style="color:var(--warning)">cambios del propio monitor</span> —
-  pasa el ratón para leerlos. La serie global (EMM) fue purgada por GDACS el 16-ago y
-  sobrevive solo en nuestros snapshots; la medición continúa con los feeds abiertos.</p>
+  <p class="sub">Arriba, el <strong>volumen</strong>: barras = noticias por día; línea
+  verde = feeds abiertos del monitor; línea violeta = reportes ciudadanos. Debajo, en la
+  misma escala de fechas, la <strong>banda de hitos</strong> por carril:
+  🌍 respuesta internacional (▲ = entrega de datos Copernicus),
+  🇨🇴 <span style="color:var(--good)">respuesta local/oficial</span> (★ = el sismo) y
+  🔧 <span style="color:var(--warning)">cambios del propio monitor</span> — pasa el ratón
+  para leer cada hito. Los hitos se derivan automáticamente de los datos (alta del RUD,
+  primer balance en medios, purga de la serie EMM por GDACS); solo lo no derivable se
+  cura a mano y queda versionado.</p>
   <div id="chart"></div>
+  <div id="crono-banda"></div>
   <div class="chips" id="crono-filtros" role="group" aria-label="Filtrar cronología"></div>
   <ol id="timeline"></ol>
 </section>
@@ -303,7 +306,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="ui.js?v=20260816.17"></script>
-<script src="app.js?v=20260816.17"></script>
+<script src="app.js?v=20260816.18"></script>
 <div id="site-footer"></div>
 <script src="common.js?v=20260816.17"></script>
 </body>
