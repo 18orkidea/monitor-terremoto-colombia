@@ -2,14 +2,16 @@
    completa con buscador (ordenada por personas). Usa los componentes de ui.js. */
 (async function () {
   const { fmt, fetchJson, tablaBuscable, cssVar } = window.UI;
-  const mon = await fetchJson("../data/public/monitor.json");
-  if (!mon || !mon.rud || !mon.rud.serie.length) {
+  // rud.json: archivo dedicado (serie + detalle municipal completo día a día),
+  // pensado para sobrevivir aunque la fuente original desaparezca.
+  const rud = await fetchJson("../data/public/rud.json");
+  if (!rud || !rud.serie || !rud.serie.length) {
     document.getElementById("rud-nota").textContent =
       "Sin datos del RUD todavía: ejecuta primero python ingest/run_daily.py.";
     return;
   }
-  document.getElementById("generado").textContent = "Actualizado " + mon.generado;
-  const serie = mon.rud.serie;
+  document.getElementById("generado").textContent = "Actualizado " + rud.generado;
+  const serie = rud.serie;
 
   // ---- curva de familias registradas (SVG a mano, mismo estilo que la portada)
   const el = document.getElementById("rud-chart");
@@ -40,7 +42,7 @@
   // ---- tabla municipal: los de más habitantes (personas) primero, buscador sobre todos
   const TOP = 15;
   const ult = serie[serie.length - 1];
-  const munis = [...mon.rud.municipios]
+  const munis = [...rud.municipios]
     .sort((a, b) => (b.personas || 0) - (a.personas || 0));
   const buscar = document.getElementById("rud-buscar");
   if (buscar) buscar.placeholder = `Buscar entre los ${munis.length} municipios registrados…`;

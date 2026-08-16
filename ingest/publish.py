@@ -417,6 +417,27 @@ def run() -> dict:
                 fila["nuevo"] = (dep, mun) not in prev
             rud_municipios.append(fila)
 
+    # rud.json aparte: archivo dedicado y versionado con TODO el histórico
+    # municipal día a día — si el RUD desaparece, esto sobrevive en el repo.
+    rud_detalle: dict[str, list] = {}
+    for r in conn.execute(
+            "SELECT snapshot_date, departamento, municipio, familias, personas,"
+            " viv_destruidas, viv_averiadas, habitables, nohabitables FROM rud_daily"
+            " ORDER BY snapshot_date, familias DESC"):
+        rud_detalle.setdefault(r[0], []).append(dict(zip(
+            ["departamento", "municipio", "familias", "personas",
+             "viv_destruidas", "viv_averiadas", "habitables", "nohabitables"], r[1:])))
+    (PUBLIC / "rud.json").write_text(json.dumps({
+        "generado": snap,
+        "fuente": "https://rud.gestiondelriesgo.gov.co/",
+        "descripcion": "Registro Único de Damnificados (UNGRD), capturado a diario "
+                       "por el monitor. serie = agregado por día de captura; "
+                       "detalle_diario = filas municipales de cada captura; "
+                       "municipios = detalle del último día con deltas.",
+        "serie": rud_serie, "municipios": rud_municipios,
+        "detalle_diario": rud_detalle,
+    }, ensure_ascii=False))
+
     monitor = {
         # granularidad de día, no de hora: dos corridas el mismo día deben
         # producir bytes idénticos (idempotencia => sin commits espurios)
