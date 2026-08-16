@@ -29,6 +29,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Regenerar imágenes sociales (no fatal)
+        run: |
+          pip install --quiet pillow && python3 deploy/gen_og.py || \
+            echo "::warning::OG no regeneradas; se usan las versionadas"
+
       - name: Build static artifact
         run: |
           mkdir -p dist/site dist/data dist/data/media
