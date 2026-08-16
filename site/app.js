@@ -319,9 +319,14 @@
         return;
       }
       const l = aoiLayerById[a.aoi];
-      if (l) { map.fitBounds(l.getBounds().pad(0.3)); l.openPopup(); }
+      if (l) { map.fitBounds(l.getBounds().pad(0.3)); l.openPopup(); irAlMapa(); }
     });
     tbody.appendChild(tr);
+  }
+
+  // subir al mapa al elegir una zona/municipio desde las tablas
+  function irAlMapa() {
+    document.getElementById("map").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   // ---- municipios fuera/dentro de AOI con señal de prensa o intensidad
@@ -347,9 +352,10 @@
       `<td class="num">${fmt(m.dyfi_respuestas)}</td>` +
       `<td class="num">${m.n_noticias ? `<a href="noticias.html?municipio=${encodeURIComponent(m.municipio)}">${fmt(m.n_noticias)}</a>` : "—"}</td>` +
       `<td>${(m.fuentes || []).join(", ") || "—"}</td>`;
-    tr.addEventListener("click", () => {
+    tr.addEventListener("click", (ev) => {
+      if (ev.target.closest("a")) return;  // el enlace a noticias no debe saltar al mapa
       const l = munLayerById[m.municipio];
-      if (l) { map.setView(l.getLatLng(), 10); l.openPopup(); }
+      if (l) { map.setView(l.getLatLng(), 10); l.openPopup(); irAlMapa(); }
     });
     mtbody.appendChild(tr);
   }
