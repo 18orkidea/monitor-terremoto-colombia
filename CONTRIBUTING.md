@@ -66,12 +66,14 @@ municipio y lo cruzará con DYFI, DANE y Copernicus.
 
 ```bash
 python ingest/run_daily.py            # corrida completa local
-python -m unittest discover -s tests  # 46 tests: código, supuestos de APIs, hipótesis
+python -m unittest discover -s tests  # toda la suite: código, supuestos de APIs, hipótesis
 python3 -m http.server 8123           # ver el sitio en http://localhost:8123/site/
 ```
 
 PRs con tests. Si tu cambio toca un supuesto sobre una fuente externa, añade el test en
 `tests/test_supuestos_api.py` — los supuestos rotos deben avisar, no romper en silencio.
+Las reglas de desarrollo completas (rigor, naming, Definition of Done) están en
+[CLAUDE.md](CLAUDE.md); la arquitectura y las decisiones, en [docs/](docs/).
 
 ## Idioma
 
