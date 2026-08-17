@@ -180,6 +180,14 @@ dos días de distancia del commit. Cada ítem nuevo sella `atribucion_lugares`; 
 ausencia significa criterio anterior, porque el worker reusa los ítems del KV sin
 reanalizarlos y los snapshots no se reescriben (ver LIMITACIONES).
 
+Desplegado el 17-ago-2026, versión de Cloudflare
+`ab681aef-b8b5-4e0d-b604-89de6716af28`. Verificado sobre el feed vivo aplicando
+los dos criterios al MISMO texto (el `text_excerpt` archivado; comparar contra
+los municipios ya publicados sería inválido, porque esos se calcularon sobre el
+documento completo): 4 de 18 ítems dejan de atribuir un municipio, y los cuatro
+son enlaces — el slug `…colapsados-en-buenaventura-alcaldesa…` y la imagen
+`terremoto-cali_51341108.jpg`. Ninguna atribución que venga de la prosa cambia.
+
 La lista sigue duplicada porque el worker no puede importar el pipeline Python.
 Lo que antes era duplicación silenciosa ahora tiene vigilancia: dos tests de
 paridad (`tests/test_worker_toponimos.py`) comprueban que cada municipio del
