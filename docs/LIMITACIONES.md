@@ -136,3 +136,11 @@ con topónimo ambiguo puede mostrar «0» en la tabla y tener titulares en
 distintas: «cuántos titulares nombran al municipio con su departamento» y «qué
 publicó el feed de ese municipio». El desajuste entre ambos conteos es
 preexistente (también en Cali) y no se corrige aquí.
+
+Laguna emparentada, hoy invisible: la página de titulares se etiqueta con
+`match_municipios_text`, que recorre solo el catálogo curado, mientras la tabla
+de municipios cuenta prensa sobre el catálogo **más** los municipios que entran
+solos desde el RUD. El día que uno de esos nuevos tenga titulares, su enlace
+«Prensa» llevará a una búsqueda sin resultados — y tampoco tendrá búsqueda
+municipal de Google News hasta que se cure a mano. Se arreglará cuando aparezca
+el primer caso real.

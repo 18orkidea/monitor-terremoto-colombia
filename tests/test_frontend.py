@@ -135,5 +135,43 @@ class TestConstantesPush(unittest.TestCase):
                              "comprimir (65 bytes) en base64url")
 
 
+@unittest.skipUnless(NODE, "node no disponible")
+class TestFraseHomonimos(unittest.TestCase):
+    """La salvedad de los homónimos de departamento se genera desde los datos.
+    Nació partiendo la frase en dos («alcaldía. —salvo Córdoba…») porque el
+    punto se quedó en el HTML: la puntuación tiene que viajar con el texto
+    generado, no con la plantilla."""
+
+    MUNS = [
+        {"municipio": "Risaralda", "departamento": "Caldas",
+         "homonimo_de_departamento": True, "estado": "solo_rud"},
+        {"municipio": "Córdoba", "departamento": "Quindío",
+         "homonimo_de_departamento": True, "estado": "solo_rud"},
+        {"municipio": "Condoto", "departamento": "Chocó", "estado": "solo_rud"},
+    ]
+
+    def _frase(self, muns):
+        return correr_ui(f"UI.fraseHomonimos({json.dumps(muns, ensure_ascii=False)})")
+
+    def test_cierra_la_frase_cuando_no_hay_homonimos(self):
+        self.assertEqual(self._frase([self.MUNS[2]]), ".")
+        self.assertEqual(self._frase([]), ".")
+
+    def test_enumera_los_homonimos_sin_partir_la_frase(self):
+        frase = self._frase(self.MUNS)
+        self.assertTrue(frase.startswith(", salvo "), frase)
+        self.assertIn("Risaralda (Caldas)", frase)
+        self.assertIn("Córdoba (Quindío)", frase)
+        self.assertNotIn("Condoto", frase)
+        self.assertTrue(frase.endswith("."), frase)
+        # la costura original: punto del HTML + raya de la salvedad
+        self.assertNotIn(". —", frase)
+
+    def test_no_nombra_al_homonimo_que_dejo_de_ser_solo_rud(self):
+        # si mañana tiene prensa, deja de ser excepción del párrafo que lo cita
+        con_prensa = [{**self.MUNS[0], "estado": "mencion_prensa"}]
+        self.assertEqual(self._frase(con_prensa), ".")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

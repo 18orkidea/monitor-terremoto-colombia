@@ -42,6 +42,20 @@ window.UI = (function () {
   const estadoMunicipio = (estado) =>
     ESTADO_MUNICIPIO[estado] || ["Sin clasificar", "--muted", ""];
 
+  /* Salvedad de los homónimos de departamento para la intro de municipios.
+     Función pura (no toca el DOM) para que el harness de node la pueda testear:
+     incluye la puntuación, porque el punto pertenece a la rama —el HTML lo dejó
+     fuera— y solo nombra a los que siguen siendo «solo RUD». */
+  function fraseHomonimos(items) {
+    const homs = (items || [])
+      .filter((m) => m.homonimo_de_departamento && m.estado === "solo_rud")
+      .map((m) => `${m.municipio} (${m.departamento})`);
+    return homs.length
+      ? `, salvo ${homs.join(" y ")}, que se llaman igual que un departamento y ` +
+        `a los que el monitor no puede atribuir titulares.`
+      : ".";
+  }
+
   const norm = (s) => (s || "").normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
@@ -320,7 +334,8 @@ window.UI = (function () {
     return out;
   }
 
-  return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
+  return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
+           fraseHomonimos, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };
