@@ -155,7 +155,19 @@ para atribuir un balance a un municipio que no aparecía en la prosa. Medido sob
 
 El worker reusa los ítems ya recolectados tal cual —no los vuelve a analizar—,
 así que **esos ítems conservarán su atribución vieja indefinidamente** y cada
-snapshot posterior mezcla ambos criterios. Lo que los distingue es el sello
+snapshot posterior mezcla ambos criterios. Y el reparto puede no ser «unos
+pocos»: al desplegar el criterio nuevo (17-ago) el feed tenía 18 ítems, ninguno
+con fecha de búsqueda de ese día, porque la prensa ya había dejado de publicar
+balances nuevos del sismo. Mientras no entren ítems nuevos, **el feed vivo entero
+sigue con la atribución vieja**, y el sello no aparece por ningún lado.
+
+Reanalizar lo archivado no es una salida: en KV solo queda un extracto de 700
+caracteres por ítem, no el documento completo, así que reprocesar daría un
+resultado *peor* —perdería municipios que sí estaban en la prosa del documento
+entero— y habría que volver a descargar fuentes que a estas alturas pueden
+devolver 404. Medido sobre el feed vivo aplicando los dos criterios al mismo
+extracto: 4 de 18 ítems dejan de atribuir un municipio, y los cuatro por un
+enlace (un slug de URL y el nombre de archivo de una imagen), no por prosa. Lo que los distingue es el sello
 `atribucion_lugares` que llevan los ítems nuevos: si el campo falta, la
 atribución es la anterior. No se reprocesa el histórico: los snapshots son
 inmutables (principio de archivo), y reescribirlos para «arreglar» el pasado
