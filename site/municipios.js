@@ -13,6 +13,18 @@
 
   // derivado, no escrito a mano: la cobertura satelital cambia con cada entrega
   const enAoi = data.items.filter((m) => m.en_aoi_copernicus).length;
+  // los homónimos tampoco se escriben a mano: si el RUD registra un tercero,
+  // la salvedad debe nombrarlo sola
+  const homs = data.items.filter((m) => m.homonimo_de_departamento)
+    .map((m) => `${m.municipio} (${m.departamento})`);
+  const spanHom = document.getElementById("mun-homonimos");
+  if (spanHom) {
+    spanHom.textContent = homs.length
+      ? ` —salvo ${homs.join(" y ")}, que se llaman igual que un departamento y a ` +
+        `los que el monitor no puede atribuir titulares.`
+      : "";
+  }
+
   const cobertura = document.getElementById("mun-cobertura");
   if (cobertura) {
     cobertura.textContent = `Solo ${enAoi} de los ${data.items.length} tienen su ` +
@@ -32,8 +44,9 @@
   const prensaCelda = (m) => {
     if (m.homonimo_de_departamento) {
       return `<span title="Se llama igual que un departamento: el monitor no le ` +
-        `atribuye titulares por texto, porque no puede distinguir el municipio ` +
-        `del departamento. Su prensa solo puede llegar por un feed municipal.">—</span>`;
+        `atribuye titulares, porque no puede distinguir el municipio del ` +
+        `departamento. No es que no haya prensa — es que no se puede afirmar ` +
+        `cuál le corresponde.">—</span>`;
     }
     return m.n_noticias
       ? `<a href="noticias.html?municipio=${encodeURIComponent(m.municipio)}" style="color:var(--s1)">${fmt(m.n_noticias)}</a>`

@@ -101,12 +101,16 @@ Dos municipios se llaman igual que un departamento colombiano: **Risaralda**
 municipio de departamento —medido sobre los 5.017 titulares del corpus, todas
 las apariciones de «Caldas y Risaralda» hablaban del departamento, y exigir
 adyacencia tampoco lo salvaba— así que **no reciben prensa por coincidencia de
-texto**: entran a la capa por el RUD y su columna «Prensa» queda en cero.
+texto**: entran a la capa por el RUD y su columna «Prensa» queda vacía («—»),
+nunca en cero — que el monitor no pueda atribuir un titular no significa que no
+exista, y el JSON publica `null`, no 0.
 Tampoco se les genera búsqueda automática de Google News, porque esa búsqueda
 (`"risaralda" "caldas"`) devolvería justo los titulares del departamento y el
 feed los atribuiría al municipio saltándose el filtro. La única vía para su
-prensa es un feed del registro comunitario, donde una persona declara a qué
-municipio pertenece el medio en lugar de deducirlo del titular.
+prensa sería un feed del registro comunitario, donde una persona declara a qué
+municipio pertenece el medio en lugar de deducirlo del titular — vía prevista y
+todavía no implementada: hoy `n_noticias` se calcula solo por texto, así que su
+celda seguirá vacía aunque alguien añada ese feed.
 
 Veinticuatro de los municipios del RUD tienen nombres que son además palabra común
 (Toro), lugar extranjero conocido (Versalles, Palestina, Ginebra, Filadelfia),
@@ -114,7 +118,11 @@ apellido frecuente (Restrepo, Marulanda) o nombre repetido en dos departamentos
 (Riosucio, en Caldas y en Chocó). Para ellos, un titular solo cuenta como
 prensa del municipio si menciona también el departamento, y la intensidad DYFI
 —que llega sin departamento— no se atribuye cuando el nombre corresponde a más
-de un municipio. Consecuencia: se pierde algún titular legítimo que no nombre
+de un municipio. Con el DYFI hay una segunda cautela: el USGS etiqueta cada
+celda con el topónimo más cercano **del mundo**, así que además del nombre se
+exige proximidad (30 km entre el centro de la celda y el municipio). Sin esa
+cota, la celda «Balboa» del canal de Panamá se publicaba como intensidad
+sentida en Balboa (Risaralda), a 595 km. Consecuencia: se pierde algún titular legítimo que no nombre
 el departamento, a cambio de no inflar el conteo con noticias ajenas. Los
 municipios curados antes del 17-ago (Armenia, Montenegro, Sevilla, Cartago,
 Palmira, Buga) no llevan esta marca todavía: revisarlos exige recontar prensa

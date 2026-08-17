@@ -136,4 +136,10 @@ uno de ellos estructural contra el catálogo DIVIPOLA completo; otros dos cierra
 la puerta de atrás del canal de feeds, que declara su municipio sin pasar por el
 filtro de texto (los homónimos no generan búsqueda automática, y la frase que se
 busca es el topónimo y no la clave del diccionario, para que ningún feed nazca
-devolviendo cero en silencio).
+devolviendo cero en silencio). El DYFI, que no pasa por el filtro de texto,
+gana su propio guardián: además de nombre único, proximidad de 30 km entre la
+celda y el municipio — el USGS etiqueta con el topónimo más cercano del mundo y
+la celda «Balboa» del canal de Panamá se estaba publicando como intensidad
+sentida en Balboa (Risaralda), a 595 km. Y el registro oficial ya no queda
+tapado por una celda DYFI floja: antes, un CDI de 5,6 mandaba al gris a Belén de
+Umbría, con 2.266 damnificados registrados.

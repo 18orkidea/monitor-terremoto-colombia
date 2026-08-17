@@ -32,11 +32,12 @@ window.UI = (function () {
     mencion_prensa: ["Mencionado en prensa", "--s2",
                      "Titulares que lo nombran, sin producto de daño ni DYFI alto"],
     solo_rud: ["Solo registro municipal (RUD)", "--s8",
-               "Su única fuente es el registro de damnificados que carga el " +
-               "municipio: ningún satélite ni medio lo ha verificado de forma " +
-               "independiente"],
+               "El registro de damnificados que carga el municipio es su única " +
+               "documentación del daño: ningún producto satelital ni titular lo " +
+               "ha verificado de forma independiente"],
     fuera_aoi: ["Intensidad sentida", "--muted",
-                "Se sintió (DYFI < 6) pero ninguna otra fuente lo documenta"],
+                "Se sintió (DYFI < 6) y ningún producto satelital ni titular lo " +
+                "documenta; tampoco tiene registro en el RUD"],
   };
   const estadoMunicipio = (estado) =>
     ESTADO_MUNICIPIO[estado] || ["Sin clasificar", "--muted", ""];

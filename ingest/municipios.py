@@ -5,6 +5,7 @@ por prensa o con intensidad percibida, aunque no hayan sido mapeadas por satéli
 """
 from __future__ import annotations
 
+import math
 import re
 import unicodedata
 
@@ -268,6 +269,40 @@ def _dyfi_municipio(name: str) -> str:
     return m.group(1).strip() if m else (name or "").strip()
 
 
+# Radio máximo entre el centro de una celda DYFI y el municipio al que se le
+# atribuye. Las celdas son de ~10 km y el USGS las etiqueta con el topónimo más
+# cercano —de cualquier país—, así que un nombre repetido lejos es otro lugar:
+# la celda «Balboa» del canal de Panamá se estaba publicando como intensidad
+# sentida en Balboa (Risaralda), a 595 km. Las 36 atribuciones legítimas del
+# corpus caben en 15 km.
+DYFI_RADIO_KM = 30.0
+
+
+def _centro_celda(feature: dict) -> tuple[float, float] | None:
+    """Centro aproximado de la celda (media del anillo): basta para descartar
+    otro continente, que es lo que se busca."""
+    geom = (feature or {}).get("geometry") or {}
+    coords = geom.get("coordinates")
+    anillo = coords[0] if geom.get("type") == "Polygon" and coords else None
+    if not anillo:
+        return None
+    puntos = [p for p in anillo if isinstance(p, (list, tuple)) and len(p) >= 2]
+    if not puntos:
+        return None
+    return (sum(p[1] for p in puntos) / len(puntos),
+            sum(p[0] for p in puntos) / len(puntos))
+
+
+def _km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Distancia en km sobre la esfera (haversine, stdlib — R14)."""
+    r = 6371.0
+    f1, f2 = math.radians(lat1), math.radians(lat2)
+    df = f2 - f1
+    dl = math.radians(lon2 - lon1)
+    a = math.sin(df / 2) ** 2 + math.cos(f1) * math.cos(f2) * math.sin(dl / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(a))
+
+
 def _pop_key(municipio: str, departamento: str) -> str:
     return f"{_norm(municipio)}|{_norm(departamento)}"
 
@@ -321,6 +356,9 @@ def municipios_dinamicos(rud_municipios: dict | None,
         dep = _norm(meta["departamento"])
         for name in [mun, *meta.get("toponimos", [])]:
             cubiertos.add((dep, _norm(name)))
+    # nombres de departamento del propio catálogo: un municipio que se llame
+    # como uno de ellos nace ya marcado, sin esperar a que alguien lo cure
+    deptos = {_norm(v.get("departamento")) for v in (divipola or {}).values()}
     extras = {}
     for (dep_n, mun_n), fila in rud_municipios.items():
         if (dep_n, mun_n) in cubiertos:
@@ -335,9 +373,12 @@ def municipios_dinamicos(rud_municipios: dict | None,
             "lon": div.get("lon") if div else None,
             "toponimos": [mun_n],
             # nadie ha revisado este topónimo todavía: si resulta ser palabra
-            # común, apellido o nombre de departamento, exigir contexto evita
-            # atribuirle prensa ajena. Al curarlo a mano se puede relajar.
+            # común o apellido, exigir contexto evita atribuirle prensa ajena.
+            # Al curarlo a mano se puede relajar.
             "requiere_depto": True,
+            # y si además se llama como un departamento, el texto libre no
+            # puede distinguirlos: no recibe prensa por texto en absoluto
+            "homonimo_de_departamento": mun_n in deptos,
         }
     return extras
 
@@ -392,6 +433,17 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         if len(candidatos) != 1:
             continue
         mun = candidatos[0]
+        # ...y el nombre tampoco basta: el USGS etiqueta con el topónimo más
+        # cercano del mundo. Sin la celda al lado del municipio no hay
+        # atribución (este canal no pasa por _menciona_municipio).
+        centro = _centro_celda(f)
+        meta = catalogo[mun]
+        # sin geometría o sin coordenadas del municipio no se puede medir: se
+        # atribuye por nombre (comportamiento previo), porque hoy el DYFI trae
+        # siempre polígono y los 83 municipios tienen lat/lon
+        if centro and meta.get("lat") is not None:
+            if _km(meta["lat"], meta["lon"], *centro) > DYFI_RADIO_KM:
+                continue
         row = out[mun]
         cdi, nresp, dist = p.get("cdi"), p.get("nresp"), p.get("dist")
         if isinstance(cdi, (int, float)):
@@ -421,13 +473,21 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
             estado = "intensidad_alta"
         elif tiene_prensa:
             estado = "mencion_prensa"
-        elif tiene_rud and not tiene_dyfi:
+        elif tiene_rud:
+            # antes exigía «and not tiene_dyfi»: una sola celda DYFI de CDI 5,6
+            # mandaba al gris a Belén de Umbría, con 2.266 damnificados
+            # registrados. El registro oficial pesa más que «se sintió flojo».
             estado = "solo_rud"
         row["en_aoi_copernicus"] = en_aoi
         row["estado"] = estado
         row["fuentes"] = [x for x, ok in (("prensa", tiene_prensa),
                                           ("dyfi", tiene_dyfi),
                                           ("rud", tiene_rud)) if ok]
+        # R3 en el producto descargable, no solo en la tabla: para un homónimo
+        # de departamento el monitor no puede atribuir titulares, y eso es
+        # ausencia de dato — quien lea el JSON no debe encontrar un 0.
+        if row.get("homonimo_de_departamento"):
+            row["n_noticias"] = None
         row["rud_familias"] = rud.get("familias") if rud else None
         row["rud_personas"] = rud.get("personas") if rud else None
         row["rud_viv_destruidas"] = rud.get("viv_destruidas") if rud else None
@@ -451,5 +511,5 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
 
     rows.sort(key=lambda r: (not r["en_aoi_copernicus"],
                              -(r["dyfi_max_cdi"] or 0),
-                             -r["n_noticias"], r["municipio"]))
+                             -(r["n_noticias"] or 0), r["municipio"]))
     return rows, {"type": "FeatureCollection", "features": features}

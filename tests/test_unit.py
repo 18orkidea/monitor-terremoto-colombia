@@ -348,8 +348,79 @@ class TestMunicipiosInfluencia(unittest.TestCase):
         ], None, {}, None, rud)
         r = next(x for x in rows if x["municipio"] == "Risaralda")
         self.assertTrue(r["homonimo_de_departamento"])
-        self.assertEqual(r["n_noticias"], 0)
+        # R3 también en el JSON descargable: ausencia de dato, no cero
+        self.assertIsNone(r["n_noticias"])
         self.assertEqual(r["estado"], "solo_rud")
+
+    def test_dyfi_flojo_no_tapa_el_registro_oficial(self):
+        """Belén de Umbría tenía 2.266 damnificados registrados y una sola
+        celda DYFI de CDI 5,6 lo mandaba a «intensidad sentida» — un estado
+        cuya explicación niega que nadie más lo documente. El registro oficial
+        pesa más que «se sintió flojo»."""
+        from municipios import build_municipios
+        rud = {("risaralda", "belen de umbria"): {
+            "departamento": "RISARALDA", "municipio": "BELÉN DE UMBRÍA",
+            "familias": 864, "personas": 2266,
+            "viv_destruidas": 48, "viv_averiadas": 502}}
+        dyfi = {"features": [{
+            "geometry": {"type": "Polygon", "coordinates": [[
+                [-75.90, 5.16], [-75.83, 5.16], [-75.83, 5.24], [-75.90, 5.24],
+                [-75.90, 5.16]]]},
+            "properties": {"name": "UTM:(18N)<br>Belén de Umbría",
+                           "cdi": 5.6, "nresp": 2, "dist": 140}}]}
+        rows, _ = build_municipios([], dyfi, {}, None, rud)
+        belen = next(r for r in rows if r["municipio"] == "Belén de Umbría")
+        self.assertEqual(belen["estado"], "solo_rud")
+        self.assertEqual(belen["dyfi_max_cdi"], 5.6)   # el DYFI no se pierde
+        self.assertEqual(sorted(belen["fuentes"]), ["dyfi", "rud"])
+
+    def test_municipio_dinamico_detecta_homonimo_de_departamento(self):
+        # un municipio del RUD llamado como un departamento (Bolívar, Caldas)
+        # nace sin poder recibir prensa por texto, aunque nadie lo cure
+        from municipios import municipios_dinamicos
+        divipola = {
+            "bolivar|antioquia": {
+                "municipio": "BOLÍVAR", "departamento": "ANTIOQUIA",
+                "divipola": "05101", "lat": 5.84, "lon": -76.03},
+            # el catálogo real trae los municipios DEL departamento Bolívar:
+            # de ahí sale la lista de nombres de departamento
+            "cartagena|bolivar": {
+                "municipio": "CARTAGENA", "departamento": "BOLÍVAR",
+                "divipola": "13001", "lat": 10.4, "lon": -75.5},
+        }
+        rud = {("antioquia", "bolivar"): {
+            "departamento": "ANTIOQUIA", "municipio": "BOLÍVAR",
+            "familias": 2, "personas": 5,
+            "viv_destruidas": 0, "viv_averiadas": 1}}
+        extras = municipios_dinamicos(rud, divipola)
+        self.assertTrue(all(v["homonimo_de_departamento"] for v in extras.values()),
+                        f"un homónimo de departamento nació sin marca: {extras}")
+
+    def test_dyfi_no_atribuye_celda_de_otro_pais(self):
+        """El USGS etiqueta cada celda con el topónimo más cercano del MUNDO:
+        la celda «Balboa» del canal de Panamá se publicaba como intensidad
+        sentida en Balboa (Risaralda), a 595 km. El nombre no basta: la celda
+        tiene que estar al lado del municipio."""
+        from municipios import build_municipios
+        lejana = {"features": [{
+            "geometry": {"type": "Polygon", "coordinates": [[
+                [-79.64, 8.86], [-79.55, 8.86], [-79.55, 8.95], [-79.64, 8.95],
+                [-79.64, 8.86]]]},
+            "properties": {"name": "UTM:(17P 065 098 10000)<br>Balboa",
+                           "cdi": 4.6, "nresp": 4, "dist": 592}}]}
+        rows, _ = build_municipios([], lejana, {})
+        self.assertEqual([r["municipio"] for r in rows], [],
+                         "una celda a 595 km no puede dar intensidad al municipio")
+
+        cercana = {"features": [{
+            "geometry": {"type": "Polygon", "coordinates": [[
+                [-76.00, 4.91], [-75.91, 4.91], [-75.91, 4.99], [-76.00, 4.99],
+                [-76.00, 4.91]]]},
+            "properties": {"name": "UTM:(18N)<br>Balboa",
+                           "cdi": 5.2, "nresp": 3, "dist": 120}}]}
+        rows2, _ = build_municipios([], cercana, {})
+        balboa = next(r for r in rows2 if r["municipio"] == "Balboa")
+        self.assertEqual(balboa["dyfi_max_cdi"], 5.2)
 
     def test_san_jose_no_captura_al_epicentro(self):
         """«San José» (Caldas) usa topónimo con coma porque «san jose» a secas

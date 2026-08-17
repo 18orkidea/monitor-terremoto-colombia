@@ -76,6 +76,16 @@
   // ---- banda de brechas oficiales
   // los ejemplos NO se escriben a mano: el día que un municipio entre al RUD la
   // frase debe dejar de nombrarlo sola (R11: los supuestos caducan avisando)
+  // frase completa condicional (no solo el paréntesis): el día que toda zona con
+  // daño satelital tenga registro municipal, afirmar la brecha sería falso
+  const brechaMunicipal = () => {
+    const ejemplos = sinRegistroConSatelite();
+    return ejemplos
+      ? `La brecha ahora es municipal: donde las autoridades locales aún no ` +
+        `registran${ejemplos}, el satélite sigue siendo la única evidencia. `
+      : `Ya no queda ninguna zona con daño satelital sin registro municipal. `;
+  };
+
   const sinRegistroConSatelite = () => {
     const nombres = (mon.aois || [])
       .filter((a) => (a.resumen || {}).edificios_afectados
@@ -99,8 +109,7 @@
       `<strong>${fmt(g.ungrd_rud.municipios)}</strong> municipios con ` +
       `<strong>${fmt(g.ungrd_rud.familias)}</strong> familias y ` +
       `${fmt(g.ungrd_rud.viv_destruidas)} viviendas destruidas registradas. ` +
-      `La brecha ahora es municipal: donde las autoridades locales aún no registran ` +
-      `${sinRegistroConSatelite()}, el satélite sigue siendo la única evidencia. ` : "") +
+      brechaMunicipal() : "") +
     `Copernicus entregó ${mon.entregas.length} productos y la comunidad ` +
     `aportó ${mon.citizen.chatmap_total} reportes con foto.` +
     (mon.exposicion ? `<br><strong>Exposición sin mapeo:</strong> ~${fmt(mon.exposicion.expuesta_mmi6plus)} ` +
@@ -275,7 +284,7 @@
             `${p.en_aoi_copernicus ? "Dentro de AOI Copernicus" : "Fuera de AOI Copernicus"}<br>` +
             `Población DANE 2026: ${fmt(p.poblacion_2026)} ` +
             `<span style="color:var(--muted)">cabecera ${fmt(p.cabecera_2026)} · rural ${fmt(p.rural_2026)}</span><br>` +
-            `DYFI: ${fmt(p.dyfi_max_cdi)} · respuestas: ${fmt(p.dyfi_respuestas)}<br>` +
+            `DYFI: ${window.UI.fmt(p.dyfi_max_cdi, 1)} · respuestas: ${fmt(p.dyfi_respuestas)}<br>` +
             `Prensa: ${p.homonimo_de_departamento ? "no atribuible (homónimo de departamento)" : fmt(p.n_noticias)}` +
             ` · fuentes: ${(p.fuentes || []).join(", ") || "—"}<br>` +
             (p.rud_personas != null
