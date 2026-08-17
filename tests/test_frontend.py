@@ -33,6 +33,10 @@ FIXTURE = [
      "captured_at": "2026-08-17T04:03",
      "cifras": {"fallecidos": 294, "heridos": 4000, "desaparecidos": 143,
                 "familias_afectadas": 120238}},
+    {"search_date": "2026-08-16", "title": "Terremoto en Colombia hoy 16",
+     "publisher": {"name": "El Tiempo"}, "is_liveblog": True,
+     "captured_at": "2026-08-17T04:03",
+     "cifras": {"desaparecidos": 143, "familias_afectadas": 120238}},
 ]
 
 
@@ -59,11 +63,22 @@ class TestSeleccionDiariaBalances(unittest.TestCase):
         serie = correr_ui("UI.mejorPorDia(items)")
         ult = serie[-1]
         self.assertEqual(ult["fecha"], "2026-08-16")
-        self.assertEqual(ult["item"]["publisher"]["name"], "Clarín",
-                         "el liveblog coherente debe ganarle al no-liveblog "
-                         "con cifras retrocedidas (caso Primicias)")
-        self.assertEqual(ult["item"]["cifras"]["fallecidos"], 294,
+        self.assertEqual(ult["item"]["publisher"]["name"], "El Tiempo",
+                         "gana el diario nacional coherente, no el "
+                         "internacional con cifras retrocedidas (Primicias) "
+                         "ni el internacional coherente (Clarín)")
+        self.assertEqual(ult["consolidado"]["fallecidos"]["valor"], 294,
                          "la serie no debe retroceder por un corte viejo")
+        self.assertEqual(ult["consolidado"]["fallecidos"]["fecha"], "2026-08-15",
+                         "El Tiempo del 16 no trae fallecidos: se conserva "
+                         "el 294 de la víspera con su fecha de origen")
+
+    def test_nacional_le_gana_al_internacional_coherente(self):
+        # solo Clarín (internacional) y El Tiempo (nacional), ambos liveblog
+        # y coherentes: debe mostrarse el diario nacional
+        caso = correr_ui("UI.mejorPorDia(items.filter(x => "
+                         "x.publisher.name !== 'Primicias'))")
+        self.assertEqual(caso[-1]["item"]["publisher"]["name"], "El Tiempo")
 
     def test_la_disputa_se_detecta_y_se_reporta(self):
         serie = correr_ui("UI.mejorPorDia(items)")

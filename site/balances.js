@@ -126,7 +126,8 @@
         Object.entries(disputa).map(([k, v]) =>
           `${NOMBRES[k]} entre ${fmt(v.min)} y ${fmt(v.max)}`).join(" · ") +
         `. Se muestra el snapshot coherente con la serie (un balance acumulado ` +
-        `no retrocede); los medios tardíos con cortes viejos se penalizan.</p>`
+        `no retrocede), priorizando la prensa nacional colombiana; los medios ` +
+        `internacionales tardíos con cortes viejos se penalizan.</p>`
       : "";
     el.innerHTML =
       card("Última fecha", ult.fecha) +
@@ -136,8 +137,11 @@
       notaDisputa +
       `<p class="note full">Snapshot seleccionado en medio que cita fuentes oficiales: <a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
       `publica ${esc(publisherName(item))} · fuente citada: ${sourceLinks(item)}. ` +
-      `Las cifras marcadas «del MM-DD» conservan el último valor conocido cuando ` +
-      `el snapshot del día no las trae.</p>`;
+      `Cada cifra mostrada es <strong>la mejor disponible del total de snapshots</strong> ` +
+      `según los criterios de la serie (estabilidad, prensa nacional, no-liveblog, ` +
+      `completitud, fuente citada) — no necesariamente la más reciente publicada: ` +
+      `puede ir por detrás de la realidad. Las marcadas «del MM-DD» conservan el ` +
+      `último valor conocido cuando el snapshot del día no las trae.</p>`;
   }
 
   const NOMBRES = { fallecidos: "fallecidos", heridos: "heridos",

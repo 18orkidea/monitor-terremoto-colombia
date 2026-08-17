@@ -126,9 +126,32 @@ window.UI = (function () {
     return Object.keys(out).length ? out : null;
   }
 
+  /* Prensa nacional colombiana: el snapshot mostrado prioriza los diarios
+     nacionales — están más cerca del consolidado oficial que los medios
+     internacionales, que suelen llegar tarde y con cortes viejos. Lista
+     curada (nombre o dominio); ampliar aquí cuando aparezca uno nuevo. */
+  const MEDIOS_NACIONALES = [
+    "el tiempo", "eltiempo", "el espectador", "elespectador",
+    "el colombiano", "elcolombiano", "caracol", "rcn", "semana",
+    "la republica", "larepublica", "portafolio", "blu radio", "bluradio",
+    "w radio", "wradio", "el heraldo", "elheraldo", "vanguardia", "pulzo",
+    "la silla vacia", "lasillavacia",
+  ];
+  function esNacional(item) {
+    const p = item.publisher || {};
+    const n = norm(`${p.name || ""} ${p.domain || ""} ` +
+                   `${item.publication_url || item.url || ""}`);
+    return MEDIOS_NACIONALES.some((m) => n.includes(m)) ||
+      n.includes(".com.co") || n.includes(".gov.co");
+  }
+
+  /* Orden de selección del día: estable respecto a la víspera (un acumulado
+     no retrocede), prensa nacional colombiana, no-liveblog, el más completo,
+     mejor fuente citada, y el más reciente. */
   function bestSnapshot(items, prev) {
     return [...items].sort((a, b) =>
       Number(retrocede(a, prev)) - Number(retrocede(b, prev)) ||
+      Number(esNacional(b)) - Number(esNacional(a)) ||
       Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
       metricCount(b) - metricCount(a) ||
       sourceScore(b) - sourceScore(a) ||

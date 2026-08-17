@@ -59,10 +59,13 @@ un corte viejo (181 fallecidos cuando el consolidado iba por 294); la regla
 el ganador del día no traía desaparecían en «—».
 Decisión: (1) estabilidad respecto a la víspera como PRIMER criterio — un balance
 acumulado no retrocede; caídas >10 % en fallecidos/familias penalizan al candidato por
-delante incluso de la marca liveblog; (2) contradicciones >15 % entre medios del mismo
-día se marcan «cifras en disputa» y se muestran — la discrepancia es información de
-brecha; (3) consolidado por día: cada cifra conserva su último valor conocido con
-fecha de origen marcada. Implementado en ui.js (mejorPorDia), testeado ejecutando el
+delante incluso de la marca liveblog; (2) **prensa nacional colombiana** como segundo
+criterio (lista curada MEDIOS_NACIONALES en ui.js + dominios .com.co/.gov.co): los
+diarios nacionales están más cerca del consolidado oficial que los medios
+internacionales tardíos; (3) contradicciones >15 % entre medios del mismo día se
+marcan «cifras en disputa» y se muestran — la discrepancia es información de brecha;
+(4) consolidado por día: cada cifra conserva su último valor conocido con fecha de
+origen marcada. Implementado en ui.js (mejorPorDia), testeado ejecutando el
 JS real con node (tests/test_frontend.py) — sin réplicas en Python.
 Consecuencia: los medios internacionales tardíos ya no pueden hacer retroceder la
 serie ni borrar cifras; la FAQ de Balances ahora describe la regla realmente
