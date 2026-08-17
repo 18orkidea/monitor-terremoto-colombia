@@ -78,6 +78,13 @@ window.UI = (function () {
      feeds/balances/. Cambiarla aquí y solo aquí. */
   const OFICIALES_BASE = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev";
 
+  /* ---- worker de avisos (Web Push + Telegram). VAPID_PUBLIC_KEY vacía =
+     los avisos aún no están desplegados y el botón 🔔 no se muestra.
+     Al desplegar workers/push (ver su README), pegar aquí la clave pública. */
+  const PUSH_BASE = "https://monitor-terremoto-colombia-push.inforesidencias.workers.dev";
+  const VAPID_PUBLIC_KEY = "";
+  const TELEGRAM_CANAL = "";   // p. ej. "https://t.me/brechas_terremoto"
+
   /* ---- balances en medios: selección del mejor snapshot (regla compartida;
      la marca is_liveblog original la pone el worker — test de paridad en
      tests/test_unit.py) */
@@ -243,5 +250,6 @@ window.UI = (function () {
 
   return { fmt, norm, cssVar, esc, fetchJson, tablaBuscable, metricCards,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
-           disputaDia, comparativaFuentes, OFICIALES_BASE };
+           disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
+           VAPID_PUBLIC_KEY, TELEGRAM_CANAL };
 })();

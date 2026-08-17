@@ -21,6 +21,7 @@
         `<a href="${p.href}"${p.href === actual ? ' class="activa"' : ""}>${p.label}</a>`
       ).join("") +
       `<a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener" class="nav-cta">📍 Reportar daño</a>` +
+      `<button id="btn-alertas" hidden title="Recibir las alertas del día como notificación">🔔 Alertas</button>` +
       `<button id="btn-compartir" title="Compartir esta página">↗ Compartir</button>` +
       `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener" title="Código y datos abiertos">GitHub</a>` +
       `<a href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener" title="Apoya los servidores y la recolección de datos">☕</a>` +
@@ -45,7 +46,9 @@
       `<div><strong>Datos abiertos (CC BY 4.0)</strong><br>` +
       `<a href="../data/public/crosscheck.csv" download>CSV del cruce</a><br>` +
       `<a href="../data/public/monitor.json" target="_blank">JSON del monitor</a><br>` +
-      `<a href="${window.UI.OFICIALES_BASE}/oficiales.rss" target="_blank" rel="noopener">RSS de balances</a><br>` +
+      `<a href="${window.UI.OFICIALES_BASE}/oficiales.rss" target="_blank" rel="noopener">RSS de balances</a> · ` +
+      `<a href="../data/public/alerts.rss" target="_blank" rel="noopener">RSS de alertas</a><br>` +
+      (window.UI.TELEGRAM_CANAL ? `<a href="${window.UI.TELEGRAM_CANAL}" target="_blank" rel="noopener">Canal de Telegram</a><br>` : "") +
       `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">Repositorio y snapshots</a></div>` +
       `</div>` +
       `<p class="sf-line">🇨🇴 ❤️ Mantenido por <a href="https://col.social/@jp" target="_blank" rel="me noopener">@jp@col.social</a> ` +
@@ -68,6 +71,78 @@
   }
   window.addEventListener("hashchange", abrirDestino);
   abrirDestino();
+})();
+
+/* Notificaciones push: botón 🔔 con tres estados (activar / activadas / no
+   soportado). Solo aparece si el worker de avisos está desplegado (la clave
+   VAPID pública en ui.js). En iOS sin PWA instalada, explica cómo instalarla. */
+(function () {
+  const btn = document.getElementById("btn-alertas");
+  const { PUSH_BASE, VAPID_PUBLIC_KEY } = window.UI || {};
+  if (!btn || !VAPID_PUBLIC_KEY) return;   // avisos aún no desplegados
+  const soporta = "serviceWorker" in navigator && "PushManager" in window &&
+    "Notification" in window;
+  const esIosSinApp = /iphone|ipad|ipod/i.test(navigator.userAgent) &&
+    !window.navigator.standalone;
+  if (!soporta && !esIosSinApp) return;    // navegador sin push: no molestar
+  btn.hidden = false;
+
+  const claveBytes = () => {
+    const s = VAPID_PUBLIC_KEY.replaceAll("-", "+").replaceAll("_", "/");
+    return Uint8Array.from(atob(s.padEnd(Math.ceil(s.length / 4) * 4, "=")),
+      (c) => c.charCodeAt(0));
+  };
+
+  async function estadoActual() {
+    if (!soporta) return "sin-soporte";
+    const reg = await navigator.serviceWorker.getRegistration("sw.js");
+    const sub = reg && await reg.pushManager.getSubscription();
+    return sub ? "activadas" : "desactivadas";
+  }
+
+  async function pinta() {
+    const e = await estadoActual();
+    btn.textContent = e === "activadas" ? "🔔 Alertas ✓" : "🔔 Alertas";
+    btn.title = e === "activadas"
+      ? "Alertas activadas — clic para desactivarlas"
+      : "Recibir las alertas del día como notificación";
+  }
+
+  btn.addEventListener("click", async () => {
+    if (esIosSinApp) {
+      alert("En iPhone/iPad las notificaciones requieren instalar el " +
+        "monitor como app: toca Compartir → «Añadir a pantalla de inicio» " +
+        "y actívalas desde ahí.");
+      return;
+    }
+    try {
+      const reg = await navigator.serviceWorker.register("sw.js");
+      const previa = await reg.pushManager.getSubscription();
+      if (previa) {
+        // clic con alertas activas = desactivar
+        await fetch(`${PUSH_BASE}/desuscribir`, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ endpoint: previa.endpoint }) });
+        await previa.unsubscribe();
+        await pinta();
+        return;
+      }
+      const permiso = await Notification.requestPermission();
+      if (permiso !== "granted") return;
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true, applicationServerKey: claveBytes() });
+      const r = await fetch(`${PUSH_BASE}/suscribir`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sub.toJSON()) });
+      if (!r.ok) throw new Error(`suscripción HTTP ${r.status}`);
+      await pinta();
+    } catch (e) {
+      console.warn("alertas push:", e);
+      btn.textContent = "🔔 Error";
+      setTimeout(pinta, 2500);
+    }
+  });
+  pinta();
 })();
 
 /* Cloudflare Web Analytics (sin cookies): un solo punto para las tres páginas */

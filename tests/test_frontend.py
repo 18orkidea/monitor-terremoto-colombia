@@ -117,5 +117,23 @@ class TestSeleccionDiariaBalances(unittest.TestCase):
         self.assertEqual(caso[-1]["item"]["cifras"]["fallecidos"], 280)
 
 
+@unittest.skipUnless(NODE, "node no disponible")
+class TestConstantesPush(unittest.TestCase):
+    """El botón 🔔 depende de estas constantes de ui.js: si la clave VAPID
+    está mal formada, la suscripción falla en silencio en el navegador."""
+
+    def test_push_base_y_clave_vapid(self):
+        out = correr_ui(
+            "({ base: UI.PUSH_BASE, clave: UI.VAPID_PUBLIC_KEY,"
+            "  bytes: UI.VAPID_PUBLIC_KEY ? "
+            "Buffer.from(UI.VAPID_PUBLIC_KEY.replaceAll('-','+')"
+            ".replaceAll('_','/'), 'base64').length : 0 })")
+        self.assertTrue(out["base"].startswith("https://"))
+        if out["clave"]:  # vacía = worker aún sin desplegar (botón oculto)
+            self.assertEqual(out["bytes"], 65,
+                             "la clave VAPID pública debe ser P-256 sin "
+                             "comprimir (65 bytes) en base64url")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
