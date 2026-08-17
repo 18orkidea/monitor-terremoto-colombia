@@ -86,6 +86,21 @@ Sin acceso programático (documentado, no usado): [SNIGRD](https://sni.gestionde
 UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA sin API),
 [UNITAR-UNOSAT](https://unosat.org/products/4250) (sin API), ReliefWeb (requiere appname).
 
+## Recibir alertas
+
+Tres canales, mismo contenido (cambios del RUD, balances en medios y del propio
+monitor — nivel alta y pulso diario), con un solo punto de envío y dedupe:
+
+- **🔔 Notificaciones del navegador**: botón «Alertas» en la barra del sitio
+  (Web Push estándar; en iPhone/iPad requiere instalar la PWA: Compartir →
+  «Añadir a pantalla de inicio»). Criptografía propia testeada contra el vector
+  del RFC 8291 — sin terceros.
+- **Canal de Telegram**: enlace en el pie del sitio.
+- **RSS**: [`alerts.rss`](https://brechas.orkidea.eu/data/public/alerts.rss)
+  (alertas del día) y el RSS de balances del worker.
+
+Detalles de operación en [workers/push/README.md](workers/push/README.md).
+
 ## Acrónimos básicos
 
 - **AOI**: área de interés definida por Copernicus.

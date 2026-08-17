@@ -50,6 +50,16 @@ MMI≥6. Todo lo que el monitor dice del daño satelital aplica solo a esas
 zonas; el resto es población que ningún producto de daño ha mirado de cerca
 (extensión documentada en el README: HRSL, Open Buildings, NISAR).
 
+## Los avisos push tienen límites de plataforma
+
+Las notificaciones Web Push funcionan con un clic en Android y escritorio; en
+iPhone/iPad, Apple exige instalar el sitio como app (Compartir → «Añadir a
+pantalla de inicio», iOS 16.4+) antes de poder activarlas. El plan gratuito de
+Cloudflare Workers limita cada disparo a ~40 suscripciones; superarlo requiere
+el plan de $5/mes. El canal de Telegram es un tercero: si desapareciera, el
+archivo no pierde nada — los avisos son derivados y su fuente (`alerts.json` y
+`alerts.rss`) vive en el repo.
+
 ## El RUD es un registro progresivo, no un censo
 
 Que un municipio no aparezca en el RUD significa «sin registro aún», no «sin

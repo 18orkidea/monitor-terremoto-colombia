@@ -189,9 +189,39 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     PUBLIC.mkdir(parents=True, exist_ok=True)
     (PUBLIC / "alerts.json").write_text(
         json.dumps(payload, indent=1, ensure_ascii=False))
+    (PUBLIC / "alerts.rss").write_text(alerts_rss(snap, alerts))
     conn.commit()
     conn.close()
     return alerts
+
+
+def alerts_rss(fecha: str, alerts: list[dict]) -> str:
+    """RSS 2.0 de las alertas del día (stdlib pura, R14) — simetría con el
+    oficiales.rss del worker: quien no quiera push puede seguir el monitor
+    desde cualquier lector RSS."""
+    from email.utils import format_datetime
+    from datetime import datetime, timezone
+    from xml.sax.saxutils import escape
+    base = "https://brechas.orkidea.eu/site/"
+    pub = format_datetime(datetime.fromisoformat(fecha + "T11:00:00+00:00")
+                          if len(fecha) == 10 else datetime.now(timezone.utc))
+    items = "".join(
+        f"<item><title>{escape(('⚠️ ' if a.get('nivel') == 'alta' else '') + (a.get('tipo') or '').replace('_', ' '))}</title>"
+        f"<description>{escape(a.get('texto') or '')}</description>"
+        f"<link>{base}#alerts-section</link>"
+        f"<guid isPermaLink=\"false\">{escape(fecha)}-{escape(a.get('tipo') or '')}-{i}</guid>"
+        f"<pubDate>{pub}</pubDate></item>"
+        for i, a in enumerate(alerts))
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<rss version="2.0"><channel>'
+        "<title>Alertas del monitor — terremoto Colombia 2026</title>"
+        f"<link>{base}</link>"
+        "<description>Cambios diarios detectados por el monitor de brechas: "
+        "RUD, balances en medios, productos Copernicus y fuentes.</description>"
+        "<language>es-co</language>"
+        f"<lastBuildDate>{pub}</lastBuildDate>"
+        f"{items}</channel></rss>")
 
 
 if __name__ == "__main__":

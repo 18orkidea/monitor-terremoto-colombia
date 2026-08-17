@@ -378,6 +378,40 @@ class TestDumpRoundtrip(unittest.TestCase):
             origen.close()
 
 
+class TestAlertsRss(unittest.TestCase):
+    """El RSS de alertas debe ser XML válido con escape correcto: los textos
+    de alerta traen &, <, comillas y emoji — un feed roto es peor que no
+    tener feed."""
+
+    def test_xml_valido_y_escapado(self):
+        import xml.etree.ElementTree as ET
+        from alerts import alerts_rss
+        alertas = [
+            {"tipo": "rud_actualizado", "nivel": "info",
+             "texto": "RUD: 75 municipios & <familias> \"nuevas\""},
+            {"tipo": "balance_en_medios", "nivel": "info",
+             "texto": "294 fallecidos (+0 vs día anterior)"},
+            {"tipo": "rud_activo", "nivel": "alta", "texto": "⚠️ cubre el evento"},
+        ]
+        xml_texto = alerts_rss("2026-08-17", alertas)
+        raiz = ET.fromstring(xml_texto)  # lanza si el XML está roto
+        items = raiz.findall(".//item")
+        self.assertEqual(len(items), 3, "un item por alerta")
+        descripciones = [i.findtext("description") for i in items]
+        self.assertIn('RUD: 75 municipios & <familias> "nuevas"', descripciones)
+        titulos = [i.findtext("title") for i in items]
+        self.assertTrue(any(t.startswith("⚠️") for t in titulos),
+                        "las de nivel alta llevan marca")
+        guids = [i.findtext("guid") for i in items]
+        self.assertEqual(len(guids), len(set(guids)), "guids únicos")
+
+    def test_sin_alertas_es_feed_vacio_valido(self):
+        import xml.etree.ElementTree as ET
+        from alerts import alerts_rss
+        raiz = ET.fromstring(alerts_rss("2026-08-17", []))
+        self.assertEqual(len(raiz.findall(".//item")), 0)
+
+
 class TestParidadLiveblog(unittest.TestCase):
     """La regla editorial «liveblog» vive en dos lenguajes: el worker la marca
     en origen (workers/ai-view) y el frontend la reaplica (site/ui.js). Si los

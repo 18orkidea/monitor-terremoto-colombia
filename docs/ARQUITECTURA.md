@@ -17,6 +17,11 @@ las decisiones fechadas en [DECISIONES.md](DECISIONES.md); las lagunas conocidas
 
 worker aparte: workers/ai-view (Cloudflare, cron 23:00 Col) ──► KV ──► /oficiales.json
   balances en medios extraídos con IA; snapshot diario al repo en feeds/balances/
+
+worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Telegram
+  el daily le manda alerts.json fresco (POST con Bearer); cron 11:20 UTC de
+  respaldo; dedupe por sha256; suscripciones en KV PUSH_SUBS; alerts.rss
+  estático como tercer canal (generado por alerts.py)
 ```
 
 - **`ingest/common.py`** es el corazón: `fetch()` (única puerta a la red: log +

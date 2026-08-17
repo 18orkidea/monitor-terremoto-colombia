@@ -37,6 +37,11 @@
       "fecha": "2026-08-17",
       "tipo": "monitor",
       "texto": "La serie de balances gana memoria: los cortes viejos de medios internacionales tardíos ya no la hacen retroceder (caso Primicias: 181 fallecidos cuando el consolidado iba por 294), las disputas entre medios se marcan en vez de suprimirse y ninguna cifra desaparece si el día no la repite"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "El monitor avisa: notificaciones push del navegador (botón 🔔), canal de Telegram y RSS de alertas con los cambios diarios del RUD, los balances en medios y el propio monitor"
     }
   ]
 }

@@ -95,6 +95,23 @@ jobs:
             git push
           fi
 
+      # Avisos del día (Web Push + Telegram) vía el worker de push, con el
+      # alerts.json fresco en el body (no espera al deploy de Pages). El
+      # dedupe del worker hace esto idempotente con su cron de respaldo de
+      # las 11:20 UTC. Sin el secret, se salta limpio. No fatal (R13).
+      - name: Avisar por push y Telegram (no fatal)
+        env:
+          PUSH_TOKEN: ${{ secrets.PUSH_INTERNAL_TOKEN }}
+        if: ${{ env.PUSH_TOKEN != '' }}
+        continue-on-error: true
+        run: |
+          curl -sS -m 60 -X POST \
+            -H "Authorization: Bearer ${PUSH_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data-binary @data/public/alerts.json \
+            https://monitor-terremoto-colombia-push.inforesidencias.workers.dev/internal/enviar \
+            || echo "::warning::El envío de avisos falló hoy (el cron del worker reintenta a las 11:20 UTC)"
+
       # El deploy lo hace "Deploy GitHub Pages" (workflow_run tras esta corrida).
       # La vía Cloudflare Pages se eliminó el 16-ago: el dominio apunta a GitHub
       # Pages y publicar por dos caminos divergía (ver docs/DECISIONES.md).

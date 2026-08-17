@@ -71,6 +71,23 @@ Consecuencia: los medios internacionales tardíos ya no pueden hacer retroceder 
 serie ni borrar cifras; la FAQ de Balances ahora describe la regla realmente
 implementada (antes prometía una estabilidad que no existía).
 
+## 2026-08-17 — Avisos: Web Push + canal Telegram + alerts.rss, todo en free tier
+
+Contexto: las alertas del día (RUD, balances, cambios del monitor) solo se veían
+entrando al sitio.
+Decisión: tres canales con un solo punto de envío y dedupe (worker nuevo
+`workers/push/`, cuenta inforesidencias): (1) Web Push estándar con criptografía
+vanilla WebCrypto (RFC 8291/8188/8292, ~200 líneas SIN npm) **testeada en CI contra el
+vector de prueba oficial del RFC 8291 §5 ejecutando el mismo JS con node**; (2) canal
+público de Telegram como camino móvil sin fricción (iOS exige PWA para Web Push);
+(3) alerts.rss estático desde alerts.py (stdlib). Disparo: POST del daily con el
+alerts.json fresco en el body + cron de respaldo 11:20 UTC (dedupe por sha256).
+Filtrado editorial: nivel alta + rud_actualizado + balance_en_medios — titulares y
+reportes diarios no queman el canal. ntfy.sh descartado: tercero sin contrato.
+Consecuencia: $0/mes; límite free tier ~40 push por disparo (50 subrequests) — pasar a
+Workers Paid ($5/mes) es un umbral de éxito. Segundo worker que mantener, deploy manual
+documentado en su README; sin secretos configurados, todo se salta limpio.
+
 ## 2026-08-16 — Deudas anotadas (descartado hacer ahora)
 
 - Refactor de `publish.py::run()` (236 líneas): funciona y está testado por sus
