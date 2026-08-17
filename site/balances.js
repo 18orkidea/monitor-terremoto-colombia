@@ -6,6 +6,13 @@
   const btnJson = document.querySelector(".meta a.btn");
   if (btnJson) btnJson.href = FEED;
 
+  const NOMBRES = { fallecidos: "fallecidos", heridos: "heridos",
+                    desaparecidos: "desaparecidos",
+                    familias_afectadas: "familias" };
+  const NOMBRES_UI = { fallecidos: "Fallecidos", heridos: "Heridos",
+                       desaparecidos: "Desaparecidos",
+                       familias_afectadas: "Familias afectadas" };
+
   const feed = await fetchJson(FEED);
   if (!feed) {
     document.getElementById("balance-resumen").textContent =
@@ -144,12 +151,6 @@
       `último valor conocido cuando el snapshot del día no las trae.</p>`;
   }
 
-  const NOMBRES = { fallecidos: "fallecidos", heridos: "heridos",
-                    desaparecidos: "desaparecidos",
-                    familias_afectadas: "familias" };
-  const NOMBRES_UI = { fallecidos: "Fallecidos", heridos: "Heridos",
-                       desaparecidos: "Desaparecidos",
-                       familias_afectadas: "Familias afectadas" };
 
   function card(label, value, sub) {
     return `<div class="metric-card"><span>${esc(label)}</span><strong>${esc(value)}</strong>` +
