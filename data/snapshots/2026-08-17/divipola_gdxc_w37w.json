@@ -1,0 +1,1122 @@
+[{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05001","nom_mpio":"MEDELLÍN","tipo_municipio":"Municipio","longitud":"-75,581775","latitud":"6,246631"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05002","nom_mpio":"ABEJORRAL","tipo_municipio":"Municipio","longitud":"-75,428739","latitud":"5,789315"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05004","nom_mpio":"ABRIAQUÍ","tipo_municipio":"Municipio","longitud":"-76,064304","latitud":"6,632282"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05021","nom_mpio":"ALEJANDRÍA","tipo_municipio":"Municipio","longitud":"-75,141346","latitud":"6,376061"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05030","nom_mpio":"AMAGÁ","tipo_municipio":"Municipio","longitud":"-75,702188","latitud":"6,038708"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05031","nom_mpio":"AMALFI","tipo_municipio":"Municipio","longitud":"-75,077501","latitud":"6,909655"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05034","nom_mpio":"ANDES","tipo_municipio":"Municipio","longitud":"-75,878828","latitud":"5,657194"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05036","nom_mpio":"ANGELÓPOLIS","tipo_municipio":"Municipio","longitud":"-75,711389","latitud":"6,109719"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05038","nom_mpio":"ANGOSTURA","tipo_municipio":"Municipio","longitud":"-75,335116","latitud":"6,885175"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05040","nom_mpio":"ANORÍ","tipo_municipio":"Municipio","longitud":"-75,148355","latitud":"7,074703"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05042","nom_mpio":"SANTA FÉ DE ANTIOQUIA","tipo_municipio":"Municipio","longitud":"-75,826648","latitud":"6,556484"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05044","nom_mpio":"ANZÁ","tipo_municipio":"Municipio","longitud":"-75,854442","latitud":"6,302641"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05045","nom_mpio":"APARTADÓ","tipo_municipio":"Municipio","longitud":"-76,625279","latitud":"7,882968"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05051","nom_mpio":"ARBOLETES","tipo_municipio":"Municipio","longitud":"-76,426708","latitud":"8,849317"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05055","nom_mpio":"ARGELIA","tipo_municipio":"Municipio","longitud":"-75,14107","latitud":"5,731474"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05059","nom_mpio":"ARMENIA","tipo_municipio":"Municipio","longitud":"-75,786647","latitud":"6,155667"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05079","nom_mpio":"BARBOSA","tipo_municipio":"Municipio","longitud":"-75,331627","latitud":"6,439195"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05086","nom_mpio":"BELMIRA","tipo_municipio":"Municipio","longitud":"-75,667779","latitud":"6,606319"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05088","nom_mpio":"BELLO","tipo_municipio":"Municipio","longitud":"-75,555245","latitud":"6,333587"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05091","nom_mpio":"BETANIA","tipo_municipio":"Municipio","longitud":"-75,97679","latitud":"5,74615"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05093","nom_mpio":"BETULIA","tipo_municipio":"Municipio","longitud":"-75,984452","latitud":"6,115208"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05101","nom_mpio":"CIUDAD BOLÍVAR","tipo_municipio":"Municipio","longitud":"-76,021509","latitud":"5,850273"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05107","nom_mpio":"BRICEÑO","tipo_municipio":"Municipio","longitud":"-75,55036","latitud":"7,112803"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05113","nom_mpio":"BURITICÁ","tipo_municipio":"Municipio","longitud":"-75,907","latitud":"6,720759"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05120","nom_mpio":"CÁCERES","tipo_municipio":"Municipio","longitud":"-75,35205","latitud":"7,578366"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05125","nom_mpio":"CAICEDO","tipo_municipio":"Municipio","longitud":"-75,98293","latitud":"6,405607"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05129","nom_mpio":"CALDAS","tipo_municipio":"Municipio","longitud":"-75,633673","latitud":"6,091077"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05134","nom_mpio":"CAMPAMENTO","tipo_municipio":"Municipio","longitud":"-75,298091","latitud":"6,979771"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05138","nom_mpio":"CAÑASGORDAS","tipo_municipio":"Municipio","longitud":"-76,028228","latitud":"6,753859"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05142","nom_mpio":"CARACOLÍ","tipo_municipio":"Municipio","longitud":"-74,757421","latitud":"6,409829"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05145","nom_mpio":"CARAMANTA","tipo_municipio":"Municipio","longitud":"-75,643868","latitud":"5,54853"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05147","nom_mpio":"CAREPA","tipo_municipio":"Municipio","longitud":"-76,652652","latitud":"7,755148"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05148","nom_mpio":"EL CARMEN DE VIBORAL","tipo_municipio":"Municipio","longitud":"-75,333901","latitud":"6,082885"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05150","nom_mpio":"CAROLINA","tipo_municipio":"Municipio","longitud":"-75,283192","latitud":"6,725995"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05154","nom_mpio":"CAUCASIA","tipo_municipio":"Municipio","longitud":"-75,197996","latitud":"7,977278"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05172","nom_mpio":"CHIGORODÓ","tipo_municipio":"Municipio","longitud":"-76,681531","latitud":"7,666147"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05190","nom_mpio":"CISNEROS","tipo_municipio":"Municipio","longitud":"-75,087047","latitud":"6,537829"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05197","nom_mpio":"COCORNÁ","tipo_municipio":"Municipio","longitud":"-75,185483","latitud":"6,058295"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05206","nom_mpio":"CONCEPCIÓN","tipo_municipio":"Municipio","longitud":"-75,257587","latitud":"6,394348"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05209","nom_mpio":"CONCORDIA","tipo_municipio":"Municipio","longitud":"-75,908448","latitud":"6,045738"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05212","nom_mpio":"COPACABANA","tipo_municipio":"Municipio","longitud":"-75,509384","latitud":"6,348557"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05234","nom_mpio":"DABEIBA","tipo_municipio":"Municipio","longitud":"-76,261614","latitud":"6,998112"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05237","nom_mpio":"DONMATÍAS","tipo_municipio":"Municipio","longitud":"-75,39263","latitud":"6,485603"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05240","nom_mpio":"EBÉJICO","tipo_municipio":"Municipio","longitud":"-75,766413","latitud":"6,325615"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05250","nom_mpio":"EL BAGRE","tipo_municipio":"Municipio","longitud":"-74,799097","latitud":"7,5975"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05264","nom_mpio":"ENTRERRÍOS","tipo_municipio":"Municipio","longitud":"-75,517685","latitud":"6,566273"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05266","nom_mpio":"ENVIGADO","tipo_municipio":"Municipio","longitud":"-75,582192","latitud":"6,166695"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05282","nom_mpio":"FREDONIA","tipo_municipio":"Municipio","longitud":"-75,675072","latitud":"5,928039"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05284","nom_mpio":"FRONTINO","tipo_municipio":"Municipio","longitud":"-76,130765","latitud":"6,776066"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05306","nom_mpio":"GIRALDO","tipo_municipio":"Municipio","longitud":"-75,952158","latitud":"6,680808"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05308","nom_mpio":"GIRARDOTA","tipo_municipio":"Municipio","longitud":"-75,444238","latitud":"6,379472"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05310","nom_mpio":"GÓMEZ PLATA","tipo_municipio":"Municipio","longitud":"-75,220018","latitud":"6,683269"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05313","nom_mpio":"GRANADA","tipo_municipio":"Municipio","longitud":"-75,184446","latitud":"6,142892"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05315","nom_mpio":"GUADALUPE","tipo_municipio":"Municipio","longitud":"-75,239862","latitud":"6,815069"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05318","nom_mpio":"GUARNE","tipo_municipio":"Municipio","longitud":"-75,441612","latitud":"6,27787"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05321","nom_mpio":"GUATAPÉ","tipo_municipio":"Municipio","longitud":"-75,160041","latitud":"6,232461"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05347","nom_mpio":"HELICONIA","tipo_municipio":"Municipio","longitud":"-75,734322","latitud":"6,206757"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05353","nom_mpio":"HISPANIA","tipo_municipio":"Municipio","longitud":"-75,906587","latitud":"5,799461"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05360","nom_mpio":"ITAGÜÍ","tipo_municipio":"Municipio","longitud":"-75,612056","latitud":"6,175079"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05361","nom_mpio":"ITUANGO","tipo_municipio":"Municipio","longitud":"-75,764673","latitud":"7,171629"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05364","nom_mpio":"JARDÍN","tipo_municipio":"Municipio","longitud":"-75,818982","latitud":"5,597542"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05368","nom_mpio":"JERICÓ","tipo_municipio":"Municipio","longitud":"-75,785499","latitud":"5,789748"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05376","nom_mpio":"LA CEJA","tipo_municipio":"Municipio","longitud":"-75,429433","latitud":"6,028062"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05380","nom_mpio":"LA ESTRELLA","tipo_municipio":"Municipio","longitud":"-75,637708","latitud":"6,145238"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05390","nom_mpio":"LA PINTADA","tipo_municipio":"Municipio","longitud":"-75,60781","latitud":"5,743808"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05400","nom_mpio":"LA UNIÓN","tipo_municipio":"Municipio","longitud":"-75,360874","latitud":"5,973845"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05411","nom_mpio":"LIBORINA","tipo_municipio":"Municipio","longitud":"-75,812838","latitud":"6,677316"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05425","nom_mpio":"MACEO","tipo_municipio":"Municipio","longitud":"-74,78716","latitud":"6,552116"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05440","nom_mpio":"MARINILLA","tipo_municipio":"Municipio","longitud":"-75,339345","latitud":"6,173995"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05467","nom_mpio":"MONTEBELLO","tipo_municipio":"Municipio","longitud":"-75,523455","latitud":"5,946313"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05475","nom_mpio":"MURINDÓ","tipo_municipio":"Municipio","longitud":"-76,817485","latitud":"6,97771"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05480","nom_mpio":"MUTATÁ","tipo_municipio":"Municipio","longitud":"-76,435875","latitud":"7,242875"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05483","nom_mpio":"NARIÑO","tipo_municipio":"Municipio","longitud":"-75,176262","latitud":"5,610777"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05490","nom_mpio":"NECOCLÍ","tipo_municipio":"Municipio","longitud":"-76,787271","latitud":"8,434526"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05495","nom_mpio":"NECHÍ","tipo_municipio":"Municipio","longitud":"-74,77647","latitud":"8,094129"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05501","nom_mpio":"OLAYA","tipo_municipio":"Municipio","longitud":"-75,811773","latitud":"6,626492"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05541","nom_mpio":"PEÑOL","tipo_municipio":"Municipio","longitud":"-75,242693","latitud":"6,219349"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05543","nom_mpio":"PEQUE","tipo_municipio":"Municipio","longitud":"-75,910357","latitud":"7,021029"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05576","nom_mpio":"PUEBLORRICO","tipo_municipio":"Municipio","longitud":"-75,839903","latitud":"5,79158"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05579","nom_mpio":"PUERTO BERRÍO","tipo_municipio":"Municipio","longitud":"-74,410016","latitud":"6,487028"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05585","nom_mpio":"PUERTO NARE","tipo_municipio":"Municipio","longitud":"-74,583012","latitud":"6,186025"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05591","nom_mpio":"PUERTO TRIUNFO","tipo_municipio":"Municipio","longitud":"-74,64119","latitud":"5,871318"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05604","nom_mpio":"REMEDIOS","tipo_municipio":"Municipio","longitud":"-74,698135","latitud":"7,029424"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05607","nom_mpio":"RETIRO","tipo_municipio":"Municipio","longitud":"-75,501301","latitud":"6,062454"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05615","nom_mpio":"RIONEGRO","tipo_municipio":"Municipio","longitud":"-75,377316","latitud":"6,147148"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05628","nom_mpio":"SABANALARGA","tipo_municipio":"Municipio","longitud":"-75,816645","latitud":"6,850028"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05631","nom_mpio":"SABANETA","tipo_municipio":"Municipio","longitud":"-75,615479","latitud":"6,149903"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05642","nom_mpio":"SALGAR","tipo_municipio":"Municipio","longitud":"-75,976807","latitud":"5,964198"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05647","nom_mpio":"SAN ANDRÉS DE CUERQUÍA","tipo_municipio":"Municipio","longitud":"-75,674564","latitud":"6,916676"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05649","nom_mpio":"SAN CARLOS","tipo_municipio":"Municipio","longitud":"-74,988097","latitud":"6,187746"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05652","nom_mpio":"SAN FRANCISCO","tipo_municipio":"Municipio","longitud":"-75,101562","latitud":"5,963476"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05656","nom_mpio":"SAN JERÓNIMO","tipo_municipio":"Municipio","longitud":"-75,726975","latitud":"6,44809"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05658","nom_mpio":"SAN JOSÉ DE LA MONTAÑA","tipo_municipio":"Municipio","longitud":"-75,683352","latitud":"6,85009"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05659","nom_mpio":"SAN JUAN DE URABÁ","tipo_municipio":"Municipio","longitud":"-76,52857","latitud":"8,758964"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05660","nom_mpio":"SAN LUIS","tipo_municipio":"Municipio","longitud":"-74,993619","latitud":"6,043017"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05664","nom_mpio":"SAN PEDRO DE LOS MILAGROS","tipo_municipio":"Municipio","longitud":"-75,556743","latitud":"6,46012"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05665","nom_mpio":"SAN PEDRO DE URABÁ","tipo_municipio":"Municipio","longitud":"-76,380567","latitud":"8,276884"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05667","nom_mpio":"SAN RAFAEL","tipo_municipio":"Municipio","longitud":"-75,02849","latitud":"6,293759"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05670","nom_mpio":"SAN ROQUE","tipo_municipio":"Municipio","longitud":"-75,019109","latitud":"6,485939"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05674","nom_mpio":"SAN VICENTE FERRER","tipo_municipio":"Municipio","longitud":"-75,332616","latitud":"6,282164"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05679","nom_mpio":"SANTA BÁRBARA","tipo_municipio":"Municipio","longitud":"-75,567351","latitud":"5,875527"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05686","nom_mpio":"SANTA ROSA DE OSOS","tipo_municipio":"Municipio","longitud":"-75,460723","latitud":"6,643366"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05690","nom_mpio":"SANTO DOMINGO","tipo_municipio":"Municipio","longitud":"-75,164903","latitud":"6,473032"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05697","nom_mpio":"EL SANTUARIO","tipo_municipio":"Municipio","longitud":"-75,265465","latitud":"6,136871"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05736","nom_mpio":"SEGOVIA","tipo_municipio":"Municipio","longitud":"-74,701596","latitud":"7,079648"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05756","nom_mpio":"SONSÓN","tipo_municipio":"Municipio","longitud":"-75,309596","latitud":"5,714851"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05761","nom_mpio":"SOPETRÁN","tipo_municipio":"Municipio","longitud":"-75,747378","latitud":"6,500745"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05789","nom_mpio":"TÁMESIS","tipo_municipio":"Municipio","longitud":"-75,714429","latitud":"5,664645"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05790","nom_mpio":"TARAZÁ","tipo_municipio":"Municipio","longitud":"-75,401407","latitud":"7,580127"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05792","nom_mpio":"TARSO","tipo_municipio":"Municipio","longitud":"-75,822956","latitud":"5,864542"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05809","nom_mpio":"TITIRIBÍ","tipo_municipio":"Municipio","longitud":"-75,791887","latitud":"6,062391"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05819","nom_mpio":"TOLEDO","tipo_municipio":"Municipio","longitud":"-75,692281","latitud":"7,010328"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05837","nom_mpio":"TURBO","tipo_municipio":"Municipio","longitud":"-76,728858","latitud":"8,089929"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05842","nom_mpio":"URAMITA","tipo_municipio":"Municipio","longitud":"-76,173284","latitud":"6,898393"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05847","nom_mpio":"URRAO","tipo_municipio":"Municipio","longitud":"-76,133951","latitud":"6,317343"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05854","nom_mpio":"VALDIVIA","tipo_municipio":"Municipio","longitud":"-75,439274","latitud":"7,1652"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05856","nom_mpio":"VALPARAÍSO","tipo_municipio":"Municipio","longitud":"-75,624452","latitud":"5,614555"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05858","nom_mpio":"VEGACHÍ","tipo_municipio":"Municipio","longitud":"-74,798714","latitud":"6,773525"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05861","nom_mpio":"VENECIA","tipo_municipio":"Municipio","longitud":"-75,735544","latitud":"5,964693"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05873","nom_mpio":"VIGÍA DEL FUERTE","tipo_municipio":"Municipio","longitud":"-76,896004","latitud":"6,588164"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05885","nom_mpio":"YALÍ","tipo_municipio":"Municipio","longitud":"-74,840059","latitud":"6,676554"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05887","nom_mpio":"YARUMAL","tipo_municipio":"Municipio","longitud":"-75,418828","latitud":"6,963832"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05890","nom_mpio":"YOLOMBÓ","tipo_municipio":"Municipio","longitud":"-75,013385","latitud":"6,594511"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05893","nom_mpio":"YONDÓ","tipo_municipio":"Municipio","longitud":"-73,912445","latitud":"7,00396"}
+,{"cod_dpto":"05","dpto":"ANTIOQUIA","cod_mpio":"05895","nom_mpio":"ZARAGOZA","tipo_municipio":"Municipio","longitud":"-74,867075","latitud":"7,488583"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08001","nom_mpio":"BARRANQUILLA","tipo_municipio":"Municipio","longitud":"-74,815546","latitud":"10,977961"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08078","nom_mpio":"BARANOA","tipo_municipio":"Municipio","longitud":"-74,916077","latitud":"10,79445"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08137","nom_mpio":"CAMPO DE LA CRUZ","tipo_municipio":"Municipio","longitud":"-74,880847","latitud":"10,378291"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08141","nom_mpio":"CANDELARIA","tipo_municipio":"Municipio","longitud":"-74,879717","latitud":"10,461903"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08296","nom_mpio":"GALAPA","tipo_municipio":"Municipio","longitud":"-74,870385","latitud":"10,919033"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08372","nom_mpio":"JUAN DE ACOSTA","tipo_municipio":"Municipio","longitud":"-75,041032","latitud":"10,83254"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08421","nom_mpio":"LURUACO","tipo_municipio":"Municipio","longitud":"-75,14199","latitud":"10,610491"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08433","nom_mpio":"MALAMBO","tipo_municipio":"Municipio","longitud":"-74,776923","latitud":"10,857086"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08436","nom_mpio":"MANATÍ","tipo_municipio":"Municipio","longitud":"-74,956867","latitud":"10,449089"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08520","nom_mpio":"PALMAR DE VARELA","tipo_municipio":"Municipio","longitud":"-74,754765","latitud":"10,738591"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08549","nom_mpio":"PIOJÓ","tipo_municipio":"Municipio","longitud":"-75,107592","latitud":"10,749216"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08558","nom_mpio":"POLONUEVO","tipo_municipio":"Municipio","longitud":"-74,852981","latitud":"10,777363"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08560","nom_mpio":"PONEDERA","tipo_municipio":"Municipio","longitud":"-74,753885","latitud":"10,641779"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08573","nom_mpio":"PUERTO COLOMBIA","tipo_municipio":"Municipio","longitud":"-74,888627","latitud":"11,015322"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08606","nom_mpio":"REPELÓN","tipo_municipio":"Municipio","longitud":"-75,125534","latitud":"10,493357"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08634","nom_mpio":"SABANAGRANDE","tipo_municipio":"Municipio","longitud":"-74,759496","latitud":"10,792453"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08638","nom_mpio":"SABANALARGA","tipo_municipio":"Municipio","longitud":"-74,921256","latitud":"10,632091"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08675","nom_mpio":"SANTA LUCÍA","tipo_municipio":"Municipio","longitud":"-74,959204","latitud":"10,324303"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08685","nom_mpio":"SANTO TOMÁS","tipo_municipio":"Municipio","longitud":"-74,757859","latitud":"10,758735"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08758","nom_mpio":"SOLEDAD","tipo_municipio":"Municipio","longitud":"-74,786054","latitud":"10,909921"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08770","nom_mpio":"SUAN","tipo_municipio":"Municipio","longitud":"-74,881687","latitud":"10,335432"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08832","nom_mpio":"TUBARÁ","tipo_municipio":"Municipio","longitud":"-74,978704","latitud":"10,873586"}
+,{"cod_dpto":"08","dpto":"ATLÁNTICO","cod_mpio":"08849","nom_mpio":"USIACURÍ","tipo_municipio":"Municipio","longitud":"-74,976985","latitud":"10,74298"}
+,{"cod_dpto":"11","dpto":"BOGOTÁ, D.C.","cod_mpio":"11001","nom_mpio":"BOGOTÁ, D.C.","tipo_municipio":"Municipio","longitud":"-74,106992","latitud":"4,649251"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13001","nom_mpio":"CARTAGENA DE INDIAS","tipo_municipio":"Municipio","longitud":"-75,496269","latitud":"10,385126"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13006","nom_mpio":"ACHÍ","tipo_municipio":"Municipio","longitud":"-74,557676","latitud":"8,570107"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13030","nom_mpio":"ALTOS DEL ROSARIO","tipo_municipio":"Municipio","longitud":"-74,164905","latitud":"8,791865"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13042","nom_mpio":"ARENAL","tipo_municipio":"Municipio","longitud":"-73,941099","latitud":"8,458865"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13052","nom_mpio":"ARJONA","tipo_municipio":"Municipio","longitud":"-75,344332","latitud":"10,25666"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13062","nom_mpio":"ARROYOHONDO","tipo_municipio":"Municipio","longitud":"-75,019215","latitud":"10,250075"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13074","nom_mpio":"BARRANCO DE LOBA","tipo_municipio":"Municipio","longitud":"-74,104391","latitud":"8,947787"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13140","nom_mpio":"CALAMAR","tipo_municipio":"Municipio","longitud":"-74,916144","latitud":"10,250431"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13160","nom_mpio":"CANTAGALLO","tipo_municipio":"Municipio","longitud":"-73,914605","latitud":"7,378678"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13188","nom_mpio":"CICUCO","tipo_municipio":"Municipio","longitud":"-74,645981","latitud":"9,274281"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13212","nom_mpio":"CÓRDOBA","tipo_municipio":"Municipio","longitud":"-74,827399","latitud":"9,586942"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13222","nom_mpio":"CLEMENCIA","tipo_municipio":"Municipio","longitud":"-75,328469","latitud":"10,567452"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13244","nom_mpio":"EL CARMEN DE BOLÍVAR","tipo_municipio":"Municipio","longitud":"-75,121178","latitud":"9,718653"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13248","nom_mpio":"EL GUAMO","tipo_municipio":"Municipio","longitud":"-74,976084","latitud":"10,030958"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13268","nom_mpio":"EL PEÑÓN","tipo_municipio":"Municipio","longitud":"-73,949274","latitud":"8,988271"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13300","nom_mpio":"HATILLO DE LOBA","tipo_municipio":"Municipio","longitud":"-74,077912","latitud":"8,956014"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13430","nom_mpio":"MAGANGUÉ","tipo_municipio":"Municipio","longitud":"-74,766742","latitud":"9,263799"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13433","nom_mpio":"MAHATES","tipo_municipio":"Municipio","longitud":"-75,191643","latitud":"10,233285"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13440","nom_mpio":"MARGARITA","tipo_municipio":"Municipio","longitud":"-74,285137","latitud":"9,15784"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13442","nom_mpio":"MARÍA LA BAJA","tipo_municipio":"Municipio","longitud":"-75,300516","latitud":"9,982402"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13458","nom_mpio":"MONTECRISTO","tipo_municipio":"Municipio","longitud":"-74,471176","latitud":"8,297234"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13468","nom_mpio":"SANTA CRUZ DE MOMPOX","tipo_municipio":"Municipio","longitud":"-74,42818","latitud":"9,244241"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13473","nom_mpio":"MORALES","tipo_municipio":"Municipio","longitud":"-73,868172","latitud":"8,276558"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13490","nom_mpio":"NOROSÍ","tipo_municipio":"Municipio","longitud":"-74,038003","latitud":"8,526259"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13549","nom_mpio":"PINILLOS","tipo_municipio":"Municipio","longitud":"-74,462279","latitud":"8,914947"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13580","nom_mpio":"REGIDOR","tipo_municipio":"Municipio","longitud":"-73,821638","latitud":"8,666258"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13600","nom_mpio":"RÍO VIEJO","tipo_municipio":"Municipio","longitud":"-73,840466","latitud":"8,58795"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13620","nom_mpio":"SAN CRISTÓBAL","tipo_municipio":"Municipio","longitud":"-75,065076","latitud":"10,392836"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13647","nom_mpio":"SAN ESTANISLAO","tipo_municipio":"Municipio","longitud":"-75,153101","latitud":"10,398602"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13650","nom_mpio":"SAN FERNANDO","tipo_municipio":"Municipio","longitud":"-74,323811","latitud":"9,214183"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13654","nom_mpio":"SAN JACINTO","tipo_municipio":"Municipio","longitud":"-75,12105","latitud":"9,830275"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13655","nom_mpio":"SAN JACINTO DEL CAUCA","tipo_municipio":"Municipio","longitud":"-74,721156","latitud":"8,25158"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13657","nom_mpio":"SAN JUAN NEPOMUCENO","tipo_municipio":"Municipio","longitud":"-75,081761","latitud":"9,953751"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13667","nom_mpio":"SAN MARTÍN DE LOBA","tipo_municipio":"Municipio","longitud":"-74,039134","latitud":"8,937485"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13670","nom_mpio":"SAN PABLO","tipo_municipio":"Municipio","longitud":"-73,924602","latitud":"7,476747"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13673","nom_mpio":"SANTA CATALINA","tipo_municipio":"Municipio","longitud":"-75,287855","latitud":"10,605294"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13683","nom_mpio":"SANTA ROSA","tipo_municipio":"Municipio","longitud":"-75,369824","latitud":"10,444396"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13688","nom_mpio":"SANTA ROSA DEL SUR","tipo_municipio":"Municipio","longitud":"-74,052243","latitud":"7,963938"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13744","nom_mpio":"SIMITÍ","tipo_municipio":"Municipio","longitud":"-73,947264","latitud":"7,953916"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13760","nom_mpio":"SOPLAVIENTO","tipo_municipio":"Municipio","longitud":"-75,136404","latitud":"10,38839"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13780","nom_mpio":"TALAIGUA NUEVO","tipo_municipio":"Municipio","longitud":"-74,567479","latitud":"9,30403"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13810","nom_mpio":"TIQUISIO","tipo_municipio":"Municipio","longitud":"-74,262922","latitud":"8,558666"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13836","nom_mpio":"TURBACO","tipo_municipio":"Municipio","longitud":"-75,427249","latitud":"10,348316"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13838","nom_mpio":"TURBANÁ","tipo_municipio":"Municipio","longitud":"-75,44265","latitud":"10,274585"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13873","nom_mpio":"VILLANUEVA","tipo_municipio":"Municipio","longitud":"-75,275613","latitud":"10,444089"}
+,{"cod_dpto":"13","dpto":"BOLÍVAR","cod_mpio":"13894","nom_mpio":"ZAMBRANO","tipo_municipio":"Municipio","longitud":"-74,817879","latitud":"9,746306"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15001","nom_mpio":"TUNJA","tipo_municipio":"Municipio","longitud":"-73,355539","latitud":"5,53988"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15022","nom_mpio":"ALMEIDA","tipo_municipio":"Municipio","longitud":"-73,378933","latitud":"4,970857"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15047","nom_mpio":"AQUITANIA","tipo_municipio":"Municipio","longitud":"-72,88399","latitud":"5,518602"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15051","nom_mpio":"ARCABUCO","tipo_municipio":"Municipio","longitud":"-73,437503","latitud":"5,755673"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15087","nom_mpio":"BELÉN","tipo_municipio":"Municipio","longitud":"-72,911641","latitud":"5,98923"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15090","nom_mpio":"BERBEO","tipo_municipio":"Municipio","longitud":"-73,12721","latitud":"5,227451"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15092","nom_mpio":"BETÉITIVA","tipo_municipio":"Municipio","longitud":"-72,809014","latitud":"5,909978"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15097","nom_mpio":"BOAVITA","tipo_municipio":"Municipio","longitud":"-72,584905","latitud":"6,330703"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15104","nom_mpio":"BOYACÁ","tipo_municipio":"Municipio","longitud":"-73,361945","latitud":"5,454578"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15106","nom_mpio":"BRICEÑO","tipo_municipio":"Municipio","longitud":"-73,92326","latitud":"5,690879"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15109","nom_mpio":"BUENAVISTA","tipo_municipio":"Municipio","longitud":"-73,94217","latitud":"5,512594"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15114","nom_mpio":"BUSBANZÁ","tipo_municipio":"Municipio","longitud":"-72,884158","latitud":"5,831393"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15131","nom_mpio":"CALDAS","tipo_municipio":"Municipio","longitud":"-73,865553","latitud":"5,55458"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15135","nom_mpio":"CAMPOHERMOSO","tipo_municipio":"Municipio","longitud":"-73,104173","latitud":"5,031676"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15162","nom_mpio":"CERINZA","tipo_municipio":"Municipio","longitud":"-72,947918","latitud":"5,955939"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15172","nom_mpio":"CHINAVITA","tipo_municipio":"Municipio","longitud":"-73,368476","latitud":"5,167486"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15176","nom_mpio":"CHIQUINQUIRÁ","tipo_municipio":"Municipio","longitud":"-73,818745","latitud":"5,61379"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15180","nom_mpio":"CHISCAS","tipo_municipio":"Municipio","longitud":"-72,500957","latitud":"6,553136"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15183","nom_mpio":"CHITA","tipo_municipio":"Municipio","longitud":"-72,471892","latitud":"6,187083"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15185","nom_mpio":"CHITARAQUE","tipo_municipio":"Municipio","longitud":"-73,4471","latitud":"6,027425"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15187","nom_mpio":"CHIVATÁ","tipo_municipio":"Municipio","longitud":"-73,282529","latitud":"5,558949"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15189","nom_mpio":"CIÉNEGA","tipo_municipio":"Municipio","longitud":"-73,296049","latitud":"5,408694"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15204","nom_mpio":"CÓMBITA","tipo_municipio":"Municipio","longitud":"-73,323957","latitud":"5,634545"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15212","nom_mpio":"COPER","tipo_municipio":"Municipio","longitud":"-74,045636","latitud":"5,475074"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15215","nom_mpio":"CORRALES","tipo_municipio":"Municipio","longitud":"-72,844795","latitud":"5,828064"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15218","nom_mpio":"COVARACHÍA","tipo_municipio":"Municipio","longitud":"-72,738978","latitud":"6,500177"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15223","nom_mpio":"CUBARÁ","tipo_municipio":"Municipio","longitud":"-72,107939","latitud":"6,997275"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15224","nom_mpio":"CUCAITA","tipo_municipio":"Municipio","longitud":"-73,454338","latitud":"5,544452"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15226","nom_mpio":"CUÍTIVA","tipo_municipio":"Municipio","longitud":"-72,965923","latitud":"5,580367"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15232","nom_mpio":"CHÍQUIZA","tipo_municipio":"Municipio","longitud":"-73,449463","latitud":"5,639834"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15236","nom_mpio":"CHIVOR","tipo_municipio":"Municipio","longitud":"-73,368398","latitud":"4,888173"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15238","nom_mpio":"DUITAMA","tipo_municipio":"Municipio","longitud":"-73,03063","latitud":"5,822964"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15244","nom_mpio":"EL COCUY","tipo_municipio":"Municipio","longitud":"-72,444537","latitud":"6,407738"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15248","nom_mpio":"EL ESPINO","tipo_municipio":"Municipio","longitud":"-72,497007","latitud":"6,483027"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15272","nom_mpio":"FIRAVITOBA","tipo_municipio":"Municipio","longitud":"-72,993392","latitud":"5,668885"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15276","nom_mpio":"FLORESTA","tipo_municipio":"Municipio","longitud":"-72,918111","latitud":"5,859519"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15293","nom_mpio":"GACHANTIVÁ","tipo_municipio":"Municipio","longitud":"-73,549092","latitud":"5,751891"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15296","nom_mpio":"GÁMEZA","tipo_municipio":"Municipio","longitud":"-72,80553","latitud":"5,802333"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15299","nom_mpio":"GARAGOA","tipo_municipio":"Municipio","longitud":"-73,364413","latitud":"5,083234"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15317","nom_mpio":"GUACAMAYAS","tipo_municipio":"Municipio","longitud":"-72,500812","latitud":"6,459667"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15322","nom_mpio":"GUATEQUE","tipo_municipio":"Municipio","longitud":"-73,471207","latitud":"5,007321"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15325","nom_mpio":"GUAYATÁ","tipo_municipio":"Municipio","longitud":"-73,489698","latitud":"4,967122"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15332","nom_mpio":"GÜICÁN DE LA SIERRA","tipo_municipio":"Municipio","longitud":"-72,411763","latitud":"6,462864"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15362","nom_mpio":"IZA","tipo_municipio":"Municipio","longitud":"-72,979559","latitud":"5,611577"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15367","nom_mpio":"JENESANO","tipo_municipio":"Municipio","longitud":"-73,363738","latitud":"5,385813"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15368","nom_mpio":"JERICÓ","tipo_municipio":"Municipio","longitud":"-72,571122","latitud":"6,145735"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15377","nom_mpio":"LABRANZAGRANDE","tipo_municipio":"Municipio","longitud":"-72,57777","latitud":"5,562687"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15380","nom_mpio":"LA CAPILLA","tipo_municipio":"Municipio","longitud":"-73,444347","latitud":"5,095687"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15401","nom_mpio":"LA VICTORIA","tipo_municipio":"Municipio","longitud":"-74,234393","latitud":"5,523792"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15403","nom_mpio":"LA UVITA","tipo_municipio":"Municipio","longitud":"-72,559982","latitud":"6,31616"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15407","nom_mpio":"VILLA DE LEYVA","tipo_municipio":"Municipio","longitud":"-73,524948","latitud":"5,632455"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15425","nom_mpio":"MACANAL","tipo_municipio":"Municipio","longitud":"-73,319593","latitud":"4,972464"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15442","nom_mpio":"MARIPÍ","tipo_municipio":"Municipio","longitud":"-74,00405","latitud":"5,550091"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15455","nom_mpio":"MIRAFLORES","tipo_municipio":"Municipio","longitud":"-73,14563","latitud":"5,196515"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15464","nom_mpio":"MONGUA","tipo_municipio":"Municipio","longitud":"-72,79809","latitud":"5,754242"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15466","nom_mpio":"MONGUÍ","tipo_municipio":"Municipio","longitud":"-72,849292","latitud":"5,723486"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15469","nom_mpio":"MONIQUIRÁ","tipo_municipio":"Municipio","longitud":"-73,573374","latitud":"5,876331"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15476","nom_mpio":"MOTAVITA","tipo_municipio":"Municipio","longitud":"-73,367841","latitud":"5,5777"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15480","nom_mpio":"MUZO","tipo_municipio":"Municipio","longitud":"-74,10269","latitud":"5,532758"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15491","nom_mpio":"NOBSA","tipo_municipio":"Municipio","longitud":"-72,937042","latitud":"5,768046"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15494","nom_mpio":"NUEVO COLÓN","tipo_municipio":"Municipio","longitud":"-73,456759","latitud":"5,355317"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15500","nom_mpio":"OICATÁ","tipo_municipio":"Municipio","longitud":"-73,308399","latitud":"5,595235"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15507","nom_mpio":"OTANCHE","tipo_municipio":"Municipio","longitud":"-74,180965","latitud":"5,657536"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15511","nom_mpio":"PACHAVITA","tipo_municipio":"Municipio","longitud":"-73,396953","latitud":"5,140065"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15514","nom_mpio":"PÁEZ","tipo_municipio":"Municipio","longitud":"-73,052737","latitud":"5,097319"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15516","nom_mpio":"PAIPA","tipo_municipio":"Municipio","longitud":"-73,11782","latitud":"5,779894"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15518","nom_mpio":"PAJARITO","tipo_municipio":"Municipio","longitud":"-72,703231","latitud":"5,293783"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15522","nom_mpio":"PANQUEBA","tipo_municipio":"Municipio","longitud":"-72,459424","latitud":"6,443416"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15531","nom_mpio":"PAUNA","tipo_municipio":"Municipio","longitud":"-73,978449","latitud":"5,656323"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15533","nom_mpio":"PAYA","tipo_municipio":"Municipio","longitud":"-72,423775","latitud":"5,625699"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15537","nom_mpio":"PAZ DE RÍO","tipo_municipio":"Municipio","longitud":"-72,749137","latitud":"5,987645"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15542","nom_mpio":"PESCA","tipo_municipio":"Municipio","longitud":"-73,050872","latitud":"5,558808"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15550","nom_mpio":"PISBA","tipo_municipio":"Municipio","longitud":"-72,486023","latitud":"5,72141"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15572","nom_mpio":"PUERTO BOYACÁ","tipo_municipio":"Municipio","longitud":"-74,587782","latitud":"5,976646"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15580","nom_mpio":"QUÍPAMA","tipo_municipio":"Municipio","longitud":"-74,180033","latitud":"5,52055"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15599","nom_mpio":"RAMIRIQUÍ","tipo_municipio":"Municipio","longitud":"-73,334839","latitud":"5,400303"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15600","nom_mpio":"RÁQUIRA","tipo_municipio":"Municipio","longitud":"-73,632543","latitud":"5,539136"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15621","nom_mpio":"RONDÓN","tipo_municipio":"Municipio","longitud":"-73,208474","latitud":"5,357378"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15632","nom_mpio":"SABOYÁ","tipo_municipio":"Municipio","longitud":"-73,764456","latitud":"5,697756"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15638","nom_mpio":"SÁCHICA","tipo_municipio":"Municipio","longitud":"-73,542539","latitud":"5,584305"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15646","nom_mpio":"SAMACÁ","tipo_municipio":"Municipio","longitud":"-73,485589","latitud":"5,492161"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15660","nom_mpio":"SAN EDUARDO","tipo_municipio":"Municipio","longitud":"-73,077747","latitud":"5,22401"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15664","nom_mpio":"SAN JOSÉ DE PARE","tipo_municipio":"Municipio","longitud":"-73,545397","latitud":"6,018924"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15667","nom_mpio":"SAN LUIS DE GACENO","tipo_municipio":"Municipio","longitud":"-73,168076","latitud":"4,81976"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15673","nom_mpio":"SAN MATEO","tipo_municipio":"Municipio","longitud":"-72,555264","latitud":"6,401683"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15676","nom_mpio":"SAN MIGUEL DE SEMA","tipo_municipio":"Municipio","longitud":"-73,722009","latitud":"5,518083"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15681","nom_mpio":"SAN PABLO DE BORBUR","tipo_municipio":"Municipio","longitud":"-74,069963","latitud":"5,650743"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15686","nom_mpio":"SANTANA","tipo_municipio":"Municipio","longitud":"-73,481639","latitud":"6,056866"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15690","nom_mpio":"SANTA MARÍA","tipo_municipio":"Municipio","longitud":"-73,263518","latitud":"4,857193"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15693","nom_mpio":"SANTA ROSA DE VITERBO","tipo_municipio":"Municipio","longitud":"-72,982461","latitud":"5,874547"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15696","nom_mpio":"SANTA SOFÍA","tipo_municipio":"Municipio","longitud":"-73,602707","latitud":"5,713269"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15720","nom_mpio":"SATIVANORTE","tipo_municipio":"Municipio","longitud":"-72,708458","latitud":"6,131132"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15723","nom_mpio":"SATIVASUR","tipo_municipio":"Municipio","longitud":"-72,712435","latitud":"6,093183"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15740","nom_mpio":"SIACHOQUE","tipo_municipio":"Municipio","longitud":"-73,24466","latitud":"5,511811"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15753","nom_mpio":"SOATÁ","tipo_municipio":"Municipio","longitud":"-72,684051","latitud":"6,331945"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15755","nom_mpio":"SOCOTÁ","tipo_municipio":"Municipio","longitud":"-72,636653","latitud":"6,041162"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15757","nom_mpio":"SOCHA","tipo_municipio":"Municipio","longitud":"-72,691963","latitud":"5,996717"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15759","nom_mpio":"SOGAMOSO","tipo_municipio":"Municipio","longitud":"-72,924355","latitud":"5,723976"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15761","nom_mpio":"SOMONDOCO","tipo_municipio":"Municipio","longitud":"-73,433393","latitud":"4,985726"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15762","nom_mpio":"SORA","tipo_municipio":"Municipio","longitud":"-73,450153","latitud":"5,56684"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15763","nom_mpio":"SOTAQUIRÁ","tipo_municipio":"Municipio","longitud":"-73,246585","latitud":"5,764986"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15764","nom_mpio":"SORACÁ","tipo_municipio":"Municipio","longitud":"-73,332804","latitud":"5,500898"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15774","nom_mpio":"SUSACÓN","tipo_municipio":"Municipio","longitud":"-72,690289","latitud":"6,230332"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15776","nom_mpio":"SUTAMARCHÁN","tipo_municipio":"Municipio","longitud":"-73,620536","latitud":"5,619781"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15778","nom_mpio":"SUTATENZA","tipo_municipio":"Municipio","longitud":"-73,452317","latitud":"5,022989"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15790","nom_mpio":"TASCO","tipo_municipio":"Municipio","longitud":"-72,781011","latitud":"5,909821"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15798","nom_mpio":"TENZA","tipo_municipio":"Municipio","longitud":"-73,421176","latitud":"5,076781"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15804","nom_mpio":"TIBANÁ","tipo_municipio":"Municipio","longitud":"-73,396457","latitud":"5,317251"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15806","nom_mpio":"TIBASOSA","tipo_municipio":"Municipio","longitud":"-72,999449","latitud":"5,74723"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15808","nom_mpio":"TINJACÁ","tipo_municipio":"Municipio","longitud":"-73,646847","latitud":"5,579713"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15810","nom_mpio":"TIPACOQUE","tipo_municipio":"Municipio","longitud":"-72,691729","latitud":"6,419203"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15814","nom_mpio":"TOCA","tipo_municipio":"Municipio","longitud":"-73,184794","latitud":"5,566464"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15816","nom_mpio":"TOGÜÍ","tipo_municipio":"Municipio","longitud":"-73,513655","latitud":"5,937438"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15820","nom_mpio":"TÓPAGA","tipo_municipio":"Municipio","longitud":"-72,832245","latitud":"5,768201"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15822","nom_mpio":"TOTA","tipo_municipio":"Municipio","longitud":"-72,985898","latitud":"5,560497"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15832","nom_mpio":"TUNUNGUÁ","tipo_municipio":"Municipio","longitud":"-73,933155","latitud":"5,730582"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15835","nom_mpio":"TURMEQUÉ","tipo_municipio":"Municipio","longitud":"-73,491825","latitud":"5,323261"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15837","nom_mpio":"TUTA","tipo_municipio":"Municipio","longitud":"-73,230285","latitud":"5,689082"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15839","nom_mpio":"TUTAZÁ","tipo_municipio":"Municipio","longitud":"-72,856035","latitud":"6,032608"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15842","nom_mpio":"ÚMBITA","tipo_municipio":"Municipio","longitud":"-73,456917","latitud":"5,221176"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15861","nom_mpio":"VENTAQUEMADA","tipo_municipio":"Municipio","longitud":"-73,522368","latitud":"5,368739"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15879","nom_mpio":"VIRACACHÁ","tipo_municipio":"Municipio","longitud":"-73,296894","latitud":"5,436833"}
+,{"cod_dpto":"15","dpto":"BOYACÁ","cod_mpio":"15897","nom_mpio":"ZETAQUIRA","tipo_municipio":"Municipio","longitud":"-73,17098","latitud":"5,283443"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17001","nom_mpio":"MANIZALES","tipo_municipio":"Municipio","longitud":"-75,491025","latitud":"5,057657"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17013","nom_mpio":"AGUADAS","tipo_municipio":"Municipio","longitud":"-75,45487","latitud":"5,610244"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17042","nom_mpio":"ANSERMA","tipo_municipio":"Municipio","longitud":"-75,784343","latitud":"5,236471"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17050","nom_mpio":"ARANZAZU","tipo_municipio":"Municipio","longitud":"-75,49129","latitud":"5,271195"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17088","nom_mpio":"BELALCÁZAR","tipo_municipio":"Municipio","longitud":"-75,811918","latitud":"4,993785"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17174","nom_mpio":"CHINCHINÁ","tipo_municipio":"Municipio","longitud":"-75,607529","latitud":"4,985227"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17272","nom_mpio":"FILADELFIA","tipo_municipio":"Municipio","longitud":"-75,562474","latitud":"5,297091"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17380","nom_mpio":"LA DORADA","tipo_municipio":"Municipio","longitud":"-74,668819","latitud":"5,460834"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17388","nom_mpio":"LA MERCED","tipo_municipio":"Municipio","longitud":"-75,546486","latitud":"5,39647"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17433","nom_mpio":"MANZANARES","tipo_municipio":"Municipio","longitud":"-75,152829","latitud":"5,255699"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17442","nom_mpio":"MARMATO","tipo_municipio":"Municipio","longitud":"-75,600049","latitud":"5,47422"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17444","nom_mpio":"MARQUETALIA","tipo_municipio":"Municipio","longitud":"-75,053097","latitud":"5,297525"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17446","nom_mpio":"MARULANDA","tipo_municipio":"Municipio","longitud":"-75,259721","latitud":"5,284304"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17486","nom_mpio":"NEIRA","tipo_municipio":"Municipio","longitud":"-75,520006","latitud":"5,166895"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17495","nom_mpio":"NORCASIA","tipo_municipio":"Municipio","longitud":"-74,889543","latitud":"5,574796"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17513","nom_mpio":"PÁCORA","tipo_municipio":"Municipio","longitud":"-75,459621","latitud":"5,527172"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17524","nom_mpio":"PALESTINA","tipo_municipio":"Municipio","longitud":"-75,624577","latitud":"5,017879"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17541","nom_mpio":"PENSILVANIA","tipo_municipio":"Municipio","longitud":"-75,160299","latitud":"5,383281"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17614","nom_mpio":"RIOSUCIO","tipo_municipio":"Municipio","longitud":"-75,702104","latitud":"5,423673"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17616","nom_mpio":"RISARALDA","tipo_municipio":"Municipio","longitud":"-75,76722","latitud":"5,164509"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17653","nom_mpio":"SALAMINA","tipo_municipio":"Municipio","longitud":"-75,487223","latitud":"5,403025"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17662","nom_mpio":"SAMANÁ","tipo_municipio":"Municipio","longitud":"-74,992263","latitud":"5,41308"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17665","nom_mpio":"SAN JOSÉ","tipo_municipio":"Municipio","longitud":"-75,792063","latitud":"5,08231"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17777","nom_mpio":"SUPÍA","tipo_municipio":"Municipio","longitud":"-75,64966","latitud":"5,446843"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17867","nom_mpio":"VICTORIA","tipo_municipio":"Municipio","longitud":"-74,911239","latitud":"5,317437"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17873","nom_mpio":"VILLAMARÍA","tipo_municipio":"Municipio","longitud":"-75,502487","latitud":"5,038925"}
+,{"cod_dpto":"17","dpto":"CALDAS","cod_mpio":"17877","nom_mpio":"VITERBO","tipo_municipio":"Municipio","longitud":"-75,87061","latitud":"5,062664"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18001","nom_mpio":"FLORENCIA","tipo_municipio":"Municipio","longitud":"-75,609831","latitud":"1,618196"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18029","nom_mpio":"ALBANIA","tipo_municipio":"Municipio","longitud":"-75,878375","latitud":"1,328526"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18094","nom_mpio":"BELÉN DE LOS ANDAQUÍES","tipo_municipio":"Municipio","longitud":"-75,872405","latitud":"1,415812"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18150","nom_mpio":"CARTAGENA DEL CHAIRÁ","tipo_municipio":"Municipio","longitud":"-74,847867","latitud":"1,332371"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18205","nom_mpio":"CURILLO","tipo_municipio":"Municipio","longitud":"-75,919205","latitud":"1,033473"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18247","nom_mpio":"EL DONCELLO","tipo_municipio":"Municipio","longitud":"-75,283631","latitud":"1,679951"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18256","nom_mpio":"EL PAUJÍL","tipo_municipio":"Municipio","longitud":"-75,326093","latitud":"1,570226"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18410","nom_mpio":"LA MONTAÑITA","tipo_municipio":"Municipio","longitud":"-75,436408","latitud":"1,479173"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18460","nom_mpio":"MILÁN","tipo_municipio":"Municipio","longitud":"-75,506926","latitud":"1,29021"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18479","nom_mpio":"MORELIA","tipo_municipio":"Municipio","longitud":"-75,724146","latitud":"1,486611"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18592","nom_mpio":"PUERTO RICO","tipo_municipio":"Municipio","longitud":"-75,157604","latitud":"1,909063"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18610","nom_mpio":"SAN JOSÉ DEL FRAGUA","tipo_municipio":"Municipio","longitud":"-75,973796","latitud":"1,330266"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18753","nom_mpio":"SAN VICENTE DEL CAGUÁN","tipo_municipio":"Municipio","longitud":"-74,767894","latitud":"2,119413"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18756","nom_mpio":"SOLANO","tipo_municipio":"Municipio","longitud":"-75,253702","latitud":"0,699077"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18785","nom_mpio":"SOLITA","tipo_municipio":"Municipio","longitud":"-75,619902","latitud":"0,87654"}
+,{"cod_dpto":"18","dpto":"CAQUETÁ","cod_mpio":"18860","nom_mpio":"VALPARAÍSO","tipo_municipio":"Municipio","longitud":"-75,70671","latitud":"1,194619"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19001","nom_mpio":"POPAYÁN","tipo_municipio":"Municipio","longitud":"-76,599377","latitud":"2,459641"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19022","nom_mpio":"ALMAGUER","tipo_municipio":"Municipio","longitud":"-76,85607","latitud":"1,913429"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19050","nom_mpio":"ARGELIA","tipo_municipio":"Municipio","longitud":"-77,24905","latitud":"2,257427"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19075","nom_mpio":"BALBOA","tipo_municipio":"Municipio","longitud":"-77,215773","latitud":"2,040998"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19100","nom_mpio":"BOLÍVAR","tipo_municipio":"Municipio","longitud":"-76,966215","latitud":"1,837538"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19110","nom_mpio":"BUENOS AIRES","tipo_municipio":"Municipio","longitud":"-76,642238","latitud":"3,015382"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19130","nom_mpio":"CAJIBÍO","tipo_municipio":"Municipio","longitud":"-76,570682","latitud":"2,623371"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19137","nom_mpio":"CALDONO","tipo_municipio":"Municipio","longitud":"-76,484319","latitud":"2,798059"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19142","nom_mpio":"CALOTO","tipo_municipio":"Municipio","longitud":"-76,408941","latitud":"3,034531"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19212","nom_mpio":"CORINTO","tipo_municipio":"Municipio","longitud":"-76,261866","latitud":"3,173854"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19256","nom_mpio":"EL TAMBO","tipo_municipio":"Municipio","longitud":"-76,810911","latitud":"2,451409"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19290","nom_mpio":"FLORENCIA","tipo_municipio":"Municipio","longitud":"-77,072547","latitud":"1,682535"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19300","nom_mpio":"GUACHENÉ","tipo_municipio":"Municipio","longitud":"-76,392189","latitud":"3,134153"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19318","nom_mpio":"GUAPI","tipo_municipio":"Municipio","longitud":"-77,88797","latitud":"2,571337"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19355","nom_mpio":"INZÁ","tipo_municipio":"Municipio","longitud":"-76,063503","latitud":"2,549183"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19364","nom_mpio":"JAMBALÓ","tipo_municipio":"Municipio","longitud":"-76,323877","latitud":"2,777834"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19392","nom_mpio":"LA SIERRA","tipo_municipio":"Municipio","longitud":"-76,763278","latitud":"2,179383"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19397","nom_mpio":"LA VEGA","tipo_municipio":"Municipio","longitud":"-76,778771","latitud":"2,001803"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19418","nom_mpio":"LÓPEZ DE MICAY","tipo_municipio":"Municipio","longitud":"-77,247803","latitud":"2,846788"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19450","nom_mpio":"MERCADERES","tipo_municipio":"Municipio","longitud":"-77,164319","latitud":"1,789193"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19455","nom_mpio":"MIRANDA","tipo_municipio":"Municipio","longitud":"-76,228722","latitud":"3,254651"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19473","nom_mpio":"MORALES","tipo_municipio":"Municipio","longitud":"-76,629106","latitud":"2,754684"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19513","nom_mpio":"PADILLA","tipo_municipio":"Municipio","longitud":"-76,313265","latitud":"3,220984"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19517","nom_mpio":"PÁEZ","tipo_municipio":"Municipio","longitud":"-75,970685","latitud":"2,645724"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19532","nom_mpio":"PATÍA","tipo_municipio":"Municipio","longitud":"-76,981075","latitud":"2,115875"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19533","nom_mpio":"PIAMONTE","tipo_municipio":"Municipio","longitud":"-76,327588","latitud":"1,11754"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19548","nom_mpio":"PIENDAMÓ - TUNÍA","tipo_municipio":"Municipio","longitud":"-76,528615","latitud":"2,64228"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19573","nom_mpio":"PUERTO TEJADA","tipo_municipio":"Municipio","longitud":"-76,417673","latitud":"3,233254"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19585","nom_mpio":"PURACÉ","tipo_municipio":"Municipio","longitud":"-76,496698","latitud":"2,341507"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19622","nom_mpio":"ROSAS","tipo_municipio":"Municipio","longitud":"-76,740336","latitud":"2,260941"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19693","nom_mpio":"SAN SEBASTIÁN","tipo_municipio":"Municipio","longitud":"-76,769467","latitud":"1,838451"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19698","nom_mpio":"SANTANDER DE QUILICHAO","tipo_municipio":"Municipio","longitud":"-76,485141","latitud":"3,015008"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19701","nom_mpio":"SANTA ROSA","tipo_municipio":"Municipio","longitud":"-76,573252","latitud":"1,700916"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19743","nom_mpio":"SILVIA","tipo_municipio":"Municipio","longitud":"-76,379753","latitud":"2,611927"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19760","nom_mpio":"SOTARÁ - PAISPAMBA","tipo_municipio":"Municipio","longitud":"-76,613365","latitud":"2,253156"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19780","nom_mpio":"SUÁREZ","tipo_municipio":"Municipio","longitud":"-76,69357","latitud":"2,959785"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19785","nom_mpio":"SUCRE","tipo_municipio":"Municipio","longitud":"-76,926279","latitud":"2,038237"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19807","nom_mpio":"TIMBÍO","tipo_municipio":"Municipio","longitud":"-76,684476","latitud":"2,349686"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19809","nom_mpio":"TIMBIQUÍ","tipo_municipio":"Municipio","longitud":"-77,667541","latitud":"2,777312"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19821","nom_mpio":"TORIBÍO","tipo_municipio":"Municipio","longitud":"-76,270284","latitud":"2,953017"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19824","nom_mpio":"TOTORÓ","tipo_municipio":"Municipio","longitud":"-76,403628","latitud":"2,510252"}
+,{"cod_dpto":"19","dpto":"CAUCA","cod_mpio":"19845","nom_mpio":"VILLA RICA","tipo_municipio":"Municipio","longitud":"-76,458025","latitud":"3,17762"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20001","nom_mpio":"VALLEDUPAR","tipo_municipio":"Municipio","longitud":"-73,259398","latitud":"10,460472"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20011","nom_mpio":"AGUACHICA","tipo_municipio":"Municipio","longitud":"-73,614027","latitud":"8,306811"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20013","nom_mpio":"AGUSTÍN CODAZZI","tipo_municipio":"Municipio","longitud":"-73,238389","latitud":"10,040454"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20032","nom_mpio":"ASTREA","tipo_municipio":"Municipio","longitud":"-73,975842","latitud":"9,498062"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20045","nom_mpio":"BECERRIL","tipo_municipio":"Municipio","longitud":"-73,278707","latitud":"9,704404"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20060","nom_mpio":"BOSCONIA","tipo_municipio":"Municipio","longitud":"-73,888761","latitud":"9,975098"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20175","nom_mpio":"CHIMICHAGUA","tipo_municipio":"Municipio","longitud":"-73,813278","latitud":"9,25875"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20178","nom_mpio":"CHIRIGUANÁ","tipo_municipio":"Municipio","longitud":"-73,599913","latitud":"9,361058"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20228","nom_mpio":"CURUMANÍ","tipo_municipio":"Municipio","longitud":"-73,540843","latitud":"9,201716"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20238","nom_mpio":"EL COPEY","tipo_municipio":"Municipio","longitud":"-73,962703","latitud":"10,149883"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20250","nom_mpio":"EL PASO","tipo_municipio":"Municipio","longitud":"-73,742012","latitud":"9,668461"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20295","nom_mpio":"GAMARRA","tipo_municipio":"Municipio","longitud":"-73,737558","latitud":"8,324793"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20310","nom_mpio":"GONZÁLEZ","tipo_municipio":"Municipio","longitud":"-73,38004","latitud":"8,389604"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20383","nom_mpio":"LA GLORIA","tipo_municipio":"Municipio","longitud":"-73,80321","latitud":"8,619298"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20400","nom_mpio":"LA JAGUA DE IBIRICO","tipo_municipio":"Municipio","longitud":"-73,334143","latitud":"9,563752"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20443","nom_mpio":"MANAURE BALCÓN DEL CESAR","tipo_municipio":"Municipio","longitud":"-73,029472","latitud":"10,390776"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20517","nom_mpio":"PAILITAS","tipo_municipio":"Municipio","longitud":"-73,625825","latitud":"8,959399"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20550","nom_mpio":"PELAYA","tipo_municipio":"Municipio","longitud":"-73,666735","latitud":"8,689451"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20570","nom_mpio":"PUEBLO BELLO","tipo_municipio":"Municipio","longitud":"-73,586211","latitud":"10,417321"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20614","nom_mpio":"RÍO DE ORO","tipo_municipio":"Municipio","longitud":"-73,386393","latitud":"8,292292"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20621","nom_mpio":"LA PAZ","tipo_municipio":"Municipio","longitud":"-73,171365","latitud":"10,387552"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20710","nom_mpio":"SAN ALBERTO","tipo_municipio":"Municipio","longitud":"-73,393889","latitud":"7,76111"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20750","nom_mpio":"SAN DIEGO","tipo_municipio":"Municipio","longitud":"-73,181208","latitud":"10,333039"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20770","nom_mpio":"SAN MARTÍN","tipo_municipio":"Municipio","longitud":"-73,510914","latitud":"7,999855"}
+,{"cod_dpto":"20","dpto":"CESAR","cod_mpio":"20787","nom_mpio":"TAMALAMEQUE","tipo_municipio":"Municipio","longitud":"-73,812172","latitud":"8,861725"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23001","nom_mpio":"MONTERÍA","tipo_municipio":"Municipio","longitud":"-75,873096","latitud":"8,759789"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23068","nom_mpio":"AYAPEL","tipo_municipio":"Municipio","longitud":"-75,146048","latitud":"8,313838"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23079","nom_mpio":"BUENAVISTA","tipo_municipio":"Municipio","longitud":"-75,480897","latitud":"8,221187"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23090","nom_mpio":"CANALETE","tipo_municipio":"Municipio","longitud":"-76,241476","latitud":"8,786939"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23162","nom_mpio":"CERETÉ","tipo_municipio":"Municipio","longitud":"-75,796093","latitud":"8,888532"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23168","nom_mpio":"CHIMÁ","tipo_municipio":"Municipio","longitud":"-75,626886","latitud":"9,149698"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23182","nom_mpio":"CHINÚ","tipo_municipio":"Municipio","longitud":"-75,399633","latitud":"9,105473"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23189","nom_mpio":"CIÉNAGA DE ORO","tipo_municipio":"Municipio","longitud":"-75,620807","latitud":"8,875794"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23300","nom_mpio":"COTORRA","tipo_municipio":"Municipio","longitud":"-75,799216","latitud":"9,037163"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23350","nom_mpio":"LA APARTADA","tipo_municipio":"Municipio","longitud":"-75,336031","latitud":"8,050125"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23417","nom_mpio":"LORICA","tipo_municipio":"Municipio","longitud":"-75,816084","latitud":"9,240789"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23419","nom_mpio":"LOS CÓRDOBAS","tipo_municipio":"Municipio","longitud":"-76,35518","latitud":"8,892098"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23464","nom_mpio":"MOMIL","tipo_municipio":"Municipio","longitud":"-75,67796","latitud":"9,240707"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23466","nom_mpio":"MONTELÍBANO","tipo_municipio":"Municipio","longitud":"-75,416818","latitud":"7,973777"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23500","nom_mpio":"MOÑITOS","tipo_municipio":"Municipio","longitud":"-76,1291","latitud":"9,245223"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23555","nom_mpio":"PLANETA RICA","tipo_municipio":"Municipio","longitud":"-75,583241","latitud":"8,4082"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23570","nom_mpio":"PUEBLO NUEVO","tipo_municipio":"Municipio","longitud":"-75,508035","latitud":"8,504099"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23574","nom_mpio":"PUERTO ESCONDIDO","tipo_municipio":"Municipio","longitud":"-76,260411","latitud":"9,005372"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23580","nom_mpio":"PUERTO LIBERTADOR","tipo_municipio":"Municipio","longitud":"-75,671761","latitud":"7,888859"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23586","nom_mpio":"PURÍSIMA DE LA CONCEPCIÓN","tipo_municipio":"Municipio","longitud":"-75,724987","latitud":"9,239295"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23660","nom_mpio":"SAHAGÚN","tipo_municipio":"Municipio","longitud":"-75,445834","latitud":"8,943048"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23670","nom_mpio":"SAN ANDRÉS DE SOTAVENTO","tipo_municipio":"Municipio","longitud":"-75,50879","latitud":"9,145448"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23672","nom_mpio":"SAN ANTERO","tipo_municipio":"Municipio","longitud":"-75,76112","latitud":"9,376434"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23675","nom_mpio":"SAN BERNARDO DEL VIENTO","tipo_municipio":"Municipio","longitud":"-75,955107","latitud":"9,35247"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23678","nom_mpio":"SAN CARLOS","tipo_municipio":"Municipio","longitud":"-75,698799","latitud":"8,799282"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23682","nom_mpio":"SAN JOSÉ DE URÉ","tipo_municipio":"Municipio","longitud":"-75,533476","latitud":"7,787303"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23686","nom_mpio":"SAN PELAYO","tipo_municipio":"Municipio","longitud":"-75,835615","latitud":"8,958436"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23807","nom_mpio":"TIERRALTA","tipo_municipio":"Municipio","longitud":"-76,059797","latitud":"8,170612"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23815","nom_mpio":"TUCHÍN","tipo_municipio":"Municipio","longitud":"-75,553962","latitud":"9,186625"}
+,{"cod_dpto":"23","dpto":"CÓRDOBA","cod_mpio":"23855","nom_mpio":"VALENCIA","tipo_municipio":"Municipio","longitud":"-76,150756","latitud":"8,255016"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25001","nom_mpio":"AGUA DE DIOS","tipo_municipio":"Municipio","longitud":"-74,669221","latitud":"4,375309"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25019","nom_mpio":"ALBÁN","tipo_municipio":"Municipio","longitud":"-74,438261","latitud":"4,878022"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25035","nom_mpio":"ANAPOIMA","tipo_municipio":"Municipio","longitud":"-74,528676","latitud":"4,562737"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25040","nom_mpio":"ANOLAIMA","tipo_municipio":"Municipio","longitud":"-74,46384","latitud":"4,7617"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25053","nom_mpio":"ARBELÁEZ","tipo_municipio":"Municipio","longitud":"-74,414901","latitud":"4,272534"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25086","nom_mpio":"BELTRÁN","tipo_municipio":"Municipio","longitud":"-74,741666","latitud":"4,802832"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25095","nom_mpio":"BITUIMA","tipo_municipio":"Municipio","longitud":"-74,539609","latitud":"4,872171"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25099","nom_mpio":"BOJACÁ","tipo_municipio":"Municipio","longitud":"-74,344594","latitud":"4,737205"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25120","nom_mpio":"CABRERA","tipo_municipio":"Municipio","longitud":"-74,484549","latitud":"3,985164"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25123","nom_mpio":"CACHIPAY","tipo_municipio":"Municipio","longitud":"-74,435711","latitud":"4,730957"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25126","nom_mpio":"CAJICÁ","tipo_municipio":"Municipio","longitud":"-74,02298","latitud":"4,920009"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25148","nom_mpio":"CAPARRAPÍ","tipo_municipio":"Municipio","longitud":"-74,491045","latitud":"5,34758"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25151","nom_mpio":"CÁQUEZA","tipo_municipio":"Municipio","longitud":"-73,946473","latitud":"4,404112"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25154","nom_mpio":"CARMEN DE CARUPA","tipo_municipio":"Municipio","longitud":"-73,901357","latitud":"5,349119"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25168","nom_mpio":"CHAGUANÍ","tipo_municipio":"Municipio","longitud":"-74,593455","latitud":"4,948916"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25175","nom_mpio":"CHÍA","tipo_municipio":"Municipio","longitud":"-74,05","latitud":"4,866508"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25178","nom_mpio":"CHIPAQUE","tipo_municipio":"Municipio","longitud":"-74,044876","latitud":"4,442671"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25181","nom_mpio":"CHOACHÍ","tipo_municipio":"Municipio","longitud":"-73,922894","latitud":"4,527048"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25183","nom_mpio":"CHOCONTÁ","tipo_municipio":"Municipio","longitud":"-73,683533","latitud":"5,145224"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25200","nom_mpio":"COGUA","tipo_municipio":"Municipio","longitud":"-73,978497","latitud":"5,061842"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25214","nom_mpio":"COTA","tipo_municipio":"Municipio","longitud":"-74,102569","latitud":"4,812564"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25224","nom_mpio":"CUCUNUBÁ","tipo_municipio":"Municipio","longitud":"-73,766113","latitud":"5,249795"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25245","nom_mpio":"EL COLEGIO","tipo_municipio":"Municipio","longitud":"-74,442261","latitud":"4,577951"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25258","nom_mpio":"EL PEÑÓN","tipo_municipio":"Municipio","longitud":"-74,290207","latitud":"5,248747"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25260","nom_mpio":"EL ROSAL","tipo_municipio":"Municipio","longitud":"-74,263103","latitud":"4,850589"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25269","nom_mpio":"FACATATIVÁ","tipo_municipio":"Municipio","longitud":"-74,350085","latitud":"4,813353"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25279","nom_mpio":"FÓMEQUE","tipo_municipio":"Municipio","longitud":"-73,892523","latitud":"4,485474"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25281","nom_mpio":"FOSCA","tipo_municipio":"Municipio","longitud":"-73,93902","latitud":"4,339093"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25286","nom_mpio":"FUNZA","tipo_municipio":"Municipio","longitud":"-74,201528","latitud":"4,710412"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25288","nom_mpio":"FÚQUENE","tipo_municipio":"Municipio","longitud":"-73,795855","latitud":"5,403997"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25290","nom_mpio":"FUSAGASUGÁ","tipo_municipio":"Municipio","longitud":"-74,37543","latitud":"4,336723"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25293","nom_mpio":"GACHALÁ","tipo_municipio":"Municipio","longitud":"-73,520161","latitud":"4,693579"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25295","nom_mpio":"GACHANCIPÁ","tipo_municipio":"Municipio","longitud":"-73,873464","latitud":"4,990947"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25297","nom_mpio":"GACHETÁ","tipo_municipio":"Municipio","longitud":"-73,636377","latitud":"4,816411"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25299","nom_mpio":"GAMA","tipo_municipio":"Municipio","longitud":"-73,611037","latitud":"4,763325"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25307","nom_mpio":"GIRARDOT","tipo_municipio":"Municipio","longitud":"-74,798201","latitud":"4,313069"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25312","nom_mpio":"GRANADA","tipo_municipio":"Municipio","longitud":"-74,350766","latitud":"4,519763"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25317","nom_mpio":"GUACHETÁ","tipo_municipio":"Municipio","longitud":"-73,686972","latitud":"5,383378"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25320","nom_mpio":"GUADUAS","tipo_municipio":"Municipio","longitud":"-74,603402","latitud":"5,072076"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25322","nom_mpio":"GUASCA","tipo_municipio":"Municipio","longitud":"-73,877143","latitud":"4,866719"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25324","nom_mpio":"GUATAQUÍ","tipo_municipio":"Municipio","longitud":"-74,790058","latitud":"4,517517"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25326","nom_mpio":"GUATAVITA","tipo_municipio":"Municipio","longitud":"-73,83293","latitud":"4,935211"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25328","nom_mpio":"GUAYABAL DE SÍQUIMA","tipo_municipio":"Municipio","longitud":"-74,467437","latitud":"4,877968"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25335","nom_mpio":"GUAYABETAL","tipo_municipio":"Municipio","longitud":"-73,815107","latitud":"4,215306"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25339","nom_mpio":"GUTIÉRREZ","tipo_municipio":"Municipio","longitud":"-74,003042","latitud":"4,254679"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25368","nom_mpio":"JERUSALÉN","tipo_municipio":"Municipio","longitud":"-74,695474","latitud":"4,562273"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25372","nom_mpio":"JUNÍN","tipo_municipio":"Municipio","longitud":"-73,662961","latitud":"4,79057"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25377","nom_mpio":"LA CALERA","tipo_municipio":"Municipio","longitud":"-73,968161","latitud":"4,721104"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25386","nom_mpio":"LA MESA","tipo_municipio":"Municipio","longitud":"-74,461588","latitud":"4,631028"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25394","nom_mpio":"LA PALMA","tipo_municipio":"Municipio","longitud":"-74,391022","latitud":"5,358816"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25398","nom_mpio":"LA PEÑA","tipo_municipio":"Municipio","longitud":"-74,394105","latitud":"5,198945"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25402","nom_mpio":"LA VEGA","tipo_municipio":"Municipio","longitud":"-74,336885","latitud":"4,997768"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25407","nom_mpio":"LENGUAZAQUE","tipo_municipio":"Municipio","longitud":"-73,711512","latitud":"5,306131"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25426","nom_mpio":"MACHETÁ","tipo_municipio":"Municipio","longitud":"-73,608226","latitud":"5,08007"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25430","nom_mpio":"MADRID","tipo_municipio":"Municipio","longitud":"-74,265854","latitud":"4,732791"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25436","nom_mpio":"MANTA","tipo_municipio":"Municipio","longitud":"-73,540444","latitud":"5,009008"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25438","nom_mpio":"MEDINA","tipo_municipio":"Municipio","longitud":"-73,348449","latitud":"4,506298"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25473","nom_mpio":"MOSQUERA","tipo_municipio":"Municipio","longitud":"-74,221154","latitud":"4,70653"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25483","nom_mpio":"NARIÑO","tipo_municipio":"Municipio","longitud":"-74,824732","latitud":"4,399837"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25486","nom_mpio":"NEMOCÓN","tipo_municipio":"Municipio","longitud":"-73,877888","latitud":"5,068705"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25488","nom_mpio":"NILO","tipo_municipio":"Municipio","longitud":"-74,620009","latitud":"4,305838"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25489","nom_mpio":"NIMAIMA","tipo_municipio":"Municipio","longitud":"-74,38604","latitud":"5,125992"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25491","nom_mpio":"NOCAIMA","tipo_municipio":"Municipio","longitud":"-74,379093","latitud":"5,069466"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25506","nom_mpio":"VENECIA","tipo_municipio":"Municipio","longitud":"-74,478301","latitud":"4,089056"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25513","nom_mpio":"PACHO","tipo_municipio":"Municipio","longitud":"-74,156132","latitud":"5,136907"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25518","nom_mpio":"PAIME","tipo_municipio":"Municipio","longitud":"-74,152213","latitud":"5,370487"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25524","nom_mpio":"PANDI","tipo_municipio":"Municipio","longitud":"-74,486641","latitud":"4,190393"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25530","nom_mpio":"PARATEBUENO","tipo_municipio":"Municipio","longitud":"-73,212825","latitud":"4,374832"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25535","nom_mpio":"PASCA","tipo_municipio":"Municipio","longitud":"-74,302276","latitud":"4,308979"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25572","nom_mpio":"PUERTO SALGAR","tipo_municipio":"Municipio","longitud":"-74,653695","latitud":"5,465413"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25580","nom_mpio":"PULÍ","tipo_municipio":"Municipio","longitud":"-74,71438","latitud":"4,682022"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25592","nom_mpio":"QUEBRADANEGRA","tipo_municipio":"Municipio","longitud":"-74,48014","latitud":"5,118076"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25594","nom_mpio":"QUETAME","tipo_municipio":"Municipio","longitud":"-73,863214","latitud":"4,329884"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25596","nom_mpio":"QUIPILE","tipo_municipio":"Municipio","longitud":"-74,533705","latitud":"4,74481"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25599","nom_mpio":"APULO","tipo_municipio":"Municipio","longitud":"-74,593926","latitud":"4,520304"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25612","nom_mpio":"RICAURTE","tipo_municipio":"Municipio","longitud":"-74,772861","latitud":"4,282113"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25645","nom_mpio":"SAN ANTONIO DEL TEQUENDAMA","tipo_municipio":"Municipio","longitud":"-74,351443","latitud":"4,616138"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25649","nom_mpio":"SAN BERNARDO","tipo_municipio":"Municipio","longitud":"-74,42296","latitud":"4,179433"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25653","nom_mpio":"SAN CAYETANO","tipo_municipio":"Municipio","longitud":"-74,024754","latitud":"5,332938"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25658","nom_mpio":"SAN FRANCISCO","tipo_municipio":"Municipio","longitud":"-74,289672","latitud":"4,972917"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25662","nom_mpio":"SAN JUAN DE RIOSECO","tipo_municipio":"Municipio","longitud":"-74,621919","latitud":"4,847575"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25718","nom_mpio":"SASAIMA","tipo_municipio":"Municipio","longitud":"-74,432628","latitud":"4,962167"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25736","nom_mpio":"SESQUILÉ","tipo_municipio":"Municipio","longitud":"-73,796099","latitud":"5,04476"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25740","nom_mpio":"SIBATÉ","tipo_municipio":"Municipio","longitud":"-74,257874","latitud":"4,492625"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25743","nom_mpio":"SILVANIA","tipo_municipio":"Municipio","longitud":"-74,405534","latitud":"4,381981"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25745","nom_mpio":"SIMIJACA","tipo_municipio":"Municipio","longitud":"-73,850703","latitud":"5,505231"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25754","nom_mpio":"SOACHA","tipo_municipio":"Municipio","longitud":"-74,215463","latitud":"4,579268"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25758","nom_mpio":"SOPÓ","tipo_municipio":"Municipio","longitud":"-73,943328","latitud":"4,915395"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25769","nom_mpio":"SUBACHOQUE","tipo_municipio":"Municipio","longitud":"-74,172773","latitud":"4,929118"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25772","nom_mpio":"SUESCA","tipo_municipio":"Municipio","longitud":"-73,798227","latitud":"5,103495"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25777","nom_mpio":"SUPATÁ","tipo_municipio":"Municipio","longitud":"-74,235403","latitud":"5,06162"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25779","nom_mpio":"SUSA","tipo_municipio":"Municipio","longitud":"-73,813938","latitud":"5,455291"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25781","nom_mpio":"SUTATAUSA","tipo_municipio":"Municipio","longitud":"-73,853159","latitud":"5,247482"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25785","nom_mpio":"TABIO","tipo_municipio":"Municipio","longitud":"-74,096461","latitud":"4,916832"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25793","nom_mpio":"TAUSA","tipo_municipio":"Municipio","longitud":"-73,887813","latitud":"5,196333"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25797","nom_mpio":"TENA","tipo_municipio":"Municipio","longitud":"-74,389193","latitud":"4,655286"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25799","nom_mpio":"TENJO","tipo_municipio":"Municipio","longitud":"-74,143724","latitud":"4,872014"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25805","nom_mpio":"TIBACUY","tipo_municipio":"Municipio","longitud":"-74,452662","latitud":"4,348605"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25807","nom_mpio":"TIBIRITA","tipo_municipio":"Municipio","longitud":"-73,504514","latitud":"5,052278"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25815","nom_mpio":"TOCAIMA","tipo_municipio":"Municipio","longitud":"-74,636296","latitud":"4,459279"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25817","nom_mpio":"TOCANCIPÁ","tipo_municipio":"Municipio","longitud":"-73,91207","latitud":"4,964641"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25823","nom_mpio":"TOPAIPÍ","tipo_municipio":"Municipio","longitud":"-74,300626","latitud":"5,336224"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25839","nom_mpio":"UBALÁ","tipo_municipio":"Municipio","longitud":"-73,531489","latitud":"4,74762"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25841","nom_mpio":"UBAQUE","tipo_municipio":"Municipio","longitud":"-73,933477","latitud":"4,483788"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25843","nom_mpio":"VILLA DE SAN DIEGO DE UBATÉ","tipo_municipio":"Municipio","longitud":"-73,814367","latitud":"5,307463"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25845","nom_mpio":"UNE","tipo_municipio":"Municipio","longitud":"-74,025183","latitud":"4,40245"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25851","nom_mpio":"ÚTICA","tipo_municipio":"Municipio","longitud":"-74,483154","latitud":"5,19055"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25862","nom_mpio":"VERGARA","tipo_municipio":"Municipio","longitud":"-74,346163","latitud":"5,117258"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25867","nom_mpio":"VIANÍ","tipo_municipio":"Municipio","longitud":"-74,56132","latitud":"4,875208"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25871","nom_mpio":"VILLAGÓMEZ","tipo_municipio":"Municipio","longitud":"-74,195145","latitud":"5,273024"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25873","nom_mpio":"VILLAPINZÓN","tipo_municipio":"Municipio","longitud":"-73,595704","latitud":"5,216393"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25875","nom_mpio":"VILLETA","tipo_municipio":"Municipio","longitud":"-74,469686","latitud":"5,012754"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25878","nom_mpio":"VIOTÁ","tipo_municipio":"Municipio","longitud":"-74,523131","latitud":"4,43935"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25885","nom_mpio":"YACOPÍ","tipo_municipio":"Municipio","longitud":"-74,33806","latitud":"5,459272"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25898","nom_mpio":"ZIPACÓN","tipo_municipio":"Municipio","longitud":"-74,379566","latitud":"4,759932"}
+,{"cod_dpto":"25","dpto":"CUNDINAMARCA","cod_mpio":"25899","nom_mpio":"ZIPAQUIRÁ","tipo_municipio":"Municipio","longitud":"-73,994444","latitud":"5,025477"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27001","nom_mpio":"QUIBDÓ","tipo_municipio":"Municipio","longitud":"-76,638144","latitud":"5,682166"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27006","nom_mpio":"ACANDÍ","tipo_municipio":"Municipio","longitud":"-77,279951","latitud":"8,512178"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27025","nom_mpio":"ALTO BAUDÓ","tipo_municipio":"Municipio","longitud":"-76,974373","latitud":"5,516221"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27050","nom_mpio":"ATRATO","tipo_municipio":"Municipio","longitud":"-76,635674","latitud":"5,531419"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27073","nom_mpio":"BAGADÓ","tipo_municipio":"Municipio","longitud":"-76,416063","latitud":"5,409681"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27075","nom_mpio":"BAHÍA SOLANO","tipo_municipio":"Municipio","longitud":"-77,401359","latitud":"6,222807"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27077","nom_mpio":"BAJO BAUDÓ","tipo_municipio":"Municipio","longitud":"-77,365717","latitud":"4,954576"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27099","nom_mpio":"BOJAYÁ","tipo_municipio":"Municipio","longitud":"-76,886773","latitud":"6,559708"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27135","nom_mpio":"EL CANTÓN DEL SAN PABLO","tipo_municipio":"Municipio","longitud":"-76,726844","latitud":"5,335321"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27150","nom_mpio":"CARMEN DEL DARIÉN","tipo_municipio":"Municipio","longitud":"-76,970798","latitud":"7,158294"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27160","nom_mpio":"CÉRTEGUI","tipo_municipio":"Municipio","longitud":"-76,607619","latitud":"5,371373"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27205","nom_mpio":"CONDOTO","tipo_municipio":"Municipio","longitud":"-76,650683","latitud":"5,091003"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27245","nom_mpio":"EL CARMEN DE ATRATO","tipo_municipio":"Municipio","longitud":"-76,142112","latitud":"5,899789"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27250","nom_mpio":"EL LITORAL DEL SAN JUAN","tipo_municipio":"Municipio","longitud":"-77,363702","latitud":"4,259564"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27361","nom_mpio":"ISTMINA","tipo_municipio":"Municipio","longitud":"-76,68518","latitud":"5,153946"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27372","nom_mpio":"JURADÓ","tipo_municipio":"Municipio","longitud":"-77,762751","latitud":"7,103619"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27413","nom_mpio":"LLORÓ","tipo_municipio":"Municipio","longitud":"-76,545147","latitud":"5,49789"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27425","nom_mpio":"MEDIO ATRATO","tipo_municipio":"Municipio","longitud":"-76,783042","latitud":"5,994935"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27430","nom_mpio":"MEDIO BAUDÓ","tipo_municipio":"Municipio","longitud":"-76,950891","latitud":"5,192471"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27450","nom_mpio":"MEDIO SAN JUAN","tipo_municipio":"Municipio","longitud":"-76,694409","latitud":"5,098291"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27491","nom_mpio":"NÓVITA","tipo_municipio":"Municipio","longitud":"-76,609467","latitud":"4,956063"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27493","nom_mpio":"NUEVO BELÉN DE BAJIRÁ","tipo_municipio":"Municipio","longitud":"-76,71727","latitud":"7,3719"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27495","nom_mpio":"NUQUÍ","tipo_municipio":"Municipio","longitud":"-77,265507","latitud":"5,709812"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27580","nom_mpio":"RÍO IRÓ","tipo_municipio":"Municipio","longitud":"-76,472925","latitud":"5,1863"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27600","nom_mpio":"RÍO QUITO","tipo_municipio":"Municipio","longitud":"-76,740684","latitud":"5,483667"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27615","nom_mpio":"RIOSUCIO","tipo_municipio":"Municipio","longitud":"-77,113156","latitud":"7,436704"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27660","nom_mpio":"SAN JOSÉ DEL PALMAR","tipo_municipio":"Municipio","longitud":"-76,234227","latitud":"4,896954"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27745","nom_mpio":"SIPÍ","tipo_municipio":"Municipio","longitud":"-76,643453","latitud":"4,65262"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27787","nom_mpio":"TADÓ","tipo_municipio":"Municipio","longitud":"-76,558571","latitud":"5,264873"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27800","nom_mpio":"UNGUÍA","tipo_municipio":"Municipio","longitud":"-77,092538","latitud":"8,04406"}
+,{"cod_dpto":"27","dpto":"CHOCÓ","cod_mpio":"27810","nom_mpio":"UNIÓN PANAMERICANA","tipo_municipio":"Municipio","longitud":"-76,630143","latitud":"5,281108"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41001","nom_mpio":"NEIVA","tipo_municipio":"Municipio","longitud":"-75,277327","latitud":"2,935432"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41006","nom_mpio":"ACEVEDO","tipo_municipio":"Municipio","longitud":"-75,888706","latitud":"1,805173"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41013","nom_mpio":"AGRADO","tipo_municipio":"Municipio","longitud":"-75,772022","latitud":"2,25987"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41016","nom_mpio":"AIPE","tipo_municipio":"Municipio","longitud":"-75,239017","latitud":"3,223996"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41020","nom_mpio":"ALGECIRAS","tipo_municipio":"Municipio","longitud":"-75,315389","latitud":"2,521674"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41026","nom_mpio":"ALTAMIRA","tipo_municipio":"Municipio","longitud":"-75,788471","latitud":"2,063841"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41078","nom_mpio":"BARAYA","tipo_municipio":"Municipio","longitud":"-75,054843","latitud":"3,152204"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41132","nom_mpio":"CAMPOALEGRE","tipo_municipio":"Municipio","longitud":"-75,325748","latitud":"2,686767"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41206","nom_mpio":"COLOMBIA","tipo_municipio":"Municipio","longitud":"-74,802815","latitud":"3,376745"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41244","nom_mpio":"ELÍAS","tipo_municipio":"Municipio","longitud":"-75,938301","latitud":"2,012854"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41298","nom_mpio":"GARZÓN","tipo_municipio":"Municipio","longitud":"-75,627057","latitud":"2,196493"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41306","nom_mpio":"GIGANTE","tipo_municipio":"Municipio","longitud":"-75,547681","latitud":"2,384031"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41319","nom_mpio":"GUADALUPE","tipo_municipio":"Municipio","longitud":"-75,757185","latitud":"2,02426"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41349","nom_mpio":"HOBO","tipo_municipio":"Municipio","longitud":"-75,447697","latitud":"2,580812"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41357","nom_mpio":"ÍQUIRA","tipo_municipio":"Municipio","longitud":"-75,634497","latitud":"2,649359"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41359","nom_mpio":"ISNOS","tipo_municipio":"Municipio","longitud":"-76,217637","latitud":"1,929467"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41378","nom_mpio":"LA ARGENTINA","tipo_municipio":"Municipio","longitud":"-75,979763","latitud":"2,198496"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41396","nom_mpio":"LA PLATA","tipo_municipio":"Municipio","longitud":"-75,891254","latitud":"2,389263"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41483","nom_mpio":"NÁTAGA","tipo_municipio":"Municipio","longitud":"-75,808756","latitud":"2,5451"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41503","nom_mpio":"OPORAPA","tipo_municipio":"Municipio","longitud":"-75,995165","latitud":"2,025088"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41518","nom_mpio":"PAICOL","tipo_municipio":"Municipio","longitud":"-75,773158","latitud":"2,449651"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41524","nom_mpio":"PALERMO","tipo_municipio":"Municipio","longitud":"-75,435296","latitud":"2,889649"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41530","nom_mpio":"PALESTINA","tipo_municipio":"Municipio","longitud":"-76,133251","latitud":"1,723725"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41548","nom_mpio":"PITAL","tipo_municipio":"Municipio","longitud":"-75,804544","latitud":"2,266618"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41551","nom_mpio":"PITALITO","tipo_municipio":"Municipio","longitud":"-76,049441","latitud":"1,852631"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41615","nom_mpio":"RIVERA","tipo_municipio":"Municipio","longitud":"-75,258753","latitud":"2,777586"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41660","nom_mpio":"SALADOBLANCO","tipo_municipio":"Municipio","longitud":"-76,044747","latitud":"1,9934"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41668","nom_mpio":"SAN AGUSTÍN","tipo_municipio":"Municipio","longitud":"-76,27036","latitud":"1,881081"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41676","nom_mpio":"SANTA MARÍA","tipo_municipio":"Municipio","longitud":"-75,586223","latitud":"2,939603"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41770","nom_mpio":"SUAZA","tipo_municipio":"Municipio","longitud":"-75,79525","latitud":"1,976051"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41791","nom_mpio":"TARQUI","tipo_municipio":"Municipio","longitud":"-75,823976","latitud":"2,111325"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41797","nom_mpio":"TESALIA","tipo_municipio":"Municipio","longitud":"-75,730271","latitud":"2,486364"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41799","nom_mpio":"TELLO","tipo_municipio":"Municipio","longitud":"-75,138773","latitud":"3,067538"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41801","nom_mpio":"TERUEL","tipo_municipio":"Municipio","longitud":"-75,567034","latitud":"2,740968"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41807","nom_mpio":"TIMANÁ","tipo_municipio":"Municipio","longitud":"-75,932167","latitud":"1,974539"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41872","nom_mpio":"VILLAVIEJA","tipo_municipio":"Municipio","longitud":"-75,217174","latitud":"3,218822"}
+,{"cod_dpto":"41","dpto":"HUILA","cod_mpio":"41885","nom_mpio":"YAGUARÁ","tipo_municipio":"Municipio","longitud":"-75,518023","latitud":"2,664694"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44001","nom_mpio":"RIOHACHA","tipo_municipio":"Municipio","longitud":"-72,911795","latitud":"11,528588"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44035","nom_mpio":"ALBANIA","tipo_municipio":"Municipio","longitud":"-72,61232","latitud":"11,151628"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44078","nom_mpio":"BARRANCAS","tipo_municipio":"Municipio","longitud":"-72,793639","latitud":"10,958669"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44090","nom_mpio":"DIBULLA","tipo_municipio":"Municipio","longitud":"-73,307598","latitud":"11,27155"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44098","nom_mpio":"DISTRACCIÓN","tipo_municipio":"Municipio","longitud":"-72,887405","latitud":"10,898414"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44110","nom_mpio":"EL MOLINO","tipo_municipio":"Municipio","longitud":"-72,92673","latitud":"10,653505"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44279","nom_mpio":"FONSECA","tipo_municipio":"Municipio","longitud":"-72,846319","latitud":"10,886734"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44378","nom_mpio":"HATONUEVO","tipo_municipio":"Municipio","longitud":"-72,75904","latitud":"11,068864"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44420","nom_mpio":"LA JAGUA DEL PILAR","tipo_municipio":"Municipio","longitud":"-73,072638","latitud":"10,511862"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44430","nom_mpio":"MAICAO","tipo_municipio":"Municipio","longitud":"-72,242738","latitud":"11,378535"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44560","nom_mpio":"MANAURE","tipo_municipio":"Municipio","longitud":"-72,438739","latitud":"11,773767"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44650","nom_mpio":"SAN JUAN DEL CESAR","tipo_municipio":"Municipio","longitud":"-73,000629","latitud":"10,769546"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44847","nom_mpio":"URIBIA","tipo_municipio":"Municipio","longitud":"-72,265906","latitud":"11,711904"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44855","nom_mpio":"URUMITA","tipo_municipio":"Municipio","longitud":"-73,012507","latitud":"10,560169"}
+,{"cod_dpto":"44","dpto":"LA GUAJIRA","cod_mpio":"44874","nom_mpio":"VILLANUEVA","tipo_municipio":"Municipio","longitud":"-72,977583","latitud":"10,608774"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47001","nom_mpio":"SANTA MARTA","tipo_municipio":"Municipio","longitud":"-74,199829","latitud":"11,204679"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47030","nom_mpio":"ALGARROBO","tipo_municipio":"Municipio","longitud":"-74,061132","latitud":"10,188059"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47053","nom_mpio":"ARACATACA","tipo_municipio":"Municipio","longitud":"-74,186702","latitud":"10,589791"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47058","nom_mpio":"ARIGUANÍ","tipo_municipio":"Municipio","longitud":"-74,236515","latitud":"9,847047"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47161","nom_mpio":"CERRO DE SAN ANTONIO","tipo_municipio":"Municipio","longitud":"-74,868474","latitud":"10,325531"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47170","nom_mpio":"CHIVOLO","tipo_municipio":"Municipio","longitud":"-74,622242","latitud":"10,026631"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47189","nom_mpio":"CIÉNAGA","tipo_municipio":"Municipio","longitud":"-74,241286","latitud":"11,006654"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47205","nom_mpio":"CONCORDIA","tipo_municipio":"Municipio","longitud":"-74,83303","latitud":"10,257314"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47245","nom_mpio":"EL BANCO","tipo_municipio":"Municipio","longitud":"-73,97437","latitud":"9,008503"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47258","nom_mpio":"EL PIÑÓN","tipo_municipio":"Municipio","longitud":"-74,823094","latitud":"10,402781"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47268","nom_mpio":"EL RETÉN","tipo_municipio":"Municipio","longitud":"-74,268444","latitud":"10,610488"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47288","nom_mpio":"FUNDACIÓN","tipo_municipio":"Municipio","longitud":"-74,191453","latitud":"10,514146"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47318","nom_mpio":"GUAMAL","tipo_municipio":"Municipio","longitud":"-74,223689","latitud":"9,144354"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47460","nom_mpio":"NUEVA GRANADA","tipo_municipio":"Municipio","longitud":"-74,391841","latitud":"9,80186"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47541","nom_mpio":"PEDRAZA","tipo_municipio":"Municipio","longitud":"-74,9154","latitud":"10,18825"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47545","nom_mpio":"PIJIÑO DEL CARMEN","tipo_municipio":"Municipio","longitud":"-74,459034","latitud":"9,331922"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47551","nom_mpio":"PIVIJAY","tipo_municipio":"Municipio","longitud":"-74,613312","latitud":"10,460707"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47555","nom_mpio":"PLATO","tipo_municipio":"Municipio","longitud":"-74,784549","latitud":"9,796713"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47570","nom_mpio":"PUEBLOVIEJO","tipo_municipio":"Municipio","longitud":"-74,28253","latitud":"10,994766"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47605","nom_mpio":"REMOLINO","tipo_municipio":"Municipio","longitud":"-74,716172","latitud":"10,701952"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47660","nom_mpio":"SABANAS DE SAN ÁNGEL","tipo_municipio":"Municipio","longitud":"-74,213946","latitud":"10,032536"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47675","nom_mpio":"SALAMINA","tipo_municipio":"Municipio","longitud":"-74,794189","latitud":"10,491229"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47692","nom_mpio":"SAN SEBASTIÁN DE BUENAVISTA","tipo_municipio":"Municipio","longitud":"-74,351498","latitud":"9,241656"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47703","nom_mpio":"SAN ZENÓN","tipo_municipio":"Municipio","longitud":"-74,498992","latitud":"9,245061"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47707","nom_mpio":"SANTA ANA","tipo_municipio":"Municipio","longitud":"-74,566845","latitud":"9,324294"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47720","nom_mpio":"SANTA BÁRBARA DE PINTO","tipo_municipio":"Municipio","longitud":"-74,704667","latitud":"9,432263"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47745","nom_mpio":"SITIONUEVO","tipo_municipio":"Municipio","longitud":"-74,720021","latitud":"10,775285"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47798","nom_mpio":"TENERIFE","tipo_municipio":"Municipio","longitud":"-74,859783","latitud":"9,898273"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47960","nom_mpio":"ZAPAYÁN","tipo_municipio":"Municipio","longitud":"-74,716878","latitud":"10,168297"}
+,{"cod_dpto":"47","dpto":"MAGDALENA","cod_mpio":"47980","nom_mpio":"ZONA BANANERA","tipo_municipio":"Municipio","longitud":"-74,140091","latitud":"10,763024"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50001","nom_mpio":"VILLAVICENCIO","tipo_municipio":"Municipio","longitud":"-73,622601","latitud":"4,126369"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50006","nom_mpio":"ACACÍAS","tipo_municipio":"Municipio","longitud":"-73,766034","latitud":"3,990413"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50110","nom_mpio":"BARRANCA DE UPÍA","tipo_municipio":"Municipio","longitud":"-72,961083","latitud":"4,566225"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50124","nom_mpio":"CABUYARO","tipo_municipio":"Municipio","longitud":"-72,791768","latitud":"4,286705"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50150","nom_mpio":"CASTILLA LA NUEVA","tipo_municipio":"Municipio","longitud":"-73,687302","latitud":"3,830005"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50223","nom_mpio":"CUBARRAL","tipo_municipio":"Municipio","longitud":"-73,837999","latitud":"3,793653"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50226","nom_mpio":"CUMARAL","tipo_municipio":"Municipio","longitud":"-73,487052","latitud":"4,270042"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50245","nom_mpio":"EL CALVARIO","tipo_municipio":"Municipio","longitud":"-73,713325","latitud":"4,352665"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50251","nom_mpio":"EL CASTILLO","tipo_municipio":"Municipio","longitud":"-73,794225","latitud":"3,563907"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50270","nom_mpio":"EL DORADO","tipo_municipio":"Municipio","longitud":"-73,835264","latitud":"3,739984"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50287","nom_mpio":"FUENTE DE ORO","tipo_municipio":"Municipio","longitud":"-73,618121","latitud":"3,462875"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50313","nom_mpio":"GRANADA","tipo_municipio":"Municipio","longitud":"-73,705815","latitud":"3,547147"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50318","nom_mpio":"GUAMAL","tipo_municipio":"Municipio","longitud":"-73,768815","latitud":"3,879657"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50325","nom_mpio":"MAPIRIPÁN","tipo_municipio":"Municipio","longitud":"-72,135509","latitud":"2,896617"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50330","nom_mpio":"MESETAS","tipo_municipio":"Municipio","longitud":"-74,044328","latitud":"3,382732"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50350","nom_mpio":"LA MACARENA","tipo_municipio":"Municipio","longitud":"-73,78661","latitud":"2,177143"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50370","nom_mpio":"URIBE","tipo_municipio":"Municipio","longitud":"-74,351508","latitud":"3,239634"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50400","nom_mpio":"LEJANÍAS","tipo_municipio":"Municipio","longitud":"-74,023514","latitud":"3,525115"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50450","nom_mpio":"PUERTO CONCORDIA","tipo_municipio":"Municipio","longitud":"-72,760209","latitud":"2,624006"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50568","nom_mpio":"PUERTO GAITÁN","tipo_municipio":"Municipio","longitud":"-72,087649","latitud":"4,314905"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50573","nom_mpio":"PUERTO LÓPEZ","tipo_municipio":"Municipio","longitud":"-72,957324","latitud":"4,09349"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50577","nom_mpio":"PUERTO LLERAS","tipo_municipio":"Municipio","longitud":"-73,37385","latitud":"3,272117"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50590","nom_mpio":"PUERTO RICO","tipo_municipio":"Municipio","longitud":"-73,206314","latitud":"2,939621"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50606","nom_mpio":"RESTREPO","tipo_municipio":"Municipio","longitud":"-73,565408","latitud":"4,259556"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50680","nom_mpio":"SAN CARLOS DE GUAROA","tipo_municipio":"Municipio","longitud":"-73,242253","latitud":"3,71065"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50683","nom_mpio":"SAN JUAN DE ARAMA","tipo_municipio":"Municipio","longitud":"-73,875832","latitud":"3,373728"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50686","nom_mpio":"SAN JUANITO","tipo_municipio":"Municipio","longitud":"-73,676699","latitud":"4,458181"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50689","nom_mpio":"SAN MARTÍN","tipo_municipio":"Municipio","longitud":"-73,695812","latitud":"3,701899"}
+,{"cod_dpto":"50","dpto":"META","cod_mpio":"50711","nom_mpio":"VISTAHERMOSA","tipo_municipio":"Municipio","longitud":"-73,750966","latitud":"3,125579"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52001","nom_mpio":"PASTO","tipo_municipio":"Municipio","longitud":"-77,278795","latitud":"1,212352"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52019","nom_mpio":"ALBÁN","tipo_municipio":"Municipio","longitud":"-77,080712","latitud":"1,474978"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52022","nom_mpio":"ALDANA","tipo_municipio":"Municipio","longitud":"-77,700564","latitud":"0,882381"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52036","nom_mpio":"ANCUYA","tipo_municipio":"Municipio","longitud":"-77,514512","latitud":"1,263276"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52051","nom_mpio":"ARBOLEDA","tipo_municipio":"Municipio","longitud":"-77,135467","latitud":"1,503418"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52079","nom_mpio":"BARBACOAS","tipo_municipio":"Municipio","longitud":"-78,13765","latitud":"1,671733"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52083","nom_mpio":"BELÉN","tipo_municipio":"Municipio","longitud":"-77,015619","latitud":"1,595681"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52110","nom_mpio":"BUESACO","tipo_municipio":"Municipio","longitud":"-77,156463","latitud":"1,381453"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52203","nom_mpio":"COLÓN","tipo_municipio":"Municipio","longitud":"-77,019777","latitud":"1,643878"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52207","nom_mpio":"CONSACÁ","tipo_municipio":"Municipio","longitud":"-77,466136","latitud":"1,207854"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52210","nom_mpio":"CONTADERO","tipo_municipio":"Municipio","longitud":"-77,549409","latitud":"0,910458"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52215","nom_mpio":"CÓRDOBA","tipo_municipio":"Municipio","longitud":"-77,517897","latitud":"0,854564"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52224","nom_mpio":"CUASPUD CARLOSAMA","tipo_municipio":"Municipio","longitud":"-77,728947","latitud":"0,862978"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52227","nom_mpio":"CUMBAL","tipo_municipio":"Municipio","longitud":"-77,792505","latitud":"0,906367"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52233","nom_mpio":"CUMBITARA","tipo_municipio":"Municipio","longitud":"-77,578616","latitud":"1,647163"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52240","nom_mpio":"CHACHAGÜÍ","tipo_municipio":"Municipio","longitud":"-77,281869","latitud":"1,360545"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52250","nom_mpio":"EL CHARCO","tipo_municipio":"Municipio","longitud":"-78,110217","latitud":"2,479688"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52254","nom_mpio":"EL PEÑOL","tipo_municipio":"Municipio","longitud":"-77,438522","latitud":"1,453567"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52256","nom_mpio":"EL ROSARIO","tipo_municipio":"Municipio","longitud":"-77,33417","latitud":"1,745309"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52258","nom_mpio":"EL TABLÓN DE GÓMEZ","tipo_municipio":"Municipio","longitud":"-77,097101","latitud":"1,427277"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52260","nom_mpio":"EL TAMBO","tipo_municipio":"Municipio","longitud":"-77,390772","latitud":"1,407913"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52287","nom_mpio":"FUNES","tipo_municipio":"Municipio","longitud":"-77,448913","latitud":"1,001159"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52317","nom_mpio":"GUACHUCAL","tipo_municipio":"Municipio","longitud":"-77,731589","latitud":"0,959744"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52320","nom_mpio":"GUAITARILLA","tipo_municipio":"Municipio","longitud":"-77,549824","latitud":"1,129574"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52323","nom_mpio":"GUALMATÁN","tipo_municipio":"Municipio","longitud":"-77,568701","latitud":"0,919652"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52352","nom_mpio":"ILES","tipo_municipio":"Municipio","longitud":"-77,521227","latitud":"0,96952"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52354","nom_mpio":"IMUÉS","tipo_municipio":"Municipio","longitud":"-77,496339","latitud":"1,05506"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52356","nom_mpio":"IPIALES","tipo_municipio":"Municipio","longitud":"-77,646367","latitud":"0,827732"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52378","nom_mpio":"LA CRUZ","tipo_municipio":"Municipio","longitud":"-76,970504","latitud":"1,601318"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52381","nom_mpio":"LA FLORIDA","tipo_municipio":"Municipio","longitud":"-77,402882","latitud":"1,29753"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52385","nom_mpio":"LA LLANADA","tipo_municipio":"Municipio","longitud":"-77,58091","latitud":"1,472892"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52390","nom_mpio":"LA TOLA","tipo_municipio":"Municipio","longitud":"-78,189725","latitud":"2,398999"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52399","nom_mpio":"LA UNIÓN","tipo_municipio":"Municipio","longitud":"-77,131316","latitud":"1,600219"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52405","nom_mpio":"LEIVA","tipo_municipio":"Municipio","longitud":"-77,306135","latitud":"1,934453"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52411","nom_mpio":"LINARES","tipo_municipio":"Municipio","longitud":"-77,523953","latitud":"1,350814"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52418","nom_mpio":"LOS ANDES","tipo_municipio":"Municipio","longitud":"-77,521303","latitud":"1,494587"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52427","nom_mpio":"MAGÜÍ","tipo_municipio":"Municipio","longitud":"-78,182924","latitud":"1,765633"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52435","nom_mpio":"MALLAMA","tipo_municipio":"Municipio","longitud":"-77,864549","latitud":"1,141037"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52473","nom_mpio":"MOSQUERA","tipo_municipio":"Municipio","longitud":"-78,452992","latitud":"2,507139"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52480","nom_mpio":"NARIÑO","tipo_municipio":"Municipio","longitud":"-77,357972","latitud":"1,288979"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52490","nom_mpio":"OLAYA HERRERA","tipo_municipio":"Municipio","longitud":"-78,325814","latitud":"2,347457"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52506","nom_mpio":"OSPINA","tipo_municipio":"Municipio","longitud":"-77,566082","latitud":"1,058433"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52520","nom_mpio":"FRANCISCO PIZARRO","tipo_municipio":"Municipio","longitud":"-78,658361","latitud":"2,040629"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52540","nom_mpio":"POLICARPA","tipo_municipio":"Municipio","longitud":"-77,458686","latitud":"1,627196"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52560","nom_mpio":"POTOSÍ","tipo_municipio":"Municipio","longitud":"-77,573003","latitud":"0,806639"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52565","nom_mpio":"PROVIDENCIA","tipo_municipio":"Municipio","longitud":"-77,596794","latitud":"1,237814"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52573","nom_mpio":"PUERRES","tipo_municipio":"Municipio","longitud":"-77,504211","latitud":"0,885125"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52585","nom_mpio":"PUPIALES","tipo_municipio":"Municipio","longitud":"-77,636042","latitud":"0,870442"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52612","nom_mpio":"RICAURTE","tipo_municipio":"Municipio","longitud":"-77,995153","latitud":"1,212492"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52621","nom_mpio":"ROBERTO PAYÁN","tipo_municipio":"Municipio","longitud":"-78,245716","latitud":"1,697492"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52678","nom_mpio":"SAMANIEGO","tipo_municipio":"Municipio","longitud":"-77,594341","latitud":"1,335438"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52683","nom_mpio":"SANDONÁ","tipo_municipio":"Municipio","longitud":"-77,47313","latitud":"1,283438"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52685","nom_mpio":"SAN BERNARDO","tipo_municipio":"Municipio","longitud":"-77,0475","latitud":"1,513762"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52687","nom_mpio":"SAN LORENZO","tipo_municipio":"Municipio","longitud":"-77,21542","latitud":"1,503362"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52693","nom_mpio":"SAN PABLO","tipo_municipio":"Municipio","longitud":"-77,013984","latitud":"1,669429"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52694","nom_mpio":"SAN PEDRO DE CARTAGO","tipo_municipio":"Municipio","longitud":"-77,11941","latitud":"1,551572"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52696","nom_mpio":"SANTA BÁRBARA","tipo_municipio":"Municipio","longitud":"-77,979916","latitud":"2,449653"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52699","nom_mpio":"SANTACRUZ","tipo_municipio":"Municipio","longitud":"-77,677035","latitud":"1,222589"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52720","nom_mpio":"SAPUYES","tipo_municipio":"Municipio","longitud":"-77,62028","latitud":"1,037536"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52786","nom_mpio":"TAMINANGO","tipo_municipio":"Municipio","longitud":"-77,2808","latitud":"1,570358"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52788","nom_mpio":"TANGUA","tipo_municipio":"Municipio","longitud":"-77,393735","latitud":"1,09482"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52835","nom_mpio":"SAN ANDRÉS DE TUMACO","tipo_municipio":"Municipio","longitud":"-78,764073","latitud":"1,807399"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52838","nom_mpio":"TÚQUERRES","tipo_municipio":"Municipio","longitud":"-77,61672","latitud":"1,085044"}
+,{"cod_dpto":"52","dpto":"NARIÑO","cod_mpio":"52885","nom_mpio":"YACUANQUER","tipo_municipio":"Municipio","longitud":"-77,400169","latitud":"1,115937"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54001","nom_mpio":"SAN JOSÉ DE CÚCUTA","tipo_municipio":"Municipio","longitud":"-72,508178","latitud":"7,905725"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54003","nom_mpio":"ÁBREGO","tipo_municipio":"Municipio","longitud":"-73,221722","latitud":"8,081616"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54051","nom_mpio":"ARBOLEDAS","tipo_municipio":"Municipio","longitud":"-72,798952","latitud":"7,642985"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54099","nom_mpio":"BOCHALEMA","tipo_municipio":"Municipio","longitud":"-72,64701","latitud":"7,612192"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54109","nom_mpio":"BUCARASICA","tipo_municipio":"Municipio","longitud":"-72,868231","latitud":"8,041299"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54125","nom_mpio":"CÁCOTA","tipo_municipio":"Municipio","longitud":"-72,642059","latitud":"7,268705"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54128","nom_mpio":"CÁCHIRA","tipo_municipio":"Municipio","longitud":"-73,048983","latitud":"7,741248"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54172","nom_mpio":"CHINÁCOTA","tipo_municipio":"Municipio","longitud":"-72,601162","latitud":"7,603112"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54174","nom_mpio":"CHITAGÁ","tipo_municipio":"Municipio","longitud":"-72,665468","latitud":"7,138187"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54206","nom_mpio":"CONVENCIÓN","tipo_municipio":"Municipio","longitud":"-73,3372","latitud":"8,470374"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54223","nom_mpio":"CUCUTILLA","tipo_municipio":"Municipio","longitud":"-72,772816","latitud":"7,539633"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54239","nom_mpio":"DURANIA","tipo_municipio":"Municipio","longitud":"-72,658491","latitud":"7,714804"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54245","nom_mpio":"EL CARMEN","tipo_municipio":"Municipio","longitud":"-73,446687","latitud":"8,510579"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54250","nom_mpio":"EL TARRA","tipo_municipio":"Municipio","longitud":"-73,09614","latitud":"8,574281"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54261","nom_mpio":"EL ZULIA","tipo_municipio":"Municipio","longitud":"-72,604717","latitud":"7,938572"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54313","nom_mpio":"GRAMALOTE","tipo_municipio":"Municipio","longitud":"-72,787233","latitud":"7,916946"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54344","nom_mpio":"HACARÍ","tipo_municipio":"Municipio","longitud":"-73,145997","latitud":"8,321506"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54347","nom_mpio":"HERRÁN","tipo_municipio":"Municipio","longitud":"-72,483519","latitud":"7,506541"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54377","nom_mpio":"LABATECA","tipo_municipio":"Municipio","longitud":"-72,495983","latitud":"7,298414"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54385","nom_mpio":"LA ESPERANZA","tipo_municipio":"Municipio","longitud":"-73,328126","latitud":"7,639839"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54398","nom_mpio":"LA PLAYA","tipo_municipio":"Municipio","longitud":"-73,239986","latitud":"8,21124"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54405","nom_mpio":"LOS PATIOS","tipo_municipio":"Municipio","longitud":"-72,505612","latitud":"7,833186"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54418","nom_mpio":"LOURDES","tipo_municipio":"Municipio","longitud":"-72,832376","latitud":"7,945631"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54480","nom_mpio":"MUTISCUA","tipo_municipio":"Municipio","longitud":"-72,747169","latitud":"7,300469"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54498","nom_mpio":"OCAÑA","tipo_municipio":"Municipio","longitud":"-73,35607","latitud":"8,248574"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54518","nom_mpio":"PAMPLONA","tipo_municipio":"Municipio","longitud":"-72,647714","latitud":"7,372802"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54520","nom_mpio":"PAMPLONITA","tipo_municipio":"Municipio","longitud":"-72,639111","latitud":"7,436745"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54553","nom_mpio":"PUERTO SANTANDER","tipo_municipio":"Municipio","longitud":"-72,411363","latitud":"8,359993"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54599","nom_mpio":"RAGONVALIA","tipo_municipio":"Municipio","longitud":"-72,476708","latitud":"7,577861"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54660","nom_mpio":"SALAZAR","tipo_municipio":"Municipio","longitud":"-72,813064","latitud":"7,773683"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54670","nom_mpio":"SAN CALIXTO","tipo_municipio":"Municipio","longitud":"-73,208622","latitud":"8,40214"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54673","nom_mpio":"SAN CAYETANO","tipo_municipio":"Municipio","longitud":"-72,625459","latitud":"7,875695"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54680","nom_mpio":"SANTIAGO","tipo_municipio":"Municipio","longitud":"-72,716203","latitud":"7,865856"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54720","nom_mpio":"SARDINATA","tipo_municipio":"Municipio","longitud":"-72,800577","latitud":"8,082105"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54743","nom_mpio":"SILOS","tipo_municipio":"Municipio","longitud":"-72,757128","latitud":"7,204736"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54800","nom_mpio":"TEORAMA","tipo_municipio":"Municipio","longitud":"-73,28707","latitud":"8,438134"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54810","nom_mpio":"TIBÚ","tipo_municipio":"Municipio","longitud":"-72,734496","latitud":"8,639891"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54820","nom_mpio":"TOLEDO","tipo_municipio":"Municipio","longitud":"-72,481915","latitud":"7,307692"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54871","nom_mpio":"VILLA CARO","tipo_municipio":"Municipio","longitud":"-72,973601","latitud":"7,914244"}
+,{"cod_dpto":"54","dpto":"NORTE DE SANTANDER","cod_mpio":"54874","nom_mpio":"VILLA DEL ROSARIO","tipo_municipio":"Municipio","longitud":"-72,469758","latitud":"7,847672"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63001","nom_mpio":"ARMENIA","tipo_municipio":"Municipio","longitud":"-75,680786","latitud":"4,53598"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63111","nom_mpio":"BUENAVISTA","tipo_municipio":"Municipio","longitud":"-75,739572","latitud":"4,360029"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63130","nom_mpio":"CALARCÁ","tipo_municipio":"Municipio","longitud":"-75,646085","latitud":"4,520982"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63190","nom_mpio":"CIRCASIA","tipo_municipio":"Municipio","longitud":"-75,636533","latitud":"4,617759"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63212","nom_mpio":"CÓRDOBA","tipo_municipio":"Municipio","longitud":"-75,687866","latitud":"4,392485"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63272","nom_mpio":"FILANDIA","tipo_municipio":"Municipio","longitud":"-75,658387","latitud":"4,674338"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63302","nom_mpio":"GÉNOVA","tipo_municipio":"Municipio","longitud":"-75,790402","latitud":"4,206641"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63401","nom_mpio":"LA TEBAIDA","tipo_municipio":"Municipio","longitud":"-75,786887","latitud":"4,453755"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63470","nom_mpio":"MONTENEGRO","tipo_municipio":"Municipio","longitud":"-75,749827","latitud":"4,565057"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63548","nom_mpio":"PIJAO","tipo_municipio":"Municipio","longitud":"-75,703329","latitud":"4,335036"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63594","nom_mpio":"QUIMBAYA","tipo_municipio":"Municipio","longitud":"-75,765074","latitud":"4,624387"}
+,{"cod_dpto":"63","dpto":"QUINDÍO","cod_mpio":"63690","nom_mpio":"SALENTO","tipo_municipio":"Municipio","longitud":"-75,570844","latitud":"4,637157"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66001","nom_mpio":"PEREIRA","tipo_municipio":"Municipio","longitud":"-75,719711","latitud":"4,804985"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66045","nom_mpio":"APÍA","tipo_municipio":"Municipio","longitud":"-75,942356","latitud":"5,106526"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66075","nom_mpio":"BALBOA","tipo_municipio":"Municipio","longitud":"-75,958663","latitud":"4,949096"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66088","nom_mpio":"BELÉN DE UMBRÍA","tipo_municipio":"Municipio","longitud":"-75,868334","latitud":"5,200793"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66170","nom_mpio":"DOSQUEBRADAS","tipo_municipio":"Municipio","longitud":"-75,675371","latitud":"4,833131"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66318","nom_mpio":"GUÁTICA","tipo_municipio":"Municipio","longitud":"-75,799005","latitud":"5,315367"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66383","nom_mpio":"LA CELIA","tipo_municipio":"Municipio","longitud":"-76,0032","latitud":"5,002787"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66400","nom_mpio":"LA VIRGINIA","tipo_municipio":"Municipio","longitud":"-75,880394","latitud":"4,896624"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66440","nom_mpio":"MARSELLA","tipo_municipio":"Municipio","longitud":"-75,73879","latitud":"4,935771"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66456","nom_mpio":"MISTRATÓ","tipo_municipio":"Municipio","longitud":"-75,882886","latitud":"5,297039"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66572","nom_mpio":"PUEBLO RICO","tipo_municipio":"Municipio","longitud":"-76,030801","latitud":"5,222043"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66594","nom_mpio":"QUINCHÍA","tipo_municipio":"Municipio","longitud":"-75,730431","latitud":"5,340456"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66682","nom_mpio":"SANTA ROSA DE CABAL","tipo_municipio":"Municipio","longitud":"-75,623268","latitud":"4,876271"}
+,{"cod_dpto":"66","dpto":"RISARALDA","cod_mpio":"66687","nom_mpio":"SANTUARIO","tipo_municipio":"Municipio","longitud":"-75,964628","latitud":"5,074911"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68001","nom_mpio":"BUCARAMANGA","tipo_municipio":"Municipio","longitud":"-73,132562","latitud":"7,11647"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68013","nom_mpio":"AGUADA","tipo_municipio":"Municipio","longitud":"-73,523132","latitud":"6,162355"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68020","nom_mpio":"ALBANIA","tipo_municipio":"Municipio","longitud":"-73,91336","latitud":"5,759166"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68051","nom_mpio":"ARATOCA","tipo_municipio":"Municipio","longitud":"-73,01786","latitud":"6,694418"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68077","nom_mpio":"BARBOSA","tipo_municipio":"Municipio","longitud":"-73,615965","latitud":"5,932531"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68079","nom_mpio":"BARICHARA","tipo_municipio":"Municipio","longitud":"-73,223047","latitud":"6,634111"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68081","nom_mpio":"BARRANCABERMEJA","tipo_municipio":"Municipio","longitud":"-73,849243","latitud":"7,064857"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68092","nom_mpio":"BETULIA","tipo_municipio":"Municipio","longitud":"-73,283669","latitud":"6,899525"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68101","nom_mpio":"BOLÍVAR","tipo_municipio":"Municipio","longitud":"-73,771346","latitud":"5,988953"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68121","nom_mpio":"CABRERA","tipo_municipio":"Municipio","longitud":"-73,246475","latitud":"6,592118"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68132","nom_mpio":"CALIFORNIA","tipo_municipio":"Municipio","longitud":"-72,946491","latitud":"7,347989"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68147","nom_mpio":"CAPITANEJO","tipo_municipio":"Municipio","longitud":"-72,695427","latitud":"6,527394"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68152","nom_mpio":"CARCASÍ","tipo_municipio":"Municipio","longitud":"-72,627099","latitud":"6,629016"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68160","nom_mpio":"CEPITÁ","tipo_municipio":"Municipio","longitud":"-72,973536","latitud":"6,753518"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68162","nom_mpio":"CERRITO","tipo_municipio":"Municipio","longitud":"-72,694851","latitud":"6,840405"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68167","nom_mpio":"CHARALÁ","tipo_municipio":"Municipio","longitud":"-73,146873","latitud":"6,284339"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68169","nom_mpio":"CHARTA","tipo_municipio":"Municipio","longitud":"-72,968798","latitud":"7,28082"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68176","nom_mpio":"CHIMA","tipo_municipio":"Municipio","longitud":"-73,373656","latitud":"6,344348"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68179","nom_mpio":"CHIPATÁ","tipo_municipio":"Municipio","longitud":"-73,637111","latitud":"6,062521"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68190","nom_mpio":"CIMITARRA","tipo_municipio":"Municipio","longitud":"-73,953011","latitud":"6,320886"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68207","nom_mpio":"CONCEPCIÓN","tipo_municipio":"Municipio","longitud":"-72,694567","latitud":"6,768908"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68209","nom_mpio":"CONFINES","tipo_municipio":"Municipio","longitud":"-73,240554","latitud":"6,357327"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68211","nom_mpio":"CONTRATACIÓN","tipo_municipio":"Municipio","longitud":"-73,474426","latitud":"6,290561"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68217","nom_mpio":"COROMORO","tipo_municipio":"Municipio","longitud":"-73,040816","latitud":"6,294999"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68229","nom_mpio":"CURITÍ","tipo_municipio":"Municipio","longitud":"-73,069383","latitud":"6,605099"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68235","nom_mpio":"EL CARMEN DE CHUCURÍ","tipo_municipio":"Municipio","longitud":"-73,51066","latitud":"6,700038"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68245","nom_mpio":"EL GUACAMAYO","tipo_municipio":"Municipio","longitud":"-73,496908","latitud":"6,245111"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68250","nom_mpio":"EL PEÑÓN","tipo_municipio":"Municipio","longitud":"-73,815532","latitud":"6,05537"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68255","nom_mpio":"EL PLAYÓN","tipo_municipio":"Municipio","longitud":"-73,20287","latitud":"7,470715"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68264","nom_mpio":"ENCINO","tipo_municipio":"Municipio","longitud":"-73,098749","latitud":"6,137429"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68266","nom_mpio":"ENCISO","tipo_municipio":"Municipio","longitud":"-72,699647","latitud":"6,668034"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68271","nom_mpio":"FLORIÁN","tipo_municipio":"Municipio","longitud":"-73,97143","latitud":"5,804659"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68276","nom_mpio":"FLORIDABLANCA","tipo_municipio":"Municipio","longitud":"-73,099104","latitud":"7,072329"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68296","nom_mpio":"GALÁN","tipo_municipio":"Municipio","longitud":"-73,287769","latitud":"6,638423"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68298","nom_mpio":"GÁMBITA","tipo_municipio":"Municipio","longitud":"-73,344185","latitud":"5,945998"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68307","nom_mpio":"GIRÓN","tipo_municipio":"Municipio","longitud":"-73,166832","latitud":"7,070432"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68318","nom_mpio":"GUACA","tipo_municipio":"Municipio","longitud":"-72,856322","latitud":"6,876563"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68320","nom_mpio":"GUADALUPE","tipo_municipio":"Municipio","longitud":"-73,419292","latitud":"6,245847"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68322","nom_mpio":"GUAPOTÁ","tipo_municipio":"Municipio","longitud":"-73,320732","latitud":"6,308635"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68324","nom_mpio":"GUAVATÁ","tipo_municipio":"Municipio","longitud":"-73,700906","latitud":"5,954348"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68327","nom_mpio":"GÜEPSA","tipo_municipio":"Municipio","longitud":"-73,575146","latitud":"6,025013"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68344","nom_mpio":"HATO","tipo_municipio":"Municipio","longitud":"-73,308399","latitud":"6,543957"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68368","nom_mpio":"JESÚS MARÍA","tipo_municipio":"Municipio","longitud":"-73,783396","latitud":"5,876497"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68370","nom_mpio":"JORDÁN","tipo_municipio":"Municipio","longitud":"-73,096053","latitud":"6,732727"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68377","nom_mpio":"LA BELLEZA","tipo_municipio":"Municipio","longitud":"-73,965494","latitud":"5,85925"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68385","nom_mpio":"LANDÁZURI","tipo_municipio":"Municipio","longitud":"-73,811359","latitud":"6,218812"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68397","nom_mpio":"LA PAZ","tipo_municipio":"Municipio","longitud":"-73,58959","latitud":"6,178509"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68406","nom_mpio":"LEBRIJA","tipo_municipio":"Municipio","longitud":"-73,219524","latitud":"7,113351"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68418","nom_mpio":"LOS SANTOS","tipo_municipio":"Municipio","longitud":"-73,102739","latitud":"6,755203"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68425","nom_mpio":"MACARAVITA","tipo_municipio":"Municipio","longitud":"-72,593105","latitud":"6,50658"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68432","nom_mpio":"MÁLAGA","tipo_municipio":"Municipio","longitud":"-72,732089","latitud":"6,703081"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68444","nom_mpio":"MATANZA","tipo_municipio":"Municipio","longitud":"-73,015566","latitud":"7,323175"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68464","nom_mpio":"MOGOTES","tipo_municipio":"Municipio","longitud":"-72,969807","latitud":"6,475246"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68468","nom_mpio":"MOLAGAVITA","tipo_municipio":"Municipio","longitud":"-72,809175","latitud":"6,67432"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68498","nom_mpio":"OCAMONTE","tipo_municipio":"Municipio","longitud":"-73,122563","latitud":"6,339988"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68500","nom_mpio":"OIBA","tipo_municipio":"Municipio","longitud":"-73,299791","latitud":"6,26521"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68502","nom_mpio":"ONZAGA","tipo_municipio":"Municipio","longitud":"-72,816766","latitud":"6,344104"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68522","nom_mpio":"PALMAR","tipo_municipio":"Municipio","longitud":"-73,29109","latitud":"6,537789"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68524","nom_mpio":"PALMAS DEL SOCORRO","tipo_municipio":"Municipio","longitud":"-73,287764","latitud":"6,406139"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68533","nom_mpio":"PÁRAMO","tipo_municipio":"Municipio","longitud":"-73,17022","latitud":"6,416811"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68547","nom_mpio":"PIEDECUESTA","tipo_municipio":"Municipio","longitud":"-73,054795","latitud":"6,997245"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68549","nom_mpio":"PINCHOTE","tipo_municipio":"Municipio","longitud":"-73,174209","latitud":"6,531552"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68572","nom_mpio":"PUENTE NACIONAL","tipo_municipio":"Municipio","longitud":"-73,677567","latitud":"5,878381"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68573","nom_mpio":"PUERTO PARRA","tipo_municipio":"Municipio","longitud":"-74,056129","latitud":"6,650785"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68575","nom_mpio":"PUERTO WILCHES","tipo_municipio":"Municipio","longitud":"-73,899909","latitud":"7,344057"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68615","nom_mpio":"RIONEGRO","tipo_municipio":"Municipio","longitud":"-73,150177","latitud":"7,265014"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68655","nom_mpio":"SABANA DE TORRES","tipo_municipio":"Municipio","longitud":"-73,49906","latitud":"7,391919"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68669","nom_mpio":"SAN ANDRÉS","tipo_municipio":"Municipio","longitud":"-72,848864","latitud":"6,811511"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68673","nom_mpio":"SAN BENITO","tipo_municipio":"Municipio","longitud":"-73,50907","latitud":"6,126656"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68679","nom_mpio":"SAN GIL","tipo_municipio":"Municipio","longitud":"-73,134776","latitud":"6,551952"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68682","nom_mpio":"SAN JOAQUÍN","tipo_municipio":"Municipio","longitud":"-72,867638","latitud":"6,427548"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68684","nom_mpio":"SAN JOSÉ DE MIRANDA","tipo_municipio":"Municipio","longitud":"-72,733616","latitud":"6,658995"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68686","nom_mpio":"SAN MIGUEL","tipo_municipio":"Municipio","longitud":"-72,644123","latitud":"6,575315"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68689","nom_mpio":"SAN VICENTE DE CHUCURÍ","tipo_municipio":"Municipio","longitud":"-73,411024","latitud":"6,880383"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68705","nom_mpio":"SANTA BÁRBARA","tipo_municipio":"Municipio","longitud":"-72,907445","latitud":"6,990996"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68720","nom_mpio":"SANTA HELENA DEL OPÓN","tipo_municipio":"Municipio","longitud":"-73,616716","latitud":"6,339565"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68745","nom_mpio":"SIMACOTA","tipo_municipio":"Municipio","longitud":"-73,337368","latitud":"6,443469"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68755","nom_mpio":"SOCORRO","tipo_municipio":"Municipio","longitud":"-73,261198","latitud":"6,46387"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68770","nom_mpio":"SUAITA","tipo_municipio":"Municipio","longitud":"-73,44165","latitud":"6,101329"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68773","nom_mpio":"SUCRE","tipo_municipio":"Municipio","longitud":"-73,790975","latitud":"5,918743"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68780","nom_mpio":"SURATÁ","tipo_municipio":"Municipio","longitud":"-72,984232","latitud":"7,36658"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68820","nom_mpio":"TONA","tipo_municipio":"Municipio","longitud":"-72,967023","latitud":"7,201417"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68855","nom_mpio":"VALLE DE SAN JOSÉ","tipo_municipio":"Municipio","longitud":"-73,143507","latitud":"6,448028"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68861","nom_mpio":"VÉLEZ","tipo_municipio":"Municipio","longitud":"-73,672447","latitud":"6,009275"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68867","nom_mpio":"VETAS","tipo_municipio":"Municipio","longitud":"-72,871041","latitud":"7,30981"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68872","nom_mpio":"VILLANUEVA","tipo_municipio":"Municipio","longitud":"-73,174307","latitud":"6,670078"}
+,{"cod_dpto":"68","dpto":"SANTANDER","cod_mpio":"68895","nom_mpio":"ZAPATOCA","tipo_municipio":"Municipio","longitud":"-73,268034","latitud":"6,814387"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70001","nom_mpio":"SINCELEJO","tipo_municipio":"Municipio","longitud":"-75,395445","latitud":"9,302322"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70110","nom_mpio":"BUENAVISTA","tipo_municipio":"Municipio","longitud":"-74,972827","latitud":"9,319794"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70124","nom_mpio":"CAIMITO","tipo_municipio":"Municipio","longitud":"-75,117141","latitud":"8,789324"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70204","nom_mpio":"COLOSÓ","tipo_municipio":"Municipio","longitud":"-75,353256","latitud":"9,494192"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70215","nom_mpio":"COROZAL","tipo_municipio":"Municipio","longitud":"-75,293048","latitud":"9,318749"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70221","nom_mpio":"COVEÑAS","tipo_municipio":"Municipio","longitud":"-75,680158","latitud":"9,402779"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70230","nom_mpio":"CHALÁN","tipo_municipio":"Municipio","longitud":"-75,312697","latitud":"9,545352"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70233","nom_mpio":"EL ROBLE","tipo_municipio":"Municipio","longitud":"-75,198378","latitud":"9,100647"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70235","nom_mpio":"GALERAS","tipo_municipio":"Municipio","longitud":"-75,04959","latitud":"9,160379"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70265","nom_mpio":"GUARANDA","tipo_municipio":"Municipio","longitud":"-74,537749","latitud":"8,468556"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70400","nom_mpio":"LA UNIÓN","tipo_municipio":"Municipio","longitud":"-75,276056","latitud":"8,853975"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70418","nom_mpio":"LOS PALMITOS","tipo_municipio":"Municipio","longitud":"-75,268716","latitud":"9,380269"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70429","nom_mpio":"MAJAGUAL","tipo_municipio":"Municipio","longitud":"-74,628077","latitud":"8,541163"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70473","nom_mpio":"MORROA","tipo_municipio":"Municipio","longitud":"-75,305949","latitud":"9,331395"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70508","nom_mpio":"OVEJAS","tipo_municipio":"Municipio","longitud":"-75,229037","latitud":"9,527176"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70523","nom_mpio":"PALMITO","tipo_municipio":"Municipio","longitud":"-75,541264","latitud":"9,333157"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70670","nom_mpio":"SAMPUÉS","tipo_municipio":"Municipio","longitud":"-75,380222","latitud":"9,183193"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70678","nom_mpio":"SAN BENITO ABAD","tipo_municipio":"Municipio","longitud":"-75,031089","latitud":"8,930108"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70702","nom_mpio":"SAN JUAN DE BETULIA","tipo_municipio":"Municipio","longitud":"-75,243565","latitud":"9,273066"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70708","nom_mpio":"SAN MARCOS","tipo_municipio":"Municipio","longitud":"-75,133831","latitud":"8,661774"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70713","nom_mpio":"SAN ONOFRE","tipo_municipio":"Municipio","longitud":"-75,522398","latitud":"9,736955"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70717","nom_mpio":"SAN PEDRO","tipo_municipio":"Municipio","longitud":"-75,063647","latitud":"9,39625"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70742","nom_mpio":"SAN LUIS DE SINCÉ","tipo_municipio":"Municipio","longitud":"-75,145999","latitud":"9,244308"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70771","nom_mpio":"SUCRE","tipo_municipio":"Municipio","longitud":"-74,723175","latitud":"8,811737"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70820","nom_mpio":"SANTIAGO DE TOLÚ","tipo_municipio":"Municipio","longitud":"-75,581112","latitud":"9,525387"}
+,{"cod_dpto":"70","dpto":"SUCRE","cod_mpio":"70823","nom_mpio":"SAN JOSÉ DE TOLUVIEJO","tipo_municipio":"Municipio","longitud":"-75,44085","latitud":"9,451819"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73001","nom_mpio":"IBAGUÉ","tipo_municipio":"Municipio","longitud":"-75,19425","latitud":"4,432248"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73024","nom_mpio":"ALPUJARRA","tipo_municipio":"Municipio","longitud":"-74,9329","latitud":"3,391548"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73026","nom_mpio":"ALVARADO","tipo_municipio":"Municipio","longitud":"-74,953418","latitud":"4,567356"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73030","nom_mpio":"AMBALEMA","tipo_municipio":"Municipio","longitud":"-74,764429","latitud":"4,782682"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73043","nom_mpio":"ANZOÁTEGUI","tipo_municipio":"Municipio","longitud":"-75,093772","latitud":"4,631756"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73055","nom_mpio":"ARMERO","tipo_municipio":"Municipio","longitud":"-74,884438","latitud":"5,030744"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73067","nom_mpio":"ATACO","tipo_municipio":"Municipio","longitud":"-75,382545","latitud":"3,590591"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73124","nom_mpio":"CAJAMARCA","tipo_municipio":"Municipio","longitud":"-75,431971","latitud":"4,438812"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73148","nom_mpio":"CARMEN DE APICALÁ","tipo_municipio":"Municipio","longitud":"-74,717633","latitud":"4,152334"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73152","nom_mpio":"CASABIANCA","tipo_municipio":"Municipio","longitud":"-75,120966","latitud":"5,078465"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73168","nom_mpio":"CHAPARRAL","tipo_municipio":"Municipio","longitud":"-75,480765","latitud":"3,722918"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73200","nom_mpio":"COELLO","tipo_municipio":"Municipio","longitud":"-74,898464","latitud":"4,287276"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73217","nom_mpio":"COYAIMA","tipo_municipio":"Municipio","longitud":"-75,193862","latitud":"3,798036"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73226","nom_mpio":"CUNDAY","tipo_municipio":"Municipio","longitud":"-74,692227","latitud":"4,059259"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73236","nom_mpio":"DOLORES","tipo_municipio":"Municipio","longitud":"-74,896761","latitud":"3,539072"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73268","nom_mpio":"ESPINAL","tipo_municipio":"Municipio","longitud":"-74,885446","latitud":"4,151314"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73270","nom_mpio":"FALAN","tipo_municipio":"Municipio","longitud":"-74,953007","latitud":"5,123104"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73275","nom_mpio":"FLANDES","tipo_municipio":"Municipio","longitud":"-74,818763","latitud":"4,276373"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73283","nom_mpio":"FRESNO","tipo_municipio":"Municipio","longitud":"-75,035722","latitud":"5,153576"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73319","nom_mpio":"GUAMO","tipo_municipio":"Municipio","longitud":"-74,968135","latitud":"4,030992"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73347","nom_mpio":"HERVEO","tipo_municipio":"Municipio","longitud":"-75,177151","latitud":"5,080228"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73349","nom_mpio":"HONDA","tipo_municipio":"Municipio","longitud":"-74,75699","latitud":"5,211816"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73352","nom_mpio":"ICONONZO","tipo_municipio":"Municipio","longitud":"-74,531969","latitud":"4,176487"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73408","nom_mpio":"LÉRIDA","tipo_municipio":"Municipio","longitud":"-74,910716","latitud":"4,862046"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73411","nom_mpio":"LÍBANO","tipo_municipio":"Municipio","longitud":"-75,061959","latitud":"4,92042"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73443","nom_mpio":"SAN SEBASTIÁN DE MARIQUITA","tipo_municipio":"Municipio","longitud":"-74,889276","latitud":"5,199708"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73449","nom_mpio":"MELGAR","tipo_municipio":"Municipio","longitud":"-74,641317","latitud":"4,203655"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73461","nom_mpio":"MURILLO","tipo_municipio":"Municipio","longitud":"-75,171022","latitud":"4,874341"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73483","nom_mpio":"NATAGAIMA","tipo_municipio":"Municipio","longitud":"-75,093182","latitud":"3,624324"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73504","nom_mpio":"ORTEGA","tipo_municipio":"Municipio","longitud":"-75,222601","latitud":"3,934916"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73520","nom_mpio":"PALOCABILDO","tipo_municipio":"Municipio","longitud":"-75,022167","latitud":"5,120918"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73547","nom_mpio":"PIEDRAS","tipo_municipio":"Municipio","longitud":"-74,878106","latitud":"4,543951"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73555","nom_mpio":"PLANADAS","tipo_municipio":"Municipio","longitud":"-75,644163","latitud":"3,197911"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73563","nom_mpio":"PRADO","tipo_municipio":"Municipio","longitud":"-74,927447","latitud":"3,750939"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73585","nom_mpio":"PURIFICACIÓN","tipo_municipio":"Municipio","longitud":"-74,935555","latitud":"3,857246"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73616","nom_mpio":"RIOBLANCO","tipo_municipio":"Municipio","longitud":"-75,644069","latitud":"3,529932"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73622","nom_mpio":"RONCESVALLES","tipo_municipio":"Municipio","longitud":"-75,605959","latitud":"4,011567"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73624","nom_mpio":"ROVIRA","tipo_municipio":"Municipio","longitud":"-75,240648","latitud":"4,239019"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73671","nom_mpio":"SALDAÑA","tipo_municipio":"Municipio","longitud":"-75,016852","latitud":"3,929815"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73675","nom_mpio":"SAN ANTONIO","tipo_municipio":"Municipio","longitud":"-75,480074","latitud":"3,914146"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73678","nom_mpio":"SAN LUIS","tipo_municipio":"Municipio","longitud":"-75,095804","latitud":"4,133721"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73686","nom_mpio":"SANTA ISABEL","tipo_municipio":"Municipio","longitud":"-75,097934","latitud":"4,713606"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73770","nom_mpio":"SUÁREZ","tipo_municipio":"Municipio","longitud":"-74,831885","latitud":"4,048891"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73854","nom_mpio":"VALLE DE SAN JUAN","tipo_municipio":"Municipio","longitud":"-75,115669","latitud":"4,197494"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73861","nom_mpio":"VENADILLO","tipo_municipio":"Municipio","longitud":"-74,929333","latitud":"4,717878"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73870","nom_mpio":"VILLAHERMOSA","tipo_municipio":"Municipio","longitud":"-75,117729","latitud":"5,030452"}
+,{"cod_dpto":"73","dpto":"TOLIMA","cod_mpio":"73873","nom_mpio":"VILLARRICA","tipo_municipio":"Municipio","longitud":"-74,600285","latitud":"3,936902"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76001","nom_mpio":"SANTIAGO DE CALI","tipo_municipio":"Municipio","longitud":"-76,52133","latitud":"3,413686"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76020","nom_mpio":"ALCALÁ","tipo_municipio":"Municipio","longitud":"-75,779792","latitud":"4,674994"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76036","nom_mpio":"ANDALUCÍA","tipo_municipio":"Municipio","longitud":"-76,167925","latitud":"4,171713"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76041","nom_mpio":"ANSERMANUEVO","tipo_municipio":"Municipio","longitud":"-75,992003","latitud":"4,794984"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76054","nom_mpio":"ARGELIA","tipo_municipio":"Municipio","longitud":"-76,119905","latitud":"4,726945"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76100","nom_mpio":"BOLÍVAR","tipo_municipio":"Municipio","longitud":"-76,183583","latitud":"4,337846"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76109","nom_mpio":"BUENAVENTURA","tipo_municipio":"Municipio","longitud":"-77,01074","latitud":"3,875708"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76111","nom_mpio":"GUADALAJARA DE BUGA","tipo_municipio":"Municipio","longitud":"-76,298979","latitud":"3,900736"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76113","nom_mpio":"BUGALAGRANDE","tipo_municipio":"Municipio","longitud":"-76,15682","latitud":"4,208358"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76122","nom_mpio":"CAICEDONIA","tipo_municipio":"Municipio","longitud":"-75,830594","latitud":"4,334808"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76126","nom_mpio":"CALIMA","tipo_municipio":"Municipio","longitud":"-76,484132","latitud":"3,933664"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76130","nom_mpio":"CANDELARIA","tipo_municipio":"Municipio","longitud":"-76,346519","latitud":"3,408354"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76147","nom_mpio":"CARTAGO","tipo_municipio":"Municipio","longitud":"-75,924374","latitud":"4,742192"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76233","nom_mpio":"DAGUA","tipo_municipio":"Municipio","longitud":"-76,68886","latitud":"3,657318"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76243","nom_mpio":"EL ÁGUILA","tipo_municipio":"Municipio","longitud":"-76,042779","latitud":"4,906062"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76246","nom_mpio":"EL CAIRO","tipo_municipio":"Municipio","longitud":"-76,221611","latitud":"4,760874"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76248","nom_mpio":"EL CERRITO","tipo_municipio":"Municipio","longitud":"-76,311972","latitud":"3,684229"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76250","nom_mpio":"EL DOVIO","tipo_municipio":"Municipio","longitud":"-76,237084","latitud":"4,510452"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76275","nom_mpio":"FLORIDA","tipo_municipio":"Municipio","longitud":"-76,234199","latitud":"3,324118"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76306","nom_mpio":"GINEBRA","tipo_municipio":"Municipio","longitud":"-76,268068","latitud":"3,724181"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76318","nom_mpio":"GUACARÍ","tipo_municipio":"Municipio","longitud":"-76,330911","latitud":"3,761815"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76364","nom_mpio":"JAMUNDÍ","tipo_municipio":"Municipio","longitud":"-76,538472","latitud":"3,258751"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76377","nom_mpio":"LA CUMBRE","tipo_municipio":"Municipio","longitud":"-76,56805","latitud":"3,649268"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76400","nom_mpio":"LA UNIÓN","tipo_municipio":"Municipio","longitud":"-76,099661","latitud":"4,533869"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76403","nom_mpio":"LA VICTORIA","tipo_municipio":"Municipio","longitud":"-76,036529","latitud":"4,523603"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76497","nom_mpio":"OBANDO","tipo_municipio":"Municipio","longitud":"-75,974709","latitud":"4,575712"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76520","nom_mpio":"PALMIRA","tipo_municipio":"Municipio","longitud":"-76,298846","latitud":"3,531544"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76563","nom_mpio":"PRADERA","tipo_municipio":"Municipio","longitud":"-76,241799","latitud":"3,419793"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76606","nom_mpio":"RESTREPO","tipo_municipio":"Municipio","longitud":"-76,523329","latitud":"3,821351"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76616","nom_mpio":"RIOFRÍO","tipo_municipio":"Municipio","longitud":"-76,288313","latitud":"4,156908"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76622","nom_mpio":"ROLDANILLO","tipo_municipio":"Municipio","longitud":"-76,152277","latitud":"4,413601"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76670","nom_mpio":"SAN PEDRO","tipo_municipio":"Municipio","longitud":"-76,228692","latitud":"3,995073"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76736","nom_mpio":"SEVILLA","tipo_municipio":"Municipio","longitud":"-75,931629","latitud":"4,270714"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76823","nom_mpio":"TORO","tipo_municipio":"Municipio","longitud":"-76,076859","latitud":"4,608085"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76828","nom_mpio":"TRUJILLO","tipo_municipio":"Municipio","longitud":"-76,318818","latitud":"4,212037"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76834","nom_mpio":"TULUÁ","tipo_municipio":"Municipio","longitud":"-76,197731","latitud":"4,085399"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76845","nom_mpio":"ULLOA","tipo_municipio":"Municipio","longitud":"-75,737808","latitud":"4,703623"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76863","nom_mpio":"VERSALLES","tipo_municipio":"Municipio","longitud":"-76,199203","latitud":"4,575019"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76869","nom_mpio":"VIJES","tipo_municipio":"Municipio","longitud":"-76,441804","latitud":"3,698686"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76890","nom_mpio":"YOTOCO","tipo_municipio":"Municipio","longitud":"-76,382698","latitud":"3,861241"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76892","nom_mpio":"YUMBO","tipo_municipio":"Municipio","longitud":"-76,499893","latitud":"3,540097"}
+,{"cod_dpto":"76","dpto":"VALLE DEL CAUCA","cod_mpio":"76895","nom_mpio":"ZARZAL","tipo_municipio":"Municipio","longitud":"-76,070795","latitud":"4,392658"}
+,{"cod_dpto":"81","dpto":"ARAUCA","cod_mpio":"81001","nom_mpio":"ARAUCA","tipo_municipio":"Municipio","longitud":"-70,747408","latitud":"7,072726"}
+,{"cod_dpto":"81","dpto":"ARAUCA","cod_mpio":"81065","nom_mpio":"ARAUQUITA","tipo_municipio":"Municipio","longitud":"-71,426733","latitud":"7,02702"}
+,{"cod_dpto":"81","dpto":"ARAUCA","cod_mpio":"81220","nom_mpio":"CRAVO NORTE","tipo_municipio":"Municipio","longitud":"-70,204286","latitud":"6,303913"}
+,{"cod_dpto":"81","dpto":"ARAUCA","cod_mpio":"81300","nom_mpio":"FORTUL","tipo_municipio":"Municipio","longitud":"-71,76877","latitud":"6,796695"}
+,{"cod_dpto":"81","dpto":"ARAUCA","cod_mpio":"81591","nom_mpio":"PUERTO RONDÓN","tipo_municipio":"Municipio","longitud":"-71,10339","latitud":"6,281461"}
+,{"cod_dpto":"81","dpto":"ARAUCA","cod_mpio":"81736","nom_mpio":"SARAVENA","tipo_municipio":"Municipio","longitud":"-71,872812","latitud":"6,953926"}
+,{"cod_dpto":"81","dpto":"ARAUCA","cod_mpio":"81794","nom_mpio":"TAME","tipo_municipio":"Municipio","longitud":"-71,754427","latitud":"6,453324"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85001","nom_mpio":"YOPAL","tipo_municipio":"Municipio","longitud":"-72,396132","latitud":"5,327102"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85010","nom_mpio":"AGUAZUL","tipo_municipio":"Municipio","longitud":"-72,546838","latitud":"5,172641"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85015","nom_mpio":"CHÁMEZA","tipo_municipio":"Municipio","longitud":"-72,87016","latitud":"5,214527"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85125","nom_mpio":"HATO COROZAL","tipo_municipio":"Municipio","longitud":"-71,764213","latitud":"6,154099"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85136","nom_mpio":"LA SALINA","tipo_municipio":"Municipio","longitud":"-72,334978","latitud":"6,127762"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85139","nom_mpio":"MANÍ","tipo_municipio":"Municipio","longitud":"-72,281384","latitud":"4,81681"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85162","nom_mpio":"MONTERREY","tipo_municipio":"Municipio","longitud":"-72,894065","latitud":"4,877017"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85225","nom_mpio":"NUNCHÍA","tipo_municipio":"Municipio","longitud":"-72,195323","latitud":"5,636474"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85230","nom_mpio":"OROCUÉ","tipo_municipio":"Municipio","longitud":"-71,338533","latitud":"4,790258"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85250","nom_mpio":"PAZ DE ARIPORO","tipo_municipio":"Municipio","longitud":"-71,890348","latitud":"5,879827"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85263","nom_mpio":"PORE","tipo_municipio":"Municipio","longitud":"-71,99286","latitud":"5,72773"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85279","nom_mpio":"RECETOR","tipo_municipio":"Municipio","longitud":"-72,760991","latitud":"5,229181"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85300","nom_mpio":"SABANALARGA","tipo_municipio":"Municipio","longitud":"-73,038696","latitud":"4,854787"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85315","nom_mpio":"SÁCAMA","tipo_municipio":"Municipio","longitud":"-72,250157","latitud":"6,096738"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85325","nom_mpio":"SAN LUIS DE PALENQUE","tipo_municipio":"Municipio","longitud":"-71,732198","latitud":"5,422397"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85400","nom_mpio":"TÁMARA","tipo_municipio":"Municipio","longitud":"-72,16165","latitud":"5,829543"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85410","nom_mpio":"TAURAMENA","tipo_municipio":"Municipio","longitud":"-72,74662","latitud":"5,018977"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85430","nom_mpio":"TRINIDAD","tipo_municipio":"Municipio","longitud":"-71,662812","latitud":"5,412178"}
+,{"cod_dpto":"85","dpto":"CASANARE","cod_mpio":"85440","nom_mpio":"VILLANUEVA","tipo_municipio":"Municipio","longitud":"-72,927797","latitud":"4,61035"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86001","nom_mpio":"MOCOA","tipo_municipio":"Municipio","longitud":"-76,654238","latitud":"1,151172"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86219","nom_mpio":"COLÓN","tipo_municipio":"Municipio","longitud":"-76,972566","latitud":"1,190133"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86320","nom_mpio":"ORITO","tipo_municipio":"Municipio","longitud":"-76,873276","latitud":"0,663593"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86568","nom_mpio":"PUERTO ASÍS","tipo_municipio":"Municipio","longitud":"-76,496887","latitud":"0,505627"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86569","nom_mpio":"PUERTO CAICEDO","tipo_municipio":"Municipio","longitud":"-76,606118","latitud":"0,687784"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86571","nom_mpio":"PUERTO GUZMÁN","tipo_municipio":"Municipio","longitud":"-76,407663","latitud":"0,962854"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86573","nom_mpio":"PUERTO LEGUÍZAMO","tipo_municipio":"Municipio","longitud":"-74,781842","latitud":"-0,192318"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86749","nom_mpio":"SIBUNDOY","tipo_municipio":"Municipio","longitud":"-76,917814","latitud":"1,20026"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86755","nom_mpio":"SAN FRANCISCO","tipo_municipio":"Municipio","longitud":"-76,879283","latitud":"1,174194"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86757","nom_mpio":"SAN MIGUEL","tipo_municipio":"Municipio","longitud":"-76,91217","latitud":"0,34346"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86760","nom_mpio":"SANTIAGO","tipo_municipio":"Municipio","longitud":"-77,002641","latitud":"1,147076"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86865","nom_mpio":"VALLE DEL GUAMUEZ","tipo_municipio":"Municipio","longitud":"-76,906751","latitud":"0,423506"}
+,{"cod_dpto":"86","dpto":"PUTUMAYO","cod_mpio":"86885","nom_mpio":"VILLAGARZÓN","tipo_municipio":"Municipio","longitud":"-76,61721","latitud":"1,028821"}
+,{"cod_dpto":"88","dpto":"ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA","cod_mpio":"88001","nom_mpio":"SAN ANDRÉS","tipo_municipio":"Isla","longitud":"-81,707181","latitud":"12,578108"}
+,{"cod_dpto":"88","dpto":"ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA","cod_mpio":"88564","nom_mpio":"PROVIDENCIA","tipo_municipio":"Municipio","longitud":"-81,368386","latitud":"13,373185"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91001","nom_mpio":"LETICIA","tipo_municipio":"Municipio","longitud":"-69,941721","latitud":"-4,19895"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91263","nom_mpio":"EL ENCANTO","tipo_municipio":"Área no municipalizada","longitud":"-73,207114","latitud":"-1,74806"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91405","nom_mpio":"LA CHORRERA","tipo_municipio":"Área no municipalizada","longitud":"-72,791889","latitud":"-1,442617"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91407","nom_mpio":"LA PEDRERA","tipo_municipio":"Área no municipalizada","longitud":"-69,585499","latitud":"-1,320301"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91430","nom_mpio":"LA VICTORIA","tipo_municipio":"Área no municipalizada","longitud":"-71,223208","latitud":"0,054936"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91460","nom_mpio":"MIRITÍ - PARANÁ","tipo_municipio":"Área no municipalizada","longitud":"-70,98893","latitud":"-0,888833"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91530","nom_mpio":"PUERTO ALEGRÍA","tipo_municipio":"Área no municipalizada","longitud":"-74,014461","latitud":"-1,005674"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91536","nom_mpio":"PUERTO ARICA","tipo_municipio":"Área no municipalizada","longitud":"-71,752186","latitud":"-2,147039"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91540","nom_mpio":"PUERTO NARIÑO","tipo_municipio":"Municipio","longitud":"-70,364937","latitud":"-3,779934"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91669","nom_mpio":"PUERTO SANTANDER","tipo_municipio":"Área no municipalizada","longitud":"-72,384213","latitud":"-0,621184"}
+,{"cod_dpto":"91","dpto":"AMAZONAS","cod_mpio":"91798","nom_mpio":"TARAPACÁ","tipo_municipio":"Área no municipalizada","longitud":"-69,741745","latitud":"-2,890126"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94001","nom_mpio":"INÍRIDA","tipo_municipio":"Municipio","longitud":"-67,918613","latitud":"3,866764"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94343","nom_mpio":"BARRANCOMINAS","tipo_municipio":"Municipio","longitud":"-69,814066","latitud":"3,494178"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94883","nom_mpio":"SAN FELIPE","tipo_municipio":"Área no municipalizada","longitud":"-67,067848","latitud":"1,912495"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94884","nom_mpio":"PUERTO COLOMBIA","tipo_municipio":"Área no municipalizada","longitud":"-67,566774","latitud":"2,726438"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94885","nom_mpio":"LA GUADALUPE","tipo_municipio":"Área no municipalizada","longitud":"-66,963692","latitud":"1,632464"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94886","nom_mpio":"CACAHUAL","tipo_municipio":"Área no municipalizada","longitud":"-67,413312","latitud":"3,52617"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94887","nom_mpio":"PANA PANA","tipo_municipio":"Área no municipalizada","longitud":"-69,0099","latitud":"1,865668"}
+,{"cod_dpto":"94","dpto":"GUAINÍA","cod_mpio":"94888","nom_mpio":"MORICHAL","tipo_municipio":"Área no municipalizada","longitud":"-69,919404","latitud":"2,265132"}
+,{"cod_dpto":"95","dpto":"GUAVIARE","cod_mpio":"95001","nom_mpio":"SAN JOSÉ DEL GUAVIARE","tipo_municipio":"Municipio","longitud":"-72,639254","latitud":"2,565932"}
+,{"cod_dpto":"95","dpto":"GUAVIARE","cod_mpio":"95015","nom_mpio":"CALAMAR","tipo_municipio":"Municipio","longitud":"-72,655197","latitud":"1,960982"}
+,{"cod_dpto":"95","dpto":"GUAVIARE","cod_mpio":"95025","nom_mpio":"EL RETORNO","tipo_municipio":"Municipio","longitud":"-72,627304","latitud":"2,330164"}
+,{"cod_dpto":"95","dpto":"GUAVIARE","cod_mpio":"95200","nom_mpio":"MIRAFLORES","tipo_municipio":"Municipio","longitud":"-71,950416","latitud":"1,337539"}
+,{"cod_dpto":"97","dpto":"VAUPÉS","cod_mpio":"97001","nom_mpio":"MITÚ","tipo_municipio":"Municipio","longitud":"-70,232641","latitud":"1,253151"}
+,{"cod_dpto":"97","dpto":"VAUPÉS","cod_mpio":"97161","nom_mpio":"CARURÚ","tipo_municipio":"Municipio","longitud":"-71,30221","latitud":"1,016116"}
+,{"cod_dpto":"97","dpto":"VAUPÉS","cod_mpio":"97511","nom_mpio":"PACOA","tipo_municipio":"Área no municipalizada","longitud":"-71,004339","latitud":"0,020698"}
+,{"cod_dpto":"97","dpto":"VAUPÉS","cod_mpio":"97666","nom_mpio":"TARAIRA","tipo_municipio":"Municipio","longitud":"-69,635497","latitud":"-0,564984"}
+,{"cod_dpto":"97","dpto":"VAUPÉS","cod_mpio":"97777","nom_mpio":"PAPUNAHUA","tipo_municipio":"Área no municipalizada","longitud":"-70,76091","latitud":"1,908124"}
+,{"cod_dpto":"97","dpto":"VAUPÉS","cod_mpio":"97889","nom_mpio":"YAVARATÉ","tipo_municipio":"Área no municipalizada","longitud":"-69,203337","latitud":"0,609142"}
+,{"cod_dpto":"99","dpto":"VICHADA","cod_mpio":"99001","nom_mpio":"PUERTO CARREÑO","tipo_municipio":"Municipio","longitud":"-67,487095","latitud":"6,186636"}
+,{"cod_dpto":"99","dpto":"VICHADA","cod_mpio":"99524","nom_mpio":"LA PRIMAVERA","tipo_municipio":"Municipio","longitud":"-70,410515","latitud":"5,486309"}
+,{"cod_dpto":"99","dpto":"VICHADA","cod_mpio":"99624","nom_mpio":"SANTA ROSALÍA","tipo_municipio":"Municipio","longitud":"-70,859499","latitud":"5,136393"}
+,{"cod_dpto":"99","dpto":"VICHADA","cod_mpio":"99773","nom_mpio":"CUMARIBO","tipo_municipio":"Municipio","longitud":"-69,795533","latitud":"4,446352"}]

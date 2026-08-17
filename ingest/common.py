@@ -27,6 +27,17 @@ PUBLIC = DATA / "public"
 
 USER_AGENT = "monitor-desastres-colombia/1.0 (proyecto abierto de auditoria de fuentes)"
 
+# Nota canónica de las sondas de `tests/test_supuestos_api.py`: comprueban que
+# los contratos externos siguen vivos, no alimentan ninguna cifra publicada.
+# Quedan en sources_log (la petición existió) pero sin cuerpo archivado, así
+# que el régimen fuerte de trazabilidad las excluye por esta constante — no por
+# un prefijo de texto libre. Ninguna fuente de ingesta puede usarla.
+NOTA_SONDA = "sonda de supuesto"
+
+# El log no se reescribe: las sondas del 17-ago-2026 quedaron con las notas de
+# antes del cambio de nombre y siguen exentas por lo que fueron, no por su texto.
+NOTAS_SONDA = (NOTA_SONDA, "test supuesto", "test supuesto rud")
+
 
 def _ssl_context() -> ssl.SSLContext:
     """Contexto con CA bundle utilizable: certifi si existe, si no el del sistema.

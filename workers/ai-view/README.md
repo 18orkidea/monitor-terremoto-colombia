@@ -115,7 +115,28 @@ El filtro exige evidencia específica del evento: término sísmico más fecha, 
 daño. Por eso páginas genéricas como "Emergencias Anuales" o "Consolidado Anual de
 Emergencias" no entran al feed aunque mencionen RUD/EDAN.
 
+## Atribución de lugares (R10, desde el 17-ago-2026)
+
+Los topónimos se buscan con **límite de palabra** (`mentionsPlace`), no por contención:
+"California" no cuenta como Cali y "fábrica de chocolate" no cuenta como Chocó. Antes de
+atribuir se quitan además URLs, enlaces markdown y nombres de archivo (`sinEnlaces`),
+porque el worker analiza el documento completo y `terremoto-cali.jpg` atribuía el balance
+a Cali sin que el topónimo apareciera en la prosa.
+
+Cada ítem sella el criterio con `atribucion_lugares: "limite_palabra_sin_enlaces"`. **Un
+ítem sin ese campo se etiquetó con el criterio anterior** (contención simple): el KV reusa
+los ítems ya recolectados sin volver a analizarlos, así que los feeds archivados en
+`feeds/balances/` mezclan ambos y el sello es lo único que los distingue.
+
+La lista de municipios está duplicada aquí a propósito (el worker no puede importar
+`ingest/municipios.py`), y `tests/test_worker_toponimos.py` vigila que no se separe de la
+del pipeline: mismo municipio, mismo departamento, sin homónimos de departamento y sin
+ninguno que el pipeline marque como `requiere_depto`.
+
 ## Desarrollo
+
+Antes de cada `wrangler deploy`, el dry-run: el worker se despliega a mano y un error de
+bundle no se vería hasta la corrida de las 04:00 UTC.
 
 ```bash
 wrangler deploy --dry-run

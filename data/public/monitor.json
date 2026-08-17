@@ -1,6 +1,6 @@
 {
- "generado": "2026-08-16",
- "fecha": "2026-08-16",
+ "generado": "2026-08-17",
+ "fecha": "2026-08-17",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -741,7 +741,9 @@
     "familias": 1242.0,
     "personas": 1556.0,
     "viv_destruidas": 20.0,
-    "viv_averiadas": 200.0
+    "viv_averiadas": 200.0,
+    "poblacion_2026": 38639,
+    "tasa_pct": 4.027
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -749,7 +751,9 @@
     "familias": 1085.0,
     "personas": 2137.0,
     "viv_destruidas": 85.0,
-    "viv_averiadas": 162.0
+    "viv_averiadas": 162.0,
+    "poblacion_2026": 2269983,
+    "tasa_pct": 0.0941
    },
    {
     "departamento": "CHOCÓ",
@@ -757,7 +761,9 @@
     "familias": 969.0,
     "personas": 2811.0,
     "viv_destruidas": 22.0,
-    "viv_averiadas": 22.0
+    "viv_averiadas": 22.0,
+    "poblacion_2026": 12620,
+    "tasa_pct": 22.2742
    },
    {
     "departamento": "RISARALDA",
@@ -765,7 +771,9 @@
     "familias": 910.0,
     "personas": 2414.0,
     "viv_destruidas": 126.0,
-    "viv_averiadas": 1.0
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 246388,
+    "tasa_pct": 0.9798
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -773,7 +781,9 @@
     "familias": 873.0,
     "personas": 2055.0,
     "viv_destruidas": 102.0,
-    "viv_averiadas": 177.0
+    "viv_averiadas": 177.0,
+    "poblacion_2026": 14922,
+    "tasa_pct": 13.7716
    },
    {
     "departamento": "RISARALDA",
@@ -781,7 +791,9 @@
     "familias": 864.0,
     "personas": 2266.0,
     "viv_destruidas": 48.0,
-    "viv_averiadas": 502.0
+    "viv_averiadas": 502.0,
+    "poblacion_2026": 25277,
+    "tasa_pct": 8.9647
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -789,7 +801,9 @@
     "familias": 816.0,
     "personas": 1536.0,
     "viv_destruidas": 142.0,
-    "viv_averiadas": 256.0
+    "viv_averiadas": 256.0,
+    "poblacion_2026": 18765,
+    "tasa_pct": 8.1855
    },
    {
     "departamento": "RISARALDA",
@@ -797,7 +811,9 @@
     "familias": 733.0,
     "personas": 2187.0,
     "viv_destruidas": 52.0,
-    "viv_averiadas": 412.0
+    "viv_averiadas": 412.0,
+    "poblacion_2026": 28053,
+    "tasa_pct": 7.796
    },
    {
     "departamento": "RISARALDA",
@@ -805,7 +821,9 @@
     "familias": 712.0,
     "personas": 2552.0,
     "viv_destruidas": 69.0,
-    "viv_averiadas": 250.0
+    "viv_averiadas": 250.0,
+    "poblacion_2026": 18544,
+    "tasa_pct": 13.7619
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -813,7 +831,9 @@
     "familias": 693.0,
     "personas": 1388.0,
     "viv_destruidas": 61.0,
-    "viv_averiadas": 184.0
+    "viv_averiadas": 184.0,
+    "poblacion_2026": 9164,
+    "tasa_pct": 15.1462
    },
    {
     "departamento": "CHOCÓ",
@@ -821,7 +841,9 @@
     "familias": 679.0,
     "personas": 1603.0,
     "viv_destruidas": 2.0,
-    "viv_averiadas": 453.0
+    "viv_averiadas": 453.0,
+    "poblacion_2026": 10016,
+    "tasa_pct": 16.0044
    },
    {
     "departamento": "RISARALDA",
@@ -829,7 +851,9 @@
     "familias": 677.0,
     "personas": 1804.0,
     "viv_destruidas": 39.0,
-    "viv_averiadas": 150.0
+    "viv_averiadas": 150.0,
+    "poblacion_2026": 17320,
+    "tasa_pct": 10.4157
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -837,7 +861,9 @@
     "familias": 606.0,
     "personas": 1312.0,
     "viv_destruidas": 58.0,
-    "viv_averiadas": 247.0
+    "viv_averiadas": 247.0,
+    "poblacion_2026": 43993,
+    "tasa_pct": 2.9823
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -845,7 +871,9 @@
     "familias": 577.0,
     "personas": 1228.0,
     "viv_destruidas": 78.0,
-    "viv_averiadas": 166.0
+    "viv_averiadas": 166.0,
+    "poblacion_2026": 7441,
+    "tasa_pct": 16.5032
    },
    {
     "departamento": "CHOCÓ",
@@ -853,7 +881,9 @@
     "familias": 482.0,
     "personas": 1024.0,
     "viv_destruidas": 17.0,
-    "viv_averiadas": 411.0
+    "viv_averiadas": 411.0,
+    "poblacion_2026": 12936,
+    "tasa_pct": 7.9159
    },
    {
     "departamento": "RISARALDA",
@@ -861,7 +891,9 @@
     "familias": 475.0,
     "personas": 1260.0,
     "viv_destruidas": 11.0,
-    "viv_averiadas": 132.0
+    "viv_averiadas": 132.0,
+    "poblacion_2026": 12968,
+    "tasa_pct": 9.7162
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -869,7 +901,9 @@
     "familias": 472.0,
     "personas": 1201.0,
     "viv_destruidas": 110.0,
-    "viv_averiadas": 43.0
+    "viv_averiadas": 43.0,
+    "poblacion_2026": 16843,
+    "tasa_pct": 7.1306
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -877,7 +911,9 @@
     "familias": 456.0,
     "personas": 1069.0,
     "viv_destruidas": 49.0,
-    "viv_averiadas": 136.0
+    "viv_averiadas": 136.0,
+    "poblacion_2026": 44172,
+    "tasa_pct": 2.4201
    },
    {
     "departamento": "CHOCÓ",
@@ -885,7 +921,9 @@
     "familias": 431.0,
     "personas": 1111.0,
     "viv_destruidas": 45.0,
-    "viv_averiadas": 234.0
+    "viv_averiadas": 234.0,
+    "poblacion_2026": 17617,
+    "tasa_pct": 6.3064
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -893,7 +931,9 @@
     "familias": 430.0,
     "personas": 1050.0,
     "viv_destruidas": 8.0,
-    "viv_averiadas": 221.0
+    "viv_averiadas": 221.0,
+    "poblacion_2026": 9312,
+    "tasa_pct": 11.2758
    },
    {
     "departamento": "CHOCÓ",
@@ -901,7 +941,9 @@
     "familias": 407.0,
     "personas": 1544.0,
     "viv_destruidas": 85.0,
-    "viv_averiadas": 213.0
+    "viv_averiadas": 213.0,
+    "poblacion_2026": 27635,
+    "tasa_pct": 5.5871
    },
    {
     "departamento": "CHOCÓ",
@@ -909,7 +951,9 @@
     "familias": 346.0,
     "personas": 378.0,
     "viv_destruidas": 14.0,
-    "viv_averiadas": 34.0
+    "viv_averiadas": 34.0,
+    "poblacion_2026": 19486,
+    "tasa_pct": 1.9399
    },
    {
     "departamento": "CHOCÓ",
@@ -917,7 +961,9 @@
     "familias": 340.0,
     "personas": 341.0,
     "viv_destruidas": 4.0,
-    "viv_averiadas": 29.0
+    "viv_averiadas": 29.0,
+    "poblacion_2026": 11296,
+    "tasa_pct": 3.0188
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -925,7 +971,9 @@
     "familias": 311.0,
     "personas": 712.0,
     "viv_destruidas": 4.0,
-    "viv_averiadas": 151.0
+    "viv_averiadas": 151.0,
+    "poblacion_2026": 25109,
+    "tasa_pct": 2.8356
    },
    {
     "departamento": "RISARALDA",
@@ -933,7 +981,9 @@
     "familias": 303.0,
     "personas": 810.0,
     "viv_destruidas": 17.0,
-    "viv_averiadas": 142.0
+    "viv_averiadas": 142.0,
+    "poblacion_2026": 12698,
+    "tasa_pct": 6.379
    },
    {
     "departamento": "CHOCÓ",
@@ -941,7 +991,9 @@
     "familias": 300.0,
     "personas": 732.0,
     "viv_destruidas": 187.0,
-    "viv_averiadas": 179.0
+    "viv_averiadas": 179.0,
+    "poblacion_2026": 3378,
+    "tasa_pct": 21.6696
    },
    {
     "departamento": "RISARALDA",
@@ -949,7 +1001,9 @@
     "familias": 299.0,
     "personas": 845.0,
     "viv_destruidas": 18.0,
-    "viv_averiadas": 146.0
+    "viv_averiadas": 146.0,
+    "poblacion_2026": 7700,
+    "tasa_pct": 10.974
    },
    {
     "departamento": "CALDAS",
@@ -957,7 +1011,9 @@
     "familias": 297.0,
     "personas": 681.0,
     "viv_destruidas": 8.0,
-    "viv_averiadas": 5.0
+    "viv_averiadas": 5.0,
+    "poblacion_2026": 475690,
+    "tasa_pct": 0.1432
    },
    {
     "departamento": "RISARALDA",
@@ -965,7 +1021,9 @@
     "familias": 296.0,
     "personas": 808.0,
     "viv_destruidas": 40.0,
-    "viv_averiadas": 186.0
+    "viv_averiadas": 186.0,
+    "poblacion_2026": 6601,
+    "tasa_pct": 12.2406
    },
    {
     "departamento": "CHOCÓ",
@@ -973,7 +1031,9 @@
     "familias": 278.0,
     "personas": 623.0,
     "viv_destruidas": 2.0,
-    "viv_averiadas": 32.0
+    "viv_averiadas": 32.0,
+    "poblacion_2026": 5136,
+    "tasa_pct": 12.1301
    },
    {
     "departamento": "CHOCÓ",
@@ -981,7 +1041,9 @@
     "familias": 258.0,
     "personas": 596.0,
     "viv_destruidas": 3.0,
-    "viv_averiadas": 15.0
+    "viv_averiadas": 15.0,
+    "poblacion_2026": 29358,
+    "tasa_pct": 2.0301
    },
    {
     "departamento": "CHOCÓ",
@@ -989,7 +1051,9 @@
     "familias": 249.0,
     "personas": 250.0,
     "viv_destruidas": 5.0,
-    "viv_averiadas": 37.0
+    "viv_averiadas": 37.0,
+    "poblacion_2026": 36717,
+    "tasa_pct": 0.6809
    },
    {
     "departamento": "CALDAS",
@@ -997,7 +1061,9 @@
     "familias": 237.0,
     "personas": 717.0,
     "viv_destruidas": 9.0,
-    "viv_averiadas": 129.0
+    "viv_averiadas": 129.0,
+    "poblacion_2026": 52118,
+    "tasa_pct": 1.3757
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1005,7 +1071,9 @@
     "familias": 224.0,
     "personas": 383.0,
     "viv_destruidas": 11.0,
-    "viv_averiadas": 124.0
+    "viv_averiadas": 124.0,
+    "poblacion_2026": 14335,
+    "tasa_pct": 2.6718
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1013,7 +1081,9 @@
     "familias": 219.0,
     "personas": 450.0,
     "viv_destruidas": 8.0,
-    "viv_averiadas": 57.0
+    "viv_averiadas": 57.0,
+    "poblacion_2026": 30248,
+    "tasa_pct": 1.4877
    },
    {
     "departamento": "RISARALDA",
@@ -1021,7 +1091,9 @@
     "familias": 217.0,
     "personas": 609.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 5.0
+    "viv_averiadas": 5.0,
+    "poblacion_2026": 28386,
+    "tasa_pct": 2.1454
    },
    {
     "departamento": "CALDAS",
@@ -1029,7 +1101,9 @@
     "familias": 191.0,
     "personas": 442.0,
     "viv_destruidas": 8.0,
-    "viv_averiadas": 74.0
+    "viv_averiadas": 74.0,
+    "poblacion_2026": 15966,
+    "tasa_pct": 2.7684
    },
    {
     "departamento": "CHOCÓ",
@@ -1037,7 +1111,9 @@
     "familias": 189.0,
     "personas": 216.0,
     "viv_destruidas": 1.0,
-    "viv_averiadas": 12.0
+    "viv_averiadas": 12.0,
+    "poblacion_2026": 8768,
+    "tasa_pct": 2.4635
    },
    {
     "departamento": "RISARALDA",
@@ -1045,7 +1121,9 @@
     "familias": 181.0,
     "personas": 491.0,
     "viv_destruidas": 6.0,
-    "viv_averiadas": 146.0
+    "viv_averiadas": 146.0,
+    "poblacion_2026": 12461,
+    "tasa_pct": 3.9403
    },
    {
     "departamento": "RISARALDA",
@@ -1053,7 +1131,9 @@
     "familias": 173.0,
     "personas": 464.0,
     "viv_destruidas": 2.0,
-    "viv_averiadas": 81.0
+    "viv_averiadas": 81.0,
+    "poblacion_2026": 18515,
+    "tasa_pct": 2.5061
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1061,7 +1141,9 @@
     "familias": 165.0,
     "personas": 349.0,
     "viv_destruidas": 9.0,
-    "viv_averiadas": 72.0
+    "viv_averiadas": 72.0,
+    "poblacion_2026": 17825,
+    "tasa_pct": 1.9579
    },
    {
     "departamento": "CALDAS",
@@ -1069,7 +1151,9 @@
     "familias": 151.0,
     "personas": 419.0,
     "viv_destruidas": 1.0,
-    "viv_averiadas": 60.0
+    "viv_averiadas": 60.0,
+    "poblacion_2026": 11079,
+    "tasa_pct": 3.7819
    },
    {
     "departamento": "RISARALDA",
@@ -1077,7 +1161,9 @@
     "familias": 127.0,
     "personas": 325.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 9.0
+    "viv_averiadas": 9.0,
+    "poblacion_2026": 84054,
+    "tasa_pct": 0.3867
    },
    {
     "departamento": "CALDAS",
@@ -1085,7 +1171,9 @@
     "familias": 125.0,
     "personas": 323.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 102.0
+    "viv_averiadas": 102.0,
+    "poblacion_2026": 20404,
+    "tasa_pct": 1.583
    },
    {
     "departamento": "CALDAS",
@@ -1093,7 +1181,9 @@
     "familias": 121.0,
     "personas": 303.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 74463,
+    "tasa_pct": 0.4069
    },
    {
     "departamento": "CHOCÓ",
@@ -1101,7 +1191,9 @@
     "familias": 119.0,
     "personas": 386.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 35053,
+    "tasa_pct": 1.1012
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1109,7 +1201,9 @@
     "familias": 115.0,
     "personas": 197.0,
     "viv_destruidas": 1.0,
-    "viv_averiadas": 84.0
+    "viv_averiadas": 84.0,
+    "poblacion_2026": 5601,
+    "tasa_pct": 3.5172
    },
    {
     "departamento": "CALDAS",
@@ -1117,7 +1211,9 @@
     "familias": 109.0,
     "personas": 289.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 50452,
+    "tasa_pct": 0.5728
    },
    {
     "departamento": "CALDAS",
@@ -1125,7 +1221,9 @@
     "familias": 71.0,
     "personas": 153.0,
     "viv_destruidas": 5.0,
-    "viv_averiadas": 3.0
+    "viv_averiadas": 3.0,
+    "poblacion_2026": 10327,
+    "tasa_pct": 1.4816
    },
    {
     "departamento": "CHOCÓ",
@@ -1133,7 +1231,9 @@
     "familias": 65.0,
     "personas": 140.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 49.0
+    "viv_averiadas": 49.0,
+    "poblacion_2026": 16455,
+    "tasa_pct": 0.8508
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1141,7 +1241,9 @@
     "familias": 65.0,
     "personas": 134.0,
     "viv_destruidas": 10.0,
-    "viv_averiadas": 11.0
+    "viv_averiadas": 11.0,
+    "poblacion_2026": 16021,
+    "tasa_pct": 0.8364
    },
    {
     "departamento": "CALDAS",
@@ -1149,7 +1251,9 @@
     "familias": 58.0,
     "personas": 58.0,
     "viv_destruidas": 4.0,
-    "viv_averiadas": 10.0
+    "viv_averiadas": 10.0,
+    "poblacion_2026": 4960,
+    "tasa_pct": 1.1694
    },
    {
     "departamento": "CHOCÓ",
@@ -1157,7 +1261,9 @@
     "familias": 52.0,
     "personas": 164.0,
     "viv_destruidas": 3.0,
-    "viv_averiadas": 9.0
+    "viv_averiadas": 9.0,
+    "poblacion_2026": 143332,
+    "tasa_pct": 0.1144
    },
    {
     "departamento": "CALDAS",
@@ -1165,7 +1271,9 @@
     "familias": 50.0,
     "personas": 114.0,
     "viv_destruidas": 1.0,
-    "viv_averiadas": 8.0
+    "viv_averiadas": 8.0,
+    "poblacion_2026": 10781,
+    "tasa_pct": 1.0574
    },
    {
     "departamento": "CHOCÓ",
@@ -1173,7 +1281,9 @@
     "familias": 50.0,
     "personas": 73.0,
     "viv_destruidas": 5.0,
-    "viv_averiadas": 45.0
+    "viv_averiadas": 45.0,
+    "poblacion_2026": 30386,
+    "tasa_pct": 0.2402
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1181,7 +1291,9 @@
     "familias": 50.0,
     "personas": 72.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 8.0
+    "viv_averiadas": 8.0,
+    "poblacion_2026": 144206,
+    "tasa_pct": 0.0499
    },
    {
     "departamento": "CHOCÓ",
@@ -1189,7 +1301,9 @@
     "familias": 32.0,
     "personas": 44.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 18970,
+    "tasa_pct": 0.2319
    },
    {
     "departamento": "CHOCÓ",
@@ -1197,7 +1311,9 @@
     "familias": 29.0,
     "personas": 54.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 9.0
+    "viv_averiadas": 9.0,
+    "poblacion_2026": 11341,
+    "tasa_pct": 0.4761
    },
    {
     "departamento": "CHOCÓ",
@@ -1205,7 +1321,9 @@
     "familias": 28.0,
     "personas": 65.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 22.0
+    "viv_averiadas": 22.0,
+    "poblacion_2026": 10485,
+    "tasa_pct": 0.6199
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1213,7 +1331,9 @@
     "familias": 27.0,
     "personas": 56.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 24545,
+    "tasa_pct": 0.2282
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1221,7 +1341,9 @@
     "familias": 24.0,
     "personas": 75.0,
     "viv_destruidas": 1.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 225868,
+    "tasa_pct": 0.0332
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1229,7 +1351,9 @@
     "familias": 23.0,
     "personas": 42.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 7.0
+    "viv_averiadas": 7.0,
+    "poblacion_2026": 196875,
+    "tasa_pct": 0.0213
    },
    {
     "departamento": "CHOCÓ",
@@ -1237,7 +1361,9 @@
     "familias": 22.0,
     "personas": 85.0,
     "viv_destruidas": 1.0,
-    "viv_averiadas": 14.0
+    "viv_averiadas": 14.0,
+    "poblacion_2026": 5848,
+    "tasa_pct": 1.4535
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1245,7 +1371,9 @@
     "familias": 22.0,
     "personas": 61.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 17244,
+    "tasa_pct": 0.3537
    },
    {
     "departamento": "CALDAS",
@@ -1253,7 +1381,9 @@
     "familias": 19.0,
     "personas": 42.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 6.0
+    "viv_averiadas": 6.0,
+    "poblacion_2026": 2676,
+    "tasa_pct": 1.5695
    },
    {
     "departamento": "CALDAS",
@@ -1261,7 +1391,9 @@
     "familias": 16.0,
     "personas": 30.0,
     "viv_destruidas": 2.0,
-    "viv_averiadas": 10.0
+    "viv_averiadas": 10.0,
+    "poblacion_2026": 10931,
+    "tasa_pct": 0.2744
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1269,7 +1401,9 @@
     "familias": 13.0,
     "personas": 36.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 2.0
+    "viv_averiadas": 2.0,
+    "poblacion_2026": 12765,
+    "tasa_pct": 0.282
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1277,7 +1411,9 @@
     "familias": 11.0,
     "personas": 31.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 5.0
+    "viv_averiadas": 5.0,
+    "poblacion_2026": 115933,
+    "tasa_pct": 0.0267
    },
    {
     "departamento": "QUINDÍO",
@@ -1285,7 +1421,9 @@
     "familias": 9.0,
     "personas": 13.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 2.0
+    "viv_averiadas": 2.0,
+    "poblacion_2026": 74399,
+    "tasa_pct": 0.0175
    },
    {
     "departamento": "CHOCÓ",
@@ -1293,7 +1431,9 @@
     "familias": 4.0,
     "personas": 8.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 3.0
+    "viv_averiadas": 3.0,
+    "poblacion_2026": 10943,
+    "tasa_pct": 0.0731
    },
    {
     "departamento": "CALDAS",
@@ -1301,7 +1441,9 @@
     "familias": 2.0,
     "personas": 3.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 37352,
+    "tasa_pct": 0.008
    },
    {
     "departamento": "QUINDÍO",
@@ -1309,7 +1451,9 @@
     "familias": 1.0,
     "personas": 1.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 307103,
+    "tasa_pct": 0.0003
    },
    {
     "departamento": "QUINDÍO",
@@ -1317,7 +1461,9 @@
     "familias": 1.0,
     "personas": 2.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 5863,
+    "tasa_pct": 0.0341
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1325,7 +1471,9 @@
     "familias": 1.0,
     "personas": 1.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 34739,
+    "tasa_pct": 0.0029
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1333,7 +1481,9 @@
     "familias": 1.0,
     "personas": 1.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 12558,
+    "tasa_pct": 0.008
    }
   ]
  },
@@ -1342,8 +1492,8 @@
   "en_aoi": 368
  },
  "municipios": {
-  "total": 25,
-  "fuera_aoi": 20
+  "total": 83,
+  "fuera_de_aoi_copernicus": 78
  },
  "activation_index": [
   {

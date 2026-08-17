@@ -26,13 +26,26 @@ jobs:
           python ingest/dump_db.py rebuild
           python -m unittest tests.test_unit tests.test_hipotesis -v
 
+      # Las reglas que viven en JavaScript (R8 en ui.js, R10 en el worker) se
+      # vigilaban solo con node --check, que no ejecuta nada: sin estos, la
+      # paridad entre las dos listas de municipios era un guardián apagado.
+      - name: Tests de la lógica en JavaScript (ejecutan el código real con node)
+        run: python -m unittest tests.test_frontend tests.test_worker_toponimos -v
+
       - name: Lint Python (ruff, solo en CI — el runtime sigue sin dependencias)
         run: |
           pip install --quiet ruff==0.6.9
           ruff check .
 
+      # OJO: `node --check` sobre un .js que contiene `export` detecta módulo y
+      # devuelve 0 aunque la sintaxis esté rota (verificado con node 20). Los
+      # ESM se comprueban copiados a .mjs, donde sí valida.
       - name: Sintaxis JavaScript (node --check, cero dependencias)
         run: |
-          for f in site/*.js workers/ai-view/src/*.js; do
+          for f in site/*.js; do
             node --check "$f"
+          done
+          for f in workers/*/src/*.js; do
+            cp "$f" "/tmp/$(basename "$f" .js).mjs"
+            node --check "/tmp/$(basename "$f" .js).mjs"
           done

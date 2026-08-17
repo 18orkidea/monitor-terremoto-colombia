@@ -115,17 +115,18 @@
       Las líneas verticales son los hitos de la respuesta internacional, local y del propio
       monitor — la lista de debajo se filtra por tipo. Se lee de un vistazo que los datos
       llegan cuando la prensa ya se fue, y cómo van entrando fuentes nuevas.</li>
-      <li><strong><a href="municipios.html">Municipios</a></strong> (página aparte): ciudades
-      del área de influencia con prensa, intensidad percibida o reportes — la lista de
-      «dónde más mirar», con buscador.</li>
+      <li><strong><a href="municipios.html">Municipios</a></strong> (página aparte): los
+      municipios del área de influencia con damnificados registrados en el RUD, menciones
+      en prensa o intensidad percibida — la lista de «dónde más mirar», con buscador y qué
+      proporción de su población está registrada.</li>
       <li><strong><a href="rud.html">RUD oficial</a></strong> (página aparte): el registro
       oficial de damnificados día a día y municipio a municipio, con buscador.</li>
       <li><strong><a href="balances.html">Balances</a></strong> (página aparte): las cifras de
       fallecidos/heridos/viviendas que los medios publican citando a UNGRD o SGC, extraídas con
       IA — y la comparativa contra el RUD. Ojo con la etiqueta: es <em>prensa que cita lo
       oficial</em>, no el balance oficial.</li>
-      <li><strong><a href="noticias.html">Titulares</a></strong> (página aparte): las 3.000+
-      noticias filtrables por zona, medio y texto. ¿Falta un medio regional? El registro de
+      <li><strong><a href="noticias.html">Titulares</a></strong> (página aparte): todos los
+      titulares recogidos, filtrables por zona, medio y texto. ¿Falta un medio regional? El registro de
       feeds es abierto — se añade con un PR.</li>
       <li><strong><a href="#glosario">Descargas y verificación</a></strong>: botones CSV/JSON arriba; glosario de
       acrónimos y metodología con enlaces a todas las fuentes al pie. Si una cifra no cuadra,
@@ -171,11 +172,11 @@
       </thead>
       <tbody></tbody>
     </table>
-    <p class="note">«Oficial» exige EDAN/balance de entidad estatal. Desde el 16-ago el
-    <a href="rud.html">RUD</a> aporta esa evidencia donde los municipios ya registran —
-    por eso hay zonas en «Coincide» — pero donde aún no registran (p. ej. Pereira y
-    Buenaventura), el satélite sigue siendo la única evidencia. La prensa y los
-    reportes ciudadanos no equivalen a un balance oficial.</p>
+    <p class="note">«Oficial» exige EDAN/balance de entidad estatal. Desde que el monitor
+    captura el <a href="rud.html">RUD</a> (<span id="nota-rud-desde"></span>), ese registro
+    aporta la evidencia donde los municipios ya registran — por eso hay zonas en
+    «Coincide».<span id="nota-sin-registro"></span> La prensa y los reportes ciudadanos no
+    equivalen a un balance oficial.</p>
     <p class="note">¿Estás en la zona? <a href="https://chatmap.hotosm.org/colombia.html"
     target="_blank" rel="noopener"><strong>Reporta daños con tu ubicación y foto por
     WhatsApp</strong></a> (ChatMap · OSM Colombia + UN Mappers + HOT). Tu reporte aparece
@@ -274,8 +275,10 @@
     <a href="https://www.gdacs.org/report.aspx?eventid=1557236&amp;episodeid=1724218&amp;eventtype=EQ" target="_blank" rel="noopener">GDACS</a> ·
     <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a> ·
     UNGRD (<a href="https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0" target="_blank" rel="noopener">ArcGIS</a>,
-    <a href="https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te" target="_blank" rel="noopener">datos.gov.co</a>) ·
-    <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE</a> ·
+    <a href="https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te" target="_blank" rel="noopener">datos.gov.co</a>,
+    <a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">RUD</a>) ·
+    <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE</a>
+    (<a href="https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w" target="_blank" rel="noopener">DIVIPOLA</a>) ·
     <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a> ·
     <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC</a>.
     Sin acceso programático (documentado):
@@ -307,6 +310,7 @@
     <dt>GLIDE</dt><dd>Identificador global único de desastres (<em>GLobal IDEntifier</em>); el de este sismo es EQ-2026-000146-COL.</dd>
     <dt>UNGRD</dt><dd>Unidad Nacional para la Gestión del Riesgo de Desastres de Colombia: la entidad oficial que consolida emergencias.</dd>
     <dt>EDAN</dt><dd>Evaluación de Daños y Análisis de Necesidades: el balance oficial en terreno (viviendas, personas afectadas, servicios).</dd>
+    <dt>RUD</dt><dd>Registro Único de Damnificados (UNGRD): lo cargan las autoridades municipales, municipio a municipio. No es un EDAN ni una verificación de daño; que un municipio no aparezca significa «sin registro aún», no «sin daño».</dd>
     <dt>SNIGRD</dt><dd>Sistema Nacional de Información para la Gestión del Riesgo de Desastres (UNGRD, 2026).</dd>
     <dt>SGC</dt><dd>Servicio Geológico Colombiano: autoridad sismológica nacional (red de sismógrafos y formulario «Sismo Sentido»).</dd>
     <dt>OSM / HOT</dt><dd>OpenStreetMap (mapa libre mundial) y <em>Humanitarian OpenStreetMap Team</em>, que coordina el mapeo humanitario; ChatMap es su herramienta de reporte por WhatsApp.</dd>

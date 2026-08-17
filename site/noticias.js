@@ -74,31 +74,13 @@
       (n.municipios || []).map((m) => `<span class="chip mun">${m}</span>`).join("") +
       `<br><a href="${n.url}" target="_blank" rel="noopener">${n.titulo}</a></li>`).join("") ||
       "<li>Nada que mostrar con estos filtros.</li>";
-    renderPaginado(paginas);
+    window.UI.paginador(pagEl, paginas, pagina, (p) => {
+      pagina = p;
+      render();
+      document.getElementById("filtros").scrollIntoView({ behavior: "smooth" });
+    });
   }
 
-  function renderPaginado(paginas) {
-    if (!pagEl) return;
-    if (paginas <= 1) { pagEl.innerHTML = ""; return; }
-    // ventana compacta: 1 … p-1 p p+1 … N
-    const nums = [...new Set([1, 2, pagina - 1, pagina, pagina + 1, paginas - 1, paginas]
-      .filter((n) => n >= 1 && n <= paginas))].sort((a, b) => a - b);
-    let html = `<button ${pagina === 1 ? "disabled" : ""} data-p="${pagina - 1}">‹ Anterior</button>`;
-    let prev = 0;
-    for (const n of nums) {
-      if (n - prev > 1) html += `<span style="color:var(--muted)">…</span>`;
-      html += `<button data-p="${n}" class="${n === pagina ? "actual" : ""}">${n}</button>`;
-      prev = n;
-    }
-    html += `<button ${pagina === paginas ? "disabled" : ""} data-p="${pagina + 1}">Siguiente ›</button>`;
-    pagEl.innerHTML = html;
-    pagEl.querySelectorAll("button[data-p]").forEach((b) =>
-      b.addEventListener("click", () => {
-        pagina = +b.dataset.p;
-        render();
-        document.getElementById("filtros").scrollIntoView({ behavior: "smooth" });
-      }));
-  }
   const filtrar = () => { pagina = 1; render(); };
   document.getElementById("buscar").addEventListener("input", filtrar);
   selA.addEventListener("change", filtrar);

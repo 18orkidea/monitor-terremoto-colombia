@@ -5,7 +5,14 @@ const KEYWORDS = [
 ];
 
 const EVENT_TERMS = [
-  "terremoto", "sismo", "temblor", "movimiento sismico", "movimiento sísmico",
+  "terremoto", "sismo", "temblor", "movimiento sismico", "movimiento sísmico"
+];
+
+/* Topónimos que también valen como señal de evento. Van aparte porque exigen
+   límite de palabra: con includes(), «chocó» hacía que «fábrica de chocolate»
+   contara como evidencia del terremoto (R10). Los términos de arriba sí se
+   buscan por contención, a propósito: así «sismos» y «temblores» cuentan. */
+const EVENT_PLACES = [
   "san jose del palmar", "san josé del palmar", "chocó", "choco"
 ];
 
@@ -25,6 +32,10 @@ const GENERIC_PAGE_TERMS = [
   "inicio transparencia"
 ];
 
+/* Países de OTROS eventos sísmicos, buscados por CONTENCIÓN a propósito (al
+   revés que EVENT_PLACES): así «chilena», «peruano» o «japonés» también cuentan
+   para descartar el documento. Un falso positivo aquí solo descarta un
+   candidato, no publica una cifra. */
 const UNRELATED_EVENT_TERMS = [
   "indonesia", "peru", "mexico", "chile", "japon", "japón", "rusia", "turquia", "turquía"
 ];
@@ -44,6 +55,11 @@ const FIRECRAWL_DAILY_QUERY_TEMPLATES = [
   }
 ];
 
+/* Versión del código que produce cada feed: sin esto no hay forma de saber qué
+   criterios generaron un ítem archivado (deploy manual, KV fuera de git). Subir
+   al cambiar cualquier regla de interpretación. */
+const WORKER_VERSION = "2026-08-17-r10";
+
 const MUNICIPIOS = [
   ["Armenia", "Quindío"],
   ["Calarcá", "Quindío"],
@@ -62,6 +78,9 @@ const MUNICIPIOS = [
   ["Dagua", "Valle del Cauca"],
   ["Pereira", "Risaralda"],
   ["Dosquebradas", "Risaralda"],
+  // alias del pipeline (municipios.py lo lista como topónimo): con límite de
+  // palabra, «Dos Quebradas» no casa dentro de «Dosquebradas»
+  ["Dos Quebradas", "Risaralda"],
   ["Santa Rosa de Cabal", "Risaralda"],
   ["Manizales", "Caldas"],
   ["Villamaría", "Caldas"],
@@ -311,6 +330,11 @@ async function runCollection(env, options = {}) {
     extraction: {
       private: true,
       model: env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20",
+      version: WORKER_VERSION,
+      criterios: {
+        lugares: "limite_palabra_sin_enlaces",
+        cifras: "texto_sin_enlaces"
+      },
       note: "La inferencia IA no se expone; solo se publica el feed estructurado."
     }
   };
@@ -699,38 +723,51 @@ async function parseWithQwenOcr(documentUrl, env) {
 }
 
 function structureOfficialText(text, candidate) {
-  const lower = norm(text);
+  // Un solo texto limpio para todo lo que interpreta: las URLs no solo
+  // atribuían municipios, también ofrecían números — «mapa-900x601.jpg» daba
+  // «900 municipios afectados», y esa cifra SÍ se pinta (site/balances.js la
+  // enfrenta al RUD). La cita y el text_excerpt siguen sobre el crudo: son
+  // literales de archivo (R3).
+  const limpio = sinEnlaces(text);
+  const lower = norm(limpio);
   const municipios = MUNICIPIOS
-    .filter(([name]) => lower.includes(norm(name)))
+    .filter(([name]) => mentionsPlace(lower, name))
     .map(([name]) => name);
   const departamentos = new Set(
     MUNICIPIOS
-      .filter(([name, dept]) => municipios.includes(name) || lower.includes(norm(dept)))
+      .filter(([name, dept]) => municipios.includes(name) || mentionsPlace(lower, dept))
       .map(([, dept]) => dept)
   );
   if (candidate.source.department) departamentos.add(candidate.source.department);
 
   return {
-    relacionado_evento: isSpecificEventEvidence(`${candidate.title} ${candidate.summary || ""} ${text}`),
-    fecha: findDate(text),
+    relacionado_evento: isSpecificEventEvidence(`${candidate.title} ${candidate.summary || ""} ${limpio}`),
+    fecha: findDate(limpio),
     departamentos: [...departamentos].sort(),
     municipios: municipios.sort(),
-    estado: classify(text),
+    estado: classify(limpio),
     cifras: {
-      departamentos_afectados: findMetricNumber(text, "departamentos"),
-      municipios_afectados: findMetricNumber(text, "municipios"),
-      personas_afectadas: findMetricNumber(text, "personas"),
-      familias_afectadas: findMetricNumber(text, "familias"),
-      viviendas_averiadas: findMetricNumber(text, "viviendas_averiadas"),
-      viviendas_destruidas: findMetricNumber(text, "viviendas_destruidas"),
-      heridos: findMetricNumber(text, "heridos"),
-      fallecidos: findMetricNumber(text, "fallecidos"),
-      desaparecidos: findMetricNumber(text, "desaparecidos"),
-      rescatados: findMetricNumber(text, "rescatados")
+      departamentos_afectados: findMetricNumber(limpio, "departamentos"),
+      municipios_afectados: findMetricNumber(limpio, "municipios"),
+      personas_afectadas: findMetricNumber(limpio, "personas"),
+      familias_afectadas: findMetricNumber(limpio, "familias"),
+      viviendas_averiadas: findMetricNumber(limpio, "viviendas_averiadas"),
+      viviendas_destruidas: findMetricNumber(limpio, "viviendas_destruidas"),
+      heridos: findMetricNumber(limpio, "heridos"),
+      fallecidos: findMetricNumber(limpio, "fallecidos"),
+      desaparecidos: findMetricNumber(limpio, "desaparecidos"),
+      rescatados: findMetricNumber(limpio, "rescatados")
     },
     requiere_revision_humana: true,
-    confianza: confidence(text),
-    cita: findQuote(text)
+    confianza: confidence(limpio),
+    cita: findQuote(text),
+    // sello del criterio de atribución: los ítems SIN este campo se etiquetaron
+    // con el `includes()` anterior al 17-ago-2026 (podían atribuir un municipio
+    // por el nombre de archivo de una imagen). El KV reusa ítems viejos tal
+    // cual, así que los feeds archivados mezclan ambos criterios: sin el sello
+    // no habría forma de distinguirlos dentro de veinte años.
+    atribucion_lugares: "limite_palabra_sin_enlaces",
+    cifras_desde: "texto_sin_enlaces"
   };
 }
 
@@ -1014,8 +1051,11 @@ function isSpecificEventEvidence(text) {
 }
 
 function hasEventTerm(text) {
-  const n = norm(text);
-  return EVENT_TERMS.some((term) => n.includes(norm(term)));
+  // también sin enlaces: un documento cuyo único anclaje colombiano fuese la URL
+  // de una imagen entraba al feed como evidencia del evento
+  const n = norm(sinEnlaces(text));
+  return EVENT_TERMS.some((term) => n.includes(norm(term))) ||
+    EVENT_PLACES.some((place) => mentionsPlace(n, place));
 }
 
 function hasDamageTerm(text) {
@@ -1024,8 +1064,9 @@ function hasDamageTerm(text) {
 }
 
 function hasImpactedPlace(text) {
-  const n = norm(text);
-  return MUNICIPIOS.some(([name, dept]) => n.includes(norm(name)) || n.includes(norm(dept)));
+  const n = norm(sinEnlaces(text));
+  return MUNICIPIOS.some(([name, dept]) =>
+    mentionsPlace(n, name) || mentionsPlace(n, dept));
 }
 
 function hasColombiaContext(text) {
@@ -1142,6 +1183,39 @@ function norm(s) {
     .toLowerCase();
 }
 
+/* R10 («Cali» no es «California»): los topónimos se buscan con límite de
+   palabra, igual que en ingest/municipios.py::_mentioned. Con includes() a
+   secas, un artículo sobre California pasaba el filtro de contexto colombiano.
+   Nombre en inglés como sus hermanos (hasImpactedPlace, hasEventTerm): buscar
+   una cadena es infraestructura de texto; el dominio son municipio y balance.
+   `n` ya viene normalizado. */
+function mentionsPlace(n, nombre) {
+  const t = norm(nombre).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`\\b${t}\\b`).test(n);
+}
+
+/* El límite de palabra no basta contra las URLs: en «terremoto-cali.jpg» o
+   «/noticias/cali/portada.webp» el guion y la barra SON frontera, así que el
+   nombre de archivo de una imagen atribuía el balance a Cali sin que el
+   topónimo apareciera en la prosa (2 de 15 ítems del 16-ago), y sus números
+   llegaban a findMetricNumber como cifras de daño («900x601» → 900 municipios
+   afectados). El pipeline no sufre esto porque atribuye sobre titulares; el
+   worker lee el documento entero.
+
+   Lo que Firecrawl entrega es markdown, así que el texto ENLAZADO es prosa
+   —«[UNGRD confirma 12 fallecidos en Cali](url)» es justo donde aparece el
+   municipio— y solo se descarta la URL. De las imágenes se va todo, alt
+   incluido: son pies de foto y créditos, no balance. Un «Quibdó.pdf» suelto en
+   la prosa se conserva a propósito: nombrar un documento oficial es nombrar el
+   municipio. */
+function sinEnlaces(text) {
+  return String(text || "")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")      // imagen: fuera alt y URL
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")    // enlace: se queda el texto
+    .replace(/https?:\/\/\S+/g, " ")            // URL desnuda
+    .replace(/\/\S*\.(?:jpe?g|png|webp|gif|svg|pdf|mp4|avif)\b/gi, " ");
+}
+
 async function sha256(buffer) {
   const digest = await crypto.subtle.digest("SHA-256", buffer);
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
@@ -1209,3 +1283,9 @@ function cors(response) {
   response.headers.set("access-control-allow-headers", "content-type,authorization");
   return response;
 }
+
+/* Exportado solo para los tests (Cloudflare usa únicamente el default):
+   tests/test_worker_toponimos.py ejecuta esta misma función con node, para no
+   testear una copia — la lección de crosscheck aplica también aquí. */
+export { MUNICIPIOS, EVENT_PLACES, mentionsPlace, sinEnlaces,
+         hasEventTerm, hasImpactedPlace, structureOfficialText };

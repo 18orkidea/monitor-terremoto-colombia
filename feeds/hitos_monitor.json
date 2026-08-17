@@ -42,6 +42,17 @@
       "fecha": "2026-08-17",
       "tipo": "monitor",
       "texto": "El monitor avisa: notificaciones push del navegador (botón 🔔), canal de Telegram y RSS de alertas con los cambios diarios del RUD, los balances en medios y el propio monitor"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "El monitor estaba mirando solo 25 municipios cuando el RUD ya registraba 75. La capa pasa a 83 y entran todos los del registro oficial, 72 de ellos sin ninguna verificación satelital, con la población DANE y qué proporción de ella está registrada como damnificada. Los que entren al RUD en adelante se incorporan solos.",
+      "url": "https://brechas.orkidea.eu/site/municipios.html"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "El extractor de balances deja de confundir «California» con Cali: la última superficie del monitor que atribuía municipios sin límite de palabra ya aplica la misma regla que el resto, y dos tests vigilan que su lista de municipios no se separe en silencio de la del pipeline."
     }
   ]
 }

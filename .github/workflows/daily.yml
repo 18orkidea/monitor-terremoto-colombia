@@ -74,14 +74,31 @@ jobs:
       - name: Snapshot del feed de balances
         run: |
           HOY=$(date -u +%F)
+          DEST="feeds/balances/${HOY}.json"
+          # misma política intradía que data/snapshots/: un cuerpo distinto el
+          # mismo día se archiva aparte, jamás pisa al anterior. El fichero del
+          # 17-ago es la frontera del cambio de criterio de atribución y está
+          # citado como evidencia en docs/DECISIONES.md.
+          if [ -e "$DEST" ]; then
+            DEST="feeds/balances/${HOY}T$(date -u +%H%M%S).json"
+          fi
           if curl -sS -m 60 -f \
               "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" \
-              -o "feeds/balances/${HOY}.json"; then
-            sha256sum "feeds/balances/${HOY}.json"
+              -o "$DEST"; then
+            sha256sum "$DEST"
           else
             echo "::warning::El feed de balances no respondió hoy; sin snapshot"
-            rm -f "feeds/balances/${HOY}.json"
+            rm -f "$DEST"
           fi
+
+      # Después de archivar, a propósito: un runner sin node o una divergencia
+      # entre las dos listas de municipios no puede costar el snapshot del día.
+      # En pr.yml el mismo paso sí es fatal, que es donde debe doler.
+      - name: Vigilar las reglas que viven en JavaScript (no fatal)
+        continue-on-error: true
+        run: |
+          python -m unittest tests.test_frontend tests.test_worker_toponimos -v \
+            || echo "::error::Las reglas en JavaScript fallaron — revisar antes del próximo deploy del worker"
 
       - name: Commit del snapshot si hay cambios
         run: |

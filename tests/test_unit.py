@@ -218,6 +218,247 @@ class TestMunicipiosInfluencia(unittest.TestCase):
         self.assertEqual(buga["divipola"], "76111")
         self.assertEqual(buga["poblacion_2026"], 132000)
 
+    def test_solo_rud_incluye_municipio_sin_prensa_ni_dyfi(self):
+        from municipios import build_municipios
+        rud = {("choco", "condoto"): {
+            "departamento": "CHOCÓ", "municipio": "CONDOTO",
+            "familias": 969, "personas": 2811,
+            "viv_destruidas": 22, "viv_averiadas": 22}}
+        rows, gj = build_municipios([], None, {}, {
+            "condoto|choco": {"divipola": "27205", "poblacion_2026": 12620,
+                              "cabecera_2026": 9000, "rural_2026": 3620}
+        }, rud)
+        condoto = next(r for r in rows if r["municipio"] == "Condoto")
+        self.assertEqual(condoto["estado"], "solo_rud")
+        self.assertIn("rud", condoto["fuentes"])
+        self.assertEqual(condoto["rud_personas"], 2811)
+        self.assertAlmostEqual(condoto["tasa_rud_pct"], 22.27, places=2)
+        # R3: sin celda DYFI atribuida no hay cero, hay ausencia de dato
+        self.assertIsNone(condoto["dyfi_respuestas"])
+        self.assertEqual(condoto["dyfi_celdas"], 0)
+
+    def test_rud_no_sube_el_estado_de_municipio_con_prensa(self):
+        # el RUD añade datos pero no puede escalar el estado por encima
+        # de la cascada existente (espíritu de R2 fuera del cruce)
+        from municipios import build_municipios
+        rud = {("quindio", "armenia"): {
+            "departamento": "QUINDÍO", "municipio": "ARMENIA",
+            "familias": 5, "personas": 12,
+            "viv_destruidas": 0, "viv_averiadas": 1}}
+        rows, _ = build_municipios([
+            {"titulo": "Armenia reporta afectaciones", "medio": "medio"}
+        ], None, {}, None, rud)
+        armenia = next(r for r in rows if r["municipio"] == "Armenia")
+        self.assertEqual(armenia["estado"], "mencion_prensa")
+        self.assertIn("rud", armenia["fuentes"])
+        self.assertEqual(armenia["rud_personas"], 12)
+
+    def test_municipio_rud_desconocido_entra_via_divipola(self):
+        # si mañana el RUD registra un municipio fuera de la lista curada,
+        # entra solo con coordenadas del catálogo DIVIPOLA — no se pierde
+        from municipios import build_municipios
+        rud = {("antioquia", "medellin"): {
+            "departamento": "ANTIOQUIA", "municipio": "MEDELLÍN",
+            "familias": 10, "personas": 25,
+            "viv_destruidas": 1, "viv_averiadas": 2}}
+        divipola = {"medellin|antioquia": {
+            "municipio": "MEDELLÍN", "departamento": "ANTIOQUIA",
+            "divipola": "05001", "lat": 6.2466, "lon": -75.5818}}
+        rows, gj = build_municipios([], None, {}, None, rud, divipola)
+        med = next(r for r in rows if r["municipio"] == "Medellín")
+        self.assertEqual(med["estado"], "solo_rud")
+        self.assertEqual(med["lat"], 6.2466)
+        self.assertEqual(len(gj["features"]), 1)
+
+    def test_tasa_diminuta_no_se_redondea_a_cero(self):
+        # una persona registrada en una capital es 0,0003 % — redondear a dos
+        # decimales lo volvía 0,0 y el sitio lo leía como «sin damnificados»
+        from municipios import build_municipios
+        rud = {("quindio", "armenia"): {
+            "departamento": "QUINDÍO", "municipio": "ARMENIA",
+            "familias": 1, "personas": 1,
+            "viv_destruidas": 0, "viv_averiadas": 0}}
+        rows, _ = build_municipios([], None, {}, {
+            "armenia|quindio": {"divipola": "63001", "poblacion_2026": 307103,
+                                "cabecera_2026": 298815, "rural_2026": 8288}
+        }, rud)
+        armenia = next(r for r in rows if r["municipio"] == "Armenia")
+        self.assertGreater(armenia["tasa_rud_pct"], 0,
+                           "una proporción real jamás debe publicarse como 0")
+
+    def test_toponimo_ambiguo_exige_departamento(self):
+        # «Toro», «Palestina», «Restrepo» son municipios reales, pero también
+        # palabra común, territorio y apellido: sin el departamento no cuentan
+        from municipios import build_municipios, match_municipios_text
+        self.assertEqual(match_municipios_text("El ministro Restrepo viajó"), [])
+        self.assertEqual(match_municipios_text("Ayuda para Palestina"), [])
+        self.assertIn("Toro", match_municipios_text(
+            "Toro, Valle del Cauca, reporta viviendas averiadas"))
+        rows, _ = build_municipios([
+            {"titulo": "Corrida de toros suspendida", "medio": "medio"}
+        ], None, {})
+        self.assertNotIn("Toro", [r["municipio"] for r in rows])
+
+    def test_toponimo_igual_a_departamento_exige_contexto(self):
+        """Risaralda es un municipio de Caldas de 11.000 habitantes Y el nombre
+        de un departamento entero: sin esta marca, los 67 titulares del
+        departamento se atribuían al municipio (y contaminaban la etiqueta
+        departamental de las noticias). Se comprueba la CLASE completa contra
+        el catálogo DIVIPOLA, no solo el caso conocido."""
+        import json
+        from municipios import MUNICIPIOS, _norm, match_municipios_text
+        div = Path(__file__).parent.parent / "data" / "public" / "divipola_coords.json"
+        if not div.exists():
+            self.skipTest("sin catálogo DIVIPOLA: correr ingest/build_divipola.py")
+        deptos = {_norm(v["departamento"])
+                  for v in json.loads(div.read_text())["items"].values()}
+        sin_marca = [m for m, meta in MUNICIPIOS.items()
+                     if not meta.get("homonimo_de_departamento")
+                     and any(t in deptos for t in meta["toponimos"])]
+        self.assertEqual(sin_marca, [],
+                         f"topónimos que también nombran un departamento y "
+                         f"aceptan prensa por texto: {sin_marca}")
+        # ni con el departamento al lado: «Caldas y Risaralda» es el departamento
+        self.assertEqual(match_municipios_text("Terremoto en Risaralda"), [])
+        self.assertEqual(
+            match_municipios_text("Sismo en municipios de Caldas y Risaralda"), [])
+
+    def test_municipio_dinamico_nace_exigiendo_departamento(self):
+        # las entradas no curadas son las que más necesitan el criterio
+        # conservador: nadie ha revisado si su nombre es palabra común
+        from municipios import municipios_dinamicos
+        rud = {("santander", "bolivar"): {
+            "departamento": "SANTANDER", "municipio": "BOLÍVAR",
+            "familias": 3, "personas": 8,
+            "viv_destruidas": 0, "viv_averiadas": 1}}
+        extras = municipios_dinamicos(rud, None)
+        self.assertTrue(all(v.get("requiere_depto") for v in extras.values()),
+                        f"entradas dinámicas sin requiere_depto: {extras}")
+
+    def test_homonimo_de_departamento_viaja_al_frontend(self):
+        """El sitio necesita el flag para pintar «—» en Prensa en vez de «0»:
+        que el monitor no pueda atribuir titulares no es que no existan."""
+        from municipios import build_municipios
+        rud = {("caldas", "risaralda"): {
+            "departamento": "CALDAS", "municipio": "RISARALDA",
+            "familias": 150, "personas": 419,
+            "viv_destruidas": 2, "viv_averiadas": 10}}
+        rows, _ = build_municipios([
+            {"titulo": "Sismo en municipios de Caldas y Risaralda", "medio": "medio"}
+        ], None, {}, None, rud)
+        r = next(x for x in rows if x["municipio"] == "Risaralda")
+        self.assertTrue(r["homonimo_de_departamento"])
+        # R3 también en el JSON descargable: ausencia de dato, no cero
+        self.assertIsNone(r["n_noticias"])
+        self.assertEqual(r["estado"], "solo_rud")
+
+    def test_dyfi_flojo_no_tapa_el_registro_oficial(self):
+        """Belén de Umbría tenía 2.266 damnificados registrados y una sola
+        celda DYFI de CDI 5,6 lo mandaba a «intensidad sentida» — un estado
+        cuya explicación niega que nadie más lo documente. El registro oficial
+        pesa más que «se sintió flojo»."""
+        from municipios import build_municipios
+        rud = {("risaralda", "belen de umbria"): {
+            "departamento": "RISARALDA", "municipio": "BELÉN DE UMBRÍA",
+            "familias": 864, "personas": 2266,
+            "viv_destruidas": 48, "viv_averiadas": 502}}
+        dyfi = {"features": [{
+            "geometry": {"type": "Polygon", "coordinates": [[
+                [-75.90, 5.16], [-75.83, 5.16], [-75.83, 5.24], [-75.90, 5.24],
+                [-75.90, 5.16]]]},
+            "properties": {"name": "UTM:(18N)<br>Belén de Umbría",
+                           "cdi": 5.6, "nresp": 2, "dist": 140}}]}
+        rows, _ = build_municipios([], dyfi, {}, None, rud)
+        belen = next(r for r in rows if r["municipio"] == "Belén de Umbría")
+        self.assertEqual(belen["estado"], "solo_rud")
+        self.assertEqual(belen["dyfi_max_cdi"], 5.6)   # el DYFI no se pierde
+        self.assertEqual(sorted(belen["fuentes"]), ["dyfi", "rud"])
+
+    def test_municipio_dinamico_detecta_homonimo_de_departamento(self):
+        # un municipio del RUD llamado como un departamento (Bolívar, Caldas)
+        # nace sin poder recibir prensa por texto, aunque nadie lo cure
+        from municipios import municipios_dinamicos
+        divipola = {
+            "bolivar|antioquia": {
+                "municipio": "BOLÍVAR", "departamento": "ANTIOQUIA",
+                "divipola": "05101", "lat": 5.84, "lon": -76.03},
+            # el catálogo real trae los municipios DEL departamento Bolívar:
+            # de ahí sale la lista de nombres de departamento
+            "cartagena|bolivar": {
+                "municipio": "CARTAGENA", "departamento": "BOLÍVAR",
+                "divipola": "13001", "lat": 10.4, "lon": -75.5},
+        }
+        rud = {("antioquia", "bolivar"): {
+            "departamento": "ANTIOQUIA", "municipio": "BOLÍVAR",
+            "familias": 2, "personas": 5,
+            "viv_destruidas": 0, "viv_averiadas": 1}}
+        extras = municipios_dinamicos(rud, divipola)
+        self.assertTrue(all(v["homonimo_de_departamento"] for v in extras.values()),
+                        f"un homónimo de departamento nació sin marca: {extras}")
+
+    def test_dyfi_no_atribuye_celda_de_otro_pais(self):
+        """El USGS etiqueta cada celda con el topónimo más cercano del MUNDO:
+        la celda «Balboa» del canal de Panamá se publicaba como intensidad
+        sentida en Balboa (Risaralda), a 595 km. El nombre no basta: la celda
+        tiene que estar al lado del municipio."""
+        from municipios import build_municipios
+        lejana = {"features": [{
+            "geometry": {"type": "Polygon", "coordinates": [[
+                [-79.64, 8.86], [-79.55, 8.86], [-79.55, 8.95], [-79.64, 8.95],
+                [-79.64, 8.86]]]},
+            "properties": {"name": "UTM:(17P 065 098 10000)<br>Balboa",
+                           "cdi": 4.6, "nresp": 4, "dist": 592}}]}
+        rows, _ = build_municipios([], lejana, {})
+        self.assertEqual([r["municipio"] for r in rows], [],
+                         "una celda a 595 km no puede dar intensidad al municipio")
+
+        cercana = {"features": [{
+            "geometry": {"type": "Polygon", "coordinates": [[
+                [-76.00, 4.91], [-75.91, 4.91], [-75.91, 4.99], [-76.00, 4.99],
+                [-76.00, 4.91]]]},
+            "properties": {"name": "UTM:(18N)<br>Balboa",
+                           "cdi": 5.2, "nresp": 3, "dist": 120}}]}
+        rows2, _ = build_municipios([], cercana, {})
+        balboa = next(r for r in rows2 if r["municipio"] == "Balboa")
+        self.assertEqual(balboa["dyfi_max_cdi"], 5.2)
+
+    def test_san_jose_no_captura_al_epicentro(self):
+        """«San José» (Caldas) usa topónimo con coma porque «san jose» a secas
+        casa dentro de «San José del Palmar», el epicentro. Cuesta cobertura
+        —los titulares que digan «San José (Caldas)» no cuentan— pero jamás
+        atribuye el epicentro a un municipio de otro departamento."""
+        from municipios import match_municipios_text
+        epicentro = match_municipios_text(
+            "San José del Palmar, Chocó: el epicentro del sismo")
+        self.assertEqual(epicentro, ["San José del Palmar"])
+        self.assertIn("San José",
+                      match_municipios_text("San José, Caldas: casas averiadas"))
+
+    def test_dyfi_no_atribuye_municipio_duplicado(self):
+        # Riosucio existe en Caldas y en Chocó: DYFI no trae departamento,
+        # así que la intensidad no se atribuye a ninguno de los dos
+        from municipios import build_municipios
+        rows, _ = build_municipios([], {
+            "features": [{"properties": {"name": "UTM:(18N)<br>Riosucio",
+                                         "cdi": 7.2, "nresp": 3, "dist": 60}}]
+        }, {})
+        conintensidad = [r["municipio"] for r in rows
+                         if r["dyfi_max_cdi"] is not None]
+        self.assertEqual(conintensidad, [])
+
+    def test_municipio_rud_sin_coordenadas_no_se_pierde(self):
+        # sin DIVIPOLA no hay punto en el mapa, pero la fila sobrevive
+        from municipios import build_municipios
+        rud = {("antioquia", "medellin"): {
+            "departamento": "ANTIOQUIA", "municipio": "MEDELLÍN",
+            "familias": 10, "personas": 25,
+            "viv_destruidas": 1, "viv_averiadas": 2}}
+        rows, gj = build_municipios([], None, {}, None, rud, None)
+        med = next(r for r in rows if r["municipio"] == "Medellín")
+        self.assertEqual(med["estado"], "solo_rud")
+        self.assertIsNone(med["lat"])
+        self.assertEqual(len(gj["features"]), 0)
+
 
 class TestFeedsComunitarios(unittest.TestCase):
     RSS = b"""<?xml version="1.0"?><rss version="2.0"><channel>
@@ -260,6 +501,39 @@ class TestFeedsComunitarios(unittest.TestCase):
         armenia = next(f for f in feeds if f["id"] == "googlenews-municipio-armenia")
         self.assertIn("%22armenia%22", armenia["url"])
         self.assertIn("%22quindio%22", armenia["url"])
+
+    def test_feed_municipal_busca_el_toponimo_no_la_clave(self):
+        """Las claves desambiguadas llevan paréntesis («Riosucio (Caldas)»):
+        buscar la clave literal daría un feed que devuelve cero para siempre,
+        y un cero silencioso es peor que no tener el feed."""
+        from urllib.parse import unquote_plus
+        from community_feeds import municipal_google_news_feeds
+        for f in municipal_google_news_feeds():
+            q = unquote_plus(f["url"].split("q=")[1].split("&")[0])
+            frase = q.split('"')[3]   # ("terremoto" OR …) "frase" "depto"
+            self.assertNotIn("(", frase,
+                             f"{f['id']} busca la clave del diccionario, no el "
+                             f"topónimo: la frase «{frase}» no existe en prensa")
+        rio = next(f for f in municipal_google_news_feeds()
+                   if f["id"] == "googlenews-municipio-riosucio-caldas")
+        self.assertIn("%22riosucio%22", rio["url"])
+        self.assertIn("%22caldas%22", rio["url"])
+
+    def test_sin_feed_automatico_para_homonimos_de_departamento(self):
+        """La búsqueda «risaralda» + «caldas» casa con los titulares del
+        DEPARTAMENTO de Risaralda, y como el feed declara su municipio, la
+        atribución que _menciona_municipio rechaza volvería por la puerta de
+        atrás (publish.py confía en lo que el feed declara)."""
+        from community_feeds import municipal_google_news_feeds
+        from municipios import MUNICIPIOS
+        homonimos = {m for m, meta in MUNICIPIOS.items()
+                     if meta.get("homonimo_de_departamento")}
+        self.assertTrue(homonimos, "el fixture perdió sentido: no hay homónimos")
+        declarados = {m for f in municipal_google_news_feeds()
+                      for m in (f.get("municipios") or [])}
+        self.assertEqual(homonimos & declarados, set(),
+                         f"feed automático que atribuye prensa a un homónimo de "
+                         f"departamento: {homonimos & declarados}")
 
     def test_feed_municipal_no_depende_del_filtro_general(self):
         from community_feeds import _relevante
@@ -436,6 +710,27 @@ class TestParidadLiveblog(unittest.TestCase):
             self._terminos(ui), self._terminos(worker),
             "los términos de liveblog divergieron entre site/ui.js y el worker "
             "— unificar antes de publicar (regla R8)")
+
+
+class TestExencionDeSondas(unittest.TestCase):
+    """La única nota exenta del régimen fuerte de trazabilidad es la de las
+    sondas de contrato. Si una fuente de ingesta la usara, publicaría cifras
+    sin cuerpo archivado saltándose el test de trazabilidad."""
+
+    ROOT = Path(__file__).parent.parent
+
+    def test_ninguna_fuente_de_ingesta_usa_la_nota_de_sonda(self):
+        from common import NOTAS_SONDA
+        culpables = []
+        for py in (self.ROOT / "ingest").rglob("*.py"):
+            if py.name == "common.py":
+                continue
+            texto = py.read_text(encoding="utf-8")
+            if any(n in texto for n in NOTAS_SONDA):
+                culpables.append(str(py.relative_to(self.ROOT)))
+        self.assertEqual(culpables, [],
+                         f"la nota exenta de trazabilidad aparece en ingesta: "
+                         f"{culpables} — usar una nota propia")
 
 
 if __name__ == "__main__":
