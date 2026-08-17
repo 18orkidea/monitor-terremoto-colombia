@@ -8,8 +8,8 @@ cd "$(dirname "$0")/.."
 rm -rf dist
 mkdir -p dist/site dist/data/public dist/data/media
 
-cp -R site/ dist/site/
-cp -R data/public/ dist/data/public/
+cp -R site/. dist/site/
+cp -R data/public/. dist/data/public/
 # solo imágenes (los videos quedan fuera de git y del deploy; URL remota registrada)
 find data/media -maxdepth 1 \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' \) \
   -size -25M -exec cp {} dist/data/media/ \; 2>/dev/null || true
