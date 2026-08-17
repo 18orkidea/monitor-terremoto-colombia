@@ -182,11 +182,22 @@ def db() -> sqlite3.Connection:
 def fetch(url: str, params: dict | None = None, *, note: str = "",
           snapshot_name: str | None = None, timeout: int = 60,
           retries: int = 2, retry_wait: float = 5.0,
-          binary: bool = False, conn: sqlite3.Connection | None = None):
+          binary: bool = False, conn: sqlite3.Connection | None = None,
+          save_to: Path | None = None, max_save_bytes: int | None = None):
     """GET con registro en sources_log y snapshot opcional.
 
     Devuelve (status, body_bytes). No lanza en HTTP != 200: el llamante decide
     (los huecos EMSR son normales, no errores).
+
+    Snapshots inmutables e intradía: el primer cuerpo del día conserva el
+    nombre canónico (los lectores lo esperan); un cuerpo DISTINTO el mismo día
+    se archiva aparte con sufijo de contenido (_sha8) — jamás queda un sha256
+    en el log sin cuerpo recuperable, jamás se sobrescribe nada. `binary` se
+    conserva por compatibilidad pero ya no cambia el comportamiento.
+
+    `save_to` persiste el cuerpo fuera de snapshots (p. ej. medios ciudadanos
+    en data/media/) y lo registra como snapshot_path; `max_save_bytes` limita
+    qué se guarda (lo que exceda queda logueado sin cuerpo, con nota).
     """
     if params:
         url = url + ("&" if "?" in url else "?") + urllib.parse.urlencode(params)
@@ -211,13 +222,24 @@ def fetch(url: str, params: dict | None = None, *, note: str = "",
             status = -1
     sha = hashlib.sha256(body).hexdigest() if body else None
     spath = None
-    if snapshot_name and status == 200 and body:
-        p = snapshot_dir() / snapshot_name
-        if not binary and not p.exists():
-            p.write_bytes(body)
-        elif binary:
-            p.write_bytes(body)
-        spath = str(p.relative_to(ROOT))
+    if status == 200 and body:
+        if save_to is not None:
+            if max_save_bytes is None or len(body) <= max_save_bytes:
+                save_to.parent.mkdir(parents=True, exist_ok=True)
+                if not save_to.exists():
+                    save_to.write_bytes(body)
+                spath = str(save_to.relative_to(ROOT))
+        elif snapshot_name:
+            p = snapshot_dir() / snapshot_name
+            if not p.exists():
+                p.write_bytes(body)
+            elif hashlib.sha256(p.read_bytes()).hexdigest() != sha:
+                stem, dot, ext = snapshot_name.rpartition(".")
+                nombre = f"{stem}_{sha[:8]}.{ext}" if dot else f"{snapshot_name}_{sha[:8]}"
+                p = snapshot_dir() / nombre
+                if not p.exists():
+                    p.write_bytes(body)
+            spath = str(p.relative_to(ROOT))
     own = conn is None
     c = conn or db()
     c.execute(

@@ -13,9 +13,8 @@ from __future__ import annotations
 
 import json
 from collections import Counter
-from pathlib import Path
 
-from common import db, fetch_json, snapshot_dir, SNAPSHOTS, PUBLIC
+from common import db, fetch_json, SNAPSHOTS, PUBLIC
 
 CODE = "EMSR916"
 LAYER_KINDS = {

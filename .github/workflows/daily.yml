@@ -31,6 +31,14 @@ jobs:
           python -m unittest tests.test_unit -v
           python -m unittest tests.test_hipotesis -v
 
+      # Los supuestos rotos AVISAN, no tumban la corrida (regla R11): una API
+      # externa que cambia puede ser hasta buena noticia — hay que enterarse.
+      - name: Vigilar los contratos de las fuentes externas (no fatal)
+        continue-on-error: true
+        run: |
+          python -m unittest tests.test_supuestos_api -v \
+            || echo "::warning::Algún supuesto sobre una fuente externa cambió — revisar la salida"
+
       # Archivo permanente de videos ciudadanos (ChatMap no garantiza retención).
       # Requiere secrets R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY (token S3 de R2,
       # solo bucket monitor-terremoto-media). Sin ellos, se salta.
@@ -46,19 +54,40 @@ jobs:
             --exclude "*" --include "*.mp4" --include "*.mov" --include "*.webm" \
             --include "*.opus" --include "*.ogg" --include "*.m4a" --size-only
 
-      # Copia independiente del RUD en la Wayback Machine (nadie lo archivaba
-      # durante la semana del sismo; que no vuelva a pasar). No fatal.
-      - name: Archivar RUD en Wayback
+      # Copia independiente en la Wayback Machine de las fuentes más frágiles
+      # (nadie archivaba el RUD durante la semana del sismo; que no vuelva a
+      # pasar). Solo 3 URLs — la Wayback ratelimita. No fatal.
+      - name: Archivar fuentes frágiles en Wayback
         run: |
-          curl -sS -m 90 -o /dev/null \
-            "https://web.archive.org/save/https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T" \
-            || echo "::warning::Wayback save falló hoy"
+          for url in \
+            "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T" \
+            "https://chatmap.hotosm.org/api/v1/map/89319bbb-a14a-4dfd-b9a1-c83b8b55785f" \
+            "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json"; do
+            curl -sS -m 90 -o /dev/null "https://web.archive.org/save/${url}" \
+              || echo "::warning::Wayback save falló hoy para ${url}"
+            sleep 10
+          done
+
+      # El feed de balances vive en el KV de un worker externo: si el worker
+      # muere, la serie desaparece. Snapshot diario al repo para que todo lo
+      # publicado sea reconstruible solo desde git. No fatal.
+      - name: Snapshot del feed de balances
+        run: |
+          HOY=$(date -u +%F)
+          if curl -sS -m 60 -f \
+              "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" \
+              -o "feeds/balances/${HOY}.json"; then
+            sha256sum "feeds/balances/${HOY}.json"
+          else
+            echo "::warning::El feed de balances no respondió hoy; sin snapshot"
+            rm -f "feeds/balances/${HOY}.json"
+          fi
 
       - name: Commit del snapshot si hay cambios
         run: |
           git config user.name "monitor-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data/
+          git add -A data/ feeds/balances/
           if git diff --cached --quiet; then
             echo "Sin cambios hoy."
           else
@@ -66,15 +95,6 @@ jobs:
             git push
           fi
 
-      # Requiere el secret CLOUDFLARE_API_TOKEN (permiso: Cloudflare Pages - Edit).
-      # Sin el secret, este paso se salta y el sitio simplemente no se redespliega.
-      - name: Desplegar a Cloudflare Pages
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
-        run: |
-          ./deploy/build_dist.sh
-          npx --yes wrangler@4 pages deploy dist \
-            --project-name monitor-terremoto-colombia --branch main
-        # wrangler lee CLOUDFLARE_API_TOKEN del entorno:
-        # (el token nunca aparece en el repo; solo en Settings → Secrets)
+      # El deploy lo hace "Deploy GitHub Pages" (workflow_run tras esta corrida).
+      # La vía Cloudflare Pages se eliminó el 16-ago: el dominio apunta a GitHub
+      # Pages y publicar por dos caminos divergía (ver docs/DECISIONES.md).

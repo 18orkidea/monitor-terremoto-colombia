@@ -1,0 +1,76 @@
+# Arquitectura del monitor
+
+Mapa técnico del proyecto. La misión y las reglas viven en [CLAUDE.md](../CLAUDE.md);
+las decisiones fechadas en [DECISIONES.md](DECISIONES.md); las lagunas conocidas en
+[LIMITACIONES.md](LIMITACIONES.md).
+
+## Flujo de datos
+
+```
+13 fuentes externas ──► ingest/sources/*.py ──► sqlite (12 tablas) ──► ingest/publish.py
+  (todas vía                  │                      │                        │
+   common.fetch())      snapshots crudos      cruce + verificación      data/public/*
+                        data/snapshots/       (crosscheck.py,          (JSON/CSV/GeoJSON)
+                        YYYY-MM-DD/ + sha256   verify_citizen.py,             │
+                        en sources_log         alerts.py)                site/*.html+js
+                                                                        (frontend sin build)
+
+worker aparte: workers/ai-view (Cloudflare, cron 23:00 Col) ──► KV ──► /oficiales.json
+  balances en medios extraídos con IA; snapshot diario al repo en feeds/balances/
+```
+
+- **`ingest/common.py`** es el corazón: `fetch()` (única puerta a la red: log +
+  sha256 + snapshot), esquema sqlite, `to_num` (NA≠0).
+- **`ingest/run_daily.py`** orquesta: cada fuente es un `step()` que puede fallar sin
+  tumbar la corrida (R13).
+- **`ingest/crosscheck.py`** aplica la cadena de estados por AOI:
+  `no_comparable → coincide → prensa → ciudadano → pendiente` (R1/R2).
+- **`ingest/publish.py`** genera todos los artefactos públicos de `data/public/`
+  (solo coordenadas redondeadas `lat_pub/lon_pub` — R5).
+- **`site/`** es frontend estático sin build: `ui.js` (componentes compartidos:
+  `fmt`, `norm`, `tablaBuscable`, `metricCards`, `attachTooltip`,
+  `comparativaFuentes`, `isLiveblog`/`bestSnapshot`), `common.js` (nav/footer),
+  un JS por página.
+
+## Modelo de datos (sqlite, 12 tablas)
+
+Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
+
+| Tabla | Clave | Qué guarda |
+|---|---|---|
+| `sources_log` | id | Trazabilidad: ts, url, http_status, sha256, bytes, snapshot_path de CADA petición |
+| `activations` | (code, snapshot_date) | Activaciones Copernicus con geometría WKT, por día |
+| `activation_index` | code | Catálogo completo EMSR673+ (vigilancia de nuevas activaciones) |
+| `products` | (code, aoi, ptype, …, snapshot_date) | Productos Copernicus por AOI: tipo, versión, estado, entrega |
+| `stats` | (code, aoi, …, category, snapshot_date) | Estadísticas de daño; `total_raw/affected_raw` conservan el literal («NA» no se pierde) |
+| `official_events` | (source, external_id) | EDAN histórico UNGRD (85k registros) + eventos oficiales |
+| `evidence` | id | Evidencia por AOI con tipo ∈ {oficial, institucional, prensa, ciudadano} — el corazón de R1 |
+| `media_volume` | (event_key, fecha, snapshot_date) | Series diarias: EMM, GDELT, feeds propios, ChatMap |
+| `citizen_reports` | (origen, id_externo) | Reportes ChatMap: coordenada exacta + `lat_pub/lon_pub`, sha256 del medio, score y checks |
+| `news_items` | url | Titulares de todos los feeds (registro abierto) |
+| `rud_daily` | (snapshot_date, departamento, municipio) | RUD por municipio y día de captura — la serie oficial |
+| `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
+
+## Los tres ciclos automáticos
+
+1. **23:00 Colombia** (`workers/ai-view`, cron Cloudflare): balances en medios que
+   citan fuentes oficiales — Firecrawl + extracción IA → KV → `/oficiales.json`.
+2. **05:30 Colombia** (`.github/workflows/daily.yml`): corrida completa de ingesta →
+   tests contra datos frescos → sync de vídeos a R2 → Wayback del RUD → snapshot del
+   feed de balances → commit del bot → (dispara el deploy).
+3. **En cada push a main** (`.github/workflows/pages.yml`): regenera OG, construye
+   `dist/` con `deploy/build_dist.sh` y publica en **GitHub Pages** (única vía de
+   deploy; el dominio brechas.orkidea.eu apunta ahí por CNAME).
+
+## Deploy
+
+`deploy/build_dist.sh` es LA definición del artefacto: copia `site/` + `data/public/`
++ fotos, genera redirect raíz, robots/llms y el sitemap (5 URLs). Lo invocan tanto el
+workflow de Pages como cualquier build local. No hay otra vía de publicación.
+
+## Tests (3 capas)
+
+- `tests/test_unit.py` — lógica pura, offline.
+- `tests/test_supuestos_api.py` — contratos de las fuentes externas (red real;
+  un supuesto roto AVISA — puede ser buena noticia, R11).
+- `tests/test_hipotesis.py` — las afirmaciones del proyecto contra la BD real.

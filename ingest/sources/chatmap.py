@@ -10,7 +10,6 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import Counter
-from pathlib import Path
 
 from common import db, fetch, fetch_json, today, MEDIA
 
@@ -55,10 +54,12 @@ def run(download_media: bool = True) -> dict:
                 msha = hashlib.sha256(dest.read_bytes()).hexdigest()
                 mlocal = str(dest.relative_to(MEDIA.parent.parent))
             else:
+                # save_to: fetch persiste el medio y lo registra como
+                # snapshot_path — la fila del log siempre apunta a un cuerpo
                 mst, body = fetch(murl, note=f"chatmap media {fname}", conn=conn,
-                                  retries=1, timeout=120)
+                                  retries=1, timeout=120,
+                                  save_to=dest, max_save_bytes=MAX_MEDIA_BYTES)
                 if mst == 200 and body and len(body) <= MAX_MEDIA_BYTES:
-                    dest.write_bytes(body)
                     msha = hashlib.sha256(body).hexdigest()
                     mlocal = str(dest.relative_to(MEDIA.parent.parent))
                     n_media += 1

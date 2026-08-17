@@ -5,10 +5,8 @@ por prensa o con intensidad percibida, aunque no hayan sido mapeadas por satéli
 """
 from __future__ import annotations
 
-import json
 import re
 import unicodedata
-from collections import defaultdict
 
 from geo import point_in_wkt_polygon
 

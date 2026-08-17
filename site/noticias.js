@@ -1,10 +1,9 @@
-/* Página de titulares: lista completa con filtros por zona, fuente y texto. */
+/* Página de titulares: lista completa con filtros por zona, fuente y texto.
+   Usa ui.js (fetchJson, fmt). */
 (async function () {
-  let data;
-  try {
-    const r = await fetch("../data/public/noticias.json");
-    data = await r.json();
-  } catch {
+  const { fmt, fetchJson } = window.UI;
+  const data = await fetchJson("../data/public/noticias.json");
+  if (!data) {
     document.getElementById("resumen").textContent =
       "Sin datos (sirve el repo por HTTP y ejecuta el pipeline).";
     return;
@@ -65,7 +64,7 @@
     if (pagina > paginas) pagina = paginas;
     const desde = (pagina - 1) * POR_PAGINA;
     resumen.textContent =
-      `${sel.length.toLocaleString("es-CO")} de ${items.length.toLocaleString("es-CO")} titulares` +
+      `${fmt(sel.length)} de ${fmt(items.length)} titulares` +
       (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "") +
       ` · actualizado ${data.generado}`;
     lista.innerHTML = sel.slice(desde, desde + POR_PAGINA).map((n) =>

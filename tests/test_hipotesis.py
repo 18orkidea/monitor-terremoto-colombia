@@ -253,6 +253,37 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
         data = json.loads(snaps[-1].read_text())
         self.assertIn("results", data)
 
+    # Desde el 17-ago rige el régimen fuerte: toda petición 200 con cuerpo
+    # deja snapshot_path, el fichero existe y su sha256 coincide con el log.
+    # Las filas anteriores no se exigen: su hueco está documentado en
+    # docs/LIMITACIONES.md (el log también es archivo y no se retoca).
+    REGIMEN_FUERTE_DESDE = "2026-08-17"
+
+    def test_todo_cuerpo_publicado_tiene_snapshot_verificable(self):
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        filas = q("SELECT snapshot_path, sha256 FROM sources_log"
+                  " WHERE ts >= ? AND http_status=200 AND bytes > 0",
+                  self.REGIMEN_FUERTE_DESDE)
+        if not filas:
+            self.skipTest("aún no hay corridas bajo el régimen fuerte")
+        import hashlib
+        sin_ruta, rotos = 0, []
+        for spath, sha in filas:
+            if not spath:
+                sin_ruta += 1
+                continue
+            f = ROOT / spath
+            if not f.exists():
+                rotos.append(f"{spath}: no existe")
+            elif hashlib.sha256(f.read_bytes()).hexdigest() != sha:
+                rotos.append(f"{spath}: sha no coincide")
+        self.assertEqual(sin_ruta, 0,
+                         f"{sin_ruta} peticiones 200 sin snapshot_path desde "
+                         f"{self.REGIMEN_FUERTE_DESDE} — un sha sin cuerpo no es evidencia")
+        self.assertFalse(rotos, "snapshots rotos: " + "; ".join(rotos[:5]))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

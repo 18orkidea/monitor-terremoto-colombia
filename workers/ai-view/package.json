@@ -1,0 +1,12 @@
+{
+  "name": "monitor-terremoto-colombia-oficiales-ai",
+  "private": true,
+  "description": "Worker de balances en medios (extracción IA). Deploy manual documentado en README.md — wrangler pineado para reproducibilidad.",
+  "devDependencies": {
+    "wrangler": "4.33.1"
+  },
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  }
+}

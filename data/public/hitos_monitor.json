@@ -1,0 +1,42 @@
+{
+  "descripcion": "Hitos curados NO derivables de los datos. Los demás se generan solos en el sitio: alta del RUD (primer día de rud.serie), primer balance en medios (primer search_date del feed de oficiales) y purga de la serie EMM (primer día sin dato tras la serie). Aquí solo va lo que ninguna fuente registra: el evento raíz y los cambios del propio monitor (fuentes nuevas, rediseños).",
+  "tipos": {
+    "evento": "El sismo y sus réplicas mayores",
+    "local": "Respuesta oficial y local (UNGRD, RUD, balances citados en medios)",
+    "monitor": "Cambios del propio monitor: fuentes que entran o desaparecen, rediseños"
+  },
+  "hitos": [
+    {
+      "fecha": "2026-08-10",
+      "tipo": "evento",
+      "texto": "Terremoto M7.4 con epicentro en San José del Palmar (Chocó), el más fuerte registrado en Colombia en más de un siglo",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2"
+    },
+    {
+      "fecha": "2026-08-15",
+      "tipo": "monitor",
+      "texto": "Primera corrida diaria del monitor: cruce satélite–prensa–reporte ciudadano con snapshots inmutables"
+    },
+    {
+      "fecha": "2026-08-15",
+      "tipo": "monitor",
+      "texto": "Alta de feeds regionales y búsquedas municipales de noticias: la cobertura local (p. ej. Istmina) entra en la medición"
+    },
+    {
+      "fecha": "2026-08-16",
+      "tipo": "monitor",
+      "texto": "Nueva versión del sitio: portada resumida, páginas propias para municipios y RUD, cronología unificada con la respuesta local y comparativa de fuentes en Balances"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "El monitor se profesionaliza: reglas de desarrollo escritas, agentes revisores, deploy único, snapshots intradía verificables, la base de datos pasa a dumps CSV legibles y las limitaciones del archivo quedan documentadas",
+      "url": "https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "La serie de balances gana memoria: los cortes viejos de medios internacionales tardíos ya no la hacen retroceder (caso Primicias: 181 fallecidos cuando el consolidado iba por 294), las disputas entre medios se marcan en vez de suprimirse y ninguna cifra desaparece si el día no la repite"
+    }
+  ]
+}

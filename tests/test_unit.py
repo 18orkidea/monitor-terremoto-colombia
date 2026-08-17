@@ -4,7 +4,6 @@ Se ejecutan sin red y sin base de datos previa. Las expectativas vienen de la
 documentación del proyecto y de las specs de las fuentes, no de mirar la
 salida del código — si un test falla, el código está mal, no el test.
 """
-import json
 import sys
 import unittest
 from pathlib import Path
@@ -82,19 +81,13 @@ class TestMMIGrid(unittest.TestCase):
 
 
 class TestCrosscheckReglas(unittest.TestCase):
-    """La regla dura del proyecto: nada llega a 'coincide' sin evidencia oficial."""
+    """La regla dura del proyecto: nada llega a 'coincide' sin evidencia
+    oficial. Se testea la función REAL (crosscheck.decidir_estado), no una
+    réplica — si la regla cambia en el código, estos tests lo notan."""
 
     def _run(self, evidence_oficial=0, prensa=0, ciudadano=0, has_stats=True):
-        # réplica de la lógica de decisión de crosscheck.run (mantener en sincronía)
-        if not has_stats:
-            return "no_comparable"
-        if evidence_oficial > 0:
-            return "coincide"
-        if prensa > 0:
-            return "prensa"
-        if ciudadano > 0:
-            return "ciudadano"
-        return "pendiente"
+        from crosscheck import decidir_estado
+        return decidir_estado(has_stats, evidence_oficial, prensa, ciudadano)
 
     def test_defecto_es_pendiente(self):
         self.assertEqual(self._run(), "pendiente")
@@ -292,6 +285,123 @@ def setUpModule():
     global TOPONYMS
     from crosscheck import AOI_TOPONYMS
     TOPONYMS = AOI_TOPONYMS
+
+
+class TestSnapshotsIntradia(unittest.TestCase):
+    """Los snapshots son inmutables e intradía: el primer cuerpo del día
+    conserva el nombre canónico; un cuerpo distinto el mismo día se archiva
+    con sufijo _sha8. Jamás un sha256 en el log sin cuerpo recuperable."""
+
+    def test_dos_cuerpos_distintos_dos_snapshots(self):
+        import sqlite3
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn = sqlite3.connect(":memory:")
+            conn.executescript(common.SCHEMA)
+
+            class Resp:
+                def __init__(self, b): self.status, self._b = 200, b
+                def read(self): return self._b
+                def __enter__(self): return self
+                def __exit__(self, *a): return False
+
+            cuerpos = [b'{"a":1}', b'{"a":1}', b'{"a":2}']
+            with mock.patch.object(common, "ROOT", tmp), \
+                 mock.patch.object(common, "SNAPSHOTS", tmp / "snapshots"), \
+                 mock.patch.object(common.urllib.request, "urlopen",
+                                   side_effect=[Resp(b) for b in cuerpos]):
+                for _ in cuerpos:
+                    common.fetch("https://x/f", snapshot_name="fuente.json",
+                                 conn=conn)
+            dia = tmp / "snapshots" / common.today()
+            nombres = sorted(p.name for p in dia.iterdir())
+            self.assertEqual(len(nombres), 2, nombres)  # canónico + _sha8
+            self.assertIn("fuente.json", nombres)
+            self.assertTrue(any("_" in n and n != "fuente.json" for n in nombres))
+            # cada fila del log apunta a un cuerpo cuyo sha coincide
+            import hashlib
+            for spath, sha in conn.execute(
+                    "SELECT snapshot_path, sha256 FROM sources_log"):
+                self.assertIsNotNone(spath, "fila con cuerpo sin snapshot_path")
+                cuerpo = (tmp / spath).read_bytes()
+                self.assertEqual(hashlib.sha256(cuerpo).hexdigest(), sha,
+                                 "el snapshot no corresponde al sha del log")
+            conn.close()
+
+
+class TestDumpRoundtrip(unittest.TestCase):
+    """El sqlite no se versiona; los dumps CSV sí. Si el ciclo dump→rebuild
+    perdiera un solo valor (un NULL vuelto cero, una tilde rota), el archivo
+    histórico quedaría corrupto en silencio — este test lo impide."""
+
+    def test_ida_y_vuelta_fiel(self):
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            origen = sqlite3.connect(tmp / "a.sqlite")
+            origen.executescript(SCHEMA)
+            # muestras con lo traicionero: NULL, 0, tildes, comas, comillas, saltos
+            origen.execute(
+                "INSERT INTO rud_daily VALUES ('2026-08-16','CHOCÓ','ISTMINA',"
+                "969.0,2811.0,NULL,0.0,NULL,22.0)")
+            origen.execute(
+                "INSERT INTO news_items VALUES ('https://x/y?a=1','feed-1',"
+                "'2026-08-16','Título, con \"comillas\" y\nsalto','Medio Ñandú',"
+                "'2026-08-16')")
+            origen.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                "snapshot_path,note) VALUES ('2026-08-16T00:00:00Z','u',200,"
+                "NULL,0,NULL,'NA no es cero')")
+            origen.commit()
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                dump_db.dump(origen)
+                dump_db.rebuild(tmp / "b.sqlite")
+                copia = sqlite3.connect(tmp / "b.sqlite")
+                for tabla in dump_db.TABLAS:
+                    cols = [r[1] for r in origen.execute(
+                        f"PRAGMA table_info({tabla})")]
+                    sel = f"SELECT {', '.join(cols)} FROM {tabla} ORDER BY {cols[0]}"
+                    self.assertEqual(
+                        origen.execute(sel).fetchall(),
+                        copia.execute(sel).fetchall(),
+                        f"la tabla {tabla} no sobrevivió al ciclo dump→rebuild")
+                copia.close()
+            finally:
+                dump_db.DUMPS = dumps_orig
+            origen.close()
+
+
+class TestParidadLiveblog(unittest.TestCase):
+    """La regla editorial «liveblog» vive en dos lenguajes: el worker la marca
+    en origen (workers/ai-view) y el frontend la reaplica (site/ui.js). Si los
+    términos divergen, una cobertura «en vivo» podría pesar distinto según
+    quién la mire — este test compara los términos de ambas regex."""
+
+    ROOT = Path(__file__).parent.parent
+
+    def _terminos(self, texto: str) -> set[str]:
+        import re
+        # la alternancia siempre empieza en «en vivo» y termina en «liveblog»
+        m = re.search(r"en vivo\|[^\n/]*?liveblog", texto)
+        self.assertIsNotNone(m, "no se encontró la regex de liveblog")
+        crudo = m.group(0).replace("\\b", "").replace("(", "").replace(")", "")
+        return {t.strip() for t in crudo.split("|") if t.strip()}
+
+    def test_worker_y_frontend_marcan_los_mismos_terminos(self):
+        ui = (self.ROOT / "site" / "ui.js").read_text(encoding="utf-8")
+        worker = (self.ROOT / "workers" / "ai-view" / "src" / "index.js").read_text(
+            encoding="utf-8")
+        self.assertEqual(
+            self._terminos(ui), self._terminos(worker),
+            "los términos de liveblog divergieron entre site/ui.js y el worker "
+            "— unificar antes de publicar (regla R8)")
 
 
 if __name__ == "__main__":

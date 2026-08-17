@@ -154,10 +154,30 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #timeline { margin: 0; padding-left: 2px; list-style: none; font-size: 13px; line-height: 1.7; }
 #timeline li { padding-left: 16px; border-left: 2px solid var(--grid); margin-left: 6px; }
 #timeline li.entrega { border-left-color: var(--critical); }
+#timeline li.evento { border-left-color: var(--critical); }
+#timeline li.local { border-left-color: var(--good); }
+#timeline li.monitor { border-left-color: var(--warning); }
 #timeline .t-fecha { color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 6px; }
+#timeline .t-tipo {
+  font-size: 10.5px; color: var(--muted); border: 1px solid var(--border);
+  border-radius: 999px; padding: 0 7px; margin-right: 6px; white-space: nowrap;
+}
 #timeline a { color: var(--s1); text-decoration: none; }
+/* chips de filtro reutilizables (cronología, y donde hagan falta) */
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 10px; }
+.chip {
+  border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px;
+  font-size: 12px; background: var(--surface-1); color: var(--ink-2);
+  cursor: pointer; font-family: inherit;
+}
+.chip:hover { border-color: var(--s1); }
+.chip.activa {
+  border-color: var(--s1); color: var(--ink);
+  background: color-mix(in srgb, var(--s1) 12%, transparent);
+}
 #colombia-acts p { margin: 6px 0; font-size: 13px; }
 #colombia-acts a { color: var(--s1); text-decoration: none; }
+.page-section,
 #metodologia, #timeline-section, #colombia-acts-section, #municipios-section,
 #chart-section, #balances-section, #alerts-section,
 #balance-hero, #balance-chart-section, #balance-table-section {
@@ -208,15 +228,19 @@ footer a:hover { text-decoration: underline; }
   display: block; color: var(--muted); font-size: 11px; margin-bottom: 2px;
 }
 .metric-card strong { display: block; font-size: 17px; font-variant-numeric: tabular-nums; }
+.metric-card small { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+a.metric-card { text-decoration: none; color: inherit; display: block; }
+a.metric-card:hover { border-color: var(--s1); }
 .metric-strip .full { grid-column: 1 / -1; margin: 2px 0 0; }
-#balance-filtros {
+/* filtros reutilizables: buscador + selects sobre una tabla */
+.filtros {
   display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; align-items: center;
 }
-#balance-filtros input, #balance-filtros select {
+.filtros input, .filtros select {
   padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
   background: var(--surface-1); color: var(--ink); font-size: 13px;
 }
-#balance-filtros input { min-width: 260px; }
+.filtros input { min-width: 260px; }
 #balance-table a, #balances-resumen a, #balance-cards a { color: var(--s1); text-decoration: none; }
 #balance-table a:hover, #balances-resumen a:hover, #balance-cards a:hover { text-decoration: underline; }
 .leaflet-container { background: var(--page); font: inherit; }

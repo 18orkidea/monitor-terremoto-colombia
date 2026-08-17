@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Municipios afectados por el terremoto de Colombia 2026: prensa, intensidad y población | Monitor de brechas</title>
+<meta name="description" content="Municipios del área de influencia del terremoto M7.4 de Colombia (2026) con menciones en prensa, intensidad percibida (DYFI/USGS), población DANE 2026 y cobertura satelital Copernicus. Con buscador y cada cifra trazable.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://brechas.orkidea.eu/site/municipios.html">
+<meta property="og:url" content="https://brechas.orkidea.eu/site/municipios.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:title" content="Municipios afectados por el terremoto de Colombia 2026">
+<meta property="og:description" content="Qué municipios aparecen en prensa, cuáles sintieron el sismo (DYFI) y cuáles mapeó el satélite — con población DANE y buscador.">
+<meta property="og:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta name="twitter:title" content="Municipios afectados por el terremoto de Colombia 2026">
+<meta name="twitter:description" content="Prensa, intensidad percibida, población DANE y cobertura satelital por municipio, con buscador.">
+<link rel="stylesheet" href="styles.css?v=dev">
+</head>
+<body>
+<nav id="site-nav" aria-label="Navegación del sitio"></nav>
+<header>
+  <div>
+    <h1>Municipios mencionados o con intensidad percibida</h1>
+    <p class="sub">Área de influencia del sismo M7.4 (10-ago-2026): señal de prensa,
+    reportes «lo sentí» (DYFI) y cobertura satelital, municipio a municipio.</p>
+  </div>
+  <div class="meta">
+    <span id="generado">—</span>
+    <a class="btn" href="../data/public/municipios.json" target="_blank">JSON</a>
+    <a class="btn" href="../data/public/municipios.geojson" target="_blank">GeoJSON</a>
+  </div>
+</header>
+
+<section class="intro">
+  <p>Ciudades dentro del área de influencia que aparecen en prensa, búsquedas municipales
+  de Google News, DYFI o reportes ciudadanos, aunque no todas hayan sido mapeadas por
+  Copernicus. Es la lista de <strong>«dónde más mirar»</strong>: no equivale a daño
+  satelital ni a EDAN oficial. La población es la proyección municipal 2026 del DANE.
+  Para el registro oficial de damnificados municipio a municipio, ver la página del
+  <a href="rud.html">RUD</a>; para verlos sobre el mapa, la
+  <a href="index.html#mapa">portada</a>.</p>
+</section>
+
+<section class="page-section">
+  <div class="filtros"><input id="mun-buscar" type="search"
+    placeholder="Buscar municipio o departamento…"
+    aria-label="Buscar municipio del área de influencia"></div>
+  <div style="overflow-x:auto"><table id="municipios-tabla">
+    <thead>
+      <tr>
+        <th title="Municipio del área de influencia del sismo. Clic para verlo en el mapa de la portada.">Municipio</th>
+        <th title="Situación respecto al mapeo satelital: dentro de una zona analizada por Copernicus, o fuera de ellas con señales de afectación (intensidad alta o menciones en prensa).">Estado</th>
+        <th class="num" title="Población municipal proyectada 2026 (DANE, proyecciones postcensales por área). Ordenado por esta columna.">Población 2026</th>
+        <th class="num" title="Intensidad máxima percibida reportada por ciudadanos al sistema DYFI del USGS (escala CDI, 1-10).">Intensidad DYFI</th>
+        <th class="num" title="Número de reportes ciudadanos «lo sentí» (DYFI/USGS) asociados al municipio.">Respuestas</th>
+        <th class="num" title="Titulares que mencionan el municipio, desde GDACS-EMM, feeds regionales abiertos y búsquedas municipales. Clic para verlos.">Prensa</th>
+        <th title="Qué sistemas registran señal en este municipio (prensa, DYFI, reportes ciudadanos, Copernicus).">Fuentes</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="note" id="mun-nota"></p>
+  <p class="note">¿Falta un municipio? La lista cubre el área de influencia definida en el
+  <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank"
+  rel="noopener">registro abierto del monitor</a> — se amplía con un PR. Que un municipio
+  no aparezca aquí no significa «sin daño».</p>
+</section>
+
+<script src="ui.js?v=dev"></script>
+<script src="municipios.js?v=dev"></script>
+<div id="site-footer"></div>
+<script src="common.js?v=dev"></script>
+</body>
+</html>

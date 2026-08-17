@@ -8,6 +8,9 @@ data/media/*.opus
 data/media/*.ogg
 data/media/*.m4a
 
+# la BD no se versiona: se reconstruye desde data/dumps/*.csv (dump_db.py)
+data/monitor.sqlite
+
 # ficheros de trabajo de SQLite (WAL)
 data/monitor.sqlite-wal
 data/monitor.sqlite-shm
@@ -16,6 +19,8 @@ __pycache__/
 *.pyc
 .DS_Store
 dist/
+.pytest_cache/
+.benchmarks/
 
 # nunca versionar credenciales
 .env
@@ -24,3 +29,10 @@ dist/
 *.key
 *token*
 !package-lock.json
+
+# .claude/: solo se versionan launch, agentes y skills — las notas de trabajo
+# y la memoria personal viven fuera del repo (ver CLAUDE.md)
+.claude/*
+!.claude/launch.json
+!.claude/agents/
+!.claude/skills/

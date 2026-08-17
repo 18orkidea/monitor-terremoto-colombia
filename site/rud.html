@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUD del terremoto de Colombia 2026: registro oficial de damnificados, día a día y por municipio | Monitor de brechas</title>
+<meta name="description" content="Seguimiento diario del RUD (UNGRD) tras el terremoto M7.4 de Colombia 2026: familias y personas damnificadas registradas, viviendas destruidas y averiadas, municipio a municipio, con buscador y serie temporal.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://brechas.orkidea.eu/site/rud.html">
+<meta property="og:url" content="https://brechas.orkidea.eu/site/rud.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:title" content="RUD: registro oficial de damnificados del terremoto de Colombia 2026">
+<meta property="og:description" content="La primera fuente oficial que cubre el evento: familias registradas por municipio, día a día, con buscador sobre los municipios registrados.">
+<meta property="og:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta name="twitter:title" content="RUD del terremoto de Colombia 2026, día a día">
+<meta name="twitter:description" content="Registro oficial de damnificados por municipio, con serie temporal y buscador.">
+<link rel="stylesheet" href="styles.css?v=dev">
+</head>
+<body>
+<nav id="site-nav" aria-label="Navegación del sitio"></nav>
+<header>
+  <div>
+    <h1>Registro oficial de damnificados (RUD), día a día</h1>
+    <p class="sub">Familias registradas por las autoridades municipales en el
+    <a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">RUD de la UNGRD</a>
+    tras el sismo M7.4 (10-ago-2026).</p>
+  </div>
+  <div class="meta">
+    <span id="generado">—</span>
+    <a class="btn" href="../data/public/rud.json" target="_blank">JSON</a>
+  </div>
+</header>
+
+<section class="intro">
+  <p>La <strong>primera fuente oficial que cubre el evento</strong>. La curva mide cómo
+  avanza el registro — y qué municipios faltan. <strong>Que un municipio no aparezca no
+  significa «sin daño»: significa «sin registro aún»</strong>. Donde las autoridades
+  locales aún no registran, el satélite sigue siendo la única evidencia (ver el
+  <a href="index.html#mapa">mapa</a>). Cada corrida diaria archiva el RUD también en la
+  Wayback Machine. Para contrastar estas cifras con lo que publican los medios citando
+  fuentes oficiales, ver la <a href="balances.html#comparativa">comparativa de fuentes</a>.</p>
+</section>
+
+<section class="page-section">
+  <h2>Familias registradas, acumulado por día</h2>
+  <div id="rud-chart"></div>
+</section>
+
+<section class="page-section">
+  <h2>Detalle municipal</h2>
+  <div class="filtros"><input id="rud-buscar" type="search"
+    placeholder="Buscar municipio o departamento…"
+    aria-label="Buscar municipio registrado en el RUD"></div>
+  <div style="overflow-x:auto"><table id="rud-tabla">
+    <thead><tr>
+      <th title="Municipio registrado en el RUD. Ordenado por personas damnificadas registradas.">Municipio</th>
+      <th class="num" title="Familias damnificadas registradas">Familias</th>
+      <th class="num" title="Personas damnificadas registradas">Personas</th>
+      <th class="num" title="Viviendas destruidas según el registro municipal">Viv. destruidas</th>
+      <th class="num" title="Viviendas averiadas según el registro municipal">Viv. averiadas</th>
+      <th class="num" title="Cambio de familias respecto al día anterior de la serie">Δ día</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="note" id="rud-nota"></p>
+</section>
+
+<script src="ui.js?v=dev"></script>
+<script src="rud.js?v=dev"></script>
+<div id="site-footer"></div>
+<script src="common.js?v=dev"></script>
+</body>
+</html>

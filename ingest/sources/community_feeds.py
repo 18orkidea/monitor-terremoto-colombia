@@ -11,7 +11,6 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
-from pathlib import Path
 from urllib.parse import quote_plus
 
 from common import db, fetch, today, ROOT

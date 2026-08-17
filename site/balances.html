@@ -28,7 +28,7 @@
  "distribution":[{"@type":"DataDownload","encodingFormat":"application/json",
    "contentUrl":"https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json"}]}
 </script>
-<link rel="stylesheet" href="styles.css?v=20260816.16">
+<link rel="stylesheet" href="styles.css?v=dev">
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
@@ -65,9 +65,16 @@
       con un modelo de lenguaje, guardando la cita textual y el hash del contenido. Todo
       snapshot exige revisión humana antes de considerarse consolidado.</li>
       <li><strong>¿Por qué difieren las cifras entre medios el mismo día?</strong> Porque
-      citan cortes distintos del consolidado oficial (mañana vs tarde), o arrastran datos de
-      liveblogs. La serie diaria elige el mejor snapshot no-liveblog: el más completo, con
-      fuente citada y estable respecto a la víspera.</li>
+      citan cortes distintos del consolidado oficial (mañana vs tarde), o arrastran datos
+      de liveblogs — y los medios internacionales tardíos a veces publican cortes de días
+      atrás. La serie diaria elige el mejor snapshot con cuatro criterios, en orden:
+      <strong>estable respecto a la víspera</strong> (un balance acumulado no retrocede;
+      caídas &gt;10 % delatan un corte viejo), no-liveblog, el más completo, y mejor
+      fuente citada. Cuando los medios de un día se contradicen fuerte (&gt;15 %), el día
+      se marca <strong>«cifras en disputa»</strong> — la discrepancia se muestra, no se
+      suprime. Y si el mejor snapshot de un día no trae una cifra, se conserva el último
+      valor conocido marcado con su fecha de origen — un dato no desaparece porque un
+      medio no lo repita.</li>
       <li><strong>¿Qué significa cada nivel?</strong> «Prensa temporal» = artículo fechado
       de un medio; «Web temporal» = página sin fecha editorial firme; el distintivo
       <em>liveblog</em> marca coberturas en vivo (fiabilidad histórica baja).</li>
@@ -87,6 +94,30 @@
   citadas dentro del texto. Los liveblogs se muestran, pero pesan menos en la serie.</p>
 </section>
 
+<section id="comparativa" class="page-section">
+  <h2>Comparativa de fuentes: registro oficial (RUD) vs. balances en medios</h2>
+  <p class="sub">Las mismas preguntas, respuestas distintas: lo que las autoridades
+  municipales han registrado en el RUD, lo que los medios publican citando el consolidado
+  oficial, lo que ve el satélite y lo que reporta la comunidad. La distancia entre
+  columnas <em>es</em> la brecha de reporte.</p>
+  <div id="comparativa-cards" class="metric-strip"></div>
+  <div style="overflow-x:auto"><table id="comparativa-tabla">
+    <thead><tr>
+      <th>Indicador</th>
+      <th class="num" title="Registro Único de Damnificados (UNGRD): lo registrado municipio a municipio por las autoridades locales. Registro progresivo — crece a medida que los municipios cargan datos.">RUD (registro oficial)</th>
+      <th class="num" title="Mejor snapshot no-liveblog del último día: lo que la prensa publica citando el consolidado oficial (UNGRD/SGC).">Medios citando oficiales</th>
+      <th class="num" title="Diferencia absoluta entre ambas columnas. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="note">El RUD es un <strong>registro progresivo</strong> (municipio a municipio,
+  familia a familia); el consolidado citado en medios agrega reportes departamentales aún no
+  registrados en el RUD. Que difieran no es un error: <strong>la diferencia mide cuánto
+  falta por registrar formalmente</strong>. El RUD no publica víctimas (fallecidos/heridos) —
+  esas cifras solo circulan vía medios. Detalle municipal en la
+  <a href="rud.html">página del RUD</a>.</p>
+</section>
+
 <section id="balance-chart-section">
   <h2>Serie del mejor snapshot no-liveblog por día</h2>
   <p class="sub">El punto diario prioriza completitud, fuente citada y estabilidad histórica; los liveblogs se penalizan.</p>
@@ -95,7 +126,7 @@
 
 <section id="balance-table-section">
   <h2>Tabla trazable de snapshots</h2>
-  <div id="balance-filtros">
+  <div id="balance-filtros" class="filtros">
     <input id="balance-buscar" type="search" placeholder="Buscar publicador, fuente o título…">
     <select id="balance-fecha"><option value="">Todas las fechas</option></select>
     <select id="balance-nivel"><option value="">Todos los niveles</option></select>
@@ -120,8 +151,9 @@
 </section>
 
 
-<script src="balances.js?v=20260816.16-1"></script>
+<script src="ui.js?v=dev"></script>
+<script src="balances.js?v=dev"></script>
 <div id="site-footer"></div>
-<script src="common.js?v=20260816.16"></script>
+<script src="common.js?v=dev"></script>
 </body>
 </html>

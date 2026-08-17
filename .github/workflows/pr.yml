@@ -1,0 +1,38 @@
+name: Tests de PR
+
+# Nada llega a main sin tests. Sin test_supuestos_api aquí: depende de red
+# externa y un PR no debe fallar porque una API ajena tosa (eso lo vigila el
+# daily, donde avisar es el objetivo).
+on:
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tests (unit + hipótesis; la BD se reconstruye desde dumps)
+        run: |
+          python ingest/dump_db.py rebuild
+          python -m unittest tests.test_unit tests.test_hipotesis -v
+
+      - name: Lint Python (ruff, solo en CI — el runtime sigue sin dependencias)
+        run: |
+          pip install --quiet ruff==0.6.9
+          ruff check .
+
+      - name: Sintaxis JavaScript (node --check, cero dependencias)
+        run: |
+          for f in site/*.js workers/ai-view/src/*.js; do
+            node --check "$f"
+          done
