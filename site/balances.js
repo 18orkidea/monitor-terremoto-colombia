@@ -263,14 +263,19 @@
     document.getElementById("balance-resumen").textContent =
       `${selected.length.toLocaleString("es-CO")} de ${items.length.toLocaleString("es-CO")} snapshots · actualizado ${feed.generated_at || "—"}`;
 
+    // filas cuyas cifras alimentan la serie/tarjetas: el snapshot elegido de
+    // cada día — marcadas para que la selección sea auditable a simple vista
+    const elegidos = new Set(porDia.map((d) => d.item).filter(Boolean));
     document.querySelector("#balance-table tbody").innerHTML = selected.map((item) => {
       const c = item.cifras || {};
       const pub = item.publisher || {};
+      const usado = elegidos.has(item);
       const viviendas = [c.viviendas_averiadas, c.viviendas_destruidas]
         .filter((v) => v != null).map(fmt).join(" / ") || "—";
-      return `<tr>` +
+      return `<tr${usado ? ` style="background:color-mix(in srgb, var(--good) 7%, transparent)"` : ""}>` +
         `<td>${esc(item.search_date)}</td>` +
         `<td><strong>${esc(publisherName(item))}</strong><br>` +
+        `${usado ? `<span class="badge" style="--bc:var(--good)" title="Este snapshot es el elegido de su día: sus cifras alimentan la serie, las tarjetas y la comparativa">✓ usada en la serie</span> ` : ""}` +
         `<span class="badge" style="--bc:${levelColor(item.source_level)}">${esc(labelLevel(item.source_level))}</span> ` +
         `${isLiveblog(item) ? `<span class="badge" style="--bc:${css("--warning")}">liveblog</span> ` : ""}` +
         `<span class="note">${sourceLinks(item)}</span></td>` +
