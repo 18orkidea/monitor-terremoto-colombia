@@ -1,28 +1,33 @@
 {
-  // Worker de avisos: Web Push + Telegram. Deploy manual (ver README.md).
-  // Separado de ai-view a propósito: que un canal caído no arrastre al otro.
-  "name": "monitor-terremoto-colombia-push",
-  "main": "src/index.js",
-  "compatibility_date": "2026-08-17",
-  "observability": { "enabled": true },
-
-  // KV: suscripciones (sub:<sha256 endpoint>) + dedupe diario (envio:<fecha>).
-  // Crear el namespace y pegar el id: npx wrangler kv namespace create PUSH_SUBS
-  "kv_namespaces": [
-    { "binding": "PUSH_SUBS", "id": "PENDIENTE_CREAR_NAMESPACE" }
-  ],
-
-  // Respaldo diario 11:20 UTC (el disparo principal es el POST del workflow
-  // a las ~10:35; el dedupe hace ambos caminos idempotentes)
-  "triggers": { "crons": ["20 11 * * *"] },
-
-  "vars": {
-    // clave pública VAPID (base64url, 65 bytes P-256 sin comprimir) — la
-    // privada va como secreto VAPID_PRIVATE_JWK. Generar par: ver README.
-    "VAPID_PUBLIC_KEY": "PENDIENTE_GENERAR_PAR_VAPID",
-    "VAPID_SUB": "mailto:gestion@inforesidencias.com",
-    "ALERTS_URL": "https://brechas.orkidea.eu/data/public/alerts.json",
-    // canal público de Telegram (p. ej. "@brechas_terremoto"); vacío = sin Telegram
-    "TELEGRAM_CHAT": ""
-  }
+	// Worker de avisos: Web Push + Telegram. Deploy manual (ver README.md).
+	// Separado de ai-view a propósito: que un canal caído no arrastre al otro.
+	"name": "monitor-terremoto-colombia-push",
+	"main": "src/index.js",
+	"compatibility_date": "2026-08-17",
+	"observability": {
+		"enabled": true
+	},
+	// KV: suscripciones (sub:<sha256 endpoint>) + dedupe diario (envio:<fecha>)
+	"kv_namespaces": [
+		{
+			"binding": "PUSH_SUBS",
+			"id": "08276e2a153048769e920a4ea87d30a6"
+		}
+	],
+	// Respaldo diario 11:20 UTC (el disparo principal es el POST del workflow
+	// a las ~10:35; el dedupe hace ambos caminos idempotentes)
+	"triggers": {
+		"crons": [
+			"20 11 * * *"
+		]
+	},
+	"vars": {
+		// clave pública VAPID (base64url, 65 bytes P-256 sin comprimir) — la
+		// privada va como secreto VAPID_PRIVATE_JWK. Generar par: ver README.
+		"VAPID_PUBLIC_KEY": "BBrMEN-T86OTPOCsTn6CbJSnqaLJeOGWjaVnNbe8WB6RCwEXaDORqDVWxnD-6jhBr3g5XkD72fce-jEKQDycAwc",
+		"VAPID_SUB": "mailto:gestion@inforesidencias.com",
+		"ALERTS_URL": "https://brechas.orkidea.eu/data/public/alerts.json",
+		// canal público de Telegram (p. ej. "@brechas_terremoto"); vacío = sin Telegram
+		"TELEGRAM_CHAT": "@terremotoCO2026"
+	}
 }
