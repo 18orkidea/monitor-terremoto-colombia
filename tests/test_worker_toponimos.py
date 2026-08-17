@@ -74,14 +74,32 @@ class TestR10EnElWorker(unittest.TestCase):
                 f"W.structureOfficialText({json.dumps(texto)},"
                 " { title: '', summary: '', source: { department: null } }).municipios")
         for texto in ("terremoto-cali_51341108_20260812133441.jpg",
-                      "foto terremoto-cali.jpg",
                       "https://ejemplo.com/noticias/cali/sismo",
                       "![imagen](https://x.co/cali-2026.webp)",
-                      "video quibdo-danos.mp4"):
+                      "ver /media/900x601/terremoto-cali_51.jpg aquí",
+                      "![foto](https://cdn.co/2026/08/quibdo-danos.mp4)"):
             with self.subTest(texto=texto):
                 self.assertEqual(municipios(texto), [],
                                  "un enlace no es una mención en la prosa")
         self.assertEqual(municipios("Colapso en Cali tras el sismo"), ["Cali"])
+
+    def test_frontera_del_nombre_de_archivo_suelto(self):
+        """Frontera asumida, no descuido: un nombre de archivo con extensión
+        SUELTO en la prosa (sin URL ni ruta) sí atribuye. No hay forma limpia de
+        distinguir «foto terremoto-cali.jpg» —ruido— de «el EDAN de Quibdó.pdf»
+        —una referencia legítima al documento de un municipio—, y en el markdown
+        de Firecrawl las imágenes llegan siempre como ![alt](url), que sí se
+        descarta. Se prefiere conservar la referencia al documento.
+
+        Si algún día aparecen falsos positivos reales por esta vía, se calibra
+        con el corpus, como se hizo con los homónimos de departamento."""
+        def municipios(texto):
+            return correr_worker(
+                f"W.structureOfficialText({json.dumps(texto)},"
+                " { title: '', summary: '', source: { department: null } }).municipios")
+        self.assertEqual(municipios("foto terremoto-cali.jpg"), ["Cali"])
+        self.assertEqual(municipios("El EDAN de Quibdó.pdf recoge 300 familias."),
+                         ["Quibdó"])
 
     def test_choco_no_es_chocolate(self):
         """«chocó» estaba en EVENT_TERMS, que se buscan por contención para
@@ -94,6 +112,62 @@ class TestR10EnElWorker(unittest.TestCase):
         # los términos temáticos siguen capturando plurales, a propósito
         self.assertTrue(correr_worker("W.hasEventTerm('Los sismos continúan')"))
 
+    def test_las_cifras_no_salen_de_las_urls(self):
+        """Las URLs no solo atribuían municipios: también ofrecían números.
+        «mapa-900x601.jpg» daba «900 municipios afectados», y esa cifra sí se
+        pinta (site/balances.js la enfrenta al RUD)."""
+        def cifras(texto):
+            return correr_worker(
+                f"W.structureOfficialText({json.dumps(texto)},"
+                " { title: '', summary: '', source: { department: null } }).cifras")
+        sucio = cifras("Municipios afectados ![f](https://x.co/mapa-900x601.jpg) según la UNGRD")
+        self.assertIsNone(sucio["municipios_afectados"],
+                          "una dimensión de imagen no es una cifra de daño")
+        # una fecha en la URL y un id de artículo tampoco son cifras de daño
+        self.assertIsNone(
+            cifras("Reporte de familias afectadas en https://ej.com/2026/08/14/nota")
+            ["familias_afectadas"])
+        self.assertIsNone(
+            cifras("Balance de personas afectadas: https://ej.com/n/51341108")
+            ["personas_afectadas"])
+        limpio = cifras("La UNGRD reporta 75 municipios afectados")
+        self.assertEqual(limpio["municipios_afectados"], 75,
+                         "la limpieza no puede comerse las cifras de la prosa")
+
+    def test_sinenlaces_no_se_come_la_prosa(self):
+        """El insumo es markdown de Firecrawl, así que el texto ENLAZADO es prosa:
+        «[UNGRD confirma 12 fallecidos en Cali](url)» es justo donde aparece el
+        municipio. Mi primera versión borraba el enlace entero y cambiaba un
+        falso positivo por un falso negativo silencioso."""
+        def municipios(texto):
+            return correr_worker(
+                f"W.structureOfficialText({json.dumps(texto)},"
+                " { title: '', summary: '', source: { department: null } }).municipios")
+        casos = [
+            ("## [UNGRD confirma 12 fallecidos en Cali](https://ungrd.gov.co/x)", ["Cali"]),
+            ("La [Alcaldía de Quibdó](https://quibdo.gov.co) reportó 300 familias.", ["Quibdó"]),
+            # nombrar un documento oficial es nombrar el municipio
+            ("El EDAN de Quibdó.pdf recoge 300 familias.", ["Quibdó"]),
+        ]
+        for texto, esperado in casos:
+            with self.subTest(texto=texto[:40]):
+                self.assertEqual(municipios(texto), esperado)
+        # y las cifras de la prosa enlazada tampoco se pierden
+        cifras = correr_worker(
+            "W.structureOfficialText('[La UNGRD](https://u.co) reporta 294 fallecidos',"
+            " { title: '', summary: '', source: { department: null } }).cifras")
+        self.assertEqual(cifras["fallecidos"], 294)
+
+    def test_los_portones_de_relevancia_no_entran_por_una_url(self):
+        """hasEventTerm y hasImpactedPlace deciden si un documento cuenta como
+        evidencia del evento: con la URL de una imagen como único anclaje
+        colombiano, un artículo de otro país entraba al feed."""
+        self.assertFalse(correr_worker(
+            "W.hasImpactedPlace('Terremoto en Ecuador. foto:"
+            " https://x.co/noticias/cali/portada.jpg')"))
+        self.assertFalse(correr_worker(
+            "W.hasEventTerm('Feria de dulces https://x.co/choco/2026')"))
+
     def test_el_item_publicado_sella_su_criterio(self):
         """Sin el sello, los feeds archivados mezclan la atribución nueva con la
         de los ítems que el KV reusa tal cual, sin forma de distinguirlas."""
@@ -101,6 +175,7 @@ class TestR10EnElWorker(unittest.TestCase):
             "W.structureOfficialText('Balance en Cali',"
             " { title: '', summary: '', source: { department: null } })")
         self.assertEqual(out["atribucion_lugares"], "limite_palabra_sin_enlaces")
+        self.assertEqual(out["cifras_desde"], "texto_sin_enlaces")
 
     def test_acentos_y_derivadas(self):
         self.assertTrue(correr_worker(
@@ -145,7 +220,12 @@ class TestParidadMunicipiosWorker(unittest.TestCase):
     def test_los_municipios_del_worker_existen_en_el_catalogo(self):
         from municipios import MUNICIPIOS as CATALOGO, _norm
         del_worker = correr_worker("W.MUNICIPIOS")
-        curados = {_norm(m): meta["departamento"] for m, meta in CATALOGO.items()}
+        # claves y alias: el worker lista «Dos Quebradas», que en el catálogo es
+        # un topónimo de Dosquebradas y no una entrada propia
+        curados = {}
+        for m, meta in CATALOGO.items():
+            for nombre in [m, *meta.get("toponimos", [])]:
+                curados[_norm(nombre)] = meta["departamento"]
         for nombre, depto in del_worker:
             with self.subTest(municipio=nombre):
                 self.assertIn(_norm(nombre), curados,
@@ -168,6 +248,26 @@ class TestParidadMunicipiosWorker(unittest.TestCase):
         self.assertEqual(coinciden, set(),
                          f"el pipeline exige departamento para {coinciden} y el "
                          f"worker no: replicarlo allí o documentar la divergencia")
+
+    def test_el_worker_reconoce_los_alias_del_catalogo(self):
+        """El pipeline lista «dos quebradas» como topónimo de Dosquebradas; con
+        límite de palabra, esa variante de dos palabras NO casa dentro de
+        «Dosquebradas». Un documento que la use lo atribuía el pipeline y no el
+        worker: dos atribuciones distintas del mismo texto, sin registro."""
+        from municipios import MUNICIPIOS as CATALOGO, _norm
+        del_worker = {_norm(n) for n, _ in correr_worker("W.MUNICIPIOS")}
+        faltan = []
+        for mun, meta in CATALOGO.items():
+            if _norm(mun) not in del_worker:
+                continue
+            for alias in meta.get("toponimos", []):
+                reconocido = correr_worker(
+                    f"W.MUNICIPIOS.some(([n]) => W.mentionsPlace("
+                    f"{json.dumps(_norm(alias))}, n))")
+                if not reconocido:
+                    faltan.append(f"{mun} → «{alias}»")
+        self.assertEqual(faltan, [],
+                         f"alias que el pipeline atribuye y el worker no: {faltan}")
 
     def test_el_worker_no_incluye_homonimos_de_departamento(self):
         """Risaralda (Caldas) y Córdoba (Quindío) no reciben prensa por texto en

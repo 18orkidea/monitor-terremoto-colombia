@@ -156,9 +156,20 @@ es lo que acaba publicado en `oficiales.json`. Medido sobre el balance archivado
 del 16-ago: 2 de 15 ítems atribuían Cali por el nombre de archivo de una imagen
 (`terremoto-cali_51341108.jpg`), sin que «Cali» apareciera en la prosa.
 
-Decisión: helper `mencionaLugar()` con `\b` sobre el topónimo normalizado —el
+Decisión: helper `mentionsPlace()` con `\b` sobre el topónimo normalizado —el
 mismo criterio que `ingest/municipios.py::_mentioned`— aplicado en los tres
-puntos (municipios, departamentos y filtro de relevancia).
+puntos (municipios, departamentos y filtro de relevancia). Y un segundo criterio,
+`sinEnlaces()`: el insumo es markdown de Firecrawl, donde el límite de palabra no
+protege («terremoto-cali.jpg» y «/noticias/cali/» dejan el topónimo suelto). Se
+descartan imágenes y URLs, pero **el texto de los enlaces se conserva** —
+«[UNGRD confirma 12 fallecidos en Cali](url)» es prosa, y borrarlo entero
+cambiaba un falso positivo por un falso negativo silencioso. De ese texto limpio
+salen también las cifras: «mapa-900x601.jpg» daba «900 municipios afectados», y
+una fecha o un id en la URL daban 202 y 513 — cifras fabricadas en un proyecto
+cuyo contrato dice que cada una es rastreable. La cita y el `text_excerpt` siguen
+sobre el crudo (R3: el literal se conserva). Frontera asumida: un nombre de
+archivo suelto en la prosa sí atribuye, porque no hay forma limpia de separar
+«foto terremoto-cali.jpg» de «el EDAN de Quibdó.pdf»; con test que la fija.
 
 **No** se replican los dos niveles del pipeline (`requiere_depto`,
 `homonimo_de_departamento`), y no por descuido: en la lista del worker no hay
@@ -174,8 +185,12 @@ crece y aparecen falsos positivos, se calibra entonces con datos.
 Frontera del archivo: antes de desplegar se guardó el feed tal como lo producía
 el criterio viejo en `feeds/balances/2026-08-17.json` (18 ítems, ninguno con
 sello), capturado con `common.fetch` y por tanto con fila en `sources_log` y
-snapshot en `data/snapshots/2026-08-17/oficiales_feed.json`, sha256
-`c6ac2ee93cc61058b895fce2…`. Sin ese «antes» el cambio de criterio quedaría a
+snapshot en `data/snapshots/2026-08-17/oficiales_feed.json`. **La copia byte-fiel es el
+snapshot**, cuyo sha256 es el que consta en `sources_log`; el fichero de
+`feeds/balances/` es una re-serialización con indentación (mismo contenido
+parseado, otro sha), a diferencia del resto de la serie, que el workflow guarda
+tal como llega. Quien audite la serie con `shasum` debe usar el snapshot para
+ese día. Sin ese «antes» el cambio de criterio quedaría a
 dos días de distancia del commit. Cada ítem nuevo sella `atribucion_lugares`; su
 ausencia significa criterio anterior, porque el worker reusa los ítems del KV sin
 reanalizarlos y los snapshots no se reescriben (ver LIMITACIONES).
@@ -189,9 +204,12 @@ son enlaces — el slug `…colapsados-en-buenaventura-alcaldesa…` y la imagen
 `terremoto-cali_51341108.jpg`. Ninguna atribución que venga de la prosa cambia.
 
 La lista sigue duplicada porque el worker no puede importar el pipeline Python.
-Lo que antes era duplicación silenciosa ahora tiene vigilancia: dos tests de
+Lo que antes era duplicación silenciosa ahora tiene vigilancia: cuatro tests de
 paridad (`tests/test_worker_toponimos.py`) comprueban que cada municipio del
-worker existe en `ingest/municipios.py` con el mismo departamento, y que nunca
-se le cuele un homónimo de departamento. Los tests ejecutan el worker real con
-node (export nombrado añadido solo para ellos; Cloudflare usa el default), no
+worker existe en `ingest/municipios.py` con el mismo departamento (aceptando sus
+alias: el worker lista «Dos Quebradas», que allí es topónimo de Dosquebradas),
+que nunca se le cuele un homónimo de departamento, que ninguno esté marcado
+`requiere_depto` en el pipeline —el día que se calibre Armenia habrá que decidir
+la divergencia, no descubrirla— y que reconozca todos los alias del catálogo.
+Los tests ejecutan el worker real con node (export nombrado añadido solo para ellos; Cloudflare usa el default), no
 una réplica: testear copias es testear nada.
