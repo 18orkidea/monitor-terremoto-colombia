@@ -94,12 +94,69 @@ window.UI = (function () {
     if ((item.reported_data_source || []).length) return 2;
     return 0;
   };
-  function bestSnapshot(items) {
+
+  /* Estabilidad respecto a la víspera: un balance ACUMULADO no retrocede.
+     Un candidato cuyas cifras ancla caen >10 % frente al mejor del día
+     anterior suele ser un medio tardío citando un corte viejo (caso
+     Primicias 16-ago: 181 fallecidos cuando el consolidado iba por 294) —
+     se penaliza por delante incluso de la marca liveblog: un liveblog
+     coherente informa mejor que un artículo estático desactualizado. */
+  const ANCLAS = ["fallecidos", "familias_afectadas"];
+  function retrocede(item, prev) {
+    if (!prev) return false;
+    const p = prev.cifras || {}, c = (item && item.cifras) || {};
+    return ANCLAS.some((k) =>
+      p[k] != null && c[k] != null && c[k] < p[k] * 0.9);
+  }
+
+  /* Contradicción fuerte entre los candidatos de un mismo día (>15 % entre
+     mínimo y máximo): la discrepancia ES información de brecha y se muestra,
+     no se suprime. Devuelve {cifra: {min, max}} o null. */
+  function disputaDia(dayItems) {
+    const out = {};
+    for (const k of ["fallecidos", "heridos", "desaparecidos",
+                     "familias_afectadas"]) {
+      const vs = dayItems.map((x) => (x.cifras || {})[k])
+        .filter((v) => v != null);
+      if (vs.length >= 2) {
+        const min = Math.min(...vs), max = Math.max(...vs);
+        if (min > 0 && max > min * 1.15) out[k] = { min, max };
+      }
+    }
+    return Object.keys(out).length ? out : null;
+  }
+
+  function bestSnapshot(items, prev) {
     return [...items].sort((a, b) =>
+      Number(retrocede(a, prev)) - Number(retrocede(b, prev)) ||
       Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
       metricCount(b) - metricCount(a) ||
       sourceScore(b) - sourceScore(a) ||
       ((b.captured_at || "").localeCompare(a.captured_at || "")))[0] || null;
+  }
+
+  /* Serie diaria con memoria: el mejor snapshot de cada día se elige con el
+     día anterior como referencia de estabilidad, y cada día lleva su
+     `consolidado`: el último valor conocido de CADA cifra con su fecha de
+     origen — un dato no desaparece porque el mejor snapshot del día no lo
+     traiga; se conserva y se marca de cuándo es.
+     Devuelve [{fecha, item, disputa, consolidado: {cifra: {valor, fecha}}}] */
+  function mejorPorDia(items) {
+    const fechas = [...new Set(items.map((x) => x.search_date))].sort();
+    let prev = null;
+    let consolidado = {};
+    return fechas.map((fecha) => {
+      const dia = items.filter((x) => x.search_date === fecha);
+      const item = bestSnapshot(dia, prev);
+      if (item) prev = item;
+      const c = (item && item.cifras) || {};
+      consolidado = { ...consolidado };
+      for (const [k, v] of Object.entries(c)) {
+        if (v != null) consolidado[k] = { valor: v, fecha };
+      }
+      return { fecha, item, disputa: disputaDia(dia),
+               consolidado: { ...consolidado } };
+    });
   }
 
   /* Comparativa de fuentes: las cuatro miradas sobre el mismo desastre,
@@ -130,9 +187,13 @@ window.UI = (function () {
     }
     const items = (oficiales && oficiales.items || []).filter((x) => x.search_date);
     if (items.length) {
-      const fecha = items.map((x) => x.search_date).sort().at(-1);
-      const mejor = bestSnapshot(items.filter((x) => x.search_date === fecha));
-      const c = mejor && mejor.cifras || {};
+      // serie con memoria: el último día se elige con estabilidad vs víspera,
+      // y las cifras salen del consolidado (el último valor conocido de cada
+      // una) — que el snapshot del día no traiga familias no las borra
+      const ultimo = mejorPorDia(items).at(-1);
+      const fecha = ultimo.fecha;
+      const c = Object.fromEntries(Object.entries(ultimo.consolidado)
+        .map(([k, v]) => [k, v.valor]));
       out.push({
         id: "medios", nombre: "Balances en medios · citan oficiales",
         href: "balances.html", fecha,
@@ -158,6 +219,6 @@ window.UI = (function () {
   }
 
   return { fmt, norm, cssVar, esc, fetchJson, tablaBuscable, metricCards,
-           attachTooltip, isLiveblog, bestSnapshot, metricCount,
-           comparativaFuentes, OFICIALES_BASE };
+           attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
+           disputaDia, comparativaFuentes, OFICIALES_BASE };
 })();

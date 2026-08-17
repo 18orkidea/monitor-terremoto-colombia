@@ -32,6 +32,11 @@
       "tipo": "monitor",
       "texto": "El monitor se profesionaliza: reglas de desarrollo escritas, agentes revisores, deploy único, snapshots intradía verificables, la base de datos pasa a dumps CSV legibles y las limitaciones del archivo quedan documentadas",
       "url": "https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "La serie de balances gana memoria: los cortes viejos de medios internacionales tardíos ya no la hacen retroceder (caso Primicias: 181 fallecidos cuando el consolidado iba por 294), las disputas entre medios se marcan en vez de suprimirse y ninguna cifra desaparece si el día no la repite"
     }
   ]
 }

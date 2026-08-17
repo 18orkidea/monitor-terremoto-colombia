@@ -51,6 +51,23 @@ Decisión: nombre de snapshot con sufijo `_<sha8>`; contenido distinto = archivo
 nunca un hash sin evidencia. Los snapshots antiguos no se migran (inmutables).
 Consecuencia: la promesa «minuto a minuto» pasa de aspiracional a verificable.
 
+## 2026-08-17 — Selección diaria de balances: estabilidad, disputa y consolidado
+
+Contexto: el 16-ago el único snapshot no-liveblog del día fue Primicias (Ecuador) con
+un corte viejo (181 fallecidos cuando el consolidado iba por 294); la regla
+«no-liveblog primero» lo eligió y la serie pública retrocedió. Además, las cifras que
+el ganador del día no traía desaparecían en «—».
+Decisión: (1) estabilidad respecto a la víspera como PRIMER criterio — un balance
+acumulado no retrocede; caídas >10 % en fallecidos/familias penalizan al candidato por
+delante incluso de la marca liveblog; (2) contradicciones >15 % entre medios del mismo
+día se marcan «cifras en disputa» y se muestran — la discrepancia es información de
+brecha; (3) consolidado por día: cada cifra conserva su último valor conocido con
+fecha de origen marcada. Implementado en ui.js (mejorPorDia), testeado ejecutando el
+JS real con node (tests/test_frontend.py) — sin réplicas en Python.
+Consecuencia: los medios internacionales tardíos ya no pueden hacer retroceder la
+serie ni borrar cifras; la FAQ de Balances ahora describe la regla realmente
+implementada (antes prometía una estabilidad que no existía).
+
 ## 2026-08-16 — Deudas anotadas (descartado hacer ahora)
 
 - Refactor de `publish.py::run()` (236 líneas): funciona y está testado por sus
