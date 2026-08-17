@@ -35,8 +35,12 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
   `site/ui.js::isLiveblog/bestSnapshot` (fuente única en el frontend)
 - **R9** Prensa/web nunca se promueven a EDAN; dos niveles de atribución (publicador vs
   fuente citada). `workers/ai-view/`
-- **R10** Topónimos con límite de palabra (`\b`): Cali ≠ California.
-  `crosscheck.py:47` · `test_unit.py::test_cali_no_es_california`
+- **R10** Topónimos con límite de palabra (`\b`): Cali ≠ California. Vive en TRES
+  superficies —si tocas una, mira las otras—: `crosscheck.py:47` (AOIs),
+  `municipios.py::_mentioned` (+ dos niveles: `requiere_depto` y
+  `homonimo_de_departamento`) y `workers/ai-view::mentionsPlace` (+ `sinEnlaces`,
+  porque el worker lee documentos con URLs dentro).
+  `test_unit.py::test_cali_no_es_california` · `test_worker_toponimos.py`
 - **R11** Los supuestos rotos AVISAN, no rompen en silencio — y romperse puede ser buena
   noticia. `tests/test_supuestos_api.py` · `ingest/alerts.py`
 - **R12** Los tests de hipótesis son estructurales, no de cifras exactas; si una

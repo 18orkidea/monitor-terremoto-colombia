@@ -5,7 +5,14 @@ const KEYWORDS = [
 ];
 
 const EVENT_TERMS = [
-  "terremoto", "sismo", "temblor", "movimiento sismico", "movimiento sísmico",
+  "terremoto", "sismo", "temblor", "movimiento sismico", "movimiento sísmico"
+];
+
+/* Topónimos que también valen como señal de evento. Van aparte porque exigen
+   límite de palabra: con includes(), «chocó» hacía que «fábrica de chocolate»
+   contara como evidencia del terremoto (R10). Los términos de arriba sí se
+   buscan por contención, a propósito: así «sismos» y «temblores» cuentan. */
+const EVENT_PLACES = [
   "san jose del palmar", "san josé del palmar", "chocó", "choco"
 ];
 
@@ -699,13 +706,13 @@ async function parseWithQwenOcr(documentUrl, env) {
 }
 
 function structureOfficialText(text, candidate) {
-  const lower = norm(text);
+  const lower = norm(sinEnlaces(text));
   const municipios = MUNICIPIOS
-    .filter(([name]) => lower.includes(norm(name)))
+    .filter(([name]) => mentionsPlace(lower, name))
     .map(([name]) => name);
   const departamentos = new Set(
     MUNICIPIOS
-      .filter(([name, dept]) => municipios.includes(name) || lower.includes(norm(dept)))
+      .filter(([name, dept]) => municipios.includes(name) || mentionsPlace(lower, dept))
       .map(([, dept]) => dept)
   );
   if (candidate.source.department) departamentos.add(candidate.source.department);
@@ -730,7 +737,13 @@ function structureOfficialText(text, candidate) {
     },
     requiere_revision_humana: true,
     confianza: confidence(text),
-    cita: findQuote(text)
+    cita: findQuote(text),
+    // sello del criterio de atribución: los ítems SIN este campo se etiquetaron
+    // con el `includes()` anterior al 17-ago-2026 (podían atribuir un municipio
+    // por el nombre de archivo de una imagen). El KV reusa ítems viejos tal
+    // cual, así que los feeds archivados mezclan ambos criterios: sin el sello
+    // no habría forma de distinguirlos dentro de veinte años.
+    atribucion_lugares: "limite_palabra_sin_enlaces"
   };
 }
 
@@ -1015,7 +1028,8 @@ function isSpecificEventEvidence(text) {
 
 function hasEventTerm(text) {
   const n = norm(text);
-  return EVENT_TERMS.some((term) => n.includes(norm(term)));
+  return EVENT_TERMS.some((term) => n.includes(norm(term))) ||
+    EVENT_PLACES.some((place) => mentionsPlace(n, place));
 }
 
 function hasDamageTerm(text) {
@@ -1025,7 +1039,8 @@ function hasDamageTerm(text) {
 
 function hasImpactedPlace(text) {
   const n = norm(text);
-  return MUNICIPIOS.some(([name, dept]) => n.includes(norm(name)) || n.includes(norm(dept)));
+  return MUNICIPIOS.some(([name, dept]) =>
+    mentionsPlace(n, name) || mentionsPlace(n, dept));
 }
 
 function hasColombiaContext(text) {
@@ -1142,6 +1157,31 @@ function norm(s) {
     .toLowerCase();
 }
 
+/* R10 («Cali» no es «California»): los topónimos se buscan con límite de
+   palabra, igual que en ingest/municipios.py::_mentioned. Con includes() a
+   secas, un artículo sobre California pasaba el filtro de contexto colombiano.
+   Nombre en inglés como sus hermanos (hasImpactedPlace, hasEventTerm): buscar
+   una cadena es infraestructura de texto; el dominio son municipio y balance.
+   `n` ya viene normalizado. */
+function mentionsPlace(n, nombre) {
+  const t = norm(nombre).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`\\b${t}\\b`).test(n);
+}
+
+/* El límite de palabra no basta contra las URLs: en «terremoto-cali.jpg» o
+   «/noticias/cali/portada.webp» el guion y la barra SON frontera, así que el
+   nombre de archivo de una imagen atribuía el balance a Cali sin que el
+   topónimo apareciera en la prosa (2 de 15 ítems del 16-ago). El pipeline no
+   sufre esto porque atribuye sobre titulares; el worker lee el documento
+   entero, con sus enlaces. Se quitan también los números de las URLs, que
+   findMetricNumber leía como cifras (900x601). */
+function sinEnlaces(text) {
+  return String(text || "")
+    .replace(/!?\[[^\]]*\]\(\S+?\)/g, " ")   // markdown: ![alt](url)
+    .replace(/https?:\/\/\S+/g, " ")
+    .replace(/\S+\.(?:jpe?g|png|webp|gif|svg|pdf|mp4|avif)\b/gi, " ");
+}
+
 async function sha256(buffer) {
   const digest = await crypto.subtle.digest("SHA-256", buffer);
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
@@ -1209,3 +1249,9 @@ function cors(response) {
   response.headers.set("access-control-allow-headers", "content-type,authorization");
   return response;
 }
+
+/* Exportado solo para los tests (Cloudflare usa únicamente el default):
+   tests/test_worker_toponimos.py ejecuta esta misma función con node, para no
+   testear una copia — la lección de crosscheck aplica también aquí. */
+export { MUNICIPIOS, EVENT_PLACES, mentionsPlace, sinEnlaces,
+         hasEventTerm, hasImpactedPlace, structureOfficialText };

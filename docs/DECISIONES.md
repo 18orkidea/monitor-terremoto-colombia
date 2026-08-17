@@ -143,3 +143,47 @@ la celda «Balboa» del canal de Panamá se estaba publicando como intensidad
 sentida en Balboa (Risaralda), a 595 km. Y el registro oficial ya no queda
 tapado por una celda DYFI floja: antes, un CDI de 5,6 mandaba al gris a Belén de
 Umbría, con 2.266 damnificados registrados.
+
+## 2026-08-17 — R10 llega al worker de balances (la última superficie sin guardián)
+
+Contexto: al endurecer la atribución de topónimos en el pipeline (ver entrada
+anterior) quedó fuera `workers/ai-view/src/index.js`, que corre en Cloudflare y
+mantiene su propia lista de 25 municipios. Atribuía con `lower.includes(...)`,
+sin límite de palabra: «California» contaba como Cali en `hasImpactedPlace()`
+—que alimenta el filtro de contexto colombiano y por tanto decide si un
+documento cuenta como evidencia del evento— y en `structureOfficialText()`, que
+es lo que acaba publicado en `oficiales.json`. Medido sobre el balance archivado
+del 16-ago: 2 de 15 ítems atribuían Cali por el nombre de archivo de una imagen
+(`terremoto-cali_51341108.jpg`), sin que «Cali» apareciera en la prosa.
+
+Decisión: helper `mencionaLugar()` con `\b` sobre el topónimo normalizado —el
+mismo criterio que `ingest/municipios.py::_mentioned`— aplicado en los tres
+puntos (municipios, departamentos y filtro de relevancia).
+
+**No** se replican los dos niveles del pipeline (`requiere_depto`,
+`homonimo_de_departamento`), y no por descuido: en la lista del worker no hay
+ningún homónimo de departamento, y sus nombres coincidentes con lugares
+extranjeros (Armenia, Montenegro, Sevilla, Cartago, Palmira, Salento) son
+precisamente los del Eje Cafetero, que en un corpus de balances del sismo
+colombiano casi siempre se refieren a los municipios colombianos — el terremoto
+de 1999 fue en Armenia, Quindío. Con un solo día de balances archivados no hay
+base para calibrar un segundo nivel, y el worker ya exige `hasEventTerm` +
+`hasColombiaContext` antes de tratar un documento como evidencia. Si el archivo
+crece y aparecen falsos positivos, se calibra entonces con datos.
+
+Frontera del archivo: antes de desplegar se guardó el feed tal como lo producía
+el criterio viejo en `feeds/balances/2026-08-17.json` (18 ítems, ninguno con
+sello), capturado con `common.fetch` y por tanto con fila en `sources_log` y
+snapshot en `data/snapshots/2026-08-17/oficiales_feed.json`, sha256
+`c6ac2ee93cc61058b895fce2…`. Sin ese «antes» el cambio de criterio quedaría a
+dos días de distancia del commit. Cada ítem nuevo sella `atribucion_lugares`; su
+ausencia significa criterio anterior, porque el worker reusa los ítems del KV sin
+reanalizarlos y los snapshots no se reescriben (ver LIMITACIONES).
+
+La lista sigue duplicada porque el worker no puede importar el pipeline Python.
+Lo que antes era duplicación silenciosa ahora tiene vigilancia: dos tests de
+paridad (`tests/test_worker_toponimos.py`) comprueban que cada municipio del
+worker existe en `ingest/municipios.py` con el mismo departamento, y que nunca
+se le cuele un homónimo de departamento. Los tests ejecutan el worker real con
+node (export nombrado añadido solo para ellos; Cloudflare usa el default), no
+una réplica: testear copias es testear nada.

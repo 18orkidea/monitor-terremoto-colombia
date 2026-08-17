@@ -9,6 +9,7 @@ consolidado iba por 294 — y la selección antigua lo eligió como «mejor del
 día», haciendo retroceder la serie pública.
 """
 import json
+import os
 import shutil
 import subprocess
 import unittest
@@ -16,6 +17,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 NODE = shutil.which("node")
+
+# R11: en local se puede saltar (node es opcional para el pipeline Python), pero
+# en CI la ausencia de node dejaría los guardianes de JavaScript apagados en
+# silencio — justo lo que estas reglas existen para evitar.
+if not NODE and os.environ.get("CI"):
+    raise RuntimeError(
+        "node no está disponible en el runner: las reglas del monitor que viven "
+        "en JavaScript no se pueden verificar. Instalar node o quitar el paso.")
+
 
 # fixture reducida del feed real del 17-ago (cifras textuales)
 FIXTURE = [

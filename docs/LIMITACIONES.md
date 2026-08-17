@@ -144,3 +144,39 @@ solos desde el RUD. El día que uno de esos nuevos tenga titulares, su enlace
 «Prensa» llevará a una búsqueda sin resultados — y tampoco tendrá búsqueda
 municipal de Google News hasta que se cure a mano. Se arreglará cuando aparezca
 el primer caso real.
+
+## Los balances archivados mezclan dos criterios de atribución de lugares
+
+Hasta el 17-ago-2026 el worker de balances atribuía municipios y departamentos
+buscando el topónimo por contención, sin límite de palabra: «California» contaba
+como Cali, y el nombre de archivo de una imagen (`terremoto-cali.jpg`) bastaba
+para atribuir un balance a un municipio que no aparecía en la prosa. Medido sobre
+`feeds/balances/2026-08-16.json`, 2 de sus 15 ítems tienen ese defecto.
+
+El worker reusa los ítems ya recolectados tal cual —no los vuelve a analizar—,
+así que **esos ítems conservarán su atribución vieja indefinidamente** y cada
+snapshot posterior mezcla ambos criterios. Lo que los distingue es el sello
+`atribucion_lugares` que llevan los ítems nuevos: si el campo falta, la
+atribución es la anterior. No se reprocesa el histórico: los snapshots son
+inmutables (principio de archivo), y reescribirlos para «arreglar» el pasado
+sería peor que documentarlo.
+
+Mitigante: el campo `municipios` de cada ítem no se pinta hoy en el sitio —
+`site/balances.js` usa las cifras, no la atribución territorial—, así que el
+efecto es de archivo, no de portada.
+
+## El snapshot diario de balances no pasa por la cadena trazada
+
+`.github/workflows/daily.yml` archiva `feeds/balances/${HOY}.json` con un `curl`
+directo al worker: sin fila en `sources_log`, sin `snapshot_path` y con el
+`sha256sum` solo en el log de Actions, que caduca. El feed que sostiene toda la
+sucesión del worker depende hoy de una petición no trazada, en contra de R4. Y
+una segunda corrida el mismo día lo sobrescribe, en contra de la política de
+sufijo intradía que sí aplica a `data/snapshots/`. El snapshot frontera del
+17-ago se capturó a mano con `common.fetch` precisamente para no repetirlo, pero
+el workflow sigue como estaba.
+
+Tampoco hay forma de saber qué versión del worker produjo un feed archivado: el
+deploy es manual, el KV vive fuera de git y el bloque `extraction` no registra
+commit ni versión. El sello `atribucion_lugares` cubre solo el criterio de
+atribución de lugares, no el resto del código.

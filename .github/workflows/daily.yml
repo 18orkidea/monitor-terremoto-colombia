@@ -30,6 +30,7 @@ jobs:
         run: |
           python -m unittest tests.test_unit -v
           python -m unittest tests.test_hipotesis -v
+          python -m unittest tests.test_frontend tests.test_worker_toponimos -v
 
       # Los supuestos rotos AVISAN, no tumban la corrida (regla R11): una API
       # externa que cambia puede ser hasta buena noticia — hay que enterarse.
