@@ -240,7 +240,7 @@ class TestPublicacionBienFormada(unittest.TestCase):
         mon = self._mon()
         self.assertIn("municipios", mon)
         self.assertGreaterEqual(mon["municipios"]["total"],
-                                mon["municipios"]["fuera_aoi"])
+                                mon["municipios"]["fuera_de_aoi_copernicus"])
 
     def test_noticias_tienen_etiquetas_territoriales(self):
         p = ROOT / "data" / "public" / "noticias.json"

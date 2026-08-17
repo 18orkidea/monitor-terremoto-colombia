@@ -495,7 +495,10 @@ def run() -> dict:
                     "en_aoi": sum(1 for f in cit_feats
                                   if f["properties"].get("aoi"))},
         "municipios": {"total": len(municipios),
-                       "fuera_aoi": sum(1 for m in municipios
+                       # nombre explícito: «fuera_aoi» es además un ESTADO de
+                       # la capa (con otro significado), y cruzar los dos JSON
+                       # daba dos cifras para la misma clave
+                       "fuera_de_aoi_copernicus": sum(1 for m in municipios
                                         if not m["en_aoi_copernicus"])},
         "activation_index": index,
         "institucional": institucional,

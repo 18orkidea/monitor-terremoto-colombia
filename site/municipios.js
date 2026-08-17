@@ -15,14 +15,18 @@
   const enAoi = data.items.filter((m) => m.en_aoi_copernicus).length;
   // los homónimos tampoco se escriben a mano: si el RUD registra un tercero,
   // la salvedad debe nombrarlo sola
-  const homs = data.items.filter((m) => m.homonimo_de_departamento)
+  // solo los que están en ese grupo: el día que un homónimo tenga prensa o AOI
+  // dejaría de ser excepción del párrafo que lo nombra
+  const homs = data.items
+    .filter((m) => m.homonimo_de_departamento && m.estado === "solo_rud")
     .map((m) => `${m.municipio} (${m.departamento})`);
   const spanHom = document.getElementById("mun-homonimos");
   if (spanHom) {
+    // el punto vive aquí, no en el HTML: si no hay salvedad, la frase cierra igual
     spanHom.textContent = homs.length
-      ? ` —salvo ${homs.join(" y ")}, que se llaman igual que un departamento y a ` +
+      ? `, salvo ${homs.join(" y ")}, que se llaman igual que un departamento y a ` +
         `los que el monitor no puede atribuir titulares.`
-      : "";
+      : ".";
   }
 
   const cobertura = document.getElementById("mun-cobertura");

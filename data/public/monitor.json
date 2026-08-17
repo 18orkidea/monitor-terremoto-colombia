@@ -1493,7 +1493,7 @@
  },
  "municipios": {
   "total": 83,
-  "fuera_aoi": 78
+  "fuera_de_aoi_copernicus": 78
  },
  "activation_index": [
   {

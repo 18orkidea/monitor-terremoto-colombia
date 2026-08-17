@@ -128,6 +128,22 @@ class TestSupuestosFeeds(unittest.TestCase):
         self.assertEqual(st, 200)
         self.assertIn("dyfi", d["properties"]["products"])
 
+    def test_celdas_dyfi_siguen_siendo_poligonos(self):
+        """El filtro de proximidad de 30 km (municipios.py::DYFI_RADIO_KM) mide
+        desde el centro del polígono de la celda. Si el USGS pasara a puntos,
+        _centro_celda devolvería None y el filtro se abriría EN SILENCIO,
+        volviendo a publicar la celda «Balboa» de Panamá como intensidad de
+        Balboa (Risaralda). Este supuesto avisa antes de que eso pase."""
+        ruta = Path(__file__).parent.parent / "data" / "public" / "dyfi_cells.geojson"
+        if not ruta.exists():
+            self.skipTest("sin dyfi_cells.geojson: ejecutar run_daily primero")
+        import json as _json
+        tipos = {(f.get("geometry") or {}).get("type")
+                 for f in _json.loads(ruta.read_text()).get("features", [])}
+        self.assertEqual(tipos, {"Polygon"},
+                         f"las celdas DYFI ya no son solo polígonos ({tipos}): "
+                         "revisar el filtro de proximidad de municipios.py")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -284,7 +284,7 @@
             `${p.en_aoi_copernicus ? "Dentro de AOI Copernicus" : "Fuera de AOI Copernicus"}<br>` +
             `Población DANE 2026: ${fmt(p.poblacion_2026)} ` +
             `<span style="color:var(--muted)">cabecera ${fmt(p.cabecera_2026)} · rural ${fmt(p.rural_2026)}</span><br>` +
-            `DYFI: ${window.UI.fmt(p.dyfi_max_cdi, 1)} · respuestas: ${fmt(p.dyfi_respuestas)}<br>` +
+            `DYFI: ${fmt(p.dyfi_max_cdi)} · respuestas: ${fmt(p.dyfi_respuestas)}<br>` +
             `Prensa: ${p.homonimo_de_departamento ? "no atribuible (homónimo de departamento)" : fmt(p.n_noticias)}` +
             ` · fuentes: ${(p.fuentes || []).join(", ") || "—"}<br>` +
             (p.rud_personas != null
