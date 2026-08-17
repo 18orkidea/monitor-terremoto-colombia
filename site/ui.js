@@ -82,8 +82,8 @@ window.UI = (function () {
      los avisos aún no están desplegados y el botón 🔔 no se muestra.
      Al desplegar workers/push (ver su README), pegar aquí la clave pública. */
   const PUSH_BASE = "https://monitor-terremoto-colombia-push.inforesidencias.workers.dev";
-  const VAPID_PUBLIC_KEY = "";
-  const TELEGRAM_CANAL = "";   // p. ej. "https://t.me/brechas_terremoto"
+  const VAPID_PUBLIC_KEY = "BBrMEN-T86OTPOCsTn6CbJSnqaLJeOGWjaVnNbe8WB6RCwEXaDORqDVWxnD-6jhBr3g5XkD72fce-jEKQDycAwc";
+  const TELEGRAM_CANAL = "https://t.me/terremotoCO2026";
 
   /* ---- balances en medios: selección del mejor snapshot (regla compartida;
      la marca is_liveblog original la pone el worker — test de paridad en
