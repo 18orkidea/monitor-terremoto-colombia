@@ -63,12 +63,25 @@ def dump(conn: sqlite3.Connection | None = None) -> dict:
     return resumen
 
 
+def _tiene_tablas(db_path: Path) -> bool:
+    try:
+        conn = sqlite3.connect(db_path)
+        n = conn.execute(
+            "SELECT COUNT(*) FROM sqlite_master WHERE type='table'").fetchone()[0]
+        conn.close()
+        return n > 0
+    except sqlite3.Error:
+        return False
+
+
 def rebuild(db_path: Path | None = None) -> dict:
-    """Reconstruye el sqlite desde los dumps. Solo si la BD no existe:
-    la BD viva nunca se pisa (los snapshots son inmutables; la BD, la actual)."""
+    """Reconstruye el sqlite desde los dumps. Solo si la BD no existe o está
+    vacía (sqlite3.connect crea un fichero vacío con solo abrirlo — p. ej. un
+    test que consulta antes de reconstruir): la BD viva nunca se pisa."""
     destino = Path(db_path) if db_path else DB_PATH
-    if destino.exists():
+    if destino.exists() and _tiene_tablas(destino):
         return {"skip": f"{destino.name} ya existe; no se pisa"}
+    destino.unlink(missing_ok=True)
     if not DUMPS.exists():
         return {"skip": "sin data/dumps/; nada que reconstruir"}
     conn = sqlite3.connect(destino)
