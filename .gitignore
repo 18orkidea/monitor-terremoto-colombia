@@ -15,6 +15,7 @@ data/monitor.sqlite
 data/monitor.sqlite-wal
 data/monitor.sqlite-shm
 
+node_modules/
 __pycache__/
 *.pyc
 .DS_Store
