@@ -62,6 +62,154 @@ MUNICIPIOS = {
                 "toponimos": ["istmina"]},
     "San José del Palmar": {"departamento": "Chocó", "lat": 4.9740, "lon": -76.2280,
                             "toponimos": ["san jose del palmar"]},
+    # --- municipios del RUD (UNGRD) sin cobertura previa de prensa/DYFI ---
+    # coordenadas: DIVIPOLA geolocalizado (datos.gov.co, dataset gdxc-w37w)
+    "Anserma": {"departamento": "Caldas", "lat": 5.236471, "lon": -75.784343,
+               "toponimos": ["anserma"]},
+    "Aranzazu": {"departamento": "Caldas", "lat": 5.271195, "lon": -75.49129,
+                "toponimos": ["aranzazu"]},
+    "Belalcázar": {"departamento": "Caldas", "lat": 4.993785, "lon": -75.811918,
+                  "toponimos": ["belalcazar"],
+                  "requiere_depto": True},
+    "Chinchiná": {"departamento": "Caldas", "lat": 4.985227, "lon": -75.607529,
+                 "toponimos": ["chinchina"]},
+    "Filadelfia": {"departamento": "Caldas", "lat": 5.297091, "lon": -75.562474,
+                  "toponimos": ["filadelfia"],
+                  "requiere_depto": True},
+    "Marulanda": {"departamento": "Caldas", "lat": 5.284304, "lon": -75.259721,
+                 "toponimos": ["marulanda"],
+                 "requiere_depto": True},
+    "Palestina": {"departamento": "Caldas", "lat": 5.017879, "lon": -75.624577,
+                 "toponimos": ["palestina"],
+                 "requiere_depto": True},
+    "Pensilvania": {"departamento": "Caldas", "lat": 5.383281, "lon": -75.160299,
+                   "toponimos": ["pensilvania"],
+                   "requiere_depto": True},
+    "Riosucio (Caldas)": {"departamento": "Caldas", "lat": 5.423673, "lon": -75.702104,
+                         "toponimos": ["riosucio"],
+                         "requiere_depto": True},
+    "Risaralda": {"departamento": "Caldas", "lat": 5.164509, "lon": -75.76722,
+                 "toponimos": ["risaralda"],
+                 "homonimo_de_departamento": True},
+    # topónimo con coma a propósito: «san jose» a secas casaría dentro de «San
+    # José del Palmar» (Chocó, el epicentro), que aparece en cientos de
+    # titulares. Se prefiere perder cobertura antes que atribuir el epicentro a
+    # un municipio de Caldas — ver test_san_jose_no_captura_al_epicentro.
+    "San José": {"departamento": "Caldas", "lat": 5.08231, "lon": -75.792063,
+                "toponimos": ["san jose, caldas"],
+                "requiere_depto": True},
+    "Acandí": {"departamento": "Chocó", "lat": 8.512178, "lon": -77.279951,
+              "toponimos": ["acandi"]},
+    "Alto Baudó": {"departamento": "Chocó", "lat": 5.516221, "lon": -76.974373,
+                  "toponimos": ["alto baudo"]},
+    "Bagadó": {"departamento": "Chocó", "lat": 5.409681, "lon": -76.416063,
+              "toponimos": ["bagado"]},
+    "Bahía Solano": {"departamento": "Chocó", "lat": 6.222807, "lon": -77.401359,
+                    "toponimos": ["bahia solano"]},
+    "Bajo Baudó": {"departamento": "Chocó", "lat": 4.954576, "lon": -77.365717,
+                  "toponimos": ["bajo baudo"]},
+    "Condoto": {"departamento": "Chocó", "lat": 5.091003, "lon": -76.650683,
+               "toponimos": ["condoto"]},
+    "El Carmen de Atrato": {"departamento": "Chocó", "lat": 5.899789, "lon": -76.142112,
+                           "toponimos": ["el carmen de atrato"]},
+    "El Litoral del San Juan": {"departamento": "Chocó", "lat": 4.259564, "lon": -77.363702,
+                               "toponimos": ["el litoral del san juan"]},
+    "Lloró": {"departamento": "Chocó", "lat": 5.49789, "lon": -76.545147,
+             "toponimos": ["lloro"]},
+    "Medio Atrato": {"departamento": "Chocó", "lat": 5.994935, "lon": -76.783042,
+                    "toponimos": ["medio atrato"]},
+    "Medio Baudó": {"departamento": "Chocó", "lat": 5.192471, "lon": -76.950891,
+                   "toponimos": ["medio baudo"]},
+    "Medio San Juan": {"departamento": "Chocó", "lat": 5.098291, "lon": -76.694409,
+                      "toponimos": ["medio san juan"]},
+    "Nuquí": {"departamento": "Chocó", "lat": 5.709812, "lon": -77.265507,
+             "toponimos": ["nuqui"]},
+    "Nóvita": {"departamento": "Chocó", "lat": 4.956063, "lon": -76.609467,
+              "toponimos": ["novita"]},
+    "Riosucio (Chocó)": {"departamento": "Chocó", "lat": 7.436704, "lon": -77.113156,
+                        "toponimos": ["riosucio"],
+                        "requiere_depto": True},
+    "Río Iró": {"departamento": "Chocó", "lat": 5.1863, "lon": -76.472925,
+               "toponimos": ["rio iro"]},
+    "Sipí": {"departamento": "Chocó", "lat": 4.65262, "lon": -76.643453,
+            "toponimos": ["sipi"]},
+    "Tadó": {"departamento": "Chocó", "lat": 5.264873, "lon": -76.558571,
+            "toponimos": ["tado"]},
+    "Córdoba": {"departamento": "Quindío", "lat": 4.392485, "lon": -75.687866,
+               "toponimos": ["cordoba"],
+               "homonimo_de_departamento": True},
+    "Apía": {"departamento": "Risaralda", "lat": 5.106526, "lon": -75.942356,
+            "toponimos": ["apia"]},
+    "Balboa": {"departamento": "Risaralda", "lat": 4.949096, "lon": -75.958663,
+              "toponimos": ["balboa"],
+              "requiere_depto": True},
+    "Belén de Umbría": {"departamento": "Risaralda", "lat": 5.200793, "lon": -75.868334,
+                       "toponimos": ["belen de umbria"]},
+    "Guática": {"departamento": "Risaralda", "lat": 5.315367, "lon": -75.799005,
+               "toponimos": ["guatica"]},
+    "La Celia": {"departamento": "Risaralda", "lat": 5.002787, "lon": -76.0032,
+                "toponimos": ["la celia"]},
+    "La Virginia": {"departamento": "Risaralda", "lat": 4.896624, "lon": -75.880394,
+                   "toponimos": ["la virginia"],
+                   "requiere_depto": True},
+    "Marsella": {"departamento": "Risaralda", "lat": 4.935771, "lon": -75.73879,
+                "toponimos": ["marsella"],
+                "requiere_depto": True},
+    "Mistrató": {"departamento": "Risaralda", "lat": 5.297039, "lon": -75.882886,
+                "toponimos": ["mistrato"]},
+    "Pueblo Rico": {"departamento": "Risaralda", "lat": 5.222043, "lon": -76.030801,
+                   "toponimos": ["pueblo rico"]},
+    "Quinchía": {"departamento": "Risaralda", "lat": 5.340456, "lon": -75.730431,
+                "toponimos": ["quinchia"]},
+    "Santuario": {"departamento": "Risaralda", "lat": 5.074911, "lon": -75.964628,
+                 "toponimos": ["santuario"],
+                 "requiere_depto": True},
+    "Alcalá": {"departamento": "Valle del Cauca", "lat": 4.674994, "lon": -75.779792,
+              "toponimos": ["alcala"],
+              "requiere_depto": True},
+    "Andalucía": {"departamento": "Valle del Cauca", "lat": 4.171713, "lon": -76.167925,
+                 "toponimos": ["andalucia"],
+                 "requiere_depto": True},
+    "Ansermanuevo": {"departamento": "Valle del Cauca", "lat": 4.794984, "lon": -75.992003,
+                    "toponimos": ["ansermanuevo"]},
+    "Candelaria": {"departamento": "Valle del Cauca", "lat": 3.408354, "lon": -76.346519,
+                  "toponimos": ["candelaria"],
+                  "requiere_depto": True},
+    "El Dovio": {"departamento": "Valle del Cauca", "lat": 4.510452, "lon": -76.237084,
+                "toponimos": ["el dovio"]},
+    "El Águila": {"departamento": "Valle del Cauca", "lat": 4.906062, "lon": -76.042779,
+                 "toponimos": ["el aguila"]},
+    "Ginebra": {"departamento": "Valle del Cauca", "lat": 3.724181, "lon": -76.268068,
+               "toponimos": ["ginebra"],
+               "requiere_depto": True},
+    "Guacarí": {"departamento": "Valle del Cauca", "lat": 3.761815, "lon": -76.330911,
+               "toponimos": ["guacari"]},
+    "La Cumbre": {"departamento": "Valle del Cauca", "lat": 3.649268, "lon": -76.56805,
+                 "toponimos": ["la cumbre"],
+                 "requiere_depto": True},
+    "La Victoria": {"departamento": "Valle del Cauca", "lat": 4.523603, "lon": -76.036529,
+                   "toponimos": ["la victoria"],
+                   "requiere_depto": True},
+    "Obando": {"departamento": "Valle del Cauca", "lat": 4.575712, "lon": -75.974709,
+              "toponimos": ["obando"],
+              "requiere_depto": True},
+    "Restrepo": {"departamento": "Valle del Cauca", "lat": 3.821351, "lon": -76.523329,
+                "toponimos": ["restrepo"],
+                "requiere_depto": True},
+    "San Pedro": {"departamento": "Valle del Cauca", "lat": 3.995073, "lon": -76.228692,
+                 "toponimos": ["san pedro"],
+                 "requiere_depto": True},
+    "Toro": {"departamento": "Valle del Cauca", "lat": 4.608085, "lon": -76.076859,
+            "toponimos": ["toro"],
+            "requiere_depto": True},
+    "Ulloa": {"departamento": "Valle del Cauca", "lat": 4.703623, "lon": -75.737808,
+             "toponimos": ["ulloa"],
+             "requiere_depto": True},
+    "Versalles": {"departamento": "Valle del Cauca", "lat": 4.575019, "lon": -76.199203,
+                 "toponimos": ["versalles"],
+                 "requiere_depto": True},
+    "Yotoco": {"departamento": "Valle del Cauca", "lat": 3.861241, "lon": -76.382698,
+              "toponimos": ["yotoco"]},
 }
 
 
@@ -75,9 +223,33 @@ def _mentioned(text: str, tops: list[str]) -> bool:
     return any(re.search(rf"\b{re.escape(t)}\b", n) for t in tops)
 
 
+def _menciona_municipio(text: str, meta: dict) -> bool:
+    """R10 ampliada, en dos niveles.
+
+    `requiere_depto`: topónimos que también son palabra común, lugar extranjero
+    conocido, apellido frecuente o nombre repetido en dos departamentos (Toro,
+    Palestina, Marulanda, Riosucio…) exigen que el texto nombre además el
+    departamento. Sin ese contexto, «el ministro Restrepo» contaría como prensa
+    del municipio de Restrepo, Valle.
+
+    `homonimo_de_departamento`: cuando el municipio se llama igual que un
+    departamento (Risaralda en Caldas, Córdoba en Quindío) el texto libre no
+    puede distinguirlos — medido sobre el corpus, «Caldas y Risaralda» siempre
+    era el departamento, y ni exigir adyacencia lo salvaba. Estos municipios NO
+    reciben prensa por texto: entran por el RUD, y la vía fiable para su prensa
+    es el feed municipal, que declara su municipio explícitamente."""
+    if meta.get("homonimo_de_departamento"):
+        return False
+    if not _mentioned(text, meta["toponimos"]):
+        return False
+    if not meta.get("requiere_depto"):
+        return True
+    return _mentioned(text, [_norm(meta["departamento"])])
+
+
 def match_municipios_text(text: str) -> list[str]:
     return [mun for mun, meta in MUNICIPIOS.items()
-            if _mentioned(text, meta["toponimos"])]
+            if _menciona_municipio(text, meta)]
 
 
 def match_departamentos_text(text: str, municipios: list[str] | None = None) -> list[str]:
@@ -112,13 +284,74 @@ def _find_population(poblacion: dict | None, municipio: str, meta: dict) -> dict
     return None
 
 
+def _find_rud(rud_municipios: dict | None, municipio: str, meta: dict) -> dict | None:
+    """Fila RUD del municipio, probando nombre y topónimos (claves como
+    'Riosucio (Caldas)' no existen en el RUD; su topónimo sí)."""
+    if not rud_municipios:
+        return None
+    dep = _norm(meta["departamento"])
+    for name in [municipio, *meta.get("toponimos", [])]:
+        row = rud_municipios.get((dep, _norm(name)))
+        if row:
+            return row
+    return None
+
+
+_LOWER_WORDS = {"de", "del", "la", "el", "los", "las", "y"}
+
+
+def _title_es(s: str) -> str:
+    words = (s or "").strip().split()
+    return " ".join(w.lower() if i > 0 and w.lower() in _LOWER_WORDS
+                    else w.lower()[:1].upper() + w.lower()[1:]
+                    for i, w in enumerate(words))
+
+
+def municipios_dinamicos(rud_municipios: dict | None,
+                         divipola: dict | None) -> dict[str, dict]:
+    """Entradas para municipios que el RUD registra pero MUNICIPIOS no cura
+    aún: el registro oficial manda — si un municipio entra al RUD mañana, no
+    puede perderse por falta de mantenimiento manual. Coordenadas del catálogo
+    DIVIPOLA estático; sin coordenadas la entrada sale igual (sin punto en el
+    mapa) y el test de supuesto avisa."""
+    if not rud_municipios:
+        return {}
+    cubiertos = set()
+    for mun, meta in MUNICIPIOS.items():
+        dep = _norm(meta["departamento"])
+        for name in [mun, *meta.get("toponimos", [])]:
+            cubiertos.add((dep, _norm(name)))
+    extras = {}
+    for (dep_n, mun_n), fila in rud_municipios.items():
+        if (dep_n, mun_n) in cubiertos:
+            continue
+        div = (divipola or {}).get(f"{mun_n}|{dep_n}")
+        nombre = _title_es(fila.get("municipio") or mun_n)
+        key = nombre if nombre not in MUNICIPIOS and nombre not in extras \
+            else f"{nombre} ({_title_es(fila.get('departamento') or dep_n)})"
+        extras[key] = {
+            "departamento": _title_es(fila.get("departamento") or dep_n),
+            "lat": div.get("lat") if div else None,
+            "lon": div.get("lon") if div else None,
+            "toponimos": [mun_n],
+            # nadie ha revisado este topónimo todavía: si resulta ser palabra
+            # común, apellido o nombre de departamento, exigir contexto evita
+            # atribuirle prensa ajena. Al curarlo a mano se puede relajar.
+            "requiere_depto": True,
+        }
+    return extras
+
+
 def build_municipios(noticias: list[dict], dyfi: dict | None,
                      aoi_extents: dict[str, str],
-                     poblacion: dict | None = None) -> tuple[list[dict], dict]:
+                     poblacion: dict | None = None,
+                     rud_municipios: dict | None = None,
+                     divipola: dict | None = None) -> tuple[list[dict], dict]:
+    catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
                "dyfi_respuestas": 0, "dyfi_celdas": 0, "dyfi_min_dist_km": None}
-           for m, meta in MUNICIPIOS.items()}
+           for m, meta in catalogo.items()}
 
     for mun, row in out.items():
         pop = _find_population(poblacion, mun, row)
@@ -137,8 +370,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
 
     for n in noticias:
         text = f"{n.get('titulo') or ''} {n.get('medio') or ''}"
-        for mun, meta in MUNICIPIOS.items():
-            if _mentioned(text, meta["toponimos"]):
+        for mun, meta in catalogo.items():
+            if _menciona_municipio(text, meta):
                 row = out[mun]
                 row["n_noticias"] += 1
                 if len(row["noticias_ejemplo"]) < 3:
@@ -150,10 +383,15 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         p = f.get("properties") or {}
         raw_mun = _dyfi_municipio(p.get("name"))
         key = _norm(raw_mun)
-        mun = next((m for m, meta in MUNICIPIOS.items()
-                    if key in meta["toponimos"] or _norm(m) == key), None)
-        if not mun:
+        # DYFI da el municipio sin departamento: si el nombre corresponde a
+        # más de un municipio (Riosucio está en Caldas y en Chocó), no se
+        # atribuye a ninguno — elegir uno por orden del diccionario sería
+        # inventar la atribución.
+        candidatos = [m for m, meta in catalogo.items()
+                      if key in meta["toponimos"] or _norm(m) == key]
+        if len(candidatos) != 1:
             continue
+        mun = candidatos[0]
         row = out[mun]
         cdi, nresp, dist = p.get("cdi"), p.get("nresp"), p.get("dist")
         if isinstance(cdi, (int, float)):
@@ -168,11 +406,14 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
     for mun, row in out.items():
         tiene_dyfi = row["dyfi_max_cdi"] is not None
         tiene_prensa = row["n_noticias"] > 0
-        if not tiene_prensa and not tiene_dyfi:
+        rud = _find_rud(rud_municipios, mun, row)
+        tiene_rud = rud is not None
+        if not tiene_prensa and not tiene_dyfi and not tiene_rud:
             continue
         lon, lat = row["lon"], row["lat"]
-        en_aoi = any(point_in_wkt_polygon(lon, lat, wkt)
-                     for wkt in aoi_extents.values() if wkt)
+        en_aoi = (lon is not None and lat is not None
+                  and any(point_in_wkt_polygon(lon, lat, wkt)
+                          for wkt in aoi_extents.values() if wkt))
         estado = "fuera_aoi"
         if en_aoi:
             estado = "en_aoi"
@@ -180,16 +421,33 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
             estado = "intensidad_alta"
         elif tiene_prensa:
             estado = "mencion_prensa"
+        elif tiene_rud and not tiene_dyfi:
+            estado = "solo_rud"
         row["en_aoi_copernicus"] = en_aoi
         row["estado"] = estado
         row["fuentes"] = [x for x, ok in (("prensa", tiene_prensa),
-                                          ("dyfi", tiene_dyfi)) if ok]
+                                          ("dyfi", tiene_dyfi),
+                                          ("rud", tiene_rud)) if ok]
+        row["rud_familias"] = rud.get("familias") if rud else None
+        row["rud_personas"] = rud.get("personas") if rud else None
+        row["rud_viv_destruidas"] = rud.get("viv_destruidas") if rud else None
+        row["rud_viv_averiadas"] = rud.get("viv_averiadas") if rud else None
+        # R3: sin celda DYFI atribuida no hay cero, hay ausencia de dato — en
+        # topónimos ambiguos el DYFI se descarta a propósito (ver arriba), y un
+        # 0 se leería como «nadie lo sintió»
+        if not row["dyfi_celdas"]:
+            row["dyfi_respuestas"] = None
+        per, pob = row["rud_personas"], row["poblacion_2026"]
+        # 4 decimales: ver nota en publish.py — un 0,0003 % redondeado a
+        # 0,0 se leería como «sin damnificados»
+        row["tasa_rud_pct"] = round(per / pob * 100, 4) if per and pob else None
         public_row = {k: v for k, v in row.items() if k != "toponimos"}
         rows.append(public_row)
-        features.append({"type": "Feature",
-                         "geometry": {"type": "Point", "coordinates": [lon, lat]},
-                         "properties": {k: v for k, v in public_row.items()
-                                        if k not in ("lat", "lon", "toponimos")}})
+        if lon is not None and lat is not None:
+            features.append({"type": "Feature",
+                             "geometry": {"type": "Point", "coordinates": [lon, lat]},
+                             "properties": {k: v for k, v in public_row.items()
+                                            if k not in ("lat", "lon", "toponimos")}})
 
     rows.sort(key=lambda r: (not r["en_aoi_copernicus"],
                              -(r["dyfi_max_cdi"] or 0),

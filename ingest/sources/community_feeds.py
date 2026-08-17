@@ -61,12 +61,29 @@ def _slug(s: str) -> str:
 
 
 def municipal_google_news_feeds() -> list[dict]:
-    """Búsquedas Google News por municipio observado en el área de influencia."""
+    """Búsquedas Google News por municipio observado en el área de influencia.
+
+    Dos cuidados que no son cosméticos:
+
+    - La frase buscada es el TOPÓNIMO, no la clave del diccionario: claves
+      desambiguadas como «Riosucio (Caldas)» producirían la frase literal
+      `"riosucio (caldas)"`, que no aparece en ningún titular — un feed que
+      devuelve cero para siempre y nadie sabe por qué.
+    - Los municipios homónimos de un departamento (Risaralda en Caldas,
+      Córdoba en Quindío) NO generan feed: su búsqueda `"risaralda" "caldas"`
+      casa con los titulares del departamento, y como el feed declara su
+      municipio, se colaría por la puerta de atrás la atribución que
+      `_menciona_municipio` rechaza. Su prensa solo puede venir de un feed del
+      registro comunitario, donde el municipio lo declara una persona.
+    """
     from municipios import _norm
     feeds = []
     for municipio, meta in MUNICIPIOS.items():
+        if meta.get("homonimo_de_departamento"):
+            continue
         depto = meta["departamento"]
-        query = f'("terremoto" OR "sismo" OR "temblor") "{_norm(municipio)}" "{_norm(depto)}"'
+        frase = meta["toponimos"][0]
+        query = f'("terremoto" OR "sismo" OR "temblor") "{frase}" "{_norm(depto)}"'
         feeds.append({
             "id": f"googlenews-municipio-{_slug(municipio)}",
             "nombre": f"Google News — {municipio}",

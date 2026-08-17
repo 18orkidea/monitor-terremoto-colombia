@@ -1,7 +1,7 @@
 /* Página del RUD: curva diaria de familias registradas + tabla municipal
    completa con buscador (ordenada por personas). Usa los componentes de ui.js. */
 (async function () {
-  const { fmt, fetchJson, tablaBuscable, cssVar } = window.UI;
+  const { fmt, pct, fechaEs, fetchJson, tablaBuscable, cssVar } = window.UI;
   // rud.json: archivo dedicado (serie + detalle municipal completo día a día),
   // pensado para sobrevivir aunque la fuente original desaparezca.
   const rud = await fetchJson("../data/public/rud.json");
@@ -50,21 +50,23 @@
     tbody: document.querySelector("#rud-tabla tbody"),
     input: buscar,
     rows: munis,
-    top: TOP,
+    paginado: document.getElementById("paginado"),
+    porPagina: TOP,
     texto: (m) => `${m.municipio} ${m.departamento}`,
     fila: (m) =>
       `<tr><td><strong>${m.municipio}</strong>${m.nuevo ? ' <span class="badge" style="--bc:var(--good)">nuevo</span>' : ""}<br><span style="color:var(--muted)">${m.departamento}</span></td>` +
       `<td class="num">${fmt(m.familias)}</td><td class="num">${fmt(m.personas)}</td>` +
+      `<td class="num">${m.poblacion_2026 == null ? "—" : fmt(m.poblacion_2026)}</td>` +
+      `<td class="num">${pct(m.tasa_pct)}</td>` +
       `<td class="num">${fmt(m.viv_destruidas)}</td><td class="num">${fmt(m.viv_averiadas)}</td>` +
       `<td class="num">${m.delta_familias == null ? "—" : (m.delta_familias >= 0 ? "+" : "") + fmt(m.delta_familias)}</td></tr>`,
     nota: document.getElementById("rud-nota"),
     notaTexto: (q, visibles, total) => (q
       ? `${visibles} de ${total} municipios registrados coinciden con la búsqueda. `
-      : `Mostrando los ${Math.min(TOP, total)} municipios con más personas damnificadas ` +
-        `de los ${ult.municipios} registrados (${fmt(ult.familias)} familias en total); ` +
-        `usa el buscador para encontrar cualquiera de los ${total}. `) +
+      : `${total} municipios registrados (${fmt(ult.familias)} familias en total), ` +
+        `ordenados por personas damnificadas, de ${TOP} en ${TOP}. `) +
       `La columna Δ compara con el día anterior de la serie; «nuevo» marca municipios que ` +
-      `entraron al registro hoy. Serie iniciada el 16-ago-2026.`,
+      `entraron al registro hoy. Serie iniciada el ${fechaEs(serie[0].fecha)}.`,
     vacio: `Sin coincidencias entre los municipios registrados. Que un municipio no ` +
       `aparezca significa «sin registro aún», no «sin daño».`,
   });

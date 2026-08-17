@@ -98,3 +98,42 @@ documentado en su README; sin secretos configurados, todo se salta limpio.
 - SECURITY.md, plantillas de PR/issue, CHANGELOG, pre-commit hooks, dependabot,
   coverage gates: descartados — proyecto de una persona; el coste de mantenimiento no
   se paga.
+
+## 2026-08-17 — La capa de municipios sigue al RUD, no al revés
+
+Contexto: `ingest/municipios.py` tenía 25 municipios curados a mano (los que
+aparecieron en prensa o DYFI). El RUD ya registraba 75 — y 72 de ellos no tienen
+ni un edificio verificado por Copernicus: el registro oficial municipal es su
+única fuente, y el monitor los estaba ignorando en la capa de municipios.
+Decisión: (1) los 75 municipios del RUD entran curados al diccionario (58
+nuevos; coordenadas del DIVIPOLA geolocalizado de datos.gov.co, dataset
+`gdxc-w37w`, capturado como `data/public/divipola_coords.json` estático — R14
+intacto: cero red en runtime); (2) estado nuevo `solo_rud` —última prioridad de
+la cascada, solo cuando el RUD es literalmente la única señal— que NO toca
+`crosscheck.py` ni R1/R2: el cruce sigue exigiendo producto satelital; (3) flujo
+automático hacia adelante: si mañana el RUD registra un municipio nuevo,
+`municipios_dinamicos()` lo incorpora solo con coordenadas del catálogo DIVIPOLA
+completo (1.122 municipios), y un test de hipótesis AVISA si alguno no resuelve
+coordenadas (R11: avisar, no romper); (4) la tabla del RUD y la de municipios
+muestran población DANE 2026 y % de población registrada como damnificada — la
+métrica que revela que Condoto tiene al 22 % de su población en el registro.
+Consecuencia: las búsquedas municipales de Google News pasan de 25 a 81 feeds
+diarios —los 83 del catálogo menos los dos homónimos de departamento, cuya
+búsqueda no puede discriminar— (decisión del usuario: trato uniforme, un feed
+en cero también es información, R13 cubre el fallo).
+
+Corolario de calidad de dato (mismo día, tras revisión): ampliar la lista
+multiplicó los topónimos ambiguos, así que R10 crece a dos niveles —
+`requiere_depto` para nombres que son palabra común, lugar extranjero, apellido
+frecuente o municipio repetido (Toro, Palestina, Marulanda, Riosucio…), y
+`homonimo_de_departamento` para los que se llaman igual que un departamento
+(Risaralda en Caldas, Córdoba en Quindío), que no reciben prensa por texto en
+absoluto. Sin esto, 67 titulares del departamento de Risaralda se atribuían al
+municipio de 11.000 habitantes y arrastraban la etiqueta «Caldas» a 60
+noticias. Las entradas dinámicas nacen con `requiere_depto` por defecto: lo no
+curado se trata con el criterio conservador. Cinco tests nuevos cubren la clase,
+uno de ellos estructural contra el catálogo DIVIPOLA completo; otros dos cierran
+la puerta de atrás del canal de feeds, que declara su municipio sin pasar por el
+filtro de texto (los homónimos no generan búsqueda automática, y la frase que se
+busca es el topónimo y no la clave del diccionario, para que ningún feed nazca
+devolviendo cero en silencio).

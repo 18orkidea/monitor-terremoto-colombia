@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
 
-from common import fetch_json
+from common import NOTA_SONDA, fetch_json
 
 ONLINE = os.environ.get("SKIP_ONLINE") != "1"
 COP = "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/"
@@ -20,12 +20,12 @@ COP = "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public
 @unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
 class TestSupuestosCopernicus(unittest.TestCase):
     def test_code_es_obligatorio(self):
-        st, d = fetch_json(COP, note="test supuesto")
+        st, d = fetch_json(COP, note=NOTA_SONDA)
         self.assertTrue(not d or not d.get("results"),
                         "la API ahora lista sin code: ¡mejorar el ingestor!")
 
     def test_emsr916_existe_con_aois(self):
-        st, d = fetch_json(COP, {"code": "EMSR916"}, note="test supuesto")
+        st, d = fetch_json(COP, {"code": "EMSR916"}, note=NOTA_SONDA)
         self.assertEqual(st, 200)
         r = d["results"][0]
         self.assertEqual(r["code"], "EMSR916")
@@ -34,7 +34,7 @@ class TestSupuestosCopernicus(unittest.TestCase):
 
     def test_na_sigue_presente_en_stats(self):
         """El parser tolera 'NA'; verificar que el supuesto sigue vivo."""
-        st, d = fetch_json(COP, {"code": "EMSR916"}, note="test supuesto")
+        st, d = fetch_json(COP, {"code": "EMSR916"}, note=NOTA_SONDA)
         raws = []
         for aoi in d["results"][0]["aois"]:
             for p in aoi.get("products") or []:
@@ -46,7 +46,7 @@ class TestSupuestosCopernicus(unittest.TestCase):
 
     def test_tipos_fuera_de_spec(self):
         """La spec OpenAPI lista FEP/REF/DEL/GRA; la realidad incluye GRM."""
-        st, d = fetch_json(COP, {"code": "EMSR916"}, note="test supuesto")
+        st, d = fetch_json(COP, {"code": "EMSR916"}, note=NOTA_SONDA)
         tipos = {p["type"] for a in d["results"][0]["aois"]
                  for p in a.get("products") or []}
         self.assertTrue(tipos - {"FEP", "REF", "DEL", "GRA"} or tipos,
@@ -54,7 +54,7 @@ class TestSupuestosCopernicus(unittest.TestCase):
 
     def test_hueco_documentado(self):
         """EMSR700 falla entre vecinos válidos: hueco puntual, no error."""
-        st, d = fetch_json(COP, {"code": "EMSR700"}, note="test supuesto")
+        st, d = fetch_json(COP, {"code": "EMSR700"}, note=NOTA_SONDA)
         self.assertFalse((d or {}).get("results"),
                          "EMSR700 ahora existe: retirar el supuesto del hueco")
 
@@ -63,7 +63,7 @@ class TestSupuestosCopernicus(unittest.TestCase):
 class TestSupuestosOficiales(unittest.TestCase):
     def test_socrata_sigue_parado_en_2022(self):
         st, d = fetch_json("https://www.datos.gov.co/resource/wwkg-r6te.json",
-                           {"$select": "max(fecha)"}, note="test supuesto")
+                           {"$select": "max(fecha)"}, note=NOTA_SONDA)
         self.assertEqual(st, 200)
         maxf = d[0].get("max_fecha", "")
         # si esto falla, ¡buena noticia! — el monitor debe celebrarlo, no ocultarlo
@@ -77,7 +77,7 @@ class TestSupuestosOficiales(unittest.TestCase):
              "REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0/query")
         st, d = fetch_json(L, {"where": "1=1", "f": "json", "resultRecordCount": 1,
                                "outFields": "MUERTOS,VIV_DESTRU,MUNICIPIO"},
-                          note="test supuesto")
+                          note=NOTA_SONDA)
         self.assertEqual(st, 200)
         at = d["features"][0]["attributes"]
         for campo in ("MUERTOS", "VIV_DESTRU", "MUNICIPIO"):
@@ -91,7 +91,7 @@ class TestSupuestosRUD(unittest.TestCase):
     def test_rud_responde_con_esquema(self):
         st, d = fetch_json(
             "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T",
-            note="test supuesto rud")
+            note=NOTA_SONDA)
         if st != 200:
             self.fail(f"RUD HTTP {st}: el endpoint cambió o cayó — revisar "
                       "ingest/sources/ungrd_rud.py y buscar el reemplazo")
@@ -106,7 +106,7 @@ class TestSupuestosFeeds(unittest.TestCase):
     def test_gdacs_emm_con_fechas(self):
         st, d = fetch_json("https://www.gdacs.org/gdacsapi/api/emm/getemmnewsbykey",
                            {"eventtype": "EQ", "eventid": "1557236"},
-                           note="test supuesto")
+                           note=NOTA_SONDA)
         self.assertEqual(st, 200)
         if d:  # la ventana ~5 días puede vaciar el feed: eso es esperado
             self.assertIn("pubdate", d[0])
@@ -115,7 +115,7 @@ class TestSupuestosFeeds(unittest.TestCase):
     def test_chatmap_vivo_o_documentado(self):
         st, d = fetch_json("https://chatmap.hotosm.org/api/v1/map/"
                            "89319bbb-a14a-4dfd-b9a1-c83b8b55785f",
-                           note="test supuesto")
+                           note=NOTA_SONDA)
         if st != 200:
             self.skipTest(f"ChatMap cerró (HTTP {st}): activar canal Kobo, "
                           "los snapshots conservan lo capturado")
@@ -124,7 +124,7 @@ class TestSupuestosFeeds(unittest.TestCase):
     def test_dyfi_geojson_disponible(self):
         st, d = fetch_json("https://earthquake.usgs.gov/fdsnws/event/1/query",
                            {"eventid": "us6000tjl2", "format": "geojson"},
-                          note="test supuesto")
+                          note=NOTA_SONDA)
         self.assertEqual(st, 200)
         self.assertIn("dyfi", d["properties"]["products"])
 

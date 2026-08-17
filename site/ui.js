@@ -7,6 +7,40 @@ window.UI = (function () {
   const fmt = (n, dec = 0) => n == null ? "—" :
     Number(n).toLocaleString("es-CO", { maximumFractionDigits: dec });
 
+  /* Porcentaje con un decimal. Una proporción diminuta pero real jamás se
+     redondea a «0 %»: un municipio con damnificados no puede leerse como
+     municipio sin damnificados. */
+  const pct = (n) => n == null ? "—"
+    : (n > 0 && n < 0.05 ? "<0,1 %" : fmt(n, 1) + " %");
+
+  /* Fecha ISO → «16-ago-2026», el formato que usa el resto del sitio. */
+  const MESES = ["ene", "feb", "mar", "abr", "may", "jun",
+                 "jul", "ago", "sep", "oct", "nov", "dic"];
+  const fechaEs = (iso) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
+    return m ? `${+m[3]}-${MESES[+m[2] - 1]}-${m[1]}` : (iso || "—");
+  };
+
+  /* Estados de la capa de municipios: etiqueta, color y explicación en UN solo
+     sitio (la tabla y el mapa los pintaban por separado y las etiquetas ya
+     habían divergido). El orden es el de la cascada de ingest/municipios.py. */
+  const ESTADO_MUNICIPIO = {
+    en_aoi: ["En zona Copernicus", "--s1",
+             "El municipio cae dentro de una zona con producto de daño de Copernicus"],
+    intensidad_alta: ["Intensidad alta", "--warning",
+                      "Intensidad percibida DYFI ≥ 6, sin producto de daño"],
+    mencion_prensa: ["Mencionado en prensa", "--s2",
+                     "Titulares que lo nombran, sin producto de daño ni DYFI alto"],
+    solo_rud: ["Solo registro municipal (RUD)", "--s8",
+               "Su única fuente es el registro de damnificados que carga el " +
+               "municipio: ningún satélite ni medio lo ha verificado de forma " +
+               "independiente"],
+    fuera_aoi: ["Intensidad sentida", "--muted",
+                "Se sintió (DYFI < 6) pero ninguna otra fuente lo documenta"],
+  };
+  const estadoMunicipio = (estado) =>
+    ESTADO_MUNICIPIO[estado] || ["Sin clasificar", "--muted", ""];
+
   const norm = (s) => (s || "").normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
@@ -22,25 +56,62 @@ window.UI = (function () {
     catch { return null; }
   }
 
+  /* Paginador compacto compartido: ‹ 1 … p-1 p p+1 … N › (mismo aspecto en
+     todas las tablas del sitio; estilos en #paginado de styles.css).
+     onPage(p) se invoca con la página elegida. */
+  function paginador(el, paginas, pagina, onPage) {
+    if (!el) return;
+    if (paginas <= 1) { el.innerHTML = ""; return; }
+    const nums = [...new Set([1, 2, pagina - 1, pagina, pagina + 1,
+                              paginas - 1, paginas]
+      .filter((n) => n >= 1 && n <= paginas))].sort((a, b) => a - b);
+    let html = `<button ${pagina === 1 ? "disabled" : ""} data-p="${pagina - 1}">‹ Anterior</button>`;
+    let prev = 0;
+    for (const n of nums) {
+      if (n - prev > 1) html += `<span style="color:var(--muted)">…</span>`;
+      html += `<button data-p="${n}" class="${n === pagina ? "actual" : ""}">${n}</button>`;
+      prev = n;
+    }
+    html += `<button ${pagina === paginas ? "disabled" : ""} data-p="${pagina + 1}">Siguiente ›</button>`;
+    el.innerHTML = html;
+    // onclick (no addEventListener): el paginador se reconstruye en cada render
+    el.querySelectorAll("button[data-p]").forEach((b) =>
+      b.onclick = () => onPage(+b.dataset.p));
+  }
+
   /* Tabla con buscador: todas las filas quedan disponibles para la búsqueda,
-     pero sin filtro solo se muestran las `top` primeras.
+     pero sin filtro solo se muestran las `top` primeras — salvo que se pase
+     `paginado` (elemento), en cuyo caso la tabla se pagina entera de
+     `porPagina` en `porPagina` (también los resultados de búsqueda).
      opts: tbody, input (opcional), rows, top, fila(r)->html <tr>,
            texto(r)->string indexable, nota (elemento opcional),
-           notaTexto(q, visibles, total)->string, vacio (html opcional). */
+           notaTexto(q, visibles, total)->string, vacio (html opcional),
+           paginado (elemento opcional), porPagina (número opcional). */
   function tablaBuscable(opts) {
-    const { tbody, input, rows, top, fila, texto, nota, notaTexto, vacio } = opts;
+    const { tbody, input, rows, top, fila, texto, nota, notaTexto, vacio,
+            paginado, porPagina } = opts;
     const idx = rows.map((r) => norm(texto(r)));
+    let pagina = 1;
     const pinta = () => {
       const q = norm(input ? input.value.trim() : "");
-      const vista = q ? rows.filter((_, i) => idx[i].includes(q))
-        : rows.slice(0, top || rows.length);
+      const filtradas = q ? rows.filter((_, i) => idx[i].includes(q)) : rows;
+      let vista;
+      if (paginado) {
+        const pp = porPagina || top || filtradas.length;
+        const paginas = Math.max(1, Math.ceil(filtradas.length / pp));
+        if (pagina > paginas) pagina = paginas;
+        vista = filtradas.slice((pagina - 1) * pp, pagina * pp);
+        paginador(paginado, paginas, pagina, (p) => { pagina = p; pinta(); });
+      } else {
+        vista = q ? filtradas : rows.slice(0, top || rows.length);
+      }
       tbody.innerHTML = vista.length ? vista.map(fila).join("") :
         `<tr><td colspan="99" style="color:var(--muted)">${vacio || "Sin coincidencias."}</td></tr>`;
-      if (nota && notaTexto) nota.textContent = notaTexto(q, vista.length, rows.length);
+      if (nota && notaTexto) nota.textContent = notaTexto(q, filtradas.length, rows.length);
       return vista;
     };
     // oninput (no addEventListener): el render puede ejecutarse más de una vez
-    if (input) input.oninput = pinta;
+    if (input) input.oninput = () => { pagina = 1; pinta(); };
     pinta();
     return pinta;
   }
@@ -248,7 +319,7 @@ window.UI = (function () {
     return out;
   }
 
-  return { fmt, norm, cssVar, esc, fetchJson, tablaBuscable, metricCards,
+  return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };

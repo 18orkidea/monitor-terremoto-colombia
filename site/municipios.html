@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Municipios afectados por el terremoto de Colombia 2026: prensa, intensidad y población | Monitor de brechas</title>
-<meta name="description" content="Municipios del área de influencia del terremoto M7.4 de Colombia (2026) con menciones en prensa, intensidad percibida (DYFI/USGS), población DANE 2026 y cobertura satelital Copernicus. Con buscador y cada cifra trazable.">
+<title>Municipios afectados por el terremoto de Colombia 2026: damnificados del RUD, prensa y población | Monitor de brechas</title>
+<meta name="description" content="Municipios del área de influencia del terremoto M7.4 de Colombia (2026): damnificados registrados en el RUD (UNGRD), menciones en prensa, intensidad percibida (DYFI/USGS), población DANE 2026 y cobertura satelital Copernicus. Con buscador y cada cifra trazable.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://brechas.orkidea.eu/site/municipios.html">
 <meta property="og:url" content="https://brechas.orkidea.eu/site/municipios.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Municipios afectados por el terremoto de Colombia 2026">
-<meta property="og:description" content="Qué municipios aparecen en prensa, cuáles sintieron el sismo (DYFI) y cuáles mapeó el satélite — con población DANE y buscador.">
+<meta property="og:description" content="Cuántos damnificados registra el RUD en cada municipio, qué municipios aparecen en prensa, cuáles sintieron el sismo (DYFI) y cuáles mapeó el satélite — con población DANE y buscador.">
 <meta property="og:image" content="https://brechas.orkidea.eu/site/og/portada.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brechas.orkidea.eu/site/og/portada.png">
 <meta name="twitter:title" content="Municipios afectados por el terremoto de Colombia 2026">
-<meta name="twitter:description" content="Prensa, intensidad percibida, población DANE y cobertura satelital por municipio, con buscador.">
+<meta name="twitter:description" content="Damnificados del RUD, prensa, intensidad percibida, población DANE y cobertura satelital por municipio, con buscador.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -29,9 +29,10 @@
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
 <header>
   <div>
-    <h1>Municipios mencionados o con intensidad percibida</h1>
-    <p class="sub">Área de influencia del sismo M7.4 (10-ago-2026): señal de prensa,
-    reportes «lo sentí» (DYFI) y cobertura satelital, municipio a municipio.</p>
+    <h1>Municipios con alguna señal del sismo</h1>
+    <p class="sub">Área de influencia del sismo M7.4 (10-ago-2026): registro oficial de
+    damnificados, prensa, reportes «lo sentí» (DYFI) y cobertura satelital, municipio a
+    municipio.</p>
   </div>
   <div class="meta">
     <span id="generado">—</span>
@@ -41,10 +42,18 @@
 </header>
 
 <section class="intro">
-  <p>Ciudades dentro del área de influencia que aparecen en prensa, búsquedas municipales
-  de Google News, DYFI o reportes ciudadanos, aunque no todas hayan sido mapeadas por
-  Copernicus. Es la lista de <strong>«dónde más mirar»</strong>: no equivale a daño
-  satelital ni a EDAN oficial. La población es la proyección municipal 2026 del DANE.
+  <p>Municipios del área de influencia con registro de damnificados en el RUD, menciones
+  en prensa (incluidas las búsquedas municipales de Google News) o intensidad percibida
+  reportada al DYFI del USGS.
+  <span id="mun-cobertura"></span> Es la lista de <strong>«dónde más
+  mirar»</strong>: no equivale a daño satelital ni a EDAN oficial. Los marcados
+  <em>solo registro municipal (RUD)</em> son los que ninguna otra fuente de las que
+  vigila el monitor ha documentado: la única es el registro que carga la propia alcaldía
+  —salvo Risaralda (Caldas) y Córdoba (Quindío), que se llaman igual que un departamento
+  y a los que el monitor no puede atribuir titulares por texto.
+  La población es la <a
+  href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion"
+  target="_blank" rel="noopener">proyección municipal 2026 del DANE</a>.
   Para el registro oficial de damnificados municipio a municipio, ver la página del
   <a href="rud.html">RUD</a>; para verlos sobre el mapa, la
   <a href="index.html#mapa">portada</a>.</p>
@@ -58,21 +67,24 @@
     <thead>
       <tr>
         <th title="Municipio del área de influencia del sismo. Clic para verlo en el mapa de la portada.">Municipio</th>
-        <th title="Situación respecto al mapeo satelital: dentro de una zona analizada por Copernicus, o fuera de ellas con señales de afectación (intensidad alta o menciones en prensa).">Estado</th>
+        <th title="Cinco situaciones: dentro de una zona con producto de daño de Copernicus; fuera de ellas con intensidad percibida alta (DYFI ≥ 6); mencionado en prensa; solo con registro en el RUD, sin satélite ni prensa; o solo con intensidad sentida (DYFI < 6).">Estado</th>
         <th class="num" title="Población municipal proyectada 2026 (DANE, proyecciones postcensales por área). Ordenado por esta columna.">Población 2026</th>
+        <th class="num" title="Personas registradas como damnificadas en el RUD (UNGRD). El registro lo cargan las autoridades municipales: sin registro no significa sin daño.">Damnif. RUD</th>
+        <th class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
         <th class="num" title="Intensidad máxima percibida reportada por ciudadanos al sistema DYFI del USGS (escala CDI, 1-10).">Intensidad DYFI</th>
-        <th class="num" title="Número de reportes ciudadanos «lo sentí» (DYFI/USGS) asociados al municipio.">Respuestas</th>
-        <th class="num" title="Titulares que mencionan el municipio, desde GDACS-EMM, feeds regionales abiertos y búsquedas municipales. Clic para verlos.">Prensa</th>
-        <th title="Qué sistemas registran señal en este municipio (prensa, DYFI, reportes ciudadanos, Copernicus).">Fuentes</th>
+        <th class="num" title="Reportes ciudadanos «lo sentí» (DYFI/USGS) asociados al municipio. Cuando el nombre coincide con el de otro municipio el DYFI no se atribuye: la celda queda vacía, no en cero.">Respuestas</th>
+        <th class="num" title="Titulares que mencionan el municipio, desde GDACS-EMM, feeds regionales abiertos y búsquedas municipales. Si el nombre es palabra común o apellido, solo cuentan los titulares que nombran también el departamento; si es igual al de un departamento, no se atribuye ninguno y la celda queda vacía. Clic para verlos.">Prensa</th>
+        <th title="Qué sistemas del monitor registran señal en este municipio: prensa, DYFI (intensidad percibida) o RUD (registro municipal de damnificados).">Fuentes</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table></div>
   <p class="note" id="mun-nota"></p>
-  <p class="note">¿Falta un municipio? La lista cubre el área de influencia definida en el
+  <p class="note">¿Falta un municipio? Los que entran al <a href="rud.html">RUD</a> se
+  incorporan solos en la corrida siguiente; los demás se añaden con un PR al
   <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank"
-  rel="noopener">registro abierto del monitor</a> — se amplía con un PR. Que un municipio
-  no aparezca aquí no significa «sin daño».</p>
+  rel="noopener">registro abierto del monitor</a>. Que un municipio no aparezca aquí no
+  significa «sin daño».</p>
 </section>
 
 <script src="ui.js?v=dev"></script>

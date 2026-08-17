@@ -390,8 +390,8 @@ def run() -> dict:
         ensure_ascii=False))
 
     # Municipios en el área de influencia: menciones de prensa + intensidad
-    # percibida, aunque no sean AOIs Copernicus.
-    from municipios import build_municipios
+    # percibida + registro RUD, aunque no sean AOIs Copernicus.
+    from municipios import build_municipios, _find_population, _norm as _norm_mun
     dyfi = None
     dyfi_path = PUBLIC / "dyfi_cells.geojson"
     if dyfi_path.exists():
@@ -400,26 +400,13 @@ def run() -> dict:
     pop_path = PUBLIC / "dane_population_2026.json"
     if pop_path.exists():
         poblacion = (json.loads(pop_path.read_text()).get("items") or {})
-    # Excluir el AOI regional: cubre el área de influencia completa, pero no
-    # equivale a una zona urbana analizada con producto de daño.
-    extents_detalle = {k: v for k, v in extents.items() if k != "Western Colombia"}
-    municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
-                                                 poblacion)
-    (PUBLIC / "municipios.json").write_text(json.dumps(
-        {"generado": snap, "total": len(municipios), "items": municipios},
-        ensure_ascii=False))
-    (PUBLIC / "municipios.geojson").write_text(json.dumps(
-        municipios_gj, ensure_ascii=False))
-
-    # Hitos curados (respuesta local + cambios del monitor): el fichero fuente
-    # vive en feeds/ y se publica tal cual junto al resto de datos.
-    from common import ROOT
-    hitos_src = ROOT / "feeds" / "hitos_monitor.json"
-    if hitos_src.exists():
-        (PUBLIC / "hitos_monitor.json").write_text(
-            hitos_src.read_text(encoding="utf-8"), encoding="utf-8")
+    divipola = None
+    div_path = PUBLIC / "divipola_coords.json"
+    if div_path.exists():
+        divipola = (json.loads(div_path.read_text()).get("items") or {})
 
     # RUD en el tiempo: serie diaria agregada + detalle municipal del último día
+    # (se construye antes que la capa de municipios para alimentarla)
     rud_serie = [dict(zip(["fecha", "municipios", "familias", "personas",
                            "viv_destruidas", "viv_averiadas"], r))
                  for r in conn.execute(
@@ -441,11 +428,38 @@ def run() -> dict:
                 " WHERE snapshot_date=? ORDER BY familias DESC", (ult_dia,)):
             fila = {"departamento": dep, "municipio": mun, "familias": fam,
                     "personas": per, "viv_destruidas": dest, "viv_averiadas": aver}
+            pop = _find_population(poblacion, mun, {"departamento": dep})
+            fila["poblacion_2026"] = pop.get("poblacion_2026") if pop else None
+            # 4 decimales: una persona en una capital da 0,0003 % — redondear
+            # a 2 lo convertiría en 0,0 y el sitio leería «sin damnificados»
+            fila["tasa_pct"] = (round(per / fila["poblacion_2026"] * 100, 4)
+                                if per and fila["poblacion_2026"] else None)
             if dia_prev:
                 antes = prev.get((dep, mun))
                 fila["delta_familias"] = (fam or 0) - (antes or 0) if antes is not None else None
                 fila["nuevo"] = (dep, mun) not in prev
             rud_municipios.append(fila)
+    rud_por_mun = {(_norm_mun(f["departamento"]), _norm_mun(f["municipio"])): f
+                   for f in rud_municipios}
+
+    # Excluir el AOI regional: cubre el área de influencia completa, pero no
+    # equivale a una zona urbana analizada con producto de daño.
+    extents_detalle = {k: v for k, v in extents.items() if k != "Western Colombia"}
+    municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
+                                                 poblacion, rud_por_mun, divipola)
+    (PUBLIC / "municipios.json").write_text(json.dumps(
+        {"generado": snap, "total": len(municipios), "items": municipios},
+        ensure_ascii=False))
+    (PUBLIC / "municipios.geojson").write_text(json.dumps(
+        municipios_gj, ensure_ascii=False))
+
+    # Hitos curados (respuesta local + cambios del monitor): el fichero fuente
+    # vive en feeds/ y se publica tal cual junto al resto de datos.
+    from common import ROOT
+    hitos_src = ROOT / "feeds" / "hitos_monitor.json"
+    if hitos_src.exists():
+        (PUBLIC / "hitos_monitor.json").write_text(
+            hitos_src.read_text(encoding="utf-8"), encoding="utf-8")
 
     # rud.json aparte: archivo dedicado y versionado con TODO el histórico
     # municipal día a día — si el RUD desaparece, esto sobrevive en el repo.

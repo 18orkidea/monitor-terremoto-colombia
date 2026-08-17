@@ -12,6 +12,7 @@
   --s2: #eb6834;   /* chatmap serie */
   --s3: #1baf7a;   /* feeds abiertos */
   --s7: #4a3aa7;   /* ciudadano */
+  --s8: #8a5a1d;   /* solo registro municipal (RUD) */
   --good: #0ca30c;      /* coincide */
   --warning: #fab219;   /* pendiente */
   --critical: #d03b3b;
@@ -30,6 +31,7 @@
     --s2: #d95926;
     --s3: #199e70;
     --s7: #9085e9;
+    --s8: #c99a52;
   }
 }
 * { box-sizing: border-box; }
@@ -276,6 +278,7 @@ a.metric-card:hover { border-color: var(--s1); }
 #site-footer a { color: var(--s1); text-decoration: none; }
 #site-footer a:hover { text-decoration: underline; }
 #site-footer .sf-line { margin: 14px 0 0; color: var(--muted); max-width: 1000px; }
+.leyenda-sep { color: var(--muted); font-size: 12px; margin-left: 6px; align-self: center; }
 #paginado { display: flex; gap: 6px; align-items: center; justify-content: center; margin: 14px 0; flex-wrap: wrap; }
 #paginado button {
   padding: 5px 11px; border: 1px solid var(--border); border-radius: 6px;

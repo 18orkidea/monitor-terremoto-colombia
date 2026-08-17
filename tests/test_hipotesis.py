@@ -61,6 +61,33 @@ class TestHipotesisBrechaOficial(unittest.TestCase):
             self.skipTest("sin datos RUD aún (¿endpoint caído? ver supuestos)")
         self.assertGreater(n, 0)
 
+    def test_todo_municipio_rud_resuelve_coordenadas(self):
+        """Ningún municipio que entre al RUD puede perderse del mapa: o está
+        curado en MUNICIPIOS o lo resuelve el catálogo DIVIPOLA estático.
+        Si esto AVISA, hay que ampliar divipola_coords.json (no romper)."""
+        why = skip_sin_datos("rud_daily")
+        if why:
+            self.skipTest(why)
+        from municipios import MUNICIPIOS, _norm
+        div_path = ROOT / "data" / "public" / "divipola_coords.json"
+        divipola = (json.loads(div_path.read_text()).get("items")
+                    if div_path.exists() else {})
+        curados = set()
+        for mun, meta in MUNICIPIOS.items():
+            dep = _norm(meta["departamento"])
+            for name in [mun, *meta.get("toponimos", [])]:
+                curados.add((dep, _norm(name)))
+        sin_coords = []
+        for dep, mun in q("SELECT DISTINCT departamento, municipio FROM rud_daily"):
+            key = (_norm(dep), _norm(mun))
+            if key in curados:
+                continue
+            if f"{_norm(mun)}|{_norm(dep)}" not in divipola:
+                sin_coords.append(f"{dep}/{mun}")
+        self.assertEqual(sin_coords, [],
+                         f"Municipios RUD sin coordenadas (ni curados ni en "
+                         f"DIVIPOLA): {sin_coords} — ampliar divipola_coords.json")
+
 
 class TestHipotesisAtencion(unittest.TestCase):
     """H2: la atención mediática decae mientras el reporte ciudadano persiste."""
@@ -263,9 +290,14 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
         why = skip_sin_datos("sources_log")
         if why:
             self.skipTest(why)
+        # las sondas de contrato (test_supuestos_api) son diagnóstico, no
+        # evidencia publicada: quedan logueadas pero sin cuerpo archivado
+        from common import NOTAS_SONDA
+        marcas = ",".join("?" * len(NOTAS_SONDA))
         filas = q("SELECT snapshot_path, sha256 FROM sources_log"
-                  " WHERE ts >= ? AND http_status=200 AND bytes > 0",
-                  self.REGIMEN_FUERTE_DESDE)
+                  f" WHERE ts >= ? AND http_status=200 AND bytes > 0"
+                  f" AND (note IS NULL OR note NOT IN ({marcas}))",
+                  self.REGIMEN_FUERTE_DESDE, *NOTAS_SONDA)
         if not filas:
             self.skipTest("aún no hay corridas bajo el régimen fuerte")
         import hashlib

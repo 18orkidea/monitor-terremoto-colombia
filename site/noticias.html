@@ -81,7 +81,13 @@
       News por municipio. Cada titular conserva su fecha, medio y enlace original.</li>
       <li><strong>¿Cómo se asigna un titular a una zona?</strong> Por topónimo en el texto,
       con acentos normalizados y límites de palabra («Cali» no coincide con «California»).
-      El emparejado es auditable: el titular que dispara cada coincidencia queda guardado.</li>
+      Cuando el nombre del municipio es además palabra común, apellido o lugar conocido
+      (Toro, Restrepo, Versalles), se exige que el titular nombre también el departamento;
+      y si el nombre coincide con el de un departamento (Risaralda, Córdoba), no se atribuye
+      por texto en absoluto. Por eso un municipio puede tener titulares aquí y aparecer con
+      cero prensa en la <a href="municipios.html">tabla de municipios</a>: son dos preguntas
+      distintas. El emparejado es auditable: el titular que dispara cada coincidencia queda
+      guardado.</li>
       <li><strong>¿Las cifras de los titulares son oficiales?</strong> No. Un titular es
       prensa; la evidencia oficial (EDAN) es otra cosa y el
       <a href="index.html#panel">cruce del monitor</a> las separa estrictamente. Para las

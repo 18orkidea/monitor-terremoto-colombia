@@ -42,6 +42,12 @@
       "fecha": "2026-08-17",
       "tipo": "monitor",
       "texto": "El monitor avisa: notificaciones push del navegador (botón 🔔), canal de Telegram y RSS de alertas con los cambios diarios del RUD, los balances en medios y el propio monitor"
+    },
+    {
+      "fecha": "2026-08-17",
+      "tipo": "monitor",
+      "texto": "El monitor estaba mirando solo 25 municipios cuando el RUD ya registraba 75. La capa pasa a 83 y entran todos los del registro oficial, 72 de ellos sin ninguna verificación satelital, con la población DANE y qué proporción de ella está registrada como damnificada. Los que entren al RUD en adelante se incorporan solos.",
+      "url": "https://brechas.orkidea.eu/site/municipios.html"
     }
   ]
 }

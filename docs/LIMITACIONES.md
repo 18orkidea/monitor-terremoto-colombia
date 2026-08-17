@@ -65,3 +65,66 @@ archivo no pierde nada — los avisos son derivados y su fuente (`alerts.json` y
 Que un municipio no aparezca en el RUD significa «sin registro aún», no «sin
 daño». Las diferencias entre el RUD y los balances citados en medios miden
 cuánto falta por registrar formalmente — no errores de nadie.
+
+## El estado «solo registro municipal (RUD)» no tiene verificación independiente
+
+Desde el 17-ago la capa de municipios incluye los 75 municipios del RUD, aunque
+72 de ellos no tienen verificación satelital. El motivo no es que Copernicus
+haya producido pocas estadísticas, sino que satélite y registro apuntan a
+municipios distintos: solo Cali, Quibdó e Istmina están **a la vez** en el RUD
+y dentro de una zona con producto de daño. Pereira y Buenaventura tienen
+estadísticas satelitales (182 y 335 edificios afectados) pero ningún registro
+municipal, y los otros 72 tienen registro sin que nadie los haya mirado desde
+el aire. Esa disociación **es** la brecha. En esos municipios la única fuente es lo que las autoridades municipales
+cargan al RUD —no los damnificados, que no se autorregistran—: el monitor lo
+muestra con el estado explícito «solo registro municipal (RUD)» y nunca lo
+promueve a «coincide» (regla R2). El porcentaje de población
+registrada como damnificada se calcula sobre proyecciones DANE 2026 — es una
+proporción indicativa, no una medición de daño físico.
+
+## Las sondas de contrato quedan logueadas sin cuerpo archivado
+
+`tests/test_supuestos_api.py` consulta cada API externa para comprobar que su
+contrato sigue vivo. Esas peticiones se registran en `sources_log` (constaron,
+con URL, sha256 y estado) pero no archivan el cuerpo: son diagnóstico del
+monitor, no evidencia de ninguna cifra publicada. El test de trazabilidad las
+exime mediante la constante `NOTA_SONDA` de `ingest/common.py` —un contrato
+explícito, no un prefijo de texto— y un test unitario verifica que ninguna
+fuente de ingesta pueda usar esa nota. Consecuencia asumida: si un contrato
+externo se rompe, la respuesta que lo evidenció no queda archivada; lo que sí
+queda es la fila de log y el test en rojo.
+
+## Topónimos ambiguos: prensa atribuida solo con departamento
+
+Dos municipios se llaman igual que un departamento colombiano: **Risaralda**
+(Caldas) y **Córdoba** (Quindío). Ahí el texto libre no puede distinguir
+municipio de departamento —medido sobre los 5.017 titulares del corpus, todas
+las apariciones de «Caldas y Risaralda» hablaban del departamento, y exigir
+adyacencia tampoco lo salvaba— así que **no reciben prensa por coincidencia de
+texto**: entran a la capa por el RUD y su columna «Prensa» queda en cero.
+Tampoco se les genera búsqueda automática de Google News, porque esa búsqueda
+(`"risaralda" "caldas"`) devolvería justo los titulares del departamento y el
+feed los atribuiría al municipio saltándose el filtro. La única vía para su
+prensa es un feed del registro comunitario, donde una persona declara a qué
+municipio pertenece el medio en lugar de deducirlo del titular.
+
+Veinticuatro de los municipios del RUD tienen nombres que son además palabra común
+(Toro), lugar extranjero conocido (Versalles, Palestina, Ginebra, Filadelfia),
+apellido frecuente (Restrepo, Marulanda) o nombre repetido en dos departamentos
+(Riosucio, en Caldas y en Chocó). Para ellos, un titular solo cuenta como
+prensa del municipio si menciona también el departamento, y la intensidad DYFI
+—que llega sin departamento— no se atribuye cuando el nombre corresponde a más
+de un municipio. Consecuencia: se pierde algún titular legítimo que no nombre
+el departamento, a cambio de no inflar el conteo con noticias ajenas. Los
+municipios curados antes del 17-ago (Armenia, Montenegro, Sevilla, Cartago,
+Palmira, Buga) no llevan esta marca todavía: revisarlos exige recontar prensa
+ya publicada y se hará como cambio propio.
+
+Efecto lateral visible: la columna «Prensa» de la tabla de municipios cuenta
+solo las menciones que pasan este filtro, mientras que la página de titulares
+etiqueta además por el municipio que declara cada feed municipal. Un municipio
+con topónimo ambiguo puede mostrar «0» en la tabla y tener titulares en
+[Titulares](https://brechas.orkidea.eu/site/noticias.html) — son dos preguntas
+distintas: «cuántos titulares nombran al municipio con su departamento» y «qué
+publicó el feed de ese municipio». El desajuste entre ambos conteos es
+preexistente (también en Cali) y no se corrige aquí.

@@ -74,6 +74,17 @@
   document.getElementById("generado").textContent = "Actualizado " + mon.generado;
 
   // ---- banda de brechas oficiales
+  // los ejemplos NO se escriben a mano: el día que un municipio entre al RUD la
+  // frase debe dejar de nombrarlo sola (R11: los supuestos caducan avisando)
+  const sinRegistroConSatelite = () => {
+    const nombres = (mon.aois || [])
+      .filter((a) => (a.resumen || {}).edificios_afectados
+        && !(a.cruce || {}).n_oficial)
+      .map((a) => aoiEs(a.aoi));
+    const unicos = [...new Set(nombres)];
+    return unicos.length ? ` (p. ej. ${unicos.slice(0, 2).join(" y ")})` : "";
+  };
+
   const g = mon.brechas_oficiales || {};
   const soc = g.ungrd_socrata || {}, arc = g.ungrd_arcgis || {};
   const dias = (d) => d ? Math.round((Date.now() - new Date(d)) / 864e5) : null;
@@ -89,7 +100,7 @@
       `<strong>${fmt(g.ungrd_rud.familias)}</strong> familias y ` +
       `${fmt(g.ungrd_rud.viv_destruidas)} viviendas destruidas registradas. ` +
       `La brecha ahora es municipal: donde las autoridades locales aún no registran ` +
-      `(p. ej. Pereira y Buenaventura), el satélite sigue siendo la única evidencia. ` : "") +
+      `${sinRegistroConSatelite()}, el satélite sigue siendo la única evidencia. ` : "") +
     `Copernicus entregó ${mon.entregas.length} productos y la comunidad ` +
     `aportó ${mon.citizen.chatmap_total} reportes con foto.` +
     (mon.exposicion ? `<br><strong>Exposición sin mapeo:</strong> ~${fmt(mon.exposicion.expuesta_mmi6plus)} ` +
@@ -245,11 +256,11 @@
     });
   }
   if (municipios && municipios.features.length) {
-    const MUN_COLOR = {
-      en_aoi: css("--s1"), intensidad_alta: css("--warning"),
-      mencion_prensa: css("--s2"), fuera_aoi: css("--muted"),
-    };
-    layers[`Municipios mencionados / intensidad (${municipios.features.length})`] =
+    // colores desde la tabla única de ui.js (misma etiqueta que la tabla)
+    const MUN_COLOR = Object.fromEntries(
+      Object.entries(window.UI.ESTADO_MUNICIPIO)
+        .map(([k, [, v]]) => [k, css(v)]));
+    layers[`Municipios con señal: RUD, prensa o intensidad (${municipios.features.length})`] =
       L.geoJSON(municipios, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: f.properties.en_aoi_copernicus ? 6 : 5,
@@ -265,7 +276,14 @@
             `Población DANE 2026: ${fmt(p.poblacion_2026)} ` +
             `<span style="color:var(--muted)">cabecera ${fmt(p.cabecera_2026)} · rural ${fmt(p.rural_2026)}</span><br>` +
             `DYFI: ${fmt(p.dyfi_max_cdi)} · respuestas: ${fmt(p.dyfi_respuestas)}<br>` +
-            `Prensa: ${fmt(p.n_noticias)} · fuentes: ${(p.fuentes || []).join(", ") || "—"}<br>` +
+            `Prensa: ${p.homonimo_de_departamento ? "no atribuible (homónimo de departamento)" : fmt(p.n_noticias)}` +
+            ` · fuentes: ${(p.fuentes || []).join(", ") || "—"}<br>` +
+            (p.rud_personas != null
+              ? `RUD: ${fmt(p.rud_personas)} personas damnificadas` +
+                (p.tasa_rud_pct != null
+                  ? ` (${window.UI.pct(p.tasa_rud_pct)} de la población proyectada 2026)`
+                  : "") + `<br>`
+              : "") +
             `<span style="color:var(--muted)">No equivale a daño satelital ni EDAN oficial.</span>`);
         },
       }).addTo(map);
@@ -438,12 +456,36 @@
       ` públicas (todas las emergencias mapeadas por Copernicus desde jul-2023, cualquier país)` +
       ` — disponible en <a href="../data/public/monitor.json" target="_blank">monitor.json</a>.</p>`
     : "<p class='note'>Ninguna otra activación de Colombia en el rango público.</p>";
+  // la nota del cruce no lleva fecha ni municipios escritos a mano: el día que
+  // Pereira o Buenaventura registren, deja de nombrarlos sola (R11)
+  const notaDesde = document.getElementById("nota-rud-desde");
+  if (notaDesde && (mon.rud || {}).serie && mon.rud.serie.length) {
+    // snapshot_date: cuándo empezó a capturarlo el monitor, NO cuándo empezó a
+    // registrar el RUD — decirlo al revés falsearía el propio archivo
+    notaDesde.textContent = window.UI.fechaEs(mon.rud.serie[0].fecha);
+  }
+  // la frase completa es condicional: el día que toda zona con daño satelital
+  // tenga registro municipal, la afirmación deja de ser cierta y se sustituye
+  // por la buena noticia (romperse puede ser buena noticia — R11)
+  const notaSin = document.getElementById("nota-sin-registro");
+  if (notaSin) {
+    const ejemplos = sinRegistroConSatelite();
+    notaSin.textContent = ejemplos
+      ? ` Donde aún no registran${ejemplos}, el satélite sigue siendo la única evidencia.`
+      : " Ya no queda ninguna zona con daño satelital sin registro municipal.";
+  }
+
   document.getElementById("leyenda").innerHTML = Object.entries({
     coincide: "Coincide (evidencia oficial)", prensa: "Reportado en prensa",
     ciudadano: "Reportado por ciudadanos", pendiente: "Pendiente de validar",
     no_comparable: "No comparable 1:1",
   }).map(([k, v]) =>
-    `<span class="badge" style="--bc:${ESTADO_COLOR[k]}">${v}</span>`).join("");
+    `<span class="badge" style="--bc:${ESTADO_COLOR[k]}">${v}</span>`).join("") +
+    // los municipios (círculos) no pasan por el cruce y reutilizan colores de
+    // los estados: sin este subgrupo su color queda sin explicar
+    `<span class="leyenda-sep">Municipios (círculos):</span>` +
+    Object.values(window.UI.ESTADO_MUNICIPIO).map(([txt, v, tip]) =>
+      `<span class="badge" style="--bc:${css(v)}" title="${tip}">${txt}</span>`).join("");
 
   // ---- gráfico temporal (volumen) + banda de hitos aparte, misma escala de fechas
   drawChart(mon.media_volume || []);
