@@ -192,3 +192,36 @@ Tampoco hay forma de saber qué versión del worker produjo un feed archivado: e
 deploy es manual, el KV vive fuera de git y el bloque `extraction` no registra
 commit ni versión. El sello `atribucion_lugares` cubre solo el criterio de
 atribución de lugares, no el resto del código.
+
+## El 17 de agosto de 2026 casi no tiene archivo (HTTP 502 del DANE)
+
+La corrida del 17 (10:30 UTC) ingirió las trece fuentes sin problema salvo el
+DANE, que devolvió **HTTP 502**. `run_daily.py` termina con `sys.exit(1)` si
+cualquier fuente falla, y eso abortó el job de GitHub Actions **antes del paso
+que commitea**: la corrida había funcionado —el RUD subió a 81 municipios y
+`publish` generó los artefactos— pero nada de eso se guardó. El runner se
+destruye al terminar.
+
+Resultado: del 17 quedan **2 snapshots** en el repo (el catálogo DIVIPOLA y el
+feed de balances, ambos capturados a mano ese día), frente a 70 del 16 y 303 del
+15. La serie de `rud_daily` **no tiene punto del 17**: salta del 16 al 18.
+
+Qué sobrevive y qué no:
+
+- **Sobrevive** el log de la corrida, archivado en
+  `data/snapshots/2026-08-17/corrida_fallida_95362286090.log` con su sha256 en
+  `sources_log`. De él consta lo que la corrida vio del RUD ese día: 81
+  municipios, 27.181 familias, 62.701 personas, 2.130 viviendas destruidas y
+  8.507 averiadas.
+- **No es recuperable** el desglose municipal de ese día, ni los cuerpos de las
+  respuestas. El RUD es acumulativo y solo devuelve su estado actual; la Wayback
+  Machine tiene una única captura del endpoint, del 16-ago a las 17:12 UTC, y
+  ninguna del 17 (el paso que la solicita corre después del que abortó).
+- **No se inventa el punto que falta.** Los totales del log permitirían dibujar
+  el 17 en la curva, pero serían una cifra sin cuerpo archivado que la respalde,
+  contra el principio de archivo (R4). Un hueco documentado es mejor que un dato
+  de segunda mano indistinguible del resto.
+
+Corregido el mismo día (18-ago) en `.github/workflows/daily.yml`: el archivo se
+commitea **antes** de cualquier verificación, y la corrida y los tests avisan al
+final sin abortar el job. Ver `docs/DECISIONES.md`.

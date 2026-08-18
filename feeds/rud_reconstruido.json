@@ -1,0 +1,4 @@
+{
+ "descripcion": "Puntos de la serie del RUD que NO provienen de una captura propia del endpoint, sino de otra evidencia archivada. Existen porque una corrida se perdió y el RUD solo devuelve su estado actual: sin esto la curva saltaría el día como si no hubiera pasado nada. Se marcan como reconstruidos en el JSON publicado y se pintan distinto en el sitio — nunca se confunden con una captura. Ahora mismo no hay ninguno: el hueco del 17-ago se cerró con una captura real del cierre de ese día colombiano (00:02 de Bogotá del 18), mejor que el total intermedio que constaba en el log.",
+ "puntos": []
+}

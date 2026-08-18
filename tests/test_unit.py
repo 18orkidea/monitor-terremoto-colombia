@@ -712,6 +712,79 @@ class TestParidadLiveblog(unittest.TestCase):
             "— unificar antes de publicar (regla R8)")
 
 
+class TestDiaColombianoDelRud(unittest.TestCase):
+    """El RUD lo cargan las alcaldías durante SU jornada, así que la serie va por
+    día colombiano cerrado. Con `today()` en UTC, la captura de las 00:02 de
+    Bogotá quedaba fechada al día siguiente y atribuía a un día lo que se había
+    registrado en el anterior."""
+
+    def _consolidado(self, utc_hour, utc_min=0, dia=18):
+        from datetime import datetime, timezone
+        from unittest import mock
+        import common
+        falso = datetime(2026, 8, dia, utc_hour, utc_min, tzinfo=timezone.utc)
+
+        class DT(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return falso
+        with mock.patch.object(common, "datetime", DT):
+            return common.dia_colombiano_consolidado()
+
+    def test_la_madrugada_de_bogota_cierra_el_dia_anterior(self):
+        # 00:02 de Bogotá: el día que empieza aún no tiene registro cargado
+        self.assertEqual(self._consolidado(5, 2), "2026-08-17")
+        # la corrida diaria (10:30 UTC = 05:30 Bogotá) cae en esa ventana
+        self.assertEqual(self._consolidado(10, 30), "2026-08-17")
+
+    def test_despues_del_corte_consolida_el_dia_en_curso(self):
+        self.assertEqual(self._consolidado(16, 30), "2026-08-18")   # 11:30 Bogotá
+        self.assertEqual(self._consolidado(23, 30), "2026-08-18")   # 18:30 Bogotá
+
+    def test_no_es_lo_mismo_que_la_fecha_utc(self):
+        from common import today
+        self.assertNotEqual(self._consolidado(5, 2), "2026-08-18",
+                            "la captura de medianoche no pertenece al día que empieza")
+        self.assertIsInstance(today(), str)
+
+
+class TestSerieRudReconstruida(unittest.TestCase):
+    """Un punto reconstruido rellena un hueco (una corrida perdida, y el RUD
+    solo devuelve su estado actual), pero JAMÁS puede tapar una captura propia
+    ni confundirse con ella."""
+
+    ROOT = Path(__file__).parent.parent
+
+    def test_el_fichero_declara_su_evidencia(self):
+        import json
+        p = self.ROOT / "feeds" / "rud_reconstruido.json"
+        if not p.exists():
+            self.skipTest("sin puntos reconstruidos")
+        for pt in json.loads(p.read_text())["puntos"]:
+            with self.subTest(fecha=pt["fecha"]):
+                self.assertTrue(pt.get("origen"), "un punto sin origen es un invento")
+                ev = self.ROOT / pt["evidencia"]
+                self.assertTrue(ev.exists(), f"falta la evidencia: {pt['evidencia']}")
+                import hashlib
+                self.assertEqual(hashlib.sha256(ev.read_bytes()).hexdigest(),
+                                 pt["sha256"], "la evidencia no cuadra con su sha256")
+
+    def test_la_captura_propia_gana_al_punto_reconstruido(self):
+        import json
+        p = self.ROOT / "data" / "public" / "rud.json"
+        if not p.exists():
+            self.skipTest("sin rud.json: ejecutar publish primero")
+        serie = json.loads(p.read_text())["serie"]
+        fechas = [d["fecha"] for d in serie]
+        self.assertEqual(fechas, sorted(fechas), "la serie debe ir en orden")
+        self.assertEqual(len(fechas), len(set(fechas)),
+                         "un punto reconstruido duplicó un día ya capturado")
+        for d in serie:
+            if d.get("reconstruido"):
+                self.assertTrue(d.get("origen"),
+                                "un punto marcado sin origen no es auditable")
+
+
 class TestExencionDeSondas(unittest.TestCase):
     """La única nota exenta del régimen fuerte de trazabilidad es la de las
     sondas de contrato. Si una fuente de ingesta la usara, publicaría cifras

@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import json
 
-from common import db, fetch_json, today
+from common import db, dia_colombiano_consolidado, fetch_json
 
 URL = "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T"
 
@@ -42,6 +42,9 @@ def run() -> dict:
         return {"error": f"RUD HTTP {status} (endpoint no documentado: "
                          "puede haber cambiado — ver snapshots previos)"}
     rows = data if isinstance(data, list) else data.get("data") or []
+    # la serie va por día colombiano cerrado, no por día UTC: lo que cargan las
+    # alcaldías el día D se ve completo justo después de su medianoche
+    dia = dia_colombiano_consolidado()
     n = 0
     for r in rows:
         dep = (r.get("departamento") or "").strip()
@@ -61,7 +64,7 @@ def run() -> dict:
             "INSERT OR REPLACE INTO rud_daily (snapshot_date, departamento,"
             " municipio, familias, personas, viv_destruidas, viv_averiadas,"
             " habitables, nohabitables) VALUES (?,?,?,?,?,?,?,?,?)",
-            (today(), dep, mun, _n(r.get("familias")), _n(r.get("personas")),
+            (dia, dep, mun, _n(r.get("familias")), _n(r.get("personas")),
              _n(r.get("destruidas")), _n(r.get("averiadas")),
              _n(r.get("habitables")), _n(r.get("nohabitables"))))
         n += 1
@@ -71,7 +74,7 @@ def run() -> dict:
         " SUM(viv_averiadas) FROM official_events WHERE source='ungrd_rud'"
     ).fetchone()
     conn.close()
-    return {"registros": n, "municipios_en_bd": tot[0],
+    return {"dia_consolidado": dia, "registros": n, "municipios_en_bd": tot[0],
             "familias": tot[1], "personas": tot[2],
             "viv_destruidas": tot[3], "viv_averiadas": tot[4]}
 

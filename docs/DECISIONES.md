@@ -213,3 +213,24 @@ que nunca se le cuele un homónimo de departamento, que ninguno esté marcado
 la divergencia, no descubrirla— y que reconozca todos los alias del catálogo.
 Los tests ejecutan el worker real con node (export nombrado añadido solo para ellos; Cloudflare usa el default), no
 una réplica: testear copias es testear nada.
+
+## 2026-08-18 — El archivo se guarda antes de verificar nada
+
+Contexto: el 17-ago un HTTP 502 pasajero del DANE tumbó la corrida diaria. No
+porque el pipeline dependiera del DANE —las otras doce fuentes funcionaron y
+`publish` generó todo—, sino porque `run_daily.py` sale con código 1 si alguna
+fuente falla, y el job abortó antes del paso que commitea. Coste: los snapshots
+de ese día (2 archivados frente a 70 del anterior) y el punto del 17 en la serie
+del RUD, irrecuperable. R13 promete que un feed caído no rompe la corrida, y a
+nivel de paso se cumplía; a nivel de workflow, no.
+
+Decisión: en `daily.yml` el orden pasa a ser **archivar primero, verificar
+después**. La corrida lleva `continue-on-error` y el commit del snapshot va por
+delante de los tests de hipótesis, de los supuestos de las APIs y de las reglas
+en JavaScript; todos avisan sin tumbar el job, y un paso final pone el workflow
+en rojo cuando algo falló, ya con el día guardado. En `pr.yml` los tests siguen
+siendo fatales: ahí romper no cuesta archivo.
+
+El porqué en una línea: un supuesto roto o una hipótesis caída son **noticia**
+(R11, R12), no motivo para perder el día que los produjo. Y una fuente externa
+con un 502 no puede llevarse por delante las otras doce.

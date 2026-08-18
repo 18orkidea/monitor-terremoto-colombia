@@ -1,0 +1,205 @@
+﻿2026-08-17T10:44:52.3269374Z Current runner version: '2.336.0'
+2026-08-17T10:44:52.3290273Z ##[group]Runner Image Provisioner
+2026-08-17T10:44:52.3291014Z Hosted Compute Agent
+2026-08-17T10:44:52.3291517Z Version: 20260729.566
+2026-08-17T10:44:52.3292067Z Commit: cf7153fe6e25b664e8693c24944bf2b00355d109
+2026-08-17T10:44:52.3292746Z Build Date: 2026-07-29T19:17:02Z
+2026-08-17T10:44:52.3293304Z Worker ID: {cc7ce746-c0db-4442-a2c3-23c5d7400364}
+2026-08-17T10:44:52.3294060Z Azure Region: westus3
+2026-08-17T10:44:52.3294546Z ##[endgroup]
+2026-08-17T10:44:52.3295686Z ##[group]Operating System
+2026-08-17T10:44:52.3296288Z Ubuntu
+2026-08-17T10:44:52.3296722Z 24.04.4
+2026-08-17T10:44:52.3297174Z LTS
+2026-08-17T10:44:52.3297619Z ##[endgroup]
+2026-08-17T10:44:52.3298104Z ##[group]Runner Image
+2026-08-17T10:44:52.3298682Z Image: ubuntu-24.04
+2026-08-17T10:44:52.3299152Z Version: 20260810.271.1
+2026-08-17T10:44:52.3300237Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260810.271/images/ubuntu/Ubuntu2404-Readme.md
+2026-08-17T10:44:52.3301459Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260810.271
+2026-08-17T10:44:52.3302627Z ##[endgroup]
+2026-08-17T10:44:52.3303522Z ##[group]GITHUB_TOKEN Permissions
+2026-08-17T10:44:52.3305603Z Contents: write
+2026-08-17T10:44:52.3306095Z Metadata: read
+2026-08-17T10:44:52.3306616Z ##[endgroup]
+2026-08-17T10:44:52.3308569Z Secret source: Actions
+2026-08-17T10:44:52.3309492Z Prepare workflow directory
+2026-08-17T10:44:52.4675827Z Prepare all required actions
+2026-08-17T10:44:52.4715213Z Getting action download info
+2026-08-17T10:44:52.7456459Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-08-17T10:44:52.9996679Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-08-17T10:44:53.3546501Z Complete job name: ingest
+2026-08-17T10:44:53.4221689Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T10:44:53.4231272Z ##[group]Run actions/checkout@v4
+2026-08-17T10:44:53.4232192Z with:
+2026-08-17T10:44:53.4232725Z   repository: 18orkidea/monitor-terremoto-colombia
+2026-08-17T10:44:53.4236155Z   token: ***
+2026-08-17T10:44:53.4236537Z   ssh-strict: true
+2026-08-17T10:44:53.4236925Z   ssh-user: git
+2026-08-17T10:44:53.4237314Z   persist-credentials: true
+2026-08-17T10:44:53.4237735Z   clean: true
+2026-08-17T10:44:53.4238111Z   sparse-checkout-cone-mode: true
+2026-08-17T10:44:53.4238550Z   fetch-depth: 1
+2026-08-17T10:44:53.4238932Z   fetch-tags: false
+2026-08-17T10:44:53.4239312Z   show-progress: true
+2026-08-17T10:44:53.4239705Z   lfs: false
+2026-08-17T10:44:53.4240123Z   submodules: false
+2026-08-17T10:44:53.4240731Z   set-safe-directory: true
+2026-08-17T10:44:53.4241326Z   allow-unsafe-pr-checkout: false
+2026-08-17T10:44:53.4242054Z ##[endgroup]
+2026-08-17T10:44:53.5035499Z Syncing repository: 18orkidea/monitor-terremoto-colombia
+2026-08-17T10:44:53.5037102Z ##[group]Getting Git version info
+2026-08-17T10:44:53.5037904Z Working directory is '/home/runner/work/monitor-terremoto-colombia/monitor-terremoto-colombia'
+2026-08-17T10:44:53.5038982Z [command]/usr/bin/git version
+2026-08-17T10:44:53.5051480Z git version 2.54.0
+2026-08-17T10:44:53.5103567Z ##[endgroup]
+2026-08-17T10:44:53.5108882Z Temporarily overriding HOME='/home/runner/work/_temp/5179f864-1cd7-45e9-8933-1d4f785df463' before making global git config changes
+2026-08-17T10:44:53.5110074Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-17T10:44:53.5113188Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/monitor-terremoto-colombia/monitor-terremoto-colombia
+2026-08-17T10:44:53.5334311Z Deleting the contents of '/home/runner/work/monitor-terremoto-colombia/monitor-terremoto-colombia'
+2026-08-17T10:44:53.5337261Z ##[group]Initializing the repository
+2026-08-17T10:44:53.5342271Z [command]/usr/bin/git init /home/runner/work/monitor-terremoto-colombia/monitor-terremoto-colombia
+2026-08-17T10:44:53.5490569Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-17T10:44:53.5496131Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-17T10:44:53.5497589Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-17T10:44:53.5498468Z hint: call:
+2026-08-17T10:44:53.5499183Z hint:
+2026-08-17T10:44:53.5500179Z hint: 	git config --global init.defaultBranch <name>
+2026-08-17T10:44:53.5500967Z hint:
+2026-08-17T10:44:53.5501497Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-17T10:44:53.5502347Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-17T10:44:53.5503019Z hint:
+2026-08-17T10:44:53.5503389Z hint: 	git branch -m <name>
+2026-08-17T10:44:53.5503974Z hint:
+2026-08-17T10:44:53.5504536Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-17T10:44:53.5505550Z Initialized empty Git repository in /home/runner/work/monitor-terremoto-colombia/monitor-terremoto-colombia/.git/
+2026-08-17T10:44:53.5508333Z [command]/usr/bin/git remote add origin https://github.com/18orkidea/monitor-terremoto-colombia
+2026-08-17T10:44:53.6002416Z ##[endgroup]
+2026-08-17T10:44:53.6003565Z ##[group]Disabling automatic garbage collection
+2026-08-17T10:44:53.6006986Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-17T10:44:53.6593642Z ##[endgroup]
+2026-08-17T10:44:53.6594910Z ##[group]Setting up auth
+2026-08-17T10:44:53.6600379Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-17T10:44:53.6629494Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-17T10:44:53.8354127Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-17T10:44:53.8381190Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-17T10:44:53.8567087Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-17T10:44:53.8591919Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-17T10:44:53.8773656Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-17T10:44:53.8896072Z ##[endgroup]
+2026-08-17T10:44:53.8897382Z ##[group]Fetching the repository
+2026-08-17T10:44:53.8904339Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2507ce87684e0e6096d96b02b90f53f3e94133f7:refs/remotes/origin/main
+2026-08-17T10:44:57.7830109Z From https://github.com/18orkidea/monitor-terremoto-colombia
+2026-08-17T10:44:57.7830909Z  * [new ref]         2507ce87684e0e6096d96b02b90f53f3e94133f7 -> origin/main
+2026-08-17T10:44:57.7848416Z ##[endgroup]
+2026-08-17T10:44:57.7848821Z ##[group]Determining the checkout info
+2026-08-17T10:44:57.7850570Z ##[endgroup]
+2026-08-17T10:44:57.7855000Z [command]/usr/bin/git sparse-checkout disable
+2026-08-17T10:44:57.7886668Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-17T10:44:57.7908576Z ##[group]Checking out the ref
+2026-08-17T10:44:57.7912004Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-08-17T10:44:58.1538834Z Switched to a new branch 'main'
+2026-08-17T10:44:58.1539625Z branch 'main' set up to track 'origin/main'.
+2026-08-17T10:44:58.1573311Z ##[endgroup]
+2026-08-17T10:44:58.1607954Z [command]/usr/bin/git log -1 --format=%H
+2026-08-17T10:44:58.1628751Z 2507ce87684e0e6096d96b02b90f53f3e94133f7
+2026-08-17T10:44:58.1837636Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T10:44:58.1839235Z ##[group]Run actions/setup-python@v5
+2026-08-17T10:44:58.1839457Z with:
+2026-08-17T10:44:58.1839641Z   python-version: 3.12
+2026-08-17T10:44:58.1839838Z   check-latest: false
+2026-08-17T10:44:58.1841664Z   token: ***
+2026-08-17T10:44:58.1841853Z   update-environment: true
+2026-08-17T10:44:58.1842065Z   allow-prereleases: false
+2026-08-17T10:44:58.1842260Z   freethreaded: false
+2026-08-17T10:44:58.1842447Z ##[endgroup]
+2026-08-17T10:44:58.2893669Z ##[group]Installed versions
+2026-08-17T10:44:58.2959868Z (node:2095) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-17T10:44:58.2960746Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-17T10:44:58.2961310Z Successfully set up CPython (3.12.13)
+2026-08-17T10:44:58.2961728Z ##[endgroup]
+2026-08-17T10:44:58.3090359Z ##[group]Run python ingest/run_daily.py
+2026-08-17T10:44:58.3090739Z [36;1mpython ingest/run_daily.py[0m
+2026-08-17T10:44:58.3135694Z shell: /usr/bin/bash -e {0}
+2026-08-17T10:44:58.3135938Z env:
+2026-08-17T10:44:58.3136182Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+2026-08-17T10:44:58.3136552Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+2026-08-17T10:44:58.3136897Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+2026-08-17T10:44:58.3137208Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+2026-08-17T10:44:58.3137511Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+2026-08-17T10:44:58.3137819Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+2026-08-17T10:44:58.3138108Z ##[endgroup]
+2026-08-17T10:44:58.4920855Z ── rebuild_db…
+2026-08-17T10:44:59.3951313Z {"sources_log": 1360, "activations": 4, "activation_index": 277, "products": 22, "stats": 180, "official_events": 85739, "evidence": 45, "media_volume": 17, "citizen_reports": 436, "news_items": 2106, "rud_daily": 75, "crosscheck": 14}
+2026-08-17T10:44:59.3952877Z ── copernicus…
+2026-08-17T10:45:28.8885650Z {"checked": 27, "colombia": ["EMSR865", "EMSR916"], "new": [], "gaps": ["EMSR925", "EMSR926", "EMSR927", "EMSR928", "EMSR929", "EMSR930", "EMSR931", "EMSR932", "EMSR933", "EMSR934", "EMSR935", "EMSR936", "EMSR937", "EMSR938", "EMSR939", "EMSR940", "EMSR941", "EMSR942", "EMSR943", "EMSR944", "EMSR945
+2026-08-17T10:45:28.8886841Z ── copernicus_layers…
+2026-08-17T10:45:42.8402243Z {"capas": 16, "features": {"points": 635, "lines": 26, "areas": 48}}
+2026-08-17T10:45:42.8402857Z ── usgs…
+2026-08-17T10:45:43.5679758Z {"event": {"id": "us6000tjl2", "mag": 7.4, "place": "5 km S of San José del Palmar, Colombia", "time_ms": 1786365268125, "alert": "red", "felt": 1177, "cdi": 7.9, "mmi": 7.999, "coordinates": [-76.2422, 4.8436, 110.285], "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2"}, "shakem
+2026-08-17T10:45:43.5682381Z ── gdacs…
+2026-08-17T10:45:50.3662108Z {"event": {"alertlevel": "Red", "glide": "EQ-2026-000146-COL", "name": "Earthquake in Colombia", "datemodified": "2026-08-17T10:45:14"}, "institucional": [{"pubdate": "2026-08-11T06:16:06", "title": "M7.4 in Colombia - UNITAR-UNOSAT Activation", "link": "http://unosat.org/products/4250"}, {"pubdate"
+2026-08-17T10:45:50.3663262Z ── gdelt…
+2026-08-17T10:46:27.8669239Z {"points": 10}
+2026-08-17T10:46:27.8669765Z ── dane…
+2026-08-17T10:46:33.8969913Z {"error": "DANE HTTP 502"}
+2026-08-17T10:46:33.8970722Z ── ungrd_arcgis…
+2026-08-17T10:46:34.2144206Z {"max_fecha": "2024-02-17", "total": 85664, "en_bd": 85664}
+2026-08-17T10:46:34.2144782Z ── ungrd_socrata…
+2026-08-17T10:46:35.4319482Z {"total": "25857", "desde": "2019-01-01T00:00:00.000", "hasta": "2022-12-31T00:00:00.000"}
+2026-08-17T10:46:35.4320350Z ── ungrd_rud…
+2026-08-17T10:46:38.4883364Z {"registros": 81, "municipios_en_bd": 81, "familias": 27181.0, "personas": 62701.0, "viv_destruidas": 2130.0, "viv_averiadas": 8507.0}
+2026-08-17T10:46:38.4884284Z ── chatmap…
+2026-08-17T10:49:36.7272813Z {"reportes": 436, "por_dia": {"2026-08-10": 45, "2026-08-11": 93, "2026-08-12": 84, "2026-08-13": 123, "2026-08-14": 77, "2026-08-15": 14}, "medios_nuevos": 72}
+2026-08-17T10:49:36.7274169Z ── emsc…
+2026-08-17T10:49:39.0853989Z {"feltreport_count": 1340, "last_update": "2026-08-16T03:35:34.000 UTC"}
+2026-08-17T10:49:39.0854659Z ── community_feeds…
+2026-08-17T10:49:56.6993368Z {"eltiempo-colombia": {"items_feed": 10, "relevantes": 6}, "eldiario-pereira": {"items_feed": 99, "relevantes": 71}, "choco7dias": {"items_feed": 10, "relevantes": 7}, "diario-occidente": {"items_feed": 11, "relevantes": 8}, "qhubo-cali": {"items_feed": 12, "relevantes": 9}, "la-patria-caldas": {"it
+2026-08-17T10:49:56.6995180Z ── verify_citizen…
+2026-08-17T10:49:56.9282909Z {"total": 436, "en_aoi": 368, "duplicados": 24}
+2026-08-17T10:49:56.9283583Z ── crosscheck…
+2026-08-17T10:49:57.2410686Z {"Buenaventura": "prensa", "Cali Center": "coincide", "Istmina": "coincide", "Northern Cali": "coincide", "Pereira": "prensa", "Quibdo Centre": "coincide", "Western Colombia": "no_comparable"}
+2026-08-17T10:49:57.2411884Z ── alerts…
+2026-08-17T10:49:57.6413411Z [{"tipo": "producto_actualizado", "nivel": "alta", "texto": "Western Colombia: GRM pasó de v1 (en espera) a v1 (no producido)", "aoi": "Western Colombia", "producto": "GRM", "antes": {"version": 1, "status": "W"}, "ahora": {"version": 1, "status": "N"}}, {"tipo": "titulares_nuevos", "nivel": "info",
+2026-08-17T10:49:57.6414952Z ── publish…
+2026-08-17T10:50:04.6997644Z {"aois": 7, "citizen": 436, "sismos_hist": 1173, "media_dias": 10, "noticias": 5255}
+2026-08-17T10:50:04.6998416Z ── dump_db…
+2026-08-17T10:50:05.2392558Z {"sources_log": 1526, "activations": 6, "activation_index": 277, "products": 33, "stats": 270, "official_events": 85745, "evidence": 71, "media_volume": 27, "citizen_reports": 436, "news_items": 2344, "rud_daily": 156, "crosscheck": 21}
+2026-08-17T10:50:05.2393347Z 
+2026-08-17T10:50:05.2393420Z == RESUMEN ==
+2026-08-17T10:50:05.2393642Z   rebuild_db: ok
+2026-08-17T10:50:05.2393816Z   copernicus: ok
+2026-08-17T10:50:05.2394192Z   copernicus_layers: ok
+2026-08-17T10:50:05.2394374Z   usgs: ok
+2026-08-17T10:50:05.2394525Z   gdacs: ok
+2026-08-17T10:50:05.2394668Z   gdelt: ok
+2026-08-17T10:50:05.2394860Z   dane: ERROR
+2026-08-17T10:50:05.2395027Z   ungrd_arcgis: ok
+2026-08-17T10:50:05.2395192Z   ungrd_socrata: ok
+2026-08-17T10:50:05.2395357Z   ungrd_rud: ok
+2026-08-17T10:50:05.2395513Z   chatmap: ok
+2026-08-17T10:50:05.2395661Z   emsc: ok
+2026-08-17T10:50:05.2395818Z   community_feeds: ok
+2026-08-17T10:50:05.2395992Z   verify_citizen: ok
+2026-08-17T10:50:05.2396163Z   crosscheck: ok
+2026-08-17T10:50:05.2396318Z   alerts: ok
+2026-08-17T10:50:05.2396467Z   publish: ok
+2026-08-17T10:50:05.2396632Z   dump_db: ok
+2026-08-17T10:50:05.2535017Z ##[error]Process completed with exit code 1.
+2026-08-17T10:50:05.2668637Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T10:50:05.2669584Z Post job cleanup.
+2026-08-17T10:50:05.3345624Z [command]/usr/bin/git version
+2026-08-17T10:50:05.3376975Z git version 2.54.0
+2026-08-17T10:50:05.3404164Z Temporarily overriding HOME='/home/runner/work/_temp/7620bdd6-b221-41c2-9888-77eb9adbff50' before making global git config changes
+2026-08-17T10:50:05.3404775Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-17T10:50:05.3408298Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/monitor-terremoto-colombia/monitor-terremoto-colombia
+2026-08-17T10:50:05.3438118Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-17T10:50:05.3465768Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-17T10:50:05.3690241Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-17T10:50:05.3709019Z http.https://github.com/.extraheader
+2026-08-17T10:50:05.3716992Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-17T10:50:05.3742053Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-17T10:50:05.3925685Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-17T10:50:05.3951248Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-17T10:50:05.4267594Z Cleaning up orphan processes
+2026-08-17T10:50:05.4534657Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

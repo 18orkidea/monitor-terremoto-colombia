@@ -15,7 +15,7 @@ import ssl
 import time
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -65,6 +65,25 @@ def utcnow() -> str:
 
 def today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def dia_colombiano_consolidado() -> str:
+    """Día colombiano cuyo estado refleja una captura hecha AHORA.
+
+    El RUD es un registro acumulativo que cargan las alcaldías durante su
+    jornada: la foto tomada de madrugada en Bogotá no es el día que empieza —
+    ese aún no tiene actividad— sino el CIERRE del que acaba de terminar. Con
+    `today()` en UTC, una captura a las 00:02 de Bogotá quedaba fechada al día
+    siguiente y la serie atribuía a un día lo que se registró en el anterior.
+
+    Corte a las 06:00 de Bogotá: antes, consolida el día previo; después, el día
+    en curso. La corrida diaria (10:30 UTC = 05:30 de Bogotá) cae dentro de esa
+    ventana, así que fecha el día que acaba de cerrarse sin tocar el cron.
+    """
+    bogota = datetime.now(timezone.utc) - timedelta(hours=5)
+    if bogota.hour < 6:
+        bogota -= timedelta(days=1)
+    return bogota.strftime("%Y-%m-%d")
 
 
 def snapshot_dir(day: str | None = None) -> Path:

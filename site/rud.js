@@ -31,7 +31,9 @@
     const linea = serie.map((d, i) => `${i ? "L" : "M"} ${x(i)} ${y(d.familias || 0)}`).join(" ");
     s += `<path d="${linea}" fill="none" stroke="${cssVar("--good")}" stroke-width="2.5"/>`;
     serie.forEach((d, i) => {
-      s += `<circle cx="${x(i)}" cy="${y(d.familias || 0)}" r="5" fill="${cssVar("--good")}" stroke="${cssVar("--surface-1")}" stroke-width="2"><title>${d.fecha}: ${fmt(d.familias)} familias, ${fmt(d.municipios)} municipios</title></circle>` +
+      // el punto reconstruido se pinta hueco: no es una captura del endpoint
+      const rec = d.reconstruido;
+      s += `<circle cx="${x(i)}" cy="${y(d.familias || 0)}" r="5" fill="${rec ? cssVar("--surface-1") : cssVar("--good")}" stroke="${cssVar("--good")}" stroke-width="${rec ? 2.5 : 2}"${rec ? ' stroke-dasharray="3 2"' : ""}><title>${d.fecha}: ${fmt(d.familias)} familias, ${fmt(d.municipios)} municipios${rec ? ` — punto reconstruido: ${d.origen || ""}` : ""}</title></circle>` +
         `<text x="${x(i)}" y="${y(d.familias || 0) - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="${cssVar("--good")}">${fmt(d.familias)}</text>` +
         `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${cssVar("--muted")}">${d.fecha.slice(5)}</text>`;
     });
@@ -66,7 +68,12 @@
       : `${total} municipios registrados (${fmt(ult.familias)} familias en total), ` +
         `ordenados por personas damnificadas, de ${TOP} en ${TOP}. `) +
       `La columna Δ compara con el día anterior de la serie; «nuevo» marca municipios que ` +
-      `entraron al registro hoy. Serie iniciada el ${fechaEs(serie[0].fecha)}.`,
+      `entraron al registro hoy. Serie iniciada el ${fechaEs(serie[0].fecha)}.` +
+      (serie.some((d) => d.reconstruido)
+        ? ` Los puntos huecos de la curva no son capturas del RUD: se reconstruyeron ` +
+          `desde otra evidencia archivada porque ese día se perdió la corrida, y de ` +
+          `ellos solo se conoce el total, no el detalle municipal.`
+        : ""),
     vacio: `Sin coincidencias entre los municipios registrados. Que un municipio no ` +
       `aparezca significa «sin registro aún», no «sin daño».`,
   });
