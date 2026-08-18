@@ -234,3 +234,28 @@ siendo fatales: ahí romper no cuesta archivo.
 El porqué en una línea: un supuesto roto o una hipótesis caída son **noticia**
 (R11, R12), no motivo para perder el día que los produjo. Y una fuente externa
 con un 502 no puede llevarse por delante las otras doce.
+
+## 2026-08-18 — La población DANE sale de la corrida diaria (pasa a anual)
+
+Contexto: el DANE tumbó el monitor dos días seguidos (17-ago HTTP 502, 18-ago
+timeout), y no solo desde los runners: reintentado desde local, también falla a
+ratos. Pero lo que sirve son las proyecciones municipales PPED **2018-2042**, un
+dato de referencia que no cambia de un día para otro y que ya está capturado en
+`data/public/dane_population_2026.json`, versionado en git.
+
+Decisión: `dane` sale de `run_daily.py` y pasa a un workflow propio
+(`.github/workflows/dane.yml`) con cron anual (15 de enero) y
+`workflow_dispatch` para lanzarlo a mano. Mismo criterio que
+`ingest/build_divipola.py`: **la cadencia de captura la marca el dato, no la
+comodidad de tenerlo todo en el mismo sitio**. Un servicio intermitente que
+sirve un dato estático no puede poner el monitor en rojo a diario — un rojo
+permanente deja de significar nada, y el aviso de R11 pierde su valor.
+
+El workflow anual reintenta cinco veces espaciadas dos minutos, porque una
+corrida que solo ocurre una vez al año no puede perderse por un timeout de 40
+segundos.
+
+Consecuencia para el archivo: al salir de la corrida, nada volvería a avisar si
+el JSON versionado desapareciera. Tres tests de hipótesis nuevos
+(`TestReferenciasEstaticas`) vigilan que la población y el catálogo DIVIPOLA
+sigan disponibles y que ningún municipio publicado se quede sin población.

@@ -1,0 +1,64 @@
+name: Población DANE (anual)
+
+# Las proyecciones municipales del DANE son la serie PPED 2018-2042: un dato de
+# referencia que no cambia a diario, así que no tiene por qué pedirse a diario.
+# Estaba en la corrida diaria y su servicio es intermitente (17-ago HTTP 502,
+# 18-ago timeout, en CI y también en local): ponía el monitor en rojo por un
+# dato que ya estaba capturado, y un rojo permanente deja de significar nada.
+on:
+  schedule:
+    - cron: "0 7 15 1 *"   # 15 de enero, 07:00 UTC — cuando el DANE suele revisar proyecciones
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dane
+  cancel-in-progress: false
+
+jobs:
+  poblacion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Reintentos espaciados: el servicio se cae a ratos y una corrida anual
+      # que falle por un timeout de 40 s habría que relanzarla a mano.
+      - name: Descargar proyecciones municipales (solo stdlib)
+        id: dane
+        run: |
+          for intento in 1 2 3 4 5; do
+            if python -c "
+          import sys; sys.path.insert(0, 'ingest'); sys.path.insert(0, 'ingest/sources')
+          from sources import dane
+          r = dane.run()
+          print(r)
+          raise SystemExit(1 if 'error' in r else 0)
+          "; then
+              echo "ok en el intento ${intento}"
+              exit 0
+            fi
+            echo "::warning::El DANE no respondió (intento ${intento}/5); reintento en 2 min"
+            sleep 120
+          done
+          echo "::error::El DANE no respondió en 5 intentos — el JSON versionado sigue vigente, relanzar a mano"
+          exit 1
+
+      - name: Comprobar que el dato sigue siendo utilizable
+        run: python -m unittest tests.test_unit -v -k dane
+
+      - name: Commit si las proyecciones cambiaron
+        run: |
+          git config user.name "monitor-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A data/public/dane_population_2026.json data/snapshots/
+          if git diff --cached --quiet; then
+            echo "Las proyecciones no cambiaron: nada que commitear"
+          else
+            git commit -m "Proyecciones de población DANE: revisión anual"
+            git push
+          fi
