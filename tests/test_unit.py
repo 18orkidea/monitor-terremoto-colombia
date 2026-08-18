@@ -719,7 +719,7 @@ class TestDiaColombianoDelRud(unittest.TestCase):
     registrado en el anterior."""
 
     def _consolidado(self, utc_hour, utc_min=0, dia=18):
-        from datetime import datetime, timezone, timedelta
+        from datetime import datetime, timezone
         from unittest import mock
         import common
         falso = datetime(2026, 8, dia, utc_hour, utc_min, tzinfo=timezone.utc)
