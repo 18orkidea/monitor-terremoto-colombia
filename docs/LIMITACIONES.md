@@ -34,6 +34,14 @@ el bucket desapareciera, los vídeos serían irrecuperables desde el repo — el
 manifiesto permitiría al menos saber qué se perdió y verificar cualquier
 copia que aparezca.
 
+Por eso, para estos cuerpos, `test_todo_cuerpo_publicado_tiene_snapshot_verificable`
+no exige el fichero en disco —en un clon limpio nunca está— sino que **cada
+petición A/V del `sources_log` figure en el manifiesto con el mismo sha256**.
+Se comprueba siempre, también donde los ficheros sí están: si solo se mirara
+cuando faltan, el manifiesto podría desfasarse durante meses en la máquina del
+mantenedor y saltar únicamente en CI. Un cuerpo fuera de git y fuera del
+manifiesto no es recuperable ni auditable, y el test lo trata como roto.
+
 ## El feed de balances depende de un worker en cuenta ajena
 
 El worker de balances (`monitor-terremoto-colombia-oficiales-ai`) corre en la
