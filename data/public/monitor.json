@@ -13,7 +13,7 @@
   ],
   "mag": 7.4,
   "place": "5 km S of San José del Palmar, Colombia",
-  "felt": 1177
+  "felt": 1181
  },
  "aois": [
   {
@@ -23,8 +23,8 @@
     "tipo": "GRM",
     "monitoreo": 0,
     "version": 1,
-    "status": "W",
-    "entrega": null,
+    "status": "N",
+    "entrega": "2026-08-17T10:24:00",
     "descarga": ""
    },
    "resumen": {
@@ -37,29 +37,29 @@
    "detecciones": {},
    "prensa_ejemplos": [
     {
-     "titular": "Chocó: el terremoto de magnitud 7,4 del 10 de agosto de 2026 agrava décadas de abandono estatal y engaños oficiales",
-     "medio": "Chocó 7 días",
-     "fecha": "2026-08-14T21:33:59",
-     "url": "https://choco7dias.com/choco-el-terremoto-de-magnitud-74-del-10-de-agosto-de-2026-agrava-decadas-de-abandono-estatal-y-enganos-oficiales/"
+     "titular": "Colombia Earthquake Leaves Communities Facing Loss, Damage and Uncertainty",
+     "medio": "fundsforngos",
+     "fecha": "2026-08-14T06:47:00",
+     "url": "https://news.fundsforngos.org/2026/08/14/colombia-earthquake-leaves-communities-facing-loss-damage-and-uncertainty/"
     },
     {
-     "titular": "El futbolista Carlos Cuesta envía 70 toneladas de ayuda humanitaria al Chocó tras el terremoto",
-     "medio": "Chocó 7 días",
-     "fecha": "2026-08-15T02:08:23",
-     "url": "https://choco7dias.com/el-futbolista-carlos-cuesta-envia-70-toneladas-de-ayuda-humanitaria-al-choco-tras-el-terremoto/"
+     "titular": "VIDEO | Death toll in Colombia earthquake rises to 281, 379 people missing",
+     "medio": "slobodenpecat-en",
+     "fecha": "2026-08-14T08:47:00",
+     "url": "https://www.slobodenpecat.mk/en/video-brojot-na-zaginati-vo-zemjotresot-vo-kolumbija-se-zgolemi-na-281-kako-ischeznati-se-vodat-379-lugje/"
     },
     {
-     "titular": "El terremoto profundiza la desigualdad en el Chocó",
-     "medio": "Chocó 7 días",
-     "fecha": "2026-08-15T22:18:06",
-     "url": "https://choco7dias.com/el-terremoto-profundiza-la-desigualdad-en-el-choco/"
+     "titular": "Zoomlion Mobilizes Emergency Equipment and Personnel for Colombia Earthquake Relief",
+     "medio": "themalaysianreserve",
+     "fecha": "2026-08-14T09:27:00",
+     "url": "https://themalaysianreserve.com/2026/08/14/zoomlion-mobilizes-emergency-equipment-and-personnel-for-colombia-earthquake-relief/"
     }
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 274,
+    "n_prensa": 978,
     "n_oficial": 2,
-    "n_ciudadano": 258,
+    "n_ciudadano": 260,
     "etiqueta": "No comparable 1:1"
    },
    "n_productos": 1
@@ -117,27 +117,27 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Terremoto en Colombia: Gobernadora del Valle confirma que no hay paso en la vía entre Cali y Buenaventura por varios derrumbes; hay tres fallecidos en los túneles - elpais.com.co",
-     "medio": "Google News — Buenaventura",
-     "fecha": "2026-08-10T19:50:00",
-     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxNbG1aZzZWUVJKc3BPMVp3bnpSYkZSS3RQUnNmNk1hWHRuMEUyQmd6YUs1VEhicUlGMXpDSlVXUFpuUXFyS3ZaWWFqZnE0NVkybkJfNDhCTG9Ha3F4X1NoVnlFMmp6d0p0TmE2QTVoLUdzeVp6U1VGSnJCVVd5SmFyTThLeTNabmlZNExHM09rWFhCYk5zWjdwYkxSZWhYNlRSSFJ4NElUbWtxekxqRDRwRzBkcW5MWDRWMWl6TlB6Z2hlQjUxV2I3Zm8yNFdzek9oVkFVU1lhRm5pYzk3RFV3T2ZqYndvZHllZmxyMXhQZnUxcjl6d0lNdGxB0gH_AUFVX3lxTE5YdTU3ZlVqcVpmVnMtV21oRTJGTDNyVGdnMlpYTFlkbjdvbERkVHRfM3MzNWF1LTUwd3E1QnhzVDRYUEQ0VHpEdmdhS1hSaHY0Z09wMHJ4SlpkWEZPWjEyQkFrbkFUNVJZQ0VFenhHYnFLdmJHRHdNZGZ0a0owMEVtSFRtdXJsY2RxaENuYmthaGV4bHowdzBSbE5XTjZocWo0cjNraGE2TUlmNElnMkV6Nlc0NW1kUFliWjl0eGgyaV85Q1dkNU96dTA4R19hWWg5NU0tcE9OZHVhTGJTNHhZZ1pEWjFJWXp1RFRXQXJIa0RUSXBKcFl0N2xoQTVxZw?oc=5"
+     "titular": "Terremoto Colombia, volontari in campo per l''aiuto agli sfollati",
+     "medio": "ilmattino",
+     "fecha": "2026-08-14T12:04:00",
+     "url": "https://www.ilmattino.it/video/primopiano/terremoto_colombia_volontari_in_campo_per_l_aiuto_agli_sfollati-9707808.html"
     },
     {
-     "titular": "Rafael Poveda fue obligado a suspender su transmisión en vivo, durante cubrimiento del terremoto, en Cali: esta fue la razón - elpais.com.co",
-     "medio": "Google News — El País Cali",
-     "fecha": "2026-08-10T23:30:49",
-     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxORWFTQlVzVlI3bzZYaTBVTUdzeXVmcTl5X09kN0VVbzEwTU56dXV0QmRaSjB4X2J5YkZsRlBVNHJ5OUlVUEF2dWpfZzdvcmo5N1loYjdTLU1Gb0FfNXQydnBmeFBlNnozVkJac3p5UEhVR3VablRENTBsZGp6V3d4NF9hTGQ5Y1l1ME5YaEEwTkZ1Y3ozU0lCc3Ntbkw4bGpwWktsdGM0STh1VGo2MEZkMTdhNWFCNkhFb0VJMC1XZHppTl9rQl9rbUhTSldvYXNsUGxYNzI2RjJTZmpSSWYwRTFnM3hYdGVMMEhmWVBVYTF2eW41cmxmZVFn0gH_AUFVX3lxTE1PcWY3aXpwNUcyN1Zsc0RYcWVjQV90WTlWTmxrSHF4WUdYMEpMRE9zSjh6V3RKdVJmRjlwM2lIcXg1bHJhSFB3Zi1UQWp4RXRzellPNG9raFFjVEwtSVNrUm1WUDduOWxDcGJicnpVLXUySkc0TUtiTjVTeTdrYXRKV3dRZThmWnlqTExKOFlvNTJEZXI0UnY0cXBLZ1NscG93eGJFWGtoTWFnRzBCcnpiNHRIZm5COXBfSUFCa2t3WnBJWEZYaE5TYmluZG5JSGFHUkpQbUpiaW5qVWVwQllWbHMxMWxHQlRGT0VXNDg1aG9jeGtoaDJSYThfMzdQRQ?oc=5"
+     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
+     "medio": "ladiscussione",
+     "fecha": "2026-08-14T12:05:00",
+     "url": "https://ladiscussione.com/456711/video-pillole/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
     },
     {
-     "titular": "Terremoto en Colombia | Cali, entre el luto y la alerta sanitaria: el dolor por las víctimas desafía al reloj del desastre - El Tiempo",
-     "medio": "Google News — Cali",
-     "fecha": "2026-08-14T11:34:25",
-     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNTHhnQ09oYmVrcG5TMHZpUXJfTXJlMVZhLXdacHBFRmg0MDVjaG5KSC1JaFhqaHg0MWhsaTRiZjY1RlpiS3BnczAybFRKUC1zWGJ4VXo1RUhHSENyQV95MWRlZ1ZTRWtwSWhodUxvQzZpcTFFZzgxN2tmWmpQNjhWbkU3WkhxakFxWXZEcG9kVmtOQy1oNlJ4cDY4Y29QaFBFc1lrMTZiTGZBTE5nNlZmZEZIOEUySlJ3Z2w4Tm5xTnlHUHMtLWxSSURVM3BoMG9KWGhlZjhnU3R3WkprSG1HdkpNNVozMFFoTy1vYnpscFkzbjUxOW5oZNIB_gFBVV95cUxQdkdPQnMyRDZ4OWpuODFJbjBMS2pUZzJZZ2drc21maFJNNGxISEhrVG0ydl82TDJxYW8wakQ3dXNtSGwwc3hSR0tPVU16YnhfY2hRY1RpazRtYjZkaDdNZ0RzRDE5ZkN4cGxwOGdNcVUwdWU4UjFMczFraUFOX0dXb3NKUlFyN2dnVXpoYkx0VjFCUHNJcnJZUDh1RVpwR3VpX0NOa1J6c1pjellQZkJqV1dOcFp6a2lMUGtVZFp6N2w5dko4U3lZa1puN0FqWWtsMEhyX0hPd3MwZTZodE1BZTlyczNWQjhDNWlrR2g2TTRNSFpnTU9OM0FvRnRIUQ?oc=5"
+     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
+     "medio": "livemag",
+     "fecha": "2026-08-14T12:14:00",
+     "url": "https://www.livemag.it/index.php/2026/08/14/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 158,
+    "n_prensa": 738,
     "n_oficial": 2,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
@@ -215,29 +215,29 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Suspenden vuelos en aeropuertos de Pereira, Manizales, Armenia y otras tres ciudades tras sismo - Agencia de Periodismo Investigativo",
-     "medio": "Google News — Cartago",
-     "fecha": "2026-08-10T18:25:47",
-     "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPVlROOFFkS19mNDZYSjNwbEt0Q0p0dFdKcUE2QmY1Mk54UkltSFlSZENWQnRVUERmdnZPc0hndUN2bGVhcmhyNVZyYXRqOFFlQkwzN0gxVmc1dXBIQ3FSOU9BXzZMYVdFWTBFeV9HRWpmT2VxeXplekxtQWJsVmVKUTRwbVJsR3kxTlZBMmpSdGk2emFacGNnY3BLeHFHZ0R6SjM2UTRGUmJvVlFaRnNneWVUX2FKT1d4a01BZ2gyT0NNcF94b1l2ai1MSHdjd2ds?oc=5"
+     "titular": "Veteran volunteer digs for survivors after Colombia quake",
+     "medio": "whbl",
+     "fecha": "2026-08-13T20:56:00",
+     "url": "https://whbl.com/2026/08/13/veteran-volunteer-digs-for-survivors-after-colombia-quake/"
     },
     {
-     "titular": "Medicina Legal publicó la lista de personas fallecidas que aún no han sido reclamadas tras el terremoto de 7,4 en Pereira - Infobae",
-     "medio": "Google News — Pereira",
-     "fecha": "2026-08-13T15:53:00",
-     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxQZlBiaXVIa3RnRTY5OE9hamRQZmFGNEctU2FBS09WTjhveFhNVHFyYUtabDVpcGt0TW44TGJKYXgxRDZCV01ES09WaW9CU3o2dEFPb2NVNFRrZGZZeHdFUUVZelJLRjFkVkpJVW5XVUttMTJoZ0dJSFFSRXdpa1FFeHFEc19GdHhiQ01KbGNYOVp2STAwMEN5cGd5X1J2NlJJYjh4dlQ1X1FuMlhFekpNTEdDVmYtRDFhYzhkaVU2VGF1akYzMmhuWndJWWZfMmZIcHNacGduZDJvZkxOd3NxZGJHRTVfNUttanNHYkhaVEpMdDRxR01NR9IBkwJBVV95cUxPc3d3R0lnM2VXZ2xVVTQ0dEZUODcwbU9PUG5wWUs3anVVNjdaNlp4WGJvTEtHb3FEclg2WWo2cEJLRWtSdUtlcnpqZXhWbmpOd1hRd0VwbEpfYWZEcmJDSTVDT1hEc1Y4YkR4TmFKV3Jlb3owWnpxRmp5TDA0UklMdXlmTmZYNjNXcEpibzBMdWMwUFJQRlZZYk5IdXN4dnRzY1dCV2NJODRONUUwUHlKWWh2R2VwOENjd0dHSUVJUlI1Z21IQUtmZVZYaWRpOXdqeHQyN1JIQXE2bEprbDFtZnpfSkRjRkN1MG55bC1lSkNGWjIyemlkOUxZNWtDa0x5WVMtWEtSQmJnYnFJRW5VUmhfQQ?oc=5"
+     "titular": "Hopes fade in Colombia as window to find quake survivors shuts",
+     "medio": "freemalaysiatoday",
+     "fecha": "2026-08-14T01:23:00",
+     "url": "https://www.freemalaysiatoday.com/category/world/2026/08/14/hopes-fade-in-colombia-as-window-to-find-quake-survivors-shuts"
     },
     {
-     "titular": "'Aquí hay un vivo': los eternos minutos de Mateo Yepes bajo los escombros de su casa en Pereira tras el terremoto - eltiempo.com",
-     "medio": "Google News (agregador es-CO)",
-     "fecha": "2026-08-16T02:24:35",
-     "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxNWDBvZ0w1X09CZmJId2FBMGotczEyYUx6QzRpRk1KVEVDeXVuR0tNZ3RzQ2txUW5FT19RMnJ2bm0wZ3NqakdmSklHaUVzeUFwTVN5N1lWQndhTUI4c0VXTmp5Y1dISEphTzNLak1SS29wSTdDaWJKTEpNMFp5VkVfVDJTTUVUVWlYWWVQSm03Qk1RZHR4NjVMY1VkZkRYdElVRUFXdUZLUzlROC16NmljOUtxc1RqUkJsaW56djU1dVFXMl9aMnFvbmZJaG50ZGxTZFM2NVphN3pKcHpPWG40WXFVd1JjdFdOT2pMQUtlaXB2dC14d2t1UHhERdIBgAJBVV95cUxNNkpHWENCSFliVGRzazl0U2R5OHBpNVBTbDI0U0g5MHFZZHNOSlk0VTdqVjNjSGhBdTdWY2dzX2ZlMFg2NWdhLTVkWEVqX0VTaG5QNGF4VFRqa2ZOUEpkZmY4R3VJQ1RoNmZPRmpid0NlMkxTcnZ6YlA3UmktRkZWR1lHZEdvY0VHOWRTY2QyVUJzNmNacFJRM3JIcnZYOXJpbUZmNjJRM1o5WTZBYXNsbGpWbkVtNUppRlIyOGZnSWVVa1FYYUI5N1EycXBkc2p6OENzSjF1amg3RFRadUxRS0xHX1NkU3Q3U0llN09JNUJWM0lfLTRqLU41ci1adjVw?oc=5"
+     "titular": "Colombia Earthquake Leaves Communities Facing Loss, Damage and Uncertainty",
+     "medio": "fundsforngos",
+     "fecha": "2026-08-14T06:47:00",
+     "url": "https://news.fundsforngos.org/2026/08/14/colombia-earthquake-leaves-communities-facing-loss-damage-and-uncertainty/"
     }
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 139,
+    "n_prensa": 553,
     "n_oficial": 0,
-    "n_ciudadano": 54,
+    "n_ciudadano": 55,
     "etiqueta": "Reportado en prensa, sin validación oficial"
    },
    "n_productos": 1
@@ -295,27 +295,27 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Terremoto en Colombia: Gobernadora del Valle confirma que no hay paso en la vía entre Cali y Buenaventura por varios derrumbes; hay tres fallecidos en los túneles - elpais.com.co",
-     "medio": "Google News — Buenaventura",
-     "fecha": "2026-08-10T19:50:00",
-     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxNbG1aZzZWUVJKc3BPMVp3bnpSYkZSS3RQUnNmNk1hWHRuMEUyQmd6YUs1VEhicUlGMXpDSlVXUFpuUXFyS3ZaWWFqZnE0NVkybkJfNDhCTG9Ha3F4X1NoVnlFMmp6d0p0TmE2QTVoLUdzeVp6U1VGSnJCVVd5SmFyTThLeTNabmlZNExHM09rWFhCYk5zWjdwYkxSZWhYNlRSSFJ4NElUbWtxekxqRDRwRzBkcW5MWDRWMWl6TlB6Z2hlQjUxV2I3Zm8yNFdzek9oVkFVU1lhRm5pYzk3RFV3T2ZqYndvZHllZmxyMXhQZnUxcjl6d0lNdGxB0gH_AUFVX3lxTE5YdTU3ZlVqcVpmVnMtV21oRTJGTDNyVGdnMlpYTFlkbjdvbERkVHRfM3MzNWF1LTUwd3E1QnhzVDRYUEQ0VHpEdmdhS1hSaHY0Z09wMHJ4SlpkWEZPWjEyQkFrbkFUNVJZQ0VFenhHYnFLdmJHRHdNZGZ0a0owMEVtSFRtdXJsY2RxaENuYmthaGV4bHowdzBSbE5XTjZocWo0cjNraGE2TUlmNElnMkV6Nlc0NW1kUFliWjl0eGgyaV85Q1dkNU96dTA4R19hWWg5NU0tcE9OZHVhTGJTNHhZZ1pEWjFJWXp1RFRXQXJIa0RUSXBKcFl0N2xoQTVxZw?oc=5"
+     "titular": "Terremoto Colombia, volontari in campo per l''aiuto agli sfollati",
+     "medio": "ilmattino",
+     "fecha": "2026-08-14T12:04:00",
+     "url": "https://www.ilmattino.it/video/primopiano/terremoto_colombia_volontari_in_campo_per_l_aiuto_agli_sfollati-9707808.html"
     },
     {
-     "titular": "Rafael Poveda fue obligado a suspender su transmisión en vivo, durante cubrimiento del terremoto, en Cali: esta fue la razón - elpais.com.co",
-     "medio": "Google News — El País Cali",
-     "fecha": "2026-08-10T23:30:49",
-     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxORWFTQlVzVlI3bzZYaTBVTUdzeXVmcTl5X09kN0VVbzEwTU56dXV0QmRaSjB4X2J5YkZsRlBVNHJ5OUlVUEF2dWpfZzdvcmo5N1loYjdTLU1Gb0FfNXQydnBmeFBlNnozVkJac3p5UEhVR3VablRENTBsZGp6V3d4NF9hTGQ5Y1l1ME5YaEEwTkZ1Y3ozU0lCc3Ntbkw4bGpwWktsdGM0STh1VGo2MEZkMTdhNWFCNkhFb0VJMC1XZHppTl9rQl9rbUhTSldvYXNsUGxYNzI2RjJTZmpSSWYwRTFnM3hYdGVMMEhmWVBVYTF2eW41cmxmZVFn0gH_AUFVX3lxTE1PcWY3aXpwNUcyN1Zsc0RYcWVjQV90WTlWTmxrSHF4WUdYMEpMRE9zSjh6V3RKdVJmRjlwM2lIcXg1bHJhSFB3Zi1UQWp4RXRzellPNG9raFFjVEwtSVNrUm1WUDduOWxDcGJicnpVLXUySkc0TUtiTjVTeTdrYXRKV3dRZThmWnlqTExKOFlvNTJEZXI0UnY0cXBLZ1NscG93eGJFWGtoTWFnRzBCcnpiNHRIZm5COXBfSUFCa2t3WnBJWEZYaE5TYmluZG5JSGFHUkpQbUpiaW5qVWVwQllWbHMxMWxHQlRGT0VXNDg1aG9jeGtoaDJSYThfMzdQRQ?oc=5"
+     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
+     "medio": "ladiscussione",
+     "fecha": "2026-08-14T12:05:00",
+     "url": "https://ladiscussione.com/456711/video-pillole/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
     },
     {
-     "titular": "Terremoto en Colombia | Cali, entre el luto y la alerta sanitaria: el dolor por las víctimas desafía al reloj del desastre - El Tiempo",
-     "medio": "Google News — Cali",
-     "fecha": "2026-08-14T11:34:25",
-     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNTHhnQ09oYmVrcG5TMHZpUXJfTXJlMVZhLXdacHBFRmg0MDVjaG5KSC1JaFhqaHg0MWhsaTRiZjY1RlpiS3BnczAybFRKUC1zWGJ4VXo1RUhHSENyQV95MWRlZ1ZTRWtwSWhodUxvQzZpcTFFZzgxN2tmWmpQNjhWbkU3WkhxakFxWXZEcG9kVmtOQy1oNlJ4cDY4Y29QaFBFc1lrMTZiTGZBTE5nNlZmZEZIOEUySlJ3Z2w4Tm5xTnlHUHMtLWxSSURVM3BoMG9KWGhlZjhnU3R3WkprSG1HdkpNNVozMFFoTy1vYnpscFkzbjUxOW5oZNIB_gFBVV95cUxQdkdPQnMyRDZ4OWpuODFJbjBMS2pUZzJZZ2drc21maFJNNGxISEhrVG0ydl82TDJxYW8wakQ3dXNtSGwwc3hSR0tPVU16YnhfY2hRY1RpazRtYjZkaDdNZ0RzRDE5ZkN4cGxwOGdNcVUwdWU4UjFMczFraUFOX0dXb3NKUlFyN2dnVXpoYkx0VjFCUHNJcnJZUDh1RVpwR3VpX0NOa1J6c1pjellQZkJqV1dOcFp6a2lMUGtVZFp6N2w5dko4U3lZa1puN0FqWWtsMEhyX0hPd3MwZTZodE1BZTlyczNWQjhDNWlrR2g2TTRNSFpnTU9OM0FvRnRIUQ?oc=5"
+     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
+     "medio": "livemag",
+     "fecha": "2026-08-14T12:14:00",
+     "url": "https://www.livemag.it/index.php/2026/08/14/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 158,
+    "n_prensa": 738,
     "n_oficial": 2,
     "n_ciudadano": 2,
     "etiqueta": "Coincide cualitativamente"
@@ -377,27 +377,27 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Chocó: capturan a alias 'Rey', uno de los hombres más buscados por la Policía en Quibdó - El Tiempo",
-     "medio": "Google News — Quibdó",
-     "fecha": "2024-05-24T07:00:00",
-     "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOYnd1LUMxZFRuME9HTHZBaU9YNEI5VGVBMU4yUUc0enM2bzlpRUV2UTFJSERhdU81S0t3RXhFLTJXVGFWZkZVWURHZnVCa2JzNFNOaXZsWjlJemJUOFFXSUxWcWxOZVhUVkloMEc5T3BPaU1QTXhSazhEWEZBNjNjOVJTTkRwbVh0S1NqN2M1djdkWnBnZUpReXU1OXl1Y1YwVGdvMFdvRjVVMnBzQjBzb1NkZkx1Z01Yb2ZwWVg3X0JIajRHdHo5VmZfdlhQZmFGMGhrQkNBNNIB3AFBVV95cUxOUmN4eUZwcG9DUDJ5SlZoa0JlX0k0Sy1ZYmU2SmxPVHZxcnF4amVDcWpvcmdBVVdhMlY4eUtGYm9MNDhUZ1M2dXd3NE55cEFiQ1BjNzVLQjA5TVU5ZFRReDFfbjA1U0otdzJGNWczd0diWS04dVBvd3kwT01FRmdhdE51WnpDbWNYTjhuN0RfX1FGcDBXQjJIRmVoNlFURTJSWUx1bzQ4bGpXSzhhMklGbDNlLWdCNlNnc3hzc1BTZG1wRElTaGtzcGwzSHU1UjZ5Z19pNzA3YzN1RWpF?oc=5"
+     "titular": "Colombia Earthquake Death Toll Climbs As Rescue Efforts Enter Final Phase",
+     "medio": "abcnepal",
+     "fecha": "2026-08-13T17:00:00",
+     "url": "https://abcnepal.tv/posts/318985"
     },
     {
-     "titular": "EPM firmó prórroga para operar servicios de acueducto, alcantarillado y aseo en Quibdó (Chocó): ¿qué implica este acuerdo? - El Tiempo",
-     "medio": "Google News — Quibdó",
-     "fecha": "2025-01-02T08:00:00",
-     "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQOXlQTzc1Vnlyc21rSWVxbWdHeWpCVV83Rk9DY251Yjd2N2twZnVxTFR4dWhPTTcyLXVvOGllNi1NcFFLU1BEMGZuOGJrNjVvZnNrdXdoVXVQQl9vTjhkaUFWN1NkWERBLW9pTy1QclNteGxlT0NRSHZCT2dzZ3AzWEdoaUllRmFMYnpmRWZWa1JYcTBpc3h2N3NGSk5BVzFiOEdaY255bDF3TDFEX3JhN2lQQXl2R2w3Mi1oOVhFdHZCTFNBY21rV3BEd2RTNk9hMTloUDRxOWVGZ9IB3wFBVV95cUxPSnVmNDl6bWJibUpXYVJybzVFX1BGcDRsOF80ZGpYLTgtT2tKOEpfWDRGN2IyUFNLZ3lCVGd1NEVsZjdET3QwZmVtSjhDX1dJYnNNM0NmcF8wTm9OczFpYmJvbXBMU3VyRHoxQVNtWDg1VjcxeHViWkxWc1JlZEk5cHNNQV8wTG5vNFdGVkRyRllGUHlTLVRFQV9xR0JZMGktcnEwMzl0RFV0MGJaRFIzQ0pncG1vYTBHX1UzN1Z5SmFjelkyczNMVjRXRFRvbU90QzlYaVgteFY4RnNHNEdv?oc=5"
+     "titular": "AZIONE CONTRO LA FAME HA ATTIVATO LA RISPOSTA AL TERREMOTO IN COLOMBIA NEL DIPARTIMENTO DI CHOCÓ",
+     "medio": "notiziegeopolitiche",
+     "fecha": "2026-08-13T18:44:00",
+     "url": "https://www.notiziegeopolitiche.net/azione-contro-la-fame-ha-attivato-la-risposta-al-terremoto-in-colombia-nel-dipartimento-di-choco/"
     },
     {
-     "titular": "Terremoto en Colombia: se registran heridos y edificios derrumbados en la ciudad de Quibdó | VIDEO - El Comercio Perú",
-     "medio": "Google News — Quibdó",
-     "fecha": "2026-08-10T14:06:55",
-     "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNb3g2OHBramxVcGRKVGtTV0xPVzNUZnFicnpOUTZiZmZVRVBYX2ViMXhSWDNqemVDYzBlUFV1bVZHVWpjZEVzSHBNYzFCenBua1JYeHJ0QW5mUjR3d0g0ZVFMSUJDd0EzX3lDMUlhTmJ1YjJtV0xLXzUxSFFycExvdTdOdkZHYjlnUDRhNmljNzFUY3VQRFI2VDB0clktdjQ1SjA1ang3Zk1qdlA1djBZdjZsckxkVGpqM0gtVjQtU05ZQmsyNkdTUm1aTEtKRHpOeFJHcThmQQ?oc=5"
+     "titular": "Colombia Earthquake Leaves Communities Facing Loss, Damage and Uncertainty",
+     "medio": "fundsforngos",
+     "fecha": "2026-08-14T06:47:00",
+     "url": "https://news.fundsforngos.org/2026/08/14/colombia-earthquake-leaves-communities-facing-loss-damage-and-uncertainty/"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 36,
+    "n_prensa": 117,
     "n_oficial": 2,
     "n_ciudadano": 49,
     "etiqueta": "Coincide cualitativamente"
@@ -476,7 +476,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 16,
+    "n_prensa": 17,
     "n_oficial": 2,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
@@ -550,27 +550,27 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Terremoto en Colombia: Gobernadora del Valle confirma que no hay paso en la vía entre Cali y Buenaventura por varios derrumbes; hay tres fallecidos en los túneles - elpais.com.co",
-     "medio": "Google News — Buenaventura",
-     "fecha": "2026-08-10T19:50:00",
-     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxNbG1aZzZWUVJKc3BPMVp3bnpSYkZSS3RQUnNmNk1hWHRuMEUyQmd6YUs1VEhicUlGMXpDSlVXUFpuUXFyS3ZaWWFqZnE0NVkybkJfNDhCTG9Ha3F4X1NoVnlFMmp6d0p0TmE2QTVoLUdzeVp6U1VGSnJCVVd5SmFyTThLeTNabmlZNExHM09rWFhCYk5zWjdwYkxSZWhYNlRSSFJ4NElUbWtxekxqRDRwRzBkcW5MWDRWMWl6TlB6Z2hlQjUxV2I3Zm8yNFdzek9oVkFVU1lhRm5pYzk3RFV3T2ZqYndvZHllZmxyMXhQZnUxcjl6d0lNdGxB0gH_AUFVX3lxTE5YdTU3ZlVqcVpmVnMtV21oRTJGTDNyVGdnMlpYTFlkbjdvbERkVHRfM3MzNWF1LTUwd3E1QnhzVDRYUEQ0VHpEdmdhS1hSaHY0Z09wMHJ4SlpkWEZPWjEyQkFrbkFUNVJZQ0VFenhHYnFLdmJHRHdNZGZ0a0owMEVtSFRtdXJsY2RxaENuYmthaGV4bHowdzBSbE5XTjZocWo0cjNraGE2TUlmNElnMkV6Nlc0NW1kUFliWjl0eGgyaV85Q1dkNU96dTA4R19hWWg5NU0tcE9OZHVhTGJTNHhZZ1pEWjFJWXp1RFRXQXJIa0RUSXBKcFl0N2xoQTVxZw?oc=5"
+     "titular": "Terremoto in Colombia: l’Unicef in campo per aiutare le famiglie a Chocò e Buenaventura",
+     "medio": "aise",
+     "fecha": "2026-08-13T10:27:00",
+     "url": "https://www.aise.it/migrazioni-diritti-umani/terremoto-in-colombia-lunicef-in-campo-per-aiutare-le-famiglie-a-choc%C3%B2-e-buenaventura/236037/126"
     },
     {
-     "titular": "Afectaciones en Buenaventura por el terremoto: 12 fallecidos y miles de viviendas afectadas - Noticias RCN",
-     "medio": "Google News — Buenaventura",
-     "fecha": "2026-08-12T17:28:45",
-     "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOOFZTM1FRZDJNVDFvZ0FWSWZzT2FQLU1OaXA2eEN2MGhDNndaci1NRUQ3Y2REeFBSM04zMTAwNWlvVzJZQ2lIVG1hSjdXZHo0XzJGbVRzdS1mOFQxOVZDbVlfYThpajBMWk9xQnBaR2R4RzZhQzhxd2FicVFpdjlmQVB3MHBITmZQbFA1cjRfbnEtb29aa1p1YWhJdU1VNEFwZmhIMXBwQ1Vzb3dWclFySUQxWGdBWHRnRVhLT2NSMk83SjN5WUFseUloQmRNM2xs0gHQAUFVX3lxTE1hY0pRQTM0V2J4cUZRNlNTZi1VbHhTa2x4YV9qUkxDYXAwLXd2XzlQbnljMFBIVzNaY0ZXY2JOc1Rtd1pWVENsbklYSDlyb1U3cWJIS2dxSnpKVHlJRDdqd3lTbzRtME9UTm1mNldVRHVMQnRHSTE3R3B3bGxFYUF6cWpwWnJFRVAzZ2JDNTkwa1gtV0pxdzNpdFJNT3hmMGxlRXJBZFo1ZVdyTlJub25PVW9POUJmSFpPQ3N4RkJyYjlSRE1LU0J6NGhoV1U4SGE?oc=5"
+     "titular": "Colombia, Unicef dal campo: «Bambini in pericolo tra scuole crollate, famiglie divise e gruppi armati»",
+     "medio": "vita",
+     "fecha": "2026-08-13T10:52:00",
+     "url": "https://www.vita.it/colombia-unicef-dal-campo-bambini-in-pericolo-tra-scuole-crollate-famiglie-divise-e-gruppi-armati/"
     },
     {
-     "titular": "Futbolistas Juan Cuadrado, Carlos Cuesta y Jhon Lucumí envían ayuda humanitaria al Chocó y Buenaventura",
-     "medio": "Chocó 7 días",
-     "fecha": "2026-08-15T23:01:40",
-     "url": "https://choco7dias.com/futbolistas-juan-cuadrado-carlos-cuesta-y-jhon-lucumi-envian-ayuda-humanitaria-al-choco-y-buenaventura/"
+     "titular": "UNICEF support children and families affected by the earthquake in Chocó and Buenaventura, Colombia",
+     "medio": "unicef",
+     "fecha": "2026-08-13T21:00:00",
+     "url": "https://www.unicef.org/press-releases/unicef-support-children-and-families-affected-earthquake-choc%C3%B3-and-buenaventura"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 71,
+    "n_prensa": 123,
     "n_oficial": 1,
     "n_ciudadano": 4,
     "etiqueta": "Coincide cualitativamente"
@@ -585,7 +585,7 @@
    "gdelt": 0.0122,
    "fuentes": null,
    "chatmap": null,
-   "feeds": null
+   "feeds": 1
   },
   {
    "fecha": "2026-08-09",
@@ -593,7 +593,7 @@
    "gdelt": 0.0165,
    "fuentes": null,
    "chatmap": null,
-   "feeds": null
+   "feeds": 1
   },
   {
    "fecha": "2026-08-10",
@@ -601,7 +601,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 166
+   "feeds": 278
   },
   {
    "fecha": "2026-08-11",
@@ -609,7 +609,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 193
+   "feeds": 273
   },
   {
    "fecha": "2026-08-12",
@@ -617,7 +617,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 225
+   "feeds": 268
   },
   {
    "fecha": "2026-08-13",
@@ -625,7 +625,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 265
+   "feeds": 325
   },
   {
    "fecha": "2026-08-14",
@@ -633,7 +633,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 277
+   "feeds": 343
   },
   {
    "fecha": "2026-08-15",
@@ -641,15 +641,31 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 316
+   "feeds": 368
   },
   {
    "fecha": "2026-08-16",
    "emm": null,
-   "gdelt": 0.6941,
+   "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 96
+   "feeds": 197
+  },
+  {
+   "fecha": "2026-08-17",
+   "emm": null,
+   "gdelt": 0.4561,
+   "fuentes": null,
+   "chatmap": 3,
+   "feeds": 155
+  },
+  {
+   "fecha": "2026-08-18",
+   "emm": null,
+   "gdelt": 0.7689,
+   "fuentes": null,
+   "chatmap": null,
+   "feeds": 68
   }
  ],
  "entregas": [
@@ -694,6 +710,12 @@
    "fecha": "2026-08-14",
    "producto": "GRA",
    "version": 1
+  },
+  {
+   "aoi": "Western Colombia",
+   "fecha": "2026-08-17",
+   "producto": "GRM",
+   "version": 1
   }
  ],
  "brechas_oficiales": {
@@ -708,10 +730,10 @@
   },
   "ungrd_rud": {
    "municipios": 90,
-   "familias": 36982.0,
-   "personas": 84213.0,
-   "viv_destruidas": 2760.0,
-   "viv_averiadas": 11914.0,
+   "familias": 37087.0,
+   "personas": 84384.0,
+   "viv_destruidas": 2763.0,
+   "viv_averiadas": 11940.0,
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
  },
@@ -736,10 +758,10 @@
    {
     "fecha": "2026-08-17",
     "municipios": 90,
-    "familias": 36982.0,
-    "personas": 84213.0,
-    "viv_destruidas": 2760.0,
-    "viv_averiadas": 11914.0
+    "familias": 37087.0,
+    "personas": 84384.0,
+    "viv_destruidas": 2763.0,
+    "viv_averiadas": 11940.0
    }
   ],
   "municipios": [
@@ -758,13 +780,13 @@
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ROLDANILLO",
-    "familias": 2269.0,
-    "personas": 2904.0,
+    "familias": 2294.0,
+    "personas": 2929.0,
     "viv_destruidas": 198.0,
     "viv_averiadas": 818.0,
     "poblacion_2026": 38639,
-    "tasa_pct": 7.5157,
-    "delta_familias": 1027.0,
+    "tasa_pct": 7.5804,
+    "delta_familias": 1052.0,
     "nuevo": false
    },
    {
@@ -1224,6 +1246,18 @@
     "nuevo": false
    },
    {
+    "departamento": "CALDAS",
+    "municipio": "RIOSUCIO",
+    "familias": 301.0,
+    "personas": 878.0,
+    "viv_destruidas": 9.0,
+    "viv_averiadas": 143.0,
+    "poblacion_2026": 52118,
+    "tasa_pct": 1.6846,
+    "delta_familias": 64.0,
+    "nuevo": false
+   },
+   {
     "departamento": "RISARALDA",
     "municipio": "LA VIRGINIA",
     "familias": 300.0,
@@ -1233,18 +1267,6 @@
     "poblacion_2026": 28386,
     "tasa_pct": 3.16,
     "delta_familias": 83.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "RIOSUCIO",
-    "familias": 294.0,
-    "personas": 857.0,
-    "viv_destruidas": 9.0,
-    "viv_averiadas": 143.0,
-    "poblacion_2026": 52118,
-    "tasa_pct": 1.6443,
-    "delta_familias": 57.0,
     "nuevo": false
    },
    {
@@ -1281,6 +1303,18 @@
     "poblacion_2026": 35053,
     "tasa_pct": 1.6375,
     "delta_familias": 129.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "CARTAGO",
+    "familias": 225.0,
+    "personas": 247.0,
+    "viv_destruidas": 7.0,
+    "viv_averiadas": 114.0,
+    "poblacion_2026": 144206,
+    "tasa_pct": 0.1713,
+    "delta_familias": 175.0,
     "nuevo": false
    },
    {
@@ -1332,18 +1366,6 @@
     "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "CARTAGO",
-    "familias": 192.0,
-    "personas": 214.0,
-    "viv_destruidas": 4.0,
-    "viv_averiadas": 95.0,
-    "poblacion_2026": 144206,
-    "tasa_pct": 0.1484,
-    "delta_familias": 142.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CALDAS",
     "municipio": "PALESTINA",
     "familias": 191.0,
@@ -1369,6 +1391,18 @@
    },
    {
     "departamento": "VALLE DEL CAUCA",
+    "municipio": "BOLÍVAR",
+    "familias": 168.0,
+    "personas": 351.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 78.0,
+    "poblacion_2026": 15958,
+    "tasa_pct": 2.1995,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
     "municipio": "SAN PEDRO",
     "familias": 149.0,
     "personas": 349.0,
@@ -1378,18 +1412,6 @@
     "tasa_pct": 2.0239,
     "delta_familias": 127.0,
     "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "BOLÍVAR",
-    "familias": 144.0,
-    "personas": 291.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 74.0,
-    "poblacion_2026": 15958,
-    "tasa_pct": 1.8235,
-    "delta_familias": null,
-    "nuevo": true
    },
    {
     "departamento": "CALDAS",
@@ -1429,6 +1451,18 @@
    },
    {
     "departamento": "VALLE DEL CAUCA",
+    "municipio": "LA UNIÓN",
+    "familias": 124.0,
+    "personas": 210.0,
+    "viv_destruidas": 7.0,
+    "viv_averiadas": 36.0,
+    "poblacion_2026": 34699,
+    "tasa_pct": 0.6052,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
     "municipio": "LA VICTORIA",
     "familias": 122.0,
     "personas": 286.0,
@@ -1462,18 +1496,6 @@
     "tasa_pct": 7.1648,
     "delta_familias": 88.0,
     "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "LA UNIÓN",
-    "familias": 108.0,
-    "personas": 178.0,
-    "viv_destruidas": 7.0,
-    "viv_averiadas": 33.0,
-    "poblacion_2026": 34699,
-    "tasa_pct": 0.513,
-    "delta_familias": null,
-    "nuevo": true
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1826,8 +1848,8 @@
   ]
  },
  "citizen": {
-  "chatmap_total": 436,
-  "en_aoi": 368
+  "chatmap_total": 439,
+  "en_aoi": 371
  },
  "municipios": {
   "total": 95,
@@ -3570,7 +3592,7 @@
    "name": "Earthquake in Colombia",
    "category": "Earthquake",
    "event_time": "2026-08-10T12:30:00",
-   "closed": false,
+   "closed": true,
    "n_aois": 7,
    "n_productos": 8,
    "visor": "https://rapidmapping.emergency.copernicus.eu/EMSR916/"

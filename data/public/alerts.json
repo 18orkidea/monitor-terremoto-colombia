@@ -1,41 +1,56 @@
 {
- "generado": "2026-08-16",
- "fecha": "2026-08-16",
+ "generado": "2026-08-18",
+ "fecha": "2026-08-18",
  "alertas": [
+  {
+   "tipo": "producto_actualizado",
+   "nivel": "alta",
+   "texto": "Western Colombia: GRM pasó de v1 (en espera) a v1 (no producido)",
+   "aoi": "Western Colombia",
+   "producto": "GRM",
+   "antes": {
+    "version": 1,
+    "status": "W"
+   },
+   "ahora": {
+    "version": 1,
+    "status": "N"
+   }
+  },
   {
    "tipo": "reportes_ciudadanos",
    "nivel": "info",
-   "texto": "14 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 14
+   "texto": "3 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 3
   },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "257 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 257
+   "texto": "994 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 994
   },
   {
    "tipo": "balance_en_medios",
    "nivel": "info",
-   "texto": "Balance en medios citando fuentes oficiales (2026-08-15): 294 fallecidos (+0 vs día anterior), 3935 heridos, 320 desaparecidos",
-   "fecha_balance": "2026-08-15",
+   "texto": "Balance en medios citando fuentes oficiales (2026-08-17): 289 fallecidos (-5 vs día anterior), 4187 heridos, 143 desaparecidos",
+   "fecha_balance": "2026-08-17",
    "cifras": {
-    "departamentos_afectados": 15,
-    "municipios_afectados": 448,
-    "personas_afectadas": 115461,
-    "familias_afectadas": 54008,
-    "viviendas_averiadas": 81506,
-    "viviendas_destruidas": 14493,
-    "heridos": 3935,
-    "fallecidos": 294,
-    "desaparecidos": 320,
-    "rescatados": 188
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 186016,
+    "familias_afectadas": 120328,
+    "viviendas_averiadas": 127557,
+    "viviendas_destruidas": 26945,
+    "heridos": 4187,
+    "fallecidos": 289,
+    "desaparecidos": 143,
+    "rescatados": null
    }
   },
   {
-   "tipo": "rud_activo",
-   "nivel": "alta",
-   "texto": "El RUD (registro oficial de damnificados) cubre el evento: 75 municipios. 21.092 familias registradas"
+   "tipo": "rud_actualizado",
+   "nivel": "info",
+   "texto": "RUD actualizado: +15 municipios. +15.995 familias vs snapshot anterior"
   }
  ]
 }
