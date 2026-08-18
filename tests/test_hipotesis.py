@@ -321,6 +321,21 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
     # docs/LIMITACIONES.md (el log también es archivo y no se retoca).
     REGIMEN_FUERTE_DESDE = "2026-08-17"
 
+    # Los vídeos y audios ciudadanos no caben en git (580+ MB): su cuerpo se
+    # archiva en el bucket R2 y el repo versiona el manifiesto auditable
+    # `data/r2_manifest.json` — está en docs/LIMITACIONES.md y en .gitignore.
+    # Para ellos la evidencia es estar en el manifiesto con el mismo sha256, no
+    # el fichero en disco: en un clon limpio nunca está, y exigirlo hacía que el
+    # test pasara en la máquina del mantenedor y fallara en CI.
+    ARCHIVO_EN_R2 = (".mp4", ".mov", ".webm", ".opus", ".ogg", ".m4a")
+
+    def _manifiesto_r2(self):
+        f = ROOT / "data" / "r2_manifest.json"
+        if not f.exists():
+            return {}
+        return {o["objeto"]: o.get("sha256")
+                for o in json.loads(f.read_text()).get("objetos", [])}
+
     def test_todo_cuerpo_publicado_tiene_snapshot_verificable(self):
         why = skip_sin_datos("sources_log")
         if why:
@@ -336,15 +351,27 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
         if not filas:
             self.skipTest("aún no hay corridas bajo el régimen fuerte")
         import hashlib
+        manifiesto = self._manifiesto_r2()
         sin_ruta, rotos = 0, []
         for spath, sha in filas:
             if not spath:
                 sin_ruta += 1
                 continue
             f = ROOT / spath
-            if not f.exists():
+            if spath.lower().endswith(self.ARCHIVO_EN_R2):
+                # se comprueba SIEMPRE, exista o no en disco: si solo se mirara
+                # cuando falta, el manifiesto podría desfasarse durante meses en
+                # la máquina donde sí están los ficheros y saltar solo en CI
+                clave = spath.rsplit("/", 1)[-1]
+                if clave not in manifiesto:
+                    rotos.append(f"{spath}: no está en el manifiesto de R2 — "
+                                 f"un cuerpo fuera de git y fuera del manifiesto "
+                                 f"no es recuperable ni auditable")
+                elif manifiesto[clave] != sha:
+                    rotos.append(f"{spath}: el manifiesto de R2 declara otro sha256")
+            elif not f.exists():
                 rotos.append(f"{spath}: no existe")
-            elif hashlib.sha256(f.read_bytes()).hexdigest() != sha:
+            if f.exists() and hashlib.sha256(f.read_bytes()).hexdigest() != sha:
                 rotos.append(f"{spath}: sha no coincide")
         self.assertEqual(sin_ruta, 0,
                          f"{sin_ruta} peticiones 200 sin snapshot_path desde "
