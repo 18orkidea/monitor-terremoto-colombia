@@ -23,21 +23,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      # run_daily sale 1 si CUALQUIER fuente falló, y eso abortaba el job antes
+      # de commitear: el 17-ago-2026 un HTTP 502 pasajero del DANE costó los
+      # snapshots de las otras doce fuentes (2 archivados ese día, frente a 70
+      # del anterior). R13 dice que un feed caído no rompe la corrida; el
+      # archivo se guarda primero y el rojo se pone al final.
       - name: Corrida diaria (solo stdlib, sin dependencias)
-        run: python ingest/run_daily.py
-
-      - name: Tests de hipótesis contra los datos frescos
-        run: |
-          python -m unittest tests.test_unit -v
-          python -m unittest tests.test_hipotesis -v
-
-      # Los supuestos rotos AVISAN, no tumban la corrida (regla R11): una API
-      # externa que cambia puede ser hasta buena noticia — hay que enterarse.
-      - name: Vigilar los contratos de las fuentes externas (no fatal)
+        id: corrida
         continue-on-error: true
-        run: |
-          python -m unittest tests.test_supuestos_api -v \
-            || echo "::warning::Algún supuesto sobre una fuente externa cambió — revisar la salida"
+        run: python ingest/run_daily.py
 
       # Archivo permanente de videos ciudadanos (ChatMap no garantiza retención).
       # Requiere secrets R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY (token S3 de R2,
@@ -91,15 +85,6 @@ jobs:
             rm -f "$DEST"
           fi
 
-      # Después de archivar, a propósito: un runner sin node o una divergencia
-      # entre las dos listas de municipios no puede costar el snapshot del día.
-      # En pr.yml el mismo paso sí es fatal, que es donde debe doler.
-      - name: Vigilar las reglas que viven en JavaScript (no fatal)
-        continue-on-error: true
-        run: |
-          python -m unittest tests.test_frontend tests.test_worker_toponimos -v \
-            || echo "::error::Las reglas en JavaScript fallaron — revisar antes del próximo deploy del worker"
-
       - name: Commit del snapshot si hay cambios
         run: |
           git config user.name "monitor-bot"
@@ -116,6 +101,29 @@ jobs:
       # alerts.json fresco en el body (no espera al deploy de Pages). El
       # dedupe del worker hace esto idempotente con su cron de respaldo de
       # las 11:20 UTC. Sin el secret, se salta limpio. No fatal (R13).
+      # ---- verificaciones, DESPUÉS de archivar ----
+      # Un supuesto roto o una hipótesis caída son noticia (R11/R12), no motivo
+      # para perder el día. En pr.yml siguen siendo fatales, que es donde duele
+      # sin coste de archivo.
+      - name: Tests de hipótesis contra los datos frescos
+        id: hipotesis
+        continue-on-error: true
+        run: |
+          python -m unittest tests.test_unit -v
+          python -m unittest tests.test_hipotesis -v
+
+      - name: Vigilar los contratos de las fuentes externas (no fatal)
+        continue-on-error: true
+        run: |
+          python -m unittest tests.test_supuestos_api -v \
+            || echo "::warning::Algún supuesto sobre una fuente externa cambió — revisar la salida"
+
+      - name: Vigilar las reglas que viven en JavaScript (no fatal)
+        continue-on-error: true
+        run: |
+          python -m unittest tests.test_frontend tests.test_worker_toponimos -v \
+            || echo "::error::Las reglas en JavaScript fallaron — revisar antes del próximo deploy del worker"
+
       - name: Avisar por push y Telegram (no fatal)
         env:
           PUSH_TOKEN: ${{ secrets.PUSH_INTERNAL_TOKEN }}
@@ -132,3 +140,11 @@ jobs:
       # El deploy lo hace "Deploy GitHub Pages" (workflow_run tras esta corrida).
       # La vía Cloudflare Pages se eliminó el 16-ago: el dominio apunta a GitHub
       # Pages y publicar por dos caminos divergía (ver docs/DECISIONES.md).
+
+      # El rojo llega aquí, con el día ya archivado: se ve el fallo sin perder
+      # el snapshot. Si esto salta, mirar el RESUMEN de la corrida más arriba.
+      - name: Marcar la corrida en rojo si algo falló
+        if: steps.corrida.outcome == 'failure' || steps.hipotesis.outcome == 'failure'
+        run: |
+          echo "::error::La corrida (${{ steps.corrida.outcome }}) o los tests de hipótesis (${{ steps.hipotesis.outcome }}) fallaron. El archivo del día SÍ se guardó; revisar el resumen de fuentes."
+          exit 1
