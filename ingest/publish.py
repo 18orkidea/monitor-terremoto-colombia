@@ -88,6 +88,8 @@ def aoi_extents_from_snapshots(code="EMSR916") -> dict:
 
 
 def run() -> dict:
+    from common import ROOT
+    ROOT_FEEDS = ROOT / "feeds"
     conn = db()
     snap = today()
     PUBLIC.mkdir(parents=True, exist_ok=True)
@@ -413,6 +415,25 @@ def run() -> dict:
                      "SELECT snapshot_date, COUNT(*), SUM(familias), SUM(personas),"
                      " SUM(viv_destruidas), SUM(viv_averiadas) FROM rud_daily"
                      " GROUP BY snapshot_date ORDER BY snapshot_date")]
+    # Puntos que no vienen de una captura propia (una corrida perdida, y el RUD
+    # solo devuelve su estado actual): se fusionan MARCADOS, nunca en silencio.
+    # Sin esto la curva saltaría el día como si el registro no hubiera crecido.
+    recon_path = ROOT_FEEDS / "rud_reconstruido.json"
+    if recon_path.exists():
+        vistos = {r["fecha"] for r in rud_serie}
+        for pt in json.loads(recon_path.read_text()).get("puntos", []):
+            if pt["fecha"] in vistos:
+                continue          # una captura propia siempre gana
+            rud_serie.append({
+                "fecha": pt["fecha"], "municipios": pt.get("municipios"),
+                "familias": pt.get("familias"), "personas": pt.get("personas"),
+                "viv_destruidas": pt.get("viv_destruidas"),
+                "viv_averiadas": pt.get("viv_averiadas"),
+                "reconstruido": True, "origen": pt.get("origen"),
+                "evidencia": pt.get("evidencia"),
+            })
+        rud_serie.sort(key=lambda r: r["fecha"])
+
     ult_dia = rud_serie[-1]["fecha"] if rud_serie else None
     dia_prev = rud_serie[-2]["fecha"] if len(rud_serie) > 1 else None
     rud_municipios = []
@@ -455,8 +476,7 @@ def run() -> dict:
 
     # Hitos curados (respuesta local + cambios del monitor): el fichero fuente
     # vive en feeds/ y se publica tal cual junto al resto de datos.
-    from common import ROOT
-    hitos_src = ROOT / "feeds" / "hitos_monitor.json"
+    hitos_src = ROOT_FEEDS / "hitos_monitor.json"
     if hitos_src.exists():
         (PUBLIC / "hitos_monitor.json").write_text(
             hitos_src.read_text(encoding="utf-8"), encoding="utf-8")

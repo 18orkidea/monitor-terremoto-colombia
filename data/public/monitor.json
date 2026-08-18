@@ -1,6 +1,6 @@
 {
- "generado": "2026-08-17",
- "fecha": "2026-08-17",
+ "generado": "2026-08-18",
+ "fecha": "2026-08-18",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -37,28 +37,28 @@
    "detecciones": {},
    "prensa_ejemplos": [
     {
-     "titular": "Colombia Earthquake Leaves Communities Facing Loss, Damage and Uncertainty",
-     "medio": "fundsforngos",
-     "fecha": "2026-08-14T06:47:00",
-     "url": "https://news.fundsforngos.org/2026/08/14/colombia-earthquake-leaves-communities-facing-loss-damage-and-uncertainty/"
+     "titular": "Chocó: el terremoto de magnitud 7,4 del 10 de agosto de 2026 agrava décadas de abandono estatal y engaños oficiales",
+     "medio": "Chocó 7 días",
+     "fecha": "2026-08-14T21:33:59",
+     "url": "https://choco7dias.com/choco-el-terremoto-de-magnitud-74-del-10-de-agosto-de-2026-agrava-decadas-de-abandono-estatal-y-enganos-oficiales/"
     },
     {
-     "titular": "VIDEO | Death toll in Colombia earthquake rises to 281, 379 people missing",
-     "medio": "slobodenpecat-en",
-     "fecha": "2026-08-14T08:47:00",
-     "url": "https://www.slobodenpecat.mk/en/video-brojot-na-zaginati-vo-zemjotresot-vo-kolumbija-se-zgolemi-na-281-kako-ischeznati-se-vodat-379-lugje/"
+     "titular": "El futbolista Carlos Cuesta envía 70 toneladas de ayuda humanitaria al Chocó tras el terremoto",
+     "medio": "Chocó 7 días",
+     "fecha": "2026-08-15T02:08:23",
+     "url": "https://choco7dias.com/el-futbolista-carlos-cuesta-envia-70-toneladas-de-ayuda-humanitaria-al-choco-tras-el-terremoto/"
     },
     {
-     "titular": "Zoomlion Mobilizes Emergency Equipment and Personnel for Colombia Earthquake Relief",
-     "medio": "themalaysianreserve",
-     "fecha": "2026-08-14T09:27:00",
-     "url": "https://themalaysianreserve.com/2026/08/14/zoomlion-mobilizes-emergency-equipment-and-personnel-for-colombia-earthquake-relief/"
+     "titular": "El terremoto profundiza la desigualdad en el Chocó",
+     "medio": "Chocó 7 días",
+     "fecha": "2026-08-15T22:18:06",
+     "url": "https://choco7dias.com/el-terremoto-profundiza-la-desigualdad-en-el-choco/"
     }
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 803,
-    "n_oficial": 1,
+    "n_prensa": 274,
+    "n_oficial": 2,
     "n_ciudadano": 258,
     "etiqueta": "No comparable 1:1"
    },
@@ -117,28 +117,28 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Terremoto Colombia, volontari in campo per l''aiuto agli sfollati",
-     "medio": "ilmattino",
-     "fecha": "2026-08-14T12:04:00",
-     "url": "https://www.ilmattino.it/video/primopiano/terremoto_colombia_volontari_in_campo_per_l_aiuto_agli_sfollati-9707808.html"
+     "titular": "Terremoto en Colombia: Gobernadora del Valle confirma que no hay paso en la vía entre Cali y Buenaventura por varios derrumbes; hay tres fallecidos en los túneles - elpais.com.co",
+     "medio": "Google News — Buenaventura",
+     "fecha": "2026-08-10T19:50:00",
+     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxNbG1aZzZWUVJKc3BPMVp3bnpSYkZSS3RQUnNmNk1hWHRuMEUyQmd6YUs1VEhicUlGMXpDSlVXUFpuUXFyS3ZaWWFqZnE0NVkybkJfNDhCTG9Ha3F4X1NoVnlFMmp6d0p0TmE2QTVoLUdzeVp6U1VGSnJCVVd5SmFyTThLeTNabmlZNExHM09rWFhCYk5zWjdwYkxSZWhYNlRSSFJ4NElUbWtxekxqRDRwRzBkcW5MWDRWMWl6TlB6Z2hlQjUxV2I3Zm8yNFdzek9oVkFVU1lhRm5pYzk3RFV3T2ZqYndvZHllZmxyMXhQZnUxcjl6d0lNdGxB0gH_AUFVX3lxTE5YdTU3ZlVqcVpmVnMtV21oRTJGTDNyVGdnMlpYTFlkbjdvbERkVHRfM3MzNWF1LTUwd3E1QnhzVDRYUEQ0VHpEdmdhS1hSaHY0Z09wMHJ4SlpkWEZPWjEyQkFrbkFUNVJZQ0VFenhHYnFLdmJHRHdNZGZ0a0owMEVtSFRtdXJsY2RxaENuYmthaGV4bHowdzBSbE5XTjZocWo0cjNraGE2TUlmNElnMkV6Nlc0NW1kUFliWjl0eGgyaV85Q1dkNU96dTA4R19hWWg5NU0tcE9OZHVhTGJTNHhZZ1pEWjFJWXp1RFRXQXJIa0RUSXBKcFl0N2xoQTVxZw?oc=5"
     },
     {
-     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
-     "medio": "ladiscussione",
-     "fecha": "2026-08-14T12:05:00",
-     "url": "https://ladiscussione.com/456711/video-pillole/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
+     "titular": "Rafael Poveda fue obligado a suspender su transmisión en vivo, durante cubrimiento del terremoto, en Cali: esta fue la razón - elpais.com.co",
+     "medio": "Google News — El País Cali",
+     "fecha": "2026-08-10T23:30:49",
+     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxORWFTQlVzVlI3bzZYaTBVTUdzeXVmcTl5X09kN0VVbzEwTU56dXV0QmRaSjB4X2J5YkZsRlBVNHJ5OUlVUEF2dWpfZzdvcmo5N1loYjdTLU1Gb0FfNXQydnBmeFBlNnozVkJac3p5UEhVR3VablRENTBsZGp6V3d4NF9hTGQ5Y1l1ME5YaEEwTkZ1Y3ozU0lCc3Ntbkw4bGpwWktsdGM0STh1VGo2MEZkMTdhNWFCNkhFb0VJMC1XZHppTl9rQl9rbUhTSldvYXNsUGxYNzI2RjJTZmpSSWYwRTFnM3hYdGVMMEhmWVBVYTF2eW41cmxmZVFn0gH_AUFVX3lxTE1PcWY3aXpwNUcyN1Zsc0RYcWVjQV90WTlWTmxrSHF4WUdYMEpMRE9zSjh6V3RKdVJmRjlwM2lIcXg1bHJhSFB3Zi1UQWp4RXRzellPNG9raFFjVEwtSVNrUm1WUDduOWxDcGJicnpVLXUySkc0TUtiTjVTeTdrYXRKV3dRZThmWnlqTExKOFlvNTJEZXI0UnY0cXBLZ1NscG93eGJFWGtoTWFnRzBCcnpiNHRIZm5COXBfSUFCa2t3WnBJWEZYaE5TYmluZG5JSGFHUkpQbUpiaW5qVWVwQllWbHMxMWxHQlRGT0VXNDg1aG9jeGtoaDJSYThfMzdQRQ?oc=5"
     },
     {
-     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
-     "medio": "livemag",
-     "fecha": "2026-08-14T12:14:00",
-     "url": "https://www.livemag.it/index.php/2026/08/14/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
+     "titular": "Terremoto en Colombia | Cali, entre el luto y la alerta sanitaria: el dolor por las víctimas desafía al reloj del desastre - El Tiempo",
+     "medio": "Google News — Cali",
+     "fecha": "2026-08-14T11:34:25",
+     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNTHhnQ09oYmVrcG5TMHZpUXJfTXJlMVZhLXdacHBFRmg0MDVjaG5KSC1JaFhqaHg0MWhsaTRiZjY1RlpiS3BnczAybFRKUC1zWGJ4VXo1RUhHSENyQV95MWRlZ1ZTRWtwSWhodUxvQzZpcTFFZzgxN2tmWmpQNjhWbkU3WkhxakFxWXZEcG9kVmtOQy1oNlJ4cDY4Y29QaFBFc1lrMTZiTGZBTE5nNlZmZEZIOEUySlJ3Z2w4Tm5xTnlHUHMtLWxSSURVM3BoMG9KWGhlZjhnU3R3WkprSG1HdkpNNVozMFFoTy1vYnpscFkzbjUxOW5oZNIB_gFBVV95cUxQdkdPQnMyRDZ4OWpuODFJbjBMS2pUZzJZZ2drc21maFJNNGxISEhrVG0ydl82TDJxYW8wakQ3dXNtSGwwc3hSR0tPVU16YnhfY2hRY1RpazRtYjZkaDdNZ0RzRDE5ZkN4cGxwOGdNcVUwdWU4UjFMczFraUFOX0dXb3NKUlFyN2dnVXpoYkx0VjFCUHNJcnJZUDh1RVpwR3VpX0NOa1J6c1pjellQZkJqV1dOcFp6a2lMUGtVZFp6N2w5dko4U3lZa1puN0FqWWtsMEhyX0hPd3MwZTZodE1BZTlyczNWQjhDNWlrR2g2TTRNSFpnTU9OM0FvRnRIUQ?oc=5"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 672,
-    "n_oficial": 1,
+    "n_prensa": 158,
+    "n_oficial": 2,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -215,27 +215,27 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Veteran volunteer digs for survivors after Colombia quake",
-     "medio": "whbl",
-     "fecha": "2026-08-13T20:56:00",
-     "url": "https://whbl.com/2026/08/13/veteran-volunteer-digs-for-survivors-after-colombia-quake/"
+     "titular": "Suspenden vuelos en aeropuertos de Pereira, Manizales, Armenia y otras tres ciudades tras sismo - Agencia de Periodismo Investigativo",
+     "medio": "Google News — Cartago",
+     "fecha": "2026-08-10T18:25:47",
+     "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPVlROOFFkS19mNDZYSjNwbEt0Q0p0dFdKcUE2QmY1Mk54UkltSFlSZENWQnRVUERmdnZPc0hndUN2bGVhcmhyNVZyYXRqOFFlQkwzN0gxVmc1dXBIQ3FSOU9BXzZMYVdFWTBFeV9HRWpmT2VxeXplekxtQWJsVmVKUTRwbVJsR3kxTlZBMmpSdGk2emFacGNnY3BLeHFHZ0R6SjM2UTRGUmJvVlFaRnNneWVUX2FKT1d4a01BZ2gyT0NNcF94b1l2ai1MSHdjd2ds?oc=5"
     },
     {
-     "titular": "Hopes fade in Colombia as window to find quake survivors shuts",
-     "medio": "freemalaysiatoday",
-     "fecha": "2026-08-14T01:23:00",
-     "url": "https://www.freemalaysiatoday.com/category/world/2026/08/14/hopes-fade-in-colombia-as-window-to-find-quake-survivors-shuts"
+     "titular": "Medicina Legal publicó la lista de personas fallecidas que aún no han sido reclamadas tras el terremoto de 7,4 en Pereira - Infobae",
+     "medio": "Google News — Pereira",
+     "fecha": "2026-08-13T15:53:00",
+     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxQZlBiaXVIa3RnRTY5OE9hamRQZmFGNEctU2FBS09WTjhveFhNVHFyYUtabDVpcGt0TW44TGJKYXgxRDZCV01ES09WaW9CU3o2dEFPb2NVNFRrZGZZeHdFUUVZelJLRjFkVkpJVW5XVUttMTJoZ0dJSFFSRXdpa1FFeHFEc19GdHhiQ01KbGNYOVp2STAwMEN5cGd5X1J2NlJJYjh4dlQ1X1FuMlhFekpNTEdDVmYtRDFhYzhkaVU2VGF1akYzMmhuWndJWWZfMmZIcHNacGduZDJvZkxOd3NxZGJHRTVfNUttanNHYkhaVEpMdDRxR01NR9IBkwJBVV95cUxPc3d3R0lnM2VXZ2xVVTQ0dEZUODcwbU9PUG5wWUs3anVVNjdaNlp4WGJvTEtHb3FEclg2WWo2cEJLRWtSdUtlcnpqZXhWbmpOd1hRd0VwbEpfYWZEcmJDSTVDT1hEc1Y4YkR4TmFKV3Jlb3owWnpxRmp5TDA0UklMdXlmTmZYNjNXcEpibzBMdWMwUFJQRlZZYk5IdXN4dnRzY1dCV2NJODRONUUwUHlKWWh2R2VwOENjd0dHSUVJUlI1Z21IQUtmZVZYaWRpOXdqeHQyN1JIQXE2bEprbDFtZnpfSkRjRkN1MG55bC1lSkNGWjIyemlkOUxZNWtDa0x5WVMtWEtSQmJnYnFJRW5VUmhfQQ?oc=5"
     },
     {
-     "titular": "Colombia Earthquake Leaves Communities Facing Loss, Damage and Uncertainty",
-     "medio": "fundsforngos",
-     "fecha": "2026-08-14T06:47:00",
-     "url": "https://news.fundsforngos.org/2026/08/14/colombia-earthquake-leaves-communities-facing-loss-damage-and-uncertainty/"
+     "titular": "'Aquí hay un vivo': los eternos minutos de Mateo Yepes bajo los escombros de su casa en Pereira tras el terremoto - eltiempo.com",
+     "medio": "Google News (agregador es-CO)",
+     "fecha": "2026-08-16T02:24:35",
+     "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxNWDBvZ0w1X09CZmJId2FBMGotczEyYUx6QzRpRk1KVEVDeXVuR0tNZ3RzQ2txUW5FT19RMnJ2bm0wZ3NqakdmSklHaUVzeUFwTVN5N1lWQndhTUI4c0VXTmp5Y1dISEphTzNLak1SS29wSTdDaWJKTEpNMFp5VkVfVDJTTUVUVWlYWWVQSm03Qk1RZHR4NjVMY1VkZkRYdElVRUFXdUZLUzlROC16NmljOUtxc1RqUkJsaW56djU1dVFXMl9aMnFvbmZJaG50ZGxTZFM2NVphN3pKcHpPWG40WXFVd1JjdFdOT2pMQUtlaXB2dC14d2t1UHhERdIBgAJBVV95cUxNNkpHWENCSFliVGRzazl0U2R5OHBpNVBTbDI0U0g5MHFZZHNOSlk0VTdqVjNjSGhBdTdWY2dzX2ZlMFg2NWdhLTVkWEVqX0VTaG5QNGF4VFRqa2ZOUEpkZmY4R3VJQ1RoNmZPRmpid0NlMkxTcnZ6YlA3UmktRkZWR1lHZEdvY0VHOWRTY2QyVUJzNmNacFJRM3JIcnZYOXJpbUZmNjJRM1o5WTZBYXNsbGpWbkVtNUppRlIyOGZnSWVVa1FYYUI5N1EycXBkc2p6OENzSjF1amg3RFRadUxRS0xHX1NkU3Q3U0llN09JNUJWM0lfLTRqLU41ci1adjVw?oc=5"
     }
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 511,
+    "n_prensa": 139,
     "n_oficial": 0,
     "n_ciudadano": 54,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -295,28 +295,28 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Terremoto Colombia, volontari in campo per l''aiuto agli sfollati",
-     "medio": "ilmattino",
-     "fecha": "2026-08-14T12:04:00",
-     "url": "https://www.ilmattino.it/video/primopiano/terremoto_colombia_volontari_in_campo_per_l_aiuto_agli_sfollati-9707808.html"
+     "titular": "Terremoto en Colombia: Gobernadora del Valle confirma que no hay paso en la vía entre Cali y Buenaventura por varios derrumbes; hay tres fallecidos en los túneles - elpais.com.co",
+     "medio": "Google News — Buenaventura",
+     "fecha": "2026-08-10T19:50:00",
+     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxNbG1aZzZWUVJKc3BPMVp3bnpSYkZSS3RQUnNmNk1hWHRuMEUyQmd6YUs1VEhicUlGMXpDSlVXUFpuUXFyS3ZaWWFqZnE0NVkybkJfNDhCTG9Ha3F4X1NoVnlFMmp6d0p0TmE2QTVoLUdzeVp6U1VGSnJCVVd5SmFyTThLeTNabmlZNExHM09rWFhCYk5zWjdwYkxSZWhYNlRSSFJ4NElUbWtxekxqRDRwRzBkcW5MWDRWMWl6TlB6Z2hlQjUxV2I3Zm8yNFdzek9oVkFVU1lhRm5pYzk3RFV3T2ZqYndvZHllZmxyMXhQZnUxcjl6d0lNdGxB0gH_AUFVX3lxTE5YdTU3ZlVqcVpmVnMtV21oRTJGTDNyVGdnMlpYTFlkbjdvbERkVHRfM3MzNWF1LTUwd3E1QnhzVDRYUEQ0VHpEdmdhS1hSaHY0Z09wMHJ4SlpkWEZPWjEyQkFrbkFUNVJZQ0VFenhHYnFLdmJHRHdNZGZ0a0owMEVtSFRtdXJsY2RxaENuYmthaGV4bHowdzBSbE5XTjZocWo0cjNraGE2TUlmNElnMkV6Nlc0NW1kUFliWjl0eGgyaV85Q1dkNU96dTA4R19hWWg5NU0tcE9OZHVhTGJTNHhZZ1pEWjFJWXp1RFRXQXJIa0RUSXBKcFl0N2xoQTVxZw?oc=5"
     },
     {
-     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
-     "medio": "ladiscussione",
-     "fecha": "2026-08-14T12:05:00",
-     "url": "https://ladiscussione.com/456711/video-pillole/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
+     "titular": "Rafael Poveda fue obligado a suspender su transmisión en vivo, durante cubrimiento del terremoto, en Cali: esta fue la razón - elpais.com.co",
+     "medio": "Google News — El País Cali",
+     "fecha": "2026-08-10T23:30:49",
+     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxORWFTQlVzVlI3bzZYaTBVTUdzeXVmcTl5X09kN0VVbzEwTU56dXV0QmRaSjB4X2J5YkZsRlBVNHJ5OUlVUEF2dWpfZzdvcmo5N1loYjdTLU1Gb0FfNXQydnBmeFBlNnozVkJac3p5UEhVR3VablRENTBsZGp6V3d4NF9hTGQ5Y1l1ME5YaEEwTkZ1Y3ozU0lCc3Ntbkw4bGpwWktsdGM0STh1VGo2MEZkMTdhNWFCNkhFb0VJMC1XZHppTl9rQl9rbUhTSldvYXNsUGxYNzI2RjJTZmpSSWYwRTFnM3hYdGVMMEhmWVBVYTF2eW41cmxmZVFn0gH_AUFVX3lxTE1PcWY3aXpwNUcyN1Zsc0RYcWVjQV90WTlWTmxrSHF4WUdYMEpMRE9zSjh6V3RKdVJmRjlwM2lIcXg1bHJhSFB3Zi1UQWp4RXRzellPNG9raFFjVEwtSVNrUm1WUDduOWxDcGJicnpVLXUySkc0TUtiTjVTeTdrYXRKV3dRZThmWnlqTExKOFlvNTJEZXI0UnY0cXBLZ1NscG93eGJFWGtoTWFnRzBCcnpiNHRIZm5COXBfSUFCa2t3WnBJWEZYaE5TYmluZG5JSGFHUkpQbUpiaW5qVWVwQllWbHMxMWxHQlRGT0VXNDg1aG9jeGtoaDJSYThfMzdQRQ?oc=5"
     },
     {
-     "titular": "Terremoto Colombia, volontari in campo per l’aiuto agli sfollati",
-     "medio": "livemag",
-     "fecha": "2026-08-14T12:14:00",
-     "url": "https://www.livemag.it/index.php/2026/08/14/terremoto-colombia-volontari-in-campo-per-laiuto-agli-sfollati/"
+     "titular": "Terremoto en Colombia | Cali, entre el luto y la alerta sanitaria: el dolor por las víctimas desafía al reloj del desastre - El Tiempo",
+     "medio": "Google News — Cali",
+     "fecha": "2026-08-14T11:34:25",
+     "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNTHhnQ09oYmVrcG5TMHZpUXJfTXJlMVZhLXdacHBFRmg0MDVjaG5KSC1JaFhqaHg0MWhsaTRiZjY1RlpiS3BnczAybFRKUC1zWGJ4VXo1RUhHSENyQV95MWRlZ1ZTRWtwSWhodUxvQzZpcTFFZzgxN2tmWmpQNjhWbkU3WkhxakFxWXZEcG9kVmtOQy1oNlJ4cDY4Y29QaFBFc1lrMTZiTGZBTE5nNlZmZEZIOEUySlJ3Z2w4Tm5xTnlHUHMtLWxSSURVM3BoMG9KWGhlZjhnU3R3WkprSG1HdkpNNVozMFFoTy1vYnpscFkzbjUxOW5oZNIB_gFBVV95cUxQdkdPQnMyRDZ4OWpuODFJbjBMS2pUZzJZZ2drc21maFJNNGxISEhrVG0ydl82TDJxYW8wakQ3dXNtSGwwc3hSR0tPVU16YnhfY2hRY1RpazRtYjZkaDdNZ0RzRDE5ZkN4cGxwOGdNcVUwdWU4UjFMczFraUFOX0dXb3NKUlFyN2dnVXpoYkx0VjFCUHNJcnJZUDh1RVpwR3VpX0NOa1J6c1pjellQZkJqV1dOcFp6a2lMUGtVZFp6N2w5dko4U3lZa1puN0FqWWtsMEhyX0hPd3MwZTZodE1BZTlyczNWQjhDNWlrR2g2TTRNSFpnTU9OM0FvRnRIUQ?oc=5"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 672,
-    "n_oficial": 1,
+    "n_prensa": 158,
+    "n_oficial": 2,
     "n_ciudadano": 2,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -377,28 +377,28 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Colombia Earthquake Death Toll Climbs As Rescue Efforts Enter Final Phase",
-     "medio": "abcnepal",
-     "fecha": "2026-08-13T17:00:00",
-     "url": "https://abcnepal.tv/posts/318985"
+     "titular": "Chocó: capturan a alias 'Rey', uno de los hombres más buscados por la Policía en Quibdó - El Tiempo",
+     "medio": "Google News — Quibdó",
+     "fecha": "2024-05-24T07:00:00",
+     "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOYnd1LUMxZFRuME9HTHZBaU9YNEI5VGVBMU4yUUc0enM2bzlpRUV2UTFJSERhdU81S0t3RXhFLTJXVGFWZkZVWURHZnVCa2JzNFNOaXZsWjlJemJUOFFXSUxWcWxOZVhUVkloMEc5T3BPaU1QTXhSazhEWEZBNjNjOVJTTkRwbVh0S1NqN2M1djdkWnBnZUpReXU1OXl1Y1YwVGdvMFdvRjVVMnBzQjBzb1NkZkx1Z01Yb2ZwWVg3X0JIajRHdHo5VmZfdlhQZmFGMGhrQkNBNNIB3AFBVV95cUxOUmN4eUZwcG9DUDJ5SlZoa0JlX0k0Sy1ZYmU2SmxPVHZxcnF4amVDcWpvcmdBVVdhMlY4eUtGYm9MNDhUZ1M2dXd3NE55cEFiQ1BjNzVLQjA5TVU5ZFRReDFfbjA1U0otdzJGNWczd0diWS04dVBvd3kwT01FRmdhdE51WnpDbWNYTjhuN0RfX1FGcDBXQjJIRmVoNlFURTJSWUx1bzQ4bGpXSzhhMklGbDNlLWdCNlNnc3hzc1BTZG1wRElTaGtzcGwzSHU1UjZ5Z19pNzA3YzN1RWpF?oc=5"
     },
     {
-     "titular": "AZIONE CONTRO LA FAME HA ATTIVATO LA RISPOSTA AL TERREMOTO IN COLOMBIA NEL DIPARTIMENTO DI CHOCÓ",
-     "medio": "notiziegeopolitiche",
-     "fecha": "2026-08-13T18:44:00",
-     "url": "https://www.notiziegeopolitiche.net/azione-contro-la-fame-ha-attivato-la-risposta-al-terremoto-in-colombia-nel-dipartimento-di-choco/"
+     "titular": "EPM firmó prórroga para operar servicios de acueducto, alcantarillado y aseo en Quibdó (Chocó): ¿qué implica este acuerdo? - El Tiempo",
+     "medio": "Google News — Quibdó",
+     "fecha": "2025-01-02T08:00:00",
+     "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQOXlQTzc1Vnlyc21rSWVxbWdHeWpCVV83Rk9DY251Yjd2N2twZnVxTFR4dWhPTTcyLXVvOGllNi1NcFFLU1BEMGZuOGJrNjVvZnNrdXdoVXVQQl9vTjhkaUFWN1NkWERBLW9pTy1QclNteGxlT0NRSHZCT2dzZ3AzWEdoaUllRmFMYnpmRWZWa1JYcTBpc3h2N3NGSk5BVzFiOEdaY255bDF3TDFEX3JhN2lQQXl2R2w3Mi1oOVhFdHZCTFNBY21rV3BEd2RTNk9hMTloUDRxOWVGZ9IB3wFBVV95cUxPSnVmNDl6bWJibUpXYVJybzVFX1BGcDRsOF80ZGpYLTgtT2tKOEpfWDRGN2IyUFNLZ3lCVGd1NEVsZjdET3QwZmVtSjhDX1dJYnNNM0NmcF8wTm9OczFpYmJvbXBMU3VyRHoxQVNtWDg1VjcxeHViWkxWc1JlZEk5cHNNQV8wTG5vNFdGVkRyRllGUHlTLVRFQV9xR0JZMGktcnEwMzl0RFV0MGJaRFIzQ0pncG1vYTBHX1UzN1Z5SmFjelkyczNMVjRXRFRvbU90QzlYaVgteFY4RnNHNEdv?oc=5"
     },
     {
-     "titular": "Colombia Earthquake Leaves Communities Facing Loss, Damage and Uncertainty",
-     "medio": "fundsforngos",
-     "fecha": "2026-08-14T06:47:00",
-     "url": "https://news.fundsforngos.org/2026/08/14/colombia-earthquake-leaves-communities-facing-loss-damage-and-uncertainty/"
+     "titular": "Terremoto en Colombia: se registran heridos y edificios derrumbados en la ciudad de Quibdó | VIDEO - El Comercio Perú",
+     "medio": "Google News — Quibdó",
+     "fecha": "2026-08-10T14:06:55",
+     "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNb3g2OHBramxVcGRKVGtTV0xPVzNUZnFicnpOUTZiZmZVRVBYX2ViMXhSWDNqemVDYzBlUFV1bVZHVWpjZEVzSHBNYzFCenBua1JYeHJ0QW5mUjR3d0g0ZVFMSUJDd0EzX3lDMUlhTmJ1YjJtV0xLXzUxSFFycExvdTdOdkZHYjlnUDRhNmljNzFUY3VQRFI2VDB0clktdjQ1SjA1ang3Zk1qdlA1djBZdjZsckxkVGpqM0gtVjQtU05ZQmsyNkdTUm1aTEtKRHpOeFJHcThmQQ?oc=5"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 104,
-    "n_oficial": 1,
+    "n_prensa": 36,
+    "n_oficial": 2,
     "n_ciudadano": 49,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -456,28 +456,28 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Clamor desde Istmina y Sipí, en el Chocó, donde el terremoto también causó graves daños: “No tenemos cómo atender la situación” - Revista Semana",
+     "titular": "Laura Sarabia, directora del Dapre, exigió justicia por la muerte de menor en Istmina chocó por paro armado del ELN - Infobae",
      "medio": "Google News — Istmina",
-     "fecha": "2026-08-12T03:01:57",
-     "url": "https://news.google.com/rss/articles/CBMiigJBVV95cUxNREdNYllNU1h5MlJxR2ZZWWdUWDI2Ui1DUzhDR01lUEdVZ2RXOUNkSUU1SE9fcDM3MDE0QTVkNHk4d3Z2Z2JjVGh4RHluaTQyN1JFalpaYXloVHgtUXR6SjA4dWZ4Zkg4ajN4d0oya3JvVGdrSktPdm5iRVk1a19hWW1IZURBWS1UMEZPOTBDaGxuODRtanB2SXpfY2V6VzZ2eldSaHJpQXdQdWdjNE82SmpoSFVaMjM3alhtZjhkTm9hdW43YzRBVDktMDRZVkFSSTk2c1VoRUx0UUJBTUJQaE9ZclFLLXQtOE93Q2JtN2Z6SzVzVW1DbWxURmtBQmt4ZWdiZllDeUxxZ9IBjwJBVV95cUxOU3ZHR3pkRFFqczNaQlozc0V2Um5haEVGRDNWX3ZsQkc5Smx5dzBsNl9Id3kzU292bTEyRS1fSG5aTEZTUDBNUmMydlFHMG1vTnJDZG5lZnQwWENiVW9YVlZQY3F3QWtnR01OSzdXdkd1a0NWSHB3anJ1YWxLZHZjS0NXTno1N3FOc2RScUtfTm1Xdll5ZGEtRmtheHBocVhYeU9sMmpHMFUtelJ1NHRabGdqX1FMZ085QkEtamdxa3JZaFNzbHRCUWY2QkFXanVpTWxoUnlWMzN2dmxXT24wOWI3cmxjcW45ODFHUzNmOWMyenNUZDF3aW5mdVRSSHBUSmt5RFBpcUllTzd5TWxN?oc=5"
+     "fecha": "2024-08-15T07:00:00",
+     "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNQmJLbU9COU5NenZSS1ZIazVfLVprS00zNXNiaWNzd1M3UnVucXo3RVFCb3g1ZWR4MFFac2NZbEVTZTJ1LTRENjZmVTBBX2RRZGczdEhBSExwZ0NiUDJDVnk4amN5WkVZM29acHAxYnZJWVlIUlh5d1hBcnlMaDhzOU52aHJwR3lQeDZfelFXLTlPN0R1aHlPQ0VpTDBEZlBGU3F0ajVuUm9wQ3dQdERYVy1qVEFYSDQtellJU2tCeGR4YWRFZVNBaUIycTZPN05jSGVxSTdScks5MnJ0ZXhuM3BSbnJFLVhrTFFJTUI5SdIBigJBVV95cUxQNy1NblZRQmNfdXUtdTNaYm9RWXVnVS1JVzhjalpRYTFXSFJJT1JEWmItb0o2TndtNHNUX0xPX2QzeWFHcEsxTmRqMWVFWGNERWlGYklEU3hVaThBLUFqSEdpVktWbTd2akl4QlhpRVdRWmNQdVY1SDl4Y3RrUkFPUW8xQTNNZEZldnFIQTZWaXBiUUI1cWk1U3lTanpacFh2eFlCWGNCUGpmVTA0QXFVN2dTem9QdzdBRk1PZVhiM3BEdldJczE0UkxrNUo5WFZuMmt5ZjhWTkcxZWotMGdsMmhnSFQ1dlMyY1ozZ2dlVE1wS3pVaU5JVmh2SVR6S0RqVkNISEZBR3kydw?oc=5"
+    },
+    {
+     "titular": "Revelan cifra preliminar de muertos por terremoto en Chocó: en Istmina se registran enormes grietas en las vías - Publimetro Colombia",
+     "medio": "Google News — Istmina",
+     "fecha": "2026-08-10T18:42:06",
+     "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOSWRpaUl5RVlsd1BvOXQyWEEwajM4UGdrUlU1QVNUWW1GNC1yVXdWNVN6NFNKWmJiNlVxX0R4c25qeGR6THZFMXdZd1oweUswbkJ1ckxLSVZ2X1l4X21ESzR4TVhZbXhnRDRRREVBQlhwakxBUHhRc3I4VnpLS01rZThpblFRVXBYZC1Kd1QwRzNOSURiWktkeExIbE1OV3ljS3RsZXl1RTR6cVNYREZSX3BSZVI4R2NFUEx3T2VCTlBEYmF4RHR3b3luSnZtU3hIY1hFNHVsaDEybFFUVzFnS2xHSUNENTdrUlpveklR?oc=5"
     },
     {
      "titular": "Jhon Córdoba envió ayudas humanitarias a Istmina y otros municipios del Chocó tras el terremoto",
      "medio": "Chocó 7 días",
      "fecha": "2026-08-15T02:43:22",
      "url": "https://choco7dias.com/jhon-cordoba-envio-ayudas-humanitarias-a-istmina-y-otros-municipios-del-choco-tras-el-terremoto/"
-    },
-    {
-     "titular": "Jhon Córdoba envió ayudas humanitarias a Istmina y otros municipios del Chocó tras el terremoto - Chocó 7 días",
-     "medio": "Google News — Istmina",
-     "fecha": "2026-08-15T03:08:36",
-     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOakIzNDdPVXFjdm5ELUdmaW5tRG56ZWkzaVMxd3hZQ3ktYWxzSDJFZE9DUFZER0dhVy1nWGZZNUE5TWFJcmZxVDlIZDBiNGJxdGRqMkhwRmI1QURHbVo0MjhtdTltZnpOS3ltNHFuTGVNVGM5RjEyUzEzVjJhMDRTMnZBWHR1SVBsc2M5NzdjY1BRR0RWajZXVjk1MXdGSGliNjdJVTAxTmpBbjBlcnlORUxyMmk4WXVfRDNN?oc=5"
     }
    ],
    "cruce": {
     "estado": "coincide",
     "n_prensa": 16,
-    "n_oficial": 1,
+    "n_oficial": 2,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -550,30 +550,30 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Terremoto in Colombia: l’Unicef in campo per aiutare le famiglie a Chocò e Buenaventura",
-     "medio": "aise",
-     "fecha": "2026-08-13T10:27:00",
-     "url": "https://www.aise.it/migrazioni-diritti-umani/terremoto-in-colombia-lunicef-in-campo-per-aiutare-le-famiglie-a-choc%C3%B2-e-buenaventura/236037/126"
+     "titular": "Terremoto en Colombia: Gobernadora del Valle confirma que no hay paso en la vía entre Cali y Buenaventura por varios derrumbes; hay tres fallecidos en los túneles - elpais.com.co",
+     "medio": "Google News — Buenaventura",
+     "fecha": "2026-08-10T19:50:00",
+     "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxNbG1aZzZWUVJKc3BPMVp3bnpSYkZSS3RQUnNmNk1hWHRuMEUyQmd6YUs1VEhicUlGMXpDSlVXUFpuUXFyS3ZaWWFqZnE0NVkybkJfNDhCTG9Ha3F4X1NoVnlFMmp6d0p0TmE2QTVoLUdzeVp6U1VGSnJCVVd5SmFyTThLeTNabmlZNExHM09rWFhCYk5zWjdwYkxSZWhYNlRSSFJ4NElUbWtxekxqRDRwRzBkcW5MWDRWMWl6TlB6Z2hlQjUxV2I3Zm8yNFdzek9oVkFVU1lhRm5pYzk3RFV3T2ZqYndvZHllZmxyMXhQZnUxcjl6d0lNdGxB0gH_AUFVX3lxTE5YdTU3ZlVqcVpmVnMtV21oRTJGTDNyVGdnMlpYTFlkbjdvbERkVHRfM3MzNWF1LTUwd3E1QnhzVDRYUEQ0VHpEdmdhS1hSaHY0Z09wMHJ4SlpkWEZPWjEyQkFrbkFUNVJZQ0VFenhHYnFLdmJHRHdNZGZ0a0owMEVtSFRtdXJsY2RxaENuYmthaGV4bHowdzBSbE5XTjZocWo0cjNraGE2TUlmNElnMkV6Nlc0NW1kUFliWjl0eGgyaV85Q1dkNU96dTA4R19hWWg5NU0tcE9OZHVhTGJTNHhZZ1pEWjFJWXp1RFRXQXJIa0RUSXBKcFl0N2xoQTVxZw?oc=5"
     },
     {
-     "titular": "Colombia, Unicef dal campo: «Bambini in pericolo tra scuole crollate, famiglie divise e gruppi armati»",
-     "medio": "vita",
-     "fecha": "2026-08-13T10:52:00",
-     "url": "https://www.vita.it/colombia-unicef-dal-campo-bambini-in-pericolo-tra-scuole-crollate-famiglie-divise-e-gruppi-armati/"
+     "titular": "Afectaciones en Buenaventura por el terremoto: 12 fallecidos y miles de viviendas afectadas - Noticias RCN",
+     "medio": "Google News — Buenaventura",
+     "fecha": "2026-08-12T17:28:45",
+     "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOOFZTM1FRZDJNVDFvZ0FWSWZzT2FQLU1OaXA2eEN2MGhDNndaci1NRUQ3Y2REeFBSM04zMTAwNWlvVzJZQ2lIVG1hSjdXZHo0XzJGbVRzdS1mOFQxOVZDbVlfYThpajBMWk9xQnBaR2R4RzZhQzhxd2FicVFpdjlmQVB3MHBITmZQbFA1cjRfbnEtb29aa1p1YWhJdU1VNEFwZmhIMXBwQ1Vzb3dWclFySUQxWGdBWHRnRVhLT2NSMk83SjN5WUFseUloQmRNM2xs0gHQAUFVX3lxTE1hY0pRQTM0V2J4cUZRNlNTZi1VbHhTa2x4YV9qUkxDYXAwLXd2XzlQbnljMFBIVzNaY0ZXY2JOc1Rtd1pWVENsbklYSDlyb1U3cWJIS2dxSnpKVHlJRDdqd3lTbzRtME9UTm1mNldVRHVMQnRHSTE3R3B3bGxFYUF6cWpwWnJFRVAzZ2JDNTkwa1gtV0pxdzNpdFJNT3hmMGxlRXJBZFo1ZVdyTlJub25PVW9POUJmSFpPQ3N4RkJyYjlSRE1LU0J6NGhoV1U4SGE?oc=5"
     },
     {
-     "titular": "UNICEF support children and families affected by the earthquake in Chocó and Buenaventura, Colombia",
-     "medio": "unicef",
-     "fecha": "2026-08-13T21:00:00",
-     "url": "https://www.unicef.org/press-releases/unicef-support-children-and-families-affected-earthquake-choc%C3%B3-and-buenaventura"
+     "titular": "Futbolistas Juan Cuadrado, Carlos Cuesta y Jhon Lucumí envían ayuda humanitaria al Chocó y Buenaventura",
+     "medio": "Chocó 7 días",
+     "fecha": "2026-08-15T23:01:40",
+     "url": "https://choco7dias.com/futbolistas-juan-cuadrado-carlos-cuesta-y-jhon-lucumi-envian-ayuda-humanitaria-al-choco-y-buenaventura/"
     }
    ],
    "cruce": {
-    "estado": "prensa",
-    "n_prensa": 98,
-    "n_oficial": 0,
+    "estado": "coincide",
+    "n_prensa": 71,
+    "n_oficial": 1,
     "n_ciudadano": 4,
-    "etiqueta": "Reportado en prensa, sin validación oficial"
+    "etiqueta": "Coincide cualitativamente"
    },
    "n_productos": 2
   }
@@ -707,11 +707,11 @@
    "total": 85664
   },
   "ungrd_rud": {
-   "municipios": 75,
-   "familias": 21275.0,
-   "personas": 49805.0,
-   "viv_destruidas": 1619.0,
-   "viv_averiadas": 6708.0,
+   "municipios": 90,
+   "familias": 36982.0,
+   "personas": 84213.0,
+   "viv_destruidas": 2760.0,
+   "viv_averiadas": 11914.0,
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
  },
@@ -732,148 +732,316 @@
     "personas": 49805.0,
     "viv_destruidas": 1619.0,
     "viv_averiadas": 6708.0
+   },
+   {
+    "fecha": "2026-08-17",
+    "municipios": 90,
+    "familias": 36982.0,
+    "personas": 84213.0,
+    "viv_destruidas": 2760.0,
+    "viv_averiadas": 11914.0
    }
   ],
   "municipios": [
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "ROLDANILLO",
-    "familias": 1242.0,
-    "personas": 1556.0,
-    "viv_destruidas": 20.0,
-    "viv_averiadas": 200.0,
-    "poblacion_2026": 38639,
-    "tasa_pct": 4.027
+    "municipio": "CALI",
+    "familias": 3854.0,
+    "personas": 8257.0,
+    "viv_destruidas": 211.0,
+    "viv_averiadas": 792.0,
+    "poblacion_2026": 2269983,
+    "tasa_pct": 0.3637,
+    "delta_familias": 2769.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "CALI",
-    "familias": 1085.0,
-    "personas": 2137.0,
-    "viv_destruidas": 85.0,
-    "viv_averiadas": 162.0,
-    "poblacion_2026": 2269983,
-    "tasa_pct": 0.0941
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "CONDOTO",
-    "familias": 969.0,
-    "personas": 2811.0,
-    "viv_destruidas": 22.0,
-    "viv_averiadas": 22.0,
-    "poblacion_2026": 12620,
-    "tasa_pct": 22.2742
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "DOSQUEBRADAS",
-    "familias": 910.0,
-    "personas": 2414.0,
-    "viv_destruidas": 126.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 246388,
-    "tasa_pct": 0.9798
+    "municipio": "ROLDANILLO",
+    "familias": 2269.0,
+    "personas": 2904.0,
+    "viv_destruidas": 198.0,
+    "viv_averiadas": 818.0,
+    "poblacion_2026": 38639,
+    "tasa_pct": 7.5157,
+    "delta_familias": 1027.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "TORO",
-    "familias": 873.0,
-    "personas": 2055.0,
-    "viv_destruidas": 102.0,
-    "viv_averiadas": 177.0,
+    "familias": 1391.0,
+    "personas": 3219.0,
+    "viv_destruidas": 160.0,
+    "viv_averiadas": 292.0,
     "poblacion_2026": 14922,
-    "tasa_pct": 13.7716
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "BELÉN DE UMBRÍA",
-    "familias": 864.0,
-    "personas": 2266.0,
-    "viv_destruidas": 48.0,
-    "viv_averiadas": 502.0,
-    "poblacion_2026": 25277,
-    "tasa_pct": 8.9647
+    "tasa_pct": 21.5722,
+    "delta_familias": 518.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "LA CUMBRE",
-    "familias": 816.0,
-    "personas": 1536.0,
-    "viv_destruidas": 142.0,
-    "viv_averiadas": 256.0,
+    "familias": 1224.0,
+    "personas": 2241.0,
+    "viv_destruidas": 205.0,
+    "viv_averiadas": 396.0,
     "poblacion_2026": 18765,
-    "tasa_pct": 8.1855
+    "tasa_pct": 11.9424,
+    "delta_familias": 408.0,
+    "nuevo": false
    },
    {
     "departamento": "RISARALDA",
-    "municipio": "QUINCHÍA",
-    "familias": 733.0,
-    "personas": 2187.0,
-    "viv_destruidas": 52.0,
-    "viv_averiadas": 412.0,
-    "poblacion_2026": 28053,
-    "tasa_pct": 7.796
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "PUEBLO RICO",
-    "familias": 712.0,
-    "personas": 2552.0,
-    "viv_destruidas": 69.0,
-    "viv_averiadas": 250.0,
-    "poblacion_2026": 18544,
-    "tasa_pct": 13.7619
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "EL ÁGUILA",
-    "familias": 693.0,
-    "personas": 1388.0,
-    "viv_destruidas": 61.0,
-    "viv_averiadas": 184.0,
-    "poblacion_2026": 9164,
-    "tasa_pct": 15.1462
+    "municipio": "DOSQUEBRADAS",
+    "familias": 1164.0,
+    "personas": 3054.0,
+    "viv_destruidas": 143.0,
+    "viv_averiadas": 3.0,
+    "poblacion_2026": 246388,
+    "tasa_pct": 1.2395,
+    "delta_familias": 254.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "NÓVITA",
-    "familias": 679.0,
-    "personas": 1603.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 453.0,
+    "familias": 1072.0,
+    "personas": 2507.0,
+    "viv_destruidas": 7.0,
+    "viv_averiadas": 764.0,
     "poblacion_2026": 10016,
-    "tasa_pct": 16.0044
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "MARSELLA",
-    "familias": 677.0,
-    "personas": 1804.0,
-    "viv_destruidas": 39.0,
-    "viv_averiadas": 150.0,
-    "poblacion_2026": 17320,
-    "tasa_pct": 10.4157
+    "tasa_pct": 25.03,
+    "delta_familias": 393.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "ZARZAL",
-    "familias": 606.0,
-    "personas": 1312.0,
-    "viv_destruidas": 58.0,
-    "viv_averiadas": 247.0,
-    "poblacion_2026": 43993,
-    "tasa_pct": 2.9823
+    "municipio": "EL DOVIO",
+    "familias": 1068.0,
+    "personas": 2659.0,
+    "viv_destruidas": 38.0,
+    "viv_averiadas": 416.0,
+    "poblacion_2026": 9312,
+    "tasa_pct": 28.5546,
+    "delta_familias": 638.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "SEVILLA",
+    "familias": 1018.0,
+    "personas": 2256.0,
+    "viv_destruidas": 89.0,
+    "viv_averiadas": 382.0,
+    "poblacion_2026": 44172,
+    "tasa_pct": 5.1073,
+    "delta_familias": 562.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "CONDOTO",
+    "familias": 994.0,
+    "personas": 2877.0,
+    "viv_destruidas": 22.0,
+    "viv_averiadas": 22.0,
+    "poblacion_2026": 12620,
+    "tasa_pct": 22.7971,
+    "delta_familias": 25.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "BELÉN DE UMBRÍA",
+    "familias": 992.0,
+    "personas": 2551.0,
+    "viv_destruidas": 52.0,
+    "viv_averiadas": 601.0,
+    "poblacion_2026": 25277,
+    "tasa_pct": 10.0922,
+    "delta_familias": 128.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "VERSALLES",
-    "familias": 577.0,
-    "personas": 1228.0,
-    "viv_destruidas": 78.0,
-    "viv_averiadas": 166.0,
+    "familias": 951.0,
+    "personas": 2158.0,
+    "viv_destruidas": 129.0,
+    "viv_averiadas": 294.0,
     "poblacion_2026": 7441,
-    "tasa_pct": 16.5032
+    "tasa_pct": 29.0015,
+    "delta_familias": 374.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "MEDIO BAUDÓ",
+    "familias": 949.0,
+    "personas": 2328.0,
+    "viv_destruidas": 95.0,
+    "viv_averiadas": 510.0,
+    "poblacion_2026": 17617,
+    "tasa_pct": 13.2145,
+    "delta_familias": 518.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "MARSELLA",
+    "familias": 944.0,
+    "personas": 2447.0,
+    "viv_destruidas": 44.0,
+    "viv_averiadas": 204.0,
+    "poblacion_2026": 17320,
+    "tasa_pct": 14.1282,
+    "delta_familias": 267.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "ZARZAL",
+    "familias": 929.0,
+    "personas": 2088.0,
+    "viv_destruidas": 85.0,
+    "viv_averiadas": 373.0,
+    "poblacion_2026": 43993,
+    "tasa_pct": 4.7462,
+    "delta_familias": 323.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "EL ÁGUILA",
+    "familias": 901.0,
+    "personas": 1808.0,
+    "viv_destruidas": 66.0,
+    "viv_averiadas": 245.0,
+    "poblacion_2026": 9164,
+    "tasa_pct": 19.7294,
+    "delta_familias": 208.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "TADÓ",
+    "familias": 872.0,
+    "personas": 929.0,
+    "viv_destruidas": 115.0,
+    "viv_averiadas": 38.0,
+    "poblacion_2026": 19486,
+    "tasa_pct": 4.7675,
+    "delta_familias": 526.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "CAICEDONIA",
+    "familias": 825.0,
+    "personas": 1565.0,
+    "viv_destruidas": 17.0,
+    "viv_averiadas": 333.0,
+    "poblacion_2026": 30248,
+    "tasa_pct": 5.1739,
+    "delta_familias": 606.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "QUINCHÍA",
+    "familias": 754.0,
+    "personas": 2247.0,
+    "viv_destruidas": 53.0,
+    "viv_averiadas": 421.0,
+    "poblacion_2026": 28053,
+    "tasa_pct": 8.0098,
+    "delta_familias": 21.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "YOTOCO",
+    "familias": 751.0,
+    "personas": 1927.0,
+    "viv_destruidas": 122.0,
+    "viv_averiadas": 133.0,
+    "poblacion_2026": 16843,
+    "tasa_pct": 11.441,
+    "delta_familias": 279.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "PUEBLO RICO",
+    "familias": 741.0,
+    "personas": 2666.0,
+    "viv_destruidas": 71.0,
+    "viv_averiadas": 254.0,
+    "poblacion_2026": 18544,
+    "tasa_pct": 14.3766,
+    "delta_familias": 29.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "QUIBDÓ",
+    "familias": 674.0,
+    "personas": 2067.0,
+    "viv_destruidas": 146.0,
+    "viv_averiadas": 144.0,
+    "poblacion_2026": 143332,
+    "tasa_pct": 1.4421,
+    "delta_familias": 622.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "SANTUARIO",
+    "familias": 567.0,
+    "personas": 1605.0,
+    "viv_destruidas": 11.0,
+    "viv_averiadas": 174.0,
+    "poblacion_2026": 12968,
+    "tasa_pct": 12.3766,
+    "delta_familias": 92.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "MANIZALES",
+    "familias": 544.0,
+    "personas": 1180.0,
+    "viv_destruidas": 10.0,
+    "viv_averiadas": 26.0,
+    "poblacion_2026": 475690,
+    "tasa_pct": 0.2481,
+    "delta_familias": 247.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "SANTA ROSA DE CABAL",
+    "familias": 543.0,
+    "personas": 1415.0,
+    "viv_destruidas": 6.0,
+    "viv_averiadas": 29.0,
+    "poblacion_2026": 84054,
+    "tasa_pct": 1.6834,
+    "delta_familias": 416.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "ISTMINA",
+    "familias": 495.0,
+    "personas": 500.0,
+    "viv_destruidas": 8.0,
+    "viv_averiadas": 138.0,
+    "poblacion_2026": 36717,
+    "tasa_pct": 1.3618,
+    "delta_familias": 246.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -883,77 +1051,81 @@
     "viv_destruidas": 17.0,
     "viv_averiadas": 411.0,
     "poblacion_2026": 12936,
-    "tasa_pct": 7.9159
+    "tasa_pct": 7.9159,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "RISARALDA",
-    "municipio": "SANTUARIO",
-    "familias": 475.0,
-    "personas": 1260.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 132.0,
-    "poblacion_2026": 12968,
-    "tasa_pct": 9.7162
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "YOTOCO",
-    "familias": 472.0,
-    "personas": 1201.0,
-    "viv_destruidas": 110.0,
-    "viv_averiadas": 43.0,
-    "poblacion_2026": 16843,
-    "tasa_pct": 7.1306
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "SEVILLA",
-    "familias": 456.0,
-    "personas": 1069.0,
-    "viv_destruidas": 49.0,
-    "viv_averiadas": 136.0,
-    "poblacion_2026": 44172,
-    "tasa_pct": 2.4201
+    "municipio": "BALBOA",
+    "familias": 443.0,
+    "personas": 1254.0,
+    "viv_destruidas": 43.0,
+    "viv_averiadas": 288.0,
+    "poblacion_2026": 6601,
+    "tasa_pct": 18.9971,
+    "delta_familias": 147.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
-    "municipio": "MEDIO BAUDÓ",
-    "familias": 431.0,
-    "personas": 1111.0,
-    "viv_destruidas": 45.0,
-    "viv_averiadas": 234.0,
-    "poblacion_2026": 17617,
-    "tasa_pct": 6.3064
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "EL DOVIO",
-    "familias": 430.0,
-    "personas": 1050.0,
-    "viv_destruidas": 8.0,
-    "viv_averiadas": 221.0,
-    "poblacion_2026": 9312,
-    "tasa_pct": 11.2758
+    "municipio": "SAN JOSÉ DEL PALMAR",
+    "familias": 429.0,
+    "personas": 963.0,
+    "viv_destruidas": 10.0,
+    "viv_averiadas": 66.0,
+    "poblacion_2026": 5136,
+    "tasa_pct": 18.75,
+    "delta_familias": 151.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "EL LITORAL DEL SAN JUAN",
-    "familias": 407.0,
-    "personas": 1544.0,
+    "familias": 416.0,
+    "personas": 1559.0,
     "viv_destruidas": 85.0,
-    "viv_averiadas": 213.0,
+    "viv_averiadas": 215.0,
     "poblacion_2026": 27635,
-    "tasa_pct": 5.5871
+    "tasa_pct": 5.6414,
+    "delta_familias": 9.0,
+    "nuevo": false
    },
    {
-    "departamento": "CHOCÓ",
-    "municipio": "TADÓ",
-    "familias": 346.0,
-    "personas": 378.0,
-    "viv_destruidas": 14.0,
-    "viv_averiadas": 34.0,
-    "poblacion_2026": 19486,
-    "tasa_pct": 1.9399
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "ANDALUCÍA",
+    "familias": 366.0,
+    "personas": 845.0,
+    "viv_destruidas": 4.0,
+    "viv_averiadas": 178.0,
+    "poblacion_2026": 25109,
+    "tasa_pct": 3.3653,
+    "delta_familias": 55.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "BUENAVENTURA",
+    "familias": 364.0,
+    "personas": 879.0,
+    "viv_destruidas": 42.0,
+    "viv_averiadas": 242.0,
+    "poblacion_2026": 335217,
+    "tasa_pct": 0.2622,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "ALCALÁ",
+    "familias": 355.0,
+    "personas": 643.0,
+    "viv_destruidas": 18.0,
+    "viv_averiadas": 193.0,
+    "poblacion_2026": 14335,
+    "tasa_pct": 4.4855,
+    "delta_familias": 131.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -963,137 +1135,213 @@
     "viv_destruidas": 4.0,
     "viv_averiadas": 29.0,
     "poblacion_2026": 11296,
-    "tasa_pct": 3.0188
+    "tasa_pct": 3.0188,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "ANDALUCÍA",
-    "familias": 311.0,
-    "personas": 712.0,
-    "viv_destruidas": 4.0,
-    "viv_averiadas": 151.0,
-    "poblacion_2026": 25109,
-    "tasa_pct": 2.8356
+    "municipio": "ANSERMANUEVO",
+    "familias": 334.0,
+    "personas": 690.0,
+    "viv_destruidas": 21.0,
+    "viv_averiadas": 104.0,
+    "poblacion_2026": 17825,
+    "tasa_pct": 3.871,
+    "delta_familias": 169.0,
+    "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "APÍA",
-    "familias": 303.0,
-    "personas": 810.0,
+    "familias": 333.0,
+    "personas": 871.0,
     "viv_destruidas": 17.0,
-    "viv_averiadas": 142.0,
+    "viv_averiadas": 166.0,
     "poblacion_2026": 12698,
-    "tasa_pct": 6.379
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "SIPÍ",
-    "familias": 300.0,
-    "personas": 732.0,
-    "viv_destruidas": 187.0,
-    "viv_averiadas": 179.0,
-    "poblacion_2026": 3378,
-    "tasa_pct": 21.6696
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "LA CELIA",
-    "familias": 299.0,
-    "personas": 845.0,
-    "viv_destruidas": 18.0,
-    "viv_averiadas": 146.0,
-    "poblacion_2026": 7700,
-    "tasa_pct": 10.974
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "MANIZALES",
-    "familias": 297.0,
-    "personas": 681.0,
-    "viv_destruidas": 8.0,
-    "viv_averiadas": 5.0,
-    "poblacion_2026": 475690,
-    "tasa_pct": 0.1432
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "BALBOA",
-    "familias": 296.0,
-    "personas": 808.0,
-    "viv_destruidas": 40.0,
-    "viv_averiadas": 186.0,
-    "poblacion_2026": 6601,
-    "tasa_pct": 12.2406
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "SAN JOSÉ DEL PALMAR",
-    "familias": 278.0,
-    "personas": 623.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 32.0,
-    "poblacion_2026": 5136,
-    "tasa_pct": 12.1301
+    "tasa_pct": 6.8593,
+    "delta_familias": 30.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "ALTO BAUDÓ",
-    "familias": 258.0,
-    "personas": 596.0,
+    "familias": 330.0,
+    "personas": 758.0,
     "viv_destruidas": 3.0,
     "viv_averiadas": 15.0,
     "poblacion_2026": 29358,
-    "tasa_pct": 2.0301
+    "tasa_pct": 2.5819,
+    "delta_familias": 72.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "QUIMBAYA",
+    "familias": 325.0,
+    "personas": 766.0,
+    "viv_destruidas": 14.0,
+    "viv_averiadas": 84.0,
+    "poblacion_2026": 31350,
+    "tasa_pct": 2.4434,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "CHOCÓ",
-    "municipio": "ISTMINA",
-    "familias": 249.0,
-    "personas": 250.0,
-    "viv_destruidas": 5.0,
-    "viv_averiadas": 37.0,
-    "poblacion_2026": 36717,
-    "tasa_pct": 0.6809
+    "municipio": "SIPÍ",
+    "familias": 310.0,
+    "personas": 762.0,
+    "viv_destruidas": 205.0,
+    "viv_averiadas": 187.0,
+    "poblacion_2026": 3378,
+    "tasa_pct": 22.5577,
+    "delta_familias": 10.0,
+    "nuevo": false
    },
    {
-    "departamento": "CALDAS",
-    "municipio": "RIOSUCIO",
-    "familias": 237.0,
-    "personas": 717.0,
+    "departamento": "RISARALDA",
+    "municipio": "GUÁTICA",
+    "familias": 309.0,
+    "personas": 818.0,
     "viv_destruidas": 9.0,
-    "viv_averiadas": 129.0,
-    "poblacion_2026": 52118,
-    "tasa_pct": 1.3757
+    "viv_averiadas": 209.0,
+    "poblacion_2026": 12461,
+    "tasa_pct": 6.5645,
+    "delta_familias": 128.0,
+    "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "ALCALÁ",
-    "familias": 224.0,
-    "personas": 383.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 124.0,
-    "poblacion_2026": 14335,
-    "tasa_pct": 2.6718
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "CAICEDONIA",
-    "familias": 219.0,
-    "personas": 450.0,
-    "viv_destruidas": 8.0,
-    "viv_averiadas": 57.0,
-    "poblacion_2026": 30248,
-    "tasa_pct": 1.4877
+    "departamento": "RISARALDA",
+    "municipio": "LA CELIA",
+    "familias": 308.0,
+    "personas": 860.0,
+    "viv_destruidas": 18.0,
+    "viv_averiadas": 149.0,
+    "poblacion_2026": 7700,
+    "tasa_pct": 11.1688,
+    "delta_familias": 9.0,
+    "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "LA VIRGINIA",
-    "familias": 217.0,
-    "personas": 609.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 5.0,
+    "familias": 300.0,
+    "personas": 897.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 12.0,
     "poblacion_2026": 28386,
-    "tasa_pct": 2.1454
+    "tasa_pct": 3.16,
+    "delta_familias": 83.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "RIOSUCIO",
+    "familias": 294.0,
+    "personas": 857.0,
+    "viv_destruidas": 9.0,
+    "viv_averiadas": 143.0,
+    "poblacion_2026": 52118,
+    "tasa_pct": 1.6443,
+    "delta_familias": 57.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "RESTREPO",
+    "familias": 256.0,
+    "personas": 542.0,
+    "viv_destruidas": 43.0,
+    "viv_averiadas": 78.0,
+    "poblacion_2026": 16021,
+    "tasa_pct": 3.3831,
+    "delta_familias": 191.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "RISARALDA",
+    "familias": 251.0,
+    "personas": 692.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 103.0,
+    "poblacion_2026": 11079,
+    "tasa_pct": 6.2461,
+    "delta_familias": 100.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "BAJO BAUDÓ",
+    "familias": 248.0,
+    "personas": 574.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 35053,
+    "tasa_pct": 1.6375,
+    "delta_familias": 129.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "CALARCÁ",
+    "familias": 224.0,
+    "personas": 510.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 50.0,
+    "poblacion_2026": 74399,
+    "tasa_pct": 0.6855,
+    "delta_familias": 215.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "ULLOA",
+    "familias": 216.0,
+    "personas": 382.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 141.0,
+    "poblacion_2026": 5601,
+    "tasa_pct": 6.8202,
+    "delta_familias": 101.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "MISTRATÓ",
+    "familias": 211.0,
+    "personas": 622.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 118.0,
+    "poblacion_2026": 18515,
+    "tasa_pct": 3.3594,
+    "delta_familias": 38.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "VILLAMARÍA",
+    "familias": 209.0,
+    "personas": 533.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 12.0,
+    "poblacion_2026": 74463,
+    "tasa_pct": 0.7158,
+    "delta_familias": 88.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "CARTAGO",
+    "familias": 192.0,
+    "personas": 214.0,
+    "viv_destruidas": 4.0,
+    "viv_averiadas": 95.0,
+    "poblacion_2026": 144206,
+    "tasa_pct": 0.1484,
+    "delta_familias": 142.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -1103,7 +1351,9 @@
     "viv_destruidas": 8.0,
     "viv_averiadas": 74.0,
     "poblacion_2026": 15966,
-    "tasa_pct": 2.7684
+    "tasa_pct": 2.7684,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -1113,57 +1363,57 @@
     "viv_destruidas": 1.0,
     "viv_averiadas": 12.0,
     "poblacion_2026": 8768,
-    "tasa_pct": 2.4635
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "GUÁTICA",
-    "familias": 181.0,
-    "personas": 491.0,
-    "viv_destruidas": 6.0,
-    "viv_averiadas": 146.0,
-    "poblacion_2026": 12461,
-    "tasa_pct": 3.9403
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "MISTRATÓ",
-    "familias": 173.0,
-    "personas": 464.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 81.0,
-    "poblacion_2026": 18515,
-    "tasa_pct": 2.5061
+    "tasa_pct": 2.4635,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "ANSERMANUEVO",
-    "familias": 165.0,
+    "municipio": "SAN PEDRO",
+    "familias": 149.0,
     "personas": 349.0,
-    "viv_destruidas": 9.0,
-    "viv_averiadas": 72.0,
-    "poblacion_2026": 17825,
-    "tasa_pct": 1.9579
+    "viv_destruidas": 3.0,
+    "viv_averiadas": 15.0,
+    "poblacion_2026": 17244,
+    "tasa_pct": 2.0239,
+    "delta_familias": 127.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "BOLÍVAR",
+    "familias": 144.0,
+    "personas": 291.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 74.0,
+    "poblacion_2026": 15958,
+    "tasa_pct": 1.8235,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "CALDAS",
-    "municipio": "RISARALDA",
-    "familias": 151.0,
-    "personas": 419.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 60.0,
-    "poblacion_2026": 11079,
-    "tasa_pct": 3.7819
+    "municipio": "CHINCHINÁ",
+    "familias": 142.0,
+    "personas": 363.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 50452,
+    "tasa_pct": 0.7195,
+    "delta_familias": 33.0,
+    "nuevo": false
    },
    {
-    "departamento": "RISARALDA",
-    "municipio": "SANTA ROSA DE CABAL",
-    "familias": 127.0,
-    "personas": 325.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 9.0,
-    "poblacion_2026": 84054,
-    "tasa_pct": 0.3867
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "CALIMA",
+    "familias": 137.0,
+    "personas": 303.0,
+    "viv_destruidas": 15.0,
+    "viv_averiadas": 33.0,
+    "poblacion_2026": 19402,
+    "tasa_pct": 1.5617,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "CALDAS",
@@ -1173,97 +1423,153 @@
     "viv_destruidas": 0.0,
     "viv_averiadas": 102.0,
     "poblacion_2026": 20404,
-    "tasa_pct": 1.583
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "VILLAMARÍA",
-    "familias": 121.0,
-    "personas": 303.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 74463,
-    "tasa_pct": 0.4069
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "BAJO BAUDÓ",
-    "familias": 119.0,
-    "personas": 386.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 35053,
-    "tasa_pct": 1.1012
+    "tasa_pct": 1.583,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "ULLOA",
-    "familias": 115.0,
-    "personas": 197.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 84.0,
-    "poblacion_2026": 5601,
-    "tasa_pct": 3.5172
+    "municipio": "LA VICTORIA",
+    "familias": 122.0,
+    "personas": 286.0,
+    "viv_destruidas": 6.0,
+    "viv_averiadas": 26.0,
+    "poblacion_2026": 12765,
+    "tasa_pct": 2.2405,
+    "delta_familias": 109.0,
+    "nuevo": false
    },
    {
-    "departamento": "CALDAS",
-    "municipio": "CHINCHINÁ",
-    "familias": 109.0,
-    "personas": 289.0,
+    "departamento": "QUINDÍO",
+    "municipio": "CÓRDOBA",
+    "familias": 118.0,
+    "personas": 333.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 50452,
-    "tasa_pct": 0.5728
+    "viv_averiadas": 11.0,
+    "poblacion_2026": 5863,
+    "tasa_pct": 5.6797,
+    "delta_familias": 117.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "RÍO IRÓ",
+    "familias": 110.0,
+    "personas": 419.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 62.0,
+    "poblacion_2026": 5848,
+    "tasa_pct": 7.1648,
+    "delta_familias": 88.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "LA UNIÓN",
+    "familias": 108.0,
+    "personas": 178.0,
+    "viv_destruidas": 7.0,
+    "viv_averiadas": 33.0,
+    "poblacion_2026": 34699,
+    "tasa_pct": 0.513,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "TRUJILLO",
+    "familias": 101.0,
+    "personas": 258.0,
+    "viv_destruidas": 10.0,
+    "viv_averiadas": 47.0,
+    "poblacion_2026": 20058,
+    "tasa_pct": 1.2863,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "CALDAS",
     "municipio": "BELALCÁZAR",
-    "familias": 71.0,
-    "personas": 153.0,
-    "viv_destruidas": 5.0,
+    "familias": 93.0,
+    "personas": 209.0,
+    "viv_destruidas": 8.0,
     "viv_averiadas": 3.0,
     "poblacion_2026": 10327,
-    "tasa_pct": 1.4816
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "ACANDÍ",
-    "familias": 65.0,
-    "personas": 140.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 49.0,
-    "poblacion_2026": 16455,
-    "tasa_pct": 0.8508
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "RESTREPO",
-    "familias": 65.0,
-    "personas": 134.0,
-    "viv_destruidas": 10.0,
-    "viv_averiadas": 11.0,
-    "poblacion_2026": 16021,
-    "tasa_pct": 0.8364
+    "tasa_pct": 2.0238,
+    "delta_familias": 22.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
     "municipio": "SAN JOSÉ",
-    "familias": 58.0,
-    "personas": 58.0,
+    "familias": 89.0,
+    "personas": 89.0,
     "viv_destruidas": 4.0,
     "viv_averiadas": 10.0,
     "poblacion_2026": 4960,
-    "tasa_pct": 1.1694
+    "tasa_pct": 1.7944,
+    "delta_familias": 31.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "CANDELARIA",
+    "familias": 82.0,
+    "personas": 203.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 30.0,
+    "poblacion_2026": 115933,
+    "tasa_pct": 0.1751,
+    "delta_familias": 71.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
-    "municipio": "QUIBDÓ",
-    "familias": 52.0,
-    "personas": 164.0,
-    "viv_destruidas": 3.0,
+    "municipio": "ACANDÍ",
+    "familias": 74.0,
+    "personas": 175.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 52.0,
+    "poblacion_2026": 16455,
+    "tasa_pct": 1.0635,
+    "delta_familias": 9.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "OBANDO",
+    "familias": 69.0,
+    "personas": 157.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 37.0,
+    "poblacion_2026": 12558,
+    "tasa_pct": 1.2502,
+    "delta_familias": 68.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "MEDIO ATRATO",
+    "familias": 68.0,
+    "personas": 140.0,
+    "viv_destruidas": 2.0,
     "viv_averiadas": 9.0,
-    "poblacion_2026": 143332,
-    "tasa_pct": 0.1144
+    "poblacion_2026": 11341,
+    "tasa_pct": 1.2345,
+    "delta_familias": 39.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "YUMBO",
+    "familias": 68.0,
+    "personas": 159.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 11.0,
+    "poblacion_2026": 115667,
+    "tasa_pct": 0.1375,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "CALDAS",
@@ -1273,7 +1579,9 @@
     "viv_destruidas": 1.0,
     "viv_averiadas": 8.0,
     "poblacion_2026": 10781,
-    "tasa_pct": 1.0574
+    "tasa_pct": 1.0574,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -1283,17 +1591,57 @@
     "viv_destruidas": 5.0,
     "viv_averiadas": 45.0,
     "poblacion_2026": 30386,
-    "tasa_pct": 0.2402
+    "tasa_pct": 0.2402,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "LA TEBAIDA",
+    "familias": 44.0,
+    "personas": 148.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 27.0,
+    "poblacion_2026": 33758,
+    "tasa_pct": 0.4384,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "MARULANDA",
+    "familias": 43.0,
+    "personas": 84.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 11.0,
+    "poblacion_2026": 2676,
+    "tasa_pct": 3.139,
+    "delta_familias": 24.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "BUENAVISTA",
+    "familias": 42.0,
+    "personas": 45.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 3165,
+    "tasa_pct": 1.4218,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "CARTAGO",
-    "familias": 50.0,
-    "personas": 72.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 8.0,
-    "poblacion_2026": 144206,
-    "tasa_pct": 0.0499
+    "municipio": "TULUÁ",
+    "familias": 35.0,
+    "personas": 113.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 5.0,
+    "poblacion_2026": 225868,
+    "tasa_pct": 0.05,
+    "delta_familias": 11.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -1303,17 +1651,9 @@
     "viv_destruidas": 0.0,
     "viv_averiadas": 0.0,
     "poblacion_2026": 18970,
-    "tasa_pct": 0.2319
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "MEDIO ATRATO",
-    "familias": 29.0,
-    "personas": 54.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 9.0,
-    "poblacion_2026": 11341,
-    "tasa_pct": 0.4761
+    "tasa_pct": 0.2319,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -1323,7 +1663,9 @@
     "viv_destruidas": 0.0,
     "viv_averiadas": 22.0,
     "poblacion_2026": 10485,
-    "tasa_pct": 0.6199
+    "tasa_pct": 0.6199,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1333,17 +1675,21 @@
     "viv_destruidas": 0.0,
     "viv_averiadas": 1.0,
     "poblacion_2026": 24545,
-    "tasa_pct": 0.2282
+    "tasa_pct": 0.2282,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "TULUÁ",
+    "departamento": "CALDAS",
+    "municipio": "SALAMINA",
     "familias": 24.0,
-    "personas": 75.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 225868,
-    "tasa_pct": 0.0332
+    "personas": 64.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 18.0,
+    "poblacion_2026": 19254,
+    "tasa_pct": 0.3324,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1353,37 +1699,21 @@
     "viv_destruidas": 0.0,
     "viv_averiadas": 7.0,
     "poblacion_2026": 196875,
-    "tasa_pct": 0.0213
+    "tasa_pct": 0.0213,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
-    "departamento": "CHOCÓ",
-    "municipio": "RÍO IRÓ",
-    "familias": 22.0,
-    "personas": 85.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 14.0,
-    "poblacion_2026": 5848,
-    "tasa_pct": 1.4535
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "SAN PEDRO",
-    "familias": 22.0,
-    "personas": 61.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 17244,
-    "tasa_pct": 0.3537
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "MARULANDA",
+    "departamento": "QUINDÍO",
+    "municipio": "ARMENIA",
     "familias": 19.0,
     "personas": 42.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 6.0,
-    "poblacion_2026": 2676,
-    "tasa_pct": 1.5695
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 2.0,
+    "poblacion_2026": 307103,
+    "tasa_pct": 0.0137,
+    "delta_familias": 18.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -1393,37 +1723,33 @@
     "viv_destruidas": 2.0,
     "viv_averiadas": 10.0,
     "poblacion_2026": 10931,
-    "tasa_pct": 0.2744
+    "tasa_pct": 0.2744,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "LA VICTORIA",
-    "familias": 13.0,
-    "personas": 36.0,
+    "departamento": "HUILA",
+    "municipio": "LA PLATA",
+    "familias": 16.0,
+    "personas": 39.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 2.0,
-    "poblacion_2026": 12765,
-    "tasa_pct": 0.282
+    "viv_averiadas": 15.0,
+    "poblacion_2026": 69514,
+    "tasa_pct": 0.0561,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "CANDELARIA",
-    "familias": 11.0,
-    "personas": 31.0,
+    "departamento": "CHOCÓ",
+    "municipio": "RÍO QUITO",
+    "familias": 5.0,
+    "personas": 9.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 5.0,
-    "poblacion_2026": 115933,
-    "tasa_pct": 0.0267
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "CALARCÁ",
-    "familias": 9.0,
-    "personas": 13.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 2.0,
-    "poblacion_2026": 74399,
-    "tasa_pct": 0.0175
+    "viv_averiadas": 4.0,
+    "poblacion_2026": 8477,
+    "tasa_pct": 0.1062,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "CHOCÓ",
@@ -1433,7 +1759,45 @@
     "viv_destruidas": 0.0,
     "viv_averiadas": 3.0,
     "poblacion_2026": 10943,
-    "tasa_pct": 0.0731
+    "tasa_pct": 0.0731,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "EL CAIRO",
+    "familias": 4.0,
+    "personas": 9.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 2.0,
+    "poblacion_2026": 7010,
+    "tasa_pct": 0.1284,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "MONTENEGRO",
+    "familias": 3.0,
+    "personas": 8.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 2.0,
+    "poblacion_2026": 37483,
+    "tasa_pct": 0.0213,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "ARGELIA",
+    "familias": 3.0,
+    "personas": 8.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 5538,
+    "tasa_pct": 0.1445,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "CALDAS",
@@ -1443,47 +1807,21 @@
     "viv_destruidas": 0.0,
     "viv_averiadas": 0.0,
     "poblacion_2026": 37352,
-    "tasa_pct": 0.008
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "ARMENIA",
-    "familias": 1.0,
-    "personas": 1.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 307103,
-    "tasa_pct": 0.0003
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "CÓRDOBA",
-    "familias": 1.0,
-    "personas": 2.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 5863,
-    "tasa_pct": 0.0341
+    "tasa_pct": 0.008,
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "GUACARÍ",
-    "familias": 1.0,
-    "personas": 1.0,
+    "familias": 2.0,
+    "personas": 5.0,
     "viv_destruidas": 0.0,
     "viv_averiadas": 0.0,
     "poblacion_2026": 34739,
-    "tasa_pct": 0.0029
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "OBANDO",
-    "familias": 1.0,
-    "personas": 1.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 12558,
-    "tasa_pct": 0.008
+    "tasa_pct": 0.0144,
+    "delta_familias": 1.0,
+    "nuevo": false
    }
   ]
  },
@@ -1492,8 +1830,8 @@
   "en_aoi": 368
  },
  "municipios": {
-  "total": 83,
-  "fuera_de_aoi_copernicus": 78
+  "total": 95,
+  "fuera_de_aoi_copernicus": 90
  },
  "activation_index": [
   {
