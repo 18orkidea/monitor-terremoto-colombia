@@ -259,3 +259,36 @@ Consecuencia para el archivo: al salir de la corrida, nada volvería a avisar si
 el JSON versionado desapareciera. Tres tests de hipótesis nuevos
 (`TestReferenciasEstaticas`) vigilan que la población y el catálogo DIVIPOLA
 sigan disponibles y que ningún municipio publicado se quede sin población.
+
+## 2026-08-18 — La página del RUD explica qué es el registro, no solo la cifra
+
+Contexto: la página trataba el RUD como un marcador de damnificados, y no lo es. Lo
+cargan las autoridades municipales y sirve para focalizar ayudas; **registrar a
+una familia y evaluar el daño de su vivienda son dos momentos distintos**, y el
+segundo llega después. Eso se comprueba en los propios datos: las cifras de
+familias avanzan antes que las de viviendas.
+
+Decisión: la intro explica ese desfase y qué mide cada columna — familias y
+personas son impacto social; viviendas destruidas y averiadas son **lo que el
+municipio ha cargado**, no una verificación independiente. Se dice además que un
+cero en viviendas puede significar «todavía sin evaluar» (21 de 90 municipios
+tienen cero destruidas), no «sin daño».
+
+Precisión que costó una corrección: el primer texto decía «daño ya verificado» y
+«visita de verificación». No es defendible — `ingest/sources/ungrd_rud.py` toma
+`destruidas`/`averiadas` tal cual las carga la alcaldía, no hay ningún campo que
+distinga verificado de cargado, y el propio glosario del sitio dice que el RUD
+«no es un EDAN ni una verificación de daño». Describir el procedimiento
+administrativo (visitas, certificados) exigía citar prensa; se optó por describir
+**lo que el dato muestra** y no el trámite, que es lo que el monitor puede
+sostener con su propio archivo.
+
+Consecuencia directa: **se descarta el plan de «señales de anomalía»** que se
+estaba diseñando. Interpretaba ese desfase como sospechoso cuando es el
+funcionamiento normal del registro. Una revisión de datos lo confirmó por otra
+vía: los ratios son log-normales y, aplicando la escala correcta, dos de las
+cuatro señales marcaban 0 municipios de 90; una tercera resultó ser un detector
+de municipios pequeños (log-log R²=0,236) y la cuarta medía criterio
+departamental, no habitabilidad. La lista habría señalado desproporcionadamente
+a Chocó y Risaralda —los dos departamentos más pobres— con un 11 % de rotación
+diaria.

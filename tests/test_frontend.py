@@ -183,5 +183,181 @@ class TestFraseHomonimos(unittest.TestCase):
         self.assertEqual(self._frase(con_prensa), ".")
 
 
+@unittest.skipUnless(NODE, "node no disponible")
+class TestOrdenDeTabla(unittest.TestCase):
+    """Ordenación por columna (site/ui.js::comparador). Los nulos van SIEMPRE al
+    final: un municipio sin dato no puede encabezar la tabla al ordenar por esa
+    columna, ni ascendente ni descendente."""
+
+    FILAS = [
+        {"n": "B", "v": 2}, {"n": "A", "v": None}, {"n": "C", "v": 1},
+        {"n": "D", "v": None}, {"n": "E", "v": 3},
+    ]
+
+    def _orden(self, dir_):
+        return correr_ui(
+            f"[...{json.dumps(self.FILAS)}].sort("
+            f"UI.comparador((r) => r.v, {json.dumps(dir_)},"
+            " (a, b) => a.n.localeCompare(b.n))).map((r) => r.n)")
+
+    def test_los_nulos_quedan_al_final_en_ambos_sentidos(self):
+        self.assertEqual(self._orden("asc"), ["C", "B", "E", "A", "D"])
+        self.assertEqual(self._orden("desc"), ["E", "B", "C", "A", "D"])
+
+    def test_el_desempate_hace_el_orden_estable(self):
+        empatados = [{"n": "Z", "v": 5}, {"n": "M", "v": 5}, {"n": "A", "v": 5}]
+        out = correr_ui(
+            f"[...{json.dumps(empatados)}].sort("
+            "UI.comparador((r) => r.v, 'asc', (a, b) => a.n.localeCompare(b.n)))"
+            ".map((r) => r.n)")
+        self.assertEqual(out, ["A", "M", "Z"])
+
+    def test_el_texto_se_ordena_con_criterio_espanol(self):
+        # ñ y tildes: «Nóvita» va antes que «Nuquí», no después por el acento
+        nombres = [{"n": "Nuquí"}, {"n": "Nóvita"}, {"n": "Ánimas"}]
+        out = correr_ui(
+            f"[...{json.dumps(nombres)}].sort("
+            "UI.comparador((r) => r.n, 'asc')).map((r) => r.n)")
+        self.assertEqual(out, ["Ánimas", "Nóvita", "Nuquí"])
+
+
+@unittest.skipUnless(NODE, "node no disponible")
+class TestIndiceDeBusqueda(unittest.TestCase):
+    """El índice del buscador estaba precomputado POR POSICIÓN. `filtroExtra`
+    recorta las filas antes de que actúe el buscador, así que desde la primera
+    fila descartada el índice apuntaba al texto de otra y el buscador devolvía
+    el municipio equivocado. Por eso se indexa por identidad."""
+
+    def test_el_buscador_acierta_con_filtro_y_orden_activos(self):
+        out = correr_ui("""(() => {
+            const filas = [
+              {m: 'Cali', d: 'Valle', pob: 2269983, nuevo: false},
+              {m: 'Condoto', d: 'Chocó', pob: 12620, nuevo: true},
+              {m: 'Quibdó', d: 'Chocó', pob: 8817, nuevo: true},
+            ];
+            let html = '';
+            const tbody = { set innerHTML(v) { html = v; } };
+            const input = { value: '' };
+            let alternar = null;
+            const th = { classList: { add() {} }, setAttribute() {}, title: '',
+                         set onclick(f) { alternar = f; }, set onkeydown(f) {} };
+            const pinta = UI.tablaBuscable({
+              tbody, input, rows: filas, top: 10,
+              texto: (r) => r.m + ' ' + r.d,
+              fila: (r) => '<tr><td>' + r.m + '</td></tr>',
+              filtroExtra: (r) => r.nuevo,   // descarta Cali, la PRIMERA fila
+              columnas: [{ th, valor: (r) => r.pob }],
+            });
+            alternar();                      // y además ordena por población
+            input.value = 'quibdo'; pinta({ reiniciar: true });
+            const trasQuibdo = html;
+            input.value = 'condoto'; pinta({ reiniciar: true });
+            return { quibdo: trasQuibdo, condoto: html };
+        })()""")
+        self.assertIn("Quibdó", out["quibdo"])
+        self.assertNotIn("Condoto", out["quibdo"])
+        self.assertIn("Condoto", out["condoto"])
+        self.assertNotIn("Quibdó", out["condoto"])
+
+
+@unittest.skipUnless(NODE, "node no disponible")
+class TestNotaConoceElOrden(unittest.TestCase):
+    """La nota al pie anunciaba «ordenados por personas damnificadas» aunque el
+    lector hubiera pulsado otra cabecera: decía lo contrario de lo que mostraba
+    la tabla. `notaTexto` recibe el orden vigente."""
+
+    def test_la_nota_recibe_el_orden_vigente(self):
+        out = correr_ui("""(() => {
+            const filas = [{m: 'Cali', pob: 2269983}, {m: 'Quibdó', pob: 8817}];
+            let texto = '';
+            const nota = { set textContent(v) { texto = v; } };
+            let alternar = null;
+            const th = { classList: { add() {} }, setAttribute() {}, title: '',
+                         set onclick(f) { alternar = f; }, set onkeydown(f) {} };
+            UI.tablaBuscable({
+              tbody: { set innerHTML(v) {} }, rows: filas, top: 10,
+              texto: (r) => r.m, fila: (r) => '<tr><td>' + r.m + '</td></tr>',
+              nota, notaTexto: (q, vis, tot, orden) =>
+                orden ? 'col=' + orden.i + ' dir=' + orden.dir : 'sin orden',
+              columnas: [{ th, valor: (r) => r.pob }],
+            });
+            const inicial = texto;
+            alternar();
+            const asc = texto;
+            alternar();
+            return { inicial, asc, desc: texto };
+        })()""")
+        self.assertEqual(out["inicial"], "sin orden")
+        self.assertEqual(out["asc"], "col=0 dir=asc")
+        self.assertEqual(out["desc"], "col=0 dir=desc")
+
+    def test_el_th_avisa_de_que_se_puede_ordenar(self):
+        # el aviso lo pone ui.js: si lo escribiera cada página, unas columnas
+        # lo tendrían y otras no (que es lo que pasaba)
+        out = correr_ui("""(() => {
+            const th = { classList: { add() {} }, setAttribute() {},
+                         title: 'Familias registradas.',
+                         set onclick(f) {}, set onkeydown(f) {} };
+            const sinTitulo = { classList: { add() {} }, setAttribute() {},
+                                title: '', set onclick(f) {}, set onkeydown(f) {} };
+            UI.tablaBuscable({
+              tbody: { set innerHTML(v) {} }, rows: [{v: 1}], top: 10,
+              texto: (r) => '', fila: (r) => '<tr></tr>',
+              columnas: [{ th, valor: (r) => r.v },
+                         { th: sinTitulo, valor: (r) => r.v }],
+            });
+            return { conTitulo: th.title, sinTitulo: sinTitulo.title };
+        })()""")
+        self.assertEqual(out["conTitulo"],
+                         "Familias registradas. Pulsa para ordenar.")
+        self.assertEqual(out["sinTitulo"], "Pulsa para ordenar.")
+
+
+@unittest.skipUnless(NODE, "node no disponible")
+class TestFiltrosDeTabla(unittest.TestCase):
+    """`filtroExtra` combina con el buscador y ambos reinician la paginación —
+    si no, al filtrar te quedas en una página que ya no existe."""
+
+    FILAS = [
+        {"m": "Cali", "d": "Valle", "nuevo": False, "destr": 211},
+        {"m": "Buenaventura", "d": "Valle", "nuevo": True, "destr": 0},
+        {"m": "Condoto", "d": "Chocó", "nuevo": False, "destr": 22},
+        {"m": "Quimbaya", "d": "Quindío", "nuevo": True, "destr": 0},
+    ]
+
+    def _con(self, filtro_js, busqueda=""):
+        return correr_ui(f"""(() => {{
+            const filas = {json.dumps(self.FILAS)};
+            let html = '';
+            const tbody = {{ set innerHTML(v) {{ html = v; }} }};
+            const input = {{ value: {json.dumps(busqueda)} }};
+            const opts = {{
+              tbody, input, rows: filas, top: 10,
+              texto: (r) => r.m + ' ' + r.d,
+              fila: (r) => '<tr><td>' + r.m + '</td></tr>',
+              filtroExtra: {filtro_js},
+            }};
+            UI.tablaBuscable(opts);
+            return (html.match(/<td>([^<]+)/g) || []).map((x) => x.slice(4));
+        }})()""")
+
+    def test_filtra_por_nuevos(self):
+        self.assertEqual(sorted(self._con("(r) => r.nuevo")),
+                         ["Buenaventura", "Quimbaya"])
+
+    def test_filtra_por_viviendas_destruidas(self):
+        self.assertEqual(sorted(self._con("(r) => r.destr > 0")),
+                         ["Cali", "Condoto"])
+
+    def test_el_filtro_se_combina_con_el_buscador(self):
+        # nuevos + búsqueda «buena»: solo Buenaventura
+        self.assertEqual(self._con("(r) => r.nuevo", "buena"), ["Buenaventura"])
+        # y un filtro que no deja nada no revienta
+        self.assertEqual(self._con("(r) => r.destr > 9999"), [])
+
+    def test_filtra_por_departamento(self):
+        self.assertEqual(self._con("(r) => r.d === 'Chocó'"), ["Condoto"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
