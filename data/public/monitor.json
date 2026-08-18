@@ -57,7 +57,7 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 978,
+    "n_prensa": 983,
     "n_oficial": 2,
     "n_ciudadano": 260,
     "etiqueta": "No comparable 1:1"
@@ -235,7 +235,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 576,
+    "n_prensa": 578,
     "n_oficial": 0,
     "n_ciudadano": 55,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -476,7 +476,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 17,
+    "n_prensa": 18,
     "n_oficial": 2,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
@@ -570,7 +570,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 123,
+    "n_prensa": 124,
     "n_oficial": 1,
     "n_ciudadano": 4,
     "etiqueta": "Coincide cualitativamente"
@@ -601,7 +601,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 277
+   "feeds": 278
   },
   {
    "fecha": "2026-08-11",
@@ -609,7 +609,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 272
+   "feeds": 274
   },
   {
    "fecha": "2026-08-12",
@@ -625,7 +625,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 324
+   "feeds": 326
   },
   {
    "fecha": "2026-08-14",
@@ -633,7 +633,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 343
+   "feeds": 344
   },
   {
    "fecha": "2026-08-15",
@@ -641,7 +641,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 370
+   "feeds": 372
   },
   {
    "fecha": "2026-08-16",
@@ -657,7 +657,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 180
+   "feeds": 182
   },
   {
    "fecha": "2026-08-18",
@@ -665,7 +665,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 71
+   "feeds": 85
   }
  ],
  "entregas": [
@@ -730,8 +730,8 @@
   },
   "ungrd_rud": {
    "municipios": 90,
-   "familias": 37087.0,
-   "personas": 84384.0,
+   "familias": 37094.0,
+   "personas": 84403.0,
    "viv_destruidas": 2763.0,
    "viv_averiadas": 11940.0,
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
@@ -758,8 +758,8 @@
    {
     "fecha": "2026-08-17",
     "municipios": 90,
-    "familias": 37087.0,
-    "personas": 84384.0,
+    "familias": 37094.0,
+    "personas": 84403.0,
     "viv_destruidas": 2763.0,
     "viv_averiadas": 11940.0
    }
@@ -1392,12 +1392,12 @@
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "BOLÍVAR",
-    "familias": 168.0,
-    "personas": 351.0,
+    "familias": 175.0,
+    "personas": 370.0,
     "viv_destruidas": 2.0,
     "viv_averiadas": 78.0,
     "poblacion_2026": 15958,
-    "tasa_pct": 2.1995,
+    "tasa_pct": 2.3186,
     "delta_familias": null,
     "nuevo": true
    },
