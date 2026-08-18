@@ -41,19 +41,33 @@
 </header>
 
 <section class="intro">
-  <p>La <strong>primera fuente oficial que cubre el evento</strong>. La curva mide cómo
-  avanza el registro — y qué municipios faltan. <strong>Que un municipio no aparezca no
-  significa «sin daño»: significa «sin registro aún»</strong>. Donde las autoridades
-  locales aún no registran, el satélite sigue siendo la única evidencia (ver el
-  <a href="index.html#mapa">mapa</a>). Cada corrida diaria archiva el RUD también en la
-  Wayback Machine. Para contrastar estas cifras con lo que publican los medios citando
-  fuentes oficiales, ver la <a href="balances.html#comparativa">comparativa de fuentes</a>.
-  La tabla incluye la población proyectada 2026 (DANE) y qué proporción de ella está
-  registrada como damnificada: una medida indicativa de la magnitud relativa —un
-  municipio pequeño con cientos de damnificados carga mucho más que una capital con los
-  mismos—, no una medición de daño. La población es la <a
+  <p>El RUD es el registro con el que se focalizan las ayudas: <strong>lo cargan las
+  autoridades municipales</strong>, municipio a municipio, y la UNGRD lo consolida. No es
+  un EDAN ni una verificación independiente del daño: <strong>es lo que cada alcaldía ha
+  registrado hasta ahora</strong>.</p>
+
+  <p>Registrar a una familia y evaluar el daño de su vivienda son dos momentos distintos,
+  y el segundo llega después. Eso se ve en los propios datos: <strong>las cifras de
+  familias avanzan antes que las de viviendas</strong>. Por eso un municipio con muchas
+  familias registradas y pocas viviendas dañadas casi siempre está a mitad de proceso —no
+  es una contradicción— y por eso <strong>un cero en las columnas de viviendas puede
+  significar «todavía sin evaluar», no «sin daño»</strong>.</p>
+
+  <p>Las columnas miden cosas distintas: <strong>familias y personas indican el impacto
+  social</strong> —cuánta gente ha quedado registrada como damnificada—, mientras que
+  <strong>viviendas destruidas y averiadas son el daño que el municipio ya ha cargado</strong>,
+  que es lo que acaba sustentando la ayuda.</p>
+
+  <p><strong>Que un municipio no aparezca no significa «sin daño»: significa «sin registro
+  aún»</strong>. Donde las autoridades locales todavía no registran, el satélite sigue
+  siendo la única evidencia (ver el <a href="index.html#mapa">mapa</a>). El % de población
+  es una medida indicativa de la magnitud relativa —un municipio pequeño con cientos de
+  damnificados carga mucho más que una capital con los mismos—, calculada sobre la <a
   href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion"
-  target="_blank" rel="noopener">proyección municipal 2026 del DANE</a>.</p>
+  target="_blank" rel="noopener">proyección municipal 2026 del DANE</a>. Para contrastar
+  estas cifras con lo que publican los medios citando fuentes oficiales, ver la
+  <a href="balances.html#comparativa">comparativa de fuentes</a>. Cada corrida diaria pide
+  además una copia a la Wayback Machine.</p>
 </section>
 
 <section class="page-section">
@@ -63,19 +77,23 @@
 
 <section class="page-section">
   <h2>Detalle municipal</h2>
-  <div class="filtros"><input id="rud-buscar" type="search"
-    placeholder="Buscar municipio o departamento…"
-    aria-label="Buscar municipio registrado en el RUD"></div>
+  <div class="chips" id="rud-chips" role="group" aria-label="Filtros de la tabla"></div>
+  <div class="filtros">
+    <input id="rud-buscar" type="search"
+      placeholder="Buscar municipio o departamento…"
+      aria-label="Buscar municipio registrado en el RUD">
+    <select id="rud-depto" aria-label="Filtrar por departamento"></select>
+  </div>
   <div style="overflow-x:auto"><table id="rud-tabla">
     <thead><tr>
-      <th title="Municipio registrado en el RUD. Ordenado por personas damnificadas registradas.">Municipio</th>
-      <th class="num" title="Familias damnificadas registradas">Familias</th>
-      <th class="num" title="Personas damnificadas registradas">Personas</th>
-      <th class="num" title="Población proyectada 2026 (DANE)">Población</th>
-      <th class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
-      <th class="num" title="Viviendas destruidas según el registro municipal">Viv. destruidas</th>
-      <th class="num" title="Viviendas averiadas según el registro municipal">Viv. averiadas</th>
-      <th class="num" title="Cambio de familias respecto al día anterior de la serie">Δ día</th>
+      <th scope="col" title="Municipio registrado en el RUD.">Municipio</th>
+      <th scope="col" class="num" title="Familias que la alcaldía ha registrado como damnificadas. Mide impacto social, no daño comprobado.">Familias</th>
+      <th scope="col" class="num" title="Personas de esas familias. En algunos municipios llega incompleto: a veces figura una sola persona por familia.">Personas</th>
+      <th scope="col" class="num" title="Población proyectada 2026 (DANE).">Población</th>
+      <th scope="col" class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
+      <th scope="col" class="num" title="Viviendas que el municipio ha cargado como destruidas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. destruidas</th>
+      <th scope="col" class="num" title="Viviendas que el municipio ha cargado como averiadas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. averiadas</th>
+      <th scope="col" class="num" title="Cambio de familias respecto a la captura anterior: indica si el municipio sigue registrando.">Δ día</th>
     </tr></thead>
     <tbody></tbody>
   </table></div>

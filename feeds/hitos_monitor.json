@@ -53,6 +53,12 @@
       "fecha": "2026-08-17",
       "tipo": "monitor",
       "texto": "El extractor de balances deja de confundir «California» con Cali: la última superficie del monitor que atribuía municipios sin límite de palabra ya aplica la misma regla que el resto, y dos tests vigilan que su lista de municipios no se separe en silencio de la del pipeline."
+    },
+    {
+      "fecha": "2026-08-18",
+      "tipo": "monitor",
+      "texto": "La tabla del RUD se puede filtrar y ordenar: municipios nuevos, los que siguen registrando, los que ya cargaron viviendas destruidas y por departamento. Y la página explica lo que antes se daba por supuesto: el RUD es lo que cada alcaldía registra, no una verificación del daño, y un cero en viviendas puede querer decir «todavía sin evaluar».",
+      "url": "https://brechas.orkidea.eu/site/rud.html"
     }
   ]
 }

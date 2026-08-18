@@ -204,7 +204,14 @@ destruye al terminar.
 
 Resultado: del 17 quedan **2 snapshots** en el repo (el catálogo DIVIPOLA y el
 feed de balances, ambos capturados a mano ese día), frente a 70 del 16 y 303 del
-15. La serie de `rud_daily` **no tiene punto del 17**: salta del 16 al 18.
+15. La serie de `rud_daily` se quedó sin el punto de esa corrida.
+
+**Cerrado el 18-ago**: el hueco no llegó a publicarse. Al adoptar el fechado por
+día colombiano consolidado, la captura de las 00:02 de Bogotá —que es el cierre
+del 17— quedó archivada como día 17, y con datos mejores que los del log: 90
+municipios y 36.982 familias, frente a los 81 y 27.181 que la corrida abortada
+había visto a media mañana. Lo que sí se perdió para siempre son los snapshots
+de las trece fuentes de aquella corrida.
 
 Qué sobrevive y qué no:
 
@@ -225,3 +232,27 @@ Qué sobrevive y qué no:
 Corregido el mismo día (18-ago) en `.github/workflows/daily.yml`: el archivo se
 commitea **antes** de cualquier verificación, y la corrida y los tests avisan al
 final sin abortar el job. Ver `docs/DECISIONES.md`.
+
+## El RUD mide lo que cada alcaldía carga, no daño verificado
+
+La cifra de familias del RUD cuenta **a quién ha registrado la alcaldía**, no
+quién tiene el daño comprobado por un tercero. Registrar a una familia y evaluar
+su vivienda son momentos distintos, y en los datos se ve: el campo de familias
+avanza antes que el de viviendas.
+
+Consecuencias para leer estas cifras:
+
+- Un municipio con muchas familias y pocas viviendas dañadas casi siempre está a
+  mitad de proceso, no ocultando ni inflando nada.
+- **Un cero en viviendas destruidas o averiadas puede significar «todavía sin
+  evaluar», no «sin daño»**: 21 de los 90 municipios registrados tienen cero
+  destruidas, y 6 tienen cero en ambas columnas.
+- El avance depende de la capacidad de cada alcaldía: la velocidad del registro
+  mide tanto capacidad administrativa como daño.
+- El campo `personas` llega incompleto en algunos municipios (a veces una sola
+  persona por familia), lo que hace que su porcentaje de población salga
+  artificialmente bajo.
+- No existe una cifra nacional única con la que comparar: el mismo día, los
+  medios que citan fuentes oficiales publican totales que difieren entre sí
+  —entre 44.936 y 120.328 familias el 17-ago—, así que la página no elige una:
+  remite a la comparativa de fuentes, donde cada cifra lleva su publicador.

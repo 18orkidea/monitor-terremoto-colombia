@@ -94,22 +94,61 @@ window.UI = (function () {
       b.onclick = () => onPage(+b.dataset.p));
   }
 
+  /* Comparador para una columna: los nulos SIEMPRE al final, suban o bajen —
+     un municipio sin dato no puede encabezar la tabla al ordenar por esa
+     columna. Empate resuelto por `desempate` para que el orden sea estable. */
+  function comparador(valor, dir, desempate) {
+    const vacio = (v) => v === null || v === undefined || v === "";
+    return (a, b) => {
+      const va = valor(a), vb = valor(b);
+      if (vacio(va) && vacio(vb)) return desempate ? desempate(a, b) : 0;
+      if (vacio(va)) return 1;
+      if (vacio(vb)) return -1;
+      let c;
+      if (typeof va === "number" && typeof vb === "number") c = va - vb;
+      else c = String(va).localeCompare(String(vb), "es");
+      if (c !== 0) return dir === "desc" ? -c : c;
+      return desempate ? desempate(a, b) : 0;
+    };
+  }
+
   /* Tabla con buscador: todas las filas quedan disponibles para la búsqueda,
      pero sin filtro solo se muestran las `top` primeras — salvo que se pase
      `paginado` (elemento), en cuyo caso la tabla se pagina entera de
      `porPagina` en `porPagina` (también los resultados de búsqueda).
      opts: tbody, input (opcional), rows, top, fila(r)->html <tr>,
            texto(r)->string indexable, nota (elemento opcional),
-           notaTexto(q, visibles, total)->string, vacio (html opcional),
-           paginado (elemento opcional), porPagina (número opcional). */
+           notaTexto(q, visibles, total, orden)->string — `orden` es null o
+             {i, dir}, para que la nota no afirme un criterio que ya no rige,
+           vacio (html opcional),
+           paginado (elemento opcional), porPagina (número opcional),
+           filtroExtra(r)->bool (opcional; la página compone ahí sus chips y
+             selects — esta función no sabe qué controles existen),
+           columnas: [{th, valor(r), desempate?}] (opcional; hace clicables las
+             cabeceras y ordena ANTES de paginar).
+     Devuelve `pinta(o)`; con `pinta({reiniciar:true})` vuelve a la página 1,
+     que es lo que necesita cualquier filtro externo al cambiar. */
   function tablaBuscable(opts) {
     const { tbody, input, rows, top, fila, texto, nota, notaTexto, vacio,
-            paginado, porPagina } = opts;
-    const idx = rows.map((r) => norm(texto(r)));
+            paginado, porPagina, columnas } = opts;
+    // Indexado por identidad, NO por posición: `filtroExtra` recorta las filas
+    // antes de que actúe el buscador, así que desde la primera fila descartada
+    // un índice posicional apuntaría al texto de otra fila.
+    const idx = new Map(rows.map((r) => [r, norm(texto(r))]));
     let pagina = 1;
-    const pinta = () => {
+    let orden = null;   // {i, dir}
+
+    const pinta = (o) => {
+      if (o && o.reiniciar) pagina = 1;
       const q = norm(input ? input.value.trim() : "");
-      const filtradas = q ? rows.filter((_, i) => idx[i].includes(q)) : rows;
+      let filtradas = rows;
+      if (opts.filtroExtra) filtradas = filtradas.filter(opts.filtroExtra);
+      if (q) filtradas = filtradas.filter((r) => (idx.get(r) || "").includes(q));
+      if (orden && columnas) {
+        const col = columnas[orden.i];
+        filtradas = [...filtradas].sort(
+          comparador(col.valor, orden.dir, col.desempate));
+      }
       let vista;
       if (paginado) {
         const pp = porPagina || top || filtradas.length;
@@ -118,15 +157,42 @@ window.UI = (function () {
         vista = filtradas.slice((pagina - 1) * pp, pagina * pp);
         paginador(paginado, paginas, pagina, (p) => { pagina = p; pinta(); });
       } else {
-        vista = q ? filtradas : rows.slice(0, top || rows.length);
+        vista = (q || opts.filtroExtra || orden)
+          ? filtradas : rows.slice(0, top || rows.length);
       }
       tbody.innerHTML = vista.length ? vista.map(fila).join("") :
         `<tr><td colspan="99" style="color:var(--muted)">${vacio || "Sin coincidencias."}</td></tr>`;
-      if (nota && notaTexto) nota.textContent = notaTexto(q, filtradas.length, rows.length);
+      if (nota && notaTexto)
+        nota.textContent = notaTexto(q, filtradas.length, rows.length, orden);
       return vista;
     };
+
+    (columnas || []).forEach((col, i) => {
+      if (!col.th) return;
+      col.th.classList.add("ord");
+      col.th.setAttribute("aria-sort", "none");
+      // el aviso lo pone quien hace ordenable la columna, no cada página
+      col.th.title = (col.th.title ? col.th.title + " " : "") + "Pulsa para ordenar.";
+      col.th.tabIndex = 0;
+      const alternar = () => {
+        orden = (orden && orden.i === i && orden.dir === "asc")
+          ? { i, dir: "desc" } : { i, dir: "asc" };
+        columnas.forEach((c, j) => {
+          if (!c.th) return;
+          c.th.setAttribute("aria-sort", j === i
+            ? (orden.dir === "asc" ? "ascending" : "descending") : "none");
+        });
+        pinta({ reiniciar: true });
+      };
+      // onclick (no addEventListener): pinta() puede ejecutarse más de una vez
+      col.th.onclick = alternar;
+      col.th.onkeydown = (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); alternar(); }
+      };
+    });
+
     // oninput (no addEventListener): el render puede ejecutarse más de una vez
-    if (input) input.oninput = () => { pagina = 1; pinta(); };
+    if (input) input.oninput = () => pinta({ reiniciar: true });
     pinta();
     return pinta;
   }
@@ -335,7 +401,7 @@ window.UI = (function () {
   }
 
   return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
-           fraseHomonimos, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
+           fraseHomonimos, comparador, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };

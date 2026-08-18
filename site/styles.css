@@ -134,6 +134,16 @@ th[title], th[data-tip] { cursor: help; text-decoration: underline dotted color-
   position: fixed; z-index: 1200; line-height: 1.5; font-weight: 400;
   text-align: left; white-space: normal;
 }
+/* Cabecera ordenable. Va DESPUÉS de th[title] a propósito: las cabeceras
+   llevan explicación (cursor help) y además se pueden pulsar — gana el
+   puntero, que es la acción, y el subrayado punteado sigue avisando de que
+   hay texto explicativo debajo. */
+th.ord { cursor: pointer; user-select: none; white-space: nowrap; }
+th.ord:hover, th.ord:focus-visible { color: var(--ink-2); }
+th.ord::after { content: "↕"; opacity: .35; margin-left: 4px; font-size: 10px; }
+th.ord[aria-sort="ascending"]::after { content: "▲"; opacity: 1; }
+th.ord[aria-sort="descending"]::after { content: "▼"; opacity: 1; }
+th.ord[aria-sort="ascending"], th.ord[aria-sort="descending"] { color: var(--s1); }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
