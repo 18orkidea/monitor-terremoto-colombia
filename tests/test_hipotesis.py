@@ -89,6 +89,41 @@ class TestHipotesisBrechaOficial(unittest.TestCase):
                          f"DIVIPOLA): {sin_coords} — ampliar divipola_coords.json")
 
 
+class TestReferenciasEstaticas(unittest.TestCase):
+    """Datos de referencia que ya NO se piden a diario (población DANE,
+    catálogo DIVIPOLA): al salir de la corrida, nada volvería a avisar si el
+    fichero versionado desapareciera o se vaciara — y el sitio publicaría
+    municipios sin población sin que saltara ninguna alarma."""
+
+    def _cargar(self, nombre):
+        p = ROOT / "data" / "public" / nombre
+        self.assertTrue(p.exists(), f"falta {nombre}: lo genera un workflow "
+                                    f"propio, no la corrida diaria")
+        return json.loads(p.read_text())
+
+    def test_la_poblacion_dane_sigue_disponible(self):
+        d = self._cargar("dane_population_2026.json")
+        items = d.get("items") or {}
+        self.assertGreater(len(items), 1000,
+                           "las proyecciones DANE cubren ~1.100 municipios")
+        muestra = next(iter(items.values()))
+        self.assertGreater(muestra.get("poblacion_2026") or 0, 0)
+
+    def test_el_catalogo_divipola_sigue_disponible(self):
+        d = self._cargar("divipola_coords.json")
+        self.assertGreater(len(d.get("items") or {}), 1000)
+
+    def test_los_municipios_publicados_conservan_su_poblacion(self):
+        p = ROOT / "data" / "public" / "municipios.json"
+        if not p.exists():
+            self.skipTest("sin municipios.json")
+        items = json.loads(p.read_text())["items"]
+        sin_pob = [m["municipio"] for m in items if not m.get("poblacion_2026")]
+        self.assertEqual(sin_pob, [],
+                         f"municipios publicados sin población: {sin_pob} — "
+                         f"¿se perdió el JSON del DANE?")
+
+
 class TestHipotesisAtencion(unittest.TestCase):
     """H2: la atención mediática decae mientras el reporte ciudadano persiste."""
 

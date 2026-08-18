@@ -137,7 +137,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 738,
+    "n_prensa": 739,
     "n_oficial": 2,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
@@ -235,7 +235,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 553,
+    "n_prensa": 576,
     "n_oficial": 0,
     "n_ciudadano": 55,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -315,7 +315,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 738,
+    "n_prensa": 739,
     "n_oficial": 2,
     "n_ciudadano": 2,
     "etiqueta": "Coincide cualitativamente"
@@ -601,7 +601,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 278
+   "feeds": 277
   },
   {
    "fecha": "2026-08-11",
@@ -609,7 +609,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 273
+   "feeds": 272
   },
   {
    "fecha": "2026-08-12",
@@ -625,7 +625,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 325
+   "feeds": 324
   },
   {
    "fecha": "2026-08-14",
@@ -641,7 +641,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 368
+   "feeds": 370
   },
   {
    "fecha": "2026-08-16",
@@ -649,7 +649,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 197
+   "feeds": 210
   },
   {
    "fecha": "2026-08-17",
@@ -657,15 +657,15 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 155
+   "feeds": 180
   },
   {
    "fecha": "2026-08-18",
    "emm": null,
-   "gdelt": 0.7689,
+   "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 68
+   "feeds": 71
   }
  ],
  "entregas": [
