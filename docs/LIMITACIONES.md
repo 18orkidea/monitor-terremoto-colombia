@@ -271,7 +271,32 @@ Consecuencias para leer estas cifras:
 ## UNOSAT: lo que se archiva y lo que no
 
 La capa de UNITAR-UNOSAT trae 393 edificios evaluados en Anserma, Manizales y
-Viterbo. Tres huecos conocidos, ninguno subsanable desde este lado:
+Viterbo. **El sitio publica 385**: los otros ocho —todos en Manizales, uno con
+daño observado y siete de «daño posible»— traen el código de evento
+`EQ20260822COL` en vez de `EQ20260810COL`.
+
+**Ese código no puede designar otro terremoto, y el monitor no afirma que lo
+haga.** Los ocho puntos son idénticos a los otros 127 de Manizales en todos los
+demás campos: misma capa (`PNEO3_STD_20260811_BuildingDamageAsessment_Manizales`),
+mismo sensor (Pleiades NEO), misma fecha de imagen (11-ago-2026), mismos
+productos (4251, 4252, 4253) y la misma confianza «To Be Evaluated». Y el código
+implica un sismo del **22 de agosto de 2026**: doce días *posterior* a la imagen
+que retrata los daños, y posterior a la publicación del producto. Una imagen no
+puede fotografiar el daño de un sismo que aún no ha ocurrido. Todo apunta a un
+**error de etiquetado en origen**. No hubo reetiquetado: llegaron así en la
+única captura del paquete (19-ago-2026).
+
+Se excluyen del total **no por atribuirlos a ningún otro sismo —el archivo no
+lo sostiene— sino porque la etiqueta es de la fuente y sobrescribirla por
+nuestra cuenta sería inventar** — el error
+más grave que este proyecto puede cometer es convertir un fallo de la fuente en
+un hecho propio. Excluir es reversible; reetiquetar, no. Se cuentan aparte
+(`unosat_otros_eventos`) y se enseñan en la ficha y en el globo del mapa como
+lo que constan: un código inconsistente. **Si UNOSAT lo corrige, los ocho entran
+solos y el total pasa a 393.** La disyuntiva —contarlos o no— está planteada en
+`docs/DECISIONES.md` a la espera de decisión editorial.
+
+Tres huecos conocidos, ninguno subsanable desde este lado:
 
 - **Del epicentro no hay vectores.** El producto 4253 va de San José del Palmar,
   pero el ZIP que enlaza contiene Caldas: de San José del Palmar no se publica
@@ -291,7 +316,10 @@ Viterbo. Tres huecos conocidos, ninguno subsanable desde este lado:
   «pendiente de evaluar» (los 154 de Viterbo no lo traen siquiera): son
   fotointerpretación sobre imagen de 50 cm, no visitas. Y **296 de los 393 —tres
   de cada cuatro— son «daño posible»**, que es una hipótesis, no un daño contado.
-  Solo 97 son daño observado.
+  Solo 97 son daño observado. Contando únicamente los 385 que el sitio publica,
+  la proporción no cambia: **289 de «daño posible» y 96 observados**. La cifra
+  va siempre acompañada del reparto: un total que esconda cuántos son hipótesis
+  no sería rastreable hasta su origen.
 
 **Viterbo entró en la capa el 19-ago-2026 y el satélite es su única fuente
 sobre este terremoto.** No tiene una sola fila en el RUD. Su único titular

@@ -99,6 +99,12 @@
    "tipo": "monitor",
    "texto": "Cada titular dice ahora de qué medio es. La mitad de las noticias llegaba por Google News, y ahí el monitor solo guardaba el nombre de la búsqueda que las trajo: Palmira figuraba con 304 noticias de 7 medios, que en realidad eran feeds. El dato estaba en el propio archivo: cada noticia del RSS declara qué medio la firma. Se reconstruyó releyendo los snapshots, sin pedir nada a nadie: Palmira tiene 30 medios y el archivo entero, 926. Los enlaces que llevan al agregador y no al medio se marcan «vía Google News».",
    "url": "https://brechas.orkidea.eu/site/noticias.html"
+  },
+  {
+   "fecha": "2026-08-20",
+   "tipo": "monitor",
+   "texto": "La portada deja de contar un solo satélite. El total pasa de 622 a 1.007 edificios con daño clasificado: 622 los cartografió el servicio de emergencias de Copernicus en Cali, Pereira, Quibdó, Istmina y Buenaventura —Buenaventura por su monitoreo 01, que elevó de 256 a 335 lo que veía el primer producto—, y 385 el centro satelital de la ONU (UNITAR-UNOSAT) en Anserma, Manizales y Viterbo, tres municipios de Caldas donde Copernicus no ha mirado. Se suman porque ninguna de las dos miradas entra en el municipio de la otra: la ingesta publica la lista de municipios compartidos, hoy vacía, y el día que deje de estarlo el sitio dejará de sumar solo. De los 385 de UNOSAT, 289 son «daño posible»: hipótesis de la fuente, sin validar en campo. Son 385 y no los 393 que anunció el alta de la fuente: ocho puntos de Manizales traen un código de evento inconsistente —fechado el 22 de agosto, doce días después de la imagen que los retrata— y el monitor no los suma, porque la etiqueta es de la fuente y corregirla sería inventar. Detrás no hay un segundo sismo: los ocho son idénticos a los otros 127 de Manizales en la capa, el sensor, la imagen, los productos y la confianza. Lo único distinto es un código imposible, y el monitor lo enseña como lo que consta —una inconsistencia de la fuente— en vez de resolverlo por su cuenta. Con el mismo cambio, Viterbo y Anserma entran por fin en la tabla de municipios con evidencia sobre el terreno, donde no estaban pese a tener sus edificios evaluados uno a uno.",
+   "url": "https://brechas.orkidea.eu/"
   }
  ]
 }

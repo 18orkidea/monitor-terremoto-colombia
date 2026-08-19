@@ -608,3 +608,174 @@ medio, y decirlo es más honesto que dejar que el lector lo descubra al hacer
 clic. Cuando no consta la cabecera y el enlace pasa por Google News, no se pone
 nada en su lugar — el nombre del feed no es un medio (R3 aplicado al frontend).
 
+
+## 2026-08-20 — El total satelital de portada suma las dos miradas
+
+La portada anunciaba **622 edificios** y la tarjeta se llamaba «Satélite ·
+Copernicus». Desde el 19 de agosto el monitor archivaba además **385 edificios**
+clasificados por UNITAR-UNOSAT en Anserma, Manizales y Viterbo. La cifra pública
+publicaba menos de lo que el propio archivo tenía: no era una cautela, era una
+omisión.
+
+**Se suman. El total pasa a 1.007 edificios con daño clasificado por satélite.**
+
+La condición que lo autoriza no es de método, es de geografía: **ninguna de las
+dos miradas entra en el municipio de la otra**. Copernicus cartografía el eje
+Cali–Pereira–Chocó; UNOSAT, tres municipios de Caldas donde Copernicus no ha
+mirado nada. Sin municipio compartido no hay tejado contado dos veces.
+
+Esa condición no se da por sabida: `ingest/publish.py` la publica en
+`monitor.json` como `unosat.municipios_tambien_en_aoi_copernicus`. Hoy la lista
+está vacía; el día que deje de estarlo, `site/ui.js` **deja de sumar sola** y la
+tarjeta vuelve a nombrar solo a Copernicus. Un test lo comprueba en los dos
+sentidos (`tests/test_frontend.py::TestTotalSatelital`).
+
+**Por qué esto no contradice la regla de la celda municipal.** La columna
+«Edif. satélite» sigue sin sumar dentro de un municipio, y el test que lo
+impide (`test_la_columna_satelital_nombra_su_fuente`) queda intacto. Son dos
+operaciones distintas: dentro de un municipio las dos fuentes medirían **los
+mismos edificios con métodos distintos** —Copernicus, daño clasificado sobre
+estadística revisada por AOI; UNOSAT, fotointerpretación edificio a edificio sin
+validar en campo—, y sumarlas sería contar dos veces. Entre municipios disjuntos
+se suman **edificios distintos**, y no sumarlos sería esconder daño observado.
+
+**Qué se dice al sumar.** El total no se publica desnudo: la tarjeta lleva el
+desglose (622 + 385) y declara que **289 de los 385 de UNOSAT son «daño
+posible»**, hipótesis de la fuente. Un total compuesto que no dice de qué se
+compone deja de ser rastreable hasta su origen, que es la promesa del proyecto.
+
+**Efecto colateral que había que arreglar en el mismo cambio.** La tabla de
+portada «municipios con evidencia sobre el terreno» solo miraba los puntos de
+Copernicus: Viterbo y Anserma, evaluados edificio a edificio, **no salían**, y
+Manizales salía con un guion en la columna satelital pese a tener 127 edificios
+clasificados. La portada iba a anunciar un total que su propia tabla desmentía.
+Ahora la evidencia satelital son las dos fuentes, y la columna las nombra.
+
+**Las cifras escritas a mano.** El total de la tarjeta lo calcula el JavaScript
+desde los datos, pero la prosa de la portada, el `og:image:alt` y el README las
+llevan escritas. En vez de montar una inyección de texto en el build —que
+haría cambiar el HTML entero cada día y destruiría el blame—, se añade un
+guardián: `tests/test_unit.py::TestCifrasSatelitalesEnLosTextos` compara lo
+escrito con `data/public/monitor.json` y falla nombrando el texto que hay que
+reescribir. R11 aplicado a la prosa: el supuesto roto avisa.
+
+### De dónde sale cada sumando (comprobado, no heredado)
+
+**385 o 393 (UNOSAT): decisión abierta, redacción cerrada.** La capa publica
+**393** puntos; el sitio publica **385**. La diferencia son ocho puntos de
+Manizales que traen el código `EQ20260822COL` en lugar de `EQ20260810COL`.
+
+Durante esta sesión se escribió que «son de otro evento». **Es falso, y el
+archivo lo desmiente.** Los ocho son idénticos a los otros 127 de Manizales en
+todos los demás campos —misma capa, mismo sensor Pleiades NEO, misma fecha de
+imagen (11-ago-2026), mismos productos 4251/4252/4253, misma confianza «To Be
+Evaluated»—, y el código implica un sismo del **22-ago-2026**: doce días
+posterior a la imagen que retrata el daño, y posterior a la publicación del
+producto. Ninguna imagen fotografía el daño de un sismo que aún no ha ocurrido.
+Lo que consta es un **error de etiquetado en origen**, no un segundo terremoto.
+Tampoco hubo reetiquetado: llegaron así en la única captura del paquete
+(19-ago-2026), como se ve en `unosat_damage`.
+
+**Lo que se cierra hoy es la redacción, no el conteo.** En ninguna superficie
+—ficha, mapa, tabla, README, `llms.txt`, `docs/`— vuelve a decirse «son de otro
+terremoto». Se dice lo que consta: *código de evento inconsistente, fechado
+después de la imagen que los retrata*. Convertir un fallo de la fuente en un
+hecho propio es exactamente lo que este monitor existe para no hacer.
+
+**Lo que queda abierto, para decisión de JP:**
+
+- *Contarlos (393).* Salen de la misma capa, la misma imagen y el mismo producto
+  que los 385, y el código que los separa no puede ser cierto. Excluirlos deja
+  fuera ocho edificios que UNOSAT sí evaluó por este sismo.
+- *No contarlos (385, lo que hay hoy).* La etiqueta es de la fuente y
+  sobrescribirla es inventar. Excluir es reversible —si UNOSAT corrige el
+  código, los ocho entran solos y el total pasa a 393—; reetiquetar, no.
+
+Se mantiene 385 mientras no se decida, porque es la opción que no escribe nada
+que la fuente no diga. El coste está acotado y declarado: ocho edificios de 393,
+el 2 %, visibles en la ficha de Manizales y en el globo del mapa.
+
+**622 (Copernicus).** Sale de las estadísticas por AOI del último snapshot de
+productos (2026-08-18), eligiendo por AOI el mayor número de monitoreo y, a
+igualdad, la mayor versión: 7 (Cali norte, GRA 00 v2) + 182 (Pereira) + 14
+(Cali centro) + 74 (Quibdó) + 10 (Istmina) + 335 (**Buenaventura, GRA 01 v2**)
+= 622. Buenaventura es el caso que había que mirar: su primer producto declara
+256 edificios y el monitoreo 01 los eleva a 335. El monitor se queda con el
+monitoreo, no con el número heredado. El AOI regional «Western Colombia» no
+aporta estadística de edificios (`NA` ⇒ NULL, R3), y por eso no suma ni resta.
+
+### Lo que encontró la revisión (y por qué importa más que el cambio)
+
+Sumar la cifra fue lo fácil. Lo que la auditoría destapó es que **el total vivía
+en más sitios de los que parecía**, y que las superficies derivadas —las que no
+se miran— eran justo las que mentían:
+
+- `llms-full.txt`, el fichero que leen los sistemas de IA, decidía la cobertura
+  satelital solo con `en_aoi_copernicus`: escribía «ningún producto satelital ha
+  reportado daños» sobre Anserma, Manizales y Viterbo, **los tres municipios que
+  aportan los 385**. Es el mismo error que ya se había cerrado en las fichas
+  municipales, reabierto en otra salida del mismo dato.
+- `llms.txt` seguía anunciando 622 y 393.
+- La imagen Open Graph —la superficie más compartida— publicaba el total sin
+  decir de qué dos fuentes salía ni cuántos eran hipótesis. Ahora lleva pie.
+- El desglose vivía solo en el `title` de la tarjeta: en un teléfono no hay
+  hover, así que el «daño posible» era inalcanzable. Pasó a la línea visible.
+
+Lección para la próxima fuente: **una cifra pública no está actualizada hasta que
+lo están sus superficies derivadas** (llms.txt, llms-full.txt, OG, metadatos). Y
+`tests/test_render_html.py`, que las vigila, solo corría en local: entra en el CI
+de PR con este cambio.
+
+**Un guardián cazó un error de esta misma sesión.** Al tocar la nota de portada
+se cambió «la comunidad ha documentado 26» por 27, contando municipios que la
+tabla excluye (los reportes huérfanos, que no se cuelgan de ningún municipio).
+El test nuevo que compara la frase con los datos lo devolvió a 26 antes de
+publicarlo. Los satélites sí pasaron de 6 a 9.
+
+### Un código de evento imposible ahora avisa (R11)
+
+El error de etiquetado se descubrió **leyendo la capa a mano**, un día después
+de publicarla. Nada en el pipeline lo cantó, y eso es lo que hay que arreglar:
+`ingest/alerts.py::codigos_de_evento_imposibles` compara la fecha que va dentro
+del código GLIDE (`EQ`+`AAAAMMDD`+`COL`) con la fecha de la imagen y con hoy. Si
+el código es posterior a la imagen que retrata el daño, o está fechado en el
+futuro, la corrida emite una alerta de nivel medio. Avisa, no rompe (R11): los
+puntos se siguen archivando con su literal.
+
+Si el código no sigue el patrón, **no se afirma nada**: un formato desconocido
+es ausencia de dato, no un error detectado (R3 aplicado a la alerta).
+
+### Lo que destapó el QA: la pregunta estaba mal formulada
+
+El revisor encontró que `llms-full.txt` seguía negando el satélite en **Yumbo**,
+que tiene 3 edificios clasificados por Copernicus con coordenada dentro pero
+**ninguna AOI encima**. La ficha del municipio decía 3, la tabla de portada
+decía 3, y el fichero que leen los sistemas de IA decía que ninguno.
+
+La causa no era UNOSAT: era **la pregunta**. Ese fichero resolvía la cobertura
+con «¿está dentro de una zona que Copernicus delimitó?», y la pregunta correcta
+es «¿hay evidencia satelital dentro del municipio?» — que es la que usan las
+tablas y las fichas. Ahora usa la misma atribución punto→municipio
+(`asigna_a_municipios`) que el resto del sitio, así que hay **una sola forma de
+contar el daño de Copernicus** en todas las superficies. El guardián se amplió
+en consecuencia: ya no vigila «los municipios de UNOSAT», vigila **cualquier
+municipio con evidencia satelital, venga de donde venga**.
+
+Es la misma lección de la sesión, una vuelta más adentro: un cambio de cifra
+obliga a revisar no solo dónde se escribe, sino **con qué pregunta se calcula**
+en cada sitio.
+
+Pendiente anotado, no resuelto aquí: la tarjeta dice «622 Copernicus» (suma de
+`resumen.edificios_afectados` por AOI) mientras la columna de la tabla suma 635
+por atribución punto→municipio. Son dos denominadores legítimos y distintos, y
+la discrepancia es anterior a este cambio, pero el desglose nuevo la vuelve
+confrontable de un vistazo. Merece nota de método o un test que fije la
+relación.
+
+Y con el mismo pendiente va la **enumeración**: la portada dice «622 edificios
+de Copernicus en Cali, Pereira, Quibdó, Istmina y Buenaventura» —los cinco de
+las AOI, coherente con ese denominador— pero el sitio atribuye además 3
+edificios de Copernicus a **Yumbo** en tres superficies. Quien abra Yumbo ve un
+sexto municipio que la frase no nombra. Ninguna prueba vigila esa lista, a
+diferencia del «9 municipios». Cuando se resuelva el denominador, que la
+solución cubra las dos cosas: el número y la enumeración.

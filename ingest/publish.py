@@ -528,10 +528,19 @@ def run() -> dict:
         d = unosat_por_mun.setdefault(mun, {"edificios": 0, "observados": 0,
                                             "posibles": 0, "otros_eventos": 0,
                                             "fecha_imagen": None})
-        # 8 puntos de Manizales llegan etiquetados EQ20260822COL, un evento
-        # fechado DESPUÉS de su publicación. No se suman al terremoto ni se
-        # tiran: se cuentan aparte, porque la etiqueta es de la fuente y
-        # corregirla por nuestra cuenta sería inventar.
+        # 8 puntos de Manizales llegan con el código EQ20260822COL, que
+        # implica un sismo del 22-ago-2026: una fecha POSTERIOR a la imagen
+        # que los retrata (11-ago) y a la publicación del producto. En todo
+        # lo demás son idénticos a los otros 127 de Manizales —misma capa,
+        # mismo sensor, misma fecha de imagen, mismos productos, misma
+        # confianza—, así que el código no designa otro evento: es una
+        # inconsistencia de etiquetado en origen.
+        #
+        # Se excluyen del total y se cuentan aparte. NO porque sean de otro
+        # terremoto —eso el archivo no lo sostiene— sino porque la etiqueta
+        # es de la fuente y sobrescribirla por nuestra cuenta sería inventar.
+        # Excluir es la opción reversible; reetiquetar, no. La disyuntiva está
+        # planteada en docs/DECISIONES.md a la espera de decisión editorial.
         if (code or "").upper() != UNOSAT_GLIDE:
             d["otros_eventos"] += n
             continue
@@ -585,6 +594,26 @@ def run() -> dict:
         "detalle_diario": rud_detalle,
     }, ensure_ascii=False))
 
+    # Las dos miradas satelitales, agregadas para portada. Se publican juntas
+    # y con la lista de municipios que las dos miran a la vez: la portada suma
+    # los edificios de ambas SOLO porque hoy esa lista está vacía —Copernicus
+    # cartografía el eje Cali-Pereira-Chocó y UNOSAT, tres municipios de
+    # Caldas donde Copernicus no ha mirado—. El día que se pisen, el sitio
+    # tendrá el dato para dejar de sumar en vez de contar dos veces el mismo
+    # tejado. `posibles` viaja al lado del total porque no es lo mismo un
+    # edificio observado que uno que la fuente solo cree dañado.
+    unosat_totales = {
+        "edificios": sum(d["edificios"] for d in unosat_por_mun.values()),
+        "observados": sum(d["observados"] for d in unosat_por_mun.values()),
+        "posibles": sum(d["posibles"] for d in unosat_por_mun.values()),
+        "otros_eventos": sum(d["otros_eventos"] for d in unosat_por_mun.values()),
+        "municipios": sorted(m["municipio"] for m in municipios
+                             if m.get("unosat_edificios")),
+        "municipios_tambien_en_aoi_copernicus": sorted(
+            m["municipio"] for m in municipios
+            if m.get("unosat_edificios") and m.get("en_aoi_copernicus")),
+    }
+
     monitor = {
         # granularidad de día, no de hora: dos corridas el mismo día deben
         # producir bytes idénticos (idempotencia => sin commits espurios)
@@ -594,6 +623,7 @@ def run() -> dict:
         "media_volume": media, "entregas": entregas,
         "brechas_oficiales": gaps, "exposicion": exposicion,
         "rud": {"serie": rud_serie, "municipios": rud_municipios},
+        "unosat": unosat_totales,
         "citizen": {"chatmap_total": len(cit_feats),
                     "en_aoi": sum(1 for f in cit_feats
                                   if f["properties"].get("aoi"))},

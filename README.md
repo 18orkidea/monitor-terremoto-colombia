@@ -10,7 +10,9 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
 ## Qué contiene
 
 - **[Mapa interactivo](https://brechas.orkidea.eu/site/)** — daño satelital punto a punto
-  (622 edificios clasificados por Copernicus), zonas AOI con estado del cruce, intensidad
+  (1.007 edificios con daño clasificado: 622 de Copernicus y 385 de UNITAR-UNOSAT, dos
+  fuentes que miran municipios distintos; 289 de los 385 son solo «daño posible»), zonas
+  AOI con estado del cruce, intensidad
   ShakeMap, 430+ reportes ciudadanos con foto (ChatMap/WhatsApp), municipios del área de
   influencia con población DANE, y 1.173 sismos históricos de contexto.
 - **[Titulares](https://brechas.orkidea.eu/site/noticias.html)** — 3.000+ noticias del
@@ -27,7 +29,7 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
 
 ## Las tres brechas que mide
 
-1. **Brecha de reporte oficial** — Copernicus entrega daño verificado por satélite en días;
+1. **Brecha de reporte oficial** — Copernicus entrega daño clasificado por satélite en días;
    las fuentes oficiales abiertas de Colombia (UNGRD en datos.gov.co: parado en 2022;
    registro ArcGIS UNGRD: parado en feb-2024; SNIGRD: sin API pública) no cubren el evento — pero desde el 16-ago el RUD sí: la brecha pasó a ser municipal (municipios registrados vs sin registrar).
 2. **Brecha de atención** — la cobertura mediática cae ~92 % en 5 días y toca mínimo el día
@@ -80,7 +82,7 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [DIVIPOLA geolocalizado `gdxc-w37w`](https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w) | Centroide y código de los 1.122 municipios: cualquier municipio que entre al RUD resuelve coordenadas sin curación manual | Público (Socrata, `$limit` explícito); referencia estática — se regenera a mano con `ingest/build_divipola.py`, no en la corrida diaria |
 | [ChatMap OSM Colombia](https://chatmap.hotosm.org/colombia.html) ([uMap](https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482), [proyecto HOT](https://www.hotosm.org/en/projects/2026-colombia-earthquake-response/)) | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
 | [UNGRD RUD](https://rud.gestiondelriesgo.gov.co/) (`/home/json.php?temp=2026T`) | **La primera fuente oficial que cubre el evento**: damnificados por municipio (familias, personas, viviendas), cargado por autoridades locales | Público de lectura, NO documentado (descubierto 16-ago); vigilado por test de supuesto |
-| [UNITAR-UNOSAT](https://unosat.org/products/4253) (`/our_products/`, `/our_products/<id>`) | **La segunda mirada satelital**: 393 edificios evaluados uno a uno en Anserma, Manizales y Viterbo (Caldas), donde Copernicus no cartografía nada. Shapefiles leídos con stdlib | Público, sin clave ni API documentada; licencia no declarada ([UNITAR legal](https://www.unitar.org/legal)). El listado es una ventana fija de 11 productos sin paginar: el módulo consulta también los ids ya vistos para no perder el histórico |
+| [UNITAR-UNOSAT](https://unosat.org/products/4253) (`/our_products/`, `/our_products/<id>`) | **La segunda mirada satelital**: 385 edificios evaluados uno a uno en Anserma, Manizales y Viterbo (Caldas), donde Copernicus no cartografía nada —289 de ellos son «daño posible», hipótesis de la fuente sin validar en campo—. La capa trae 8 puntos más, en Manizales, con un código de evento inconsistente —fechado después de la propia imagen que los retrata—: no se suman ni se descartan, se cuentan aparte con el literal de la fuente ([por qué](docs/LIMITACIONES.md)). Shapefiles leídos con stdlib | Público, sin clave ni API documentada; licencia no declarada ([UNITAR legal](https://www.unitar.org/legal)). El listado es una ventana fija de 11 productos sin paginar: el módulo consulta también los ids ya vistos para no perder el histórico |
 | [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
 | Worker interno `monitor-terremoto-colombia-oficiales-ai` | Monitoreo de canales oficiales y extracción estructurada de documentos con `qwen-vl-ocr-2025-11-20` | Privado para inferencia; público solo JSON/RSS estructurado |
 

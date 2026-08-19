@@ -289,11 +289,13 @@
         onEachFeature: (f, l) => {
           const p = f.properties;
           // El código de evento solo se enseña cuando NO es el del terremoto:
-          // 8 registros de Manizales vienen etiquetados EQ20260822COL, un
-          // evento fechado DESPUÉS de la publicación. Se conserva el literal
-          // de la fuente y se señala, no se corrige por nuestra cuenta.
+          // 8 registros de Manizales vienen con EQ20260822COL, fechado DESPUÉS
+          // de la imagen que los retrata. Se conserva el literal de la fuente
+          // y se señala como inconsistencia, no se corrige por nuestra cuenta
+          // ni se afirma que pertenezcan a otro sismo.
           const otroEvento = p.event_code && p.event_code !== "EQ20260810COL"
-            ? `${p.event_code} — no es el código del terremoto` : null;
+            ? `${p.event_code} — código inconsistente: no es el del terremoto`
+            : null;
           l.bindPopup(ficha({
             titulo: unoConOriginal(p.dano) || "Edificio evaluado",
             subtitulo: [p.municipio, p.departamento].filter(Boolean).join(", ")
@@ -432,9 +434,9 @@
                 ? null
                 : `${fmt(p.unosat_edificios)}, de los que ` +
                   `${fmt(p.unosat_observados)} con daño observado`],
-              ["Etiquetados con otro evento", p.unosat_otros_eventos == null
+              ["Con código de evento inconsistente", p.unosat_otros_eventos == null
                 ? null
-                : `${fmt(p.unosat_otros_eventos)}, no sumados al terremoto`],
+                : `${fmt(p.unosat_otros_eventos)}, no sumados al total`],
               ["Damnificados en el RUD", p.rud_personas == null ? null
                 : `${fmt(p.rud_personas)} personas` +
                   (p.tasa_rud_pct != null
@@ -804,7 +806,8 @@
     const fuentes = window.UI.comparativaFuentes(mon, oficiales);
     const fmt0 = (n) => window.UI.fmt(n, 0);
     const principal = {
-      satelite: (f) => [fmt0(f.cifras.edificios_dañados), "edificios dañados vistos por satélite"],
+      satelite: (f) => [fmt0(f.cifras.edificios_dañados),
+                        "edificios con daño clasificado por satélite"],
       rud: (f) => [fmt0(f.cifras.familias), "familias registradas oficialmente"],
       medios: (f) => [fmt0(f.cifras.familias), "familias afectadas según medios"],
       ciudadano: (f) => [fmt0(f.cifras.reportes), "reportes ciudadanos con foto"],
@@ -812,9 +815,9 @@
     window.UI.metricCards(el, fuentes.map((f) => {
       const [valor, unidad] = principal[f.id](f);
       return { label: f.nombre, value: valor,
-               sub: `${unidad} · ${f.alcance}` +
+               sub: `${unidad} · ${f.desglose ? `${f.desglose} · ` : ""}${f.alcance}` +
                     `${f.fecha ? ` · ${window.UI.fechaEs(f.fecha)}` : ""}`,
-               href: f.href };
+               title: f.nota, href: f.href };
     }));
   }
 })();

@@ -61,7 +61,8 @@
     const por = Object.fromEntries(fuentes.map((f) => [f.id, f]));
 
     const principal = {
-      satelite: (f) => [fmt(f.cifras.edificios_dañados), "edificios dañados"],
+      satelite: (f) => [fmt(f.cifras.edificios_dañados),
+                        "edificios con daño clasificado"],
       rud: (f) => [fmt(f.cifras.familias), "familias registradas"],
       medios: (f) => [fmt(f.cifras.familias), "familias afectadas"],
       ciudadano: (f) => [fmt(f.cifras.reportes), "reportes con foto"],
@@ -69,8 +70,9 @@
     window.UI.metricCards(cardsEl, fuentes.map((f) => {
       const [valor, unidad] = principal[f.id](f);
       return { label: f.nombre, value: valor,
-               sub: `${unidad} · ${f.alcance}${f.fecha ? ` · ${fechaEs(f.fecha)}` : ""}`,
-               href: f.href };
+               sub: `${unidad} · ${f.desglose ? `${f.desglose} · ` : ""}${f.alcance}` +
+                    `${f.fecha ? ` · ${fechaEs(f.fecha)}` : ""}`,
+               title: f.nota, href: f.href };
     }));
 
     const rud = por.rud && por.rud.cifras || {};

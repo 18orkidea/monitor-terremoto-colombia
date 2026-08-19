@@ -77,16 +77,35 @@ def main():
     noticias = json.loads((ROOT / "data/public/noticias.json").read_text())
 
     # -- portada: el cruce
-    edif = sum(a["resumen"].get("edificios_afectados") or 0 for a in mon["aois"])
+    # OJO: esta regla vive en DOS superficies —aquí y en site/ui.js, que pinta
+    # la tarjeta de la portada—. Si tocas una, mira la otra.
+    # Las dos miradas satelitales se suman porque miran municipios distintos;
+    # la ingesta lo certifica y, si algún día se pisaran, esa lista no vendría
+    # vacía y la portada volvería sola a contar solo Copernicus.
+    uno = mon.get("unosat") or {}
+    cop = sum(a["resumen"].get("edificios_afectados") or 0 for a in mon["aois"])
+    suma = not uno.get("municipios_tambien_en_aoi_copernicus")
+    n_uno = (uno.get("edificios") or 0) if suma else 0
+    edif = cop + n_uno
+    # Es la superficie más compartida del monitor y la única sin sitio para el
+    # matiz: el pie lo lleva. Un total de dos fuentes que no dice de cuáles ni
+    # cuántos son hipótesis se comparte solo, y ya no se puede matizar.
+    pie = ([f"{fmt(cop)} de Copernicus EMSR916 + {fmt(n_uno)} de UNITAR-UNOSAT.",
+            f"{fmt(uno.get('posibles') or 0)} de los de UNOSAT son solo «daño posible», "
+            f"sin validar en campo."]
+           if n_uno else
+           ["Clasificados uno a uno por el servicio de emergencias de Copernicus (EMSR916)."])
     img, d = base("El mapa que cruza satélite,",
                   "calle y prensa — y mide lo que las fuentes oficiales aún no publican")
     d.text((70, 245), "", font=font(30), fill=INK2)
     stats_row(d, [
-        (fmt(edif), "edificios dañados (satélite)", CRIT),
+        (fmt(edif), "edificios con daño (satélite)", CRIT),
         (fmt(mon["citizen"]["chatmap_total"]), "reportes ciudadanos", S7),
         (f"{mon.get('exposicion', {}).get('pct_cubierta', 0):.1f} %".replace(".", ","),
          "población expuesta con mapeo", WARN),
     ])
+    for i, linea in enumerate(pie):
+        d.text((70, 440 + i * 32), linea, font=font(24), fill=MUTED)
     img.save(OG / "portada.png", optimize=True)
 
     # -- titulares
