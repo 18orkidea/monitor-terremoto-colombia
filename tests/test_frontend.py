@@ -239,6 +239,24 @@ class TestSilencioDePrensa(unittest.TestCase):
         self.assertNotIn("Sipí", sil["ciertos"])
         self.assertEqual(sil["sin_busqueda"], 2)
 
+    def test_si_falta_el_dato_de_la_busqueda_no_se_afirma(self):
+        """El nivel que afirma falla CERRADO. Si el campo no viniera —un JSON
+        viejo, o alguien llamando a build_municipios sin el conjunto de
+        búsquedas—, un municipio por el que nunca se preguntó pasaría a «sí
+        preguntamos y no hubo nada». Prefiere no afirmar nada."""
+        sin_campo = [{k: v for k, v in m.items() if k != "busqueda_propia"}
+                     for m in self.MUNS]
+        self.assertEqual(self._sil(sin_campo)["ciertos"], [])
+
+    def test_solo_se_nombra_aparte_al_homonimo_de_departamento(self):
+        # el texto afirma la causa, así que el filtro la comprueba: una celda
+        # vacía por cualquier otro motivo no puede colarse en ese nivel
+        raro = {"municipio": "Sin causa", "departamento": "X", "rud_personas": 10,
+                "n_noticias": None}
+        sil = self._sil([*self.MUNS, raro])
+        self.assertEqual(sil["sin_atribucion"], 1)
+        self.assertEqual(sil["personas_sin_atribucion"], 867)
+
     def test_el_techo_es_el_mayor_porcentaje_de_verdad(self):
         """El banner dice «hasta el X %». Si otro de la lista lo supera, el
         banner miente: el techo se calcula por tasa, no por número de personas

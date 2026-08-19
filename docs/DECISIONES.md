@@ -390,11 +390,14 @@ día porque UNOSAT evaluó allí 154 edificios, y su única noticia atribuida er
 sismo de magnitud 3,1 de junio de 2024.
 
 Se midió antes de tocar nada, reconstruyendo la capa de municipios dos veces:
-**67 de los 109 municipios que la capa tenía aquel día —antes del alta de
-Viterbo y del resto de UNOSAT— cambian la columna «Prensa»** (Calarcá 30→2, Jamundí
-49→4, La Tebaida 40→5, frente a Cali 686→652); **ocho pasan de «mención en
-prensa» a «solo RUD»** y ninguno desaparece de la capa, porque todos tienen
-registro oficial detrás. En el cruce por AOI baja `n_prensa` en los siete, pero
+**cambia la columna «Prensa» en 67 de los 109 municipios que la capa tenía en ese
+momento** (Calarcá 30→2, Jamundí 49→4, La Tebaida 40→5, frente a Cali 686→652);
+**ocho pasan de «mención en prensa» a «solo RUD»** y ninguno desaparece de la
+capa, porque todos tienen registro oficial detrás. Al aplicarlo, ya con UNOSAT
+fusionado, la cifra publicada es **68 de 116**: el municipio que faltaba es
+Viterbo, que entró con UNOSAT y perdió su único titular, el de 2024. Las dos
+mediciones son la misma, sobre una capa que creció entre medias; la que va al
+hito público es la segunda. En el cruce por AOI baja `n_prensa` en los siete, pero
 **ningún AOI cambia de estado**. En la gráfica de volumen mediático el efecto es
 de dos puntos: la serie ya cortaba por su cuenta en 2026-08-08.
 
@@ -402,9 +405,10 @@ Decisión (de JP, sobre tres opciones medidas): **los titulares anteriores al
 sismo se excluyen de todo producto público** —páginas, JSON descargables,
 conteos y ejemplos—, no solo se marcan. Siguen íntegros en `news_items`, en los
 snapshots y en `sources_log`: el principio de archivo se cumple en la capa que
-le toca, la de captura, no en la de publicación. Cada corrida deja escrito
-cuántos descartó (`noticias_previas_al_sismo`), porque un filtro que no dice
-cuánto tira no es auditable.
+le toca, la de captura, no en la de publicación. Cada corrida deja escrito cuántos
+descartó, y no solo en su log: `noticias.json` publica `previas_al_sismo` y
+`desde` junto al total, porque los logs de Actions caducan y un filtro que no
+dice cuánto tira **desde el propio dato** no es auditable.
 
 Se descartaron: (a) marcar y seguir mostrándolos con etiqueta —el recuento de la
 página dejaría de ser «titulares del terremoto» y la marca no impide el
@@ -427,33 +431,43 @@ prensa un titular de agosto de 2024 sobre la muerte de un menor, sin relación c
 el sismo. Una cita fechada es una afirmación, no una cifra desviada; desapareció
 con el mismo cambio.
 
-## 2026-08-19 — El silencio se publica, pero en dos niveles
+## 2026-08-19 — El silencio se publica, en tres niveles
 
 Con el corpus ya limpio de prensa anterior al sismo, el silencio informativo se
 puede por fin medir sin confundirlo con titulares de otros sismos: **33 de los
 116 municipios vigilados tienen personas registradas en el RUD y cero titulares
-atribuidos** —12.129 personas—. Es
-exactamente la brecha que el monitor existe para medir, y JP decidió publicarlo
-como hallazgo.
+atribuidos** —12.129 personas—. Es exactamente la brecha que el monitor existe
+para medir, y JP decidió publicarlo como hallazgo.
 
-Decisión sobre CÓMO: la afirmación se publica **en dos niveles**, no como un
-número redondo. De los 33, **28 tienen un topónimo que exige co-mención del
-departamento** (palabra común, apellido, nombre repetido en otro departamento, o
-municipio que entró solo desde el RUD y nace con `requiere_depto`): su cero puede
-ser del monitor y no de la prensa. Publicar «33 municipios sin cobertura» sería
-justo el tipo de afirmación que este proyecto existe para no hacer. Solo se
-afirma el cero de los cinco cuyo nombre no admite duda —Quinchía, Bagadó,
-Guática, Mistrató y Guacarí, 5.297 personas registradas—, y del resto se dice qué
-lo hace incierto.
+Decisión sobre CÓMO: la afirmación se publica **en tres niveles**, no como un
+número redondo, porque no todos los ceros valen lo mismo. Publicar «33 municipios
+sin cobertura» sería justo el tipo de afirmación que este proyecto existe para no
+hacer.
+
+1. **Se afirma** el cero de **cinco**: Quinchía, Bagadó, Guática, Mistrató y
+   Guacarí (5.297 personas registradas; en Bagadó son el 8,8 % de su población).
+   El criterio es **doble** y las dos mitades importan: topónimo sin ambigüedad
+   **y** búsqueda propia de prensa. Es decir, el monitor preguntó y no obtuvo
+   nada.
+2. **No se afirma** el de **28**: su nombre exige que el titular nombre también
+   el departamento, así que el cero puede ser del filtro. Y de esos, por **23**
+   el monitor **ni siquiera pregunta**.
+3. **No tienen cero, tienen ausencia de dato**: los **tres** homónimos de
+   departamento (Bolívar, Córdoba y Risaralda, 2.105 personas). Se nombran igual,
+   porque son los más invisibles de todos y quedarse fuera del recuento los
+   dejaba también fuera del relato.
 
 La regla vive en `site/ui.js::silencioDePrensa`, no en la página, porque es una
 afirmación pública y se testea con node como el resto de reglas editoriales que
 viven en JavaScript. Devuelve `null` cuando nadie queda mudo: el día que todos
-tengan prensa, el banner desaparece en vez de mentir (R11).
+tengan prensa, el banner desaparece en vez de mentir (R11). Y el nivel que afirma
+**falla cerrado**: exige `busqueda_propia === true`, no «distinto de false», para
+que un campo ausente aguas arriba no ascienda a nadie al nivel que afirma.
 
 Hallazgo de la medición que quedó documentado en `docs/LIMITACIONES.md`: **23 de
 los 33 no tienen búsqueda propia de Google News**, porque `municipal_google_news_feeds()`
 solo recorre el catálogo curado y no los municipios que entran solos desde el RUD.
-Su silencio es, en parte, silencio del monitor. En cambio Bagadó, Guática y
-Mistrató sí tienen búsqueda propia y **no ha devuelto ni un titular en toda la
-vida del feed**: ahí la pregunta se ha hecho todos los días.
+Su silencio es, en parte, silencio del monitor. Los cinco del primer nivel sí la
+tienen —los cinco—, y entre ellos hay dos situaciones distintas: en Bagadó,
+Guática y Mistrató la búsqueda no ha devuelto nunca nada, y en Quinchía y Guacarí
+solo devolvió titulares anteriores al sismo, que ya no cuentan.

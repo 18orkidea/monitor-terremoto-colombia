@@ -55,8 +55,8 @@
           `propia de prensa y su nombre no admite duda— y no obtuvo nada: ` +
           `${sil.ciertos.join(", ")}, ${fmt(sil.personas_ciertas)} personas registradas` +
           (sil.techo
-            ? `, hasta el ${pct(sil.techo.tasa_rud_pct)} de la población en ` +
-              `${sil.techo.municipio}.`
+            ? `, y en ${sil.techo.municipio} son el ${pct(sil.techo.tasa_rud_pct)} ` +
+              `de su población.`
             : ".")
         : "") +
       (sil.dudosos

@@ -79,11 +79,19 @@ window.UI = (function () {
     const mudos = conRud.filter((m) => m.n_noticias === 0)
       .sort((a, b) => b.rud_personas - a.rud_personas);
     if (!mudos.length) return null;
+    // `=== true`, no `!== false`: si el campo faltara —porque alguien llame a
+    // build_municipios sin el conjunto de búsquedas, o por un JSON viejo—, los
+    // municipios por los que el monitor NUNCA preguntó caerían en el nivel que
+    // afirma «preguntamos y no hubo nada», que es justo la falsedad que este
+    // nivel existe para impedir. La cadena entera falla cerrada.
     const ciertos = mudos.filter(
       (m) => !m.requiere_depto && !m.homonimo_de_departamento
-             && m.busqueda_propia !== false);
+             && m.busqueda_propia === true);
     const dudosos = mudos.filter((m) => !ciertos.includes(m));
-    const sinAtribucion = conRud.filter((m) => m.n_noticias == null);
+    // el texto afirma la CAUSA («se llaman igual que un departamento»), así que
+    // el filtro tiene que comprobarla, no solo el síntoma de la celda vacía
+    const sinAtribucion = conRud.filter(
+      (m) => m.n_noticias == null && m.homonimo_de_departamento);
     // el techo se calcula por TASA, no por número de personas: decir «hasta el
     // X %» y que otro de la propia lista lo supere sería falso
     const conTasa = ciertos.filter((m) => m.tasa_rud_pct != null);

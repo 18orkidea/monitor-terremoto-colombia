@@ -363,8 +363,9 @@ nacen con `requiere_depto`.
 
 Medido el 19-ago-2026: de los 33 municipios con damnificados registrados y cero
 titulares atribuidos, **23 no tienen búsqueda propia**. Su silencio es, en parte,
-silencio del monitor. Por eso el banner de la página de municipios separa dos
-niveles y solo afirma el cero de los municipios cuyo topónimo no admite duda.
+silencio del monitor. Por eso el banner de la página de municipios separa tres
+niveles y solo afirma el cero de los municipios que cumplen las dos condiciones:
+topónimo sin ambigüedad **y** búsqueda propia de prensa.
 
 De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular
 desde que la búsqueda existe** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—.
