@@ -895,13 +895,60 @@ def filas_portada(ctx: dict) -> str:
     return "\n".join(filas)
 
 
+def filas_rud(ctx: dict) -> str:
+    """El registro oficial municipio a municipio, escrito en el HTML.
+
+    Es el dato que nadie más publica: el agregador que compite con el monitor
+    dice por escrito que las cifras oficiales «no existen consolidadas».
+
+    Cada fila lleva en `data-*` lo que el navegador necesita para filtrar,
+    ordenar y paginar sin reconstruirla: el texto normalizado, el departamento,
+    las etiquetas de los filtros rápidos y el valor numérico de cada columna."""
+    rud = ctx["rud"]
+    filas = []
+    for m in sorted(rud["municipios"], key=lambda x: x.get("personas") or 0, reverse=True):
+        nombre, depto = m["municipio"], m["departamento"]
+        etiquetas = []
+        if m.get("nuevo"):
+            etiquetas.append("nuevos")
+        if (m.get("delta_familias") or 0) > 0:
+            etiquetas.append("crecieron")
+        if (m.get("viv_destruidas") or 0) > 0:
+            etiquetas.append("destruidas")
+        # valor por columna, en el mismo orden que el <thead>: permite ordenar
+        # sobre el DOM sin volver a leer el JSON
+        valores = [nombre, m.get("familias"), m.get("personas"), m.get("poblacion_2026"),
+                   m.get("tasa_pct"), m.get("viv_destruidas"), m.get("viv_averiadas"),
+                   m.get("delta_familias")]
+        datos = " ".join(f'data-v{i}="{e("" if v is None else v)}"'
+                         for i, v in enumerate(valores))
+        marca = (' <span class="badge" style="--bc:var(--good)">nuevo</span>'
+                 if m.get("nuevo") else "")
+        delta = m.get("delta_familias")
+        delta_txt = "—" if delta is None else ("+" if delta >= 0 else "") + fmt(delta)
+        filas.append(
+            f'<tr data-buscar="{e(norm_busqueda(nombre + " " + depto))}"'
+            f' data-depto="{e(depto)}" data-chips="{e(" ".join(etiquetas))}" {datos}>'
+            f'<td><strong>{e(nombre)}</strong>{marca}'
+            f'<br><span style="color:var(--muted)">{e(depto)}</span></td>'
+            f'<td class="num">{fmt(m.get("familias"))}</td>'
+            f'<td class="num">{fmt(m.get("personas"))}</td>'
+            f'<td class="num">{fmt(m.get("poblacion_2026"))}</td>'
+            f'<td class="num">{pct(m.get("tasa_pct"))}</td>'
+            f'<td class="num">{fmt(m.get("viv_destruidas"))}</td>'
+            f'<td class="num">{fmt(m.get("viv_averiadas"))}</td>'
+            f'<td class="num">{delta_txt}</td></tr>')
+    return "\n".join(filas)
+
+
 def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     """Rellena en `dist/` los <tbody> marcados con data-gen.
 
     Se hace sobre el artefacto, nunca sobre site/*.html: un HTML que cambiara
     entero cada día destruiría el blame, y el dato ya está versionado."""
     hechas = {}
-    generadores = {"municipios": filas_municipios, "portada": filas_portada}
+    generadores = {"municipios": filas_municipios, "portada": filas_portada,
+                   "rud": filas_rud}
     for nombre, generador in generadores.items():
         archivo = "index" if nombre == "portada" else nombre
         pagina = destino / f"{archivo}.html"

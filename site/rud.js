@@ -1,7 +1,7 @@
 /* Página del RUD: curva diaria de familias registradas + tabla municipal
    completa con buscador (ordenada por personas). Usa los componentes de ui.js. */
 (async function () {
-  const { fmt, pct, fechaEs, fetchJson, tablaBuscable, cssVar } = window.UI;
+  const { fmt, pct, fechaEs, fetchJson, tablaHidratada, cssVar } = window.UI;
   // rud.json: archivo dedicado (serie + detalle municipal completo día a día),
   // pensado para sobrevivir aunque la fuente original desaparezca.
   const rud = await fetchJson("/data/public/rud.json");
@@ -52,22 +52,27 @@
   // ---- filtros: chips excluyentes + departamento, combinables con el buscador
   const CHIPS = [
     { id: "todos", label: "Todos", test: () => true },
-    { id: "nuevos", label: "Nuevos", test: (m) => !!m.nuevo,
+    { id: "nuevos", label: "Nuevos", test: (tr) => chip(tr, "nuevos"),
       tip: "Municipios que aparecieron por primera vez en la última captura" },
     { id: "crecieron", label: "Crecieron en la última captura",
-      test: (m) => (m.delta_familias || 0) > 0,
+      test: (tr) => chip(tr, "crecieron"),
       tip: "Su registro subió respecto a la captura anterior: siguen registrando" },
     { id: "destruidas", label: "Con viviendas destruidas",
-      test: (m) => (m.viv_destruidas || 0) > 0,
+      test: (tr) => chip(tr, "destruidas"),
       tip: "El municipio ya ha cargado viviendas destruidas. Que un municipio no salga aquí puede ser que aún no las haya evaluado" },
   ];
+  // Los filtros leen las etiquetas que el generador escribió en cada fila.
+  const chip = (tr, id) => (tr.dataset.chips || "").split(" ").includes(id);
+  const filasTabla = Array.from(
+    document.querySelectorAll("#rud-tabla tbody tr[data-buscar]"));
+
   let chipActivo = "todos";
   let depto = "";
 
   const contenedorChips = document.getElementById("rud-chips");
   if (contenedorChips) {
     contenedorChips.innerHTML = CHIPS.map((c) => {
-      const n = munis.filter(c.test).length;
+      const n = filasTabla.filter(c.test).length;
       return `<button class="chip${c.id === chipActivo ? " activa" : ""}" data-chip="${c.id}"` +
         `${c.tip ? ` title="${c.tip}"` : ""}>${c.label} (${n})</button>`;
     }).join("");
@@ -84,8 +89,10 @@
   const selDepto = document.getElementById("rud-depto");
   if (selDepto) {
     const cuenta = {};
-    munis.forEach((m) => { cuenta[m.departamento] = (cuenta[m.departamento] || 0) + 1; });
-    selDepto.add(new Option(`Todos los departamentos (${munis.length})`, ""));
+    filasTabla.forEach((tr) => {
+      cuenta[tr.dataset.depto] = (cuenta[tr.dataset.depto] || 0) + 1;
+    });
+    selDepto.add(new Option(`Todos los departamentos (${filasTabla.length})`, ""));
     // localeCompare, no .sort() a secas: por code point CÓRDOBA caería DESPUÉS
     // de CUNDINAMARCA en cuanto el AOI crezca
     Object.keys(cuenta).sort((a, b) => a.localeCompare(b, "es")).forEach((d) =>
@@ -99,35 +106,27 @@
   // criterio de orden vigente sin mantener una lista paralela que se desfase.
   const COLUMNAS = (() => {
     const th = [...document.querySelectorAll("#rud-tabla thead th")];
-    const porNombre = (a, b) => a.municipio.localeCompare(b.municipio, "es");
+    const porNombre = (a, b) =>
+      (a.dataset.v0 || "").localeCompare(b.dataset.v0 || "", "es");
     return [
-      { nombre: "municipio", valor: (m) => `${m.municipio} ${m.departamento}` },
-      { nombre: "familias", valor: (m) => m.familias },
-      { nombre: "personas", valor: (m) => m.personas },
-      { nombre: "población", valor: (m) => m.poblacion_2026 },
-      { nombre: "% de población", valor: (m) => m.tasa_pct },
-      { nombre: "viviendas destruidas", valor: (m) => m.viv_destruidas },
-      { nombre: "viviendas averiadas", valor: (m) => m.viv_averiadas },
-      { nombre: "cambio del día", valor: (m) => m.delta_familias },
+      { nombre: "municipio" },
+      { nombre: "familias" },
+      { nombre: "personas" },
+      { nombre: "población" },
+      { nombre: "% de población" },
+      { nombre: "viviendas destruidas" },
+      { nombre: "viviendas averiadas" },
+      { nombre: "cambio del día" },
     ].map((c, i) => ({ ...c, th: th[i], desempate: i ? porNombre : undefined }));
   })();
 
-  const pinta = tablaBuscable({
+  const pinta = tablaHidratada({
     tbody: document.querySelector("#rud-tabla tbody"),
     input: buscar,
-    rows: munis,
     paginado: document.getElementById("paginado"),
     porPagina: TOP,
-    filtroExtra: (m) => chipDe(chipActivo).test(m) && (!depto || m.departamento === depto),
+    filtroExtra: (tr) => chipDe(chipActivo).test(tr) && (!depto || tr.dataset.depto === depto),
     columnas: COLUMNAS,
-    texto: (m) => `${m.municipio} ${m.departamento}`,
-    fila: (m) =>
-      `<tr><td><strong>${m.municipio}</strong>${m.nuevo ? ' <span class="badge" style="--bc:var(--good)">nuevo</span>' : ""}<br><span style="color:var(--muted)">${m.departamento}</span></td>` +
-      `<td class="num">${fmt(m.familias)}</td><td class="num">${fmt(m.personas)}</td>` +
-      `<td class="num">${m.poblacion_2026 == null ? "—" : fmt(m.poblacion_2026)}</td>` +
-      `<td class="num">${pct(m.tasa_pct)}</td>` +
-      `<td class="num">${fmt(m.viv_destruidas)}</td><td class="num">${fmt(m.viv_averiadas)}</td>` +
-      `<td class="num">${m.delta_familias == null ? "—" : (m.delta_familias >= 0 ? "+" : "") + fmt(m.delta_familias)}</td></tr>`,
     nota: document.getElementById("rud-nota"),
     notaTexto: (q, visibles, total, orden) => {
       // el criterio lo manda la cabecera pulsada, si hay alguna: la nota no

@@ -505,3 +505,55 @@ class TestSatelites(unittest.TestCase):
         ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
         self.assertIn("evaluado_unosat", ui)
         self.assertIn("evaluado_unosat", R.ESTADO_MUNICIPIO)
+
+
+class TestTablaRud(unittest.TestCase):
+    """Fase D: el registro oficial, municipio a municipio, escrito en el HTML.
+
+    Es el dato que nadie más publica: el agregador que compite con el monitor
+    declara que las cifras oficiales «no existen consolidadas»."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.html = R.filas_rud(cls.ctx)
+        cls.municipios = cls.ctx["rud"]["municipios"]
+
+    def test_una_fila_por_municipio_registrado(self):
+        self.assertEqual(self.html.count("<tr "), len(self.municipios))
+
+    def test_cada_fila_lleva_lo_que_el_navegador_necesita(self):
+        """Filtrar, ordenar y paginar sin volver a leer el JSON ni reconstruir
+        la fila: el valor de cada columna viaja en data-v{i}."""
+        n = len(self.municipios)
+        self.assertEqual(self.html.count("data-buscar="), n)
+        self.assertEqual(self.html.count("data-depto="), n)
+        self.assertEqual(self.html.count("data-chips="), n)
+        for i in range(8):
+            self.assertEqual(self.html.count(f'data-v{i}="'), n,
+                             f"falta el valor de la columna {i} en alguna fila")
+
+    def test_las_etiquetas_de_los_filtros_cuadran_con_el_dato(self):
+        con_destruidas = sum(1 for m in self.municipios if (m.get("viv_destruidas") or 0) > 0)
+        self.assertEqual(len(re.findall(r'data-chips="[^"]*destruidas', self.html)),
+                         con_destruidas)
+        nuevos = sum(1 for m in self.municipios if m.get("nuevo"))
+        self.assertEqual(len(re.findall(r'data-chips="[^"]*nuevos', self.html)), nuevos)
+
+    def test_un_municipio_sin_dato_no_recibe_un_cero(self):
+        """R3: «sin registro aún» no es «sin daño», y un hueco no es un cero."""
+        sin = [m for m in self.municipios if m.get("poblacion_2026") is None]
+        if not sin:
+            self.skipTest("todos los municipios registrados tienen población")
+        fila = [l for l in self.html.split("\n") if sin[0]["municipio"] in l][0]
+        self.assertIn("—", fila)
+
+    def test_el_javascript_ya_no_construye_las_filas(self):
+        js = (Path(__file__).parent.parent / "site/rud.js").read_text(encoding="utf-8")
+        self.assertIn("tablaHidratada", js)
+        self.assertNotIn("tablaBuscable", js)
+        self.assertNotIn("<tr>", js)
+
+    def test_el_marcador_existe(self):
+        html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
+        self.assertIn('<tbody data-gen="rud">', html)

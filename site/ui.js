@@ -263,30 +263,83 @@ window.UI = (function () {
      Cada <tr> trae su texto normalizado en data-buscar, escrito por
      deploy/render_html.py con la misma normalización que UI.norm. */
   function tablaHidratada(opts) {
-    const { tbody, input, nota, notaTexto, vacio } = opts;
+    const { tbody, input, nota, notaTexto, vacio, paginado, porPagina,
+            columnas, filtroExtra } = opts;
     if (!tbody) return () => {};
     const filas = Array.from(tbody.rows).filter((r) => r.dataset.buscar !== undefined);
     const total = filas.length;
+    let pagina = 1;
+    let orden = null;   // {i, dir}
+
+    // El valor de cada columna viaja en data-v{i}, escrito por el generador:
+    // ordenar no obliga a volver a leer el JSON ni a reconstruir la fila.
+    const valorDe = (tr, i) => {
+      const v = tr.dataset["v" + i];
+      if (v === undefined || v === "") return null;
+      const n = Number(v);
+      return Number.isNaN(n) ? v : n;
+    };
 
     let sinCoincidencias = null;
-    const pinta = () => {
+    const pinta = (o) => {
+      if (o && o.reiniciar) pagina = 1;
       const q = norm(input ? input.value.trim() : "");
-      let visibles = 0;
-      filas.forEach((tr) => {
-        const ok = !q || tr.dataset.buscar.includes(q);
-        tr.hidden = !ok;
-        if (ok) visibles++;
-      });
-      if (!visibles && !sinCoincidencias) {
+      let visibles = filas.filter((tr) =>
+        (!filtroExtra || filtroExtra(tr)) && (!q || tr.dataset.buscar.includes(q)));
+
+      if (orden && columnas) {
+        const col = columnas[orden.i];
+        visibles = [...visibles].sort(comparador(
+          (tr) => valorDe(tr, orden.i), orden.dir,
+          col && col.desempate ? (a, b) => col.desempate(a, b) : undefined));
+        // reordenar el DOM, no reconstruirlo: las filas son las mismas
+        visibles.forEach((tr) => tbody.appendChild(tr));
+      }
+
+      let vista = visibles;
+      if (paginado) {
+        const pp = porPagina || visibles.length || 1;
+        const paginas = Math.max(1, Math.ceil(visibles.length / pp));
+        if (pagina > paginas) pagina = paginas;
+        vista = visibles.slice((pagina - 1) * pp, pagina * pp);
+        paginador(paginado, paginas, pagina, (p) => { pagina = p; pinta(); });
+      }
+      const enVista = new Set(vista);
+      filas.forEach((tr) => { tr.hidden = !enVista.has(tr); });
+
+      if (!vista.length && !sinCoincidencias) {
         sinCoincidencias = tbody.insertRow();
         sinCoincidencias.innerHTML =
           `<td colspan="99" style="color:var(--muted)">${vacio || "Sin coincidencias."}</td>`;
       }
-      if (sinCoincidencias) sinCoincidencias.hidden = visibles > 0;
-      if (nota && notaTexto) nota.textContent = notaTexto(q, visibles, total);
-      return visibles;
+      if (sinCoincidencias) sinCoincidencias.hidden = vista.length > 0;
+      if (nota && notaTexto) nota.textContent = notaTexto(q, visibles.length, total, orden);
+      return vista;
     };
-    if (input) input.oninput = pinta;
+
+    (columnas || []).forEach((col, i) => {
+      if (!col.th) return;
+      col.th.classList.add("ord");
+      col.th.setAttribute("aria-sort", "none");
+      col.th.title = (col.th.title ? col.th.title + " " : "") + "Pulsa para ordenar.";
+      col.th.tabIndex = 0;
+      const alternar = () => {
+        orden = (orden && orden.i === i && orden.dir === "asc")
+          ? { i, dir: "desc" } : { i, dir: "asc" };
+        columnas.forEach((c, j) => {
+          if (!c.th) return;
+          c.th.setAttribute("aria-sort", j === i
+            ? (orden.dir === "asc" ? "ascending" : "descending") : "none");
+        });
+        pinta({ reiniciar: true });
+      };
+      col.th.onclick = alternar;
+      col.th.onkeydown = (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); alternar(); }
+      };
+    });
+
+    if (input) input.oninput = () => pinta({ reiniciar: true });
     pinta();
     return pinta;
   }
