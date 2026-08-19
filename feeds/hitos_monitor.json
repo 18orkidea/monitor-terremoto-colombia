@@ -1,64 +1,86 @@
 {
-  "descripcion": "Hitos curados NO derivables de los datos. Los demás se generan solos en el sitio: alta del RUD (primer día de rud.serie), primer balance en medios (primer search_date del feed de oficiales) y purga de la serie EMM (primer día sin dato tras la serie). Aquí solo va lo que ninguna fuente registra: el evento raíz y los cambios del propio monitor (fuentes nuevas, rediseños).",
-  "tipos": {
-    "evento": "El sismo y sus réplicas mayores",
-    "local": "Respuesta oficial y local (UNGRD, RUD, balances citados en medios)",
-    "monitor": "Cambios del propio monitor: fuentes que entran o desaparecen, rediseños"
+ "descripcion": "Hitos curados NO derivables de los datos. Los demás se generan solos en el sitio: alta del RUD (primer día de rud.serie), primer balance en medios (primer search_date del feed de oficiales) y purga de la serie EMM (primer día sin dato tras la serie). Aquí solo va lo que ninguna fuente registra: el evento raíz y los cambios del propio monitor (fuentes nuevas, rediseños).",
+ "tipos": {
+  "evento": "El sismo y sus réplicas mayores",
+  "local": "Respuesta oficial y local (UNGRD, RUD, balances citados en medios)",
+  "monitor": "Cambios del propio monitor: fuentes que entran o desaparecen, rediseños"
+ },
+ "hitos": [
+  {
+   "fecha": "2026-08-10",
+   "tipo": "evento",
+   "texto": "Terremoto M7.4 con epicentro en San José del Palmar (Chocó), el más fuerte registrado en Colombia en más de un siglo",
+   "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2"
   },
-  "hitos": [
-    {
-      "fecha": "2026-08-10",
-      "tipo": "evento",
-      "texto": "Terremoto M7.4 con epicentro en San José del Palmar (Chocó), el más fuerte registrado en Colombia en más de un siglo",
-      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2"
-    },
-    {
-      "fecha": "2026-08-15",
-      "tipo": "monitor",
-      "texto": "Primera corrida diaria del monitor: cruce satélite–prensa–reporte ciudadano con snapshots inmutables"
-    },
-    {
-      "fecha": "2026-08-15",
-      "tipo": "monitor",
-      "texto": "Alta de feeds regionales y búsquedas municipales de noticias: la cobertura local (p. ej. Istmina) entra en la medición"
-    },
-    {
-      "fecha": "2026-08-16",
-      "tipo": "monitor",
-      "texto": "Nueva versión del sitio: portada resumida, páginas propias para municipios y RUD, cronología unificada con la respuesta local y comparativa de fuentes en Balances"
-    },
-    {
-      "fecha": "2026-08-17",
-      "tipo": "monitor",
-      "texto": "El monitor se profesionaliza: reglas de desarrollo escritas, agentes revisores, deploy único, snapshots intradía verificables, la base de datos pasa a dumps CSV legibles y las limitaciones del archivo quedan documentadas",
-      "url": "https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
-    },
-    {
-      "fecha": "2026-08-17",
-      "tipo": "monitor",
-      "texto": "La serie de balances gana memoria: los cortes viejos de medios internacionales tardíos ya no la hacen retroceder (caso Primicias: 181 fallecidos cuando el consolidado iba por 294), las disputas entre medios se marcan en vez de suprimirse y ninguna cifra desaparece si el día no la repite"
-    },
-    {
-      "fecha": "2026-08-17",
-      "tipo": "monitor",
-      "texto": "El monitor avisa: notificaciones push del navegador (botón 🔔), canal de Telegram y RSS de alertas con los cambios diarios del RUD, los balances en medios y el propio monitor"
-    },
-    {
-      "fecha": "2026-08-17",
-      "tipo": "monitor",
-      "texto": "El monitor estaba mirando solo 25 municipios cuando el RUD ya registraba 75. La capa pasa a 83 y entran todos los del registro oficial, 72 de ellos sin ninguna verificación satelital, con la población DANE y qué proporción de ella está registrada como damnificada. Los que entren al RUD en adelante se incorporan solos.",
-      "url": "https://brechas.orkidea.eu/site/municipios.html"
-    },
-    {
-      "fecha": "2026-08-17",
-      "tipo": "monitor",
-      "texto": "El extractor de balances deja de confundir «California» con Cali: la última superficie del monitor que atribuía municipios sin límite de palabra ya aplica la misma regla que el resto, y dos tests vigilan que su lista de municipios no se separe en silencio de la del pipeline."
-    },
-    {
-      "fecha": "2026-08-18",
-      "tipo": "monitor",
-      "texto": "La tabla del RUD se puede filtrar y ordenar: municipios nuevos, los que siguen registrando, los que ya cargaron viviendas destruidas y por departamento. Y la página explica lo que antes se daba por supuesto: el RUD es lo que cada alcaldía registra, no una verificación del daño, y un cero en viviendas puede querer decir «todavía sin evaluar».",
-      "url": "https://brechas.orkidea.eu/site/rud.html"
-    }
-  ]
+  {
+   "fecha": "2026-08-15",
+   "tipo": "monitor",
+   "texto": "Primera corrida diaria del monitor: cruce satélite–prensa–reporte ciudadano con snapshots inmutables"
+  },
+  {
+   "fecha": "2026-08-15",
+   "tipo": "monitor",
+   "texto": "Alta de feeds regionales y búsquedas municipales de noticias: la cobertura local (p. ej. Istmina) entra en la medición"
+  },
+  {
+   "fecha": "2026-08-16",
+   "tipo": "monitor",
+   "texto": "Nueva versión del sitio: portada resumida, páginas propias para municipios y RUD, cronología unificada con la respuesta local y comparativa de fuentes en Balances"
+  },
+  {
+   "fecha": "2026-08-17",
+   "tipo": "monitor",
+   "texto": "El monitor se profesionaliza: reglas de desarrollo escritas, agentes revisores, deploy único, snapshots intradía verificables, la base de datos pasa a dumps CSV legibles y las limitaciones del archivo quedan documentadas",
+   "url": "https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
+  },
+  {
+   "fecha": "2026-08-17",
+   "tipo": "monitor",
+   "texto": "La serie de balances gana memoria: los cortes viejos de medios internacionales tardíos ya no la hacen retroceder (caso Primicias: 181 fallecidos cuando el consolidado iba por 294), las disputas entre medios se marcan en vez de suprimirse y ninguna cifra desaparece si el día no la repite"
+  },
+  {
+   "fecha": "2026-08-17",
+   "tipo": "monitor",
+   "texto": "El monitor avisa: notificaciones push del navegador (botón 🔔), canal de Telegram y RSS de alertas con los cambios diarios del RUD, los balances en medios y el propio monitor"
+  },
+  {
+   "fecha": "2026-08-17",
+   "tipo": "monitor",
+   "texto": "El monitor estaba mirando solo 25 municipios cuando el RUD ya registraba 75. La capa pasa a 83 y entran todos los del registro oficial, 72 de ellos sin ninguna verificación satelital, con la población DANE y qué proporción de ella está registrada como damnificada. Los que entren al RUD en adelante se incorporan solos.",
+   "url": "https://brechas.orkidea.eu/site/municipios.html"
+  },
+  {
+   "fecha": "2026-08-17",
+   "tipo": "monitor",
+   "texto": "El extractor de balances deja de confundir «California» con Cali: la última superficie del monitor que atribuía municipios sin límite de palabra ya aplica la misma regla que el resto, y dos tests vigilan que su lista de municipios no se separe en silencio de la del pipeline."
+  },
+  {
+   "fecha": "2026-08-18",
+   "tipo": "monitor",
+   "texto": "La tabla del RUD se puede filtrar y ordenar: municipios nuevos, los que siguen registrando, los que ya cargaron viviendas destruidas y por departamento. Y la página explica lo que antes se daba por supuesto: el RUD es lo que cada alcaldía registra, no una verificación del daño, y un cero en viviendas puede querer decir «todavía sin evaluar».",
+   "url": "https://brechas.orkidea.eu/site/rud.html"
+  },
+  {
+   "fecha": "2026-08-19",
+   "tipo": "monitor",
+   "texto": "Entra UNITAR-UNOSAT, el centro satelital de la ONU: 393 edificios evaluados uno a uno en Anserma, Manizales y Viterbo, tres municipios de Caldas donde Copernicus no ha cartografiado nada. Ninguno está validado en campo y 296 se marcan solo como «daño posible». Es el segundo satélite del monitor, y el primero que puede contradecir al otro: en el epicentro, San José del Palmar, la evaluación preliminar de UNOSAT solo ve un edificio con daño estructural visible y un deslizamiento —y advierte que mira «en las zonas sin nubes»—, mientras el registro oficial cuenta allí 626 familias y 189 viviendas afectadas.",
+   "url": "https://unosat.org/products/4253"
+  },
+  {
+   "fecha": "2026-08-19",
+   "tipo": "monitor",
+   "texto": "El monitor ya avisa cuando una fuente institucional publica algo nuevo. El informe de UNOSAT del epicentro llevaba un día en la cronología sin que nada lo señalara: aparecía si alguien miraba. Ahora entra en las alertas y en el RSS el mismo día en que el monitor lo ve."
+  },
+  {
+   "fecha": "2026-08-19",
+   "tipo": "monitor",
+   "texto": "Los globos del mapa dejan de enseñar guiones. Donde una fuente no midió algo en ese punto, la línea desaparece en vez de mostrar «—»: un hueco de cobertura no puede leerse como un cero. Cada fuente describe lo suyo con sus propias palabras."
+  },
+  {
+   "fecha": "2026-08-19",
+   "tipo": "monitor",
+   "texto": "Viterbo entra en el monitor, y entra solo por el satélite: 154 edificios evaluados por UNOSAT, 55 con daño observado, y ni una línea en el registro oficial de damnificados. Es el primer municipio que este monitor conoce porque lo vio una cámara desde el espacio y nadie más lo miró. La tabla de municipios estrena columna para esa evaluación, separada de la cobertura de Copernicus porque la propia ONU la marca como no validada en campo.",
+   "url": "https://brechas.orkidea.eu/site/municipios.html"
+  }
+ ]
 }

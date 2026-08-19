@@ -80,12 +80,13 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [DIVIPOLA geolocalizado `gdxc-w37w`](https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w) | Centroide y código de los 1.122 municipios: cualquier municipio que entre al RUD resuelve coordenadas sin curación manual | Público (Socrata, `$limit` explícito); referencia estática — se regenera a mano con `ingest/build_divipola.py`, no en la corrida diaria |
 | [ChatMap OSM Colombia](https://chatmap.hotosm.org/colombia.html) ([uMap](https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482), [proyecto HOT](https://www.hotosm.org/en/projects/2026-colombia-earthquake-response/)) | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
 | [UNGRD RUD](https://rud.gestiondelriesgo.gov.co/) (`/home/json.php?temp=2026T`) | **La primera fuente oficial que cubre el evento**: damnificados por municipio (familias, personas, viviendas), cargado por autoridades locales | Público de lectura, NO documentado (descubierto 16-ago); vigilado por test de supuesto |
+| [UNITAR-UNOSAT](https://unosat.org/products/4253) (`/our_products/`, `/our_products/<id>`) | **La segunda mirada satelital**: 393 edificios evaluados uno a uno en Anserma, Manizales y Viterbo (Caldas), donde Copernicus no cartografía nada. Shapefiles leídos con stdlib | Público, sin clave ni API documentada; licencia no declarada ([UNITAR legal](https://www.unitar.org/legal)). El listado es una ventana fija de 11 productos sin paginar: el módulo consulta también los ids ya vistos para no perder el histórico |
 | [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
 | Worker interno `monitor-terremoto-colombia-oficiales-ai` | Monitoreo de canales oficiales y extracción estructurada de documentos con `qwen-vl-ocr-2025-11-20` | Privado para inferencia; público solo JSON/RSS estructurado |
 
 Sin acceso programático (documentado, no usado): [SNIGRD](https://sni.gestiondelriesgo.gov.co/)/geoportal
 UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA sin API),
-[UNITAR-UNOSAT](https://unosat.org/products/4250) (sin API), ReliefWeb (requiere appname).
+ReliefWeb (requiere appname).
 
 ## Recibir alertas
 

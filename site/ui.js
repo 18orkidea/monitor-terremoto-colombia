@@ -27,6 +27,11 @@ window.UI = (function () {
   const ESTADO_MUNICIPIO = {
     en_aoi: ["En zona Copernicus", "--s1",
              "El municipio cae dentro de una zona con producto de daño de Copernicus"],
+    evaluado_unosat: ["Evaluado por UNOSAT", "--s9",
+                      "El centro satelital de la ONU evaluó allí edificio a " +
+                      "edificio, fuera de toda zona de Copernicus. Es " +
+                      "fotointerpretación sobre imagen de muy alta resolución, " +
+                      "no validada en campo por la propia fuente"],
     intensidad_alta: ["Intensidad alta", "--warning",
                       "Intensidad percibida DYFI ≥ 6, sin producto de daño"],
     mencion_prensa: ["Mencionado en prensa", "--s2",
@@ -195,6 +200,41 @@ window.UI = (function () {
     if (input) input.oninput = () => pinta({ reiniciar: true });
     pinta();
     return pinta;
+  }
+
+  /* Ficha de un globo del mapa — el ÚNICO constructor de popups del sitio.
+
+     `filas` es [[etiqueta, valor], …]. Una fila cuyo valor está vacío no se
+     pinta: un globo jamás debe decir «Confianza: —», porque eso hace creer
+     que la fuente respondió a esa pregunta y dijo «nada». Si la fuente no
+     mide algo en ese punto, la pregunta no aparece.
+
+     Vacío es null, undefined, cadena vacía o NaN. El 0 NO es vacío: un cero
+     medido es un dato, y confundirlo con una ausencia es justo el error que
+     prohíbe la R3. `false` tampoco es vacío.
+
+     Cada fuente pasa sus propias etiquetas, en el vocabulario en que ella
+     publica: lo que Copernicus llama «grado de daño» y UNOSAT llama
+     «confianza del análisis» no se homogeneiza a un genérico que borraría en
+     qué se diferencian.
+
+     opts: {titulo, subtitulo?, filas?, pie?, html?} — `pie` va en gris al
+     final (procedencia), `html` es un bloque libre (una foto, un enlace). */
+  function fichaMapa(opts) {
+    const vacio = (v) => v === null || v === undefined || v === "" ||
+      (typeof v === "number" && Number.isNaN(v));
+    const partes = [];
+    if (opts.titulo) partes.push(`<strong>${opts.titulo}</strong>`);
+    if (!vacio(opts.subtitulo)) partes.push(String(opts.subtitulo));
+    for (const [etiqueta, valor] of opts.filas || []) {
+      if (vacio(valor)) continue;
+      partes.push(vacio(etiqueta) ? String(valor)
+        : `${etiqueta}: ${valor}`);
+    }
+    if (!vacio(opts.html)) partes.push(String(opts.html));
+    if (!vacio(opts.pie))
+      partes.push(`<span style="color:var(--muted)">${opts.pie}</span>`);
+    return partes.join("<br>");
   }
 
   /* Tarjetas métricas: [{label, value, sub?, href?}] en un .metric-strip. */
@@ -402,6 +442,7 @@ window.UI = (function () {
 
   return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
            fraseHomonimos, comparador, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
+           fichaMapa,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };

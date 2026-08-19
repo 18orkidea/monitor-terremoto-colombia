@@ -187,6 +187,39 @@ CREATE TABLE IF NOT EXISTS rud_daily (
   habitables REAL, nohabitables REAL,
   PRIMARY KEY (snapshot_date, departamento, municipio)
 );
+-- UNITAR-UNOSAT: la segunda mirada satelital. Los productos y sus paquetes
+-- de shapefiles; el dato se indexa por sha del paquete y NO por producto,
+-- porque varios productos publican el mismo ZIP y el edificio es uno solo.
+CREATE TABLE IF NOT EXISTS unosat_products (
+  product_id INTEGER PRIMARY KEY,
+  glide TEXT, titulo TEXT,
+  descripcion TEXT,                -- «SUMMARY OF FINDING»: para el epicentro es
+                                   -- el único sitio donde vive el análisis
+  created_at TEXT,
+  lat REAL, lon REAL,
+  pdf_url TEXT, shp_url TEXT, gdb_url TEXT, xlsx_url TEXT, web_url TEXT,
+  shp_sha256 TEXT,                 -- qué paquete publica (identidad real)
+  fuentes_texto TEXT,              -- bloque «Data sources» tal cual lo escribe
+  first_seen TEXT, snapshot_date TEXT
+);
+CREATE TABLE IF NOT EXISTS unosat_damage (
+  paquete_sha TEXT NOT NULL,       -- sha256 del ZIP que contiene el registro
+  capa TEXT NOT NULL,              -- shapefile de origen, con sensor y fecha
+  idx INTEGER NOT NULL,            -- nº de registro dentro de la capa
+  productos TEXT,                  -- ids UNOSAT que declaran este paquete
+  municipio TEXT, departamento TEXT,
+  departamento_origen TEXT,        -- 'catalogo' | 'titulo_unosat': de dónde sale
+                                   -- el departamento, porque uno es dato y el
+                                   -- otro una inferencia sobre el título
+  sensor TEXT, sensor_date TEXT,
+  dano TEXT, dano_agrupado TEXT,
+  confianza TEXT, validacion_campo TEXT,
+  event_code TEXT,                 -- literal de la fuente, aunque contradiga
+  notas TEXT,
+  lat REAL, lon REAL,
+  first_seen TEXT, snapshot_date TEXT NOT NULL,
+  PRIMARY KEY (paquete_sha, capa, idx)
+);
 CREATE TABLE IF NOT EXISTS crosscheck (
   aoi_name TEXT NOT NULL, snapshot_date TEXT NOT NULL,
   estado TEXT NOT NULL,

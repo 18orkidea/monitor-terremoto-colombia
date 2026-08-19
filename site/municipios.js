@@ -18,11 +18,24 @@
   const spanHom = document.getElementById("mun-homonimos");
   if (spanHom) spanHom.textContent = window.UI.fraseHomonimos(data.items);
 
+  // Desde el 19-ago-2026 hay un segundo satélite y la frase no puede seguir
+  // diciendo que al resto «no lo ha mirado ninguno»: a tres sí, y ninguno de
+  // ellos está en zona Copernicus.
+  const enUnosat = data.items.filter((m) => m.unosat_edificios != null).length;
+  // contado, no restado: un municipio puede estar a la vez en zona Copernicus y
+  // evaluado por UNOSAT (lo contempla test_copernicus_manda_sobre_unosat), y la
+  // resta mentiría en silencio el día que ocurra
+  const sinSatelite = data.items.filter(
+    (m) => !m.en_aoi_copernicus && m.unosat_edificios == null).length;
   const cobertura = document.getElementById("mun-cobertura");
   if (cobertura) {
     cobertura.textContent = `Solo ${enAoi} de los ${data.items.length} tienen su ` +
-      `cabecera dentro de una zona con producto de daño de Copernicus: al resto no lo ` +
-      `ha mirado ningún producto satelital de daño.`;
+      `cabecera dentro de una zona con producto de daño de Copernicus` +
+      (enUnosat
+        ? `, y otros ${enUnosat} los ha evaluado UNITAR-UNOSAT edificio a edificio. ` +
+          `A los ${sinSatelite} restantes no los ha mirado ningún producto ` +
+          `satelital de daño.`
+        : `: al resto no lo ha mirado ningún producto satelital de daño.`);
   }
 
   const rows = [...data.items].sort((a, b) =>
@@ -41,9 +54,31 @@
         `departamento. No es que no haya prensa — es que no se puede afirmar ` +
         `cuál le corresponde.">—</span>`;
     }
-    return m.n_noticias
-      ? `<a href="noticias.html?municipio=${encodeURIComponent(m.municipio)}" style="color:var(--s1)">${fmt(m.n_noticias)}</a>`
-      : fmt(0);
+    if (m.n_noticias)
+      return `<a href="noticias.html?municipio=${encodeURIComponent(m.municipio)}" style="color:var(--s1)">${fmt(m.n_noticias)}</a>`;
+    // Un cero en un municipio que exige departamento no es «nadie habló de él»:
+    // puede haber titulares con su nombre que el monitor no se atreve a
+    // atribuirle. Viterbo es el caso: existe un artículo italiano que lo
+    // nombra, pero sin «Caldas» en el texto no cuenta.
+    if (m.requiere_depto)
+      return `<span title="Su nombre es palabra común, lugar extranjero o se ` +
+        `repite en otro departamento: solo se le atribuyen titulares que ` +
+        `nombren también ${m.departamento}. Puede haber prensa que el monitor ` +
+        `no pueda asignarle.">0</span>`;
+    return fmt(0);
+  };
+
+  // UNOSAT: donde no ha mirado no hay cero, hay ausencia (R3). El desglose
+  // separa lo que la fuente da por observado de lo que marca como hipótesis.
+  const unosatCelda = (m) => {
+    if (m.unosat_edificios == null) return "—";
+    const otros = m.unosat_otros_eventos
+      ? ` <span title="UNOSAT los incluye en la misma capa pero los etiqueta ` +
+        `con otro código de evento, así que no se suman al terremoto." ` +
+        `style="color:var(--warning)">+${fmt(m.unosat_otros_eventos)}</span>`
+      : "";
+    return `${fmt(m.unosat_edificios)} <span style="color:var(--muted)">` +
+      `(${fmt(m.unosat_observados)})</span>${otros}`;
   };
 
   tablaBuscable({
@@ -59,6 +94,7 @@
         `<br><span style="color:var(--muted)">${m.departamento}</span></td>` +
         `<td><span class="badge" style="--bc:var(${color})" title="${explica}">${estado}</span></td>` +
         `<td class="num" title="DANE PPED municipal por área, 2026">${fmt(m.poblacion_2026)}</td>` +
+        `<td class="num">${unosatCelda(m)}</td>` +
         `<td class="num">${m.rud_personas == null ? "—" : fmt(m.rud_personas)}</td>` +
         `<td class="num">${pct(m.tasa_rud_pct)}</td>` +
         `<td class="num">${fmt(m.dyfi_max_cdi, 1)}</td>` +

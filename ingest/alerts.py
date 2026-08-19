@@ -24,6 +24,58 @@ def _ayer() -> str:
     return (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
 
 
+# Emisores conocidos de la cronología institucional de GDACS. El título llega
+# en inglés y con el nombre del emisor dentro («… - UNITAR-UNOSAT Activation»).
+EMISORES = (
+    ("UNOSAT", "UNITAR-UNOSAT"),
+    ("Copernicus", "Copernicus EMS"),
+    ("ECHO", "EC/ECHO"),
+)
+
+
+def _emisor(titulo: str) -> str:
+    for clave, nombre in EMISORES:
+        if clave.lower() in (titulo or "").lower():
+            return nombre
+    return "Una fuente institucional"
+
+
+def _institucional(dia: str) -> list[dict] | None:
+    """Cronología institucional archivada de un día, o None si no se capturó."""
+    f = SNAPSHOTS / dia / "gdacs_news_institucional.json"
+    if not f.exists():
+        return None
+    try:
+        datos = json.loads(f.read_text())
+    except json.JSONDecodeError:
+        return None
+    return datos if isinstance(datos, list) else None
+
+
+def _institucionales_nuevos(snap: str) -> list[dict]:
+    """Entradas que hoy están y en la última captura anterior no.
+
+    Sin captura previa NO se alerta: en la primera corrida todo sería «nuevo»
+    y siete avisos de golpe no informan de nada. La identidad es (enlace,
+    fecha) porque Copernicus reutiliza la misma URL de descarga en entradas
+    distintas.
+    """
+    hoy = _institucional(snap)
+    if not hoy:
+        return []
+    previo = None
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        if d.name >= snap:
+            continue
+        previo = _institucional(d.name)
+        if previo is not None:
+            break
+    if previo is None:
+        return []
+    vistos = {(x.get("link"), x.get("pubdate")) for x in previo}
+    return [x for x in hoy if (x.get("link"), x.get("pubdate")) not in vistos]
+
+
 def run(copernicus_summary: dict | None = None) -> list[dict]:
     conn = db()
     snap = today()
@@ -69,6 +121,22 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                     "aoi": key[0], "producto": key[1],
                     "antes": {"version": pv[0], "status": pv[1]},
                     "ahora": {"version": ver, "status": st}})
+
+    # 2b) cronología institucional nueva (UNOSAT, ECHO, Copernicus…)
+    # El feed institucional de GDACS traía el producto 4253 de UNOSAT —la
+    # evaluación del epicentro— y el monitor lo publicaba en la línea de
+    # tiempo sin avisar a nadie: aparecía si alguien miraba. Un producto
+    # institucional nuevo es exactamente lo que este monitor existe para
+    # cazar, así que va en nivel alta.
+    for item in _institucionales_nuevos(snap):
+        quien = _emisor(item.get("title") or "")
+        alerts.append({
+            "tipo": "institucional_nuevo", "nivel": "alta",
+            "texto": f"{quien} publicó un producto nuevo del terremoto: "
+                     f"{item.get('title') or 'sin título'}"
+                     f"{(' — ' + item['link']) if item.get('link') else ''}",
+            "emisor": quien, "titulo": item.get("title"),
+            "url": item.get("link"), "pubdate": item.get("pubdate")})
 
     # 3) reportes ciudadanos nuevos (últimas 24 h, por fecha del reporte)
     n_ciud = conn.execute(

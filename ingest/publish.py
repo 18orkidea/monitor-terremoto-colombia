@@ -466,8 +466,41 @@ def run() -> dict:
     # Excluir el AOI regional: cubre el área de influencia completa, pero no
     # equivale a una zona urbana analizada con producto de daño.
     extents_detalle = {k: v for k, v in extents.items() if k != "Western Colombia"}
+    # UNOSAT por municipio: la segunda mirada satelital entra en la capa de
+    # municipios con etiqueta propia — no se funde con las cifras de
+    # Copernicus, que son estadísticas revisadas por AOI y no puntos
+    # fotointerpretados sin validar en campo.
+    from sources.unosat import GLIDE as UNOSAT_GLIDE, paquete_vigente
+    unosat_por_mun = {}
+    sha_vigente = paquete_vigente(conn)
+    for mun, dano, code, fecha, n in conn.execute(
+            "SELECT municipio, dano, event_code, MAX(sensor_date), COUNT(*)"
+            " FROM unosat_damage WHERE municipio IS NOT NULL AND paquete_sha=?"
+            " GROUP BY municipio, dano, event_code", (sha_vigente,)):
+        d = unosat_por_mun.setdefault(mun, {"edificios": 0, "observados": 0,
+                                            "posibles": 0, "otros_eventos": 0,
+                                            "fecha_imagen": None})
+        # 8 puntos de Manizales llegan etiquetados EQ20260822COL, un evento
+        # fechado DESPUÉS de su publicación. No se suman al terremoto ni se
+        # tiran: se cuentan aparte, porque la etiqueta es de la fuente y
+        # corregirla por nuestra cuenta sería inventar.
+        if (code or "").upper() != UNOSAT_GLIDE:
+            d["otros_eventos"] += n
+            continue
+        d["edificios"] += n
+        # la fuente escribe «Damage» en unas capas y «Damaged» en otras para lo
+        # mismo; «Possible Damage» es la hipótesis, no el hallazgo
+        if (dano or "").lower().startswith("possible"):
+            d["posibles"] += n
+        elif dano:
+            d["observados"] += n
+        # sin grado no hay observación: ni posible ni observado (R3). Queda
+        # contado en `edificios`, que es lo que UNOSAT miró.
+        d["fecha_imagen"] = max(d["fecha_imagen"] or "", fecha or "") or None
+
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
-                                                 poblacion, rud_por_mun, divipola)
+                                                 poblacion, rud_por_mun, divipola,
+                                                 unosat_por_mun)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))

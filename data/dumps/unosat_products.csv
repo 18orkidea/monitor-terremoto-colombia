@@ -1,0 +1,83 @@
+product_id,glide,titulo,descripcion,created_at,lat,lon,pdf_url,shp_url,gdb_url,xlsx_url,web_url,shp_sha256,fuentes_texto,first_seen,snapshot_date
+4250,EQ20260810COL,"M 7.4  in South of San José del Palmar, Colombia 10 August 2026 at 12:34 UTC","This application provides geospatial information from an ongoing satellite-based assessment of the magnitude 7.4
+
+ earthquake that occurred south of San José del Palmar, Colombia, on 10 August 2026 at 12:34:28 UTC.2026-06-24 22:04:33 (
+
+
+
+Important note: The boundaries and names shown, and the designations used on this map do not imply official endorsement or acceptance by the United Nations. 
+
+The United Nations Satellite Centre -UNOSAT is not responsible for the misuse or misrepresentation of the map.",2026-08-11T06:16:06.206163Z,4.6918068724838555,-76.35110526779494,\N,\N,\N,https://unosat.org/unosat_filesystem/4250/UNOSAT_PopulationExposure_EQ20260810COL_M74_V5.xlsx,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,\N,"Earthquake epicentre: USGS 
+Seismic intensities (MMI): USGS 
+Populated place: OSM 
+Seismic intensities (MMI): USGS - last updated 2026-08-10 14:40:56 (UTC) (Version 5)
+Administrative boundaries: Departamento Administrativo Nacional de Estadística (DANE)
+Population data: WorldPop, (100m resolution) for 2026
+Analysis: United Nations Satellite Centre (UNOSAT) and Copernicus EMS
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:47Z,2026-08-19
+4251,EQ20260810COL,"Building Damage Assessment in Viterbo Town, Caldas Department, Colombia  as of 12 August 2026","This map illustrates structures and buildings affected by the magnitude 7.4 earthquake with an epicentre south of San José del Palmar town in Colombia, with analysis focused on Viterbo in Caldas Department, approximately 50 km from the mainshock epicentre. Damage and destruction were identified primarily using Pleiades very-high-resolution satellite imagery acquired on 12 August 2026. In this area 42 buildings were identified as damaged and 66 were identified potentially damaged buildings. 
+
+This is a preliminary analysis and has not yet been validated in the field. Ground verification is encouraged, and feedback can be sent to the United Nations Satellite Centre.",2026-08-14T07:25:18.723872Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/4251/UNOSAT_A3_Natural_Landscape_EQ20260810COL_ViterboTown_CaldasDepartment_12Aug2026.pdf,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,"Satellite Imagery(Post): Pleiades
+Imagery Date: 12 August 2026
+Copyright: Includes Pleiades material © CNES (2026), Distribution Airbus Defence and Space.
+Resolution: 50 cm
+Source: Airbus D&S (Charter)
+
+Satellite Imagery (Pre) WorldView-3
+Imagery Date: 29 December 2025
+Resolution: 30 cm
+Copyright: Vantor
+Source: Vantor, Esri Basemap
+
+Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
+Populated place: OpenStreetMap
+Earthquake epicentre: USGS 
+Seismic intensities (MMI): USGS 
+
+Analysis: United Nations Satellite Centre (UNOSAT)
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:47Z,2026-08-19
+4252,EQ20260810COL,"Building Damage Assessment in Viterbo Town, Caldas Department, Colombia  as of 12 August 2026","This map illustrates structures and buildings affected by the magnitude 7.4 earthquake with an epicentre south of San José del Palmar town in Colombia, with analysis focused on Viterbo in Caldas Department, approximately 50 km from the mainshock epicentre. Damage and destruction were identified primarily using Pleiades very-high-resolution satellite imagery acquired on 12 August 2026. In this area 55 buildings were identified as damaged and 99 were identified potentially damaged buildings. 
+
+This is a preliminary analysis and has not yet been validated in the field. Ground verification is encouraged, and feedback can be sent to the United Nations Satellite Centre.",2026-08-14T15:17:40.112189Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/4252/UNOSAT_A3_Natural_Landscape_EQ20260810COL_ViterboTown_CaldasDepartment_12Aug2026_v2.pdf,https://unosat.org/static/unosat_filesystem/4252/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4252/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,"Satellite Imagery(Post): Pleiades
+Imagery Date: 12 August 2026
+Copyright: Includes Pleiades material © CNES (2026), Distribution Airbus Defence and Space.
+Resolution: 50 cm
+Source: Airbus D&S (Charter)
+
+Satellite Imagery (Pre) WorldView-3
+Imagery Date: 29 December 2025
+Resolution: 30 cm
+Copyright: Vantor
+Source: Vantor, Esri Basemap
+
+Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
+Populated place: OpenStreetMap
+Earthquake epicentre: USGS 
+Seismic intensities (MMI): USGS 
+
+Analysis: United Nations Satellite Centre (UNOSAT)
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:48Z,2026-08-19
+4253,EQ20260810COL,"PRELIMINARY SATELLITE-DERIVED DAMAGE ASSESSMENT - San José Del Palmar municipality, Chocó department, Colombia","SUMMARY OF FINDING
+Satellite imagery dated 11 August 2026 confirms visible structural damage on one building and possible debris in San José del Palmar municipality.
+Satellite imagery dated 11 August 2026 confirms possibly induced landslide along the departmental route, San José del Palmar-Ansermanuevo / RD48-02, in San José del Palmar municipality.
+No other visible widespread structural damage could be observed from satellite imagery in San José del Palmar town within the cloud-free areas  as of 11 August 2026.",2026-08-18T15:51:43.587640Z,4.8950499999999995,-76.2345,https://unosat.org/static/unosat_filesystem/4253/UNOSAT_Preliminary_Assessment_Report_EQ20260810COL_SanJoseDelPalmar_v1_O.pdf,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,"Data sources:
+
+(1) Satellite Imagery (Post-event): WorldView-2
+Acquisition date: 11 August 2026 at 15:46:36
+Resolution : 50 cm 
+Copyright: © 2026 Vantor
+Source: USGS
+
+(2) Satellite Imagery (Pre-event): WorldView-2
+Acquisition date: 02 February 2017
+Resolution : 50 cm 
+Copyright: © 2026 Vantor
+Source: ESRI Basemap
+3) Ancillary data
+
+Populated place: OpenStreetMap
+Waterways: OpenStreetMap
+Administrative boundary: Departamento Administrativo Nacional de Estadística (DANE)
+
+Analysis: United Nations Satellite Centre (UNOSAT)
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:49Z,2026-08-19
