@@ -378,3 +378,50 @@ Viterbo con 154 evaluados y ninguna fila oficial. Hubo que corregir además dos
 textos que la decisión volvía falsos: la frase de cobertura de `municipios.js`
 («al resto no lo ha mirado ningún producto satelital») y el pie del globo de
 municipio, que afirmaba «no equivale a daño satelital» también donde ya sí lo hay.
+
+## 2026-08-19 — El corpus de prensa empieza el día del sismo
+
+Contexto: 849 de 6.655 titulares (12,8 %) eran anteriores al 10-ago-2026. Los
+849 llegaban por las búsquedas municipales de Google News, que devuelven
+histórico; ninguno por GDACS-EMM ni por los feeds del registro comunitario. El
+filtro de palabras clave no podía verlos porque hablan de sismos —de otros
+sismos—. El caso que lo destapó fue Viterbo (Caldas): entró en la capa el mismo
+día porque UNOSAT evaluó allí 154 edificios, y su única noticia atribuida era un
+sismo de magnitud 3,1 de junio de 2024.
+
+Se midió antes de tocar nada, reconstruyendo la capa de municipios dos veces:
+**67 de 109 municipios cambian la columna «Prensa»** (Calarcá 30→2, Jamundí
+49→4, La Tebaida 40→5, frente a Cali 686→652); **ocho pasan de «mención en
+prensa» a «solo RUD»** y ninguno desaparece de la capa, porque todos tienen
+registro oficial detrás. En el cruce por AOI baja `n_prensa` en los siete, pero
+**ningún AOI cambia de estado**. En la gráfica de volumen mediático el efecto es
+de dos puntos: la serie ya cortaba por su cuenta en 2026-08-08.
+
+Decisión (de JP, sobre tres opciones medidas): **los titulares anteriores al
+sismo se excluyen de todo producto público** —páginas, JSON descargables,
+conteos y ejemplos—, no solo se marcan. Siguen íntegros en `news_items`, en los
+snapshots y en `sources_log`: el principio de archivo se cumple en la capa que
+le toca, la de captura, no en la de publicación. Cada corrida deja escrito
+cuántos descartó (`noticias_previas_al_sismo`), porque un filtro que no dice
+cuánto tira no es auditable.
+
+Se descartaron: (a) marcar y seguir mostrándolos con etiqueta —el recuento de la
+página dejaría de ser «titulares del terremoto» y la marca no impide el
+malentendido—; (b) dejar de ingerirlos, única opción que sí rompe el principio de
+archivo, porque lo no capturado no se recupera y perderíamos la medida de cuánto
+histórico devuelve Google News.
+
+Segunda decisión, del mismo tirón: **una sola frontera**. La serie de volumen
+mediático cortaba en 2026-08-08 y el resto del sitio no cortaba, así que el mismo
+titular contaba o no según la página. Ahora todo pasa por `FECHA_SISMO`
+(`ingest/common.py`) y un test falla si reaparece otra fecha suelta en `ingest/`.
+
+Por qué el corte es **por día** y no por el instante del terremoto (12:34 UTC):
+514 de los 849 titulares previos traían la fecha sin hora, porque Google News
+normaliza a las 07:00:00 los items que publica sin ella. A nivel de instante no
+habría nada que comparar en la mayoría de los casos.
+
+Hallazgo colateral de la medición: el AOI de Istmina publicaba como evidencia de
+prensa un titular de agosto de 2024 sobre la muerte de un menor, sin relación con
+el sismo. Una cita fechada es una afirmación, no una cifra desviada; desapareció
+con el mismo cambio.

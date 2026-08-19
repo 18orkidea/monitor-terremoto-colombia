@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
 
-from common import to_num
+from common import FECHA_SISMO, anterior_al_sismo, to_num
 from geo import wkt_to_geojson, wkt_to_rings, point_in_wkt_polygon, MMIGrid
 
 
@@ -804,6 +804,44 @@ class TestExencionDeSondas(unittest.TestCase):
         self.assertEqual(culpables, [],
                          f"la nota exenta de trazabilidad aparece en ingesta: "
                          f"{culpables} — usar una nota propia")
+
+
+class TestCorpusDePrensa(unittest.TestCase):
+    """El corpus público empieza el día del sismo.
+
+    Lo destapó Viterbo (Caldas), dado de alta el 19-ago-2026 porque UNOSAT
+    evaluó allí 154 edificios: su única noticia atribuida era un sismo de
+    magnitud 3,1 de junio de 2024. El topónimo estaba bien; la noticia no era
+    de este desastre."""
+
+    def test_un_titular_de_otro_sismo_es_anterior(self):
+        self.assertTrue(anterior_al_sismo("2024-06-06T07:00:00"))
+        self.assertTrue(anterior_al_sismo("2026-08-09T23:59:59"))
+
+    def test_el_dia_del_sismo_entra_entero(self):
+        # el terremoto fue a las 12:34 UTC, pero 514 de los 849 titulares
+        # previos medidos el 19-ago venían con la fecha sin hora: cortar por
+        # instante descartaría titulares del propio 10-ago sin poder probarlo
+        self.assertFalse(anterior_al_sismo(FECHA_SISMO))
+        self.assertFalse(anterior_al_sismo("2026-08-10T07:00:00"))
+        self.assertFalse(anterior_al_sismo("2026-08-18T10:38:28"))
+
+    def test_sin_fecha_no_consta_que_sea_anterior(self):
+        # R3 aplicado al corpus: la ausencia de fecha no es un juicio
+        self.assertFalse(anterior_al_sismo(None))
+        self.assertFalse(anterior_al_sismo(""))
+
+    def test_no_hay_otra_frontera_de_corte_en_la_ingesta(self):
+        """La serie mediática cortaba en 2026-08-08 por su cuenta: el mismo
+        titular contaba o no según la página. Una sola frontera, con nombre."""
+        culpables = []
+        for py in (Path(__file__).parent.parent / "ingest").rglob("*.py"):
+            texto = py.read_text(encoding="utf-8")
+            for linea in texto.splitlines():
+                if "2026-08-0" in linea and "FECHA_SISMO" not in linea:
+                    culpables.append(f"{py.name}: {linea.strip()[:70]}")
+        self.assertEqual(culpables, [],
+                         "fecha de corte suelta en la ingesta: usar FECHA_SISMO")
 
 
 if __name__ == "__main__":

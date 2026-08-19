@@ -306,19 +306,42 @@ Que su celda del RUD esté vacía **no significa que allí no haya damnificados*
 significa que la alcaldía no ha cargado ninguno. Distinguir esas dos cosas es
 justo lo que este monitor existe para hacer.
 
-## El corpus de titulares contiene prensa anterior al terremoto
+## El corpus de titulares empieza el día del terremoto
 
-Medido el 19-ago-2026: **849 de 6.655 titulares (12,8 %) son anteriores al
-10-ago-2026**, el día del sismo. Hay 167 de 2024, 178 de 2025 y uno de 1974.
-Llegan sobre todo por las búsquedas municipales de Google News, que devuelven
-histórico, y pasan el filtro de palabras clave porque hablan de sismos —de
-otros sismos.
+Corregido el 19-ago-2026. Hasta ese día el corpus arrastraba **849 de 6.655
+titulares (12,8 %) anteriores al 10-ago-2026**, el día del sismo: 167 de 2024,
+178 de 2025, 249 de 2026 previos al terremoto y una cola hasta 1974. Llegaban
+**íntegramente por las búsquedas municipales de Google News**, que devuelven
+histórico y pasan el filtro de palabras clave porque hablan de sismos —de otros
+sismos—. Ni un solo titular de GDACS-EMM ni de los feeds del registro
+comunitario era previo.
 
-Consecuencia para leer la columna «Prensa»: **cuenta titulares que nombran el
-municipio y pasan el filtro del evento, no titulares sobre este terremoto**. En
-los municipios con mucha cobertura el ruido es marginal; en los que tienen uno
-o dos puede ser todo. El caso extremo es Viterbo, cuyo único titular es de 2024.
+Lo destapó Viterbo (Caldas), dado de alta ese mismo día porque UNOSAT evaluó
+allí 154 edificios: su única noticia atribuida era un sismo de magnitud 3,1 de
+junio de 2024. El topónimo estaba bien; la noticia no era de este desastre.
 
-No se ha corregido aquí porque acotar el corpus por fecha es una decisión
-editorial con consecuencias en toda la serie publicada, incluida la gráfica de
-volumen mediático, y merece medirse antes de aplicarse.
+Desde entonces **ningún producto público cuenta prensa anterior al sismo**
+(`FECHA_SISMO`, en `ingest/common.py`). La columna «Prensa» de la capa de
+municipios, el `n_prensa` del cruce por AOI, los titulares de ejemplo, la página
+de titulares y la serie de volumen mediático usan la misma frontera —antes esa
+serie cortaba dos días antes por su cuenta y el resto del sitio no cortaba, así
+que el mismo titular contaba o no según la página—. Los titulares previos **no
+se han borrado**: siguen en `news_items`, en los snapshots y en `sources_log`.
+Lo que se cortó es su entrada a lo publicado, y cada corrida deja escrito
+cuántos descartó.
+
+Lo que queda como limitación:
+
+- **El corte es por día, no por instante.** El terremoto fue a las 12:34 UTC del
+  10-ago, pero 514 de aquellos 849 titulares traían la fecha sin hora (Google
+  News normaliza a las 07:00:00 los items que publica sin ella), así que a nivel
+  de instante no habría nada que comparar. Del propio 10-ago se publica todo,
+  incluida cualquier noticia de esa mañana ajena al sismo.
+- **Un titular sin fecha no se descarta**: no consta que sea anterior, y tirarlo
+  convertiría una ausencia de dato en un juicio (R3). Hoy no hay ninguno en el
+  corpus, pero la puerta está abierta a propósito.
+- **Ocho municipios se quedaron sin ningún titular** —Alcalá, Argelia,
+  Candelaria, Ginebra, Guacarí, Obando, Quinchía y Trujillo— y pasaron de
+  «mención en prensa» a «solo registro municipal (RUD)». Ese cero no es una
+  pérdida de cobertura del monitor: es el dato. Allí hay damnificados
+  registrados y no hay prensa de este terremoto.

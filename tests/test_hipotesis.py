@@ -286,6 +286,41 @@ class TestPublicacionBienFormada(unittest.TestCase):
                   if n.get("departamentos") or n.get("municipios")]
         self.assertGreater(len(tagged), 0)
 
+    def test_ningun_titular_publicado_es_anterior_al_sismo(self):
+        """El corpus público empieza el día del terremoto. Lo que se publica no
+        es «prensa que menciona el municipio», es prensa de ESTE desastre: si
+        un municipio aparece sin titulares, la ausencia es el dato."""
+        from common import FECHA_SISMO
+        p = ROOT / "data" / "public" / "noticias.json"
+        if not p.exists():
+            self.skipTest("sin noticias.json")
+        previos = [n for n in json.loads(p.read_text())["items"]
+                   if (n.get("fecha") or "")[:10]
+                   and (n.get("fecha") or "")[:10] < FECHA_SISMO]
+        self.assertEqual(previos[:3], [],
+                         f"{len(previos)} titulares anteriores al sismo en "
+                         f"noticias.json")
+
+    def test_los_ejemplos_de_prensa_son_del_evento(self):
+        """La capa de municipios y la evidencia por AOI enseñan titulares
+        concretos: un titular de 2024 citado como prueba de daño es peor que
+        una cifra desviada, porque se lee como una afirmación."""
+        from common import FECHA_SISMO
+        malos = []
+        p = ROOT / "data" / "public" / "municipios.json"
+        if p.exists():
+            for m in json.loads(p.read_text())["items"]:
+                for ej in m.get("noticias_ejemplo") or []:
+                    if (ej.get("fecha") or "")[:10] < FECHA_SISMO and ej.get("fecha"):
+                        malos.append(f"{m['municipio']}: {ej.get('titulo')}")
+        mon = ROOT / "data" / "public" / "monitor.json"
+        if mon.exists():
+            for a in json.loads(mon.read_text()).get("aois", []):
+                for ej in a.get("prensa_ejemplos") or []:
+                    if (ej.get("fecha") or "")[:10] < FECHA_SISMO and ej.get("fecha"):
+                        malos.append(f"{a['aoi']}: {ej.get('titular')}")
+        self.assertEqual(malos, [])
+
     def test_exposicion_coherente(self):
         exp = self._mon().get("exposicion")
         if not exp:

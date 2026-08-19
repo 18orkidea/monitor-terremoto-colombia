@@ -57,7 +57,7 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 597,
+    "n_prensa": 518,
     "n_oficial": 3,
     "n_ciudadano": 266,
     "etiqueta": "No comparable 1:1"
@@ -137,7 +137,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 443,
+    "n_prensa": 409,
     "n_oficial": 3,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
@@ -235,7 +235,7 @@
    ],
    "cruce": {
     "estado": "prensa",
-    "n_prensa": 309,
+    "n_prensa": 296,
     "n_oficial": 0,
     "n_ciudadano": 71,
     "etiqueta": "Reportado en prensa, sin validación oficial"
@@ -315,7 +315,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 443,
+    "n_prensa": 409,
     "n_oficial": 3,
     "n_ciudadano": 2,
     "etiqueta": "Coincide cualitativamente"
@@ -397,7 +397,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 55,
+    "n_prensa": 39,
     "n_oficial": 3,
     "n_ciudadano": 49,
     "etiqueta": "Coincide cualitativamente"
@@ -456,12 +456,6 @@
    },
    "prensa_ejemplos": [
     {
-     "titular": "Laura Sarabia, directora del Dapre, exigió justicia por la muerte de menor en Istmina chocó por paro armado del ELN - Infobae",
-     "medio": "Google News — Istmina",
-     "fecha": "2024-08-15T07:00:00",
-     "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNQmJLbU9COU5NenZSS1ZIazVfLVprS00zNXNiaWNzd1M3UnVucXo3RVFCb3g1ZWR4MFFac2NZbEVTZTJ1LTRENjZmVTBBX2RRZGczdEhBSExwZ0NiUDJDVnk4amN5WkVZM29acHAxYnZJWVlIUlh5d1hBcnlMaDhzOU52aHJwR3lQeDZfelFXLTlPN0R1aHlPQ0VpTDBEZlBGU3F0ajVuUm9wQ3dQdERYVy1qVEFYSDQtellJU2tCeGR4YWRFZVNBaUIycTZPN05jSGVxSTdScks5MnJ0ZXhuM3BSbnJFLVhrTFFJTUI5SdIBigJBVV95cUxQNy1NblZRQmNfdXUtdTNaYm9RWXVnVS1JVzhjalpRYTFXSFJJT1JEWmItb0o2TndtNHNUX0xPX2QzeWFHcEsxTmRqMWVFWGNERWlGYklEU3hVaThBLUFqSEdpVktWbTd2akl4QlhpRVdRWmNQdVY1SDl4Y3RrUkFPUW8xQTNNZEZldnFIQTZWaXBiUUI1cWk1U3lTanpacFh2eFlCWGNCUGpmVTA0QXFVN2dTem9QdzdBRk1PZVhiM3BEdldJczE0UkxrNUo5WFZuMmt5ZjhWTkcxZWotMGdsMmhnSFQ1dlMyY1ozZ2dlVE1wS3pVaU5JVmh2SVR6S0RqVkNISEZBR3kydw?oc=5"
-    },
-    {
      "titular": "Revelan cifra preliminar de muertos por terremoto en Chocó: en Istmina se registran enormes grietas en las vías - Publimetro Colombia",
      "medio": "Google News — Istmina",
      "fecha": "2026-08-10T18:42:06",
@@ -472,11 +466,17 @@
      "medio": "Chocó 7 días",
      "fecha": "2026-08-15T02:43:22",
      "url": "https://choco7dias.com/jhon-cordoba-envio-ayudas-humanitarias-a-istmina-y-otros-municipios-del-choco-tras-el-terremoto/"
+    },
+    {
+     "titular": "Amaneció temblando en el Chocó: Sismo de magnitud 3.1 se produjo en Istmina; otro de 5.7 se registró en la costa Pacífica de México – Radio Santa Fe 1070 a.m. Noticias de Colombia - radiosantafe.com",
+     "medio": "Google News — Istmina",
+     "fecha": "2026-08-18T10:00:59",
+     "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPN2VFcmpvMU5mVjI4ZTE0NzdBOV9ubV9NN2RSbmpfTnhjT2N2a1Jja28xWG5WRF9DWjlMZ2t3cXlsRmxnMkxZTW5YR0xoR3JNcmctblp0WGtCenQ1WkpZeld2MXhnVDVyRUVpSzRqYkdxTWM2T3pqdUp2YWtRdTIwQzFkaTZvc2VSb3lUQXhOaHJBQWRKOVNPb01PNXN3SE5EcG1LZ3JWTG0zT202TFN3TGhGSGJhTFVkLWlXVHdnSXNjUnNvSGd3V3AyVjZUTjBPV21KOVl0ZEpDYy1tb2pOOTgwWDh0TzZ2czhNWHRVZF9TR0xNRWc5eGI5YTRqdTA?oc=5"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 21,
+    "n_prensa": 14,
     "n_oficial": 3,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
@@ -570,7 +570,7 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 116,
+    "n_prensa": 113,
     "n_oficial": 2,
     "n_ciudadano": 4,
     "etiqueta": "Coincide cualitativamente"
@@ -585,7 +585,7 @@
    "gdelt": 0.0122,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 1
+   "feeds": null
   },
   {
    "fecha": "2026-08-09",
@@ -593,7 +593,7 @@
    "gdelt": 0.0165,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 1
+   "feeds": null
   },
   {
    "fecha": "2026-08-10",
