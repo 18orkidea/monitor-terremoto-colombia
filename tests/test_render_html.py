@@ -728,3 +728,47 @@ class TestSeoCheck(unittest.TestCase):
             self.skipTest("no hay dist construido")
         res = self.seo.revisar(dist)
         self.assertEqual(res["fallos"], [], "el artefacto publicado tiene fallos de SEO")
+
+
+class TestCoherenciaDeLaFicha(unittest.TestCase):
+    """Una ficha no puede afirmar y negar lo mismo en la misma pantalla.
+
+    Ocurrió: en Viterbo, Manizales y Anserma la entradilla decía «154 edificios
+    clasificados por UNITAR-UNOSAT» y dos párrafos más abajo «ningún producto
+    satelital ha reportado daños aquí». Es el peor fallo posible en un proyecto
+    cuya única moneda es que se pueda confiar en lo que publica."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def _texto(self, municipio):
+        html = R.render_ficha(R.datos_ficha(municipio, self.ctx))
+        return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+
+    def test_ninguna_ficha_afirma_y_niega_el_satelite(self):
+        for m in self.ctx["municipios"]:
+            if not R.es_elegible(m["municipio"], self.ctx):
+                continue
+            t = self._texto(m["municipio"])
+            afirma = "documentado por satélite" in t
+            niega = ("ningún satélite ha evaluado" in t
+                     or "Ningún producto satelital de daño ha reportado" in t
+                     or "no hay nada que cruzar" in t)
+            self.assertFalse(afirma and niega,
+                             f"{m['municipio']}: la ficha se contradice sobre el satélite")
+
+    def test_un_municipio_visto_solo_por_unosat_no_se_declara_sin_mirar(self):
+        solo_unosat = [m for m in self.ctx["municipios"]
+                       if m.get("unosat_edificios") is not None
+                       and not self.ctx["conteo_satelite"].get(m["municipio"])]
+        if not solo_unosat:
+            self.skipTest("ningún municipio evaluado solo por UNOSAT")
+        t = self._texto(solo_unosat[0]["municipio"])
+        self.assertIn("UNITAR-UNOSAT", t)
+        self.assertNotIn("no hay nada que cruzar", t)
+
+    def test_la_tabla_de_fuentes_no_nombra_un_unico_satelite(self):
+        """«único activo sobre el evento» caducó el día que entró el segundo."""
+        for m in ("Nóvita", "Viterbo"):
+            self.assertNotIn("único activo", self._texto(m))
