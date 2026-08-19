@@ -7,6 +7,20 @@ window.UI = (function () {
   const fmt = (n, dec = 0) => n == null ? "—" :
     Number(n).toLocaleString("es-CO", { maximumFractionDigits: dec });
 
+  /* Cifra tal como se escribe DENTRO de una frase: del cero al nueve con
+     letras, de 10 en adelante en guarismos (Libro de estilo, 10.1). En tablas y
+     cuadros las cifras van siempre en guarismos (10.2), así que esto no
+     sustituye a fmt. Espejo de `fmt_prosa` en deploy/render_html.py. */
+  const LETRAS = ["cero", "una", "dos", "tres", "cuatro", "cinco",
+                  "seis", "siete", "ocho", "nueve"];
+  const fmtProsa = (n, femenino) => {
+    if (n == null) return "—";
+    const entero = Math.trunc(n);
+    if (entero !== n || entero < 0 || entero > 9) return fmt(n);
+    if (entero === 1) return femenino ? "una" : "un";
+    return LETRAS[entero];
+  };
+
   /* Porcentaje con un decimal. Una proporción diminuta pero real jamás se
      redondea a «0 %»: un municipio con damnificados no puede leerse como
      municipio sin damnificados. */
@@ -605,7 +619,7 @@ window.UI = (function () {
     return out;
   }
 
-  return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
+  return { fmt, fmtProsa, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
            fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc,
            fetchJson, tablaBuscable, tablaHidratada, paginador, metricCards,
            fichaMapa,

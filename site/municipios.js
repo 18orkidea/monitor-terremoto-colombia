@@ -3,7 +3,7 @@
    ejecute JavaScript — que es lo que necesitan los rastreadores de sistemas de
    IA, que no lo ejecutan. */
 (async function () {
-  const { fmt, pct, fetchJson, tablaHidratada } = window.UI;
+  const { fmt, fmtProsa, pct, fetchJson, tablaHidratada } = window.UI;
 
   // La tabla no necesita el JSON —viene escrita en el HTML—, pero los textos
   // derivados de la introducción sí: cambian con cada entrega.
@@ -29,55 +29,47 @@
     (m) => !m.en_aoi_copernicus && m.unosat_edificios == null).length;
   const cobertura = document.getElementById("mun-cobertura");
   if (cobertura) {
-    cobertura.textContent = `Solo ${enAoi} de los ${data.items.length} tienen su ` +
-      `cabecera dentro de una zona con producto de daño de Copernicus` +
-      (enUnosat
-        ? `, y otros ${enUnosat} los ha evaluado UNITAR-UNOSAT edificio a edificio. ` +
-          `A los ${sinSatelite} restantes no los ha mirado ningún producto ` +
-          `satelital de daño.`
-        : `: al resto no lo ha mirado ningún producto satelital de daño.`);
+    const conSatelite = enAoi + enUnosat;
+    cobertura.textContent =
+      `A ${fmtProsa(sinSatelite)} de los ${data.items.length} no los ha mirado ningún satélite` +
+      (conSatelite ? `; los otros ${fmtProsa(conSatelite)}, sí.` : ".");
   }
 
   // ---- damnificados sin una línea de prensa
-  // la regla vive en ui.js (silencioDePrensa) y se testea con node: es una
-  // afirmación pública, no una frase de esta página. Aquí solo se redacta —y la
-  // salvedad viaja pegada a la cifra, no escondida en la metodología.
+  // La regla vive en ui.js (silencioDePrensa) y se testea con node: es una
+  // afirmación pública, no una frase de esta página. Aquí solo se redacta.
+  // La cifra va sola y en corto; las salvedades —que son muchas y todas
+  // importan— quedan a un clic, no delante de quien solo quiere el dato.
   const sil = window.UI.silencioDePrensa(data.items);
   const banner = document.getElementById("banner-silencio");
   if (banner && sil) {
     banner.hidden = false;
-    banner.innerHTML =
-      `<strong>Damnificados sin un solo titular:</strong> ${sil.mudos} de los ` +
-      `${data.items.length} municipios con señal tienen personas registradas en el RUD ` +
-      `y <strong>cero titulares atribuidos</strong> — ${fmt(sil.personas)} personas.` +
-      (sil.ciertos.length
-        ? ` En ${sil.ciertos.length} de ellos el monitor sí preguntó —tienen búsqueda ` +
-          `propia de prensa y su nombre no admite duda— y no obtuvo nada: ` +
-          `${sil.ciertos.join(", ")}, ${fmt(sil.personas_ciertas)} personas registradas` +
-          (sil.techo
-            ? `, y en ${sil.techo.municipio} son el ${pct(sil.techo.tasa_rud_pct)} ` +
-              `de su población.`
-            : ".")
-        : "") +
-      (sil.dudosos
-        ? ` En los otros ${sil.dudosos} el cero puede ser del monitor y no de la prensa: ` +
-          `su nombre es palabra común o se repite en otro departamento, así que solo ` +
-          `se les atribuyen titulares que nombren también su departamento` +
-          (sil.sin_busqueda
-            ? `, y por ${sil.sin_busqueda} el monitor ni siquiera lanza una búsqueda ` +
-              `propia (entraron solos desde el RUD)`
-            : "") + `.`
-        : "") +
-      (sil.sin_atribucion
-        ? ` Y otros ${sil.sin_atribucion} ni siquiera tienen cero ` +
-          `(${fmt(sil.personas_sin_atribucion)} personas): se llaman igual que un ` +
-          `departamento y el monitor no puede atribuirles ningún titular.`
-        : "") +
-      ` El recuento es del corpus del monitor —GDACS-EMM, feeds regionales abiertos y ` +
-      `búsquedas municipales—, no de la prensa colombiana entera, y solo cuenta lo ` +
-      `publicado desde el 10 de agosto de 2026. ` +
+    const ciertos = sil.ciertos.length
+      ? ` En ${fmtProsa(sil.ciertos.length)} el monitor sí buscó ` +
+        `y no encontró nada: ${sil.ciertos.join(", ")}.`
+      : "";
+    const detalle = [];
+    if (sil.dudosos)
+      detalle.push(`<p>En ${fmtProsa(sil.dudosos)} de ellos el cero puede ser del monitor y no de ` +
+        `la prensa: su nombre es palabra común o se repite en otro departamento, así que ` +
+        `solo se les atribuyen titulares que nombren también su departamento` +
+        (sil.sin_busqueda
+          ? `, y por ${fmtProsa(sil.sin_busqueda)} ni siquiera se lanza una búsqueda propia (entraron ` +
+            `solos desde el registro oficial)`
+          : "") + `.</p>`);
+    if (sil.sin_atribucion)
+      detalle.push(`<p>Otros ${fmtProsa(sil.sin_atribucion)} (${fmt(sil.personas_sin_atribucion)} ` +
+        `personas) ni siquiera tienen cero: se llaman igual que un departamento y no se ` +
+        `les puede atribuir ningún titular.</p>`);
+    detalle.push(`<p>El recuento es del corpus del monitor —GDACS-EMM, feeds regionales ` +
+      `abiertos y búsquedas municipales—, no de la prensa colombiana entera, y solo cuenta ` +
+      `lo publicado desde el 10 de agosto de 2026. ` +
       `<a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md" ` +
-      `target="_blank" rel="noopener">Qué no puede ver esta cifra</a>.`;
+      `target="_blank" rel="noopener">Qué no puede ver esta cifra</a>.</p>`);
+    banner.innerHTML =
+      `<p><strong>Damnificados sin un solo titular: ${sil.mudos} municipios, ` +
+      `${fmt(sil.personas)} personas.</strong>${ciertos}</p>` +
+      `<details><summary>Cómo se cuenta y qué no puede ver</summary>${detalle.join("")}</details>`;
   }
 
 
