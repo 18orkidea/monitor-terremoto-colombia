@@ -256,11 +256,14 @@ class TestTablaMunicipios(unittest.TestCase):
     def test_cada_fila_enlaza_a_su_ficha(self):
         """Sin este enlace las fichas quedan huérfanas: solo se descubrirían por
         el sitemap, que es un canal mucho más débil que un enlace del propio sitio."""
-        enlaces = re.findall(r'href="municipio/([^/]+)/"', self.html)
+        enlaces = re.findall(r'href="(/municipio/[^"]+)"', self.html)
         self.assertEqual(len(enlaces), len(self.ctx["municipios"]))
-        for slug in enlaces:
-            self.assertRegex(slug, r"^[a-z0-9-]+$", "slug con caracteres no válidos en URL")
-        self.assertIn("municipio/novita/", self.html)
+        for url in enlaces:
+            self.assertRegex(url, r"^/municipio/[a-z0-9-]+/$",
+                             "el enlace a la ficha debe ser absoluto desde la raíz")
+        self.assertIn('href="/municipio/novita/"', self.html)
+        # relativo resolvería a /site/municipio/... desde /site/municipios.html
+        self.assertNotIn('href="municipio/', self.html)
 
     def test_data_buscar_permite_filtrar_sin_reconstruir(self):
         self.assertEqual(self.html.count("data-buscar="), len(self.ctx["municipios"]))
@@ -360,8 +363,9 @@ class TestTablaPortada(unittest.TestCase):
         self.assertEqual(self.html.count("data-lon="), len(self.filas))
 
     def test_cada_fila_enlaza_a_su_ficha(self):
-        self.assertEqual(len(re.findall(r'href="municipio/[^/]+/"', self.html)),
+        self.assertEqual(len(re.findall(r'href="/municipio/[^"]+"', self.html)),
                          len(self.filas))
+        self.assertNotIn('href="municipio/', self.html)   # relativo daría 404
 
     def test_la_ausencia_de_evidencia_es_raya_no_cero(self):
         """R3: un municipio sin reportes ciudadanos no tiene «0 ciudadanos», tiene

@@ -763,7 +763,7 @@ def filas_municipios(ctx: dict) -> str:
     for m in sorted(ctx["municipios"], key=lambda x: x.get("poblacion_2026") or 0,
                     reverse=True):
         etiqueta, color, explica = ESTADO_MUNICIPIO.get(m.get("estado"), SIN_CLASIFICAR)
-        enlace = f"municipio/{slug(m['municipio'])}/" if es_elegible(m["municipio"], ctx) else None
+        enlace = f"/municipio/{slug(m['municipio'])}/" if es_elegible(m["municipio"], ctx) else None
         nombre = f"<strong>{e(m['municipio'])}</strong>"
         celda = (f'<a href="{enlace}" style="color:inherit">{nombre}</a>' if enlace
                  else nombre)
@@ -801,7 +801,7 @@ def filas_portada(ctx: dict) -> str:
         etiqueta, color, explica = ESTADO_MUNICIPIO.get(m.get("estado"), SIN_CLASIFICAR)
         sat = m["n_satelite"]
         ciu = m["n_ciudadanos"]
-        ficha = f"municipio/{slug(m['municipio'])}/"
+        ficha = f"/municipio/{slug(m['municipio'])}/"
         filas.append(
             f'<tr data-lat="{m["lat"]}" data-lon="{m["lon"]}"'
             f' data-buscar="{e(norm_busqueda(m["municipio"] + " " + m["departamento"]))}">'
