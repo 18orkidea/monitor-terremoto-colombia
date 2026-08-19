@@ -633,3 +633,75 @@ desaparece cuando `rud.html`, `balances.html` y `noticias.html` pasen por la fas
 
 Cada fase cierra con su test, y las que tocan texto visible pasan por `auditor-editorial` antes
 de commitear.
+
+---
+
+## 8. Diagnóstico tras la ejecución (20-ago-2026)
+
+Mismas mediciones que el §1, sobre el artefacto construido. Todas las cifras salen de
+`ingest/seo_check.py`, que ahora corre en cada despliegue.
+
+### Lo que ve quien no ejecuta JavaScript
+
+| página | palabras antes | ahora | filas antes | ahora |
+|---|---:|---:|---:|---:|
+| portada | 1.924 | **2.511** | 0 | **42** |
+| municipios | 211 | **1.787** | 0 | **97** |
+| RUD | 204 | **1.342** | 0 | **91** |
+| balances | 701 | **1.338** | 0 | **29** |
+| titulares | 451 | **6.212** | 0 | **206** |
+
+Y **96 páginas que antes no existían**: una por municipio con señal, en
+`/municipio/<slug>/`, con su párrafo citable, su mapa en SVG y su sección de lo que no
+se sabe.
+
+### Descubrimiento
+
+| | antes | ahora |
+|---|---|---|
+| URLs en el sitemap | 5 | **101** |
+| home del dominio | `meta refresh` sin contenido | la portada real |
+| `llms.txt` | sí | sí |
+| `llms-full.txt` | no | **48 KB, 96 municipios en texto plano** |
+| rastreadores de IA en `robots.txt` | implícitos | **declarados uno a uno** |
+| enlaces internos a las fichas | — | **123** (96 en municipios, 28 en portada) |
+
+### Lo que sigue sin resolverse
+
+**El peso de la portada: 3,5 MB.** Es el bloqueador B4 del diagnóstico inicial y sigue
+intacto. Desglose de lo que descarga antes de ser usable:
+
+```
+not_analysed.geojson   2.173 KB   ← el 60 % del total
+ungrd_sismos.geojson     307 KB
+damage_points.geojson    266 KB
+municipios.geojson       194 KB
+unosat_damage.geojson    183 KB
+… y ocho ficheros más
+```
+
+`not_analysed.geojson` es, él solo, más que todo lo demás junto. Es la capa de «zonas sin
+analizar»: importa editorialmente —es la brecha dibujada— pero no hace falta para el
+primer pintado. **Cargarla bajo demanda es la única tarea que queda del plan con impacto
+medible en el posicionamiento**, porque los Core Web Vitals son criterio de ranking y esto
+se ve en un móvil de la zona afectada.
+
+Pendiente también: Leaflet se sirve desde `unpkg.com`, un tercer dominio sin `preconnect`
+ni comprobación de integridad.
+
+### Lo que no se puede medir todavía
+
+Nada de esto se traduce en visitas hasta que el buscador rastree, y no hay forma de
+saberlo: **sigue sin haber Search Console verificado**. Es la tarea 0.1 del plan, cuesta
+media hora y es la única que no puede hacerse desde el repositorio. Hasta entonces, todo
+lo anterior son mediciones de lo publicado, no de lo encontrado.
+
+### Cómo se vigila desde ahora
+
+`ingest/seo_check.py` corre en el despliegue y avisa —sin bloquearlo— si alguna página
+baja de su mínimo de palabras o de filas, si un contenedor marcado queda vacío, si el
+sitemap anuncia una URL que no existe, si una ficha gana JavaScript ejecutable o cita
+códigos internos de reglas, o si desaparecen `robots.txt` o los dos `llms.txt`.
+
+La regresión que vigila es la que no se ve: si el prerenderizado se rompe, la página sigue
+perfecta en el navegador y llega vacía a quien tiene que citarla.
