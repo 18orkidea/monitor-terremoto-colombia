@@ -20,16 +20,6 @@
       ],
       "port": 8123,
       "autoPort": true
-    },
-    {
-      "name": "worktree-saneo",
-      "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "python3 -m http.server -d /Users/jpcorrea/Proyectos/saneo-enlaces-medios \"$PORT\""
-      ],
-      "port": 8124,
-      "autoPort": true
     }
   ]
 }
