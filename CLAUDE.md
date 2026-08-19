@@ -95,8 +95,10 @@ Ningún cambio está terminado sin sus 6 casillas:
 ## Flujo de trabajo con agentes
 
 idea → diseño (plan mode si toca >2 archivos) → implementación (sesión principal) →
-revisión: **auditor-editorial** (textos/cifras visibles) y/o **archivista** (ingesta/
-datos/workflows), en paralelo → **revisor-qa** (última puerta) → commit/PR.
+revisión: **auditor-editorial** (qué se afirma y con qué atribución), **revisor-estilo**
+(cómo está escrito: Libro de estilo de EL PAÍS con excepciones americanas, ver
+`docs/DECISIONES.md`) y/o **archivista** (ingesta/datos/workflows), en paralelo →
+**revisor-qa** (última puerta) → commit/PR.
 Alta de fuente nueva: usar la skill `nueva-fuente` (checklist completa).
 
 ## Memoria de trabajo (solo este ordenador)
@@ -112,6 +114,11 @@ versionan `launch.json`, `agents/` y `skills/`.
 ```bash
 python ingest/run_daily.py              # corrida diaria completa
 python3 -m unittest discover -s tests   # toda la suite
-python -m http.server -d . 8123         # sitio en http://localhost:8123/site/
 bash deploy/build_dist.sh               # construir dist/ (artefacto de deploy)
+python3 -m http.server -d dist 8123     # sitio como en producción: la raíz es dist/
 ```
+
+El sitio **se sirve desde `dist/` como raíz**, igual que en producción: las páginas
+viven en `/`, las fichas municipales en `/municipio/<slug>/` y los enlaces entre ellas
+son absolutos. Servir el repositorio directamente devuelve 404 en cada ficha — `dist/`
+es el artefacto publicado y el repositorio no lo es.

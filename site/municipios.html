@@ -6,17 +6,17 @@
 <title>Municipios afectados por el terremoto de Colombia 2026: damnificados del RUD, prensa y población | Monitor de brechas</title>
 <meta name="description" content="Municipios del área de influencia del terremoto M7.4 de Colombia (2026): damnificados registrados en el RUD (UNGRD), menciones en prensa, intensidad percibida (DYFI/USGS), población DANE 2026 y cobertura satelital (Copernicus y UNITAR-UNOSAT). Con buscador y cada cifra trazable.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://brechas.orkidea.eu/site/municipios.html">
-<meta property="og:url" content="https://brechas.orkidea.eu/site/municipios.html">
+<link rel="canonical" href="https://brechas.orkidea.eu/municipios.html">
+<meta property="og:url" content="https://brechas.orkidea.eu/municipios.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Municipios afectados por el terremoto de Colombia 2026">
 <meta property="og:description" content="Cuántos damnificados registra el RUD en cada municipio, qué municipios aparecen en prensa, cuáles sintieron el sismo (DYFI) y cuáles mapeó el satélite — con población DANE y buscador.">
-<meta property="og:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta property="og:image" content="https://brechas.orkidea.eu/og/portada.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta name="twitter:image" content="https://brechas.orkidea.eu/og/portada.png">
 <meta name="twitter:title" content="Municipios afectados por el terremoto de Colombia 2026">
 <meta name="twitter:description" content="Damnificados del RUD, prensa, intensidad percibida, población DANE y cobertura satelital por municipio, con buscador.">
 <link rel="manifest" href="manifest.json">
@@ -36,8 +36,8 @@
   </div>
   <div class="meta">
     <span id="generado">—</span>
-    <a class="btn" href="../data/public/municipios.json" target="_blank">JSON</a>
-    <a class="btn" href="../data/public/municipios.geojson" target="_blank">GeoJSON</a>
+    <a class="btn" href="/data/public/municipios.json" target="_blank">JSON</a>
+    <a class="btn" href="/data/public/municipios.geojson" target="_blank">GeoJSON</a>
   </div>
 </header>
 
@@ -64,7 +64,7 @@
   <div class="filtros"><input id="mun-buscar" type="search"
     placeholder="Buscar municipio o departamento…"
     aria-label="Buscar municipio del área de influencia"></div>
-  <div style="overflow-x:auto"><table id="municipios-tabla">
+  <div class="tabla-scroll"><table id="municipios-tabla">
     <thead>
       <tr>
         <th title="Municipio del área de influencia del sismo. Clic para verlo en el mapa de la portada.">Municipio</th>
@@ -79,7 +79,7 @@
         <th title="Qué sistemas del monitor registran señal en este municipio: prensa, DYFI (intensidad percibida), RUD (registro municipal de damnificados) o UNOSAT (evaluación satelital de la ONU).">Fuentes</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody data-gen="municipios"></tbody><!-- lo rellena deploy/render_html.py en el build -->
   </table></div>
   <p class="note" id="mun-nota"></p>
   <p class="note">¿Falta un municipio? Los que entran al <a href="rud.html">RUD</a> se

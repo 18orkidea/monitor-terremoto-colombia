@@ -270,7 +270,7 @@ def alerts_rss(fecha: str, alerts: list[dict]) -> str:
     from email.utils import format_datetime
     from datetime import datetime, timezone
     from xml.sax.saxutils import escape
-    base = "https://brechas.orkidea.eu/site/"
+    base = "https://brechas.orkidea.eu/"
     pub = format_datetime(datetime.fromisoformat(fecha + "T11:00:00+00:00")
                           if len(fecha) == 10 else datetime.now(timezone.utc))
     items = "".join(

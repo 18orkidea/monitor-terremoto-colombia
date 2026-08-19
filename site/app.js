@@ -66,7 +66,7 @@
     .replace(/^M7\.4 in Colombia/i, "M7.4 en Colombia");
 
   const j = window.UI.fetchJson;
-  const base = "../data/public/";
+  const base = "/data/public/";
   const OFFICIAL_FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
          dmgPts, dmgLines, notAnalysed, unosat, oficiales,
@@ -457,59 +457,39 @@
     }
   }).observe(document.getElementById("map"));
 
-  // ---- tabla
+  // ---- tabla de portada
+  // Las filas las escribe el build (deploy/render_html.py::filas_portada): aquí
+  // solo se engancha el clic que centra el mapa. Cada fila trae su coordenada en
+  // data-lat/data-lon, así que no hace falta reconstruir nada.
   const tbody = document.querySelector("#tabla tbody");
-  for (const a of mon.aois) {
-    const tr = document.createElement("tr");
-    const c = a.cruce || {};
-    const det = a.detecciones || {};
-    const grados = ["Destroyed", "Damaged", "Possibly damaged"];
-    const detTotal = grados.reduce((s, g) => s + (det[g] || 0), 0);
-    const detTxt = detTotal
-      ? `<strong>${fmt(detTotal)}</strong> <span style="color:var(--muted)">(${grados.map((g) => det[g] || 0).join("·")})</span>`
-      : "—";
-    tr.innerHTML =
-      `<td><strong>${aoiLabel(a.aoi)}</strong></td>` +
-      `<td><span class="badge" style="--bc:${ESTADO_COLOR[c.estado] || css("--muted")}">${c.etiqueta || c.estado}</span></td>` +
-      `<td class="num">${fmt(a.resumen.poblacion)}</td>` +
-      `<td class="num" title="Destruidos · Dañados · Posiblemente dañados (puntos Copernicus)">${detTxt}</td>` +
-      `<td class="num">${fmt(det["Vías dañadas"])}</td>` +
-      `<td class="num">${fmt(det["Interrupciones/crisis"])}</td>` +
-      `<td class="num">${(c.n_prensa && a.prensa_ejemplos.length)
-        ? `<a href="#" class="prensa-toggle" title="Ver titulares de ejemplo">${fmt(c.n_prensa)} ▾</a>`
-        : fmt(c.n_prensa)}</td>` +
-      `<td class="num">${fmt(c.n_ciudadano)}</td>` +
-      `<td>${(a.producto.entrega || "—").slice(0, 10)} <span style="color:var(--muted)">${t(a.producto.tipo)} (${a.producto.tipo}) v${a.producto.version}${a.producto.status !== "F" ? " · " + ({ W: "en espera", I: "en producción", N: "no producido" }[a.producto.status] || a.producto.status) : ""}</span></td>`;
-    tr.addEventListener("click", (ev) => {
-      if (ev.target.closest(".prensa-toggle")) {
-        ev.preventDefault();
-        const next = tr.nextElementSibling;
-        if (next && next.classList.contains("prensa-detalle")) { next.remove(); return; }
-        const dtr = document.createElement("tr");
-        dtr.className = "prensa-detalle";
-        // Misma regla que la página de titulares (window.UI): la cabecera que
-        // firma la pieza, no el feed que la trajo, y aviso de que el enlace va
-        // al agregador. Los textos vienen de feeds ajenos: van escapados.
-        const esc = window.UI.esc, medioDe = window.UI.medioDe;
-        dtr.innerHTML = `<td colspan="9"><strong>Titulares de ejemplo (EMM/feeds):</strong><ul>` +
-          a.prensa_ejemplos.map((n) =>
-            `<li>${(n.fecha || "").slice(0, 10)}` +
-            (medioDe(n) ? ` · <em>${esc(medioDe(n))}</em>` : "") +
-            (window.UI.viaGoogleNews(n) ? ` · <span class="via">vía Google News</span>` : "") +
-            ` — <a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.titular)}</a></li>`).join("") +
-          `</ul><a href="noticias.html#aoi=${encodeURIComponent(a.aoi)}">Ver todos los titulares de ${aoiEs(a.aoi)} →</a></td>`;
-        tr.after(dtr);
-        return;
-      }
-      const l = aoiLayerById[a.aoi];
-      if (l) { map.fitBounds(l.getBounds().pad(0.3)); l.openPopup(); irAlMapa(); }
+  if (tbody) {
+    tbody.addEventListener("click", (ev) => {
+      if (ev.target.closest("a")) return;          // los enlaces a la ficha mandan
+      const tr = ev.target.closest("tr[data-lat]");
+      if (!tr) return;
+      const lat = parseFloat(tr.dataset.lat);
+      const lon = parseFloat(tr.dataset.lon);
+      if (Number.isNaN(lat) || Number.isNaN(lon)) return;
+      map.setView([lat, lon], 12);
+      irAlMapa();
     });
-    tbody.appendChild(tr);
   }
 
   // subir al mapa al elegir una zona/municipio desde las tablas
   function irAlMapa() {
     document.getElementById("map").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // Las fichas municipales enlazan aquí con ?municipio=…: su mapa es una imagen
+  // estática y el interactivo se carga solo cuando el lector lo pide.
+  const pedido = new URLSearchParams(location.search).get("municipio");
+  if (pedido) {
+    const capa = munLayerById[pedido];
+    if (capa) {
+      map.setView(capa.getLatLng ? capa.getLatLng() : capa.getBounds().getCenter(), 11);
+      capa.openPopup();
+      irAlMapa();
+    }
   }
 
   // ---- tooltips propios para las cabeceras: instantáneos y visibles también
@@ -614,7 +594,7 @@
       `${x.closed === false ? ' · <span class="badge" style="--bc:var(--warning)">activación abierta</span>' : ""}</p>`).join("") +
       `<p class="note">Índice completo vigilado: ${(mon.activation_index || []).length} activaciones` +
       ` públicas (todas las emergencias mapeadas por Copernicus desde jul-2023, cualquier país)` +
-      ` — disponible en <a href="../data/public/monitor.json" target="_blank">monitor.json</a>.</p>`
+      ` — disponible en <a href="/data/public/monitor.json" target="_blank">monitor.json</a>.</p>`
     : "<p class='note'>Ninguna otra activación de Colombia en el rango público.</p>";
   // la nota del cruce no lleva fecha ni municipios escritos a mano: el día que
   // Pereira o Buenaventura registren, deja de nombrarlos sola (R11)

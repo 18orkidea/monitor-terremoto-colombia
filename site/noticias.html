@@ -5,50 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Titulares del terremoto de Colombia 2026 — noticias por zona y municipio | Monitor de brechas</title>
 <meta name="description" content="Titulares de prensa ligados al terremoto M7.4 de Colombia (10-ago-2026), emparejados por AOI Copernicus y municipio: GDACS EMM, feeds abiertos y búsquedas Google News municipales.">
-<link rel="canonical" href="https://brechas.orkidea.eu/site/noticias.html">
-<meta property="og:url" content="https://brechas.orkidea.eu/site/noticias.html">
+<link rel="canonical" href="https://brechas.orkidea.eu/noticias.html">
+<meta property="og:url" content="https://brechas.orkidea.eu/noticias.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Titulares del terremoto de Colombia 2026, por zona afectada">
 <meta property="og:description" content="Miles de titulares del terremoto M7.4 emparejados por zona (Cali, Pereira, Quibdó, Istmina, Buenaventura), desde feeds internacionales y regionales abiertos a la comunidad.">
-<meta property="og:image" content="https://brechas.orkidea.eu/site/og/titulares.png">
+<meta property="og:image" content="https://brechas.orkidea.eu/og/titulares.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Titulares del terremoto de Colombia emparejados por zona afectada">
-<meta name="twitter:image" content="https://brechas.orkidea.eu/site/og/titulares.png">
+<meta name="twitter:image" content="https://brechas.orkidea.eu/og/titulares.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Titulares del terremoto de Colombia, por zona">
 <meta name="twitter:description" content="Feeds abiertos: cualquiera puede sumar un medio local con un PR.">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"CollectionPage",
  "name":"Titulares del terremoto de Colombia 2026 por zona",
- "inLanguage":"es","isPartOf":{"@type":"WebSite","name":"Monitor de brechas","url":"https://brechas.orkidea.eu/site/"}}
+ "inLanguage":"es","isPartOf":{"@type":"WebSite","name":"Monitor de brechas","url":"https://brechas.orkidea.eu/"}}
 </script>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="theme-color" content="#101418">
 <link rel="stylesheet" href="styles.css?v=dev">
-<style>
-  #filtros { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
-  #filtros input, #filtros select {
-    padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
-    background: var(--surface-1); color: var(--ink); font-size: 13px;
-  }
-  #filtros input { min-width: 220px; }
-  #lista { list-style: none; margin: 0; padding: 0; }
-  #lista li { padding: 8px 0; border-bottom: 1px solid var(--grid); font-size: 13.5px; line-height: 1.5; }
-  #lista .meta-n { color: var(--muted); font-size: 12px; }
-  #lista a { color: var(--s1); text-decoration: none; }
-  #lista a:hover { text-decoration: underline; }
-  .chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px;
-          background: color-mix(in srgb, var(--s1) 12%, var(--surface-1));
-          border: 1px solid var(--border); margin-left: 6px; }
-  .chip.mun { background: color-mix(in srgb, var(--s2) 12%, var(--surface-1)); }
-  .chip.dep { background: color-mix(in srgb, var(--warning) 12%, var(--surface-1)); }
-  #resumen { color: var(--ink-2); font-size: 13px; margin: 4px 0 14px; }
-  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px 30px; }
-</style>
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
@@ -60,7 +40,7 @@
     ¿conoces un buen feed local? <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">añádelo con un PR</a>)</p>
   </div>
   <div class="meta">
-    <a class="btn" href="../data/public/noticias.json" target="_blank">JSON</a>
+    <a class="btn" href="/data/public/noticias.json" target="_blank">JSON</a>
   </div>
 </header>
 <section class="intro">
@@ -122,8 +102,9 @@
   </details>
 </section>
 
-<div class="wrap">
-  <div id="filtros">
+<div class="contenido">
+<section class="page-section">
+  <div id="filtros" class="filtros">
     <input id="buscar" type="search" placeholder="Buscar en titulares…">
     <select id="f-aoi"><option value="">Todas las zonas</option></select>
     <select id="f-depto"><option value="">Todos los departamentos</option></select>
@@ -133,6 +114,7 @@
   <p id="resumen">Cargando…</p>
   <ul id="lista"></ul>
   <nav id="paginado" aria-label="Paginación de titulares"></nav>
+</section>
 </div>
 <script src="ui.js?v=dev"></script>
 <script src="noticias.js?v=dev"></script>

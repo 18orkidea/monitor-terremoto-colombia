@@ -13,12 +13,12 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
 
 ## Páginas
 
-- [Mapa y cruce por zona](https://brechas.orkidea.eu/site/): mapa interactivo con daño
+- [Mapa y cruce por zona](https://brechas.orkidea.eu/): mapa interactivo con daño
   satelital punto a punto, reportes ciudadanos, municipios con población DANE, cronología y
   alertas del día
-- [Titulares por zona](https://brechas.orkidea.eu/site/noticias.html): miles de titulares del
+- [Titulares por zona](https://brechas.orkidea.eu/noticias.html): miles de titulares del
   evento emparejados por zona afectada, con feeds abiertos a la comunidad
-- [Balances en medios](https://brechas.orkidea.eu/site/balances.html): serie diaria de cifras
+- [Balances en medios](https://brechas.orkidea.eu/balances.html): serie diaria de cifras
   (fallecidos, heridos, desaparecidos, familias) que la prensa publica citando a UNGRD/SGC
 
 ## Datos (CC BY 4.0)
@@ -35,5 +35,5 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
 ## Código y metodología
 
 - [Repositorio (MIT) con snapshots crudos](https://github.com/18orkidea/monitor-terremoto-colombia)
-- [Metodología completa](https://brechas.orkidea.eu/site/#metodologia)
+- [Metodología completa](https://brechas.orkidea.eu/#metodologia)
 - Mantenido por @jp@col.social (https://col.social/@jp) con apoyo de Orkidea

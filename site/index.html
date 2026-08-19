@@ -6,17 +6,17 @@
 <title>Terremoto de Colombia 2026 (M7.4): daños, municipios y prensa — Cali, Pereira, Quibdó, Buenaventura | Monitor de brechas</title>
 <meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite Copernicus EMSR916, municipios con prensa o intensidad percibida, población DANE, reportes ciudadanos por WhatsApp, balances oficiales citados en medios (extraídos con IA), titulares por zona y la brecha frente a fuentes oficiales UNGRD.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://brechas.orkidea.eu/site/">
-<meta property="og:url" content="https://brechas.orkidea.eu/site/">
+<link rel="canonical" href="https://brechas.orkidea.eu/">
+<meta property="og:url" content="https://brechas.orkidea.eu/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños y monitor de brechas de reporte">
 <meta property="og:description" content="Daños verificados por satélite (Copernicus EMSR916), municipios mencionados en prensa o DYFI, población DANE, 430+ reportes ciudadanos con foto y brecha de fuentes oficiales.">
-<meta property="og:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta property="og:image" content="https://brechas.orkidea.eu/og/portada.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Monitor del terremoto de Colombia: 622 edificios dañados por satélite, reportes ciudadanos y brechas de reporte">
-<meta name="twitter:image" content="https://brechas.orkidea.eu/site/og/portada.png">
+<meta name="twitter:image" content="https://brechas.orkidea.eu/og/portada.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños por ciudad">
 <meta name="twitter:description" content="Mapa interactivo con daños satelitales, reportes ciudadanos y brechas de reporte oficial, actualizado a diario.">
@@ -45,9 +45,9 @@
     "temporalCoverage": "2026-08-10/..",
     "spatialCoverage": { "@type": "Place", "name": "Occidente de Colombia" },
     "distribution": [
-      { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "../data/public/crosscheck.csv" },
-      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "../data/public/monitor.json" },
-      { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "../data/public/unosat_damage.geojson" }
+      { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "/data/public/crosscheck.csv" },
+      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/public/monitor.json" },
+      { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "/data/public/unosat_damage.geojson" }
     ]
   }
 }
@@ -70,9 +70,9 @@
   </div>
   <div class="meta">
     <span id="generado">—</span>
-    <a class="btn" href="../data/public/crosscheck.csv" download>CSV del cruce</a>
-    <a class="btn" href="../data/public/monitor.json" target="_blank">JSON</a>
-    <a class="btn" href="../data/public/unosat_damage.geojson" download>GeoJSON UNOSAT</a>
+    <a class="btn" href="/data/public/crosscheck.csv" download>CSV del cruce</a>
+    <a class="btn" href="/data/public/monitor.json" target="_blank">JSON</a>
+    <a class="btn" href="/data/public/unosat_damage.geojson" download>GeoJSON UNOSAT</a>
   </div>
 </header>
 
@@ -148,7 +148,7 @@
 
 <nav id="indice" aria-label="Índice de secciones">
   <a href="#mapa">🗺️ Mapa</a>
-  <a href="#panel">Cruce por zona</a>
+  <a href="#panel">Evidencia por municipio</a>
   <a href="#fuentes-section">Comparativa</a>
   <a href="#brecha-section">Brecha y cronología</a>
   <a href="#alerts-section">Alertas</a>
@@ -160,34 +160,40 @@
   <a href="noticias.html">Titulares ↗</a>
 </nav>
 
-<section class="banner" id="banner-brechas"></section>
+<section class="aviso aviso--laguna" id="banner-brechas"></section>
 
 <main id="mapa">
   <div id="map"></div>
   <aside id="panel">
-    <h2>Cruce por zona (AOI)</h2>
+    <h2>Municipios con evidencia sobre el terreno</h2>
+    <p class="note">Los municipios donde hay prueba georreferenciada dentro de sus
+    límites: edificios clasificados por satélite o reportes de la comunidad. La tabla
+    deja de organizarse por lo que el satélite decidió mirar y pasa a organizarse por
+    dónde hay evidencia, venga de donde venga —<strong>el satélite ha mirado 6
+    municipios; la comunidad ha documentado 26</strong>. Clic en una fila para centrarla
+    en el mapa. El detalle por zona Copernicus (vías, interrupciones y fecha de entrega
+    de cada producto) sigue en el <a href="/data/public/crosscheck.csv">CSV del
+    cruce</a>.</p>
     <table id="tabla">
       <thead>
         <tr>
-        <th title="Área de Interés (AOI) definida en la activación Copernicus EMSR916. Clic en la fila para centrar el mapa en la zona.">Zona</th>
-        <th title="Clasificación del cruce de fuentes. 'Coincide' exige evidencia oficial (EDAN/entidad estatal); prensa y reportes ciudadanos solo alcanzan estados intermedios; 'No comparable 1:1' = producto satelital sin estadísticas de daño todavía.">Estado del cruce</th>
-        <th class="num" title="Población estimada por Copernicus dentro del AOI (stat 'Estimated population' del producto de grading).">Población</th>
-        <th class="num" title="Total de edificios detectados con daño por fotointerpretación satelital (capa builtUpP de Copernicus) y, entre paréntesis, el desglose por grado: destruidos · dañados · posiblemente dañados. La suma de las 6 zonas (622) coincide con el total declarado por la activación. Cada punto es visible en el mapa.">Edif. satélite<br>(destr.·dañ.·posib.)</th>
-        <th class="num" title="Tramos de vía con daño visible desde satélite (capa transportationL, excluidos los tramos sin daño).">Vías dañ.</th>
-        <th class="num" title="Interrupciones viales y puntos de información de crisis detectados por Copernicus (capa ancillaryCrisisInfoP).">Interr.</th>
-        <th class="num" title="Noticias de GDACS-EMM y feeds abiertos ligadas al evento que mencionan esta zona por topónimo. No equivale a validación oficial.">Prensa</th>
-        <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada dentro de este AOI y verificación automática coherente (foto, fecha posterior al sismo, intensidad plausible).">Ciudadanos</th>
-        <th title="Fecha de entrega del producto Copernicus más reciente para la zona, con tipo, versión y estado (en espera / en producción / entregado).">Entrega</th>
+        <th title="Municipio con evidencia georreferenciada dentro de sus límites. La atribución es por proximidad a la cabecera municipal: no tenemos los polígonos DIVIPOLA.">Municipio</th>
+        <th title="Clasificación del cruce de fuentes para este municipio. 'Coincide' exige evidencia oficial (EDAN o balance de entidad estatal); la prensa y los reportes ciudadanos solo alcanzan estados intermedios.">Estado del cruce</th>
+        <th class="num" title="Proyección de población municipal 2026 del DANE (PPED por área).">Población</th>
+        <th class="num" title="Edificios con daño clasificados uno a uno por fotointerpretación satelital (capa builtUpP de Copernicus EMSR916) cuya coordenada cae en este municipio.">Edif. satélite</th>
+        <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada en este municipio y verificación automática coherente. No están validados a mano.">Ciudadanos</th>
+        <th class="num" title="Personas inscritas como damnificadas en el RUD de la UNGRD. Es un registro progresivo que cargan las autoridades municipales, sujeto a verificación posterior: mide inscripciones, no daño comprobado.">Damnif. RUD</th>
+        <th class="num" title="Titulares recogidos por el monitor que mencionan este municipio por topónimo. No equivale a validación oficial.">Prensa</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody data-gen="portada"></tbody><!-- lo rellena deploy/render_html.py en el build -->
     </table>
     <p class="note">«Oficial» exige EDAN/balance de entidad estatal. Desde que el monitor
     captura el <a href="rud.html">RUD</a> (<span id="nota-rud-desde"></span>), ese registro
     aporta la evidencia donde los municipios ya registran — por eso hay zonas en
     «Coincide».<span id="nota-sin-registro"></span> La prensa y los reportes ciudadanos no
     equivalen a un balance oficial.</p>
-    <p class="note">¿Estás en la zona? <a href="https://chatmap.hotosm.org/colombia.html"
+    <p class="aviso aviso--accion">¿Estás en la zona? <a href="https://chatmap.hotosm.org/colombia.html"
     target="_blank" rel="noopener"><strong>Reporta daños con tu ubicación y foto por
     WhatsApp</strong></a> (ChatMap · OSM Colombia + UN Mappers + HOT). Tu reporte aparece
     en este mapa con verificación cruzada satélite↔terreno.</p>
