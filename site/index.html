@@ -64,7 +64,7 @@
 <header>
   <div>
     <h1>Monitor de brechas de reporte — Terremoto de Colombia</h1>
-    <p class="sub">M7.4 · 10-ago-2026 · San José del Palmar (Chocó) ·
+    <p class="sub">Magnitud 7,4 · 10 de agosto de 2026 · San José del Palmar (Chocó) ·
       Copernicus <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">EMSR916</a> ·
       GLIDE EQ-2026-000146-COL · alerta PAGER <span class="badge critical">roja</span></p>
   </div>
@@ -98,7 +98,7 @@
       <li><strong><a href="#banner-brechas">La banda amarilla</a></strong> (arriba) resume las dos brechas centrales: cuánto
       tiempo llevan calladas las fuentes oficiales abiertas y cuánta población expuesta al
       sismo queda fuera de las zonas mapeadas por satélite.</li>
-      <li><strong><a href="#mapa">El mapa</a></strong>: cada polígono es una zona analizada por Copernicus (AOI),
+      <li><strong><a href="#mapa">El mapa</a></strong>: cada polígono es una zona que Copernicus analizó en detalle,
       coloreada por su estado del cruce. Los puntos con borde blanco son
       <em>edificios dañados vistos por satélite</em> (rojo = destruido, naranja = dañado,
       amarillo = posiblemente dañado); los de borde oscuro son la evaluación de
@@ -106,7 +106,7 @@
       Copernicus no ha cartografiado nada — ninguno de esos puntos está validado en campo,
       y tres de cada cuatro son solo «daño posible»; los puntos violeta son
       <em>reportes ciudadanos</em> — haz clic para ver la foto. La ★ es el epicentro. Con el
-      control de capas (arriba a la derecha) puedes activar la intensidad percibida (DYFI),
+      control de capas (arriba a la derecha) puedes activar la intensidad que sintió la población,
       las vías dañadas, las zonas sin analizar y los sismos históricos desde 1914.
       Cada globo enseña solo lo que su fuente midió en ese punto: si una fuente no
       responde a algo ahí, esa línea no aparece.</li>
@@ -137,10 +137,10 @@
       <li><strong><a href="noticias.html">Titulares</a></strong> (página aparte): todos los
       titulares del evento recogidos, filtrables por zona, medio y texto — la prensa anterior
       al 10 de agosto queda en el archivo, no en la página. ¿Falta un medio regional? El registro de
-      feeds es abierto — se añade con un PR.</li>
+      feeds es abierto — se añade con una propuesta de cambio en GitHub.</li>
       <li><strong><a href="#glosario">Descargas y verificación</a></strong>: botones CSV/JSON arriba; glosario de
       acrónimos y metodología con enlaces a todas las fuentes al pie. Si una cifra no cuadra,
-      cada snapshot crudo está en el repositorio con su hash.</li>
+      cada respuesta original está archivada en el repositorio con su huella digital.</li>
     </ol>
   </details>
 </section>
@@ -177,10 +177,10 @@
     <div class="tabla-scroll"><table id="tabla">
       <thead>
         <tr>
-        <th title="Municipio con evidencia georreferenciada dentro de sus límites. La atribución es por proximidad a la cabecera municipal: no tenemos los polígonos DIVIPOLA.">Municipio</th>
+        <th title="Municipio con evidencia georreferenciada dentro de sus límites. La atribución es por proximidad a la cabecera municipal: no tenemos los polígonos oficiales de cada municipio.">Municipio</th>
         <th title="Clasificación del cruce de fuentes para este municipio. 'Coincide' exige evidencia oficial (EDAN o balance de entidad estatal); la prensa y los reportes ciudadanos solo alcanzan estados intermedios.">Estado del cruce</th>
-        <th class="num" title="Proyección de población municipal 2026 del DANE (PPED por área).">Población</th>
-        <th class="num" title="Edificios con daño clasificados uno a uno por fotointerpretación satelital (capa builtUpP de Copernicus EMSR916) cuya coordenada cae en este municipio.">Edif. satélite</th>
+        <th class="num" title="Población proyectada para 2026 por el Departamento Administrativo Nacional de Estadística (DANE), por municipio y área.">Población</th>
+        <th class="num" title="Edificios con daño clasificados uno a uno sobre imagen de satélite por el servicio de emergencias de Copernicus (activación EMSR916) cuya coordenada cae en este municipio.">Edif. satélite</th>
         <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada en este municipio y verificación automática coherente. No están validados a mano.">Ciudadanos</th>
         <th class="num" title="Personas inscritas como damnificadas en el RUD de la UNGRD. Es un registro progresivo que cargan las autoridades municipales, sujeto a verificación posterior: mide inscripciones, no daño comprobado.">Damnif. RUD</th>
         <th class="num" title="Titulares recogidos por el monitor que mencionan este municipio por topónimo. No equivale a validación oficial.">Prensa</th>
@@ -195,7 +195,7 @@
     equivalen a un balance oficial.</p>
     <p class="aviso aviso--accion">¿Estás en la zona? <a href="https://chatmap.hotosm.org/colombia.html"
     target="_blank" rel="noopener"><strong>Reporta daños con tu ubicación y foto por
-    WhatsApp</strong></a> (ChatMap · OSM Colombia + UN Mappers + HOT). Tu reporte aparece
+    WhatsApp</strong></a> (ChatMap, de OpenStreetMap Colombia, UN Mappers y el Equipo Humanitario de OpenStreetMap). Tu reporte aparece
     en este mapa con verificación cruzada satélite↔terreno.</p>
     <div id="leyenda"></div>
   </aside>
@@ -248,22 +248,22 @@
     <ol>
       <li><strong>23:00 (Colombia)</strong> — un proceso con IA busca en la prensa los
       balances del día que citan fuentes oficiales (UNGRD, SGC, gobernaciones), descarga los
-      artículos y extrae las cifras con su cita textual. Los <em>liveblogs</em> se marcan y
+      artículos y extrae las cifras con su cita textual. Las <em>coberturas en vivo</em> se marcan y
       pesan menos. Alimenta la página de <a href="balances.html">Balances</a>.</li>
-      <li><strong>05:30 (Colombia)</strong> — el pipeline principal consulta todas las
+      <li><strong>05:30 (Colombia)</strong> — la corrida diaria consulta todas las
       fuentes (Copernicus, USGS, GDACS, GDELT, UNGRD, ChatMap, EMSC y los feeds de prensa
       del <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a>),
-      guarda un <strong>snapshot inmutable</strong> de cada respuesta cruda, recalcula el
+      guarda una <strong>copia inmutable</strong> de cada respuesta original, recalcula el
       cruce y publica el sitio. Los videos ciudadanos se archivan en almacenamiento
       permanente (ChatMap no garantiza retención — su feed de noticias global, de hecho, fue
-      purgado el 16-ago y esa serie ya solo existe en nuestros snapshots).</li>
+      purgado el 16-ago y esa serie ya solo existe en nuestras copias).</li>
       <li><strong>En cada corrida</strong> — una batería de tests verifica el código, los
       contratos de las APIs externas y las hipótesis del proyecto contra los datos frescos.
       Si una fuente cambia o calla, salta una alerta en la portada.</li>
     </ol>
     <p><strong>Trazabilidad:</strong> toda petición HTTP queda registrada con URL, estado,
-    huella sha256 y timestamp; ninguna cifra publicada carece de fila en ese registro. Los
-    snapshots crudos se versionan en el
+    huella digital (sha256) y fecha; ninguna cifra publicada carece de fila en ese registro. Los
+    copias originales se archivan en el
     <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">repositorio público</a>,
     así que cualquier número puede reconstruirse y rebatirse.</p>
     <p><strong>Medición de audiencia (declarada):</strong> el sitio usa Cloudflare Web
@@ -271,7 +271,7 @@
     Se declara aquí porque en un monitor que audita la transparencia de otros, la propia
     debe ir por delante.</p>
     <p><strong>Limitaciones conocidas:</strong> un archivo honesto documenta sus lagunas —
-    los cinco primeros días sin snapshots, los vídeos que solo viven en R2, el registro
+    los cinco primeros días sin copias archivadas, los vídeos que solo viven en R2, el registro
     progresivo del RUD. Están enumeradas en
     <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
     target="_blank" rel="noopener">docs/LIMITACIONES.md</a>.</p>
@@ -280,8 +280,8 @@
     alcanzan estados intermedios explícitos, por muchos que sean. Los «NA» de las fuentes se
     conservan como tales, jamás se convierten en ceros. Los reportes ciudadanos pasan una
     verificación automática (intensidad plausible, dentro de zona mapeada, fecha posterior
-    al sismo, duplicados por hash) y se publican con coordenada redondeada a ~110 m, sin
-    EXIF y sin datos personales.</p>
+    al sismo, sin copias repetidas del mismo archivo) y se publican con coordenada redondeada a unos 110 metros,
+    sin los datos ocultos de la foto y sin datos personales.</p>
     <p><strong>Fuentes:</strong>
     <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">Copernicus EMS (EMSR916)</a> ·
     <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2" target="_blank" rel="noopener">USGS</a>

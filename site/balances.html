@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Balances del terremoto de Colombia citados en medios (UNGRD, SGC)">
-<meta property="og:description" content="Evolución diaria de fallecidos, heridos, desaparecidos y familias afectadas según los balances que la prensa publica citando fuentes oficiales — extraídos con IA, con URL trazable y liveblogs penalizados.">
+<meta property="og:description" content="Evolución diaria de fallecidos, heridos, desaparecidos y familias afectadas según los balances que la prensa publica citando fuentes oficiales — extraídos con IA, con URL trazable y coberturas en vivo penalizados.">
 <meta property="og:image" content="https://brechas.orkidea.eu/og/balances.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Dataset",
  "name":"Balances del terremoto de Colombia 2026 citados en medios",
- "description":"Serie diaria de cifras (fallecidos, heridos, desaparecidos, familias) publicadas por medios citando a UNGRD/SGC, con publicador, fuente citada y URL por snapshot.",
+ "description":"Serie diaria de cifras (fallecidos, heridos, desaparecidos, familias) publicadas por medios citando a UNGRD/SGC, con publicador, fuente citada y URL por captura.",
  "inLanguage":"es","license":"https://creativecommons.org/licenses/by/4.0/",
  "temporalCoverage":"2026-08-10/..",
  "distribution":[{"@type":"DataDownload","encodingFormat":"application/json",
@@ -59,7 +59,7 @@
   <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
   oficial. Es lo que la prensa dice que dicen las fuentes oficiales — útil porque vuela más
   rápido que los canales formales, y peligroso si se confunde con un EDAN. Por eso cada
-  snapshot lleva su nivel de confianza y los <em>liveblogs</em> (coberturas «en vivo» que
+  captura lleva su nivel de confianza y los <em>coberturas en vivo</em> (coberturas «en vivo» que
   mezclan actualizaciones de horas distintas) se marcan y pesan menos.</p>
   <details>
     <summary><strong>Metodología y preguntas frecuentes</strong></summary>
@@ -67,22 +67,22 @@
       <li><strong>¿Cómo se recogen?</strong> Un proceso automático busca cada noche (23:00
       de Colombia) balances del día en la prensa, descarga los artículos y extrae las cifras
       con un modelo de lenguaje, guardando la cita textual y el hash del contenido. Todo
-      snapshot exige revisión humana antes de considerarse consolidado.</li>
+      captura exige revisión humana antes de considerarse consolidado.</li>
       <li><strong>¿Por qué difieren las cifras entre medios el mismo día?</strong> Porque
       citan cortes distintos del consolidado oficial (mañana vs tarde), o arrastran datos
-      de liveblogs — y los medios internacionales tardíos a veces publican cortes de días
-      atrás. La serie diaria elige el mejor snapshot con cinco criterios, en orden:
+      de coberturas en vivo — y los medios internacionales tardíos a veces publican cortes de días
+      atrás. La serie diaria elige el mejor captura con cinco criterios, en orden:
       <strong>estable respecto a la víspera</strong> (un balance acumulado no retrocede;
       caídas &gt;10 % delatan un corte viejo), <strong>prensa nacional colombiana</strong>
-      (más cercana al consolidado oficial que los medios internacionales), no-liveblog,
+      (más cercana al consolidado oficial que los medios internacionales), no-cobertura en vivo,
       el más completo, y mejor fuente citada. Cuando los medios de un día se contradicen fuerte (&gt;15 %), el día
       se marca <strong>«cifras en disputa»</strong> — la discrepancia se muestra, no se
-      suprime. Y si el mejor snapshot de un día no trae una cifra, se conserva el último
+      suprime. Y si el mejor captura de un día no trae una cifra, se conserva el último
       valor conocido marcado con su fecha de origen — un dato no desaparece porque un
       medio no lo repita.</li>
       <li><strong>¿Qué significa cada nivel?</strong> «Prensa temporal» = artículo fechado
       de un medio; «Web temporal» = página sin fecha editorial firme; el distintivo
-      <em>liveblog</em> marca coberturas en vivo (fiabilidad histórica baja).</li>
+      <em>cobertura en vivo</em> marca coberturas en vivo (fiabilidad histórica baja).</li>
       <li><strong>¿Dónde están los datos?</strong> El feed completo es público en
       <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" target="_blank" rel="noopener">JSON</a>
       y <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.rss" target="_blank" rel="noopener">RSS</a>,
@@ -94,9 +94,9 @@
 
 <section id="balance-hero">
   <div id="balance-cards" class="metric-strip"></div>
-  <p class="note">Estos valores son snapshots extraídos de páginas públicas. El publicador
+  <p class="note">Estos valores son capturas extraídos de páginas públicas. El publicador
   suele ser un medio; UNGRD, SGC, Gobernación, Presidencia o Alcaldía aparecen como fuentes
-  citadas dentro del texto. Los liveblogs se muestran, pero pesan menos en la serie.</p>
+  citadas dentro del texto. Los coberturas en vivo se muestran, pero pesan menos en la serie.</p>
 </section>
 
 <section id="comparativa" class="page-section">
@@ -110,7 +110,7 @@
     <thead><tr>
       <th>Indicador</th>
       <th class="num" title="Registro Único de Damnificados (UNGRD): lo registrado municipio a municipio por las autoridades locales. Registro progresivo — crece a medida que los municipios cargan datos.">RUD (registro oficial)</th>
-      <th class="num" title="Mejor snapshot no-liveblog del último día: lo que la prensa publica citando el consolidado oficial (UNGRD/SGC).">Medios citando oficiales</th>
+      <th class="num" title="Mejor captura no-cobertura en vivo del último día: lo que la prensa publica citando el consolidado oficial (UNGRD/SGC).">Medios citando oficiales</th>
       <th class="num" title="Diferencia absoluta entre ambas columnas. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
     </tr></thead>
     <tbody></tbody>
@@ -124,16 +124,16 @@
 </section>
 
 <section id="balance-chart-section">
-  <h2>Serie del mejor snapshot no-liveblog por día</h2>
-  <p class="sub">El punto diario prioriza completitud, fuente citada y estabilidad histórica; los liveblogs se penalizan.</p>
+  <h2>Serie del mejor captura no-cobertura en vivo por día</h2>
+  <p class="sub">El punto diario prioriza completitud, fuente citada y estabilidad histórica; los coberturas en vivo se penalizan.</p>
   <div id="balance-chart"></div>
 </section>
 
 <section id="balance-table-section">
-  <h2>Tabla trazable de snapshots</h2>
-  <p class="sub">Todos los snapshots capturados, con su publicador y su fuente citada.
+  <h2>Tabla trazable de capturas</h2>
+  <p class="sub">Todos los capturas capturados, con su publicador y su fuente citada.
   Las filas marcadas <strong style="color:var(--good)">✓ usada en la serie</strong> son
-  el snapshot elegido de cada día: sus cifras alimentan la serie, las tarjetas y la
+  el captura elegido de cada día: sus cifras alimentan la serie, las tarjetas y la
   comparativa; el resto se conserva como evidencia pero no afecta los datos.</p>
   <div id="balance-filtros" class="filtros">
     <input id="balance-buscar" type="search" placeholder="Buscar publicador, fuente o título…">
