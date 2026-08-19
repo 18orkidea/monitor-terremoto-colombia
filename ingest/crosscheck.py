@@ -116,9 +116,13 @@ def run(emm_items: list[dict] | None = None) -> dict:
     press = match_news_to_aois(emm_items or [], conn, snap)
     evidencia_oficial_rud(conn, snap)   # inserta evidencia oficial (efecto)
 
-    # feeds comunitarios: mismos topónimos, misma evidencia
+    # feeds comunitarios: mismos topónimos, misma evidencia. La evidencia se
+    # firma con la cabecera que declara el RSS; el nombre del feed («Google
+    # News — Istmina») solo sirve de respaldo, porque como fuente de prensa no
+    # dice nada: es la búsqueda que la encontró, no quien la publicó.
     for url, fecha, titulo, medio in conn.execute(
-            "SELECT url, fecha, titulo, medio FROM news_items"):
+            "SELECT url, fecha, titulo, COALESCE(medio_canonico, medio)"
+            " FROM news_items"):
         if anterior_al_sismo(fecha):
             continue
         for aoi in match_text_to_aois(titulo):

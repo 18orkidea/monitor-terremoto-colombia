@@ -316,3 +316,8 @@ a.metric-card:hover { border-color: var(--s1); }
   color: var(--ink); font-size: 13px;
 }
 #menu-compartir a:hover { background: color-mix(in srgb, var(--s1) 10%, transparent); color: var(--s1); }
+
+/* «vía Google News»: el enlace no lleva al medio sino al agregador, y eso se
+   dice en la propia línea de firma en vez de dejar que el lector lo descubra
+   al hacer clic. */
+.via { color: var(--muted); font-style: italic; }

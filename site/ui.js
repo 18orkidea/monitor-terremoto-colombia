@@ -328,6 +328,29 @@ window.UI = (function () {
   const VAPID_PUBLIC_KEY = "BBrMEN-T86OTPOCsTn6CbJSnqaLJeOGWjaVnNbe8WB6RCwEXaDORqDVWxnD-6jhBr3g5XkD72fce-jEKQDycAwc";
   const TELEGRAM_CANAL = "https://t.me/terremotoCO2026";
 
+  /* ---- medio de una noticia (regla compartida: página de titulares, fichas
+     municipales y cualquier recuento de pluralidad).
+
+     Tres campos que no son lo mismo y conviene no confundir:
+       · `medio`          — el FEED que trajo la pieza («Google News — Nóvita»)
+       · `medio_canonico` — la cabecera que la firma, según el propio RSS
+       · `url`            — a dónde lleva el enlace, que en los feeds de Google
+                            News NO es el medio sino news.google.com
+
+     Cuando no consta la cabecera y el enlace pasa por Google News, no se
+     inventa: se dice de dónde viene el enlace y ya. Poner ahí el nombre del
+     feed daría por medio lo que es una búsqueda. */
+  const viaGoogleNews = (n) => /(^|\.)news\.google\.com$/.test(hostDe(n.url || ""));
+
+  function hostDe(url) {
+    try { return new URL(url).hostname.toLowerCase(); } catch (e) { return ""; }
+  }
+
+  function medioDe(n) {
+    if (n.medio_canonico) return n.medio_canonico;
+    return viaGoogleNews(n) ? null : (n.medio || n.origen || null);
+  }
+
   /* ---- balances en medios: selección del mejor snapshot (regla compartida;
      la marca is_liveblog original la pone el worker — test de paridad en
      tests/test_unit.py) */
@@ -495,6 +518,7 @@ window.UI = (function () {
            fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
            fichaMapa,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
+           medioDe, viaGoogleNews, hostDe,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };
 })();

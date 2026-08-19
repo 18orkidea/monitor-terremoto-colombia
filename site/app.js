@@ -487,10 +487,16 @@
         if (next && next.classList.contains("prensa-detalle")) { next.remove(); return; }
         const dtr = document.createElement("tr");
         dtr.className = "prensa-detalle";
+        // Misma regla que la página de titulares (window.UI): la cabecera que
+        // firma la pieza, no el feed que la trajo, y aviso de que el enlace va
+        // al agregador. Los textos vienen de feeds ajenos: van escapados.
+        const esc = window.UI.esc, medioDe = window.UI.medioDe;
         dtr.innerHTML = `<td colspan="9"><strong>Titulares de ejemplo (EMM/feeds):</strong><ul>` +
           a.prensa_ejemplos.map((n) =>
-            `<li>${(n.fecha || "").slice(0, 10)} · <em>${n.medio || "?"}</em> — ` +
-            `<a href="${n.url}" target="_blank" rel="noopener">${n.titular}</a></li>`).join("") +
+            `<li>${(n.fecha || "").slice(0, 10)}` +
+            (medioDe(n) ? ` · <em>${esc(medioDe(n))}</em>` : "") +
+            (window.UI.viaGoogleNews(n) ? ` · <span class="via">vía Google News</span>` : "") +
+            ` — <a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.titular)}</a></li>`).join("") +
           `</ul><a href="noticias.html#aoi=${encodeURIComponent(a.aoi)}">Ver todos los titulares de ${aoiEs(a.aoi)} →</a></td>`;
         tr.after(dtr);
         return;

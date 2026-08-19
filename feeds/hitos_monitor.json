@@ -93,6 +93,12 @@
    "tipo": "monitor",
    "texto": "Con el corpus limpio de prensa vieja, el silencio se puede por fin medir sin confundirlo con titulares de otros sismos: 33 de los 116 municipios vigilados tienen damnificados registrados en el RUD y cero titulares atribuidos — 12.129 personas. En cinco de ellos el monitor sí preguntó, con búsqueda propia y nombre sin ambigüedad, y no obtuvo nada: Quinchía, Bagadó, Guática, Mistrató y Guacarí suman 5.297 personas registradas, y en Bagadó son el 8,8 % de su población. En los otros 28 el cero puede ser del monitor: 23 no tienen siquiera búsqueda propia. Y otros tres ni siquiera tienen cero —2.105 personas—: se llaman igual que un departamento y el monitor no puede atribuirles ningún titular. El recuento es del corpus del monitor, no de la prensa colombiana entera.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
+  },
+  {
+   "fecha": "2026-08-19",
+   "tipo": "monitor",
+   "texto": "Cada titular dice ahora de qué medio es. La mitad de las noticias llegaba por Google News, y ahí el monitor solo guardaba el nombre de la búsqueda que las trajo: Palmira figuraba con 304 noticias de 7 medios, que en realidad eran feeds. El dato estaba en el propio archivo: cada noticia del RSS declara qué medio la firma. Se reconstruyó releyendo los snapshots, sin pedir nada a nadie: Palmira tiene 30 medios y el archivo entero, 926. Los enlaces que llevan al agregador y no al medio se marcan «vía Google News».",
+   "url": "https://brechas.orkidea.eu/site/noticias.html"
   }
  ]
 }

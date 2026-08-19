@@ -2671,3 +2671,21 @@ ts,url,http_status,sha256,bytes,snapshot_path,note
 2026-08-19T20:18:27Z,https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0/query?where=1%3D1&f=json&resultRecordCount=1&outFields=MUERTOS%2CVIV_DESTRU%2CMUNICIPIO,200,3ef63243668bc2e5a8f8bcab749740625edf1fe451ff82e7c01ba5360471d382,792,\N,sonda de supuesto
 2026-08-19T20:18:30Z,https://www.datos.gov.co/resource/wwkg-r6te.json?%24select=max%28fecha%29,200,9e69438b2fabe535e37608812d936a433f81bc015a63069d8b9bfb9b24644dfa,42,\N,sonda de supuesto
 2026-08-19T20:18:35Z,https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T,200,a683ee4e74b525df6e3e9de5d2e3ec262e17a5e0b272b7bb360f62c105f7a73e,23962,\N,sonda de supuesto
+2026-08-19T20:22:01Z,https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/,200,1fee0691a0e23855c9e78aacbc91a2890a8f33a7d9470d4423b108672df8df72,49,\N,sonda de supuesto
+2026-08-19T20:22:01Z,https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR916,200,168c0f8276380024f92a7f51014f4405b9614756477c198587317740d8d6437c,41783,\N,sonda de supuesto
+2026-08-19T20:22:02Z,https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR700,403,dbff0849bc109eee7f9b7b1fe12e40fc8add21823b2f1fb600b37f620cbd7862,58,\N,sonda de supuesto
+2026-08-19T20:22:02Z,https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR916,200,168c0f8276380024f92a7f51014f4405b9614756477c198587317740d8d6437c,41783,\N,sonda de supuesto
+2026-08-19T20:22:03Z,https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR916,200,168c0f8276380024f92a7f51014f4405b9614756477c198587317740d8d6437c,41783,\N,sonda de supuesto
+2026-08-19T20:22:03Z,https://chatmap.hotosm.org/api/v1/map/89319bbb-a14a-4dfd-b9a1-c83b8b55785f,200,d6ed4cfefcb326540f6769450669d982063c2640bc52b41586bc2d143f8306f4,206561,\N,sonda de supuesto
+2026-08-19T20:22:04Z,https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000tjl2&format=geojson,200,b901ba6bd763a0274693cf179b7f2e7b9253febffc44f837176dbff9b97abe61,67044,\N,sonda de supuesto
+2026-08-19T20:22:08Z,https://www.gdacs.org/gdacsapi/api/emm/getemmnewsbykey?eventtype=EQ&eventid=1557236,200,aa7a9d5babdd820d0c916c86a8f91b6ce87ada33a6e704b69847e6bf2b1853c4,1175678,\N,sonda de supuesto
+2026-08-19T20:22:08Z,https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0/query?where=1%3D1&f=json&resultRecordCount=1&outFields=MUERTOS%2CVIV_DESTRU%2CMUNICIPIO,200,3ef63243668bc2e5a8f8bcab749740625edf1fe451ff82e7c01ba5360471d382,792,\N,sonda de supuesto
+2026-08-19T20:22:10Z,https://www.datos.gov.co/resource/wwkg-r6te.json?%24select=max%28fecha%29,200,9e69438b2fabe535e37608812d936a433f81bc015a63069d8b9bfb9b24644dfa,42,\N,sonda de supuesto
+2026-08-19T20:22:15Z,https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T,200,74e7ba27e60e6719dc1a29530d92e9e436db4baf4d9cf3727fd6d0081476dd59,23963,\N,sonda de supuesto
+2026-08-19T20:22:16Z,https://unosat.org/our_products/4253,200,87fd60757432bb378a6f9692a0ced4ef0dd134d28de0f0e18ed4455a2ee0ff1e,2896,\N,sonda de supuesto
+2026-08-19T20:22:16Z,https://unosat.org/our_products/,200,2c1713871d9c1573c7cccdf821858ce22a13b74c6815ea5b52901172567d9b2d,7613,\N,sonda de supuesto
+2026-08-19T20:22:17Z,https://unosat.org/our_products/?glide=EQ20260810COL,200,2c1713871d9c1573c7cccdf821858ce22a13b74c6815ea5b52901172567d9b2d,7613,\N,sonda de supuesto
+2026-08-19T20:22:17Z,https://unosat.org/our_products/,200,2c1713871d9c1573c7cccdf821858ce22a13b74c6815ea5b52901172567d9b2d,7613,\N,sonda de supuesto
+2026-08-19T20:22:18Z,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL_SHP.zip,200,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,56369,\N,sonda de supuesto
+2026-08-19T20:22:18Z,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL_SHP.zip,200,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,56369,\N,sonda de supuesto
+2026-08-19T20:27:12Z,repo:data/snapshots/feed_*.xml,\N,\N,\N,\N,reconstrucción de medios desde snapshots: 2964 de 3169 noticias sin cabecera

@@ -1,8 +1,8 @@
 aoi,estado,etiqueta,poblacion,edificios_afectados,vias_afectadas_km,interrupciones_viales,n_prensa,n_ciudadano,n_oficial,entrega_producto,fuente
-Western Colombia,no_comparable,No comparable 1:1,,,,,518,266,3,2026-08-17T10:24:00,Copernicus EMSR916 + GDACS EMM + ChatMap
-Northern Cali,coincide,Coincide cualitativamente,340000.0,7.0,,,409,1,3,2026-08-12T21:48:05.935025,Copernicus EMSR916 + GDACS EMM + ChatMap
-Pereira,prensa,"Reportado en prensa, sin validación oficial",190000.0,182.0,0.8,11.0,296,71,0,2026-08-12T05:18:20.823334,Copernicus EMSR916 + GDACS EMM + ChatMap
-Cali Center,coincide,Coincide cualitativamente,94000.0,14.0,,,409,2,3,2026-08-12T03:48:40.818287,Copernicus EMSR916 + GDACS EMM + ChatMap
-Quibdo Centre,coincide,Coincide cualitativamente,73000.0,74.0,,2.0,39,49,3,2026-08-14T00:48:04.123420,Copernicus EMSR916 + GDACS EMM + ChatMap
-Istmina,coincide,Coincide cualitativamente,23000.0,10.0,,,14,0,3,2026-08-14T03:37:40.320366,Copernicus EMSR916 + GDACS EMM + ChatMap
-Buenaventura,coincide,Coincide cualitativamente,320000.0,335.0,,,113,4,2,2026-08-14T12:20:32.055124,Copernicus EMSR916 + GDACS EMM + ChatMap
+Western Colombia,no_comparable,No comparable 1:1,,,,,450,260,3,2026-08-17T10:24:00,Copernicus EMSR916 + GDACS EMM + ChatMap
+Northern Cali,coincide,Coincide cualitativamente,340000.0,7.0,,,343,1,3,2026-08-12T21:48:05.935025,Copernicus EMSR916 + GDACS EMM + ChatMap
+Pereira,prensa,"Reportado en prensa, sin validación oficial",190000.0,182.0,0.8,11.0,266,55,0,2026-08-12T05:18:20.823334,Copernicus EMSR916 + GDACS EMM + ChatMap
+Cali Center,coincide,Coincide cualitativamente,94000.0,14.0,,,343,2,3,2026-08-12T03:48:40.818287,Copernicus EMSR916 + GDACS EMM + ChatMap
+Quibdo Centre,coincide,Coincide cualitativamente,73000.0,74.0,,2.0,35,49,3,2026-08-14T00:48:04.123420,Copernicus EMSR916 + GDACS EMM + ChatMap
+Istmina,coincide,Coincide cualitativamente,23000.0,10.0,,,11,0,3,2026-08-14T03:37:40.320366,Copernicus EMSR916 + GDACS EMM + ChatMap
+Buenaventura,coincide,Coincide cualitativamente,320000.0,335.0,,,103,4,2,2026-08-14T12:20:32.055124,Copernicus EMSR916 + GDACS EMM + ChatMap

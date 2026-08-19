@@ -469,7 +469,18 @@ class TestFeedsComunitarios(unittest.TestCase):
     </channel></rss>"""
     ATOM = b"""<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom">
       <entry><title>Replica del terremoto</title>
-        <link href="https://x.co/2"/><updated>2026-08-15T11:00:00Z</updated></entry></feed>"""
+        <link href="https://x.co/2"/><updated>2026-08-15T11:00:00Z</updated>
+        <source><title>El Espectador</title></source></entry></feed>"""
+    # Un feed de Google News tal cual llega: el <link> apunta al agregador y el
+    # medio real solo consta en <source>.
+    RSS_GOOGLE = b"""<?xml version="1.0"?><rss version="2.0"><channel>
+      <item><title>Temblor en Palmira - EL PA\xc3\x8dS</title>
+        <link>https://news.google.com/rss/articles/CBMiabc</link>
+        <pubDate>Fri, 15 Aug 2026 10:00:00 GMT</pubDate>
+        <source url="https://elpais.com">EL PA\xc3\x8dS</source></item>
+      <item><title>Sismo sin fuente declarada</title>
+        <link>https://news.google.com/rss/articles/CBMidef</link></item>
+    </channel></rss>"""
 
     @classmethod
     def setUpClass(cls):
@@ -487,6 +498,35 @@ class TestFeedsComunitarios(unittest.TestCase):
         items = parse_rss(self.ATOM)
         self.assertEqual(len(items), 1)
         self.assertEqual(items[0]["url"], "https://x.co/2")
+
+    def test_source_da_el_medio_real(self):
+        """El <link> de Google News no lleva al medio; <source> sí lo nombra.
+        Es el único sitio del feed donde la cabecera viaja limpia."""
+        from community_feeds import parse_rss
+        it = parse_rss(self.RSS_GOOGLE)[0]
+        self.assertEqual(it["medio_canonico"], "EL PAÍS")
+        self.assertEqual(it["medio_dominio"], "elpais.com")
+
+    def test_sin_source_es_none_jamas_cadena_vacia(self):
+        """R3 en el frontend igual que en las cifras: la ausencia de dato se
+        dice con NULL. Un "" se colaría en un recuento de medios distintos."""
+        from community_feeds import parse_rss
+        sin = parse_rss(self.RSS_GOOGLE)[1]
+        self.assertIsNone(sin["medio_canonico"])
+        self.assertIsNone(sin["medio_dominio"])
+        propio = parse_rss(self.RSS)[0]       # feed propio: no emite <source>
+        self.assertIsNone(propio["medio_canonico"])
+
+    def test_atom_tambien_declara_su_fuente(self):
+        from community_feeds import parse_rss
+        self.assertEqual(parse_rss(self.ATOM)[0]["medio_canonico"], "El Espectador")
+
+    def test_dominio_normaliza_y_no_inventa(self):
+        from community_feeds import dominio
+        self.assertEqual(dominio("https://www.eltiempo.com/algo"), "eltiempo.com")
+        self.assertEqual(dominio("https://ELPAIS.com"), "elpais.com")
+        for basura in ("", "no-soy-una-url", "mailto:x@y.co"):
+            self.assertIsNone(dominio(basura), f"{basura!r} no tiene host")
 
     def test_xml_roto_no_revienta(self):
         from community_feeds import parse_rss
@@ -671,10 +711,17 @@ class TestDumpRoundtrip(unittest.TestCase):
             origen.execute(
                 "INSERT INTO rud_daily VALUES ('2026-08-16','CHOCÓ','ISTMINA',"
                 "969.0,2811.0,NULL,0.0,NULL,22.0)")
+            # columnas nombradas: una columna nueva no debe romper este test,
+            # debe viajar en él
             origen.execute(
-                "INSERT INTO news_items VALUES ('https://x/y?a=1','feed-1',"
-                "'2026-08-16','Título, con \"comillas\" y\nsalto','Medio Ñandú',"
-                "'2026-08-16')")
+                "INSERT INTO news_items (url, feed_id, fecha, titulo, medio,"
+                " medio_canonico, medio_dominio, snapshot_date) VALUES"
+                " ('https://x/y?a=1','feed-1','2026-08-16',"
+                "'Título, con \"comillas\" y\nsalto','Google News — Nóvita',"
+                "'EL PAÍS','elpais.com','2026-08-16')")
+            origen.execute(
+                "INSERT INTO news_items (url, feed_id, medio, snapshot_date)"
+                " VALUES ('https://x/z','feed-2','El Colombiano','2026-08-16')")
             origen.execute(
                 "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
                 "snapshot_path,note) VALUES ('2026-08-16T00:00:00Z','u',200,"
@@ -896,6 +943,221 @@ class TestCorpusDePrensa(unittest.TestCase):
         self.assertEqual(culpables, [],
                          "fecha del sismo suelta en la ingesta: usar FECHA_SISMO "
                          "o INSTANTE_SISMO de common.py")
+
+class TestBackfillMedios(unittest.TestCase):
+    """El medio nunca se perdió: estaba en el archivo. Estos tests fijan que se
+    recupere de ahí y que recuperarlo no toque ni un byte de lo ya capturado."""
+
+    SNAP = b"""<?xml version="1.0"?><rss version="2.0"><channel>
+      <item><title>Temblor en Palmira - EL PAIS</title>
+        <link>https://news.google.com/rss/articles/AAA</link>
+        <source url="https://www.elpais.com.co">El Pa\xc3\xads Cali</source></item>
+      <item><title>Replica en Quibdo</title>
+        <link>https://news.google.com/rss/articles/BBB</link>
+        <source url="https://www.eltiempo.com">El Tiempo</source></item>
+      <item><title>Sin fuente declarada</title>
+        <link>https://news.google.com/rss/articles/CCC</link></item>
+    </channel></rss>"""
+
+    def setUp(self):
+        import sqlite3
+        import tempfile
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest" / "sources"))
+        from common import SCHEMA
+        self.tmp = tempfile.TemporaryDirectory()
+        raiz = Path(self.tmp.name)
+        (raiz / "2026-08-15").mkdir()
+        (raiz / "2026-08-15" / "feed_googlenews-municipio-palmira.xml").write_bytes(self.SNAP)
+        self.snapshots = raiz
+        self.conn = sqlite3.connect(":memory:")
+        self.conn.executescript(SCHEMA)
+        for url, medio in (("https://news.google.com/rss/articles/AAA", "Google News — Palmira"),
+                           ("https://news.google.com/rss/articles/BBB", "Google News — Quibdó"),
+                           ("https://news.google.com/rss/articles/CCC", "Google News — Sipí")):
+            self.conn.execute(
+                "INSERT INTO news_items (url, feed_id, fecha, titulo, medio,"
+                " snapshot_date) VALUES (?,?,?,?,?,?)",
+                (url, "googlenews-municipio-palmira", "2026-08-15T10:00:00",
+                 "titular", medio, "2026-08-15"))
+        self.conn.commit()
+
+    def tearDown(self):
+        self.conn.close()
+        self.tmp.cleanup()
+
+    def _run(self, **kw):
+        import backfill_medios
+        return backfill_medios.run(conn=self.conn, snapshots=self.snapshots, **kw)
+
+    def _fila(self, url):
+        return self.conn.execute(
+            "SELECT url, medio, medio_canonico, medio_dominio FROM news_items"
+            " WHERE url = ?", (url,)).fetchone()
+
+    def test_rellena_desde_el_archivo_sin_red(self):
+        r = self._run()
+        self.assertEqual(r["rellenados"], 2)
+        _, _, canonico, dom = self._fila("https://news.google.com/rss/articles/BBB")
+        self.assertEqual(canonico, "El Tiempo")
+        self.assertEqual(dom, "eltiempo.com")
+
+    def test_la_url_capturada_no_se_toca_jamas(self):
+        """R4: la URL es lo que se pidió y lo que quedó en sources_log. El
+        backfill añade contexto al lado; reescribirla rompería la cadena."""
+        antes = {r[0] for r in self.conn.execute("SELECT url FROM news_items")}
+        self._run()
+        despues = {r[0] for r in self.conn.execute("SELECT url FROM news_items")}
+        self.assertEqual(antes, despues)
+        self.assertTrue(all(u.startswith("https://news.google.com/") for u in despues))
+
+    def test_el_feed_sigue_en_medio(self):
+        """`medio` guarda el feed y se queda como está: es lo que se capturó."""
+        self._run()
+        _, medio, canonico, _ = self._fila("https://news.google.com/rss/articles/AAA")
+        self.assertEqual(medio, "Google News — Palmira")
+        self.assertEqual(canonico, "El País Cali")
+
+    def test_sin_source_en_el_archivo_se_queda_sin_medio(self):
+        """No hay dato que inventar: el nombre del feed no es una cabecera."""
+        self._run()
+        _, _, canonico, dom = self._fila("https://news.google.com/rss/articles/CCC")
+        self.assertIsNone(canonico)
+        self.assertIsNone(dom)
+
+    def test_idempotente_y_sin_sobrescribir(self):
+        self._run()
+        self.conn.execute(
+            "UPDATE news_items SET medio_canonico = 'Corregido a mano'"
+            " WHERE url = 'https://news.google.com/rss/articles/BBB'")
+        r = self._run()
+        self.assertEqual(r["rellenados"], 0, "segunda pasada no repite trabajo")
+        _, _, canonico, _ = self._fila("https://news.google.com/rss/articles/BBB")
+        self.assertEqual(canonico, "Corregido a mano",
+                         "un medio ya presente no se pisa")
+
+    def test_tambien_reconstruye_desde_atom(self):
+        """`parse_rss` ingiere Atom, así que la reconstrucción también debe:
+        si el archivo recordara menos de lo que la ingesta supo, dejaría de ser
+        un archivo fiel."""
+        import backfill_medios
+        (self.snapshots / "2026-08-14").mkdir()
+        (self.snapshots / "2026-08-14" / "feed_atom.xml").write_bytes(
+            b"""<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom">
+              <entry><title>t</title><link href="https://x.co/atom"/>
+                <source><title>El Espectador</title>
+                  <link href="https://www.elespectador.com"/></source></entry></feed>""")
+        fuentes = backfill_medios.medios_archivados(self.snapshots)
+        self.assertEqual(fuentes["https://x.co/atom"],
+                         ("El Espectador", "elespectador.com"))
+
+    def test_la_reconstruccion_deja_rastro_en_sources_log(self):
+        """Sin fila en `sources_log`, dentro de veinte años nadie distinguiría
+        un medio capturado el día del <item> de uno reconstruido después."""
+        self._run()
+        filas = self.conn.execute(
+            "SELECT url, http_status, note FROM sources_log").fetchall()
+        self.assertEqual(len(filas), 1)
+        url, status, note = filas[0]
+        self.assertIsNone(status, "no hubo petición: el HTTP debe quedar en NULL")
+        from common import NOTA_RECONSTRUCCION, ORIGEN_ARCHIVO
+        self.assertEqual(url, ORIGEN_ARCHIVO)
+        self.assertIn(NOTA_RECONSTRUCCION, note)
+        self.assertIn("2", note, "la nota dice cuántas noticias se rellenaron")
+
+    def test_sin_rellenar_nada_no_ensucia_el_log(self):
+        self._run()
+        antes = self.conn.execute("SELECT COUNT(*) FROM sources_log").fetchone()[0]
+        self._run()
+        self.assertEqual(
+            self.conn.execute("SELECT COUNT(*) FROM sources_log").fetchone()[0],
+            antes, "una pasada que no rellena nada no es un acontecimiento")
+
+    def test_snapshot_corrupto_no_rompe_el_resto(self):
+        """R13 a escala de fichero: un XML ilegible se salta, no aborta."""
+        (self.snapshots / "2026-08-14").mkdir()
+        (self.snapshots / "2026-08-14" / "feed_roto.xml").write_bytes(b"<no soy xml")
+        self.assertEqual(self._run()["rellenados"], 2)
+
+
+class TestRebuildDeDumpAnteriorAlEsquema(unittest.TestCase):
+    """El caso que corre de verdad en el runner: los dumps versionados llevan
+    las columnas del día en que se volcaron, y el esquema puede haber ganado
+    alguna después. Si `rebuild` insertara por posición en vez de por nombre,
+    un clon nuevo moriría al primer `git pull`."""
+
+    def test_un_dump_sin_las_columnas_nuevas_se_reconstruye(self):
+        import sqlite3
+        import tempfile
+        import dump_db
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            dumps = tmp / "dumps"
+            dumps.mkdir()
+            (dumps / "news_items.csv").write_text(
+                "url,feed_id,fecha,titulo,medio,snapshot_date\n"
+                "https://x/y,feed-1,2026-08-16,Titular,Medio Ñandú,2026-08-16\n",
+                encoding="utf-8")
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, dumps
+            try:
+                dump_db.rebuild(tmp / "b.sqlite")
+            finally:
+                dump_db.DUMPS = dumps_orig
+            conn = sqlite3.connect(tmp / "b.sqlite")
+            fila = conn.execute(
+                "SELECT medio, medio_canonico, medio_dominio FROM news_items").fetchone()
+            self.assertEqual(fila, ("Medio Ñandú", None, None),
+                             "lo que el dump no traía queda en NULL, no en basura")
+            conn.close()
+
+
+class TestEvidenciaDePrensaSeFirmaConLaCabecera(unittest.TestCase):
+    """`evidence` es el corazón de R1: una fuente de prensa llamada «Google
+    News — Istmina» no nombra a nadie. Es la búsqueda que encontró la pieza,
+    no quien la publicó."""
+
+    def test_prefiere_la_cabecera_y_cae_al_feed_si_no_hay(self):
+        import sqlite3
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        conn.execute(
+            "INSERT INTO news_items (url, feed_id, fecha, titulo, medio,"
+            " medio_canonico, snapshot_date) VALUES ('u1','f','2026-08-15',"
+            "'t','Google News — Istmina','El Tiempo','2026-08-15')")
+        conn.execute(
+            "INSERT INTO news_items (url, feed_id, fecha, titulo, medio,"
+            " snapshot_date) VALUES ('u2','f','2026-08-15','t',"
+            "'Chocó 7 días','2026-08-15')")
+        firmas = dict(conn.execute(
+            "SELECT url, COALESCE(medio_canonico, medio) FROM news_items"))
+        self.assertEqual(firmas["u1"], "El Tiempo")
+        self.assertEqual(firmas["u2"], "Chocó 7 días",
+                         "sin cabecera declarada, el feed propio sí es el medio")
+        conn.close()
+
+
+class TestMigracionColumnas(unittest.TestCase):
+    """Una columna nueva tiene que llegar también a la base que ya existe:
+    `CREATE TABLE IF NOT EXISTS` no toca una tabla creada meses atrás."""
+
+    def test_alter_table_idempotente_sobre_base_vieja(self):
+        import sqlite3
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        from common import migrar
+        conn = sqlite3.connect(":memory:")
+        conn.executescript("""CREATE TABLE news_items (
+          url TEXT PRIMARY KEY, feed_id TEXT NOT NULL,
+          fecha TEXT, titulo TEXT, medio TEXT, snapshot_date TEXT NOT NULL);""")
+        conn.execute("INSERT INTO news_items VALUES ('u','f','2026-08-15','t','m','2026-08-15')")
+        self.assertEqual(migrar(conn), ["news_items.medio_canonico",
+                                        "news_items.medio_dominio"])
+        self.assertEqual(migrar(conn), [], "segunda pasada no hace nada")
+        fila = conn.execute(
+            "SELECT medio, medio_canonico FROM news_items").fetchone()
+        self.assertEqual(fila, ("m", None), "la fila vieja se conserva intacta")
+        conn.close()
 
 
 if __name__ == "__main__":

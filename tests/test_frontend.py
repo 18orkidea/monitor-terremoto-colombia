@@ -458,6 +458,47 @@ class TestFiltrosDeTabla(unittest.TestCase):
         self.assertEqual(self._con("(r) => r.d === 'Chocó'"), ["Condoto"])
 
 
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestMedioDeUnaNoticia(unittest.TestCase):
+    """El campo `medio` guarda el FEED, no la cabecera. La regla que distingue
+    uno de otro vive en ui.js y la comparten la página de titulares y las
+    fichas municipales: si se duplicara, una de las dos contaría feeds."""
+
+    def _medio(self, noticia):
+        return correr_ui(f"UI.medioDe({json.dumps(noticia, ensure_ascii=False)})")
+
+    def _via(self, noticia):
+        return correr_ui(f"UI.viaGoogleNews({json.dumps(noticia, ensure_ascii=False)})")
+
+    def test_manda_la_cabecera_no_el_feed(self):
+        self.assertEqual(self._medio({
+            "medio": "Google News — Palmira", "medio_canonico": "El Tiempo",
+            "url": "https://news.google.com/rss/articles/AAA"}), "El Tiempo")
+
+    def test_sin_cabecera_no_se_pone_el_feed_en_su_lugar(self):
+        """«Google News — Nóvita» no es un medio: dar ese nombre por cabecera es
+        lo que hacía falsa la métrica de pluralidad."""
+        self.assertIsNone(self._medio({
+            "medio": "Google News — Nóvita", "medio_canonico": None,
+            "url": "https://news.google.com/rss/articles/BBB"}))
+
+    def test_en_feed_propio_el_nombre_del_feed_si_es_el_medio(self):
+        self.assertEqual(self._medio({
+            "medio": "El Colombiano", "medio_canonico": None,
+            "url": "https://www.elcolombiano.com/algo"}), "El Colombiano")
+
+    def test_via_google_news_solo_cuando_el_enlace_va_al_agregador(self):
+        self.assertTrue(self._via({"url": "https://news.google.com/rss/articles/AAA"}))
+        self.assertFalse(self._via({"url": "https://www.eltiempo.com/algo"}))
+        self.assertFalse(self._via({}))
+
+    def test_un_dominio_que_solo_parece_google_news_no_cuela(self):
+        """Mismo cuidado que R10 con los topónimos, aquí con los hosts:
+        `news.google.com.ejemplo.co` es otro sitio."""
+        self.assertFalse(self._via({"url": "https://news.google.com.ejemplo.co/x"}))
+        self.assertFalse(self._via({"url": "https://fakenews.google.common.co/x"}))
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
 
