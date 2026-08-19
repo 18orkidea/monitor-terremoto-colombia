@@ -7,7 +7,7 @@ metodología pública del sitio.
 
 ## Los cinco primeros días no existen (10 → 15 de agosto de 2026)
 
-El sismo fue el 10-ago a las 12:30 UTC; la primera petición registrada del
+El sismo fue el 10-ago a las 12:34 UTC; la primera petición registrada del
 monitor es del 15-ago a las 16:21 UTC. De esos cinco días solo existe lo que
 las fuentes retuvieran retroactivamente (y el feed EMM de GDACS, que cubría
 ese periodo, fue purgado por su emisor el 16-ago — su serie sobrevive
@@ -104,8 +104,11 @@ queda es la fila de log y el test en rojo.
 
 ## Topónimos ambiguos: prensa atribuida solo con departamento
 
-Dos municipios se llaman igual que un departamento colombiano: **Risaralda**
-(Caldas) y **Córdoba** (Quindío). Ahí el texto libre no puede distinguir
+Hay municipios que se llaman igual que un departamento colombiano: hoy
+**Risaralda** (Caldas), **Córdoba** (Quindío) y **Bolívar** (Valle del Cauca).
+La marca es automática —`municipios_dinamicos` la pone sola al detectar el
+nombre—, así que la lista puede crecer sin que nadie la cure. Ahí el texto
+libre no puede distinguir
 municipio de departamento —medido sobre los 5.017 titulares del corpus, todas
 las apariciones de «Caldas y Risaralda» hablaban del departamento, y exigir
 adyacencia tampoco lo salvaba— así que **no reciben prensa por coincidencia de
@@ -306,19 +309,74 @@ Que su celda del RUD esté vacía **no significa que allí no haya damnificados*
 significa que la alcaldía no ha cargado ninguno. Distinguir esas dos cosas es
 justo lo que este monitor existe para hacer.
 
-## El corpus de titulares contiene prensa anterior al terremoto
+## El corpus de titulares empieza el día del terremoto
 
-Medido el 19-ago-2026: **849 de 6.655 titulares (12,8 %) son anteriores al
-10-ago-2026**, el día del sismo. Hay 167 de 2024, 178 de 2025 y uno de 1974.
-Llegan sobre todo por las búsquedas municipales de Google News, que devuelven
-histórico, y pasan el filtro de palabras clave porque hablan de sismos —de
-otros sismos.
+Corregido el 19-ago-2026. Hasta ese día el corpus arrastraba **849 de 6.655
+titulares (12,8 %) anteriores al 10-ago-2026**, el día del sismo: 249 de 2026
+previos al terremoto, 178 de 2025, 167 de 2024 y 255 anteriores a 2024, hasta un
+sismo de 1974. Llegaban
+**íntegramente por las búsquedas municipales de Google News**, que devuelven
+histórico y pasan el filtro de palabras clave porque hablan de sismos —de otros
+sismos—. Ni un solo titular de GDACS-EMM ni de los feeds del registro
+comunitario era previo.
 
-Consecuencia para leer la columna «Prensa»: **cuenta titulares que nombran el
-municipio y pasan el filtro del evento, no titulares sobre este terremoto**. En
-los municipios con mucha cobertura el ruido es marginal; en los que tienen uno
-o dos puede ser todo. El caso extremo es Viterbo, cuyo único titular es de 2024.
+Lo destapó Viterbo (Caldas), dado de alta ese mismo día porque UNOSAT evaluó
+allí 154 edificios: su única noticia atribuida era un sismo de magnitud 3,1 de
+junio de 2024. El topónimo estaba bien; la noticia no era de este desastre.
 
-No se ha corregido aquí porque acotar el corpus por fecha es una decisión
-editorial con consecuencias en toda la serie publicada, incluida la gráfica de
-volumen mediático, y merece medirse antes de aplicarse.
+Desde entonces **ningún producto público cuenta prensa anterior al sismo**
+(`FECHA_SISMO`, en `ingest/common.py`). La columna «Prensa» de la capa de
+municipios, el `n_prensa` del cruce por AOI, los titulares de ejemplo, la página
+de titulares y la serie de volumen mediático usan la misma frontera —antes esa
+serie cortaba dos días antes por su cuenta y el resto del sitio no cortaba, así
+que el mismo titular contaba o no según la página—. Los titulares previos **no
+se han borrado**: siguen en `news_items`, en los snapshots y en `sources_log`.
+Lo que se cortó es su entrada a lo publicado, y cada corrida deja escrito
+cuántos descartó.
+
+Lo que queda como limitación:
+
+- **El corte es por día, no por instante.** El terremoto fue a las 12:34 UTC del
+  10-ago, pero 514 de aquellos 849 titulares traían la fecha sin hora (Google
+  News normaliza a las 07:00:00 los items que publica sin ella), así que a nivel
+  de instante no habría nada que comparar. Del propio 10-ago se publica todo,
+  incluida cualquier noticia de esa mañana ajena al sismo.
+- **Un titular sin fecha no se descarta**: no consta que sea anterior, y tirarlo
+  convertiría una ausencia de dato en un juicio (R3). Hoy no hay ninguno en el
+  corpus, pero la puerta está abierta a propósito.
+- **Ocho municipios se quedaron sin ningún titular** —Alcalá, Argelia,
+  Candelaria, Ginebra, Guacarí, Obando, Quinchía y Trujillo— y pasaron de
+  «mención en prensa» a «solo registro municipal (RUD)». Los ceros no valen
+  todos lo mismo: en **Guacarí y Quinchía** el nombre no admite duda y el
+  monitor lanza una búsqueda propia, así que ahí el cero es el dato. En los
+  otros seis solo se atribuyen titulares que nombren también el departamento, y
+  **Argelia y Trujillo** ni siquiera tienen búsqueda propia (ver la sección
+  siguiente): su cero es en parte silencio del monitor.
+
+## Los municipios que entran solos por el RUD no tienen búsqueda propia de prensa
+
+`municipal_google_news_feeds()` genera una búsqueda de Google News por cada
+municipio del catálogo curado de `ingest/municipios.py`. Los que entran solos
+desde el RUD (`municipios_dinamicos`) **no la generan**: su prensa solo puede
+llegar si un titular de otro feed los nombra junto a su departamento, porque
+nacen con `requiere_depto`.
+
+Medido el 19-ago-2026: de los 33 municipios con damnificados registrados y cero
+titulares atribuidos, **23 no tienen búsqueda propia**. Su silencio es, en parte,
+silencio del monitor. Por eso el banner de la página de municipios separa tres
+niveles y solo afirma el cero de los municipios que cumplen las dos condiciones:
+topónimo sin ambigüedad **y** búsqueda propia de prensa.
+
+De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular
+desde que la búsqueda existe** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—.
+Conviene medir la afirmación: esas búsquedas nacieron el 18-ago-2026 y llevan
+cinco peticiones registradas en `sources_log`, no meses. Y desde el 19-ago ese
+cero histórico ya **no se puede comprobar desde `noticias.json`**, precisamente
+porque este cambio sacó del producto público lo anterior al sismo: consta en la
+base local y en los snapshots.
+
+Laguna emparentada, ya descrita más arriba: la tabla de municipios cuenta solo
+las menciones que pasan el filtro de topónimo, mientras que la página de
+titulares atribuye además por el municipio que declara el feed. Un municipio con
+búsqueda propia puede mostrar «0» en la tabla y tener titulares en su página de
+prensa (Andalucía y Obando son los casos vivos).

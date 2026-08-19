@@ -4,13 +4,14 @@ Se ejecutan sin red y sin base de datos previa. Las expectativas vienen de la
 documentación del proyecto y de las specs de las fuentes, no de mirar la
 salida del código — si un test falla, el código está mal, no el test.
 """
+import re
 import sys
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
 
-from common import to_num
+from common import FECHA_SISMO, anterior_al_sismo, to_num
 from geo import wkt_to_geojson, wkt_to_rings, point_in_wkt_polygon, MMIGrid
 
 
@@ -804,6 +805,51 @@ class TestExencionDeSondas(unittest.TestCase):
         self.assertEqual(culpables, [],
                          f"la nota exenta de trazabilidad aparece en ingesta: "
                          f"{culpables} — usar una nota propia")
+
+
+class TestCorpusDePrensa(unittest.TestCase):
+    """El corpus público empieza el día del sismo.
+
+    Lo destapó Viterbo (Caldas), dado de alta el 19-ago-2026 porque UNOSAT
+    evaluó allí 154 edificios: su única noticia atribuida era un sismo de
+    magnitud 3,1 de junio de 2024. El topónimo estaba bien; la noticia no era
+    de este desastre."""
+
+    def test_un_titular_de_otro_sismo_es_anterior(self):
+        self.assertTrue(anterior_al_sismo("2024-06-06T07:00:00"))
+        self.assertTrue(anterior_al_sismo("2026-08-09T23:59:59"))
+
+    def test_el_dia_del_sismo_entra_entero(self):
+        # el terremoto fue a las 12:34 UTC, pero 514 de los 849 titulares
+        # previos medidos el 19-ago venían con la fecha sin hora: cortar por
+        # instante descartaría titulares del propio 10-ago sin poder probarlo
+        self.assertFalse(anterior_al_sismo(FECHA_SISMO))
+        self.assertFalse(anterior_al_sismo("2026-08-10T07:00:00"))
+        self.assertFalse(anterior_al_sismo("2026-08-18T10:38:28"))
+
+    def test_sin_fecha_no_consta_que_sea_anterior(self):
+        # R3 aplicado al corpus: la ausencia de fecha no es un juicio
+        self.assertFalse(anterior_al_sismo(None))
+        self.assertFalse(anterior_al_sismo(""))
+
+    def test_no_hay_otra_frontera_de_corte_en_la_ingesta(self):
+        """La serie mediática cortaba en 2026-08-08 por su cuenta y el check de
+        temporalidad ciudadana llevaba su propio 2026-08-10T12:30: el monitor
+        tenía tres fechas del mismo terremoto. Una sola frontera, con nombre.
+
+        Busca la fecha COMO LITERAL entrecomillado, que es la forma que toma un
+        filtro; las que aparecen dentro de una frase son prosa de un comentario
+        y no deciden nada."""
+        culpables = []
+        for py in (Path(__file__).parent.parent / "ingest").rglob("*.py"):
+            if py.name == "common.py":
+                continue          # es donde vive la frontera
+            for n, linea in enumerate(py.read_text(encoding="utf-8").splitlines(), 1):
+                if re.search(r"""['"]2026-08-\d\d(T[\d:]+)?['"]""", linea):
+                    culpables.append(f"{py.name}:{n}: {linea.strip()[:60]}")
+        self.assertEqual(culpables, [],
+                         "fecha del sismo suelta en la ingesta: usar FECHA_SISMO "
+                         "o INSTANTE_SISMO de common.py")
 
 
 if __name__ == "__main__":

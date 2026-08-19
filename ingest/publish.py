@@ -9,7 +9,7 @@ import csv
 import io
 import json
 
-from common import db, today, DATA, PUBLIC
+from common import db, today, anterior_al_sismo, DATA, FECHA_SISMO, PUBLIC
 from geo import wkt_to_geojson
 
 ESTADO_LABEL = {
@@ -142,11 +142,14 @@ def run() -> dict:
         {"type": "FeatureCollection", "features": features}, ensure_ascii=False))
 
     # serie de los feeds abiertos del monitor (por fecha de publicación del
-    # titular; >= 2026-08-08 para excluir artículos históricos que el filtro
-    # de palabras clave atrapa en los RSS)
+    # titular). El corte es el del corpus entero —FECHA_SISMO, ver common.py—:
+    # antes esta serie cortaba dos días antes por su cuenta y el resto del
+    # sitio no cortaba, así que el mismo titular contaba o no según la página.
+    # Única diferencia con `anterior_al_sismo()`: aquí un titular sin fecha
+    # tampoco entra, porque una serie diaria no tiene día donde ponerlo.
     feeds_por_dia = dict(conn.execute(
         "SELECT substr(fecha,1,10) d, COUNT(*) FROM news_items"
-        " WHERE fecha >= '2026-08-08' GROUP BY d"))
+        " WHERE fecha >= ? GROUP BY d", (FECHA_SISMO,)))
 
     media = [dict(zip(["fecha", "emm", "gdelt", "fuentes", "chatmap"], r))
              for r in conn.execute(
@@ -370,25 +373,41 @@ def run() -> dict:
             "departamentos": sorted(departamentos),
         }
 
-    noticias = []
+    # Los titulares anteriores al sismo no entran (ver FECHA_SISMO en
+    # common.py). No se pierden —siguen en news_items, en los snapshots y en
+    # sources_log—: dejan de contarse, porque hablan de otros sismos. El
+    # descarte se cuenta y sale en el resumen de la corrida: un filtro que no
+    # deja rastro de cuánto tira no es auditable.
+    noticias, previas = [], 0
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
         f = d / "gdacs_emm.json"
         if f.exists():
             for x in json.loads(f.read_text()):
                 titulo = (x.get("title") or "").strip()
+                fecha = (x.get("pubdate") or "")[:19]
+                if anterior_al_sismo(fecha):
+                    previas += 1
+                    continue
                 noticias.append(noticia(
-                    (x.get("pubdate") or "")[:19], titulo, x.get("source"),
+                    fecha, titulo, x.get("source"),
                     x.get("link"), "gdacs-emm",
                     extra_text=(x.get("description") or "")[:300],
                     feed=feeds.get("gdacs-emm")))
             break
     for url, fid, fecha, titulo, medio in conn.execute(
             "SELECT url, feed_id, fecha, titulo, medio FROM news_items"):
+        if anterior_al_sismo(fecha):
+            previas += 1
+            continue
         noticias.append(noticia(
             fecha, titulo, medio, url, fid, feed=feeds.get(fid)))
     noticias.sort(key=lambda n: n.get("fecha") or "", reverse=True)
+    # `previas_al_sismo` viaja en el producto público, no solo por el stdout de
+    # la corrida: los logs de Actions caducan y un filtro que no dice cuánto
+    # tira desde el propio dato no es auditable.
     (PUBLIC / "noticias.json").write_text(json.dumps(
-        {"generado": snap, "total": len(noticias), "items": noticias},
+        {"generado": snap, "total": len(noticias),
+         "previas_al_sismo": previas, "desde": FECHA_SISMO, "items": noticias},
         ensure_ascii=False))
 
     # Municipios en el área de influencia: menciones de prensa + intensidad
@@ -498,9 +517,11 @@ def run() -> dict:
         # contado en `edificios`, que es lo que UNOSAT miró.
         d["fecha_imagen"] = max(d["fecha_imagen"] or "", fecha or "") or None
 
+    from sources.community_feeds import municipal_google_news_feeds
+    con_busqueda = {f["municipio"] for f in municipal_google_news_feeds()}
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
                                                  poblacion, rud_por_mun, divipola,
-                                                 unosat_por_mun)
+                                                 unosat_por_mun, con_busqueda)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))
@@ -578,7 +599,8 @@ def run() -> dict:
 
     conn.close()
     return {"aois": len(aois), "citizen": len(cit_feats), "sismos_hist": len(sismos),
-            "media_dias": len(media), "noticias": len(noticias)}
+            "media_dias": len(media), "noticias": len(noticias),
+            "noticias_previas_al_sismo": previas}
 
 
 if __name__ == "__main__":

@@ -59,10 +59,14 @@
     feeds aportados por la comunidad y búsquedas Google News por municipio (<a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a> —
     ¿conoces un buen feed local? <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">añádelo con un PR</a>)</p>
   </div>
+  <div class="meta">
+    <a class="btn" href="../data/public/noticias.json" target="_blank">JSON</a>
+  </div>
 </header>
 <section class="intro">
-  <p>Esta página reúne <strong>todos los titulares de prensa sobre el terremoto del 10 de
-  agosto de 2026 en Colombia</strong> (M7,4, epicentro en San José del Palmar, Chocó),
+  <p>Esta página reúne <strong>todos los titulares de prensa publicados desde el 10 de
+  agosto de 2026 sobre el terremoto de Colombia</strong> (M7,4, epicentro en San José del
+  Palmar, Chocó),
   emparejados automáticamente con las zonas afectadas: <strong>Cali, Pereira, Quibdó,
   Istmina y Buenaventura</strong>. Vienen de dos mundos que cuentan historias distintas: el
   rastreador global GDACS-EMM (miles de medios internacionales) y los <strong>feeds abiertos
@@ -79,11 +83,19 @@
       evento, de los RSS del <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a>
       (El Tiempo, El Diario de Pereira, Chocó 7 días, El Colombiano…) y de búsquedas Google
       News por municipio. Cada titular conserva su fecha, medio y enlace original.</li>
+      <li><strong>¿Por qué no hay titulares anteriores al 10 de agosto?</strong> Porque no
+      hablan de este terremoto. Las búsquedas por municipio devuelven histórico, y hasta el
+      19-ago-2026 el corpus arrastraba <strong>849 titulares de otros sismos</strong> —uno de
+      1974—: la única noticia atribuida a Viterbo (Caldas) era un temblor de magnitud 3,1 de
+      2024. Se descartan de todo recuento, pero <strong>no se borran</strong>: siguen en la
+      base del monitor, en los snapshots y en el registro de peticiones. El corte es por día,
+      así que del propio 10 de agosto entra todo, incluida alguna noticia de esa mañana ajena
+      al sismo.</li>
       <li><strong>¿Cómo se asigna un titular a una zona?</strong> Por topónimo en el texto,
       con acentos normalizados y límites de palabra («Cali» no coincide con «California»).
       Cuando el nombre del municipio es además palabra común, apellido o lugar conocido
       (Toro, Restrepo, Versalles), se exige que el titular nombre también el departamento;
-      y si el nombre coincide con el de un departamento (Risaralda, Córdoba), no se atribuye
+      y si el nombre coincide con el de un departamento (Risaralda, Córdoba, Bolívar… la lista la genera el propio catálogo y puede crecer), no se atribuye
       por texto en absoluto. Por eso un municipio puede tener titulares aquí y aparecer con
       cero prensa —o con la celda vacía, si su nombre es el de un departamento— en la
       <a href="municipios.html">tabla de municipios</a>: son dos preguntas distintas. El emparejado es auditable: el titular que dispara cada coincidencia queda

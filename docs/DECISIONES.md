@@ -378,3 +378,96 @@ Viterbo con 154 evaluados y ninguna fila oficial. Hubo que corregir además dos
 textos que la decisión volvía falsos: la frase de cobertura de `municipios.js`
 («al resto no lo ha mirado ningún producto satelital») y el pie del globo de
 municipio, que afirmaba «no equivale a daño satelital» también donde ya sí lo hay.
+
+## 2026-08-19 — El corpus de prensa empieza el día del sismo
+
+Contexto: 849 de 6.655 titulares (12,8 %) eran anteriores al 10-ago-2026. Los
+849 llegaban por las búsquedas municipales de Google News, que devuelven
+histórico; ninguno por GDACS-EMM ni por los feeds del registro comunitario. El
+filtro de palabras clave no podía verlos porque hablan de sismos —de otros
+sismos—. El caso que lo destapó fue Viterbo (Caldas): entró en la capa el mismo
+día porque UNOSAT evaluó allí 154 edificios, y su única noticia atribuida era un
+sismo de magnitud 3,1 de junio de 2024.
+
+Se midió antes de tocar nada, reconstruyendo la capa de municipios dos veces:
+**cambia la columna «Prensa» en 67 de los 109 municipios que la capa tenía en ese
+momento** (Calarcá 30→2, Jamundí 49→4, La Tebaida 40→5, frente a Cali 686→652);
+**ocho pasan de «mención en prensa» a «solo RUD»** y ninguno desaparece de la
+capa, porque todos tienen registro oficial detrás. Al aplicarlo, ya con UNOSAT
+fusionado, la cifra publicada es **68 de 116**: el municipio que faltaba es
+Viterbo, que entró con UNOSAT y perdió su único titular, el de 2024. Las dos
+mediciones son la misma, sobre una capa que creció entre medias; la que va al
+hito público es la segunda. En el cruce por AOI baja `n_prensa` en los siete, pero
+**ningún AOI cambia de estado**. En la gráfica de volumen mediático el efecto es
+de dos puntos: la serie ya cortaba por su cuenta en 2026-08-08.
+
+Decisión (de JP, sobre tres opciones medidas): **los titulares anteriores al
+sismo se excluyen de todo producto público** —páginas, JSON descargables,
+conteos y ejemplos—, no solo se marcan. Siguen íntegros en `news_items`, en los
+snapshots y en `sources_log`: el principio de archivo se cumple en la capa que
+le toca, la de captura, no en la de publicación. Cada corrida deja escrito cuántos
+descartó, y no solo en su log: `noticias.json` publica `previas_al_sismo` y
+`desde` junto al total, porque los logs de Actions caducan y un filtro que no
+dice cuánto tira **desde el propio dato** no es auditable.
+
+Se descartaron: (a) marcar y seguir mostrándolos con etiqueta —el recuento de la
+página dejaría de ser «titulares del terremoto» y la marca no impide el
+malentendido—; (b) dejar de ingerirlos, única opción que sí rompe el principio de
+archivo, porque lo no capturado no se recupera y perderíamos la medida de cuánto
+histórico devuelve Google News.
+
+Segunda decisión, del mismo tirón: **una sola frontera**. La serie de volumen
+mediático cortaba en 2026-08-08 y el resto del sitio no cortaba, así que el mismo
+titular contaba o no según la página. Ahora todo pasa por `FECHA_SISMO`
+(`ingest/common.py`) y un test falla si reaparece otra fecha suelta en `ingest/`.
+
+Por qué el corte es **por día** y no por el instante del terremoto (12:34 UTC):
+514 de los 849 titulares previos traían la fecha sin hora, porque Google News
+normaliza a las 07:00:00 los items que publica sin ella. A nivel de instante no
+habría nada que comparar en la mayoría de los casos.
+
+Hallazgo colateral de la medición: el AOI de Istmina publicaba como evidencia de
+prensa un titular de agosto de 2024 sobre la muerte de un menor, sin relación con
+el sismo. Una cita fechada es una afirmación, no una cifra desviada; desapareció
+con el mismo cambio.
+
+## 2026-08-19 — El silencio se publica, en tres niveles
+
+Con el corpus ya limpio de prensa anterior al sismo, el silencio informativo se
+puede por fin medir sin confundirlo con titulares de otros sismos: **33 de los
+116 municipios vigilados tienen personas registradas en el RUD y cero titulares
+atribuidos** —12.129 personas—. Es exactamente la brecha que el monitor existe
+para medir, y JP decidió publicarlo como hallazgo.
+
+Decisión sobre CÓMO: la afirmación se publica **en tres niveles**, no como un
+número redondo, porque no todos los ceros valen lo mismo. Publicar «33 municipios
+sin cobertura» sería justo el tipo de afirmación que este proyecto existe para no
+hacer.
+
+1. **Se afirma** el cero de **cinco**: Quinchía, Bagadó, Guática, Mistrató y
+   Guacarí (5.297 personas registradas; en Bagadó son el 8,8 % de su población).
+   El criterio es **doble** y las dos mitades importan: topónimo sin ambigüedad
+   **y** búsqueda propia de prensa. Es decir, el monitor preguntó y no obtuvo
+   nada.
+2. **No se afirma** el de **28**: su nombre exige que el titular nombre también
+   el departamento, así que el cero puede ser del filtro. Y de esos, por **23**
+   el monitor **ni siquiera pregunta**.
+3. **No tienen cero, tienen ausencia de dato**: los **tres** homónimos de
+   departamento (Bolívar, Córdoba y Risaralda, 2.105 personas). Se nombran igual,
+   porque son los más invisibles de todos y quedarse fuera del recuento los
+   dejaba también fuera del relato.
+
+La regla vive en `site/ui.js::silencioDePrensa`, no en la página, porque es una
+afirmación pública y se testea con node como el resto de reglas editoriales que
+viven en JavaScript. Devuelve `null` cuando nadie queda mudo: el día que todos
+tengan prensa, el banner desaparece en vez de mentir (R11). Y el nivel que afirma
+**falla cerrado**: exige `busqueda_propia === true`, no «distinto de false», para
+que un campo ausente aguas arriba no ascienda a nadie al nivel que afirma.
+
+Hallazgo de la medición que quedó documentado en `docs/LIMITACIONES.md`: **23 de
+los 33 no tienen búsqueda propia de Google News**, porque `municipal_google_news_feeds()`
+solo recorre el catálogo curado y no los municipios que entran solos desde el RUD.
+Su silencio es, en parte, silencio del monitor. Los cinco del primer nivel sí la
+tienen —los cinco—, y entre ellos hay dos situaciones distintas: en Bagadó,
+Guática y Mistrató la búsqueda no ha devuelto nunca nada, y en Quinchía y Guacarí
+solo devolvió titulares anteriores al sismo, que ya no cuentan.

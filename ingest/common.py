@@ -38,6 +38,40 @@ NOTA_SONDA = "sonda de supuesto"
 # antes del cambio de nombre y siguen exentas por lo que fueron, no por su texto.
 NOTAS_SONDA = (NOTA_SONDA, "test supuesto", "test supuesto rud")
 
+# --- Corpus de prensa: dónde empieza este desastre ---------------------------
+# El sismo ocurrió el 2026-08-10 a las 12:34 UTC. Un titular anterior no habla
+# de este terremoto: las búsquedas municipales de Google News devuelven
+# histórico y el filtro de palabras clave no puede distinguirlo, porque también
+# habla de sismos —de otros sismos—. Medido el 19-ago-2026: 849 de 6.655
+# titulares (12,8 %) eran previos, y los 849 llegaban por esa vía; ni uno solo
+# por GDACS-EMM ni por los feeds del registro comunitario.
+#
+# El corte es POR DÍA a propósito: 514 de esos 849 traen la fecha sin hora
+# (Google News normaliza los items sin hora a las 07:00:00), así que a nivel de
+# instante no habría nada que comparar. Cortar por día no descarta ningún
+# titular del propio 10-ago, que es el día que más importa.
+#
+# Los titulares previos NO se borran: siguen en `news_items`, en los snapshots
+# y en `sources_log`. Lo que se corta es su entrada a los productos públicos.
+FECHA_SISMO = "2026-08-10"
+
+# El instante de origen, para lo que sí se puede comparar con hora: el check de
+# temporalidad de los reportes ciudadanos (R7). 12:34:28 UTC es lo que dicen el
+# USGS (us6000tjl2) y el EMSC; hasta el 19-ago-2026 el código llevaba 12:30:00
+# redondeado a mano, y el sitio publica esa hora en su JSON-LD. Ningún reporte
+# ciudadano cae en esos cuatro minutos, así que corregirlo no reclasifica nada.
+INSTANTE_SISMO = f"{FECHA_SISMO}T12:34:28"
+
+
+def anterior_al_sismo(fecha: str | None) -> bool:
+    """¿Consta que el titular es anterior al terremoto?
+
+    Solo se excluye lo que se puede fechar y resulta previo. Un titular sin
+    fecha no se descarta: no consta que sea anterior, y tirarlo convertiría una
+    ausencia de dato en un juicio (R3 aplicado al corpus, no solo a las cifras).
+    """
+    return bool(fecha) and str(fecha)[:10] < FECHA_SISMO
+
 
 def _ssl_context() -> ssl.SSLContext:
     """Contexto con CA bundle utilizable: certifi si existe, si no el del sistema.

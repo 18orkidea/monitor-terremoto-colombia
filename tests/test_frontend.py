@@ -184,6 +184,105 @@ class TestFraseHomonimos(unittest.TestCase):
 
 
 @unittest.skipUnless(NODE, "node no disponible")
+class TestSilencioDePrensa(unittest.TestCase):
+    """«Damnificados y ni un titular» es una afirmación pública, y no todos los
+    ceros la sostienen igual. Solo afirma el nivel donde el monitor SÍ preguntó:
+    topónimo sin ambigüedad y búsqueda propia de prensa. El resto se cuenta,
+    pero se cuenta diciendo qué lo hace incierto."""
+
+    MUNS = [
+        # nombre sin ambigüedad y búsqueda propia: su cero SÍ se puede afirmar
+        {"municipio": "Quinchía", "departamento": "Risaralda", "rud_personas": 2390,
+         "n_noticias": 0, "tasa_rud_pct": 8.5196, "busqueda_propia": True},
+        {"municipio": "Bagadó", "departamento": "Chocó", "rud_personas": 1133,
+         "n_noticias": 0, "tasa_rud_pct": 8.7585, "busqueda_propia": True},
+        # exige departamento: cuenta en el total, pero no se afirma
+        {"municipio": "Andalucía", "departamento": "Valle del Cauca",
+         "rud_personas": 1494, "n_noticias": 0, "requiere_depto": True,
+         "tasa_rud_pct": 5.95, "busqueda_propia": True},
+        # entró solo desde el RUD: el monitor ni siquiera pregunta por él
+        {"municipio": "Tello", "departamento": "Huila", "rud_personas": 232,
+         "n_noticias": 0, "requiere_depto": True, "tasa_rud_pct": 1.83,
+         "busqueda_propia": False},
+        # homónimo de departamento: no tiene cero, tiene ausencia de dato
+        {"municipio": "Risaralda", "departamento": "Caldas", "rud_personas": 867,
+         "n_noticias": None, "homonimo_de_departamento": True},
+        # con prensa del evento: no es silencio
+        {"municipio": "Pereira", "departamento": "Risaralda", "rud_personas": 5000,
+         "n_noticias": 432, "busqueda_propia": True},
+        # sin registro oficial: no hay damnificados que contrastar
+        {"municipio": "Salento", "departamento": "Quindío", "n_noticias": 0,
+         "busqueda_propia": True},
+    ]
+
+    def _sil(self, muns):
+        return correr_ui(f"UI.silencioDePrensa({json.dumps(muns, ensure_ascii=False)})")
+
+    def test_solo_cuentan_los_que_tienen_damnificados_y_cero_titulares(self):
+        sil = self._sil(self.MUNS)
+        self.assertEqual(sil["mudos"], 4)   # Quinchía, Bagadó, Andalucía, Tello
+        self.assertEqual(sil["personas"], 2390 + 1133 + 1494 + 232)
+
+    def test_solo_afirma_donde_el_monitor_pregunto(self):
+        sil = self._sil(self.MUNS)
+        self.assertEqual(sil["ciertos"], ["Quinchía", "Bagadó"])
+        self.assertEqual(sil["personas_ciertas"], 2390 + 1133)
+        self.assertEqual(sil["dudosos"], 2)
+
+    def test_sin_busqueda_propia_no_se_afirma_aunque_el_nombre_sea_claro(self):
+        # el caso que motivó el nivel: 23 municipios que entraron solos desde el
+        # RUD nunca han tenido búsqueda de prensa. Su cero es del monitor.
+        claro_sin_feed = {"municipio": "Sipí", "departamento": "Chocó",
+                          "rud_personas": 400, "n_noticias": 0,
+                          "tasa_rud_pct": 9.9, "busqueda_propia": False}
+        sil = self._sil([*self.MUNS, claro_sin_feed])
+        self.assertNotIn("Sipí", sil["ciertos"])
+        self.assertEqual(sil["sin_busqueda"], 2)
+
+    def test_si_falta_el_dato_de_la_busqueda_no_se_afirma(self):
+        """El nivel que afirma falla CERRADO. Si el campo no viniera —un JSON
+        viejo, o alguien llamando a build_municipios sin el conjunto de
+        búsquedas—, un municipio por el que nunca se preguntó pasaría a «sí
+        preguntamos y no hubo nada». Prefiere no afirmar nada."""
+        sin_campo = [{k: v for k, v in m.items() if k != "busqueda_propia"}
+                     for m in self.MUNS]
+        self.assertEqual(self._sil(sin_campo)["ciertos"], [])
+
+    def test_solo_se_nombra_aparte_al_homonimo_de_departamento(self):
+        # el texto afirma la causa, así que el filtro la comprueba: una celda
+        # vacía por cualquier otro motivo no puede colarse en ese nivel
+        raro = {"municipio": "Sin causa", "departamento": "X", "rud_personas": 10,
+                "n_noticias": None}
+        sil = self._sil([*self.MUNS, raro])
+        self.assertEqual(sil["sin_atribucion"], 1)
+        self.assertEqual(sil["personas_sin_atribucion"], 867)
+
+    def test_el_techo_es_el_mayor_porcentaje_de_verdad(self):
+        """El banner dice «hasta el X %». Si otro de la lista lo supera, el
+        banner miente: el techo se calcula por tasa, no por número de personas
+        (Bagadó tiene menos damnificados que Quinchía y más proporción)."""
+        sil = self._sil(self.MUNS)
+        self.assertEqual(sil["techo"]["municipio"], "Bagadó")
+        tasas = [m["tasa_rud_pct"] for m in self.MUNS
+                 if m["municipio"] in sil["ciertos"]]
+        self.assertEqual(sil["techo"]["tasa_rud_pct"], max(tasas))
+
+    def test_el_homonimo_se_nombra_aparte_y_no_entra_en_el_total(self):
+        # su celda es ausencia de dato (None), no un cero: R3. Pero es el más
+        # invisible de todos y el banner lo dice en su propio nivel.
+        sil = self._sil(self.MUNS)
+        self.assertNotIn("Risaralda", sil["ciertos"])
+        self.assertEqual(sil["personas"], 5249)
+        self.assertEqual(sil["sin_atribucion"], 1)
+        self.assertEqual(sil["personas_sin_atribucion"], 867)
+
+    def test_si_nadie_queda_mudo_no_hay_afirmacion(self):
+        # R11: el día que todos tengan prensa, el banner desaparece
+        self.assertIsNone(self._sil([self.MUNS[5]]))
+        self.assertIsNone(self._sil([]))
+
+
+@unittest.skipUnless(NODE, "node no disponible")
 class TestOrdenDeTabla(unittest.TestCase):
     """Ordenación por columna (site/ui.js::comparador). Los nulos van SIEMPRE al
     final: un municipio sin dato no puede encabezar la tabla al ordenar por esa

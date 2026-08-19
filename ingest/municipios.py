@@ -398,7 +398,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      poblacion: dict | None = None,
                      rud_municipios: dict | None = None,
                      divipola: dict | None = None,
-                     unosat: dict | None = None) -> tuple[list[dict], dict]:
+                     unosat: dict | None = None,
+                     con_busqueda_propia: set[str] | None = None) -> tuple[list[dict], dict]:
     catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
@@ -503,6 +504,12 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
             estado = "solo_rud"
         row["en_aoi_copernicus"] = en_aoi
         row["estado"] = estado
+        # ¿el monitor llegó a preguntar por él? Solo los municipios del catálogo
+        # curado generan búsqueda propia de Google News; los que entran solos
+        # desde el RUD no. Sin este dato, un cero en «Prensa» no se puede leer:
+        # no distingue «la prensa no publicó» de «el monitor no preguntó».
+        row["busqueda_propia"] = (con_busqueda_propia is None
+                                  or mun in con_busqueda_propia)
         row["fuentes"] = [x for x, ok in (("prensa", tiene_prensa),
                                           ("dyfi", tiene_dyfi),
                                           ("rud", tiene_rud),

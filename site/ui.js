@@ -61,6 +61,57 @@ window.UI = (function () {
       : ".";
   }
 
+  /* Damnificados sin una línea de prensa. La afirmación se construye sola y en
+     TRES niveles, porque no todos los ceros valen lo mismo:
+       - `ciertos`: topónimo sin ambigüedad Y búsqueda propia de prensa. Es el
+         único nivel que AFIRMA: se preguntó y no hubo respuesta.
+       - `dudosos`: su nombre exige co-mención del departamento, así que el cero
+         puede ser del filtro; y de ellos, `sin_busqueda` son aquellos por los
+         que el monitor ni siquiera pregunta (entraron solos desde el RUD).
+       - `sin_atribucion`: se llaman igual que un departamento. No tienen cero,
+         tienen ausencia de dato (R3), así que no entran en ningún total — pero
+         se nombran, porque son los más invisibles de todos.
+     Si un día no quedara ninguno mudo, devuelve null y el banner desaparece en
+     vez de mentir (R11). */
+  function silencioDePrensa(items) {
+    const suma = (xs) => xs.reduce((t, m) => t + (m.rud_personas || 0), 0);
+    const conRud = (items || []).filter((m) => m.rud_personas);
+    const mudos = conRud.filter((m) => m.n_noticias === 0)
+      .sort((a, b) => b.rud_personas - a.rud_personas);
+    if (!mudos.length) return null;
+    // `=== true`, no `!== false`: si el campo faltara —porque alguien llame a
+    // build_municipios sin el conjunto de búsquedas, o por un JSON viejo—, los
+    // municipios por los que el monitor NUNCA preguntó caerían en el nivel que
+    // afirma «preguntamos y no hubo nada», que es justo la falsedad que este
+    // nivel existe para impedir. La cadena entera falla cerrada.
+    const ciertos = mudos.filter(
+      (m) => !m.requiere_depto && !m.homonimo_de_departamento
+             && m.busqueda_propia === true);
+    const dudosos = mudos.filter((m) => !ciertos.includes(m));
+    // el texto afirma la CAUSA («se llaman igual que un departamento»), así que
+    // el filtro tiene que comprobarla, no solo el síntoma de la celda vacía
+    const sinAtribucion = conRud.filter(
+      (m) => m.n_noticias == null && m.homonimo_de_departamento);
+    // el techo se calcula por TASA, no por número de personas: decir «hasta el
+    // X %» y que otro de la propia lista lo supere sería falso
+    const conTasa = ciertos.filter((m) => m.tasa_rud_pct != null);
+    const techo = conTasa.length
+      ? conTasa.reduce((a, b) => (b.tasa_rud_pct > a.tasa_rud_pct ? b : a))
+      : null;
+    return {
+      mudos: mudos.length, personas: suma(mudos),
+      ciertos: ciertos.map((m) => m.municipio),
+      personas_ciertas: suma(ciertos),
+      dudosos: dudosos.length,
+      sin_busqueda: dudosos.filter((m) => m.busqueda_propia === false).length,
+      sin_atribucion: sinAtribucion.length,
+      personas_sin_atribucion: suma(sinAtribucion),
+      techo: techo
+        ? { municipio: techo.municipio, tasa_rud_pct: techo.tasa_rud_pct }
+        : null,
+    };
+  }
+
   const norm = (s) => (s || "").normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
@@ -441,7 +492,7 @@ window.UI = (function () {
   }
 
   return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
-           fraseHomonimos, comparador, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
+           fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
            fichaMapa,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,

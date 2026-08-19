@@ -706,11 +706,22 @@
         s += (`<circle data-i="${i}" cx="${x(i)}" cy="${y(d.feeds)}" r="4" fill="${css("--s3")}" stroke="${css("--surface-1")}" stroke-width="2"/>`);
       });
     }
-    const line = media.map((d, i) => `${i ? "L" : "M"} ${x(i)} ${y(d.chatmap || 0)}`).join(" ");
-    s += `<path d="${line}" fill="none" stroke="${css("--s7")}" stroke-width="2"/>`;
-    media.forEach((d, i) => {
-      s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap || 0)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
-    });
+    // reportes ciudadanos: los días sin dato SE SALTAN, igual que la serie de
+    // feeds. Dibujarlos con `|| 0` los pegaba al suelo como si nadie hubiera
+    // reportado nada, que es justo lo que ChatMap no dice de los días que no
+    // midió — la misma regla que sacó los guiones de los globos del mapa.
+    const lineC = media.filter((d) => d.chatmap != null);
+    if (lineC.length) {
+      const pc = media.map((d, i) => d.chatmap == null ? null : `${x(i)} ${y(d.chatmap)}`)
+        .map((p, i, arr) => p == null ? null
+          : `${arr.slice(0, i).some((q) => q != null) ? "L" : "M"} ${p}`)
+        .filter(Boolean).join(" ");
+      s += `<path d="${pc}" fill="none" stroke="${css("--s7")}" stroke-width="2"/>`;
+      media.forEach((d, i) => {
+        if (d.chatmap == null) return;
+        s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
+      });
+    }
 
     s += `<g font-size="11">` +
       `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias EMM (global, purgado)</text>` +

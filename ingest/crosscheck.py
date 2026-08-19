@@ -18,7 +18,7 @@ import json
 import re
 import unicodedata
 
-from common import db, today
+from common import anterior_al_sismo, db, today
 
 # topónimo → variantes con límite de palabra (evita 'California' por 'Cali')
 AOI_TOPONYMS = {
@@ -42,6 +42,10 @@ def match_news_to_aois(emm_items: list[dict], conn, snap: str) -> dict[str, int]
     conn.execute("DELETE FROM evidence WHERE capturado_por='auto' AND tipo='prensa'"
                  " AND snapshot_date=?", (snap,))
     for it in emm_items:
+        # un titular anterior al sismo no es evidencia de este desastre
+        # (ver FECHA_SISMO en common.py)
+        if anterior_al_sismo(it.get("pubdate")):
+            continue
         text = _norm((it.get("title") or "") + " " + (it.get("description") or ""))
         for aoi, tops in AOI_TOPONYMS.items():
             if any(re.search(rf"\b{re.escape(t)}\b", text) for t in tops):
@@ -115,6 +119,8 @@ def run(emm_items: list[dict] | None = None) -> dict:
     # feeds comunitarios: mismos topónimos, misma evidencia
     for url, fecha, titulo, medio in conn.execute(
             "SELECT url, fecha, titulo, medio FROM news_items"):
+        if anterior_al_sismo(fecha):
+            continue
         for aoi in match_text_to_aois(titulo):
             press[aoi] = press.get(aoi, 0) + 1
             if press[aoi] <= 3:
