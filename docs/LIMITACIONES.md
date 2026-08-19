@@ -7,7 +7,7 @@ metodología pública del sitio.
 
 ## Los cinco primeros días no existen (10 → 15 de agosto de 2026)
 
-El sismo fue el 10-ago a las 12:30 UTC; la primera petición registrada del
+El sismo fue el 10-ago a las 12:34 UTC; la primera petición registrada del
 monitor es del 15-ago a las 16:21 UTC. De esos cinco días solo existe lo que
 las fuentes retuvieran retroactivamente (y el feed EMM de GDACS, que cubría
 ese periodo, fue purgado por su emisor el 16-ago — su serie sobrevive
@@ -104,8 +104,11 @@ queda es la fila de log y el test en rojo.
 
 ## Topónimos ambiguos: prensa atribuida solo con departamento
 
-Dos municipios se llaman igual que un departamento colombiano: **Risaralda**
-(Caldas) y **Córdoba** (Quindío). Ahí el texto libre no puede distinguir
+Hay municipios que se llaman igual que un departamento colombiano: hoy
+**Risaralda** (Caldas), **Córdoba** (Quindío) y **Bolívar** (Valle del Cauca).
+La marca es automática —`municipios_dinamicos` la pone sola al detectar el
+nombre—, así que la lista puede crecer sin que nadie la cure. Ahí el texto
+libre no puede distinguir
 municipio de departamento —medido sobre los 5.017 titulares del corpus, todas
 las apariciones de «Caldas y Risaralda» hablaban del departamento, y exigir
 adyacencia tampoco lo salvaba— así que **no reciben prensa por coincidencia de
@@ -212,7 +215,14 @@ destruye al terminar.
 
 Resultado: del 17 quedan **2 snapshots** en el repo (el catálogo DIVIPOLA y el
 feed de balances, ambos capturados a mano ese día), frente a 70 del 16 y 303 del
-15. La serie de `rud_daily` **no tiene punto del 17**: salta del 16 al 18.
+15. La serie de `rud_daily` se quedó sin el punto de esa corrida.
+
+**Cerrado el 18-ago**: el hueco no llegó a publicarse. Al adoptar el fechado por
+día colombiano consolidado, la captura de las 00:02 de Bogotá —que es el cierre
+del 17— quedó archivada como día 17, y con datos mejores que los del log: 90
+municipios y 36.982 familias, frente a los 81 y 27.181 que la corrida abortada
+había visto a media mañana. Lo que sí se perdió para siempre son los snapshots
+de las trece fuentes de aquella corrida.
 
 Qué sobrevive y qué no:
 
@@ -233,3 +243,166 @@ Qué sobrevive y qué no:
 Corregido el mismo día (18-ago) en `.github/workflows/daily.yml`: el archivo se
 commitea **antes** de cualquier verificación, y la corrida y los tests avisan al
 final sin abortar el job. Ver `docs/DECISIONES.md`.
+
+## El RUD mide lo que cada alcaldía carga, no daño verificado
+
+La cifra de familias del RUD cuenta **a quién ha registrado la alcaldía**, no
+quién tiene el daño comprobado por un tercero. Registrar a una familia y evaluar
+su vivienda son momentos distintos, y en los datos se ve: el campo de familias
+avanza antes que el de viviendas.
+
+Consecuencias para leer estas cifras:
+
+- Un municipio con muchas familias y pocas viviendas dañadas casi siempre está a
+  mitad de proceso, no ocultando ni inflando nada.
+- **Un cero en viviendas destruidas o averiadas puede significar «todavía sin
+  evaluar», no «sin daño»**: 21 de los 90 municipios registrados tienen cero
+  destruidas, y 6 tienen cero en ambas columnas.
+- El avance depende de la capacidad de cada alcaldía: la velocidad del registro
+  mide tanto capacidad administrativa como daño.
+- El campo `personas` llega incompleto en algunos municipios (a veces una sola
+  persona por familia), lo que hace que su porcentaje de población salga
+  artificialmente bajo.
+- No existe una cifra nacional única con la que comparar: el mismo día, los
+  medios que citan fuentes oficiales publican totales que difieren entre sí
+  —entre 44.936 y 120.328 familias el 17-ago—, así que la página no elige una:
+  remite a la comparativa de fuentes, donde cada cifra lleva su publicador.
+
+## UNOSAT: lo que se archiva y lo que no
+
+La capa de UNITAR-UNOSAT trae 393 edificios evaluados en Anserma, Manizales y
+Viterbo. Tres huecos conocidos, ninguno subsanable desde este lado:
+
+- **Del epicentro no hay vectores.** El producto 4253 va de San José del Palmar,
+  pero el ZIP que enlaza contiene Caldas: de San José del Palmar no se publica
+  ni un punto. El texto del hallazgo sí se conserva —`unosat_products.descripcion`
+  guarda el «SUMMARY OF FINDING» completo, y sale en el dump versionado— pero
+  **el mapa del informe solo existe dentro del PDF**, que el monitor no archiva
+  (1,6 MB de imagen sin geometría). Va al paso de Wayback de la corrida diaria,
+  que es una copia en un tercero, no en este repo.
+- **El listado no permite mirar hacia atrás.** `our_products/` devuelve una
+  ventana fija de 11 productos de todo el mundo, sin paginación ni filtro. El
+  monitor no puede descubrir productos anteriores a su primera corrida: los
+  cuatro del terremoto entraron porque aún estaban en la ventana el 19-ago-2026.
+  Si UNOSAT hubiera publicado once productos de otros eventos antes, se habrían
+  perdido sin dejar rastro.
+- **Nada de esto está validado en campo.** Los 393 puntos llevan «aún no
+  validado en campo», y los 239 que traen el campo de confianza dicen todos
+  «pendiente de evaluar» (los 154 de Viterbo no lo traen siquiera): son
+  fotointerpretación sobre imagen de 50 cm, no visitas. Y **296 de los 393 —tres
+  de cada cuatro— son «daño posible»**, que es una hipótesis, no un daño contado.
+  Solo 97 son daño observado.
+
+**Viterbo entró en la capa el 19-ago-2026 y el satélite es su única fuente
+sobre este terremoto.** No tiene una sola fila en el RUD. Su único titular
+atribuido —«Sismo de magnitud 3.1 tuvo como epicentro a Viterbo (Caldas)», de
+La Patria— es de **junio de 2024** y habla de otro sismo: la atribución es
+correcta (nombra el municipio y el departamento, como exige `requiere_depto`),
+pero la noticia no es de este desastre. Ver más abajo: no es un problema de
+Viterbo, es del corpus entero.
+
+El artículo italiano que llama a Viterbo «l'altra Viterbo» **no** se le
+atribuye, y está bien: no nombra Caldas, y el topónimo casa además dentro de
+«Santa Rosa de Viterbo», que es de Boyacá.
+
+Que su celda del RUD esté vacía **no significa que allí no haya damnificados**:
+significa que la alcaldía no ha cargado ninguno. Distinguir esas dos cosas es
+justo lo que este monitor existe para hacer.
+
+## El corpus de titulares empieza el día del terremoto
+
+Corregido el 19-ago-2026. Hasta ese día el corpus arrastraba **849 de 6.655
+titulares (12,8 %) anteriores al 10-ago-2026**, el día del sismo: 249 de 2026
+previos al terremoto, 178 de 2025, 167 de 2024 y 255 anteriores a 2024, hasta un
+sismo de 1974. Llegaban
+**íntegramente por las búsquedas municipales de Google News**, que devuelven
+histórico y pasan el filtro de palabras clave porque hablan de sismos —de otros
+sismos—. Ni un solo titular de GDACS-EMM ni de los feeds del registro
+comunitario era previo.
+
+Lo destapó Viterbo (Caldas), dado de alta ese mismo día porque UNOSAT evaluó
+allí 154 edificios: su única noticia atribuida era un sismo de magnitud 3,1 de
+junio de 2024. El topónimo estaba bien; la noticia no era de este desastre.
+
+Desde entonces **ningún producto público cuenta prensa anterior al sismo**
+(`FECHA_SISMO`, en `ingest/common.py`). La columna «Prensa» de la capa de
+municipios, el `n_prensa` del cruce por AOI, los titulares de ejemplo, la página
+de titulares y la serie de volumen mediático usan la misma frontera —antes esa
+serie cortaba dos días antes por su cuenta y el resto del sitio no cortaba, así
+que el mismo titular contaba o no según la página—. Los titulares previos **no
+se han borrado**: siguen en `news_items`, en los snapshots y en `sources_log`.
+Lo que se cortó es su entrada a lo publicado, y cada corrida deja escrito
+cuántos descartó.
+
+Lo que queda como limitación:
+
+- **El corte es por día, no por instante.** El terremoto fue a las 12:34 UTC del
+  10-ago, pero 514 de aquellos 849 titulares traían la fecha sin hora (Google
+  News normaliza a las 07:00:00 los items que publica sin ella), así que a nivel
+  de instante no habría nada que comparar. Del propio 10-ago se publica todo,
+  incluida cualquier noticia de esa mañana ajena al sismo.
+- **Un titular sin fecha no se descarta**: no consta que sea anterior, y tirarlo
+  convertiría una ausencia de dato en un juicio (R3). Hoy no hay ninguno en el
+  corpus, pero la puerta está abierta a propósito.
+- **Ocho municipios se quedaron sin ningún titular** —Alcalá, Argelia,
+  Candelaria, Ginebra, Guacarí, Obando, Quinchía y Trujillo— y pasaron de
+  «mención en prensa» a «solo registro municipal (RUD)». Los ceros no valen
+  todos lo mismo: en **Guacarí y Quinchía** el nombre no admite duda y el
+  monitor lanza una búsqueda propia, así que ahí el cero es el dato. En los
+  otros seis solo se atribuyen titulares que nombren también el departamento, y
+  **Argelia y Trujillo** ni siquiera tienen búsqueda propia (ver la sección
+  siguiente): su cero es en parte silencio del monitor.
+
+## Los municipios que entran solos por el RUD no tienen búsqueda propia de prensa
+
+`municipal_google_news_feeds()` genera una búsqueda de Google News por cada
+municipio del catálogo curado de `ingest/municipios.py`. Los que entran solos
+desde el RUD (`municipios_dinamicos`) **no la generan**: su prensa solo puede
+llegar si un titular de otro feed los nombra junto a su departamento, porque
+nacen con `requiere_depto`.
+
+Medido el 19-ago-2026: de los 33 municipios con damnificados registrados y cero
+titulares atribuidos, **23 no tienen búsqueda propia**. Su silencio es, en parte,
+silencio del monitor. Por eso el banner de la página de municipios separa tres
+niveles y solo afirma el cero de los municipios que cumplen las dos condiciones:
+topónimo sin ambigüedad **y** búsqueda propia de prensa.
+
+De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular
+desde que la búsqueda existe** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—.
+Conviene medir la afirmación: esas búsquedas nacieron el 18-ago-2026 y llevan
+cinco peticiones registradas en `sources_log`, no meses. Y desde el 19-ago ese
+cero histórico ya **no se puede comprobar desde `noticias.json`**, precisamente
+porque este cambio sacó del producto público lo anterior al sismo: consta en la
+base local y en los snapshots.
+
+Laguna emparentada, ya descrita más arriba: la tabla de municipios cuenta solo
+las menciones que pasan el filtro de topónimo, mientras que la página de
+titulares atribuye además por el municipio que declara el feed. Un municipio con
+búsqueda propia puede mostrar «0» en la tabla y tener titulares en su página de
+prensa (Andalucía y Obando son los casos vivos).
+## La URL original de la mitad de los titulares se perdió en el origen
+
+De las noticias que llegan por búsquedas de Google News —cerca de la mitad del
+corpus—, el feed no publica el enlace del medio, sino uno propio del agregador
+(`news.google.com/rss/articles/CBMi…`). **Ese enlace es lo que se capturó y lo
+que se conserva**: el segmento en base64 lleva un token opaco, no la dirección
+(comprobado sobre las 2.920 enlazadas así el 17 de agosto de 2026: ninguna
+la traía dentro), y la
+resolución final la ejecuta JavaScript en el navegador, así que seguir la
+redirección tampoco llega al medio. Se descartó la API interna no documentada de
+Google, que resolvería el enlace hoy y dejaría de resolverlo el día que Google
+la cambie, sin que nadie pudiera reconstruir después lo que devolvió.
+
+Consecuencia para quien lea el archivo dentro de años: en esas piezas se sabe
+**qué medio publicó qué titular y cuándo** —eso sí lo declara el RSS y está
+archivado—, pero el enlace lleva al agregador. Si el artículo ya no existe, la
+combinación medio + titular + fecha es lo que queda para buscarlo.
+
+El nombre de la cabecera se recuperó releyendo los snapshots: 3.202 de 3.243.
+Quedan 226 noticias sin cabecera declarada por el propio feed: **41 de Google
+News** (su snapshot no llegó a archivarse o el `<item>` no declaraba `<source>`)
+y **185 de feeds propios de los medios**, que no emiten esa etiqueta. En esos
+casos `medio_canonico` queda en `null`, nunca con el nombre del feed. En los
+primeros el sitio no muestra medio alguno; en los segundos el enlace va directo
+al medio y basta con el nombre del feed, que ahí sí es una cabecera.
+

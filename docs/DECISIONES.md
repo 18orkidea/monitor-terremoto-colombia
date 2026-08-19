@@ -303,3 +303,308 @@ Reparto de competencias entre agentes: `revisor-estilo` se ocupa de cómo está
 escrito; `auditor-editorial` sigue siendo el único que juzga si una cifra puede
 publicarse y con qué atribución. Cuando una norma de estilo choque con una regla
 del proyecto (R1–R15), manda el proyecto.
+## 2026-08-18 — La página del RUD explica qué es el registro, no solo la cifra
+
+Contexto: la página trataba el RUD como un marcador de damnificados, y no lo es. Lo
+cargan las autoridades municipales y sirve para focalizar ayudas; **registrar a
+una familia y evaluar el daño de su vivienda son dos momentos distintos**, y el
+segundo llega después. Eso se comprueba en los propios datos: las cifras de
+familias avanzan antes que las de viviendas.
+
+Decisión: la intro explica ese desfase y qué mide cada columna — familias y
+personas son impacto social; viviendas destruidas y averiadas son **lo que el
+municipio ha cargado**, no una verificación independiente. Se dice además que un
+cero en viviendas puede significar «todavía sin evaluar» (21 de 90 municipios
+tienen cero destruidas), no «sin daño».
+
+Precisión que costó una corrección: el primer texto decía «daño ya verificado» y
+«visita de verificación». No es defendible — `ingest/sources/ungrd_rud.py` toma
+`destruidas`/`averiadas` tal cual las carga la alcaldía, no hay ningún campo que
+distinga verificado de cargado, y el propio glosario del sitio dice que el RUD
+«no es un EDAN ni una verificación de daño». Describir el procedimiento
+administrativo (visitas, certificados) exigía citar prensa; se optó por describir
+**lo que el dato muestra** y no el trámite, que es lo que el monitor puede
+sostener con su propio archivo.
+
+Consecuencia directa: **se descarta el plan de «señales de anomalía»** que se
+estaba diseñando. Interpretaba ese desfase como sospechoso cuando es el
+funcionamiento normal del registro. Una revisión de datos lo confirmó por otra
+vía: los ratios son log-normales y, aplicando la escala correcta, dos de las
+cuatro señales marcaban 0 municipios de 90; una tercera resultó ser un detector
+de municipios pequeños (log-log R²=0,236) y la cuarta medía criterio
+departamental, no habitabilidad. La lista habría señalado desproporcionadamente
+a Chocó y Risaralda —los dos departamentos más pobres— con un 11 % de rotación
+diaria.
+
+## 2026-08-19 — UNOSAT entra como fuente, con el paquete (no el producto) como clave
+
+Contexto: el producto 4253 de UNITAR-UNOSAT —la evaluación del epicentro— entró el
+18-ago en la cronología institucional que ya ingiere `gdacs.py`, y el monitor lo
+publicó en la línea de tiempo sin avisar a nadie: `alerts.py` tenía siete detectores
+y ninguno miraba esa cronología. Se descubrió mirando a mano. Además el feed
+institucional de GDACS **se saltó el producto 4252**: por esa vía, el monitor nunca
+habría sabido de él.
+
+Decisión, en dos piezas separables:
+
+1. **Detector `institucional_nuevo`** en `alerts.py`, nivel alta, comparando la
+   cronología archivada de hoy con la última captura anterior. Sin captura previa no
+   alerta: en la primera corrida, siete avisos de golpe no informan de nada.
+2. **Fuente propia** `ingest/sources/unosat.py` contra `our_products/`, que sí trae
+   los cuatro productos del evento. Los shapefiles se leen con un lector propio de
+   stdlib (`ingest/shapefile.py`), porque R14 prohíbe dependencias en runtime y el
+   formato ESRI es público y estable desde 1998.
+
+La decisión de diseño que importa: **la clave del dato es el sha256 del paquete, no
+el id del producto**. Los ZIP de 4251, 4252 y 4253 son byte a byte idénticos —UNOSAT
+publica un paquete acumulativo por evento y lo replica en cada carpeta— así que
+indexar por producto habría triplicado los 393 edificios a 1.179. Las tres descargas
+sí quedan en `sources_log` (esa duplicación es un dato sobre cómo publica la fuente),
+pero el cuerpo se archiva una sola vez: `fetch()` no reescribe un snapshot cuyo sha
+coincide, así que el `snapshot_name` compartido basta y no hubo que tocar el archivo.
+
+Consecuencia: el monitor tiene por primera vez **dos satélites que pueden discrepar
+entre sí**, y una discrepancia inmediata que no es un error de nadie — en el
+epicentro, UNOSAT ve un edificio dañado (WorldView-2, 50 cm, «within the cloud-free
+areas») donde el RUD registra 626 familias, 19 viviendas destruidas y 170 averiadas (corte del 19-ago). Es la misma
+brecha que dejaron las luces nocturnas: sobre el Chocó, el satélite no puede vigilar.
+
+## 2026-08-19 — Un globo del mapa no enseña lo que su fuente no midió
+
+Contexto: los popups se construían concatenando `fmt(valor)`, que devuelve «—» para
+null. El resultado era que «Western Colombia» —el área de referencia de Copernicus,
+que no trae ninguna cifra— mostraba cuatro renglones de guiones: «Población: —,
+Edificios afectados: —, Vías: — km, Interrupciones: —». Un lector razonable entiende
+que ahí se midió y salió nada, cuando lo que pasa es que nadie ha mirado.
+
+Decisión: un único constructor de globos, `UI.fichaMapa` (fuente única en `ui.js`,
+como `isLiveblog`), que **omite la fila entera cuando el valor está vacío**. El 0 no
+es vacío: un cero medido es un dato, y confundirlo con una ausencia es justo el error
+que prohíbe la R3. Cada fuente pasa además sus propias etiquetas, en el vocabulario
+en que ella publica —UNOSAT gradúa «confianza del análisis» y «validación en campo»,
+distinciones que Copernicus no hace— en vez de homogeneizarlas a un genérico que
+borraría en qué se diferencian.
+
+Consecuencia: se corrigió de paso una etiqueta que mentía. El globo de municipio
+mostraba «fuentes: prensa, rud» bajo el rótulo «Medios»; ni «rud» es un medio ni
+aquello eran medios, sino las clases de fuente que documentan el municipio. Ahora
+dice «Documentado por: prensa, registro municipal (RUD)».
+
+## 2026-08-19 — UNOSAT cuenta como satélite, pero con etiqueta propia
+
+Contexto: con la fuente ya ingerida quedaban dos decisiones abiertas. La capa de
+municipios clasificaba a Anserma, Manizales y Viterbo como si nadie los hubiera
+mirado desde fuera, y eso había dejado de ser verdad.
+
+Decisión (JP, 19-ago): **UNOSAT habilita verificación satelital, sin fundirse con
+Copernicus.** Estado nuevo `evaluado_unosat` en la cascada de
+`ingest/municipios.py`, por debajo de `en_aoi` y por encima de todo lo demás, con
+color y explicación propios en `UI.ESTADO_MUNICIPIO`. La razón de no fundirlos:
+Copernicus entrega estadísticas revisadas por AOI y UNOSAT entrega puntos
+fotointerpretados que la propia ONU marca «aún no validado en campo». Sumarlos en
+una cifra única diría que algo está más comprobado de lo que está.
+
+**R1 y R2 no se tocan.** El cruce opera sobre las AOI de Copernicus
+(`crosscheck.py`), y los municipios de UNOSAT no son AOI: el corazón del monitor
+sigue exigiendo lo mismo para llegar a «coincide».
+
+Decisión gemela: **alta de Viterbo** como municipio del monitor (109 → 110 del
+catálogo estático). Entró con `requiere_depto` por dos motivos medidos contra el
+corpus, no supuestos: «Viterbo» es una ciudad italiana —la única mención en 6.615
+titulares es un artículo en italiano— y casa dentro de «Santa Rosa de Viterbo»,
+que es de Boyacá.
+
+Consecuencia: aparece la columna «Edif. UNOSAT (observado)» en la tabla de
+municipios, y con ella dos contrastes que antes no se podían leer juntos —Anserma
+con 21 edificios de daño observado frente a 3 personas registradas en el RUD, y
+Viterbo con 154 evaluados y ninguna fila oficial. Hubo que corregir además dos
+textos que la decisión volvía falsos: la frase de cobertura de `municipios.js`
+(«al resto no lo ha mirado ningún producto satelital») y el pie del globo de
+municipio, que afirmaba «no equivale a daño satelital» también donde ya sí lo hay.
+
+## 2026-08-19 — El corpus de prensa empieza el día del sismo
+
+Contexto: 849 de 6.655 titulares (12,8 %) eran anteriores al 10-ago-2026. Los
+849 llegaban por las búsquedas municipales de Google News, que devuelven
+histórico; ninguno por GDACS-EMM ni por los feeds del registro comunitario. El
+filtro de palabras clave no podía verlos porque hablan de sismos —de otros
+sismos—. El caso que lo destapó fue Viterbo (Caldas): entró en la capa el mismo
+día porque UNOSAT evaluó allí 154 edificios, y su única noticia atribuida era un
+sismo de magnitud 3,1 de junio de 2024.
+
+Se midió antes de tocar nada, reconstruyendo la capa de municipios dos veces:
+**cambia la columna «Prensa» en 67 de los 109 municipios que la capa tenía en ese
+momento** (Calarcá 30→2, Jamundí 49→4, La Tebaida 40→5, frente a Cali 686→652);
+**ocho pasan de «mención en prensa» a «solo RUD»** y ninguno desaparece de la
+capa, porque todos tienen registro oficial detrás. Al aplicarlo, ya con UNOSAT
+fusionado, la cifra publicada es **68 de 116**: el municipio que faltaba es
+Viterbo, que entró con UNOSAT y perdió su único titular, el de 2024. Las dos
+mediciones son la misma, sobre una capa que creció entre medias; la que va al
+hito público es la segunda. En el cruce por AOI baja `n_prensa` en los siete, pero
+**ningún AOI cambia de estado**. En la gráfica de volumen mediático el efecto es
+de dos puntos: la serie ya cortaba por su cuenta en 2026-08-08.
+
+Decisión (de JP, sobre tres opciones medidas): **los titulares anteriores al
+sismo se excluyen de todo producto público** —páginas, JSON descargables,
+conteos y ejemplos—, no solo se marcan. Siguen íntegros en `news_items`, en los
+snapshots y en `sources_log`: el principio de archivo se cumple en la capa que
+le toca, la de captura, no en la de publicación. Cada corrida deja escrito cuántos
+descartó, y no solo en su log: `noticias.json` publica `previas_al_sismo` y
+`desde` junto al total, porque los logs de Actions caducan y un filtro que no
+dice cuánto tira **desde el propio dato** no es auditable.
+
+Se descartaron: (a) marcar y seguir mostrándolos con etiqueta —el recuento de la
+página dejaría de ser «titulares del terremoto» y la marca no impide el
+malentendido—; (b) dejar de ingerirlos, única opción que sí rompe el principio de
+archivo, porque lo no capturado no se recupera y perderíamos la medida de cuánto
+histórico devuelve Google News.
+
+Segunda decisión, del mismo tirón: **una sola frontera**. La serie de volumen
+mediático cortaba en 2026-08-08 y el resto del sitio no cortaba, así que el mismo
+titular contaba o no según la página. Ahora todo pasa por `FECHA_SISMO`
+(`ingest/common.py`) y un test falla si reaparece otra fecha suelta en `ingest/`.
+
+Por qué el corte es **por día** y no por el instante del terremoto (12:34 UTC):
+514 de los 849 titulares previos traían la fecha sin hora, porque Google News
+normaliza a las 07:00:00 los items que publica sin ella. A nivel de instante no
+habría nada que comparar en la mayoría de los casos.
+
+Hallazgo colateral de la medición: el AOI de Istmina publicaba como evidencia de
+prensa un titular de agosto de 2024 sobre la muerte de un menor, sin relación con
+el sismo. Una cita fechada es una afirmación, no una cifra desviada; desapareció
+con el mismo cambio.
+
+## 2026-08-19 — El silencio se publica, en tres niveles
+
+Con el corpus ya limpio de prensa anterior al sismo, el silencio informativo se
+puede por fin medir sin confundirlo con titulares de otros sismos: **33 de los
+116 municipios vigilados tienen personas registradas en el RUD y cero titulares
+atribuidos** —12.129 personas—. Es exactamente la brecha que el monitor existe
+para medir, y JP decidió publicarlo como hallazgo.
+
+Decisión sobre CÓMO: la afirmación se publica **en tres niveles**, no como un
+número redondo, porque no todos los ceros valen lo mismo. Publicar «33 municipios
+sin cobertura» sería justo el tipo de afirmación que este proyecto existe para no
+hacer.
+
+1. **Se afirma** el cero de **cinco**: Quinchía, Bagadó, Guática, Mistrató y
+   Guacarí (5.297 personas registradas; en Bagadó son el 8,8 % de su población).
+   El criterio es **doble** y las dos mitades importan: topónimo sin ambigüedad
+   **y** búsqueda propia de prensa. Es decir, el monitor preguntó y no obtuvo
+   nada.
+2. **No se afirma** el de **28**: su nombre exige que el titular nombre también
+   el departamento, así que el cero puede ser del filtro. Y de esos, por **23**
+   el monitor **ni siquiera pregunta**.
+3. **No tienen cero, tienen ausencia de dato**: los **tres** homónimos de
+   departamento (Bolívar, Córdoba y Risaralda, 2.105 personas). Se nombran igual,
+   porque son los más invisibles de todos y quedarse fuera del recuento los
+   dejaba también fuera del relato.
+
+La regla vive en `site/ui.js::silencioDePrensa`, no en la página, porque es una
+afirmación pública y se testea con node como el resto de reglas editoriales que
+viven en JavaScript. Devuelve `null` cuando nadie queda mudo: el día que todos
+tengan prensa, el banner desaparece en vez de mentir (R11). Y el nivel que afirma
+**falla cerrado**: exige `busqueda_propia === true`, no «distinto de false», para
+que un campo ausente aguas arriba no ascienda a nadie al nivel que afirma.
+
+Hallazgo de la medición que quedó documentado en `docs/LIMITACIONES.md`: **23 de
+los 33 no tienen búsqueda propia de Google News**, porque `municipal_google_news_feeds()`
+solo recorre el catálogo curado y no los municipios que entran solos desde el RUD.
+Su silencio es, en parte, silencio del monitor. Los cinco del primer nivel sí la
+tienen —los cinco—, y entre ellos hay dos situaciones distintas: en Bagadó,
+Guática y Mistrató la búsqueda no ha devuelto nunca nada, y en Quinchía y Guacarí
+solo devolvió titulares anteriores al sismo, que ya no cuentan.
+## 2026-08-19 — Los dumps dejan de volcar el `id` que sqlite reparte
+
+Contexto: `data/dumps/evidence.csv` cambiaba 27 de sus 100 líneas en cada corrida
+sin que cambiara un solo dato. La causa no es un error: `crosscheck` borra y
+reinserta cada día la evidencia automática de prensa (`match_news_to_aois`), y
+sqlite reparte `id` nuevos al reinsertar. Como el dump volcaba esa columna, el
+`git diff` diario mostraba movimiento donde no había noticia.
+
+Decisión: `dump_db` no vuelca el alias del rowid (`id INTEGER PRIMARY KEY`).
+`rebuild` deja que sqlite lo reparta de nuevo al insertar, en el mismo orden.
+Afecta a `evidence` y a `sources_log`; la segunda solo crece por el final, así
+que ahí el cambio es una reescritura única sin efecto posterior.
+
+Por qué se puede: ese número no es un dato. Nadie lo referencia —no hay claves
+foráneas en el esquema— y no identifica nada que no identifiquen ya las columnas
+reales. Lo que sí es dato (qué se pidió, cuándo, con qué sha256) sigue entero.
+
+Compatibilidad: los dumps anteriores se siguen reconstruyendo tal cual, porque
+`rebuild` inserta por nombre de columna — un CSV que traiga `id` conserva el
+suyo. No hay migración que hacer ni snapshot que tocar.
+
+Se descartó arreglarlo por la causa (que `crosscheck` hiciera UPSERT en vez de
+DELETE+INSERT): habría exigido un índice único nuevo sobre `evidence`, la tabla
+que sostiene R1, con más riesgo que el que se quería evitar.
+
+Queda anotado lo que NO se hizo: el resultado de cada corrida (`RESULTS` de
+`run_daily`) sigue viviendo solo en los logs de GitHub Actions, con 90 días de
+retención. Dentro de dos años nadie podrá saber qué fuente falló un día
+cualquiera ni por qué falta un snapshot. Se decidió dejarlo así por ahora.
+## 2026-08-19 — El medio se lee del archivo, no del enlace ni del titular
+
+Contexto: 3.243 de 6.450 noticias (el 50,3 %) tenían por `url` un enlace de
+`news.google.com/rss/articles/CBMi…`, y el campo `medio` no guardaba el medio,
+sino el nombre del feed («Google News — Nóvita»). Cualquier recuento de «medios
+distintos» contaba feeds: Palmira figuraba con 304 noticias de 7 «medios».
+
+Lo que se comprobó antes de decidir nada:
+
+- **La URL real del artículo no es recuperable de forma limpia.** El base64 del
+  segmento `CBMi…` es el formato posterior a 2024: lleva un token opaco
+  (`AU_yqL…`), no la URL: de las 2.920 enlazadas así el día del diagnóstico
+  (17-ago-2026), ninguna la traía dentro. Seguir la redirección acaba en otra
+  URL de `news.google.com`: la resolución final la hace JavaScript en el
+  navegador. Cruzar por titular normalizado con las noticias de URL directa
+  recuperaba 22 de aquellas 2.920 (el 0,8 %).
+- **El nombre del medio sí estaba, y en casa.** Cada `<item>` de los snapshots
+  lleva `<source url="https://elpais.com">EL PAÍS</source>`. Cruzando por
+  `<link>` se recuperan 3.202 de 3.243 (el 98,7 %) **sin una sola petición de
+  red**.
+
+Decisión: `news_items` gana `medio_canonico` y `medio_dominio` por `ALTER TABLE`
+(la migración vive en `common.migrar`, idempotente, porque `CREATE TABLE IF NOT
+EXISTS` no toca una tabla que ya existe). El campo `medio` se queda **tal cual**:
+es lo que se capturó, y renombrar columnas está prohibido sin migrar los dumps.
+`url` tampoco se toca — es la petición que consta en `sources_log` (R4).
+
+Se descartó la API interna de Google (`/_/DotsSplashUi/data/batchexecute`): son
+3.243 peticiones a un endpoint no documentado que se rompe el día que Google lo
+cambie, y dejaría el archivo dependiendo de algo que nadie puede reconstruir.
+El archivo propio ya tenía la respuesta.
+
+Consecuencia medible: Palmira pasa de 7 «medios» —que eran feeds— a **30
+medios reales**, y el archivo entero suma **926**. La pluralidad se cuenta por
+`medio_dominio`, no por el nombre: los nombres llegan con dos convenciones (el
+EMM de GDACS aporta slugs en minúscula, `infobae`; el RSS aporta cabeceras,
+`Infobae`) y contarlos sin normalizar da 987 con siete duplicados por
+mayúsculas. El dominio es clave estable y ningún medio con nombre se quedó sin
+él.
+
+Queda además identificable lo que no es cobertura periodística: 164 ítems son de
+Volcano Discovery (alertas sísmicas automáticas) y 86 tienen por dominio
+`facebook.com`. Etiquetarlos o filtrarlos es decisión editorial pendiente, no
+técnica: por ahora se ven, con su nombre.
+
+Un efecto que había que decidir aparte: **`sources_log` deja de registrar solo
+peticiones**. R4 la definió como el log de cada petición HTTP, y una
+reconstrucción no lo es; pero si no consta, un lector futuro no puede saber si
+un medio se capturó el día del `<item>` o se dedujo meses después releyendo el
+archivo. Así que la reconstrucción escribe su fila con `http_status`, `sha256`,
+`bytes` y `snapshot_path` en NULL —no hubo petición ni cuerpo nuevo— y un
+invariante en `tests/test_hipotesis.py` impide que una derivación finja lo
+contrario. La nota va por constante (`NOTA_RECONSTRUCCION`), como las sondas,
+para que se pueda filtrar sin adivinar la redacción.
+
+Nota para quien lea `evidence` dentro de unos años: las filas de prensa
+anteriores a esta fecha están firmadas con el nombre del feed («Google News —
+Istmina»); a partir de aquí, con la cabecera. Son dos convenciones de la misma
+columna, no dos fuentes distintas.
+
+El sitio etiqueta ese enlace **«vía Google News»**: lleva al agregador, no al
+medio, y decirlo es más honesto que dejar que el lector lo descubra al hacer
+clic. Cuando no consta la cabecera y el enlace pasa por Google News, no se pone
+nada en su lugar — el nombre del feed no es un medio (R3 aplicado al frontend).
+

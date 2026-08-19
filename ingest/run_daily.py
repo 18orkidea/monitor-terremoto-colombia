@@ -28,8 +28,9 @@ def step(name, fn, *a, **kw):
 def main():
     backfill = "--backfill" in sys.argv
     from sources import copernicus, copernicus_layers, usgs, gdacs, gdelt, \
-        ungrd_arcgis, ungrd_socrata, ungrd_rud, chatmap, emsc, community_feeds
-    import dump_db, verify_citizen, crosscheck, alerts, publish
+        ungrd_arcgis, ungrd_socrata, ungrd_rud, chatmap, emsc, community_feeds, \
+        unosat
+    import backfill_medios, dump_db, verify_citizen, crosscheck, alerts, publish
 
     # el sqlite no se versiona: en un clon nuevo (o en CI) se reconstruye
     # desde los dumps CSV antes de empezar
@@ -37,6 +38,7 @@ def main():
 
     step("copernicus", copernicus.run, backfill=backfill)
     step("copernicus_layers", copernicus_layers.run)
+    step("unosat", unosat.run)
     step("usgs", usgs.run)
     step("gdacs", gdacs.run)
     step("gdelt", gdelt.run)
@@ -46,6 +48,11 @@ def main():
     step("chatmap", chatmap.run)
     step("emsc", emsc.run)
     step("community_feeds", community_feeds.run)
+    # Rellena desde los snapshots el medio de las noticias que no lo tengan
+    # (0,31 s releyendo el archivo entero, sin red). Queda un suelo fijo: los
+    # feeds propios de los medios no declaran <source> y sus items no tendrán
+    # cabecera nunca — eso no es un fallo, es lo que esa fuente no publica.
+    step("backfill_medios", backfill_medios.run)
     step("verify_citizen", verify_citizen.run)
     step("crosscheck", crosscheck.run)
     step("alerts", alerts.run, RESULTS.get("copernicus") or {})

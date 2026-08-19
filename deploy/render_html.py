@@ -390,6 +390,28 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
     }
 
 
+# Productos satelitales de daño que cubren el evento. Añadir uno es añadir una
+# entrada aquí: `tests/test_render_html.py::TestSatelites` falla si aparece en
+# los datos un campo `*_edificios` que esta tabla no contemple, para que ninguna
+# ficha vuelva a afirmar «ningún producto satelital» cuando sí lo hay.
+SATELITES = (
+    {"clave": "copernicus", "nombre": "Copernicus EMS (EMSR916)",
+     "campo": None},          # se cuenta por puntos dentro del municipio
+    {"clave": "unosat", "nombre": "UNITAR-UNOSAT",
+     "campo": "unosat_edificios"},
+)
+
+
+def satelites_con_dato(m: dict, n_copernicus: int) -> list:
+    """Qué productos satelitales han reportado daño en este municipio."""
+    vistos = []
+    if n_copernicus:
+        vistos.append(("Copernicus EMS (EMSR916)", n_copernicus))
+    if m.get("unosat_edificios") is not None:
+        vistos.append(("UNITAR-UNOSAT", m["unosat_edificios"]))
+    return vistos
+
+
 def parrafo_respuesta(d: dict) -> str:
     """El párrafo que citan los buscadores y los sistemas de IA: una idea por
     frase, cada una con su cifra, su fecha y su fuente."""
@@ -411,19 +433,20 @@ def parrafo_respuesta(d: dict) -> str:
             f"en la última captura del monitor. Sin registro no significa sin daño: significa que "
             f"las autoridades municipales aún no han censado. Su población proyectada por el DANE "
             f"para 2026 es de {fmt(m['poblacion_2026'])} habitantes.")
-    # generalizado a propósito: hoy el producto activo es Copernicus, pero pueden
-    # entrar otros (UNOSAT, NISAR, HRSL) y la frase debe seguir siendo cierta
-    if d["satelite"]:
-        partes.append(
-            f"El daño está documentado por satélite: <strong>{fmt(d['satelite'])} edificios "
-            f"clasificados</strong> dentro del municipio por el producto activo, Copernicus EMSR916.")
+    # La afirmación se construye desde SATELITES, no desde una fuente concreta:
+    # el día que entre otro producto, la frase sigue siendo cierta sola.
+    vistos = satelites_con_dato(m, d["satelite"])
+    if vistos:
+        detalle = "; ".join(f"{fmt(n)} edificios clasificados por {fuente}"
+                            for fuente, n in vistos)
+        partes.append(f"El daño está documentado por satélite: <strong>{detalle}</strong>.")
     else:
         cerca = (f" La zona analizada más próxima es {e(d['zonas'][0][0])}, a "
                  f"{fmt(d['zonas'][0][2] / 1000, 0)} kilómetros." if d["zonas"] else "")
         partes.append(
-            f"<strong>Ningún producto satelital de daño ha reportado daños en {e(nombre)}</strong> "
-            f"— hoy el único activo sobre el evento es Copernicus EMSR916, y su cobertura no "
-            f"alcanza el municipio.{cerca}")
+            f"<strong>Ningún producto satelital de daño ha reportado daños en {e(nombre)}"
+            f"</strong>: ni el servicio de emergencias de Copernicus ni UNITAR-UNOSAT han "
+            f"evaluado sus edificios.{cerca}")
     if d["ciudadanos"]:
         partes.append(
             f"La comunidad sí lo ha documentado: <strong>{fmt_prosa(len(d['ciudadanos']))} reportes "
@@ -661,7 +684,7 @@ def render_ficha(d: dict) -> str:
     o.append('<section class="page-section">')
     o.append(f"<h2>Qué no sabemos de {e(nombre)}</h2>")
     o.append('<div class="aviso aviso--laguna"><ul>')
-    if not d["satelite"]:
+    if not satelites_con_dato(m, d["satelite"]):
         o.append(f'<li><strong>No hay evaluación satelital de daño.</strong> Ningún producto '
                  f'satelital ha clasificado los edificios de {e(nombre)}. No se puede afirmar '
                  f'cuántos están destruidos: solo cuántos declaró el registro municipal.</li>')
@@ -721,7 +744,7 @@ def es_elegible(nombre: str, ctx: dict) -> bool:
     penalizarían al dominio entero."""
     m = ctx["idx"][nombre]
     return bool(m.get("rud_familias") or m.get("n_noticias") or m.get("dyfi_respuestas")
-                or m.get("en_aoi_copernicus")
+                or m.get("en_aoi_copernicus") or m.get("unosat_edificios") is not None
                 or ctx["conteo_satelite"].get(nombre) or ctx["conteo_ciudadanos"].get(nombre))
 
 
@@ -750,6 +773,11 @@ def run(destino: Path) -> dict:
 ESTADO_MUNICIPIO = {
     "en_aoi": ("En zona Copernicus", "--s1",
                "El municipio cae dentro de una zona con producto de daño de Copernicus"),
+    "evaluado_unosat": ("Evaluado por UNOSAT", "--s9",
+                        "El centro satelital de la ONU evaluó allí edificio a "
+                        "edificio, fuera de toda zona de Copernicus. Es "
+                        "fotointerpretación sobre imagen de muy alta resolución, "
+                        "no validada en campo por la propia fuente"),
     "intensidad_alta": ("Intensidad alta", "--warning",
                         "Intensidad percibida DYFI ≥ 6, sin producto de daño"),
     "mencion_prensa": ("Mencionado en prensa", "--s2",
@@ -776,7 +804,29 @@ def _celda_prensa(m: dict) -> str:
     if m.get("n_noticias"):
         return (f'<a href="noticias.html?municipio={urllib.parse.quote(m["municipio"])}"'
                 f' style="color:var(--s1)">{fmt(m["n_noticias"])}</a>')
+    if m.get("requiere_depto"):
+        return (f'<span title="Su nombre es palabra común, lugar extranjero o se repite '
+                f'en otro departamento: solo se le atribuyen titulares que nombren también '
+                f'{e(m["departamento"])}. Puede haber prensa que el monitor no pueda '
+                f'asignarle.">0</span>')
     return fmt(0)
+
+
+def _celda_unosat(m: dict) -> str:
+    """Donde UNOSAT no ha mirado no hay cero, hay ausencia (R3).
+
+    El desglose separa lo que la fuente da por observado de lo que marca como
+    hipótesis, y aparta los edificios que UNOSAT etiqueta con otro código de
+    evento: están en la misma capa, pero no son de este terremoto."""
+    if m.get("unosat_edificios") is None:
+        return "—"
+    otros = ""
+    if m.get("unosat_otros_eventos"):
+        otros = (f' <span title="UNOSAT los incluye en la misma capa pero los etiqueta '
+                 f'con otro código de evento, así que no se suman al terremoto." '
+                 f'style="color:var(--warning)">+{fmt(m["unosat_otros_eventos"])}</span>')
+    return (f'{fmt(m["unosat_edificios"])} <span style="color:var(--muted)">'
+            f'({fmt(m["unosat_observados"])})</span>{otros}')
 
 
 def filas_municipios(ctx: dict) -> str:
@@ -801,6 +851,7 @@ def filas_municipios(ctx: dict) -> str:
             f"{e(etiqueta)}</span></td>"
             f'<td class="num" title="DANE PPED municipal por área, 2026">'
             f'{fmt(m.get("poblacion_2026"))}</td>'
+            f'<td class="num">{_celda_unosat(m)}</td>'
             f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
             f'<td class="num">{pct(m.get("tasa_rud_pct"))}</td>'
             f'<td class="num">{fmt(m.get("dyfi_max_cdi"), 1)}</td>'

@@ -458,3 +458,50 @@ class TestEstiloDeLosNumeros(unittest.TestCase):
         prosa = R.parrafo_respuesta(R.datos_ficha("Nóvita", ctx))
         self.assertIn("kilómetros", prosa)
         self.assertNotRegex(prosa, r"\d+ km\b")
+
+
+class TestSatelites(unittest.TestCase):
+    """Ninguna ficha puede afirmar «ningún producto satelital» cuando sí lo hay.
+
+    El 19-ago-2026 entró UNITAR-UNOSAT como segundo satélite y las fichas seguían
+    diciendo que el único activo era Copernicus: en Viterbo, evaluado por UNOSAT
+    edificio a edificio, la ficha afirmaba lo contrario de lo que dice el dato.
+    Estos tests existen para que el tercer satélite no repita el episodio."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def test_todo_campo_de_satelite_esta_contemplado(self):
+        """Si aparece en los datos un `*_edificios` que el generador no conoce,
+        este test falla antes de que 96 fichas publiquen una falsedad."""
+        conocidos = {s["campo"] for s in R.SATELITES if s["campo"]}
+        campos = {k for m in self.ctx["municipios"] for k in m
+                  if k.endswith("_edificios")}
+        self.assertTrue(campos <= conocidos,
+                        f"satélite sin contemplar en SATELITES: {campos - conocidos}")
+
+    def test_un_municipio_evaluado_solo_por_unosat_no_se_declara_sin_satelite(self):
+        solo_unosat = [m for m in self.ctx["municipios"]
+                       if m.get("unosat_edificios") is not None
+                       and not m.get("en_aoi_copernicus")]
+        if not solo_unosat:
+            self.skipTest("ningún municipio evaluado solo por UNOSAT")
+        d = R.datos_ficha(solo_unosat[0]["municipio"], self.ctx)
+        prosa = R.parrafo_respuesta(d)
+        self.assertNotIn("Ningún producto satelital", prosa)
+        self.assertIn("UNITAR-UNOSAT", prosa)
+
+    def test_la_negativa_no_nombra_un_solo_producto(self):
+        """«hoy el único activo es Copernicus» caducó en cuanto entró UNOSAT: la
+        frase debe nombrar a todos los que se vigilan, o a ninguno."""
+        sin = [m for m in self.ctx["municipios"]
+               if m.get("unosat_edificios") is None and not m.get("en_aoi_copernicus")]
+        prosa = R.parrafo_respuesta(R.datos_ficha(sin[0]["municipio"], self.ctx))
+        self.assertIn("Ningún producto satelital", prosa)
+        self.assertNotIn("el único activo", prosa)
+
+    def test_los_estados_de_municipio_siguen_en_espejo_con_ui(self):
+        ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
+        self.assertIn("evaluado_unosat", ui)
+        self.assertIn("evaluado_unosat", R.ESTADO_MUNICIPIO)

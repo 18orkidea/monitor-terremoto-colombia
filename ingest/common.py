@@ -38,6 +38,49 @@ NOTA_SONDA = "sonda de supuesto"
 # antes del cambio de nombre y siguen exentas por lo que fueron, no por su texto.
 NOTAS_SONDA = (NOTA_SONDA, "test supuesto", "test supuesto rud")
 
+# --- Corpus de prensa: dónde empieza este desastre ---------------------------
+# El sismo ocurrió el 2026-08-10 a las 12:34 UTC. Un titular anterior no habla
+# de este terremoto: las búsquedas municipales de Google News devuelven
+# histórico y el filtro de palabras clave no puede distinguirlo, porque también
+# habla de sismos —de otros sismos—. Medido el 19-ago-2026: 849 de 6.655
+# titulares (12,8 %) eran previos, y los 849 llegaban por esa vía; ni uno solo
+# por GDACS-EMM ni por los feeds del registro comunitario.
+#
+# El corte es POR DÍA a propósito: 514 de esos 849 traen la fecha sin hora
+# (Google News normaliza los items sin hora a las 07:00:00), así que a nivel de
+# instante no habría nada que comparar. Cortar por día no descarta ningún
+# titular del propio 10-ago, que es el día que más importa.
+#
+# Los titulares previos NO se borran: siguen en `news_items`, en los snapshots
+# y en `sources_log`. Lo que se corta es su entrada a los productos públicos.
+FECHA_SISMO = "2026-08-10"
+
+# El instante de origen, para lo que sí se puede comparar con hora: el check de
+# temporalidad de los reportes ciudadanos (R7). 12:34:28 UTC es lo que dicen el
+# USGS (us6000tjl2) y el EMSC; hasta el 19-ago-2026 el código llevaba 12:30:00
+# redondeado a mano, y el sitio publica esa hora en su JSON-LD. Ningún reporte
+# ciudadano cae en esos cuatro minutos, así que corregirlo no reclasifica nada.
+INSTANTE_SISMO = f"{FECHA_SISMO}T12:34:28"
+
+
+def anterior_al_sismo(fecha: str | None) -> bool:
+    """¿Consta que el titular es anterior al terremoto?
+
+    Solo se excluye lo que se puede fechar y resulta previo. Un titular sin
+    fecha no se descarta: no consta que sea anterior, y tirarlo convertiría una
+    ausencia de dato en un juicio (R3 aplicado al corpus, no solo a las cifras).
+    """
+    return bool(fecha) and str(fecha)[:10] < FECHA_SISMO
+# Derivaciones: filas de sources_log que NO son peticiones. Nacen de releer el
+# archivo que ya tenemos (p. ej. recuperar el medio de una noticia del
+# `<source>` de su snapshot). Se registran para que dentro de veinte años se
+# distinga un dato capturado el día de un dato reconstruido después, y llevan
+# `http_status`, `sha256`, `bytes` y `snapshot_path` en NULL porque no hubo
+# petición ni cuerpo nuevo: la fuente son los snapshots que ya constan.
+# Misma disciplina que las sondas: constante, no prefijo de texto libre.
+NOTA_RECONSTRUCCION = "reconstrucción de medios desde snapshots"
+ORIGEN_ARCHIVO = "repo:data/snapshots/feed_*.xml"
+
 
 def _ssl_context() -> ssl.SSLContext:
     """Contexto con CA bundle utilizable: certifi si existe, si no el del sistema.
@@ -177,6 +220,12 @@ CREATE TABLE IF NOT EXISTS news_items (
   url TEXT PRIMARY KEY,
   feed_id TEXT NOT NULL,
   fecha TEXT, titulo TEXT, medio TEXT,
+  -- `medio` guarda el nombre del FEED («Google News — Nóvita»), no el del
+  -- medio: contarlo como cabecera infla cualquier métrica de pluralidad. El
+  -- medio real lo declara el propio RSS en <source url="...">Nombre</source>
+  -- y vive en estas dos columnas. `medio` se conserva tal cual porque es lo
+  -- que se capturó, y el archivo no se reescribe.
+  medio_canonico TEXT, medio_dominio TEXT,
   snapshot_date TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS rud_daily (
@@ -186,6 +235,39 @@ CREATE TABLE IF NOT EXISTS rud_daily (
   viv_destruidas REAL, viv_averiadas REAL,
   habitables REAL, nohabitables REAL,
   PRIMARY KEY (snapshot_date, departamento, municipio)
+);
+-- UNITAR-UNOSAT: la segunda mirada satelital. Los productos y sus paquetes
+-- de shapefiles; el dato se indexa por sha del paquete y NO por producto,
+-- porque varios productos publican el mismo ZIP y el edificio es uno solo.
+CREATE TABLE IF NOT EXISTS unosat_products (
+  product_id INTEGER PRIMARY KEY,
+  glide TEXT, titulo TEXT,
+  descripcion TEXT,                -- «SUMMARY OF FINDING»: para el epicentro es
+                                   -- el único sitio donde vive el análisis
+  created_at TEXT,
+  lat REAL, lon REAL,
+  pdf_url TEXT, shp_url TEXT, gdb_url TEXT, xlsx_url TEXT, web_url TEXT,
+  shp_sha256 TEXT,                 -- qué paquete publica (identidad real)
+  fuentes_texto TEXT,              -- bloque «Data sources» tal cual lo escribe
+  first_seen TEXT, snapshot_date TEXT
+);
+CREATE TABLE IF NOT EXISTS unosat_damage (
+  paquete_sha TEXT NOT NULL,       -- sha256 del ZIP que contiene el registro
+  capa TEXT NOT NULL,              -- shapefile de origen, con sensor y fecha
+  idx INTEGER NOT NULL,            -- nº de registro dentro de la capa
+  productos TEXT,                  -- ids UNOSAT que declaran este paquete
+  municipio TEXT, departamento TEXT,
+  departamento_origen TEXT,        -- 'catalogo' | 'titulo_unosat': de dónde sale
+                                   -- el departamento, porque uno es dato y el
+                                   -- otro una inferencia sobre el título
+  sensor TEXT, sensor_date TEXT,
+  dano TEXT, dano_agrupado TEXT,
+  confianza TEXT, validacion_campo TEXT,
+  event_code TEXT,                 -- literal de la fuente, aunque contradiga
+  notas TEXT,
+  lat REAL, lon REAL,
+  first_seen TEXT, snapshot_date TEXT NOT NULL,
+  PRIMARY KEY (paquete_sha, capa, idx)
 );
 CREATE TABLE IF NOT EXISTS crosscheck (
   aoi_name TEXT NOT NULL, snapshot_date TEXT NOT NULL,
@@ -197,6 +279,33 @@ CREATE TABLE IF NOT EXISTS crosscheck (
 """
 
 
+MIGRACIONES = [
+    # (tabla, columna, tipo). `CREATE TABLE IF NOT EXISTS` no toca una tabla
+    # que ya existe: sin esto, una columna nueva solo aparecería en las bases
+    # recién creadas y faltaría en la del runner, que arrastra meses de datos.
+    ("news_items", "medio_canonico", "TEXT"),
+    ("news_items", "medio_dominio", "TEXT"),
+]
+
+
+def migrar(conn: sqlite3.Connection) -> list[str]:
+    """Añade las columnas que el esquema declara y la base todavía no tiene.
+
+    Solo añade: renombrar o borrar columnas está prohibido sin migración de los
+    dumps (ver CLAUDE.md). Idempotente — se ejecuta en cada `db()`.
+    """
+    hechas = []
+    for tabla, columna, tipo in MIGRACIONES:
+        cols = {r[1] for r in conn.execute(f"PRAGMA table_info({tabla})")}
+        if columna in cols:
+            continue
+        conn.execute(f"ALTER TABLE {tabla} ADD COLUMN {columna} {tipo}")
+        hechas.append(f"{tabla}.{columna}")
+    if hechas:
+        conn.commit()
+    return hechas
+
+
 def db() -> sqlite3.Connection:
     DATA.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH, timeout=60)
@@ -206,7 +315,23 @@ def db() -> sqlite3.Connection:
     except sqlite3.OperationalError:
         pass  # otro proceso con journal clásico aún abierto; WAL entrará después
     conn.executescript(SCHEMA)
+    migrar(conn)
     return conn
+
+
+def registrar_derivacion(conn: sqlite3.Connection, url: str, note: str) -> None:
+    """Anota en `sources_log` un dato derivado del propio archivo, sin red.
+
+    R4 exige que toda cifra publicada tenga fila en el log; hasta ahora todas
+    venían de `fetch()`. Una reconstrucción no es una petición, pero tampoco
+    puede quedar sin constar: sin esta fila, un lector futuro no sabría si un
+    valor se capturó o se dedujo. No hace commit — va en la transacción de
+    quien deriva, para que o conste todo o no conste nada.
+    """
+    conn.execute(
+        "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+        " snapshot_path,note) VALUES (?,?,NULL,NULL,NULL,NULL,?)",
+        (utcnow(), url, note))
 
 
 def fetch(url: str, params: dict | None = None, *, note: str = "",

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Wed, 19 Aug 2026 04:20:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.8.3</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>AI en empresas: del apoyo a la ejecución</title>
+		<link>https://occidente.co/secciones/tecnologia/ai-en-empresas-del-apoyo-a-la-ejecucion/</link>
+					<comments>https://occidente.co/secciones/tecnologia/ai-en-empresas-del-apoyo-a-la-ejecucion/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 19 Aug 2026 04:20:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436525</guid>
+
+					<description><![CDATA[<p>Las empresas pasan de pedir ayuda a delegar tareas a la IA Algunas compañías ahora piden a agentes de inteligencia artificial que hagan tareas completas en lugar de solo responder preguntas. Los informes publicados por OpenAI muestran que el uso empresarial de IA está cambiando: la frase clave “AI en empresas” refleja este giro práctico...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/ai-en-empresas-del-apoyo-a-la-ejecucion/">AI en empresas: del apoyo a la ejecución</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Las empresas pasan de pedir ayuda a delegar tareas a la IA</h2>
+</p>
+<p>Algunas compañías ahora piden a agentes de inteligencia artificial que hagan tareas completas en lugar de solo responder preguntas. Los informes publicados por OpenAI  muestran que el uso empresarial de IA está cambiando: la frase clave “AI en empresas” refleja este giro práctico hacia la ejecución directa de trabajo.</p>
+</p>
+<h2>AI en empresas: qué ocurrió y por qué importa</h2>
+</p>
+<p>OpenAI presentó dos estudios que analizan cómo las organizaciones usan IA. Los informes, publicados en agosto de 2026, indican que las herramientas agenticas como Codex y ChatGPT Work están realizando tareas multi‑paso, generando mayor volumen de resultados. Además, identifican a las “empresas frontier”, el 10% con mayor uso, que producen muchos más resultados por usuario que las empresas típicas.</p>
+</p>
+<h2>Cambios prácticos para las personas</h2>
+</p>
+<h3>Más tiempo para tareas estratégicas</h3>
+</p>
+<p>Al delegar trabajos operativos a agentes, los empleados pueden dedicar menos tiempo a pasos repetitivos y más a decisiones de alto valor. Por ejemplo, pedir a un agente que recopile información y redacte un borrador reduce horas de investigación manual.</p>
+</p>
+<h3>Acceso a herramientas integradas</h3>
+</p>
+<p>Las empresas que incorporan plugins y skills permiten que la IA acceda a datos internos y aplicaciones, lo que facilita respuestas más ajustadas al contexto del equipo y acelera procesos como propuestas comerciales o resúmenes legales.</p>
+</p>
+<h3>Ventaja en competencias para empleados jóvenes</h3>
+</p>
+<p>Los informes muestran que empleados de entrada usan IA con más frecuencia que directivos, lo que puede aumentar la productividad de quienes adoptan estas herramientas temprano y cambiar roles cotidianos dentro de equipos.</p>
+</p>
+<h2>Aspectos pendientes y dudas por resolver</h2>
+</p>
+<p>Los documentos señalan avances claros, pero también muestran límites. No todas las empresas progresan igual: solo una fracción usa capacidades avanzadas de forma habitual. Además, se requiere implementación de gobernanza, permisos y revisión humana para que el trabajo automatizado sea seguro y fiable. Falta confirmar cómo estas prácticas se escalarán fuera de las empresas con más recursos y qué inversiones en formación e infraestructura serán necesarias.</p>
+</p>
+<h2>Conclusión</h2>
+</p>
+<p>Los estudios de OpenAI evidencian una transición en la que la IA ya no solo asiste sino que ejecuta tareas, lo que trae cambios prácticos para trabajadores y procesos empresariales. El avance dependerá de decisiones sobre gobernanza, conectividad de herramientas y formación interna.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Herramientas que realizan tareas pueden ahorrar tiempo y cambiar rutinas laborales.</p>
+</p>
+<p><strong>Negocio:</strong> Empresas con mayor adopción obtienen más producción por usuario y ventajas operativas.</p>
+</p>
+<p><strong>Industria:</strong> Sectores como legal, ventas y reclutamiento muestran crecimientos rápidos en uso agentico.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/ai-en-empresas-del-apoyo-a-la-ejecucion/">AI en empresas: del apoyo a la ejecución</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/ai-en-empresas-del-apoyo-a-la-ejecucion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El terremoto se llevó la casa… ¿También se llevó el contrato de arrendamiento?</title>
+		<link>https://occidente.co/area-legal/contratos-arrendamiento-tras-terremoto-vivienda-inhabitable/</link>
+					<comments>https://occidente.co/area-legal/contratos-arrendamiento-tras-terremoto-vivienda-inhabitable/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 19 Aug 2026 02:13:49 +0000</pubDate>
+				<category><![CDATA[Área Legal]]></category>
+		<category><![CDATA[Abogada Ángela Caicedo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436513</guid>
+
+					<description><![CDATA[<p>Por Ángela María Caicedo ÁNGELA MARÍA CAICEDO Abogada, Conciliadora y Comunicador Social-Periodista Escritora Apasionada y Exploradora del Conocimiento Jurídico. Si la vivienda que usted tenía arrendada desapareció o fue declarada inhabitable después del terremoto, surge una pregunta que ningún contrato estaba preparado para responder emocionalmente: ¿Quién paga ahora las consecuencias? El pasado 10 de agosto...</p>
+<p>The post <a href="https://occidente.co/area-legal/contratos-arrendamiento-tras-terremoto-vivienda-inhabitable/">El terremoto se llevó la casa… ¿También se llevó el contrato de arrendamiento?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><img decoding="async" class="img-fluid size-full wp-image-144260 alignleft" src="https://occidente.co/wp-content/uploads/2024/01/abogada-angela-maria-caicedo.jpg" alt="Abogada Ángela María Caicedo" width="150" /><em>Por <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://occidente.co/tag/abogada-angela-caicedo/" target="_blank" rel="noopener">Ángela María Caicedo</a></span></em></p>
+<h4><span style="color: #00bfa5;">ÁNGELA MARÍA CAICEDO</span></h4>
+<p>Abogada, Conciliadora y Comunicador Social-Periodista<br />
+Escritora Apasionada y Exploradora del Conocimiento Jurídico.</p>
+<p><strong>Si la vivienda que usted tenía arrendada desapareció o fue declarada inhabitable después del terremoto, surge una pregunta que ningún contrato estaba preparado para responder emocionalmente:</strong> ¿Quién paga ahora las consecuencias?</p>
+<p>El pasado 10 de agosto de 2026 Colombia cambió en cuestión de segundos. \</p>
+<p>El terremoto de magnitud 7,4, con epicentro en San José del Palmar, Chocó, dejó graves daños en distintas zonas del país y golpeó especialmente ciudades del occidente colombiano.</p>
+<p>Y después de salvar la vida, encontrar a la familia, revisar las paredes y tratar de entender cómo continuar, apareció una pregunta mucho menos dramática que un edificio destruido, pero bastante incómoda para el bolsillo:</p>
+<p>¿Qué pasa con el contrato de arrendamiento si la casa ya no existe o quedó inhabitable?<br />
+Porque las tragedias tienen esa costumbre de llegar sin invitación y, además, dejar cuentas pendientes.</p>
+<p>Imagine la escena.</p>
+<p>Una familia logró salir con vida de un apartamento. Horas después, una inspección determina que no puede volver a ocuparse.</p>
+<p>En otro lugar, una casa quedó parcialmente destruida. En otro edificio, sencillamente ya no existe un inmueble seguro al cual regresar.</p>
+<p>Pero el contrato sí existe. El arrendador sigue siendo propietario.</p>
+<p>El arrendatario sigue teniendo sus pertenencias, sus cuentas y probablemente muchas preguntas.</p>
+<p><strong>Entonces aparece el dilema:</strong></p>
+<ul>
+<li>¿Hay que seguir pagando arriendo?</li>
+<li>¿Quién responde por los muebles?</li>
+<li>¿El propietario debe indemnizar al inquilino?</li>
+<li>¿Qué pasa con la administración?</li>
+</ul>
+<p>Aquí viene la explicación jurídica sin necesidad de hablar en latín ni convertir una tragedia en una tesis doctoral.</p>
+<h3>EN UN CONTRATO DE ARRENDAMIENTO HAY UN PROTAGONISTA QUE CASI NADIE MIRA</h3>
+<p>Cuando usted firma un contrato de arrendamiento hay, evidentemente, dos partes: arrendador y arrendatario.</p>
+<p>Uno entrega el inmueble y el otro paga periódicamente por poder usarlo.</p>
+<p><strong>Pero existe un tercer protagonista sin el cual el negocio sencillamente pierde sentido: </strong>el inmueble. La casa. El apartamento. El local comercial.</p>
+<p>Porque usted no paga arriendo por contemplar un contrato firmado dentro de una carpeta. Paga para poder usar y disfrutar un inmueble determinado.</p>
+<p>¿Y qué ocurre cuando después de un terremoto ese inmueble desaparece o queda en condiciones que impiden completamente utilizarlo?</p>
+<p><strong>Pues jurídicamente sucede algo bastante lógico:</strong></p>
+<p>si desaparece aquello sobre lo cual recaía el contrato, también puede desaparecer la razón para continuar con el arrendamiento.</p>
+<h2>EL CÓDIGO CIVIL YA HABÍA PENSADO EN LOS TERREMOTOS</h2>
+<p>Aunque parezca increíble, para esto no necesitamos inventarnos una teoría jurídica después de la tragedia.</p>
+<p><strong>El artículo 64 del Código Civil colombiano</strong> define la fuerza mayor o caso fortuito como un acontecimiento imprevisto o irresistible y menciona expresamente, entre sus ejemplos, un terremoto.</p>
+<p><strong>Es decir:</strong> la ley reconoce que existen acontecimientos que sencillamente escapan al control ordinario de las personas.</p>
+<p>Ni el propietario movió las placas tectónicas.</p>
+<p>Ni el inquilino decidió que la tierra temblara.</p>
+<p>Por eso el análisis debe empezar por determinar qué le ocurrió realmente al inmueble y no por buscar apresuradamente a quién culpar.</p>
+<h3>SI LA CASA DESAPARECIÓ, NO HAY MUCHO CONTRATO QUE SALVAR</h3>
+<p>Cuando existe destrucción total del inmueble, el Código Civil contempla la destrucción de la cosa arrendada como una causa de expiración del arrendamiento.</p>
+<p><strong>La explicación práctica es sencilla:</strong></p>
+<p>no se puede mantener indefinidamente un contrato cuyo objeto material dejó de existir.</p>
+<p>Pretender cobrar durante meses el arriendo completo de una casa destruida sería algo parecido a cobrar parqueadero por un carro que ya no existe.</p>
+<p>Legalmente creativo.</p>
+<p>Pero difícil de defender.</p>
+<p>Por eso, cuando la destrucción sea total, lo recomendable es formalizar por escrito la terminación del contrato, especificando la fecha, las condiciones del inmueble, la entrega de llaves cuando corresponda, los servicios pendientes y las demás obligaciones causadas.</p>
+<h4>¿Y SI EL EDIFICIO SIGUE EN PIE, PERO NADIE PUEDE VIVIR AHÍ?</h4>
+<p>Aquí aparece otro escenario.</p>
+<p>La fachada existe.</p>
+<p>Las paredes siguen ahí.</p>
+<p>La dirección continúa apareciendo en Google Maps.</p>
+<p>Pero un ingeniero, una autoridad o un organismo competente determina que el lugar tiene riesgo estructural y no puede habitarse.</p>
+<p><strong>Entonces poco consuelo produce decir:</strong></p>
+<p>“<em>Pero técnicamente el apartamento todavía existe</em>”.</p>
+<p><strong>El artículo 1990 del Código Civil permite que el arrendatario solicite la terminación cuando el mal estado o calidad de la cosa le impide utilizarla para el propósito para el cual fue arrendada</strong>.</p>
+<p>Y cuando el impedimento es solamente parcial, la misma disposición contempla que, dependiendo de las circunstancias, pueda proceder la terminación del arrendamiento o una reducción de la renta.</p>
+<p>Por eso no todos los casos se pueden resolver con una sola frase.</p>
+<p>Una grieta superficial no es necesariamente lo mismo que una orden de evacuación.</p>
+<p>Un daño reparable en pocos días no equivale automáticamente a la pérdida total del inmueble.</p>
+<p>Y una fotografía de WhatsApp tampoco reemplaza un concepto estructural.</p>
+<h2>DOCUMENTE TODO: DESPUÉS DEL TERREMOTO, LAS PRUEBAS TAMBIÉN IMPORTAN</h2>
+<p>Si existe controversia, fotografías y videos pueden resultar fundamentales.</p>
+<p><strong>Pero también pueden ser importantes: </strong>conceptos de ingenieros o arquitectos, informes de la administración, evaluaciones de gestión del riesgo, bomberos o autoridades locales, órdenes de evacuación, restricciones de ingreso y cualquier documento que permita demostrar objetivamente el estado en que quedó el inmueble.</p>
+<p><strong>Porque una cosa es decir:</strong></p>
+<p>“<em>me da miedo volver</em>”.</p>
+<p>Y otra jurídicamente distinta</p>
+<p>“<em>el inmueble fue declarado técnicamente inhabitable</em>”.</p>
+<h3>¿EL ARRENDADOR TIENE QUE PAGAR LOS MUEBLES, TELEVISORES Y PÉRDIDAS DEL INQUILINO?</h3>
+<p>Aquí empiezan algunas discusiones familiares, contractuales y casi filosóficas.</p>
+<p><strong>Si el apartamento era del propietario, algunas personas concluyen:</strong></p>
+<p>“<em>Entonces el dueño responde por todo</em>”.</p>
+<p>La respuesta es….No.</p>
+<p>El hecho de ser propietario del inmueble no convierte automáticamente al arrendador en asegurador universal de todo lo que estaba dentro de la vivienda.</p>
+<p>Si el terremoto destruyó el televisor, computadores, muebles, electrodomésticos, mercancías o pertenencias del arrendatario, debe analizarse cuál fue la causa jurídica del daño.</p>
+<p><strong>Un terremoto es reconocido por el artículo 64 del Código Civil como un evento que puede constituir fuerza mayor o caso fortuito</strong>.</p>
+<p>Por eso, si el perjuicio fue producido exclusivamente por el fenómeno natural y no existió una conducta imputable al propietario, no surge automáticamente una obligación del arrendador de indemnizar al inquilino por todos sus bienes.</p>
+<h3>Y aquí vale hacer otra aclaración:</h3>
+<p>No existe una solidaridad automática entre arrendador y arrendatario simplemente porque ambos estaban relacionados con el mismo inmueble.</p>
+<p>La terminación del contrato es una cosa.</p>
+<p>La responsabilidad por los perjuicios es otra.</p>
+<p>Confundirlas puede salir bastante caro.</p>
+<h2>PERO TAMPOCO TODO PROPIETARIO PUEDE DECIR “FUE EL TERREMOTO” Y SALIR CORRIENDO</h2>
+<p>La fuerza mayor tampoco funciona como una varita mágica que borra cualquier responsabilidad.</p>
+<p><strong>El artículo 1991 del Código Civil</strong> contempla indemnizaciones vinculadas a vicios de la cosa arrendada, especialmente cuando estos tenían una causa anterior al contrato y, bajo determinadas circunstancias, cuando eran conocidos o debían ser conocidos por el arrendador.</p>
+<p>Por eso sería diferente si, por ejemplo, antes del terremoto existían graves problemas estructurales conocidos por el propietario; había conceptos técnicos advirtiendo riesgo; se habían ordenado reparaciones y fueron ignoradas; se ocultaron defectos relevantes, o se hicieron modificaciones estructurales irregulares que contribuyeron al daño.</p>
+<p><strong>En esos eventos ya no basta con decir:</strong></p>
+<p>“<em>la culpa fue del terremoto</em>”.</p>
+<p>Habrá que analizar conducta, daño y nexo causal.</p>
+<p>El terremoto puede haber encendido la mecha, pero jurídicamente habrá que establecer qué había detrás.</p>
+<h3>¿HASTA CUÁNDO DEBE PAGAR EL INQUILINO?</h3>
+<p>Si existe una destrucción total y el arrendamiento termina por desaparecer la cosa arrendada, no tendría sentido prolongar indefinidamente el cobro de cánones posteriores como si la vivienda continuara disponible.</p>
+<p>Debe establecerse cuándo ocurrió la imposibilidad efectiva de continuar con el contrato, la naturaleza de los daños, las condiciones pactadas y la fecha en que se formaliza la restitución o terminación.</p>
+<p>Cuando el daño es parcial, la situación requiere todavía más cuidado, porque el artículo 1990 contempla que las circunstancias pueden conducir a terminación o reducción de la renta.</p>
+<p><strong>Por eso mi recomendación es sencilla:</strong></p>
+<p>arrendador e inquilino deberían documentar y, cuando jurídicamente sea procedente, formalizar de mutuo acuerdo la terminación.</p>
+<p><strong>Nada de:</strong></p>
+<p>“<em>después hablamos</em>”.</p>
+<p>Después nadie recuerda nada.</p>
+<p>Excepto WhatsApp, que curiosamente recuerda absolutamente todo.</p>
+<h4>¿Y QUÉ PASA CON LA ADMINISTRACIÓN DE LA PROPIEDAD HORIZONTAL?</h4>
+<p>Aquí también hay que separar obligaciones.</p>
+<p>Una cosa es la relación entre propietario e inquilino.</p>
+<p>Otra es la relación del inmueble y su propietario con la copropiedad.</p>
+<p>En edificios y conjuntos sometidos al régimen de propiedad horizontal existen bienes privados y bienes comunes, y la conservación, seguridad, funcionamiento y administración de estos últimos genera obligaciones propias de la copropiedad.</p>
+<p>La regulación colombiana reconoce expresamente la existencia de expensas comunes destinadas a sostener esos bienes y servicios.</p>
+<p>Por eso, que haya terminado el contrato de arrendamiento no significa automáticamente que desaparezcan las obligaciones del propietario frente a la propiedad horizontal.<br />
+La vigilancia no desaparece porque se fue el inquilino.</p>
+<p>El aseo tampoco.</p>
+<p>Y tristemente las facturas tienen una resistencia sísmica extraordinaria.</p>
+<h3>¿Y LOS SEGUROS?</h3>
+<p>Este es precisamente uno de esos momentos en los que muchas personas descubren —<strong><em>demasiado tarde</em></strong>— qué aseguraron y qué dejaron sin asegurar.</p>
+<p>Los daños del inmueble, bienes comunes, contenidos del hogar, mercancías o equipos pueden estar cubiertos por pólizas diferentes, según quién las haya contratado y cuáles sean sus coberturas.</p>
+<p>Por eso debe revisarse individualmente la póliza del propietario, la póliza de la copropiedad y cualquier seguro de hogar, comercio o PYME contratado por el arrendatario.</p>
+<p>No presuma que algo está cubierto. Revise la póliza. Y tampoco presuma que no está cubierto sin haberla leído.</p>
+<h3>LLAMADO A LA ACCIÓN</h3>
+<p>Después del terremoto muchas personas están tratando simultáneamente de resolver dónde vivir, qué hacer con su propiedad, cómo terminar un contrato, cómo reclamar ante una aseguradora o cómo volver a arrendar.</p>
+<p>Si usted es propietario o inquilino y no sabe cómo manejar jurídicamente la terminación de su contrato, puede comunicarse conmigo al (316) 212 4646 para revisar su situación antes de firmar documentos o asumir obligaciones que quizá legalmente no le correspondan.</p>
+<p>También he habilitado la línea (316) 2124646 para conectar a personas que necesitan vender o alquilar un inmueble con quienes actualmente están buscando dónde vivir.</p>
+<p>Contamos además con servicio inmobiliario para acompañar la venta o arrendamiento de propiedades; y si usted prefiere seguir administrando directamente su inmueble, podemos adaptarnos mediante un servicio de pago único.</p>
+<h3>MORALEJA JURÍDICA</h3>
+<p>Un terremoto puede acabar una construcción en segundos, pero las obligaciones jurídicas no deben resolverse también en segundos.</p>
+<p>Si el inmueble desapareció o quedó realmente inutilizable, puede existir fundamento para terminar el arrendamiento; pero esa terminación no convierte automáticamente al propietario en responsable de todas las pérdidas del inquilino.</p>
+<p>Cada caso debe analizarse según el daño, las pruebas, el contrato, las pólizas y la existencia —<strong><em>o ausencia</em></strong>— de una conducta imputable a alguna de las partes.</p>
+<h3>PROTEJA SUS DERECHOS</h3>
+<p>Antes de entregar llaves, firmar paz y salvos, aceptar cobros, renunciar a reclamaciones o asumir daños que posiblemente no le corresponden, asesórese.</p>
+<p>Puede escribirme o llamarme al (316) 212 4646. Y si quiere mantenerse informado sobre estos y otros temas jurídicos explicados en lenguaje humano porque para complicarlos ya tenemos suficientes códigos visite <strong><span style="color: #01bfa5;"><a style="color: #01bfa5;" href="http://www.laabogadaperiodista.com" target="_blank" rel="noopener">www.laabogadaperiodista.com</a></span></strong>.</p>
+<h3>MANTÉNGASE INFORMADO:</h3>
+<p>Cada situación requiere una revisión jurídica particular. Para asesoría, comuníquese al (316) 212 4646 y visite <strong><a href="http://www.laabogadaperiodista.com" target="_blank" rel="noopener"><span style="color: #01bfa5;">www.laabogadaperiodista.com</span></a></strong>, donde encontrará información actualizada sobre derecho de familia y otros temas de interés jurídico.</p>
+<h3>¿Cómo solicitar asesoría?</h3>
+<p><strong>Si necesita orientación jurídica, escriba al WhatsApp 316 212 4646 y deje un mensaje con: </strong></p>
+<ol>
+<li>Sus datos completos.</li>
+<li>El horario en que lo podemos contactar.</li>
+<li>La palabra clave relacionada con su caso.</li>
+</ol>
+<p><strong>Puede escribir palabras como:</strong> <em>&#8220;insolvencia&#8221;, &#8220;deudas&#8221;, &#8220;embargo&#8221;, &#8220;hipoteca&#8221;, &#8220;casa familiar&#8221;, &#8220;ocultamiento de bienes&#8221;, &#8220;acreedores&#8221;, &#8220;liquidación patrimonial&#8221;, &#8220;divorcio&#8221;, &#8220;cuota alimentaria&#8221;, &#8220;custodia&#8221;, &#8220;sucesión&#8221;, &#8220;accidente de tránsito&#8221;, &#8220;registro de marca&#8221; o &#8220;conciliación&#8221;</em>.<br />
+Así podremos identificar más rápido su necesidad y brindarle una atención personalizada.</p>
+<h3>Visite La Abogada Periodista</h3>
+<p>¿Está buscando abogada en Colombia, asesoría jurídica confiable, soluciones para divorcio, custodia de hijos, cuota alimentaria, sucesiones, conciliaciones, insolvencia de persona natural, accidentes de tránsito, registro de marca, deudas, embargos o protección de vivienda familiar?</p>
+<p>Entonces visite hoy mismo <strong><span style="color: #01bfa5;"><a style="color: #01bfa5;" href="http://www.laabogadaperiodista.com" target="_blank" rel="noopener">www.laabogadaperiodista.com</a></span></strong>.</p>
+<p>Allí encontrará una plataforma creada para orientar, informar y acompañar a quienes necesitan defender sus derechos con claridad, estrategia y respaldo profesional&#8230;</p>
+<h4>ÁNGELA MARÍA CAICEDO</h4>
+<p>Abogada, Conciliadora y Comunicador Social-Periodista<br />
+Escritora Apasionada y Exploradora del Conocimiento Jurídico.</p>
+<p><img src="https://s.w.org/images/core/emoji/16.0.1/72x72/1f4cd.png" alt="📍" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Cali-Colombia</p>
+<h4>Sígueme en las Redes:</h4>
+<p><strong>Tiktok:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.tiktok.com/@laabogadaperiodista?is_from_webapp=1&amp;sender_device=pc" target="_blank" rel="noopener">@laabogadaperiodista</a></span></p>
+<p><strong>Instagram:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.instagram.com/_angelacaicedo/" target="_blank" rel="noopener">@angelacaicedo</a></span></p>
+<p><strong>Facebook:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.facebook.com/angelamaria.caicedo.9" target="_blank" rel="noopener">Angela Maria Caicedo</a></span></p>
+<p><strong>LinkedIn:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.linkedin.com/in/angelamaria-caicedo-3a27b2250?" target="_blank" rel="noopener">https://www.linkedin.com/in/angelamaria-caicedo-3a27b2250?</a></span></p>
+<p><strong>Numero telefónico;</strong> (316) 2124646</p>
+<h4>Acerca de Mí:</h4>
+<p>¡Hola! Soy Ángela María Caicedo, comunicador social-periodista, Abogada y Conciliadora y me encanta sumergirme en el fascinante mundo de la escritura y el descubrimiento.</p>
+<p>Como apasionada de los temas jurídicos, mi objetivo es compartir ideas, inspiración y conocimiento a través de mis palabras.</p>
+<p>Y aunque parezca que los abogados nos expresamos con un lenguaje de otro planeta, es nuestra responsabilidad acortar la brecha comunicativa entre abogados y no abogados, teniendo en cuenta que ambos lenguajes tanto el jurídico como el común coexisten.</p>
+<p>También como abogada conciliadora de la organización sin ánimo de lucro &#8220;<em>Convivencia Ciudadana</em>&#8221; me apasiona acompañar a las personas en el proceso de buscar soluciones pacíficas a sus problemas y que sea un &#8216;gana-gana&#8217; para las partes, porque otro tipo de justicia es posible.</p>
+<p>Por eso este espacio es mi plataforma para conectar contigo.</p>
+<p>Mis artículos están diseñados para informar, entretener y desafiar tus pensamientos.</p>
+<p>¡Espero que los disfrutes!</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Régimen de visitas en Colombia: qué hacer si no le permiten ver a sus hijos en Navidad" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/area-legal/contratos-arrendamiento-tras-terremoto-vivienda-inhabitable/">El terremoto se llevó la casa… ¿También se llevó el contrato de arrendamiento?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/area-legal/contratos-arrendamiento-tras-terremoto-vivienda-inhabitable/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Festival de Música del Pacífico Petronio Álvarez</title>
+		<link>https://occidente.co/opinion/columnistas/festival-de-musica-del-pacifico-petronio-alvarez/</link>
+					<comments>https://occidente.co/opinion/columnistas/festival-de-musica-del-pacifico-petronio-alvarez/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 19 Aug 2026 01:58:35 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Célimo Sinisterra]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436511</guid>
+
+					<description><![CDATA[<p>El Festival de Música del Pacífico Petronio Álvarez es uno de los acontecimientos culturales más importantes de Colombia y se realiza anualmente en la ciudad de Cali. u propósito principal es preservar, fortalecer y difundir las tradiciones musicales, culturales y artísticas del Pacífico colombiano, especialmente aquellas relacionadas con las comunidades afrocolombianas. El festival nació en...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/festival-de-musica-del-pacifico-petronio-alvarez/">Festival de Música del Pacífico Petronio Álvarez</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El Festival de Música del Pacífico Petronio Álvarez es uno de los acontecimientos culturales más importantes de Colombia y se realiza anualmente en la ciudad de Cali.</p>
+<p>u propósito principal es preservar, fortalecer y difundir las tradiciones musicales, culturales y artísticas del Pacífico colombiano, especialmente aquellas relacionadas con las comunidades afrocolombianas.</p>
+<p>El festival nació en 1997, impulsado principalmente por el historiador y gestor cultural Germán Patiño Ossa y el gobernador Germán Villegas Villegas, quienes buscaban crear un espacio de encuentro entre Cali y las comunidades del litoral Pacífico.</p>
+<p>La primera edición se realizó en el Teatro al Aire Libre Los Cristales y estuvo dedicada a homenajear al músico bonaverense Patricio Romano Petronio Álvarez Quintero.</p>
+<p>Luego de varios años en ese lugar, fue llevado a la Plaza de Toros, al Estadio Olímpico Pascual Guerrero, a las Canchas Panamericanas y hoy se realiza en la Unidad Deportiva Alberto Galindo, al lado del Coliseo del Pueblo.</p>
+<p>En sus comienzos, el festival fue un concurso musical en el que se reunían diferentes expresiones de la música del Pacífico.</p>
+<p>Con el paso de los años se organizaron categorías que permitieron reconocer las particularidades de las tradiciones musicales de la región, como chirimía, marimba, agrupación libre y, posteriormente, violines caucanos.</p>
+<p>El nombre del festival rinde homenaje a Petronio Álvarez, compositor y músico nacido en Buenaventura en 1914.</p>
+<p>Su obra más conocida es “<em>Mi Buenaventura</em>”, canción que se convirtió en un símbolo musical de esta ciudad.</p>
+<p>Petronio también compuso e interpretó sones, milongas, bambucos y currulaos. Murió en Cali el 10 de diciembre de 1966.</p>
+<p>Con el tiempo, el Petronio Álvarez dejó de ser solamente un concurso musical y se convirtió en una gran celebración de la identidad del Pacífico.</p>
+<p>Actualmente integra música, danza, gastronomía, artesanías, saberes tradicionales y diferentes manifestaciones culturales.</p>
+<p>También se ha consolidado como un espacio de encuentro para las comunidades de los cuatro departamentos del Pacífico y para la población afrodescendiente de Cali y otras regiones del país.</p>
+<p>En conclusión, la historia del Festival Petronio Álvarez representa el esfuerzo por reconocer y mantener vivas las raíces culturales del Pacífico colombiano.</p>
+<p>Desde su creación en 1997, el festival ha crecido hasta convertirse en un referente nacional de la diversidad cultural y en una celebración que permite que las nuevas generaciones conozcan, valoren y continúen las tradiciones de sus antepasados.</p>
+<h3>Por primera vez en 30 años se suspende el festival</h3>
+<p>Como es de conocimiento público, la ciudad de Cali, como otras partes del país, resultó gravemente afectada por el terremoto del pasado lunes 10 de agosto.</p>
+<p>Para esta fecha, ya se adelantaban en un 80 % las adecuaciones para la gran fiesta cultural. No obstante, el señor alcalde de Cali decretó la suspensión del festival.</p>
+<p>Para muchos, esta medida es coherente, humanitaria y pertinente; sin embargo, algunos expositores que ya tenían sus productos listos para ser comercializados consideran que se les causó una enorme afectación económica, en especial a los vendedores de productos gastronómicos.</p>
+<p>De momento, no se tiene una fecha clara mediante la cual volvamos a sentir el sonido de la marimba, el cununo y el guasá, así como el sabor de los productos del Pacífico, la cultura, la moda y las artesanías que caracterizan esta gran fiesta del Pacífico colombiano.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/festival-de-musica-del-pacifico-petronio-alvarez/">Festival de Música del Pacífico Petronio Álvarez</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/festival-de-musica-del-pacifico-petronio-alvarez/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El nuevo desafío</title>
+		<link>https://occidente.co/opinion/columnistas/el-nuevo-desafio/</link>
+					<comments>https://occidente.co/opinion/columnistas/el-nuevo-desafio/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 19 Aug 2026 01:55:37 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Wilson Ruiz Orejuela]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436509</guid>
+
+					<description><![CDATA[<p>.Hay tragedias que se miden en cifras, y hay otras que obligan a un país entero a mirarse al espejo. El terremoto que sacudió el centro y suroccidente de Colombia el pasado 10 de agosto pertenece a las dos categorías. D ejó muerte, dolor y destrucción, pero también puso a prueba la capacidad del Estado...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-nuevo-desafio/">El nuevo desafío</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>.Hay tragedias que se miden en cifras, y hay otras que obligan a un país entero a mirarse al espejo.</p>
+<p>El terremoto que sacudió el centro y suroccidente de Colombia el pasado 10 de agosto pertenece a las dos categorías. D</p>
+<p>ejó muerte, dolor y destrucción, pero también puso a prueba la capacidad del Estado para responder cuando la vida de cientos de miles de colombianos cambia en cuestión de segundos.</p>
+<p><strong>Con corte al 17 de agosto, 289 compatriotas habían fallecidos, 4.187 se encontraban heridos, 143 desaparecidos y una tercera parte del territorio nacional afectada:</strong> 450 municipios de 15 departamentos.</p>
+<p><strong>Detrás de esos números hay algo todavía más difícil de administrar que el duelo:</strong> 120.328 familias registradas como damnificadas, 26.945 viviendas destruidas y 127.557 averiadas.</p>
+<p>Son cifras que no caben en una estadística, porque detrás de cada una hay una familia que perdió su casa, un niño que dejó de ir a la escuela y una comunidad que hoy intenta reconstruir lo que durante años construyó con esfuerzo.</p>
+<p>El presidente Abelardo de la Espriella anunció que la reconstrucción costará cerca de 30 billones de pesos, unos 9.500 millones de dólares, y declaró la emergencia económica para poder movilizar esos recursos con la agilidad que la tragedia exige.</p>
+<p>Es una decisión acertada y oportuna, y el país debe reconocerla como tal.</p>
+<p>El Gobierno ha actuado hasta ahora con una prudencia que merece destacarse.</p>
+<p>El presidente ha insistido en que las cifras siguen siendo preliminares y en que, por respeto a las víctimas y a sus familias, solo comunicará datos debidamente consolidados.</p>
+<p>En un país acostumbrado a que los gobiernos maquillen tragedias o inflen cifras para figurar en la fotografía de la solidaridad, esa cautela es un gesto de seriedad institucional que hay que valorar y exigir que se mantenga en cada etapa de la reconstrucción.</p>
+<p><strong>Precisamente porque el rumbo que ha tomado el Gobierno es el correcto, vale la pena insistir en el terreno donde se juega el verdadero éxito de esta tarea:</strong> la ejecución sostenida de los recursos.</p>
+<p>Colombia ha vivido otros momentos de emergencia en los que el anuncio inicial fue generoso y la voluntad política genuina, pero la implementación se fue diluyendo con el paso de los meses por falta de un sistema claro de seguimiento.</p>
+<p>Ese riesgo no es una crítica al gobierno actual; es una lección histórica que este Gobierno tiene la oportunidad de romper, y todo indica que tiene la disposición para hacerlo.</p>
+<p><strong>La recomendación es sencilla y va en la misma dirección que ya ha marcado el presidente:</strong> sostener la transparencia con la que se comunicaron las cifras de víctimas también en la comunicación de la ejecución del gasto.</p>
+<p>Que el país pueda ver, con la misma claridad con la que conoció el número de viviendas destruidas, cuántas se han entregado, en qué plazo y con qué estándares de construcción.</p>
+<p>Esa trazabilidad no debilita al Gobierno, lo fortalece, porque convierte cada peso invertido en un argumento a su favor frente a quienes buscarán capitalizar políticamente cualquier demora natural en un proceso de esta magnitud.</p>
+<p>La vivienda debe seguir siendo, como ya lo ha planteado el propio Gobierno, el eje central de esta etapa.</p>
+<p>El subsidio anunciado debe llegar primero a quien perdió su único techo y debe traducirse en construcciones con estándares sismorresistentes verificables, para que la inversión no solo repare lo perdido, sino que además deje a esas comunidades mejor preparadas que antes.</p>
+<p>Ese es, además, el mensaje que el país necesita transmitir hacia afuera.</p>
+<p>La cooperación internacional que ya ha llegado, con equipos de rescate y suministros de varios países, y la generosidad de la sociedad civil, como el compromiso de Shakira y Howard Buffett con la reconstrucción educativa en el Chocó, responden mejor cuando perciben un Estado que coordina con método y que puede mostrar resultados verificables.</p>
+<p>Reconstruir después de un terremoto no consiste únicamente en levantar paredes y reparar carreteras.</p>
+<p>Significa recuperar comunidades, devolverles oportunidades a las familias y garantizar que quienes hoy lo perdieron casi todo puedan volver a construir un proyecto de vida. Por eso, los próximos meses serán tan importantes como los primeros días de emergencia.</p>
+<p>Colombia tiene ante sí una oportunidad de demostrar que puede reconstruirse con la misma seriedad con la que este Gobierno ha manejado hasta ahora la comunicación de la tragedia.</p>
+<p>El respaldo del país a esta tarea será mayor en la medida en que la ejecución de los recursos mantenga el mismo estándar de rigor y transparencia que ya se ha visto en el manejo de las cifras.</p>
+<p>El terremoto dejó una Colombia herida. Ahora comienza la tarea de demostrar que también puede dejar una Colombia más fuerte, más preparada y capaz de responderle a quienes más necesitan del Estado.</p>
+<p>Ese será el verdadero desafío después del terremoto.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-nuevo-desafio/">El nuevo desafío</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/el-nuevo-desafio/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>La calidad de los hidratos de carbono se asocia con menor mortalidad en adultos con alto riesgo cardiovascular</title>
+		<link>https://occidente.co/secciones/salud/calidad-de-los-hidratos-de-carbono-relacionan-su-uso-con-mortalidad/</link>
+					<comments>https://occidente.co/secciones/salud/calidad-de-los-hidratos-de-carbono-relacionan-su-uso-con-mortalidad/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 19 Aug 2026 00:02:08 +0000</pubDate>
+				<category><![CDATA[Salud]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436505</guid>
+
+					<description><![CDATA[<p>Un análisis internacional realizado por la Universitat Rovira i Virgili, el Institut de Recerca Biomèdica Catalunya Sud y el CIBEROBN relaciona la calidad de los hidratos de carbono con el riesgo de muerte. Publicado en Food &#38; Function, el trabajo indica que quienes consumen carbohidratos de mayor calidad presentan menor mortalidad, con una reducción más...</p>
+<p>The post <a href="https://occidente.co/secciones/salud/calidad-de-los-hidratos-de-carbono-relacionan-su-uso-con-mortalidad/">La calidad de los hidratos de carbono se asocia con menor mortalidad en adultos con alto riesgo cardiovascular</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un análisis internacional realizado por la Universitat Rovira i Virgili, el Institut de Recerca Biomèdica Catalunya Sud y el CIBEROBN relaciona la calidad de los hidratos de carbono con el riesgo de muerte.</strong></p>
+<p>Publicado en Food &amp; Function, el trabajo indica que quienes consumen carbohidratos de mayor calidad presentan menor mortalidad, con una reducción más clara en el riesgo de muerte por cáncer.</p>
+<p>Los autores trabajaron con 7 210 participantes del proyecto PREDIMED —hombres de 55 a 80 años y mujeres de 60 a 80— con alto riesgo cardiovascular, seguidos en promedio seis años.</p>
+<p><strong>Durante ese periodo se registraron 425 fallecimientos: 169 por cáncer y 103 por enfermedades cardiovasculares.</strong></p>
+<p>En comparación con quienes tenían una dieta de peor calidad en hidratos, el grupo con peor calidad presentó un 28 % más de riesgo de morir por cualquier causa y un 48 % más de riesgo de morir por cáncer.</p>
+<p>Para valorar la calidad se usó el Carbohydrate Quality Index (CQI), que combina cuatro elementos: contenido en fibra, proporción de cereales integrales frente a refinados, índice glucémico y la proporción de hidratos procedentes de alimentos sólidos frente a bebidas azucaradas.</p>
+<p>El estudio atribuye la asociación principalmente a una mayor ingesta de fibra y cereales integrales; quienes consumían menos fibra mostraron un 51 % más de riesgo de muerte por cualquier causa y un 72 % más de riesgo de muerte por cáncer.</p>
+<p>Analizado por separado, el índice glucémico no mostró una relación significativa con la mortalidad.</p>
+<h2>Calidad de los hidratos</h2>
+<p>Los investigadores señalan que los alimentos vegetales ricos en fibra aportan además vitaminas, minerales y compuestos bioactivos que mejoran la salud metabólica y pueden reducir el riesgo de enfermedades crónicas.</p>
+<p>Jordi Salas-Salvadó, catedrático de la URV y coautor, subraya que, más allá de la cantidad de hidratos, la calidad podría ser determinante para preservar la salud y aumentar la esperanza de vida.</p>
+<p>Los autores concluyen que, en esta población de riesgo cardiovascular, una estrategia sencilla para mejorar la salud es priorizar frutas, verduras, legumbres, frutos secos y cereales integrales, y reducir bebidas azucaradas y productos con harinas refinadas.</p>
+<p>Los resultados describen una asociación observada en este grupo y ofrecen argumentos para promover dietas con carbohidratos de mayor calidad, aunque la interpretación siempre requiere considerar el contexto clínico y poblacional.</p>
+<p>Referencia: Vázquez-Lorente H, Salas-Salvadó J et al. &#8220;Carbohydrate quality index and mortality risk in older adults at high cardiovascular risk&#8221;. Food &amp; Function, 2026. Fuente: URV; datos del proyecto PREDIMED.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generada con IA, a partir de información del Servicio de Información y Noticias Científicas, SINC. El contenido final fue revisado por un miembro del equipo de redacción del Diario Occidente.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/salud/calidad-de-los-hidratos-de-carbono-relacionan-su-uso-con-mortalidad/">La calidad de los hidratos de carbono se asocia con menor mortalidad en adultos con alto riesgo cardiovascular</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/salud/calidad-de-los-hidratos-de-carbono-relacionan-su-uso-con-mortalidad/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Descartan contaminación del aire tras una semana del sismo</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/calidad-del-aire-en-el-valle-del-cauca-secretaria-de-salud-descarta-riesgo/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/calidad-del-aire-en-el-valle-del-cauca-secretaria-de-salud-descarta-riesgo/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Tue, 18 Aug 2026 23:58:32 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436502</guid>
+
+					<description><![CDATA[<p>La secretaria de Salud del Valle, María Cristina Lesmes, precisó que los daños por el terremoto son focalizados y no hay riesgo de contaminación del aire. La funcionaria precisó que no existe una afectación generalizada de la calidad del aire causada por los daños del terremoto, que obligue al uso permanente de tapabocas de la...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/calidad-del-aire-en-el-valle-del-cauca-secretaria-de-salud-descarta-riesgo/">Descartan contaminación del aire tras una semana del sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La secretaria de Salud del Valle, María Cristina Lesmes, precisó que los daños por el terremoto son focalizados y no hay riesgo de contaminación del aire.</strong></p>
+<p>La funcionaria precisó que no existe una afectación generalizada de la calidad del aire causada por los daños del terremoto, que obligue al uso permanente de tapabocas de la población.</p>
+<p><strong>Esto ante información falsa que circula en redes sociales y audios en cadena sobre una supuesta contaminación.</strong></p>
+<p><em>“Los daños en el departamento del Valle del Cauca no son de un desastre extenso. A pesar de que en Cali hay un número muy importante de edificios caídos, ustedes saben que hay áreas, solamente áreas de destrozo y no es una cosa de una extensión inmensa como para decir que tenemos contaminación del aire. Solamente las personas que están cerca a esas áreas donde hay destrucción deberían usar un tapabocas; los que estamos lejos de ella no lo necesitamos”</em>, <strong>explicó la titular de la dependencia María Cristina Lesmes.</strong></p>
+<p>La recomendación del uso de tapabocas está dirigida principalmente a quienes permanecen cerca de edificaciones colapsadas, zonas de remoción de escombros o lugares donde hay alta presencia de polvo y material particulado.</p>
+<p><em>“Si es su caso, entonces use tapabocas para evitar que entren partículas de polvo a su sistema respiratorio, pero si usted vive en esos barrios donde no hubo daños, esté tranquilo porque no lo necesita”</em>, <strong>agregó.</strong></p>
+<p>Las autoridades de salud reiteraron el llamado a la ciudadanía a informarse a través de canales oficiales y evitar difundir mensajes que puedan generar alarma innecesaria durante la emergencia.</p>
+<p><strong>Por el momento, se mantiene activa la vigilancia epidemiológica en el departamento y, hasta la fecha, no se registra un incremento de enfermedades respiratorias asociado a la emergencia.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/calidad-del-aire-en-el-valle-del-cauca-secretaria-de-salud-descarta-riesgo/">Descartan contaminación del aire tras una semana del sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/calidad-del-aire-en-el-valle-del-cauca-secretaria-de-salud-descarta-riesgo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Valle entra a segunda fase de atención al sismo</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/segunda-fase-de-reconstruccion-en-el-valle-inician-las-tres-r/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/segunda-fase-de-reconstruccion-en-el-valle-inician-las-tres-r/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Tue, 18 Aug 2026 23:54:01 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436498</guid>
+
+					<description><![CDATA[<p>Con el fin de reconstruir al Valle del Cauca tras el sismo de la semana pasada, la Gobernación del Valle anunció el inicio de la segunda fase de atención a los damnificados. La gobernadora Dilian Francisca Toro, dijo que ”no nos podemos quedar en ayudas humanitarias, hoy empezamos el proceso de reconstrucción, ya estoy dando...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/segunda-fase-de-reconstruccion-en-el-valle-inician-las-tres-r/">Valle entra a segunda fase de atención al sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Con el fin de reconstruir al Valle del Cauca tras el sismo de la semana pasada, la Gobernación del Valle anunció el inicio de la segunda fase de atención a los damnificados.</strong></p>
+<p><strong>La gobernadora Dilian Francisca Toro, dijo que</strong> <em>”no nos podemos quedar en ayudas humanitarias, hoy empezamos el proceso de reconstrucción, ya estoy dando instrucciones para que comencemos con lo que tenemos y poseemos”</em>.</p>
+<p>Mientras continúa la recepción de ayudas humanitarias y los censos, la Gobernación del Valle del Cauca arrancó el proceso para recuperar viviendas, instituciones educativas, hospitales, centros comunitarios, vías y otras edificaciones afectadas por el terremoto.</p>
+<p><strong>Toro anunció el inicio de la segunda fase de atención, denominada las tres R: Reconstruir, Reparar y Reanimar, para atender las zonas afectadas por el terremoto ocurrido hace una semana.</strong></p>
+<p>La mandataria indicó que estas acciones se implementan una vez finalizada la fase de atención inmediata de la emergencia, durante la cual hasta ahora ha visitado los municipios de Zarzal, Roldanillo, El Águila, Ansermanuevo, Argelia, El Cairo, Toro, La Victoria, Versalles, La Unión, Bolívar, Riofrío, Trujillo, Cali y Buenaventura, donde ha estado dos veces.</p>
+<p>Además de la coordinación con el Puesto de Mando Unificado, las alcaldías y el Gobierno nacional, para la articulación de las ayudas.</p>
+<p><em>“Al tiempo que trabajamos en la parte humanitaria, estamos trabajando en el censo de viviendas, escuelas, hospitales, centros comunitarios. Para eso estamos complementando el trabajo con ingenieros estructuralistas, porque hay casas, hospitales y colegios que hay que demoler, y así de esa manera nosotros poder empezar la reconstrucción de todo esto que nos ha afectado muchísimo”</em>, <strong>indicó la Gobernadora</strong>, al explicar que en el tema de vivienda, hay algunas que deben ser acondicionadas para que sean habitables, <em>“los alcaldes ya están haciendo el censo casa por casa, y esta misma semana les mandamos materiales para que ya no estén en albergues”</em>.</p>
+<p>El Cairo y Argelia ya empezaron a recibir materiales para las atenciones urgentes en viviendas.</p>
+<p>Ahora, “en Buenaventura, que está bastante afectado, vamos a arrancar con la reconstrucción de 90 viviendas que son palafíticas, que son con madera, la misma comunidad las van a hacer, pero les vamos a pagar el día.</p>
+<p><strong>Eso nos va a costar más o menos 4.000 millones de pesos”, agregó.</strong></p>
+<p>A través de la Secretaría Departamental de Salud se organizará el tema de salud en Buenaventura, y con el Comité de Cafeteros se trabajará en la recuperación de vías rurales.</p>
+<p>Además, se van a redireccionar recursos que el departamento tenía destinados a proyectos específicos para atender la reconstrucción.</p>
+<p><strong>Por ejemplo,</strong><em> “teníamos un convenio con el Gobierno nacional por $35.000 millones que habíamos cofinanciado nosotros. Hablé con la Ministra de Educación y le dije que los redireccionaremos a las sedes más afectadas. El lunes próximo comenzamos las clases”</em>, <strong>dijo la mandataria</strong>, al explicar que se acondicionarán albergues educativos provisionales en donde la infraestructura de colegios fue afectada y se instalarán antenas satelitales para que continúen las clases.</p>
+<p>La gobernadora Dilian Francisca Toro enfatizó en que la Gobernación del Valle no recibirá dinero, el Fondo Todos Somos Valle, en convenio con el Comité Intergremial, dirige las donaciones a una cuenta del gremio, que compra materiales y lo que se requiere para la reconstrucción.</p>
+<h2>Llamado a la nación por alivios</h2>
+<p>Implementar medidas fiscales excepcionales para acelerar la reconstrucción de las zonas afectadas por el terremoto del pasado 10 de agosto, solicitó al Gobierno nacional la gobernadora Dilian Francisca Toro.</p>
+<p>Entre los cuales se encuentra la exoneración del IVA para materiales de construcción en las zonas afectadas y el desahorro excepcional del Fonpet, amnistía tributaria con reducción del 100 % de sanciones e intereses de mora, entre otras herramientas extraordinarias para reconstruir viviendas, hospitales, escuelas y vías, para devolver esperanza y dignidad a las familias afectadas, concluyó la mandataria vallecaucana.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/segunda-fase-de-reconstruccion-en-el-valle-inician-las-tres-r/">Valle entra a segunda fase de atención al sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/segunda-fase-de-reconstruccion-en-el-valle-inician-las-tres-r/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cuando el “like” estorba: el llamado a influencers y creadores de contenido en las zonas del terremoto</title>
+		<link>https://occidente.co/secciones/tendencias/uso-redes-sociales-emergencias-terremoto-creadores-contenido/</link>
+					<comments>https://occidente.co/secciones/tendencias/uso-redes-sociales-emergencias-terremoto-creadores-contenido/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 18 Aug 2026 23:47:54 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436491</guid>
+
+					<description><![CDATA[<p>El celular se convirtió en una de las primeras cosas que muchas personas sacan del bolsillo cuando ocurre algo extraordinario. Gracias a esa posibilidad de registrar prácticamente todo, durante el terremoto y en los días posteriores han circulado imágenes que han permitido conocer daños, necesidades de las comunidades y dimensiones de la emergencia que de...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/uso-redes-sociales-emergencias-terremoto-creadores-contenido/">Cuando el “like” estorba: el llamado a influencers y creadores de contenido en las zonas del terremoto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El celular se convirtió en una de las primeras cosas que muchas personas sacan del bolsillo cuando ocurre algo extraordinario.</p>
+<p>Gracias a esa posibilidad de registrar prácticamente todo, durante el terremoto y en los días posteriores han circulado imágenes que han permitido conocer daños, necesidades de las comunidades y dimensiones de la emergencia que de otra manera quizá habrían tardado mucho más en conocerse.</p>
+<p>Las redes sociales también han servido para encontrar personas, movilizar donaciones, divulgar información útil y visibilizar comunidades que necesitan ayuda.</p>
+<p>El problema aparece cuando la tragedia deja de documentarse para comenzar a utilizarse como escenario.</p>
+<p>En zonas afectadas por el terremoto, donde trabajan rescatistas, organismos de socorro, voluntarios, trabajadores de servicios públicos y familias intentando recuperar lo poco que quedó de sus viviendas o negocios, una persona buscando el mejor ángulo puede convertirse en algo mucho más serio que una simple molestia, puede convertirse en un obstáculo.</p>
+<h2>La imagen nunca puede estar por encima del rescate</h2>
+<p>Una zona de emergencia no es un escenario abierto para producir contenido.</p>
+<p>Hay vehículos que necesitan entrar y salir, maquinaria removiendo escombros, estructuras que pueden ser inestables, cables eléctricos, fugas, vidrios, materiales desprendidos y personas trabajando bajo condiciones difíciles.</p>
+<p>En ese contexto, detenerse en medio de una vía para grabar, ingresar a un lugar restringido, acercarse demasiado a una operación de rescate o pedirle a alguien que repita una acción para obtener una mejor toma puede interferir con quienes están allí cumpliendo una tarea esencial.</p>
+<p><strong>Hay una regla sencilla que debería imponerse sobre cualquier necesidad de publicar:</strong> si para obtener una imagen alguien tiene que interrumpir su trabajo, modificar su recorrido o pedirle a quien graba que se retire, esa persona probablemente está donde no debería estar.</p>
+<p>Un video puede esperar. Una ambulancia, un rescatista o una familia buscando sus pertenencias no. El dolor de una persona tampoco es contenido libre y existe además una frontera que no es física, sino ética.</p>
+<p>Una familia sentada frente a lo que quedó de su vivienda puede producir una fotografía conmovedora.</p>
+<p>Una persona llorando después de perder su negocio puede generar un video poderoso. El rostro de alguien esperando noticias de un familiar puede conseguir miles de reproducciones.</p>
+<p><strong>Pero antes de levantar el teléfono debería existir una pregunta:</strong> ¿Esa persona quiere ser grabada en uno de los momentos más difíciles de su vida? Ser víctima de una tragedia no elimina el derecho a la intimidad, mucho menos debería convertirse el sufrimiento en una competencia por conseguir la imagen más dramática. Hay situaciones en las que guardar el celular puede ser una expresión de humanidad mucho mayor que publicar.</p>
+<h3>No todo el que llega a ayudar está ayudando</h3>
+<p>La solidaridad posterior al terremoto también ha generado una enorme movilización hacia los sectores afectados. Eso es valioso, pero incluso las buenas intenciones necesitan organización.</p>
+<p>Llegar con vehículos, acompañantes, cámaras y equipos a una zona donde ya existe congestión puede dificultar las operaciones. Entregar ayudas sin coordinación puede generar aglomeraciones.</p>
+<p>Convocar seguidores hacia un punto específico puede aumentar innecesariamente el número de personas en un lugar donde precisamente se necesita espacio para trabajar.</p>
+<p>Antes de desplazarse, la pregunta no debería ser “<em>¿qué puedo grabar?</em>”, sino “<em>¿mi presencia es realmente necesaria?</em>”</p>
+<p>Si la respuesta es no, quizá la mejor manera de ayudar sea amplificar desde otro lugar la información de los organismos oficiales, divulgar puntos autorizados de donación o utilizar una comunidad digital para conseguir aquello que realmente están solicitando los damnificados.</p>
+<h4>Los seguidores también significan responsabilidad</h4>
+<p><strong>Los influencers y creadores de contenido poseen algo extraordinariamente valioso durante una emergencia:</strong> audiencia.</p>
+<p>Una persona con miles o millones de seguidores puede conseguir en pocas horas lo que una pequeña organización tardaría días en movilizar.</p>
+<p>Puede encontrar donantes, conseguir una máquina para un emprendedor que la perdió, llenar un centro de acopio o lograr que una necesidad desconocida llegue hasta una empresa capaz de resolverla.</p>
+<p>Ese poder también implica responsabilidad.</p>
+<p>Antes de publicar información sobre personas desaparecidas, necesidades urgentes, supuestos riesgos, nuevas réplicas o daños debería verificarse su procedencia.</p>
+<p><strong>En una emergencia, una información falsa no solamente desinforma:</strong> puede generar miedo, movilizar personas hacia lugares equivocados o saturar recursos que se necesitan en otro punto.</p>
+<p>Tener una gran audiencia no convierte automáticamente a alguien en periodista, rescatista o autoridad. Pero sí aumenta las consecuencias de aquello que publica.</p>
+<h2>¿Cómo crear contenido sin convertirse en parte del problema?</h2>
+<p>Hay criterios básicos que deberían aplicarse durante estos días. Respetar cualquier perímetro establecido por las autoridades; nunca bloquear vías o accesos; no ingresar a estructuras afectadas buscando imágenes; mantener distancia de maquinaria y operaciones de rescate; solicitar autorización antes de grabar primeros planos de damnificados y evitar mostrar personas heridas, fallecidas o atravesando situaciones íntimas.</p>
+<p>También resulta fundamental no pedir a rescatistas, voluntarios o damnificados que detengan lo que están haciendo para atender una transmisión.</p>
+<p>Si existe una instrucción de retirarse, se cumple. No se discute por conseguir una toma más.</p>
+<p><strong>Y si la presencia de un creador de contenido no aporta nada a la emergencia, existe otra posibilidad enormemente poderosa:</strong> no ir.</p>
+<p>Hay contenidos que pueden salvar y otros que solamente buscan vistas</p>
+<p>Sería injusto desconocer que las redes sociales están desempeñando un papel importante en la respuesta al terremoto.</p>
+<p>Muchos creadores han puesto sus comunidades al servicio de campañas, emprendimientos afectados, recolección de ayudas y divulgación de información.</p>
+<h3>Precisamente por eso vale la pena hacer la diferencia:</h3>
+<p>El problema no es grabar, el problema es estorbar para grabar.</p>
+<p>No es publicar una historia, es convertir el dolor ajeno en escenografía.</p>
+<p>No es conseguir alcance, es buscarlo a cualquier costo.</p>
+<p>Cali necesitará durante semanas y probablemente meses la capacidad de convocatoria de quienes tienen comunidades digitales.</p>
+<p>Pero quizá esta emergencia también deje una enseñanza para quienes viven de producir contenido: no todas las imágenes que pueden conseguirse deben conseguirse y no todo lo que puede publicarse merece ser publicado.</p>
+<p>Frente a una tragedia, el número más importante nunca debería ser el de reproducciones, seguidores o “<em>me gusta</em>”.</p>
+<p>Es el número de personas a las que nuestra presencia realmente puede ayudar.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/uso-redes-sociales-emergencias-terremoto-creadores-contenido/">Cuando el “like” estorba: el llamado a influencers y creadores de contenido en las zonas del terremoto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/uso-redes-sociales-emergencias-terremoto-creadores-contenido/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>40 municipios del Cauca están afectados</title>
+		<link>https://occidente.co/regionales/cauca/afectaciones-por-el-sismo-en-el-cauca-reporte-en-40-municipios/</link>
+					<comments>https://occidente.co/regionales/cauca/afectaciones-por-el-sismo-en-el-cauca-reporte-en-40-municipios/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Tue, 18 Aug 2026 23:41:32 +0000</pubDate>
+				<category><![CDATA[Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436490</guid>
+
+					<description><![CDATA[<p>Las autoridades del Cauca reportaron afectaciones por el sismo del pasado 10 de agosto en 40 de los 42 municipios de este departamento, de acuerdo con los últimos censos adelantados en este territorio. Según los informes oficiales 3.228 familias, unas 11.973 personas, resultaron afectadas en la región y 184 viviendas fueron destruidas y otras 3.071...</p>
+<p>The post <a href="https://occidente.co/regionales/cauca/afectaciones-por-el-sismo-en-el-cauca-reporte-en-40-municipios/">40 municipios del Cauca están afectados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Las autoridades del Cauca reportaron afectaciones por el sismo del pasado 10 de agosto en 40 de los 42 municipios de este departamento, de acuerdo con los últimos censos adelantados en este territorio.</strong></p>
+<p>Según los informes oficiales 3.228 familias, unas 11.973 personas, resultaron afectadas en la región y 184 viviendas fueron destruidas y otras 3.071 presentan diferentes niveles de daños.</p>
+<p><strong>La emergencia también alcanzó a 202 establecimientos educativos, tres clínicas, 16 centros de salud y 23 templos religiosos.</strong></p>
+<p>En varios municipios se registraron daños en redes esenciales, sistemas de acueducto, plazas de mercado y centros culturales.</p>
+<p>Los puestos de mando unificados permanecen activos para coordinar la respuesta y orientar las ayudas hacia las comunidades damnificadas.</p>
+<p>Entre los municipios más golpeados está Buenos Aires, en el norte del Cauca donde se reportan preliminarmente cinco viviendas destruidas, 34 con fallas estructurales, 17 sedes educativas comprometidas y daños considerables en la Casa de la Cultura.</p>
+<p><strong>Además, cuatro vías de acceso presentan afectaciones.</strong></p>
+<p>Ante la falta de recursos para atender la emergencia, el alcalde Paulo César Peña decretó la calamidad pública para gestionar apoyo departamental y nacional.</p>
+<p>En materia de asistencia, el Cauca recibió 2.000 kits de alimentos y aseo, gestionados con apoyo de la Federación Nacional de Departamentos y el Ejército Nacional.</p>
+<p><strong>A esto se suman más de 80 toneladas de ayudas humanitarias recolectadas gracias a la solidaridad de los caucanos.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/cauca/afectaciones-por-el-sismo-en-el-cauca-reporte-en-40-municipios/">40 municipios del Cauca están afectados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/cauca/afectaciones-por-el-sismo-en-el-cauca-reporte-en-40-municipios/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Qué dice Ventana sobre la tragedia por terremoto?&#8230; Lea</title>
+		<link>https://occidente.co/opinion/ventana/terremoto-colombia-solidaridad-reconstruccion-valle/</link>
+					<comments>https://occidente.co/opinion/ventana/terremoto-colombia-solidaridad-reconstruccion-valle/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 18 Aug 2026 23:34:19 +0000</pubDate>
+				<category><![CDATA[Ventana]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436485</guid>
+
+					<description><![CDATA[<p>Falavi2005@yahoo.com @falavi2005 Para tener en cuenta: El terremoto 7.4 que resquebrajó a Cali y al resto del Valle, al eje cafetero y a Chocó, especialmente sus capitales (Cali, Pereira, Manizales y Quibdó), despertó la solidaridad no solo en la región afectada, sino también en el resto del país, demostrando que la polarización política a la...</p>
+<p>The post <a href="https://occidente.co/opinion/ventana/terremoto-colombia-solidaridad-reconstruccion-valle/">¿Qué dice Ventana sobre la tragedia por terremoto?&#8230; Lea</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em>Falavi2005@yahoo.com</em><br />
+<em>@falavi2005</em></p>
+<h2>Para tener en cuenta:</h2>
+<p>El terremoto 7.4 que resquebrajó a Cali y al resto del Valle, al eje cafetero y a Chocó, especialmente sus capitales (Cali, Pereira, Manizales y Quibdó), despertó la solidaridad no solo en la región afectada, sino también en el resto del país, demostrando que la polarización política a la que nos han llevado no ha podido terminar con ese gran sentimiento de hermandad, de cercanía y colombianidad; así lo demuestran las toneladas de ayudas recogidas y despachadas hacia los focos de la tragedia.</p>
+<p>Sumen la acción de los voluntarios, los bomberos, defensa civil, la Cruz Roja, la Policía, las fuerzas armadas, el sector de la salud y el apoyo internacional, al igual que el sector privado…y los colombianos en general, sin olvidar el apoyo directo de numerosos países… Se demuestra que, en Colombia, a la solidaridad no es una palabra, sino un sentimiento de hermandad…</p>
+<h2>Entre Tomates y Fresas:</h2>
+<ul>
+<li><strong>Tomates:</strong> muchos y bien podridos para los que han intentado convertir la tragedia por el terremoto en una batalla política y hasta politiquera. Quienes así han obrado se han llevado tremendos baños de impopularidad en las redes sociales. Esta clase de conductas, además de contraproducentes, son lesivas y hasta cargadas de odios y torpezas.</li>
+<li><strong>Fresas:</strong> por montañas y bien sabrosas para el presidente Abelardo de la Espriella, la gobernadora del Valle, Dilian Francisca Toro, y el alcalde de Cali, Alejandro Eder, por la forma en que vienen manejando la atención de la tragedia, incluyendo el acompañamiento a los damnificados y dolientes. Desde aquí hago votos para que la reconstrucción comience con prontitud, transparencia y mucho sentido humano.</li>
+</ul>
+<h3>Al César lo que es del César:</h3>
+<p>En los departamentos afectados por el terremoto se requiere, con urgencia, activar el año lectivo, tanto presencial como virtual, para que los niños se vuelvan a beneficiar del Plan Alimenticio Escolar -PAE-, pues para muchos este programa les garantiza su única alimentación… Durante la pandemia se pudo garantizar el suministro de los alimentos, luego la experiencia tiene trazabilidad y es posible ajustarla para superar errores que se pudieron haber cometido, si es que los hubo. El PAE debe regresar con prontitud.</p>
+<h3>La Pregunta Fregona:</h3>
+<p><strong>¿Qué dijo entre líneas el procurador Gregorio Eljach al manifestar: El Contralor de la República y el director de la Registraduría Nacional, a los que me sume, mediante la prevención, hicieron posible que sí hubiera elecciones, pues en Colombia no iba a haber elecciones…?</strong></p>
+<p><strong><em>(Esto es una denuncia de suma gravedad y como tal debe ser asumida…)</em></strong>.</p>
+<h4>Las “Ultimas” del Periodismo:</h4>
+<p><strong>Un acierto del presidente Abelardo de ala Espriella, la gerente de Inravisión, Angela Mora, y el director del Servicio informativo de RTVC</strong>, poner fin a la estrategia que había consagrado el 90% de la programación de Señal Colombia y demás sistemas de medios públicos de la Nación a promocionar al presidente y al gobierno salientes, lo mismo que sus ideologías…</p>
+<p>Sin duda que Inravisión y su sistema de medios convencionales y virtuales deben estar dedicados a la cultura, las expresiones ciudadanas, la educación y todo aquello que signifique la colombianidad… En últimas, no son del gobierno de turno, son de la Nación, de la república y el país de todos.</p>
+<p>Mi voz de solidaridad con todos los colegas afectados, directa e indirectamente, por el terremoto.</p>
+<p>Algunos de ellos están sumidos en el dolor de haber perdido seres muy queridos. Va un abrazo especial.</p>
+<p><strong><em>Chao… Nos vemos mañana… Gracias a DIOS por todo…y a Usted por ser Ventanalector…</em></strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/opinion/ventana/terremoto-colombia-solidaridad-reconstruccion-valle/">¿Qué dice Ventana sobre la tragedia por terremoto?&#8230; Lea</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/ventana/terremoto-colombia-solidaridad-reconstruccion-valle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Buenaventura recibe apoyo por sismo</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/atencion-a-la-emergencia-en-buenaventura-apoyos-en-salud-y-vivienda/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/atencion-a-la-emergencia-en-buenaventura-apoyos-en-salud-y-vivienda/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Tue, 18 Aug 2026 23:29:44 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=436484</guid>
+
+					<description><![CDATA[<p>La atención a las familias afectadas por el terremoto del pasado 10 de agosto continúa en Buenaventura, donde autoridades nacionales, departamentales y distritales avanzan en el censo de viviendas, la entrega de ayudas humanitarias y la recuperación de infraestructura. La emergencia también impactó instituciones educativas y servicios hospitalarios. Ante la reducción de la capacidad del...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/atencion-a-la-emergencia-en-buenaventura-apoyos-en-salud-y-vivienda/">Buenaventura recibe apoyo por sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La atención a las familias afectadas por el terremoto del pasado 10 de agosto continúa en Buenaventura, donde autoridades nacionales, departamentales y distritales avanzan en el censo de viviendas, la entrega de ayudas humanitarias y la recuperación de infraestructura.</strong></p>
+<p>La emergencia también impactó instituciones educativas y servicios hospitalarios.</p>
+<p>Ante la reducción de la capacidad del hospital Luis Ablanque de la Plata, el buque hospital Benkos Biohó amplió la atención médica desde el 14 de agosto, con quirófano, rayos X, laboratorio y servicios especializados.</p>
+<p><strong>Además, se anunció el envío de más de 260 kilos de medicamentos, insumos y dispositivos médicos, así como personal especializado.</strong></p>
+<p>En paralelo, continúan las ollas comunitarias, las donaciones y los vuelos humanitarios.</p>
+<p>El sector portuario también avanza: la Sociedad Portuaria Regional recuperó el 100 % de su capacidad, mientras TCBUEN opera al 70 %.</p>
+<p>La Gobernación explicó que las familias recibirán atención según el nivel de daño: materiales para reparaciones menores, mejoramientos para afectaciones mayores y apoyo para reconstruir las viviendas que quedaron completamente destruidas.</p>
+<p>Este fin de semana, la gobernadora del Valle del Cauca, Dilian Francisca Toro, y el presidente Abelardo de la Espriella verificaron las acciones en vivienda y salud en el distrito.</p>
+<p><strong>Así mismo pidieron apoyo del sector privado mediante donaciones de materiales para facilitar la reconstrucción de viviendas.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/atencion-a-la-emergencia-en-buenaventura-apoyos-en-salud-y-vivienda/">Buenaventura recibe apoyo por sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/atencion-a-la-emergencia-en-buenaventura-apoyos-en-salud-y-vivienda/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

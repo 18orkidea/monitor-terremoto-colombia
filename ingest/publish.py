@@ -9,8 +9,9 @@ import csv
 import io
 import json
 
-from common import db, today, DATA, PUBLIC
+from common import db, today, anterior_al_sismo, DATA, FECHA_SISMO, PUBLIC
 from geo import wkt_to_geojson
+from sources.community_feeds import dominio
 
 ESTADO_LABEL = {
     "coincide": "Coincide cualitativamente",
@@ -108,13 +109,22 @@ def run() -> dict:
 
     # titulares de prensa guardados como evidencia (hasta 3 por AOI)
     prensa_por_aoi: dict = {}
-    for r in conn.execute(
-            "SELECT aoi_name, cita, fuente, fecha, url FROM evidence"
-            " WHERE tipo='prensa' AND snapshot_date="
+    # El medio sale de `news_items` cuando la pieza vino de un feed: `evidence`
+    # guarda una firma, pero no distingue una cabecera declarada de un nombre
+    # de feed, y la portada necesita esa diferencia para no llamar «medio» a
+    # «Google News — Istmina». Las piezas del EMM de GDACS no están en
+    # `news_items` (LEFT JOIN sin pareja): ahí `fuente` ya es la cabecera.
+    for aoi, cita, fuente, fecha, url, propia, canonico, dom in conn.execute(
+            "SELECT e.aoi_name, e.cita, e.fuente, e.fecha, e.url,"
+            "       n.url IS NOT NULL, n.medio_canonico, n.medio_dominio"
+            " FROM evidence e LEFT JOIN news_items n ON n.url = e.url"
+            " WHERE e.tipo='prensa' AND e.snapshot_date="
             " (SELECT MAX(snapshot_date) FROM evidence WHERE tipo='prensa')"
-            " ORDER BY fecha"):
-        prensa_por_aoi.setdefault(r[0], []).append(
-            {"titular": r[1], "medio": r[2], "fecha": r[3], "url": r[4]})
+            " ORDER BY e.fecha"):
+        prensa_por_aoi.setdefault(aoi, []).append(
+            {"titular": cita, "medio": fuente, "fecha": fecha, "url": url,
+             "medio_canonico": canonico if propia else fuente,
+             "medio_dominio": dom if propia else dominio(url or "")})
 
     aois, features = [], []
     for aoi, r in best.items():
@@ -142,11 +152,14 @@ def run() -> dict:
         {"type": "FeatureCollection", "features": features}, ensure_ascii=False))
 
     # serie de los feeds abiertos del monitor (por fecha de publicación del
-    # titular; >= 2026-08-08 para excluir artículos históricos que el filtro
-    # de palabras clave atrapa en los RSS)
+    # titular). El corte es el del corpus entero —FECHA_SISMO, ver common.py—:
+    # antes esta serie cortaba dos días antes por su cuenta y el resto del
+    # sitio no cortaba, así que el mismo titular contaba o no según la página.
+    # Única diferencia con `anterior_al_sismo()`: aquí un titular sin fecha
+    # tampoco entra, porque una serie diaria no tiene día donde ponerlo.
     feeds_por_dia = dict(conn.execute(
         "SELECT substr(fecha,1,10) d, COUNT(*) FROM news_items"
-        " WHERE fecha >= '2026-08-08' GROUP BY d"))
+        " WHERE fecha >= ? GROUP BY d", (FECHA_SISMO,)))
 
     media = [dict(zip(["fecha", "emm", "gdelt", "fuentes", "chatmap"], r))
              for r in conn.execute(
@@ -355,7 +368,13 @@ def run() -> dict:
     from sources.community_feeds import feed_index
     feeds = feed_index()
 
-    def noticia(fecha, titulo, medio, url, origen, extra_text="", feed=None):
+    def noticia(fecha, titulo, medio, url, origen, extra_text="", feed=None,
+                medio_canonico=None, medio_dominio=None):
+        # El medio canónico NO entra en el texto que se cruza con topónimos: un
+        # medio llamado «El País Cali» o «Diario del Cauca» atribuiría a un
+        # municipio noticias que no lo mencionan (R10 vigila lo contrario, las
+        # coincidencias parciales, pero esto sería una atribución de pleno
+        # derecho por el nombre de la cabecera).
         text = f"{titulo} {medio or ''} {extra_text or ''}"
         municipios = set(match_municipios_text(text))
         departamentos = set(match_departamentos_text(text, sorted(municipios)))
@@ -364,31 +383,60 @@ def run() -> dict:
             departamentos.update(feed.get("departamentos") or [])
         return {
             "fecha": fecha, "titulo": titulo[:200], "medio": medio, "url": url,
+            # `medio` es el feed que trajo la pieza; `medio_canonico` es la
+            # cabecera que la firma, según el propio RSS. Contar medios por el
+            # primero cuenta feeds, no periódicos.
+            "medio_canonico": medio_canonico, "medio_dominio": medio_dominio,
             "origen": origen,
             "aois": match_text_to_aois(text),
             "municipios": sorted(municipios),
             "departamentos": sorted(departamentos),
         }
 
-    noticias = []
+    # Los titulares anteriores al sismo no entran (ver FECHA_SISMO en
+    # common.py). No se pierden —siguen en news_items, en los snapshots y en
+    # sources_log—: dejan de contarse, porque hablan de otros sismos. El
+    # descarte se cuenta y sale en el resumen de la corrida: un filtro que no
+    # deja rastro de cuánto tira no es auditable.
+    noticias, previas = [], 0
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
         f = d / "gdacs_emm.json"
         if f.exists():
             for x in json.loads(f.read_text()):
                 titulo = (x.get("title") or "").strip()
+                # En el EMM de GDACS el enlace es directo al medio y `source`
+                # ya nombra la cabecera (en minúsculas, «theprint»): aquí el
+                # medio nunca estuvo escondido. Mismo rasero que el <source>
+                # del RSS: un `source` vacío es ausencia de dato, no un medio
+                # llamado «» que engordaría el recuento de cabeceras.
+                fecha = (x.get("pubdate") or "")[:19]
+                if anterior_al_sismo(fecha):
+                    previas += 1
+                    continue
                 noticias.append(noticia(
-                    (x.get("pubdate") or "")[:19], titulo, x.get("source"),
+                    fecha, titulo, x.get("source"),
                     x.get("link"), "gdacs-emm",
                     extra_text=(x.get("description") or "")[:300],
-                    feed=feeds.get("gdacs-emm")))
+                    feed=feeds.get("gdacs-emm"),
+                    medio_canonico=(x.get("source") or "").strip() or None,
+                    medio_dominio=dominio(x.get("link") or "")))
             break
-    for url, fid, fecha, titulo, medio in conn.execute(
-            "SELECT url, feed_id, fecha, titulo, medio FROM news_items"):
+    for url, fid, fecha, titulo, medio, medio_canonico, medio_dominio in conn.execute(
+            "SELECT url, feed_id, fecha, titulo, medio, medio_canonico,"
+            " medio_dominio FROM news_items"):
+        if anterior_al_sismo(fecha):
+            previas += 1
+            continue
         noticias.append(noticia(
-            fecha, titulo, medio, url, fid, feed=feeds.get(fid)))
+            fecha, titulo, medio, url, fid, feed=feeds.get(fid),
+            medio_canonico=medio_canonico, medio_dominio=medio_dominio))
     noticias.sort(key=lambda n: n.get("fecha") or "", reverse=True)
+    # `previas_al_sismo` viaja en el producto público, no solo por el stdout de
+    # la corrida: los logs de Actions caducan y un filtro que no dice cuánto
+    # tira desde el propio dato no es auditable.
     (PUBLIC / "noticias.json").write_text(json.dumps(
-        {"generado": snap, "total": len(noticias), "items": noticias},
+        {"generado": snap, "total": len(noticias),
+         "previas_al_sismo": previas, "desde": FECHA_SISMO, "items": noticias},
         ensure_ascii=False))
 
     # Municipios en el área de influencia: menciones de prensa + intensidad
@@ -466,8 +514,43 @@ def run() -> dict:
     # Excluir el AOI regional: cubre el área de influencia completa, pero no
     # equivale a una zona urbana analizada con producto de daño.
     extents_detalle = {k: v for k, v in extents.items() if k != "Western Colombia"}
+    # UNOSAT por municipio: la segunda mirada satelital entra en la capa de
+    # municipios con etiqueta propia — no se funde con las cifras de
+    # Copernicus, que son estadísticas revisadas por AOI y no puntos
+    # fotointerpretados sin validar en campo.
+    from sources.unosat import GLIDE as UNOSAT_GLIDE, paquete_vigente
+    unosat_por_mun = {}
+    sha_vigente = paquete_vigente(conn)
+    for mun, dano, code, fecha, n in conn.execute(
+            "SELECT municipio, dano, event_code, MAX(sensor_date), COUNT(*)"
+            " FROM unosat_damage WHERE municipio IS NOT NULL AND paquete_sha=?"
+            " GROUP BY municipio, dano, event_code", (sha_vigente,)):
+        d = unosat_por_mun.setdefault(mun, {"edificios": 0, "observados": 0,
+                                            "posibles": 0, "otros_eventos": 0,
+                                            "fecha_imagen": None})
+        # 8 puntos de Manizales llegan etiquetados EQ20260822COL, un evento
+        # fechado DESPUÉS de su publicación. No se suman al terremoto ni se
+        # tiran: se cuentan aparte, porque la etiqueta es de la fuente y
+        # corregirla por nuestra cuenta sería inventar.
+        if (code or "").upper() != UNOSAT_GLIDE:
+            d["otros_eventos"] += n
+            continue
+        d["edificios"] += n
+        # la fuente escribe «Damage» en unas capas y «Damaged» en otras para lo
+        # mismo; «Possible Damage» es la hipótesis, no el hallazgo
+        if (dano or "").lower().startswith("possible"):
+            d["posibles"] += n
+        elif dano:
+            d["observados"] += n
+        # sin grado no hay observación: ni posible ni observado (R3). Queda
+        # contado en `edificios`, que es lo que UNOSAT miró.
+        d["fecha_imagen"] = max(d["fecha_imagen"] or "", fecha or "") or None
+
+    from sources.community_feeds import municipal_google_news_feeds
+    con_busqueda = {f["municipio"] for f in municipal_google_news_feeds()}
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
-                                                 poblacion, rud_por_mun, divipola)
+                                                 poblacion, rud_por_mun, divipola,
+                                                 unosat_por_mun, con_busqueda)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))
@@ -545,7 +628,8 @@ def run() -> dict:
 
     conn.close()
     return {"aois": len(aois), "citizen": len(cit_feats), "sismos_hist": len(sismos),
-            "media_dias": len(media), "noticias": len(noticias)}
+            "media_dias": len(media), "noticias": len(noticias),
+            "noticias_previas_al_sismo": previas}
 
 
 if __name__ == "__main__":

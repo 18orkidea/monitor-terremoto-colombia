@@ -145,5 +145,133 @@ class TestSupuestosFeeds(unittest.TestCase):
                          "revisar el filtro de proximidad de municipios.py")
 
 
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestoFuenteEnGoogleNews(unittest.TestCase):
+    """El nombre del medio de la mitad del corpus depende de un contrato ajeno:
+    que el RSS de Google News siga declarando `<source url="…">Nombre</source>`.
+
+    Es el único sitio donde ese dato viaja: el `<link>` apunta al agregador y
+    el sufijo del titular no es fiable. Si Google deja de emitir la etiqueta,
+    las noticias nuevas entrarían con `medio_canonico` en NULL y el sitio
+    dejaría de nombrar medios sin que nadie se entere — R11 existe para que
+    eso avise en vez de degradarse en silencio. Romperse aquí no es un bug:
+    es la señal de que hay que buscar el medio por otra vía."""
+
+    URL = ("https://news.google.com/rss/search?q=%22terremoto%22+%22colombia%22"
+           "&hl=es-CO&gl=CO&ceid=CO:es")
+
+    def test_el_rss_sigue_declarando_source_con_url(self):
+        import xml.etree.ElementTree as ET
+        from common import fetch
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest" / "sources"))
+        from community_feeds import parse_rss
+
+        st, body = fetch(self.URL, note=NOTA_SONDA)
+        self.assertEqual(st, 200, "Google News no responde: sonda inconcluyente")
+        items = list(ET.fromstring(body).iter("item"))
+        self.assertTrue(items, "el feed llegó sin items: revisar la búsqueda")
+        con_fuente = [i for i in items if i.find("source") is not None]
+        self.assertEqual(
+            len(con_fuente), len(items),
+            "Google News dejó de declarar <source> en algún item: el medio de "
+            "las noticias nuevas se queda sin recuperar (ver docs/DECISIONES.md, "
+            "2026-08-19) — hay que buscar otra vía antes de que el hueco crezca")
+        self.assertTrue(
+            all(i.find("source").get("url") for i in con_fuente),
+            "<source> ya no trae atributo url: medio_dominio se queda en NULL")
+        self.assertTrue(
+            parse_rss(body)[0]["medio_canonico"],
+            "el parseo del proyecto ya no extrae el medio de este feed")
+
+    def test_el_enlace_sigue_sin_llevar_al_medio(self):
+        """El reverso del supuesto anterior, y una buena noticia si se rompe:
+        el día que el feed publique la URL del medio, `url` dejará de apuntar
+        al agregador y la limitación documentada desaparecerá."""
+        from common import fetch
+        st, body = fetch(self.URL, note=NOTA_SONDA)
+        self.assertEqual(st, 200)
+        import xml.etree.ElementTree as ET
+        enlaces = [(i.findtext("link") or "") for i in ET.fromstring(body).iter("item")]
+        directos = [u for u in enlaces if "news.google.com" not in u]
+        self.assertFalse(
+            directos,
+            f"¡el feed ya publica enlaces al medio ({directos[:2]})! Revisar "
+            "docs/LIMITACIONES.md: la URL original ha dejado de perderse")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosUnosat(unittest.TestCase):
+    """UNITAR-UNOSAT: el Centro Satelital de la ONU (https://unosat.org).
+
+    No hay API documentada: estos supuestos describen los dos endpoints JSON
+    que sirven a la web y de los que cuelga la capa de daño del monitor.
+    """
+
+    LISTADO = "https://unosat.org/our_products/"
+    GLIDE = "EQ20260810COL"
+
+    def test_el_listado_sigue_sirviendo_json(self):
+        st, d = fetch_json(self.LISTADO, note=NOTA_SONDA)
+        if st != 200 or not d:
+            self.skipTest(
+                f"UNOSAT no responde (HTTP {st}): la capa sobrevive con los "
+                f"snapshots de data/snapshots/*/unosat_shapefiles.zip; si el "
+                f"cierre es definitivo, congelar la fuente y documentarlo en "
+                f"docs/LIMITACIONES.md")
+        self.assertIn("products", d, "el listado cambió de forma")
+        self.assertTrue(all("map_event" in p for p in d["products"]))
+
+    def test_el_listado_sigue_sin_paginar(self):
+        """El módulo consulta también los ids ya conocidos PORQUE el listado
+        es una ventana fija sin filtros. Si algún día acepta paginación o
+        filtro por GLIDE, la fuente puede simplificarse — sería buena noticia
+        (R11): el histórico dejaría de depender de lo ya visto."""
+        st, base = fetch_json(self.LISTADO, note=NOTA_SONDA)
+        if st != 200 or not base:
+            self.skipTest("UNOSAT no responde")
+        st2, filtrado = fetch_json(self.LISTADO, {"glide": self.GLIDE},
+                                   note=NOTA_SONDA)
+        if st2 != 200 or not filtrado:
+            self.skipTest("UNOSAT no responde al filtro")
+        self.assertEqual(
+            [p["map_event"]["id"] for p in base["products"]],
+            [p["map_event"]["id"] for p in filtrado["products"]],
+            "¡el listado ahora filtra por GLIDE! Simplificar "
+            "unosat._productos_del_evento(): ya no hace falta consultar los "
+            "ids conocidos para no perder el histórico")
+
+    def test_el_detalle_trae_los_enlaces_de_descarga(self):
+        st, d = fetch_json("https://unosat.org/our_products/4253",
+                           note=NOTA_SONDA)
+        if st != 200 or not d:
+            self.skipTest(f"UNOSAT no responde (HTTP {st})")
+        m = d["map_event"]
+        self.assertEqual(m["glide"], self.GLIDE)
+        for campo in ("shp_link", "pdf_name", "created_at", "title"):
+            self.assertIn(campo, m, f"el detalle ya no trae {campo}")
+        self.assertIn("latitude", d)
+
+    def test_el_paquete_de_shapefiles_sigue_siendo_uno_solo(self):
+        """Los productos 4251, 4252 y 4253 publican el MISMO zip. La fuente
+        deduplica por sha256 contando con ello; si un día divergen, cada uno
+        aportará datos propios y habrá MÁS cobertura, no menos — hay que
+        revisar el resumen de la corrida, no arreglar nada a la carrera."""
+        import hashlib
+        from common import fetch
+        shas = {}
+        for pid in (4251, 4253):
+            st, body = fetch(
+                f"https://unosat.org/static/unosat_filesystem/{pid}/"
+                f"EQ20260810COL_SHP.zip", note=NOTA_SONDA)
+            if st != 200 or not body:
+                self.skipTest(f"el paquete de {pid} no responde (HTTP {st})")
+            shas[pid] = hashlib.sha256(body).hexdigest()
+        self.assertEqual(
+            shas[4251], shas[4253],
+            "los paquetes de UNOSAT ya NO son idénticos: cada producto "
+            "aporta datos propios. Revisar el conteo de unosat.run() — "
+            "puede haber cobertura nueva que antes se descartaba por duplicada")

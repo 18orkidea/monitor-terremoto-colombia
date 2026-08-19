@@ -19,6 +19,8 @@
   --s7: #4a3aa7;   /* ciudadano */
   --s8: #8a5a1d;   /* solo registro municipal (RUD) */
   --good: #0a850a;      /* coincide · 4,6:1 como texto sobre el fondo claro */
+  --s9: #0f8f8f;   /* evaluado por UNOSAT (2.º satélite) */
+  --good: #0ca30c;      /* coincide */
   --warning: #fab219;   /* pendiente */
   --critical: #d03b3b;
 }
@@ -39,6 +41,7 @@
     --s8: #c99a52;
     --muted: #8f8d87;     /* sobre fondo oscuro hay que aclarar, no oscurecer */
     --good: #0ca30c;      /* el verde vivo recupera contraste en oscuro (5,8:1) */
+    --s9: #2fb3b3;
   }
 }
 * { box-sizing: border-box; }
@@ -138,6 +141,16 @@ th[title], th[data-tip] { cursor: help; text-decoration: underline dotted color-
   position: fixed; z-index: 1200; line-height: 1.5; font-weight: 400;
   text-align: left; white-space: normal;
 }
+/* Cabecera ordenable. Va DESPUÉS de th[title] a propósito: las cabeceras
+   llevan explicación (cursor help) y además se pueden pulsar — gana el
+   puntero, que es la acción, y el subrayado punteado sigue avisando de que
+   hay texto explicativo debajo. */
+th.ord { cursor: pointer; user-select: none; white-space: nowrap; }
+th.ord:hover, th.ord:focus-visible { color: var(--ink-2); }
+th.ord::after { content: "↕"; opacity: .35; margin-left: 4px; font-size: 10px; }
+th.ord[aria-sort="ascending"]::after { content: "▲"; opacity: 1; }
+th.ord[aria-sort="descending"]::after { content: "▼"; opacity: 1; }
+th.ord[aria-sort="ascending"], th.ord[aria-sort="descending"] { color: var(--s1); }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
@@ -453,3 +466,7 @@ a.metric-card:hover { border-color: var(--s1); }
 .mapa-enlace:hover .mapa-estatico,
 .mapa-enlace:focus-visible .mapa-estatico { border-color: var(--s1); }
 .mapa-enlace:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+/* «vía Google News»: el enlace no lleva al medio sino al agregador, y eso se
+   dice en la propia línea de firma en vez de dejar que el lector lo descubra
+   al hacer clic. */
+.via { color: var(--muted); font-style: italic; }

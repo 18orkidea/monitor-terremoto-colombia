@@ -15,10 +15,12 @@ from __future__ import annotations
 
 import json
 
-from common import db, snapshot_dir
+from common import INSTANTE_SISMO, db, snapshot_dir
 from geo import MMIGrid, point_in_wkt_polygon
 
-QUAKE_TS = "2026-08-10T12:30:00"
+# el instante vive en common.py: el monitor no puede tener dos fechas del
+# mismo terremoto (ver FECHA_SISMO)
+QUAKE_TS = INSTANTE_SISMO
 
 
 def _bbox_area(wkt: str) -> float:

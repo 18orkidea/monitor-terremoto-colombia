@@ -48,12 +48,78 @@
     .sort((a, b) => (b.personas || 0) - (a.personas || 0));
   const buscar = document.getElementById("rud-buscar");
   if (buscar) buscar.placeholder = `Buscar entre los ${munis.length} municipios registrados…`;
-  tablaBuscable({
+
+  // ---- filtros: chips excluyentes + departamento, combinables con el buscador
+  const CHIPS = [
+    { id: "todos", label: "Todos", test: () => true },
+    { id: "nuevos", label: "Nuevos", test: (m) => !!m.nuevo,
+      tip: "Municipios que aparecieron por primera vez en la última captura" },
+    { id: "crecieron", label: "Crecieron en la última captura",
+      test: (m) => (m.delta_familias || 0) > 0,
+      tip: "Su registro subió respecto a la captura anterior: siguen registrando" },
+    { id: "destruidas", label: "Con viviendas destruidas",
+      test: (m) => (m.viv_destruidas || 0) > 0,
+      tip: "El municipio ya ha cargado viviendas destruidas. Que un municipio no salga aquí puede ser que aún no las haya evaluado" },
+  ];
+  let chipActivo = "todos";
+  let depto = "";
+
+  const contenedorChips = document.getElementById("rud-chips");
+  if (contenedorChips) {
+    contenedorChips.innerHTML = CHIPS.map((c) => {
+      const n = munis.filter(c.test).length;
+      return `<button class="chip${c.id === chipActivo ? " activa" : ""}" data-chip="${c.id}"` +
+        `${c.tip ? ` title="${c.tip}"` : ""}>${c.label} (${n})</button>`;
+    }).join("");
+    contenedorChips.onclick = (ev) => {
+      const b = ev.target.closest("[data-chip]");
+      if (!b) return;
+      chipActivo = b.dataset.chip;
+      contenedorChips.querySelectorAll("[data-chip]").forEach((x) =>
+        x.classList.toggle("activa", x.dataset.chip === chipActivo));
+      pinta({ reiniciar: true });
+    };
+  }
+
+  const selDepto = document.getElementById("rud-depto");
+  if (selDepto) {
+    const cuenta = {};
+    munis.forEach((m) => { cuenta[m.departamento] = (cuenta[m.departamento] || 0) + 1; });
+    selDepto.add(new Option(`Todos los departamentos (${munis.length})`, ""));
+    // localeCompare, no .sort() a secas: por code point CÓRDOBA caería DESPUÉS
+    // de CUNDINAMARCA en cuanto el AOI crezca
+    Object.keys(cuenta).sort((a, b) => a.localeCompare(b, "es")).forEach((d) =>
+      selDepto.add(new Option(`${d} (${cuenta[d]})`, d)));
+    selDepto.onchange = () => { depto = selDepto.value; pinta({ reiniciar: true }); };
+  }
+
+  const chipDe = (id) => CHIPS.find((c) => c.id === id) || CHIPS[0];
+
+  // Las columnas llevan su propio nombre para que la nota al pie diga el
+  // criterio de orden vigente sin mantener una lista paralela que se desfase.
+  const COLUMNAS = (() => {
+    const th = [...document.querySelectorAll("#rud-tabla thead th")];
+    const porNombre = (a, b) => a.municipio.localeCompare(b.municipio, "es");
+    return [
+      { nombre: "municipio", valor: (m) => `${m.municipio} ${m.departamento}` },
+      { nombre: "familias", valor: (m) => m.familias },
+      { nombre: "personas", valor: (m) => m.personas },
+      { nombre: "población", valor: (m) => m.poblacion_2026 },
+      { nombre: "% de población", valor: (m) => m.tasa_pct },
+      { nombre: "viviendas destruidas", valor: (m) => m.viv_destruidas },
+      { nombre: "viviendas averiadas", valor: (m) => m.viv_averiadas },
+      { nombre: "cambio del día", valor: (m) => m.delta_familias },
+    ].map((c, i) => ({ ...c, th: th[i], desempate: i ? porNombre : undefined }));
+  })();
+
+  const pinta = tablaBuscable({
     tbody: document.querySelector("#rud-tabla tbody"),
     input: buscar,
     rows: munis,
     paginado: document.getElementById("paginado"),
     porPagina: TOP,
+    filtroExtra: (m) => chipDe(chipActivo).test(m) && (!depto || m.departamento === depto),
+    columnas: COLUMNAS,
     texto: (m) => `${m.municipio} ${m.departamento}`,
     fila: (m) =>
       `<tr><td><strong>${m.municipio}</strong>${m.nuevo ? ' <span class="badge" style="--bc:var(--good)">nuevo</span>' : ""}<br><span style="color:var(--muted)">${m.departamento}</span></td>` +
@@ -63,17 +129,27 @@
       `<td class="num">${fmt(m.viv_destruidas)}</td><td class="num">${fmt(m.viv_averiadas)}</td>` +
       `<td class="num">${m.delta_familias == null ? "—" : (m.delta_familias >= 0 ? "+" : "") + fmt(m.delta_familias)}</td></tr>`,
     nota: document.getElementById("rud-nota"),
-    notaTexto: (q, visibles, total) => (q
-      ? `${visibles} de ${total} municipios registrados coinciden con la búsqueda. `
-      : `${total} municipios registrados (${fmt(ult.familias)} familias en total), ` +
-        `ordenados por personas damnificadas, de ${TOP} en ${TOP}. `) +
-      `La columna Δ compara con el día anterior de la serie; «nuevo» marca municipios que ` +
-      `entraron al registro hoy. Serie iniciada el ${fechaEs(serie[0].fecha)}.` +
-      (serie.some((d) => d.reconstruido)
-        ? ` Los puntos huecos de la curva no son capturas del RUD: se reconstruyeron ` +
-          `desde otra evidencia archivada porque ese día se perdió la corrida, y de ` +
-          `ellos solo se conoce el total, no el detalle municipal.`
-        : ""),
+    notaTexto: (q, visibles, total, orden) => {
+      // el criterio lo manda la cabecera pulsada, si hay alguna: la nota no
+      // puede seguir anunciando el orden inicial cuando ya no rige
+      const criterio = orden
+        ? `ordenados por ${COLUMNAS[orden.i].nombre} en orden ` +
+          `${orden.dir === "asc" ? "ascendente" : "descendente"}`
+        : "ordenados por personas damnificadas";
+      const cabeza = (q || chipActivo !== "todos" || depto)
+        ? `${visibles} de ${total} municipios registrados con los filtros activos, `
+        : `${total} municipios registrados (${fmt(ult.familias)} familias en total), `;
+      return cabeza + `${criterio}, de ${TOP} en ${TOP}. ` +
+        `La columna Δ compara con la captura anterior; «nuevo» marca los municipios que ` +
+        `aparecieron por primera vez el ${fechaEs(ult.fecha)}. Serie iniciada el ` +
+        `${fechaEs(serie[0].fecha)}. Un cero en las columnas de viviendas puede significar ` +
+        `«todavía sin evaluar», no «sin daño».` +
+        (serie.some((d) => d.reconstruido)
+          ? ` Los puntos huecos de la curva no son capturas del RUD: se reconstruyeron ` +
+            `desde otra evidencia archivada porque ese día se perdió la corrida, y de ` +
+            `ellos solo se conoce el total, no el detalle municipal.`
+          : "");
+    },
     vacio: `Sin coincidencias entre los municipios registrados. Que un municipio no ` +
       `aparezca significa «sin registro aún», no «sin daño».`,
   });

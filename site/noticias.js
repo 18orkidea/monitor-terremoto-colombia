@@ -1,7 +1,7 @@
 /* Página de titulares: lista completa con filtros por zona, fuente y texto.
    Usa ui.js (fetchJson, fmt). */
 (async function () {
-  const { fmt, fetchJson } = window.UI;
+  const { fmt, fetchJson, medioDe, viaGoogleNews, esc } = window.UI;
   const data = await fetchJson("/data/public/noticias.json");
   if (!data) {
     document.getElementById("resumen").textContent =
@@ -51,7 +51,7 @@
     const q = document.getElementById("buscar").value.toLowerCase();
     const fa = selA.value, fd = selD.value, fm = selM.value, fo = selO.value;
     const hay = (n) => [
-      n.titulo, n.medio, n.origen, ...(n.aois || []),
+      n.titulo, n.medio, n.medio_canonico, n.origen, ...(n.aois || []),
       ...(n.departamentos || []), ...(n.municipios || [])
     ].join(" ").toLowerCase();
     const sel = items.filter((n) =>
@@ -68,10 +68,14 @@
       (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "") +
       ` · actualizado ${data.generado}`;
     lista.innerHTML = sel.slice(desde, desde + POR_PAGINA).map((n) =>
-      `<li><span class="meta-n">${(n.fecha || "").slice(0, 16).replace("T", " ")} · ${n.medio || n.origen}</span>` +
-      (n.aois || []).map((a) => `<span class="badge" style="--bc:var(--s1)" title="${a}">${aoiEs(a)}</span>`).join("") +
-      (n.departamentos || []).map((d) => `<span class="badge" style="--bc:var(--warning)">${d}</span>`).join("") +
-      (n.municipios || []).map((m) => `<span class="badge" style="--bc:var(--s2)">${m}</span>`).join("") +
+      `<li><span class="meta-n">${(n.fecha || "").slice(0, 16).replace("T", " ")}` +
+      `${medioDe(n) ? ` · ${esc(medioDe(n))}` : ""}` +
+      (viaGoogleNews(n)
+        ? ` · <span class="via" title="Google News recopila titulares de otros medios. El enlace que publica su feed lleva ahí, no a la página del medio.">vía Google News</span>`
+        : "") + `</span>` +
+      (n.aois || []).map((a) => `<span class="chip" title="${a}">${aoiEs(a)}</span>`).join("") +
+      (n.departamentos || []).map((d) => `<span class="chip dep">${d}</span>`).join("") +
+      (n.municipios || []).map((m) => `<span class="chip mun">${m}</span>`).join("") +
       `<br><a href="${n.url}" target="_blank" rel="noopener">${n.titulo}</a></li>`).join("") ||
       "<li>Nada que mostrar con estos filtros.</li>";
     window.UI.paginador(pagEl, paginas, pagina, (p) => {

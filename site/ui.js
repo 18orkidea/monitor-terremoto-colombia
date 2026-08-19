@@ -27,6 +27,11 @@ window.UI = (function () {
   const ESTADO_MUNICIPIO = {
     en_aoi: ["En zona Copernicus", "--s1",
              "El municipio cae dentro de una zona con producto de daño de Copernicus"],
+    evaluado_unosat: ["Evaluado por UNOSAT", "--s9",
+                      "El centro satelital de la ONU evaluó allí edificio a " +
+                      "edificio, fuera de toda zona de Copernicus. Es " +
+                      "fotointerpretación sobre imagen de muy alta resolución, " +
+                      "no validada en campo por la propia fuente"],
     intensidad_alta: ["Intensidad alta", "--warning",
                       "Intensidad percibida DYFI ≥ 6, sin producto de daño"],
     mencion_prensa: ["Mencionado en prensa", "--s2",
@@ -54,6 +59,57 @@ window.UI = (function () {
       ? `, salvo ${homs.join(" y ")}, que se llaman igual que un departamento y ` +
         `a los que el monitor no puede atribuir titulares.`
       : ".";
+  }
+
+  /* Damnificados sin una línea de prensa. La afirmación se construye sola y en
+     TRES niveles, porque no todos los ceros valen lo mismo:
+       - `ciertos`: topónimo sin ambigüedad Y búsqueda propia de prensa. Es el
+         único nivel que AFIRMA: se preguntó y no hubo respuesta.
+       - `dudosos`: su nombre exige co-mención del departamento, así que el cero
+         puede ser del filtro; y de ellos, `sin_busqueda` son aquellos por los
+         que el monitor ni siquiera pregunta (entraron solos desde el RUD).
+       - `sin_atribucion`: se llaman igual que un departamento. No tienen cero,
+         tienen ausencia de dato (R3), así que no entran en ningún total — pero
+         se nombran, porque son los más invisibles de todos.
+     Si un día no quedara ninguno mudo, devuelve null y el banner desaparece en
+     vez de mentir (R11). */
+  function silencioDePrensa(items) {
+    const suma = (xs) => xs.reduce((t, m) => t + (m.rud_personas || 0), 0);
+    const conRud = (items || []).filter((m) => m.rud_personas);
+    const mudos = conRud.filter((m) => m.n_noticias === 0)
+      .sort((a, b) => b.rud_personas - a.rud_personas);
+    if (!mudos.length) return null;
+    // `=== true`, no `!== false`: si el campo faltara —porque alguien llame a
+    // build_municipios sin el conjunto de búsquedas, o por un JSON viejo—, los
+    // municipios por los que el monitor NUNCA preguntó caerían en el nivel que
+    // afirma «preguntamos y no hubo nada», que es justo la falsedad que este
+    // nivel existe para impedir. La cadena entera falla cerrada.
+    const ciertos = mudos.filter(
+      (m) => !m.requiere_depto && !m.homonimo_de_departamento
+             && m.busqueda_propia === true);
+    const dudosos = mudos.filter((m) => !ciertos.includes(m));
+    // el texto afirma la CAUSA («se llaman igual que un departamento»), así que
+    // el filtro tiene que comprobarla, no solo el síntoma de la celda vacía
+    const sinAtribucion = conRud.filter(
+      (m) => m.n_noticias == null && m.homonimo_de_departamento);
+    // el techo se calcula por TASA, no por número de personas: decir «hasta el
+    // X %» y que otro de la propia lista lo supere sería falso
+    const conTasa = ciertos.filter((m) => m.tasa_rud_pct != null);
+    const techo = conTasa.length
+      ? conTasa.reduce((a, b) => (b.tasa_rud_pct > a.tasa_rud_pct ? b : a))
+      : null;
+    return {
+      mudos: mudos.length, personas: suma(mudos),
+      ciertos: ciertos.map((m) => m.municipio),
+      personas_ciertas: suma(ciertos),
+      dudosos: dudosos.length,
+      sin_busqueda: dudosos.filter((m) => m.busqueda_propia === false).length,
+      sin_atribucion: sinAtribucion.length,
+      personas_sin_atribucion: suma(sinAtribucion),
+      techo: techo
+        ? { municipio: techo.municipio, tasa_rud_pct: techo.tasa_rud_pct }
+        : null,
+    };
   }
 
   const norm = (s) => (s || "").normalize("NFD")
@@ -94,22 +150,61 @@ window.UI = (function () {
       b.onclick = () => onPage(+b.dataset.p));
   }
 
+  /* Comparador para una columna: los nulos SIEMPRE al final, suban o bajen —
+     un municipio sin dato no puede encabezar la tabla al ordenar por esa
+     columna. Empate resuelto por `desempate` para que el orden sea estable. */
+  function comparador(valor, dir, desempate) {
+    const vacio = (v) => v === null || v === undefined || v === "";
+    return (a, b) => {
+      const va = valor(a), vb = valor(b);
+      if (vacio(va) && vacio(vb)) return desempate ? desempate(a, b) : 0;
+      if (vacio(va)) return 1;
+      if (vacio(vb)) return -1;
+      let c;
+      if (typeof va === "number" && typeof vb === "number") c = va - vb;
+      else c = String(va).localeCompare(String(vb), "es");
+      if (c !== 0) return dir === "desc" ? -c : c;
+      return desempate ? desempate(a, b) : 0;
+    };
+  }
+
   /* Tabla con buscador: todas las filas quedan disponibles para la búsqueda,
      pero sin filtro solo se muestran las `top` primeras — salvo que se pase
      `paginado` (elemento), en cuyo caso la tabla se pagina entera de
      `porPagina` en `porPagina` (también los resultados de búsqueda).
      opts: tbody, input (opcional), rows, top, fila(r)->html <tr>,
            texto(r)->string indexable, nota (elemento opcional),
-           notaTexto(q, visibles, total)->string, vacio (html opcional),
-           paginado (elemento opcional), porPagina (número opcional). */
+           notaTexto(q, visibles, total, orden)->string — `orden` es null o
+             {i, dir}, para que la nota no afirme un criterio que ya no rige,
+           vacio (html opcional),
+           paginado (elemento opcional), porPagina (número opcional),
+           filtroExtra(r)->bool (opcional; la página compone ahí sus chips y
+             selects — esta función no sabe qué controles existen),
+           columnas: [{th, valor(r), desempate?}] (opcional; hace clicables las
+             cabeceras y ordena ANTES de paginar).
+     Devuelve `pinta(o)`; con `pinta({reiniciar:true})` vuelve a la página 1,
+     que es lo que necesita cualquier filtro externo al cambiar. */
   function tablaBuscable(opts) {
     const { tbody, input, rows, top, fila, texto, nota, notaTexto, vacio,
-            paginado, porPagina } = opts;
-    const idx = rows.map((r) => norm(texto(r)));
+            paginado, porPagina, columnas } = opts;
+    // Indexado por identidad, NO por posición: `filtroExtra` recorta las filas
+    // antes de que actúe el buscador, así que desde la primera fila descartada
+    // un índice posicional apuntaría al texto de otra fila.
+    const idx = new Map(rows.map((r) => [r, norm(texto(r))]));
     let pagina = 1;
-    const pinta = () => {
+    let orden = null;   // {i, dir}
+
+    const pinta = (o) => {
+      if (o && o.reiniciar) pagina = 1;
       const q = norm(input ? input.value.trim() : "");
-      const filtradas = q ? rows.filter((_, i) => idx[i].includes(q)) : rows;
+      let filtradas = rows;
+      if (opts.filtroExtra) filtradas = filtradas.filter(opts.filtroExtra);
+      if (q) filtradas = filtradas.filter((r) => (idx.get(r) || "").includes(q));
+      if (orden && columnas) {
+        const col = columnas[orden.i];
+        filtradas = [...filtradas].sort(
+          comparador(col.valor, orden.dir, col.desempate));
+      }
       let vista;
       if (paginado) {
         const pp = porPagina || top || filtradas.length;
@@ -118,15 +213,42 @@ window.UI = (function () {
         vista = filtradas.slice((pagina - 1) * pp, pagina * pp);
         paginador(paginado, paginas, pagina, (p) => { pagina = p; pinta(); });
       } else {
-        vista = q ? filtradas : rows.slice(0, top || rows.length);
+        vista = (q || opts.filtroExtra || orden)
+          ? filtradas : rows.slice(0, top || rows.length);
       }
       tbody.innerHTML = vista.length ? vista.map(fila).join("") :
         `<tr><td colspan="99" style="color:var(--muted)">${vacio || "Sin coincidencias."}</td></tr>`;
-      if (nota && notaTexto) nota.textContent = notaTexto(q, filtradas.length, rows.length);
+      if (nota && notaTexto)
+        nota.textContent = notaTexto(q, filtradas.length, rows.length, orden);
       return vista;
     };
+
+    (columnas || []).forEach((col, i) => {
+      if (!col.th) return;
+      col.th.classList.add("ord");
+      col.th.setAttribute("aria-sort", "none");
+      // el aviso lo pone quien hace ordenable la columna, no cada página
+      col.th.title = (col.th.title ? col.th.title + " " : "") + "Pulsa para ordenar.";
+      col.th.tabIndex = 0;
+      const alternar = () => {
+        orden = (orden && orden.i === i && orden.dir === "asc")
+          ? { i, dir: "desc" } : { i, dir: "asc" };
+        columnas.forEach((c, j) => {
+          if (!c.th) return;
+          c.th.setAttribute("aria-sort", j === i
+            ? (orden.dir === "asc" ? "ascending" : "descending") : "none");
+        });
+        pinta({ reiniciar: true });
+      };
+      // onclick (no addEventListener): pinta() puede ejecutarse más de una vez
+      col.th.onclick = alternar;
+      col.th.onkeydown = (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); alternar(); }
+      };
+    });
+
     // oninput (no addEventListener): el render puede ejecutarse más de una vez
-    if (input) input.oninput = () => { pagina = 1; pinta(); };
+    if (input) input.oninput = () => pinta({ reiniciar: true });
     pinta();
     return pinta;
   }
@@ -169,6 +291,41 @@ window.UI = (function () {
     return pinta;
   }
 
+  /* Ficha de un globo del mapa — el ÚNICO constructor de popups del sitio.
+
+     `filas` es [[etiqueta, valor], …]. Una fila cuyo valor está vacío no se
+     pinta: un globo jamás debe decir «Confianza: —», porque eso hace creer
+     que la fuente respondió a esa pregunta y dijo «nada». Si la fuente no
+     mide algo en ese punto, la pregunta no aparece.
+
+     Vacío es null, undefined, cadena vacía o NaN. El 0 NO es vacío: un cero
+     medido es un dato, y confundirlo con una ausencia es justo el error que
+     prohíbe la R3. `false` tampoco es vacío.
+
+     Cada fuente pasa sus propias etiquetas, en el vocabulario en que ella
+     publica: lo que Copernicus llama «grado de daño» y UNOSAT llama
+     «confianza del análisis» no se homogeneiza a un genérico que borraría en
+     qué se diferencian.
+
+     opts: {titulo, subtitulo?, filas?, pie?, html?} — `pie` va en gris al
+     final (procedencia), `html` es un bloque libre (una foto, un enlace). */
+  function fichaMapa(opts) {
+    const vacio = (v) => v === null || v === undefined || v === "" ||
+      (typeof v === "number" && Number.isNaN(v));
+    const partes = [];
+    if (opts.titulo) partes.push(`<strong>${opts.titulo}</strong>`);
+    if (!vacio(opts.subtitulo)) partes.push(String(opts.subtitulo));
+    for (const [etiqueta, valor] of opts.filas || []) {
+      if (vacio(valor)) continue;
+      partes.push(vacio(etiqueta) ? String(valor)
+        : `${etiqueta}: ${valor}`);
+    }
+    if (!vacio(opts.html)) partes.push(String(opts.html));
+    if (!vacio(opts.pie))
+      partes.push(`<span style="color:var(--muted)">${opts.pie}</span>`);
+    return partes.join("<br>");
+  }
+
   /* Tarjetas métricas: [{label, value, sub?, href?}] en un .metric-strip. */
   function metricCards(el, cards) {
     el.innerHTML = cards.map((c) => {
@@ -208,6 +365,29 @@ window.UI = (function () {
   const PUSH_BASE = "https://monitor-terremoto-colombia-push.inforesidencias.workers.dev";
   const VAPID_PUBLIC_KEY = "BBrMEN-T86OTPOCsTn6CbJSnqaLJeOGWjaVnNbe8WB6RCwEXaDORqDVWxnD-6jhBr3g5XkD72fce-jEKQDycAwc";
   const TELEGRAM_CANAL = "https://t.me/terremotoCO2026";
+
+  /* ---- medio de una noticia (regla compartida: página de titulares, fichas
+     municipales y cualquier recuento de pluralidad).
+
+     Tres campos que no son lo mismo y conviene no confundir:
+       · `medio`          — el FEED que trajo la pieza («Google News — Nóvita»)
+       · `medio_canonico` — la cabecera que la firma, según el propio RSS
+       · `url`            — a dónde lleva el enlace, que en los feeds de Google
+                            News NO es el medio sino news.google.com
+
+     Cuando no consta la cabecera y el enlace pasa por Google News, no se
+     inventa: se dice de dónde viene el enlace y ya. Poner ahí el nombre del
+     feed daría por medio lo que es una búsqueda. */
+  const viaGoogleNews = (n) => /(^|\.)news\.google\.com$/.test(hostDe(n.url || ""));
+
+  function hostDe(url) {
+    try { return new URL(url).hostname.toLowerCase(); } catch (e) { return ""; }
+  }
+
+  function medioDe(n) {
+    if (n.medio_canonico) return n.medio_canonico;
+    return viaGoogleNews(n) ? null : (n.medio || n.origen || null);
+  }
 
   /* ---- balances en medios: selección del mejor snapshot (regla compartida;
      la marca is_liveblog original la pone el worker — test de paridad en
@@ -373,9 +553,11 @@ window.UI = (function () {
   }
 
   return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
-           fraseHomonimos, norm, cssVar, esc, fetchJson, tablaBuscable, tablaHidratada,
-           paginador, metricCards,
+           fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc,
+           fetchJson, tablaBuscable, tablaHidratada, paginador, metricCards,
+           fichaMapa,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
+           medioDe, viaGoogleNews, hostDe,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };
 })();
