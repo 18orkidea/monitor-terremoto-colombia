@@ -259,3 +259,47 @@ Consecuencia para el archivo: al salir de la corrida, nada volvería a avisar si
 el JSON versionado desapareciera. Tres tests de hipótesis nuevos
 (`TestReferenciasEstaticas`) vigilan que la población y el catálogo DIVIPOLA
 sigan disponibles y que ningún municipio publicado se quede sin población.
+
+## 2026-08-18 · El manual de estilo es el de EL PAÍS, con excepciones americanas
+
+Contexto: el sitio empieza a generar textos por código (fichas municipales), así
+que el estilo deja de ser algo que se cuida a mano página por página y pasa a
+replicarse noventa y cinco veces. Hacía falta una referencia externa y comprobable
+en lugar del criterio de quien escriba ese día.
+
+Decisión: se adopta el **Libro de estilo de EL PAÍS** (11.ª edición) como
+referencia de redacción, gramática, números y siglas, y se crea el agente
+`revisor-estilo` que lo aplica citando la norma por su número. El manual **no se
+commitea** —es material con derechos—: en el repositorio solo viven las reglas
+destiladas, que son normas de uso, no texto ajeno.
+
+Excepciones deliberadas, porque el manual es español de España de 1996 y este
+monitor se escribe para Colombia:
+
+1. **«sismo», no «seísmo».** El manual prefiere «seísmo» de forma expresa. Es un
+   españolismo: en América se dice «sismo», y es lo que publica el Servicio
+   Geológico Colombiano, que es nuestra fuente. Escribir «seísmo» distanciaría el
+   texto de las personas de las que trata.
+2. **Comillas angulares «».** El manual las prohíbe y exige las inglesas. El sitio
+   ya usa angulares en todas partes y son el estándar tipográfico del español: se
+   mantienen, y no se reformatea lo existente (el blame también es archivo).
+3. **Intensidad en escala de Mercalli modificada (MMI) con decimales**, no MSK 1964
+   en números romanos, porque MMI es la que publica el USGS de donde viene el dato.
+4. **Léxico institucional colombiano** sin adaptar: alcaldía, gobernación,
+   damnificado, corregimiento, vereda, cabecera municipal.
+
+Dos normas del manual se incorporan como obligación y no como recomendación,
+porque tocan el rigor y no solo la forma:
+
+- **El condicional del rumor queda prohibido** (12.37): nada de «habrían sido
+  registradas» ni «podría estar afectado». Además de galicismo, resta credibilidad
+  — y en un monitor cuya única moneda es la trazabilidad, decir quién lo afirma y
+  cuándo es siempre posible.
+- **Ninguna sigla sin su enunciado completo la primera vez** (9.19). Es la norma que
+  el sitio más incumplía: RUD, UNGRD, DIVIPOLA, EDAN, AOI, DYFI y MMI aparecían sin
+  desarrollar en páginas que un lector puede abrir directamente desde un buscador.
+
+Reparto de competencias entre agentes: `revisor-estilo` se ocupa de cómo está
+escrito; `auditor-editorial` sigue siendo el único que juzga si una cifra puede
+publicarse y con qué atribución. Cuando una norma de estilo choque con una regla
+del proyecto (R1–R15), manda el proyecto.

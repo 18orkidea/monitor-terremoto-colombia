@@ -95,8 +95,10 @@ Ningún cambio está terminado sin sus 6 casillas:
 ## Flujo de trabajo con agentes
 
 idea → diseño (plan mode si toca >2 archivos) → implementación (sesión principal) →
-revisión: **auditor-editorial** (textos/cifras visibles) y/o **archivista** (ingesta/
-datos/workflows), en paralelo → **revisor-qa** (última puerta) → commit/PR.
+revisión: **auditor-editorial** (qué se afirma y con qué atribución), **revisor-estilo**
+(cómo está escrito: Libro de estilo de EL PAÍS con excepciones americanas, ver
+`docs/DECISIONES.md`) y/o **archivista** (ingesta/datos/workflows), en paralelo →
+**revisor-qa** (última puerta) → commit/PR.
 Alta de fuente nueva: usar la skill `nueva-fuente` (checklist completa).
 
 ## Memoria de trabajo (solo este ordenador)
