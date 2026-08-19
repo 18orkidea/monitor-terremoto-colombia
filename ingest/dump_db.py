@@ -11,6 +11,11 @@ Convenciones del formato (¡no cambiar sin migrar los dumps existentes!):
     todo lo demás es su str(). La afinidad de tipos de sqlite reconvierte
     números al reinsertar.
   - Filas ordenadas por clave primaria (o rowid) → diffs deterministas.
+  - El alias del rowid (`id INTEGER PRIMARY KEY`) NO se vuelca: lo reparte
+    sqlite al insertar y lo vuelve a repartir si las filas se recrean, así que
+    en el CSV solo generaba diffs falsos. `rebuild` lo regenera. Los dumps
+    anteriores a esta convención se siguen leyendo tal cual: la inserción es
+    por nombre de columna, así que un CSV que traiga `id` conserva el suyo.
 
 Uso:
   python ingest/dump_db.py dump      # sqlite → data/dumps/*.csv
@@ -33,10 +38,36 @@ NULO = "\\N"
 TABLAS = re.findall(r"CREATE TABLE IF NOT EXISTS (\w+)", SCHEMA)
 
 
+def _es_rowid(info: list) -> str | None:
+    """Nombre de la columna que es alias del rowid, si la tabla tiene una.
+
+    Un `id INTEGER PRIMARY KEY` no es un dato: es el número que sqlite reparte
+    al insertar, y lo reparte otra vez si las filas se recrean. `evidence` lo
+    hace cada día (`crosscheck` borra y reinserta la evidencia automática del
+    día), así que 27 de sus 100 líneas cambiaban de valor sin que cambiara
+    nada real. En un repositorio que es archivo, un diff que miente sobre lo
+    que pasó cuesta más que la columna que ahorra.
+    """
+    for _, nombre, tipo, _, _, pk in info:
+        if pk == 1 and (tipo or "").upper() == "INTEGER":
+            return nombre
+    return None
+
+
 def _columnas(conn: sqlite3.Connection, tabla: str) -> tuple[list[str], list[str]]:
+    """Columnas a volcar y orden del volcado.
+
+    El alias del rowid se omite: no se vuelca y `rebuild` deja que sqlite lo
+    reparta de nuevo al insertar, en el mismo orden. Los dumps anteriores al
+    cambio siguen reconstruyéndose sin tocar nada, porque `rebuild` inserta por
+    nombre de columna: si el CSV trae `id`, se respeta.
+    """
     info = conn.execute(f"PRAGMA table_info({tabla})").fetchall()
     cols = [r[1] for r in info]
     pk = [r[1] for r in sorted((r for r in info if r[5]), key=lambda r: r[5])]
+    rowid = _es_rowid(info)
+    if rowid:
+        cols = [c for c in cols if c != rowid]
     return cols, pk
 
 

@@ -471,3 +471,32 @@ Su silencio es, en parte, silencio del monitor. Los cinco del primer nivel sí l
 tienen —los cinco—, y entre ellos hay dos situaciones distintas: en Bagadó,
 Guática y Mistrató la búsqueda no ha devuelto nunca nada, y en Quinchía y Guacarí
 solo devolvió titulares anteriores al sismo, que ya no cuentan.
+## 2026-08-19 — Los dumps dejan de volcar el `id` que sqlite reparte
+
+Contexto: `data/dumps/evidence.csv` cambiaba 27 de sus 100 líneas en cada corrida
+sin que cambiara un solo dato. La causa no es un error: `crosscheck` borra y
+reinserta cada día la evidencia automática de prensa (`match_news_to_aois`), y
+sqlite reparte `id` nuevos al reinsertar. Como el dump volcaba esa columna, el
+`git diff` diario mostraba movimiento donde no había noticia.
+
+Decisión: `dump_db` no vuelca el alias del rowid (`id INTEGER PRIMARY KEY`).
+`rebuild` deja que sqlite lo reparta de nuevo al insertar, en el mismo orden.
+Afecta a `evidence` y a `sources_log`; la segunda solo crece por el final, así
+que ahí el cambio es una reescritura única sin efecto posterior.
+
+Por qué se puede: ese número no es un dato. Nadie lo referencia —no hay claves
+foráneas en el esquema— y no identifica nada que no identifiquen ya las columnas
+reales. Lo que sí es dato (qué se pidió, cuándo, con qué sha256) sigue entero.
+
+Compatibilidad: los dumps anteriores se siguen reconstruyendo tal cual, porque
+`rebuild` inserta por nombre de columna — un CSV que traiga `id` conserva el
+suyo. No hay migración que hacer ni snapshot que tocar.
+
+Se descartó arreglarlo por la causa (que `crosscheck` hiciera UPSERT en vez de
+DELETE+INSERT): habría exigido un índice único nuevo sobre `evidence`, la tabla
+que sostiene R1, con más riesgo que el que se quería evitar.
+
+Queda anotado lo que NO se hizo: el resultado de cada corrida (`RESULTS` de
+`run_daily`) sigue viviendo solo en los logs de GitHub Actions, con 90 días de
+retención. Dentro de dos años nadie podrá saber qué fuente falló un día
+cualquiera ni por qué falta un snapshot. Se decidió dejarlo así por ahora.
