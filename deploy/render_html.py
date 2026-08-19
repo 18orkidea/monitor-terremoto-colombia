@@ -559,7 +559,14 @@ def render_ficha(d: dict) -> str:
     # ---- mapa de situación
     o.append('<section class="page-section">')
     o.append(f'<h2>Dónde está {e(nombre)} y qué ha mirado el satélite</h2>')
+    # El SVG lleva al mapa interactivo de la portada, centrado en el municipio.
+    # Es un enlace, no una carga: la ficha sigue sin descargar Leaflet ni los
+    # geojson, que son megabytes que la mayoría de lectores no va a necesitar.
+    destino = f"/?municipio={urllib.parse.quote(nombre)}#mapa"
+    o.append(f'<a href="{destino}" class="mapa-enlace"'
+             f' aria-label="Abrir {e(nombre)} en el mapa interactivo">')
     o.append(mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"]))
+    o.append("</a>")
     o.append('<p class="leyenda">'
              f'<span class="badge" style="--bc:var(--s8)">{e(nombre)}</span>'
              '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
@@ -569,7 +576,7 @@ def render_ficha(d: dict) -> str:
         cerca = (f' La más próxima, {e(d["zonas"][0][0])}, está a '
                  f'{fmt(d["zonas"][0][2] / 1000, 0)} kilómetros.' if d["zonas"] else "")
         o.append(f'<p class="note">{e(nombre)} queda fuera de toda zona con producto satelital '
-                 f'de daño.{cerca} Sin producto satelital no hay cruce posible (R2): el registro '
+                 f'de daño.{cerca} Sin evaluación satelital no hay nada que cruzar: el registro '
                  f'municipal y los reportes de la comunidad son la única evidencia disponible.</p>')
     o.append('</section>')
 
@@ -631,7 +638,7 @@ def render_ficha(d: dict) -> str:
         o.append(f"<h2>Qué publicó la prensa sobre {e(nombre)}</h2>")
         o.append(f'<p>{fmt(len(d["titulares"]))} piezas recogidas por el monitor, de '
                  f'{len(medios)} medios identificados. La prensa nunca equivale a un balance '
-                 f'oficial (R9): aquí consta quién publicó y cuándo, no qué se verificó.</p>')
+                 f'oficial: aquí consta quién publicó y cuándo, no qué se verificó.</p>')
         o.append('<div class="tabla-scroll"><table>')
         o.append('<thead><tr><th>Fecha</th><th>Titular</th><th>Medio</th></tr></thead><tbody>')
         for t in d["titulares"][:40]:
@@ -673,7 +680,7 @@ def render_ficha(d: dict) -> str:
         o.append('<li><strong>Los reportes ciudadanos no están validados a mano.</strong> Han '
                  'superado la verificación automática (intensidad plausible, dentro de zona, '
                  'temporalidad, duplicados por hash), pero nada se marca como validado sin '
-                 'revisión humana (R6).</li>')
+                 'revisión humana.</li>')
     o.append("</ul></div></section>")
 
     # ---- trazabilidad

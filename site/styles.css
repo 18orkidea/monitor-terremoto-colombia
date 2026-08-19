@@ -445,3 +445,11 @@ a.metric-card:hover { border-color: var(--s1); }
   #site-nav .nav-links { gap: 4px; }
   #site-nav .nav-links a { padding: 4px 9px; font-size: 12.5px; }
 }
+
+/* Un mapa estático que lleva al interactivo. La ficha no carga Leaflet ni los
+   geojson —son megabytes que la mayoría de lectores no necesita—, así que la
+   imagen es el enlace y el mapa completo se pide expresamente. */
+.mapa-enlace { display: block; border-radius: 8px; }
+.mapa-enlace:hover .mapa-estatico,
+.mapa-enlace:focus-visible .mapa-estatico { border-color: var(--s1); }
+.mapa-enlace:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }

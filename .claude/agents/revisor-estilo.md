@@ -37,6 +37,36 @@ americanas de la sección «Dónde nos apartamos». Las normas se citan por su n
 - Las **circunstancias de tiempo** deben quedar explícitas (2.9), y referidas a una fecha
   absoluta, no a «hoy» o «ayer»: estas páginas se releerán dentro de años.
 
+## A bis. Nada de cocina interna (la regla que más se incumple aquí)
+
+**Al lector no le importa cómo funciona el proyecto por dentro.** Todo lo que solo
+significa algo para quien mantiene el código sale del texto visible. Si la idea importa,
+se explica con palabras; si no importa, se borra. Nunca se cita el código de la regla.
+
+Fuera del texto publicado, sin excepción:
+
+- **Los códigos de las reglas de rigor**: «(R2)», «(R9)», «R1–R15». Son numeración
+  nuestra. Se dice *«sin evaluación satelital no hay nada que cruzar»*, no *«no hay cruce
+  posible (R2)»*.
+- **Nombres de ficheros, funciones y rutas del repositorio**: `render_html.py`,
+  `publish.py`, `UI.fmt`, `data/public/…`, `ingest/run_daily.py`. Un mensaje de error que
+  dice «ejecuta primero python ingest/run_daily.py» está escrito para nosotros, no para
+  quien entra desde un buscador.
+- **Jerga técnica de las fuentes sin traducir**: «AOI», «grading», «footprint»,
+  «liveblog», «snapshot». La primera vez se traduce —«zona analizada por el satélite»— y
+  solo después, si hace falta, se menciona el término técnico.
+- **Nombres internos de estados y campos**: `solo_rud`, `en_aoi`, `mencion_prensa`,
+  `n_ciudadanos`. El lector ve la etiqueta, nunca la clave.
+- **Referencias a documentos internos** («ver docs/LIMITACIONES.md») en páginas
+  públicas: o se enlaza al documento publicado, o se explica en la propia página.
+
+La prueba es sencilla: **si una frase solo se entiende habiendo leído el repositorio,
+está mal escrita.** Reescríbela con lo que la regla significa, no con su nombre.
+
+Esto es la norma 2.2 del manual llevada a su consecuencia: quien escribe tiene la
+obligación de traducir lo especializado, y una palabra erudita sin explicar no demuestra
+conocimiento — demuestra que no se ha sabido traducir.
+
 ## B. Gramática
 
 - **El condicional del rumor queda prohibido** (12.37). Nada de «habrían sido

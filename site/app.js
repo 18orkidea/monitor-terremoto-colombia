@@ -335,6 +335,18 @@
     document.getElementById("map").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  // Las fichas municipales enlazan aquí con ?municipio=…: su mapa es una imagen
+  // estática y el interactivo se carga solo cuando el lector lo pide.
+  const pedido = new URLSearchParams(location.search).get("municipio");
+  if (pedido) {
+    const capa = munLayerById[pedido];
+    if (capa) {
+      map.setView(capa.getLatLng ? capa.getLatLng() : capa.getBounds().getCenter(), 11);
+      capa.openPopup();
+      irAlMapa();
+    }
+  }
+
   // ---- tooltips propios para las cabeceras: instantáneos y visibles también
   // en táctil (el title nativo tarda ~1 s y en móvil no existe)
   (function cabecerasConTooltip() {
