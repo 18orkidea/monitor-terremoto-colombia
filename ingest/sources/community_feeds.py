@@ -11,7 +11,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlparse
 
 from common import db, fetch, today, ROOT
 from municipios import MUNICIPIOS
@@ -29,6 +29,38 @@ def _parse_date(s: str) -> str:
         return s[:19]
 
 
+def dominio(url: str) -> str | None:
+    """Host de una URL, sin `www.`. Sin host no hay dato: NULL, nunca "" (R3)."""
+    try:
+        host = (urlparse(url).hostname or "").lower()
+    except ValueError:
+        return None
+    host = host.removeprefix("www.")
+    return host or None
+
+
+def _fuente_rss(it) -> tuple[str | None, str | None]:
+    """El medio que el propio feed declara en `<source url="…">Nombre</source>`.
+
+    Es el único sitio donde el medio real viaja limpio: en los feeds de Google
+    News el `<link>` apunta a news.google.com y el nombre solo aparece como
+    sufijo del titular, que es frágil. Los feeds propios de los medios (El
+    Colombiano, Q'hubo, La Patria) no emiten `<source>`: ahí no hay dato, y no
+    tenerlo se dice con NULL.
+    """
+    src = it.find("source")
+    if src is None:
+        return None, None
+    nombre = (src.text or "").strip() or None
+    return nombre, dominio(src.get("url") or "")
+
+
+def _dominio_atom(entry, ns) -> str | None:
+    """Dominio de `<source><link href="…">` en un feed Atom."""
+    link = entry.find("atom:source/atom:link", ns)
+    return dominio(link.get("href") or "") if link is not None else None
+
+
 def parse_rss(body: bytes) -> list[dict]:
     """RSS 2.0 y Atom, con tolerancia a namespaces."""
     items = []
@@ -38,19 +70,28 @@ def parse_rss(body: bytes) -> list[dict]:
         return items
     ns = {"atom": "http://www.w3.org/2005/Atom"}
     for it in root.iter("item"):                      # RSS 2.0
+        medio_canonico, medio_dominio = _fuente_rss(it)
         items.append({
             "titulo": (it.findtext("title") or "").strip(),
             "url": (it.findtext("link") or "").strip(),
             "fecha": _parse_date(it.findtext("pubDate") or ""),
             "resumen": (it.findtext("description") or "").strip(),
+            "medio_canonico": medio_canonico,
+            "medio_dominio": medio_dominio,
         })
     for it in root.iter("{http://www.w3.org/2005/Atom}entry"):   # Atom
         link = it.find("atom:link", ns)
+        url = (link.get("href") if link is not None else "").strip()
         items.append({
             "titulo": (it.findtext("atom:title", default="", namespaces=ns) or "").strip(),
-            "url": (link.get("href") if link is not None else "").strip(),
+            "url": url,
             "fecha": (it.findtext("atom:updated", default="", namespaces=ns) or "")[:19],
             "resumen": (it.findtext("atom:summary", default="", namespaces=ns) or "").strip(),
+            # Atom envuelve la fuente en <source><title>: otro árbol, mismo
+            # dato, y el dominio cuelga de <source><link href>.
+            "medio_canonico": (it.findtext("atom:source/atom:title", default="",
+                                           namespaces=ns) or "").strip() or None,
+            "medio_dominio": _dominio_atom(it, ns),
         })
     return [i for i in items if i["url"] and i["titulo"]]
 
@@ -144,10 +185,16 @@ def run() -> dict:
                 continue
             conn.execute(
                 "INSERT INTO news_items (url, feed_id, fecha, titulo, medio,"
-                " snapshot_date) VALUES (?,?,?,?,?,?)"
-                " ON CONFLICT(url) DO NOTHING",
+                " medio_canonico, medio_dominio, snapshot_date)"
+                " VALUES (?,?,?,?,?,?,?,?)"
+                # Rellena el medio si faltaba, pero nunca lo reescribe: un item
+                # ya archivado conserva lo que se capturó el día que se capturó.
+                " ON CONFLICT(url) DO UPDATE SET"
+                "   medio_canonico = COALESCE(medio_canonico, excluded.medio_canonico),"
+                "   medio_dominio  = COALESCE(medio_dominio,  excluded.medio_dominio)",
                 (it["url"], fid, it["fecha"], it["titulo"][:300],
-                 feed.get("nombre", fid), snap))
+                 feed.get("nombre", fid), it.get("medio_canonico"),
+                 it.get("medio_dominio"), snap))
             kept += 1
         out[fid] = {"items_feed": len(items), "relevantes": kept}
     conn.commit()

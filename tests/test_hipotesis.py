@@ -307,6 +307,67 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                      " WHERE http_status=200 AND sha256 IS NULL")[0][0]
         self.assertEqual(sin_hash, 0, "peticiones 200 sin sha256")
 
+    def test_ninguna_pagina_publica_un_feed_como_si_fuera_un_medio(self):
+        """El bug que esto habría cazado: la portada firmaba dos titulares de
+        Istmina como «Google News — Istmina» mientras la página de titulares
+        daba, para esas mismas URLs, «Publimetro Colombia» e «Infobae». Dos
+        páginas del mismo sitio contándose distinto el mismo día en que el
+        monitor anunciaba que cada titular dice de qué medio es.
+
+        Una búsqueda no es una cabecera: lo que se publique como medio no
+        puede llevar el nombre de un feed."""
+        import json as _json
+        # `firmas` = campos de los que puede salir el medio que ve el lector.
+        # En noticias.json, `medio` guarda el feed a propósito y la página lo
+        # ignora vía UI.medioDe; en prensa_ejemplos no hay tal cosa: lo que se
+        # publique ahí es la firma de la evidencia y tiene que ser cabecera.
+        for fichero, camino, firmas in (
+                ("noticias.json", None, ("medio_canonico",)),
+                ("monitor.json", ("aois", "prensa_ejemplos"),
+                 ("medio_canonico", "medio"))):
+            ruta = ROOT / "data" / "public" / fichero
+            if not ruta.exists():
+                self.skipTest(f"sin {fichero}: ejecutar publish primero")
+            datos = _json.loads(ruta.read_text())
+            items = ([p for a in datos[camino[0]] for p in a.get(camino[1]) or []]
+                     if camino else datos["items"])
+            # Que la clave EXISTA, antes de mirar su valor: así se manifestó el
+            # bug de la portada — `prensa_ejemplos` no traía `medio_canonico`,
+            # y una comprobación que solo mirase valores habría pasado en verde
+            # sobre datos rotos, que es exactamente lo que hizo la primera
+            # versión de este test.
+            sin_campo = [i for i in items if "medio_canonico" not in i]
+            self.assertEqual(
+                len(sin_campo), 0,
+                f"{fichero}: {len(sin_campo)} piezas sin la clave "
+                "`medio_canonico` — la página caería al nombre del feed")
+            for campo in firmas:
+                colados = sorted({i[campo] for i in items
+                                  if (i.get(campo) or "").startswith("Google News")})
+                self.assertEqual(
+                    colados, [],
+                    f"{fichero} publica nombres de feed en `{campo}`: {colados[:3]}")
+
+    def test_una_derivacion_no_finge_ser_una_peticion(self):
+        """`sources_log` tiene dos escritores: `fetch()`, que pide por HTTP, y
+        `registrar_derivacion()`, que anota lo deducido del propio archivo. La
+        segunda clase se reconoce porque NO trae nada de una petición. Sin este
+        invariante, mañana una derivación podría registrarse con `http_status`
+        200 y colarse en el régimen fuerte de trazabilidad por la puerta de
+        atrás — con sha256 de un cuerpo que nadie descargó."""
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        impostoras = q(
+            "SELECT url, http_status, sha256, bytes, snapshot_path"
+            " FROM sources_log WHERE http_status IS NULL AND ("
+            "  sha256 IS NOT NULL OR bytes IS NOT NULL"
+            "  OR snapshot_path IS NOT NULL)")
+        self.assertEqual(
+            impostoras, [],
+            "filas sin petición que traen rastro de una: si no hubo HTTP, no "
+            "hay hash ni cuerpo ni snapshot propio que registrar")
+
     def test_snapshot_de_copernicus_existe(self):
         snaps = list((ROOT / "data" / "snapshots").glob("*/copernicus_EMSR916.json"))
         if not DB.exists():

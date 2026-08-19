@@ -145,5 +145,59 @@ class TestSupuestosFeeds(unittest.TestCase):
                          "revisar el filtro de proximidad de municipios.py")
 
 
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestoFuenteEnGoogleNews(unittest.TestCase):
+    """El nombre del medio de la mitad del corpus depende de un contrato ajeno:
+    que el RSS de Google News siga declarando `<source url="…">Nombre</source>`.
+
+    Es el único sitio donde ese dato viaja: el `<link>` apunta al agregador y
+    el sufijo del titular no es fiable. Si Google deja de emitir la etiqueta,
+    las noticias nuevas entrarían con `medio_canonico` en NULL y el sitio
+    dejaría de nombrar medios sin que nadie se entere — R11 existe para que
+    eso avise en vez de degradarse en silencio. Romperse aquí no es un bug:
+    es la señal de que hay que buscar el medio por otra vía."""
+
+    URL = ("https://news.google.com/rss/search?q=%22terremoto%22+%22colombia%22"
+           "&hl=es-CO&gl=CO&ceid=CO:es")
+
+    def test_el_rss_sigue_declarando_source_con_url(self):
+        import xml.etree.ElementTree as ET
+        from common import fetch
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest" / "sources"))
+        from community_feeds import parse_rss
+
+        st, body = fetch(self.URL, note=NOTA_SONDA)
+        self.assertEqual(st, 200, "Google News no responde: sonda inconcluyente")
+        items = list(ET.fromstring(body).iter("item"))
+        self.assertTrue(items, "el feed llegó sin items: revisar la búsqueda")
+        con_fuente = [i for i in items if i.find("source") is not None]
+        self.assertEqual(
+            len(con_fuente), len(items),
+            "Google News dejó de declarar <source> en algún item: el medio de "
+            "las noticias nuevas se queda sin recuperar (ver docs/DECISIONES.md, "
+            "2026-08-19) — hay que buscar otra vía antes de que el hueco crezca")
+        self.assertTrue(
+            all(i.find("source").get("url") for i in con_fuente),
+            "<source> ya no trae atributo url: medio_dominio se queda en NULL")
+        self.assertTrue(
+            parse_rss(body)[0]["medio_canonico"],
+            "el parseo del proyecto ya no extrae el medio de este feed")
+
+    def test_el_enlace_sigue_sin_llevar_al_medio(self):
+        """El reverso del supuesto anterior, y una buena noticia si se rompe:
+        el día que el feed publique la URL del medio, `url` dejará de apuntar
+        al agregador y la limitación documentada desaparecerá."""
+        from common import fetch
+        st, body = fetch(self.URL, note=NOTA_SONDA)
+        self.assertEqual(st, 200)
+        import xml.etree.ElementTree as ET
+        enlaces = [(i.findtext("link") or "") for i in ET.fromstring(body).iter("item")]
+        directos = [u for u in enlaces if "news.google.com" not in u]
+        self.assertFalse(
+            directos,
+            f"¡el feed ya publica enlaces al medio ({directos[:2]})! Revisar "
+            "docs/LIMITACIONES.md: la URL original ha dejado de perderse")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

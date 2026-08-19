@@ -43,7 +43,7 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 
 | Tabla | Clave | Qué guarda |
 |---|---|---|
-| `sources_log` | id | Trazabilidad: ts, url, http_status, sha256, bytes, snapshot_path de CADA petición |
+| `sources_log` | id | Trazabilidad: ts, url, http_status, sha256, bytes, snapshot_path de CADA petición y de cada derivación del propio archivo (estas últimas sin HTTP ni cuerpo: los cuatro campos en NULL) |
 | `activations` | (code, snapshot_date) | Activaciones Copernicus con geometría WKT, por día |
 | `activation_index` | code | Catálogo completo EMSR673+ (vigilancia de nuevas activaciones) |
 | `products` | (code, aoi, ptype, …, snapshot_date) | Productos Copernicus por AOI: tipo, versión, estado, entrega |
@@ -52,7 +52,7 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `evidence` | id | Evidencia por AOI con tipo ∈ {oficial, institucional, prensa, ciudadano} — el corazón de R1 |
 | `media_volume` | (event_key, fecha, snapshot_date) | Series diarias: EMM, GDELT, feeds propios, ChatMap |
 | `citizen_reports` | (origen, id_externo) | Reportes ChatMap: coordenada exacta + `lat_pub/lon_pub`, sha256 del medio, score y checks |
-| `news_items` | url | Titulares de todos los feeds (registro abierto) |
+| `news_items` | url | Titulares de todos los feeds (registro abierto). `medio` guarda el FEED que trajo la pieza; `medio_canonico`/`medio_dominio`, la cabecera que la firma según el `<source>` del propio RSS |
 | `rud_daily` | (snapshot_date, departamento, municipio) | RUD por municipio y día de captura — la serie oficial |
 | `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
 

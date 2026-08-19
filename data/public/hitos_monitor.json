@@ -59,6 +59,12 @@
       "tipo": "monitor",
       "texto": "La tabla del RUD se puede filtrar y ordenar: municipios nuevos, los que siguen registrando, los que ya cargaron viviendas destruidas y por departamento. Y la página explica lo que antes se daba por supuesto: el RUD es lo que cada alcaldía registra, no una verificación del daño, y un cero en viviendas puede querer decir «todavía sin evaluar».",
       "url": "https://brechas.orkidea.eu/site/rud.html"
+    },
+    {
+      "fecha": "2026-08-19",
+      "tipo": "monitor",
+      "texto": "Cada titular dice ahora de qué medio es. La mitad de las noticias llegaba por Google News, y ahí el monitor solo guardaba el nombre de la búsqueda que las trajo: Palmira figuraba con 304 noticias de 7 medios, que en realidad eran feeds. El dato estaba en el propio archivo: cada noticia del RSS declara qué medio la firma. Se reconstruyó releyendo los snapshots, sin pedir nada a nadie: Palmira tiene 30 medios y el archivo entero, 926. Los enlaces que llevan al agregador y no al medio se marcan «vía Google News».",
+      "url": "https://brechas.orkidea.eu/site/noticias.html"
     }
   ]
 }

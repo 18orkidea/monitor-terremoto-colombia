@@ -292,3 +292,69 @@ de municipios pequeños (log-log R²=0,236) y la cuarta medía criterio
 departamental, no habitabilidad. La lista habría señalado desproporcionadamente
 a Chocó y Risaralda —los dos departamentos más pobres— con un 11 % de rotación
 diaria.
+
+## 2026-08-19 — El medio se lee del archivo, no del enlace ni del titular
+
+Contexto: 3.243 de 6.450 noticias (el 50,3 %) tenían por `url` un enlace de
+`news.google.com/rss/articles/CBMi…`, y el campo `medio` no guardaba el medio,
+sino el nombre del feed («Google News — Nóvita»). Cualquier recuento de «medios
+distintos» contaba feeds: Palmira figuraba con 304 noticias de 7 «medios».
+
+Lo que se comprobó antes de decidir nada:
+
+- **La URL real del artículo no es recuperable de forma limpia.** El base64 del
+  segmento `CBMi…` es el formato posterior a 2024: lleva un token opaco
+  (`AU_yqL…`), no la URL: de las 2.920 enlazadas así el día del diagnóstico
+  (17-ago-2026), ninguna la traía dentro. Seguir la redirección acaba en otra
+  URL de `news.google.com`: la resolución final la hace JavaScript en el
+  navegador. Cruzar por titular normalizado con las noticias de URL directa
+  recuperaba 22 de aquellas 2.920 (el 0,8 %).
+- **El nombre del medio sí estaba, y en casa.** Cada `<item>` de los snapshots
+  lleva `<source url="https://elpais.com">EL PAÍS</source>`. Cruzando por
+  `<link>` se recuperan 3.202 de 3.243 (el 98,7 %) **sin una sola petición de
+  red**.
+
+Decisión: `news_items` gana `medio_canonico` y `medio_dominio` por `ALTER TABLE`
+(la migración vive en `common.migrar`, idempotente, porque `CREATE TABLE IF NOT
+EXISTS` no toca una tabla que ya existe). El campo `medio` se queda **tal cual**:
+es lo que se capturó, y renombrar columnas está prohibido sin migrar los dumps.
+`url` tampoco se toca — es la petición que consta en `sources_log` (R4).
+
+Se descartó la API interna de Google (`/_/DotsSplashUi/data/batchexecute`): son
+3.243 peticiones a un endpoint no documentado que se rompe el día que Google lo
+cambie, y dejaría el archivo dependiendo de algo que nadie puede reconstruir.
+El archivo propio ya tenía la respuesta.
+
+Consecuencia medible: Palmira pasa de 7 «medios» —que eran feeds— a **30
+medios reales**, y el archivo entero suma **926**. La pluralidad se cuenta por
+`medio_dominio`, no por el nombre: los nombres llegan con dos convenciones (el
+EMM de GDACS aporta slugs en minúscula, `infobae`; el RSS aporta cabeceras,
+`Infobae`) y contarlos sin normalizar da 987 con siete duplicados por
+mayúsculas. El dominio es clave estable y ningún medio con nombre se quedó sin
+él.
+
+Queda además identificable lo que no es cobertura periodística: 164 ítems son de
+Volcano Discovery (alertas sísmicas automáticas) y 86 tienen por dominio
+`facebook.com`. Etiquetarlos o filtrarlos es decisión editorial pendiente, no
+técnica: por ahora se ven, con su nombre.
+
+Un efecto que había que decidir aparte: **`sources_log` deja de registrar solo
+peticiones**. R4 la definió como el log de cada petición HTTP, y una
+reconstrucción no lo es; pero si no consta, un lector futuro no puede saber si
+un medio se capturó el día del `<item>` o se dedujo meses después releyendo el
+archivo. Así que la reconstrucción escribe su fila con `http_status`, `sha256`,
+`bytes` y `snapshot_path` en NULL —no hubo petición ni cuerpo nuevo— y un
+invariante en `tests/test_hipotesis.py` impide que una derivación finja lo
+contrario. La nota va por constante (`NOTA_RECONSTRUCCION`), como las sondas,
+para que se pueda filtrar sin adivinar la redacción.
+
+Nota para quien lea `evidence` dentro de unos años: las filas de prensa
+anteriores a esta fecha están firmadas con el nombre del feed («Google News —
+Istmina»); a partir de aquí, con la cabecera. Son dos convenciones de la misma
+columna, no dos fuentes distintas.
+
+El sitio etiqueta ese enlace **«vía Google News»**: lleva al agregador, no al
+medio, y decirlo es más honesto que dejar que el lector lo descubra al hacer
+clic. Cuando no consta la cabecera y el enlace pasa por Google News, no se pone
+nada en su lugar — el nombre del feed no es un medio (R3 aplicado al frontend).
+

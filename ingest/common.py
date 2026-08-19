@@ -38,6 +38,16 @@ NOTA_SONDA = "sonda de supuesto"
 # antes del cambio de nombre y siguen exentas por lo que fueron, no por su texto.
 NOTAS_SONDA = (NOTA_SONDA, "test supuesto", "test supuesto rud")
 
+# Derivaciones: filas de sources_log que NO son peticiones. Nacen de releer el
+# archivo que ya tenemos (p. ej. recuperar el medio de una noticia del
+# `<source>` de su snapshot). Se registran para que dentro de veinte años se
+# distinga un dato capturado el día de un dato reconstruido después, y llevan
+# `http_status`, `sha256`, `bytes` y `snapshot_path` en NULL porque no hubo
+# petición ni cuerpo nuevo: la fuente son los snapshots que ya constan.
+# Misma disciplina que las sondas: constante, no prefijo de texto libre.
+NOTA_RECONSTRUCCION = "reconstrucción de medios desde snapshots"
+ORIGEN_ARCHIVO = "repo:data/snapshots/feed_*.xml"
+
 
 def _ssl_context() -> ssl.SSLContext:
     """Contexto con CA bundle utilizable: certifi si existe, si no el del sistema.
@@ -177,6 +187,12 @@ CREATE TABLE IF NOT EXISTS news_items (
   url TEXT PRIMARY KEY,
   feed_id TEXT NOT NULL,
   fecha TEXT, titulo TEXT, medio TEXT,
+  -- `medio` guarda el nombre del FEED («Google News — Nóvita»), no el del
+  -- medio: contarlo como cabecera infla cualquier métrica de pluralidad. El
+  -- medio real lo declara el propio RSS en <source url="...">Nombre</source>
+  -- y vive en estas dos columnas. `medio` se conserva tal cual porque es lo
+  -- que se capturó, y el archivo no se reescribe.
+  medio_canonico TEXT, medio_dominio TEXT,
   snapshot_date TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS rud_daily (
@@ -197,6 +213,33 @@ CREATE TABLE IF NOT EXISTS crosscheck (
 """
 
 
+MIGRACIONES = [
+    # (tabla, columna, tipo). `CREATE TABLE IF NOT EXISTS` no toca una tabla
+    # que ya existe: sin esto, una columna nueva solo aparecería en las bases
+    # recién creadas y faltaría en la del runner, que arrastra meses de datos.
+    ("news_items", "medio_canonico", "TEXT"),
+    ("news_items", "medio_dominio", "TEXT"),
+]
+
+
+def migrar(conn: sqlite3.Connection) -> list[str]:
+    """Añade las columnas que el esquema declara y la base todavía no tiene.
+
+    Solo añade: renombrar o borrar columnas está prohibido sin migración de los
+    dumps (ver CLAUDE.md). Idempotente — se ejecuta en cada `db()`.
+    """
+    hechas = []
+    for tabla, columna, tipo in MIGRACIONES:
+        cols = {r[1] for r in conn.execute(f"PRAGMA table_info({tabla})")}
+        if columna in cols:
+            continue
+        conn.execute(f"ALTER TABLE {tabla} ADD COLUMN {columna} {tipo}")
+        hechas.append(f"{tabla}.{columna}")
+    if hechas:
+        conn.commit()
+    return hechas
+
+
 def db() -> sqlite3.Connection:
     DATA.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH, timeout=60)
@@ -206,7 +249,23 @@ def db() -> sqlite3.Connection:
     except sqlite3.OperationalError:
         pass  # otro proceso con journal clásico aún abierto; WAL entrará después
     conn.executescript(SCHEMA)
+    migrar(conn)
     return conn
+
+
+def registrar_derivacion(conn: sqlite3.Connection, url: str, note: str) -> None:
+    """Anota en `sources_log` un dato derivado del propio archivo, sin red.
+
+    R4 exige que toda cifra publicada tenga fila en el log; hasta ahora todas
+    venían de `fetch()`. Una reconstrucción no es una petición, pero tampoco
+    puede quedar sin constar: sin esta fila, un lector futuro no sabría si un
+    valor se capturó o se dedujo. No hace commit — va en la transacción de
+    quien deriva, para que o conste todo o no conste nada.
+    """
+    conn.execute(
+        "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+        " snapshot_path,note) VALUES (?,?,NULL,NULL,NULL,NULL,?)",
+        (utcnow(), url, note))
 
 
 def fetch(url: str, params: dict | None = None, *, note: str = "",

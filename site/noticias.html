@@ -78,7 +78,8 @@
       <li><strong>¿De dónde salen los titulares?</strong> Del feed EMM de GDACS ligado al
       evento, de los RSS del <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a>
       (El Tiempo, El Diario de Pereira, Chocó 7 días, El Colombiano…) y de búsquedas Google
-      News por municipio. Cada titular conserva su fecha, medio y enlace original.</li>
+      News por municipio. Cada titular conserva su fecha, su medio y el enlace tal como lo
+      publicó el feed.</li>
       <li><strong>¿Cómo se asigna un titular a una zona?</strong> Por topónimo en el texto,
       con acentos normalizados y límites de palabra («Cali» no coincide con «California»).
       Cuando el nombre del municipio es además palabra común, apellido o lugar conocido
@@ -88,6 +89,14 @@
       cero prensa —o con la celda vacía, si su nombre es el de un departamento— en la
       <a href="municipios.html">tabla de municipios</a>: son dos preguntas distintas. El emparejado es auditable: el titular que dispara cada coincidencia queda
       guardado.</li>
+      <li><strong>¿Por qué algunos enlaces llevan a Google News y no al medio?</strong>
+      Porque esa es la única dirección que publica el feed: Google News recopila titulares
+      de otros medios y todos sus enlaces pasan por su propia página. Esos titulares se
+      marcan <span class="via">vía Google News</span> para que se sepa antes de hacer
+      clic. El nombre del medio sí es el real siempre que el feed lo declare —casi
+      siempre— y se conserva junto al titular y la fecha, así que la noticia se puede
+      buscar aunque el enlace deje de funcionar. Cuando no lo declara, no ponemos
+      ninguno.</li>
       <li><strong>¿Las cifras de los titulares son oficiales?</strong> No. Un titular es
       prensa; la evidencia oficial (EDAN) es otra cosa y el
       <a href="index.html#panel">cruce del monitor</a> las separa estrictamente. Para las

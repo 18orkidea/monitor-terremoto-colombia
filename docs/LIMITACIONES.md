@@ -264,3 +264,30 @@ Consecuencias para leer estas cifras:
   medios que citan fuentes oficiales publican totales que difieren entre sí
   —entre 44.936 y 120.328 familias el 17-ago—, así que la página no elige una:
   remite a la comparativa de fuentes, donde cada cifra lleva su publicador.
+
+## La URL original de la mitad de los titulares se perdió en el origen
+
+De las noticias que llegan por búsquedas de Google News —cerca de la mitad del
+corpus—, el feed no publica el enlace del medio, sino uno propio del agregador
+(`news.google.com/rss/articles/CBMi…`). **Ese enlace es lo que se capturó y lo
+que se conserva**: el segmento en base64 lleva un token opaco, no la dirección
+(comprobado sobre las 2.920 enlazadas así el 17 de agosto de 2026: ninguna
+la traía dentro), y la
+resolución final la ejecuta JavaScript en el navegador, así que seguir la
+redirección tampoco llega al medio. Se descartó la API interna no documentada de
+Google, que resolvería el enlace hoy y dejaría de resolverlo el día que Google
+la cambie, sin que nadie pudiera reconstruir después lo que devolvió.
+
+Consecuencia para quien lea el archivo dentro de años: en esas piezas se sabe
+**qué medio publicó qué titular y cuándo** —eso sí lo declara el RSS y está
+archivado—, pero el enlace lleva al agregador. Si el artículo ya no existe, la
+combinación medio + titular + fecha es lo que queda para buscarlo.
+
+El nombre de la cabecera se recuperó releyendo los snapshots: 3.202 de 3.243.
+Quedan 226 noticias sin cabecera declarada por el propio feed: **41 de Google
+News** (su snapshot no llegó a archivarse o el `<item>` no declaraba `<source>`)
+y **185 de feeds propios de los medios**, que no emiten esa etiqueta. En esos
+casos `medio_canonico` queda en `null`, nunca con el nombre del feed. En los
+primeros el sitio no muestra medio alguno; en los segundos el enlace va directo
+al medio y basta con el nombre del feed, que ahí sí es una cabecera.
+
