@@ -3,7 +3,13 @@
    ejecute JavaScript — que es lo que necesitan los rastreadores de sistemas de
    IA, que no lo ejecutan. */
 (async function () {
-  const { fetchJson, tablaHidratada } = window.UI;
+  const { fmt, pct, fetchJson, tablaHidratada } = window.UI;
+
+  // La tabla no necesita el JSON —viene escrita en el HTML—, pero los textos
+  // derivados de la introducción sí: cambian con cada entrega.
+  const data = await fetchJson("/data/public/municipios.json");
+  if (!data || !data.items || !data.items.length) return;
+  document.getElementById("generado").textContent = "Actualizado " + data.generado;
 
   // derivado, no escrito a mano: la cobertura satelital cambia con cada entrega
   const enAoi = data.items.filter((m) => m.en_aoi_copernicus).length;
