@@ -1,56 +1,41 @@
 {
- "generado": "2026-08-18",
- "fecha": "2026-08-18",
+ "generado": "2026-08-19",
+ "fecha": "2026-08-19",
  "alertas": [
-  {
-   "tipo": "producto_actualizado",
-   "nivel": "alta",
-   "texto": "Western Colombia: GRM pasó de v1 (en espera) a v1 (no producido)",
-   "aoi": "Western Colombia",
-   "producto": "GRM",
-   "antes": {
-    "version": 1,
-    "status": "W"
-   },
-   "ahora": {
-    "version": 1,
-    "status": "N"
-   }
-  },
   {
    "tipo": "reportes_ciudadanos",
    "nivel": "info",
-   "texto": "3 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 3
+   "texto": "26 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 26
   },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "1063 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 1063
+   "texto": "370 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 370
   },
   {
    "tipo": "balance_en_medios",
    "nivel": "info",
-   "texto": "Balance en medios citando fuentes oficiales (2026-08-17): 289 fallecidos (-5 vs día anterior), 4187 heridos, 143 desaparecidos",
-   "fecha_balance": "2026-08-17",
+   "texto": "Balance en medios citando fuentes oficiales (2026-08-18): 304 fallecidos (+15 vs día anterior), 4548 heridos, 426 desaparecidos",
+   "fecha_balance": "2026-08-18",
    "cifras": {
     "departamentos_afectados": null,
     "municipios_afectados": null,
-    "personas_afectadas": 186016,
-    "familias_afectadas": 120328,
-    "viviendas_averiadas": 127557,
-    "viviendas_destruidas": 26945,
-    "heridos": 4187,
-    "fallecidos": 289,
-    "desaparecidos": 143,
+    "personas_afectadas": 292043,
+    "familias_afectadas": 123789,
+    "viviendas_averiadas": null,
+    "viviendas_destruidas": null,
+    "heridos": 4548,
+    "fallecidos": 304,
+    "desaparecidos": 426,
     "rescatados": null
    }
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +15 municipios. +16.002 familias vs snapshot anterior"
+   "texto": "RUD actualizado: +16 municipios. +14.846 familias vs snapshot anterior"
   }
  ]
 }
