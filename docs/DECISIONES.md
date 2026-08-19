@@ -292,3 +292,89 @@ de municipios pequeños (log-log R²=0,236) y la cuarta medía criterio
 departamental, no habitabilidad. La lista habría señalado desproporcionadamente
 a Chocó y Risaralda —los dos departamentos más pobres— con un 11 % de rotación
 diaria.
+
+## 2026-08-19 — UNOSAT entra como fuente, con el paquete (no el producto) como clave
+
+Contexto: el producto 4253 de UNITAR-UNOSAT —la evaluación del epicentro— entró el
+18-ago en la cronología institucional que ya ingiere `gdacs.py`, y el monitor lo
+publicó en la línea de tiempo sin avisar a nadie: `alerts.py` tenía siete detectores
+y ninguno miraba esa cronología. Se descubrió mirando a mano. Además el feed
+institucional de GDACS **se saltó el producto 4252**: por esa vía, el monitor nunca
+habría sabido de él.
+
+Decisión, en dos piezas separables:
+
+1. **Detector `institucional_nuevo`** en `alerts.py`, nivel alta, comparando la
+   cronología archivada de hoy con la última captura anterior. Sin captura previa no
+   alerta: en la primera corrida, siete avisos de golpe no informan de nada.
+2. **Fuente propia** `ingest/sources/unosat.py` contra `our_products/`, que sí trae
+   los cuatro productos del evento. Los shapefiles se leen con un lector propio de
+   stdlib (`ingest/shapefile.py`), porque R14 prohíbe dependencias en runtime y el
+   formato ESRI es público y estable desde 1998.
+
+La decisión de diseño que importa: **la clave del dato es el sha256 del paquete, no
+el id del producto**. Los ZIP de 4251, 4252 y 4253 son byte a byte idénticos —UNOSAT
+publica un paquete acumulativo por evento y lo replica en cada carpeta— así que
+indexar por producto habría triplicado los 393 edificios a 1.179. Las tres descargas
+sí quedan en `sources_log` (esa duplicación es un dato sobre cómo publica la fuente),
+pero el cuerpo se archiva una sola vez: `fetch()` no reescribe un snapshot cuyo sha
+coincide, así que el `snapshot_name` compartido basta y no hubo que tocar el archivo.
+
+Consecuencia: el monitor tiene por primera vez **dos satélites que pueden discrepar
+entre sí**, y una discrepancia inmediata que no es un error de nadie — en el
+epicentro, UNOSAT ve un edificio dañado (WorldView-2, 50 cm, «within the cloud-free
+areas») donde el RUD registra 569 familias y 150 viviendas afectadas (17 destruidas y 133 averiadas). Es la misma
+brecha que dejaron las luces nocturnas: sobre el Chocó, el satélite no puede vigilar.
+
+## 2026-08-19 — Un globo del mapa no enseña lo que su fuente no midió
+
+Contexto: los popups se construían concatenando `fmt(valor)`, que devuelve «—» para
+null. El resultado era que «Western Colombia» —el área de referencia de Copernicus,
+que no trae ninguna cifra— mostraba cuatro renglones de guiones: «Población: —,
+Edificios afectados: —, Vías: — km, Interrupciones: —». Un lector razonable entiende
+que ahí se midió y salió nada, cuando lo que pasa es que nadie ha mirado.
+
+Decisión: un único constructor de globos, `UI.fichaMapa` (fuente única en `ui.js`,
+como `isLiveblog`), que **omite la fila entera cuando el valor está vacío**. El 0 no
+es vacío: un cero medido es un dato, y confundirlo con una ausencia es justo el error
+que prohíbe la R3. Cada fuente pasa además sus propias etiquetas, en el vocabulario
+en que ella publica —UNOSAT gradúa «confianza del análisis» y «validación en campo»,
+distinciones que Copernicus no hace— en vez de homogeneizarlas a un genérico que
+borraría en qué se diferencian.
+
+Consecuencia: se corrigió de paso una etiqueta que mentía. El globo de municipio
+mostraba «fuentes: prensa, rud» bajo el rótulo «Medios»; ni «rud» es un medio ni
+aquello eran medios, sino las clases de fuente que documentan el municipio. Ahora
+dice «Documentado por: prensa, registro municipal (RUD)».
+
+## 2026-08-19 — UNOSAT cuenta como satélite, pero con etiqueta propia
+
+Contexto: con la fuente ya ingerida quedaban dos decisiones abiertas. La capa de
+municipios clasificaba a Anserma, Manizales y Viterbo como si nadie los hubiera
+mirado desde fuera, y eso había dejado de ser verdad.
+
+Decisión (JP, 19-ago): **UNOSAT habilita verificación satelital, sin fundirse con
+Copernicus.** Estado nuevo `evaluado_unosat` en la cascada de
+`ingest/municipios.py`, por debajo de `en_aoi` y por encima de todo lo demás, con
+color y explicación propios en `UI.ESTADO_MUNICIPIO`. La razón de no fundirlos:
+Copernicus entrega estadísticas revisadas por AOI y UNOSAT entrega puntos
+fotointerpretados que la propia ONU marca «aún no validado en campo». Sumarlos en
+una cifra única diría que algo está más comprobado de lo que está.
+
+**R1 y R2 no se tocan.** El cruce opera sobre las AOI de Copernicus
+(`crosscheck.py`), y los municipios de UNOSAT no son AOI: el corazón del monitor
+sigue exigiendo lo mismo para llegar a «coincide».
+
+Decisión gemela: **alta de Viterbo** como municipio del monitor (109 → 110 del
+catálogo estático). Entró con `requiere_depto` por dos motivos medidos contra el
+corpus, no supuestos: «Viterbo» es una ciudad italiana —la única mención en 6.615
+titulares es un artículo en italiano— y casa dentro de «Santa Rosa de Viterbo»,
+que es de Boyacá.
+
+Consecuencia: aparece la columna «Edif. UNOSAT (observado)» en la tabla de
+municipios, y con ella dos contrastes que antes no se podían leer juntos —Anserma
+con 21 edificios de daño observado frente a 3 personas registradas en el RUD, y
+Viterbo con 154 evaluados y ninguna fila oficial. Hubo que corregir además dos
+textos que la decisión volvía falsos: la frase de cobertura de `municipios.js`
+(«al resto no lo ha mirado ningún producto satelital») y el pie del globo de
+municipio, que afirmaba «no equivale a daño satelital» también donde ya sí lo hay.

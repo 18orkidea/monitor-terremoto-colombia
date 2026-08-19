@@ -466,8 +466,29 @@ def run() -> dict:
     # Excluir el AOI regional: cubre el área de influencia completa, pero no
     # equivale a una zona urbana analizada con producto de daño.
     extents_detalle = {k: v for k, v in extents.items() if k != "Western Colombia"}
+    # UNOSAT por municipio: la segunda mirada satelital entra en la capa de
+    # municipios con etiqueta propia — no se funde con las cifras de
+    # Copernicus, que son estadísticas revisadas por AOI y no puntos
+    # fotointerpretados sin validar en campo.
+    unosat_por_mun = {}
+    for mun, dano, fecha, n in conn.execute(
+            "SELECT municipio, dano, MAX(sensor_date), COUNT(*)"
+            " FROM unosat_damage WHERE municipio IS NOT NULL"
+            " GROUP BY municipio, dano"):
+        d = unosat_por_mun.setdefault(mun, {"edificios": 0, "confirmados": 0,
+                                            "posibles": 0, "fecha_imagen": None})
+        d["edificios"] += n
+        # la fuente escribe «Damage» en unas capas y «Damaged» en otras para lo
+        # mismo; «Possible Damage» es la hipótesis, no el hallazgo
+        if (dano or "").lower().startswith("possible"):
+            d["posibles"] += n
+        else:
+            d["confirmados"] += n
+        d["fecha_imagen"] = max(d["fecha_imagen"] or "", fecha or "") or None
+
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
-                                                 poblacion, rud_por_mun, divipola)
+                                                 poblacion, rud_por_mun, divipola,
+                                                 unosat_por_mun)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))

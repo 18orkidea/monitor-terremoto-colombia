@@ -99,6 +99,16 @@ MUNICIPIOS = {
     "San José": {"departamento": "Caldas", "lat": 5.08231, "lon": -75.792063,
                 "toponimos": ["san jose, caldas"],
                 "requiere_depto": True},
+    # Alta el 19-ago-2026: entró por UNOSAT, que evaluó allí 154 edificios (55
+    # con daño observado, el mayor recuento de su paquete) sin que el municipio
+    # tuviera una sola fila en el RUD ni figurara en esta capa.
+    # `requiere_depto` por partida doble: «Viterbo» es una ciudad italiana —la
+    # única mención del corpus es un titular en italiano que la llama «l'altra
+    # Viterbo»— y además casa dentro de «Santa Rosa de Viterbo», que es de
+    # Boyacá. Sin «Caldas» en el texto no se le atribuye prensa.
+    "Viterbo": {"departamento": "Caldas", "lat": 5.062664, "lon": -75.87061,
+               "toponimos": ["viterbo"],
+               "requiere_depto": True},
     "Acandí": {"departamento": "Chocó", "lat": 8.512178, "lon": -77.279951,
               "toponimos": ["acandi"]},
     "Alto Baudó": {"departamento": "Chocó", "lat": 5.516221, "lon": -76.974373,
@@ -387,7 +397,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      aoi_extents: dict[str, str],
                      poblacion: dict | None = None,
                      rud_municipios: dict | None = None,
-                     divipola: dict | None = None) -> tuple[list[dict], dict]:
+                     divipola: dict | None = None,
+                     unosat: dict | None = None) -> tuple[list[dict], dict]:
     catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
@@ -460,7 +471,12 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         tiene_prensa = row["n_noticias"] > 0
         rud = _find_rud(rud_municipios, mun, row)
         tiene_rud = rud is not None
-        if not tiene_prensa and not tiene_dyfi and not tiene_rud:
+        uno = (unosat or {}).get(mun)
+        tiene_unosat = bool(uno and uno.get("edificios"))
+        # Una evaluación satelital basta para entrar en la capa aunque no haya
+        # prensa, ni DYFI, ni registro oficial: es justo el caso de Viterbo, y
+        # que nadie más lo mire no es motivo para que el monitor tampoco.
+        if not (tiene_prensa or tiene_dyfi or tiene_rud or tiene_unosat):
             continue
         lon, lat = row["lon"], row["lat"]
         en_aoi = (lon is not None and lat is not None
@@ -469,6 +485,13 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         estado = "fuera_aoi"
         if en_aoi:
             estado = "en_aoi"
+        elif tiene_unosat:
+            # Por debajo de Copernicus y por encima de todo lo demás: es
+            # verificación satelital independiente, pero de otra clase —
+            # puntos fotointerpretados que la propia UNOSAT marca «aún no
+            # validado en campo», no estadísticas revisadas por AOI. Lleva
+            # etiqueta propia justamente para no confundirse con la anterior.
+            estado = "evaluado_unosat"
         elif tiene_dyfi and (row["dyfi_max_cdi"] or 0) >= 6:
             estado = "intensidad_alta"
         elif tiene_prensa:
@@ -482,7 +505,14 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         row["estado"] = estado
         row["fuentes"] = [x for x, ok in (("prensa", tiene_prensa),
                                           ("dyfi", tiene_dyfi),
-                                          ("rud", tiene_rud)) if ok]
+                                          ("rud", tiene_rud),
+                                          ("unosat", tiene_unosat)) if ok]
+        # R3: sin evaluación de UNOSAT no hay ceros, hay ausencia — un 0 se
+        # leería como «el satélite miró y no vio nada», que es lo contrario
+        row["unosat_edificios"] = uno.get("edificios") if tiene_unosat else None
+        row["unosat_confirmados"] = uno.get("confirmados") if tiene_unosat else None
+        row["unosat_posibles"] = uno.get("posibles") if tiene_unosat else None
+        row["unosat_fecha_imagen"] = uno.get("fecha_imagen") if tiene_unosat else None
         # R3 en el producto descargable, no solo en la tabla: para un homónimo
         # de departamento el monitor no puede atribuir titulares, y eso es
         # ausencia de dato — quien lea el JSON no debe encontrar un 0.
@@ -510,6 +540,7 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                                             if k not in ("lat", "lon", "toponimos")}})
 
     rows.sort(key=lambda r: (not r["en_aoi_copernicus"],
+                             -(r.get("unosat_edificios") or 0),
                              -(r["dyfi_max_cdi"] or 0),
                              -(r["n_noticias"] or 0), r["municipio"]))
     return rows, {"type": "FeatureCollection", "features": features}

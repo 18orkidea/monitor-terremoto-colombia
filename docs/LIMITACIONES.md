@@ -264,3 +264,36 @@ Consecuencias para leer estas cifras:
   medios que citan fuentes oficiales publican totales que difieren entre sí
   —entre 44.936 y 120.328 familias el 17-ago—, así que la página no elige una:
   remite a la comparativa de fuentes, donde cada cifra lleva su publicador.
+
+## UNOSAT: lo que se archiva y lo que no
+
+La capa de UNITAR-UNOSAT trae 393 edificios evaluados en Anserma, Manizales y
+Viterbo. Tres huecos conocidos, ninguno subsanable desde este lado:
+
+- **Del epicentro no hay vectores.** El producto 4253 va de San José del Palmar,
+  pero el ZIP que enlaza contiene Caldas: el análisis del epicentro solo existe
+  como PDF. El monitor guarda el enlace, no el fichero (1,6 MB de imagen que no
+  aporta geometría). Si unosat.org cierra, **ese análisis se pierde salvo que
+  esté en Wayback** — es la laguna más seria de esta fuente.
+- **El listado no permite mirar hacia atrás.** `our_products/` devuelve una
+  ventana fija de 11 productos de todo el mundo, sin paginación ni filtro. El
+  monitor no puede descubrir productos anteriores a su primera corrida: los
+  cuatro del terremoto entraron porque aún estaban en la ventana el 19-ago-2026.
+  Si UNOSAT hubiera publicado once productos de otros eventos antes, se habrían
+  perdido sin dejar rastro.
+- **Nada de esto está validado en campo.** Los 393 puntos llevan «aún no
+  validado en campo» y la mayoría «pendiente de evaluar»: son
+  fotointerpretación sobre imagen de 50 cm, no visitas. 155 de los 393 son
+  «daño posible», que es una hipótesis, no un daño contado.
+
+**Viterbo entró en la capa el 19-ago-2026 y su única fuente es el satélite.**
+No tiene una sola fila en el RUD, ni un titular que el monitor pueda atribuirle:
+`fuentes: ["unosat"]`. Es el primer municipio que existe en el monitor porque lo
+vio un satélite y nadie más. Su celda de prensa marca 0 a propósito — la única
+mención de «Viterbo» en 6.615 titulares es un artículo en italiano que la llama
+«l'altra Viterbo», y sin el departamento en el texto no se le atribuye (el
+topónimo casa además dentro de «Santa Rosa de Viterbo», que es de Boyacá).
+
+Que su celda del RUD esté vacía **no significa que allí no haya damnificados**:
+significa que la alcaldía no ha cargado ninguno. Distinguir esas dos cosas es
+justo lo que este monitor existe para hacer.

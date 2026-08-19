@@ -808,3 +808,250 @@ class TestExencionDeSondas(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+# ---------------------------------------------------------------------------
+# UNITAR-UNOSAT: lector de shapefile y deduplicación de paquetes
+# ---------------------------------------------------------------------------
+import struct as _struct  # noqa: E402
+
+
+def _shp_de_puntos(puntos):
+    """Un .shp mínimo de tipo Point, para no depender de la red."""
+    cab = _struct.pack(">iiiiiii", 9994, 0, 0, 0, 0, 0, 0) + \
+        _struct.pack("<ii", 1000, 1)
+    cab += _struct.pack("<dddd", 0, 0, 0, 0) + _struct.pack("<dddd", 0, 0, 0, 0)
+    cuerpo = b""
+    for i, (x, y) in enumerate(puntos, start=1):
+        contenido = _struct.pack("<i", 1) + _struct.pack("<dd", x, y)
+        cuerpo += _struct.pack(">ii", i, len(contenido) // 2) + contenido
+    return cab + cuerpo
+
+
+def _dbf(campos, filas):
+    """Un .dbf dBase III mínimo. `campos` es [(nombre, tipo, largo)]."""
+    hlen = 32 + 32 * len(campos) + 1
+    rlen = 1 + sum(c[2] for c in campos)
+    out = bytes([3, 126, 8, 12]) + _struct.pack("<IHH", len(filas), hlen, rlen)
+    out += b"\0" * 20
+    for nombre, tipo, largo in campos:
+        out += nombre.encode("latin-1").ljust(11, b"\0")
+        out += tipo.encode("latin-1") + b"\0" * 4
+        out += bytes([largo, 0]) + b"\0" * 14
+    out += b"\x0d"
+    for fila in filas:
+        out += b" "
+        for (nombre, _t, largo), valor in zip(campos, fila):
+            out += str(valor).encode("latin-1")[:largo].ljust(largo, b" ")
+    return out
+
+
+class TestShapefile(unittest.TestCase):
+    """El lector de shapefile con solo stdlib (R14): sin GDAL ni pyshp."""
+
+    def test_lee_puntos_y_atributos(self):
+        import shapefile
+        shp = _shp_de_puntos([(-75.78, 5.23), (-75.79, 5.24)])
+        dbf = _dbf([("Main_Dmg", "C", 16), ("SensorDate", "C", 8)],
+                   [("Damage", "20260812"), ("Possible Damage", "20260812")])
+        feats = shapefile.leer(shp, dbf)
+        self.assertEqual(len(feats), 2)
+        self.assertEqual(feats[0]["geometry"]["type"], "Point")
+        # GeoJSON exige [lon, lat] en ese orden: invertirlo pone Colombia en Kenia
+        self.assertAlmostEqual(feats[0]["geometry"]["coordinates"][0], -75.78)
+        self.assertAlmostEqual(feats[0]["geometry"]["coordinates"][1], 5.23)
+        self.assertEqual(feats[0]["properties"]["Main_Dmg"], "Damage")
+
+    def test_celda_vacia_es_none_nunca_cero(self):
+        """R3 en el dbf: una celda numérica vacía es ausencia, no un cero."""
+        import shapefile
+        shp = _shp_de_puntos([(-75.0, 5.0)])
+        dbf = _dbf([("Area_m2", "N", 10), ("Notes", "C", 10)],
+                   [("", "")])
+        feats = shapefile.leer(shp, dbf)
+        self.assertIsNone(feats[0]["properties"]["Area_m2"])
+        self.assertIsNone(feats[0]["properties"]["Notes"])
+
+    def test_relleno_de_nulos_no_es_texto(self):
+        """ArcGIS rellena celdas con \\x00: eso es vacío, no una cadena."""
+        import shapefile
+        shp = _shp_de_puntos([(-75.0, 5.0)])
+        dbf = _dbf([("ImageID_Nu", "C", 8)], [("",)])
+        crudo = bytearray(dbf)
+        crudo[-8:] = b"\x00" * 8
+        feats = shapefile.leer(shp, bytes(crudo))
+        self.assertIsNone(feats[0]["properties"]["ImageID_Nu"])
+
+    def test_proyectado_se_rechaza(self):
+        """Un .prj no geográfico daría coordenadas absurdas sin fallar."""
+        import shapefile
+        self.assertTrue(shapefile.es_geografico('GEOGCS["GCS_WGS_1984",…]'))
+        self.assertFalse(shapefile.es_geografico('PROJCS["WGS_1984_UTM_18N",…]'))
+
+    def test_no_es_shapefile(self):
+        import shapefile
+        with self.assertRaises(ValueError):
+            shapefile.read_shp(b"esto no es un shapefile" * 10)
+
+
+class TestUnosat(unittest.TestCase):
+    """Reglas propias de la fuente UNOSAT."""
+
+    def test_anserma_no_es_ansermanuevo(self):
+        """R10 en los nombres de fichero: «Anserma» es prefijo de
+        «Ansermanuevo», que es otro municipio y de otro departamento."""
+        from sources import unosat
+        self.assertEqual(
+            unosat._municipio_de_capa("PHR_20260812_BuildingDamage_Anserma"),
+            "Anserma")
+        self.assertEqual(
+            unosat._municipio_de_capa("PHR_20260812_BuildingDamage_Ansermanuevo"),
+            "Ansermanuevo")
+
+    def test_municipio_desconocido_conserva_el_literal(self):
+        """Viterbo no está entre los municipios que sigue el monitor: se
+        mapea igual, con el nombre que da la fuente."""
+        from sources import unosat
+        self.assertEqual(
+            unosat._municipio_de_capa("Pleiades_20260812_BuildingDamage_Viterbo"),
+            "Viterbo")
+
+    def test_alias_de_columnas(self):
+        """Viterbo prefija con `d_` y Anserma no: leer por alias evita que
+        media capa se quede sin grado de daño."""
+        from sources import unosat
+        self.assertEqual(
+            unosat._campo({"d_Main_Dam": "Damage"}, "Main_Dmg", "d_Main_Dam"),
+            "Damage")
+        self.assertEqual(
+            unosat._campo({"Main_Dmg": "Damaged"}, "Main_Dmg", "d_Main_Dam"),
+            "Damaged")
+        self.assertIsNone(
+            unosat._campo({"Main_Dmg": ""}, "Main_Dmg", "d_Main_Dam"))
+
+    def test_departamento_del_titulo(self):
+        """El dbf no trae departamento; el título del producto sí."""
+        import sqlite3
+        from common import SCHEMA
+        from sources import unosat
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        conn.execute("INSERT INTO unosat_products (product_id, glide, titulo)"
+                     " VALUES (?,?,?)",
+                     (4251, unosat.GLIDE, "Building Damage Assessment in "
+                      "Viterbo Town, Caldas Department, Colombia"))
+        self.assertEqual(unosat._departamentos_de_titulos(conn),
+                         {"viterbo": "Caldas"})
+
+    def test_el_mismo_paquete_no_duplica_edificios(self):
+        """Tres productos publican el MISMO zip (idéntico sha256). El
+        edificio es uno solo: la clave es el paquete, no el producto."""
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        sha = "b37d2d78" * 8
+        for productos in ("4251", "4251,4252", "4251,4252,4253"):
+            conn.execute(
+                "INSERT INTO unosat_damage (paquete_sha, capa, idx, productos,"
+                " municipio, snapshot_date) VALUES (?,?,?,?,?,?)"
+                " ON CONFLICT(paquete_sha, capa, idx) DO UPDATE SET"
+                " productos=excluded.productos",
+                (sha, "Pleiades_20260812_BuildingDamage_Viterbo", 0, productos,
+                 "Viterbo", "2026-08-19"))
+        filas = conn.execute("SELECT productos FROM unosat_damage").fetchall()
+        self.assertEqual(len(filas), 1, "el mismo edificio se ha duplicado")
+        self.assertEqual(filas[0][0], "4251,4252,4253")
+
+
+class TestAlertaInstitucional(unittest.TestCase):
+    """El producto de UNOSAT entraba en la cronología sin avisar a nadie."""
+
+    def test_emisor_se_reconoce_en_el_titulo(self):
+        import alerts
+        self.assertEqual(
+            alerts._emisor("M7.4 in Colombia - UNITAR-UNOSAT Activation"),
+            "UNITAR-UNOSAT")
+        self.assertEqual(
+            alerts._emisor("M7.4 in Colombia - EC/ECHO daily map"), "EC/ECHO")
+        self.assertEqual(alerts._emisor("otra cosa"), "Una fuente institucional")
+
+    def test_sin_captura_previa_no_alerta(self):
+        """En la primera corrida todo sería «nuevo»: siete avisos de golpe no
+        informan de nada."""
+        import alerts
+        self.assertEqual(alerts._institucionales_nuevos("1970-01-01"), [])
+
+
+class TestUnosatEnLaCapaDeMunicipios(unittest.TestCase):
+    """UNOSAT cuenta como verificación satelital, con etiqueta propia.
+
+    Decidido el 19-ago-2026: sus municipios dejan de figurar como «nadie los ha
+    mirado desde fuera», pero NO se funden con Copernicus — sus puntos son
+    fotointerpretación que la propia ONU marca sin validar en campo, no
+    estadísticas revisadas por AOI.
+    """
+
+    UNOSAT_VITERBO = {"Viterbo": {"edificios": 154, "confirmados": 55,
+                                  "posibles": 99, "fecha_imagen": "20260812"}}
+
+    def test_solo_con_satelite_el_municipio_entra(self):
+        """Viterbo no tiene prensa, ni DYFI, ni una fila en el RUD: sin esta
+        vía se quedaría fuera de la capa pese a tener 154 edificios evaluados."""
+        from municipios import build_municipios
+        rows, _ = build_municipios([], None, {}, None, None, None,
+                                   self.UNOSAT_VITERBO)
+        vit = next(r for r in rows if r["municipio"] == "Viterbo")
+        self.assertEqual(vit["estado"], "evaluado_unosat")
+        self.assertEqual(vit["fuentes"], ["unosat"])
+        self.assertEqual(vit["unosat_edificios"], 154)
+        self.assertEqual(vit["unosat_confirmados"], 55)
+        self.assertFalse(vit["en_aoi_copernicus"])
+
+    def test_sin_evaluacion_no_hay_ceros(self):
+        """R3: un municipio que UNOSAT no ha mirado no tiene 0 edificios —
+        tiene ausencia de dato. Un 0 se leería como «miró y no vio nada»."""
+        from municipios import build_municipios
+        rows, _ = build_municipios([
+            {"titulo": "Armenia reporta afectaciones", "medio": "m"}
+        ], None, {}, None, None, None, self.UNOSAT_VITERBO)
+        armenia = next(r for r in rows if r["municipio"] == "Armenia")
+        self.assertIsNone(armenia["unosat_edificios"])
+        self.assertIsNone(armenia["unosat_confirmados"])
+        self.assertNotIn("unosat", armenia["fuentes"])
+
+    def test_copernicus_manda_sobre_unosat(self):
+        """Si el municipio ya está en una zona de Copernicus, ese estado gana:
+        es la evidencia más fuerte y la cascada no debe degradarla."""
+        from municipios import build_municipios
+        # cuadro que contiene a Viterbo (5.0627, -75.8706)
+        aoi = {"z": "POLYGON ((-76 5, -75.5 5, -75.5 5.2, -76 5.2, -76 5))"}
+        rows, _ = build_municipios([], None, aoi, None, None, None,
+                                   self.UNOSAT_VITERBO)
+        vit = next(r for r in rows if r["municipio"] == "Viterbo")
+        self.assertTrue(vit["en_aoi_copernicus"])
+        self.assertEqual(vit["estado"], "en_aoi")
+        self.assertEqual(vit["unosat_edificios"], 154,
+                         "el conteo de UNOSAT se conserva aunque no dé el estado")
+
+
+class TestToponimoViterbo(unittest.TestCase):
+    """Viterbo entró el 19-ago-2026 y trae dos trampas de topónimo a la vez."""
+
+    def test_viterbo_a_secas_no_es_prensa(self):
+        """Es una ciudad italiana: la única mención del corpus es un titular
+        en italiano que la llama «l'altra Viterbo». Sin «Caldas», no cuenta."""
+        from municipios import MUNICIPIOS, _menciona_municipio
+        meta = MUNICIPIOS["Viterbo"]
+        self.assertFalse(_menciona_municipio(
+            "Terremoto in Colombia, nell'altra Viterbo 29 feriti", meta))
+        self.assertTrue(_menciona_municipio(
+            "Viterbo, Caldas: 154 edificios evaluados", meta))
+
+    def test_santa_rosa_de_viterbo_no_es_viterbo(self):
+        """«Santa Rosa de Viterbo» es de Boyacá y contiene el topónimo
+        entero: el límite de palabra no basta aquí (R10)."""
+        from municipios import MUNICIPIOS, _menciona_municipio
+        meta = MUNICIPIOS["Viterbo"]
+        self.assertFalse(_menciona_municipio(
+            "Santa Rosa de Viterbo estrena acueducto", meta))

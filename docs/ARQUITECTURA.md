@@ -37,7 +37,7 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   `comparativaFuentes`, `isLiveblog`/`bestSnapshot`), `common.js` (nav/footer),
   un JS por página.
 
-## Modelo de datos (sqlite, 12 tablas)
+## Modelo de datos (sqlite, 14 tablas)
 
 Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 
@@ -54,6 +54,8 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `citizen_reports` | (origen, id_externo) | Reportes ChatMap: coordenada exacta + `lat_pub/lon_pub`, sha256 del medio, score y checks |
 | `news_items` | url | Titulares de todos los feeds (registro abierto) |
 | `rud_daily` | (snapshot_date, departamento, municipio) | RUD por municipio y día de captura — la serie oficial |
+| `unosat_products` | product_id | Productos UNITAR-UNOSAT del evento: título, enlaces a PDF/SHP/GDB y `shp_sha256`, que es la identidad real del paquete |
+| `unosat_damage` | (paquete_sha, capa, idx) | Edificios evaluados por UNOSAT. La clave es el **paquete**, no el producto: tres productos publican el mismo ZIP y el edificio es uno solo |
 | `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
 
 ## Los tres ciclos automáticos
