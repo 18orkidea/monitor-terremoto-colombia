@@ -184,6 +184,64 @@ class TestFraseHomonimos(unittest.TestCase):
 
 
 @unittest.skipUnless(NODE, "node no disponible")
+class TestSilencioDePrensa(unittest.TestCase):
+    """«Damnificados y ni un titular» es una afirmación pública, y no todos los
+    ceros la sostienen igual: donde el topónimo exige co-mención del
+    departamento el cero puede ser del monitor. La regla separa los dos niveles
+    y solo el primero afirma."""
+
+    MUNS = [
+        # nombre sin ambigüedad: su cero SÍ se puede afirmar
+        {"municipio": "Quinchía", "departamento": "Risaralda",
+         "rud_personas": 2390, "n_noticias": 0, "tasa_rud_pct": 8.5196},
+        {"municipio": "Bagadó", "departamento": "Chocó",
+         "rud_personas": 1133, "n_noticias": 0, "tasa_rud_pct": 8.7585},
+        # exige departamento: cuenta en el total, pero no se afirma
+        {"municipio": "Andalucía", "departamento": "Valle del Cauca",
+         "rud_personas": 1494, "n_noticias": 0, "requiere_depto": True,
+         "tasa_rud_pct": 5.95},
+        # homónimo de departamento: ni siquiera tiene cero, tiene ausencia
+        {"municipio": "Risaralda", "departamento": "Caldas", "rud_personas": 867,
+         "n_noticias": None, "homonimo_de_departamento": True},
+        # con prensa del evento: no es silencio
+        {"municipio": "Pereira", "departamento": "Risaralda",
+         "rud_personas": 5000, "n_noticias": 432},
+        # sin registro oficial: no hay damnificados que contrastar
+        {"municipio": "Salento", "departamento": "Quindío", "n_noticias": 0},
+    ]
+
+    def _sil(self, muns):
+        return correr_ui(f"UI.silencioDePrensa({json.dumps(muns, ensure_ascii=False)})")
+
+    def test_solo_cuentan_los_que_tienen_damnificados_y_cero_titulares(self):
+        sil = self._sil(self.MUNS)
+        self.assertEqual(sil["mudos"], 3)          # Quinchía, Bagadó, Andalucía
+        self.assertEqual(sil["personas"], 2390 + 1133 + 1494)
+
+    def test_el_toponimo_dudoso_no_se_afirma(self):
+        sil = self._sil(self.MUNS)
+        self.assertEqual(sil["ciertos"], ["Quinchía", "Bagadó"])
+        self.assertEqual(sil["personas_ciertas"], 2390 + 1133)
+        self.assertEqual(sil["dudosos"], 1)
+
+    def test_el_homonimo_no_entra_ni_en_el_total(self):
+        # su celda es ausencia de dato (None), no un cero: R3
+        sil = self._sil(self.MUNS)
+        self.assertNotIn("Risaralda", sil["ciertos"])
+        self.assertEqual(sil["personas"], 5017)
+
+    def test_encabeza_el_de_mas_damnificados(self):
+        sil = self._sil(self.MUNS)
+        self.assertEqual(sil["peor"]["municipio"], "Quinchía")
+        self.assertEqual(sil["peor"]["tasa_rud_pct"], 8.5196)
+
+    def test_si_nadie_queda_mudo_no_hay_afirmacion(self):
+        # R11: el día que todos tengan prensa, el banner desaparece
+        self.assertIsNone(self._sil([self.MUNS[4]]))
+        self.assertIsNone(self._sil([]))
+
+
+@unittest.skipUnless(NODE, "node no disponible")
 class TestOrdenDeTabla(unittest.TestCase):
     """Ordenación por columna (site/ui.js::comparador). Los nulos van SIEMPRE al
     final: un municipio sin dato no puede encabezar la tabla al ordenar por esa

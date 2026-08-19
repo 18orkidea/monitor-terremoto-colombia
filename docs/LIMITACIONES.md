@@ -345,3 +345,26 @@ Lo que queda como limitación:
   «mención en prensa» a «solo registro municipal (RUD)». Ese cero no es una
   pérdida de cobertura del monitor: es el dato. Allí hay damnificados
   registrados y no hay prensa de este terremoto.
+
+## Los municipios que entran solos por el RUD no tienen búsqueda propia de prensa
+
+`municipal_google_news_feeds()` genera una búsqueda de Google News por cada
+municipio del catálogo curado de `ingest/municipios.py`. Los que entran solos
+desde el RUD (`municipios_dinamicos`) **no la generan**: su prensa solo puede
+llegar si un titular de otro feed los nombra junto a su departamento, porque
+nacen con `requiere_depto`.
+
+Medido el 19-ago-2026: de los 33 municipios con damnificados registrados y cero
+titulares atribuidos, **23 no tienen búsqueda propia**. Su silencio es, en parte,
+silencio del monitor. Por eso el banner de la página de municipios separa dos
+niveles y solo afirma el cero de los municipios cuyo topónimo no admite duda.
+
+De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular en
+toda la vida del feed** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—: ahí la
+consulta se ha hecho todos los días y la prensa no ha publicado nada.
+
+Laguna emparentada, ya descrita más arriba: la tabla de municipios cuenta solo
+las menciones que pasan el filtro de topónimo, mientras que la página de
+titulares atribuye además por el municipio que declara el feed. Un municipio con
+búsqueda propia puede mostrar «0» en la tabla y tener titulares en su página de
+prensa (Andalucía y Obando son los casos vivos).

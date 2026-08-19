@@ -38,6 +38,32 @@
         : `: al resto no lo ha mirado ningún producto satelital de daño.`);
   }
 
+  // ---- damnificados sin una línea de prensa
+  // la regla vive en ui.js (silencioDePrensa) y se testea con node: es una
+  // afirmación pública, no una frase de esta página
+  const sil = window.UI.silencioDePrensa(data.items);
+  const banner = document.getElementById("banner-silencio");
+  if (banner && sil) {
+    banner.hidden = false;
+    banner.innerHTML =
+      `<strong>Damnificados sin una línea de prensa:</strong> ${sil.mudos} de los ` +
+      `${data.items.length} municipios con señal tienen personas registradas en el RUD ` +
+      `y ningún titular que el monitor pueda atribuirles — ${fmt(sil.personas)} personas ` +
+      `en total.` +
+      (sil.ciertos.length
+        ? ` En ${sil.ciertos.length} de ellos el nombre no admite duda ` +
+          `(${sil.ciertos.join(", ")}): ${fmt(sil.personas_ciertas)} personas registradas ` +
+          `como damnificadas y cero cobertura, hasta el ` +
+          `${pct(sil.peor.tasa_rud_pct)} de la población en ${sil.peor.municipio}.`
+        : "") +
+      (sil.dudosos
+        ? ` En los otros ${sil.dudosos} el cero puede ser del monitor y no de la prensa: ` +
+          `su nombre es palabra común o se repite en otro departamento, así que solo ` +
+          `se les atribuyen titulares que nombren también su departamento.`
+        : "") +
+      ` El corpus solo cuenta prensa publicada desde el 10 de agosto de 2026.`;
+  }
+
   const rows = [...data.items].sort((a, b) =>
     (b.poblacion_2026 || 0) - (a.poblacion_2026 || 0));
 

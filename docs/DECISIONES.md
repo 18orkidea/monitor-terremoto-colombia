@@ -425,3 +425,33 @@ Hallazgo colateral de la medición: el AOI de Istmina publicaba como evidencia d
 prensa un titular de agosto de 2024 sobre la muerte de un menor, sin relación con
 el sismo. Una cita fechada es una afirmación, no una cifra desviada; desapareció
 con el mismo cambio.
+
+## 2026-08-19 — El silencio se publica, pero en dos niveles
+
+Con el corpus ya limpio de prensa anterior al sismo se puede afirmar lo contrario
+del silencio informativo: **33 de los 116 municipios vigilados tienen personas
+registradas en el RUD y ningún titular atribuido** —12.129 personas—. Es
+exactamente la brecha que el monitor existe para medir, y JP decidió publicarlo
+como hallazgo.
+
+Decisión sobre CÓMO: la afirmación se publica **en dos niveles**, no como un
+número redondo. De los 33, **28 tienen un topónimo que exige co-mención del
+departamento** (palabra común, apellido, nombre repetido en otro departamento, o
+municipio que entró solo desde el RUD y nace con `requiere_depto`): su cero puede
+ser del monitor y no de la prensa. Publicar «33 municipios sin cobertura» sería
+justo el tipo de afirmación que este proyecto existe para no hacer. Solo se
+afirma el cero de los cinco cuyo nombre no admite duda —Quinchía, Bagadó,
+Guática, Mistrató y Guacarí, 5.297 personas registradas—, y del resto se dice qué
+lo hace incierto.
+
+La regla vive en `site/ui.js::silencioDePrensa`, no en la página, porque es una
+afirmación pública y se testea con node como el resto de reglas editoriales que
+viven en JavaScript. Devuelve `null` cuando nadie queda mudo: el día que todos
+tengan prensa, el banner desaparece en vez de mentir (R11).
+
+Hallazgo de la medición que quedó documentado en `docs/LIMITACIONES.md`: **23 de
+los 33 no tienen búsqueda propia de Google News**, porque `municipal_google_news_feeds()`
+solo recorre el catálogo curado y no los municipios que entran solos desde el RUD.
+Su silencio es, en parte, silencio del monitor. En cambio Bagadó, Guática y
+Mistrató sí tienen búsqueda propia y **no ha devuelto ni un titular en toda la
+vida del feed**: ahí la pregunta se ha hecho todos los días.

@@ -87,6 +87,12 @@
    "tipo": "monitor",
    "texto": "El corpus de titulares empieza el día del terremoto: 849 de 6.655 (12,8 %) eran prensa anterior al 10 de agosto —hasta un sismo de 1974—, colada por las búsquedas municipales de Google News. Ya no cuenta en ninguna página. La columna «Prensa» cambia en 67 municipios y nueve se quedan sin ningún titular del evento: ocho tienen damnificados registrados y ni una línea de prensa, y el noveno es Viterbo, cuya única noticia era un temblor de 2024 —ahora sí entra solo por el satélite—. Los titulares descartados siguen en el archivo.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
+  },
+  {
+   "fecha": "2026-08-19",
+   "tipo": "monitor",
+   "texto": "Con el corpus ya limpio de prensa vieja se puede afirmar lo contrario del silencio: 33 de los 116 municipios vigilados tienen damnificados registrados en el RUD y ningún titular atribuido — 12.129 personas. En cinco de ellos el nombre no admite duda: Quinchía, Bagadó, Guática, Mistrató y Guacarí suman 5.297 personas registradas y cero cobertura, y en Quinchía son el 8,5 % de su población. En Bagadó, Guática y Mistrató la búsqueda de prensa lleva días haciéndose y no ha devuelto ni un titular.",
+   "url": "https://brechas.orkidea.eu/site/municipios.html"
   }
  ]
 }
