@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Tue, 18 Aug 26 06:10:03 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;VENTA LOTES&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&amp;gt;Mié, 22/04/2026 - 08:27&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+  &amp;lt;div class="field field--name-field-lp-price field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Precio&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;4.500.000.000&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=81819&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3363" hreflang="es"&amp;gt;Inmuebles&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Subtítulo&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;3122612255&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 18 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-18-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 18 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/71" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Natalia Hernández&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-18T06:10:03-05:00" title="Martes, Agosto 18, 2026 - 06:10" class="datetime"&amp;gt;Mar, 18/08/2026 - 06:10&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90955&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="8UU94ikcyifz2V20MMgTA_SF9esX7XtHZoafrh2xkh8"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="eager" src="/sites/default/files/portadas/2026-08/Portada-18-de-agosto-2026.jpg" width="921" height="1200" alt="Portada 18 de agosto del 2026" onerror="this.onerror=null;this.src=&amp;amp;#039;https://www.lapatria.com/sites/default/files/portadas/2026-08/Portada-18-de-agosto-2026.jpg&amp;amp;#039;;" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 18 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Tue, 18 Aug 2026 11:10:03 +0000</pubDate>
+          <dc:creator>Natalia Hernández</dc:creator>
+          <guid isPermaLink="false">90955 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Segunda Escuela Familiar Municipal</title>
+  <link>https://www.lapatria.com/galerias/segunda-escuela-familiar-municipal</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Segunda Escuela Familiar Municipal&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/59" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Alejandro Calderin&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-18T00:00:00-05:00" title="Martes, Agosto 18, 2026 - 00:00" class="datetime"&amp;gt;Mar, 18/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;En el Teatro Los Fundadores se realizó la Segunda Escuela Familiar Municipal, un espacio en que el diálogo se centró en la prevención del suicidio y manejo de adicciones a dispositivos electrónicos y redes sociales.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/segunda-escuela-familiar-municipal" data-a2a-title="Segunda Escuela Familiar Municipal"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fsegunda-escuela-familiar-municipal&amp;amp;amp;title=Segunda%20Escuela%20Familiar%20Municipal"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Tue, 18 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">90770 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Sesión XI de la Catedra de Historia Regional</title>
+  <link>https://www.lapatria.com/galerias/sesion-xi-de-la-catedra-de-historia-regional</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Sesión XI de la Catedra de Historia Regional&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/59" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Alejandro Calderin&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-17T00:00:00-05:00" title="Lunes, Agosto 17, 2026 - 00:00" class="datetime"&amp;gt;Lun, 17/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;En el auditorio Bernardo Jaramillo Ossa, de la Universidad de Caldas, se realizó la sesión XI de la Catedra de Historia Regional Manizales y Caldas.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/sesion-xi-de-la-catedra-de-historia-regional" data-a2a-title="Sesión XI de la Catedra de Historia Regional"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fsesion-xi-de-la-catedra-de-historia-regional&amp;amp;amp;title=Sesi%C3%B3n%20XI%20de%20la%20Catedra%20de%20Historia%20Regional"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Mon, 17 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">90767 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 17 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-17-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 17 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/23" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;david.munoz&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-16T23:37:13-05:00" title="Domingo, Agosto 16, 2026 - 23:37" class="datetime"&amp;gt;Dom, 16/08/2026 - 23:37&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90894&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="KnofriCk5sTVycH8T0O9A4ypK0oeAQcrh-G8MeJU_Ts"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="eager" src="/sites/default/files/portadas/2026-08/LP-01A-17-08-26.jpg" width="600" height="782" alt="Portada 17 de agosto del 2026" onerror="this.onerror=null;this.src=&amp;amp;#039;https://www.lapatria.com/sites/default/files/portadas/2026-08/LP-01A-17-08-26.jpg&amp;amp;#039;;" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 17 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Mon, 17 Aug 2026 04:37:13 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">90894 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 16 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-16-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 16 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/23" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;david.munoz&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-16T00:51:24-05:00" title="Domingo, Agosto 16, 2026 - 00:51" class="datetime"&amp;gt;Dom, 16/08/2026 - 00:51&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90837&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="yh1OcJdKqkl6ogDMZ00KPkEx2Ukk2to54JcnnMWXl2Q"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="eager" src="/sites/default/files/portadas/2026-08/LP-01A-16-08-26.jpg" width="600" height="782" alt="Portada 16 de agosto del 2026" onerror="this.onerror=null;this.src=&amp;amp;#039;https://www.lapatria.com/sites/default/files/portadas/2026-08/LP-01A-16-08-26.jpg&amp;amp;#039;;" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 16 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Sun, 16 Aug 2026 05:51:24 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">90837 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Desayuno con Claudia Benavides Salazar, nueva ministra de Ciencia, Tecnología e Innovación</title>
+  <link>https://www.lapatria.com/galerias/desayuno-con-claudia-benavides-salazar-nueva-ministra-de-ciencia-tecnologia-e-innovacion</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Desayuno con Claudia Benavides Salazar, nueva ministra de Ciencia, Tecnología e Innovación&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/59" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Alejandro Calderin&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-16T00:00:00-05:00" title="Domingo, Agosto 16, 2026 - 00:00" class="datetime"&amp;gt;Dom, 16/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;En el restaurante La Beautiful Comida Inusual, en Chipre, la comunidad de Mujeres Con Ideales ofreció un desayuno para felicitar a Claudia Benavides Salazar, nueva ministra de Ciencia, Tecnología e Innovación.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/desayuno-con-claudia-benavides-salazar-nueva-ministra-de-ciencia-tecnologia-e-innovacion" data-a2a-title="Desayuno con Claudia Benavides Salazar, nueva ministra de Ciencia, Tecnología e Innovación"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fdesayuno-con-claudia-benavides-salazar-nueva-ministra-de-ciencia-tecnologia-e-innovacion&amp;amp;amp;title=Desayuno%20con%20Claudia%20Benavides%20Salazar%2C%20nueva%20ministra%20de%20Ciencia%2C%20Tecnolog%C3%ADa%20e%20Innovaci%C3%B3n"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Sun, 16 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">90766 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 15 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-15-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 15 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/23" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;david.munoz&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-15T00:14:43-05:00" title="Sábado, Agosto 15, 2026 - 00:14" class="datetime"&amp;gt;Sáb, 15/08/2026 - 00:14&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90777&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="fSte-u1sgz78cvabXakZ-TKlygLYaBSoxSSYjvZRBr0"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="eager" src="/sites/default/files/portadas/2026-08/OKLP-01A-15-08-26.jpg" width="600" height="782" alt="Portada 15 de agosto del 2026" onerror="this.onerror=null;this.src=&amp;amp;#039;https://www.lapatria.com/sites/default/files/portadas/2026-08/OKLP-01A-15-08-26.jpg&amp;amp;#039;;" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 15 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Sat, 15 Aug 2026 05:14:43 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">90777 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Feria Tech</title>
+  <link>https://www.lapatria.com/galerias/feria-tech</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Feria Tech&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/26" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;wilson.gonzalez&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-15T00:00:00-05:00" title="Sábado, Agosto 15, 2026 - 00:00" class="datetime"&amp;gt;Sáb, 15/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;Fotos | Argemiro Idárraga | LA PATRIA&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;En Expoferias se realizó la primera edición de la Feria Tech, una vitrina de ciencia, técnología e innovación que reunió a cientos de manizañelos.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/feria-tech" data-a2a-title="Feria Tech"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fferia-tech&amp;amp;amp;title=Feria%20Tech"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Sat, 15 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>wilson.gonzalez</dc:creator>
+          <guid isPermaLink="false">90753 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON AGOSTO 15 - 2026</title>
+  <link>https://www.lapatria.com/publicacion/papel-salmon-agosto-15-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;PAPEL SALMON AGOSTO 15 - 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/38" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;GLORIA LUZ ANGEL&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-14T15:23:33-05:00" title="Viernes, Agosto 14, 2026 - 15:23" class="datetime"&amp;gt;Vie, 14/08/2026 - 15:23&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=90720&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="FmDCbb1ecXQHc4Q0d3hD_Ea_o130jRw5g3U1j1ubyNs"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="eager" src="/sites/default/files/portadas/2026-08/Portada%20PAPEL%20SALMON%20AGOSTO%2015%20-%202026.jpg" width="450" height="586" alt="PAPEL SALMON AGOSTO 15 - 2026" onerror="this.onerror=null;this.src=&amp;amp;#039;https://www.lapatria.com/sites/default/files/portadas/2026-08/Portada%20PAPEL%20SALMON%20AGOSTO%2015%20-%202026.jpg&amp;amp;#039;;" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Persépolis de la escritora iraní Marjane Satrapi es la revelación de una historia común a las mujeres iraníes. La escritora falleció el pasado 4 de junio.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Fri, 14 Aug 2026 20:23:33 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">90720 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
