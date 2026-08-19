@@ -1,16 +1,18 @@
 /* Página del RUD: curva diaria de familias registradas + tabla municipal
    completa con buscador (ordenada por personas). Usa los componentes de ui.js. */
 (async function () {
-  const { fmt, pct, fechaEs, fetchJson, tablaHidratada, cssVar } = window.UI;
+  const { fmt, pct, fechaLarga, diaMes, fetchJson, tablaHidratada, cssVar } = window.UI;
   // rud.json: archivo dedicado (serie + detalle municipal completo día a día),
   // pensado para sobrevivir aunque la fuente original desaparezca.
   const rud = await fetchJson("/data/public/rud.json");
   if (!rud || !rud.serie || !rud.serie.length) {
     document.getElementById("rud-nota").textContent =
-      "Sin datos del RUD todavía: ejecuta primero python ingest/run_daily.py.";
+      "Todavía no hay ninguna captura del registro oficial de damnificados. " +
+      "Vuelve a intentarlo en unos minutos.";
     return;
   }
-  document.getElementById("generado").textContent = "Actualizado " + rud.generado;
+  document.getElementById("generado").textContent =
+    "Actualizado el " + fechaLarga(rud.generado);
   const serie = rud.serie;
 
   // ---- curva de familias registradas (SVG a mano, mismo estilo que la portada)
@@ -33,9 +35,9 @@
     serie.forEach((d, i) => {
       // el punto reconstruido se pinta hueco: no es una captura del endpoint
       const rec = d.reconstruido;
-      s += `<circle cx="${x(i)}" cy="${y(d.familias || 0)}" r="5" fill="${rec ? cssVar("--surface-1") : cssVar("--good")}" stroke="${cssVar("--good")}" stroke-width="${rec ? 2.5 : 2}"${rec ? ' stroke-dasharray="3 2"' : ""}><title>${d.fecha}: ${fmt(d.familias)} familias, ${fmt(d.municipios)} municipios${rec ? ` — punto reconstruido: ${d.origen || ""}` : ""}</title></circle>` +
+      s += `<circle cx="${x(i)}" cy="${y(d.familias || 0)}" r="5" fill="${rec ? cssVar("--surface-1") : cssVar("--good")}" stroke="${cssVar("--good")}" stroke-width="${rec ? 2.5 : 2}"${rec ? ' stroke-dasharray="3 2"' : ""}><title>${fechaLarga(d.fecha)}: ${fmt(d.familias)} familias, ${fmt(d.municipios)} municipios${rec ? ` — punto reconstruido: ${d.origen || ""}` : ""}</title></circle>` +
         `<text x="${x(i)}" y="${y(d.familias || 0) - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="${cssVar("--good")}">${fmt(d.familias)}</text>` +
-        `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${cssVar("--muted")}">${d.fecha.slice(5)}</text>`;
+        `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${cssVar("--muted")}">${diaMes(d.fecha)}</text>`;
     });
     s += `<text x="${M.l}" y="14" font-size="11" fill="${cssVar("--ink-2")}">Familias registradas (acumulado por día de captura)</text></svg>`;
     el.innerHTML = s;
@@ -140,8 +142,8 @@
         : `${total} municipios registrados (${fmt(ult.familias)} familias en total), `;
       return cabeza + `${criterio}, de ${TOP} en ${TOP}. ` +
         `La columna Δ compara con la captura anterior; «nuevo» marca los municipios que ` +
-        `aparecieron por primera vez el ${fechaEs(ult.fecha)}. Serie iniciada el ` +
-        `${fechaEs(serie[0].fecha)}. Un cero en las columnas de viviendas puede significar ` +
+        `aparecieron por primera vez el ${fechaLarga(ult.fecha)}. Serie iniciada el ` +
+        `${fechaLarga(serie[0].fecha)}. Un cero en las columnas de viviendas puede significar ` +
         `«todavía sin evaluar», no «sin daño».` +
         (serie.some((d) => d.reconstruido)
           ? ` Los puntos huecos de la curva no son capturas del RUD: se reconstruyeron ` +

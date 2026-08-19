@@ -83,14 +83,15 @@
   if (!mon) {
     document.getElementById("banner-brechas").innerHTML =
       !/^https?:$/.test(location.protocol)
-        ? "<strong>Página abierta como fichero (file://):</strong> el navegador " +
-          "bloquea la carga de datos por seguridad. Sirve el repo por HTTP — " +
-          "desde la carpeta del proyecto: <code>python3 -m http.server 8123</code> " +
-          "y abre <code>http://localhost:8123/site/</code>."
-        : "Sin datos: ejecuta primero <code>python ingest/run_daily.py</code>.";
+        ? "<strong>Esta página está abierta como un archivo del disco:</strong> el " +
+          "navegador bloquea la carga de datos por seguridad. Ábrela en " +
+          "<a href=\"https://brechas.orkidea.eu/\">brechas.orkidea.eu</a>."
+        : "No se han podido cargar los datos del monitor. Vuelve a intentarlo en " +
+          "unos minutos.";
     return;
   }
-  document.getElementById("generado").textContent = "Actualizado " + mon.generado;
+  document.getElementById("generado").textContent =
+    "Actualizado el " + window.UI.fechaLarga(mon.generado);
 
   // ---- banda de brechas oficiales
   // los ejemplos NO se escriben a mano: el día que un municipio entre al RUD la
@@ -117,23 +118,29 @@
   const g = mon.brechas_oficiales || {};
   const soc = g.ungrd_socrata || {}, arc = g.ungrd_arcgis || {};
   const dias = (d) => d ? Math.round((Date.now() - new Date(d)) / 864e5) : null;
+  const fechaL = window.UI.fechaLarga;
   document.getElementById("banner-brechas").innerHTML =
-    `<strong>Brecha de reporte oficial:</strong> UNGRD en datos.gov.co llega hasta ` +
-    `<strong>${(soc.hasta || "?").slice(0, 10)}</strong> (hace ${fmt(dias(soc.hasta))} días); ` +
-    `el registro ArcGIS de UNGRD hasta <strong>${arc.max_fecha || "?"}</strong> ` +
-    `(hace ${fmt(dias(arc.max_fecha))} días). El SNIGRD (2026) no expone API pública. ` +
+    `<strong>Brecha de reporte oficial:</strong> lo que la Unidad Nacional para la Gestión ` +
+    `del Riesgo de Desastres (UNGRD) publica en el portal datos.gov.co llega hasta el ` +
+    `<strong>${fechaL(soc.hasta)}</strong> (hace ${fmt(dias(soc.hasta))} días); ` +
+    `su otro registro público, el de ArcGIS, hasta el <strong>${fechaL(arc.max_fecha)}</strong> ` +
+    `(hace ${fmt(dias(arc.max_fecha))} días). El sistema nacional de información del riesgo ` +
+    `(SNIGRD, 2026) no ofrece ninguna vía de consulta automática. ` +
     (g.ungrd_rud ? `<br><strong>La brecha empezó a cerrarse:</strong> el ` +
       `<a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">RUD</a> ` +
-      `(registro oficial de damnificados) ya cubre el evento — ` +
+      `(Registro Único de Damnificados) ya cubre el evento — ` +
       `<strong>${fmt(g.ungrd_rud.municipios)}</strong> municipios con ` +
       `<strong>${fmt(g.ungrd_rud.familias)}</strong> familias y ` +
       `${fmt(g.ungrd_rud.viv_destruidas)} viviendas destruidas registradas. ` +
       brechaMunicipal() : "") +
-    `Copernicus entregó ${mon.entregas.length} productos y la comunidad ` +
-    `aportó ${mon.citizen.chatmap_total} reportes con foto.` +
-    (mon.exposicion ? `<br><strong>Exposición sin mapeo:</strong> ~${fmt(mon.exposicion.expuesta_mmi6plus)} ` +
-      `personas expuestas a MMI≥6 (PAGER); las zonas mapeadas por Copernicus cubren ` +
-      `~${fmt(mon.exposicion.en_aois_copernicus)} (${mon.exposicion.pct_cubierta} %). ` +
+    `Copernicus entregó ${window.UI.fmtProsa(mon.entregas.length)} productos y la ` +
+    `comunidad aportó ${window.UI.fmt(mon.citizen.chatmap_total)} reportes con foto.` +
+    (mon.exposicion ? `<br><strong>Exposición sin mapeo:</strong> unas ` +
+      `${fmt(mon.exposicion.expuesta_mmi6plus)} personas viven donde el sismo alcanzó una ` +
+      `intensidad de 6 o más en la escala de Mercalli modificada, según la estimación rápida ` +
+      `del Servicio Geológico de Estados Unidos (PAGER); las zonas mapeadas por Copernicus ` +
+      `cubren a unas ${fmt(mon.exposicion.en_aois_copernicus)} ` +
+      `(${mon.exposicion.pct_cubierta} %). ` +
       `El resto es población que nadie ha mirado de cerca.` : "");
 
   // ---- mapa
@@ -144,15 +151,16 @@
 
   const layers = {};
   if (shake) {
-    layers["Intensidad ShakeMap"] = L.geoJSON(shake, {
+    layers["Intensidad estimada por el USGS"] = L.geoJSON(shake, {
       style: (f) => ({ color: "#8a5a00", weight: 1, opacity: 0.5, dashArray: "4 3" }),
-      onEachFeature: (f, l) => l.bindTooltip("MMI " + (f.properties.value ?? "")),
+      onEachFeature: (f, l) => l.bindTooltip(
+        `Intensidad ${f.properties.value ?? "—"} en la escala de Mercalli modificada`),
     }).addTo(map);
   }
   const aoiLayerById = {};
   const munLayerById = {};
   if (aois) {
-    layers["Zonas Copernicus (AOI)"] = L.geoJSON(aois, {
+    layers["Zonas que analizó Copernicus"] = L.geoJSON(aois, {
       style: (f) => ({
         color: ESTADO_COLOR[f.properties.estado] || css("--muted"),
         weight: 2, fillOpacity: 0.12,
@@ -178,7 +186,7 @@
         }));
       },
     }).addTo(map);
-    map.fitBounds(layers["Zonas Copernicus (AOI)"].getBounds().pad(0.15));
+    map.fitBounds(layers["Zonas que analizó Copernicus"].getBounds().pad(0.15));
   } else { map.setView([4.5, -76.3], 8); }
 
   // ---- detecciones de daño de Copernicus (la faceta punto a punto)
@@ -347,26 +355,27 @@
           titulo: "Reporte ciudadano",
           subtitulo: p.time || null,
           filas: [
-            ["Dentro de zona Copernicus", p.aoi ? aoiLabel(p.aoi) : null],
-            ["Intensidad estimada (MMI)", p.mmi == null ? null : fmt(p.mmi)],
+            ["Dentro de zona analizada por Copernicus", p.aoi ? aoiLabel(p.aoi) : null],
+            ["Intensidad estimada (escala de Mercalli)", p.mmi == null ? null : fmt(p.mmi)],
             ["", p.mensaje || null],
           ],
           html: media || null,
-          pie: "ChatMap · coordenada redondeada a ~110 m" +
-            (p.score == null ? "" : ` · score ${p.score}`),
+          pie: "ChatMap · coordenada redondeada a unos 110 metros" +
+            (p.score == null ? "" : ` · puntuación de la verificación automática: ${p.score}`),
         }));
       },
     }).addTo(map);
   }
   if (dyfi) {
-    layers["Intensidad percibida DYFI"] = L.geoJSON(dyfi, {
+    layers["Intensidad que sintió la población"] = L.geoJSON(dyfi, {
       style: (f) => {
         const c = f.properties.cdi || 0;
         const op = Math.min(0.65, 0.08 + c * 0.07);
         return { color: css("--s1"), weight: 0.5, fillColor: css("--s1"), fillOpacity: op };
       },
       onEachFeature: (f, l) => l.bindTooltip(
-        `CDI ${f.properties.cdi} · ${f.properties.nresp} respuestas`),
+        `Intensidad percibida ${f.properties.cdi} · ` +
+        `${f.properties.nresp} respuestas ciudadanas`),
     });
   }
   if (sismos) {
@@ -411,7 +420,8 @@
             filas: [
               ["Población DANE 2026", p.poblacion_2026 == null ? null
                 : fmt(p.poblacion_2026) + desglose],
-              ["Intensidad percibida (DYFI)", p.dyfi_max_cdi == null ? null
+              ["Intensidad percibida (cuestionario ciudadano del USGS)",
+                p.dyfi_max_cdi == null ? null
                 : `${fmt(p.dyfi_max_cdi)} · ${fmt(p.dyfi_respuestas)} respuestas`],
               ["Titulares que lo nombran", p.homonimo_de_departamento
                 ? "no atribuibles: se llama igual que un departamento"
@@ -435,9 +445,10 @@
             // que UNOSAT sí ha evaluado, decir «no equivale a daño satelital»
             // sería falso — lo que les falta es la verificación oficial.
             pie: p.unosat_edificios == null
-              ? "No equivale a daño satelital ni EDAN oficial."
-              : "Evaluación satelital sin validar en campo; no equivale a un " +
-                "EDAN oficial.",
+              ? "No equivale a daño visto por satélite ni a una evaluación oficial " +
+                "de daños en el terreno (EDAN)."
+              : "Evaluación satelital sin comprobar sobre el terreno; no equivale a " +
+                "una evaluación oficial de daños (EDAN).",
           }));
         },
       }).addTo(map);
@@ -445,8 +456,8 @@
   L.control.layers(null, layers, { collapsed: true }).addTo(map);
 
   // el grid asienta su tamaño tarde: reencuadrar cuando el contenedor cambie
-  const aoiBounds = layers["Zonas Copernicus (AOI)"] &&
-    layers["Zonas Copernicus (AOI)"].getBounds();
+  const aoiBounds = layers["Zonas que analizó Copernicus"] &&
+    layers["Zonas que analizó Copernicus"].getBounds();
   let lastW = map.getSize().x;
   new ResizeObserver(() => {
     const w = document.getElementById("map").clientWidth;
@@ -544,7 +555,8 @@
       .map((x) => x.search_date).filter(Boolean).sort();
     if (fechas.length) hitos.push({
       fecha: fechas[0], tipo: "local", url: "balances.html",
-      texto: "Primer balance en medios citando fuentes oficiales (UNGRD/SGC) rastreado por el monitor" });
+      texto: "Primer balance en medios que cita fuentes oficiales —la UNGRD y el Servicio " +
+        "Geológico Colombiano— rastreado por el monitor" });
     const rudSerie = (mon.rud && mon.rud.serie) || [];
     if (rudSerie.length) hitos.push({
       fecha: rudSerie[0].fecha, tipo: "local", url: "rud.html",
@@ -554,8 +566,9 @@
     const ultEmm = mv.map((d, i) => d.emm != null ? i : -1).filter((i) => i >= 0).at(-1);
     if (ultEmm != null && ultEmm < mv.length - 1) hitos.push({
       fecha: mv[ultEmm + 1].fecha, tipo: "monitor",
-      texto: `GDACS purga la serie global de noticias EMM (último dato: ${mv[ultEmm].fecha}); ` +
-        `sobrevive solo en los snapshots del monitor, que sigue midiendo con sus feeds abiertos` });
+      texto: `El sistema europeo de alertas GDACS borra su serie global de noticias ` +
+        `(último dato: ${window.UI.fechaLarga(mv[ultEmm].fecha)}); solo sobrevive en las ` +
+        `copias que archiva el monitor, que sigue midiendo con sus canales abiertos` });
     hitos.sort((x, y) => y.fecha.localeCompare(x.fecha));
   }
   const timelineEl = document.getElementById("timeline");
@@ -566,7 +579,8 @@
     const vista = hitos.filter((h) => filtro === "todos" ||
       ETIQUETA_TIPO[h.tipo] === filtro || h.tipo === "evento");
     timelineEl.innerHTML = vista.map((h) =>
-      `<li class="${h.tipo}"><span class="t-fecha">${h.fecha.slice(0, 16).replace("T", " ")}</span> ` +
+      `<li class="${h.tipo}"><span class="t-fecha">${window.UI.fechaEs(h.fecha)}` +
+      `${h.fecha.length >= 16 ? `, ${h.fecha.slice(11, 16)}` : ""}</span> ` +
       `<span class="t-tipo">${ETIQUETA_TIPO[h.tipo] || h.tipo}</span>` +
       (h.url ? `<a href="${h.url}" target="_blank" rel="noopener">${h.texto}</a>` : h.texto) +
       `</li>`).join("") || "<li>Sin hitos registrados aún.</li>";
@@ -589,12 +603,13 @@
   actsEl.innerHTML = acts.length
     ? acts.map((x) =>
       `<p><a href="${x.visor}" target="_blank" rel="noopener"><strong>${x.code}</strong></a> — ` +
-      `${x.name} · ${t(x.category)}${t(x.category) !== x.category ? ` (${x.category})` : ""} · ${(x.event_time || "").slice(0, 10)} · ` +
-      `${x.n_aois} zona(s) analizadas` +
+      `${x.name} · ${t(x.category)}${t(x.category) !== x.category ? ` (${x.category})` : ""} · ${window.UI.fechaEs(x.event_time)} · ` +
+      `${x.n_aois} ${x.n_aois === 1 ? "zona analizada" : "zonas analizadas"}` +
       `${x.closed === false ? ' · <span class="badge" style="--bc:var(--warning)">activación abierta</span>' : ""}</p>`).join("") +
       `<p class="note">Índice completo vigilado: ${(mon.activation_index || []).length} activaciones` +
-      ` públicas (todas las emergencias mapeadas por Copernicus desde jul-2023, cualquier país)` +
-      ` — disponible en <a href="/data/public/monitor.json" target="_blank">monitor.json</a>.</p>`
+      ` públicas (todas las emergencias mapeadas por Copernicus desde julio de 2023, en` +
+      ` cualquier país) — disponibles en los` +
+      ` <a href="/data/public/monitor.json" target="_blank">datos abiertos del monitor</a>.</p>`
     : "<p class='note'>Ninguna otra activación de Colombia en el rango público.</p>";
   // la nota del cruce no lleva fecha ni municipios escritos a mano: el día que
   // Pereira o Buenaventura registren, deja de nombrarlos sola (R11)
@@ -602,7 +617,7 @@
   if (notaDesde && (mon.rud || {}).serie && mon.rud.serie.length) {
     // snapshot_date: cuándo empezó a capturarlo el monitor, NO cuándo empezó a
     // registrar el RUD — decirlo al revés falsearía el propio archivo
-    notaDesde.textContent = window.UI.fechaEs(mon.rud.serie[0].fecha);
+    notaDesde.textContent = window.UI.fechaLarga(mon.rud.serie[0].fecha);
   }
   // la frase completa es condicional: el día que toda zona con daño satelital
   // tenga registro municipal, la afirmación deja de ser cierta y se sustituye
@@ -636,7 +651,9 @@
   const ul = document.getElementById("alerts");
   const items = (alerts && alerts.alertas) || [];
   const h2a = document.querySelector("#alerts-section h2");
-  if (h2a && alerts && alerts.fecha) h2a.textContent = `Alertas de hoy (${alerts.fecha})`;
+  // fecha absoluta, no «hoy»: esta página se releerá dentro de años (2.9)
+  if (h2a && alerts && alerts.fecha)
+    h2a.textContent = `Alertas del ${window.UI.fechaLarga(alerts.fecha)}`;
   ul.innerHTML = items.length
     ? items.map((a) => {
         // Una alerta que nombra un producto debe dejar ir a verlo. El texto ya
@@ -650,7 +667,7 @@
         }
         return `<li>${a.nivel === "alta" ? "⚠️ " : ""}${txt}${link}</li>`;
       }).join("")
-    : "<li>Sin novedades de Colombia en la corrida de hoy.</li>";
+    : "<li>Sin novedades de Colombia en la última revisión.</li>";
 
   // eje X compartido entre la gráfica de volumen y la banda de hitos
   function ejeX(el, media) {
@@ -678,7 +695,7 @@
       const v = d.emm || 0, xx = x(i) - bw / 2, yy = y(v);
       s += `<rect data-i="${i}" x="${xx}" y="${yy}" width="${bw}" height="${Math.max(0, H - M.b - yy)}" rx="3" fill="${css("--s1")}"/>`;
       if (v) s += `<text x="${x(i)}" y="${yy - 4}" text-anchor="middle" font-size="10" fill="${css("--ink-2")}">${v.toLocaleString("es-CO")}</text>`;
-      s += `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${d.fecha.slice(5)}</text>`;
+      s += `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${window.UI.diaMes(d.fecha)}</text>`;
     });
     // feeds abiertos del monitor: la serie que sigue viva tras la purga de EMM
     const lineF = media.filter((d) => d.feeds != null);
@@ -710,8 +727,8 @@
     }
 
     s += `<g font-size="11">` +
-      `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias EMM (global, purgado)</text>` +
-      `<circle cx="${M.l + 205}" cy="9" r="5" fill="${css("--s3")}"/><text x="${M.l + 214}" y="13" fill="${css("--ink-2")}">Feeds abiertos del monitor</text>` +
+      `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias EMM (global, purgada)</text>` +
+      `<circle cx="${M.l + 205}" cy="9" r="5" fill="${css("--s3")}"/><text x="${M.l + 214}" y="13" fill="${css("--ink-2")}">Canales abiertos del monitor</text>` +
       `<circle cx="${M.l + 385}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 394}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text></g>`;
     s += `</svg>`;
     el.innerHTML = s;
@@ -719,9 +736,10 @@
     window.UI.attachTooltip(el, (t) => {
       if (t.dataset.i == null) return null;
       const d = media[+t.dataset.i];
-      return `<strong>${d.fecha}</strong><br>Noticias EMM (global): ${fmt(d.emm)}<br>` +
-        `Feeds abiertos: ${fmt(d.feeds)}<br>` +
-        `ChatMap: ${fmt(d.chatmap)}<br>GDELT vol: ${d.gdelt ?? "—"}` +
+      return `<strong>${window.UI.fechaLarga(d.fecha)}</strong><br>` +
+        `Noticias del monitor europeo de medios (EMM), serie global: ${fmt(d.emm)}<br>` +
+        `Canales abiertos del monitor: ${fmt(d.feeds)}<br>` +
+        `ChatMap: ${fmt(d.chatmap)}<br>Volumen en GDELT: ${d.gdelt ?? "—"}` +
         `${d.fuentes ? "<br>Medios distintos: " + fmt(d.fuentes) : ""}`;
     });
   }
@@ -751,7 +769,7 @@
     // rejilla vertical por día (misma posición que las barras de arriba)
     media.forEach((d, i) => {
       s += `<line x1="${x(i)}" x2="${x(i)}" y1="4" y2="${H - 16}" stroke="${css("--grid")}" stroke-width="1" stroke-dasharray="2 3"/>` +
-        `<text x="${x(i)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="${css("--muted")}">${d.fecha.slice(5)}</text>`;
+        `<text x="${x(i)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="${css("--muted")}">${window.UI.diaMes(d.fecha)}</text>`;
     });
     LANES.forEach((lane, li) => {
       const yy = 6 + li * LH + LH / 2;
@@ -763,7 +781,7 @@
       const yy = 6 + li * LH + LH / 2;
       dia.forEach((h, k) => {
         const xx = x(i) + (k - (dia.length - 1) / 2) * 11;
-        const texto = `${h.fecha.slice(0, 10)} · ${(ETIQUETA_TIPO[h.tipo] || h.tipo)} · ` +
+        const texto = `${window.UI.fechaLarga(h.fecha)} · ${(ETIQUETA_TIPO[h.tipo] || h.tipo)} · ` +
           h.texto.replaceAll('"', "&quot;");
         const color = h.tipo === "evento" ? css("--critical") : LANES[li].color;
         s += h.tipo === "entrega"
@@ -794,7 +812,8 @@
     window.UI.metricCards(el, fuentes.map((f) => {
       const [valor, unidad] = principal[f.id](f);
       return { label: f.nombre, value: valor,
-               sub: `${unidad} · ${f.alcance}${f.fecha ? ` · ${f.fecha}` : ""}`,
+               sub: `${unidad} · ${f.alcance}` +
+                    `${f.fecha ? ` · ${window.UI.fechaEs(f.fecha)}` : ""}`,
                href: f.href };
     }));
   }

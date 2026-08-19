@@ -14,7 +14,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from render_html import fmt, slug          # noqa: E402  (mismo locale es-CO que las fichas)
+# mismo locale es-CO y el mismo criterio de fechas que las fichas
+from render_html import fecha_larga, fmt, slug          # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "data" / "public"
@@ -63,9 +64,10 @@ def llms_full(destino: Path) -> int:
     rud = json.loads((PUBLIC / "rud.json").read_text())
     generado = municipios.get("generado", "")
 
-    L = [f"# Monitor de brechas — Terremoto de Colombia 2026: datos por municipio",
+    L = ["# Monitor de brechas — Terremoto de Colombia 2026: datos por municipio",
          "",
-         f"Actualizado: {generado}. Licencia CC BY 4.0. Fuente de cada cifra al final.",
+         f"Actualizado el {fecha_larga(generado)}. Licencia CC BY 4.0. Fuente de cada cifra",
+         "al final.",
          "",
          "Terremoto de magnitud 7,4 del 10 de agosto de 2026, con epicentro en San José del",
          "Palmar (Chocó, Colombia). Este archivo recoge, municipio a municipio, lo que cada",
@@ -73,14 +75,20 @@ def llms_full(destino: Path) -> int:
          "",
          "## Cómo leer estas cifras",
          "",
-         "- El RUD (Registro Único de Damnificados, de la UNGRD) es un registro progresivo",
-         "  que cargan las autoridades municipales y está sujeto a verificación posterior:",
-         "  mide inscripciones tramitadas, no daño comprobado.",
+         "- El RUD (Registro Único de Damnificados), que lleva la Unidad Nacional para la",
+         "  Gestión del Riesgo de Desastres (UNGRD), es un registro progresivo que cargan las",
+         "  autoridades municipales y está sujeto a verificación posterior: mide inscripciones",
+         "  tramitadas, no daño comprobado.",
          "- Que un municipio no aparezca en el RUD significa «sin registro aún», nunca",
          "  «sin daño».",
          "- Un municipio sin producto satelital de daño no ha sido evaluado desde el aire:",
          "  su ausencia de cifra satelital no es un cero.",
          "- La prensa nunca equivale a un balance oficial.",
+         "- Siglas que se repiten abajo: DANE es el Departamento Administrativo Nacional de",
+         "  Estadística, de donde salen las proyecciones de población; DIVIPOLA es la División",
+         "  Político-Administrativa de Colombia, el código oficial de cada municipio; y DYFI",
+         "  («Did You Feel It?») es el cuestionario con el que el Servicio Geológico de Estados",
+         "  Unidos (USGS) mide cuánto sintió el sismo la población.",
          "",
          "## Municipios",
          ""]
@@ -89,7 +97,7 @@ def llms_full(destino: Path) -> int:
                    key=lambda m: (m.get("rud_personas") or 0), reverse=True)
     for m in items:
         nombre, depto = m["municipio"], m["departamento"]
-        partes = [f"### {nombre} ({depto})", f"DIVIPOLA {m['divipola']}. "
+        partes = [f"### {nombre} ({depto})", f"Código DIVIPOLA {m['divipola']}. "
                   f"Población proyectada 2026 (DANE): {fmt(m['poblacion_2026'])} habitantes."]
         if m.get("rud_familias"):
             partes.append(
@@ -100,14 +108,14 @@ def llms_full(destino: Path) -> int:
         else:
             partes.append("RUD: sin inscripciones en la última captura. Sin registro aún "
                           "no significa sin daño.")
-        partes.append("Cobertura satelital: dentro de una zona con producto de daño."
+        partes.append("Cobertura satelital: dentro de una zona con mapa de daños publicado."
                       if m.get("en_aoi_copernicus") else
                       "Cobertura satelital: ningún producto satelital de daño ha reportado "
                       "daños en el municipio.")
         if m.get("dyfi_max_cdi"):
-            partes.append(f"Intensidad percibida (DYFI/USGS): hasta {fmt(m['dyfi_max_cdi'], 1)} "
-                          f"en escala de Mercalli modificada, con {fmt(m['dyfi_respuestas'])} "
-                          f"respuestas ciudadanas.")
+            partes.append(f"Intensidad percibida (cuestionario DYFI del USGS): hasta "
+                          f"{fmt(m['dyfi_max_cdi'], 1)} en la escala de Mercalli modificada, "
+                          f"con {fmt(m['dyfi_respuestas'])} respuestas ciudadanas.")
         else:
             partes.append("Intensidad percibida: sin respuestas al cuestionario DYFI del USGS.")
         if m.get("n_noticias"):
@@ -121,13 +129,14 @@ def llms_full(destino: Path) -> int:
           "",
           "- RUD (Registro Único de Damnificados), UNGRD: https://rud.gestiondelriesgo.gov.co/",
           "- Proyecciones de población municipal 2026, DANE",
-          "- Copernicus Emergency Management Service, activación EMSR916",
-          "- USGS ShakeMap y DYFI («Did You Feel It?»)",
+          "- Servicio de gestión de emergencias de Copernicus (EMS), activación EMSR916",
+          "- Servicio Geológico de Estados Unidos (USGS): mapa de intensidad ShakeMap y",
+          "  cuestionario ciudadano DYFI («Did You Feel It?», ¿lo sintió usted?)",
           "- ChatMap · OpenStreetMap Colombia (reportes ciudadanos)",
-          "- Feeds abiertos de prensa del propio monitor",
+          "- Canales de prensa abiertos que sigue el propio monitor",
           "",
           f"Datos completos: {DOMINIO}/data/public/monitor.json",
-          f"Código y snapshots: https://github.com/18orkidea/monitor-terremoto-colombia",
+          "Código y copias archivadas: https://github.com/18orkidea/monitor-terremoto-colombia",
           f"Serie diaria del RUD: {len(rud.get('detalle_diario', {}))} capturas archivadas.",
           ""]
     texto = "\n".join(L)

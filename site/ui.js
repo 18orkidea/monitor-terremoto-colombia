@@ -27,12 +27,37 @@ window.UI = (function () {
   const pct = (n) => n == null ? "—"
     : (n > 0 && n < 0.05 ? "<0,1 %" : fmt(n, 1) + " %");
 
-  /* Fecha ISO → «16-ago-2026», el formato que usa el resto del sitio. */
+  /* Fechas: UN solo criterio en todo el sitio (Libro de estilo, 9.6 y 9.8).
+
+       · En prosa la fecha NO se abrevia nunca: `fechaLarga` → «16 de agosto
+         de 2026». Es lo que lee quien llega de un buscador, y estas páginas
+         se releerán dentro de años.
+       · En tablas, ejes de gráfico, chips y desplegables, donde el espacio
+         manda, se admite la forma corta: `fechaEs` → «16-ago-2026».
+       · La forma ISO (2026-08-16) es un valor, no un texto: vale como
+         `value` de un <option> o clave de datos, nunca como algo que se lee.
+
+     Espejo exacto de `fecha_corta` y `fecha_larga` en deploy/render_html.py:
+     si tocas una, mira la otra. */
   const MESES = ["ene", "feb", "mar", "abr", "may", "jun",
                  "jul", "ago", "sep", "oct", "nov", "dic"];
+  const MESES_LARGOS = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+                        "julio", "agosto", "septiembre", "octubre", "noviembre",
+                        "diciembre"];
+  const partesFecha = (iso) => /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
   const fechaEs = (iso) => {
-    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
+    const m = partesFecha(iso);
     return m ? `${+m[3]}-${MESES[+m[2] - 1]}-${m[1]}` : (iso || "—");
+  };
+  const fechaLarga = (iso) => {
+    const m = partesFecha(iso);
+    return m ? `${+m[3]} de ${MESES_LARGOS[+m[2] - 1]} de ${m[1]}` : (iso || "—");
+  };
+  /* Solo para ejes de gráfico, donde no cabe ni la forma corta entera: la
+     misma abreviatura sin el año, que la propia gráfica ya declara. */
+  const diaMes = (iso) => {
+    const m = partesFecha(iso);
+    return m ? `${+m[3]}-${MESES[+m[2] - 1]}` : (iso || "—");
   };
 
   /* Estados de la capa de municipios: etiqueta, color y explicación en UN solo
@@ -40,23 +65,29 @@ window.UI = (function () {
      habían divergido). El orden es el de la cascada de ingest/municipios.py. */
   const ESTADO_MUNICIPIO = {
     en_aoi: ["En zona Copernicus", "--s1",
-             "El municipio cae dentro de una zona con producto de daño de Copernicus"],
+             "El municipio cae dentro de una zona que el satélite del servicio " +
+             "de emergencias de Copernicus analizó y para la que publicó un " +
+             "mapa de daños"],
     evaluado_unosat: ["Evaluado por UNOSAT", "--s9",
                       "El centro satelital de la ONU evaluó allí edificio a " +
-                      "edificio, fuera de toda zona de Copernicus. Es " +
-                      "fotointerpretación sobre imagen de muy alta resolución, " +
-                      "no validada en campo por la propia fuente"],
+                      "edificio, fuera de toda zona de Copernicus. Es lectura " +
+                      "de imágenes de muy alta resolución, no comprobada sobre " +
+                      "el terreno por la propia fuente"],
     intensidad_alta: ["Intensidad alta", "--warning",
-                      "Intensidad percibida DYFI ≥ 6, sin producto de daño"],
+                      "La población declaró una intensidad de 6 o más en el " +
+                      "cuestionario del Servicio Geológico de Estados Unidos, " +
+                      "y ningún satélite ha publicado mapa de daños"],
     mencion_prensa: ["Mencionado en prensa", "--s2",
-                     "Titulares que lo nombran, sin producto de daño ni DYFI alto"],
+                     "Titulares que lo nombran, sin mapa de daños por satélite " +
+                     "ni intensidad percibida alta"],
     solo_rud: ["Solo registro municipal (RUD)", "--s8",
                "El registro de damnificados que carga el municipio es su única " +
                "documentación del daño: ningún producto satelital ni titular lo " +
                "ha verificado de forma independiente"],
     fuera_aoi: ["Intensidad sentida", "--muted",
-                "Se sintió (DYFI < 6) y ningún producto satelital ni titular lo " +
-                "documenta; tampoco tiene registro en el RUD"],
+                "Se sintió, con intensidad percibida por debajo de 6, y ningún " +
+                "satélite ni titular lo documenta; tampoco tiene damnificados " +
+                "inscritos en el registro oficial"],
   };
   const estadoMunicipio = (estado) =>
     ESTADO_MUNICIPIO[estado] || ["Sin clasificar", "--muted", ""];
@@ -619,7 +650,8 @@ window.UI = (function () {
     return out;
   }
 
-  return { fmt, fmtProsa, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
+  return { fmt, fmtProsa, pct, fechaEs, fechaLarga, diaMes,
+           estadoMunicipio, ESTADO_MUNICIPIO,
            fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc,
            fetchJson, tablaBuscable, tablaHidratada, paginador, metricCards,
            fichaMapa,

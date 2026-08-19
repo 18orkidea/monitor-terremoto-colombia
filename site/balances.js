@@ -1,7 +1,7 @@
 /* Balances rastreados: feed público del Worker Cloudflare. Usa ui.js. */
 (async function () {
-  const { fmt, esc, cssVar: css, fetchJson, isLiveblog, bestSnapshot,
-          metricCount } = window.UI;
+  const { fmt, esc, cssVar: css, fechaEs, fechaLarga, diaMes, fetchJson,
+          isLiveblog, bestSnapshot, metricCount } = window.UI;
   // El feed se lee del producto propio, no del worker que lo genera: la corrida
   // diaria lo archiva y lo publica, así que la página sigue funcionando el día
   // que ese worker —que vive en una cuenta ajena— se apague.
@@ -19,18 +19,21 @@
   const feed = await fetchJson(FEED);
   if (!feed) {
     document.getElementById("balance-resumen").textContent =
-      "No se pudo cargar el feed de balances (el worker no respondió).";
+      "No se han podido cargar los balances: la fuente no respondió. " +
+      "Vuelve a intentarlo en unos minutos.";
     return;
   }
 
   const items = (feed.items || []).filter((x) => x.search_date);
-  document.getElementById("generado").textContent = "Actualizado " + (feed.generated_at || "—");
+  document.getElementById("generado").textContent =
+    "Actualizado el " + fechaLarga(feed.generated_at);
 
   const dates = [...new Set(items.map((x) => x.search_date))].sort();
   const levels = [...new Set(items.map((x) => x.source_level || "sin_nivel"))].sort();
   const selDate = document.getElementById("balance-fecha");
   const selLevel = document.getElementById("balance-nivel");
-  for (const d of dates) selDate.add(new Option(d, d));
+  // el valor sigue siendo la fecha ISO (es una clave); lo que se lee, no
+  for (const d of dates) selDate.add(new Option(fechaEs(d), d));
   for (const l of levels) selLevel.add(new Option(labelLevel(l), l));
 
   // serie con memoria: cada día se elige con el anterior como referencia de
@@ -66,7 +69,7 @@
     window.UI.metricCards(cardsEl, fuentes.map((f) => {
       const [valor, unidad] = principal[f.id](f);
       return { label: f.nombre, value: valor,
-               sub: `${unidad} · ${f.alcance}${f.fecha ? ` · ${f.fecha}` : ""}`,
+               sub: `${unidad} · ${f.alcance}${f.fecha ? ` · ${fechaEs(f.fecha)}` : ""}`,
                href: f.href };
     }));
 
@@ -116,7 +119,7 @@
     const { item, disputa, consolidado } = ult || {};
     const el = document.getElementById("balance-cards");
     if (!item) {
-      el.innerHTML = "<p class='note'>Sin snapshots.</p>";
+      el.innerHTML = "<p class='note'>Todavía no hay ninguna captura.</p>";
       return;
     }
     // consolidado: el último valor conocido de cada cifra, con su fecha de
@@ -125,7 +128,7 @@
     const cc = (k) => {
       const v = (consolidado || {})[k];
       if (!v) return card(NOMBRES_UI[k], "—");
-      const origen = v.fecha !== ult.fecha ? `del ${v.fecha.slice(5)}` : null;
+      const origen = v.fecha !== ult.fecha ? `del ${fechaEs(v.fecha)}` : null;
       return card(NOMBRES_UI[k], fmt(v.valor), origen);
     };
     // disputa entre medios del día: se muestra, no se suprime — la
@@ -135,23 +138,23 @@
         `este día</strong>: ` +
         Object.entries(disputa).map(([k, v]) =>
           `${NOMBRES[k]} entre ${fmt(v.min)} y ${fmt(v.max)}`).join(" · ") +
-        `. Se muestra el snapshot coherente con la serie (un balance acumulado ` +
+        `. Se muestra la captura coherente con la serie (un balance acumulado ` +
         `no retrocede), priorizando la prensa nacional colombiana; los medios ` +
         `internacionales tardíos con cortes viejos se penalizan.</p>`
       : "";
     el.innerHTML =
-      card("Última fecha", ult.fecha) +
+      card("Última fecha", fechaEs(ult.fecha)) +
       cc("fallecidos") + cc("heridos") + cc("desaparecidos") +
       cc("familias_afectadas") +
-      card("Snapshots", `${fmt(total)} / ${fmt(nDates)} días`) +
+      card("Capturas", `${fmt(total)} / ${fmt(nDates)} días`) +
       notaDisputa +
-      `<p class="note full">Snapshot seleccionado en medio que cita fuentes oficiales: <a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
+      `<p class="note full">Captura elegida en un medio que cita fuentes oficiales: <a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
       `publica ${esc(publisherName(item))} · fuente citada: ${sourceLinks(item)}. ` +
-      `Cada cifra mostrada es <strong>la mejor disponible del total de snapshots</strong> ` +
-      `según los criterios de la serie (estabilidad, prensa nacional, no-liveblog, ` +
-      `completitud, fuente citada) — no necesariamente la más reciente publicada: ` +
-      `puede ir por detrás de la realidad. Las marcadas «del MM-DD» conservan el ` +
-      `último valor conocido cuando el snapshot del día no las trae.</p>`;
+      `Cada cifra mostrada es <strong>la mejor disponible del total de capturas</strong> ` +
+      `según los criterios de la serie —estabilidad, prensa nacional, coberturas en vivo ` +
+      `penalizadas, número de cifras y fuente citada—, no necesariamente la más reciente ` +
+      `publicada: puede ir por detrás de la realidad. Las tarjetas que llevan una fecha ` +
+      `debajo conservan el último valor conocido, porque la captura del día no lo trae.</p>`;
   }
 
 
@@ -162,7 +165,7 @@
 
   function renderChart(rows, porDia) {
     const el = document.getElementById("balance-chart");
-    if (!rows.length) { el.textContent = "Sin serie."; return; }
+    if (!rows.length) { el.textContent = "Todavía no hay serie que dibujar."; return; }
     const disputaDe = (fecha) =>
       (porDia || []).find((d) => d.fecha === fecha)?.disputa || null;
     // consolidado del día: {valor, fecha de origen} — la línea no cae a cero
@@ -228,7 +231,7 @@
           `<text x="${M.l + 10 + mi * 148}" y="13" fill="${css("--ink-2")}" font-size="11">${label}</text>`;
       });
       rows.forEach((r, i) =>
-        svg += `<text x="${x(i)}" y="${H - M.b + 16}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${r.search_date.slice(5)}</text>`
+        svg += `<text x="${x(i)}" y="${H - M.b + 16}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${diaMes(r.search_date)}</text>`
       );
       svg += "</svg>";
       html += svg;
@@ -239,7 +242,7 @@
       if (dot.dataset.i == null) return null;
       const r = rows[+dot.dataset.i];
       const c = r.cifras || {};
-      return `<strong>${r.search_date}</strong><br>${esc(publisherName(r))}${isLiveblog(r) ? " · liveblog" : ""}<br>` +
+      return `<strong>${fechaLarga(r.search_date)}</strong><br>${esc(publisherName(r))}${isLiveblog(r) ? " · cobertura en vivo" : ""}<br>` +
         `Fallecidos: ${fmt(c.fallecidos)} · Heridos: ${fmt(c.heridos)}<br>` +
         `Desaparecidos: ${fmt(c.desaparecidos)} · Familias: ${fmt(c.familias_afectadas)}` +
         (disputaDe(r.search_date)
@@ -264,7 +267,8 @@
       metricCount(b) - metricCount(a));
 
     document.getElementById("balance-resumen").textContent =
-      `${selected.length.toLocaleString("es-CO")} de ${items.length.toLocaleString("es-CO")} snapshots · actualizado ${feed.generated_at || "—"}`;
+      `${fmt(selected.length)} de ${fmt(items.length)} capturas · ` +
+      `actualizado el ${fechaLarga(feed.generated_at)}`;
 
     // filas cuyas cifras alimentan la serie/tarjetas: el snapshot elegido de
     // cada día — marcadas para que la selección sea auditable a simple vista
@@ -291,7 +295,7 @@
         b.className = "badge";
         b.dataset.serie = "1";
         b.style.setProperty("--bc", "var(--good)");
-        b.title = "Este snapshot es el elegido de su día: sus cifras alimentan la " +
+        b.title = "Esta captura es la elegida de su día: sus cifras alimentan la " +
           "serie, las tarjetas y la comparativa";
         b.textContent = "✓ usada en la serie";
         celda.insertBefore(b, celda.querySelector(".badge"));

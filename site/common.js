@@ -33,7 +33,7 @@
     foot.innerHTML =
       `<div class="sf-cols">` +
       `<div><strong>Monitor de brechas de reporte</strong><br>` +
-      `Observatorio abierto del terremoto M7.4 de Colombia (10-ago-2026). ` +
+      `Observatorio abierto del terremoto M7.4 de Colombia del 10 de agosto de 2026. ` +
       `Cruza satélite, reporte ciudadano, prensa y fuentes oficiales — con cada cifra ` +
       `rastreable a su origen.</div>` +
       `<div><strong>Secciones</strong><br>` +
@@ -47,16 +47,16 @@
       `<a href="/data/public/crosscheck.csv" download>CSV del cruce</a><br>` +
       `<a href="/data/public/monitor.json" target="_blank">JSON del monitor</a><br>` +
       `<a href="/data/public/rud.json" target="_blank">Histórico del RUD</a> · ` +
-      `<a href="/data/public/divipola_coords.json" target="_blank">Catálogo DIVIPOLA</a><br>` +
+      `<a href="/data/public/divipola_coords.json" target="_blank">Catálogo de municipios (DIVIPOLA)</a><br>` +
       `<a href="${window.UI.OFICIALES_BASE}/oficiales.rss" target="_blank" rel="noopener">RSS de balances</a> · ` +
       `<a href="/data/public/alerts.rss" target="_blank" rel="noopener">RSS de alertas</a><br>` +
       (window.UI.TELEGRAM_CANAL ? `<a href="${window.UI.TELEGRAM_CANAL}" target="_blank" rel="noopener">Canal de Telegram</a><br>` : "") +
-      `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">Repositorio y snapshots</a></div>` +
+      `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">Repositorio y copias archivadas</a></div>` +
       `</div>` +
       `<p class="sf-line">🇨🇴 ❤️ Mantenido por <a href="https://col.social/@jp" target="_blank" rel="me noopener">@jp@col.social</a> ` +
       `con apoyo de <a href="https://orkidea.eu" target="_blank" rel="noopener">Orkidea</a>. ` +
       `Las <a href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener">donaciones ☕</a> ` +
-      `mantienen servidores, scraping y recolección diaria de datos. ` +
+      `mantienen los servidores y la recolección diaria de datos. ` +
       `Código MIT · datos derivados CC BY 4.0 · los datos crudos conservan la licencia de cada fuente.</p>`;
   }
 })();
