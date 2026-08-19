@@ -13,6 +13,7 @@
   --s3: #1baf7a;   /* feeds abiertos */
   --s7: #4a3aa7;   /* ciudadano */
   --s8: #8a5a1d;   /* solo registro municipal (RUD) */
+  --s9: #0f8f8f;   /* evaluado por UNOSAT (2.º satélite) */
   --good: #0ca30c;      /* coincide */
   --warning: #fab219;   /* pendiente */
   --critical: #d03b3b;
@@ -32,6 +33,7 @@
     --s3: #199e70;
     --s7: #9085e9;
     --s8: #c99a52;
+    --s9: #2fb3b3;
   }
 }
 * { box-sizing: border-box; }

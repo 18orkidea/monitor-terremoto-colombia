@@ -18,11 +18,19 @@
   const spanHom = document.getElementById("mun-homonimos");
   if (spanHom) spanHom.textContent = window.UI.fraseHomonimos(data.items);
 
+  // Desde el 19-ago-2026 hay un segundo satélite y la frase no puede seguir
+  // diciendo que al resto «no lo ha mirado ninguno»: a tres sí, y ninguno de
+  // ellos está en zona Copernicus.
+  const enUnosat = data.items.filter((m) => m.unosat_edificios != null).length;
   const cobertura = document.getElementById("mun-cobertura");
   if (cobertura) {
     cobertura.textContent = `Solo ${enAoi} de los ${data.items.length} tienen su ` +
-      `cabecera dentro de una zona con producto de daño de Copernicus: al resto no lo ` +
-      `ha mirado ningún producto satelital de daño.`;
+      `cabecera dentro de una zona con producto de daño de Copernicus` +
+      (enUnosat
+        ? `, y otros ${enUnosat} los ha evaluado UNITAR-UNOSAT edificio a edificio. ` +
+          `A los ${data.items.length - enAoi - enUnosat} restantes no los ha mirado ` +
+          `ningún producto satelital de daño.`
+        : `: al resto no lo ha mirado ningún producto satelital de daño.`);
   }
 
   const rows = [...data.items].sort((a, b) =>
@@ -46,6 +54,12 @@
       : fmt(0);
   };
 
+  // UNOSAT: donde no ha mirado no hay cero, hay ausencia (R3). El desglose
+  // separa lo que la fuente da por observado de lo que marca como hipótesis.
+  const unosatCelda = (m) => m.unosat_edificios == null ? "—"
+    : `${fmt(m.unosat_edificios)} <span style="color:var(--muted)">` +
+      `(${fmt(m.unosat_confirmados)})</span>`;
+
   tablaBuscable({
     tbody: document.querySelector("#municipios-tabla tbody"),
     input: document.getElementById("mun-buscar"),
@@ -59,6 +73,7 @@
         `<br><span style="color:var(--muted)">${m.departamento}</span></td>` +
         `<td><span class="badge" style="--bc:var(${color})" title="${explica}">${estado}</span></td>` +
         `<td class="num" title="DANE PPED municipal por área, 2026">${fmt(m.poblacion_2026)}</td>` +
+        `<td class="num">${unosatCelda(m)}</td>` +
         `<td class="num">${m.rud_personas == null ? "—" : fmt(m.rud_personas)}</td>` +
         `<td class="num">${pct(m.tasa_rud_pct)}</td>` +
         `<td class="num">${fmt(m.dyfi_max_cdi, 1)}</td>` +

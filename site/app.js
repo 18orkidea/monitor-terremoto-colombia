@@ -6,6 +6,13 @@
     pendiente: css("--warning"), no_comparable: css("--muted"),
   };
   const fmt = (n) => window.UI.fmt(n, 1);
+  const ficha = window.UI.fichaMapa;   // único constructor de globos (ui.js)
+  /* Los shapefiles de UNOSAT fechan sus imágenes como AAAAMMDD; el sitio
+     escribe las fechas de una sola manera (UI.fechaEs). */
+  const fechaCompacta = (s) => {
+    const m = /^(\d{4})(\d{2})(\d{2})$/.exec(String(s || ""));
+    return m ? window.UI.fechaEs(`${m[1]}-${m[2]}-${m[3]}`) : (s || null);
+  };
 
   // ---- traducción de etiquetas que llegan en inglés desde las fuentes.
   // El nombre original se conserva (title/paréntesis) para poder identificarlo
@@ -40,7 +47,17 @@
     "Storm": "Tormenta", "Landslide": "Deslizamiento",
     "Volcanic eruption": "Erupción volcánica",
   };
+  /* Clases de fuente que documentan un municipio (no son medios: son las
+     miradas que lo han registrado). */
+  const FUENTE_ES = { prensa: "prensa", rud: "registro municipal (RUD)",
+                      dyfi: "intensidad percibida (DYFI)",
+                      unosat: "evaluación satelital (UNOSAT)" };
   const t = (s) => DICT[s] || s;
+  /* Término traducido conservando entre paréntesis el original: es el que
+     aparece en los productos descargables de la fuente, y sin él no se puede
+     localizar allí lo que el mapa está enseñando. */
+  const conOriginal = (s) => t(s) === s ? t(s)
+    : `${t(s)} <span style="color:var(--muted)">(${s})</span>`;
   // hitos del feed institucional GDACS (patrones)
   const tHito = (s) => (s || "")
     .replace(/UNITAR-UNOSAT Activation/i, "Activación UNITAR-UNOSAT")
@@ -52,13 +69,15 @@
   const base = "../data/public/";
   const OFFICIAL_FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
-         dmgPts, dmgLines, notAnalysed, oficiales, hitosCurados] = await Promise.all([
+         dmgPts, dmgLines, notAnalysed, unosat, oficiales,
+         hitosCurados] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
     j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
     j(base + "shakemap_mmi.geojson"), j(base + "alerts.json"),
     j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
-    j(base + "not_analysed.geojson"), j(OFFICIAL_FEED),
+    j(base + "not_analysed.geojson"), j(base + "unosat_damage.geojson"),
+    j(OFFICIAL_FEED),
     j(base + "hitos_monitor.json"),
   ]);
   if (!mon) {
@@ -141,9 +160,22 @@
       onEachFeature: (f, l) => {
         const p = f.properties;
         aoiLayerById[p.aoi] = l;
-        l.bindPopup(`<strong>${aoiLabel(p.aoi)}</strong><br>${p.etiqueta}<br>` +
-          `Población: ${fmt(p.poblacion)} · Edificios afectados: ${fmt(p.edificios_afectados)}<br>` +
-          `Vías: ${fmt(p.vias_afectadas_km)} km · Interrupciones: ${fmt(p.interrupciones_viales)}`);
+        // «Western Colombia» es el área de referencia y no trae ninguna cifra:
+        // su globo se queda en el título y la etiqueta, sin cuatro renglones
+        // de guiones que parecerían ceros.
+        l.bindPopup(ficha({
+          titulo: aoiLabel(p.aoi), subtitulo: p.etiqueta,
+          filas: [
+            ["Población", p.poblacion == null ? null : fmt(p.poblacion)],
+            ["Edificios afectados", p.edificios_afectados == null ? null
+              : fmt(p.edificios_afectados)],
+            ["Vías afectadas", p.vias_afectadas_km == null ? null
+              : `${fmt(p.vias_afectadas_km)} km`],
+            ["Interrupciones viales", p.interrupciones_viales == null ? null
+              : fmt(p.interrupciones_viales)],
+          ],
+          pie: "Copernicus EMS",
+        }));
       },
     }).addTo(map);
     map.fitBounds(layers["Zonas Copernicus (AOI)"].getBounds().pad(0.15));
@@ -171,10 +203,15 @@
           const p = f.properties;
           const objeto = p.simplified || p.obj_type || "";
           const metodo = p.det_method || "";
-          l.bindPopup(`<strong>${GRADO_ES[p.damage_gra] || t(p.damage_gra)}</strong>` +
-            ` · ${t(objeto)}${objeto && t(objeto) !== objeto ? ` <span style="color:var(--muted)">(${objeto})</span>` : ""}` +
-            `<br>${aoiLabel(p.aoi)} · ` +
-            `<span style="color:var(--muted)">${t(metodo)}${metodo && t(metodo) !== metodo ? ` (${metodo})` : ""} · Copernicus</span>`);
+          l.bindPopup(ficha({
+            titulo: GRADO_ES[p.damage_gra] || t(p.damage_gra) || "Edificio evaluado",
+            filas: [
+              ["Tipo de objeto", objeto ? conOriginal(objeto) : null],
+              ["Zona", p.aoi ? aoiLabel(p.aoi) : null],
+              ["Método de detección", metodo ? conOriginal(metodo) : null],
+            ],
+            pie: "Copernicus EMS",
+          }));
         },
       }).addTo(map);
     if (crisis.features.length) {
@@ -185,10 +222,13 @@
             fillColor: "#fff", fillOpacity: 0.9,
           }),
           onEachFeature: (f, l) => {
-            const obj = f.properties.obj_type || "Interrupción";
-            l.bindPopup(
-              `<strong>${t(obj)}</strong>${t(obj) !== obj ? ` <span style="color:var(--muted)">(${obj})</span>` : ""}<br>` +
-              `${aoiLabel(f.properties.aoi)} · <span style="color:var(--muted)">Copernicus</span>`);
+            const p = f.properties;
+            const obj = p.obj_type || "Interrupción";
+            l.bindPopup(ficha({
+              titulo: conOriginal(obj),
+              filas: [["Zona", p.aoi ? aoiLabel(p.aoi) : null]],
+              pie: "Copernicus EMS",
+            }));
           },
         }).addTo(map);
     }
@@ -197,11 +237,70 @@
     layers[`Vías dañadas — satélite (${dmgLines.features.length})`] =
       L.geoJSON(dmgLines, {
         style: () => ({ color: css("--critical"), weight: 4, opacity: 0.85 }),
-        onEachFeature: (f, l) => l.bindPopup(
-          `<strong>Vía dañada</strong> · ${t(f.properties.info || f.properties.obj_type || "")}` +
-          `<br>${aoiLabel(f.properties.aoi)} · <span style="color:var(--muted)">Copernicus</span>`),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          const via = p.info || p.obj_type || "";
+          l.bindPopup(ficha({
+            titulo: "Vía dañada",
+            filas: [["Tramo", via ? conOriginal(via) : null],
+                    ["Zona", p.aoi ? aoiLabel(p.aoi) : null]],
+            pie: "Copernicus EMS",
+          }));
+        },
       }).addTo(map);
   }
+  // ---- UNITAR-UNOSAT: la segunda mirada satelital, en municipios que
+  // Copernicus no cartografía. Vocabulario propio: UNOSAT gradúa entre daño
+  // observado y daño posible, y declara aparte si el punto se ha validado en
+  // campo — una distinción que Copernicus no publica y que no se homogeneiza.
+  const UNOSAT_ES = {
+    "Damage": "Daño observado", "Damaged": "Daño observado",
+    "Possible Damage": "Daño posible", "Destroyed": "Destruido",
+    "Damaged Buildings": "Edificios dañados",
+    "To Be Evaluated": "pendiente de evaluar",
+    "Not yet field validated": "aún no validado en campo",
+    "Field validated": "validado en campo",
+  };
+  const uno = (s) => UNOSAT_ES[s] || s;
+  if (unosat && unosat.features.length) {
+    const UNOSAT_COLOR = {
+      "Damage": "#ec835a", "Damaged": "#ec835a",
+      "Possible Damage": css("--warning"), "Destroyed": css("--critical"),
+    };
+    layers[`Edificios evaluados — satélite UNOSAT (${unosat.features.length})`] =
+      L.geoJSON(unosat, {
+        pointToLayer: (f, ll) => L.circleMarker(ll, {
+          radius: 5.5, weight: 1.5, color: "#2b2b2b", fillOpacity: 0.9,
+          fillColor: UNOSAT_COLOR[f.properties.dano] || css("--muted"),
+        }),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          // El código de evento solo se enseña cuando NO es el del terremoto:
+          // 8 registros de Manizales vienen etiquetados EQ20260822COL, un
+          // evento fechado DESPUÉS de la publicación. Se conserva el literal
+          // de la fuente y se señala, no se corrige por nuestra cuenta.
+          const otroEvento = p.event_code && p.event_code !== "EQ20260810COL"
+            ? `${p.event_code} — no es el código del terremoto` : null;
+          l.bindPopup(ficha({
+            titulo: uno(p.dano) || "Edificio evaluado",
+            subtitulo: [p.municipio, p.departamento].filter(Boolean).join(", ")
+              || null,
+            filas: [
+              ["Imagen", [p.sensor, fechaCompacta(p.sensor_date)]
+                .filter(Boolean).join(", ") || null],
+              ["Confianza del análisis", p.confianza ? uno(p.confianza) : null],
+              ["Validación en campo", p.validacion_campo
+                ? uno(p.validacion_campo) : null],
+              ["Observaciones", p.notas || null],
+              ["Código de evento", otroEvento],
+            ],
+            pie: "UNITAR-UNOSAT" +
+              (p.productos ? ` · producto ${p.productos.split(",")[0]}` : ""),
+          }));
+        },
+      }).addTo(map);
+  }
+
   if (notAnalysed && notAnalysed.features.length) {
     layers[`Zonas sin analizar (${notAnalysed.features.length})`] =
       L.geoJSON(notAnalysed, {
@@ -219,9 +318,13 @@
         className: "", iconSize: [26, 26], iconAnchor: [13, 13],
         html: `<div style="font-size:22px;line-height:26px;text-align:center;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))">★</div>`,
       }),
-    }).addTo(map).bindPopup(
-      `<strong>Epicentro M${mon.evento.mag}</strong><br>${mon.evento.place}<br>` +
-      `${fmt(mon.evento.felt)} reportes «lo sentí» (USGS DYFI)`);
+    }).addTo(map).bindPopup(ficha({
+      titulo: `Epicentro M${mon.evento.mag}`,
+      subtitulo: mon.evento.place,
+      filas: [["Reportes «lo sentí»", mon.evento.felt == null ? null
+        : fmt(mon.evento.felt)]],
+      pie: "USGS",
+    }));
   }
   if (chat) {
     layers[`Reportes ciudadanos ChatMap (${chat.features.length})`] = L.geoJSON(chat, {
@@ -234,11 +337,18 @@
         const media = p.media && /\.(jpg|jpeg|png|webp)$/i.test(p.media)
           ? `<a href="${p.media}" target="_blank" rel="noopener"><img src="${p.media}" loading="lazy" alt="foto ciudadana"></a>`
           : (p.media ? `<a href="${p.media}" target="_blank" rel="noopener">ver medio</a>` : "");
-        l.bindPopup(`<strong>Reporte ciudadano</strong> · ${p.time || ""}<br>` +
-          `${p.aoi ? "Dentro de AOI: " + aoiLabel(p.aoi) + "<br>" : ""}` +
-          `${p.mmi != null ? "MMI estimado: " + fmt(p.mmi) + "<br>" : ""}` +
-          `${(p.mensaje || "")}<br>${media}` +
-          `<br><span style="color:var(--muted)">coordenada redondeada ~110 m · score ${p.score ?? "?"}</span>`);
+        l.bindPopup(ficha({
+          titulo: "Reporte ciudadano",
+          subtitulo: p.time || null,
+          filas: [
+            ["Dentro de zona Copernicus", p.aoi ? aoiLabel(p.aoi) : null],
+            ["Intensidad estimada (MMI)", p.mmi == null ? null : fmt(p.mmi)],
+            ["", p.mensaje || null],
+          ],
+          html: media || null,
+          pie: "ChatMap · coordenada redondeada a ~110 m" +
+            (p.score == null ? "" : ` · score ${p.score}`),
+        }));
       },
     }).addTo(map);
   }
@@ -280,20 +390,46 @@
         onEachFeature: (f, l) => {
           const p = f.properties;
           munLayerById[p.municipio] = l;
-          l.bindPopup(`<strong>${p.municipio}</strong> (${p.departamento})<br>` +
-            `${p.en_aoi_copernicus ? "Dentro de AOI Copernicus" : "Fuera de AOI Copernicus"}<br>` +
-            `Población DANE 2026: ${fmt(p.poblacion_2026)} ` +
-            `<span style="color:var(--muted)">cabecera ${fmt(p.cabecera_2026)} · rural ${fmt(p.rural_2026)}</span><br>` +
-            `DYFI: ${fmt(p.dyfi_max_cdi)} · respuestas: ${fmt(p.dyfi_respuestas)}<br>` +
-            `Prensa: ${p.homonimo_de_departamento ? "no atribuible (homónimo de departamento)" : fmt(p.n_noticias)}` +
-            ` · fuentes: ${(p.fuentes || []).join(", ") || "—"}<br>` +
-            (p.rud_personas != null
-              ? `RUD: ${fmt(p.rud_personas)} personas damnificadas` +
-                (p.tasa_rud_pct != null
-                  ? ` (${window.UI.pct(p.tasa_rud_pct)} de la población proyectada 2026)`
-                  : "") + `<br>`
-              : "") +
-            `<span style="color:var(--muted)">No equivale a daño satelital ni EDAN oficial.</span>`);
+          // Cada renglón es una fuente distinta hablando de este municipio.
+          // La que no lo haya mirado no deja renglón: un «DYFI: —» sugiere
+          // que la intensidad se midió y salió nula, cuando lo que pasa es
+          // que nadie respondió el cuestionario ahí.
+          const desglose = (p.cabecera_2026 != null || p.rural_2026 != null)
+            ? ` <span style="color:var(--muted)">cabecera ${fmt(p.cabecera_2026)}` +
+              ` · rural ${fmt(p.rural_2026)}</span>` : "";
+          l.bindPopup(ficha({
+            titulo: `${p.municipio} (${p.departamento})`,
+            subtitulo: p.en_aoi_copernicus
+              ? "Dentro de zona mapeada por Copernicus"
+              : "Fuera de toda zona mapeada por Copernicus",
+            filas: [
+              ["Población DANE 2026", p.poblacion_2026 == null ? null
+                : fmt(p.poblacion_2026) + desglose],
+              ["Intensidad percibida (DYFI)", p.dyfi_max_cdi == null ? null
+                : `${fmt(p.dyfi_max_cdi)} · ${fmt(p.dyfi_respuestas)} respuestas`],
+              ["Titulares que lo nombran", p.homonimo_de_departamento
+                ? "no atribuibles: se llama igual que un departamento"
+                : (p.n_noticias || null)],
+              ["Documentado por", (p.fuentes || []).map(
+                (x) => FUENTE_ES[x] || x).join(", ") || null],
+              ["Edificios evaluados por UNOSAT", p.unosat_edificios == null
+                ? null
+                : `${fmt(p.unosat_edificios)}, de los que ` +
+                  `${fmt(p.unosat_confirmados)} con daño observado`],
+              ["Damnificados en el RUD", p.rud_personas == null ? null
+                : `${fmt(p.rud_personas)} personas` +
+                  (p.tasa_rud_pct != null
+                    ? ` (${window.UI.pct(p.tasa_rud_pct)} de la población proyectada 2026)`
+                    : "")],
+            ],
+            // La advertencia depende de lo que este municipio tenga: para los
+            // que UNOSAT sí ha evaluado, decir «no equivale a daño satelital»
+            // sería falso — lo que les falta es la verificación oficial.
+            pie: p.unosat_edificios == null
+              ? "No equivale a daño satelital ni EDAN oficial."
+              : "Evaluación satelital sin validar en campo; no equivale a un " +
+                "EDAN oficial.",
+          }));
         },
       }).addTo(map);
   }

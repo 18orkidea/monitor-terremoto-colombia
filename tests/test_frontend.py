@@ -361,3 +361,54 @@ class TestFiltrosDeTabla(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestFichaMapa(unittest.TestCase):
+    """Los globos del mapa no pueden inventar respuestas que la fuente no dio.
+
+    Antes, «Western Colombia» —el área de referencia de Copernicus, que no
+    trae ninguna cifra— mostraba cuatro renglones de guiones: «Población: —,
+    Edificios afectados: —, Vías: — km, Interrupciones: —». Un lector razonable
+    entiende que ahí se midió y salió nada, cuando lo que pasa es que nadie
+    ha mirado. La etiqueta desaparece con el dato.
+    """
+
+    def test_las_filas_sin_dato_no_se_pintan(self):
+        html = correr_ui(
+            "UI.fichaMapa({titulo:'Occidente de Colombia',"
+            " subtitulo:'No comparable 1:1',"
+            " filas:[['Población',null],['Edificios afectados',undefined],"
+            "        ['Vías',''],['Interrupciones',NaN]]})")
+        self.assertNotIn("—", html)
+        self.assertNotIn("Población", html)
+        self.assertNotIn("Interrupciones", html)
+        self.assertIn("Occidente de Colombia", html)
+        self.assertIn("No comparable 1:1", html)
+
+    def test_el_cero_si_se_pinta(self):
+        """R3 llevada al mapa: un cero medido es un dato. «0 viviendas
+        destruidas» es información; borrarlo lo convertiría en ausencia."""
+        html = correr_ui(
+            "UI.fichaMapa({titulo:'Anserma',"
+            " filas:[['Viviendas destruidas',0],['Confianza',null]]})")
+        self.assertIn("Viviendas destruidas: 0", html)
+        self.assertNotIn("Confianza", html)
+
+    def test_las_filas_con_dato_conservan_su_etiqueta(self):
+        html = correr_ui(
+            "UI.fichaMapa({titulo:'Buenaventura',filas:["
+            "['Población','320.000'],['Vías afectadas',null]],"
+            " pie:'Copernicus EMS'})")
+        self.assertIn("Población: 320.000", html)
+        self.assertNotIn("Vías afectadas", html)
+        self.assertIn("Copernicus EMS", html)
+
+    def test_una_fila_sin_etiqueta_es_texto_libre(self):
+        """El mensaje de un reporte ciudadano no lleva etiqueta delante."""
+        html = correr_ui(
+            "UI.fichaMapa({titulo:'Reporte ciudadano',"
+            " filas:[['','se cayó el muro'],['Intensidad estimada',null]]})")
+        self.assertIn("se cayó el muro", html)
+        self.assertNotIn(": se cayó el muro", html)
+        self.assertNotIn("Intensidad", html)
