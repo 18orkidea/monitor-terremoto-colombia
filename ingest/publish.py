@@ -145,6 +145,8 @@ def run() -> dict:
     # titular). El corte es el del corpus entero —FECHA_SISMO, ver common.py—:
     # antes esta serie cortaba dos días antes por su cuenta y el resto del
     # sitio no cortaba, así que el mismo titular contaba o no según la página.
+    # Única diferencia con `anterior_al_sismo()`: aquí un titular sin fecha
+    # tampoco entra, porque una serie diaria no tiene día donde ponerlo.
     feeds_por_dia = dict(conn.execute(
         "SELECT substr(fecha,1,10) d, COUNT(*) FROM news_items"
         " WHERE fecha >= ? GROUP BY d", (FECHA_SISMO,)))
@@ -400,8 +402,12 @@ def run() -> dict:
         noticias.append(noticia(
             fecha, titulo, medio, url, fid, feed=feeds.get(fid)))
     noticias.sort(key=lambda n: n.get("fecha") or "", reverse=True)
+    # `previas_al_sismo` viaja en el producto público, no solo por el stdout de
+    # la corrida: los logs de Actions caducan y un filtro que no dice cuánto
+    # tira desde el propio dato no es auditable.
     (PUBLIC / "noticias.json").write_text(json.dumps(
-        {"generado": snap, "total": len(noticias), "items": noticias},
+        {"generado": snap, "total": len(noticias),
+         "previas_al_sismo": previas, "desde": FECHA_SISMO, "items": noticias},
         ensure_ascii=False))
 
     # Municipios en el área de influencia: menciones de prensa + intensidad
@@ -511,9 +517,11 @@ def run() -> dict:
         # contado en `edificios`, que es lo que UNOSAT miró.
         d["fecha_imagen"] = max(d["fecha_imagen"] or "", fecha or "") or None
 
+    from sources.community_feeds import municipal_google_news_feeds
+    con_busqueda = {f["municipio"] for f in municipal_google_news_feeds()}
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
                                                  poblacion, rud_por_mun, divipola,
-                                                 unosat_por_mun)
+                                                 unosat_por_mun, con_busqueda)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))

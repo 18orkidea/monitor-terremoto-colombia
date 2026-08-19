@@ -55,6 +55,13 @@ NOTAS_SONDA = (NOTA_SONDA, "test supuesto", "test supuesto rud")
 # y en `sources_log`. Lo que se corta es su entrada a los productos públicos.
 FECHA_SISMO = "2026-08-10"
 
+# El instante de origen, para lo que sí se puede comparar con hora: el check de
+# temporalidad de los reportes ciudadanos (R7). 12:34:28 UTC es lo que dicen el
+# USGS (us6000tjl2) y el EMSC; hasta el 19-ago-2026 el código llevaba 12:30:00
+# redondeado a mano, y el sitio publica esa hora en su JSON-LD. Ningún reporte
+# ciudadano cae en esos cuatro minutos, así que corregirlo no reclasifica nada.
+INSTANTE_SISMO = f"{FECHA_SISMO}T12:34:28"
+
 
 def anterior_al_sismo(fecha: str | None) -> bool:
     """¿Consta que el titular es anterior al terremoto?

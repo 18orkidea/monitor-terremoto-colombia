@@ -4,6 +4,7 @@ Se ejecutan sin red y sin base de datos previa. Las expectativas vienen de la
 documentación del proyecto y de las specs de las fuentes, no de mirar la
 salida del código — si un test falla, el código está mal, no el test.
 """
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -832,16 +833,23 @@ class TestCorpusDePrensa(unittest.TestCase):
         self.assertFalse(anterior_al_sismo(""))
 
     def test_no_hay_otra_frontera_de_corte_en_la_ingesta(self):
-        """La serie mediática cortaba en 2026-08-08 por su cuenta: el mismo
-        titular contaba o no según la página. Una sola frontera, con nombre."""
+        """La serie mediática cortaba en 2026-08-08 por su cuenta y el check de
+        temporalidad ciudadana llevaba su propio 2026-08-10T12:30: el monitor
+        tenía tres fechas del mismo terremoto. Una sola frontera, con nombre.
+
+        Busca la fecha COMO LITERAL entrecomillado, que es la forma que toma un
+        filtro; las que aparecen dentro de una frase son prosa de un comentario
+        y no deciden nada."""
         culpables = []
         for py in (Path(__file__).parent.parent / "ingest").rglob("*.py"):
-            texto = py.read_text(encoding="utf-8")
-            for linea in texto.splitlines():
-                if "2026-08-0" in linea and "FECHA_SISMO" not in linea:
-                    culpables.append(f"{py.name}: {linea.strip()[:70]}")
+            if py.name == "common.py":
+                continue          # es donde vive la frontera
+            for n, linea in enumerate(py.read_text(encoding="utf-8").splitlines(), 1):
+                if re.search(r"""['"]2026-08-\d\d(T[\d:]+)?['"]""", linea):
+                    culpables.append(f"{py.name}:{n}: {linea.strip()[:60]}")
         self.assertEqual(culpables, [],
-                         "fecha de corte suelta en la ingesta: usar FECHA_SISMO")
+                         "fecha del sismo suelta en la ingesta: usar FECHA_SISMO "
+                         "o INSTANTE_SISMO de common.py")
 
 
 if __name__ == "__main__":

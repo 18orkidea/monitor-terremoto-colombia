@@ -390,7 +390,8 @@ día porque UNOSAT evaluó allí 154 edificios, y su única noticia atribuida er
 sismo de magnitud 3,1 de junio de 2024.
 
 Se midió antes de tocar nada, reconstruyendo la capa de municipios dos veces:
-**67 de 109 municipios cambian la columna «Prensa»** (Calarcá 30→2, Jamundí
+**67 de los 109 municipios que la capa tenía aquel día —antes del alta de
+Viterbo y del resto de UNOSAT— cambian la columna «Prensa»** (Calarcá 30→2, Jamundí
 49→4, La Tebaida 40→5, frente a Cali 686→652); **ocho pasan de «mención en
 prensa» a «solo RUD»** y ninguno desaparece de la capa, porque todos tienen
 registro oficial detrás. En el cruce por AOI baja `n_prensa` en los siete, pero
@@ -428,9 +429,10 @@ con el mismo cambio.
 
 ## 2026-08-19 — El silencio se publica, pero en dos niveles
 
-Con el corpus ya limpio de prensa anterior al sismo se puede afirmar lo contrario
-del silencio informativo: **33 de los 116 municipios vigilados tienen personas
-registradas en el RUD y ningún titular atribuido** —12.129 personas—. Es
+Con el corpus ya limpio de prensa anterior al sismo, el silencio informativo se
+puede por fin medir sin confundirlo con titulares de otros sismos: **33 de los
+116 municipios vigilados tienen personas registradas en el RUD y cero titulares
+atribuidos** —12.129 personas—. Es
 exactamente la brecha que el monitor existe para medir, y JP decidió publicarlo
 como hallazgo.
 

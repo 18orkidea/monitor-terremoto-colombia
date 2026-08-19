@@ -59,6 +59,9 @@
     feeds aportados por la comunidad y búsquedas Google News por municipio (<a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a> —
     ¿conoces un buen feed local? <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">añádelo con un PR</a>)</p>
   </div>
+  <div class="meta">
+    <a class="btn" href="../data/public/noticias.json" target="_blank">JSON</a>
+  </div>
 </header>
 <section class="intro">
   <p>Esta página reúne <strong>todos los titulares de prensa publicados desde el 10 de
@@ -80,6 +83,14 @@
       evento, de los RSS del <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a>
       (El Tiempo, El Diario de Pereira, Chocó 7 días, El Colombiano…) y de búsquedas Google
       News por municipio. Cada titular conserva su fecha, medio y enlace original.</li>
+      <li><strong>¿Por qué no hay titulares anteriores al 10 de agosto?</strong> Porque no
+      hablan de este terremoto. Las búsquedas por municipio devuelven histórico, y hasta el
+      19-ago-2026 el corpus arrastraba <strong>849 titulares de otros sismos</strong> —uno de
+      1974—: la única noticia atribuida a Viterbo (Caldas) era un temblor de magnitud 3,1 de
+      2024. Se descartan de todo recuento, pero <strong>no se borran</strong>: siguen en la
+      base del monitor, en los snapshots y en el registro de peticiones. El corte es por día,
+      así que del propio 10 de agosto entra todo, incluida alguna noticia de esa mañana ajena
+      al sismo.</li>
       <li><strong>¿Cómo se asigna un titular a una zona?</strong> Por topónimo en el texto,
       con acentos normalizados y límites de palabra («Cali» no coincide con «California»).
       Cuando el nombre del municipio es además palabra común, apellido o lugar conocido

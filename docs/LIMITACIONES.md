@@ -7,7 +7,7 @@ metodología pública del sitio.
 
 ## Los cinco primeros días no existen (10 → 15 de agosto de 2026)
 
-El sismo fue el 10-ago a las 12:30 UTC; la primera petición registrada del
+El sismo fue el 10-ago a las 12:34 UTC; la primera petición registrada del
 monitor es del 15-ago a las 16:21 UTC. De esos cinco días solo existe lo que
 las fuentes retuvieran retroactivamente (y el feed EMM de GDACS, que cubría
 ese periodo, fue purgado por su emisor el 16-ago — su serie sobrevive
@@ -104,8 +104,11 @@ queda es la fila de log y el test en rojo.
 
 ## Topónimos ambiguos: prensa atribuida solo con departamento
 
-Dos municipios se llaman igual que un departamento colombiano: **Risaralda**
-(Caldas) y **Córdoba** (Quindío). Ahí el texto libre no puede distinguir
+Hay municipios que se llaman igual que un departamento colombiano: hoy
+**Risaralda** (Caldas), **Córdoba** (Quindío) y **Bolívar** (Valle del Cauca).
+La marca es automática —`municipios_dinamicos` la pone sola al detectar el
+nombre—, así que la lista puede crecer sin que nadie la cure. Ahí el texto
+libre no puede distinguir
 municipio de departamento —medido sobre los 5.017 titulares del corpus, todas
 las apariciones de «Caldas y Risaralda» hablaban del departamento, y exigir
 adyacencia tampoco lo salvaba— así que **no reciben prensa por coincidencia de
@@ -309,8 +312,9 @@ justo lo que este monitor existe para hacer.
 ## El corpus de titulares empieza el día del terremoto
 
 Corregido el 19-ago-2026. Hasta ese día el corpus arrastraba **849 de 6.655
-titulares (12,8 %) anteriores al 10-ago-2026**, el día del sismo: 167 de 2024,
-178 de 2025, 249 de 2026 previos al terremoto y una cola hasta 1974. Llegaban
+titulares (12,8 %) anteriores al 10-ago-2026**, el día del sismo: 249 de 2026
+previos al terremoto, 178 de 2025, 167 de 2024 y 255 anteriores a 2024, hasta un
+sismo de 1974. Llegaban
 **íntegramente por las búsquedas municipales de Google News**, que devuelven
 histórico y pasan el filtro de palabras clave porque hablan de sismos —de otros
 sismos—. Ni un solo titular de GDACS-EMM ni de los feeds del registro
@@ -342,9 +346,12 @@ Lo que queda como limitación:
   corpus, pero la puerta está abierta a propósito.
 - **Ocho municipios se quedaron sin ningún titular** —Alcalá, Argelia,
   Candelaria, Ginebra, Guacarí, Obando, Quinchía y Trujillo— y pasaron de
-  «mención en prensa» a «solo registro municipal (RUD)». Ese cero no es una
-  pérdida de cobertura del monitor: es el dato. Allí hay damnificados
-  registrados y no hay prensa de este terremoto.
+  «mención en prensa» a «solo registro municipal (RUD)». Los ceros no valen
+  todos lo mismo: en **Guacarí y Quinchía** el nombre no admite duda y el
+  monitor lanza una búsqueda propia, así que ahí el cero es el dato. En los
+  otros seis solo se atribuyen titulares que nombren también el departamento, y
+  **Argelia y Trujillo** ni siquiera tienen búsqueda propia (ver la sección
+  siguiente): su cero es en parte silencio del monitor.
 
 ## Los municipios que entran solos por el RUD no tienen búsqueda propia de prensa
 
@@ -359,9 +366,13 @@ titulares atribuidos, **23 no tienen búsqueda propia**. Su silencio es, en part
 silencio del monitor. Por eso el banner de la página de municipios separa dos
 niveles y solo afirma el cero de los municipios cuyo topónimo no admite duda.
 
-De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular en
-toda la vida del feed** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—: ahí la
-consulta se ha hecho todos los días y la prensa no ha publicado nada.
+De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular
+desde que la búsqueda existe** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—.
+Conviene medir la afirmación: esas búsquedas nacieron el 18-ago-2026 y llevan
+cinco peticiones registradas en `sources_log`, no meses. Y desde el 19-ago ese
+cero histórico ya **no se puede comprobar desde `noticias.json`**, precisamente
+porque este cambio sacó del producto público lo anterior al sismo: consta en la
+base local y en los snapshots.
 
 Laguna emparentada, ya descrita más arriba: la tabla de municipios cuenta solo
 las menciones que pasan el filtro de topónimo, mientras que la página de
