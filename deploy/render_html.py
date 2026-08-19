@@ -50,6 +50,25 @@ def fmt(n, dec: int = 0) -> str:
     return s.replace(",", "\x00").replace(".", ",").replace("\x00", ".")
 
 
+# Libro de estilo, 10.1: del cero al nueve con letras, de 10 en adelante en
+# guarismos. Vale para la prosa; en tablas y cuadros van siempre en guarismos
+# (10.2), así que esta función no sustituye a fmt().
+_LETRAS = ("cero", "una", "dos", "tres", "cuatro", "cinco",
+           "seis", "siete", "ocho", "nueve")
+
+
+def fmt_prosa(n, femenino: bool = False) -> str:
+    """Cifra tal como se escribe dentro de una frase."""
+    if n is None:
+        return "—"
+    entero = int(n)
+    if entero != n or not 0 <= entero <= 9:
+        return fmt(n)
+    if entero == 1:
+        return "una" if femenino else "un"
+    return _LETRAS[entero]
+
+
 def pct(n) -> str:
     """Porcentaje con un decimal, espejo de `UI.pct`.
 
@@ -400,19 +419,19 @@ def parrafo_respuesta(d: dict) -> str:
             f"clasificados</strong> dentro del municipio por el producto activo, Copernicus EMSR916.")
     else:
         cerca = (f" La zona analizada más próxima es {e(d['zonas'][0][0])}, a "
-                 f"{fmt(d['zonas'][0][2] / 1000, 0)} km." if d["zonas"] else "")
+                 f"{fmt(d['zonas'][0][2] / 1000, 0)} kilómetros." if d["zonas"] else "")
         partes.append(
             f"<strong>Ningún producto satelital de daño ha reportado daños en {e(nombre)}</strong> "
             f"— hoy el único activo sobre el evento es Copernicus EMSR916, y su cobertura no "
             f"alcanza el municipio.{cerca}")
     if d["ciudadanos"]:
         partes.append(
-            f"La comunidad sí lo ha documentado: <strong>{len(d['ciudadanos'])} reportes "
-            f"ciudadanos</strong> georreferenciados en el entorno, {d['con_medio']} con foto o vídeo.")
+            f"La comunidad sí lo ha documentado: <strong>{fmt_prosa(len(d['ciudadanos']))} reportes "
+            f"ciudadanos</strong> georreferenciados en el entorno, {fmt_prosa(d['con_medio'])} con foto o vídeo.")
     medios = {medio_de_titular(t) for t in d["titulares"]} - {None}
     if d["titulares"]:
-        partes.append(f"La prensa recogida por el monitor suma {fmt(len(d['titulares']))} piezas "
-                      f"sobre {e(nombre)}, de {len(medios)} medios identificados.")
+        partes.append(f"La prensa recogida por el monitor suma {fmt_prosa(len(d['titulares']))} piezas "
+                      f"sobre {e(nombre)}, de {fmt_prosa(len(medios))} medios identificados.")
     return " ".join(partes)
 
 
@@ -548,7 +567,7 @@ def render_ficha(d: dict) -> str:
              '<span class="badge" style="--bc:var(--critical)">epicentro</span></p>')
     if not d["satelite"]:
         cerca = (f' La más próxima, {e(d["zonas"][0][0])}, está a '
-                 f'{fmt(d["zonas"][0][2] / 1000, 0)} km.' if d["zonas"] else "")
+                 f'{fmt(d["zonas"][0][2] / 1000, 0)} kilómetros.' if d["zonas"] else "")
         o.append(f'<p class="note">{e(nombre)} queda fuera de toda zona con producto satelital '
                  f'de daño.{cerca} Sin producto satelital no hay cruce posible (R2): el registro '
                  f'municipal y los reportes de la comunidad son la única evidencia disponible.</p>')
@@ -559,7 +578,7 @@ def render_ficha(d: dict) -> str:
         rango = (f' con intensidad percibida de {fmt(min(d["mmis"]), 1)} a '
                  f'{fmt(max(d["mmis"]), 1)} (MMI)' if d["mmis"] else "")
         o.append(f'<div class="aviso aviso--accion">'
-                 f'<p><strong>{len(d["ciudadanos"])} reportes ciudadanos</strong> '
+                 f'<p><strong>{fmt_prosa(len(d["ciudadanos"]))} reportes ciudadanos</strong> '
                  f'georreferenciados en el entorno de {e(nombre)}, {d["con_medio"]} con foto '
                  f'o vídeo{rango}. <span class="badge">verificación automática superada · '
                  f'pendientes de revisión humana</span></p>'

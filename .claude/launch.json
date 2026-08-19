@@ -2,10 +2,33 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "monitor-dist",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "bash deploy/build_dist.sh >/dev/null && python3 -m http.server -d dist \"$PORT\""
+      ],
+      "port": 8125,
+      "autoPort": true
+    },
+    {
       "name": "monitor",
       "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "python3 -m http.server \"$PORT\""],
+      "runtimeArgs": [
+        "-c",
+        "python3 -m http.server \"$PORT\""
+      ],
       "port": 8123,
+      "autoPort": true
+    },
+    {
+      "name": "worktree-saneo",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "python3 -m http.server -d /Users/jpcorrea/Proyectos/saneo-enlaces-medios \"$PORT\""
+      ],
+      "port": 8124,
       "autoPort": true
     }
   ]

@@ -114,6 +114,11 @@ versionan `launch.json`, `agents/` y `skills/`.
 ```bash
 python ingest/run_daily.py              # corrida diaria completa
 python3 -m unittest discover -s tests   # toda la suite
-python -m http.server -d . 8123         # sitio en http://localhost:8123/site/
 bash deploy/build_dist.sh               # construir dist/ (artefacto de deploy)
+python3 -m http.server -d dist 8123     # sitio como en producción: la raíz es dist/
 ```
+
+El sitio **se sirve desde `dist/` como raíz**, igual que en producción: las páginas
+viven en `/`, las fichas municipales en `/municipio/<slug>/` y los enlaces entre ellas
+son absolutos. Servir el repositorio directamente devuelve 404 en cada ficha — `dist/`
+es el artefacto publicado y el repositorio no lo es.

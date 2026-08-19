@@ -429,3 +429,32 @@ class TestSitioEnLaRaiz(unittest.TestCase):
         self.assertIn("mkdir -p dist/site", sh)
         self.assertIn("canonical", sh)
         self.assertIn("noindex", sh)   # el stub no compite con la página real
+
+
+class TestEstiloDeLosNumeros(unittest.TestCase):
+    """Libro de estilo de EL PAÍS, adoptado en docs/DECISIONES.md."""
+
+    def test_del_cero_al_nueve_con_letras(self):
+        """10.1: «seis reportes», pero «23 kilómetros»."""
+        self.assertEqual(R.fmt_prosa(6), "seis")
+        self.assertEqual(R.fmt_prosa(9), "nueve")
+        self.assertEqual(R.fmt_prosa(10), "10")
+        self.assertEqual(R.fmt_prosa(95), "95")
+
+    def test_el_uno_concuerda_en_genero(self):
+        self.assertEqual(R.fmt_prosa(1), "un")
+        self.assertEqual(R.fmt_prosa(1, femenino=True), "una")
+
+    def test_las_tablas_siguen_en_guarismos(self):
+        """10.2: en una relación de cifras van todas en guarismos. fmt_prosa no
+        sustituye a fmt: la tabla no puede decir «seis»."""
+        html = R.filas_municipios(R.contexto())
+        for palabra in ("seis", "siete", "ocho", "nueve"):
+            self.assertNotIn(f">{palabra}<", html)
+
+    def test_las_medidas_van_con_todas_sus_letras_en_prosa(self):
+        """10.23: el símbolo solo en tablas y cuadros."""
+        ctx = R.contexto()
+        prosa = R.parrafo_respuesta(R.datos_ficha("Nóvita", ctx))
+        self.assertIn("kilómetros", prosa)
+        self.assertNotRegex(prosa, r"\d+ km\b")
