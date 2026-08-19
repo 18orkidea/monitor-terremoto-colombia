@@ -20,9 +20,20 @@
   --s8: #8a5a1d;   /* solo registro municipal (RUD) */
   --good: #0a850a;      /* coincide · 4,6:1 como texto sobre el fondo claro */
   --s9: #0f8f8f;   /* evaluado por UNOSAT (2.º satélite) */
-  --good: #0ca30c;      /* coincide */
-  --warning: #fab219;   /* pendiente */
+  /* --good vivía aquí una segunda vez, con el verde vivo del tema oscuro: la
+     redeclaración ganaba y devolvía el texto «coincide» a 3,3:1. Un solo verde
+     por tema. */
+  --warning: #fab219;   /* pendiente · ámbar de RELLENO, no de letra (1,8:1) */
+  --warning-ink: #8a5a00;  /* el mismo aviso cuando hay que escribirlo · 5,8:1 */
+  --s1-solid: #2470cc;  /* fondo de los botones llenos: el texto va en blanco y
+                           el azul aclarado del tema oscuro no llegaría a AA */
   --critical: #d03b3b;
+  /* Un solo margen de página: cabecera, secciones, tablas y pie se apoyan en el
+     mismo eje, midan lo que midan. Antes la prosa se detenía en --ancho-pagina
+     y las secciones seguían creciendo con la pantalla: dos bordes derechos
+     distintos, cada vez más separados. Con max() las barras pintadas (la
+     navegación y el pie) siguen llegando de borde a borde. */
+  --margen: max(var(--gutter), (100% - var(--ancho-pagina)) / 2);
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -41,6 +52,7 @@
     --s8: #c99a52;
     --muted: #8f8d87;     /* sobre fondo oscuro hay que aclarar, no oscurecer */
     --good: #0ca30c;      /* el verde vivo recupera contraste en oscuro (5,8:1) */
+    --warning-ink: #f0b429;  /* sobre fondo oscuro el aviso se aclara, no se apaga */
     --s9: #2fb3b3;
   }
 }
@@ -48,6 +60,11 @@
 /* Navegar con teclado tiene que verse: un solo anillo para todo el sitio. */
 :focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* --warning es un color de relleno (los puntos «daño posible» del mapa, el
+   tinte de los avisos). Escrito, da 1,8:1 y no se lee. Donde el marcado lo usó
+   como color de letra —la banda de hitos de la portada y el «+N» de UNOSAT en
+   la tabla de municipios— se cambia por su versión legible; el relleno intacto. */
+[style*="color:var(--warning)"] { color: var(--warning-ink) !important; }
 body {
   margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -56,11 +73,17 @@ body {
 }
 header {
   display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 16px; padding: 18px var(--gutter) 6px;
+  gap: 16px; padding: 18px var(--margen) 6px;
 }
 h1 { font-size: 25px; line-height: 1.18; letter-spacing: -.015em; margin: 0 0 5px; }
 h2 { font-size: 18px; line-height: 1.3; letter-spacing: -.01em; margin: 0 0 10px; }
 .sub { color: var(--ink-2); font-size: 13.5px; line-height: 1.5; margin: 0; max-width: var(--ancho-lectura); }
+/* Bajo un h1 el subtítulo va pegado a propósito; bajo un h2 encabeza una
+   sección y lo que sigue (tarjetas, filtros, gráfica) se le echaba encima. */
+h2 + .sub { margin-bottom: 12px; }
+/* Ni la franja de métricas ni una tabla traen margen propio: dejaban el bloque
+   anterior sin aire. */
+* + .metric-strip, * + .tabla-scroll { margin-top: 12px; }
 .sub a { color: var(--s1); }
 .meta { text-align: right; font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 .support-line {
@@ -88,16 +111,16 @@ h2 { font-size: 18px; line-height: 1.3; letter-spacing: -.01em; margin: 0 0 10px
   text-decoration: none; color: var(--ink); background: var(--surface-1); font-size: 12px;
 }
 .btn.primary {
-  background: var(--s1); color: #fff; border-color: transparent; font-weight: 600;
+  background: var(--s1-solid); color: #fff; border-color: transparent; font-weight: 600;
 }
-.intro { margin: 6px var(--gutter) 12px; max-width: var(--ancho-pagina); }
+.intro { margin: 6px var(--margen) 12px; }
 .intro p + p { margin-top: 8px; }
 .intro p { font-size: 14.5px; line-height: 1.65; color: var(--ink-2); margin: 0; max-width: var(--ancho-lectura); }
 html { scroll-behavior: smooth; }
 section[id], main[id], footer[id] { scroll-margin-top: 66px; }
 #indice {
   display: flex; flex-wrap: wrap; gap: 6px;
-  margin: 12px var(--gutter) 0; max-width: var(--ancho-pagina);
+  margin: 12px var(--margen) 0;
 }
 #indice a {
   padding: 4px 11px; border: 1px solid var(--border); border-radius: 999px;
@@ -108,22 +131,28 @@ section[id], main[id], footer[id] { scroll-margin-top: 66px; }
   color: var(--s1); border-color: color-mix(in srgb, var(--s1) 45%, transparent);
   background: color-mix(in srgb, var(--s1) 7%, var(--surface-1));
 }
-#como-leer, .intro details {
+/* Desplegables. El mismo gesto («esto se abre») tenía tres aspectos: caja con
+   borde en la entradilla, triángulo desnudo en las alertas y en la banda de
+   silencio de municipios. Uno solo. */
+#como-leer, .intro details, .aviso details, #alerts-section > details {
   margin-top: 10px; border: 1px solid var(--border); border-radius: 8px;
   background: var(--surface-1); font-size: 13px;
 }
-#como-leer summary, .intro details summary {
+#como-leer summary, .intro details summary, .aviso details summary,
+#alerts-section > details summary {
   padding: 9px 14px; cursor: pointer; color: var(--ink); user-select: none;
 }
-#como-leer summary:hover, .intro details summary:hover { background: color-mix(in srgb, var(--s1) 6%, transparent); border-radius: 8px; }
-#como-leer[open] summary, .intro details[open] summary { border-bottom: 1px solid var(--grid); }
-#como-leer ol, .intro details ol { margin: 10px 0; padding: 0 18px 4px 34px; line-height: 1.6; color: var(--ink-2); }
-#como-leer li, .intro details li { margin-bottom: 8px; }
-#como-leer li strong, .intro details li strong { color: var(--ink); }
-#como-leer a, .intro details a { color: var(--s1); }
+#como-leer summary:hover, .intro details summary:hover,
+.aviso details summary:hover, #alerts-section > details summary:hover { background: color-mix(in srgb, var(--s1) 6%, transparent); border-radius: 8px; }
+#como-leer[open] summary, .intro details[open] summary,
+.aviso details[open] summary, #alerts-section > details[open] summary { border-bottom: 1px solid var(--grid); }
+#como-leer ol, .intro details ol, .aviso details ol { margin: 10px 0; padding: 0 18px 4px 34px; line-height: 1.6; color: var(--ink-2); }
+#como-leer li, .intro details li, .aviso details li { margin-bottom: 8px; }
+#como-leer li strong, .intro details li strong, .aviso details li strong { color: var(--ink); }
+#como-leer a, .intro details a, .aviso details a { color: var(--s1); }
 main#mapa {
   display: flex; flex-direction: column;
-  gap: 12px; padding: 0 var(--gutter);
+  gap: 12px; padding: 0 var(--margen);
 }
 #map {
   min-height: 62vh; border-radius: 10px; border: 1px solid var(--border);
@@ -131,11 +160,15 @@ main#mapa {
 }
 #panel {
   background: var(--surface-1); border: 1px solid var(--border);
-  border-radius: 10px; padding: 14px; overflow-x: auto;
+  border-radius: 10px; padding: 14px;
+  /* el desplazamiento horizontal es de la tabla (`.tabla-scroll`), no del panel:
+     antes el título, las notas y la leyenda se iban de lado con ella */
 }
 table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
 th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--grid); }
 th { color: var(--muted); font-weight: 600; font-size: 11.5px; }
+/* La cabecera compartía filete con las filas y se leía como una fila más. */
+thead th { border-bottom-color: var(--baseline); }
 th[title], th[data-tip] { cursor: help; text-decoration: underline dotted color-mix(in srgb, var(--muted) 60%, transparent); text-underline-offset: 3px; }
 .th-tip {
   position: fixed; z-index: 1200; line-height: 1.5; font-weight: 400;
@@ -152,7 +185,12 @@ th.ord[aria-sort="ascending"]::after { content: "▲"; opacity: 1; }
 th.ord[aria-sort="descending"]::after { content: "▼"; opacity: 1; }
 th.ord[aria-sort="ascending"], th.ord[aria-sort="descending"] { color: var(--s1); }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
-tbody tr { cursor: pointer; }
+/* La mano solo donde la fila lleva de verdad a algún sitio: la tabla del cruce
+   de la portada. En las demás (municipios, RUD, balances, fichas) el enlace
+   está dentro de la celda y el cursor prometía un clic que no existe. El
+   resaltado al pasar sí se queda en todas: en una tabla ancha ayuda a no
+   perder el renglón. */
+#tabla tbody tr { cursor: pointer; }
 tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
@@ -162,7 +200,15 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
   border: 1px solid color-mix(in srgb, var(--bc, var(--muted)) 45%, transparent);
   white-space: nowrap;
 }
-.badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--bc, var(--muted)); }
+.badge::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto;
+  background: var(--bc, var(--muted));
+}
+/* Dentro de un aviso el distintivo no rotula una celda: es una frase entera.
+   Con `nowrap` heredado, la ficha municipal hacía que el móvil se desplazara en
+   horizontal. En tablas y leyendas siguen sin partirse, que ahí son etiquetas
+   cortas y su contenedor ya se desplaza solo. */
+.aviso .badge, .destacado .badge { white-space: normal; }
 .badge.critical { --bc: var(--critical); }
 .note { font-size: 12px; color: var(--muted); line-height: 1.5; max-width: var(--ancho-lectura); }
 #leyenda, .leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 10px 0 0; }
@@ -183,13 +229,22 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 }
 #timeline a { color: var(--s1); text-decoration: none; }
 /* chips de filtro reutilizables (cronología, y donde hagan falta) */
-.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 10px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
+* + .chips { margin-top: 12px; }
+/* La misma pastilla hace dos oficios: dentro de `.chips` es un botón de filtro
+   y en la lista de titulares, una etiqueta de zona. `inline-block` porque el
+   marcado las pega sin espacio entre ellas y en `inline` la línea no tenía por
+   dónde partirse: en móvil una tira de municipios sacaba la página de cuadro. */
 .chip {
-  border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px;
-  font-size: 12px; background: var(--surface-1); color: var(--ink-2);
-  cursor: pointer; font-family: inherit;
+  display: inline-block; margin: 2px 4px 2px 0;
+  border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px;
+  font-size: 12px; line-height: 1.35; background: var(--surface-1); color: var(--ink-2);
+  font-family: inherit;
 }
-.chip:hover { border-color: var(--s1); }
+/* El filtro se pulsa; la etiqueta, no. El cursor y el resalte son del botón. */
+.chips .chip { margin: 0; padding: 5px 12px; }
+button.chip { cursor: pointer; }
+button.chip:hover { border-color: var(--s1); }
 .chip.activa {
   border-color: var(--s1); color: var(--ink);
   background: color-mix(in srgb, var(--s1) 12%, transparent);
@@ -200,7 +255,7 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #metodologia, #timeline-section, #colombia-acts-section, #municipios-section,
 #chart-section, #balances-section, #alerts-section,
 #balance-hero, #balance-chart-section, #balance-table-section {
-  margin: 16px var(--gutter); background: var(--surface-1); border: 1px solid var(--border);
+  margin: 16px var(--margen); background: var(--surface-1); border: 1px solid var(--border);
   border-radius: 10px; padding: 16px 18px;
 }
 /* La prosa de una sección no se estira más allá de lo que el ojo sigue cómodo,
@@ -264,10 +319,13 @@ a.metric-card:hover { border-color: var(--s1); }
   display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; align-items: center;
 }
 .filtros input, .filtros select {
-  padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+  padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px;
   background: var(--surface-1); color: var(--ink); font-size: 13px;
+  font-family: inherit; line-height: 1.35; min-height: 34px;  /* el select medía distinto */
 }
-.filtros input { min-width: 260px; }
+/* El buscador es el filtro principal: se queda con el hueco que sobra en vez
+   de un ancho fijo que no cuadraba con el de ningún desplegable. */
+.filtros input { flex: 1 1 260px; min-width: 200px; max-width: 420px; }
 #balance-table a, #balances-resumen a, #balance-cards a { color: var(--s1); text-decoration: none; }
 #balance-table a:hover, #balances-resumen a:hover, #balance-cards a:hover { text-decoration: underline; }
 .leaflet-container { background: var(--page); font: inherit; }
@@ -281,7 +339,7 @@ a.metric-card:hover { border-color: var(--s1); }
 /* ---- barra de navegación y pie de sitio compartidos (common.js) ---- */
 #site-nav {
   display: flex; justify-content: space-between; align-items: center; gap: 12px;
-  flex-wrap: wrap; padding: 10px var(--gutter);
+  flex-wrap: wrap; padding: 10px var(--margen);
   background: var(--surface-1); border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 1100;
 }
@@ -294,9 +352,9 @@ a.metric-card:hover { border-color: var(--s1); }
 }
 #site-nav .nav-links a:hover { color: var(--s1); background: color-mix(in srgb, var(--s1) 8%, transparent); }
 #site-nav .nav-links a.activa { color: var(--ink); background: color-mix(in srgb, var(--s1) 14%, var(--surface-1)); border-color: color-mix(in srgb, var(--s1) 40%, transparent); font-weight: 600; }
-#site-nav .nav-cta { color: #fff !important; background: var(--s1) !important; font-weight: 600; }
+#site-nav .nav-cta { color: #fff !important; background: var(--s1-solid) !important; font-weight: 600; }
 #site-footer {
-  margin-top: 20px; padding: 18px var(--gutter) 26px; border-top: 1px solid var(--border);
+  margin-top: 20px; padding: 18px var(--margen) 26px; border-top: 1px solid var(--border);
   background: var(--surface-1); font-size: 12.5px; color: var(--ink-2); line-height: 1.6;
 }
 #site-footer .sf-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; max-width: var(--ancho-pagina); }
@@ -304,21 +362,36 @@ a.metric-card:hover { border-color: var(--s1); }
 #site-footer a:hover { text-decoration: underline; }
 #site-footer .sf-line { margin: 14px 0 0; color: var(--muted); max-width: var(--ancho-pagina); }
 .leyenda-sep { color: var(--muted); font-size: 12px; margin-left: 6px; align-self: center; }
-#paginado { display: flex; gap: 6px; align-items: center; justify-content: center; margin: 14px 0; flex-wrap: wrap; }
-#paginado button {
-  padding: 5px 11px; border: 1px solid var(--border); border-radius: 6px;
-  background: var(--surface-1); color: var(--ink-2); font-size: 13px; cursor: pointer;
+/* Paginador. Estaba atado al id `#paginado`, así que la tabla de municipios
+   —que usa `#mun-paginado`— salía con los botones grises del navegador. Es un
+   componente: se nombra por clase y los ids quedan de red de seguridad. */
+.paginado, #paginado, #mun-paginado {
+  display: flex; gap: 6px; align-items: center; justify-content: center;
+  margin: 16px 0 0; flex-wrap: wrap;
 }
-#paginado button:hover:not(:disabled) { color: var(--s1); border-color: var(--s1); }
-#paginado button.actual { background: var(--s1); color: #fff; border-color: transparent; font-weight: 600; }
-#paginado button:disabled { opacity: .4; cursor: default; }
+.paginado button, #paginado button, #mun-paginado button {
+  padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface-1); color: var(--ink-2); font-size: 13px;
+  font-family: inherit; line-height: 1.35; cursor: pointer;
+}
+.paginado button:hover:not(:disabled),
+#paginado button:hover:not(:disabled),
+#mun-paginado button:hover:not(:disabled) { color: var(--s1); border-color: var(--s1); }
+.paginado button.actual, #paginado button.actual, #mun-paginado button.actual {
+  background: var(--s1-solid); color: #fff; border-color: transparent; font-weight: 600;
+}
+.paginado button:disabled, #paginado button:disabled,
+#mun-paginado button:disabled { opacity: .45; cursor: default; }
 
-/* botón y menú de compartir */
-#btn-compartir {
+/* Botones de la barra (compartir, alertas). Estaban estilados uno a uno por
+   id: el de alertas se quedó fuera y salía como un rectángulo gris del
+   navegador entre pastillas. Se nombran por lo que son, no por cuál son. */
+#site-nav .nav-links button {
   padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border);
-  background: var(--surface-1); color: var(--ink-2); font-size: 13px; cursor: pointer;
+  background: var(--surface-1); color: var(--ink-2); font-size: 13px;
+  font-family: inherit; line-height: 1.35; cursor: pointer;
 }
-#btn-compartir:hover { color: var(--s1); border-color: var(--s1); }
+#site-nav .nav-links button:hover { color: var(--s1); border-color: var(--s1); }
 #menu-compartir {
   position: fixed; z-index: 1300; display: flex; flex-direction: column;
   background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
@@ -338,11 +411,21 @@ a.metric-card:hover { border-color: var(--s1); }
   font-size: 13.5px; line-height: 1.55;
 }
 #lista li:last-child { border-bottom: 0; }
-#lista .meta-n { color: var(--muted); font-size: 12px; }
+/* Fecha y medio en su renglón: las etiquetas de zona venían pegadas al final
+   de la línea de firma y partían el «vía Google News» por la mitad. */
+#lista .meta-n { display: block; color: var(--muted); font-size: 12px; }
+/* El titular es la unidad: la firma arriba, las etiquetas de zona en medio y
+   el titular abajo, cada cosa en su renglón. El <br> del marcado sobraba y
+   dejaba una línea en blanco en los titulares sin etiquetas. */
+#lista li br { display: none; }
+#lista li > a { display: block; margin-top: 3px; }
 #lista a { color: var(--s1); text-decoration: none; }
 #lista a:hover { text-decoration: underline; }
 #lista .badge { margin-left: 6px; font-weight: 500; }
-#resumen { color: var(--ink-2); font-size: 13px; margin: 4px 0 14px; }
+/* Línea de resumen sobre una tabla filtrada («23 de 23 snapshots · …»). En
+   balances se quedó sin estilo —16 px en negro, con más peso que el subtítulo
+   de la sección— mientras en titulares era letra pequeña y apagada. */
+.resumen, #resumen, #balance-resumen { color: var(--ink-2); font-size: 13px; margin: 4px 0 12px; }
 
 /* ————— componentes compartidos por portada, páginas y fichas municipales —————
    Nacen con las fichas de municipio pero NO son suyos: se usan en todo el sitio
@@ -358,6 +441,13 @@ a.metric-card:hover { border-color: var(--s1); }
    serie (para vivir a ancho de página) lo sueltan al entrar aquí. */
 .contenido header { padding-inline: 0; }
 .contenido .page-section, .contenido .nota-pie, .contenido .migas { margin-inline: 0; }
+/* La medida de lectura la pone la propia columna. Repetirla dentro dejaba
+   cajas con borde de 720 px cuyo texto acababa en 617: un canal vacío a la
+   derecha de cada aviso, cada nota y cada destacado de las 96 fichas. */
+.contenido .destacado, .contenido .note, .contenido .sub,
+.contenido .aviso p, .contenido .aviso ul,
+.contenido .page-section > p, .contenido .page-section > ul,
+.contenido .page-section > ol { max-width: none; }
 
 /* Respuesta corta: la cifra del día en prosa, arriba de la página. Es lo que
    citan los buscadores y los sistemas de IA, así que va siempre en el HTML.
@@ -388,9 +478,12 @@ a.metric-card:hover { border-color: var(--s1); }
 .aviso li { margin: .45em 0; }
 .aviso > :first-child { margin-top: 0; }
 .aviso > :last-child { margin-bottom: 0; }
-.aviso a { color: var(--s1); }
-/* la banda de brechas de la portada es un aviso a ancho de página */
-#banner-brechas { margin: 10px var(--gutter); }
+/* Sobre el tinte del panel el azul de enlace se quedaba en 4,2:1. Se escribe
+   un punto más adentro —hacia la tinta en claro, hacia el papel en oscuro— y
+   el aviso conserva su color sin que el enlace pierda legibilidad. */
+.aviso a { color: color-mix(in srgb, var(--s1) 80%, var(--ink)); }
+/* las bandas de hallazgo (portada y municipios) son avisos a ancho de página */
+#banner-brechas, #banner-silencio { margin: 10px var(--margen); }
 
 /* Migas de pan: orientan a quien llega desde un buscador y le dan al buscador
    la jerarquía del sitio. Lista ordenada porque es una ruta, no una frase. */
@@ -407,11 +500,22 @@ a.metric-card:hover { border-color: var(--s1); }
 /* Tablas anchas: se desplazan dentro de su caja y nunca hacen que la página
    entera se mueva en horizontal. El mínimo evita que en móvil las columnas se
    aplasten hasta romper las palabras: mejor arrastrar que adivinar. */
-.tabla-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+.tabla-scroll {
+  overflow-x: auto; overscroll-behavior-x: contain;
+  /* Sombra en el borde por el que aún queda tabla, y solo mientras queda: en
+     móvil nada indicaba que la tabla seguía a la derecha y el lector se creía
+     que las columnas de datos no existían. Sin JS: las capas `local` viajan con
+     el contenido y tapan a las `scroll`, que están fijas al marco. */
+  background:
+    linear-gradient(to right, var(--surface-1), transparent) 0 0 / 28px 100% no-repeat local,
+    linear-gradient(to left, var(--surface-1), transparent) 100% 0 / 28px 100% no-repeat local,
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 16%, transparent), transparent) 0 0 / 14px 100% no-repeat,
+    linear-gradient(to left, color-mix(in srgb, var(--ink) 16%, transparent), transparent) 100% 0 / 14px 100% no-repeat;
+}
 .tabla-scroll table { min-width: 30rem; }
 
 /* Nota suelta al pie del contenido, alineada con el resto de la página. */
-.nota-pie { margin: 10px var(--gutter) 22px; }
+.nota-pie { margin: 10px var(--margen) 22px; }
 
 /* Mapas estáticos en SVG: se generan en el build, se indexan y no necesitan JS.
    Los interactivos (Leaflet) siguen siendo solo de la portada. */
@@ -453,10 +557,31 @@ a.metric-card:hover { border-color: var(--s1); }
   /* dos por dos se lee como una rejilla; tres y uno suelto, como un error */
   .metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .metric-card strong { font-size: 19px; }
-  /* la barra de navegación ocupaba tres filas antes del primer dato */
-  #site-nav { padding: 8px var(--gutter); gap: 8px; }
-  #site-nav .nav-links { gap: 4px; }
-  #site-nav .nav-links a { padding: 4px 9px; font-size: 12.5px; }
+  /* La barra ocupaba tres filas: 152 px pegados arriba, el 19 % de la pantalla
+     de un móvil, y este monitor se lee sobre todo en móvil. En una sola fila
+     deslizable baja a la mitad y no desaparece ningún destino. */
+  #site-nav { padding: 8px var(--margen); gap: 6px; }
+  #site-nav .nav-links {
+    flex: 1 0 100%; gap: 4px; flex-wrap: nowrap;
+    overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+    /* la fila sangra hasta el borde: así se ve que hay más a la derecha */
+    margin-inline-end: calc(-1 * var(--margen)); padding-inline-end: var(--margen);
+  }
+  #site-nav .nav-links::-webkit-scrollbar { display: none; }
+  #site-nav .nav-links > * { flex: 0 0 auto; }
+  #site-nav .nav-links a { padding: 5px 9px; font-size: 12.5px; }
+  /* la barra pegada mide dos renglones aquí: el ancla no puede quedar debajo */
+  section[id], main[id], footer[id] { scroll-margin-top: 96px; }
+  /* La cabecera de página: la fecha en su renglón y las descargas juntas en el
+     siguiente, en vez de un botón huérfano colgando de la fecha. */
+  .meta > #generado { flex: 1 0 100%; }
+  /* Apilados y cada uno con el ancho de su opción más larga (311, 308, 196,
+     176, 319 px en titulares), los filtros parecían un error de maqueta. En
+     columna comparten el ancho de la caja. */
+  .filtros { flex-direction: column; align-items: stretch; }
+  /* en columna el eje principal es vertical: el `flex-basis` del buscador
+     pasaría a ser su ALTURA */
+  .filtros input, .filtros select { flex: 0 0 auto; width: 100%; max-width: none; }
 }
 
 /* Un mapa estático que lleva al interactivo. La ficha no carga Leaflet ni los

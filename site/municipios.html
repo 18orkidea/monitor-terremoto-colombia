@@ -63,7 +63,7 @@
   </details>
 </section>
 
-<section class="banner" id="banner-silencio" hidden></section>
+<section class="aviso aviso--laguna" id="banner-silencio" hidden></section>
 
 <section class="page-section">
   <div class="chips" id="mun-chips" role="group" aria-label="Filtros de la tabla"></div>
@@ -90,7 +90,7 @@
     </thead>
     <tbody data-gen="municipios"></tbody><!-- lo rellena deploy/render_html.py en el build -->
   </table></div>
-  <nav id="mun-paginado" aria-label="Paginación de municipios"></nav>
+  <nav id="mun-paginado" class="paginado" aria-label="Paginación de municipios"></nav>
   <p class="note" id="mun-nota"></p>
   <p class="note">¿Falta un municipio? Los que entran al <a href="rud.html">RUD</a> se
   incorporan solos en la corrida siguiente; los demás se añaden con un PR al
