@@ -19,6 +19,11 @@ find data/media -maxdepth 1 \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' 
 REV=$(git rev-parse --short HEAD 2>/dev/null || date -u +%Y%m%d%H%M)
 sed -i.bak "s/?v=dev/?v=${REV}/g" dist/site/*.html && rm -f dist/site/*.html.bak
 
+# fichas municipales: el HTML que hoy pintaría el JavaScript. Se generan aquí y
+# no en site/ porque un HTML que cambia entero cada día destruiría el blame; el
+# dato ya está versionado en data/public, así que son reconstruibles.
+python3 deploy/render_html.py dist
+
 # GitHub Pages: sin Jekyll
 touch dist/.nojekyll
 
@@ -38,16 +43,8 @@ cat > dist/index.html <<'HTML'
 HTML
 
 cp deploy/root/* dist/
-HOY=$(date -u +%F)
-cat > dist/sitemap.xml <<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://brechas.orkidea.eu/site/</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>1.0</priority></url>
-  <url><loc>https://brechas.orkidea.eu/site/noticias.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
-  <url><loc>https://brechas.orkidea.eu/site/balances.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.8</priority></url>
-  <url><loc>https://brechas.orkidea.eu/site/municipios.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.7</priority></url>
-  <url><loc>https://brechas.orkidea.eu/site/rud.html</loc><changefreq>daily</changefreq><lastmod>$HOY</lastmod><priority>0.7</priority></url>
-</urlset>
-XML
+# sitemap y llms-full.txt: se derivan de las páginas realmente generadas y de
+# los datos del día, para no anunciar nunca una URL que no existe
+python3 deploy/render_descubrimiento.py dist
 
 echo "dist listo (rev ${REV}): $(find dist -type f | wc -l | tr -d ' ') ficheros, $(du -sh dist | cut -f1)"

@@ -131,6 +131,44 @@ window.UI = (function () {
     return pinta;
   }
 
+  /* Buscador sobre una tabla que YA viene escrita en el HTML desde el build.
+
+     Es la contrapartida de tablaBuscable: aquí el JavaScript no crea ninguna
+     fila, solo muestra u oculta las que el generador dejó escritas. Así la
+     página sirve su contenido a quien no ejecuta JavaScript —los rastreadores
+     de sistemas de IA no lo hacen— y el navegador conserva el buscador.
+
+     Cada <tr> trae su texto normalizado en data-buscar, escrito por
+     deploy/render_html.py con la misma normalización que UI.norm. */
+  function tablaHidratada(opts) {
+    const { tbody, input, nota, notaTexto, vacio } = opts;
+    if (!tbody) return () => {};
+    const filas = Array.from(tbody.rows).filter((r) => r.dataset.buscar !== undefined);
+    const total = filas.length;
+
+    let sinCoincidencias = null;
+    const pinta = () => {
+      const q = norm(input ? input.value.trim() : "");
+      let visibles = 0;
+      filas.forEach((tr) => {
+        const ok = !q || tr.dataset.buscar.includes(q);
+        tr.hidden = !ok;
+        if (ok) visibles++;
+      });
+      if (!visibles && !sinCoincidencias) {
+        sinCoincidencias = tbody.insertRow();
+        sinCoincidencias.innerHTML =
+          `<td colspan="99" style="color:var(--muted)">${vacio || "Sin coincidencias."}</td>`;
+      }
+      if (sinCoincidencias) sinCoincidencias.hidden = visibles > 0;
+      if (nota && notaTexto) nota.textContent = notaTexto(q, visibles, total);
+      return visibles;
+    };
+    if (input) input.oninput = pinta;
+    pinta();
+    return pinta;
+  }
+
   /* Tarjetas métricas: [{label, value, sub?, href?}] en un .metric-strip. */
   function metricCards(el, cards) {
     el.innerHTML = cards.map((c) => {
@@ -335,7 +373,8 @@ window.UI = (function () {
   }
 
   return { fmt, pct, fechaEs, estadoMunicipio, ESTADO_MUNICIPIO,
-           fraseHomonimos, norm, cssVar, esc, fetchJson, tablaBuscable, paginador, metricCards,
+           fraseHomonimos, norm, cssVar, esc, fetchJson, tablaBuscable, tablaHidratada,
+           paginador, metricCards,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };

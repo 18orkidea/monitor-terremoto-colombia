@@ -62,7 +62,7 @@
   <div class="filtros"><input id="mun-buscar" type="search"
     placeholder="Buscar municipio o departamento…"
     aria-label="Buscar municipio del área de influencia"></div>
-  <div style="overflow-x:auto"><table id="municipios-tabla">
+  <div class="tabla-scroll"><table id="municipios-tabla">
     <thead>
       <tr>
         <th title="Municipio del área de influencia del sismo. Clic para verlo en el mapa de la portada.">Municipio</th>
@@ -76,7 +76,7 @@
         <th title="Qué sistemas del monitor registran señal en este municipio: prensa, DYFI (intensidad percibida) o RUD (registro municipal de damnificados).">Fuentes</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody data-gen="municipios"></tbody><!-- lo rellena deploy/render_html.py en el build -->
   </table></div>
   <p class="note" id="mun-nota"></p>
   <p class="note">¿Falta un municipio? Los que entran al <a href="rud.html">RUD</a> se

@@ -1,4 +1,25 @@
+# Todo el monitor es público y reutilizable (CC BY 4.0). Se declara explícitamente
+# el permiso a los rastreadores de sistemas de IA: el proyecto quiere ser citado,
+# y dejarlo por escrito evita que un cambio futuro los excluya sin querer.
 User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://brechas.orkidea.eu/sitemap.xml
