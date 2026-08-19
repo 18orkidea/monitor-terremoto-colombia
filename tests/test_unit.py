@@ -606,6 +606,52 @@ class TestSnapshotsIntradia(unittest.TestCase):
             conn.close()
 
 
+class TestDumpSinRuidoDeRowid(unittest.TestCase):
+    """Un diff diario debe contar lo que cambió, no lo que sqlite renumeró.
+
+    `crosscheck` borra y reinserta cada día la evidencia automática, y sqlite
+    reparte `id` nuevos: 27 de las 100 líneas de `evidence.csv` cambiaban de
+    valor sin que cambiara un solo dato. En un repositorio que es archivo, eso
+    es peor que ruido — obliga a desconfiar del diff."""
+
+    def test_recrear_las_filas_no_mueve_el_csv(self):
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn = sqlite3.connect(tmp / "a.sqlite")
+            conn.executescript(SCHEMA)
+
+            def poblar():
+                for aoi in ("Istmina", "Quibdo Centre"):
+                    conn.execute(
+                        "INSERT INTO evidence (aoi_name, tipo, url, fuente,"
+                        " fecha, cita, capturado_por, snapshot_date) VALUES"
+                        " (?,'prensa','https://x/1','El Tiempo','2026-08-16',"
+                        "'titular','auto','2026-08-16')", (aoi,))
+                conn.commit()
+
+            poblar()
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                dump_db.dump(conn)
+                antes = (tmp / "dumps" / "evidence.csv").read_text(encoding="utf-8")
+                # la corrida siguiente: mismas filas, ids nuevos
+                conn.execute("DELETE FROM evidence WHERE capturado_por='auto'")
+                poblar()
+                dump_db.dump(conn)
+                despues = (tmp / "dumps" / "evidence.csv").read_text(encoding="utf-8")
+            finally:
+                dump_db.DUMPS = dumps_orig
+            self.assertEqual(antes, despues,
+                             "el CSV cambia sin que cambien los datos")
+            self.assertNotIn("id,", antes.splitlines()[0],
+                             "el alias del rowid no se vuelca")
+            conn.close()
+
+
 class TestDumpRoundtrip(unittest.TestCase):
     """El sqlite no se versiona; los dumps CSV sí. Si el ciclo dump→rebuild
     perdiera un solo valor (un NULL vuelto cero, una tilde rota), el archivo
