@@ -63,18 +63,24 @@
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
-   "texto": "Entra UNITAR-UNOSAT, el centro satelital de la ONU: 393 edificios evaluados uno a uno en Anserma, Manizales y Viterbo, tres municipios de Caldas donde Copernicus no ha cartografiado nada. Es el segundo satélite del monitor, y el primero que puede contradecir al otro. En el epicentro, San José del Palmar, UNOSAT da la evaluación por completa con UN edificio dañado visible «en las zonas sin nubes», mientras el registro oficial cuenta allí 569 familias y 150 viviendas afectadas.",
-   "url": "https://brechas.orkidea.eu/site/#mapa"
+   "texto": "Entra UNITAR-UNOSAT, el centro satelital de la ONU: 393 edificios evaluados uno a uno en Anserma, Manizales y Viterbo, tres municipios de Caldas donde Copernicus no ha cartografiado nada. Ninguno está validado en campo y 296 se marcan solo como «daño posible». Es el segundo satélite del monitor, y el primero que puede contradecir al otro: en el epicentro, San José del Palmar, la evaluación preliminar de UNOSAT solo ve un edificio con daño estructural visible y un deslizamiento —y advierte que mira «en las zonas sin nubes»—, mientras el registro oficial cuenta allí 626 familias y 189 viviendas afectadas.",
+   "url": "https://unosat.org/products/4253"
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
-   "texto": "El monitor ya avisa cuando una fuente institucional publica algo nuevo. El informe de UNOSAT del epicentro llevaba un día en la cronología sin que nada lo señalara: aparecía si alguien miraba. Ahora entra en las alertas y en el RSS el mismo día."
+   "texto": "El monitor ya avisa cuando una fuente institucional publica algo nuevo. El informe de UNOSAT del epicentro llevaba un día en la cronología sin que nada lo señalara: aparecía si alguien miraba. Ahora entra en las alertas y en el RSS el mismo día en que el monitor lo ve."
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
    "texto": "Los globos del mapa dejan de enseñar guiones. Donde una fuente no midió algo en ese punto, la línea desaparece en vez de mostrar «—»: un hueco de cobertura no puede leerse como un cero. Cada fuente describe lo suyo con sus propias palabras."
+  },
+  {
+   "fecha": "2026-08-19",
+   "tipo": "monitor",
+   "texto": "Viterbo entra en el monitor, y entra solo por el satélite: 154 edificios evaluados por UNOSAT, 55 con daño observado, y ni una línea en el registro oficial de damnificados. Es el primer municipio que este monitor conoce porque lo vio una cámara desde el espacio y nadie más lo miró. La tabla de municipios estrena columna para esa evaluación, separada de la cobertura de Copernicus porque la propia ONU la marca como no validada en campo.",
+   "url": "https://brechas.orkidea.eu/site/municipios.html"
   }
  ]
 }

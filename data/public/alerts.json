@@ -5,7 +5,7 @@
   {
    "tipo": "institucional_nuevo",
    "nivel": "alta",
-   "texto": "UNITAR-UNOSAT publicó un producto nuevo del terremoto (2026-08-18T15:51): revisar si trae datos que el monitor aún no cruza",
+   "texto": "UNITAR-UNOSAT publicó un producto nuevo del terremoto: M7.4 in Colombia - UNITAR-UNOSAT Activation — http://unosat.org/products/4253",
    "emisor": "UNITAR-UNOSAT",
    "titulo": "M7.4 in Colombia - UNITAR-UNOSAT Activation",
    "url": "http://unosat.org/products/4253",
@@ -20,8 +20,8 @@
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "535 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 535
+   "texto": "575 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 575
   },
   {
    "tipo": "balance_en_medios",
@@ -44,7 +44,7 @@
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +22 municipios. +20.451 familias vs snapshot anterior"
+   "texto": "RUD actualizado: +22 municipios. +21.224 familias vs snapshot anterior"
   }
  ]
 }
