@@ -4,16 +4,21 @@
   --page: #f9f9f7;
   --ink: #0b0b0b;
   --ink-2: #52514e;
-  --muted: #898781;
+  --muted: #6e6d66;     /* 4,9:1: las notas al pie también hay que poder leerlas */
   --grid: #e1e0d9;
   --baseline: #c3c2b7;
   --border: rgba(11, 11, 11, 0.10);
-  --s1: #2a78d6;   /* prensa */
+  /* Medidas compartidas: el mismo margen lateral, el mismo ancho de página y la
+     misma medida de lectura en portada, páginas y fichas municipales. */
+  --gutter: 20px;
+  --ancho-pagina: 1100px;
+  --ancho-lectura: 70ch;
+  --s1: #2470cc;   /* prensa · 4,7:1 sobre el fondo claro (era #2a78d6, 4,2:1) */
   --s2: #eb6834;   /* chatmap serie */
   --s3: #1baf7a;   /* feeds abiertos */
   --s7: #4a3aa7;   /* ciudadano */
   --s8: #8a5a1d;   /* solo registro municipal (RUD) */
-  --good: #0ca30c;      /* coincide */
+  --good: #0a850a;      /* coincide · 4,6:1 como texto sobre el fondo claro */
   --warning: #fab219;   /* pendiente */
   --critical: #d03b3b;
 }
@@ -32,9 +37,14 @@
     --s3: #199e70;
     --s7: #9085e9;
     --s8: #c99a52;
+    --muted: #8f8d87;     /* sobre fondo oscuro hay que aclarar, no oscurecer */
+    --good: #0ca30c;      /* el verde vivo recupera contraste en oscuro (5,8:1) */
   }
 }
 * { box-sizing: border-box; }
+/* Navegar con teclado tiene que verse: un solo anillo para todo el sitio. */
+:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -43,11 +53,11 @@ body {
 }
 header {
   display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 16px; padding: 16px 20px 8px;
+  gap: 16px; padding: 18px var(--gutter) 6px;
 }
-h1 { font-size: 20px; margin: 0 0 4px; }
-h2 { font-size: 15px; margin: 0 0 8px; }
-.sub { color: var(--ink-2); font-size: 13px; margin: 0; }
+h1 { font-size: 25px; line-height: 1.18; letter-spacing: -.015em; margin: 0 0 5px; }
+h2 { font-size: 18px; line-height: 1.3; letter-spacing: -.01em; margin: 0 0 10px; }
+.sub { color: var(--ink-2); font-size: 13.5px; line-height: 1.5; margin: 0; max-width: var(--ancho-lectura); }
 .sub a { color: var(--s1); }
 .meta { text-align: right; font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 .support-line {
@@ -77,14 +87,14 @@ h2 { font-size: 15px; margin: 0 0 8px; }
 .btn.primary {
   background: var(--s1); color: #fff; border-color: transparent; font-weight: 600;
 }
-.intro { margin: 4px 20px 10px; max-width: 1000px; }
+.intro { margin: 6px var(--gutter) 12px; max-width: var(--ancho-pagina); }
 .intro p + p { margin-top: 8px; }
-.intro p { font-size: 13.5px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+.intro p { font-size: 14.5px; line-height: 1.65; color: var(--ink-2); margin: 0; max-width: var(--ancho-lectura); }
 html { scroll-behavior: smooth; }
 section[id], main[id], footer[id] { scroll-margin-top: 66px; }
 #indice {
   display: flex; flex-wrap: wrap; gap: 6px;
-  margin: 10px 20px 0; max-width: 1000px;
+  margin: 12px var(--gutter) 0; max-width: var(--ancho-pagina);
 }
 #indice a {
   padding: 4px 11px; border: 1px solid var(--border); border-radius: 999px;
@@ -108,15 +118,9 @@ section[id], main[id], footer[id] { scroll-margin-top: 66px; }
 #como-leer li, .intro details li { margin-bottom: 8px; }
 #como-leer li strong, .intro details li strong { color: var(--ink); }
 #como-leer a, .intro details a { color: var(--s1); }
-.banner {
-  margin: 8px 20px; padding: 10px 14px; border-radius: 8px;
-  background: color-mix(in srgb, var(--warning) 14%, var(--surface-1));
-  border: 1px solid var(--border); font-size: 13px; line-height: 1.5;
-}
-.banner strong { color: var(--ink); }
-main {
+main#mapa {
   display: flex; flex-direction: column;
-  gap: 12px; padding: 0 20px;
+  gap: 12px; padding: 0 var(--gutter);
 }
 #map {
   min-height: 62vh; border-radius: 10px; border: 1px solid var(--border);
@@ -147,8 +151,8 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 }
 .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--bc, var(--muted)); }
 .badge.critical { --bc: var(--critical); }
-.note { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
-#leyenda { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.note { font-size: 12px; color: var(--muted); line-height: 1.5; max-width: var(--ancho-lectura); }
+#leyenda, .leyenda { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 10px 0 0; }
 .prensa-toggle { color: var(--s1); text-decoration: none; white-space: nowrap; }
 .prensa-detalle td { background: color-mix(in srgb, var(--s1) 5%, transparent); font-size: 12px; }
 .prensa-detalle ul { margin: 4px 0 2px; padding-left: 18px; }
@@ -183,9 +187,13 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #metodologia, #timeline-section, #colombia-acts-section, #municipios-section,
 #chart-section, #balances-section, #alerts-section,
 #balance-hero, #balance-chart-section, #balance-table-section {
-  margin: 14px 20px; background: var(--surface-1); border: 1px solid var(--border);
-  border-radius: 10px; padding: 14px; overflow-x: auto;
+  margin: 16px var(--gutter); background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
 }
+/* La prosa de una sección no se estira más allá de lo que el ojo sigue cómodo,
+   aunque la tabla de al lado sí lo haga: el ancho de la tabla es información. */
+.page-section > p, .page-section > ul, .page-section > ol,
+#alerts-section > ul { max-width: var(--ancho-lectura); }
 #chart svg { display: block; }
 #balance-chart svg { display: block; }
 #chart .tooltip, #map .leaflet-popup-content { font-size: 12px; }
@@ -198,8 +206,8 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #alerts { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.6; }
 #metodologia-box summary { cursor: pointer; color: var(--ink); font-size: 14px; padding: 2px 0; }
 #metodologia-box summary:hover { color: var(--s1); }
-#metodologia-box h3 { font-size: 14px; margin: 16px 0 8px; }
-#metodologia-box p, #metodologia-box ol { font-size: 13px; line-height: 1.6; color: var(--ink-2); max-width: 1000px; }
+#metodologia-box h3 { font-size: 15px; margin: 20px 0 8px; }
+#metodologia-box p, #metodologia-box ol { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); max-width: var(--ancho-lectura); }
 #metodologia-box ol { padding-left: 22px; }
 #metodologia-box li { margin-bottom: 6px; }
 #metodologia-box a { color: var(--s1); text-decoration: none; }
@@ -214,12 +222,12 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
   #metodologia-box dl { grid-template-columns: 1fr; gap: 2px; }
   #metodologia-box dd { margin-bottom: 8px; }
 }
-footer { padding: 10px 20px 24px; font-size: 12px; color: var(--muted); line-height: 1.5; max-width: 1000px; }
+footer { padding: 10px var(--gutter) 24px; font-size: 12px; color: var(--muted); line-height: 1.5; max-width: var(--ancho-pagina); }
 footer a { color: var(--s1); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 .note a { color: var(--s1); }
 .metric-strip {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(146px, 1fr));
   gap: 8px; align-items: stretch;
 }
 .metric-card {
@@ -227,9 +235,13 @@ footer a:hover { text-decoration: underline; }
   background: color-mix(in srgb, var(--surface-1) 88%, var(--page));
 }
 .metric-card span {
-  display: block; color: var(--muted); font-size: 11px; margin-bottom: 2px;
+  display: block; color: var(--muted); font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .045em; margin-bottom: 3px;
 }
-.metric-card strong { display: block; font-size: 17px; font-variant-numeric: tabular-nums; }
+.metric-card strong {
+  display: block; font-size: 21px; line-height: 1.15; letter-spacing: -.015em;
+  font-variant-numeric: tabular-nums;
+}
 .metric-card small { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
 a.metric-card { text-decoration: none; color: inherit; display: block; }
 a.metric-card:hover { border-color: var(--s1); }
@@ -256,7 +268,7 @@ a.metric-card:hover { border-color: var(--s1); }
 /* ---- barra de navegación y pie de sitio compartidos (common.js) ---- */
 #site-nav {
   display: flex; justify-content: space-between; align-items: center; gap: 12px;
-  flex-wrap: wrap; padding: 10px 20px;
+  flex-wrap: wrap; padding: 10px var(--gutter);
   background: var(--surface-1); border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 1100;
 }
@@ -271,13 +283,13 @@ a.metric-card:hover { border-color: var(--s1); }
 #site-nav .nav-links a.activa { color: var(--ink); background: color-mix(in srgb, var(--s1) 14%, var(--surface-1)); border-color: color-mix(in srgb, var(--s1) 40%, transparent); font-weight: 600; }
 #site-nav .nav-cta { color: #fff !important; background: var(--s1) !important; font-weight: 600; }
 #site-footer {
-  margin-top: 20px; padding: 18px 20px 26px; border-top: 1px solid var(--border);
+  margin-top: 20px; padding: 18px var(--gutter) 26px; border-top: 1px solid var(--border);
   background: var(--surface-1); font-size: 12.5px; color: var(--ink-2); line-height: 1.6;
 }
-#site-footer .sf-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; max-width: 1000px; }
+#site-footer .sf-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; max-width: var(--ancho-pagina); }
 #site-footer a { color: var(--s1); text-decoration: none; }
 #site-footer a:hover { text-decoration: underline; }
-#site-footer .sf-line { margin: 14px 0 0; color: var(--muted); max-width: 1000px; }
+#site-footer .sf-line { margin: 14px 0 0; color: var(--muted); max-width: var(--ancho-pagina); }
 .leyenda-sep { color: var(--muted); font-size: 12px; margin-left: 6px; align-self: center; }
 #paginado { display: flex; gap: 6px; align-items: center; justify-content: center; margin: 14px 0; flex-wrap: wrap; }
 #paginado button {
@@ -304,3 +316,132 @@ a.metric-card:hover { border-color: var(--s1); }
   color: var(--ink); font-size: 13px;
 }
 #menu-compartir a:hover { background: color-mix(in srgb, var(--s1) 10%, transparent); color: var(--s1); }
+
+/* lista de titulares (noticias.html) — vivía en un <style> propio de la página,
+   con copias de .filtros y de .badge que se desincronizaban solas */
+#lista { list-style: none; margin: 0; padding: 0; }
+#lista li {
+  padding: 9px 0; border-bottom: 1px solid var(--grid);
+  font-size: 13.5px; line-height: 1.55;
+}
+#lista li:last-child { border-bottom: 0; }
+#lista .meta-n { color: var(--muted); font-size: 12px; }
+#lista a { color: var(--s1); text-decoration: none; }
+#lista a:hover { text-decoration: underline; }
+#lista .badge { margin-left: 6px; font-weight: 500; }
+#resumen { color: var(--ink-2); font-size: 13px; margin: 4px 0 14px; }
+
+/* ————— componentes compartidos por portada, páginas y fichas municipales —————
+   Nacen con las fichas de municipio pero NO son suyos: se usan en todo el sitio
+   para que una misma idea se vea igual en cualquier página. Si añades uno nuevo,
+   aplícalo también donde ya existía ese patrón a mano. */
+
+/* Columna de lectura. Las fichas municipales son un documento, no un tablero:
+   sin tope de ancho, en una pantalla grande la línea se estira hasta que el ojo
+   pierde el renglón. Las páginas con mapa o tabla ancha no la usan — ahí el
+   ancho ES información. */
+.contenido { max-width: 760px; margin-inline: auto; padding-inline: var(--gutter); }
+/* El margen lateral lo pone la columna: los bloques que lo traen puesto de
+   serie (para vivir a ancho de página) lo sueltan al entrar aquí. */
+.contenido header { padding-inline: 0; }
+.contenido .page-section, .contenido .nota-pie, .contenido .migas { margin-inline: 0; }
+
+/* Respuesta corta: la cifra del día en prosa, arriba de la página. Es lo que
+   citan los buscadores y los sistemas de IA, así que va siempre en el HTML.
+   Panel completo y no una franja de color al margen: el énfasis lo pone el
+   texto, el recuadro solo lo separa de lo que viene después. */
+.destacado {
+  background: color-mix(in srgb, var(--s8) 7%, var(--surface-1));
+  border: 1px solid color-mix(in srgb, var(--s8) 28%, var(--border));
+  border-radius: 10px; padding: 16px 18px; margin: 0 0 4px;
+  font-size: 15.5px; line-height: 1.62; max-width: var(--ancho-lectura);
+}
+.destacado strong { font-weight: 650; }
+
+/* Avisos: mismo cuerpo, distinto color según para qué sirven. El color entra
+   por --ac, igual que .badge lo recibe por --bc — un solo mecanismo de tinte
+   en toda la hoja. */
+.aviso {
+  --ac: var(--muted);
+  background: color-mix(in srgb, var(--ac) 8%, var(--surface-1));
+  border: 1px solid color-mix(in srgb, var(--ac) 32%, var(--border));
+  border-radius: 10px; padding: 14px 16px; margin: 14px 0;
+  font-size: 14px; line-height: 1.55;
+}
+.aviso--accion { --ac: var(--s7); }       /* pide algo a quien lee */
+.aviso--laguna { --ac: var(--warning); }  /* lo que NO sabemos */
+.aviso p { margin: .7em 0; max-width: var(--ancho-lectura); }
+.aviso ul { margin: .4em 0 0; padding-left: 1.15em; max-width: var(--ancho-lectura); }
+.aviso li { margin: .45em 0; }
+.aviso > :first-child { margin-top: 0; }
+.aviso > :last-child { margin-bottom: 0; }
+.aviso a { color: var(--s1); }
+/* la banda de brechas de la portada es un aviso a ancho de página */
+#banner-brechas { margin: 10px var(--gutter); }
+
+/* Migas de pan: orientan a quien llega desde un buscador y le dan al buscador
+   la jerarquía del sitio. Lista ordenada porque es una ruta, no una frase. */
+.migas { font-size: 12.5px; color: var(--muted); margin: 12px 0 2px; padding: 0; }
+.migas ol {
+  list-style: none; display: flex; flex-wrap: wrap; align-items: center;
+  gap: 7px; margin: 0; padding: 0;
+}
+.migas li::after { content: "›"; margin-left: 7px; color: var(--baseline); }
+.migas li:last-child::after { content: none; }
+.migas a { color: var(--ink-2); text-decoration: none; }
+.migas a:hover { color: var(--s1); text-decoration: underline; }
+
+/* Tablas anchas: se desplazan dentro de su caja y nunca hacen que la página
+   entera se mueva en horizontal. El mínimo evita que en móvil las columnas se
+   aplasten hasta romper las palabras: mejor arrastrar que adivinar. */
+.tabla-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+.tabla-scroll table { min-width: 30rem; }
+
+/* Nota suelta al pie del contenido, alineada con el resto de la página. */
+.nota-pie { margin: 10px var(--gutter) 22px; }
+
+/* Mapas estáticos en SVG: se generan en el build, se indexan y no necesitan JS.
+   Los interactivos (Leaflet) siguen siendo solo de la portada. */
+.mapa-estatico {
+  width: 100%; height: auto; display: block; background: var(--surface-1);
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.mapa-estatico .m-name { font: 700 16px system-ui, sans-serif; fill: var(--ink); }
+.mapa-estatico .m-lbl  { font: 600 13px system-ui, sans-serif; fill: var(--ink); }
+.mapa-estatico .m-sub  { font: 11.5px system-ui, sans-serif; fill: var(--ink-2); }
+/* Halo del color del fondo: el rótulo sobrevive encima del polígono, de la
+   retícula y de los puntos, sin necesidad de buscarle un hueco vacío. */
+.mapa-estatico text {
+  paint-order: stroke; stroke: var(--surface-1); stroke-width: 3px;
+  stroke-linejoin: round;
+}
+/* El texto vive dentro del viewBox: al encoger el mapa encoge con él. Por eso
+   aquí la letra CRECE en pantallas estrechas — al revés de lo habitual, pero es
+   lo que mantiene los rótulos legibles cuando el mapa mide 330 px de ancho. */
+@media (max-width: 760px) {
+  .mapa-estatico .m-name { font-size: 23px; }
+  .mapa-estatico .m-lbl  { font-size: 19px; }
+  .mapa-estatico .m-sub  { font-size: 17px; }
+  .mapa-estatico text { stroke-width: 4px; }
+}
+@media (max-width: 480px) {
+  .mapa-estatico .m-name { font-size: 32px; }
+  .mapa-estatico .m-lbl  { font-size: 26px; }
+  .mapa-estatico .m-sub  { font-size: 23px; }
+  .mapa-estatico text { stroke-width: 5px; }
+}
+
+/* En móvil el margen lateral de 20 px se come una décima parte del ancho útil:
+   un solo token y toda la página se estrecha a la vez. */
+@media (max-width: 560px) {
+  :root { --gutter: 13px; }
+  h1 { font-size: 22px; }
+  .destacado { font-size: 15px; padding: 14px 15px; }
+  /* dos por dos se lee como una rejilla; tres y uno suelto, como un error */
+  .metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metric-card strong { font-size: 19px; }
+  /* la barra de navegación ocupaba tres filas antes del primer dato */
+  #site-nav { padding: 8px var(--gutter); gap: 8px; }
+  #site-nav .nav-links { gap: 4px; }
+  #site-nav .nav-links a { padding: 4px 9px; font-size: 12.5px; }
+}

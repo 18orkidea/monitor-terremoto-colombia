@@ -29,26 +29,6 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="theme-color" content="#101418">
 <link rel="stylesheet" href="styles.css?v=dev">
-<style>
-  #filtros { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
-  #filtros input, #filtros select {
-    padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
-    background: var(--surface-1); color: var(--ink); font-size: 13px;
-  }
-  #filtros input { min-width: 220px; }
-  #lista { list-style: none; margin: 0; padding: 0; }
-  #lista li { padding: 8px 0; border-bottom: 1px solid var(--grid); font-size: 13.5px; line-height: 1.5; }
-  #lista .meta-n { color: var(--muted); font-size: 12px; }
-  #lista a { color: var(--s1); text-decoration: none; }
-  #lista a:hover { text-decoration: underline; }
-  .chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px;
-          background: color-mix(in srgb, var(--s1) 12%, var(--surface-1));
-          border: 1px solid var(--border); margin-left: 6px; }
-  .chip.mun { background: color-mix(in srgb, var(--s2) 12%, var(--surface-1)); }
-  .chip.dep { background: color-mix(in srgb, var(--warning) 12%, var(--surface-1)); }
-  #resumen { color: var(--ink-2); font-size: 13px; margin: 4px 0 14px; }
-  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px 30px; }
-</style>
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
@@ -101,8 +81,9 @@
   </details>
 </section>
 
-<div class="wrap">
-  <div id="filtros">
+<div class="contenido">
+<section class="page-section">
+  <div id="filtros" class="filtros">
     <input id="buscar" type="search" placeholder="Buscar en titulares…">
     <select id="f-aoi"><option value="">Todas las zonas</option></select>
     <select id="f-depto"><option value="">Todos los departamentos</option></select>
@@ -112,6 +93,7 @@
   <p id="resumen">Cargando…</p>
   <ul id="lista"></ul>
   <nav id="paginado" aria-label="Paginación de titulares"></nav>
+</section>
 </div>
 <script src="ui.js?v=dev"></script>
 <script src="noticias.js?v=dev"></script>
