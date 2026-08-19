@@ -595,3 +595,47 @@ class TestTablaRud(unittest.TestCase):
     def test_el_marcador_existe(self):
         html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
         self.assertIn('<tbody data-gen="rud">', html)
+
+
+class TestBalances(unittest.TestCase):
+    """Fase D: la tabla trazable de balances citados en medios."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.html = R.filas_balances(cls.ctx)
+
+    def test_una_fila_por_snapshot(self):
+        self.assertEqual(self.html.count("<tr "),
+                         len(self.ctx["oficiales"].get("items") or []))
+
+    def test_los_liveblogs_se_marcan_en_el_html(self):
+        """R8: si la marca solo la pusiera el navegador, quien lee sin
+        JavaScript vería las cifras de un liveblog sin saber que lo es."""
+        items = self.ctx["oficiales"]["items"]
+        esperados = sum(1 for i in items if R.es_liveblog(i))
+        self.assertEqual(self.html.count(">liveblog<"), esperados)
+        self.assertGreater(esperados, 0, "el corpus debería traer algún liveblog")
+
+    def test_la_deteccion_de_liveblog_es_espejo_de_ui_js(self):
+        """La expresión vive en dos lenguajes; si divergen, la misma pieza se
+        marcaría en una página y no en otra."""
+        ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
+        for termino in ("en vivo", "directo", "última hora", "minuto a minuto", "liveblog"):
+            self.assertIn(termino, ui)
+            self.assertIn(termino, R._LIVEBLOG.pattern)
+
+    def test_cada_fila_dice_de_quien_es_la_cifra(self):
+        """R9: no es el balance oficial, es lo que la prensa publica citándolo."""
+        self.assertIn("Prensa temporal", self.html)
+        self.assertEqual(self.html.count('data-url="'), self.html.count("<tr "))
+
+    def test_el_feed_se_publica_como_producto_propio(self):
+        """Vivía en un worker de cuenta ajena: si se apaga, la página se quedaba
+        vacía aunque el dato estuviera archivado."""
+        feed = self.ctx["oficiales"]
+        self.assertIn("archivado_de", feed)
+        self.assertIn("snapshots", feed["archivado_de"]["snapshot"])
+        js = (Path(__file__).parent.parent / "site/balances.js").read_text(encoding="utf-8")
+        self.assertIn('"/data/public/oficiales.json"', js)
+        self.assertNotIn("OFICIALES_BASE}/oficiales.json", js)

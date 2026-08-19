@@ -18,6 +18,7 @@ from __future__ import annotations
 import html
 import json
 import math
+import re
 import unicodedata
 import urllib.parse
 from pathlib import Path
@@ -477,6 +478,7 @@ def contexto() -> dict:
         "zonas_con_producto": {f["properties"].get("aoi") for f in damage},
         "conteo_satelite": asigna_a_municipios(damage, municipios),
         "conteo_ciudadanos": asigna_a_municipios(chatmap, municipios),
+        "oficiales": _leer("oficiales.json") if (PUBLIC / "oficiales.json").exists() else {},
     }
 
 
@@ -983,6 +985,73 @@ def filas_rud(ctx: dict) -> str:
     return "\n".join(filas)
 
 
+# Espejo de `UI.isLiveblog` (site/ui.js). Es la única parte de R8 que se replica
+# aquí: la marca tiene que estar en el HTML servido, o un lector sin JavaScript
+# vería las cifras de un liveblog sin la advertencia de que lo es. La lógica
+# compleja —qué snapshot representa el día— sigue viviendo solo en el frontend.
+# `tests/test_render_html.py::TestBalances` compara ambas expresiones.
+_LIVEBLOG = re.compile(
+    r"en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog",
+    re.I)
+
+NIVELES = {
+    "oficial_comunicacion": ("Oficial comunicación", "--good"),
+    "oficial_institucional": ("Oficial institucional", "--good"),
+    "gobierno_local_por_verificar": ("Gobierno local por verificar", "--warning"),
+    "temporal_prensa": ("Prensa temporal", "--s1"),
+    "busqueda_web_temporal": ("Web temporal", "--muted"),
+}
+
+
+def es_liveblog(item: dict) -> bool:
+    texto = f'{item.get("title") or ""} {item.get("publication_url") or item.get("url") or ""}'
+    return bool(item.get("is_liveblog") or _LIVEBLOG.search(texto))
+
+
+def filas_balances(ctx: dict) -> str:
+    """La tabla trazable de balances: qué publicó cada medio, cuándo y citando a quién.
+
+    R9: esto NO es el balance oficial, es lo que la prensa publica citándolo. La
+    tabla lo dice en cada fila con el nivel de la fuente y el enlace a la
+    publicación. La marca «usada en la serie» la sigue poniendo el navegador:
+    depende de comparar cada snapshot con el del día anterior."""
+    feed = ctx.get("oficiales") or {}
+    filas = []
+    for item in sorted(feed.get("items") or [],
+                       key=lambda x: x.get("search_date") or "", reverse=True):
+        c = item.get("cifras") or {}
+        url = item.get("publication_url") or item.get("url") or "#"
+        pub = item.get("publisher") or {}
+        etiqueta, color = NIVELES.get(item.get("source_level"),
+                                      (item.get("source_level") or "Sin nivel", "--muted"))
+        marca_lb = ('<span class="badge" style="--bc:var(--warning)">liveblog</span> '
+                    if es_liveblog(item) else "")
+        viviendas = " / ".join(fmt(v) for v in (c.get("viviendas_averiadas"),
+                                                c.get("viviendas_destruidas"))
+                               if v is not None) or "—"
+        citadas = ", ".join(
+            (f'<a href="{e(f["url"])}" target="_blank" rel="noopener nofollow">{e(f.get("id") or "fuente")}</a>'
+             if f.get("url") else e(f.get("id") or "fuente"))
+            for f in (item.get("reported_data_source") or [])) or "—"
+        filas.append(
+            f'<tr data-fecha="{e(item.get("search_date") or "")}"'
+            f' data-url="{e(url)}">'
+            f'<td>{e(item.get("search_date") or "—")}</td>'
+            f'<td><strong>{e(pub.get("name") or pub.get("domain") or "—")}</strong><br>'
+            f'{marca_lb}<span class="badge" style="--bc:var({color})">{e(etiqueta)}</span> '
+            f'<span class="note">{citadas}</span></td>'
+            f'<td class="num">{fmt(c.get("fallecidos"))}</td>'
+            f'<td class="num">{fmt(c.get("heridos"))}</td>'
+            f'<td class="num">{fmt(c.get("desaparecidos"))}</td>'
+            f'<td class="num">{fmt(c.get("familias_afectadas"))}</td>'
+            f'<td class="num">{fmt(c.get("personas_afectadas"))}</td>'
+            f'<td class="num" title="Averiadas / destruidas">{viviendas}</td>'
+            f'<td><a href="{e(url)}" target="_blank" rel="noopener nofollow">publicación</a>'
+            f'<br><span class="note">{e((item.get("title") or "")[:90])}</span></td>'
+            "</tr>")
+    return "\n".join(filas)
+
+
 def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     """Rellena en `dist/` los <tbody> marcados con data-gen.
 
@@ -990,7 +1059,7 @@ def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     entero cada día destruiría el blame, y el dato ya está versionado."""
     hechas = {}
     generadores = {"municipios": filas_municipios, "portada": filas_portada,
-                   "rud": filas_rud}
+                   "rud": filas_rud, "balances": filas_balances}
     for nombre, generador in generadores.items():
         archivo = "index" if nombre == "portada" else nombre
         pagina = destino / f"{archivo}.html"

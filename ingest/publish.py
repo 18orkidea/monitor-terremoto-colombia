@@ -607,6 +607,26 @@ def run() -> dict:
         "institucional": institucional,
         "colombia_activaciones": colombia_acts,
     }
+    # El feed de balances vive en un worker de cuenta ajena (ver
+    # docs/LIMITACIONES.md). Ya se archiva en cada corrida, así que se publica
+    # también como producto propio: el sitio deja de depender de que el worker
+    # siga en pie, y el dato sobrevive el día que se apague. La copia conserva
+    # de qué snapshot salió, para que no se confunda con una captura de hoy.
+    ultimo = None
+    for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
+        f = d / "oficiales_feed.json"
+        if f.exists():
+            ultimo = (d.name, json.loads(f.read_text()))
+            break
+    if ultimo:
+        fecha_snap, feed = ultimo
+        feed["archivado_de"] = {
+            "fuente": "worker de extracción de balances (cuenta ajena)",
+            "snapshot": f"data/snapshots/{fecha_snap}/oficiales_feed.json",
+        }
+        (PUBLIC / "oficiales.json").write_text(
+            json.dumps(feed, indent=1, ensure_ascii=False))
+
     (PUBLIC / "monitor.json").write_text(
         json.dumps(monitor, indent=1, ensure_ascii=False))
 

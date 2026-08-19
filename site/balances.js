@@ -2,7 +2,10 @@
 (async function () {
   const { fmt, esc, cssVar: css, fetchJson, isLiveblog, bestSnapshot,
           metricCount } = window.UI;
-  const FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
+  // El feed se lee del producto propio, no del worker que lo genera: la corrida
+  // diaria lo archiva y lo publica, así que la página sigue funcionando el día
+  // que ese worker —que vive en una cuenta ajena— se apague.
+  const FEED = "/data/public/oficiales.json";
   const btnJson = document.querySelector(".meta a.btn");
   if (btnJson) btnJson.href = FEED;
 
@@ -266,30 +269,37 @@
     // filas cuyas cifras alimentan la serie/tarjetas: el snapshot elegido de
     // cada día — marcadas para que la selección sea auditable a simple vista
     const elegidos = new Set(porDia.map((d) => d.item).filter(Boolean));
-    document.querySelector("#balance-table tbody").innerHTML = selected.map((item) => {
-      const c = item.cifras || {};
-      const pub = item.publisher || {};
-      const usado = elegidos.has(item);
-      const viviendas = [c.viviendas_averiadas, c.viviendas_destruidas]
-        .filter((v) => v != null).map(fmt).join(" / ") || "—";
-      return `<tr${usado ? ` style="background:color-mix(in srgb, var(--good) 7%, transparent)"` : ""}>` +
-        `<td>${esc(item.search_date)}</td>` +
-        `<td><strong>${esc(publisherName(item))}</strong><br>` +
-        `${usado ? `<span class="badge" style="--bc:var(--good)" title="Este snapshot es el elegido de su día: sus cifras alimentan la serie, las tarjetas y la comparativa">✓ usada en la serie</span> ` : ""}` +
-        `<span class="badge" style="--bc:${levelColor(item.source_level)}">${esc(labelLevel(item.source_level))}</span> ` +
-        `${isLiveblog(item) ? `<span class="badge" style="--bc:${css("--warning")}">liveblog</span> ` : ""}` +
-        `<span class="note">${sourceLinks(item)}</span></td>` +
-        `<td class="num">${fmt(c.fallecidos)}</td>` +
-        `<td class="num">${fmt(c.heridos)}</td>` +
-        `<td class="num">${fmt(c.desaparecidos)}</td>` +
-        `<td class="num">${fmt(c.familias_afectadas)}</td>` +
-        `<td class="num">${fmt(c.personas_afectadas)}</td>` +
-        `<td class="num" title="Averiadas / destruidas">${viviendas}</td>` +
-        `<td><a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">publicación</a>` +
-        `${pub.url && pub.url !== (item.publication_url || item.url) ? ` · <a href="${esc(pub.url)}" target="_blank" rel="noopener">canal</a>` : ""}` +
-        `<br><span class="note">${esc((item.title || "").slice(0, 90))}</span></td>` +
-        `</tr>`;
-    }).join("") || "<tr><td colspan='9'>Nada que mostrar con estos filtros.</td></tr>";
+    // Las filas las escribe el build: aquí solo se muestran las que pasan los
+    // filtros y se marca la elegida de cada día. Qué snapshot representa a su
+    // día se decide comparando con la víspera (R8), así que esa marca —y solo
+    // esa— sigue siendo cosa del navegador.
+    const tbody = document.querySelector("#balance-table tbody");
+    const porUrl = new Map(Array.from(tbody.rows)
+      .filter((tr) => tr.dataset.url)
+      .map((tr) => [tr.dataset.url, tr]));
+    const visibles = new Set(selected.map((it) => it.publication_url || it.url || "#"));
+    porUrl.forEach((tr, url) => {
+      tr.hidden = !visibles.has(url);
+      const item = selected.find((it) => (it.publication_url || it.url || "#") === url);
+      const usado = item && elegidos.has(item);
+      tr.style.background = usado
+        ? "color-mix(in srgb, var(--good) 7%, transparent)" : "";
+      const celda = tr.cells[1];
+      const yaMarcada = celda.querySelector("[data-serie]");
+      if (usado && !yaMarcada) {
+        const b = document.createElement("span");
+        b.className = "badge";
+        b.dataset.serie = "1";
+        b.style.setProperty("--bc", "var(--good)");
+        b.title = "Este snapshot es el elegido de su día: sus cifras alimentan la " +
+          "serie, las tarjetas y la comparativa";
+        b.textContent = "✓ usada en la serie";
+        celda.insertBefore(b, celda.querySelector(".badge"));
+        celda.insertBefore(document.createTextNode(" "), b.nextSibling);
+      } else if (!usado && yaMarcada) {
+        yaMarcada.remove();
+      }
+    });
   }
 
   function levelColor(level) {
