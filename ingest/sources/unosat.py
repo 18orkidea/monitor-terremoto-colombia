@@ -27,7 +27,11 @@ Lo que la fuente NO garantiza:
     duplicación es en sí un dato sobre cómo publica la fuente— pero el
     cuerpo se archiva una sola vez: `fetch()` reconoce el sha repetido y no
     reescribe el snapshot. Los datos se deduplican por sha del paquete, así
-    que un edificio declarado por tres productos es UNA fila.
+    que un edificio declarado por tres productos es UNA fila. Salvedad para
+    quien lea el archivo: el nombre `unosat_shapefiles.zip` NO identifica a un
+    producto —designa el paquete del primero que respondió ese día— y la
+    correspondencia producto↔paquete vive en `sources_log` y en
+    `unosat_products.shp_sha256`.
   - El ZIP no contiene necesariamente lo que anuncia el producto que lo
     enlaza: el de 4253 (San José del Palmar, el epicentro) trae Anserma,
     Manizales y Viterbo, y del epicentro solo se publica el PDF.
@@ -96,8 +100,10 @@ def _departamentos_de_titulos(conn) -> dict[str, str]:
 
     UNOSAT titula «… in Viterbo Town, Caldas Department, Colombia», y ese es
     el único sitio donde declara el departamento: el dbf no lo trae. Sirve
-    para los municipios que el monitor aún no sigue —Viterbo no está entre
-    los 109—, sin inventar nada: si el título no lo dice, se queda en None.
+    para los municipios que el monitor no tenga en su catálogo, sin inventar
+    nada: si el título no lo dice, se queda en None. La procedencia se marca en
+    `unosat_damage.departamento_origen`, porque un dato de catálogo y una
+    inferencia sobre texto libre no pueden ser indistinguibles.
     """
     out = {}
     for (titulo,) in conn.execute(
@@ -108,6 +114,18 @@ def _departamentos_de_titulos(conn) -> dict[str, str]:
         if m:
             out[_norm(m.group(1))] = m.group(2).strip()
     return out
+
+
+def _departamento_de(municipio: str | None, deptos: dict | None) -> dict:
+    """Departamento del municipio, con su procedencia."""
+    del_catalogo = (MUNICIPIOS.get(municipio) or {}).get("departamento")
+    if del_catalogo:
+        return {"departamento": del_catalogo, "departamento_origen": "catalogo"}
+    del_titulo = (deptos or {}).get(_norm(municipio or ""))
+    if del_titulo:
+        return {"departamento": del_titulo,
+                "departamento_origen": "titulo_unosat"}
+    return {"departamento": None, "departamento_origen": None}
 
 
 def _campo(props: dict, *nombres):
@@ -155,11 +173,12 @@ def _paquete(zbytes: bytes, deptos: dict[str, str] | None = None) -> list[dict]:
             out.append({
                 "capa": base.split("/")[-1], "idx": i,
                 "municipio": municipio,
-                # el índice del monitor manda; si no conoce el municipio,
-                # vale el departamento que la propia UNOSAT declara
-                "departamento": (MUNICIPIOS.get(municipio) or {}).get(
-                    "departamento")
-                    or (deptos or {}).get(_norm(municipio or "")),
+                # el índice del monitor manda; si no conoce el municipio, vale
+                # el departamento que la propia UNOSAT declara en su título.
+                # Las dos procedencias se marcan: una es dato de catálogo y la
+                # otra una inferencia sobre texto libre, y en un proyecto cuya
+                # tesis es la procedencia no pueden ser indistinguibles.
+                **_departamento_de(municipio, deptos),
                 "sensor": _campo(p, "SensorID", "Sensor_ID", "d_SensorID"),
                 "sensor_date": _campo(p, "SensorDate"),
                 "dano": _campo(p, "Main_Dmg", "d_Main_Dam", "Main_Damag"),
@@ -244,23 +263,30 @@ def run(conn=None, *, snapshot_date=None, **_op) -> dict:
         else:
             out["sin_shapefile"].append(pid)
 
+        pdf = _nombre_real(m.get("pdf_name"))
         conn.execute(
-            "INSERT INTO unosat_products (product_id, glide, titulo, created_at,"
-            " lat, lon, pdf_url, shp_url, gdb_url, web_url, shp_sha256,"
-            " fuentes_texto, first_seen, snapshot_date)"
-            " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,"
+            "INSERT INTO unosat_products (product_id, glide, titulo, descripcion,"
+            " created_at, lat, lon, pdf_url, shp_url, gdb_url, xlsx_url, web_url,"
+            " shp_sha256, fuentes_texto, first_seen, snapshot_date)"
+            " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
             "  COALESCE((SELECT first_seen FROM unosat_products"
             "            WHERE product_id=?), ?), ?)"
             " ON CONFLICT(product_id) DO UPDATE SET"
-            "  titulo=excluded.titulo, created_at=excluded.created_at,"
+            "  titulo=excluded.titulo, descripcion=excluded.descripcion,"
+            "  created_at=excluded.created_at,"
             "  shp_url=excluded.shp_url, shp_sha256=excluded.shp_sha256,"
+            "  pdf_url=excluded.pdf_url, xlsx_url=excluded.xlsx_url,"
             "  snapshot_date=excluded.snapshot_date",
             (pid, (m.get("glide") or "").upper(), m.get("title"),
+             # el SUMMARY OF FINDING: para San José del Palmar es el ÚNICO sitio
+             # donde vive el análisis del epicentro en texto, y sin esta columna
+             # solo sobrevivía dentro del snapshot crudo
+             m.get("description"),
              m.get("created_at"), (det or {}).get("latitude"),
              (det or {}).get("longitude"),
-             _abs(m.get("pdf_name") and
-                  f"/static/unosat_filesystem/{pid}/{m['pdf_name']}"),
-             shp_url or None, _abs(m.get("gdp_link")), m.get("wmap_link") or None,
+             _abs(pdf and f"/static/unosat_filesystem/{pid}/{pdf}"),
+             shp_url or None, _abs(m.get("gdp_link")),
+             _abs(m.get("excel_table")), m.get("wmap_link") or None,
              shp_sha, m.get("sources"), pid, utcnow(), snap))
 
     conn.commit()
@@ -282,20 +308,25 @@ def run(conn=None, *, snapshot_date=None, **_op) -> dict:
         for pt in puntos:
             conn.execute(
                 "INSERT INTO unosat_damage (paquete_sha, capa, idx, productos,"
-                " municipio, departamento, sensor, sensor_date, dano,"
-                " dano_agrupado, confianza, validacion_campo, event_code, notas,"
+                " municipio, departamento, departamento_origen, sensor,"
+                " sensor_date, dano, dano_agrupado, confianza,"
+                " validacion_campo, event_code, notas,"
                 " lat, lon, first_seen, snapshot_date)"
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
                 "  COALESCE((SELECT first_seen FROM unosat_damage"
                 "            WHERE paquete_sha=? AND capa=? AND idx=?), ?), ?)"
-                # La tabla guarda el estado ACTUAL de la fuente: si UNOSAT
-                # corrige un grado de daño, aquí se refleja. El estado de cada
-                # día anterior no se pierde — vive en los snapshots del ZIP,
-                # que son inmutables. `first_seen` sí se conserva.
+                # El conflicto solo salta al reprocesar el MISMO paquete (el
+                # sha va en la clave): un dato corregido por UNOSAT llega con
+                # otro sha y entra como fila nueva, no como actualización. La
+                # tabla acumula así todos los paquetes vistos —ahí está la
+                # serie histórica del edificio, legible con
+                # `git log -p data/dumps/unosat_damage.csv`— y lo que se
+                # publica es solo el vigente (ver `paquete_vigente`).
                 " ON CONFLICT(paquete_sha, capa, idx) DO UPDATE SET"
                 "  productos=excluded.productos,"
                 "  municipio=excluded.municipio,"
                 "  departamento=excluded.departamento,"
+                "  departamento_origen=excluded.departamento_origen,"
                 "  sensor=excluded.sensor, sensor_date=excluded.sensor_date,"
                 "  dano=excluded.dano, dano_agrupado=excluded.dano_agrupado,"
                 "  confianza=excluded.confianza,"
@@ -304,7 +335,8 @@ def run(conn=None, *, snapshot_date=None, **_op) -> dict:
                 "  lat=excluded.lat, lon=excluded.lon,"
                 "  snapshot_date=excluded.snapshot_date",
                 (sha, pt["capa"], pt["idx"], prods, pt["municipio"],
-                 pt["departamento"], pt["sensor"], pt["sensor_date"],
+                 pt["departamento"], pt["departamento_origen"],
+                 pt["sensor"], pt["sensor_date"],
                  pt["dano"], pt["dano_agrupado"], pt["confianza"],
                  pt["validacion_campo"], pt["event_code"], pt["notas"],
                  pt["lat"], pt["lon"],
@@ -320,10 +352,43 @@ def run(conn=None, *, snapshot_date=None, **_op) -> dict:
     return out
 
 
+def _nombre_real(v) -> str | None:
+    """Nombre de fichero declarado por UNOSAT, o None si declara ausencia.
+
+    La fuente escribe el string literal `'None'` cuando un producto no tiene
+    ese fichero (4250 en `pdf_name`, 4253 en `excel_table`). `'None'` es
+    truthy, así que un `if` a secas fabrica una URL a un fichero inexistente:
+    R3 llevada a la capa de enlaces — la ausencia declarada convertida en
+    afirmación positiva.
+    """
+    v = (v or "").strip()
+    return None if v in ("", "None", "none", "null") else v
+
+
 def _abs(path: str | None) -> str | None:
     if not path:
         return None
+    path = path.strip()
+    # `/unosat_filesystem/4253/None` — mismo centinela, ahora al final de una ruta
+    if _nombre_real(path.rsplit("/", 1)[-1]) is None:
+        return None
     return (BASE + path) if path.startswith("/") else path
+
+
+def paquete_vigente(conn) -> str | None:
+    """sha256 del paquete que hay que PUBLICAR hoy: el del producto más
+    reciente del evento.
+
+    Sin este filtro, el día que UNOSAT recomprima el ZIP o añada un municipio
+    cambia el sha, las filas entran como nuevas y el mapa pinta los puntos
+    dos veces —393 pasarían a 786— sin que nada avise. La tabla sí conserva
+    todos los paquetes: acumular es correcto, publicarlos todos no.
+    """
+    r = conn.execute(
+        "SELECT shp_sha256 FROM unosat_products"
+        " WHERE glide=? AND shp_sha256 IS NOT NULL"
+        " ORDER BY created_at DESC, product_id DESC LIMIT 1", (GLIDE,)).fetchone()
+    return r[0] if r else None
 
 
 def export(conn) -> int:
@@ -332,13 +397,16 @@ def export(conn) -> int:
     Sale de la base, no de los paquetes en memoria: así el export sobrevive a
     una corrida en la que unosat.org no responda (R13).
     """
+    sha = paquete_vigente(conn)
+    if sha is None:
+        return 0
     feats = []
     for r in conn.execute(
             "SELECT lon, lat, municipio, departamento, dano, dano_agrupado,"
             " sensor, sensor_date, confianza, validacion_campo, event_code,"
             " notas, productos, capa FROM unosat_damage"
-            " WHERE lon IS NOT NULL AND lat IS NOT NULL"
-            " ORDER BY municipio, capa, idx"):
+            " WHERE paquete_sha=? AND lon IS NOT NULL AND lat IS NOT NULL"
+            " ORDER BY municipio, capa, idx", (sha,)):
         props = {
             "municipio": r[2], "departamento": r[3],
             "dano": r[4], "dano_agrupado": r[5],
@@ -360,11 +428,12 @@ def export(conn) -> int:
 
 
 def resumen(conn) -> dict:
-    """Conteo por municipio y grado, para el sitio y el cruce."""
+    """Conteo por municipio y grado del paquete vigente."""
     res: dict = {}
+    sha = paquete_vigente(conn)
     for muni, dano, n in conn.execute(
             "SELECT municipio, dano, COUNT(*) FROM unosat_damage"
-            " GROUP BY municipio, dano"):
+            " WHERE paquete_sha=? GROUP BY municipio, dano", (sha,)):
         res.setdefault(muni or "—", {})[dano or "Sin grado"] = n
     return res
 

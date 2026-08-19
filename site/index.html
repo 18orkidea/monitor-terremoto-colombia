@@ -46,7 +46,8 @@
     "spatialCoverage": { "@type": "Place", "name": "Occidente de Colombia" },
     "distribution": [
       { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "../data/public/crosscheck.csv" },
-      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "../data/public/monitor.json" }
+      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "../data/public/monitor.json" },
+      { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "../data/public/unosat_damage.geojson" }
     ]
   }
 }
@@ -71,6 +72,7 @@
     <span id="generado">—</span>
     <a class="btn" href="../data/public/crosscheck.csv" download>CSV del cruce</a>
     <a class="btn" href="../data/public/monitor.json" target="_blank">JSON</a>
+    <a class="btn" href="../data/public/unosat_damage.geojson" download>GeoJSON UNOSAT</a>
   </div>
 </header>
 
@@ -79,8 +81,10 @@
   epicentro en San José del Palmar, Chocó) es el sismo más fuerte registrado en el país en
   más de un siglo. Este observatorio reúne, en un solo lugar y con actualización diaria,
   <strong>cuatro miradas independientes sobre el mismo desastre</strong>: los daños
-  verificados por satélite del programa europeo Copernicus (622 edificios clasificados uno a
-  uno en Cali, Pereira, Quibdó, Istmina y Buenaventura), los <strong>reportes ciudadanos con
+  vistos <strong>desde el satélite</strong> —el programa europeo Copernicus, con 622
+  edificios clasificados uno a uno en Cali, Pereira, Quibdó, Istmina y Buenaventura, y el
+  centro satelital de la ONU (UNITAR-UNOSAT), que evalúa municipios de Caldas donde
+  Copernicus no ha mirado—, los <strong>reportes ciudadanos con
   foto</strong> enviados por WhatsApp (ChatMap · OpenStreetMap Colombia), los
   <strong>titulares de prensa</strong> de feeds internacionales y regionales abiertos, y los
   <strong>balances oficiales citados en medios</strong>, extraídos a diario con IA. El punto
@@ -98,8 +102,9 @@
       coloreada por su estado del cruce. Los puntos con borde blanco son
       <em>edificios dañados vistos por satélite</em> (rojo = destruido, naranja = dañado,
       amarillo = posiblemente dañado); los de borde oscuro son la evaluación de
-      <em>UNITAR-UNOSAT</em>, el centro satelital de la ONU, que mira municipios de Caldas
-      donde Copernicus no ha cartografiado nada; los puntos violeta son
+      <em>UNITAR-UNOSAT</em>, el centro satelital de la ONU, que mira municipios donde
+      Copernicus no ha cartografiado nada — ninguno de esos puntos está validado en campo,
+      y tres de cada cuatro son solo «daño posible»; los puntos violeta son
       <em>reportes ciudadanos</em> — haz clic para ver la foto. La ★ es el epicentro. Con el
       control de capas (arriba a la derecha) puedes activar la intensidad percibida (DYFI),
       las vías dañadas, las zonas sin analizar y los sismos históricos desde 1914.
@@ -284,11 +289,11 @@
     <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE</a>
     (<a href="https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w" target="_blank" rel="noopener">DIVIPOLA</a>) ·
     <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a> ·
-    <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC</a>.
+    <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC</a> ·
+    <a href="https://unosat.org/products/4253" target="_blank" rel="noopener">UNITAR-UNOSAT</a>.
     Sin acceso programático (documentado):
     <a href="https://sni.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">SNIGRD</a>,
-    <a href="https://sismosentido2.sgc.gov.co/" target="_blank" rel="noopener">SGC Sismo Sentido</a>,
-    <a href="https://unosat.org/products/4250" target="_blank" rel="noopener">UNITAR-UNOSAT</a>.
+    <a href="https://sismosentido2.sgc.gov.co/" target="_blank" rel="noopener">SGC Sismo Sentido</a>.
     Extensión documentada para asentamientos bajo dosel:
     <a href="https://data.humdata.org/dataset/2f865527-b7bf-466c-b620-c12b8d07a053" target="_blank" rel="noopener">HRSL</a>,
     <a href="https://sites.research.google/gr/open-buildings/" target="_blank" rel="noopener">Open Buildings v3</a>,
@@ -297,6 +302,7 @@
     <h3 id="glosario">Glosario de acrónimos</h3>
     <dl>
     <dt>AOI</dt><dd><em>Area of Interest</em>: zona delimitada que Copernicus analiza en detalle (aquí: Cali norte y centro, Pereira, Quibdó, Istmina, Buenaventura y una regional).</dd>
+    <dt>UNITAR / UNOSAT</dt><dd>Centro Satelital de las Naciones Unidas (<em>UN Satellite Centre</em>), parte del UNITAR. Publica evaluaciones de daño por fotointerpretación de imagen de muy alta resolución. Sus puntos son <strong>hallazgos sin validar en campo</strong>: no equivalen a una inspección, y buena parte se marca solo como «daño posible».</dd>
     <dt>EMS / EMSR916</dt><dd><em>Emergency Management Service</em> de Copernicus (UE); EMSR916 es el código de la activación de mapeo rápido para este terremoto.</dd>
     <dt>GRA / GRM</dt><dd>Tipos de producto Copernicus: <em>Grading</em> (clasifica el daño edificio a edificio) y <em>Grading Monitoring</em> (seguimiento posterior de la misma zona).</dd>
     <dt>USGS</dt><dd><em>United States Geological Survey</em>: servicio geológico de EE. UU.; fuente de los parámetros del sismo.</dd>

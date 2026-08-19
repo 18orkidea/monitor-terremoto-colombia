@@ -509,10 +509,16 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                                           ("unosat", tiene_unosat)) if ok]
         # R3: sin evaluación de UNOSAT no hay ceros, hay ausencia — un 0 se
         # leería como «el satélite miró y no vio nada», que es lo contrario
+        # «observados», no «confirmados»: UNOSAT marca todos sus puntos como
+        # «aún no validado en campo», y confirmar es justo lo que no hace
         row["unosat_edificios"] = uno.get("edificios") if tiene_unosat else None
-        row["unosat_confirmados"] = uno.get("confirmados") if tiene_unosat else None
+        row["unosat_observados"] = uno.get("observados") if tiene_unosat else None
         row["unosat_posibles"] = uno.get("posibles") if tiene_unosat else None
         row["unosat_fecha_imagen"] = uno.get("fecha_imagen") if tiene_unosat else None
+        # edificios que UNOSAT atribuye a OTRO evento en la misma capa: no
+        # suman al terremoto, pero ocultarlos sería perder una discrepancia
+        row["unosat_otros_eventos"] = (uno.get("otros_eventos") or None) \
+            if tiene_unosat else None
         # R3 en el producto descargable, no solo en la tabla: para un homónimo
         # de departamento el monitor no puede atribuir titulares, y eso es
         # ausencia de dato — quien lea el JSON no debe encontrar un 0.

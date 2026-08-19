@@ -132,9 +132,9 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
         quien = _emisor(item.get("title") or "")
         alerts.append({
             "tipo": "institucional_nuevo", "nivel": "alta",
-            "texto": f"{quien} publicó un producto nuevo del terremoto "
-                     f"({(item.get('pubdate') or '')[:16]}): revisar si trae "
-                     f"datos que el monitor aún no cruza",
+            "texto": f"{quien} publicó un producto nuevo del terremoto: "
+                     f"{item.get('title') or 'sin título'}"
+                     f"{(' — ' + item['link']) if item.get('link') else ''}",
             "emisor": quien, "titulo": item.get("title"),
             "url": item.get("link"), "pubdate": item.get("pubdate")})
 

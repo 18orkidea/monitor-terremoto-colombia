@@ -261,7 +261,12 @@
     "Not yet field validated": "aún no validado en campo",
     "Field validated": "validado en campo",
   };
+  /* Igual que `conOriginal` para Copernicus: el término inglés es el que
+     aparece en el shapefile descargable, y sin él no se puede localizar allí
+     lo que el mapa enseña. */
   const uno = (s) => UNOSAT_ES[s] || s;
+  const unoConOriginal = (s) => !s || uno(s) === s ? uno(s)
+    : `${uno(s)} <span style="color:var(--muted)">(${s})</span>`;
   if (unosat && unosat.features.length) {
     const UNOSAT_COLOR = {
       "Damage": "#ec835a", "Damaged": "#ec835a",
@@ -282,15 +287,16 @@
           const otroEvento = p.event_code && p.event_code !== "EQ20260810COL"
             ? `${p.event_code} — no es el código del terremoto` : null;
           l.bindPopup(ficha({
-            titulo: uno(p.dano) || "Edificio evaluado",
+            titulo: unoConOriginal(p.dano) || "Edificio evaluado",
             subtitulo: [p.municipio, p.departamento].filter(Boolean).join(", ")
               || null,
             filas: [
               ["Imagen", [p.sensor, fechaCompacta(p.sensor_date)]
                 .filter(Boolean).join(", ") || null],
-              ["Confianza del análisis", p.confianza ? uno(p.confianza) : null],
+              ["Confianza del análisis", p.confianza
+                ? unoConOriginal(p.confianza) : null],
               ["Validación en campo", p.validacion_campo
-                ? uno(p.validacion_campo) : null],
+                ? unoConOriginal(p.validacion_campo) : null],
               ["Observaciones", p.notas || null],
               ["Código de evento", otroEvento],
             ],
@@ -415,7 +421,10 @@
               ["Edificios evaluados por UNOSAT", p.unosat_edificios == null
                 ? null
                 : `${fmt(p.unosat_edificios)}, de los que ` +
-                  `${fmt(p.unosat_confirmados)} con daño observado`],
+                  `${fmt(p.unosat_observados)} con daño observado`],
+              ["Etiquetados con otro evento", p.unosat_otros_eventos == null
+                ? null
+                : `${fmt(p.unosat_otros_eventos)}, no sumados al terremoto`],
               ["Damnificados en el RUD", p.rud_personas == null ? null
                 : `${fmt(p.rud_personas)} personas` +
                   (p.tasa_rud_pct != null
@@ -643,8 +652,18 @@
   const h2a = document.querySelector("#alerts-section h2");
   if (h2a && alerts && alerts.fecha) h2a.textContent = `Alertas de hoy (${alerts.fecha})`;
   ul.innerHTML = items.length
-    ? items.map((a) => `<li>${a.nivel === "alta" ? "⚠️ " : ""}` +
-        `${a.texto || (a.tipo || "").replaceAll("_", " ")}</li>`).join("")
+    ? items.map((a) => {
+        // Una alerta que nombra un producto debe dejar ir a verlo. El texto ya
+        // trae la URL en crudo —es lo único que viaja a Telegram, push y RSS—
+        // así que aquí se sustituye por un enlace en vez de repetirla.
+        let txt = a.texto || (a.tipo || "").replaceAll("_", " ");
+        let link = "";
+        if (a.url) {
+          txt = txt.replace(" — " + a.url, "").replace(a.url, "").trim();
+          link = ` <a href="${a.url}" target="_blank" rel="noopener">ver el producto ↗</a>`;
+        }
+        return `<li>${a.nivel === "alta" ? "⚠️ " : ""}${txt}${link}</li>`;
+      }).join("")
     : "<li>Sin novedades de Colombia en la corrida de hoy.</li>";
 
   // eje X compartido entre la gráfica de volumen y la banda de hitos

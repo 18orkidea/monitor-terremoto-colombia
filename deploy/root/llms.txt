@@ -27,7 +27,9 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
   exposición
 - [CSV del cruce](https://brechas.orkidea.eu/data/public/crosscheck.csv)
 - [Noticias emparejadas](https://brechas.orkidea.eu/data/public/noticias.json)
-- [GeoJSON de daño satelital](https://brechas.orkidea.eu/data/public/damage_points.geojson)
+- [GeoJSON de daño satelital · Copernicus](https://brechas.orkidea.eu/data/public/damage_points.geojson)
+- [GeoJSON de daño satelital · UNITAR-UNOSAT](https://brechas.orkidea.eu/data/public/unosat_damage.geojson):
+  393 edificios evaluados uno a uno en Caldas, ninguno validado en campo
 - [Feed de balances (JSON)](https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json)
 
 ## Código y metodología

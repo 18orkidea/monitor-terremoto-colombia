@@ -323,7 +323,7 @@ coincide, así que el `snapshot_name` compartido basta y no hubo que tocar el ar
 Consecuencia: el monitor tiene por primera vez **dos satélites que pueden discrepar
 entre sí**, y una discrepancia inmediata que no es un error de nadie — en el
 epicentro, UNOSAT ve un edificio dañado (WorldView-2, 50 cm, «within the cloud-free
-areas») donde el RUD registra 569 familias y 150 viviendas afectadas (17 destruidas y 133 averiadas). Es la misma
+areas») donde el RUD registra 626 familias, 19 viviendas destruidas y 170 averiadas (corte del 19-ago). Es la misma
 brecha que dejaron las luces nocturnas: sobre el Chocó, el satélite no puede vigilar.
 
 ## 2026-08-19 — Un globo del mapa no enseña lo que su fuente no midió

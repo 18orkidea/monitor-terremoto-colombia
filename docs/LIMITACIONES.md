@@ -271,10 +271,12 @@ La capa de UNITAR-UNOSAT trae 393 edificios evaluados en Anserma, Manizales y
 Viterbo. Tres huecos conocidos, ninguno subsanable desde este lado:
 
 - **Del epicentro no hay vectores.** El producto 4253 va de San José del Palmar,
-  pero el ZIP que enlaza contiene Caldas: el análisis del epicentro solo existe
-  como PDF. El monitor guarda el enlace, no el fichero (1,6 MB de imagen que no
-  aporta geometría). Si unosat.org cierra, **ese análisis se pierde salvo que
-  esté en Wayback** — es la laguna más seria de esta fuente.
+  pero el ZIP que enlaza contiene Caldas: de San José del Palmar no se publica
+  ni un punto. El texto del hallazgo sí se conserva —`unosat_products.descripcion`
+  guarda el «SUMMARY OF FINDING» completo, y sale en el dump versionado— pero
+  **el mapa del informe solo existe dentro del PDF**, que el monitor no archiva
+  (1,6 MB de imagen sin geometría). Va al paso de Wayback de la corrida diaria,
+  que es una copia en un tercero, no en este repo.
 - **El listado no permite mirar hacia atrás.** `our_products/` devuelve una
   ventana fija de 11 productos de todo el mundo, sin paginación ni filtro. El
   monitor no puede descubrir productos anteriores a su primera corrida: los
@@ -282,18 +284,41 @@ Viterbo. Tres huecos conocidos, ninguno subsanable desde este lado:
   Si UNOSAT hubiera publicado once productos de otros eventos antes, se habrían
   perdido sin dejar rastro.
 - **Nada de esto está validado en campo.** Los 393 puntos llevan «aún no
-  validado en campo» y la mayoría «pendiente de evaluar»: son
-  fotointerpretación sobre imagen de 50 cm, no visitas. 155 de los 393 son
-  «daño posible», que es una hipótesis, no un daño contado.
+  validado en campo», y los 239 que traen el campo de confianza dicen todos
+  «pendiente de evaluar» (los 154 de Viterbo no lo traen siquiera): son
+  fotointerpretación sobre imagen de 50 cm, no visitas. Y **296 de los 393 —tres
+  de cada cuatro— son «daño posible»**, que es una hipótesis, no un daño contado.
+  Solo 97 son daño observado.
 
-**Viterbo entró en la capa el 19-ago-2026 y su única fuente es el satélite.**
-No tiene una sola fila en el RUD, ni un titular que el monitor pueda atribuirle:
-`fuentes: ["unosat"]`. Es el primer municipio que existe en el monitor porque lo
-vio un satélite y nadie más. Su celda de prensa marca 0 a propósito — la única
-mención de «Viterbo» en 6.615 titulares es un artículo en italiano que la llama
-«l'altra Viterbo», y sin el departamento en el texto no se le atribuye (el
-topónimo casa además dentro de «Santa Rosa de Viterbo», que es de Boyacá).
+**Viterbo entró en la capa el 19-ago-2026 y el satélite es su única fuente
+sobre este terremoto.** No tiene una sola fila en el RUD. Su único titular
+atribuido —«Sismo de magnitud 3.1 tuvo como epicentro a Viterbo (Caldas)», de
+La Patria— es de **junio de 2024** y habla de otro sismo: la atribución es
+correcta (nombra el municipio y el departamento, como exige `requiere_depto`),
+pero la noticia no es de este desastre. Ver más abajo: no es un problema de
+Viterbo, es del corpus entero.
+
+El artículo italiano que llama a Viterbo «l'altra Viterbo» **no** se le
+atribuye, y está bien: no nombra Caldas, y el topónimo casa además dentro de
+«Santa Rosa de Viterbo», que es de Boyacá.
 
 Que su celda del RUD esté vacía **no significa que allí no haya damnificados**:
 significa que la alcaldía no ha cargado ninguno. Distinguir esas dos cosas es
 justo lo que este monitor existe para hacer.
+
+## El corpus de titulares contiene prensa anterior al terremoto
+
+Medido el 19-ago-2026: **849 de 6.655 titulares (12,8 %) son anteriores al
+10-ago-2026**, el día del sismo. Hay 167 de 2024, 178 de 2025 y uno de 1974.
+Llegan sobre todo por las búsquedas municipales de Google News, que devuelven
+histórico, y pasan el filtro de palabras clave porque hablan de sismos —de
+otros sismos.
+
+Consecuencia para leer la columna «Prensa»: **cuenta titulares que nombran el
+municipio y pasan el filtro del evento, no titulares sobre este terremoto**. En
+los municipios con mucha cobertura el ruido es marginal; en los que tienen uno
+o dos puede ser todo. El caso extremo es Viterbo, cuyo único titular es de 2024.
+
+No se ha corregido aquí porque acotar el corpus por fecha es una decisión
+editorial con consecuencias en toda la serie publicada, incluida la gráfica de
+volumen mediático, y merece medirse antes de aplicarse.

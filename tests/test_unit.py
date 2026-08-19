@@ -992,7 +992,7 @@ class TestUnosatEnLaCapaDeMunicipios(unittest.TestCase):
     estadísticas revisadas por AOI.
     """
 
-    UNOSAT_VITERBO = {"Viterbo": {"edificios": 154, "confirmados": 55,
+    UNOSAT_VITERBO = {"Viterbo": {"edificios": 154, "observados": 55,
                                   "posibles": 99, "fecha_imagen": "20260812"}}
 
     def test_solo_con_satelite_el_municipio_entra(self):
@@ -1005,7 +1005,7 @@ class TestUnosatEnLaCapaDeMunicipios(unittest.TestCase):
         self.assertEqual(vit["estado"], "evaluado_unosat")
         self.assertEqual(vit["fuentes"], ["unosat"])
         self.assertEqual(vit["unosat_edificios"], 154)
-        self.assertEqual(vit["unosat_confirmados"], 55)
+        self.assertEqual(vit["unosat_observados"], 55)
         self.assertFalse(vit["en_aoi_copernicus"])
 
     def test_sin_evaluacion_no_hay_ceros(self):
@@ -1017,7 +1017,7 @@ class TestUnosatEnLaCapaDeMunicipios(unittest.TestCase):
         ], None, {}, None, None, None, self.UNOSAT_VITERBO)
         armenia = next(r for r in rows if r["municipio"] == "Armenia")
         self.assertIsNone(armenia["unosat_edificios"])
-        self.assertIsNone(armenia["unosat_confirmados"])
+        self.assertIsNone(armenia["unosat_observados"])
         self.assertNotIn("unosat", armenia["fuentes"])
 
     def test_copernicus_manda_sobre_unosat(self):
@@ -1055,3 +1055,100 @@ class TestToponimoViterbo(unittest.TestCase):
         meta = MUNICIPIOS["Viterbo"]
         self.assertFalse(_menciona_municipio(
             "Santa Rosa de Viterbo estrena acueducto", meta))
+
+
+class TestUnosatPaqueteVigente(unittest.TestCase):
+    """Solo se publica el paquete vigente, aunque la tabla acumule varios.
+
+    Lo cazó el archivista el 19-ago: la clave del dato incluye el sha del
+    paquete, así que un ZIP recomprimido por UNOSAT entra como filas NUEVAS,
+    no como actualización. Sin filtrar, el mapa pasaría de 393 puntos a 786 y
+    la tabla daría Viterbo 308 — en silencio.
+    """
+
+    def _bd(self):
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        return conn
+
+    def _paquete(self, conn, sha, creado, pid, n=3, municipio="Viterbo"):
+        from sources.unosat import GLIDE
+        conn.execute("INSERT INTO unosat_products (product_id, glide, created_at,"
+                     " shp_sha256) VALUES (?,?,?,?)", (pid, GLIDE, creado, sha))
+        for i in range(n):
+            conn.execute(
+                "INSERT INTO unosat_damage (paquete_sha, capa, idx, municipio,"
+                " dano, event_code, lat, lon, snapshot_date)"
+                " VALUES (?,?,?,?,?,?,?,?,?)",
+                (sha, "capa", i, municipio, "Damage", GLIDE, 5.0, -75.8,
+                 "2026-08-19"))
+
+    def test_un_zip_recomprimido_no_duplica_lo_publicado(self):
+        from sources import unosat
+        conn = self._bd()
+        self._paquete(conn, "sha_v1", "2026-08-14T00:00:00Z", 4251)
+        self._paquete(conn, "sha_v2", "2026-08-20T00:00:00Z", 4254)
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM unosat_damage").fetchone()[0], 6,
+            "la tabla debe ACUMULAR los dos paquetes: ahí está el histórico")
+        self.assertEqual(unosat.paquete_vigente(conn), "sha_v2",
+                         "el vigente es el del producto más reciente")
+        self.assertEqual(unosat.resumen(conn), {"Viterbo": {"Damage": 3}},
+                         "se publica un paquete, no la suma de los dos")
+
+    def test_sin_ningun_paquete_no_se_publica_nada(self):
+        from sources import unosat
+        conn = self._bd()
+        self.assertIsNone(unosat.paquete_vigente(conn))
+
+
+class TestUnosatCentinelaNone(unittest.TestCase):
+    """UNOSAT escribe el string 'None' cuando un producto no tiene un fichero.
+
+    Es truthy, así que el guard ingenuo fabricaba
+    `…/unosat_filesystem/4250/None`: una URL a un fichero inexistente, y
+    justo para el producto del epicentro. R3 en la capa de enlaces — la
+    ausencia declarada por la fuente convertida en afirmación positiva.
+    """
+
+    def test_el_literal_none_es_ausencia(self):
+        from sources.unosat import _nombre_real
+        for v in (None, "", "None", "none", "null", "  None  "):
+            self.assertIsNone(_nombre_real(v), f"{v!r} debería ser ausencia")
+        self.assertEqual(_nombre_real("informe.pdf"), "informe.pdf")
+
+    def test_no_se_fabrica_url_a_un_fichero_inexistente(self):
+        from sources.unosat import _abs
+        self.assertIsNone(_abs("/unosat_filesystem/4253/None"))
+        self.assertEqual(_abs("/unosat_filesystem/4253/tabla.xlsx"),
+                         "https://unosat.org/unosat_filesystem/4253/tabla.xlsx")
+
+
+class TestUnosatOtrosEventos(unittest.TestCase):
+    """8 puntos de Manizales llegan etiquetados con OTRO evento.
+
+    `EQ20260822COL` está fechado el 22-ago: doce días después de la imagen que
+    los detecta. No se corrigen —la etiqueta es de la fuente— pero no pueden
+    sumarse al terremoto ni desaparecer sin dejar rastro.
+    """
+
+    def test_no_suman_al_terremoto_pero_se_cuentan_aparte(self):
+        from municipios import build_municipios
+        rows, _ = build_municipios([], None, {}, None, None, None, {
+            "Manizales": {"edificios": 127, "observados": 20, "posibles": 107,
+                          "otros_eventos": 8, "fecha_imagen": "20260811"}})
+        man = next(r for r in rows if r["municipio"] == "Manizales")
+        self.assertEqual(man["unosat_edificios"], 127)
+        self.assertEqual(man["unosat_observados"] + man["unosat_posibles"], 127)
+        self.assertEqual(man["unosat_otros_eventos"], 8)
+
+    def test_sin_discrepancia_el_campo_no_existe(self):
+        """R3: cero edificios de otro evento no es un dato que enseñar."""
+        from municipios import build_municipios
+        rows, _ = build_municipios([], None, {}, None, None, None, {
+            "Viterbo": {"edificios": 154, "observados": 55, "posibles": 99,
+                        "otros_eventos": 0, "fecha_imagen": "20260812"}})
+        vit = next(r for r in rows if r["municipio"] == "Viterbo")
+        self.assertIsNone(vit["unosat_otros_eventos"])

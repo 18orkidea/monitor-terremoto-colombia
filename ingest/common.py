@@ -192,9 +192,12 @@ CREATE TABLE IF NOT EXISTS rud_daily (
 -- porque varios productos publican el mismo ZIP y el edificio es uno solo.
 CREATE TABLE IF NOT EXISTS unosat_products (
   product_id INTEGER PRIMARY KEY,
-  glide TEXT, titulo TEXT, created_at TEXT,
+  glide TEXT, titulo TEXT,
+  descripcion TEXT,                -- «SUMMARY OF FINDING»: para el epicentro es
+                                   -- el único sitio donde vive el análisis
+  created_at TEXT,
   lat REAL, lon REAL,
-  pdf_url TEXT, shp_url TEXT, gdb_url TEXT, web_url TEXT,
+  pdf_url TEXT, shp_url TEXT, gdb_url TEXT, xlsx_url TEXT, web_url TEXT,
   shp_sha256 TEXT,                 -- qué paquete publica (identidad real)
   fuentes_texto TEXT,              -- bloque «Data sources» tal cual lo escribe
   first_seen TEXT, snapshot_date TEXT
@@ -205,6 +208,9 @@ CREATE TABLE IF NOT EXISTS unosat_damage (
   idx INTEGER NOT NULL,            -- nº de registro dentro de la capa
   productos TEXT,                  -- ids UNOSAT que declaran este paquete
   municipio TEXT, departamento TEXT,
+  departamento_origen TEXT,        -- 'catalogo' | 'titulo_unosat': de dónde sale
+                                   -- el departamento, porque uno es dato y el
+                                   -- otro una inferencia sobre el título
   sensor TEXT, sensor_date TEXT,
   dano TEXT, dano_agrupado TEXT,
   confianza TEXT, validacion_campo TEXT,
