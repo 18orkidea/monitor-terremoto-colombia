@@ -61,16 +61,20 @@
 <section class="banner" id="banner-silencio" hidden></section>
 
 <section class="page-section">
-  <div class="filtros"><input id="mun-buscar" type="search"
+  <div class="chips" id="mun-chips" role="group" aria-label="Filtros de la tabla"></div>
+  <div class="filtros">
+    <select id="mun-depto" aria-label="Filtrar por departamento"></select>
+    <input id="mun-buscar" type="search"
     placeholder="Buscar municipio o departamento…"
-    aria-label="Buscar municipio del área de influencia"></div>
+    aria-label="Buscar municipio del área de influencia">
+  </div>
   <div class="tabla-scroll"><table id="municipios-tabla">
     <thead>
       <tr>
         <th title="Municipio del área de influencia del sismo. Clic para verlo en el mapa de la portada.">Municipio</th>
         <th title="Seis situaciones: dentro de una zona con producto de daño de Copernicus; evaluado edificio a edificio por UNITAR-UNOSAT fuera de toda zona de Copernicus; fuera de ellas con intensidad percibida alta (DYFI ≥ 6); mencionado en prensa; solo con registro en el RUD, sin satélite ni prensa; o con intensidad sentida (DYFI &lt; 6) y nada más.">Estado</th>
         <th class="num" title="Población municipal proyectada 2026 (DANE, proyecciones postcensales por área). Ordenado por esta columna.">Población 2026</th>
-        <th class="num" title="Edificios evaluados uno a uno por UNITAR-UNOSAT, el centro satelital de la ONU, y entre paréntesis los que marca como daño observado (el resto es «daño posible», una hipótesis). Solo hay dato donde UNOSAT ha mirado: la celda vacía significa que no ha mirado, no que no haya daño.">Edif. UNOSAT<br>(observado)</th>
+      <th scope="col" class="num" title="Edificios evaluados desde el aire, con la fuente que lo hizo. NO se suman entre sí: Copernicus cuenta edificios a los que ha clasificado un grado de daño, y UNITAR-UNOSAT, los que ha observado uno a uno sobre imagen de muy alta resolución. Un guion significa que ningún producto satelital ha mirado ese municipio, no que no haya daño.">Edif. satélite</th>
         <th class="num" title="Personas registradas como damnificadas en el RUD (UNGRD). El registro lo cargan las autoridades municipales: sin registro no significa sin daño.">Damnif. RUD</th>
         <th class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
         <th class="num" title="Intensidad máxima percibida reportada por ciudadanos al sistema DYFI del USGS (escala CDI, 1-10).">Intensidad DYFI</th>
@@ -81,6 +85,7 @@
     </thead>
     <tbody data-gen="municipios"></tbody><!-- lo rellena deploy/render_html.py en el build -->
   </table></div>
+  <nav id="mun-paginado" aria-label="Paginación de municipios"></nav>
   <p class="note" id="mun-nota"></p>
   <p class="note">¿Falta un municipio? Los que entran al <a href="rud.html">RUD</a> se
   incorporan solos en la corrida siguiente; los demás se añaden con un PR al

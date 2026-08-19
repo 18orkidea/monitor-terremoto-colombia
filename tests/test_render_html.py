@@ -265,6 +265,44 @@ class TestTablaMunicipios(unittest.TestCase):
         # relativo resolvería a /site/municipio/... desde /site/municipios.html
         self.assertNotIn('href="municipio/', self.html)
 
+    def test_la_columna_satelital_nombra_su_fuente(self):
+        """Copernicus y UNOSAT miden cosas distintas —daño clasificado frente a
+        edificios observados—, así que la celda las muestra por separado y con
+        su fuente pegada. Sumarlas daría un número sin significado."""
+        con_cop = R._celda_satelite({"unosat_edificios": None}, 335)
+        self.assertIn("Copernicus", con_cop)
+        con_uno = R._celda_satelite(
+            {"unosat_edificios": 154, "unosat_observados": 55}, 0)
+        self.assertIn("UNOSAT", con_uno)
+        ambos = R._celda_satelite(
+            {"unosat_edificios": 154, "unosat_observados": 55}, 335)
+        self.assertIn("Copernicus", ambos)
+        self.assertIn("UNOSAT", ambos)
+        self.assertNotIn("489", ambos)          # 335 + 154 jamás se escribe
+
+    def test_sin_satelite_es_un_guion_explicado(self):
+        """R3: un guion no es un cero, y el título lo dice."""
+        celda = R._celda_satelite({"unosat_edificios": None}, 0)
+        self.assertIn("—", celda)
+        self.assertIn("title=", celda)
+        self.assertNotIn(">0<", celda)
+
+    def test_las_filas_traen_los_filtros_del_rud(self):
+        """Municipios usa los mismos filtros que el RUD: chips, departamento,
+        orden por columna y paginación."""
+        n = len(self.ctx["municipios"])
+        self.assertEqual(self.html.count("data-depto="), n)
+        self.assertEqual(self.html.count("data-chips="), n)
+        for i in range(10):
+            self.assertEqual(self.html.count(f'data-v{i}="'), n)
+
+    def test_los_chips_cuadran_con_el_dato(self):
+        sin_sat = [m for m in self.ctx["municipios"]
+                   if not self.ctx["conteo_satelite"].get(m["municipio"])
+                   and m.get("unosat_edificios") is None]
+        self.assertEqual(len(re.findall(r'data-chips="[^"]*sin-satelite', self.html)),
+                         len(sin_sat))
+
     def test_data_buscar_permite_filtrar_sin_reconstruir(self):
         self.assertEqual(self.html.count("data-buscar="), len(self.ctx["municipios"]))
         self.assertIn('data-buscar="cali valle del cauca"', self.html)

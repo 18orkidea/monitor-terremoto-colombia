@@ -812,21 +812,40 @@ def _celda_prensa(m: dict) -> str:
     return fmt(0)
 
 
-def _celda_unosat(m: dict) -> str:
-    """Donde UNOSAT no ha mirado no hay cero, hay ausencia (R3).
+def _celda_satelite(m: dict, n_copernicus: int) -> str:
+    """Lo que han visto los satélites, con la fuente pegada a cada cifra.
 
-    El desglose separa lo que la fuente da por observado de lo que marca como
-    hipótesis, y aparta los edificios que UNOSAT etiqueta con otro código de
-    evento: están en la misma capa, pero no son de este terremoto."""
-    if m.get("unosat_edificios") is None:
-        return "—"
-    otros = ""
-    if m.get("unosat_otros_eventos"):
-        otros = (f' <span title="UNOSAT los incluye en la misma capa pero los etiqueta '
-                 f'con otro código de evento, así que no se suman al terremoto." '
-                 f'style="color:var(--warning)">+{fmt(m["unosat_otros_eventos"])}</span>')
-    return (f'{fmt(m["unosat_edificios"])} <span style="color:var(--muted)">'
-            f'({fmt(m["unosat_observados"])})</span>{otros}')
+    **No se suman**: Copernicus cuenta edificios a los que ha clasificado un
+    grado de daño; UNOSAT, los que ha observado uno a uno sobre imagen de muy
+    alta resolución. Son mediciones distintas de cosas distintas, y sumarlas
+    daría un número que no significa nada.
+
+    Donde ninguno ha mirado no hay cero, hay ausencia (R3)."""
+    partes = []
+    if n_copernicus:
+        partes.append(
+            f'<span title="Edificios con daño clasificado uno a uno por fotointerpretación '
+            f'del servicio de emergencias de Copernicus (activación EMSR916), cuya coordenada '
+            f'cae en este municipio.">{fmt(n_copernicus)} '
+            f'<span style="color:var(--muted)">Copernicus</span></span>')
+    if m.get("unosat_edificios") is not None:
+        otros = ""
+        if m.get("unosat_otros_eventos"):
+            otros = (f' <span title="UNOSAT los incluye en la misma capa pero los etiqueta '
+                     f'con otro código de evento, así que no son de este terremoto." '
+                     f'style="color:var(--warning)">+{fmt(m["unosat_otros_eventos"])}</span>')
+        partes.append(
+            f'<span title="Edificios evaluados por UNITAR-UNOSAT, el centro satelital de la '
+            f'ONU, sobre imagen de muy alta resolución. Entre paréntesis, los que la propia '
+            f'fuente da por observados; el resto son hipótesis suyas. No está validado en '
+            f'campo.">{fmt(m["unosat_edificios"])} '
+            f'<span style="color:var(--muted)">({fmt(m["unosat_observados"])}) UNOSAT</span>'
+            f'</span>{otros}')
+    if not partes:
+        return ('<span title="Ningún producto satelital de daño ha mirado este municipio. '
+                'Un guion no es un cero: es ausencia de evaluación.">—</span>')
+    return "<br>".join(partes)
+
 
 
 def filas_municipios(ctx: dict) -> str:
@@ -844,14 +863,37 @@ def filas_municipios(ctx: dict) -> str:
         celda = (f'<a href="{enlace}" style="color:inherit">{nombre}</a>' if enlace
                  else nombre)
         buscar = norm_busqueda(f'{m["municipio"]} {m["departamento"]}')
+        n_cop = ctx["conteo_satelite"].get(m["municipio"], 0)
+        n_ciu = ctx["conteo_ciudadanos"].get(m["municipio"], 0)
+        etiquetas = []
+        if not n_cop and m.get("unosat_edificios") is None:
+            etiquetas.append("sin-satelite")
+        if m.get("rud_personas"):
+            etiquetas.append("con-rud")
+        else:
+            etiquetas.append("sin-rud")
+        if n_ciu:
+            etiquetas.append("con-ciudadanos")
+        # clave de orden de la columna satelital: el total evaluado desde el
+        # aire, venga de donde venga. Sirve para ordenar «cuánto se ha mirado»;
+        # las cifras NO se suman en la celda, porque miden cosas distintas.
+        v_sat = n_cop + (m.get("unosat_edificios") or 0)
+        valores = [m["municipio"], etiqueta, m.get("poblacion_2026"), v_sat or None,
+                   m.get("rud_personas"), m.get("tasa_rud_pct"), m.get("dyfi_max_cdi"),
+                   m.get("dyfi_respuestas"),
+                   None if m.get("homonimo_de_departamento") else m.get("n_noticias"),
+                   ", ".join(m.get("fuentes") or [])]
+        datos = " ".join(f'data-v{i}="{e("" if v is None else v)}"'
+                         for i, v in enumerate(valores))
         filas.append(
-            f'<tr data-buscar="{e(buscar)}">'
+            f'<tr data-buscar="{e(buscar)}" data-depto="{e(m["departamento"])}"'
+            f' data-chips="{e(" ".join(etiquetas))}" {datos}>'
             f'<td>{celda}<br><span style="color:var(--muted)">{e(m["departamento"])}</span></td>'
             f'<td><span class="badge" style="--bc:var({color})" title="{e(explica)}">'
             f"{e(etiqueta)}</span></td>"
             f'<td class="num" title="DANE PPED municipal por área, 2026">'
             f'{fmt(m.get("poblacion_2026"))}</td>'
-            f'<td class="num">{_celda_unosat(m)}</td>'
+            f'<td class="num">{_celda_satelite(m, ctx["conteo_satelite"].get(m["municipio"], 0))}</td>'
             f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
             f'<td class="num">{pct(m.get("tasa_rud_pct"))}</td>'
             f'<td class="num">{fmt(m.get("dyfi_max_cdi"), 1)}</td>'
