@@ -15,7 +15,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 # mismo locale es-CO y el mismo criterio de fechas que las fichas
-from render_html import fecha_larga, fmt, slug          # noqa: E402
+from render_html import (asigna_a_municipios, fecha_larga, fmt, slug,  # noqa: E402
+                         _leer)
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "data" / "public"
@@ -95,6 +96,11 @@ def llms_full(destino: Path) -> int:
 
     items = sorted(municipios["items"],
                    key=lambda m: (m.get("rud_personas") or 0), reverse=True)
+    # misma atribución punto→municipio que usan las tablas y las fichas: una
+    # sola forma de contar el daño de Copernicus en todo el sitio
+    conteo_copernicus = asigna_a_municipios(
+        (_leer("damage_points.geojson") or {}).get("features") or [],
+        municipios["items"])
     for m in items:
         nombre, depto = m["municipio"], m["departamento"]
         partes = [f"### {nombre} ({depto})", f"Código DIVIPOLA {m['divipola']}. "
@@ -108,8 +114,36 @@ def llms_full(destino: Path) -> int:
         else:
             partes.append("RUD: sin inscripciones en la última captura. Sin registro aún "
                           "no significa sin daño.")
-        partes.append("Cobertura satelital: dentro de una zona con mapa de daños publicado."
-                      if m.get("en_aoi_copernicus") else
+        # Los DOS satélites, y por EVIDENCIA, no por pertenencia a una zona.
+        # Mientras esto miró una sola fuente, este fichero —el que leen los
+        # sistemas de IA— afirmaba que «ningún producto satelital» había mirado
+        # Anserma, Manizales y Viterbo, los tres municipios que aportan los 385
+        # edificios de UNOSAT. Y mientras Copernicus se resolvió por AOI, lo
+        # afirmaba también de Yumbo, que tiene 3 edificios clasificados con
+        # coordenada dentro pero ninguna AOI encima: la ficha del municipio y
+        # la tabla de portada decían 3, y este fichero decía que ninguno.
+        # La pregunta correcta no es «¿está en una zona?» sino «¿hay evidencia
+        # satelital dentro?», que es la que usan las tablas.
+        satelital = []
+        n_cop = conteo_copernicus.get(nombre, 0)
+        if n_cop:
+            satelital.append(
+                f"{fmt(n_cop)} edificios con daño clasificado uno a uno por el servicio "
+                f"de emergencias de Copernicus (activación EMSR916), con coordenada dentro "
+                f"del municipio" + ("" if m.get("en_aoi_copernicus")
+                                    else ", aunque el municipio queda fuera de las zonas "
+                                         "que Copernicus delimitó para el análisis"))
+        elif m.get("en_aoi_copernicus"):
+            satelital.append("dentro de una zona con mapa de daños publicado por el "
+                             "servicio de emergencias de Copernicus (activación EMSR916)")
+        if m.get("unosat_edificios") is not None:
+            satelital.append(
+                f"{fmt(m['unosat_edificios'])} edificios evaluados uno a uno por "
+                f"UNITAR-UNOSAT, el centro satelital de la ONU, de los que "
+                f"{fmt(m['unosat_observados'])} son daño observado y el resto, «daño "
+                f"posible»; ninguno validado en campo")
+        partes.append("Cobertura satelital: " + "; ".join(satelital) + "."
+                      if satelital else
                       "Cobertura satelital: ningún producto satelital de daño ha reportado "
                       "daños en el municipio.")
         if m.get("dyfi_max_cdi"):

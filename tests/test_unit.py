@@ -4,6 +4,7 @@ Se ejecutan sin red y sin base de datos previa. Las expectativas vienen de la
 documentación del proyecto y de las specs de las fuentes, no de mirar la
 salida del código — si un test falla, el código está mal, no el test.
 """
+import json
 import re
 import sys
 import unittest
@@ -1481,11 +1482,13 @@ class TestUnosatCentinelaNone(unittest.TestCase):
 
 
 class TestUnosatOtrosEventos(unittest.TestCase):
-    """8 puntos de Manizales llegan etiquetados con OTRO evento.
+    """8 puntos de Manizales llegan con un código de evento inconsistente.
 
-    `EQ20260822COL` está fechado el 22-ago: doce días después de la imagen que
-    los detecta. No se corrigen —la etiqueta es de la fuente— pero no pueden
-    sumarse al terremoto ni desaparecer sin dejar rastro.
+    `EQ20260822COL` implica un sismo del 22-ago: doce días DESPUÉS de la imagen
+    que los retrata. En todo lo demás son idénticos a los otros 127 de
+    Manizales, así que el código no designa otro terremoto — designa un error
+    de la fuente. No se corrigen (la etiqueta es suya) ni se suman al total, y
+    tampoco pueden desaparecer sin dejar rastro.
     """
 
     def test_no_suman_al_terremoto_pero_se_cuentan_aparte(self):
@@ -1499,10 +1502,232 @@ class TestUnosatOtrosEventos(unittest.TestCase):
         self.assertEqual(man["unosat_otros_eventos"], 8)
 
     def test_sin_discrepancia_el_campo_no_existe(self):
-        """R3: cero edificios de otro evento no es un dato que enseñar."""
+        """R3: cero edificios con código inconsistente no es un dato que
+        enseñar."""
         from municipios import build_municipios
         rows, _ = build_municipios([], None, {}, None, None, None, {
             "Viterbo": {"edificios": 154, "observados": 55, "posibles": 99,
                         "otros_eventos": 0, "fecha_imagen": "20260812"}})
         vit = next(r for r in rows if r["municipio"] == "Viterbo")
         self.assertIsNone(vit["unosat_otros_eventos"])
+
+
+class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
+    """Las cifras satelitales escritas a mano en los textos públicos tienen que
+    cuadrar con los datos publicados.
+
+    La portada anunciaba 622 edificios —solo Copernicus— mientras el monitor
+    ya archivaba otros 385 clasificados por UNITAR-UNOSAT en Caldas. La cifra
+    de la tarjeta la calcula el JavaScript desde los datos; la de la prosa, el
+    `og:image:alt` y el README están escritas a mano, y sin este guardián
+    vuelven a quedarse atrás en silencio. Si falla, no se toca el test: se
+    reescriben los textos que nombra.
+    """
+
+    RAIZ = Path(__file__).parent.parent
+
+    @classmethod
+    def setUpClass(cls):
+        mon = json.loads((cls.RAIZ / "data/public/monitor.json")
+                         .read_text(encoding="utf-8"))
+        cls.cop = int(sum(a["resumen"].get("edificios_afectados") or 0
+                          for a in mon["aois"]))
+        uno = mon.get("unosat") or {}
+        cls.solapan = uno.get("municipios_tambien_en_aoi_copernicus") or []
+        cls.uno = int(uno.get("edificios") or 0)
+        cls.posibles = int(uno.get("posibles") or 0)
+        cls.total = cls.cop + (0 if cls.solapan else cls.uno)
+        cls.index = (cls.RAIZ / "site/index.html").read_text(encoding="utf-8")
+        cls.readme = (cls.RAIZ / "README.md").read_text(encoding="utf-8")
+        # llms.txt es la superficie que leen los sistemas de IA: se quedó con
+        # 622 y con los 393 de la capa mientras el sitio ya publicaba otra cosa
+        cls.llms = (cls.RAIZ / "deploy/root/llms.txt").read_text(encoding="utf-8")
+
+    @staticmethod
+    def _es(n: int) -> str:
+        """Millares con punto, como los escribe el sitio (locale es-CO)."""
+        return f"{n:,}".replace(",", ".")
+
+    def test_las_dos_miradas_no_miran_el_mismo_municipio(self):
+        """El supuesto que autoriza la suma. Si algún día cae, no es un error:
+        es que Copernicus entró donde UNOSAT ya miraba, y entonces el total
+        deja de poder sumarse — el sitio lo hace solo, pero los textos
+        escritos a mano hay que reescribirlos."""
+        self.assertEqual(self.solapan, [],
+                         "Copernicus y UNOSAT comparten municipio: el total de "
+                         "portada dejó de sumarse solo, pero la prosa de "
+                         "site/index.html y README.md sigue sumando")
+
+    def test_la_portada_escribe_el_total_de_las_dos_miradas(self):
+        for donde, texto in (("site/index.html", self.index),
+                             ("README.md", self.readme),
+                             ("deploy/root/llms.txt", self.llms)):
+            self.assertIn(self._es(self.total), texto,
+                          f"{donde} no dice {self._es(self.total)}: el total "
+                          f"satelital cambió y el texto se quedó atrás")
+
+    def test_la_portada_desglosa_el_total_y_declara_el_dano_posible(self):
+        """Un total compuesto sin desglose no es rastreable hasta su origen, y
+        el «daño posible» de UNOSAT no puede desaparecer dentro de la suma."""
+        for cifra, que in ((self.cop, "los edificios de Copernicus"),
+                           (self.uno, "los edificios de UNOSAT"),
+                           (self.posibles, "el «daño posible» de UNOSAT")):
+            self.assertIn(self._es(cifra), self.index,
+                          f"la portada no declara {que} ({self._es(cifra)})")
+
+    def test_el_total_de_unosat_cuadra_con_sus_municipios(self):
+        """El agregado de portada y el detalle municipal salen de dos caminos
+        distintos del mismo pipeline. Si se separan, la portada estaría
+        sumando edificios de un municipio que su propia tabla no lista."""
+        muns = json.loads((self.RAIZ / "data/public/municipios.json")
+                          .read_text(encoding="utf-8"))["items"]
+        detalle = {m["municipio"]: m["unosat_edificios"] for m in muns
+                   if m.get("unosat_edificios")}
+        self.assertEqual(sum(detalle.values()), self.uno,
+                         "el total de UNOSAT en monitor.json no cuadra con la "
+                         "suma por municipio de municipios.json")
+
+    def test_la_capa_entera_es_el_evento_mas_los_otros(self):
+        """393 puntos en la capa, 385 publicados, 8 con código inconsistente.
+
+        Las tres cifras circulan por el repo y tienen que cerrar. La
+        documentación afirmaba «393 edificios evaluados» y el sitio publicaba
+        385 sin que nada explicara la diferencia: son los ocho puntos de
+        Manizales que traen `EQ20260822COL` en la misma capa."""
+        gj = json.loads((self.RAIZ / "data/public/unosat_damage.geojson")
+                        .read_text(encoding="utf-8"))
+        capa = len(gj["features"])
+        otros = sum(1 for f in gj["features"]
+                    if (f["properties"].get("event_code") or "").upper()
+                    != "EQ20260810COL")
+        mon = json.loads((self.RAIZ / "data/public/monitor.json")
+                         .read_text(encoding="utf-8"))
+        uno = mon.get("unosat") or {}
+        self.assertEqual(self.uno + otros, capa,
+                         "la capa publicada no cuadra con lo que se publica "
+                         "más lo apartado por código inconsistente")
+        self.assertEqual(uno.get("otros_eventos"), otros,
+                         "los puntos de código inconsistente no se cuentan aparte")
+        self.assertEqual(uno.get("observados", 0) + uno.get("posibles", 0),
+                         self.uno,
+                         "observados + posibles debe ser el total del evento")
+
+    def test_la_documentacion_explica_las_dos_cifras_de_unosat(self):
+        """Un archivo honesto no puede afirmar 393 en un sitio y 385 en otro
+        sin decir por qué. Y no puede decir «son de otro terremoto»: el código
+        `EQ20260822COL` está fechado DESPUÉS de la imagen que retrata el daño,
+        así que es un error de etiquetado, no un segundo sismo. Afirmar lo
+        contrario sería convertir un fallo de la fuente en un hecho propio."""
+        doc = (self.RAIZ / "docs/LIMITACIONES.md").read_text(encoding="utf-8")
+        self.assertIn(str(self.uno), doc,
+                      "docs/LIMITACIONES.md no declara los edificios que el "
+                      "monitor atribuye al terremoto")
+        self.assertIn("EQ20260822COL", doc,
+                      "docs/LIMITACIONES.md no explica de dónde sale la "
+                      "diferencia con el total de la capa")
+
+    def test_ninguna_superficie_afirma_que_los_ocho_sean_de_otro_terremoto(self):
+        """El archivo no lo sostiene, así que nadie puede escribirlo.
+
+        Los ocho puntos comparten capa, sensor, fecha de imagen, productos y
+        confianza con los otros 127 de Manizales: lo único distinto es un
+        código de evento imposible. Decir «son de otro evento» convierte un
+        fallo de la fuente en un hecho del monitor — justo lo que este
+        proyecto existe para no hacer."""
+        prohibidas = ("de otro evento", "de otro terremoto",
+                      "no son de este terremoto", "otro evento en la misma capa")
+        # docs/DECISIONES.md queda FUERA a propósito: es el registro de la
+        # corrección y necesita citar la frase falsa para refutarla. No lo
+        # «arregles» metiéndolo aquí.
+        superficies = ["site/index.html", "site/app.js", "site/municipios.html",
+                       "site/ui.js", "site/balances.js", "deploy/render_html.py",
+                       "deploy/render_descubrimiento.py", "deploy/gen_og.py",
+                       "deploy/root/llms.txt", "ingest/publish.py",
+                       "ingest/municipios.py", "ingest/alerts.py",
+                       "docs/LIMITACIONES.md", "README.md",
+                       "feeds/hitos_monitor.json"]
+        for rel in superficies:
+            texto = (self.RAIZ / rel).read_text(encoding="utf-8").lower()
+            for frase in prohibidas:
+                self.assertNotIn(frase, texto,
+                                 f"{rel} afirma «{frase}», y el dato no lo sostiene")
+
+    def test_la_proporcion_de_dano_posible_sigue_siendo_la_que_se_afirma(self):
+        """La leyenda del mapa dice «tres de cada cuatro son solo daño
+        posible». Es una proporción a mano: 289 de 385 la sostienen hoy
+        (75,1 %), pero un producto nuevo de UNOSAT puede moverla y la frase
+        seguiría ahí, afirmando."""
+        if not self.uno:
+            self.skipTest("sin datos de UNOSAT")
+        proporcion = self.posibles / self.uno
+        if "tres de cada cuatro" in self.index:
+            self.assertTrue(0.70 <= proporcion <= 0.80,
+                            f"la portada dice «tres de cada cuatro» y la "
+                            f"proporción real es {proporcion:.1%}: reescribe "
+                            f"la frase de site/index.html")
+
+    def test_la_portada_atribuye_las_dos_fuentes(self):
+        for donde, texto in (("la portada", self.index),
+                             ("llms.txt", self.llms)):
+            for fuente in ("Copernicus", "UNOSAT"):
+                self.assertIn(fuente, texto,
+                              f"{donde} suma {fuente} sin nombrarlo")
+
+    def test_llms_txt_no_publica_el_total_desnudo(self):
+        """El fichero que leen los sistemas de IA no puede dar el total sin el
+        reparto: es la superficie donde una cifra se cita sin su contexto."""
+        for cifra in (self.cop, self.uno, self.posibles):
+            self.assertIn(self._es(cifra), self.llms,
+                          f"llms.txt no declara {self._es(cifra)}")
+
+
+class TestCodigoDeEventoImposible(unittest.TestCase):
+    """R11 sobre el etiquetado de UNOSAT: un código con fecha imposible avisa.
+
+    `EQ20260822COL` llegó el 19-ago-2026 sobre una imagen del 11-ago, fechando
+    un sismo que aún no había ocurrido. Nadie lo cantó: se descubrió leyendo la
+    capa a mano un día después. Un código de evento futuro en un producto ya
+    publicado es un supuesto roto de manual, y ahora la corrida lo dice.
+    """
+
+    def _conn(self, filas):
+        import sqlite3
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE unosat_damage (event_code TEXT, capa TEXT,"
+                     " sensor_date TEXT)")
+        conn.executemany("INSERT INTO unosat_damage VALUES (?,?,?)", filas)
+        return conn
+
+    def _detectar(self, filas, hoy="2026-08-20"):
+        import alerts
+        return alerts.codigos_de_evento_imposibles(self._conn(filas), hoy)
+
+    def test_un_codigo_fechado_en_el_futuro_avisa(self):
+        fuera = self._detectar([("EQ20260822COL", "capa_manizales", "20260811")] * 8)
+        self.assertEqual(len(fuera), 1)
+        self.assertEqual(fuera[0]["n"], 8)
+        self.assertIn("aún no ha llegado", fuera[0]["motivo"])
+
+    def test_un_codigo_posterior_a_la_imagen_tambien_avisa(self):
+        """Aunque ya haya pasado: una imagen no retrata daño de un sismo que
+        todavía no había ocurrido cuando se tomó."""
+        fuera = self._detectar([("EQ20260815COL", "capa_x", "20260811")],
+                               hoy="2026-09-01")
+        self.assertEqual(len(fuera), 1)
+        self.assertIn("posterior a la imagen", fuera[0]["motivo"])
+
+    def test_el_codigo_del_terremoto_no_avisa(self):
+        self.assertEqual(
+            self._detectar([("EQ20260810COL", "capa_x", "20260811")]), [])
+
+    def test_un_codigo_que_no_sigue_el_patron_no_inventa_alarma(self):
+        """R3 aplicado a la alerta: si no se puede leer la fecha, no se afirma
+        que sea imposible. Un formato desconocido es ausencia, no error."""
+        self.assertEqual(self._detectar([("RAROSINFECHA", "capa_x", "20260811")]), [])
+        self.assertEqual(self._detectar([(None, "capa_x", "20260811")]), [])
+
+    def test_sin_fecha_de_imagen_solo_se_juzga_contra_hoy(self):
+        self.assertEqual(
+            self._detectar([("EQ20260815COL", "capa_x", None)], hoy="2026-09-01"), [])
+        self.assertEqual(
+            len(self._detectar([("EQ20260930COL", "capa_x", None)], hoy="2026-09-01")), 1)

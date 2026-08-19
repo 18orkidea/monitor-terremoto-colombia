@@ -383,7 +383,7 @@ premian la continuidad demostrada, no la aparición oportunista.
 | Fichas municipales | **432** | 0 |
 | Renderizado | Next.js **prerenderizado** (SSG en Vercel): todo el contenido en el HTML | Todo pintado con JS |
 | Verticales por servicio | albergues, colegios, hospitales, vías, servicios × ciudad (≈130 URLs) | — |
-| Evidencia declarada | 3.363 puntos, 7.477 evidencias, 257 fuentes | 622 edificios, 6.080 titulares, ~20 fuentes |
+| Evidencia declarada | 3.363 puntos, 7.477 evidencias, 257 fuentes | 1.007 edificios, 6.080 titulares, ~20 fuentes |
 | Enlazado interno | «Por tema en X», «Municipios cerca de X» | Navegación plana entre 5 páginas |
 | Intención de búsqueda del afectado | «Dónde ayudar», puntos de acopio | — |
 
@@ -548,9 +548,11 @@ Contenido, todo derivado de `data/public/*.json`:
 
 **Dos precisiones de lenguaje, no cosméticas:**
 
-1. **«Ningún producto satelital ha reportado daño»**, no «ningún producto de Copernicus». Hoy el
-   único activo es Copernicus EMSR916, pero pueden entrar otros (UNOSAT, NISAR, HRSL) y la frase
-   debe seguir siendo cierta el día que entren. R2 habla de «producto satelital», no de una marca.
+1. **«Ningún producto satelital ha reportado daño»**, no «ningún producto de Copernicus». Ya son
+   dos los activos —Copernicus EMSR916 y UNITAR-UNOSAT— y pueden entrar más (NISAR, HRSL): la
+   frase debe seguir siendo cierta el día que entren. R2 habla de «producto satelital», no de una
+   marca. Escrita en singular caducó en cuanto llegó el segundo, y con ella caducaron las páginas
+   que la copiaban.
 2. **El RUD es un censo declarativo sujeto a verificación posterior.** No es una medición de daño
    ni un dato cerrado: las autoridades municipales registran, y esa inscripción se verifica después.
    Decirlo en la ficha es obligatorio — si no, la cifra se lee como un balance definitivo y estamos

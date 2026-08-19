@@ -528,14 +528,25 @@ def municipios_con_evidencia_puntual(ctx: dict) -> list:
 
     Es el criterio de la tabla de portada. Deja de organizarse por lo que el
     satélite decidió mirar y pasa a organizarse por dónde hay evidencia sobre
-    el terreno, venga de donde venga."""
+    el terreno, venga de donde venga.
+
+    «Satélite» son los dos: Copernicus y UNITAR-UNOSAT. Mientras solo contó el
+    primero, Viterbo y Anserma —evaluados edificio a edificio por el centro
+    satelital de la ONU— no salían en esta tabla, y Manizales salía con un
+    guion en la columna satelital pese a tener 127 edificios clasificados. La
+    portada llegó a anunciar un total de las dos miradas que su propia tabla
+    desmentía."""
     sat, ciu = ctx["conteo_satelite"], ctx["conteo_ciudadanos"]
-    nombres = {k for k in (set(sat) | set(ciu)) if not k.startswith("__")}
+    uno = {m["municipio"]: m["unosat_edificios"] for m in ctx["municipios"]
+           if m.get("unosat_edificios")}
+    nombres = {k for k in (set(sat) | set(ciu) | set(uno)) if not k.startswith("__")}
     filas = []
     for n in nombres:
         m = ctx["idx"][n]
-        filas.append({**m, "n_satelite": sat.get(n, 0), "n_ciudadanos": ciu.get(n, 0)})
-    filas.sort(key=lambda f: (f["n_satelite"] + f["n_ciudadanos"]), reverse=True)
+        filas.append({**m, "n_satelite": sat.get(n, 0), "n_ciudadanos": ciu.get(n, 0),
+                      "n_unosat": uno.get(n, 0)})
+    filas.sort(key=lambda f: (f["n_satelite"] + f["n_unosat"] + f["n_ciudadanos"]),
+               reverse=True)
     return filas
 
 
@@ -905,8 +916,12 @@ def _celda_satelite(m: dict, n_copernicus: int) -> str:
     if m.get("unosat_edificios") is not None:
         otros = ""
         if m.get("unosat_otros_eventos"):
-            otros = (f' <span title="UNOSAT los incluye en la misma capa pero los etiqueta '
-                     f'con otro código de evento, así que no son de este terremoto." '
+            otros = (f' <span title="UNOSAT los publica en la misma capa, sobre la misma '
+                     f'imagen y en el mismo producto que los demás, pero con un código de '
+                     f'evento distinto y fechado después de la propia imagen: una '
+                     f'inconsistencia de la fuente. El monitor no los suma al total —corregir '
+                     f'la etiqueta por su cuenta sería inventar— ni les atribuye ningún otro '
+                     f'sismo, porque eso el dato no lo sostiene." '
                      f'style="color:var(--warning)">+{fmt(m["unosat_otros_eventos"])}</span>')
         partes.append(
             f'<span title="Edificios evaluados por UNITAR-UNOSAT, el centro satelital de la '
@@ -984,8 +999,8 @@ def filas_portada(ctx: dict) -> str:
 
     Deja de organizarse por lo que el satélite decidió mirar (las AOI de la
     activación) y pasa a organizarse por dónde hay prueba georreferenciada,
-    venga del satélite o de la comunidad. El hallazgo que lo justifica: el
-    satélite ha mirado 6 municipios; la comunidad ha documentado 26.
+    venga del satélite o de la comunidad. El hallazgo que lo justifica: los
+    satélites han mirado 9 municipios; la comunidad ha documentado 26.
 
     Cada fila lleva su coordenada para que el clic siga centrando el mapa.
     El detalle por AOI —vías, interrupciones, fecha de entrega— no cabe en una
@@ -1004,7 +1019,7 @@ def filas_portada(ctx: dict) -> str:
             f'<td><span class="badge" style="--bc:var({color})" title="{e(explica)}">'
             f'{e(etiqueta)}</span></td>'
             f'<td class="num" title="Proyección DANE 2026">{fmt(m.get("poblacion_2026"))}</td>'
-            f'<td class="num">{fmt(sat) if sat else "—"}</td>'
+            f'<td class="num">{_celda_satelite(m, sat)}</td>'
             f'<td class="num">{fmt(ciu) if ciu else "—"}</td>'
             f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
             f'<td class="num">{_celda_prensa(m)}</td>'

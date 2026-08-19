@@ -11,6 +11,7 @@ Cada corrida regenera alerts.json desde cero con lo que cambió HOY:
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timedelta, timezone
 
 from common import db, fetch_json, today, PUBLIC, SNAPSHOTS
@@ -74,6 +75,39 @@ def _institucionales_nuevos(snap: str) -> list[dict]:
         return []
     vistos = {(x.get("link"), x.get("pubdate")) for x in previo}
     return [x for x in hoy if (x.get("link"), x.get("pubdate")) not in vistos]
+
+
+def codigos_de_evento_imposibles(conn, hoy: str) -> list[dict]:
+    """Códigos GLIDE de UNOSAT cuya fecha implícita no puede ser cierta.
+
+    Un `event_code` tipo `EQ20260822COL` lleva la fecha del evento dentro. Si
+    esa fecha es POSTERIOR a la imagen que retrata el daño —o peor, posterior a
+    hoy—, el código no puede designar un evento real: es un error de etiquetado
+    en origen. Pasó de verdad (8 puntos de Manizales, ver docs/LIMITACIONES.md)
+    y el monitor lo descubrió leyendo a mano, no porque nada avisara.
+
+    R11: avisa, no rompe. Los puntos se siguen archivando con su literal.
+    """
+    fuera = []
+    for code, cap, sensor_date, n in conn.execute(
+            "SELECT event_code, capa, MIN(sensor_date), COUNT(*)"
+            " FROM unosat_damage WHERE event_code IS NOT NULL"
+            " GROUP BY event_code, capa"):
+        m = re.match(r"^[A-Z]{2}(\d{4})(\d{2})(\d{2})[A-Z]{3}$", (code or "").upper())
+        if not m:
+            continue
+        fecha = f"{m.group(1)}-{m.group(2)}-{m.group(3)}"
+        img = (f"{sensor_date[:4]}-{sensor_date[4:6]}-{sensor_date[6:8]}"
+               if sensor_date and len(sensor_date) == 8 else None)
+        if fecha > hoy:
+            motivo = f"su fecha ({fecha}) aún no ha llegado"
+        elif img and fecha > img:
+            motivo = f"su fecha ({fecha}) es posterior a la imagen ({img})"
+        else:
+            continue
+        fuera.append({"code": code, "capa": cap, "n": n, "motivo": motivo,
+                      "fecha": fecha, "imagen": img})
+    return fuera
 
 
 def run(copernicus_summary: dict | None = None) -> list[dict]:
@@ -252,6 +286,19 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                                  f"Revisar si ya hay EDAN del terremoto para "
                                  f"promover el cruce.", "max_fecha": fecha})
             break
+
+    # 7) UNOSAT: códigos de evento con fecha imposible. Un código fechado
+    # después de la imagen que retrata el daño —o en el futuro— es un supuesto
+    # roto de manual, y hasta hoy no lo cantaba nadie.
+    for x in codigos_de_evento_imposibles(conn, snap):
+        alerts.append({
+            "tipo": "unosat_codigo_evento_imposible", "nivel": "media",
+            "texto": f"UNITAR-UNOSAT publica {x['n']} puntos con el código "
+                     f"«{x['code']}» y {x['motivo']}: no puede designar un evento "
+                     f"real, así que es un error de etiquetado en origen. El "
+                     f"monitor los archiva con su literal y no los suma. Si "
+                     f"UNOSAT lo corrige, entran solos.",
+            "event_code": x["code"], "capa": x["capa"], "puntos": x["n"]})
 
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}
     PUBLIC.mkdir(parents=True, exist_ok=True)

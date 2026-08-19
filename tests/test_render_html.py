@@ -8,6 +8,7 @@ viendo perfecta en el navegador y estaría vacía para quien la tiene que citar
 import json
 import re
 import sys
+import tempfile
 import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -149,12 +150,13 @@ class TestSeleccion(unittest.TestCase):
 
     def test_evidencia_puntual_es_subconjunto_estricto(self):
         """La tabla de portada muestra solo municipios con prueba sobre el
-        terreno (satélite o comunidad): son menos que el área de influencia."""
+        terreno —los dos satélites o la comunidad—: son menos que el área de
+        influencia."""
         filas = R.municipios_con_evidencia_puntual(self.ctx)
         self.assertGreater(len(filas), 0)
         self.assertLess(len(filas), len(self.ctx["municipios"]))
         for f in filas:
-            self.assertTrue(f["n_satelite"] or f["n_ciudadanos"])
+            self.assertTrue(f["n_satelite"] or f["n_unosat"] or f["n_ciudadanos"])
 
     def test_los_huerfanos_no_se_atribuyen_a_nadie(self):
         """Sin polígonos municipales atribuimos por proximidad a la cabecera:
@@ -391,8 +393,41 @@ class TestTablaPortada(unittest.TestCase):
 
     def test_toda_fila_tiene_satelite_o_ciudadanos(self):
         for f in self.filas:
-            self.assertTrue(f["n_satelite"] or f["n_ciudadanos"],
+            self.assertTrue(f["n_satelite"] or f["n_unosat"] or f["n_ciudadanos"],
                             f'{f["municipio"]} está en portada sin evidencia puntual')
+
+    def test_la_evidencia_de_unosat_tambien_entra_en_portada(self):
+        """Viterbo y Anserma están evaluados edificio a edificio por el centro
+        satelital de la ONU y no salían en la tabla de «evidencia sobre el
+        terreno»: la portada sumaba sus edificios en la tarjeta y los negaba
+        tres párrafos más abajo."""
+        solo_unosat = [m["municipio"] for m in self.ctx["municipios"]
+                       if m.get("unosat_edificios")
+                       and not self.ctx["conteo_satelite"].get(m["municipio"])]
+        if not solo_unosat:
+            self.skipTest("ningún municipio lo mira solo UNOSAT")
+        en_tabla = {f["municipio"] for f in self.filas}
+        for nombre in solo_unosat:
+            self.assertIn(nombre, en_tabla,
+                          f"{nombre} tiene evidencia satelital y no está en portada")
+            self.assertIn("UNOSAT", self.html,
+                          "la columna satelital debe nombrar a UNOSAT")
+
+    def test_la_nota_de_portada_no_miente_sobre_cuantos_miro_cada_fuente(self):
+        """«Los satélites han mirado 9 municipios; la comunidad ha documentado
+        27» está escrito a mano en site/index.html, y la primera mitad cambió
+        el día que el conteo pasó a incluir UNOSAT. Si vuelve a moverse, este
+        test dice el número nuevo en vez de dejar la frase envejecer sola."""
+        sat = len([f for f in self.filas if f["n_satelite"] or f["n_unosat"]])
+        ciu = len([f for f in self.filas if f["n_ciudadanos"]])
+        html = (Path(__file__).parent.parent / "site/index.html").read_text(
+            encoding="utf-8")
+        m = re.search(r"satélites han mirado (\d+)\s*\n?\s*municipios; la comunidad "
+                      r"ha documentado (\d+)", html)
+        self.assertIsNotNone(m, "la nota de portada ya no dice cuántos miró cada fuente")
+        self.assertEqual((int(m.group(1)), int(m.group(2))), (sat, ciu),
+                         f"la nota de portada dice {m.group(1)}/{m.group(2)} y los "
+                         f"datos dicen {sat}/{ciu}")
 
     def test_cada_fila_lleva_su_coordenada_para_el_mapa(self):
         """El clic en la fila centra el mapa; sin data-lat/data-lon el JavaScript
@@ -529,6 +564,42 @@ class TestSatelites(unittest.TestCase):
         prosa = R.parrafo_respuesta(d)
         self.assertNotIn("Ningún producto satelital", prosa)
         self.assertIn("UNITAR-UNOSAT", prosa)
+
+    def test_llms_full_no_niega_ninguna_evidencia_satelital(self):
+        """El mismo bug, en el fichero que leen los sistemas de IA.
+
+        `llms-full.txt` decidía la cobertura satelital solo con
+        `en_aoi_copernicus`, así que escribía «ningún producto satelital» sobre
+        Anserma, Manizales y Viterbo —los tres municipios que aportan los
+        edificios de UNOSAT— y también sobre Yumbo, que tiene 3 edificios de
+        Copernicus con coordenada dentro pero ninguna zona encima. Que la ficha
+        lo dijera bien no bastaba: esta superficie también afirma."""
+        import importlib.util
+        ruta = Path(__file__).parent.parent / "deploy" / "render_descubrimiento.py"
+        spec = importlib.util.spec_from_file_location("render_descubrimiento", ruta)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        # CUALQUIER evidencia satelital, venga de donde venga y esté o no
+        # dentro de una zona delimitada: Yumbo tiene 3 edificios de Copernicus
+        # y ninguna AOI encima, y este fichero también lo negaba.
+        con_evidencia = [m["municipio"] for m in self.ctx["municipios"]
+                         if m.get("unosat_edificios") is not None
+                         or self.ctx["conteo_satelite"].get(m["municipio"])]
+        if not con_evidencia:
+            self.skipTest("ningún municipio con evidencia satelital")
+        with tempfile.TemporaryDirectory() as tmp:
+            mod.llms_full(Path(tmp))
+            texto = (Path(tmp) / "llms-full.txt").read_text(encoding="utf-8")
+        for nombre in con_evidencia:
+            i = texto.find(f"### {nombre} (")
+            self.assertGreater(i, -1, f"{nombre} no está en llms-full.txt")
+            # hasta el encabezado siguiente: el bloque del vecino no cuenta
+            fin = texto.find("\n### ", i + 1)
+            bloque = texto[i:fin if fin > 0 else len(texto)]
+            self.assertNotIn("ningún producto satelital", bloque,
+                             f"llms-full.txt niega el satélite en {nombre}")
+            self.assertTrue("UNITAR-UNOSAT" in bloque or "Copernicus" in bloque,
+                            f"llms-full.txt no atribuye la evaluación de {nombre}")
 
     def test_la_negativa_no_nombra_un_solo_producto(self):
         """«hoy el único activo es Copernicus» caducó en cuanto entró UNOSAT: la

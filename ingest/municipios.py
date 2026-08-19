@@ -522,8 +522,9 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         row["unosat_observados"] = uno.get("observados") if tiene_unosat else None
         row["unosat_posibles"] = uno.get("posibles") if tiene_unosat else None
         row["unosat_fecha_imagen"] = uno.get("fecha_imagen") if tiene_unosat else None
-        # edificios que UNOSAT atribuye a OTRO evento en la misma capa: no
-        # suman al terremoto, pero ocultarlos sería perder una discrepancia
+        # edificios con un código de evento inconsistente en la misma capa
+        # (ver publish.py): no suman al total, pero ocultarlos sería perder
+        # una discrepancia de la fuente que merece constar
         row["unosat_otros_eventos"] = (uno.get("otros_eventos") or None) \
             if tiene_unosat else None
         # R3 en el producto descargable, no solo en la tabla: para un homónimo

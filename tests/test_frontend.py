@@ -552,3 +552,69 @@ class TestFichaMapa(unittest.TestCase):
         self.assertIn("se cayó el muro", html)
         self.assertNotIn(": se cayó el muro", html)
         self.assertNotIn("Intensidad", html)
+
+
+@unittest.skipUnless(NODE, "node no disponible")
+class TestTotalSatelital(unittest.TestCase):
+    """El total de la portada suma las DOS miradas satelitales.
+
+    Hasta el 20-ago-2026 la tarjeta anunciaba «Satélite · Copernicus» con 622
+    edificios y callaba los 385 que UNITAR-UNOSAT había clasificado en Caldas:
+    la portada publicaba menos de lo que el propio monitor tenía archivado.
+    Sumarlas solo es lícito porque miran municipios distintos, así que la
+    condición viaja con el dato y el test la vigila en los dos sentidos: que
+    sume cuando no se pisan y que deje de sumar cuando se pisen.
+    """
+
+    MON = {
+        "fecha": "2026-08-20",
+        "aois": [{"resumen": {"edificios_afectados": 400}},
+                 {"resumen": {"edificios_afectados": 222}},
+                 {"resumen": {"edificios_afectados": None}}],
+        "entregas": [{"fecha": "2026-08-18"}],
+        "unosat": {"edificios": 385, "observados": 96, "posibles": 289,
+                   "otros_eventos": 8,
+                   "municipios": ["Anserma", "Manizales", "Viterbo"],
+                   "municipios_tambien_en_aoi_copernicus": []},
+        "citizen": {"chatmap_total": 439, "en_aoi": 100},
+    }
+
+    def _satelite(self, mon):
+        fuentes = correr_ui("UI.comparativaFuentes("
+                            f"{json.dumps(mon, ensure_ascii=False)}, null)")
+        return next(f for f in fuentes if f["id"] == "satelite")
+
+    def test_suma_las_dos_miradas_cuando_no_se_pisan(self):
+        sat = self._satelite(self.MON)
+        self.assertEqual(sat["cifras"]["edificios_dañados"], 1007,
+                         "622 de Copernicus + 385 de UNOSAT")
+        self.assertEqual(sat["cifras"]["edificios_copernicus"], 622)
+        self.assertEqual(sat["cifras"]["edificios_unosat"], 385)
+        self.assertIn("UNOSAT", sat["nombre"],
+                      "la tarjeta que suma dos fuentes debe nombrarlas")
+        self.assertIn("Copernicus", sat["nombre"])
+
+    def test_la_nota_declara_de_que_esta_hecha_la_cifra(self):
+        """Una cifra compuesta que no dice de qué se compone no es rastreable:
+        el "daño posible" de UNOSAT no puede desaparecer dentro del total."""
+        nota = self._satelite(self.MON)["nota"]
+        for pieza in ("622", "385", "289", "Copernicus", "UNOSAT"):
+            self.assertIn(pieza, nota, f"la nota calla {pieza}")
+
+    def test_si_las_dos_miran_el_mismo_municipio_deja_de_sumar(self):
+        """Doble conteo del mismo tejado: peor que quedarse corto. La ingesta
+        publica la lista de municipios compartidos y el sitio la obedece."""
+        mon = {**self.MON, "unosat": {**self.MON["unosat"],
+                                      "municipios_tambien_en_aoi_copernicus": ["Pereira"]}}
+        sat = self._satelite(mon)
+        self.assertEqual(sat["cifras"]["edificios_dañados"], 622)
+        self.assertIsNone(sat["cifras"]["edificios_unosat"])
+        self.assertNotIn("UNOSAT", sat["nombre"])
+
+    def test_un_monitor_sin_unosat_no_revienta(self):
+        """El archivo histórico tiene monitor.json anteriores a UNOSAT: la
+        portada debe seguir pintándose con la única mirada que haya."""
+        mon = {k: v for k, v in self.MON.items() if k != "unosat"}
+        sat = self._satelite(mon)
+        self.assertEqual(sat["cifras"]["edificios_dañados"], 622)
+        self.assertIn("zonas urbanas", sat["alcance"])

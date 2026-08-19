@@ -1889,6 +1889,18 @@
    }
   ]
  },
+ "unosat": {
+  "edificios": 385,
+  "observados": 96,
+  "posibles": 289,
+  "otros_eventos": 8,
+  "municipios": [
+   "Anserma",
+   "Manizales",
+   "Viterbo"
+  ],
+  "municipios_tambien_en_aoi_copernicus": []
+ },
  "citizen": {
   "chatmap_total": 439,
   "en_aoi": 371

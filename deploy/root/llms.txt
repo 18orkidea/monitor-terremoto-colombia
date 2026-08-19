@@ -2,7 +2,9 @@
 
 > Observatorio abierto del terremoto M7.4 del 10 de agosto de 2026 en Colombia (epicentro
 > San José del Palmar, Chocó). Cruza a diario cuatro miradas independientes — daño satelital
-> de Copernicus (622 edificios clasificados uno a uno), reportes ciudadanos por WhatsApp
+> (1.007 edificios clasificados uno a uno: 622 del servicio de emergencias de Copernicus,
+> activación EMSR916, y 385 de UNITAR-UNOSAT, de los que 289 son solo «daño posible» sin
+> validar en campo; miran municipios distintos, por eso se suman), reportes ciudadanos por WhatsApp
 > (ChatMap/OSM Colombia), titulares de prensa de feeds abiertos y balances citados en medios
 > extraídos con IA — y mide las brechas del reporte oficial. Cada cifra es rastreable hasta
 > su petición de origen (snapshots inmutables + hash sha256).
@@ -29,7 +31,10 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
 - [Noticias emparejadas](https://brechas.orkidea.eu/data/public/noticias.json)
 - [GeoJSON de daño satelital · Copernicus](https://brechas.orkidea.eu/data/public/damage_points.geojson)
 - [GeoJSON de daño satelital · UNITAR-UNOSAT](https://brechas.orkidea.eu/data/public/unosat_damage.geojson):
-  393 edificios evaluados uno a uno en Caldas, ninguno validado en campo
+  385 edificios de este terremoto evaluados uno a uno en Caldas (289 solo «daño posible»),
+  ninguno validado en campo; la capa incluye además 8 puntos con un código de evento
+  inconsistente —fechado después de la imagen que los retrata—, que no se suman al total ni
+  se descartan
 - [Feed de balances (JSON)](https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json)
 
 ## Código y metodología

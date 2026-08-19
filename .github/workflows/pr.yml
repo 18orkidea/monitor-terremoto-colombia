@@ -24,7 +24,13 @@ jobs:
       - name: Tests (unit + hipótesis; la BD se reconstruye desde dumps)
         run: |
           python ingest/dump_db.py rebuild
-          python -m unittest tests.test_unit tests.test_hipotesis -v
+          python -m unittest tests.test_unit tests.test_hipotesis tests.test_webpush -v
+
+      # Los guardianes de lo que se PUBLICA —fichas, tabla de portada,
+      # llms-full.txt— solo corrían en local. El día que la portada anunció un
+      # total satelital que su propia tabla desmentía, en CI no falló nada.
+      - name: Tests de lo que se publica (fichas, tablas y ficheros de descubrimiento)
+        run: python -m unittest tests.test_render_html -v
 
       # Las reglas que viven en JavaScript (R8 en ui.js, R10 en el worker) se
       # vigilaban solo con node --check, que no ejecuta nada: sin estos, la
