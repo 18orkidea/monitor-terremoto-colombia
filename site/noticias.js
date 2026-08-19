@@ -1,11 +1,20 @@
 /* Página de titulares: lista completa con filtros por zona, fuente y texto.
    Usa ui.js (fetchJson, fmt). */
 (async function () {
-  const { fmt, fetchJson, medioDe, viaGoogleNews, esc } = window.UI;
+  // Solo http(s) llega al atributo href: un `javascript:` en un canal ajeno se
+  // convertiría en código al pulsar el titular.
+  const enlaceSeguro = (u) => {
+    try {
+      const url = new URL(u, location.origin);
+      return /^https?:$/.test(url.protocol) ? url.href : "#";
+    } catch (e) { return "#"; }
+  };
+
+  const { fmt, fechaEs, fechaLarga, fetchJson, medioDe, viaGoogleNews, esc } = window.UI;
   const data = await fetchJson("/data/public/noticias.json");
   if (!data) {
     document.getElementById("resumen").textContent =
-      "Sin datos (sirve el repo por HTTP y ejecuta el pipeline).";
+      "No se han podido cargar los titulares. Vuelve a intentarlo en unos minutos.";
     return;
   }
   const items = data.items || [];
@@ -66,17 +75,25 @@
     resumen.textContent =
       `${fmt(sel.length)} de ${fmt(items.length)} titulares` +
       (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "") +
-      ` · actualizado ${data.generado}`;
+      ` · actualizado el ${fechaLarga(data.generado)}`;
+    // etiqueta de lista: forma corta (9.8), nunca la ISO cruda
+    const fechaDe = (n) => {
+      const iso = n.fecha || "";
+      return fechaEs(iso) + (iso.length >= 16 ? `, ${iso.slice(11, 16)}` : "");
+    };
     lista.innerHTML = sel.slice(desde, desde + POR_PAGINA).map((n) =>
-      `<li><span class="meta-n">${(n.fecha || "").slice(0, 16).replace("T", " ")}` +
+      `<li><span class="meta-n">${fechaDe(n)}` +
       `${medioDe(n) ? ` · ${esc(medioDe(n))}` : ""}` +
       (viaGoogleNews(n)
         ? ` · <span class="via" title="Google News recopila titulares de otros medios. El enlace que publica su feed lleva ahí, no a la página del medio.">vía Google News</span>`
         : "") + `</span>` +
-      (n.aois || []).map((a) => `<span class="chip" title="${a}">${aoiEs(a)}</span>`).join("") +
-      (n.departamentos || []).map((d) => `<span class="chip dep">${d}</span>`).join("") +
-      (n.municipios || []).map((m) => `<span class="chip mun">${m}</span>`).join("") +
-      `<br><a href="${n.url}" target="_blank" rel="noopener">${n.titulo}</a></li>`).join("") ||
+      (n.aois || []).map((a) => `<span class="chip" title="${esc(a)}">${esc(aoiEs(a))}</span>`).join("") +
+      (n.departamentos || []).map((d) => `<span class="chip dep">${esc(d)}</span>`).join("") +
+      (n.municipios || []).map((m) => `<span class="chip mun">${esc(m)}</span>`).join("") +
+      // titular y enlace vienen de canales ajenos: sin escapar, un titular con
+      // una etiqueta dentro ejecutaría lo que quisiera quien lo publicó
+      `<br><a href="${esc(enlaceSeguro(n.url))}" target="_blank" rel="noopener nofollow">` +
+      `${esc(n.titulo)}</a></li>`).join("") ||
       "<li>Nada que mostrar con estos filtros.</li>";
     window.UI.paginador(pagEl, paginas, pagina, (p) => {
       pagina = p;

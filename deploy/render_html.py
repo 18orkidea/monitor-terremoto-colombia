@@ -83,6 +83,37 @@ def pct(n) -> str:
     return fmt(n, 1) + " %"
 
 
+# Fechas: UN solo criterio en todo el sitio (Libro de estilo, 9.6 y 9.8).
+#   · En prosa la fecha NO se abrevia nunca: `fecha_larga` → «18 de agosto de
+#     2026». Es lo que lee quien llega de un buscador, y estas páginas se
+#     releerán dentro de años.
+#   · En tablas, cuadros y etiquetas de gráfico, donde el espacio manda, se
+#     admite la forma corta: `fecha_corta` → «18-ago-2026».
+#   · La forma ISO (2026-08-18) es un valor, no un texto: vale como atributo
+#     `data-*` o clave de ordenación, nunca como algo que se lee.
+# Espejo exacto de `UI.fechaEs` y `UI.fechaLarga` en site/ui.js: si tocas una,
+# mira la otra.
+_MESES = ("ene", "feb", "mar", "abr", "may", "jun",
+          "jul", "ago", "sep", "oct", "nov", "dic")
+_MESES_LARGOS = ("enero", "febrero", "marzo", "abril", "mayo", "junio",
+                 "julio", "agosto", "septiembre", "octubre", "noviembre",
+                 "diciembre")
+_FECHA = re.compile(r"^(\d{4})-(\d{2})-(\d{2})")
+
+
+def fecha_corta(iso: str) -> str:
+    """«18-ago-2026»: tablas, cuadros y etiquetas de gráfico."""
+    m = _FECHA.match(iso or "")
+    return f"{int(m[3])}-{_MESES[int(m[2]) - 1]}-{m[1]}" if m else (iso or "—")
+
+
+def fecha_larga(iso: str) -> str:
+    """«18 de agosto de 2026»: todo lo que se lee dentro de una frase."""
+    m = _FECHA.match(iso or "")
+    return (f"{int(m[3])} de {_MESES_LARGOS[int(m[2]) - 1]} de {m[1]}"
+            if m else (iso or "—"))
+
+
 def e(s) -> str:
     """Escapa TODO lo que venga de fuera: los titulares son texto de terceros."""
     return html.escape(str(s), quote=True)
@@ -310,7 +341,7 @@ def pie_estatico() -> str:
     return (
         '<div id="site-footer"><div class="sf-cols">'
         '<div><strong>Monitor de brechas de reporte</strong><br>'
-        'Observatorio abierto del terremoto M7.4 de Colombia (10-ago-2026). '
+        'Observatorio abierto del terremoto M7.4 de Colombia del 10 de agosto de 2026. '
         'Cruza satélite, reporte ciudadano, prensa y fuentes oficiales — con cada cifra '
         'rastreable a su origen.</div>'
         '<div><strong>Secciones</strong><br>'
@@ -325,15 +356,17 @@ def pie_estatico() -> str:
         f'<a href="{DATOS}/crosscheck.csv" download>CSV del cruce</a><br>'
         f'<a href="{DATOS}/monitor.json" target="_blank">JSON del monitor</a><br>'
         f'<a href="{DATOS}/rud.json" target="_blank">Histórico del RUD</a> · '
-        f'<a href="{DATOS}/divipola_coords.json" target="_blank">Catálogo DIVIPOLA</a><br>'
+        f'<a href="{DATOS}/divipola_coords.json" target="_blank">Catálogo de municipios '
+        f'(DIVIPOLA)</a><br>'
         f'<a href="{DATOS}/alerts.rss" target="_blank" rel="noopener">RSS de alertas</a><br>'
-        f'<a href="{REPO}" target="_blank" rel="noopener">Repositorio y snapshots</a></div>'
+        f'<a href="{REPO}" target="_blank" rel="noopener">Repositorio y copias archivadas'
+        f'</a></div>'
         '</div>'
         '<p class="sf-line">🇨🇴 ❤️ Mantenido por '
         '<a href="https://col.social/@jp" target="_blank" rel="me noopener">@jp@col.social</a> '
         'con apoyo de <a href="https://orkidea.eu" target="_blank" rel="noopener">Orkidea</a>. '
         'Las <a href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener">'
-        'donaciones ☕</a> mantienen servidores, scraping y recolección diaria de datos. '
+        'donaciones ☕</a> mantienen los servidores y la recolección diaria de datos. '
         'Código MIT · datos derivados CC BY 4.0 · los datos crudos conservan la licencia '
         'de cada fuente.</p></div>')
 
@@ -423,17 +456,21 @@ def parrafo_respuesta(d: dict) -> str:
         partes.append(
             f"{e(nombre)} ({e(depto)}) tiene <strong>{fmt(m['rud_familias'])} familias "
             f"({fmt(m['rud_personas'])} personas)</strong> inscritas como damnificadas en el "
-            f"RUD de la UNGRD, el <strong>{fmt(m['tasa_rud_pct'], 2)}%</strong> de sus "
-            f"{fmt(m['poblacion_2026'])} habitantes proyectados por el DANE para 2026. "
+            f"Registro Único de Damnificados (RUD) de la Unidad Nacional para la Gestión del "
+            f"Riesgo de Desastres (UNGRD), el <strong>{fmt(m['tasa_rud_pct'], 2)}%</strong> de sus "
+            f"{fmt(m['poblacion_2026'])} habitantes proyectados para 2026 por el Departamento "
+            f"Administrativo Nacional de Estadística (DANE). "
             f"El registro municipal declara {fmt(m['rud_viv_destruidas'])} viviendas destruidas "
             f"y {fmt(m['rud_viv_averiadas'])} averiadas. <strong>El RUD es un registro progresivo "
             f"que cargan las autoridades municipales y está sujeto a verificación posterior</strong>: mide inscripciones tramitadas, no daño comprobado.")
     else:
         partes.append(
-            f"{e(nombre)} ({e(depto)}) <strong>no tiene inscripciones en el RUD de la UNGRD</strong> "
-            f"en la última captura del monitor. Sin registro no significa sin daño: significa que "
-            f"las autoridades municipales aún no han censado. Su población proyectada por el DANE "
-            f"para 2026 es de {fmt(m['poblacion_2026'])} habitantes.")
+            f"{e(nombre)} ({e(depto)}) <strong>no tiene inscripciones en el Registro Único de "
+            f"Damnificados (RUD) de la Unidad Nacional para la Gestión del Riesgo de Desastres "
+            f"(UNGRD)</strong> en la última captura del monitor. Sin registro no significa sin "
+            f"daño: significa que las autoridades municipales aún no lo han cargado. Su población "
+            f"proyectada para 2026 por el Departamento Administrativo Nacional de Estadística "
+            f"(DANE) es de {fmt(m['poblacion_2026'])} habitantes.")
     # La afirmación se construye desde SATELITES, no desde una fuente concreta:
     # el día que entre otro producto, la frase sigue siendo cierta sola.
     vistos = satelites_con_dato(m, d["satelite"])
@@ -446,16 +483,20 @@ def parrafo_respuesta(d: dict) -> str:
                  f"{fmt(d['zonas'][0][2] / 1000, 0)} kilómetros." if d["zonas"] else "")
         partes.append(
             f"<strong>Ningún producto satelital de daño ha reportado daños en {e(nombre)}"
-            f"</strong>: ni el servicio de emergencias de Copernicus ni UNITAR-UNOSAT han "
-            f"evaluado sus edificios.{cerca}")
+            f"</strong>: ni el servicio de emergencias de Copernicus ni UNITAR-UNOSAT, el "
+            f"centro satelital de la ONU, han evaluado sus edificios.{cerca}")
     if d["ciudadanos"]:
         partes.append(
             f"La comunidad sí lo ha documentado: <strong>{fmt_prosa(len(d['ciudadanos']))} reportes "
             f"ciudadanos</strong> georreferenciados en el entorno, {fmt_prosa(d['con_medio'])} con foto o vídeo.")
     medios = {medio_de_titular(t) for t in d["titulares"]} - {None}
     if d["titulares"]:
-        partes.append(f"La prensa recogida por el monitor suma {fmt_prosa(len(d['titulares']))} piezas "
-                      f"sobre {e(nombre)}, de {fmt_prosa(len(medios))} medios identificados.")
+        n_piezas, n_medios = len(d["titulares"]), len(medios)
+        partes.append(f"La prensa recogida por el monitor suma "
+                      f"{fmt_prosa(n_piezas, femenino=True)} "
+                      f"pieza{'s' if n_piezas != 1 else ''} sobre {e(nombre)}, de "
+                      f"{fmt_prosa(n_medios)} medio{'s' if n_medios != 1 else ''} "
+                      f"identificado{'s' if n_medios != 1 else ''}.")
     return " ".join(partes)
 
 
@@ -512,7 +553,8 @@ def render_ficha(d: dict) -> str:
               f"daños y cobertura")
     descr = (f"{nombre} ({depto}): {fmt(m['rud_familias'])} familias inscritas en el RUD, "
              f"{fmt(m['rud_viv_averiadas'])} viviendas averiadas y "
-             f"{'sin' if not d['satelite'] else 'con'} evaluación satelital de daño. "
+             f"{'sin' if not satelites_con_dato(m, d['satelite']) else 'con'} "
+             f"evaluación satelital de daño. "
              f"Cada cifra con su fuente y su fecha.")
     ld = {
         "@context": "https://schema.org", "@type": "Dataset", "url": url,
@@ -564,7 +606,8 @@ def render_ficha(d: dict) -> str:
          '<header><div>',
          f'<h1>Terremoto de Colombia 2026 en {e(nombre)}, {e(depto)}</h1>',
          f'<p class="sub">Damnificados inscritos, daños y cobertura de cada fuente · '
-         f'DIVIPOLA {e(m["divipola"])} · actualizado {e(d["generado"][:16])}</p>',
+         f'código DIVIPOLA {e(m["divipola"])} (División Político-Administrativa de '
+         f'Colombia) · actualizado el {e(fecha_larga(d["generado"]))}</p>',
          '</div></header>',
          '<main>',
          f'<p class="destacado">{parrafo_respuesta(d)}</p>']
@@ -597,46 +640,61 @@ def render_ficha(d: dict) -> str:
              '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
              '<span class="badge" style="--bc:var(--s7)">reporte ciudadano</span>'
              '<span class="badge" style="--bc:var(--critical)">epicentro</span></p>')
-    if not d["satelite"]:
+    vistos_mapa = satelites_con_dato(m, d["satelite"])
+    if not vistos_mapa:
         cerca = (f' La más próxima, {e(d["zonas"][0][0])}, está a '
                  f'{fmt(d["zonas"][0][2] / 1000, 0)} kilómetros.' if d["zonas"] else "")
-        o.append(f'<p class="note">{e(nombre)} queda fuera de toda zona con producto satelital '
-                 f'de daño.{cerca} Sin evaluación satelital no hay nada que cruzar: el registro '
+        o.append(f'<p class="note">{e(nombre)} queda fuera de toda zona analizada por el '
+                 f'servicio de emergencias de Copernicus.{cerca} Ningún otro satélite ha '
+                 f'evaluado sus edificios, así que no hay nada que cruzar: el registro '
                  f'municipal y los reportes de la comunidad son la única evidencia disponible.</p>')
+    elif not d["satelite"]:
+        # el mapa dibuja las zonas de Copernicus, así que aquí queda fuera; pero
+        # otro satélite sí lo miró y la nota no puede decir que no lo miró nadie
+        fuentes = ", ".join(f for f, _ in vistos_mapa)
+        o.append(f'<p class="note">{e(nombre)} queda fuera de las zonas que analizó el servicio '
+                 f'de emergencias de Copernicus, que son las que dibuja este mapa. Sus edificios '
+                 f'sí los ha evaluado {e(fuentes)}.</p>')
     o.append('</section>')
 
     # ---- comunidad
     if d["ciudadanos"]:
         rango = (f' con intensidad percibida de {fmt(min(d["mmis"]), 1)} a '
-                 f'{fmt(max(d["mmis"]), 1)} (MMI)' if d["mmis"] else "")
+                 f'{fmt(max(d["mmis"]), 1)} en la escala de Mercalli modificada'
+                 if d["mmis"] else "")
         o.append(f'<div class="aviso aviso--accion">'
                  f'<p><strong>{fmt_prosa(len(d["ciudadanos"]))} reportes ciudadanos</strong> '
-                 f'georreferenciados en el entorno de {e(nombre)}, {d["con_medio"]} con foto '
-                 f'o vídeo{rango}. <span class="badge">verificación automática superada · '
+                 f'georreferenciados en el entorno de {e(nombre)}, {fmt_prosa(d["con_medio"])} '
+                 f'con foto o vídeo{rango}. <span class="badge">verificación automática superada · '
                  f'pendientes de revisión humana</span></p>'
                  f'<p>Donde el satélite no ha mirado, cada reporte cuenta. '
                  f'¿Estás en {e(nombre)}? <a href="{CHATMAP}" target="_blank" rel="noopener">'
                  f'<strong>Reporta daños con tu ubicación y foto por WhatsApp</strong></a> '
-                 f'(ChatMap · OSM Colombia + UN Mappers + HOT). Tu reporte se publica con la '
-                 f'coordenada redondeada a ~110 m, sin EXIF y sin datos personales.</p></div>')
+                 f'(ChatMap, de OpenStreetMap Colombia, UN Mappers y el Equipo Humanitario de '
+                 f'OpenStreetMap). Tu reporte se publica con la coordenada redondeada a unos '
+                 f'110 metros, sin los datos ocultos de la foto y sin datos personales.</p></div>')
     else:
         o.append(f'<div class="aviso aviso--accion"><p>Todavía <strong>no hay reportes '
                  f'ciudadanos</strong> georreferenciados en {e(nombre)}. '
-                 f'{"Y ningún producto satelital ha reportado daños aquí: " if not d["satelite"] else ""}'
+                 f'{"Y ningún satélite ha evaluado sus edificios: " if not satelites_con_dato(m, d["satelite"]) else ""}'
                  f'si estás en el municipio, tu reporte puede ser la primera evidencia sobre el '
                  f'terreno. <a href="{CHATMAP}" target="_blank" rel="noopener"><strong>Reporta '
-                 f'daños con tu ubicación y foto por WhatsApp</strong></a> (ChatMap · OSM '
-                 f'Colombia + UN Mappers + HOT).</p></div>')
+                 f'daños con tu ubicación y foto por WhatsApp</strong></a> (ChatMap, de '
+                 f'OpenStreetMap Colombia, UN Mappers y el Equipo Humanitario de '
+                 f'OpenStreetMap).</p></div>')
     # ---- evolución del registro
     if d["serie"]:
         o.append('<section class="page-section">')
         o.append("<h2>Cómo avanza el registro oficial</h2>")
         if d["delta"] is not None:
-            o.append(f'<p>Entre el {e(d["serie"][0][0])} y el {e(d["serie"][-1][0])}, las familias '
-                     f'inscritas en {e(nombre)} pasaron de <strong>{fmt(d["primero"]["familias"])}'
-                     f'</strong> a <strong>{fmt(d["ultimo"]["familias"])}</strong>: un salto del '
-                     f'{fmt(d["pct_delta"], 0)}% en {len(d["serie"]) - 1} '
-                     f'{"día" if len(d["serie"]) == 2 else "días"}. El RUD no mide cuánto se rompió '
+            dias = len(d["serie"]) - 1
+            o.append(f'<p>Las familias inscritas en {e(nombre)} pasaron de '
+                     f'<strong>{fmt(d["primero"]["familias"])}</strong> a '
+                     f'<strong>{fmt(d["ultimo"]["familias"])}</strong> entre el '
+                     f'{e(fecha_larga(d["serie"][0][0]))} y el '
+                     f'{e(fecha_larga(d["serie"][-1][0]))}: un salto del '
+                     f'{fmt(d["pct_delta"], 0)}% en {fmt_prosa(dias)} '
+                     f'{"día" if dias == 1 else "días"}. El RUD no mide cuánto se rompió '
                      f'el municipio: mide a qué velocidad las autoridades locales alcanzan a '
                      f'registrarlo, y ese registro se verifica después. Por eso <strong>que un municipio '
                      f'no aparezca no significa «sin daño», significa «sin registro aún»</strong>.</p>')
@@ -645,14 +703,16 @@ def render_ficha(d: dict) -> str:
                  '<th class="num">Personas</th><th class="num">Viv. destruidas</th>'
                  '<th class="num">Viv. averiadas</th></tr></thead><tbody>')
         for fecha, fila in d["serie"]:
-            o.append(f'<tr><td>{e(fecha)}</td><td class="num">{fmt(fila["familias"])}</td>'
+            o.append(f'<tr><td>{e(fecha_corta(fecha))}</td>'
+                     f'<td class="num">{fmt(fila["familias"])}</td>'
                      f'<td class="num">{fmt(fila["personas"])}</td>'
                      f'<td class="num">{fmt(fila["viv_destruidas"])}</td>'
                      f'<td class="num">{fmt(fila["viv_averiadas"])}</td></tr>')
         o.append("</tbody></table></div>")
         if len(d["serie"]) < MIN_CAPTURAS_GRAFICA:
             o.append(f'<p class="note">La gráfica de evolución aparece a partir de la '
-                     f'{MIN_CAPTURAS_GRAFICA}.ª captura diaria: con {len(d["serie"])} solo '
+                     f'{MIN_CAPTURAS_GRAFICA}.ª captura diaria: con '
+                     f'{fmt_prosa(len(d["serie"]), femenino=True)} solo '
                      f'dibujaría una recta entre dos puntos, no una tendencia.</p>')
         o.append("</section>")
 
@@ -661,9 +721,12 @@ def render_ficha(d: dict) -> str:
         medios = {medio_de_titular(t) for t in d["titulares"]} - {None}
         o.append('<section class="page-section">')
         o.append(f"<h2>Qué publicó la prensa sobre {e(nombre)}</h2>")
-        o.append(f'<p>{fmt(len(d["titulares"]))} piezas recogidas por el monitor, de '
-                 f'{len(medios)} medios identificados. La prensa nunca equivale a un balance '
-                 f'oficial: aquí consta quién publicó y cuándo, no qué se verificó.</p>')
+        n_piezas, n_medios = len(d["titulares"]), len(medios)
+        o.append(f'<p>El monitor ha recogido {fmt_prosa(n_piezas, femenino=True)} '
+                 f'pieza{"s" if n_piezas != 1 else ""} de prensa sobre {e(nombre)}, de '
+                 f'{fmt_prosa(n_medios)} medio{"s" if n_medios != 1 else ""} '
+                 f'identificado{"s" if n_medios != 1 else ""}. La prensa nunca equivale a un '
+                 f'balance oficial: aquí consta quién publicó y cuándo, no qué se verificó.</p>')
         o.append('<div class="tabla-scroll"><table>')
         o.append('<thead><tr><th>Fecha</th><th>Titular</th><th>Medio</th></tr></thead><tbody>')
         for t in d["titulares"][:40]:
@@ -671,7 +734,7 @@ def render_ficha(d: dict) -> str:
             titular = t.get("titulo") or ""
             if medio:
                 titular = titular.rsplit(" - ", 1)[0]
-            o.append(f'<tr><td>{e((t.get("fecha") or "")[:10])}</td>'
+            o.append(f'<tr><td>{e(fecha_corta((t.get("fecha") or "")[:10]))}</td>'
                      f'<td><a href="{e(t.get("url") or "#")}" target="_blank" '
                      f'rel="noopener nofollow">{e(titular[:130])}</a></td>'
                      f'<td>{e(medio) if medio else "—"}</td></tr>')
@@ -692,7 +755,8 @@ def render_ficha(d: dict) -> str:
                  f'cuántos están destruidos: solo cuántos declaró el registro municipal.</li>')
     if not m.get("dyfi_respuestas"):
         o.append(f'<li><strong>No hay reportes de intensidad percibida.</strong> Nadie ha '
-                 f'respondido el cuestionario DYFI del USGS desde {e(nombre)}, así que falta la '
+                 f'respondido desde {e(nombre)} el cuestionario de intensidad percibida del '
+                 f'Servicio Geológico de Estados Unidos (USGS), así que falta la '
                  f'medida independiente de cuánto se sintió el sismo.</li>')
     if m.get("rud_familias"):
         o.append('<li><strong>El registro es progresivo y sigue abierto.</strong> Lo cargan las autoridades municipales —los damnificados no se autorregistran— y recoge '
@@ -703,9 +767,9 @@ def render_ficha(d: dict) -> str:
                  f'sobre su daño: dice que el registro municipal aún no ha llegado.</li>')
     if d["ciudadanos"]:
         o.append('<li><strong>Los reportes ciudadanos no están validados a mano.</strong> Han '
-                 'superado la verificación automática (intensidad plausible, dentro de zona, '
-                 'temporalidad, duplicados por hash), pero nada se marca como validado sin '
-                 'revisión humana.</li>')
+                 'superado la verificación automática —intensidad plausible, dentro de la zona, '
+                 'fecha coherente con el sismo y sin copias repetidas del mismo archivo—, pero '
+                 'nada se marca como validado sin revisión humana.</li>')
     o.append("</ul></div></section>")
 
     # ---- trazabilidad
@@ -719,17 +783,19 @@ def render_ficha(d: dict) -> str:
              "<tr><td>Población 2026</td><td>DANE · proyecciones municipales por área</td>"
              "<td>estadística oficial</td></tr>"
              '<tr><td>Daño en edificios</td><td><a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/"'
-             ' target="_blank" rel="noopener">Copernicus EMS · EMSR916</a></td>'
-             "<td>producto satelital (único activo sobre el evento)</td></tr>"
+             ' target="_blank" rel="noopener">Servicio de emergencias de Copernicus (EMS),'
+             ' activación EMSR916</a></td>'
+             "<td>evaluación satelital de daño</td></tr>"
              f'<tr><td>Reportes ciudadanos</td><td><a href="{CHATMAP}" target="_blank" '
              'rel="noopener">ChatMap · OSM Colombia</a></td>'
              "<td>comunidad, sin validación humana</td></tr>"
              "<tr><td>Titulares</td><td>feeds abiertos del monitor y Google News municipal</td>"
              "<td>prensa · nunca equivale a balance oficial</td></tr>"
              "</tbody></table></div>")
-    o.append('<p class="note">Cada petición queda registrada con su URL, su código HTTP, su '
-             "huella sha256 y su fecha; los snapshots crudos se versionan en el repositorio "
-             "público, así que cualquier cifra de esta página puede reconstruirse y rebatirse.</p>")
+    o.append('<p class="note">Cada petición queda registrada con su dirección, su código de '
+             "respuesta, su huella digital (sha256) y su fecha; la copia original de lo que "
+             "devolvió cada fuente se archiva sin tocarla en el repositorio público, así que "
+             "cualquier cifra de esta página puede reconstruirse y rebatirse.</p>")
     o.append("</section>")
     o.append(f'<p class="note nota-pie"><a href="{BASE}/municipios.html">← Todos los '
              f'municipios del área de influencia</a></p>')
@@ -774,23 +840,29 @@ def run(destino: Path) -> dict:
 # `tests/test_render_html.py::TestEstadosEspejo` compara ambas y falla si divergen.
 ESTADO_MUNICIPIO = {
     "en_aoi": ("En zona Copernicus", "--s1",
-               "El municipio cae dentro de una zona con producto de daño de Copernicus"),
+               "El municipio cae dentro de una zona que el satélite del servicio "
+               "de emergencias de Copernicus analizó y para la que publicó un "
+               "mapa de daños"),
     "evaluado_unosat": ("Evaluado por UNOSAT", "--s9",
                         "El centro satelital de la ONU evaluó allí edificio a "
-                        "edificio, fuera de toda zona de Copernicus. Es "
-                        "fotointerpretación sobre imagen de muy alta resolución, "
-                        "no validada en campo por la propia fuente"),
+                        "edificio, fuera de toda zona de Copernicus. Es lectura "
+                        "de imágenes de muy alta resolución, no comprobada sobre "
+                        "el terreno por la propia fuente"),
     "intensidad_alta": ("Intensidad alta", "--warning",
-                        "Intensidad percibida DYFI ≥ 6, sin producto de daño"),
+                        "La población declaró una intensidad de 6 o más en el "
+                        "cuestionario del Servicio Geológico de Estados Unidos, "
+                        "y ningún satélite ha publicado mapa de daños"),
     "mencion_prensa": ("Mencionado en prensa", "--s2",
-                       "Titulares que lo nombran, sin producto de daño ni DYFI alto"),
+                       "Titulares que lo nombran, sin mapa de daños por satélite "
+                       "ni intensidad percibida alta"),
     "solo_rud": ("Solo registro municipal (RUD)", "--s8",
                  "El registro de damnificados que carga el municipio es su única "
                  "documentación del daño: ningún producto satelital ni titular lo "
                  "ha verificado de forma independiente"),
     "fuera_aoi": ("Intensidad sentida", "--muted",
-                  "Se sintió (DYFI < 6) y ningún producto satelital ni titular lo "
-                  "documenta; tampoco tiene registro en el RUD"),
+                  "Se sintió, con intensidad percibida por debajo de 6, y ningún "
+                  "satélite ni titular lo documenta; tampoco tiene damnificados "
+                  "inscritos en el registro oficial"),
 }
 SIN_CLASIFICAR = ("Sin clasificar", "--muted", "")
 
@@ -826,8 +898,8 @@ def _celda_satelite(m: dict, n_copernicus: int) -> str:
     partes = []
     if n_copernicus:
         partes.append(
-            f'<span title="Edificios con daño clasificado uno a uno por fotointerpretación '
-            f'del servicio de emergencias de Copernicus (activación EMSR916), cuya coordenada '
+            f'<span title="Edificios con daño clasificado uno a uno por lectura de imágenes '
+            f'de satélite del servicio de emergencias de Copernicus (activación EMSR916), cuya coordenada '
             f'cae en este municipio.">{fmt(n_copernicus)} '
             f'<span style="color:var(--muted)">Copernicus</span></span>')
     if m.get("unosat_edificios") is not None:
@@ -893,7 +965,8 @@ def filas_municipios(ctx: dict) -> str:
             f'<td>{celda}<br><span style="color:var(--muted)">{e(m["departamento"])}</span></td>'
             f'<td><span class="badge" style="--bc:var({color})" title="{e(explica)}">'
             f"{e(etiqueta)}</span></td>"
-            f'<td class="num" title="DANE PPED municipal por área, 2026">'
+            f'<td class="num" title="Población proyectada para 2026 por el Departamento '
+            f'Administrativo Nacional de Estadística (DANE), por municipio y área">'
             f'{fmt(m.get("poblacion_2026"))}</td>'
             f'<td class="num">{_celda_satelite(m, ctx["conteo_satelite"].get(m["municipio"], 0))}</td>'
             f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
@@ -1024,7 +1097,11 @@ def filas_balances(ctx: dict) -> str:
         pub = item.get("publisher") or {}
         etiqueta, color = NIVELES.get(item.get("source_level"),
                                       (item.get("source_level") or "Sin nivel", "--muted"))
-        marca_lb = ('<span class="badge" style="--bc:var(--warning)">liveblog</span> '
+        # el término inglés lo explica la propia página; el título lo traduce
+        # también aquí, para quien llega directo a la tabla
+        marca_lb = ('<span class="badge" style="--bc:var(--warning)" title="Cobertura en '
+                    'vivo, minuto a minuto: se muestra, pero pesa menos en la serie porque '
+                    'sus cifras cambian durante el día">liveblog</span> '
                     if es_liveblog(item) else "")
         viviendas = " / ".join(fmt(v) for v in (c.get("viviendas_averiadas"),
                                                 c.get("viviendas_destruidas"))
@@ -1036,7 +1113,7 @@ def filas_balances(ctx: dict) -> str:
         filas.append(
             f'<tr data-fecha="{e(item.get("search_date") or "")}"'
             f' data-url="{e(url)}">'
-            f'<td>{e(item.get("search_date") or "—")}</td>'
+            f'<td>{e(fecha_corta(item.get("search_date") or ""))}</td>'
             f'<td><strong>{e(pub.get("name") or pub.get("domain") or "—")}</strong><br>'
             f'{marca_lb}<span class="badge" style="--bc:var({color})">{e(etiqueta)}</span> '
             f'<span class="note">{citadas}</span></td>'
@@ -1086,7 +1163,9 @@ def filas_noticias(ctx: dict) -> str:
     salida = []
     for n in noticias[:TITULARES_EN_HTML]:
         medio = medio_de(n)
-        fecha = (n.get("fecha") or "")[:16].replace("T", " ")
+        # etiqueta de una lista: cabe la forma corta (9.8), nunca la ISO cruda
+        iso = n.get("fecha") or ""
+        fecha = fecha_corta(iso[:10]) + (f", {iso[11:16]}" if len(iso) >= 16 else "")
         via = ('  <span class="via" title="Google News recopila titulares de otros medios. '
                'El enlace que publica su feed lleva ahí, no a la página del medio.">'
                'vía Google News</span>' if via_google_news(n) else "")

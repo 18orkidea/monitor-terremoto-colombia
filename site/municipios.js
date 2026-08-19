@@ -3,13 +3,14 @@
    ejecute JavaScript — que es lo que necesitan los rastreadores de sistemas de
    IA, que no lo ejecutan. */
 (async function () {
-  const { fmt, fmtProsa, pct, fetchJson, tablaHidratada } = window.UI;
+  const { fmt, fmtProsa, pct, fechaLarga, fetchJson, tablaHidratada } = window.UI;
 
   // La tabla no necesita el JSON —viene escrita en el HTML—, pero los textos
   // derivados de la introducción sí: cambian con cada entrega.
   const data = await fetchJson("/data/public/municipios.json");
   if (!data || !data.items || !data.items.length) return;
-  document.getElementById("generado").textContent = "Actualizado " + data.generado;
+  document.getElementById("generado").textContent =
+    "Actualizado el " + fechaLarga(data.generado);
 
   // derivado, no escrito a mano: la cobertura satelital cambia con cada entrega
   const enAoi = data.items.filter((m) => m.en_aoi_copernicus).length;
@@ -49,8 +50,12 @@
         `y no encontró nada: ${sil.ciertos.join(", ")}.`
       : "";
     const detalle = [];
+    detalle.push(`<p>En total, ${fmtProsa(sil.mudos)} municipios tienen damnificados ` +
+      `inscritos y ningún titular atribuido (${fmt(sil.personas)} personas). De ellos, ` +
+      `${fmtProsa(sil.ciertos.length)} son afirmables: el monitor sí preguntó por su nombre ` +
+      `y no obtuvo nada.</p>`);
     if (sil.dudosos)
-      detalle.push(`<p>En ${fmtProsa(sil.dudosos)} de ellos el cero puede ser del monitor y no de ` +
+      detalle.push(`<p>En los otros ${fmtProsa(sil.dudosos)} el cero puede ser del monitor y no de ` +
         `la prensa: su nombre es palabra común o se repite en otro departamento, así que ` +
         `solo se les atribuyen titulares que nombren también su departamento` +
         (sil.sin_busqueda
@@ -58,18 +63,31 @@
             `solos desde el registro oficial)`
           : "") + `.</p>`);
     if (sil.sin_atribucion)
-      detalle.push(`<p>Otros ${fmtProsa(sil.sin_atribucion)} (${fmt(sil.personas_sin_atribucion)} ` +
-        `personas) ni siquiera tienen cero: se llaman igual que un departamento y no se ` +
-        `les puede atribuir ningún titular.</p>`);
-    detalle.push(`<p>El recuento es del corpus del monitor —GDACS-EMM, feeds regionales ` +
-      `abiertos y búsquedas municipales—, no de la prensa colombiana entera, y solo cuenta ` +
-      `lo publicado desde el 10 de agosto de 2026. ` +
+      detalle.push(`<p>Aparte de esos ${fmtProsa(sil.mudos)}, hay ` +
+        `${fmtProsa(sil.sin_atribucion)} municipios más (${fmt(sil.personas_sin_atribucion)} ` +
+        `personas) que ni siquiera tienen un cero: se llaman igual que un departamento y no ` +
+        `se les puede atribuir ningún titular.</p>`);
+    detalle.push(`<p>El recuento sale de lo que rastrea el monitor —el sistema europeo de ` +
+      `alertas GDACS, canales regionales abiertos y búsquedas municipio a municipio—, no de ` +
+      `la prensa colombiana entera, y solo cuenta lo publicado desde el 10 de agosto de 2026. ` +
       `<a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md" ` +
       `target="_blank" rel="noopener">Qué no puede ver esta cifra</a>.</p>`);
+    // El titular lleva SOLO la cifra afirmable. Los 18 municipios «mudos»
+    // incluyen 13 en los que el cero puede ser del monitor y no de la prensa:
+    // publicarlos en negrita sería la ausencia leída como cero, que es
+    // exactamente lo que este monitor le reprocha a las fuentes que audita.
+    const ciertas = fmt(sil.personas_ciertas);
+    const techo = sil.techo
+      ? ` En ${window.UI.esc(sil.techo.municipio)} son el ${pct(sil.techo.tasa_rud_pct)} del municipio.`
+      : "";
     banner.innerHTML =
-      `<p><strong>Damnificados sin un solo titular: ${sil.mudos} municipios, ` +
-      `${fmt(sil.personas)} personas.</strong>${ciertos}</p>` +
-      `<details><summary>Cómo se cuenta y qué no puede ver</summary>${detalle.join("")}</details>`;
+      `<p><strong>El monitor buscó prensa en ${fmtProsa(sil.ciertos.length)} municipios ` +
+      `con damnificados inscritos y no encontró ni un titular</strong> — ${ciertas} ` +
+      `personas: ${sil.ciertos.join(", ")}.${techo}</p>` +
+      `<p class="note">En otros ${fmtProsa(sil.dudosos)} municipios con damnificados y cero ` +
+      `titulares no se puede afirmar lo mismo: el cero puede ser del monitor. ` +
+      `<details><summary>Por qué, y qué no puede ver esta cifra</summary>${detalle.join("")}` +
+      `</details></p>`;
   }
 
 
@@ -91,10 +109,10 @@
       tip: "Ningún producto satelital ha evaluado sus edificios: ni Copernicus ni UNOSAT" },
     { id: "con-rud", label: "Con damnificados inscritos",
       test: (tr) => chip(tr, "con-rud"),
-      tip: "El municipio ya ha registrado damnificados en el RUD de la UNGRD" },
+      tip: "El municipio ya ha inscrito damnificados en el Registro Único de Damnificados (RUD)" },
     { id: "sin-rud", label: "Sin registro aún",
       test: (tr) => chip(tr, "sin-rud"),
-      tip: "No hay inscripciones en el RUD. Sin registro no significa sin daño: significa que las autoridades locales aún no han censado" },
+      tip: "No hay inscripciones en el registro oficial de damnificados. Sin registro no significa sin daño: significa que las autoridades locales aún no lo han cargado" },
     { id: "con-ciudadanos", label: "Con reportes de la comunidad",
       test: (tr) => chip(tr, "con-ciudadanos"),
       tip: "Hay reportes ciudadanos georreferenciados dentro del municipio" },
@@ -167,11 +185,11 @@
       const criterio = orden
         ? `ordenados por ${COLUMNAS[orden.i].nombre} en orden ` +
           `${orden.dir === "asc" ? "ascendente" : "descendente"}`
-        : "ordenados por población DANE 2026";
+        : "ordenados por población proyectada para 2026";
       const cabeza = (q || chipActivo !== "todos" || depto)
         ? `${visibles} de ${total} municipios con señal coinciden con los filtros activos, `
-        : `${total} municipios del área de influencia con señal del RUD, prensa, ` +
-          `intensidad percibida o satélite, `;
+        : `${total} municipios del área de influencia con señal del registro oficial de ` +
+          `damnificados, la prensa, la intensidad percibida o el satélite, `;
       return cabeza + `${criterio}, de ${POR_PAGINA} en ${POR_PAGINA}. ` +
         `Un guion en la columna de satélite significa que ningún producto lo ha ` +
         `mirado, no que no haya daño.`;
