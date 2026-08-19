@@ -1052,6 +1052,55 @@ def filas_balances(ctx: dict) -> str:
     return "\n".join(filas)
 
 
+# Cuántos titulares se escriben en el HTML. No son todos a propósito: 5.250
+# piezas serían megabytes que ningún rastreador digiere, y paginarlas en sesenta
+# páginas casi idénticas sería volumen sin sustancia. Los titulares por municipio
+# ya están donde importan: en la ficha de cada municipio.
+TITULARES_EN_HTML = 200
+
+
+def via_google_news(n: dict) -> bool:
+    """Espejo de `UI.viaGoogleNews`: el enlace lleva al agregador, no al medio."""
+    host = urllib.parse.urlparse(n.get("url") or "").hostname or ""
+    return host.lower().endswith("news.google.com")
+
+
+def medio_de(n: dict):
+    """Espejo de `UI.medioDe`: la cabecera que firma, no el feed que la trajo.
+
+    Sin medio declarado no se inventa ninguno: en los enlaces de Google News el
+    campo `medio` guarda el nombre del feed, que no es el medio (R3)."""
+    if n.get("medio_canonico"):
+        return n["medio_canonico"]
+    if via_google_news(n):
+        return None
+    return n.get("medio") or n.get("origen") or None
+
+
+def filas_noticias(ctx: dict) -> str:
+    """Los titulares más recientes, escritos en el HTML.
+
+    R9: esto es prensa, no balance oficial. Cada pieza lleva su fecha, el medio
+    que la firma y el aviso de si el enlace va al agregador en vez de al medio."""
+    noticias = sorted(ctx["noticias"], key=lambda x: x.get("fecha") or "", reverse=True)
+    salida = []
+    for n in noticias[:TITULARES_EN_HTML]:
+        medio = medio_de(n)
+        fecha = (n.get("fecha") or "")[:16].replace("T", " ")
+        via = ('  <span class="via" title="Google News recopila titulares de otros medios. '
+               'El enlace que publica su feed lleva ahí, no a la página del medio.">'
+               'vía Google News</span>' if via_google_news(n) else "")
+        etiquetas = "".join(
+            f'<span class="chip mun">{e(m)}</span>' for m in (n.get("municipios") or []))
+        salida.append(
+            f'<li><span class="meta-n">{e(fecha)}'
+            f'{f" · {e(medio)}" if medio else ""}{" · " + via if via else ""}</span>'
+            f'{etiquetas}'
+            f'<br><a href="{e(n.get("url") or "#")}" target="_blank" rel="noopener nofollow">'
+            f'{e(n.get("titulo") or "")}</a></li>')
+    return "\n".join(salida)
+
+
 def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     """Rellena en `dist/` los <tbody> marcados con data-gen.
 
@@ -1059,20 +1108,26 @@ def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     entero cada día destruiría el blame, y el dato ya está versionado."""
     hechas = {}
     generadores = {"municipios": filas_municipios, "portada": filas_portada,
-                   "rud": filas_rud, "balances": filas_balances}
+                   "rud": filas_rud, "balances": filas_balances,
+                   "noticias": filas_noticias}
     for nombre, generador in generadores.items():
         archivo = "index" if nombre == "portada" else nombre
         pagina = destino / f"{archivo}.html"
         if not pagina.exists():
             continue
         html = pagina.read_text(encoding="utf-8")
-        marca = f'<tbody data-gen="{nombre}"></tbody>'
-        if marca not in html:
+        # el contenedor puede ser una tabla o una lista, y llevar otros atributos
+        marca = re.compile(
+            rf'<(tbody|ul)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
+        m = marca.search(html)
+        if not m:
             continue
         cuerpo = generador(ctx)
-        html = html.replace(marca, f'<tbody data-gen="{nombre}">\n{cuerpo}\n</tbody>')
+        html = (html[:m.start()] + f"<{m.group(1)}{m.group(2)}>\n{cuerpo}\n</{m.group(1)}>"
+                + html[m.end():])
         pagina.write_text(html, encoding="utf-8")
-        hechas[nombre] = cuerpo.count("<tr ") + cuerpo.count("<tr>")
+        hechas[nombre] = (cuerpo.count("<tr ") + cuerpo.count("<tr>")
+                          + cuerpo.count("<li>"))
     return hechas
 
 

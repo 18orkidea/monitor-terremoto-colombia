@@ -639,3 +639,52 @@ class TestBalances(unittest.TestCase):
         js = (Path(__file__).parent.parent / "site/balances.js").read_text(encoding="utf-8")
         self.assertIn('"/data/public/oficiales.json"', js)
         self.assertNotIn("OFICIALES_BASE}/oficiales.json", js)
+
+
+class TestTitulares(unittest.TestCase):
+    """Fase D: los titulares más recientes, escritos en el HTML.
+
+    No son todos a propósito: 5.250 piezas serían megabytes que ningún
+    rastreador digiere, y paginarlas en sesenta páginas casi idénticas sería
+    volumen sin sustancia. Los titulares por municipio ya viven donde importan,
+    en la ficha de cada municipio."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.html = R.filas_noticias(cls.ctx)
+
+    def test_escribe_los_mas_recientes_y_no_mas(self):
+        self.assertEqual(self.html.count("<li>"),
+                         min(R.TITULARES_EN_HTML, len(self.ctx["noticias"])))
+
+    def test_el_enlace_al_agregador_se_declara(self):
+        """Quien lea sin JavaScript debe saber que el enlace no lleva al medio."""
+        via = sum(1 for n in sorted(self.ctx["noticias"],
+                                    key=lambda x: x.get("fecha") or "", reverse=True
+                                    )[:R.TITULARES_EN_HTML] if R.via_google_news(n))
+        self.assertEqual(self.html.count("vía Google News"), via)
+        self.assertGreater(via, 0)
+
+    def test_el_medio_es_la_cabecera_no_el_feed(self):
+        """En los enlaces de Google News el campo `medio` guarda el nombre del
+        feed. Sin cabecera declarada no se inventa ninguna (R3)."""
+        self.assertIsNone(R.medio_de({"url": "https://news.google.com/x", "medio": "Google News — Cali"}))
+        self.assertEqual(R.medio_de({"url": "https://news.google.com/x",
+                                     "medio_canonico": "El Tiempo"}), "El Tiempo")
+        self.assertEqual(R.medio_de({"url": "https://eltiempo.com/x", "medio": "El Tiempo"}),
+                         "El Tiempo")
+
+    def test_es_espejo_de_los_helpers_del_frontend(self):
+        ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
+        self.assertIn("news.google.com", ui)
+        self.assertIn("medio_canonico", ui)
+
+    def test_los_titulares_se_escapan(self):
+        """Vienen de feeds ajenos: sin escapar, uno hostil rompe la página."""
+        self.assertNotIn("<script>", self.html)
+        self.assertNotRegex(self.html, r'<a href="[^"]*"[^>]*>[^<]*<[a-z]')
+
+    def test_el_marcador_existe(self):
+        html = (Path(__file__).parent.parent / "site/noticias.html").read_text(encoding="utf-8")
+        self.assertIn('data-gen="noticias"', html)
