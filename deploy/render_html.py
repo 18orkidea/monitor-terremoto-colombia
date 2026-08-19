@@ -785,15 +785,49 @@ def filas_municipios(ctx: dict) -> str:
     return "\n".join(filas)
 
 
+def filas_portada(ctx: dict) -> str:
+    """La tabla de la portada: municipios con evidencia sobre el terreno.
+
+    Deja de organizarse por lo que el satélite decidió mirar (las AOI de la
+    activación) y pasa a organizarse por dónde hay prueba georreferenciada,
+    venga del satélite o de la comunidad. El hallazgo que lo justifica: el
+    satélite ha mirado 6 municipios; la comunidad ha documentado 26.
+
+    Cada fila lleva su coordenada para que el clic siga centrando el mapa.
+    El detalle por AOI —vías, interrupciones, fecha de entrega— no cabe en una
+    tabla municipal y sigue publicado en crosscheck.csv."""
+    filas = []
+    for m in municipios_con_evidencia_puntual(ctx):
+        etiqueta, color, explica = ESTADO_MUNICIPIO.get(m.get("estado"), SIN_CLASIFICAR)
+        sat = m["n_satelite"]
+        ciu = m["n_ciudadanos"]
+        ficha = f"municipio/{slug(m['municipio'])}/"
+        filas.append(
+            f'<tr data-lat="{m["lat"]}" data-lon="{m["lon"]}"'
+            f' data-buscar="{e(norm_busqueda(m["municipio"] + " " + m["departamento"]))}">'
+            f'<td><a href="{ficha}" style="color:inherit"><strong>{e(m["municipio"])}</strong></a>'
+            f'<br><span style="color:var(--muted)">{e(m["departamento"])}</span></td>'
+            f'<td><span class="badge" style="--bc:var({color})" title="{e(explica)}">'
+            f'{e(etiqueta)}</span></td>'
+            f'<td class="num" title="Proyección DANE 2026">{fmt(m.get("poblacion_2026"))}</td>'
+            f'<td class="num">{fmt(sat) if sat else "—"}</td>'
+            f'<td class="num">{fmt(ciu) if ciu else "—"}</td>'
+            f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
+            f'<td class="num">{_celda_prensa(m)}</td>'
+            "</tr>")
+    return "\n".join(filas)
+
+
 def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     """Rellena en `dist/` los <tbody> marcados con data-gen.
 
     Se hace sobre el artefacto, nunca sobre site/*.html: un HTML que cambiara
     entero cada día destruiría el blame, y el dato ya está versionado."""
     hechas = {}
-    generadores = {"municipios": filas_municipios}
+    generadores = {"municipios": filas_municipios, "portada": filas_portada}
     for nombre, generador in generadores.items():
-        pagina = destino / "site" / f"{nombre}.html"
+        archivo = "index" if nombre == "portada" else nombre
+        pagina = destino / "site" / f"{archivo}.html"
         if not pagina.exists():
             continue
         html = pagina.read_text(encoding="utf-8")
@@ -814,4 +848,4 @@ if __name__ == "__main__":
     print(f"fichas municipales: {res['fichas']} escritas, {res['omitidas']} sin señal")
     tablas = inyectar_tablas(salida, contexto())
     for nombre, filas in tablas.items():
-        print(f"tabla prerenderizada: {nombre}.html con {filas} filas")
+        print(f"tabla prerenderizada: {nombre} con {filas} filas")

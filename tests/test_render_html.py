@@ -331,3 +331,58 @@ class TestInyeccion(unittest.TestCase):
         self.assertIn("tablaHidratada", js)
         self.assertNotIn("tablaBuscable", js)
         self.assertNotIn("<tr>", js)
+
+
+class TestTablaPortada(unittest.TestCase):
+    """Fase C: la portada deja de organizarse por lo que el satélite decidió
+    mirar y pasa a organizarse por dónde hay evidencia sobre el terreno."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.html = R.filas_portada(cls.ctx)
+        cls.filas = R.municipios_con_evidencia_puntual(cls.ctx)
+
+    def test_solo_municipios_con_evidencia_puntual(self):
+        self.assertEqual(self.html.count("<tr "), len(self.filas))
+        self.assertLess(len(self.filas), len(self.ctx["municipios"]),
+                        "la portada debe mostrar menos que el área de influencia entera")
+
+    def test_toda_fila_tiene_satelite_o_ciudadanos(self):
+        for f in self.filas:
+            self.assertTrue(f["n_satelite"] or f["n_ciudadanos"],
+                            f'{f["municipio"]} está en portada sin evidencia puntual')
+
+    def test_cada_fila_lleva_su_coordenada_para_el_mapa(self):
+        """El clic en la fila centra el mapa; sin data-lat/data-lon el JavaScript
+        tendría que volver a buscar el municipio en el JSON."""
+        self.assertEqual(self.html.count("data-lat="), len(self.filas))
+        self.assertEqual(self.html.count("data-lon="), len(self.filas))
+
+    def test_cada_fila_enlaza_a_su_ficha(self):
+        self.assertEqual(len(re.findall(r'href="municipio/[^/]+/"', self.html)),
+                         len(self.filas))
+
+    def test_la_ausencia_de_evidencia_es_raya_no_cero(self):
+        """R3: un municipio sin reportes ciudadanos no tiene «0 ciudadanos», tiene
+        ausencia de dato en esa columna."""
+        solo_sat = [f for f in self.filas if f["n_satelite"] and not f["n_ciudadanos"]]
+        if not solo_sat:
+            self.skipTest("no hay municipios con satélite y sin ciudadanos")
+        fila = [l for l in self.html.split("\n") if solo_sat[0]["municipio"] in l][0]
+        self.assertIn("—", fila)
+
+    def test_el_marcador_existe_en_la_portada(self):
+        html = (Path(__file__).parent.parent / "site/index.html").read_text()
+        self.assertIn('<tbody data-gen="portada">', html)
+
+    def test_el_javascript_ya_no_construye_la_tabla(self):
+        js = (Path(__file__).parent.parent / "site/app.js").read_text()
+        self.assertIn('tr[data-lat]', js)
+        self.assertNotIn("for (const a of mon.aois)", js)
+
+    def test_el_detalle_por_aoi_sigue_disponible(self):
+        """Las columnas que solo existen por zona —vías, interrupciones, entrega—
+        no caben en una tabla municipal, pero no se pierden: siguen en el CSV."""
+        html = (Path(__file__).parent.parent / "site/index.html").read_text()
+        self.assertIn("crosscheck.csv", html)

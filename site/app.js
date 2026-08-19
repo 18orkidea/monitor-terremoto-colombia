@@ -312,48 +312,22 @@
     }
   }).observe(document.getElementById("map"));
 
-  // ---- tabla
+  // ---- tabla de portada
+  // Las filas las escribe el build (deploy/render_html.py::filas_portada): aquí
+  // solo se engancha el clic que centra el mapa. Cada fila trae su coordenada en
+  // data-lat/data-lon, así que no hace falta reconstruir nada.
   const tbody = document.querySelector("#tabla tbody");
-  for (const a of mon.aois) {
-    const tr = document.createElement("tr");
-    const c = a.cruce || {};
-    const det = a.detecciones || {};
-    const grados = ["Destroyed", "Damaged", "Possibly damaged"];
-    const detTotal = grados.reduce((s, g) => s + (det[g] || 0), 0);
-    const detTxt = detTotal
-      ? `<strong>${fmt(detTotal)}</strong> <span style="color:var(--muted)">(${grados.map((g) => det[g] || 0).join("·")})</span>`
-      : "—";
-    tr.innerHTML =
-      `<td><strong>${aoiLabel(a.aoi)}</strong></td>` +
-      `<td><span class="badge" style="--bc:${ESTADO_COLOR[c.estado] || css("--muted")}">${c.etiqueta || c.estado}</span></td>` +
-      `<td class="num">${fmt(a.resumen.poblacion)}</td>` +
-      `<td class="num" title="Destruidos · Dañados · Posiblemente dañados (puntos Copernicus)">${detTxt}</td>` +
-      `<td class="num">${fmt(det["Vías dañadas"])}</td>` +
-      `<td class="num">${fmt(det["Interrupciones/crisis"])}</td>` +
-      `<td class="num">${(c.n_prensa && a.prensa_ejemplos.length)
-        ? `<a href="#" class="prensa-toggle" title="Ver titulares de ejemplo">${fmt(c.n_prensa)} ▾</a>`
-        : fmt(c.n_prensa)}</td>` +
-      `<td class="num">${fmt(c.n_ciudadano)}</td>` +
-      `<td>${(a.producto.entrega || "—").slice(0, 10)} <span style="color:var(--muted)">${t(a.producto.tipo)} (${a.producto.tipo}) v${a.producto.version}${a.producto.status !== "F" ? " · " + ({ W: "en espera", I: "en producción", N: "no producido" }[a.producto.status] || a.producto.status) : ""}</span></td>`;
-    tr.addEventListener("click", (ev) => {
-      if (ev.target.closest(".prensa-toggle")) {
-        ev.preventDefault();
-        const next = tr.nextElementSibling;
-        if (next && next.classList.contains("prensa-detalle")) { next.remove(); return; }
-        const dtr = document.createElement("tr");
-        dtr.className = "prensa-detalle";
-        dtr.innerHTML = `<td colspan="9"><strong>Titulares de ejemplo (EMM/feeds):</strong><ul>` +
-          a.prensa_ejemplos.map((n) =>
-            `<li>${(n.fecha || "").slice(0, 10)} · <em>${n.medio || "?"}</em> — ` +
-            `<a href="${n.url}" target="_blank" rel="noopener">${n.titular}</a></li>`).join("") +
-          `</ul><a href="noticias.html#aoi=${encodeURIComponent(a.aoi)}">Ver todos los titulares de ${aoiEs(a.aoi)} →</a></td>`;
-        tr.after(dtr);
-        return;
-      }
-      const l = aoiLayerById[a.aoi];
-      if (l) { map.fitBounds(l.getBounds().pad(0.3)); l.openPopup(); irAlMapa(); }
+  if (tbody) {
+    tbody.addEventListener("click", (ev) => {
+      if (ev.target.closest("a")) return;          // los enlaces a la ficha mandan
+      const tr = ev.target.closest("tr[data-lat]");
+      if (!tr) return;
+      const lat = parseFloat(tr.dataset.lat);
+      const lon = parseFloat(tr.dataset.lon);
+      if (Number.isNaN(lat) || Number.isNaN(lon)) return;
+      map.setView([lat, lon], 12);
+      irAlMapa();
     });
-    tbody.appendChild(tr);
   }
 
   // subir al mapa al elegir una zona/municipio desde las tablas

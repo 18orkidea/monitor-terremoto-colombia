@@ -138,7 +138,7 @@
 
 <nav id="indice" aria-label="Índice de secciones">
   <a href="#mapa">🗺️ Mapa</a>
-  <a href="#panel">Cruce por zona</a>
+  <a href="#panel">Evidencia por municipio</a>
   <a href="#fuentes-section">Comparativa</a>
   <a href="#brecha-section">Brecha y cronología</a>
   <a href="#alerts-section">Alertas</a>
@@ -155,22 +155,28 @@
 <main id="mapa">
   <div id="map"></div>
   <aside id="panel">
-    <h2>Cruce por zona (AOI)</h2>
+    <h2>Municipios con evidencia sobre el terreno</h2>
+    <p class="note">Los municipios donde hay prueba georreferenciada dentro de sus
+    límites: edificios clasificados por satélite o reportes de la comunidad. La tabla
+    deja de organizarse por lo que el satélite decidió mirar y pasa a organizarse por
+    dónde hay evidencia, venga de donde venga —<strong>el satélite ha mirado 6
+    municipios; la comunidad ha documentado 26</strong>. Clic en una fila para centrarla
+    en el mapa. El detalle por zona Copernicus (vías, interrupciones y fecha de entrega
+    de cada producto) sigue en el <a href="../data/public/crosscheck.csv">CSV del
+    cruce</a>.</p>
     <table id="tabla">
       <thead>
         <tr>
-        <th title="Área de Interés (AOI) definida en la activación Copernicus EMSR916. Clic en la fila para centrar el mapa en la zona.">Zona</th>
-        <th title="Clasificación del cruce de fuentes. 'Coincide' exige evidencia oficial (EDAN/entidad estatal); prensa y reportes ciudadanos solo alcanzan estados intermedios; 'No comparable 1:1' = producto satelital sin estadísticas de daño todavía.">Estado del cruce</th>
-        <th class="num" title="Población estimada por Copernicus dentro del AOI (stat 'Estimated population' del producto de grading).">Población</th>
-        <th class="num" title="Total de edificios detectados con daño por fotointerpretación satelital (capa builtUpP de Copernicus) y, entre paréntesis, el desglose por grado: destruidos · dañados · posiblemente dañados. La suma de las 6 zonas (622) coincide con el total declarado por la activación. Cada punto es visible en el mapa.">Edif. satélite<br>(destr.·dañ.·posib.)</th>
-        <th class="num" title="Tramos de vía con daño visible desde satélite (capa transportationL, excluidos los tramos sin daño).">Vías dañ.</th>
-        <th class="num" title="Interrupciones viales y puntos de información de crisis detectados por Copernicus (capa ancillaryCrisisInfoP).">Interr.</th>
-        <th class="num" title="Noticias de GDACS-EMM y feeds abiertos ligadas al evento que mencionan esta zona por topónimo. No equivale a validación oficial.">Prensa</th>
-        <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada dentro de este AOI y verificación automática coherente (foto, fecha posterior al sismo, intensidad plausible).">Ciudadanos</th>
-        <th title="Fecha de entrega del producto Copernicus más reciente para la zona, con tipo, versión y estado (en espera / en producción / entregado).">Entrega</th>
+        <th title="Municipio con evidencia georreferenciada dentro de sus límites. La atribución es por proximidad a la cabecera municipal: no tenemos los polígonos DIVIPOLA.">Municipio</th>
+        <th title="Clasificación del cruce de fuentes para este municipio. 'Coincide' exige evidencia oficial (EDAN o balance de entidad estatal); la prensa y los reportes ciudadanos solo alcanzan estados intermedios.">Estado del cruce</th>
+        <th class="num" title="Proyección de población municipal 2026 del DANE (PPED por área).">Población</th>
+        <th class="num" title="Edificios con daño clasificados uno a uno por fotointerpretación satelital (capa builtUpP de Copernicus EMSR916) cuya coordenada cae en este municipio.">Edif. satélite</th>
+        <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada en este municipio y verificación automática coherente. No están validados a mano.">Ciudadanos</th>
+        <th class="num" title="Personas inscritas como damnificadas en el RUD de la UNGRD. Es un registro progresivo que cargan las autoridades municipales, sujeto a verificación posterior: mide inscripciones, no daño comprobado.">Damnif. RUD</th>
+        <th class="num" title="Titulares recogidos por el monitor que mencionan este municipio por topónimo. No equivale a validación oficial.">Prensa</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody data-gen="portada"></tbody><!-- lo rellena deploy/render_html.py en el build -->
     </table>
     <p class="note">«Oficial» exige EDAN/balance de entidad estatal. Desde que el monitor
     captura el <a href="rud.html">RUD</a> (<span id="nota-rud-desde"></span>), ese registro

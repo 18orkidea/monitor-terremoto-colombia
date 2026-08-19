@@ -603,7 +603,7 @@ demanda, Leaflet autoalojado. Objetivo LCP < 2,5 s en móvil.
 |---|---|
 | A · fichas municipales | **hecha** — `deploy/render_html.py`, 95 fichas, 18 tests |
 | B · municipios.html + enlaces | **hecha** — 95 filas y 95 enlaces en el HTML servido |
-| C · portada por evidencia puntual | pendiente |
+| C · portada por evidencia puntual | **hecha** — 28 municipios, sustituye la tabla por AOI |
 | D · resto del prerender | pendiente |
 | E · sitemap, llms-full, robots | **hecha** — `deploy/render_descubrimiento.py`, 8 tests |
 | E2 · `ingest/seo_check.py` | pendiente |
