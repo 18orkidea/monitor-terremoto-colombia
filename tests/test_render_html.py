@@ -390,3 +390,42 @@ class TestTablaPortada(unittest.TestCase):
         no caben en una tabla municipal, pero no se pierden: siguen en el CSV."""
         html = (Path(__file__).parent.parent / "site/index.html").read_text()
         self.assertIn("crosscheck.csv", html)
+
+
+class TestSitioEnLaRaiz(unittest.TestCase):
+    """El sitio vive en la raíz del dominio, no en /site/.
+
+    La home del dominio tenía un meta-refresh y ningún contenido: cualquier
+    enlace entrante al dominio aterrizaba en una página vacía."""
+
+    RAIZ = Path(__file__).parent.parent
+
+    def test_ninguna_pagina_se_referencia_bajo_site(self):
+        for f in (self.RAIZ / "site").glob("*.html"):
+            s = f.read_text(encoding="utf-8")
+            self.assertNotIn("brechas.orkidea.eu/site/", s,
+                             f"{f.name} sigue declarando su canonical bajo /site/")
+
+    def test_las_rutas_de_datos_son_absolutas(self):
+        """Relativas se romperían al cambiar la profundidad de la página; las
+        fichas viven en /municipio/<slug>/, dos niveles más abajo."""
+        for patron in ("*.js", "*.html"):
+            for f in (self.RAIZ / "site").glob(patron):
+                s = f.read_text(encoding="utf-8")
+                self.assertNotIn("../data/", s, f"{f.name} usa una ruta relativa a datos")
+
+    def test_el_sitemap_no_anuncia_urls_viejas(self):
+        d = self.RAIZ / "deploy/render_descubrimiento.py"
+        self.assertNotIn('"/site/', d.read_text(encoding="utf-8"))
+
+    def test_llms_txt_apunta_a_las_urls_nuevas(self):
+        s = (self.RAIZ / "deploy/root/llms.txt").read_text(encoding="utf-8")
+        self.assertNotIn("orkidea.eu/site/", s)
+
+    def test_el_build_deja_las_urls_viejas_vivas(self):
+        """Una URL publicada es un compromiso: un archivo que critica a las
+        fuentes que desaparecen no puede romper las suyas."""
+        sh = (self.RAIZ / "deploy/build_dist.sh").read_text(encoding="utf-8")
+        self.assertIn("mkdir -p dist/site", sh)
+        self.assertIn("canonical", sh)
+        self.assertIn("noindex", sh)   # el stub no compite con la página real

@@ -594,8 +594,18 @@ DIVIPOLA convertiría la aproximación en exactitud: queda anotado en `docs/LIMI
 
 ### Fase F — Dominio y rendimiento
 
-Sitio en la raíz en vez de `/site/` (301 desde Cloudflare), `not_analysed.geojson` (2,2 MB) bajo
-demanda, Leaflet autoalojado. Objetivo LCP < 2,5 s en móvil.
+**Hecho sin tocar infraestructura.** El plan original pedía un 301 desde Cloudflare, pero el
+dominio está en DNS-only (`server: GitHub.com`, sin `cf-ray`): activar el proxy sobre GitHub
+Pages exige cambiar el modo SSL a *Full* y arriesga tumbar el sitio, para preservar una
+indexación que hoy es prácticamente nula. Se descarta.
+
+En su lugar, el build sirve el sitio desde la raíz de `dist/` y deja en `/site/*` una
+redirección de cliente con `canonical` a la URL nueva y `noindex`. No es un 301, pero Google
+consolida por el canonical y ninguna URL publicada se rompe. El 301 real sigue disponible el
+día que el dominio pase por Cloudflare.
+
+Pendiente: `not_analysed.geojson` (2,2 MB) bajo demanda y Leaflet autoalojado. Objetivo
+LCP < 2,5 s en móvil.
 
 ### Orden y estado
 
@@ -607,7 +617,8 @@ demanda, Leaflet autoalojado. Objetivo LCP < 2,5 s en móvil.
 | D · resto del prerender | pendiente |
 | E · sitemap, llms-full, robots | **hecha** — `deploy/render_descubrimiento.py`, 8 tests |
 | E2 · `ingest/seo_check.py` | pendiente |
-| F · raíz y rendimiento | pendiente |
+| F1 · sitio en la raíz | **hecha** — sin tocar DNS; `/site/*` sigue vivo con canonical |
+| F2 · rendimiento (peso, Leaflet) | pendiente |
 
 Trabajo en la rama `seo-geo-fichas`.
 

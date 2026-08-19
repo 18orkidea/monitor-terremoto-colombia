@@ -2,7 +2,7 @@
    Usa ui.js (fetchJson, fmt). */
 (async function () {
   const { fmt, fetchJson } = window.UI;
-  const data = await fetchJson("../data/public/noticias.json");
+  const data = await fetchJson("/data/public/noticias.json");
   if (!data) {
     document.getElementById("resumen").textContent =
       "Sin datos (sirve el repo por HTTP y ejecuta el pipeline).";

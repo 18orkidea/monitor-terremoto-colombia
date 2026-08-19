@@ -18,7 +18,7 @@
 
   // Los dos textos derivados de la intro siguen viniendo del JSON: cambian con
   // cada entrega y aún no se prerenderizan (pendiente en docs/SEO-GEO.md).
-  const data = await fetchJson("../data/public/municipios.json");
+  const data = await fetchJson("/data/public/municipios.json");
   if (!data || !data.items || !data.items.length) return;
 
   document.getElementById("generado").textContent = "Actualizado " + data.generado;

@@ -50,7 +50,7 @@
     const cardsEl = document.getElementById("comparativa-cards");
     const tbody = document.querySelector("#comparativa-tabla tbody");
     if (!cardsEl || !tbody) return;
-    const mon = await fetchJson("../data/public/monitor.json");
+    const mon = await fetchJson("/data/public/monitor.json");
     const fuentes = window.UI.comparativaFuentes(mon, feedOficiales);
     const por = Object.fromEntries(fuentes.map((f) => [f.id, f]));
 

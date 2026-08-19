@@ -4,7 +4,7 @@
   const { fmt, pct, fechaEs, fetchJson, tablaBuscable, cssVar } = window.UI;
   // rud.json: archivo dedicado (serie + detalle municipal completo día a día),
   // pensado para sobrevivir aunque la fuente original desaparezca.
-  const rud = await fetchJson("../data/public/rud.json");
+  const rud = await fetchJson("/data/public/rud.json");
   if (!rud || !rud.serie || !rud.serie.length) {
     document.getElementById("rud-nota").textContent =
       "Sin datos del RUD todavía: ejecuta primero python ingest/run_daily.py.";

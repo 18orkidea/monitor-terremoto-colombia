@@ -49,7 +49,7 @@
     .replace(/^M7\.4 in Colombia/i, "M7.4 en Colombia");
 
   const j = window.UI.fetchJson;
-  const base = "../data/public/";
+  const base = "/data/public/";
   const OFFICIAL_FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
          dmgPts, dmgLines, notAnalysed, oficiales, hitosCurados] = await Promise.all([
@@ -437,7 +437,7 @@
       `${x.closed === false ? ' · <span class="badge" style="--bc:var(--warning)">activación abierta</span>' : ""}</p>`).join("") +
       `<p class="note">Índice completo vigilado: ${(mon.activation_index || []).length} activaciones` +
       ` públicas (todas las emergencias mapeadas por Copernicus desde jul-2023, cualquier país)` +
-      ` — disponible en <a href="../data/public/monitor.json" target="_blank">monitor.json</a>.</p>`
+      ` — disponible en <a href="/data/public/monitor.json" target="_blank">monitor.json</a>.</p>`
     : "<p class='note'>Ninguna otra activación de Colombia en el rango público.</p>";
   // la nota del cruce no lleva fecha ni municipios escritos a mano: el día que
   // Pereira o Buenaventura registren, deja de nombrarlos sola (R11)

@@ -44,12 +44,12 @@
       `<a href="noticias.html">Titulares por zona</a><br>` +
       `<a href="index.html#glosario">Glosario</a> · <a href="index.html#metodologia">Metodología</a></div>` +
       `<div><strong>Datos abiertos (CC BY 4.0)</strong><br>` +
-      `<a href="../data/public/crosscheck.csv" download>CSV del cruce</a><br>` +
-      `<a href="../data/public/monitor.json" target="_blank">JSON del monitor</a><br>` +
-      `<a href="../data/public/rud.json" target="_blank">Histórico del RUD</a> · ` +
-      `<a href="../data/public/divipola_coords.json" target="_blank">Catálogo DIVIPOLA</a><br>` +
+      `<a href="/data/public/crosscheck.csv" download>CSV del cruce</a><br>` +
+      `<a href="/data/public/monitor.json" target="_blank">JSON del monitor</a><br>` +
+      `<a href="/data/public/rud.json" target="_blank">Histórico del RUD</a> · ` +
+      `<a href="/data/public/divipola_coords.json" target="_blank">Catálogo DIVIPOLA</a><br>` +
       `<a href="${window.UI.OFICIALES_BASE}/oficiales.rss" target="_blank" rel="noopener">RSS de balances</a> · ` +
-      `<a href="../data/public/alerts.rss" target="_blank" rel="noopener">RSS de alertas</a><br>` +
+      `<a href="/data/public/alerts.rss" target="_blank" rel="noopener">RSS de alertas</a><br>` +
       (window.UI.TELEGRAM_CANAL ? `<a href="${window.UI.TELEGRAM_CANAL}" target="_blank" rel="noopener">Canal de Telegram</a><br>` : "") +
       `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">Repositorio y snapshots</a></div>` +
       `</div>` +

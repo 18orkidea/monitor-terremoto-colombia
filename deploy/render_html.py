@@ -27,7 +27,7 @@ PUBLIC = ROOT / "data" / "public"
 
 EPICENTRO = (4.8436, -76.2422)          # San José del Palmar (Chocó)
 CHATMAP = "https://chatmap.hotosm.org/colombia.html"
-BASE = "/site"                          # cambia a "" cuando el sitio viva en la raíz
+BASE = ""                               # el sitio vive en la raíz del dominio
 DATOS = "/data/public"                  # exportes públicos, fuera de site/
 MIN_CAPTURAS_GRAFICA = 5                # antes de eso, una recta entre dos puntos no es tendencia
 RADIO_MUNICIPIO_M = 25000               # más allá, un punto no se atribuye a ninguna cabecera
@@ -827,7 +827,7 @@ def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     generadores = {"municipios": filas_municipios, "portada": filas_portada}
     for nombre, generador in generadores.items():
         archivo = "index" if nombre == "portada" else nombre
-        pagina = destino / "site" / f"{archivo}.html"
+        pagina = destino / f"{archivo}.html"
         if not pagina.exists():
             continue
         html = pagina.read_text(encoding="utf-8")

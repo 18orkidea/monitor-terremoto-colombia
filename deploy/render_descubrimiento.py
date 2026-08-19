@@ -22,11 +22,11 @@ DOMINIO = "https://brechas.orkidea.eu"
 
 # páginas fijas del sitio, con su prioridad y cadencia declarada
 PAGINAS = [
-    ("/site/", "daily", "1.0"),
-    ("/site/municipios.html", "daily", "0.9"),
-    ("/site/rud.html", "daily", "0.8"),
-    ("/site/balances.html", "daily", "0.8"),
-    ("/site/noticias.html", "daily", "0.7"),
+    ("/", "daily", "1.0"),
+    ("/municipios.html", "daily", "0.9"),
+    ("/rud.html", "daily", "0.8"),
+    ("/balances.html", "daily", "0.8"),
+    ("/noticias.html", "daily", "0.7"),
 ]
 
 
