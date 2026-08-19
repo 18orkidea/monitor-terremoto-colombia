@@ -688,3 +688,43 @@ class TestTitulares(unittest.TestCase):
     def test_el_marcador_existe(self):
         html = (Path(__file__).parent.parent / "site/noticias.html").read_text(encoding="utf-8")
         self.assertIn('data-gen="noticias"', html)
+
+
+class TestSeoCheck(unittest.TestCase):
+    """El verificador que vigila que lo publicado siga siendo encontrable.
+
+    Existe porque la regresión típica es invisible: el JavaScript rellena la
+    página en el navegador y nadie nota que llegó vacía a quien no lo ejecuta."""
+
+    @classmethod
+    def setUpClass(cls):
+        import shutil
+        import tempfile
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        import seo_check
+        cls.seo = seo_check
+        cls.tmp = Path(tempfile.mkdtemp())
+        cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
+
+    def test_caza_un_contenedor_vacio(self):
+        """Es exactamente la regresión que motiva el verificador."""
+        (self.tmp / "municipios.html").write_text(
+            '<link rel="canonical" href="/x"><table>'
+            '<tbody data-gen="municipios"></tbody></table>' + "palabra " * 900,
+            encoding="utf-8")
+        res = self.seo.revisar(self.tmp)
+        self.assertTrue(any("quedó vacío" in f for f in res["fallos"]))
+
+    def test_caza_un_sitemap_que_promete_lo_que_no_existe(self):
+        (self.tmp / "sitemap.xml").write_text(
+            "<urlset><url><loc>https://brechas.orkidea.eu/municipio/fantasma/</loc>"
+            "</url></urlset>", encoding="utf-8")
+        res = self.seo.revisar(self.tmp)
+        self.assertTrue(any("y no existe" in f for f in res["fallos"]))
+
+    def test_el_artefacto_real_pasa(self):
+        dist = Path(__file__).parent.parent / "dist"
+        if not dist.exists():
+            self.skipTest("no hay dist construido")
+        res = self.seo.revisar(dist)
+        self.assertEqual(res["fallos"], [], "el artefacto publicado tiene fallos de SEO")

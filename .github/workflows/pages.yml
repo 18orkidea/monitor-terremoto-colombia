@@ -41,6 +41,13 @@ jobs:
       - name: Build static artifact
         run: ./deploy/build_dist.sh
 
+      # Una regresión del prerenderizado no se ve: la página sigue perfecta en el
+      # navegador y llega vacía a quien no ejecuta JavaScript. Avisa, no bloquea
+      # el despliegue: publicar tarde es peor que publicar con un aviso (R11).
+      - name: Verificar que lo publicado se puede encontrar y citar
+        continue-on-error: true
+        run: python3 ingest/seo_check.py dist
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
