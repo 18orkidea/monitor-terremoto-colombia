@@ -1,8 +1,94 @@
 {
- "generated_at": "2026-08-19T04:02:02.637Z",
- "run_date": "2026-08-18",
- "total": 23,
+ "generated_at": "2026-08-20T04:02:57.498Z",
+ "run_date": "2026-08-19",
+ "total": 26,
  "items": [
+  {
+   "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/",
+   "publication_url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/",
+   "title": "Balance de las zonas más afectadas por el terremoto en ...",
+   "snapshot_id": "2026-08-19:https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/",
+   "search_date": "2026-08-19",
+   "search_query": "Presidencia Colombia UNGRD SGC terremoto 19-08-2026 reporte oficial afectados",
+   "publisher": {
+    "name": "infobae",
+    "domain": "infobae.com",
+    "channel": "web",
+    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "076cd1f9c99855d57fe2718fd283e52df4e0764e41db5ae1ab7c7ee26751f032",
+   "captured_at": "2026-08-20T04:02:57.498Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a01d54-2980-741d-b0c7-94278a912ace",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Presidencia reporte oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "![El terremoto de 7,4 sacudió Colombia la mañana del lunes 10 de agosto, según el Servicio Geológico Colombiano -crédito Stringer/REUTERS](https://www.infobae.com/resizer/v2/Y7IXLYU775BZVOELQI7ZKJ2QFY.JPG?auth=7d71c28f4afcd00880f328f17e997d601227949975e218e1ec5cf2de5f45b2a8&smart=true&width=350&height=197&quality=85)El terremoto de 7,4 sacudió Colombia la mañana del lunes 10 de agosto, según el Servicio Geológico Colombiano -crédito Stringer/REUTERS\n\n11 Ago, 2026 08:27 a. m.Actualizado: 11 Ago, 2026 12:52 p. m. EST\n\nUn día después de la emergencia, las autoridades colombianas luchan por evaluar el alcance de los daños tras el potente terremoto de 7,4 que sacudió el departamento de Chocó en l",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Cali",
+    "Manizales",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 181,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 862,
+    "viviendas_destruidas": null,
+    "heridos": 1595,
+    "fallecidos": 180,
+    "desaparecidos": 37,
+    "rescatados": 86
+   },
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "![El terremoto de 7,4 sacudió Colombia la mañana del lunes 10 de agosto, según el Servicio Geológico Colombiano -crédito Stringer/REUTERS](https://www.infobae.com/resizer/v2/Y7IXLYU775BZVOELQI7ZKJ2QFY.JPG?auth=7d71c28f4afcd00880f328f17e997d601227949975e218e1ec5cf2de5f45b2a8&smart",
+   "atribucion_lugares": "limite_palabra_sin_enlaces"
+  },
   {
    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
    "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
@@ -1120,6 +1206,89 @@
    "cita": "# Resumen de los rescates y recuperación tras el terremoto de magnitud 7,4 en Colombia, 14 de agosto\n\n\n22:01 ET (02:01 GMT) 14 de agosto de 2026\n\n\"Los colombianos se han movilizado\": llega ayuda humanitaria a Quibdó, una de las zonas afectadas por el sismo en Colombia\n\n\"Los colom"
   },
   {
+   "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html",
+   "publication_url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html",
+   "title": "el nuevo balance muestra dónde está la mayor devastación",
+   "snapshot_id": "2026-08-19:https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html",
+   "search_date": "2026-08-19",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 19-08-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "Yahoo Noticias",
+    "domain": "es-us.noticias.yahoo.com",
+    "channel": "web",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "0d88596f0b6a6fe727a756e7716af3615d04eaa18222b1e09cecbacbf30c2b9a",
+   "captured_at": "2026-08-20T04:02:57.498Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a01d53-f7f7-710c-b1f0-6f10bf73c576",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "Publicidad\n\nPublicidad\n\n![](https://s.yimg.com/lo/mysterio/api/6938602ca65cc15cd347a04801ea703dcfe6b7a98205a5fc16a5b9098ef9d491/lightyear_networkapi/smartcrop_w272_h144_faces%3Bquality_95%3Bformat_webp/https%3A%2F%2Fs.yimg.com%2Fos%2Fcreatr-uploaded-images%2F2026-06%2F897cc090-6f05-11f1-afa4-60325bf3009e)\n\nSÍGUENOS\n\n## [¿Qué está leyendo todo el mundo hoy? Descúbrelo en nuestro canal de WhatsApp](https://trib.al/yG4LVEm)\n\n[Volver a la página de inicio](https://espanol.yahoo.com/)\n\n![](https://s.yimg.com/lo/mysterio/api/a5a5225888a1c664de25d3cdc9ff38a8ff1fc774100175404f9c86d18d406b35/lightyear_networkapi/resizefill_w976%3Bquality_80%3Bformat_webp/https%3A%2F%2Fmedia.zenfs.com%2Fes%2Fvalora_62",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-14",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Buenaventura",
+    "Cali",
+    "Manizales",
+    "Pereira",
+    "Quibdó",
+    "Roldanillo",
+    "Salento",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": 357,
+    "personas_afectadas": 181,
+    "familias_afectadas": 7,
+    "viviendas_averiadas": 8357,
+    "viviendas_destruidas": 715,
+    "heridos": 278,
+    "fallecidos": 18,
+    "desaparecidos": 14,
+    "rescatados": 35
+   },
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "Descúbrelo en nuestro canal de WhatsApp](https://trib.al/yG4LVEm)\n\n[Volver a la página de inicio](https://espanol.yahoo.com/)\n\n![](https://s.yimg.com/lo/mysterio/api/a5a5225888a1c664de25d3cdc9ff38a8ff1fc774100175404f9c86d18d406b35/lightyear_networkapi/resizefill_w976%3Bquality_80",
+   "atribucion_lugares": "limite_palabra_sin_enlaces"
+  },
+  {
    "url": "https://www.elcolombiano.com/colombia/cifra-muertos-heridos-desaparecidos-por-terremoto-colombia-MK39884181",
    "publication_url": "https://www.elcolombiano.com/colombia/cifra-muertos-heridos-desaparecidos-por-terremoto-colombia-MK39884181",
    "title": "Terremoto en Colombia: ya son 285 muertos, más de ...",
@@ -1545,6 +1714,83 @@
    "requiere_revision_humana": true,
    "confianza": "media",
    "cita": "# Gobierno de Colombia alista declaratoria de emergencia económica ante terremoto y recibirá ayuda internacional\n\n## El Gobierno de Colombia prepara declaratoria de emergencia económica y activará crédito internacional tras terremoto."
+  },
+  {
+   "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/",
+   "publication_url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/",
+   "title": "🔴 Terremoto EN VIVO HOY 13 de agosto: reporte de ...",
+   "snapshot_id": "2026-08-19:https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/",
+   "search_date": "2026-08-19",
+   "search_query": "Presidencia Colombia UNGRD SGC terremoto 19-08-2026 reporte oficial afectados",
+   "publisher": {
+    "name": "Caracol Radio",
+    "domain": "caracol.com.co",
+    "channel": "web",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "8d2054c6a909ecdc8a860352b4854d0ea4c94665b13965a8157dca09bf18cc94",
+   "captured_at": "2026-08-20T04:02:57.498Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a01d54-2980-741d-b0c7-94278a912ace",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Presidencia reporte oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "Este lunes 10 de agosto, se presentó un fuerte terremoto que sacudió varias ciudades de Colombia. De acuerdo con el [Servicio Geológico Colombiano, la magnitud fue de 7.4 con epicentro en San José de Palmar en Chocó.](https://caracol.com.co/2026/08/10/se-reporta-un-muerto-y-dos-puentes-colapsados-en-buenaventura-alcaldesa-ligia-del-carmen-cordoba/)\n\nLa Unidad Nacional para la Gestión del Riesgo descartó que exista alerta de tsunami.\n\n**Lea también:** [**ATENCIÓN: Fuerte temblor en Colombia HOY 10 de agosto 2026: magnitud de 7.4 según SGC**](https://caracol.com.co/2026/08/10/atencion-fuerte-temblor-en-bogota-hoy-10-de-agosto-2026-epicentro-y-magnitud/)\n\nDe acuerdo con la información del Servi",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-11",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Buenaventura",
+    "Cali",
+    "Manizales"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 20017,
+    "familias_afectadas": 11132,
+    "viviendas_averiadas": 20557,
+    "viviendas_destruidas": 3715,
+    "heridos": null,
+    "fallecidos": null,
+    "desaparecidos": null,
+    "rescatados": null
+   },
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "Este lunes 10 de agosto, se presentó un fuerte terremoto que sacudió varias ciudades de Colombia.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces"
   },
   {
    "url": "https://www.elcolombiano.com/colombia/muertos-terremoto-en-colombia-heridos-replicas-choco-hoy-GC39809690",
@@ -1992,8 +2238,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a0182d-74f7-720e-ae2d-0eda3e4f3c69",
-       "query": "UNGRD SGC terremoto Colombia 18-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a01d53-a11d-7299-b6bc-3a3acbb617c4",
+       "query": "UNGRD SGC terremoto Colombia 19-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -2001,8 +2247,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a0182d-98a5-74d8-9486-805a9b8a1c5e",
-       "query": "Gobernación Alcaldía terremoto Colombia 18-08-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a01d53-f7f7-710c-b1f0-6f10bf73c576",
+       "query": "Gobernación Alcaldía terremoto Colombia 19-08-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -2010,8 +2256,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a0182d-b0e4-771a-8268-14ff4877b71e",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 18-08-2026 reporte oficial afectados",
+       "id": "01a01d54-2980-741d-b0c7-94278a912ace",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 19-08-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -2039,11 +2285,9 @@
      "type": "html",
      "url": "https://portal.gestiondelriesgo.gov.co/paginas/forms/allitems.aspx?rootfolder=/paginas/noticias&folderctid=0x0120000d115b77361a2449a3a8cae36d6f2767",
      "note": "Vista de biblioteca SharePoint; puede exponer enlaces aunque el RSS de lista falle.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 187,
-     "candidates": 0,
-     "result": "no_event_specific_links"
+     "ok": false,
+     "result": "error",
+     "error": "The operation was aborted due to timeout"
     }
    ]
   },
@@ -2177,6 +2421,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-08-19/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-08-20/oficiales_feed.json"
  }
 }

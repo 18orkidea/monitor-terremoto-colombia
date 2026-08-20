@@ -1,50 +1,43 @@
 {
- "generado": "2026-08-19",
- "fecha": "2026-08-19",
+ "generado": "2026-08-20",
+ "fecha": "2026-08-20",
  "alertas": [
-  {
-   "tipo": "institucional_nuevo",
-   "nivel": "alta",
-   "texto": "UNITAR-UNOSAT publicó un producto nuevo del terremoto: M7.4 in Colombia - UNITAR-UNOSAT Activation — http://unosat.org/products/4253",
-   "emisor": "UNITAR-UNOSAT",
-   "titulo": "M7.4 in Colombia - UNITAR-UNOSAT Activation",
-   "url": "http://unosat.org/products/4253",
-   "pubdate": "2026-08-18T15:51:43"
-  },
-  {
-   "tipo": "reportes_ciudadanos",
-   "nivel": "info",
-   "texto": "26 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 26
-  },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "575 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 575
+   "texto": "604 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 604
   },
   {
    "tipo": "balance_en_medios",
    "nivel": "info",
-   "texto": "Balance en medios citando fuentes oficiales (2026-08-18): 304 fallecidos (+15 vs día anterior), 4548 heridos, 426 desaparecidos",
-   "fecha_balance": "2026-08-18",
+   "texto": "Balance en medios citando fuentes oficiales (2026-08-19): 180 fallecidos (-124 vs día anterior), 1595 heridos, 37 desaparecidos",
+   "fecha_balance": "2026-08-19",
    "cifras": {
     "departamentos_afectados": null,
     "municipios_afectados": null,
-    "personas_afectadas": 292043,
-    "familias_afectadas": 123789,
-    "viviendas_averiadas": null,
+    "personas_afectadas": 181,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 862,
     "viviendas_destruidas": null,
-    "heridos": 4548,
-    "fallecidos": 304,
-    "desaparecidos": 426,
-    "rescatados": null
+    "heridos": 1595,
+    "fallecidos": 180,
+    "desaparecidos": 37,
+    "rescatados": 86
    }
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +22 municipios. +21.224 familias vs snapshot anterior"
+   "texto": "RUD actualizado: +14 municipios. +13.836 familias vs snapshot anterior"
+  },
+  {
+   "tipo": "unosat_codigo_evento_imposible",
+   "nivel": "media",
+   "texto": "UNITAR-UNOSAT publica 8 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los archiva con su literal y no los suma. Si UNOSAT lo corrige, entran solos.",
+   "event_code": "EQ20260822COL",
+   "capa": "PNEO3_STD_20260811_BuildingDamageAsessment_Manizales",
+   "puntos": 8
   }
  ]
 }
