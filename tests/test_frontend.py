@@ -980,3 +980,36 @@ class TestParidadAlertasYSitio(unittest.TestCase):
             serie, regla = alerts._consolidado_de_la_serie({"items": []})
         self.assertEqual(serie, [])
         self.assertEqual(regla, "maximo_del_dia_sin_serie")
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestDisputaEntreMedios(unittest.TestCase):
+
+    def test_dos_medios_validos_que_discrepan_son_disputa(self):
+        serie = correr_con(
+            [captura("2026-08-18", "Alto", {"familias_afectadas": 123789}),
+             captura("2026-08-18", "Bajo", {"familias_afectadas": 54008})],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["disputa"]["familias_afectadas"],
+                         {"min": 54008, "max": 123789})
+
+    def test_una_extraccion_rota_no_es_una_disputa(self):
+        # el 19-ago la página anunciaba «fallecidos entre 18 y 180» mientras
+        # publicaba 304: no era un desacuerdo entre medios, eran dos
+        # extracciones mal hechas
+        roto = captura("2026-08-19", "Roto",
+                       {"personas_afectadas": 181, "fallecidos": 180,
+                        "heridos": 1595})
+        serie = correr_con(
+            [roto, captura("2026-08-19", "Sano", {"fallecidos": 304})],
+            "UI.mejorPorDia(items)")
+        self.assertIsNone(serie[-1]["disputa"],
+                          "una cifra imposible no discrepa: está mal")
+
+    def test_un_medio_sin_atribucion_no_crea_disputa(self):
+        anon = captura("2026-08-18", "Anon", {"familias_afectadas": 999})
+        anon["reported_data_source"] = []
+        serie = correr_con(
+            [anon, captura("2026-08-18", "Serio", {"familias_afectadas": 123789})],
+            "UI.mejorPorDia(items)")
+        self.assertIsNone(serie[-1]["disputa"])

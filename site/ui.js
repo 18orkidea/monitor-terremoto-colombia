@@ -587,9 +587,19 @@ window.UI = (function () {
 
   /* Contradicción fuerte entre los candidatos de un mismo día (>15 % entre
      mínimo y máximo): la discrepancia ES información de brecha y se muestra,
-     no se suprime. Devuelve {cifra: {min, max}} o null. */
+     no se suprime.
+
+     Solo cuentan los candidatos que podrían haber entrado en la serie —con
+     atribución oficial y coherentes—. Entre cifras rotas no hay disputa que
+     informar: el 19-ago la página anunciaba «fallecidos entre 18 y 180»
+     mientras publicaba 304, y aquello no era un desacuerdo entre medios sino
+     dos extracciones mal hechas y un corte de nueve días antes.
+
+     Devuelve {cifra: {min, max}} o null. */
   function disputaDia(dayItems) {
     const out = {};
+    dayItems = (dayItems || []).filter(
+      (x) => atribucionOficial(x) && esCoherente(x));
     for (const k of ["fallecidos", "heridos", "desaparecidos",
                      "familias_afectadas"]) {
       const vs = dayItems.map((x) => (x.cifras || {})[k])
