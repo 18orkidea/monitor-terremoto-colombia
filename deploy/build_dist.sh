@@ -22,15 +22,24 @@ cp -R data/public/. dist/data/public/
 find data/media -maxdepth 1 \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' \) \
   -size -25M -exec cp {} dist/data/media/ \; 2>/dev/null || true
 
-# cache-busting: en el repo los assets van con ?v=dev; el build lo sustituye
-# por el hash corto del commit (un solo lugar, nunca más a mano)
+# Hash para el cache-busting. La sustitución ocurre después de generar las
+# fichas: antes solo alcanzaba los HTML de site/ y dejaba las páginas municipales
+# con CSS viejo en la caché del navegador.
 REV=$(git rev-parse --short HEAD 2>/dev/null || date -u +%Y%m%d%H%M)
-sed -i.bak "s/?v=dev/?v=${REV}/g" dist/*.html && rm -f dist/*.html.bak
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  REV="${REV}-dev$(date -u +%H%M%S)"
+fi
 
 # fichas municipales: el HTML que hoy pintaría el JavaScript. Se generan aquí y
 # no en site/ porque un HTML que cambia entero cada día destruiría el blame; el
 # dato ya está versionado en data/public, así que son reconstruibles.
 python3 deploy/render_html.py dist
+
+# Todos los HTML que usan assets, también los recién generados dos niveles por
+# debajo de la raíz, reciben la misma revisión. Así una interfaz nueva no queda
+# mezclada con una hoja de estilos antigua.
+find dist -type f -name '*.html' -exec sed -i.bak "s/?v=dev/?v=${REV}/g" {} +
+find dist -type f -name '*.html.bak' -delete
 
 # GitHub Pages: sin Jekyll
 touch dist/.nojekyll

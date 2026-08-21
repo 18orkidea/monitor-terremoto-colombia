@@ -400,6 +400,59 @@ def pie_estatico() -> str:
 
 
 # ------------------------------------------------------- datos de una ficha
+def evidencia_municipal(nombre: str, muni: dict, ctx: dict) -> dict:
+    """Paquete pequeño que carga el mapa interactivo de una sola ficha.
+
+    La portada necesita todos los GeoJSON nacionales; una ficha no. El build
+    recorta las cuatro capas puntuales al municipio y conserva únicamente los
+    polígonos Copernicus a los que pertenecen sus puntos. Así, abrir «Situación»
+    no descarga nada y pedir «Mapa de evidencias» no arrastra megabytes ajenos.
+
+    Los reportes ciudadanos se atribuyen con el mismo radio de 12 km que la
+    prosa de la ficha. Su ruta de medio se vuelve absoluta porque el consumidor
+    vive dos niveles por debajo de la portada.
+    """
+    copernicus = [f for f in ctx["damage"]
+                  if (f.get("properties") or {}).get("municipio") == nombre]
+    unosat = [f for f in ctx["unosat"]
+              if (f.get("properties") or {}).get("municipio") == nombre]
+    sertit = [f for f in ctx["sertit"]
+              if (f.get("properties") or {}).get("municipio") == nombre]
+
+    ciudadanos = []
+    if muni.get("lat") is not None and muni.get("lon") is not None:
+        for f in ctx["chatmap"]:
+            geom = f.get("geometry") or {}
+            if geom.get("type") != "Point":
+                continue
+            lon, lat = geom["coordinates"][:2]
+            if distancia_m((muni["lat"], muni["lon"]), (lat, lon)) >= 12000:
+                continue
+            propiedades = dict(f.get("properties") or {})
+            if propiedades.get("media"):
+                propiedades["media"] = f"/data/media/{Path(propiedades['media']).name}"
+            ciudadanos.append({"type": "Feature", "geometry": geom,
+                                "properties": propiedades})
+
+    aois = {(f.get("properties") or {}).get("aoi") for f in copernicus}
+    zonas = [f for f in ctx["aois"] if (f.get("properties") or {}).get("aoi") in aois]
+    capas = {"copernicus": copernicus, "unosat": unosat, "sertit": sertit,
+             "ciudadanos": ciudadanos, "zonas": zonas}
+    conteos = {clave: len(capas[clave]) for clave in
+               ("copernicus", "unosat", "sertit", "ciudadanos")}
+    return {
+        "municipio": {"nombre": nombre, "departamento": muni["departamento"],
+                      "lat": muni.get("lat"), "lon": muni.get("lon")},
+        "generado": ctx["rud"].get("generado", ""),
+        "conteos": {**conteos,
+                    "satelite": conteos["copernicus"] + conteos["unosat"]
+                    + conteos["sertit"],
+                    "total": sum(conteos.values())},
+        "capas": {clave: {"type": "FeatureCollection", "features": features}
+                  for clave, features in capas.items()},
+    }
+
+
 def datos_ficha(nombre: str, ctx: dict) -> dict:
     muni = ctx["idx"][nombre]
     clave = nombre.upper()
@@ -445,6 +498,7 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
         delta = ultimo["familias"] - primero["familias"]
         pct_delta = delta / primero["familias"] * 100
 
+    evidencia = evidencia_municipal(nombre, muni, ctx)
     return {
         "muni": muni, "serie": serie, "zonas": zonas, "ciudadanos": ciudadanos,
         "con_medio": sum(1 for *_, p in ciudadanos if p.get("media")),
@@ -455,7 +509,8 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
         "cruce": ctx["cruce_satelital"].get(nombre) or {},
         "tiene_coords": tiene_coords,
         "generado": ctx["rud"].get("generado", ""),
-        "slug": slug(nombre),
+        "slug": slug(nombre), "evidencia": evidencia,
+        "hay_evidencia": bool(evidencia["conteos"]["total"]),
     }
 
 
@@ -647,6 +702,8 @@ def contexto() -> dict:
     if isinstance(noticias, dict):
         noticias = noticias.get("items") or noticias.get("noticias") or []
     damage = _leer("damage_points.geojson")["features"]
+    unosat = _leer("unosat_damage.geojson")["features"]
+    sertit = _leer("sertit_damage.geojson")["features"]
     chatmap = _leer("chatmap.geojson")["features"]
     # Cuántos edificios ÚNICOS tiene cada municipio cuando dos servicios miran
     # el mismo sitio. No se calcula aquí: la regla vive en `ingest/satelites.py`
@@ -657,6 +714,9 @@ def contexto() -> dict:
         "idx": {m["municipio"]: m for m in municipios},
         "rud": _leer("rud.json"),
         "aois": _leer("aois.geojson")["features"],
+        "damage": damage,
+        "unosat": unosat,
+        "sertit": sertit,
         "chatmap": chatmap,
         "noticias": noticias,
         "zonas_con_producto": {f["properties"].get("aoi") for f in damage},
@@ -742,6 +802,10 @@ def render_ficha(d: dict) -> str:
             {"@type": "ListItem", "position": i + 1, "name": txt,
              **({"item": f"https://brechas.orkidea.eu{href}"} if href else {})}
             for i, (txt, href) in enumerate(migas)]}
+    scripts_mapa = (
+        f'<script src="{BASE}/ui.js?v=dev" defer></script>\n'
+        f'<script src="{BASE}/municipio.js?v=dev" defer></script>'
+        if d["hay_evidencia"] else "")
 
     o = ['<!DOCTYPE html>', '<html lang="es">', '<head>', '<meta charset="utf-8">',
          '<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -758,8 +822,9 @@ def render_ficha(d: dict) -> str:
          '<meta name="twitter:card" content="summary_large_image">',
          f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>',
          f'<script type="application/ld+json">{json.dumps(ld_migas, ensure_ascii=False)}</script>',
-         f'<link rel="stylesheet" href="{BASE}/styles.css">',
+         f'<link rel="stylesheet" href="{BASE}/styles.css?v=dev">',
          f'<link rel="icon" type="image/png" href="{BASE}/icons/favicon.png">',
+         scripts_mapa,
          '<meta name="theme-color" content="#101418">',
          '</head>', '<body>',
          nav_estatico(),
@@ -792,21 +857,59 @@ def render_ficha(d: dict) -> str:
     # ---- mapa de situación
     o.append('<section class="page-section">')
     o.append(f'<h2>Dónde está {e(nombre)} y qué ha mirado el satélite</h2>')
-    # El SVG lleva al mapa interactivo de la portada, centrado en el municipio.
-    # Es un enlace, no una carga: la ficha sigue sin descargar Leaflet ni los
-    # geojson, que son megabytes que la mayoría de lectores no va a necesitar.
+    # El SVG sigue siendo la respuesta inmediata, indexable y sin JavaScript.
+    # Solo las fichas con puntos de evidencia reciben dos pestañas. El segundo
+    # panel nace vacío: municipio.js pide Leaflet y el JSON recortado al primer
+    # clic, nunca durante la lectura de «Situación».
     destino = f"/?municipio={urllib.parse.quote(nombre)}#mapa"
     svg = mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"])
     if svg:
-        o.append(f'<a href="{destino}" class="mapa-enlace"'
-                 f' aria-label="Abrir {e(nombre)} en el mapa interactivo">')
+        if d["hay_evidencia"]:
+            situacion_id = f"situacion-{d['slug']}"
+            evidencia_id = f"evidencias-{d['slug']}"
+            o.append('<div class="mapa-tabs" data-mapa-tabs>')
+            o.append(f'<div class="mapa-tabs__lista" role="tablist" '
+                     f'aria-label="Vistas del mapa de {e(nombre)}">'
+                     f'<button type="button" role="tab" id="tab-{situacion_id}" '
+                     f'aria-controls="{situacion_id}" aria-selected="true">Situación</button>'
+                     f'<button type="button" role="tab" id="tab-{evidencia_id}" '
+                     f'aria-controls="{evidencia_id}" aria-selected="false" '
+                     f'tabindex="-1">Mapa de evidencias</button></div>')
+            o.append(f'<div id="{situacion_id}" role="tabpanel" '
+                     f'aria-labelledby="tab-{situacion_id}">')
         o.append(svg)
-        o.append("</a>")
         o.append('<p class="leyenda">'
                  f'<span class="badge" style="--bc:var(--s8)">{e(nombre)}</span>'
                  '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
                  '<span class="badge" style="--bc:var(--s7)">reporte ciudadano</span>'
                  '<span class="badge" style="--bc:var(--critical)">epicentro</span></p>')
+        if d["hay_evidencia"]:
+            conteos = d["evidencia"]["conteos"]
+            partes = []
+            if conteos["satelite"]:
+                partes.append(f'{fmt(conteos["satelite"])} puntos publicados por los '
+                              'servicios satelitales')
+            if conteos["ciudadanos"]:
+                partes.append(f'{fmt(conteos["ciudadanos"])} reportes ciudadanos')
+            resumen = " y ".join(partes)
+            o.append('</div>')
+            o.append(f'<div id="{evidencia_id}" role="tabpanel" '
+                     f'aria-labelledby="tab-{evidencia_id}" hidden>')
+            o.append(f'<p class="sub mapa-evidencias__resumen">Este mapa reúne {resumen} '
+                     f'en el entorno de {e(nombre)}. Cada fuente permanece en su propia capa.</p>')
+            o.append(f'<div class="mapa-evidencias" id="mapa-evidencias-{d["slug"]}" '
+                     f'data-evidencia="{DATOS}/municipios/{d["slug"]}/evidencia.json" '
+                     f'data-destino="{destino}" aria-label="Mapa interactivo de evidencias '
+                     f'en {e(nombre)}" aria-busy="false">'
+                     '<div class="mapa-evidencias__placeholder" role="status">'
+                     '<span aria-hidden="true"></span><p>El mapa se cargará al abrir esta '
+                     'pestaña.</p></div></div>')
+            o.append('<p class="note">Las capas de diferentes servicios pueden observar el '
+                     'mismo edificio. El mapa las muestra por separado y no las suma como si '
+                     'fueran casos distintos.</p></div></div>')
+            o.append(f'<noscript><p class="note">Para explorar estos puntos necesitas '
+                     f'JavaScript. <a href="{destino}">Abrir {e(nombre)} en el mapa '
+                     f'interactivo de la portada</a>.</p></noscript>')
     else:
         # El municipio entró por el registro oficial y el catálogo DIVIPOLA no
         # trae su cabecera. Sin coordenada no hay mapa, ni distancia a las zonas
@@ -1021,6 +1124,12 @@ def run(destino: Path) -> dict:
         carpeta = destino / "municipio" / d["slug"]
         carpeta.mkdir(parents=True, exist_ok=True)
         (carpeta / "index.html").write_text(render_ficha(d), encoding="utf-8")
+        if d["hay_evidencia"]:
+            datos = destino / "data" / "public" / "municipios" / d["slug"]
+            datos.mkdir(parents=True, exist_ok=True)
+            (datos / "evidencia.json").write_text(
+                json.dumps(d["evidencia"], ensure_ascii=False, separators=(",", ":")) + "\n",
+                encoding="utf-8")
         escritas.append(d["slug"])
     return {"fichas": len(escritas), "omitidas": len(omitidas),
             "sin_senal": omitidas, "slugs": sorted(escritas)}

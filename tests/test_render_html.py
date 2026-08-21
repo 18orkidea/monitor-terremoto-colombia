@@ -78,12 +78,21 @@ class TestFicha(unittest.TestCase):
             self.assertIn(R.fmt(valor), self.html,
                           f"la cifra {valor} no está en el HTML servido")
 
-    def test_sin_javascript_ejecutable(self):
+    def test_javascript_no_sustituye_el_documento_estatico(self):
+        """La interacción se mejora con JS, pero cifras, prosa y SVG siguen en HTML.
+
+        Nóvita tiene reportes ciudadanos y por eso carga el controlador pequeño;
+        Leaflet y el JSON municipal no aparecen como recursos iniciales.
+        """
         scripts = re.findall(r"<script[^>]*>", self.html)
         self.assertTrue(scripts, "debe llevar al menos el JSON-LD")
         for s in scripts:
-            self.assertIn("application/ld+json", s,
-                          "las fichas no pueden llevar JS: los crawlers de IA no lo ejecutan")
+            self.assertTrue("application/ld+json" in s or
+                            'src="/ui.js' in s or 'src="/municipio.js' in s,
+                            f"script inesperado en la ficha: {s}")
+        self.assertIn('role="img"', self.html)
+        self.assertNotIn("leaflet.css", self.html)
+        self.assertNotIn("leaflet.js", self.html)
 
     def test_svg_valido_y_accesible(self):
         svg = re.search(r"<svg.*?</svg>", self.html, re.S)
@@ -158,6 +167,73 @@ class TestFicha(unittest.TestCase):
         html = R.render_ficha(datos)
         self.assertIn("en cuatro días", html)
         self.assertNotIn("en un día", html)
+
+
+class TestMapaEvidencias(unittest.TestCase):
+    """La segunda pestaña existe solo con puntos y no pesa hasta que se pide."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def test_visible_con_cualquiera_de_las_dos_clases_de_evidencia(self):
+        ciudadano = R.datos_ficha("Nóvita", self.ctx)
+        satelite = R.datos_ficha("Anserma", self.ctx)
+        ninguna = R.datos_ficha("Cartago", self.ctx)
+        self.assertTrue(ciudadano["evidencia"]["conteos"]["ciudadanos"])
+        self.assertEqual(ciudadano["evidencia"]["conteos"]["satelite"], 0)
+        self.assertTrue(ciudadano["hay_evidencia"])
+        self.assertTrue(satelite["evidencia"]["conteos"]["satelite"])
+        self.assertEqual(satelite["evidencia"]["conteos"]["ciudadanos"], 0)
+        self.assertTrue(satelite["hay_evidencia"])
+        self.assertFalse(ninguna["hay_evidencia"])
+
+    def test_pestanas_accesibles_y_panel_diferido(self):
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        self.assertIn('role="tablist"', html)
+        self.assertIn(">Situación</button>", html)
+        self.assertIn(">Mapa de evidencias</button>", html)
+        self.assertIn('role="tabpanel"', html)
+        self.assertIn('aria-selected="true"', html)
+        self.assertRegex(html, r'aria-labelledby="tab-evidencias-cali" hidden')
+        self.assertIn('data-evidencia="/data/public/municipios/cali/evidencia.json"', html)
+        self.assertIn('src="/municipio.js?v=dev"', html)
+        self.assertNotIn("leaflet.css", html)
+        self.assertNotIn("leaflet.js", html)
+
+    def test_sin_puntos_no_hay_pestanas_ni_javascript(self):
+        html = R.render_ficha(R.datos_ficha("Cartago", self.ctx))
+        self.assertNotIn('role="tablist"', html)
+        self.assertNotIn("municipio.js", html)
+        scripts = re.findall(r"<script[^>]*>", html)
+        self.assertTrue(all("application/ld+json" in s for s in scripts))
+
+    def test_build_escribe_solo_paquetes_necesarios(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            R.run(raiz)
+            cali = raiz / "data/public/municipios/cali/evidencia.json"
+            cartago = raiz / "data/public/municipios/cartago/evidencia.json"
+            self.assertTrue(cali.exists())
+            self.assertFalse(cartago.exists())
+            paquete = json.loads(cali.read_text(encoding="utf-8"))
+            conteos = paquete["conteos"]
+            self.assertEqual(conteos["total"], conteos["satelite"] + conteos["ciudadanos"])
+            self.assertGreater(conteos["copernicus"], 0)
+            self.assertGreater(conteos["sertit"], 0)
+            self.assertEqual(conteos["unosat"], 0)
+            self.assertTrue(all((f["properties"].get("media") or "/").startswith("/")
+                                for f in paquete["capas"]["ciudadanos"]["features"]))
+
+    def test_cache_busting_alcanza_las_fichas_generadas(self):
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        self.assertIn("/styles.css?v=dev", html)
+        build = (Path(__file__).parent.parent / "deploy/build_dist.sh").read_text(
+            encoding="utf-8")
+        genera = build.index("python3 deploy/render_html.py dist")
+        versiona = build.index("find dist -type f -name '*.html' -exec sed")
+        self.assertLess(genera, versiona,
+                        "el hash debe aplicarse después de escribir las fichas municipales")
 
 
 class TestSeleccion(unittest.TestCase):
@@ -894,6 +970,17 @@ class TestSeoCheck(unittest.TestCase):
             "</url></urlset>", encoding="utf-8")
         res = self.seo.revisar(self.tmp)
         self.assertTrue(any("y no existe" in f for f in res["fallos"]))
+
+    def test_solo_admite_el_controlador_diferido_de_la_ficha(self):
+        base = ('<svg class="mapa-estatico"></svg>'
+                '<div data-evidencia="/data/public/municipios/cali/evidencia.json"></div>')
+        permitido = (base + '<script src="/ui.js?v=abc"></script>'
+                     '<script src="/municipio.js?v=abc"></script>')
+        self.assertTrue(self.seo._scripts_ficha_validos(permitido))
+        self.assertFalse(self.seo._scripts_ficha_validos(
+            permitido + '<script src="/rellena-la-ficha.js"></script>'))
+        self.assertFalse(self.seo._scripts_ficha_validos(
+            '<script src="/ui.js?v=abc"></script><script src="/municipio.js?v=abc"></script>'))
 
     def test_el_artefacto_real_pasa(self):
         dist = Path(__file__).parent.parent / "dist"

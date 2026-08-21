@@ -23,6 +23,33 @@ Consecuencia: una base local atrasada falla de forma visible en vez de reescribi
 y un merge que vuelva a perder un día rompe CI. Los cierres recuperados son 18-ago: 51.827
 familias en 106 municipios; 19-ago: 65.663 familias en 120 municipios.
 
+## 2026-08-21 — Dos vistas municipales, con el mapa pesado bajo demanda
+
+Contexto: cada ficha municipal ofrecía un SVG pequeño que explicaba la posición del
+municipio, el epicentro, las zonas de Copernicus y los reportes próximos. El SVG enlazaba
+a la portada para explorar los puntos, lo que sacaba al lector de la ficha. Incorporar el
+mapa nacional completo en cada una de las fichas habría obligado a descargar Leaflet y
+varios GeoJSON de alcance nacional aunque nadie pidiera esa exploración.
+
+Decisión: las fichas que tienen al menos un punto satelital o ciudadano ofrecen dos vistas:
+**Situación**, el SVG estático e indexable que queda activo por defecto, y **Mapa de
+evidencias**, un Leaflet que solo se inicia al abrir su pestaña. El build genera un JSON por
+municipio con sus puntos Copernicus, UNITAR-UNOSAT, ICube-SERTIT y ChatMap, además de los
+polígonos Copernicus directamente relacionados. Las fuentes son capas separadas porque
+pueden señalar el mismo edificio y no se deben sumar. Las fichas sin puntos no muestran
+pestañas ni cargan JavaScript ejecutable. Sin JavaScript, la situación completa permanece
+visible y se ofrece un enlace al mapa de la portada.
+
+Se descarta por ahora una tercera vista de imágenes satelitales: los tres servicios publican
+productos y evidencias derivadas, pero no entregan de manera uniforme una escena raster
+georreferenciada y redistribuible. Llamarla imagen o superponer un PDF/JPG cartográfico como
+si fuera una capa introduciría una precisión falsa.
+
+Consecuencia: la ficha conserva su peso y su lectura documental inicial, pero permite
+explorar sus evidencias sin abandonar la página. La coordenada ciudadana sigue siendo la
+redondeada para publicación; la atribución y el vocabulario propio de cada servicio viajan
+hasta cada globo del mapa.
+
 ## 2026-08-21 — El balance no retrocede, y cada cifra dice de quién es
 
 Contexto: el sitio publicaba **11.132 familias afectadas** donde el RUD registraba
