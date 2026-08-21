@@ -131,6 +131,58 @@ class TestGraficoRud(unittest.TestCase):
 
 
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestSerieGraficoPortada(unittest.TestCase):
+    def test_la_presentacion_empieza_el_dia_del_sismo(self):
+        serie = correr_ui(
+            "UI.serieDesde([{fecha:'2026-08-08'},{fecha:'2026-08-09'},"
+            "{fecha:'2026-08-10'},{fecha:'2026-08-11'}], '2026-08-10')"
+            ".map((d)=>d.fecha)")
+        self.assertEqual(serie, ["2026-08-10", "2026-08-11"])
+
+
+class TestCronologiaPortada(unittest.TestCase):
+    def setUp(self):
+        self.hitos = json.loads(
+            (ROOT / "feeds" / "hitos_monitor.json").read_text(encoding="utf-8"))
+
+    def test_sertit_es_respuesta_internacional_fuera_de_banda(self):
+        sertit = [h for h in self.hitos["hitos"]
+                  if h.get("tipo") == "internacional"
+                  and "SERTIT" in h.get("texto", "")]
+        self.assertEqual(len(sertit), 1)
+        self.assertEqual(sertit[0]["fecha"], "2026-08-21")
+
+    def test_cada_hito_del_monitor_tiene_un_resumen_breve(self):
+        monitor = [h for h in self.hitos["hitos"] if h.get("tipo") == "monitor"]
+        sin_resumen = [h["fecha"] for h in monitor if not h.get("resumen")]
+        largos = [(h["fecha"], len(h.get("resumen", ""))) for h in monitor
+                  if len(h.get("resumen", "")) > 90]
+        self.assertEqual(sin_resumen, [])
+        self.assertEqual(largos, [],
+                         "los resúmenes deben seguir siendo breves para la banda gráfica")
+
+    def test_cronologia_muestra_el_texto_completo_del_monitor_en_cuatro_lineas(self):
+        app = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        self.assertIn('h.tipo === "monitor" ? h.texto', app)
+        self.assertIn("-webkit-line-clamp: 4", css)
+        self.assertIn("#timeline {", css)
+        self.assertIn("max-width: none; width: 100%", css)
+
+    def test_bloques_explicativos_de_portada_son_fluidos(self):
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        for selector in (r"\.sub", r"\.intro p", r"#metodologia-box p"):
+            self.assertIsNotNone(
+                re.search(selector + r"[^\{]*\{[^\}]*max-width:\s*none", css),
+                f"{selector} conserva un ancho de lectura fijo")
+        self.assertRegex(css, r"#alerts-section > ul \{ max-width: none; \}")
+        self.assertIn("#panel > .note,", css)
+        self.assertIn("#balance-hero .note,", css)
+        self.assertIn("#banner-silencio p,", css)
+        self.assertIn("#banner-silencio ol { max-width: none; }", css)
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
 class TestSeleccionDiariaBalances(unittest.TestCase):
 
     def test_el_corte_viejo_no_gana_el_dia(self):

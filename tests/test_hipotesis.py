@@ -252,6 +252,12 @@ class TestPublicacionBienFormada(unittest.TestCase):
             self.assertIsInstance(row, dict)
             self.assertRegex(row["fecha"], r"^\d{4}-\d{2}-\d{2}$")
 
+    def test_chatmap_publica_los_ceros_observados(self):
+        mv = {d["fecha"]: d.get("chatmap")
+              for d in self._mon()["media_volume"]}
+        self.assertEqual(mv.get("2026-08-16"), 0)
+        self.assertEqual(mv.get("2026-08-19"), 0)
+
     def test_aois_con_cruce_y_resumen(self):
         for a in self._mon()["aois"]:
             self.assertIn("cruce", a)

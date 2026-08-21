@@ -60,6 +60,12 @@ window.UI = (function () {
     return m ? `${+m[3]}-${MESES[+m[2] - 1]}` : (iso || "—");
   };
 
+  /* Recorta una serie para presentarla desde el evento raíz. Los días previos
+     siguen en el archivo y en monitor.json; simplemente no pertenecen a la
+     lectura temporal de la respuesta al terremoto. */
+  const serieDesde = (serie, fecha) => (serie || [])
+    .filter((d) => !fecha || (d.fecha || "") >= fecha.slice(0, 10));
+
   /* Estados de la capa de municipios: etiqueta, color y explicación en UN solo
      sitio (la tabla y el mapa los pintaban por separado y las etiquetas ya
      habían divergido). El orden es el de la cascada de ingest/municipios.py. */
@@ -966,7 +972,7 @@ window.UI = (function () {
     return out;
   }
 
-  return { fmt, fmtProsa, pct, fechaEs, fechaLarga, diaMes,
+  return { fmt, fmtProsa, pct, fechaEs, fechaLarga, diaMes, serieDesde,
            estadoMunicipio, ESTADO_MUNICIPIO,
            fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc,
            fetchJson, tablaBuscable, tablaHidratada, paginador, metricCards,

@@ -690,7 +690,7 @@
    "emm": null,
    "gdelt": 0.7414,
    "fuentes": null,
-   "chatmap": null,
+   "chatmap": 0,
    "feeds": 221
   },
   {
@@ -714,7 +714,7 @@
    "emm": null,
    "gdelt": 0.5095,
    "fuentes": null,
-   "chatmap": null,
+   "chatmap": 0,
    "feeds": 174
   },
   {

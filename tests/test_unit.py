@@ -142,6 +142,21 @@ class TestPrivacidad(unittest.TestCase):
         self.assertNotEqual(_round_pub(3.9099751234), 3.9099751234)
 
 
+class TestSerieChatMap(unittest.TestCase):
+    def test_los_dias_cerrados_sin_reportes_son_cero(self):
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest" / "sources"))
+        from chatmap import conteos_por_dia
+        feats = [
+            {"properties": {"time": "2026-08-10T13:00:00Z"}},
+            {"properties": {"time": "2026-08-17T09:00:00Z"}},
+        ]
+        serie = conteos_por_dia(feats, "2026-08-20")
+        self.assertEqual(serie["2026-08-16"], 0)
+        self.assertEqual(serie["2026-08-19"], 0)
+        self.assertNotIn("2026-08-20", serie,
+                         "el día de la captura sigue abierto y no puede cerrarse en cero")
+
+
 class TestResumenAoi(unittest.TestCase):
     """Cifras del análisis original de Pereira, desde fixture del snapshot real."""
 
