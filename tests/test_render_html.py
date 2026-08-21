@@ -208,6 +208,17 @@ class TestMapaEvidencias(unittest.TestCase):
         scripts = re.findall(r"<script[^>]*>", html)
         self.assertTrue(all("application/ld+json" in s for s in scripts))
 
+    def test_el_svg_solo_enlaza_a_portada_si_no_hay_mapa_de_evidencias(self):
+        con_evidencia = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        sin_evidencia = R.render_ficha(R.datos_ficha("Cartago", self.ctx))
+        self.assertNotIn('class="mapa-enlace"', con_evidencia)
+        self.assertRegex(
+            sin_evidencia,
+            r'<a href="/\?municipio=Cartago#mapa" class="mapa-enlace"[^>]*>\s*<svg',
+        )
+        self.assertIn(
+            'aria-label="Abrir Cartago en el mapa interactivo"', sin_evidencia)
+
     def test_build_escribe_solo_paquetes_necesarios(self):
         with tempfile.TemporaryDirectory() as tmp:
             raiz = Path(tmp)

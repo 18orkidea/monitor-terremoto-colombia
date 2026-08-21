@@ -37,8 +37,10 @@ evidencias**, un Leaflet que solo se inicia al abrir su pestaña. El build gener
 municipio con sus puntos Copernicus, UNITAR-UNOSAT, ICube-SERTIT y ChatMap, además de los
 polígonos Copernicus directamente relacionados. Las fuentes son capas separadas porque
 pueden señalar el mismo edificio y no se deben sumar. Las fichas sin puntos no muestran
-pestañas ni cargan JavaScript ejecutable. Sin JavaScript, la situación completa permanece
-visible y se ofrece un enlace al mapa de la portada.
+pestañas ni cargan JavaScript ejecutable; en ellas, el SVG conserva el enlace al mapa de la
+portada. En las fichas con evidencias, el SVG deja de ser enlace porque la exploración está
+en la pestaña contigua. Sin JavaScript, la situación completa permanece visible y se ofrece
+un enlace alternativo al mapa de la portada.
 
 Se descarta por ahora una tercera vista de imágenes satelitales: los tres servicios publican
 productos y evidencias derivadas, pero no entregan de manera uniforme una escena raster

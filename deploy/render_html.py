@@ -877,7 +877,12 @@ def render_ficha(d: dict) -> str:
                      f'tabindex="-1">Mapa de evidencias</button></div>')
             o.append(f'<div id="{situacion_id}" role="tabpanel" '
                      f'aria-labelledby="tab-{situacion_id}">')
+        else:
+            o.append(f'<a href="{destino}" class="mapa-enlace" '
+                     f'aria-label="Abrir {e(nombre)} en el mapa interactivo">')
         o.append(svg)
+        if not d["hay_evidencia"]:
+            o.append('</a>')
         o.append('<p class="leyenda">'
                  f'<span class="badge" style="--bc:var(--s8)">{e(nombre)}</span>'
                  '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
