@@ -6,6 +6,24 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-21 — El RUD separa el total acumulado de las altas entre capturas
+
+Contexto: la curva solo mostraba el total acumulado. Permitía saber cuánto llevaba el
+registro, pero ocultaba el ritmo: el lector tenía que restar dos etiquetas para descubrir
+cuántas familias habían entrado desde la víspera.
+
+Decisión: el mismo gráfico conserva la línea acumulada y añade columnas con la diferencia
+neta frente a la captura anterior. Ambas usan la misma escala. Cada columna escribe su valor
+con signo y mantiene forma y texto propios para no depender del color. La primera captura no
+se convierte en un alta diaria: se marca «sin base», porque no existe un cierre anterior y
+atribuir sus 21.275 familias al 16 de agosto inventaría una precisión que la fuente no da.
+Una corrección a la baja conserva su signo y se distingue como tal, nunca se reemplaza por
+cero.
+
+Consecuencia: en una sola lectura se ven el volumen total y el ritmo de incorporación al
+RUD. El SVG explica las dos series en texto accesible y la página declara cómo se calcula la
+columna.
+
 ## 2026-08-21 — El histórico del RUD es acumulativo y no puede encogerse
 
 Contexto: las capturas de los cierres del 18 y 19 de agosto seguían archivadas, pero sus

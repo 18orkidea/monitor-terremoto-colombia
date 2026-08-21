@@ -123,6 +123,18 @@
    "tipo": "monitor",
    "texto": "Zarzal entra al monitor, y por poco no entra. UNITAR-UNOSAT publicó una evaluación de Zarzal (Valle del Cauca) con 201 edificios —el único análisis satelital que existe de ese municipio— pero etiquetó sus puntos con un código de evento que no corresponde a este terremoto, y que además está fechado once días después de la imagen que los retrata. El filtro del monitor, pensado para 8 puntos sueltos de Manizales, dejaba fuera el municipio entero. Se cambió el criterio: lo que decide a qué terremoto pertenece un punto es el identificador que declara el producto —y los cinco productos de UNOSAT declaran este— no una etiqueta interna que la propia fuente contradice. En el mismo paquete, UNOSAT reeditó Viterbo a la baja: de 154 edificios a 108. Con Zarzal dentro y Viterbo reeditado, el recuento queda en 1.578 edificios con daño clasificado por satélite en once municipios, contando una sola vez los que vieron dos servicios.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
+  },
+  {
+   "fecha": "2026-08-21",
+   "tipo": "monitor",
+   "texto": "La página del RUD deja de mostrar solo el acumulado. La línea conserva el total y nuevas columnas enseñan cuántas familias entraron desde cada captura anterior; la primera queda marcada sin base porque no existe un cierre previo con el que calcularla.",
+   "url": "https://brechas.orkidea.eu/rud.html"
+  },
+  {
+   "fecha": "2026-08-21",
+   "tipo": "monitor",
+   "texto": "Las fichas municipales con datos satelitales o ciudadanos incorporan dos vistas: Situación mantiene el resumen estático e indexable, y Mapa de evidencias carga la exploración interactiva solo cuando el lector la solicita. Las fichas sin puntos conservan su enlace al mapa general.",
+   "url": "https://brechas.orkidea.eu/municipio/cali/"
   }
  ]
 }

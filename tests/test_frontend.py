@@ -75,6 +75,61 @@ def correr_ui(expresion: str) -> dict:
     return json.loads(r.stdout)
 
 
+def correr_rud(expresion: str):
+    """Ejecuta las funciones reales del gráfico del RUD sin un navegador."""
+    script = (
+        "global.document={getElementById:()=>({textContent:''})};"
+        "global.window={UI:{"
+        "fetchJson:async()=>({serie:[]}),"
+        "fmt:(v)=>String(v),fechaLarga:(v)=>v,diaMes:(v)=>v.slice(8),"
+        "cssVar:(v)=>v,esc:(v)=>String(v),tablaHidratada:()=>()=>{}"
+        "}};"
+        f"require({json.dumps(str(ROOT / 'site' / 'rud.js'))});"
+        "const RUD=window.RUD,UI=window.UI;"
+        f"console.log(JSON.stringify({expresion}));"
+    )
+    r = subprocess.run([NODE, "-e", script], capture_output=True, text=True,
+                       timeout=30)
+    if r.returncode != 0:
+        raise AssertionError(f"node falló: {r.stderr[:500]}")
+    return json.loads(r.stdout)
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestGraficoRud(unittest.TestCase):
+    """La columna es el cambio entre capturas, nunca el acumulado repetido."""
+
+    SERIE_JS = "[{fecha:'2026-08-16',familias:100,municipios:2}," \
+               "{fecha:'2026-08-17',familias:130,municipios:3}," \
+               "{fecha:'2026-08-18',familias:145,municipios:4}]"
+
+    def test_altas_son_diferencias_y_el_primer_dia_no_inventa_una(self):
+        altas = correr_rud(
+            f"RUD.altasDiarias({self.SERIE_JS}).map((d)=>d.familias)")
+        self.assertEqual(altas, [None, 30, 15])
+
+    def test_svg_combina_columnas_y_curva_con_valores_visibles(self):
+        svg = correr_rud(
+            f"RUD.graficoFamilias({self.SERIE_JS},900,UI)")
+        self.assertIn('data-altas="30"', svg)
+        self.assertIn('data-altas="15"', svg)
+        self.assertNotIn('data-altas="100"', svg)
+        self.assertIn(">+30</text>", svg)
+        self.assertIn(">+15</text>", svg)
+        self.assertIn("sin base", svg)
+        self.assertIn("Total acumulado", svg)
+        self.assertIn("Nuevas desde captura anterior", svg)
+        self.assertIn('aria-labelledby="rud-chart-title rud-chart-desc"', svg)
+
+    def test_una_correccion_a_la_baja_no_se_convierte_en_cero(self):
+        svg = correr_rud(
+            "RUD.graficoFamilias([{fecha:'2026-08-16',familias:100,municipios:2},"
+            "{fecha:'2026-08-17',familias:90,municipios:2}],900,UI)")
+        self.assertIn('data-altas="-10"', svg)
+        self.assertIn(">-10</text>", svg)
+        self.assertIn("--critical", svg)
+
+
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
 class TestSeleccionDiariaBalances(unittest.TestCase):
 

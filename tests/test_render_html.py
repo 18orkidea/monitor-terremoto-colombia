@@ -838,6 +838,12 @@ class TestTablaRud(unittest.TestCase):
         html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
         self.assertIn('<tbody data-gen="rud">', html)
 
+    def test_el_grafico_explica_las_dos_series_y_la_primera_captura(self):
+        html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
+        self.assertIn("acumulado y nuevas por día", html)
+        self.assertIn("desde la captura anterior", html)
+        self.assertIn("El primer día no tiene una captura", html)
+
 
 class TestBalances(unittest.TestCase):
     """Fase D: la tabla trazable de balances citados en medios."""
