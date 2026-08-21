@@ -939,3 +939,44 @@ class TestSupuestoCoberturaDeFechado(unittest.TestCase):
             f"fecha de corte: toca indexar la serie por ella en vez de por "
             f"`search_date`, y publicar el retraso de cada medio. Ver "
             f"docs/LIMITACIONES.md.")
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestParidadAlertasYSitio(unittest.TestCase):
+    """El push, el Telegram, el RSS y la imagen social salen de alerts.py; la
+    web, de site/ui.js. Hasta el 21-ago-2026 cada uno aplicaba su propia regla
+    y se contradecían en público: con el feed del 19-ago, el aviso habría dicho
+    «180 fallecidos (-124 vs día anterior)» —124 resucitados— mientras la web
+    mostraba 304. Ahora alerts.py llama a ui.js, y este test lo vigila."""
+
+    def test_las_alertas_leen_la_misma_regla_que_la_web(self):
+        import sys
+        sys.path.insert(0, str(ROOT / "ingest"))
+        import alerts
+
+        feed = json.loads(
+            (ROOT / "data/public/oficiales.json").read_text(encoding="utf-8"))
+        serie_py, regla = alerts._consolidado_de_la_serie(feed)
+        self.assertEqual(regla, "serie_consolidada_ui_js",
+                         "con node disponible no debe degradar a otra regla")
+        items = [i for i in feed.get("items", []) if i.get("search_date")]
+        serie_js = correr_con(items, "UI.mejorPorDia(items)")
+        self.assertEqual(len(serie_py), len(serie_js))
+        for dia_py, dia_js in zip(serie_py, serie_js):
+            self.assertEqual(dia_py["fecha"], dia_js["fecha"])
+            self.assertEqual(dia_py["consolidado"], dia_js["consolidado"],
+                             f"el {dia_py['fecha']} las alertas y la web "
+                             f"publicarían cifras distintas")
+
+    def test_sin_node_no_se_publica_una_cifra_con_otra_regla(self):
+        """R13: la corrida no se rompe, pero tampoco se inventa un aviso con
+        una regla distinta — se avisa de que la regla no se pudo aplicar."""
+        import sys
+        sys.path.insert(0, str(ROOT / "ingest"))
+        import alerts
+        from unittest import mock
+
+        with mock.patch.object(alerts.shutil, "which", return_value=None):
+            serie, regla = alerts._consolidado_de_la_serie({"items": []})
+        self.assertEqual(serie, [])
+        self.assertEqual(regla, "maximo_del_dia_sin_serie")

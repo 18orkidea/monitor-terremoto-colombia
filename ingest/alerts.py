@@ -12,13 +12,49 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
+import subprocess
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from common import db, fetch_json, today, PUBLIC, SNAPSHOTS
+
+UI_JS = Path(__file__).parent.parent / "site" / "ui.js"
 
 FEED_BALANCES = ("https://monitor-terremoto-colombia-oficiales-ai"
                  ".inforesidencias.workers.dev/oficiales.json")
 UNGRD_ESTANCADO = "2024-02-17"   # si supera esto, la fuente oficial despertó
+
+
+def _consolidado_de_la_serie(feed: dict) -> tuple[list, str]:
+    """El consolidado del balance, calculado por la ÚNICA implementación de la
+    regla: site/ui.js, ejecutado con node.
+
+    Hasta el 21-ago-2026 aquí vivía una segunda regla —el máximo de fallecidos
+    de cada día suelto— y las dos superficies se contradecían en público: con
+    el feed del 19-ago, el push habría anunciado «180 fallecidos (-124 vs día
+    anterior)», o sea 124 resucitados, mientras la web mostraba 304. El día no
+    traía balance nuevo: traía tres cortes viejos.
+
+    R13: si node no está, no se rompe la corrida. Se devuelve la regla vieja
+    marcada, y quien lea el JSON sabe con cuál se calculó.
+    """
+    node = shutil.which("node")
+    if node and UI_JS.exists():
+        script = (
+            "global.window = {};"
+            f"require({json.dumps(str(UI_JS))});"
+            f"const feed = {json.dumps(feed, ensure_ascii=False)};"
+            "const items = (feed.items || []).filter((x) => x.search_date);"
+            "console.log(JSON.stringify(window.UI.mejorPorDia(items)));")
+        try:
+            r = subprocess.run([node, "-e", script], capture_output=True,
+                               text=True, timeout=60)
+            if r.returncode == 0:
+                return json.loads(r.stdout), "serie_consolidada_ui_js"
+        except (OSError, ValueError, subprocess.SubprocessError):
+            pass
+    return [], "maximo_del_dia_sin_serie"
 
 
 def _ayer() -> str:
@@ -214,30 +250,37 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                          f"(última: {gen[:16]}): revisar logs en Cloudflare "
                          f"(¿clave de Firecrawl/Qwen caducada?)"})
     if feed and feed.get("items"):
-        por_dia = {}
-        for it in feed["items"]:
-            d = it.get("search_date")
-            c = it.get("cifras") or {}
-            if d and c.get("fallecidos") is not None:
-                mejor = por_dia.get(d)
-                if not mejor or (c.get("fallecidos") or 0) > (mejor.get("fallecidos") or 0):
-                    por_dia[d] = c
-        dias = sorted(por_dia)
-        if dias and dias[-1] in (snap, _ayer()):
-            ult, c = dias[-1], por_dia[dias[-1]]
-            delta = ""
-            if len(dias) > 1:
-                prev_c = por_dia[dias[-2]]
-                if prev_c.get("fallecidos") is not None:
-                    d_f = (c.get("fallecidos") or 0) - (prev_c.get("fallecidos") or 0)
-                    delta = f" ({'+' if d_f >= 0 else ''}{d_f} vs día anterior)"
+        serie, regla = _consolidado_de_la_serie(feed)
+        if not serie:
             alerts.append({
-                "tipo": "balance_en_medios", "nivel": "info",
-                "texto": f"Balance en medios citando fuentes oficiales ({ult}): "
-                         f"{c.get('fallecidos')} fallecidos{delta}, "
-                         f"{c.get('heridos') or '?'} heridos, "
-                         f"{c.get('desaparecidos') or '?'} desaparecidos",
-                "fecha_balance": ult, "cifras": c})
+                "tipo": "regla_de_balance_degradada", "nivel": "alta",
+                "texto": "No se ha podido calcular la serie de balances con "
+                         "site/ui.js (¿falta node?): el aviso del día se omite "
+                         "en vez de publicar una cifra con otra regla."})
+        elif serie[-1]["fecha"] in (snap, _ayer()):
+            ult = serie[-1]["fecha"]
+            valor = lambda d, k: (d["consolidado"].get(k) or {}).get("valor")
+            c = {k: valor(serie[-1], k)
+                 for k in ("fallecidos", "heridos", "desaparecidos",
+                           "familias_afectadas", "personas_afectadas")}
+            prev = serie[-2] if len(serie) > 1 else None
+            antes = valor(prev, "fallecidos") if prev else None
+            # el consolidado no retrocede, así que un delta 0 significa que ese
+            # día no llegó ningún balance nuevo: no hay nada que avisar
+            if prev is not None and c["fallecidos"] == antes:
+                pass
+            else:
+                delta = ""
+                if antes is not None and c["fallecidos"] is not None:
+                    d_f = c["fallecidos"] - antes
+                    delta = f" (+{d_f} vs día anterior)" if d_f else ""
+                alerts.append({
+                    "tipo": "balance_en_medios", "nivel": "info",
+                    "texto": f"Balance en medios citando fuentes oficiales ({ult}): "
+                             f"{c['fallecidos']} fallecidos{delta}, "
+                             f"{c['heridos'] or '?'} heridos, "
+                             f"{c['desaparecidos'] or '?'} desaparecidos",
+                    "fecha_balance": ult, "cifras": c, "regla": regla})
 
     # 6b) RUD: el registro oficial de damnificados crece — contar el delta
     hoy_rud = conn.execute(
