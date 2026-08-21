@@ -59,30 +59,43 @@
   <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
   oficial. Es lo que la prensa dice que dicen las fuentes oficiales — útil porque vuela más
   rápido que los canales formales, y peligroso si se confunde con un EDAN. Por eso cada
-  captura lleva su nivel de confianza y los <em>coberturas en vivo</em> (coberturas «en vivo» que
-  mezclan actualizaciones de horas distintas) se marcan y pesan menos.</p>
+  captura lleva su nivel de confianza, y las <em>coberturas en vivo</em> —que mezclan
+  actualizaciones de horas distintas— se marcan y pesan menos.</p>
   <details>
     <summary><strong>Metodología y preguntas frecuentes</strong></summary>
     <ol>
       <li><strong>¿Cómo se recogen?</strong> Un proceso automático busca cada noche (23:00
       de Colombia) balances del día en la prensa, descarga los artículos y extrae las cifras
-      con un modelo de lenguaje, guardando la cita textual y el hash del contenido. Todo
-      captura exige revisión humana antes de considerarse consolidado.</li>
+      con reglas de texto deterministas —no con un modelo de lenguaje, que aquí solo se usa
+      para leer documentos escaneados—, guardando la cita textual y el hash del contenido.
+      Toda captura exige revisión humana antes de considerarse consolidada.</li>
       <li><strong>¿Por qué difieren las cifras entre medios el mismo día?</strong> Porque
-      citan cortes distintos del consolidado oficial (mañana vs tarde), o arrastran datos
-      de coberturas en vivo — y los medios internacionales tardíos a veces publican cortes de días
-      atrás. La serie diaria elige el mejor captura con cinco criterios, en orden:
-      <strong>estable respecto a la víspera</strong> (un balance acumulado no retrocede;
-      caídas &gt;10 % delatan un corte viejo), <strong>prensa nacional colombiana</strong>
-      (más cercana al consolidado oficial que los medios internacionales), no-cobertura en vivo,
-      el más completo, y mejor fuente citada. Cuando los medios de un día se contradicen fuerte (&gt;15 %), el día
-      se marca <strong>«cifras en disputa»</strong> — la discrepancia se muestra, no se
-      suprime. Y si el mejor captura de un día no trae una cifra, se conserva el último
-      valor conocido marcado con su fecha de origen — un dato no desaparece porque un
-      medio no lo repita.</li>
+      citan cortes distintos del consolidado oficial (mañana o tarde), o arrastran datos de
+      coberturas en vivo — y los medios que llegan tarde a veces publican cortes de días
+      atrás. Cada cifra que se muestra es <strong>el máximo informado</strong> hasta esa
+      fecha, y entra en la serie solo si cumple cuatro condiciones: <strong>supera a la
+      vigente</strong> (un balance acumulado no retrocede), <strong>se puede atribuir a una
+      fuente oficial</strong> —porque el medio la cita o porque la publica la propia
+      entidad—, <strong>es coherente</strong> con el resto de cifras del mismo balance
+      (nadie puede tener más desaparecidos que afectados) y <strong>no da un salto
+      desmedido</strong> sobre la anterior. Lo que no entra se enseña con su motivo: no se
+      borra. Cuando los medios de un día se contradicen fuerte (&gt;15 %), el día se marca
+      <strong>«cifras en disputa»</strong>. Y si la captura elegida no trae una cifra, se
+      conserva el máximo conocido con su fecha y su medio de origen: un dato no desaparece
+      porque un medio no lo repita.</li>
+      <li><strong>¿Por qué «máximo informado» y no «cifra actual»?</strong> Porque en esta
+      serie ninguna cifra baja, y hay una que sí puede bajar en la realidad: los
+      desaparecidos, cuando aparece gente viva. Llamarla «actual» sería afirmar algo que el
+      monitor no sabe. Si un balance oficial corrige a la baja, la corrección aparece entre
+      las cifras descartadas, con su medio y su fecha.</li>
+      <li><strong>¿Una cobertura en vivo puede ser la captura del día?</strong> Sí, si es la
+      única con atribución oficial y las demás vienen vacías o con cortes viejos. Sigue
+      pesando menos que un artículo estático equivalente, pero una cobertura en vivo que
+      cita a la UNGRD y al SGC informa mejor que un artículo que no cita a nadie.</li>
       <li><strong>¿Qué significa cada nivel?</strong> «Prensa temporal» = artículo fechado
       de un medio; «Web temporal» = página sin fecha editorial firme; el distintivo
-      <em>cobertura en vivo</em> marca coberturas en vivo (fiabilidad histórica baja).</li>
+      <em>cobertura en vivo</em> señala las que se publican «en directo» (fiabilidad
+      histórica baja).</li>
       <li><strong>¿Dónde están los datos?</strong> El feed completo es público en
       <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" target="_blank" rel="noopener">JSON</a>
       y <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.rss" target="_blank" rel="noopener">RSS</a>,
@@ -110,7 +123,7 @@
     <thead><tr>
       <th>Indicador</th>
       <th class="num" title="Registro Único de Damnificados (UNGRD): lo registrado municipio a municipio por las autoridades locales. Registro progresivo — crece a medida que los municipios cargan datos.">RUD (registro oficial)</th>
-      <th class="num" title="Mejor captura no-cobertura en vivo del último día: lo que la prensa publica citando el consolidado oficial (UNGRD/SGC).">Medios citando oficiales</th>
+      <th class="num" title="Máximo informado hasta el último día por medios que citan el consolidado oficial (UNGRD y SGC).">Medios citando oficiales</th>
       <th class="num" title="Diferencia absoluta entre ambas columnas. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
     </tr></thead>
     <tbody></tbody>
@@ -124,14 +137,14 @@
 </section>
 
 <section id="balance-chart-section">
-  <h2>Serie del mejor captura no-cobertura en vivo por día</h2>
-  <p class="sub">El punto diario prioriza completitud, fuente citada y estabilidad histórica; los coberturas en vivo se penalizan.</p>
+  <h2>Serie del máximo informado por día</h2>
+  <p class="sub">El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance.</p>
   <div id="balance-chart"></div>
 </section>
 
 <section id="balance-table-section">
   <h2>Tabla trazable de capturas</h2>
-  <p class="sub">Todos los capturas capturados, con su publicador y su fuente citada.
+  <p class="sub">Todas las capturas archivadas, con su publicador y su fuente citada.
   Las filas marcadas <strong style="color:var(--good)">✓ usada en la serie</strong> son
   el captura elegido de cada día: sus cifras alimentan la serie, las tarjetas y la
   comparativa; el resto se conserva como evidencia pero no afecta los datos.</p>

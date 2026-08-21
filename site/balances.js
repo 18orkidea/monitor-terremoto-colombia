@@ -124,15 +124,31 @@
       el.innerHTML = "<p class='note'>Todavía no hay ninguna captura.</p>";
       return;
     }
-    // consolidado: el último valor conocido de cada cifra, con su fecha de
-    // origen marcada cuando no es del propio día — un dato no desaparece
-    // porque el snapshot del día no lo traiga
+    // consolidado: el MÁXIMO informado de cada cifra, con su fecha y su medio
+    // de origen. Se rotula «máximo informado» y no «cifra actual» porque una
+    // cifra no baja nunca en esta serie, y algunas —los desaparecidos— sí
+    // pueden bajar en la realidad cuando aparece gente viva.
     const cc = (k) => {
       const v = (consolidado || {})[k];
       if (!v) return card(NOMBRES_UI[k], "—");
-      const origen = v.fecha !== ult.fecha ? `del ${fechaEs(v.fecha)}` : null;
-      return card(NOMBRES_UI[k], fmt(v.valor), origen);
+      const partes = [];
+      if (v.fecha !== ult.fecha) partes.push(`del ${fechaEs(v.fecha)}`);
+      if (v.medio) partes.push(v.medio);
+      return card(NOMBRES_UI[k], fmt(v.valor), partes.join(" · ") || null);
     };
+    // lo que NO entró en la serie, con su motivo: un balance menor, sin
+    // atribución o incoherente sigue siendo información de brecha
+    const rechazadas = (ult.ignoradas || []).filter((g) => NOMBRES[g.cifra]);
+    const notaRechazadas = rechazadas.length
+      ? `<p class="note full">Este día se descartaron ` +
+        `${fmt(rechazadas.length)} cifras de la serie: ` +
+        rechazadas.slice(0, 4).map((g) =>
+          `${NOMBRES[g.cifra]} ${fmt(g.valor)}` +
+          (g.medio ? ` (${esc(g.medio)})` : "") + `, ${esc(g.motivo)}`).join(" · ") +
+        (rechazadas.length > 4 ? " · y más" : "") +
+        `. No se borran: se enseñan, porque la distancia entre lo que publica ` +
+        `cada medio es justamente lo que este monitor mide.</p>`
+      : "";
     // disputa entre medios del día: se muestra, no se suprime — la
     // discrepancia entre fuentes ES información de brecha
     const notaDisputa = disputa
@@ -140,23 +156,25 @@
         `este día</strong>: ` +
         Object.entries(disputa).map(([k, v]) =>
           `${NOMBRES[k]} entre ${fmt(v.min)} y ${fmt(v.max)}`).join(" · ") +
-        `. Se muestra la captura coherente con la serie (un balance acumulado ` +
-        `no retrocede), priorizando la prensa nacional colombiana; los medios ` +
-        `internacionales tardíos con cortes viejos se penalizan.</p>`
+        `. Se muestra la captura coherente con la serie: un balance acumulado ` +
+        `no retrocede, y un medio que llega tarde con un corte viejo no puede ` +
+        `hacerla bajar.</p>`
       : "";
     el.innerHTML =
       card("Última fecha", fechaEs(ult.fecha)) +
       cc("fallecidos") + cc("heridos") + cc("desaparecidos") +
       cc("familias_afectadas") +
       card("Capturas", `${fmt(total)} / ${fmt(nDates)} días`) +
-      notaDisputa +
+      notaDisputa + notaRechazadas +
       `<p class="note full">Captura elegida en un medio que cita fuentes oficiales: <a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
       `publica ${esc(publisherName(item))} · fuente citada: ${sourceLinks(item)}. ` +
-      `Cada cifra mostrada es <strong>la mejor disponible del total de capturas</strong> ` +
-      `según los criterios de la serie —estabilidad, prensa nacional, coberturas en vivo ` +
-      `penalizadas, número de cifras y fuente citada—, no necesariamente la más reciente ` +
-      `publicada: puede ir por detrás de la realidad. Las tarjetas que llevan una fecha ` +
-      `debajo conservan el último valor conocido, porque la captura del día no lo trae.</p>`;
+      `Cada cifra es <strong>el máximo informado hasta la fecha</strong>, no la ` +
+      `última publicada: entra en la serie si supera a la vigente, si se puede ` +
+      `atribuir a una fuente oficial y si es coherente con el resto del mismo ` +
+      `balance. Las tarjetas llevan debajo de qué día y de qué medio sale su ` +
+      `cifra, que no tiene por qué ser el de la captura elegida. Puede ir por ` +
+      `detrás de la realidad, y los desaparecidos pueden bajar en la realidad ` +
+      `sin bajar aquí: por eso se llama máximo informado.</p>`;
   }
 
 
