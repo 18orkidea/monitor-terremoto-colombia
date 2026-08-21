@@ -557,12 +557,28 @@ class TestPaquetesDeSertit(unittest.TestCase):
         registrados = {r[0] for r in q(
             "SELECT snapshot_path FROM sources_log"
             " WHERE snapshot_path LIKE 'data/documentos/%'")}
-        huerfanos = [str(f.relative_to(ROOT)) for f in docs.rglob("*")
-                     if f.is_file() and str(f.relative_to(ROOT)) not in registrados]
-        self.assertEqual(
-            huerfanos, [],
-            "cuerpos en el archivo sin fila que los explique: un fichero que "
-            "nadie registró no se puede fechar ni atribuir")
+        # Se comprueba fuente a fuente. Los cuerpos viajan en git y las filas
+        # no —la sqlite se reconstruye—, así que en una copia con base poblada
+        # donde esa fuente aún no se ha ingerido no falta ninguna fila: falta
+        # la corrida. Acusar ahí sería un falso positivo, y un guardián que
+        # acusa en falso acaba desactivado por quien se cansa de verlo en rojo.
+        # Lo que sí es un fallo real: que unos cuerpos de la misma fuente
+        # consten y otros no.
+        for sub in sorted(d for d in docs.iterdir() if d.is_dir()):
+            cuerpos = [f for f in sub.rglob("*") if f.is_file()]
+            if not cuerpos:
+                continue
+            rel = [str(f.relative_to(ROOT)) for f in cuerpos]
+            presentes = [r for r in rel if r in registrados]
+            if not presentes:
+                continue        # esta fuente no se ha ingerido en esta copia
+            huerfanos = [r for r in rel if r not in registrados]
+            self.assertEqual(
+                huerfanos, [],
+                f"{sub.name}: hay cuerpos registrados y otros no. Un fichero "
+                f"que nadie registró no se puede fechar ni atribuir, y aquí no "
+                f"vale la excusa de «esta fuente no se ha ingerido»: sus "
+                f"hermanos sí constan")
 
     def test_cada_paquete_registrado_una_sola_vez(self):
         """Una entrega es un suceso, no un estado. Si se registrara en cada
