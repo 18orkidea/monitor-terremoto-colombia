@@ -150,6 +150,7 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     conn = db()
     snap = today()
     alerts = []
+    balance_consolidado = None
 
     # 1) activaciones Copernicus nuevas — SOLO Colombia
     for item in (copernicus_summary or {}).get("new", []):
@@ -251,6 +252,17 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                          f"(¿clave de Firecrawl/Qwen caducada?)"})
     if feed and feed.get("items"):
         serie, regla = _consolidado_de_la_serie(feed)
+        if serie:
+            # se publica SIEMPRE, no solo cuando hay aviso: la imagen social y
+            # cualquier otro consumidor necesitan la cifra vigente también los
+            # días en que no llega ningún balance nuevo
+            balance_consolidado = {
+                "fecha": serie[-1]["fecha"], "regla": regla,
+                "cifras": {k: (v or {}).get("valor")
+                           for k, v in serie[-1]["consolidado"].items()},
+                "origen": {k: {"fecha": (v or {}).get("fecha"),
+                               "medio": (v or {}).get("medio")}
+                           for k, v in serie[-1]["consolidado"].items()}}
         if not serie:
             alerts.append({
                 "tipo": "regla_de_balance_degradada", "nivel": "alta",
@@ -344,6 +356,8 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
             "event_code": x["code"], "capa": x["capa"], "puntos": x["n"]})
 
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}
+    if balance_consolidado:
+        payload["balance_consolidado"] = balance_consolidado
     PUBLIC.mkdir(parents=True, exist_ok=True)
     (PUBLIC / "alerts.json").write_text(
         json.dumps(payload, indent=1, ensure_ascii=False))

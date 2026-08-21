@@ -120,16 +120,21 @@ def main():
     ])
     img.save(OG / "titulares.png", optimize=True)
 
-    # -- balances (cifras del último balance citado en medios, si hay alerta)
+    # -- balances: el consolidado vigente, que alerts.py publica siempre. Antes
+    # se leía de la alerta del día, así que la imagen se quedaba sin cifras los
+    # días en que no llegaba ningún balance nuevo. La regla es la misma que la
+    # de la web: una implementación, tres consumidores.
     cifras = {}
     try:
         alerts = json.loads((ROOT / "data/public/alerts.json").read_text())
-        for a in alerts.get("alertas", []):
-            if a.get("tipo") == "balance_en_medios":
-                cifras = a.get("cifras") or {}
+        cifras = (alerts.get("balance_consolidado") or {}).get("cifras") or {}
+        if not cifras:
+            for a in alerts.get("alertas", []):
+                if a.get("tipo") == "balance_en_medios":
+                    cifras = a.get("cifras") or {}
     except FileNotFoundError:
         pass
-    img, d = base("Balances en medios", "que citan fuentes oficiales (UNGRD, SGC) — extraídos a diario con IA")
+    img, d = base("Balances en medios", "máximo informado por medios que citan fuentes oficiales (UNGRD, SGC)")
     stats_row(d, [
         (fmt(cifras.get("fallecidos")), "fallecidos", CRIT),
         (fmt(cifras.get("desaparecidos")), "desaparecidos", WARN),
