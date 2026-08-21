@@ -507,18 +507,78 @@ window.UI = (function () {
     return 0;
   };
 
-  /* Estabilidad respecto a la víspera: un balance ACUMULADO no retrocede.
-     Un candidato cuyas cifras ancla caen >10 % frente al mejor del día
-     anterior suele ser un medio tardío citando un corte viejo (caso
-     Primicias 16-ago: 181 fallecidos cuando el consolidado iba por 294) —
-     se penaliza por delante incluso de la marca liveblog: un liveblog
-     coherente informa mejor que un artículo estático desactualizado. */
+  /* Estabilidad respecto al CONSOLIDADO (no respecto al mejor de ayer): un
+     balance acumulado no retrocede. Comparar contra el ítem de la víspera
+     dejaba el guardarraíl ciego el día siguiente a un ganador sin cifras —el
+     18-ago ganó un post sin anclas y el 19 entró un corte del día 10 sin
+     oposición, publicando 11.132 familias donde el RUD registraba 65.663. */
   const ANCLAS = ["fallecidos", "familias_afectadas"];
-  function retrocede(item, prev) {
-    if (!prev) return false;
-    const p = prev.cifras || {}, c = (item && item.cifras) || {};
-    return ANCLAS.some((k) =>
-      p[k] != null && c[k] != null && c[k] < p[k] * 0.9);
+
+  /* Las diez cifras del balance, TODAS acumulativas por decisión editorial
+     (docs/DECISIONES.md, 21-ago-2026): ninguna baja nunca. Incluye
+     `desaparecidos`, que en la realidad SÍ puede bajar —cuando aparece gente
+     viva, que es una buena noticia—; por eso el sitio las rotula «máximo
+     informado» con su fecha y no «cifras actuales». Si el worker añade una
+     métrica nueva, el test la obliga a declararse aquí. */
+  const CIFRAS_BALANCE = ["departamentos_afectados", "municipios_afectados",
+    "personas_afectadas", "familias_afectadas", "viviendas_averiadas",
+    "viviendas_destruidas", "heridos", "fallecidos", "desaparecidos",
+    "rescatados"];
+
+  /* Techo de salto. Con monotonía, un error de extracción AL ALZA se queda
+     para siempre: el worker ya produjo «900 municipios afectados» desde el
+     nombre de una imagen (mapa-900x601.jpg). Un salto mayor que este factor no
+     entra, pero NO se descarta en silencio: se registra y se muestra, porque un
+     salto real —Clarín, 54.008 → 120.238 el 16-ago, ×2,2— es noticia. */
+  const TECHO_SALTO = 5;
+
+  const valorDe = (celda) => (celda && typeof celda === "object")
+    ? celda.valor : celda;
+
+  /* Atribución oficial trazable: o el medio cita a una entidad oficial, o la
+     publica la propia entidad. Necesaria, pero NO suficiente: medido sobre el
+     corpus, los cortes viejos citan a UNGRD y SGC igual de bien que los
+     frescos —de eso se encarga la monotonía—. Lo que descarta es la cifra que
+     no se puede atribuir a nadie. */
+  function atribucionOficial(item) {
+    return !!(item && (item.official ||
+      (item.reported_data_source || []).length));
+  }
+
+  /* Coherencia interna: relaciones que no pueden romperse sin que la
+     extracción esté mal. Una familia tiene al menos una persona; un fallecido
+     es una persona afectada. En todas, `personas_afectadas` es el lado que
+     falla, así que es la cifra que queda en cuarentena — las demás del mismo
+     ítem siguen sirviendo. Cazó el «personas_afectadas: 304» del boletín del
+     18-ago, que eran en realidad los fallecidos. */
+  function incoherencias(item) {
+    const c = (item && item.cifras) || {};
+    const p = c.personas_afectadas;
+    if (p == null) return [];
+    const rotas = [];
+    if (c.familias_afectadas != null && p < c.familias_afectadas)
+      rotas.push("personas_afectadas < familias_afectadas");
+    for (const k of ["fallecidos", "heridos", "desaparecidos"])
+      if (c[k] != null && p < c[k]) rotas.push("personas_afectadas < " + k);
+    return rotas;
+  }
+  const esCoherente = (item) => incoherencias(item).length === 0;
+  const enCuarentena = (item) =>
+    incoherencias(item).length ? ["personas_afectadas"] : [];
+
+  /* Un candidato sin NINGUNA cifra ancla no puede considerarse estable: no
+     retrocede porque no trae con qué. Es el fallo que dejó ganar el 18-ago a
+     un post con tres cifras frente a uno con diez. */
+  const sinAnclas = (item) =>
+    ANCLAS.every((k) => ((item && item.cifras) || {})[k] == null);
+
+  function retrocede(item, consolidado) {
+    const c = (item && item.cifras) || {};
+    const cons = consolidado || {};
+    return ANCLAS.some((k) => {
+      const prev = valorDe(cons[k]);
+      return prev != null && c[k] != null && c[k] < prev * 0.9;
+    });
   }
 
   /* Contradicción fuerte entre los candidatos de un mismo día (>15 % entre
@@ -538,10 +598,11 @@ window.UI = (function () {
     return Object.keys(out).length ? out : null;
   }
 
-  /* Prensa nacional colombiana: el snapshot mostrado prioriza los diarios
-     nacionales — están más cerca del consolidado oficial que los medios
-     internacionales, que suelen llegar tarde y con cortes viejos. Lista
-     curada (nombre o dominio); ampliar aquí cuando aparezca uno nuevo. */
+  /* Prensa nacional colombiana: los diarios nacionales suelen estar más cerca
+     del consolidado oficial que los internacionales tardíos. Criterio TARDÍO
+     —por detrás de la atribución y de la marca liveblog—: cuando pesaba antes,
+     un `.com.co` cualquiera adelantaba a un medio con mejor dato, y eso decidió
+     el 19-ago a favor de un liveblog del día 10. */
   const MEDIOS_NACIONALES = [
     "el tiempo", "eltiempo", "el espectador", "elespectador",
     "el colombiano", "elcolombiano", "caracol", "rcn", "semana",
@@ -557,40 +618,98 @@ window.UI = (function () {
       n.includes(".com.co") || n.includes(".gov.co");
   }
 
-  /* Orden de selección del día: estable respecto a la víspera (un acumulado
-     no retrocede), prensa nacional colombiana, no-liveblog, el más completo,
-     mejor fuente citada, y el más reciente. */
-  function bestSnapshot(items, prev) {
-    return [...items].sort((a, b) =>
-      Number(retrocede(a, prev)) - Number(retrocede(b, prev)) ||
-      Number(esNacional(b)) - Number(esNacional(a)) ||
-      Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
-      metricCount(b) - metricCount(a) ||
+  /* Orden de selección del día: estable frente al consolidado, con cifras
+     ancla, coherente, con atribución oficial, no-liveblog, prensa nacional, el
+     más completo y el más reciente. La marca liveblog va por DEBAJO de la
+     atribución (R8 dice «se marcan y pesan menos», no «pierden siempre»): un
+     liveblog que cita UNGRD y SGC informa mejor que un estático mudo. */
+  function cmpCandidatos(consolidado) {
+    return (a, b) =>
+      Number(retrocede(a, consolidado)) - Number(retrocede(b, consolidado)) ||
+      Number(sinAnclas(a)) - Number(sinAnclas(b)) ||
+      Number(!esCoherente(a)) - Number(!esCoherente(b)) ||
       sourceScore(b) - sourceScore(a) ||
-      ((b.captured_at || "").localeCompare(a.captured_at || "")))[0] || null;
+      Number(isLiveblog(a)) - Number(isLiveblog(b)) ||
+      Number(esNacional(b)) - Number(esNacional(a)) ||
+      metricCount(b) - metricCount(a) ||
+      ((b.captured_at || "").localeCompare(a.captured_at || ""));
+  }
+  function bestSnapshot(items, consolidado) {
+    return [...items].sort(cmpCandidatos(consolidado))[0] || null;
   }
 
-  /* Serie diaria con memoria: el mejor snapshot de cada día se elige con el
-     día anterior como referencia de estabilidad, y cada día lleva su
-     `consolidado`: el último valor conocido de CADA cifra con su fecha de
-     origen — un dato no desaparece porque el mejor snapshot del día no lo
-     traiga; se conserva y se marca de cuándo es.
-     Devuelve [{fecha, item, disputa, consolidado: {cifra: {valor, fecha}}}] */
+  /* Consolidado del día: para CADA cifra por separado se recorren los
+     candidatos en el orden de bestSnapshot y se toma el primer valor que
+     cumpla las cuatro condiciones. Por cifra y no por ítem ganador, para no
+     perder un dato que el ganador no trae —las 134.342 viviendas averiadas del
+     boletín oficial del 18-ago se perderían si solo mirásemos al ganador—.
+     Lo rechazado no desaparece: sale en `ignoradas` con su motivo, porque la
+     discrepancia es brecha (R12), no un error a ocultar. */
+  function consolidarDia(previo, dia, fecha, orden) {
+    const consolidado = { ...previo };
+    const ignoradas = [];
+    for (const k of CIFRAS_BALANCE) {
+      const vigente = valorDe(consolidado[k]);
+      for (const item of orden) {
+        const v = ((item && item.cifras) || {})[k];
+        if (v == null) continue;
+        const medio = (item.publisher || {}).name ||
+          (item.publisher || {}).domain || null;
+        const url = item.publication_url || item.url || null;
+        const rechaza = (motivo) => ignoradas.push(
+          { cifra: k, valor: v, motivo, medio, url });
+        if (enCuarentena(item).includes(k)) {
+          rechaza("cifra incoherente con el resto del mismo balance");
+          continue;
+        }
+        if (!atribucionOficial(item)) {
+          rechaza("sin atribución oficial trazable");
+          continue;
+        }
+        if (vigente != null && v <= vigente) {
+          if (v < vigente) rechaza("retrocede sobre el máximo informado");
+          continue;
+        }
+        if (vigente != null && vigente > 0 && v > vigente * TECHO_SALTO) {
+          rechaza(`salto mayor de ×${TECHO_SALTO} sobre el máximo informado`);
+          continue;
+        }
+        consolidado[k] = { valor: v, fecha, medio, url };
+        break;
+      }
+    }
+    return { consolidado, ignoradas };
+  }
+
+  /* Serie diaria con memoria: cada día lleva su mejor captura y el
+     `consolidado`, que es el MÁXIMO informado de cada cifra con su fecha y su
+     medio de origen. Ninguna cifra baja (decisión editorial de 21-ago-2026): un
+     medio tardío citando un corte viejo ya no puede hacer retroceder la serie.
+     Devuelve [{fecha, item, disputa, consolidado, ignoradas}] */
   function mejorPorDia(items) {
     const fechas = [...new Set(items.map((x) => x.search_date))].sort();
-    let prev = null;
+    // Dos acumuladores con oficios distintos, y conviene no confundirlos:
+    // `maximos` es todo lo visto —con atribución o sin ella— y sirve para
+    // detectar el corte viejo en la VITRINA; `consolidado` es lo que se
+    // PUBLICA, y por eso exige atribución oficial. Si fueran el mismo, un día
+    // sin ninguna fuente atribuible dejaría el guardarraíl sin referencia y
+    // volvería a colarse un corte de hace nueve días.
+    let maximos = {};
     let consolidado = {};
     return fechas.map((fecha) => {
       const dia = items.filter((x) => x.search_date === fecha);
-      const item = bestSnapshot(dia, prev);
-      if (item) prev = item;
-      const c = (item && item.cifras) || {};
-      consolidado = { ...consolidado };
-      for (const [k, v] of Object.entries(c)) {
-        if (v != null) consolidado[k] = { valor: v, fecha };
+      const orden = [...dia].sort(cmpCandidatos(maximos));
+      const item = orden[0] || null;
+      const paso = consolidarDia(consolidado, dia, fecha, orden);
+      consolidado = paso.consolidado;
+      for (const x of dia) {
+        for (const k of ANCLAS) {
+          const v = (x.cifras || {})[k];
+          if (v != null && (maximos[k] == null || v > maximos[k])) maximos[k] = v;
+        }
       }
       return { fecha, item, disputa: disputaDia(dia),
-               consolidado: { ...consolidado } };
+               consolidado: { ...consolidado }, ignoradas: paso.ignoradas };
     });
   }
 
@@ -702,6 +821,8 @@ window.UI = (function () {
            fichaMapa,
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            medioDe, viaGoogleNews, hostDe,
+           retrocede, sinAnclas, esCoherente, incoherencias, atribucionOficial,
+           esNacional, CIFRAS_BALANCE, TECHO_SALTO,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };
 })();

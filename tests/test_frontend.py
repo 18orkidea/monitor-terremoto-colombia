@@ -10,6 +10,7 @@ día», haciendo retroceder la serie pública.
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import unittest
@@ -27,24 +28,31 @@ if not NODE and os.environ.get("CI"):
         "en JavaScript no se pueden verificar. Instalar node o quitar el paso.")
 
 
-# fixture reducida del feed real del 17-ago (cifras textuales)
+# fixture reducida del feed real del 17-ago (cifras textuales). Todos los ítems
+# llevan `reported_data_source`, como en el feed real: una cifra sin atribución
+# oficial trazable no entra en el consolidado.
+CITA = [{"id": "UNGRD", "type": "oficial_nacional"}]
 FIXTURE = [
     {"search_date": "2026-08-15", "title": "Balance oficial de la UNGRD",
      "publisher": {"name": "El Tiempo"}, "is_liveblog": False,
+     "reported_data_source": CITA,
      "captured_at": "2026-08-16T04:00",
      "cifras": {"fallecidos": 294, "heridos": 3935, "desaparecidos": 320,
                 "familias_afectadas": 54008}},
     {"search_date": "2026-08-16", "title": "Gobierno alista declaratoria",
      "publisher": {"name": "Primicias"}, "is_liveblog": False,
+     "reported_data_source": CITA,
      "captured_at": "2026-08-17T04:03",
      "cifras": {"fallecidos": 181, "heridos": 668, "desaparecidos": 195}},
     {"search_date": "2026-08-16", "title": "todas las noticias del sismo",
      "publisher": {"name": "Clarín"}, "is_liveblog": True,
+     "reported_data_source": CITA,
      "captured_at": "2026-08-17T04:03",
      "cifras": {"fallecidos": 294, "heridos": 4000, "desaparecidos": 143,
                 "familias_afectadas": 120238}},
     {"search_date": "2026-08-16", "title": "Terremoto en Colombia hoy 16",
      "publisher": {"name": "El Tiempo"}, "is_liveblog": True,
+     "reported_data_source": CITA,
      "captured_at": "2026-08-17T04:03",
      "cifras": {"desaparecidos": 143, "familias_afectadas": 120238}},
 ]
@@ -109,6 +117,7 @@ class TestSeleccionDiariaBalances(unittest.TestCase):
         caso = correr_ui(
             "UI.mejorPorDia(items.slice(0,1).concat([{search_date:'2026-08-16',"
             "publisher:{name:'X'},is_liveblog:false,captured_at:'2026-08-17',"
+            "reported_data_source:[{id:'UNGRD'}],"
             "cifras:{fallecidos:300}}]))")
         cons = caso[-1]["consolidado"]
         self.assertEqual(cons["familias_afectadas"]["valor"], 54008,
@@ -123,8 +132,249 @@ class TestSeleccionDiariaBalances(unittest.TestCase):
         caso = correr_ui(
             "UI.mejorPorDia(items.slice(0,1).concat([{search_date:'2026-08-16',"
             "publisher:{name:'X'},is_liveblog:false,captured_at:'2026-08-17',"
+            "reported_data_source:[{id:'UNGRD'}],"
             "cifras:{fallecidos:280,familias_afectadas:54008}}]))")
         self.assertEqual(caso[-1]["item"]["cifras"]["fallecidos"], 280)
+
+
+def correr_con(items: list, expresion: str):
+    """Como correr_ui, pero con una fixture propia: los tests de abajo
+    construyen el dato mínimo que viola la propiedad que afirman, en vez de
+    copiar el corpus observado (un fixture que fija el comportamiento no
+    vigila nada)."""
+    script = (
+        "global.window = {};"
+        f"require({json.dumps(str(ROOT / 'site' / 'ui.js'))});"
+        "const UI = window.UI;"
+        f"const items = {json.dumps(items, ensure_ascii=False)};"
+        f"console.log(JSON.stringify({expresion}));"
+    )
+    r = subprocess.run([NODE, "-e", script], capture_output=True, text=True,
+                       timeout=30)
+    if r.returncode != 0:
+        raise AssertionError(f"node falló: {r.stderr[:500]}")
+    return json.loads(r.stdout)
+
+
+def captura(fecha, nombre, cifras, **extra):
+    """Una captura de balance con lo mínimo que el feed real siempre trae."""
+    it = {"search_date": fecha, "title": f"balance {nombre}",
+          "publisher": {"name": nombre, "domain": f"{nombre.lower()}.com"},
+          "is_liveblog": False, "captured_at": f"{fecha}T04:00",
+          "reported_data_source": [{"id": "UNGRD"}], "cifras": cifras}
+    it.update(extra)
+    return it
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestConsolidadoMonotono(unittest.TestCase):
+    """El caso real que motivó la regla (19-ago-2026): el sitio publicaba
+    11.132 familias afectadas donde el RUD registraba 65.663, porque un
+    liveblog del día 10 ganó el día y el consolidado adoptó su cifra."""
+
+    def test_ninguna_cifra_del_balance_retrocede(self):
+        # todas las cifras bajan de golpe al día siguiente: ninguna debe caer
+        altas = {"departamentos_afectados": 15, "municipios_afectados": 450,
+                 "personas_afectadas": 186016, "familias_afectadas": 120328,
+                 "viviendas_averiadas": 127557, "viviendas_destruidas": 26945,
+                 "heridos": 4187, "fallecidos": 294, "desaparecidos": 426,
+                 "rescatados": 356}
+        bajas = {k: max(1, v // 10) for k, v in altas.items()}
+        serie = correr_con(
+            [captura("2026-08-18", "Bueno", altas),
+             captura("2026-08-19", "CorteViejo", bajas)],
+            "UI.mejorPorDia(items)")
+        cons = serie[-1]["consolidado"]
+        for cifra, alto in altas.items():
+            self.assertEqual(cons[cifra]["valor"], alto,
+                             f"{cifra} retrocedió: un acumulado no baja")
+            self.assertEqual(cons[cifra]["fecha"], "2026-08-18",
+                             f"{cifra} debe declarar de qué día es el máximo")
+
+    def test_la_cifra_rechazada_se_registra_no_se_borra(self):
+        # la discrepancia es brecha (R12): lo que no entra queda con su motivo
+        serie = correr_con(
+            [captura("2026-08-18", "Bueno", {"familias_afectadas": 120328}),
+             captura("2026-08-19", "Viejo", {"familias_afectadas": 11132})],
+            "UI.mejorPorDia(items)")
+        ignoradas = serie[-1]["ignoradas"]
+        self.assertTrue(any(g["cifra"] == "familias_afectadas"
+                            and g["valor"] == 11132 for g in ignoradas),
+                        "la cifra rechazada debe verse, no desaparecer")
+        self.assertTrue(any("retrocede" in g["motivo"] for g in ignoradas))
+
+    def test_cada_cifra_declara_su_medio_de_origen(self):
+        # una tarjeta que arrastra un valor tiene que decir de quién es
+        serie = correr_con(
+            [captura("2026-08-18", "Caracol", {"familias_afectadas": 120328})],
+            "UI.mejorPorDia(items)")
+        celda = serie[-1]["consolidado"]["familias_afectadas"]
+        self.assertEqual(celda["medio"], "Caracol")
+        self.assertIn("fecha", celda)
+
+    def test_un_salto_desmedido_se_marca_y_no_entra(self):
+        # con monotonía, un error de extracción al alza sería permanente:
+        # el worker ya produjo «900 municipios» desde mapa-900x601.jpg
+        serie = correr_con(
+            [captura("2026-08-18", "Bueno", {"familias_afectadas": 120328}),
+             captura("2026-08-19", "Disparate",
+                     {"familias_afectadas": 120328 * 9})],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(
+            serie[-1]["consolidado"]["familias_afectadas"]["valor"], 120328)
+        self.assertTrue(any("salto" in g["motivo"] for g in serie[-1]["ignoradas"]),
+                        "el salto se marca; no se descarta en silencio")
+
+    def test_un_salto_grande_pero_plausible_si_entra(self):
+        # Clarín pasó de 54.008 a 120.238 familias el 16-ago (×2,2): es real
+        serie = correr_con(
+            [captura("2026-08-15", "ElTiempo", {"familias_afectadas": 54008}),
+             captura("2026-08-16", "Clarin", {"familias_afectadas": 120238})],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(
+            serie[-1]["consolidado"]["familias_afectadas"]["valor"], 120238)
+
+    def test_sin_atribucion_oficial_la_cifra_no_se_publica(self):
+        # R9: lo que no se puede atribuir a nadie no alimenta la serie
+        anon = captura("2026-08-19", "Anonimo", {"familias_afectadas": 999999})
+        anon["reported_data_source"] = []
+        serie = correr_con(
+            [captura("2026-08-18", "Bueno", {"familias_afectadas": 120328}),
+             anon], "UI.mejorPorDia(items)")
+        self.assertEqual(
+            serie[-1]["consolidado"]["familias_afectadas"]["valor"], 120328)
+        self.assertTrue(any("atribución" in g["motivo"]
+                            for g in serie[-1]["ignoradas"]))
+
+    def test_la_comunicacion_oficial_directa_si_cuenta(self):
+        # el boletín lo publica la propia UNGRD: no cita a nadie porque ES
+        # la fuente. `official` vale como atribución.
+        propio = captura("2026-08-18", "UNGRD", {"viviendas_averiadas": 134342})
+        propio["reported_data_source"] = []
+        propio["official"] = True
+        serie = correr_con([propio], "UI.mejorPorDia(items)")
+        self.assertEqual(
+            serie[-1]["consolidado"]["viviendas_averiadas"]["valor"], 134342)
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestSeleccionDelDia(unittest.TestCase):
+
+    def test_un_candidato_sin_anclas_no_gana_el_dia(self):
+        # el 18-ago ganó un post con tres cifras y ninguna ancla, por delante
+        # de uno con diez: `retrocede` no lo frenaba porque no traía con qué
+        mudo = captura("2026-08-18", "Mudo",
+                       {"desaparecidos": 426, "viviendas_averiadas": 134342})
+        rico = captura("2026-08-18", "Rico",
+                       {"fallecidos": 304, "familias_afectadas": 123789,
+                        "personas_afectadas": 292043})
+        serie = correr_con([mudo, rico], "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["item"]["publisher"]["name"], "Rico",
+                         "gana quien trae las cifras ancla")
+
+    def test_el_guardarrail_no_se_desactiva_tras_un_dia_mudo(self):
+        # EL test del 11.132: día 1 bueno, día 2 sin anclas, día 3 corte viejo.
+        # Si la referencia fuera el ítem de la víspera, el día 3 pasaría.
+        mudo = captura("2026-08-19", "Mudo", {"desaparecidos": 426})
+        serie = correr_con(
+            [captura("2026-08-18", "Bueno",
+                     {"fallecidos": 304, "familias_afectadas": 123789}),
+             mudo,
+             captura("2026-08-20", "Viejo",
+                     {"fallecidos": 180, "familias_afectadas": 11132})],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(
+            serie[-1]["consolidado"]["familias_afectadas"]["valor"], 123789,
+            "un día sin anclas no puede dejar ciego al guardarraíl")
+
+    def test_un_liveblog_que_cita_oficiales_gana_a_un_estatico_mudo(self):
+        # R8 dice «se marcan y pesan menos», no «pierden siempre»
+        estatico = captura("2026-08-18", "Estatico", {"desaparecidos": 426})
+        vivo = captura("2026-08-18", "EnVivo",
+                       {"fallecidos": 304, "familias_afectadas": 123789},
+                       is_liveblog=True)
+        serie = correr_con([estatico, vivo], "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["item"]["publisher"]["name"], "EnVivo")
+
+    def test_entre_iguales_el_liveblog_sigue_pesando_menos(self):
+        # la penalización de R8 sigue viva cuando lo demás empata
+        quieto = captura("2026-08-18", "Quieto", {"fallecidos": 304})
+        vivo = captura("2026-08-18", "EnVivo", {"fallecidos": 304},
+                       is_liveblog=True)
+        serie = correr_con([vivo, quieto], "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["item"]["publisher"]["name"], "Quieto")
+
+    def test_un_dia_entero_de_cortes_viejos_conserva_el_consolidado(self):
+        # el 19-ago real: tres capturas, todas de días anteriores
+        serie = correr_con(
+            [captura("2026-08-18", "Bueno",
+                     {"fallecidos": 304, "familias_afectadas": 123789,
+                      "personas_afectadas": 292043}),
+             captura("2026-08-19", "ViejoA",
+                     {"fallecidos": 180, "personas_afectadas": 181}),
+             captura("2026-08-19", "ViejoB", {"familias_afectadas": 11132}),
+             captura("2026-08-19", "ViejoC", {"familias_afectadas": 7})],
+            "UI.mejorPorDia(items)")
+        cons = serie[-1]["consolidado"]
+        self.assertEqual(cons["familias_afectadas"]["valor"], 123789)
+        self.assertEqual(cons["fallecidos"]["valor"], 304)
+        self.assertEqual(cons["familias_afectadas"]["fecha"], "2026-08-18",
+                         "la serie declara que el dato sigue siendo del 18")
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestCoherenciaDeCifras(unittest.TestCase):
+    """El boletín del 18-ago publicó «304 personas fallecidas»; la extracción
+    lo guardó como `personas_afectadas: 304`. Ninguna relación lo comprobaba."""
+
+    def test_menos_personas_que_desaparecidos_es_imposible(self):
+        rotas = correr_con(
+            [captura("2026-08-18", "X",
+                     {"personas_afectadas": 304, "desaparecidos": 426})],
+            "UI.incoherencias(items[0])")
+        self.assertTrue(rotas, "304 afectados con 426 desaparecidos no puede ser")
+
+    def test_menos_personas_que_familias_es_imposible(self):
+        rotas = correr_con(
+            [captura("2026-08-16", "X",
+                     {"personas_afectadas": 117000,
+                      "familias_afectadas": 120238})],
+            "UI.incoherencias(items[0])")
+        self.assertTrue(rotas, "una familia tiene al menos una persona")
+
+    def test_un_balance_coherente_no_se_marca(self):
+        rotas = correr_con(
+            [captura("2026-08-18", "X",
+                     {"personas_afectadas": 292043, "familias_afectadas": 123789,
+                      "fallecidos": 304, "heridos": 4548})],
+            "UI.incoherencias(items[0])")
+        self.assertEqual(rotas, [])
+
+    def test_la_cifra_rota_no_arrastra_a_las_sanas_del_mismo_balance(self):
+        # el boletín oficial traía mal `personas` y bien `viviendas`: se
+        # aprovecha lo bueno en vez de tirar el balance entero
+        malo = captura("2026-08-18", "UNGRD",
+                       {"personas_afectadas": 304, "desaparecidos": 426,
+                        "viviendas_averiadas": 134342})
+        serie = correr_con([malo], "UI.mejorPorDia(items)")
+        cons = serie[-1]["consolidado"]
+        self.assertEqual(cons["viviendas_averiadas"]["valor"], 134342,
+                         "la cifra sana del mismo balance sí se publica")
+        self.assertNotIn("personas_afectadas", cons,
+                         "la cifra incoherente queda fuera")
+        self.assertTrue(any("incoherente" in g["motivo"]
+                            for g in serie[-1]["ignoradas"]))
+
+    def test_toda_cifra_que_emite_el_worker_esta_clasificada(self):
+        # si el worker añade una métrica y nadie la declara aquí, entraría en
+        # el consolidado sin regla de monotonía y en silencio
+        worker = (ROOT / "workers" / "ai-view" / "src" / "index.js").read_text()
+        bloque = worker[worker.index("    cifras: {") + len("    cifras: {"):]
+        bloque = bloque[:bloque.index("}")]
+        emitidas = set(re.findall(r"^\s*(\w+):", bloque, re.M))
+        declaradas = set(correr_con([], "UI.CIFRAS_BALANCE"))
+        self.assertEqual(emitidas - declaradas, set(),
+                         "cifra del worker sin clasificar en CIFRAS_BALANCE")
 
 
 @unittest.skipUnless(NODE, "node no disponible")
