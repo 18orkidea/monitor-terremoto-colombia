@@ -68,7 +68,7 @@ class TestHipotesisBrechaOficial(unittest.TestCase):
         why = skip_sin_datos("rud_daily")
         if why:
             self.skipTest(why)
-        from municipios import MUNICIPIOS, _norm
+        from municipios import MUNICIPIOS, _find_divipola, _norm
         div_path = ROOT / "data" / "public" / "divipola_coords.json"
         divipola = (json.loads(div_path.read_text()).get("items")
                     if div_path.exists() else {})
@@ -82,7 +82,7 @@ class TestHipotesisBrechaOficial(unittest.TestCase):
             key = (_norm(dep), _norm(mun))
             if key in curados:
                 continue
-            if f"{_norm(mun)}|{_norm(dep)}" not in divipola:
+            if not _find_divipola(divipola, mun, dep):
                 sin_coords.append(f"{dep}/{mun}")
         self.assertEqual(sin_coords, [],
                          f"Municipios RUD sin coordenadas (ni curados ni en "

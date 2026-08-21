@@ -58,7 +58,11 @@ const FIRECRAWL_DAILY_QUERY_TEMPLATES = [
 /* Versión del código que produce cada feed: sin esto no hay forma de saber qué
    criterios generaron un ítem archivado (deploy manual, KV fuera de git). Subir
    al cambiar cualquier regla de interpretación. */
-const WORKER_VERSION = "2026-08-17-r10";
+export const WORKER_VERSION = "2026-08-21-balance-v2";
+export const EXTRACTION_CRITERIA = Object.freeze({
+  lugares: "limite_palabra_sin_enlaces",
+  cifras: "texto_sin_enlaces_v2"
+});
 
 const MUNICIPIOS = [
   ["Armenia", "Quindío"],
@@ -331,10 +335,7 @@ async function runCollection(env, options = {}) {
       private: true,
       model: env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20",
       version: WORKER_VERSION,
-      criterios: {
-        lugares: "limite_palabra_sin_enlaces",
-        cifras: "texto_sin_enlaces"
-      },
+      criterios: EXTRACTION_CRITERIA,
       note: "La inferencia IA no se expone; solo se publica el feed estructurado."
     }
   };

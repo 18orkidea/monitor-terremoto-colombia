@@ -497,7 +497,7 @@ def run() -> dict:
                 " WHERE snapshot_date=? ORDER BY familias DESC", (ult_dia,)):
             fila = {"departamento": dep, "municipio": mun, "familias": fam,
                     "personas": per, "viv_destruidas": dest, "viv_averiadas": aver}
-            pop = _find_population(poblacion, mun, {"departamento": dep})
+            pop = _find_population(poblacion, mun, {"departamento": dep}, divipola)
             fila["poblacion_2026"] = pop.get("poblacion_2026") if pop else None
             # 4 decimales: una persona en una capital da 0,0003 % — redondear
             # a 2 lo convertiría en 0,0 y el sitio leería «sin damnificados»

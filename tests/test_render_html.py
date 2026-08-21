@@ -458,8 +458,8 @@ class TestTablaPortada(unittest.TestCase):
                           "la columna satelital debe nombrar a UNOSAT")
 
     def test_la_nota_de_portada_no_miente_sobre_cuantos_miro_cada_fuente(self):
-        """«Los satélites han mirado 9 municipios; la comunidad ha documentado
-        27» está escrito a mano en site/index.html, y la primera mitad cambió
+        """«Los satélites han mirado 11 municipios; la comunidad ha documentado
+        36» está escrito a mano en site/index.html, y la primera mitad cambió
         el día que el conteo pasó a incluir UNOSAT. Si vuelve a moverse, este
         test dice el número nuevo en vez de dejar la frase envejecer sola."""
         # `n_evaluados` cuenta a los TRES satélites. Mientras esto sumó solo dos

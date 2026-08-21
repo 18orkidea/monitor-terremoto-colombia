@@ -3,6 +3,32 @@
  "fecha": "2026-08-21",
  "alertas": [
   {
+   "tipo": "institucional_nuevo",
+   "nivel": "alta",
+   "texto": "UNITAR-UNOSAT publicó un producto nuevo del terremoto: M7.4 in Colombia - UNITAR-UNOSAT Activation — http://unosat.org/products/4254",
+   "emisor": "UNITAR-UNOSAT",
+   "titulo": "M7.4 in Colombia - UNITAR-UNOSAT Activation",
+   "url": "http://unosat.org/products/4254",
+   "pubdate": "2026-08-20T15:19:40"
+  },
+  {
+   "tipo": "reportes_ciudadanos",
+   "nivel": "info",
+   "texto": "55 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 55
+  },
+  {
+   "tipo": "titulares_nuevos",
+   "nivel": "info",
+   "texto": "787 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 787
+  },
+  {
+   "tipo": "rud_actualizado",
+   "nivel": "info",
+   "texto": "RUD actualizado: +38 municipios. +15.234 familias desde la captura anterior"
+  },
+  {
    "tipo": "unosat_codigo_evento_imposible",
    "nivel": "media",
    "texto": "UNITAR-UNOSAT publica 8 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los cuenta —lo decide el identificador que declara el producto, no la etiqueta del punto— y publica la discrepancia aparte. Si UNOSAT la corrige, la nota desaparece sola.",
@@ -20,7 +46,7 @@
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-20",
+  "fecha": "2026-08-21",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 15,
@@ -89,149 +115,184 @@
   "ignoradas": [
    {
     "cifra": "municipios_afectados",
-    "valor": 357,
+    "valor": 448,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
-    "cifra": "personas_afectadas",
-    "valor": 20017,
+    "cifra": "municipios_afectados",
+    "valor": 426,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 181,
-    "motivo": "cifra incoherente con el resto del mismo balance",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "valor": 115461,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 86,
-    "motivo": "cifra incoherente con el resto del mismo balance",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "valor": 102105,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 115461,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Publimetro Colombia",
+    "url": "https://www.publimetro.co/noticias/2026/08/16/cambio-drasticamente-el-balance-del-terremoto-ungrd-confirmo-que-bajaron-las-cifras-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "familias_afectadas",
-    "valor": 11132,
+    "valor": 54008,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 44936,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 54008,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Publimetro Colombia",
+    "url": "https://www.publimetro.co/noticias/2026/08/16/cambio-drasticamente-el-balance-del-terremoto-ungrd-confirmo-que-bajaron-las-cifras-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 20557,
+    "valor": 81506,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 8357,
+    "valor": 65841,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 8357,
+    "valor": 81506,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "Publimetro Colombia",
+    "url": "https://www.publimetro.co/noticias/2026/08/16/cambio-drasticamente-el-balance-del-terremoto-ungrd-confirmo-que-bajaron-las-cifras-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 3715,
+    "valor": 14493,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 715,
+    "valor": 10677,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 1136,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
     "cifra": "heridos",
-    "valor": 3494,
+    "valor": 3935,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "heridos",
-    "valor": 278,
+    "valor": 3971,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
     "cifra": "heridos",
-    "valor": 668,
+    "valor": 3937,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "Publimetro Colombia",
+    "url": "https://www.publimetro.co/noticias/2026/08/16/cambio-drasticamente-el-balance-del-terremoto-ungrd-confirmo-que-bajaron-las-cifras-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "fallecidos",
-    "valor": 265,
+    "valor": 294,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "fallecidos",
-    "valor": 18,
+    "valor": 281,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
     "cifra": "fallecidos",
-    "valor": 181,
+    "valor": 294,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "Publimetro Colombia",
+    "url": "https://www.publimetro.co/noticias/2026/08/16/cambio-drasticamente-el-balance-del-terremoto-ungrd-confirmo-que-bajaron-las-cifras-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 14,
+    "valor": 320,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 195,
+    "valor": 379,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 320,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Publimetro Colombia",
+    "url": "https://www.publimetro.co/noticias/2026/08/16/cambio-drasticamente-el-balance-del-terremoto-ungrd-confirmo-que-bajaron-las-cifras-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "rescatados",
-    "valor": 35,
+    "valor": 188,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 169,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 353,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Publimetro Colombia",
+    "url": "https://www.publimetro.co/noticias/2026/08/16/cambio-drasticamente-el-balance-del-terremoto-ungrd-confirmo-que-bajaron-las-cifras-de-fallecidos-y-desaparecidos/"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
    "snapshot": "data/snapshots/2026-08-21/oficiales_feed.json",
-   "items": 28,
+   "items": 30,
    "regla_sha256": "563a5f402b61a0b8d3f1329d5f4b3badd25120ebfe7177ea507673ad4ed633ed"
   }
  }

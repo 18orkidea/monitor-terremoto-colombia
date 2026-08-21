@@ -181,6 +181,19 @@ class TestR10EnElWorker(unittest.TestCase):
                          "a las reglas de 21-ago-2026, que perdían las víctimas "
                          "en femenino y confundían personas con fallecidos")
 
+    def test_la_cabecera_del_feed_sella_el_mismo_criterio_que_cada_item(self):
+        """La cabecera no puede anunciar la versión anterior mientras los ítems
+        ya salen con la extracción v2: el daily archivaría una frontera falsa."""
+        out = correr_worker(
+            "({version: W.WORKER_VERSION, criterios: W.EXTRACTION_CRITERIA, "
+            "item: W.structureOfficialText('Balance en Cali', "
+            "{ title: '', summary: '', source: { department: null } })})")
+        self.assertEqual(out["version"], "2026-08-21-balance-v2")
+        self.assertEqual(out["criterios"]["lugares"],
+                         out["item"]["atribucion_lugares"])
+        self.assertEqual(out["criterios"]["cifras"],
+                         out["item"]["cifras_desde"])
+
     def test_acentos_y_derivadas(self):
         self.assertTrue(correr_worker(
             "W.mentionsPlace(norm('Daños graves en Quibdó'), 'Quibdó')"))

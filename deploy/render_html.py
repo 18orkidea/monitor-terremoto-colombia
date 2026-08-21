@@ -1243,7 +1243,7 @@ def filas_portada(ctx: dict) -> str:
     Deja de organizarse por lo que el satélite decidió mirar (las AOI de la
     activación) y pasa a organizarse por dónde hay prueba georreferenciada,
     venga del satélite o de la comunidad. El hallazgo que lo justifica: los
-    satélites han mirado 9 municipios; la comunidad ha documentado 26.
+    satélites han mirado 11 municipios; la comunidad ha documentado 36.
 
     Cada fila lleva su coordenada para que el clic siga centrando el mapa.
     El detalle por AOI —vías, interrupciones, fecha de entrega— no cabe en una

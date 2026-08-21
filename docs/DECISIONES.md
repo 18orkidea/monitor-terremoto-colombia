@@ -54,6 +54,16 @@ consolidado en vez de hundirlo. `alerts.py` deja de tener su propia regla: llama
 anterior)», o sea 124 resucitados. Si node falta, no se publica cifra con otra regla: se
 avisa (R11, R13).
 
+**Fronteras de despliegue:** el worker con las reglas nuevas se desplegó el
+**2026-08-21 a las 09:06:28 UTC**, versión de Cloudflare
+`20277ba9-9609-4554-86ca-a9efef8cdb68`. La corrida de las 09:17 UTC ya produjo ítems
+con `extraccion_version: 2`, `fecha_corte` y `publicado_en`, pero destapó que la cabecera
+global aún se rotulaba `2026-08-17-r10` y declaraba el criterio anterior. El sello se
+corrigió y se redesplegó a las **09:19:36 UTC**, versión
+`a156e546-cf4a-49e5-8cca-73c503a11077`, con cabecera
+`2026-08-21-balance-v2` y `texto_sin_enlaces_v2`. Los ítems anteriores a la primera
+frontera no deben atribuirse a estas reglas solo por la fecha del feed.
+
 Pendiente declarado: **la serie sigue indexada por `search_date`**. Fecharla por corte
 exige que el worker desplegado calcule `fecha_corte`; hoy solo 15 de 26 capturas se
 pueden fechar y las 11 restantes desaparecerían de la página. Un test de supuesto vigila
@@ -196,6 +206,17 @@ la celda «Balboa» del canal de Panamá se estaba publicando como intensidad
 sentida en Balboa (Risaralda), a 595 km. Y el registro oficial ya no queda
 tapado por una celda DYFI floja: antes, un CDI de 5,6 mandaba al gris a Belén de
 Umbría, con 2.266 damnificados registrados.
+
+Corolario del 21-ago-2026: **el nombre no es la identidad entre catálogos
+administrativos**. El RUD escribió `SOTARÁ PAISPAMBA` donde DIVIPOLA conserva
+`SOTARÁ - PAISPAMBA`; y el RUD/DIVIPOLA ya usan `San Sebastián de Mariquita`
+mientras la proyección de población del DANE aún dice `Mariquita`. La primera
+diferencia se resuelve con una normalización exclusiva para catálogos que ignora
+puntuación —sin tocar `_norm`, porque la puntuación protege topónimos de prensa—;
+la segunda, uniendo por el código DIVIPOLA estable (`19760` y `73443`). Solo se
+aceptan coincidencias únicas. Los JSON derivados no reciben alias manuales: dos
+tests unitarios fijan ambas clases y los guardianes estructurales llaman al mismo
+resolvedor que producción.
 
 ## 2026-08-17 — R10 llega al worker de balances (la última superficie sin guardián)
 

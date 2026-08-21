@@ -272,6 +272,50 @@ class TestMunicipiosInfluencia(unittest.TestCase):
         self.assertEqual(med["lat"], 6.2466)
         self.assertEqual(len(gj["features"]), 1)
 
+    def test_municipio_dinamico_tolera_puntuacion_del_divipola(self):
+        """El RUD omite el guion de Sotará; no por eso puede caer del mapa."""
+        from municipios import build_municipios
+        rud = {("cauca", "sotara paispamba"): {
+            "departamento": "CAUCA", "municipio": "SOTARÁ PAISPAMBA",
+            "familias": 3, "personas": 9,
+            "viv_destruidas": 0, "viv_averiadas": 1}}
+        divipola = {"sotara - paispamba|cauca": {
+            "municipio": "SOTARÁ - PAISPAMBA", "departamento": "CAUCA",
+            "divipola": "19760", "lat": 2.253156, "lon": -76.613365}}
+        poblacion = {"sotara paispamba|cauca": {
+            "divipola": "19760", "poblacion_2026": 14806,
+            "cabecera_2026": 405, "rural_2026": 14401}}
+        rows, gj = build_municipios(
+            [], None, {}, poblacion, rud, divipola)
+        sotara = next(r for r in rows if r["municipio"] == "Sotará Paispamba")
+        self.assertEqual((sotara["lat"], sotara["lon"]),
+                         (2.253156, -76.613365))
+        self.assertEqual(sotara["divipola"], "19760")
+        self.assertIn("Sotará Paispamba",
+                      [f["properties"]["municipio"] for f in gj["features"]])
+
+    def test_poblacion_dane_por_divipola_tras_renombre(self):
+        """DANE dice Mariquita y DIVIPOLA/RUD usan el nombre nuevo."""
+        from municipios import build_municipios
+        rud = {("tolima", "san sebastian de mariquita"): {
+            "departamento": "TOLIMA",
+            "municipio": "SAN SEBASTIÁN DE MARIQUITA",
+            "familias": 4, "personas": 11,
+            "viv_destruidas": 0, "viv_averiadas": 2}}
+        divipola = {"san sebastian de mariquita|tolima": {
+            "municipio": "SAN SEBASTIÁN DE MARIQUITA",
+            "departamento": "TOLIMA", "divipola": "73443",
+            "lat": 5.199708, "lon": -74.889276}}
+        poblacion = {"mariquita|tolima": {
+            "municipio": "Mariquita", "departamento": "Tolima",
+            "divipola": "73443", "poblacion_2026": 40644,
+            "cabecera_2026": 29925, "rural_2026": 10719}}
+        rows, _ = build_municipios([], None, {}, poblacion, rud, divipola)
+        mariquita = next(
+            r for r in rows if r["municipio"] == "San Sebastián de Mariquita")
+        self.assertEqual(mariquita["divipola"], "73443")
+        self.assertEqual(mariquita["poblacion_2026"], 40644)
+
     def test_tasa_diminuta_no_se_redondea_a_cero(self):
         # una persona registrada en una capital es 0,0003 % — redondear a dos
         # decimales lo volvía 0,0 y el sitio lo leía como «sin damnificados»
