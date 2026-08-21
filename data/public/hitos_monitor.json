@@ -1,7 +1,8 @@
 {
- "descripcion": "Hitos curados NO derivables de los datos. Los demás se generan solos en el sitio: alta del RUD (primer día de rud.serie), primer balance en medios (primer search_date del feed de oficiales) y purga de la serie EMM (primer día sin dato tras la serie). Aquí solo va lo que ninguna fuente registra: el evento raíz y los cambios del propio monitor (fuentes nuevas, rediseños).",
+ "descripcion": "Hitos curados NO derivables de los datos estructurados. Los demás se generan solos en el sitio: alta del RUD (primer día de rud.serie), primer balance en medios (primer search_date del feed de oficiales) y purga de la serie EMM (primer día sin dato tras la serie). Aquí va lo que ninguna fuente estructurada registra: el evento raíz, las entregas fuera de banda y los cambios del propio monitor.",
  "tipos": {
   "evento": "El sismo y sus réplicas mayores",
+  "internacional": "Respuesta internacional registrada fuera de los canales automáticos",
   "local": "Respuesta oficial y local (UNGRD, RUD, balances citados en medios)",
   "monitor": "Cambios del propio monitor: fuentes que entran o desaparecen, rediseños"
  },
@@ -15,114 +16,155 @@
   {
    "fecha": "2026-08-15",
    "tipo": "monitor",
+   "resumen": "Primera corrida diaria: cruza satélite, prensa y reportes ciudadanos.",
    "texto": "Primera corrida diaria del monitor: cruce satélite–prensa–reporte ciudadano con snapshots inmutables"
   },
   {
    "fecha": "2026-08-15",
    "tipo": "monitor",
+   "resumen": "Entran feeds regionales y búsquedas municipales para medir la cobertura local.",
    "texto": "Alta de feeds regionales y búsquedas municipales de noticias: la cobertura local (p. ej. Istmina) entra en la medición"
   },
   {
    "fecha": "2026-08-16",
    "tipo": "monitor",
+   "resumen": "La portada se resume y municipios, RUD y balances ganan páginas propias.",
    "texto": "Nueva versión del sitio: portada resumida, páginas propias para municipios y RUD, cronología unificada con la respuesta local y comparativa de fuentes en Balances"
   },
   {
    "fecha": "2026-08-17",
    "tipo": "monitor",
+   "resumen": "El monitor formaliza reglas, revisiones, despliegue, datos abiertos y limitaciones.",
    "texto": "El monitor se profesionaliza: reglas de desarrollo escritas, agentes revisores, deploy único, snapshots intradía verificables, la base de datos pasa a dumps CSV legibles y las limitaciones del archivo quedan documentadas",
    "url": "https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
   },
   {
    "fecha": "2026-08-17",
    "tipo": "monitor",
+   "resumen": "Los balances dejan de retroceder por artículos viejos y conservan cifras no repetidas.",
    "texto": "La serie de balances gana memoria: los cortes viejos de medios internacionales tardíos ya no la hacen retroceder (caso Primicias: 181 fallecidos cuando el consolidado iba por 294), las disputas entre medios se marcan en vez de suprimirse y ninguna cifra desaparece si el día no la repite"
   },
   {
    "fecha": "2026-08-17",
    "tipo": "monitor",
+   "resumen": "Nacen las alertas por navegador, Telegram y RSS para los cambios diarios.",
    "texto": "El monitor avisa: notificaciones push del navegador (botón 🔔), canal de Telegram y RSS de alertas con los cambios diarios del RUD, los balances en medios y el propio monitor"
   },
   {
    "fecha": "2026-08-17",
    "tipo": "monitor",
+   "resumen": "La cobertura municipal pasa de 25 a 83 e incorpora automáticamente todo el RUD.",
    "texto": "El monitor estaba mirando solo 25 municipios cuando el RUD ya registraba 75. La capa pasa a 83 y entran todos los del registro oficial, 72 de ellos sin ninguna verificación satelital, con la población DANE y qué proporción de ella está registrada como damnificada. Los que entren al RUD en adelante se incorporan solos.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
   },
   {
    "fecha": "2026-08-17",
    "tipo": "monitor",
+   "resumen": "El extractor deja de confundir «California» con Cali y prueba sus topónimos.",
    "texto": "El extractor de balances deja de confundir «California» con Cali: la última superficie del monitor que atribuía municipios sin límite de palabra ya aplica la misma regla que el resto, y dos tests vigilan que su lista de municipios no se separe en silencio de la del pipeline."
   },
   {
    "fecha": "2026-08-18",
    "tipo": "monitor",
+   "resumen": "El RUD se puede filtrar y ordenar, y explica qué significa cada cero.",
    "texto": "La tabla del RUD se puede filtrar y ordenar: municipios nuevos, los que siguen registrando, los que ya cargaron viviendas destruidas y por departamento. Y la página explica lo que antes se daba por supuesto: el RUD es lo que cada alcaldía registra, no una verificación del daño, y un cero en viviendas puede querer decir «todavía sin evaluar».",
    "url": "https://brechas.orkidea.eu/site/rud.html"
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
+   "resumen": "Entra UNITAR-UNOSAT: 393 edificios evaluados fuera de las zonas Copernicus.",
    "texto": "Entra UNITAR-UNOSAT, el centro satelital de la ONU: 393 edificios evaluados uno a uno en Anserma, Manizales y Viterbo, tres municipios de Caldas donde Copernicus no ha cartografiado nada. Ninguno está validado en campo y 296 se marcan solo como «daño posible». Es el segundo satélite del monitor, y el primero que puede contradecir al otro: en el epicentro, San José del Palmar, la evaluación preliminar de UNOSAT solo ve un edificio con daño estructural visible y un deslizamiento —y advierte que mira «en las zonas sin nubes»—, mientras el registro oficial cuenta allí 626 familias y 189 viviendas afectadas.",
    "url": "https://unosat.org/products/4253"
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
+   "resumen": "Las novedades de fuentes institucionales entran en las alertas y el RSS.",
    "texto": "El monitor ya avisa cuando una fuente institucional publica algo nuevo. El informe de UNOSAT del epicentro llevaba un día en la cronología sin que nada lo señalara: aparecía si alguien miraba. Ahora entra en las alertas y en el RSS el mismo día en que el monitor lo ve."
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
+   "resumen": "El mapa oculta campos no medidos para no confundir ausencia con cero.",
    "texto": "Los globos del mapa dejan de enseñar guiones. Donde una fuente no midió algo en ese punto, la línea desaparece en vez de mostrar «—»: un hueco de cobertura no puede leerse como un cero. Cada fuente describe lo suyo con sus propias palabras."
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
+   "resumen": "Viterbo entra solo por UNOSAT: 154 edificios y ningún registro oficial.",
    "texto": "Viterbo entra en el monitor, y entra solo por el satélite: 154 edificios evaluados por UNOSAT, 55 con daño observado, y ni una línea en el registro oficial de damnificados. Es el primer municipio que este monitor conoce porque lo vio una cámara desde el espacio y nadie más lo miró. La tabla de municipios estrena columna para esa evaluación, separada de la cobertura de Copernicus porque la propia ONU la marca como no validada en campo.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
+   "resumen": "Se excluyen 849 titulares anteriores al terremoto; permanecen en el archivo.",
    "texto": "El corpus de titulares empieza el día del terremoto: 849 de 6.655 (12,8 %) eran prensa anterior al 10 de agosto —hasta un sismo de 1974—, colada por las búsquedas municipales de Google News. Ya no cuenta en ninguna página. La columna «Prensa» cambia en 68 municipios y nueve se quedaron sin ninguno: tenían titulares, pero de otros sismos. Entre ellos Viterbo, cuya única noticia era un temblor de 2024 —ahora sí entra solo por el satélite—. Los titulares descartados siguen en el archivo.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
+   "resumen": "Se distingue silencio de prensa, búsqueda ausente y topónimo ambiguo.",
    "texto": "Con el corpus limpio de prensa vieja, el silencio se puede por fin medir sin confundirlo con titulares de otros sismos: 33 de los 116 municipios vigilados tienen damnificados registrados en el RUD y cero titulares atribuidos — 12.129 personas. En cinco de ellos el monitor sí preguntó, con búsqueda propia y nombre sin ambigüedad, y no obtuvo nada: Quinchía, Bagadó, Guática, Mistrató y Guacarí suman 5.297 personas registradas, y en Bagadó son el 8,8 % de su población. En los otros 28 el cero puede ser del monitor: 23 no tienen siquiera búsqueda propia. Y otros tres ni siquiera tienen cero —2.105 personas—: se llaman igual que un departamento y el monitor no puede atribuirles ningún titular. El recuento es del corpus del monitor, no de la prensa colombiana entera.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
   },
   {
    "fecha": "2026-08-19",
    "tipo": "monitor",
+   "resumen": "Cada titular identifica su medio real y marca cuándo llega vía Google News.",
    "texto": "Cada titular dice ahora de qué medio es. La mitad de las noticias llegaba por Google News, y ahí el monitor solo guardaba el nombre de la búsqueda que las trajo: Palmira figuraba con 304 noticias de 7 medios, que en realidad eran feeds. El dato estaba en el propio archivo: cada noticia del RSS declara qué medio la firma. Se reconstruyó releyendo los snapshots, sin pedir nada a nadie: Palmira tiene 30 medios y el archivo entero, 926. Los enlaces que llevan al agregador y no al medio se marcan «vía Google News».",
    "url": "https://brechas.orkidea.eu/site/noticias.html"
   },
   {
    "fecha": "2026-08-20",
    "tipo": "monitor",
+   "resumen": "La portada suma Copernicus y UNOSAT solo mientras no compartan municipios.",
    "texto": "La portada deja de contar un solo satélite. El total pasa de 622 a 1.007 edificios con daño clasificado: 622 los cartografió el servicio de emergencias de Copernicus en Cali, Pereira, Quibdó, Istmina y Buenaventura —Buenaventura por su monitoreo 01, que elevó de 256 a 335 lo que veía el primer producto—, y 385 el centro satelital de la ONU (UNITAR-UNOSAT) en Anserma, Manizales y Viterbo, tres municipios de Caldas donde Copernicus no ha mirado. Se suman porque ninguna de las dos miradas entra en el municipio de la otra: la ingesta publica la lista de municipios compartidos, hoy vacía, y el día que deje de estarlo el sitio dejará de sumar solo. De los 385 de UNOSAT, 289 son «daño posible»: hipótesis de la fuente, sin validar en campo. Son 385 y no los 393 que anunció el alta de la fuente: ocho puntos de Manizales traen un código de evento inconsistente —fechado el 22 de agosto, doce días después de la imagen que los retrata— y el monitor no los suma, porque la etiqueta es de la fuente y corregirla sería inventar. Detrás no hay un segundo sismo: los ocho son idénticos a los otros 127 de Manizales en la capa, el sensor, la imagen, los productos y la confianza. Lo único distinto es un código imposible, y el monitor lo enseña como lo que consta —una inconsistencia de la fuente— en vez de resolverlo por su cuenta. Con el mismo cambio, Viterbo y Anserma entran por fin en la tabla de municipios con evidencia sobre el terreno, donde no estaban pese a tener sus edificios evaluados uno a uno.",
    "url": "https://brechas.orkidea.eu/"
   },
   {
    "fecha": "2026-08-21",
    "tipo": "monitor",
+   "resumen": "Los balances publican máximos trazables y no retroceden por capturas antiguas.",
    "texto": "El balance citado en medios dejó de retroceder. La página publicaba 11.132 familias afectadas mientras la del registro oficial, en esta misma web, publicaba 65.663: el 19 de agosto entraron tres capturas y las tres eran viejas —artículos del 10, el 11 y el 14 de agosto—, y la serie adoptaba la cifra del último que llegara en vez de conservar la mayor conocida. Ahora una cifra entra solo si supera a la vigente, si se puede atribuir a una fuente oficial, si es coherente con el resto de su balance y si no da un salto desmedido; y lo que no entra se enseña con su motivo, porque la distancia entre lo que publica cada medio es lo que este monitor mide. Las tarjetas pasan a llamarse «máximo informado» y a decir de qué día y de qué medio sale cada cifra: no son «cifras actuales», porque los desaparecidos sí pueden bajar en la realidad cuando aparece gente viva. Con el mismo cambio se arregló la extracción del boletín de la UNGRD, del que solo se estaba guardando un número y mal: «304 personas fallecidas» entraba como 304 personas afectadas, y se perdían los heridos, los rescatados y los propios fallecidos porque las reglas no reconocían el femenino. Las capturas nuevas lo leen bien; la del 18 de agosto se queda en el archivo tal como se guardó, porque lo archivado no se reescribe. El aviso diario, que seguía otra regla, habría anunciado ese día 180 fallecidos: 124 menos que la víspera; ahora lee la misma serie que la web.",
    "url": "https://brechas.orkidea.eu/balances.html"
   },
   {
    "fecha": "2026-08-21",
+   "tipo": "internacional",
+   "resumen": "ICube-SERTIT entrega por correo cinco paquetes vectoriales solicitados.",
+   "texto": "ICube-SERTIT entrega por correo cinco paquetes vectoriales de la activación 1048 de la Carta Internacional del Espacio, solicitados por el monitor el 20 de agosto.",
+   "url": "https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/"
+  },
+  {
+   "fecha": "2026-08-21",
    "tipo": "monitor",
+   "resumen": "El monitor integra ICube-SERTIT y deja de sumar totales satelitales.",
    "texto": "Entra una tercera mirada satelital y los satélites dejan de sumarse. ICube-SERTIT —el servicio francés de cartografía rápida que trabajó en la activación de la Charter que pidió la UNGRD— publica sus mapas como imagen, sin datos; se le pidieron los vectores por correo y los entregó: 512 puntos en Pereira, Cali, Manizales y, sobre todo, Roldanillo y La Virginia, que ningún otro servicio había mirado. Eso obliga a cambiar el criterio que fijó el hito del 20 de agosto: entonces las dos miradas se sumaban porque ninguna entraba en el municipio de la otra, y ahora sí se pisan. En vez de sumar cifras, el monitor une los puntos y cuenta cada edificio una vez. El total sube —de 1.007 a 1.415— aunque se deje de sumar, porque entran municipios que nadie miraba; en los que se solapan, en cambio, cuenta menos que la suma. Y al cruzarlos aparece lo que ninguna cifra dejaba ver: en Cali y Manizales los servicios miraron zonas distintas de la misma ciudad, sin un solo edificio en común, y en Pereira, donde sí coinciden en 108, discrepan sobre la gravedad de 49.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
   },
   {
    "fecha": "2026-08-21",
    "tipo": "monitor",
+   "resumen": "Zarzal entra y Viterbo se actualiza; manda el evento declarado por cada producto.",
    "texto": "Zarzal entra al monitor, y por poco no entra. UNITAR-UNOSAT publicó una evaluación de Zarzal (Valle del Cauca) con 201 edificios —el único análisis satelital que existe de ese municipio— pero etiquetó sus puntos con un código de evento que no corresponde a este terremoto, y que además está fechado once días después de la imagen que los retrata. El filtro del monitor, pensado para 8 puntos sueltos de Manizales, dejaba fuera el municipio entero. Se cambió el criterio: lo que decide a qué terremoto pertenece un punto es el identificador que declara el producto —y los cinco productos de UNOSAT declaran este— no una etiqueta interna que la propia fuente contradice. En el mismo paquete, UNOSAT reeditó Viterbo a la baja: de 154 edificios a 108. Con Zarzal dentro y Viterbo reeditado, el recuento queda en 1.578 edificios con daño clasificado por satélite en once municipios, contando una sola vez los que vieron dos servicios.",
    "url": "https://brechas.orkidea.eu/site/municipios.html"
+  },
+  {
+   "fecha": "2026-08-21",
+   "tipo": "monitor",
+   "resumen": "El gráfico del RUD añade las nuevas familias entre capturas sin inventar la primera.",
+   "texto": "La página del RUD deja de mostrar solo el acumulado. La línea conserva el total y nuevas columnas enseñan cuántas familias entraron desde cada captura anterior; la primera queda marcada sin base porque no existe un cierre previo con el que calcularla.",
+   "url": "https://brechas.orkidea.eu/rud.html"
+  },
+  {
+   "fecha": "2026-08-21",
+   "tipo": "monitor",
+   "resumen": "Las fichas con evidencia incorporan una vista de mapa bajo demanda.",
+   "texto": "Las fichas municipales con datos satelitales o ciudadanos incorporan dos vistas: Situación mantiene el resumen estático e indexable, y Mapa de evidencias carga la exploración interactiva solo cuando el lector la solicita. Las fichas sin puntos conservan su enlace al mapa general.",
+   "url": "https://brechas.orkidea.eu/municipio/cali/"
   }
  ]
 }

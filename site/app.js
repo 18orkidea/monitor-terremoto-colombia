@@ -620,7 +620,8 @@
   // ---- cronología unificada: respuesta internacional + local + hitos del monitor
   //      (feed institucional GDACS + entregas Copernicus + fichero curado + derivados)
   const ETIQUETA_TIPO = { institucional: "internacional", entrega: "internacional",
-                          evento: "evento", local: "local", monitor: "monitor" };
+                          internacional: "internacional", evento: "evento",
+                          local: "local", monitor: "monitor" };
   const hitos = [
     ...(mon.institucional || []).map((h) => ({
       fecha: h.fecha, texto: tHito(h.titulo), url: h.url, tipo: "institucional" })),
@@ -628,7 +629,8 @@
       fecha: e.fecha, tipo: "entrega",
       texto: `Copernicus entrega datos de daño: ${aoiEs(e.aoi)} (${t(e.producto)} / ${e.producto} v${e.version})` })),
     ...((hitosCurados && hitosCurados.hitos) || []).map((h) => ({
-      fecha: h.fecha, texto: h.texto, url: h.url, tipo: h.tipo })),
+      fecha: h.fecha, texto: h.texto, resumen: h.resumen,
+      url: h.url, tipo: h.tipo })),
   ].filter((h) => h.fecha).sort((x, y) => y.fecha.localeCompare(x.fecha));
   // hitos automáticos, derivados de los propios datos (sin curación manual):
   // primer balance en medios, alta del RUD y purga de la serie EMM.
@@ -648,6 +650,7 @@
     const ultEmm = mv.map((d, i) => d.emm != null ? i : -1).filter((i) => i >= 0).at(-1);
     if (ultEmm != null && ultEmm < mv.length - 1) hitos.push({
       fecha: mv[ultEmm + 1].fecha, tipo: "monitor",
+      resumen: "GDACS purga su serie global de noticias; el monitor conserva la copia.",
       texto: `El sistema europeo de alertas GDACS borra su serie global de noticias ` +
         `(último dato: ${window.UI.fechaLarga(mv[ultEmm].fecha)}); solo sobrevive en las ` +
         `copias que archiva el monitor, que sigue midiendo con sus canales abiertos` });
@@ -660,12 +663,19 @@
   function pintaCronologia(filtro) {
     const vista = hitos.filter((h) => filtro === "todos" ||
       ETIQUETA_TIPO[h.tipo] === filtro || h.tipo === "evento");
-    timelineEl.innerHTML = vista.map((h) =>
-      `<li class="${h.tipo}"><span class="t-fecha">${window.UI.fechaEs(h.fecha)}` +
-      `${h.fecha.length >= 16 ? `, ${h.fecha.slice(11, 16)}` : ""}</span> ` +
-      `<span class="t-tipo">${ETIQUETA_TIPO[h.tipo] || h.tipo}</span>` +
-      (h.url ? `<a href="${h.url}" target="_blank" rel="noopener">${h.texto}</a>` : h.texto) +
-      `</li>`).join("") || "<li>Sin hitos registrados aún.</li>";
+    timelineEl.innerHTML = vista.map((h) => {
+      // El resumen sirve en la banda gráfica; en la cronología los cambios del
+      // monitor necesitan contexto y el CSS ya limita su lectura a cuatro líneas.
+      const visible = h.tipo === "monitor" ? h.texto : (h.resumen || h.texto);
+      const contenido = h.url
+        ? `<a href="${window.UI.esc(h.url)}" target="_blank" rel="noopener" ` +
+          `title="${window.UI.esc(h.texto)}">${window.UI.esc(visible)}</a>`
+        : `<span title="${window.UI.esc(h.texto)}">${window.UI.esc(visible)}</span>`;
+      return `<li class="${h.tipo}"><span class="t-fecha">${window.UI.fechaEs(h.fecha)}` +
+        `${h.fecha.length >= 16 ? `, ${h.fecha.slice(11, 16)}` : ""}</span> ` +
+        `<span class="t-tipo">${ETIQUETA_TIPO[h.tipo] || h.tipo}</span>` +
+        `<span class="t-texto">${contenido}</span></li>`;
+    }).join("") || "<li>Sin hitos registrados aún.</li>";
   }
   if (chipsEl) {
     chipsEl.innerHTML = FILTROS.map(([k, label], i) =>
@@ -725,8 +735,10 @@
       `<span class="badge" style="--bc:${css(v)}" title="${tip}">${txt}</span>`).join("");
 
   // ---- gráfico temporal (volumen) + banda de hitos aparte, misma escala de fechas
-  drawChart(mon.media_volume || []);
-  drawCronoBanda(mon.media_volume || [], hitos);
+  const fechaEvento = (hitos.find((h) => h.tipo === "evento") || {}).fecha;
+  const mediaGrafico = window.UI.serieDesde(mon.media_volume || [], fechaEvento);
+  drawChart(mediaGrafico);
+  drawCronoBanda(mediaGrafico, hitos);
   renderFuentes();
 
   // ---- alertas
@@ -837,7 +849,8 @@
       { key: "local", emoji: "🇨🇴", nombre: "Respuesta local/oficial", color: css("--good") },
       { key: "monitor", emoji: "🔧", nombre: "Cambios del monitor", color: css("--warning") },
     ];
-    const laneDe = (h) => h.tipo === "institucional" || h.tipo === "entrega" ? 0 :
+    const laneDe = (h) => h.tipo === "institucional" || h.tipo === "entrega" ||
+      h.tipo === "internacional" ? 0 :
       (h.tipo === "local" || h.tipo === "evento" ? 1 : 2);
     const LH = 26, H = 6 + LANES.length * LH + 18;
     const dayIdx = Object.fromEntries(media.map((d, i) => [d.fecha, i]));
@@ -864,7 +877,7 @@
       dia.forEach((h, k) => {
         const xx = x(i) + (k - (dia.length - 1) / 2) * 11;
         const texto = `${window.UI.fechaLarga(h.fecha)} · ${(ETIQUETA_TIPO[h.tipo] || h.tipo)} · ` +
-          h.texto.replaceAll('"', "&quot;");
+          (h.resumen || h.texto).replaceAll('"', "&quot;");
         const color = h.tipo === "evento" ? css("--critical") : LANES[li].color;
         s += h.tipo === "entrega"
           ? `<path data-hito="${texto}" d="M ${xx - 5} ${yy - 4} l 10 0 l -5 9 z" fill="${css("--critical")}"/>`

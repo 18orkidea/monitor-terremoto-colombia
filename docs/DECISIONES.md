@@ -1078,3 +1078,24 @@ excepción en el test— y el HTML se archiva como cualquier otro cuerpo.
 Queda escrito porque el error no fue archivar de menos: fue **justificar una
 excepción al principio de archivo con una afirmación que no se verificó**. Lo
 caza cualquiera que mire el log; no lo cazó nadie hasta la revisión de archivo.
+
+### El canal de entrada no decide el carril del hito (21-ago-2026)
+
+Los vectores de ICube-SERTIT llegaron por correo tras una solicitud manual. La
+cronología los pintaba como cambio del monitor porque su feed curado solo
+distinguía evento, respuesta local y monitor. Eso mezclaba dos preguntas: quién
+actuó y cómo conocimos la actuación.
+
+Se separan los dos hechos. La entrega de SERTIT es una respuesta internacional,
+aunque no venga por GDACS ni por el catálogo de Copernicus. La integración de
+esa fuente y el cambio del recuento satelital sí son un hito del monitor. El
+feed conserva ambos y añade un resumen breve para la portada sin recortar el
+texto archivado.
+
+### Un día ausente en una captura acumulativa puede ser cero
+
+ChatMap devuelve todos los reportes de la activación. Las capturas posteriores
+al 16 y al 19 de agosto contienen reportes de los días anteriores y posteriores,
+pero ninguno de esos dos días. Por tanto son ceros observados, no días sin
+captura. La ingesta ahora completa con cero los días cerrados que no aparecen y
+mantiene abierto el día de la corrida, que todavía puede recibir reportes.

@@ -10,8 +10,9 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import Counter
+from datetime import date, timedelta
 
-from common import db, fetch, fetch_json, today, MEDIA
+from common import db, fetch, fetch_json, today, FECHA_SISMO, MEDIA
 
 MAP_ID = "89319bbb-a14a-4dfd-b9a1-c83b8b55785f"
 API = f"https://chatmap.hotosm.org/api/v1/map/{MAP_ID}"
@@ -25,6 +26,32 @@ def _round_pub(x: float) -> float:
     return round(x, 3)
 
 
+def conteos_por_dia(feats: list[dict], snapshot_date: str) -> Counter:
+    """Serie diaria de una captura acumulativa de ChatMap.
+
+    La API devuelve todos los reportes de la activación, no un corte diario.
+    Por eso, una fecha cerrada que no aparece en una captura posterior es un
+    cero observado. Antes solo se escribían los días con reportes y el gráfico
+    confundía esos ceros con días sin captura, dejando huecos el 16 y el 19 de
+    agosto. El día de la corrida queda abierto: todavía puede recibir reportes.
+    """
+    days = Counter()
+    for f in feats:
+        t = (f.get("properties") or {}).get("time") or ""
+        if len(t) >= 10:
+            days[t[:10]] += 1
+
+    try:
+        cursor = date.fromisoformat(FECHA_SISMO)
+        ultimo_cerrado = date.fromisoformat(snapshot_date) - timedelta(days=1)
+    except ValueError:
+        return days
+    while cursor <= ultimo_cerrado:
+        days.setdefault(cursor.isoformat(), 0)
+        cursor += timedelta(days=1)
+    return days
+
+
 def run(download_media: bool = True) -> dict:
     conn = db()
     snap = today()
@@ -35,7 +62,7 @@ def run(download_media: bool = True) -> dict:
 
     feats = data.get("features", [])
     MEDIA.mkdir(parents=True, exist_ok=True)
-    days = Counter()
+    days = conteos_por_dia(feats, snap)
     n_media = 0
     for f in feats:
         p = f.get("properties", {})
@@ -44,7 +71,6 @@ def run(download_media: bool = True) -> dict:
         rid = p.get("id") or hashlib.sha1(
             json.dumps([coords, p.get("time")]).encode()).hexdigest()[:16]
         t = p.get("time") or ""
-        days[t[:10]] += 1
         murl = p.get("file") or ""
         mlocal, msha = None, None
         if murl and download_media:
@@ -77,7 +103,6 @@ def run(download_media: bool = True) -> dict:
              _round_pub(lon) if lon is not None else None,
              murl, mlocal, msha, p.get("message") or "", snap))
         conn.commit()   # commit por fila: no retener el lock durante descargas
-    days.pop("", None)
     for d, n in days.items():
         conn.execute(
             "INSERT INTO media_volume (event_key, fecha, n_noticias_emm, gdelt_vol,"
