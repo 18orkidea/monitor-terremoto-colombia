@@ -37,7 +37,7 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   `comparativaFuentes`, `isLiveblog`/`bestSnapshot`), `common.js` (nav/footer),
   un JS por página.
 
-## Modelo de datos (sqlite, 14 tablas)
+## Modelo de datos (sqlite, 16 tablas)
 
 Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 
@@ -56,6 +56,8 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `rud_daily` | (snapshot_date, departamento, municipio) | RUD por municipio y día de captura — la serie oficial |
 | `unosat_products` | product_id | Productos UNITAR-UNOSAT del evento: título, enlaces a PDF/SHP/GDB y `shp_sha256`, que es la identidad real del paquete |
 | `unosat_damage` | (paquete_sha, capa, idx) | Edificios evaluados por UNOSAT. La clave es el **paquete**, no el producto: tres productos publican el mismo ZIP y el edificio es uno solo |
+| `sertit_productos` | producto_id | Los cinco mapas de ICube-SERTIT: escala, sensor, área analizada y el sha del paquete de vectores que les corresponde |
+| `sertit_danos` | (paquete_sha, capa, idx) | Edificios de SERTIT. Clave por **paquete** como en UNOSAT: la identidad del dato es el ZIP recibido, no el id del producto, porque la fuente reedita sin cambiar el id |
 | `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
 
 ## Los tres ciclos automáticos

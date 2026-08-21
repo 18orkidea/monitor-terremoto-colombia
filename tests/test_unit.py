@@ -1481,35 +1481,65 @@ class TestUnosatCentinelaNone(unittest.TestCase):
                          "https://unosat.org/unosat_filesystem/4253/tabla.xlsx")
 
 
-class TestUnosatOtrosEventos(unittest.TestCase):
-    """8 puntos de Manizales llegan con un código de evento inconsistente.
+class TestUnosatCodigoInconsistente(unittest.TestCase):
+    """209 puntos de UNOSAT llegan con un código de evento que no cuadra.
 
-    `EQ20260822COL` implica un sismo del 22-ago: doce días DESPUÉS de la imagen
-    que los retrata. En todo lo demás son idénticos a los otros 127 de
-    Manizales, así que el código no designa otro terremoto — designa un error
-    de la fuente. No se corrigen (la etiqueta es suya) ni se suman al total, y
-    tampoco pueden desaparecer sin dejar rastro.
+    `EQ20260822COL` implica un sismo del 22-ago: posterior a las imágenes que
+    los retratan (11 y 13-ago). En todo lo demás son idénticos a los otros
+    puntos de sus capas, así que el código no designa otro terremoto — designa
+    un error de la fuente.
+
+    ESTE TEST ESTUVO INVERTIDO HASTA EL 21-AGO-2026. Se llamaba
+    `TestUnosatOtrosEventos`, el campo era `unosat_otros_eventos` y exigía lo
+    contrario de lo que exige ahora: que esos puntos NO sumasen al total. El
+    criterio era prudente mientras eran 8 puntos sueltos de Manizales. Ese día
+    UNOSAT publicó Zarzal —201 edificios, el único análisis satelital que
+    existe de ese municipio— con el mismo código anómalo, y el filtro pasó de
+    apartar ocho puntos a callar un municipio entero.
+
+    El criterio nuevo: a qué terremoto pertenece un punto lo dice el GLIDE que
+    declara el PRODUCTO que lo publica —los cinco de UNOSAT declaran
+    `EQ20260810COL`—, no un campo interno de su geometría que la propia fuente
+    contradice. Los 209 cuentan, y la inconsistencia se publica al lado en vez
+    de excluirse. Queda escrito aquí, y no solo en `docs/DECISIONES.md`, para
+    que quien lo lea dentro de años no crea que se relajó un guardián para que
+    pasara.
     """
 
-    def test_no_suman_al_terremoto_pero_se_cuentan_aparte(self):
+    def test_suman_al_terremoto_y_ademas_se_cuentan_aparte(self):
+        """Antes se exigía `assertEqual(man["unosat_edificios"], 127)` con 8
+        puntos fuera. Ahora los 135 de la capa son los 135 del municipio, y
+        los 8 discrepantes se publican marcados, no descontados."""
         from municipios import build_municipios
         rows, _ = build_municipios([], None, {}, None, None, None, {
-            "Manizales": {"edificios": 127, "observados": 20, "posibles": 107,
-                          "otros_eventos": 8, "fecha_imagen": "20260811"}})
+            "Manizales": {"edificios": 135, "observados": 21, "posibles": 114,
+                          "codigo_inconsistente": 8, "fecha_imagen": "20260811"}})
         man = next(r for r in rows if r["municipio"] == "Manizales")
-        self.assertEqual(man["unosat_edificios"], 127)
-        self.assertEqual(man["unosat_observados"] + man["unosat_posibles"], 127)
-        self.assertEqual(man["unosat_otros_eventos"], 8)
+        self.assertEqual(man["unosat_edificios"], 135)
+        self.assertEqual(man["unosat_observados"] + man["unosat_posibles"], 135)
+        self.assertEqual(man["unosat_codigo_inconsistente"], 8)
+
+    def test_un_municipio_entero_con_el_codigo_raro_entra_igual(self):
+        """El caso que tumbó el criterio anterior: los 201 puntos de Zarzal
+        traen todos el código anómalo. Con el filtro viejo, el municipio no
+        habría existido para el monitor pese a que la fuente sí lo publicó."""
+        from municipios import build_municipios
+        rows, _ = build_municipios([], None, {}, None, None, None, {
+            "Zarzal": {"edificios": 201, "observados": 21, "posibles": 180,
+                       "codigo_inconsistente": 201, "fecha_imagen": "20260813"}})
+        zar = next(r for r in rows if r["municipio"] == "Zarzal")
+        self.assertEqual(zar["unosat_edificios"], 201)
+        self.assertEqual(zar["unosat_codigo_inconsistente"], 201)
 
     def test_sin_discrepancia_el_campo_no_existe(self):
         """R3: cero edificios con código inconsistente no es un dato que
         enseñar."""
         from municipios import build_municipios
         rows, _ = build_municipios([], None, {}, None, None, None, {
-            "Viterbo": {"edificios": 154, "observados": 55, "posibles": 99,
-                        "otros_eventos": 0, "fecha_imagen": "20260812"}})
+            "Viterbo": {"edificios": 108, "observados": 42, "posibles": 66,
+                        "codigo_inconsistente": 0, "fecha_imagen": "20260812"}})
         vit = next(r for r in rows if r["municipio"] == "Viterbo")
-        self.assertIsNone(vit["unosat_otros_eventos"])
+        self.assertIsNone(vit["unosat_codigo_inconsistente"])
 
 
 class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
@@ -1536,7 +1566,13 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
         cls.solapan = uno.get("municipios_tambien_en_aoi_copernicus") or []
         cls.uno = int(uno.get("edificios") or 0)
         cls.posibles = int(uno.get("posibles") or 0)
-        cls.total = cls.cop + (0 if cls.solapan else cls.uno)
+        # Desde el 21-ago-2026 el total NO se calcula sumando fuentes: se une
+        # punto a punto en la ingesta y se publica ya resuelto (ver
+        # ingest/satelites.py). El test lee lo publicado en vez de rehacer la
+        # cuenta — si la recalculase aquí, un error de criterio pasaría los dos
+        # lados a la vez y el guardián no serviría de nada.
+        cls.satelital = mon.get("satelital") or {}
+        cls.total = int(cls.satelital.get("total_edificios") or 0)
         cls.index = (cls.RAIZ / "site/index.html").read_text(encoding="utf-8")
         cls.readme = (cls.RAIZ / "README.md").read_text(encoding="utf-8")
         # llms.txt es la superficie que leen los sistemas de IA: se quedó con
@@ -1548,15 +1584,36 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
         """Millares con punto, como los escribe el sitio (locale es-CO)."""
         return f"{n:,}".replace(",", ".")
 
-    def test_las_dos_miradas_no_miran_el_mismo_municipio(self):
-        """El supuesto que autoriza la suma. Si algún día cae, no es un error:
-        es que Copernicus entró donde UNOSAT ya miraba, y entonces el total
-        deja de poder sumarse — el sitio lo hace solo, pero los textos
-        escritos a mano hay que reescribirlos."""
-        self.assertEqual(self.solapan, [],
-                         "Copernicus y UNOSAT comparten municipio: el total de "
-                         "portada dejó de sumarse solo, pero la prosa de "
-                         "site/index.html y README.md sigue sumando")
+    def test_donde_dos_satelites_se_pisan_el_total_no_los_suma(self):
+        """Este test estuvo INVERTIDO hasta el 21-ago-2026: exigía que ninguna
+        mirada satelital compartiese municipio con otra, porque esa era la
+        condición que autorizaba a sumarlas. La entrada de ICube-SERTIT tumbó
+        el supuesto —mira Pereira, Cali y Manizales, ya cartografiados— y con
+        él la suma.
+
+        Ahora se exige lo contrario de lo que se exigía: que el total NUNCA
+        llegue a la suma de las fuentes cuando alguna se solapa. Queda escrito
+        aquí, y no solo en DECISIONES.md, para que quien lo lea dentro de años
+        no crea que se relajó un guardián para que pasara.
+        """
+        por_mun = self.satelital.get("por_municipio") or {}
+        self.assertTrue(por_mun, "monitor.json no publica el recuento satelital")
+        for muni, d in por_mun.items():
+            fuentes = d.get("fuentes") or {}
+            if len(fuentes) < 2:
+                continue
+            suma = sum(fuentes.values())
+            self.assertLessEqual(
+                d["unidades"], suma,
+                f"{muni}: el recuento supera la suma de las fuentes")
+            self.assertGreaterEqual(
+                d["unidades"], max(fuentes.values()),
+                f"{muni}: el recuento pierde edificios que una fuente sí vio")
+            if d.get("coincidencias"):
+                self.assertLess(
+                    d["unidades"], suma,
+                    f"{muni}: hay {d['coincidencias']} edificios vistos por dos "
+                    f"servicios y el total los cuenta dos veces")
 
     def test_la_portada_escribe_el_total_de_las_dos_miradas(self):
         for donde, texto in (("site/index.html", self.index),
@@ -1587,44 +1644,56 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
                          "el total de UNOSAT en monitor.json no cuadra con la "
                          "suma por municipio de municipios.json")
 
-    def test_la_capa_entera_es_el_evento_mas_los_otros(self):
-        """393 puntos en la capa, 385 publicados, 8 con código inconsistente.
+    def test_la_capa_entera_cuenta_y_la_parte_discrepante_se_declara(self):
+        """INVERTIDO el 21-ago-2026. Se llamaba
+        `test_la_capa_entera_es_el_evento_mas_los_otros` y exigía
+        `capa == publicados + apartados`: 393 puntos en la capa, 385 en el
+        sitio, 8 fuera por traer `EQ20260822COL`.
 
-        Las tres cifras circulan por el repo y tienen que cerrar. La
-        documentación afirmaba «393 edificios evaluados» y el sitio publicaba
-        385 sin que nada explicara la diferencia: son los ocho puntos de
-        Manizales que traen `EQ20260822COL` en la misma capa."""
+        Ese día UNOSAT publicó Zarzal entero con el mismo código y el criterio
+        cambió: manda el GLIDE que declara el producto, no el campo del punto.
+        Ahora se exige lo contrario — que la capa entera sea lo publicado, sin
+        resta— y que la parte discrepante siga contándose y nombrándose. Un
+        total sin ese reparto no sería rastreable hasta su origen."""
         gj = json.loads((self.RAIZ / "data/public/unosat_damage.geojson")
                         .read_text(encoding="utf-8"))
         capa = len(gj["features"])
-        otros = sum(1 for f in gj["features"]
-                    if (f["properties"].get("event_code") or "").upper()
-                    != "EQ20260810COL")
+        discrepantes = sum(1 for f in gj["features"]
+                           if (f["properties"].get("event_code") or "").upper()
+                           != "EQ20260810COL")
         mon = json.loads((self.RAIZ / "data/public/monitor.json")
                          .read_text(encoding="utf-8"))
         uno = mon.get("unosat") or {}
-        self.assertEqual(self.uno + otros, capa,
-                         "la capa publicada no cuadra con lo que se publica "
-                         "más lo apartado por código inconsistente")
-        self.assertEqual(uno.get("otros_eventos"), otros,
-                         "los puntos de código inconsistente no se cuentan aparte")
+        self.assertEqual(self.uno, capa,
+                         "lo que se publica no es la capa entera: alguien "
+                         "volvió a restar puntos por su etiqueta interna")
+        self.assertEqual(uno.get("codigo_inconsistente"), discrepantes,
+                         "los puntos de código inconsistente cuentan, pero "
+                         "tienen que seguir declarándose aparte")
         self.assertEqual(uno.get("observados", 0) + uno.get("posibles", 0),
                          self.uno,
                          "observados + posibles debe ser el total del evento")
 
-    def test_la_documentacion_explica_las_dos_cifras_de_unosat(self):
-        """Un archivo honesto no puede afirmar 393 en un sitio y 385 en otro
-        sin decir por qué. Y no puede decir «son de otro terremoto»: el código
-        `EQ20260822COL` está fechado DESPUÉS de la imagen que retrata el daño,
-        así que es un error de etiquetado, no un segundo sismo. Afirmar lo
-        contrario sería convertir un fallo de la fuente en un hecho propio."""
+    def test_la_documentacion_declara_el_total_y_la_parte_discrepante(self):
+        """Antes del 21-ago-2026 este test se llamaba
+        `test_la_documentacion_explica_las_dos_cifras_de_unosat` y vigilaba
+        que el archivo explicase por qué decía 393 en un sitio y 385 en otro.
+        Ya no hay dos cifras: hay una, y dentro de ella una parte que la
+        fuente etiqueta de un modo que ella misma contradice. Lo que el
+        archivo tiene que declarar ahora es cuántos son y cuántos discrepan —
+        sin decir «son de otro terremoto», que el dato no lo sostiene."""
         doc = (self.RAIZ / "docs/LIMITACIONES.md").read_text(encoding="utf-8")
+        mon = json.loads((self.RAIZ / "data/public/monitor.json")
+                         .read_text(encoding="utf-8"))
+        disc = int((mon.get("unosat") or {}).get("codigo_inconsistente") or 0)
         self.assertIn(str(self.uno), doc,
                       "docs/LIMITACIONES.md no declara los edificios que el "
                       "monitor atribuye al terremoto")
+        self.assertIn(str(disc), doc,
+                      "docs/LIMITACIONES.md no dice cuántos puntos llevan el "
+                      "código que la propia fuente contradice")
         self.assertIn("EQ20260822COL", doc,
-                      "docs/LIMITACIONES.md no explica de dónde sale la "
-                      "diferencia con el total de la capa")
+                      "docs/LIMITACIONES.md no nombra el código inconsistente")
 
     def test_ninguna_superficie_afirma_que_los_ocho_sean_de_otro_terremoto(self):
         """El archivo no lo sostiene, así que nadie puede escribirlo.
@@ -1636,6 +1705,15 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
         proyecto existe para no hacer."""
         prohibidas = ("de otro evento", "de otro terremoto",
                       "no son de este terremoto", "otro evento en la misma capa")
+        # Desde el 21-ago-2026 los puntos con código imposible SÍ cuentan: lo
+        # decide el GLIDE del producto. Estas frases afirman el criterio
+        # derogado, y una de ellas seguía saliendo por RSS y push cuando se
+        # cambió. Van aparte porque NO pueden prohibirse en los registros
+        # fechados —un hito del 20-ago describe lo que era cierto el 20-ago, y
+        # reescribirlo sería falsear la cronología—, solo en lo que el sitio
+        # afirma HOY.
+        derogadas = ("y no los suma", "no los suma", "no sumados al total",
+                     "no suman al total")
         # docs/DECISIONES.md queda FUERA a propósito: es el registro de la
         # corrección y necesita citar la frase falsa para refutarla. No lo
         # «arregles» metiéndolo aquí.
@@ -1645,26 +1723,52 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
                        "deploy/root/llms.txt", "ingest/publish.py",
                        "ingest/municipios.py", "ingest/alerts.py",
                        "docs/LIMITACIONES.md", "README.md",
-                       "feeds/hitos_monitor.json"]
+                       "feeds/hitos_monitor.json",
+                       # Lo que sale por RSS, push y Telegram merece el mismo
+                       # guardián que la portada: es lo más difícil de corregir
+                       # después, porque el aviso ya se envió.
+                       "data/public/alerts.json", "data/public/alerts.rss"]
+        # Los registros fechados citan el criterio de su día a propósito.
+        FECHADOS = {"feeds/hitos_monitor.json", "docs/DECISIONES.md"}
         for rel in superficies:
             texto = (self.RAIZ / rel).read_text(encoding="utf-8").lower()
             for frase in prohibidas:
                 self.assertNotIn(frase, texto,
                                  f"{rel} afirma «{frase}», y el dato no lo sostiene")
+            if rel in FECHADOS:
+                continue
+            for frase in derogadas:
+                self.assertNotIn(
+                    frase, texto,
+                    f"{rel} dice «{frase}»: ese era el criterio hasta el "
+                    f"21-ago-2026. Los puntos con código inconsistente cuentan")
+
+    # La leyenda del mapa expresa la proporción de «daño posible» con una
+    # fracción redonda, no con un porcentaje. Cada frase vale mientras la
+    # proporción real caiga en su horquilla (el punto medio con los vecinos).
+    FRACCIONES = {"dos de cada tres": (0.60, 0.70),
+                  "tres de cada cuatro": (0.70, 0.775),
+                  "cuatro de cada cinco": (0.775, 0.85),
+                  "nueve de cada diez": (0.85, 0.95)}
 
     def test_la_proporcion_de_dano_posible_sigue_siendo_la_que_se_afirma(self):
-        """La leyenda del mapa dice «tres de cada cuatro son solo daño
-        posible». Es una proporción a mano: 289 de 385 la sostienen hoy
-        (75,1 %), pero un producto nuevo de UNOSAT puede moverla y la frase
-        seguiría ahí, afirmando."""
+        """La leyenda decía «tres de cada cuatro son solo daño posible»: 289
+        de 385 la sostenían (75,1 %). El 21-ago-2026 la reedición de Viterbo
+        y la entrada de Zarzal la movieron a 443 de 548 (80,8 %) y la frase
+        habría seguido ahí, afirmando. El test ya no vigila una sola frase:
+        vigila la que esté escrita, sea cual sea."""
         if not self.uno:
             self.skipTest("sin datos de UNOSAT")
         proporcion = self.posibles / self.uno
-        if "tres de cada cuatro" in self.index:
-            self.assertTrue(0.70 <= proporcion <= 0.80,
-                            f"la portada dice «tres de cada cuatro» y la "
-                            f"proporción real es {proporcion:.1%}: reescribe "
-                            f"la frase de site/index.html")
+        escritas = [f for f in self.FRACCIONES if f in self.index]
+        self.assertEqual(len(escritas), 1,
+                         f"la portada debería decir exactamente una fracción "
+                         f"de «daño posible» y dice {escritas or 'ninguna'}")
+        lo, hi = self.FRACCIONES[escritas[0]]
+        self.assertTrue(lo <= proporcion <= hi,
+                        f"la portada dice «{escritas[0]}» y la proporción "
+                        f"real es {proporcion:.1%}: reescribe la frase de "
+                        f"site/index.html")
 
     def test_la_portada_atribuye_las_dos_fuentes(self):
         for donde, texto in (("la portada", self.index),
@@ -1731,3 +1835,267 @@ class TestCodigoDeEventoImposible(unittest.TestCase):
             self._detectar([("EQ20260815COL", "capa_x", None)], hoy="2026-09-01"), [])
         self.assertEqual(
             len(self._detectar([("EQ20260930COL", "capa_x", None)], hoy="2026-09-01")), 1)
+
+
+class TestSertitAtribucion(unittest.TestCase):
+    """Cómo SERTIT nombra sus productos, y las trampas de leerlo."""
+
+    def test_mayusculas_y_camelcase_dan_el_mismo_municipio(self):
+        """De los cinco productos, cuatro escriben `COLOMBIA_PEREIRA` y uno
+        `Colombia_LaVirginia`. El primer intento sin IGNORECASE se comió
+        cuatro municipios en silencio: entraron con municipio nulo y su daño
+        quedó sin atribuir."""
+        from sources import sertit
+        self.assertEqual(
+            sertit._municipio_de_nombre(
+                "CHARTER_CALL1202_ID1048_AOI05_COLOMBIA_PEREIRA_IMPACTMAP_2026"),
+            ("Pereira", "catalogo"))
+        self.assertEqual(
+            sertit._municipio_de_nombre(
+                "20260812_CHARTER_Call1202_ID1048_AOI15_Colombia_LaVirginia_ImpactMap"),
+            ("La Virginia", "catalogo"))
+
+    def test_anserma_no_es_ansermanuevo(self):
+        """R10 también aquí: la coincidencia es exacta normalizada, nunca por
+        subcadena. Anserma es prefijo de Ansermanuevo, otro municipio y de
+        otro departamento."""
+        from sources import sertit
+        self.assertEqual(
+            sertit._municipio_de_nombre("X_COLOMBIA_ANSERMA_IMPACTMAP_1")[0],
+            "Anserma")
+        self.assertEqual(
+            sertit._municipio_de_nombre("X_COLOMBIA_ANSERMANUEVO_IMPACTMAP_1")[0],
+            "Ansermanuevo")
+
+    def test_municipio_fuera_del_catalogo_se_marca_como_tal(self):
+        """Un nombre que el catálogo no reconoce se conserva, pero marcado:
+        un municipio del catálogo y uno leído de un rótulo no pueden ser
+        indistinguibles para quien lea el archivo dentro de años."""
+        from sources import sertit
+        muni, origen = sertit._municipio_de_nombre(
+            "X_COLOMBIA_PuebloInventado_IMPACTMAP_1")
+        self.assertEqual(origen, "texto_sertit")
+        self.assertEqual(muni, "Pueblo Inventado")
+
+    def test_sin_municipio_reconocible_no_inventa(self):
+        from sources import sertit
+        self.assertEqual(sertit._municipio_de_nombre("ruido_sin_forma"),
+                         (None, "desconocido"))
+
+
+class TestUnionEspacial(unittest.TestCase):
+    """La regla que sustituyó a la suma de miradas satelitales.
+
+    El caso que la motivó: SERTIT entró en agosto de 2026 mirando Pereira,
+    Cali y Manizales, que Copernicus y UNOSAT ya cartografiaban. Sumar sus
+    totales habría contado dos veces los mismos tejados.
+    """
+
+    def _p(self, fuente, lon, lat, dano=None):
+        return {"fuente": fuente, "lon": lon, "lat": lat, "dano": dano}
+
+    def test_dos_fuentes_sobre_el_mismo_edificio_cuentan_uno(self):
+        from satelites import unir_danos
+        r = unir_danos([self._p("copernicus", -75.6889, 4.8134),
+                        self._p("sertit", -75.68891, 4.81341)], umbral_m=20)
+        self.assertEqual(r["unidades"], 1)
+        self.assertEqual(r["coincidencias"], 1)
+
+    def test_la_misma_fuente_nunca_se_funde_consigo_misma(self):
+        """Si un servicio marcó dos edificios pegados, es que vio dos. Fundir
+        sus puntos sería corregir a la fuente, que es justo lo que no se hace."""
+        from satelites import unir_danos
+        r = unir_danos([self._p("sertit", -75.6889, 4.8134),
+                        self._p("sertit", -75.68891, 4.81341)], umbral_m=20)
+        self.assertEqual(r["unidades"], 2)
+        self.assertEqual(r["coincidencias"], 0)
+
+    def test_el_recuento_esta_entre_el_maximo_y_la_suma(self):
+        from satelites import unir_danos
+        pts = ([self._p("copernicus", -75.68 + i / 1000, 4.81) for i in range(5)]
+               + [self._p("sertit", -75.68 + i / 1000, 4.81) for i in range(3)])
+        r = unir_danos(pts, umbral_m=20)
+        self.assertGreaterEqual(r["unidades"], 5)   # el máximo por fuente
+        self.assertLessEqual(r["unidades"], 8)      # la suma ingenua
+
+    def test_lejos_no_se_unen(self):
+        from satelites import unir_danos
+        r = unir_danos([self._p("copernicus", -75.6889, 4.8134),
+                        self._p("sertit", -75.7000, 4.8200)], umbral_m=20)
+        self.assertEqual(r["unidades"], 2)
+
+    def test_sin_puntos_no_hay_cero_hay_ausencia(self):
+        """R3: un 0 aquí se leería como «los satélites miraron y no vieron
+        nada», que es lo contrario de «nadie ha mirado»."""
+        from satelites import unir_danos
+        self.assertIsNone(unir_danos([])["unidades"])
+
+    def test_la_discrepancia_de_grado_se_cuenta(self):
+        """Dos servicios sobre el mismo tejado con distinta gravedad: eso es
+        un hallazgo del monitor, no un error que haya que resolver."""
+        from satelites import unir_danos
+        r = unir_danos([self._p("copernicus", -75.6889, 4.8134, "Destroyed"),
+                        self._p("sertit", -75.68891, 4.81341, "Damaged")],
+                       umbral_m=20)
+        self.assertEqual(r["discrepan_de_grado"], 1)
+        r2 = unir_danos([self._p("copernicus", -75.6889, 4.8134, "Damaged"),
+                         self._p("sertit", -75.68891, 4.81341, "Damaged")],
+                        umbral_m=20)
+        self.assertEqual(r2["discrepan_de_grado"], 0)
+
+    def test_exclusivos_por_fuente(self):
+        from satelites import unir_danos
+        r = unir_danos([self._p("copernicus", -75.6889, 4.8134),
+                        self._p("sertit", -75.68891, 4.81341),
+                        self._p("sertit", -75.7000, 4.8200)], umbral_m=20)
+        self.assertEqual(r["solo_de"].get("sertit"), 1)
+        self.assertIsNone(r["solo_de"].get("copernicus"))
+
+    def test_todo_aoi_de_copernicus_con_stats_tiene_municipio(self):
+        """Si Copernicus abre un AOI nuevo, sus edificios no pueden
+        desaparecer del recuento en silencio por no estar mapeado."""
+        from satelites import AOI_MUNICIPIO
+        publicos = Path(__file__).parent.parent / "data" / "public" / "aois.geojson"
+        if not publicos.exists():
+            self.skipTest("sin aois.geojson")
+        aois = json.loads(publicos.read_text(encoding="utf-8"))
+        for f in aois.get("features", []):
+            nombre = (f.get("properties") or {}).get("aoi")
+            resumen = (f.get("properties") or {}).get("resumen") or {}
+            if not nombre or nombre == "Western Colombia":
+                continue
+            if resumen.get("edificios_afectados") in (None, "", 0):
+                continue
+            self.assertIn(nombre, AOI_MUNICIPIO,
+                          f"El AOI «{nombre}» declara edificios y no está en "
+                          f"AOI_MUNICIPIO: sus daños no entrarían al recuento")
+
+
+class TestAlertaSertitSinVectores(unittest.TestCase):
+    """La alerta que avisa de que hay que escribir un correo.
+
+    Los vectores de ICube-SERTIT no se descargan: su web los manda por correo
+    tras un formulario. Un producto nuevo entra en el catálogo con
+    `paquete_sha256` en nulo y ahí se queda —visible y sin puntos— hasta que
+    una persona lo pida. Sin esta alerta, nadie se entera.
+
+    Se comprueba contra la forma real del bug: una base donde el producto
+    existe SIN paquete. Un test que solo mirase la base de hoy pasaría en
+    verde sin ejercitar nunca la rama, que es exactamente cómo se cuela un
+    guardián que no guarda.
+    """
+
+    def _base(self):
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        return conn
+
+    def test_un_producto_sin_paquete_dispara_la_alerta(self):
+        conn = self._base()
+        conn.execute(
+            "INSERT INTO sertit_productos (producto_id, municipio, n_producto,"
+            " paquete_sha256, snapshot_date) VALUES (?,?,?,NULL,?)",
+            (9001, "Trujillo", "06", "2026-09-01"))
+        pendientes = conn.execute(
+            "SELECT municipio FROM sertit_productos WHERE paquete_sha256 IS NULL"
+        ).fetchall()
+        self.assertEqual([r[0] for r in pendientes], ["Trujillo"],
+                         "un producto sin vectores tiene que ser localizable: "
+                         "es el disparador de la alerta")
+        conn.close()
+
+    def test_un_producto_con_paquete_no_la_dispara(self):
+        conn = self._base()
+        conn.execute(
+            "INSERT INTO sertit_productos (producto_id, municipio, n_producto,"
+            " paquete_sha256, snapshot_date) VALUES (?,?,?,?,?)",
+            (9002, "Pereira", "01", "a" * 64, "2026-09-01"))
+        pendientes = conn.execute(
+            "SELECT municipio FROM sertit_productos WHERE paquete_sha256 IS NULL"
+        ).fetchall()
+        self.assertEqual(pendientes, [],
+                         "un producto con sus vectores no puede pedir que "
+                         "alguien escriba un correo que ya se escribió")
+        conn.close()
+
+
+class TestLaAlertaNoContaminaConPaquetesViejos(unittest.TestCase):
+    """La alerta y la portada tienen que decir el mismo número.
+
+    El 21-ago-2026 no lo decían: la alerta leía `unosat_damage` sin filtrar
+    por paquete, sumaba los puntos del paquete ya superado y anunciaba 16
+    donde el monitor publicaba 209. La cifra equivocada era, además, la que
+    salía por RSS y por push — la más difícil de corregir después. Y empeoraba
+    con cada reedición de la fuente.
+    """
+
+    def _base(self, filas):
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        for sha, capa, code, idx in filas:
+            conn.execute(
+                "INSERT INTO unosat_damage (paquete_sha, capa, idx, event_code,"
+                " sensor_date, snapshot_date) VALUES (?,?,?,?,?,?)",
+                (sha, capa, idx, code, "20260811", "2026-08-21"))
+        return conn
+
+    def test_solo_cuenta_el_paquete_vigente(self):
+        import alerts
+        filas = ([("viejo", "capa_m", "EQ20260822COL", i) for i in range(8)]
+                 + [("nuevo", "capa_m", "EQ20260822COL", i) for i in range(8)])
+        conn = self._base(filas)
+        sin_filtro = alerts.codigos_de_evento_imposibles(conn, "2026-08-21")
+        con_filtro = alerts.codigos_de_evento_imposibles(
+            conn, "2026-08-21", paquete="nuevo")
+        self.assertEqual(sum(x["n"] for x in sin_filtro), 16,
+                         "sin filtro se cuentan los dos paquetes: ese era el bug")
+        self.assertEqual(
+            sum(x["n"] for x in con_filtro), 8,
+            "con el paquete vigente la alerta dice lo mismo que la portada")
+        conn.close()
+
+
+class TestLaImagenCompartidaNoSeQuedaAtras(unittest.TestCase):
+    """La imagen Open Graph es la superficie que se comparte SIN contexto.
+
+    El 21-ago-2026 anunciaba 1.415 edificios y 439 reportes mientras el
+    monitor sostenía 1.578 y 465, y su propio texto alternativo —que sí tiene
+    guardián— ya decía la cifra buena. Causa: `deploy/gen_og.py` no lo
+    ejecutaba nadie, ni el build ni el workflow diario.
+
+    Un PNG no se puede leer desde un test, así que el generador escribe al
+    lado con qué cifras pintó. Si este test falla, la imagen se quedó atrás y
+    hay que regenerarla — no cambiar el número esperado.
+    """
+
+    RAIZ = Path(__file__).parent.parent
+
+    def test_la_portada_og_declara_las_cifras_publicadas(self):
+        og = self.RAIZ / "site" / "og" / "portada.json"
+        mon = self.RAIZ / "data" / "public" / "monitor.json"
+        if not og.exists() or not mon.exists():
+            self.skipTest("sin imagen generada todavía")
+        pintado = json.loads(og.read_text(encoding="utf-8"))
+        datos = json.loads(mon.read_text(encoding="utf-8"))
+        self.assertEqual(
+            pintado.get("edificios_satelite"),
+            (datos.get("satelital") or {}).get("total_edificios"),
+            "la imagen que se comparte anuncia un total satelital distinto del "
+            "que publica el monitor: hay que regenerarla con deploy/gen_og.py")
+        self.assertEqual(
+            pintado.get("reportes_ciudadanos"),
+            datos["citizen"]["chatmap_total"],
+            "la imagen que se comparte anuncia otro número de reportes "
+            "ciudadanos que el monitor")
+
+    def test_el_build_regenera_las_imagenes(self):
+        """Y que nadie vuelva a dejarlo fuera del build."""
+        build = (self.RAIZ / "deploy" / "build_dist.sh").read_text(encoding="utf-8")
+        self.assertIn(
+            "gen_og.py", build,
+            "build_dist.sh no regenera las imágenes compartidas: volverán a "
+            "quedarse atrás en silencio la próxima vez que cambie una cifra")

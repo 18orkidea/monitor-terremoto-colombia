@@ -38,6 +38,16 @@ NOTA_SONDA = "sonda de supuesto"
 # antes del cambio de nombre y siguen exentas por lo que fueron, no por su texto.
 NOTAS_SONDA = (NOTA_SONDA, "test supuesto", "test supuesto rud")
 
+# --- Los otros dos canales por los que entra un cuerpo ------------------------
+# Hasta el 21-ago-2026 `sources_log` tenía dos escritores —una petición HTTP o
+# una derivación del propio archivo— y un invariante limpio: sin HTTP no hay
+# hash ni cuerpo. SERTIT rompió el molde: entrega sus vectores por correo tras
+# un formulario, así que hay un cuerpo real, con su sha, que nadie descargó.
+# Se marca con una constante y no con texto libre, igual que las sondas: el
+# test de trazabilidad exime por contrato explícito, nunca por prefijo.
+NOTA_ENTREGA = "entrega fuera de banda"
+
+
 # --- Corpus de prensa: dónde empieza este desastre ---------------------------
 # El sismo ocurrió el 2026-08-10 a las 12:34 UTC. Un titular anterior no habla
 # de este terremoto: las búsquedas municipales de Google News devuelven
@@ -276,6 +286,49 @@ CREATE TABLE IF NOT EXISTS crosscheck (
   detalle TEXT,
   PRIMARY KEY (aoi_name, snapshot_date)
 );
+-- ICube-SERTIT, tercera mirada satelital, vía Charter 1048 (call 1202).
+-- El catálogo SÍ se descarga (la web publica sus metadatos); los VECTORES no:
+-- la web los entrega por correo tras un formulario con datos personales, así
+-- que el cuerpo vive en data/documentos/sertit/ y su fila de sources_log dice
+-- por dónde llegó. Ver el docstring de ingest/sources/sertit.py.
+CREATE TABLE IF NOT EXISTS sertit_productos (
+  producto_id INTEGER PRIMARY KEY,
+  accion_id INTEGER, charter TEXT,
+  n_producto TEXT,                 -- '01'…'05', numeración del propio SERTIT
+  nombre_base TEXT,                -- nomAnnexes: lleva AOI, escala y fecha
+  municipio TEXT, departamento TEXT,
+  municipio_origen TEXT,           -- 'catalogo' | 'texto_sertit': un municipio
+                                   -- del catálogo y uno leído de un rótulo no
+                                   -- pueden ser indistinguibles
+  escala INTEGER, formato TEXT, tipo TEXT,
+  imagen_principal TEXT,           -- literal: «Pléiades Néo acquise le …»
+  fecha_produccion TEXT,
+  url_producto TEXT,               -- su página de producto; alimenta Wayback
+  url_mapa TEXT,                   -- el PDF/JPG público en el portal de la
+                                   -- Charter, verificado uno a uno el 20-ago
+  cifra_rotulada INTEGER,          -- lo que el MAPA dice en su leyenda, que no
+                                   -- siempre cuadra con sus propios vectores
+  bbox_declarado TEXT,             -- el recuadro que publica su web, en JSON
+  area_analizada_km2 REAL,         -- del AreaOfInterest del paquete, no del bbox
+  paquete_sha256 TEXT, paquete_ruta TEXT,
+  first_seen TEXT, snapshot_date TEXT
+);
+CREATE TABLE IF NOT EXISTS sertit_danos (
+  paquete_sha TEXT NOT NULL,       -- sha256 del ZIP: la identidad del dato
+  capa TEXT NOT NULL,              -- UrbanP, PointOfInterest…
+  idx INTEGER NOT NULL,
+  producto_id INTEGER,
+  municipio TEXT, departamento TEXT,
+  dano TEXT,                       -- literal de la fuente; comparte vocabulario
+                                   -- con Copernicus (Destroyed/Damaged/…)
+  tipo TEXT,                       -- Residential, Public…
+  sensor TEXT, sensor_date TEXT,
+  metodo TEXT,                     -- 'Photo-interpretation'
+  copyright TEXT,                  -- «© ICube-SERTIT 2026»: la licencia obliga
+  lat REAL, lon REAL,
+  first_seen TEXT, snapshot_date TEXT NOT NULL,
+  PRIMARY KEY (paquete_sha, capa, idx)
+);
 """
 
 
@@ -332,6 +385,31 @@ def registrar_derivacion(conn: sqlite3.Connection, url: str, note: str) -> None:
         "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
         " snapshot_path,note) VALUES (?,?,NULL,NULL,NULL,NULL,?)",
         (utcnow(), url, note))
+
+
+def registrar_entrega(conn: sqlite3.Connection, *, url: str, ruta: Path,
+                      note: str) -> str:
+    """Anota un cuerpo que llegó por un canal que no es HTTP (correo, mano).
+
+    R4 exige que toda cifra publicada tenga fila en `sources_log` con su sha y
+    su cuerpo recuperable. `fetch()` cubre lo que se descarga; esto cubre lo
+    que un organismo ENTREGA tras una petición formal — el caso de los
+    vectores de ICube-SERTIT, que su web solo manda por correo después de un
+    formulario con datos personales. Sin esta fila, el dato más valioso del
+    archivo sería el único sin constancia de por dónde entró.
+
+    `note` debe decir el canal y la fecha de la petición, no solo el nombre de
+    la fuente: dentro de años, «llegó por correo» es la mitad de la respuesta.
+    Devuelve el sha256 del fichero. No hace commit.
+    """
+    body = ruta.read_bytes()
+    sha = hashlib.sha256(body).hexdigest()
+    conn.execute(
+        "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+        " snapshot_path,note) VALUES (?,?,NULL,?,?,?,?)",
+        (utcnow(), url, sha, len(body), str(ruta.relative_to(ROOT)),
+         f"{NOTA_ENTREGA}: {note}"))
+    return sha
 
 
 def fetch(url: str, params: dict | None = None, *, note: str = "",

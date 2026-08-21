@@ -71,30 +71,59 @@ def fmt(n):
     return f"{n:,.0f}".replace(",", ".")
 
 
+# Cómo se llama cada servicio en el pie. El orden es el de entrada al monitor.
+SERVICIOS = (("copernicus", "Copernicus EMSR916"),
+             ("unosat", "UNITAR-UNOSAT"),
+             ("sertit", "ICube-SERTIT"))
+
+
+def servicios(sat: dict) -> str:
+    """Quién aporta al total satelital, leído del propio dato.
+
+    Un total que no dice de quién es se comparte solo y ya no se puede matizar.
+    Sale de `por_municipio`, así que el día que entre o salga un servicio la
+    frase cambia sola en vez de envejecer aquí."""
+    presentes = {c for muni in (sat.get("por_municipio") or {}).values()
+                 for c in (muni.get("fuentes") or {})}
+    nombres = [n for c, n in SERVICIOS if c in presentes]
+    nombres += sorted(presentes - {c for c, _ in SERVICIOS})
+    if not nombres:
+        return "Sin ningún producto satelital"
+    if len(nombres) == 1:
+        return f"Vistos por {nombres[0]}"
+    # «y» se vuelve «e» delante de i-: «UNITAR-UNOSAT e ICube-SERTIT»
+    enlace = "e" if nombres[-1][:1].lower() in "ií" else "y"
+    return f"Vistos por {', '.join(nombres[:-1])} {enlace} {nombres[-1]}"
+
+
 def main():
     OG.mkdir(parents=True, exist_ok=True)
     mon = json.loads((ROOT / "data/public/monitor.json").read_text())
     noticias = json.loads((ROOT / "data/public/noticias.json").read_text())
 
     # -- portada: el cruce
-    # OJO: esta regla vive en DOS superficies —aquí y en site/ui.js, que pinta
-    # la tarjeta de la portada—. Si tocas una, mira la otra.
-    # Las dos miradas satelitales se suman porque miran municipios distintos;
-    # la ingesta lo certifica y, si algún día se pisaran, esa lista no vendría
-    # vacía y la portada volvería sola a contar solo Copernicus.
-    uno = mon.get("unosat") or {}
-    cop = sum(a["resumen"].get("edificios_afectados") or 0 for a in mon["aois"])
-    suma = not uno.get("municipios_tambien_en_aoi_copernicus")
-    n_uno = (uno.get("edificios") or 0) if suma else 0
-    edif = cop + n_uno
-    # Es la superficie más compartida del monitor y la única sin sitio para el
-    # matiz: el pie lo lleva. Un total de dos fuentes que no dice de cuáles ni
-    # cuántos son hipótesis se comparte solo, y ya no se puede matizar.
-    pie = ([f"{fmt(cop)} de Copernicus EMSR916 + {fmt(n_uno)} de UNITAR-UNOSAT.",
-            f"De los de UNOSAT, {fmt(uno.get('posibles') or 0)} son solo «daño posible», "
-            f"sin validar en campo."]
-           if n_uno else
-           ["Clasificados uno a uno por el servicio de emergencias de Copernicus (EMSR916)."])
+    # Aquí NO se calcula nada: se lee. Cuántos edificios ha visto el satélite
+    # cuando tres servicios miran las mismas ciudades lo resuelve
+    # `ingest/satelites.py` —dos puntos de servicios distintos a menos de 20 m
+    # son el mismo edificio, dos del mismo servicio nunca— y viaja ya hecho en
+    # monitor.json. Mientras esta imagen sumó por su cuenta, el día que dos
+    # servicios se pisaran habría anunciado un total que el propio monitor
+    # no sostiene: en Pereira, 108 edificios los vieron Copernicus y SERTIT a la
+    # vez. Es la superficie más compartida del monitor y la única sin sitio
+    # para el matiz, así que se comparte con la cifra que el monitor sostiene.
+    sat = mon.get("satelital") or {}
+    edif = sat.get("total_edificios")
+    pie = [f"{servicios(sat)}.",
+           "Cada edificio cuenta una vez, aunque lo vieran dos servicios. "
+           "Sin validar en campo."]
+    # Junto al PNG se escribe con qué cifras se pintó: un PNG no se puede
+    # inspeccionar desde un test, y sin esto nada impide que la imagen más
+    # compartida del monitor se quede meses anunciando un total superado.
+    (OG / "portada.json").write_text(json.dumps({
+        "generado": mon.get("generado"),
+        "edificios_satelite": edif,
+        "reportes_ciudadanos": mon["citizen"]["chatmap_total"],
+    }, ensure_ascii=False))
     img, d = base("El mapa que cruza satélite,",
                   "calle y prensa — y mide lo que las fuentes oficiales aún no publican")
     d.text((70, 245), "", font=font(30), fill=INK2)
@@ -105,6 +134,11 @@ def main():
          "población expuesta con mapeo", WARN),
     ])
     for i, linea in enumerate(pie):
+        # Una línea que no cabe se corta por la derecha y la frase publica lo
+        # contrario de lo que dice: «contado una sola v…». Aquí se para el build
+        # en vez de compartir una imagen mutilada.
+        if d.textlength(linea, font=font(24)) > W - 140:
+            raise ValueError(f"el pie de la portada no cabe en {W} px: {linea!r}")
         d.text((70, 440 + i * 32), linea, font=font(24), fill=MUTED)
     img.save(OG / "portada.png", optimize=True)
 

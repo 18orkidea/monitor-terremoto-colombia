@@ -275,3 +275,62 @@ class TestSupuestosUnosat(unittest.TestCase):
             "los paquetes de UNOSAT ya NO son idénticos: cada producto "
             "aporta datos propios. Revisar el conteo de unosat.run() — "
             "puede haber cobertura nueva que antes se descartaba por duplicada")
+
+
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosSertit(unittest.TestCase):
+    """ICube-SERTIT (https://sertit.unistra.fr), vía Charter 1048.
+
+    Dos supuestos de naturaleza distinta. El catálogo se descarga y por tanto
+    puede romperse como cualquier API. Los vectores NO: llegaron por correo y
+    viven en el repo, así que ninguna caída de la fuente puede quitárnoslos —
+    lo que este test vigila del lado de los datos es que sigan ahí y sigan
+    siendo los mismos bytes.
+
+    La sonda NO descarga los ZIP ni los mapas: son megas por corrida para
+    releer lo que ya está archivado. Verificar el archivo es trabajo del
+    módulo, no de la sonda.
+    """
+
+    ACCION = "https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/"
+
+    def test_el_catalogo_sigue_publicando_los_productos(self):
+        """El catálogo vive en un JSON embebido en el HTML. Si SERTIT cambia
+        el maquetado, esto avisa antes de que el monitor deje de ver
+        productos nuevos sin enterarse."""
+        from common import fetch
+        from sources.sertit import productos_de_pagina
+        st, body = fetch(self.ACCION, note=NOTA_SONDA)
+        if st != 200 or not body:
+            self.skipTest(
+                "sertit.unistra.fr no responde. Plan de sucesión: los cinco "
+                "paquetes de vectores están en data/documentos/sertit/ con su "
+                "sha en sources_log, así que la capa publicada no depende de "
+                "esta web. Lo que se pierde es descubrir productos nuevos.")
+        productos = productos_de_pagina(body)
+        self.assertGreaterEqual(
+            len(productos), 5,
+            "la acción 845 declaraba 5 productos: si ahora hay menos, la "
+            "fuente los retiró; si el parseo devuelve 0, cambió el contrato "
+            "del bloque js_data y hay que revisar productos_de_pagina()")
+        for p in productos:
+            self.assertTrue(p["nombre_base"],
+                            "un producto sin nomAnnexes no se puede casar con "
+                            "su paquete de vectores")
+
+    def test_la_api_rest_documentada_sigue_caida(self):
+        """SERTIT documenta —y la ESA anunció— una API REST pública que
+        devolvía GeoJSON. El 20-ago-2026 daba 404 y se les avisó.
+
+        Que este test falle sería una BUENA noticia (R11): significaría que la
+        repusieron y que el monitor puede dejar de depender de un HTML.
+        """
+        from common import fetch
+        st, _ = fetch("https://sertit.unistra.fr/wp-json/rms/v1/actions",
+                      note=NOTA_SONDA)
+        self.assertEqual(
+            st, 404,
+            "¡La API REST de SERTIT vuelve a responder! Sustituir el parseo "
+            "del HTML por los endpoints documentados en "
+            "/en/api-rest-for-icube-sertits-rapid-mapping-resources/ y "
+            "actualizar el docstring de ingest/sources/sertit.py")

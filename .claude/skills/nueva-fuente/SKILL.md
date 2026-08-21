@@ -37,6 +37,27 @@ formatos, rangos). El mensaje de fallo debe explicar qué significa que se rompa
 hacer — recordando que romperse puede ser buena noticia (R11). Si la fuente puede
 morir, el test debe degradar con `skipTest("<fuente> cerró: <plan>")`.
 
+## 3 bis. Si la fuente NO se descarga (entrega fuera de banda)
+
+Hay fuentes que no sirven sus datos por URL: los mandan por correo tras un
+formulario, o los entregan a mano. ICube-SERTIT es el primer caso del monitor.
+Entonces:
+
+- El cuerpo se deposita en `data/documentos/<fuente>/` **tal cual llegó**, sin
+  renombrar: el nombre del fichero suele llevar el área, la escala y la fecha,
+  y eso es información.
+- Se registra con `common.registrar_entrega()`, que escribe en `sources_log` el
+  sha256, la ruta y el canal por el que entró — **una sola vez**, no en cada
+  corrida: una entrega es un suceso, no un estado. Repetirla haría que el log
+  afirmara entregas que no ocurrieron.
+- Una reentrega **no pisa** el fichero anterior: se deposita al lado y el
+  módulo decide cuál publica (patrón `paquetes_vigentes()`).
+- El test de integridad va en `tests/test_hipotesis.py` y **no puede depender
+  de la red**: el clon del futuro no la tendrá, y ese cuerpo es justo el que no
+  se puede volver a pedir.
+- Si la fuente publica un producto nuevo sin entregar sus datos, eso **avisa**
+  (R11): alguien tiene que escribir un correo, y sin alerta nadie se entera.
+
 ## 4. Plan de sucesión (obligatorio decidir, no opcional)
 
 Responder por escrito en el docstring del módulo:

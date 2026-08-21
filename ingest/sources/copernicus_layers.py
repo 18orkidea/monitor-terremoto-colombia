@@ -15,6 +15,7 @@ import json
 from collections import Counter
 
 from common import db, fetch_json, SNAPSHOTS, PUBLIC
+from satelites import AOI_MUNICIPIO
 
 CODE = "EMSR916"
 LAYER_KINDS = {
@@ -78,6 +79,15 @@ def run() -> dict:
                     continue
                 f["properties"]["aoi"] = aoi.get("name")
                 f["properties"]["layer"] = layer_key
+                # El municipio lo dice el AOI, no la geometría. Sin esto, cada
+                # superficie tenía que adivinarlo por proximidad a la cabecera
+                # y tres puntos del AOI «Northern Cali» acababan atribuidos a
+                # Yumbo, que Copernicus no ha cartografiado. Viaja en el dato
+                # publicado para que el mapa, la tabla y las fichas respondan
+                # todos lo mismo.
+                muni = AOI_MUNICIPIO.get(aoi.get("name") or "")
+                if muni:
+                    f["properties"]["municipio"] = muni
                 buckets[kind].append(f)
 
     PUBLIC.mkdir(parents=True, exist_ok=True)

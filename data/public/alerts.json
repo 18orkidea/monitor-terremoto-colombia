@@ -1,29 +1,26 @@
 {
- "generado": "2026-08-20",
- "fecha": "2026-08-20",
+ "generado": "2026-08-21",
+ "fecha": "2026-08-21",
  "alertas": [
   {
-   "tipo": "titulares_nuevos",
-   "nivel": "info",
-   "texto": "604 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 604
-  },
-  {
-   "tipo": "rud_actualizado",
-   "nivel": "info",
-   "texto": "RUD actualizado: +14 municipios. +13.836 familias desde la captura anterior"
+   "tipo": "unosat_codigo_evento_imposible",
+   "nivel": "media",
+   "texto": "UNITAR-UNOSAT publica 8 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los cuenta —lo decide el identificador que declara el producto, no la etiqueta del punto— y publica la discrepancia aparte. Si UNOSAT la corrige, la nota desaparece sola.",
+   "event_code": "EQ20260822COL",
+   "capa": "PNEO3_STD_20260811_BuildingDamageAsessment_Manizales",
+   "puntos": 8
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
    "nivel": "media",
-   "texto": "UNITAR-UNOSAT publica 8 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los archiva con su literal y no los suma. Si UNOSAT lo corrige, entran solos.",
+   "texto": "UNITAR-UNOSAT publica 201 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los cuenta —lo decide el identificador que declara el producto, no la etiqueta del punto— y publica la discrepancia aparte. Si UNOSAT la corrige, la nota desaparece sola.",
    "event_code": "EQ20260822COL",
-   "capa": "PNEO3_STD_20260811_BuildingDamageAsessment_Manizales",
-   "puntos": 8
+   "capa": "Pleiades_20260813_BuildingDamageAsessment_Zarzal",
+   "puntos": 201
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-19",
+  "fecha": "2026-08-20",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 15,
@@ -108,15 +105,15 @@
     "cifra": "personas_afectadas",
     "valor": 181,
     "motivo": "cifra incoherente con el resto del mismo balance",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 181,
+    "valor": 86,
     "motivo": "cifra incoherente con el resto del mismo balance",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "familias_afectadas",
@@ -124,13 +121,6 @@
     "motivo": "retrocede sobre el máximo informado",
     "medio": "Caracol Radio",
     "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 7,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
    },
    {
     "cifra": "viviendas_averiadas",
@@ -141,17 +131,17 @@
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 862,
+    "valor": 8357,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
    },
    {
     "cifra": "viviendas_averiadas",
     "valor": 8357,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "viviendas_destruidas",
@@ -168,11 +158,18 @@
     "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
    },
    {
-    "cifra": "heridos",
-    "valor": 1595,
+    "cifra": "viviendas_destruidas",
+    "valor": 1136,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 3494,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
    },
    {
     "cifra": "heridos",
@@ -182,11 +179,18 @@
     "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
    },
    {
-    "cifra": "fallecidos",
-    "valor": 180,
+    "cifra": "heridos",
+    "valor": 668,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 265,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
    },
    {
     "cifra": "fallecidos",
@@ -196,11 +200,11 @@
     "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
    },
    {
-    "cifra": "desaparecidos",
-    "valor": 37,
+    "cifra": "fallecidos",
+    "valor": 181,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "desaparecidos",
@@ -210,11 +214,11 @@
     "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
    },
    {
-    "cifra": "rescatados",
-    "valor": 86,
+    "cifra": "desaparecidos",
+    "valor": 195,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "rescatados",
@@ -226,9 +230,9 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-08-20/oficiales_feed.json",
-   "items": 26,
-   "regla_sha256": "647462f21c0172af5b77903524d8144daa2674c94bf210fd028212f58c807707"
+   "snapshot": "data/snapshots/2026-08-21/oficiales_feed.json",
+   "items": 28,
+   "regla_sha256": "563a5f402b61a0b8d3f1329d5f4b3badd25120ebfe7177ea507673ad4ed633ed"
   }
  }
 }

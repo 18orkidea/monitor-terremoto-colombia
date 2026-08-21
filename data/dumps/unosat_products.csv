@@ -1,85 +1,5 @@
-glide,titulo,descripcion,created_at,lat,lon,pdf_url,shp_url,gdb_url,xlsx_url,web_url,shp_sha256,fuentes_texto,first_seen,snapshot_date
-EQ20260810COL,"IRAQ HUMANITARIAN PLANNING MAP- Version 1.3, updated as of 14 April 2003","Poster-size (A1) satellite image and thematic maps including:
-Iraq general map w/border crossings and base of cross-border operations
-Mean maximum temperature
-Mean minimum temperature
-Mean annual precipitation
-Oil and gas pipelines
-Water supply from nearby network tap or well
-Water (litres) supplied per capita/day by network - Urban and rural areas
-Population with sanitation from flush, sewage or septic tanks
-Underweight children (<5 years)
-Children 6-11 years enrolled in primary school
-Population distribution and governorates
-Ethnoreligious groups
-Humanitarian assistance regions, governorates with related Place-code",2003-07-30T00:00:00Z,4.6918068724838555,-76.35110526779494,https://unosat.org/static/unosat_filesystem/1/iraq_humanitarian_planning_map_A1.zip,\N,\N,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,\N,"Earthquake epicentre: USGS 
-Seismic intensities (MMI): USGS 
-Populated place: OSM 
-Seismic intensities (MMI): USGS - last updated 2026-08-10 14:40:56 (UTC) (Version 5)
-Administrative boundaries: Departamento Administrativo Nacional de Estadística (DANE)
-Population data: WorldPop, (100m resolution) for 2026
-Analysis: United Nations Satellite Centre (UNOSAT) and Copernicus EMS
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:47Z,2026-08-20
-EQ20260810COL,IRAQ GENERAL MAP,"Satellite image map showing Iraq and neighboring countries, Iraq governorates, and road networks",2003-07-16T00:00:00Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/2/satellite_general_map.pdf,\N,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,\N,"Satellite Imagery(Post): Pleiades
-Imagery Date: 12 August 2026
-Copyright: Includes Pleiades material © CNES (2026), Distribution Airbus Defence and Space.
-Resolution: 50 cm
-Source: Airbus D&S (Charter)
-
-Satellite Imagery (Pre) WorldView-3
-Imagery Date: 29 December 2025
-Resolution: 30 cm
-Copyright: Vantor
-Source: Vantor, Esri Basemap
-
-Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
-Populated place: OpenStreetMap
-Earthquake epicentre: USGS 
-Seismic intensities (MMI): USGS 
-
-Analysis: United Nations Satellite Centre (UNOSAT)
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:47Z,2026-08-20
-EQ20260810COL,MEAN MAXIMUM TEMPERATURE,Mean maximum temperature (Celsius) for Iraq and neighboring countries,2003-07-16T00:00:00Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/3/mean_maximum_temperature.jpg,\N,https://unosat.org/static/unosat_filesystem/4252/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,\N,"Satellite Imagery(Post): Pleiades
-Imagery Date: 12 August 2026
-Copyright: Includes Pleiades material © CNES (2026), Distribution Airbus Defence and Space.
-Resolution: 50 cm
-Source: Airbus D&S (Charter)
-
-Satellite Imagery (Pre) WorldView-3
-Imagery Date: 29 December 2025
-Resolution: 30 cm
-Copyright: Vantor
-Source: Vantor, Esri Basemap
-
-Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
-Populated place: OpenStreetMap
-Earthquake epicentre: USGS 
-Seismic intensities (MMI): USGS 
-
-Analysis: United Nations Satellite Centre (UNOSAT)
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:48Z,2026-08-20
-EQ20260810COL,MEAN MINIMUM TEMPERATURE,Mean minimum temperature (Celsius) for Iraq and neighboring countries,2003-07-16T00:00:00Z,4.8950499999999995,-76.2345,https://unosat.org/static/unosat_filesystem/4/mean_minimum_temperature.pdf,\N,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,\N,"Data sources:
-
-(1) Satellite Imagery (Post-event): WorldView-2
-Acquisition date: 11 August 2026 at 15:46:36
-Resolution : 50 cm 
-Copyright: © 2026 Vantor
-Source: USGS
-
-(2) Satellite Imagery (Pre-event): WorldView-2
-Acquisition date: 02 February 2017
-Resolution : 50 cm 
-Copyright: © 2026 Vantor
-Source: ESRI Basemap
-3) Ancillary data
-
-Populated place: OpenStreetMap
-Waterways: OpenStreetMap
-Administrative boundary: Departamento Administrativo Nacional de Estadística (DANE)
-
-Analysis: United Nations Satellite Centre (UNOSAT)
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-19T16:48:49Z,2026-08-20
-EQ20260810COL,"M 7.4  in South of San José del Palmar, Colombia 10 August 2026 at 12:34 UTC","This application provides geospatial information from an ongoing satellite-based assessment of the magnitude 7.4
+product_id,glide,titulo,descripcion,created_at,lat,lon,pdf_url,shp_url,gdb_url,xlsx_url,web_url,shp_sha256,fuentes_texto,first_seen,snapshot_date
+4250,EQ20260810COL,"M 7.4  in South of San José del Palmar, Colombia 10 August 2026 at 12:34 UTC","This application provides geospatial information from an ongoing satellite-based assessment of the magnitude 7.4
 
  earthquake that occurred south of San José del Palmar, Colombia, on 10 August 2026 at 12:34:28 UTC.2026-06-24 22:04:33 (
 
@@ -87,60 +7,60 @@ EQ20260810COL,"M 7.4  in South of San José del Palmar, Colombia 10 August 2026 
 
 Important note: The boundaries and names shown, and the designations used on this map do not imply official endorsement or acceptance by the United Nations. 
 
-The United Nations Satellite Centre -UNOSAT is not responsible for the misuse or misrepresentation of the map.",2026-08-11T06:16:06.206163Z,4.6918068724838555,-76.35110526779494,\N,\N,\N,https://unosat.org/unosat_filesystem/4250/UNOSAT_PopulationExposure_EQ20260810COL_M74_V5.xlsx,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,\N,"Earthquake epicentre: USGS 
+The United Nations Satellite Centre -UNOSAT is not responsible for the misuse or misrepresentation of the map.",2026-08-11T06:16:06.206163Z,4.6918068724838555,-76.35110526779494,\N,https://unosat.org/static/unosat_filesystem/4250/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4250/EQ20260810COL.gdb.zip,https://unosat.org/unosat_filesystem/4250/UNOSAT_PopulationExposure_EQ20260810COL_M74_V5.xlsx,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,a92d568163cacf20af8f012f00c25d147c8cdd2f14364e66b8a4b49e715abd0d,"Earthquake epicentre: USGS 
 Seismic intensities (MMI): USGS 
 Populated place: OSM 
 Seismic intensities (MMI): USGS - last updated 2026-08-10 14:40:56 (UTC) (Version 5)
 Administrative boundaries: Departamento Administrativo Nacional de Estadística (DANE)
 Population data: WorldPop, (100m resolution) for 2026
 Analysis: United Nations Satellite Centre (UNOSAT) and Copernicus EMS
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-20T10:45:05Z,2026-08-20
-EQ20260810COL,"Building Damage Assessment in Viterbo Town, Caldas Department, Colombia  as of 12 August 2026","This map illustrates structures and buildings affected by the magnitude 7.4 earthquake with an epicentre south of San José del Palmar town in Colombia, with analysis focused on Viterbo in Caldas Department, approximately 50 km from the mainshock epicentre. Damage and destruction were identified primarily using Pleiades very-high-resolution satellite imagery acquired on 12 August 2026. In this area 42 buildings were identified as damaged and 66 were identified potentially damaged buildings. 
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-21T07:12:01Z,2026-08-21
+4251,EQ20260810COL,"Building Damage Assessment in Viterbo Town, Caldas Department, Colombia  as of 12 August 2026","This map illustrates structures and buildings affected by the magnitude 7.4 earthquake with an epicentre south of San José del Palmar town in Colombia, with analysis focused on Viterbo in Caldas Department, approximately 50 km from the mainshock epicentre. Damage and destruction were identified primarily using Pleiades very-high-resolution satellite imagery acquired on 12 August 2026. In this area 42 buildings were identified as damaged and 66 were identified potentially damaged buildings. 
 
-This is a preliminary analysis and has not yet been validated in the field. Ground verification is encouraged, and feedback can be sent to the United Nations Satellite Centre.",2026-08-14T07:25:18.723872Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/4251/UNOSAT_A3_Natural_Landscape_EQ20260810COL_ViterboTown_CaldasDepartment_12Aug2026.pdf,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,"Satellite Imagery(Post): Pleiades
+This is a preliminary analysis and has not yet been validated in the field. Ground verification is encouraged, and feedback can be sent to the United Nations Satellite Centre.",2026-08-14T07:25:18.723872Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/4251/UNOSAT_A3_Natural_Landscape_EQ20260810COL_ViterboTown_CaldasDepartment_12Aug2026.pdf,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4251/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,a92d568163cacf20af8f012f00c25d147c8cdd2f14364e66b8a4b49e715abd0d,"(1) Satellite Imagery(Post): Pleiades
 Imagery Date: 12 August 2026
 Copyright: Includes Pleiades material © CNES (2026), Distribution Airbus Defence and Space.
 Resolution: 50 cm
 Source: Airbus D&S (Charter)
 
-Satellite Imagery (Pre) WorldView-3
+(2) Satellite Imagery (Pre) WorldView-3
 Imagery Date: 29 December 2025
 Resolution: 30 cm
 Copyright: Vantor
 Source: Vantor, Esri Basemap
 
-Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
+(3) Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
 Populated place: OpenStreetMap
 Earthquake epicentre: USGS 
 Seismic intensities (MMI): USGS 
 
 Analysis: United Nations Satellite Centre (UNOSAT)
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-20T10:45:06Z,2026-08-20
-EQ20260810COL,"Building Damage Assessment in Viterbo Town, Caldas Department, Colombia  as of 12 August 2026","This map illustrates structures and buildings affected by the magnitude 7.4 earthquake with an epicentre south of San José del Palmar town in Colombia, with analysis focused on Viterbo in Caldas Department, approximately 50 km from the mainshock epicentre. Damage and destruction were identified primarily using Pleiades very-high-resolution satellite imagery acquired on 12 August 2026. In this area 55 buildings were identified as damaged and 99 were identified potentially damaged buildings. 
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-21T07:12:02Z,2026-08-21
+4252,EQ20260810COL,"Building Damage Assessment in Viterbo Town, Caldas Department, Colombia  as of 12 August 2026","This map illustrates structures and buildings affected by the magnitude 7.4 earthquake with an epicentre south of San José del Palmar town in Colombia, with analysis focused on Viterbo in Caldas Department, approximately 50 km from the mainshock epicentre. Damage and destruction were identified primarily using Pleiades very-high-resolution satellite imagery acquired on 12 August 2026. In this area 55 buildings were identified as damaged and 99 were identified potentially damaged buildings. 
 
-This is a preliminary analysis and has not yet been validated in the field. Ground verification is encouraged, and feedback can be sent to the United Nations Satellite Centre.",2026-08-14T15:17:40.112189Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/4252/UNOSAT_A3_Natural_Landscape_EQ20260810COL_ViterboTown_CaldasDepartment_12Aug2026_v2.pdf,https://unosat.org/static/unosat_filesystem/4252/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4252/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,"Satellite Imagery(Post): Pleiades
+This is a preliminary analysis and has not yet been validated in the field. Ground verification is encouraged, and feedback can be sent to the United Nations Satellite Centre.",2026-08-14T15:17:40.112189Z,5.0632969053270305,-75.86969821527669,https://unosat.org/static/unosat_filesystem/4252/UNOSAT_A3_Natural_Landscape_EQ20260810COL_ViterboTown_CaldasDepartment_12Aug2026_v2.pdf,https://unosat.org/static/unosat_filesystem/4252/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4252/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,a92d568163cacf20af8f012f00c25d147c8cdd2f14364e66b8a4b49e715abd0d,"(1) Satellite Imagery(Post): Pleiades
 Imagery Date: 12 August 2026
 Copyright: Includes Pleiades material © CNES (2026), Distribution Airbus Defence and Space.
 Resolution: 50 cm
 Source: Airbus D&S (Charter)
 
-Satellite Imagery (Pre) WorldView-3
+(2) Satellite Imagery (Pre) WorldView-3
 Imagery Date: 29 December 2025
 Resolution: 30 cm
 Copyright: Vantor
 Source: Vantor, Esri Basemap
 
-Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
+(3) Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
 Populated place: OpenStreetMap
 Earthquake epicentre: USGS 
 Seismic intensities (MMI): USGS 
 
 Analysis: United Nations Satellite Centre (UNOSAT)
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-20T10:45:07Z,2026-08-20
-EQ20260810COL,"PRELIMINARY SATELLITE-DERIVED DAMAGE ASSESSMENT - San José Del Palmar municipality, Chocó department, Colombia","SUMMARY OF FINDING
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-21T07:12:02Z,2026-08-21
+4253,EQ20260810COL,"PRELIMINARY SATELLITE-DERIVED DAMAGE ASSESSMENT - San José Del Palmar municipality, Chocó department, Colombia","SUMMARY OF FINDING
 Satellite imagery dated 11 August 2026 confirms visible structural damage on one building and possible debris in San José del Palmar municipality.
 Satellite imagery dated 11 August 2026 confirms possibly induced landslide along the departmental route, San José del Palmar-Ansermanuevo / RD48-02, in San José del Palmar municipality.
-No other visible widespread structural damage could be observed from satellite imagery in San José del Palmar town within the cloud-free areas  as of 11 August 2026.",2026-08-18T15:51:43.587640Z,4.8950499999999995,-76.2345,https://unosat.org/static/unosat_filesystem/4253/UNOSAT_Preliminary_Assessment_Report_EQ20260810COL_SanJoseDelPalmar_v1_O.pdf,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,b37d2d786854a896f40021ac437702fd56223e59592b7fae534d1a37e8969fbc,"Data sources:
+No other visible widespread structural damage could be observed from satellite imagery in San José del Palmar town within the cloud-free areas  as of 11 August 2026.",2026-08-18T15:51:43.587640Z,4.8950499999999995,-76.2345,https://unosat.org/static/unosat_filesystem/4253/UNOSAT_Preliminary_Assessment_Report_EQ20260810COL_SanJoseDelPalmar_v1_O.pdf,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4253/EQ20260810COL.gdb.zip,\N,https://experience.arcgis.com/experience/4abb075f9bc34fcdb9cc7f2086db07cf/page/UNOSAT,a92d568163cacf20af8f012f00c25d147c8cdd2f14364e66b8a4b49e715abd0d,"Data sources:
 
 (1) Satellite Imagery (Post-event): WorldView-2
 Acquisition date: 11 August 2026 at 15:46:36
@@ -160,4 +80,27 @@ Waterways: OpenStreetMap
 Administrative boundary: Departamento Administrativo Nacional de Estadística (DANE)
 
 Analysis: United Nations Satellite Centre (UNOSAT)
-Production: United Nations Satellite Centre (UNOSAT)",2026-08-20T10:45:08Z,2026-08-20
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-21T07:12:03Z,2026-08-21
+4254,EQ20260810COL,"Building Damage Assessment Density Map in Zarzal City, Valle del Cauca Department, Colombia  as of 13 August 2026","This map illustrates satellite-based damage assessment density in the city of Zarzal, Valle del Cauca Department, approximately 50 km from the epicentral area of the magnitude 7.4 earthquake of 10 August 2026 in Colombia.
+
+Damage was identified primarily using Pléiades very-high-resolution satellite imagery acquired on 13 August 2026. Within the analysed area, 21 buildings were identified as damaged and 180 were identified as potentially damaged. The high incidence angle (>40°) of the satellite imagery used for this analysis can affect the accuracy of the analysis. Damage estimates from such high-incidence-angle satellite imagery should therefore be interpreted with caution.
+
+This is a preliminary analysis and has not yet been validated in the field. Ground verification is encouraged, and feedback can be sent to the United Nations Satellite Centre.",2026-08-20T15:19:40.891509Z,4.395,-76.07,https://unosat.org/static/unosat_filesystem/4254/UNOSAT_A3_Natural_Landscape_EQ20260810COL_Zarzalcity_ValledelCaucaDepartment_13Aug2026_v1.pdf,https://unosat.org/static/unosat_filesystem/4254/EQ20260810COL_SHP.zip,https://unosat.org/static/unosat_filesystem/4254/EQ20260810COL.gdb.zip,\N,\N,a92d568163cacf20af8f012f00c25d147c8cdd2f14364e66b8a4b49e715abd0d,"(1) Satellite Imagery(Post): Pleiades
+Imagery Date: 13 August 2026
+Copyright: Includes Pleiades material © CNES (2026), Distribution Airbus Defence and Space.
+Resolution: 50 cm
+Source: Airbus D&S (Charter)
+
+(2) Satellite Imagery (Pre) WorldView-3
+Imagery Date: 29 June 2020
+Resolution: 30 cm
+Copyright: Vantor
+Source: Vantor, Esri Basemap
+
+(3) Boundary data: Departamento Administrativo Nacional de Estadística (DANE)
+Populated place: OpenStreetMap
+Earthquake epicentre: USGS 
+Seismic intensities (MMI): USGS 
+
+Analysis: United Nations Satellite Centre (UNOSAT)
+Production: United Nations Satellite Centre (UNOSAT)",2026-08-21T07:12:04Z,2026-08-21

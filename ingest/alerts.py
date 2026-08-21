@@ -10,6 +10,8 @@ Cada corrida regenera alerts.json desde cero con lo que cambió HOY:
 """
 from __future__ import annotations
 
+import sqlite3
+
 import json
 import re
 import shutil
@@ -220,7 +222,7 @@ def _institucionales_nuevos(snap: str) -> list[dict]:
     return [x for x in hoy if (x.get("link"), x.get("pubdate")) not in vistos]
 
 
-def codigos_de_evento_imposibles(conn, hoy: str) -> list[dict]:
+def codigos_de_evento_imposibles(conn, hoy: str, *, paquete: str | None = None) -> list[dict]:
     """Códigos GLIDE de UNOSAT cuya fecha implícita no puede ser cierta.
 
     Un `event_code` tipo `EQ20260822COL` lleva la fecha del evento dentro. Si
@@ -232,10 +234,20 @@ def codigos_de_evento_imposibles(conn, hoy: str) -> list[dict]:
     R11: avisa, no rompe. Los puntos se siguen archivando con su literal.
     """
     fuera = []
+    # `paquete` acota a la versión vigente de la capa. Sin él, la alerta sumaba
+    # también los puntos del paquete ya superado y anunciaba 16 donde el
+    # monitor publicaba 209 — dos cifras el mismo día, y la equivocada saliendo
+    # por push; a la tercera reedición habría dicho 24. Es un parámetro y no
+    # una consulta interna para que la lógica del detector se pueda probar sin
+    # inventarse un catálogo de productos.
+    where, params = "event_code IS NOT NULL", ()
+    if paquete:
+        where += " AND paquete_sha=?"
+        params = (paquete,)
     for code, cap, sensor_date, n in conn.execute(
             "SELECT event_code, capa, MIN(sensor_date), COUNT(*)"
-            " FROM unosat_damage WHERE event_code IS NOT NULL"
-            " GROUP BY event_code, capa"):
+            f" FROM unosat_damage WHERE {where}"
+            " GROUP BY event_code, capa", params):
         m = re.match(r"^[A-Z]{2}(\d{4})(\d{2})(\d{2})[A-Z]{3}$", (code or "").upper())
         if not m:
             continue
@@ -412,15 +424,41 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     # 7) UNOSAT: códigos de evento con fecha imposible. Un código fechado
     # después de la imagen que retrata el daño —o en el futuro— es un supuesto
     # roto de manual, y hasta hoy no lo cantaba nadie.
-    for x in codigos_de_evento_imposibles(conn, snap):
+    from sources.unosat import paquete_vigente
+    for x in codigos_de_evento_imposibles(conn, snap,
+                                          paquete=paquete_vigente(conn)):
         alerts.append({
             "tipo": "unosat_codigo_evento_imposible", "nivel": "media",
             "texto": f"UNITAR-UNOSAT publica {x['n']} puntos con el código "
                      f"«{x['code']}» y {x['motivo']}: no puede designar un evento "
                      f"real, así que es un error de etiquetado en origen. El "
-                     f"monitor los archiva con su literal y no los suma. Si "
-                     f"UNOSAT lo corrige, entran solos.",
+                     f"monitor los cuenta —lo decide el identificador que "
+                     f"declara el producto, no la etiqueta del punto— y publica "
+                     f"la discrepancia aparte. Si UNOSAT la corrige, la nota "
+                     f"desaparece sola.",
             "event_code": x["code"], "capa": x["capa"], "puntos": x["n"]})
+
+    # 8) SERTIT: un producto nuevo no llega solo. Sus vectores los manda su
+    # web por correo tras un formulario, así que un producto que aparece en el
+    # catálogo sin paquete asociado significa que HAY QUE ESCRIBIR UN CORREO —
+    # y sin esta alerta nadie se enteraría: el dato se quedaría en el catálogo,
+    # visible y sin puntos, hasta que a alguien se le ocurriera mirar.
+    try:
+        pendientes = conn.execute(
+            "SELECT municipio, n_producto, producto_id FROM sertit_productos"
+            " WHERE paquete_sha256 IS NULL ORDER BY producto_id").fetchall()
+    except sqlite3.OperationalError:
+        pendientes = []
+    for muni, n, pid in pendientes:
+        alerts.append({
+            "tipo": "sertit_sin_vectores", "nivel": "alta",
+            "texto": (f"ICube-SERTIT publicó un producto sin vectores en el "
+                      f"monitor: {muni or 'municipio por identificar'} "
+                      f"(producto {n or pid}). Sus datos no se descargan — hay "
+                      f"que pedirlos a emergency-sertit@unistra.fr, como se "
+                      f"hizo el 20-ago-2026."),
+            "municipio": muni, "producto": pid})
+
 
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}
     if balance_consolidado:
