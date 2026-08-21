@@ -6,6 +6,23 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-21 — El histórico del RUD es acumulativo y no puede encogerse
+
+Contexto: las capturas de los cierres del 18 y 19 de agosto seguían archivadas, pero sus
+filas desaparecieron de `rud_daily.csv`. Un merge con una rama atrasada retiró 218 claves;
+después, un SQLite local que no había incorporado el último dump sustituyó el día 19 por el
+20. El gráfico no ocultaba puntos: el producto público ya recibía una serie amputada.
+
+Decisión: se restauran las filas municipales desde los cuerpos archivados, sin interpolar
+cifras. Al abrir una base existente, `rebuild` reincorpora las claves acumulativas que le
+falten; antes de escribir un dump, se rechaza cualquier operación que retire una clave
+histórica del RUD o una entrada de su registro de procedencia. Un test exige además
+continuidad entre la primera y la última captura.
+
+Consecuencia: una base local atrasada falla de forma visible en vez de reescribir el archivo,
+y un merge que vuelva a perder un día rompe CI. Los cierres recuperados son 18-ago: 51.827
+familias en 106 municipios; 19-ago: 65.663 familias en 120 municipios.
+
 ## 2026-08-21 — El balance no retrocede, y cada cifra dice de quién es
 
 Contexto: el sitio publicaba **11.132 familias afectadas** donde el RUD registraba

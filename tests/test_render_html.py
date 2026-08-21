@@ -134,6 +134,31 @@ class TestFicha(unittest.TestCase):
         """Sin enlace de vuelta la ficha queda huérfana y no se descubre."""
         self.assertIn("municipios.html", self.html)
 
+    def test_historial_de_cali_conserva_cada_captura_diaria(self):
+        """La ficha municipal usa el mismo histórico que la gráfica general.
+
+        La pérdida de los cierres del 18 y 19 pasó inadvertida porque la ficha
+        seguía mostrando una tabla plausible con los extremos. Se vigilan aquí
+        tanto las filas intermedias como la duración que se explica en prosa.
+        """
+        datos = R.datos_ficha("Cali", self.ctx)
+        self.assertEqual(
+            [fecha for fecha, _ in datos["serie"]],
+            ["2026-08-16", "2026-08-17", "2026-08-18", "2026-08-19", "2026-08-20"],
+        )
+        html = R.render_ficha(datos)
+        self.assertIn("18-ago-2026", html)
+        self.assertIn("19-ago-2026", html)
+        self.assertIn("un salto del 750% en cuatro días", html)
+
+    def test_duracion_municipal_se_calcula_entre_fechas(self):
+        """Una captura ausente no debe acortar artificialmente el periodo."""
+        datos = R.datos_ficha("Cali", self.ctx)
+        datos = dict(datos, serie=[datos["serie"][0], datos["serie"][-1]])
+        html = R.render_ficha(datos)
+        self.assertIn("en cuatro días", html)
+        self.assertNotIn("en un día", html)
+
 
 class TestSeleccion(unittest.TestCase):
 

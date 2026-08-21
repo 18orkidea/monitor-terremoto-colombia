@@ -21,6 +21,7 @@ import math
 import re
 import unicodedata
 import urllib.parse
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -875,7 +876,12 @@ def render_ficha(d: dict) -> str:
         o.append('<section class="page-section">')
         o.append("<h2>Cómo avanza el registro oficial</h2>")
         if d["delta"] is not None:
-            dias = len(d["serie"]) - 1
+            # Es la distancia entre las fechas, no el número de intervalos
+            # observados. Si una captura diaria falta, decir «en dos días» para
+            # un periodo del 16 al 20 convertiría una laguna de datos en prosa
+            # falsa y además ocultaría el problema al lector.
+            dias = (date.fromisoformat(d["serie"][-1][0])
+                    - date.fromisoformat(d["serie"][0][0])).days
             o.append(f'<p>Las familias inscritas en {e(nombre)} pasaron de '
                      f'<strong>{fmt(d["primero"]["familias"])}</strong> a '
                      f'<strong>{fmt(d["ultimo"]["familias"])}</strong> entre el '
