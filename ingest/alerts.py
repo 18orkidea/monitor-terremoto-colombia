@@ -10,15 +10,160 @@ Cada corrida regenera alerts.json desde cero con lo que cambió HOY:
 """
 from __future__ import annotations
 
+import sqlite3
+
 import json
 import re
+import shutil
+import subprocess
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from common import db, fetch_json, today, PUBLIC, SNAPSHOTS
+
+UI_JS = Path(__file__).parent.parent / "site" / "ui.js"
 
 FEED_BALANCES = ("https://monitor-terremoto-colombia-oficiales-ai"
                  ".inforesidencias.workers.dev/oficiales.json")
 UNGRD_ESTANCADO = "2024-02-17"   # si supera esto, la fuente oficial despertó
+
+
+def _sha_de_la_regla() -> str | None:
+    """sha256 de site/ui.js: la regla que produjo el consolidado cambia con el
+    tiempo (el techo de salto, las anclas, qué cuenta como atribución), así que
+    sin esto un derivado archivado no es reconstruible aunque se conserve el
+    cuerpo de entrada."""
+    try:
+        import hashlib
+        return hashlib.sha256(UI_JS.read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
+def _consolidado_de_la_serie(feed: dict) -> tuple[list, str]:
+    """El consolidado del balance, calculado por la ÚNICA implementación de la
+    regla: site/ui.js, ejecutado con node.
+
+    Hasta el 21-ago-2026 aquí vivía una segunda regla —el máximo de fallecidos
+    de cada día suelto— y las dos superficies se contradecían en público: con
+    el feed del 19-ago, el push habría anunciado «180 fallecidos (-124 vs día
+    anterior)», o sea 124 resucitados, mientras la web mostraba 304. El día no
+    traía balance nuevo: traía tres cortes viejos.
+
+    R13: si node no está, no se rompe la corrida — pero tampoco se publica una
+    cifra calculada con otra regla. Se devuelve la lista vacía y una etiqueta
+    que dice justamente eso, para que nadie lea en un JSON archivado que la
+    cifra salió de un cálculo que no se hizo.
+    """
+    node = shutil.which("node")
+    if node and UI_JS.exists():
+        # El feed viaja por STDIN, no como argumento: Linux limita cada
+        # argumento de execve a 128 KiB (MAX_ARG_STRLEN) y el feed ya pesa
+        # ~100 KB, así que pasarlo en la línea de órdenes funcionaba en macOS
+        # y habría reventado en el runner de la corrida diaria — en silencio,
+        # todos los días, justo en el camino que degrada.
+        script = (
+            "global.window = {};"
+            f"require({json.dumps(str(UI_JS))});"
+            "const feed = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
+            "const items = (feed.items || []).filter((x) => x.search_date);"
+            "console.log(JSON.stringify(window.UI.mejorPorDia(items)));")
+        try:
+            r = subprocess.run([node, "-e", script],
+                               input=json.dumps(feed, ensure_ascii=False),
+                               capture_output=True, text=True, timeout=60)
+            if r.returncode == 0:
+                return json.loads(r.stdout), "serie_consolidada_ui_js"
+        except (OSError, ValueError, subprocess.SubprocessError):
+            pass
+    return [], "sin_regla__no_se_publica"
+
+
+_MESES_ES = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+             "agosto", "septiembre", "octubre", "noviembre", "diciembre")
+
+
+def _fecha_es(iso: str) -> str:
+    """«2026-08-18» → «18 de agosto de 2026». El aviso lo leen personas."""
+    try:
+        a, m, d = iso.split("-")
+        return f"{int(d)} de {_MESES_ES[int(m) - 1]} de {a}"
+    except (ValueError, IndexError):
+        return iso
+
+
+def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
+    """Los avisos del balance y el consolidado que se archiva, en una sola
+    función para que el artefacto se pueda REGENERAR con este mismo código.
+
+    Vive aparte de `run()` por un motivo concreto: `data/public/alerts.json`
+    está versionado y se despliega con el merge, así que un cambio de regla que
+    no regenere el artefacto publica la cifra vieja hasta la corrida siguiente.
+    Pasó el 21-ago-2026, y el aviso archivado anunciaba «180 fallecidos (-124
+    vs día anterior)» — 124 resucitados— con la web ya diciendo 304.
+    """
+    serie, regla = _consolidado_de_la_serie(feed)
+    if not serie:
+        return ([{
+            "tipo": "regla_de_balance_degradada", "nivel": "alta",
+            "texto": "No se ha podido calcular la serie de balances con "
+                     "site/ui.js (¿falta node?): el aviso del día se omite "
+                     "en vez de publicar una cifra con otra regla."}], None)
+
+    ultimo = serie[-1]
+    valor = lambda d, k: (d["consolidado"].get(k) or {}).get("valor")
+    # se publica SIEMPRE, no solo cuando hay aviso: la imagen social y
+    # cualquier otro consumidor necesitan la cifra vigente también los días
+    # en que no llega ningún balance nuevo
+    consolidado = {
+        "fecha": ultimo["fecha"], "regla": regla,
+        "cifras": {k: (v or {}).get("valor")
+                   for k, v in ultimo["consolidado"].items()},
+        # cada cifra con su fecha, su medio y SU ENLACE: es un dato derivado, y
+        # sin la url nadie puede volver dentro de años al artículo del que salió
+        "origen": {k: {"fecha": (v or {}).get("fecha"),
+                       "medio": (v or {}).get("medio"),
+                       "url": (v or {}).get("url")}
+                   for k, v in ultimo["consolidado"].items()},
+        # lo descartado y por qué: la brecha (R12) también se archiva, no solo
+        # se pinta en el navegador
+        "ignoradas": ultimo.get("ignoradas") or [],
+        # R4: un derivado tiene que decir de qué cuerpo sale y con qué versión
+        # de la regla, o no se puede reconstruir
+        "derivado_de": {
+            "url": FEED_BALANCES,
+            "snapshot": f"data/snapshots/{snap}/oficiales_feed.json",
+            "items": len([i for i in feed.get("items") or []
+                          if i.get("search_date")]),
+            "regla_sha256": _sha_de_la_regla()}}
+
+    if ultimo["fecha"] not in (snap, _ayer()):
+        return ([], consolidado)
+
+    c = {k: valor(ultimo, k)
+         for k in ("fallecidos", "heridos", "desaparecidos",
+                   "familias_afectadas", "personas_afectadas")}
+    prev = serie[-2] if len(serie) > 1 else None
+    antes = valor(prev, "fallecidos") if prev else None
+    # el consolidado no retrocede, así que un delta 0 significa que ese día no
+    # llegó ningún balance nuevo: no hay nada que avisar
+    if prev is not None and c["fallecidos"] == antes:
+        return ([], consolidado)
+
+    delta = ""
+    if antes is not None and c["fallecidos"] is not None:
+        d_f = c["fallecidos"] - antes
+        delta = f" (+{d_f} desde el balance anterior)" if d_f else ""
+    mil = lambda n: f"{n:,}".replace(",", ".") if isinstance(n, int) else "?"
+    return ([{
+        "tipo": "balance_en_medios", "nivel": "info",
+        "texto": f"Máximo informado en medios que citan fuentes oficiales "
+                 f"({_fecha_es(ultimo['fecha'])}): "
+                 f"{mil(c['fallecidos'])} fallecidos{delta}, "
+                 f"{mil(c['heridos'])} heridos, "
+                 f"{mil(c['desaparecidos'])} desaparecidos",
+        "fecha_balance": ultimo["fecha"], "cifras": c,
+        "regla": regla}], consolidado)
 
 
 def _ayer() -> str:
@@ -77,7 +222,7 @@ def _institucionales_nuevos(snap: str) -> list[dict]:
     return [x for x in hoy if (x.get("link"), x.get("pubdate")) not in vistos]
 
 
-def codigos_de_evento_imposibles(conn, hoy: str) -> list[dict]:
+def codigos_de_evento_imposibles(conn, hoy: str, *, paquete: str | None = None) -> list[dict]:
     """Códigos GLIDE de UNOSAT cuya fecha implícita no puede ser cierta.
 
     Un `event_code` tipo `EQ20260822COL` lleva la fecha del evento dentro. Si
@@ -89,10 +234,20 @@ def codigos_de_evento_imposibles(conn, hoy: str) -> list[dict]:
     R11: avisa, no rompe. Los puntos se siguen archivando con su literal.
     """
     fuera = []
+    # `paquete` acota a la versión vigente de la capa. Sin él, la alerta sumaba
+    # también los puntos del paquete ya superado y anunciaba 16 donde el
+    # monitor publicaba 209 — dos cifras el mismo día, y la equivocada saliendo
+    # por push; a la tercera reedición habría dicho 24. Es un parámetro y no
+    # una consulta interna para que la lógica del detector se pueda probar sin
+    # inventarse un catálogo de productos.
+    where, params = "event_code IS NOT NULL", ()
+    if paquete:
+        where += " AND paquete_sha=?"
+        params = (paquete,)
     for code, cap, sensor_date, n in conn.execute(
             "SELECT event_code, capa, MIN(sensor_date), COUNT(*)"
-            " FROM unosat_damage WHERE event_code IS NOT NULL"
-            " GROUP BY event_code, capa"):
+            f" FROM unosat_damage WHERE {where}"
+            " GROUP BY event_code, capa", params):
         m = re.match(r"^[A-Z]{2}(\d{4})(\d{2})(\d{2})[A-Z]{3}$", (code or "").upper())
         if not m:
             continue
@@ -114,6 +269,7 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     conn = db()
     snap = today()
     alerts = []
+    balance_consolidado = None
 
     # 1) activaciones Copernicus nuevas — SOLO Colombia
     for item in (copernicus_summary or {}).get("new", []):
@@ -214,30 +370,8 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                          f"(última: {gen[:16]}): revisar logs en Cloudflare "
                          f"(¿clave de Firecrawl/Qwen caducada?)"})
     if feed and feed.get("items"):
-        por_dia = {}
-        for it in feed["items"]:
-            d = it.get("search_date")
-            c = it.get("cifras") or {}
-            if d and c.get("fallecidos") is not None:
-                mejor = por_dia.get(d)
-                if not mejor or (c.get("fallecidos") or 0) > (mejor.get("fallecidos") or 0):
-                    por_dia[d] = c
-        dias = sorted(por_dia)
-        if dias and dias[-1] in (snap, _ayer()):
-            ult, c = dias[-1], por_dia[dias[-1]]
-            delta = ""
-            if len(dias) > 1:
-                prev_c = por_dia[dias[-2]]
-                if prev_c.get("fallecidos") is not None:
-                    d_f = (c.get("fallecidos") or 0) - (prev_c.get("fallecidos") or 0)
-                    delta = f" ({'+' if d_f >= 0 else ''}{d_f} vs día anterior)"
-            alerts.append({
-                "tipo": "balance_en_medios", "nivel": "info",
-                "texto": f"Balance en medios citando fuentes oficiales ({ult}): "
-                         f"{c.get('fallecidos')} fallecidos{delta}, "
-                         f"{c.get('heridos') or '?'} heridos, "
-                         f"{c.get('desaparecidos') or '?'} desaparecidos",
-                "fecha_balance": ult, "cifras": c})
+        avisos, balance_consolidado = balance_de_medios(feed, snap)
+        alerts.extend(avisos)
 
     # 6b) RUD: el registro oficial de damnificados crece — contar el delta
     hoy_rud = conn.execute(
@@ -267,7 +401,7 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                 "tipo": "rud_actualizado", "nivel": "info",
                 "texto": f"RUD actualizado: {'+' if d_mun >= 0 else ''}{d_mun} "
                          f"municipios, {'+' if d_fam >= 0 else ''}{d_fam:,.0f} "
-                         f"familias vs snapshot anterior".replace(",", ".")})
+                         f"familias desde la captura anterior".replace(",", ".")})
 
     # 6) ¿despertó la fuente oficial? (nivel alta: cambia el cruce entero)
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
@@ -290,17 +424,45 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     # 7) UNOSAT: códigos de evento con fecha imposible. Un código fechado
     # después de la imagen que retrata el daño —o en el futuro— es un supuesto
     # roto de manual, y hasta hoy no lo cantaba nadie.
-    for x in codigos_de_evento_imposibles(conn, snap):
+    from sources.unosat import paquete_vigente
+    for x in codigos_de_evento_imposibles(conn, snap,
+                                          paquete=paquete_vigente(conn)):
         alerts.append({
             "tipo": "unosat_codigo_evento_imposible", "nivel": "media",
             "texto": f"UNITAR-UNOSAT publica {x['n']} puntos con el código "
                      f"«{x['code']}» y {x['motivo']}: no puede designar un evento "
                      f"real, así que es un error de etiquetado en origen. El "
-                     f"monitor los archiva con su literal y no los suma. Si "
-                     f"UNOSAT lo corrige, entran solos.",
+                     f"monitor los cuenta —lo decide el identificador que "
+                     f"declara el producto, no la etiqueta del punto— y publica "
+                     f"la discrepancia aparte. Si UNOSAT la corrige, la nota "
+                     f"desaparece sola.",
             "event_code": x["code"], "capa": x["capa"], "puntos": x["n"]})
 
+    # 8) SERTIT: un producto nuevo no llega solo. Sus vectores los manda su
+    # web por correo tras un formulario, así que un producto que aparece en el
+    # catálogo sin paquete asociado significa que HAY QUE ESCRIBIR UN CORREO —
+    # y sin esta alerta nadie se enteraría: el dato se quedaría en el catálogo,
+    # visible y sin puntos, hasta que a alguien se le ocurriera mirar.
+    try:
+        pendientes = conn.execute(
+            "SELECT municipio, n_producto, producto_id FROM sertit_productos"
+            " WHERE paquete_sha256 IS NULL ORDER BY producto_id").fetchall()
+    except sqlite3.OperationalError:
+        pendientes = []
+    for muni, n, pid in pendientes:
+        alerts.append({
+            "tipo": "sertit_sin_vectores", "nivel": "alta",
+            "texto": (f"ICube-SERTIT publicó un producto sin vectores en el "
+                      f"monitor: {muni or 'municipio por identificar'} "
+                      f"(producto {n or pid}). Sus datos no se descargan — hay "
+                      f"que pedirlos a emergency-sertit@unistra.fr, como se "
+                      f"hizo el 20-ago-2026."),
+            "municipio": muni, "producto": pid})
+
+
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}
+    if balance_consolidado:
+        payload["balance_consolidado"] = balance_consolidado
     PUBLIC.mkdir(parents=True, exist_ok=True)
     (PUBLIC / "alerts.json").write_text(
         json.dumps(payload, indent=1, ensure_ascii=False))

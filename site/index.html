@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Terremoto de Colombia 2026 (M7.4): daños, municipios y prensa — Cali, Pereira, Quibdó, Buenaventura | Monitor de brechas</title>
-<meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite (Copernicus EMSR916 y UNITAR-UNOSAT), municipios con prensa o intensidad percibida, población DANE, reportes ciudadanos por WhatsApp, balances oficiales citados en medios (extraídos con IA), titulares por zona y la brecha frente a fuentes oficiales UNGRD.">
+<meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite (Copernicus EMSR916, UNITAR-UNOSAT e ICube-SERTIT), municipios con prensa o intensidad percibida, población DANE, reportes ciudadanos por WhatsApp, balances oficiales citados en medios, titulares por zona y la brecha frente a fuentes oficiales UNGRD.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://brechas.orkidea.eu/">
 <meta property="og:url" content="https://brechas.orkidea.eu/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños y monitor de brechas de reporte">
-<meta property="og:description" content="Daños clasificados por satélite (Copernicus EMSR916 y UNITAR-UNOSAT), municipios mencionados en prensa o DYFI, población DANE, 430+ reportes ciudadanos con foto y brecha de fuentes oficiales.">
+<meta property="og:description" content="Daños clasificados por satélite (Copernicus EMSR916, UNITAR-UNOSAT e ICube-SERTIT), municipios mencionados en prensa o DYFI, población DANE, 430+ reportes ciudadanos con foto y brecha de fuentes oficiales.">
 <meta property="og:image" content="https://brechas.orkidea.eu/og/portada.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Monitor del terremoto de Colombia: 1.007 edificios con daño clasificado por satélite —622 de Copernicus EMSR916 y 385 de UNITAR-UNOSAT, de los que 289 son solo «daño posible»—, reportes ciudadanos y brechas de reporte">
+<meta property="og:image:alt" content="Monitor del terremoto de Colombia: 1.578 edificios con daño clasificado por satélite —Copernicus EMSR916, UNITAR-UNOSAT e ICube-SERTIT, contando una sola vez los que vieron dos servicios—, reportes ciudadanos y brechas de reporte">
 <meta name="twitter:image" content="https://brechas.orkidea.eu/og/portada.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Terremoto de Colombia 2026 (M7.4): mapa de daños por ciudad">
@@ -39,7 +39,7 @@
   "mainEntity": {
     "@type": "Dataset",
     "name": "Cruce diario de daños del terremoto de Colombia 2026",
-    "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), municipios con prensa o intensidad percibida, población DANE 2026, reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI, titulares por zona desde feeds abiertos, balances publicados en medios que citan fuentes oficiales (extracción con IA) y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
+    "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), municipios con prensa o intensidad percibida, población DANE 2026, reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI, titulares por zona desde feeds abiertos, balances publicados en medios que citan fuentes oficiales y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
     "creator": { "@type": "Organization", "name": "Monitor de brechas de reporte de desastres" },
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "temporalCoverage": "2026-08-10/..",
@@ -73,6 +73,7 @@
     <a class="btn" href="/data/public/crosscheck.csv" download>CSV del cruce</a>
     <a class="btn" href="/data/public/monitor.json" target="_blank">JSON</a>
     <a class="btn" href="/data/public/unosat_damage.geojson" download>GeoJSON UNOSAT</a>
+    <a class="btn" href="/data/public/sertit_damage.geojson" download>GeoJSON SERTIT</a>
   </div>
 </header>
 
@@ -81,19 +82,30 @@
   epicentro en San José del Palmar, Chocó) es el sismo más fuerte registrado en el país en
   más de un siglo. Este observatorio reúne, en un solo lugar y con actualización diaria,
   <strong>cuatro miradas independientes sobre el mismo desastre</strong>: los daños
-  vistos <strong>desde el satélite</strong> —1.007 edificios con daño clasificado uno a
-  uno—, los <strong>reportes ciudadanos con
+  vistos <strong>desde el satélite</strong> —1.578 edificios con daño clasificado uno a
+  uno en 11 municipios—, los <strong>reportes ciudadanos con
   foto</strong> enviados por WhatsApp (ChatMap · OpenStreetMap Colombia), los
   <strong>titulares de prensa</strong> de feeds internacionales y regionales abiertos, y los
-  <strong>balances oficiales citados en medios</strong>, extraídos a diario con IA.
-  El total satelital suma las dos miradas que cubren el sismo: 622 edificios del programa
-  europeo Copernicus en Cali, Pereira, Quibdó, Istmina y Buenaventura, y 385 del centro
-  satelital de la ONU (UNITAR-UNOSAT) en Anserma, Manizales y Viterbo (Caldas), donde
-  Copernicus no ha mirado. De esos 385, 289 son solo «daño posible»: una hipótesis de la
-  fuente, sin comprobar sobre el terreno. El punto
+  <strong>balances oficiales citados en medios</strong>, recogidos a diario.
+  Ese total satelital no es una suma de fuentes. Son <strong>tres servicios</strong>: el programa
+  europeo Copernicus (635 edificios; su resumen por zonas declara 622, y esos trece de diferencia son suyos, no nuestros), el centro satelital de la ONU, UNITAR-UNOSAT (548, de
+  los que 443 son solo «daño posible»), y el servicio francés ICube-SERTIT (503, tras
+  apartar nueve puntos de Cali que la fuente señaló sin asignarles grado de daño). Dos de
+  ellos miran las mismas ciudades, así que sumarlos contaría dos veces el mismo tejado.
+  <strong>Cada edificio se cuenta una vez</strong>: cuando dos servicios marcan el mismo a
+  menos de 20 metros, es uno solo. Y ahí aparece lo que ninguna cifra agregada deja ver: en
+  Pereira, 108 edificios los vieron dos servicios y <strong>en 49 de ellos no coinciden
+  sobre la gravedad</strong>; en Cali y Manizales cartografiaron zonas distintas de la misma
+  ciudad y no comparten ni un edificio. El último municipio en tener evidencia satelital es
+  <strong>Zarzal (Valle del Cauca): 201 edificios que solo ha mirado UNOSAT</strong>. Estuvo
+  a punto de no aparecer: sus puntos traen un código de evento que la propia fuente
+  contradice, y el filtro que lo apartaba habría callado el municipio entero. En el mismo
+  paquete <strong>UNOSAT reeditó Viterbo a la baja, de 154 edificios a 108</strong>. No es una
+  enmienda del monitor: la fuente cambió su propia cifra, y registrarlo es justamente
+  para lo que existe este archivo. El punto
   no es solo mostrar los datos, sino <strong>cruzarlos y medir sus brechas</strong>: qué ve
-  el satélite que nadie reporta, qué reporta la comunidad que nadie mira, y qué publican —
-  y qué no — las fuentes oficiales. Cada cifra es rastreable hasta su origen.</p>
+  el satélite que nadie reporta, qué reporta la comunidad que nadie mira, y qué publican
+  —y qué no— las fuentes oficiales. Cada cifra es rastreable hasta su origen.</p>
 
   <details id="como-leer">
     <summary><strong>📖 Cómo leer este monitor</strong> — guía rápida de cada sección</summary>
@@ -107,7 +119,7 @@
       amarillo = posiblemente dañado); los de borde oscuro son la evaluación de
       <em>UNITAR-UNOSAT</em>, el centro satelital de la ONU, que mira municipios donde
       Copernicus no ha cartografiado nada — ninguno de esos puntos está validado en campo,
-      y tres de cada cuatro son solo «daño posible»; los puntos violeta son
+      y cuatro de cada cinco son solo «daño posible»; los puntos violeta son
       <em>reportes ciudadanos</em> — haz clic para ver la foto. La ★ es el epicentro. Con el
       control de capas (arriba a la derecha) puedes activar la intensidad que sintió la población,
       las vías dañadas, las zonas sin analizar y los sismos históricos desde 1914.
@@ -134,8 +146,8 @@
       <li><strong><a href="rud.html">RUD oficial</a></strong> (página aparte): el registro
       oficial de damnificados día a día y municipio a municipio, con buscador.</li>
       <li><strong><a href="balances.html">Balances</a></strong> (página aparte): las cifras de
-      fallecidos/heridos/viviendas que los medios publican citando a UNGRD o SGC, extraídas con
-      IA — y la comparativa contra el RUD. Ojo con la etiqueta: es <em>prensa que cita lo
+      fallecidos/heridos/viviendas que los medios publican citando a UNGRD o SGC — y la
+      comparativa contra el RUD. Ojo con la etiqueta: es <em>prensa que cita lo
       oficial</em>, no el balance oficial.</li>
       <li><strong><a href="noticias.html">Titulares</a></strong> (página aparte): todos los
       titulares del evento recogidos, filtrables por zona, medio y texto — la prensa anterior
@@ -172,19 +184,22 @@
     <p class="note">Los municipios donde hay prueba georreferenciada dentro de sus
     límites: edificios clasificados por satélite o reportes de la comunidad. La tabla no
     se organiza por lo que el satélite decidió mirar, sino por
-    dónde hay evidencia, venga de donde venga —<strong>los satélites han mirado 9
-    municipios; la comunidad ha documentado 26</strong>. Clic en una fila para centrarla
+    dónde hay evidencia, venga de donde venga —<strong>los satélites han mirado 11
+    municipios; la comunidad ha documentado 36</strong>. Clic en una fila para centrarla
     en el mapa. El detalle por zona Copernicus (vías, interrupciones y fecha de entrega
     de cada producto) sigue en el <a href="/data/public/crosscheck.csv">CSV del
-    cruce</a>, y el de los municipios que evaluó el centro satelital de la ONU, en el
-    <a href="/data/public/unosat_damage.geojson">GeoJSON de UNITAR-UNOSAT</a>.</p>
+    cruce</a>; el de los municipios que evaluó el centro satelital de la ONU, en el
+    <a href="/data/public/unosat_damage.geojson">GeoJSON de UNITAR-UNOSAT</a>, y el de los
+    que cartografió ICube-SERTIT, en su
+    <a href="/data/public/sertit_damage.geojson">GeoJSON</a> — este último con licencia
+    propia, no comercial y con atribución obligatoria a «© ICube-SERTIT 2026».</p>
     <div class="tabla-scroll"><table id="tabla">
       <thead>
         <tr>
         <th title="Municipio con evidencia georreferenciada dentro de sus límites. La atribución es por proximidad a la cabecera municipal: no tenemos los polígonos oficiales de cada municipio.">Municipio</th>
         <th title="Clasificación del cruce de fuentes para este municipio. 'Coincide' exige evidencia oficial (EDAN o balance de entidad estatal); la prensa y los reportes ciudadanos solo alcanzan estados intermedios.">Estado del cruce</th>
         <th class="num" title="Población proyectada para 2026 por el Departamento Administrativo Nacional de Estadística (DANE), por municipio y área.">Población</th>
-        <th class="num" title="Edificios con daño, clasificados uno a uno sobre imagen de satélite, con la fuente pegada a cada cifra: el servicio de emergencias de Copernicus (activación EMSR916), por coordenada dentro del municipio, y UNITAR-UNOSAT, el centro satelital de la ONU. Dentro de un municipio no se suman entre sí, porque miden cosas distintas. El total de la portada sí las suma, porque ninguna mira el municipio de la otra. Un guion no es un cero: significa que ningún producto satelital ha mirado ese municipio, no que no haya daño.">Edif. satélite</th>
+        <th class="num" title="Edificios con daño, clasificados uno a uno sobre imagen de satélite, con la fuente pegada a cada cifra: el servicio de emergencias de Copernicus (activación EMSR916), por coordenada dentro del municipio, UNITAR-UNOSAT (el centro satelital de la ONU) e ICube-SERTIT. Dentro de un municipio no se suman entre sí: cada servicio recortó su propia zona, así que son ventanas distintas sobre la misma ciudad, no versiones de la misma cifra. El total de la portada tampoco las suma — une los puntos y cuenta cada edificio una vez. Un guion no es un cero: significa que ningún producto satelital ha mirado ese municipio, no que no haya daño.">Edif. satélite</th>
         <th class="num" title="Reportes ciudadanos de ChatMap (OSM Colombia, vía WhatsApp) con coordenada en este municipio y verificación automática coherente. No están validados a mano.">Ciudadanos</th>
         <th class="num" title="Personas inscritas como damnificadas en el RUD de la UNGRD. Es un registro progresivo que cargan las autoridades municipales, sujeto a verificación posterior: mide inscripciones, no daño comprobado.">Damnif. RUD</th>
         <th class="num" title="Titulares recogidos por el monitor que mencionan este municipio por topónimo. No equivale a validación oficial.">Prensa</th>
@@ -250,7 +265,7 @@
     <p>El monitor no produce cifras: <strong>audita y cruza las que existen</strong>. Cada día,
     de forma automática, ocurren tres ciclos:</p>
     <ol>
-      <li><strong>23:00 (Colombia)</strong> — un proceso con IA busca en la prensa los
+      <li><strong>23:00 (Colombia)</strong> — un proceso automático busca en la prensa los
       balances del día que citan fuentes oficiales (UNGRD, SGC, gobernaciones), descarga los
       artículos y extrae las cifras con su cita textual. Las <em>coberturas en vivo</em> se marcan y
       pesan menos. Alimenta la página de <a href="balances.html">Balances</a>.</li>
@@ -266,7 +281,7 @@
       Si una fuente cambia o calla, salta una alerta en la portada.</li>
     </ol>
     <p><strong>Trazabilidad:</strong> toda petición HTTP queda registrada con URL, estado,
-    huella digital (sha256) y fecha; ninguna cifra publicada carece de fila en ese registro. Los
+    huella digital (sha256) y fecha; ninguna cifra publicada carece de fila en ese registro. Las
     copias originales se archivan en el
     <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">repositorio público</a>,
     así que cualquier número puede reconstruirse y rebatirse.</p>

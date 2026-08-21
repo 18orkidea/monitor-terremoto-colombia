@@ -383,7 +383,7 @@ premian la continuidad demostrada, no la aparición oportunista.
 | Fichas municipales | **432** | 0 |
 | Renderizado | Next.js **prerenderizado** (SSG en Vercel): todo el contenido en el HTML | Todo pintado con JS |
 | Verticales por servicio | albergues, colegios, hospitales, vías, servicios × ciudad (≈130 URLs) | — |
-| Evidencia declarada | 3.363 puntos, 7.477 evidencias, 257 fuentes | 1.007 edificios, 6.080 titulares, ~20 fuentes |
+| Evidencia declarada | 3.363 puntos, 7.477 evidencias, 257 fuentes | 1.578 edificios, 6.080 titulares, ~20 fuentes |
 | Enlazado interno | «Por tema en X», «Municipios cerca de X» | Navegación plana entre 5 páginas |
 | Intención de búsqueda del afectado | «Dónde ayudar», puntos de acopio | — |
 

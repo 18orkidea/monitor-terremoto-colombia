@@ -150,13 +150,18 @@ class TestSeleccion(unittest.TestCase):
 
     def test_evidencia_puntual_es_subconjunto_estricto(self):
         """La tabla de portada muestra solo municipios con prueba sobre el
-        terreno —los dos satélites o la comunidad—: son menos que el área de
-        influencia."""
+        terreno —cualquiera de los satélites o la comunidad—: son menos que el
+        área de influencia.
+
+        Se pregunta por `n_evaluados`, que es la cifra única del municipio, y no
+        por una lista de columnas escrita a mano: con dos satélites la lista se
+        quedó corta el día que entró el tercero, y La Virginia —que solo mira
+        ICube-SERTIT— entró en la tabla marcada como fila sin evidencia."""
         filas = R.municipios_con_evidencia_puntual(self.ctx)
         self.assertGreater(len(filas), 0)
         self.assertLess(len(filas), len(self.ctx["municipios"]))
         for f in filas:
-            self.assertTrue(f["n_satelite"] or f["n_unosat"] or f["n_ciudadanos"])
+            self.assertTrue(f["n_evaluados"] or f["n_ciudadanos"], f["municipio"])
 
     def test_los_huerfanos_no_se_atribuyen_a_nadie(self):
         """Sin polígonos municipales atribuimos por proximidad a la cabecera:
@@ -217,8 +222,20 @@ class TestDescubrimiento(unittest.TestCase):
         self.assertIn(f"<lastmod>{esperada}</lastmod>", self.xml)
 
     def test_llms_full_lleva_las_cifras_en_locale_es_co(self):
-        self.assertIn("25,03%", self.llms)          # coma decimal
-        self.assertIn("10.016", self.llms)          # punto de millar
+        """El porcentaje de damnificados se comprobaba contra un literal
+        («25,03%») que salía del RUD de aquel día. El RUD se mueve a diario,
+        así que el guardián saltaba por deriva del dato y no por un fallo de
+        formato: lo que vigila es el locale es-CO, no una cifra concreta.
+
+        Las dos ramas que tocaron este test llegaron por separado a la misma
+        conclusión. Se conserva la comprobación más específica del porcentaje
+        —con su contexto, que lo distingue de cualquier otro— y se exige el
+        punto de millar por su forma en vez de por un literal: así el test no
+        depende de que ninguna cifra concreta siga estando ahí mañana."""
+        self.assertRegex(self.llms, r"\(\d{1,2},\d{1,2}% de la población\)",
+                         "los porcentajes del RUD han dejado de usar coma decimal")
+        self.assertRegex(self.llms, r"\b\d{1,3}\.\d{3}\b",
+                         "los millares van con punto")
         self.assertNotRegex(self.llms, r"\d+\.\d{4}%",
                             "un porcentaje sin formatear se ha colado (p. ej. 21.5722%)")
 
@@ -299,9 +316,12 @@ class TestTablaMunicipios(unittest.TestCase):
             self.assertEqual(self.html.count(f'data-v{i}="'), n)
 
     def test_los_chips_cuadran_con_el_dato(self):
+        # el criterio sale de `satelites_con_dato`, que recorre SATELITES: si se
+        # escribe aquí a mano, el filtro «sin satélite» del navegador sigue
+        # ofreciendo municipios que un satélite nuevo ya miró
         sin_sat = [m for m in self.ctx["municipios"]
-                   if not self.ctx["conteo_satelite"].get(m["municipio"])
-                   and m.get("unosat_edificios") is None]
+                   if not R.satelites_con_dato(
+                       m, self.ctx["conteo_satelite"].get(m["municipio"], 0))]
         self.assertEqual(len(re.findall(r'data-chips="[^"]*sin-satelite', self.html)),
                          len(sin_sat))
 
@@ -335,11 +355,35 @@ class TestEspejoConElFrontend(unittest.TestCase):
     def setUpClass(cls):
         cls.ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
 
+    @classmethod
+    def _estados_de_ui(cls) -> dict:
+        """Lee ESTADO_MUNICIPIO de ui.js como {clave: (etiqueta, color, explicación)}.
+
+        Comparar solo las claves dejaba pasar lo que más se nota: que la misma
+        insignia dijera una cosa en la tabla y otra en el mapa, o llevara otro
+        color. El comentario de `render_html.py` prometía que este test comparaba
+        ambas tablas; ahora las compara."""
+        bloque = re.search(r"const ESTADO_MUNICIPIO = \{(.+?)\n  \};",
+                           cls.ui, re.S)
+        assert bloque, "no se pudo leer ESTADO_MUNICIPIO de ui.js"
+        estados = {}
+        # el «\n» extra es para que la última entrada, que queda pegada al cierre
+        # del bloque, se lea como todas las demás: sin él se perdía en silencio
+        entradas = re.findall(r"(\w+):\s*\[(.*?)\],\n", bloque.group(1) + "\n", re.S)
+        for clave, cuerpo in entradas:
+            trozos = re.findall(r'"((?:[^"\\]|\\.)*)"', cuerpo)
+            etiqueta, color, explica = trozos[0], trozos[1], "".join(trozos[2:])
+            estados[clave] = (etiqueta, color, explica)
+        return estados
+
     def test_estados_de_municipio_coinciden(self):
-        codigos_js = set(re.findall(r"^\s{4}(\w+): \[", self.ui, re.M))
-        self.assertTrue(codigos_js, "no se pudo leer ESTADO_MUNICIPIO de ui.js")
-        self.assertEqual(codigos_js, set(R.ESTADO_MUNICIPIO),
+        ui = self._estados_de_ui()
+        self.assertTrue(ui, "no se pudo leer ESTADO_MUNICIPIO de ui.js")
+        self.assertEqual(set(ui), set(R.ESTADO_MUNICIPIO),
                          "ESTADO_MUNICIPIO ha divergido entre ui.js y render_html.py")
+        for clave, valor in R.ESTADO_MUNICIPIO.items():
+            self.assertEqual(ui[clave], valor,
+                             f"«{clave}» se lee distinto en la tabla y en el mapa")
 
     def test_etiquetas_de_estado_coinciden(self):
         for codigo, (etiqueta, _, _) in R.ESTADO_MUNICIPIO.items():
@@ -393,7 +437,7 @@ class TestTablaPortada(unittest.TestCase):
 
     def test_toda_fila_tiene_satelite_o_ciudadanos(self):
         for f in self.filas:
-            self.assertTrue(f["n_satelite"] or f["n_unosat"] or f["n_ciudadanos"],
+            self.assertTrue(f["n_evaluados"] or f["n_ciudadanos"],
                             f'{f["municipio"]} está en portada sin evidencia puntual')
 
     def test_la_evidencia_de_unosat_tambien_entra_en_portada(self):
@@ -414,11 +458,14 @@ class TestTablaPortada(unittest.TestCase):
                           "la columna satelital debe nombrar a UNOSAT")
 
     def test_la_nota_de_portada_no_miente_sobre_cuantos_miro_cada_fuente(self):
-        """«Los satélites han mirado 9 municipios; la comunidad ha documentado
-        27» está escrito a mano en site/index.html, y la primera mitad cambió
+        """«Los satélites han mirado 11 municipios; la comunidad ha documentado
+        36» está escrito a mano en site/index.html, y la primera mitad cambió
         el día que el conteo pasó a incluir UNOSAT. Si vuelve a moverse, este
         test dice el número nuevo en vez de dejar la frase envejecer sola."""
-        sat = len([f for f in self.filas if f["n_satelite"] or f["n_unosat"]])
+        # `n_evaluados` cuenta a los TRES satélites. Mientras esto sumó solo dos
+        # columnas, el guardián daba por buena la nota que decía «9 municipios»
+        # con once en su propia tabla: un guardián mal apuntado no protege nada.
+        sat = len([f for f in self.filas if f["n_evaluados"]])
         ciu = len([f for f in self.filas if f["n_ciudadanos"]])
         html = (Path(__file__).parent.parent / "site/index.html").read_text(
             encoding="utf-8")
@@ -604,16 +651,28 @@ class TestSatelites(unittest.TestCase):
     def test_la_negativa_no_nombra_un_solo_producto(self):
         """«hoy el único activo es Copernicus» caducó en cuanto entró UNOSAT: la
         frase debe nombrar a todos los que se vigilan, o a ninguno."""
+        # El municipio se elige por AUSENCIA de todos los satélites de SATELITES.
+        # Mientras el criterio fue «sin UNOSAT y fuera de zona Copernicus», el
+        # primer candidato pasó a ser Roldanillo —77 edificios de ICube-SERTIT—,
+        # así que el test que vigila la negativa buscaba la negativa en una ficha
+        # que afirma. Un guardián mal apuntado no protege nada.
         sin = [m for m in self.ctx["municipios"]
-               if m.get("unosat_edificios") is None and not m.get("en_aoi_copernicus")]
+               if not m.get("en_aoi_copernicus")
+               and not R.satelites_con_dato(
+                   m, self.ctx["conteo_satelite"].get(m["municipio"], 0))]
         prosa = R.parrafo_respuesta(R.datos_ficha(sin[0]["municipio"], self.ctx))
         self.assertIn("Ningún producto satelital", prosa)
         self.assertNotIn("el único activo", prosa)
+        # y los nombra a TODOS: una negativa que se olvida de un servicio miente
+        for sat in R.SATELITES:
+            self.assertIn(sat["prosa"], prosa,
+                          f"la negativa no nombra a {sat['nombre']}")
 
     def test_los_estados_de_municipio_siguen_en_espejo_con_ui(self):
         ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
-        self.assertIn("evaluado_unosat", ui)
-        self.assertIn("evaluado_unosat", R.ESTADO_MUNICIPIO)
+        for estado in ("evaluado_unosat", "evaluado_satelite"):
+            self.assertIn(estado, ui)
+            self.assertIn(estado, R.ESTADO_MUNICIPIO)
 
 
 class TestTablaRud(unittest.TestCase):
@@ -688,13 +747,31 @@ class TestBalances(unittest.TestCase):
         self.assertEqual(self.html.count(">liveblog<"), esperados)
         self.assertGreater(esperados, 0, "el corpus debería traer algún liveblog")
 
-    def test_la_deteccion_de_liveblog_es_espejo_de_ui_js(self):
-        """La expresión vive en dos lenguajes; si divergen, la misma pieza se
-        marcaría en una página y no en otra."""
-        ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
-        for termino in ("en vivo", "directo", "última hora", "minuto a minuto", "liveblog"):
-            self.assertIn(termino, ui)
-            self.assertIn(termino, R._LIVEBLOG.pattern)
+    def test_la_deteccion_de_liveblog_es_espejo_de_ui_js_y_del_worker(self):
+        """R8 dice «fuente única», pero la expresión vive en TRES lenguajes:
+        ui.js, este render y el worker. Comparar término a término no bastaba:
+        las tres tenían las mismas palabras y dos de ellas no llevaban límite
+        de palabra, así que «directo» casaba dentro de «directorio» en el sitio
+        y no en el worker. Ahora se compara la expresión entera."""
+        raiz = Path(__file__).parent.parent
+        alternancia = ("en vivo|directo|live[-_\\s]?news|última hora|"
+                       "ultima hora|minuto a minuto|liveblog")
+        ui = (raiz / "site/ui.js").read_text(encoding="utf-8")
+        worker = (raiz / "workers/ai-view/src/index.js").read_text(encoding="utf-8")
+        self.assertIn(f"\\b({alternancia})\\b", ui,
+                      "ui.js debe llevar el límite de palabra")
+        self.assertIn(f"\\b({alternancia})\\b", R._LIVEBLOG.pattern,
+                      "render_html debe llevar el límite de palabra")
+        # el worker escribe los términos sin tilde en «ultima hora» y con ella
+        # en «última hora», igual que los otros dos
+        self.assertIn("\\b(en vivo|directo|", worker,
+                      "el worker debe seguir llevando el límite de palabra")
+
+    def test_un_directorio_no_es_un_liveblog(self):
+        """El falso positivo que el límite de palabra evita, comprobado sobre
+        el código real de las dos superficies en Python y JavaScript."""
+        self.assertFalse(R.es_liveblog({"title": "El directorio de medios"}))
+        self.assertTrue(R.es_liveblog({"title": "Terremoto en directo"}))
 
     def test_cada_fila_dice_de_quien_es_la_cifra(self):
         """R9: no es el balance oficial, es lo que la prensa publica citándolo."""
@@ -817,17 +894,36 @@ class TestCoherenciaDeLaFicha(unittest.TestCase):
         html = R.render_ficha(R.datos_ficha(municipio, self.ctx))
         return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
 
+    # La negación de la mirada satelital se busca por PATRÓN, no por lista
+    # cerrada de frases. La lista cerrada ya falló: tenía las tres variantes
+    # conocidas y no la cuarta —«Donde el satélite no ha mirado, cada reporte
+    # cuenta», dentro del bloque de reportes ciudadanos—, así que la suite pasó
+    # en verde con la contradicción publicada en seis fichas. Un guardián que
+    # enumera casos solo protege de los que ya ocurrieron; este describe la
+    # forma del error: una frase que habla del satélite y niega que mirara.
+    NIEGA = re.compile(
+        r"(?:ningún|ninguno|ningun|nadie|no)\b[^.;]{0,80}?"
+        r"\b(?:ha|han)\s+(?:mirado|evaluado|reportado|clasificado|analizado|"
+        r"cartografiado)"
+        r"|no hay nada que cruzar", re.I)
+    HABLA_DEL_SATELITE = re.compile(r"satélite|satelital|Copernicus|UNOSAT|SERTIT", re.I)
+
+    def _niegan(self, texto: str) -> list:
+        """Las frases del texto que niegan que el satélite mirara."""
+        return [f.strip() for f in re.split(r"[.;]", texto)
+                if self.NIEGA.search(f) and self.HABLA_DEL_SATELITE.search(f)]
+
     def test_ninguna_ficha_afirma_y_niega_el_satelite(self):
         for m in self.ctx["municipios"]:
             if not R.es_elegible(m["municipio"], self.ctx):
                 continue
             t = self._texto(m["municipio"])
-            afirma = "documentado por satélite" in t
-            niega = ("ningún satélite ha evaluado" in t
-                     or "Ningún producto satelital de daño ha reportado" in t
-                     or "no hay nada que cruzar" in t)
-            self.assertFalse(afirma and niega,
-                             f"{m['municipio']}: la ficha se contradice sobre el satélite")
+            if "documentado por satélite" not in t:
+                continue
+            niegan = self._niegan(t)
+            self.assertFalse(niegan,
+                             f"{m['municipio']}: la ficha afirma la mirada satelital "
+                             f"y la niega en la misma página → {niegan}")
 
     def test_un_municipio_visto_solo_por_unosat_no_se_declara_sin_mirar(self):
         solo_unosat = [m for m in self.ctx["municipios"]
@@ -839,7 +935,101 @@ class TestCoherenciaDeLaFicha(unittest.TestCase):
         self.assertIn("UNITAR-UNOSAT", t)
         self.assertNotIn("no hay nada que cruzar", t)
 
+    def test_la_ficha_declara_el_codigo_inconsistente_de_unosat(self):
+        """Zarzal publica 201 edificios y los 201 traen un código de evento que
+        el propio producto de UNOSAT contradice. La advertencia vivía solo en
+        la tabla de municipios y en el globo del mapa: la ficha —la página que
+        se indexa y se cita— daba la cifra desnuda. Publicar el número sin lo
+        único que hace falta para juzgarlo es la mitad del dato."""
+        con_marca = [m for m in self.ctx["municipios"]
+                     if m.get("unosat_codigo_inconsistente")]
+        if not con_marca:
+            self.skipTest("ningún municipio con código de evento inconsistente")
+        for m in con_marca:
+            if not R.es_elegible(m["municipio"], self.ctx):
+                continue
+            t = self._texto(m["municipio"])
+            self.assertIn("código de evento", t,
+                          f"{m['municipio']}: la ficha da los edificios de UNOSAT "
+                          f"sin decir que {m['unosat_codigo_inconsistente']} de "
+                          f"ellos llevan una etiqueta que la fuente contradice")
+            self.assertIn(R.fmt(m["unosat_codigo_inconsistente"]), t)
+
+    def test_la_ficha_no_dice_que_los_discrepantes_queden_fuera(self):
+        """INVERTIDO el 21-ago-2026: mientras esos puntos se excluían, la
+        superficie correcta decía «no sumados al total». Ahora suman, y esa
+        frase sería falsa: se prohíbe explícitamente para que no vuelva desde
+        un copiar y pegar del texto viejo."""
+        for m in self.ctx["municipios"]:
+            if not m.get("unosat_codigo_inconsistente"):
+                continue
+            if not R.es_elegible(m["municipio"], self.ctx):
+                continue
+            t = self._texto(m["municipio"]).lower()
+            for frase in ("no sumados al total", "no se suman al total",
+                          "quedan fuera del total"):
+                self.assertNotIn(frase, t,
+                                 f"{m['municipio']}: la ficha dice «{frase}» y "
+                                 f"esos edificios sí cuentan desde el 21-ago-2026")
+
     def test_la_tabla_de_fuentes_no_nombra_un_unico_satelite(self):
         """«único activo sobre el evento» caducó el día que entró el segundo."""
         for m in ("Nóvita", "Viterbo"):
             self.assertNotIn("único activo", self._texto(m))
+
+
+class TestMunicipioSinCabecera(unittest.TestCase):
+    """Un municipio sin coordenadas no puede tumbar el build entero.
+
+    `municipios_dinamicos` da de alta lo que aparece en el RUD aunque el
+    catálogo DIVIPOLA no traiga su cabecera —el registro oficial manda, y un
+    municipio que entre mañana no puede perderse por falta de curación
+    manual—, y esas filas llegan aquí con `lat`/`lon` en nulo. Hoy no hay
+    ninguna: por suerte, no por diseño. El día que la hubiera,
+    `asigna_a_municipios` reventaba con KeyError antes de escribir la primera
+    ficha y `mapa_svg` habría dibujado el municipio en el golfo de Guinea.
+
+    Lo que se exige no es que la ficha salga completa: es que salga, y que
+    diga qué le falta (R3)."""
+
+    NOMBRE = "Municipio Sin Cabecera"
+
+    @classmethod
+    def setUpClass(cls):
+        base = R.contexto()
+        modelo = base["idx"]["Nóvita"]
+        fantasma = {**modelo, "municipio": cls.NOMBRE, "lat": None, "lon": None}
+        cls.ctx = dict(base,
+                       municipios=[*base["municipios"], fantasma],
+                       idx={**base["idx"], cls.NOMBRE: fantasma})
+
+    def test_el_reparto_de_puntos_ni_revienta_ni_le_atribuye_nada(self):
+        """Sin cabecera no se le puede colgar ningún punto: queda fuera del
+        reparto, que es distinto de recibir un cero."""
+        conteo = R.asigna_a_municipios(self.ctx["chatmap"], self.ctx["municipios"])
+        self.assertNotIn(self.NOMBRE, conteo)
+        self.assertIn("__huerfanos__", conteo)
+
+    def test_el_mapa_no_se_dibuja_en_el_cero_cero(self):
+        self.assertEqual(R.mapa_svg(self.ctx["idx"][self.NOMBRE], [], []), "")
+
+    def test_la_ficha_sale_y_cuenta_que_falta_la_coordenada(self):
+        html = R.render_ficha(R.datos_ficha(self.NOMBRE, self.ctx))
+        self.assertIn("no tiene la coordenada de la cabecera", html)
+        self.assertNotIn("<svg", html)
+
+    def test_el_json_ld_no_publica_una_coordenada_inventada(self):
+        html = R.render_ficha(R.datos_ficha(self.NOMBRE, self.ctx))
+        ld = json.loads(re.search(
+            r'<script type="application/ld\+json">(.+?)</script>', html).group(1))
+        self.assertIn("identifier", ld["spatialCoverage"])
+        self.assertNotIn("geo", ld["spatialCoverage"])
+
+    def test_la_tabla_de_portada_no_escribe_una_coordenada_nula(self):
+        """El clic en la fila centra el mapa; `data-lat="None"` sería un NaN en
+        el navegador y, peor, una coordenada con pinta de dato."""
+        ctx = dict(self.ctx, conteo_ciudadanos={**self.ctx["conteo_ciudadanos"],
+                                                self.NOMBRE: 3})
+        html = R.filas_portada(ctx)
+        self.assertIn(self.NOMBRE, html)
+        self.assertNotIn('data-lat="None"', html)

@@ -164,13 +164,34 @@ def asigna_a_municipios(features: list, municipios: list) -> dict:
     que esto es proximidad, no contención. Los puntos a más de RADIO_MUNICIPIO_M
     de cualquier cabecera del área de influencia no se atribuyen a nadie: cuentan
     en el total, pero no en la tabla. Con los polígonos DIVIPOLA esto pasaría de
-    aproximación a exactitud."""
-    cabeceras = [(m["municipio"], m["lat"], m["lon"]) for m in municipios]
+    aproximación a exactitud.
+
+    Un municipio sin cabecera no entra en el reparto. `municipios_dinamicos` da
+    de alta lo que aparece en el RUD aunque DIVIPOLA no traiga sus coordenadas,
+    y esas filas llegan aquí con `lat`/`lon` en nulo: quedarse fuera es lo
+    correcto —no se le puede atribuir ningún punto— y es preferible a colocarlo
+    en el (0, 0), que le regalaría los puntos de medio mundo.
+
+    Cuando el punto declara su AOI, manda el AOI y no la proximidad. Copernicus
+    dice a qué zona pertenece cada edificio, y esa es la respuesta de la fuente;
+    la cabecera más próxima es solo nuestra aproximación. La diferencia no era
+    teórica: tres puntos del AOI «Northern Cali» caen más cerca de la cabecera
+    de Yumbo que de la de Cali, así que el sitio publicaba un municipio con daño
+    satelital que Copernicus nunca cartografió, y la portada contaba once
+    municipios mirados donde el recuento contaba diez.
+    """
+    conocidos = {m["municipio"] for m in municipios}
+    cabeceras = [(m["municipio"], m["lat"], m["lon"]) for m in municipios
+                 if m.get("lat") is not None and m.get("lon") is not None]
     conteo: dict[str, int] = {}
     huerfanos = 0
     for f in features:
         geom = f.get("geometry") or {}
         if geom.get("type") != "Point":
+            continue
+        declarado = (f.get("properties") or {}).get("municipio")
+        if declarado and declarado in conocidos:
+            conteo[declarado] = conteo.get(declarado, 0) + 1
             continue
         lon, lat = geom["coordinates"][:2]
         mejor, mejor_d = None, float("inf")
@@ -195,7 +216,13 @@ def mapa_svg(muni: dict, zonas: list, ciudadanos: list, ancho=680, alto=430) -> 
     impracticable justo cuando estamos arreglando el peso.
 
     Cuando no hay daño que pintar, el mapa cuenta la ausencia: se ve el municipio
-    fuera de toda zona analizada."""
+    fuera de toda zona analizada.
+
+    Y cuando ni siquiera hay cabecera que situar —los municipios que entran por
+    el RUD sin coordenadas en DIVIPOLA— devuelve cadena vacía: la ficha lo dice
+    con palabras en vez de dibujar un mapa centrado en el (0, 0)."""
+    if muni.get("lat") is None or muni.get("lon") is None:
+        return ""
     lat0, lon0 = muni["lat"], muni["lon"]
     puntos = [(lat0, lon0), EPICENTRO] + [(la, lo) for la, lo, _ in ciudadanos]
     for _, coords in zonas:
@@ -383,8 +410,13 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
         if fila:
             serie.append((fecha, fila))
 
+    # Sin cabecera no hay distancias que calcular: ni zonas próximas ni reportes
+    # «del entorno». La ficha sale igual y lo cuenta; reventar aquí dejaría sin
+    # publicar las 95 restantes.
+    tiene_coords = muni.get("lat") is not None and muni.get("lon") is not None
+
     zonas = []
-    for f in ctx["aois"]:
+    for f in (ctx["aois"] if tiene_coords else []):
         zona = f["properties"].get("aoi")
         if zona not in ctx["zonas_con_producto"]:
             continue                                    # R2: sin producto no hay cruce
@@ -397,7 +429,7 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
     zonas.sort(key=lambda t: t[2])
 
     ciudadanos = []
-    for f in ctx["chatmap"]:
+    for f in (ctx["chatmap"] if tiene_coords else []):
         lon, lat = f["geometry"]["coordinates"][:2]
         if distancia_m((muni["lat"], muni["lon"]), (lat, lon)) < 12000:
             ciudadanos.append((lat, lon, f["properties"]))
@@ -419,6 +451,8 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
         "titulares": titulares, "ultimo": ultimo, "primero": primero,
         "delta": delta, "pct_delta": pct_delta,
         "satelite": ctx["conteo_satelite"].get(nombre, 0),
+        "cruce": ctx["cruce_satelital"].get(nombre) or {},
+        "tiene_coords": tiene_coords,
         "generado": ctx["rud"].get("generado", ""),
         "slug": slug(nombre),
     }
@@ -428,22 +462,86 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
 # entrada aquí: `tests/test_render_html.py::TestSatelites` falla si aparece en
 # los datos un campo `*_edificios` que esta tabla no contemple, para que ninguna
 # ficha vuelva a afirmar «ningún producto satelital» cuando sí lo hay.
+# `prosa` es cómo se nombra cada servicio dentro de una frase, con su oficio:
+# quien lee «ICube-SERTIT» por primera vez necesita saber qué es antes que sus
+# siglas. `url` es dónde lo publica su dueño, para la tabla de trazabilidad.
 SATELITES = (
     {"clave": "copernicus", "nombre": "Copernicus EMS (EMSR916)",
-     "campo": None},          # se cuenta por puntos dentro del municipio
+     "campo": None,           # se cuenta por puntos dentro del municipio
+     "prosa": "el servicio de emergencias de Copernicus",
+     "url": "https://rapidmapping.emergency.copernicus.eu/EMSR916/",
+     "naturaleza": "evaluación satelital de daño, sin validar en campo"},
     {"clave": "unosat", "nombre": "UNITAR-UNOSAT",
-     "campo": "unosat_edificios"},
+     "campo": "unosat_edificios",
+     "prosa": "UNITAR-UNOSAT, el centro satelital de la ONU",
+     "url": "https://unosat.org/products/4253",
+     "naturaleza": "evaluación satelital de daño, sin validar en campo"},
+    {"clave": "sertit", "nombre": "ICube-SERTIT (Charter 1048)",
+     "campo": "sertit_edificios",
+     "prosa": "ICube-SERTIT, el servicio de cartografía rápida de la Universidad "
+              "de Estrasburgo activado por la Carta Internacional del Espacio",
+     "url": "https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/",
+     # su licencia obliga a citar y prohíbe el uso comercial: la condición viaja
+     # pegada al dato hasta la ficha, no escondida en un pie de página
+     "naturaleza": "evaluación satelital de daño, sin validar en campo · "
+                   "© ICube-SERTIT 2026, uso no comercial"},
 )
 
 
 def satelites_con_dato(m: dict, n_copernicus: int) -> list:
-    """Qué productos satelitales han reportado daño en este municipio."""
+    """Qué productos satelitales han reportado daño en este municipio.
+
+    Se recorre SATELITES, no una lista de fuentes escrita a mano: el día que
+    entre el cuarto servicio, esta función lo cuenta sola."""
     vistos = []
-    if n_copernicus:
-        vistos.append(("Copernicus EMS (EMSR916)", n_copernicus))
-    if m.get("unosat_edificios") is not None:
-        vistos.append(("UNITAR-UNOSAT", m["unosat_edificios"]))
+    for sat in SATELITES:
+        if sat["campo"] is None:                        # Copernicus, por puntos
+            if n_copernicus:
+                vistos.append((sat["nombre"], n_copernicus))
+        elif m.get(sat["campo"]) is not None:
+            vistos.append((sat["nombre"], m[sat["campo"]]))
     return vistos
+
+
+def filas_fuentes_satelitales(m: dict, n_copernicus: int) -> str:
+    """Las filas satelitales de la tabla «Fuentes y trazabilidad» de una ficha.
+
+    Nombran a quien miró ESTE municipio. Encabezar la trazabilidad de Roldanillo
+    con la activación EMSR916 sería atribuir a Copernicus un dato que publicó
+    otro servicio (R9). Cuando no ha mirado ninguno, la fila los nombra a los
+    tres y dice justamente eso."""
+    vistos = {nombre for nombre, _ in satelites_con_dato(m, n_copernicus)}
+    activos = [sat for sat in SATELITES if sat["nombre"] in vistos]
+    if not activos:
+        enlaces = ", ".join(f'<a href="{sat["url"]}" target="_blank" rel="noopener">'
+                            f'{e(sat["nombre"])}</a>' for sat in SATELITES)
+        return (f'<tr><td>Daño en edificios</td><td>{enlaces}</td>'
+                f'<td>ninguno ha evaluado este municipio</td></tr>')
+    return "".join(
+        f'<tr><td>Daño en edificios</td>'
+        f'<td><a href="{sat["url"]}" target="_blank" rel="noopener">{e(sat["nombre"])}</a></td>'
+        f'<td>{e(sat["naturaleza"])}</td></tr>' for sat in activos)
+
+
+def evaluados_unicos(m: dict, ctx: dict) -> int:
+    """Edificios evaluados desde el aire en un municipio, contado cada uno una vez.
+
+    Cuando dos servicios miran el mismo sitio, la cifra del municipio no es la
+    suma de las suyas: en Pereira, 108 de los edificios que ve Copernicus son los mismos
+    que ve SERTIT. Quién es el mismo edificio lo decide `ingest/satelites.py`
+    —dos puntos de servicios distintos a menos de 20 m— y llega ya resuelto en
+    monitor.json. Donde no hay cruce publicado porque solo ha mirado un
+    servicio, vale la mayor de las cifras, que es justamente la de ese servicio.
+
+    Sirve para ordenar «cuánto se ha mirado» en las tablas. Sumar no es una
+    opción en ninguno de los dos casos."""
+    nombre = m["municipio"]
+    cruce = ctx["cruce_satelital"].get(nombre) or {}
+    if cruce.get("unidades"):
+        return cruce["unidades"]
+    return max(ctx["conteo_satelite"].get(nombre, 0),
+               m.get("unosat_edificios") or 0,
+               m.get("sertit_edificios") or 0)
 
 
 def parrafo_respuesta(d: dict) -> str:
@@ -478,13 +576,53 @@ def parrafo_respuesta(d: dict) -> str:
         detalle = "; ".join(f"{fmt(n)} edificios clasificados por {fuente}"
                             for fuente, n in vistos)
         partes.append(f"El daño está documentado por satélite: <strong>{detalle}</strong>.")
+        # La inconsistencia de etiquetado de UNOSAT vivía solo en la tabla y en
+        # el globo del mapa. En Zarzal la traen los 201 puntos —todos—, así que
+        # una ficha que no la nombrase estaría publicando la cifra sin lo único
+        # que hay que saber para juzgarla.
+        raros = m.get("unosat_codigo_inconsistente")
+        if raros:
+            cuantos = (f"Los {fmt(raros)} edificios que evaluó UNOSAT llegan"
+                       if raros == m.get("unosat_edificios")
+                       else f"De esos edificios, <strong>{fmt(raros)}</strong> llegan")
+            partes.append(
+                f"{cuantos} con un <strong>código de evento que no coincide con el que "
+                f"declara su propio producto</strong>, y fechado después de la imagen que "
+                f"los retrata: la fuente se contradice a sí misma. Cuentan —a qué terremoto "
+                f"pertenece un punto lo dice el identificador del producto que lo publica—, "
+                f"y la discrepancia se publica aquí en vez de resolverse por nuestra cuenta.")
+        # El hallazgo de tener tres miradas no es el total: es lo que pasa donde
+        # dos se superponen. Vivía solo en el título de una celda, que ni se
+        # indexa ni se lee en el móvil.
+        cruce = d.get("cruce") or {}
+        if len(cruce.get("fuentes") or {}) > 1:
+            if cruce.get("coincidencias"):
+                discrepan = cruce.get("discrepan_de_grado") or 0
+                desacuerdo = (f", y en {fmt(discrepan)} de ellos <strong>no coinciden en la "
+                              f"gravedad</strong> que le asignan al mismo tejado"
+                              if discrepan else "")
+                partes.append(
+                    f"No son dos versiones de la misma medición: "
+                    f"<strong>{fmt(cruce['coincidencias'])} de esos edificios los vieron dos "
+                    f"servicios</strong>{desacuerdo}; el resto lo vio uno solo. Contando cada "
+                    f"edificio una sola vez, {e(nombre)} tiene "
+                    f"<strong>{fmt(cruce.get('unidades'))} edificios evaluados desde el "
+                    f"aire</strong>.")
+            else:
+                partes.append(
+                    f"Los servicios cartografiaron zonas distintas del mismo municipio y no "
+                    f"comparten ni un edificio, así que sus cifras no se suman ni se comparan "
+                    f"entre sí: son dos ventanas sobre trozos distintos de {e(nombre)}.")
     else:
         cerca = (f" La zona analizada más próxima es {e(d['zonas'][0][0])}, a "
                  f"{fmt(d['zonas'][0][2] / 1000, 0)} kilómetros." if d["zonas"] else "")
+        # Se nombran TODOS los servicios vigilados, y salen de SATELITES: la
+        # frase «ni Copernicus ni UNOSAT» caducó en cuanto entró el tercero, y
+        # una negativa que se olvida de una fuente es una negativa falsa.
+        ninguno = ", ni ".join(sat["prosa"] for sat in SATELITES)
         partes.append(
             f"<strong>Ningún producto satelital de daño ha reportado daños en {e(nombre)}"
-            f"</strong>: ni el servicio de emergencias de Copernicus ni UNITAR-UNOSAT, el "
-            f"centro satelital de la ONU, han evaluado sus edificios.{cerca}")
+            f"</strong>: no han evaluado sus edificios ni {ninguno}.{cerca}")
     if d["ciudadanos"]:
         partes.append(
             f"La comunidad sí lo ha documentado: <strong>{fmt_prosa(len(d['ciudadanos']))} reportes "
@@ -509,6 +647,10 @@ def contexto() -> dict:
         noticias = noticias.get("items") or noticias.get("noticias") or []
     damage = _leer("damage_points.geojson")["features"]
     chatmap = _leer("chatmap.geojson")["features"]
+    # Cuántos edificios ÚNICOS tiene cada municipio cuando dos servicios miran
+    # el mismo sitio. No se calcula aquí: la regla vive en `ingest/satelites.py`
+    # y viaja resuelta en monitor.json, con su umbral y su criterio.
+    satelital = _leer("monitor.json").get("satelital") or {}
     return {
         "municipios": municipios,
         "idx": {m["municipio"]: m for m in municipios},
@@ -518,6 +660,7 @@ def contexto() -> dict:
         "noticias": noticias,
         "zonas_con_producto": {f["properties"].get("aoi") for f in damage},
         "conteo_satelite": asigna_a_municipios(damage, municipios),
+        "cruce_satelital": satelital.get("por_municipio") or {},
         "conteo_ciudadanos": asigna_a_municipios(chatmap, municipios),
         "oficiales": _leer("oficiales.json") if (PUBLIC / "oficiales.json").exists() else {},
     }
@@ -530,23 +673,29 @@ def municipios_con_evidencia_puntual(ctx: dict) -> list:
     satélite decidió mirar y pasa a organizarse por dónde hay evidencia sobre
     el terreno, venga de donde venga.
 
-    «Satélite» son los dos: Copernicus y UNITAR-UNOSAT. Mientras solo contó el
-    primero, Viterbo y Anserma —evaluados edificio a edificio por el centro
-    satelital de la ONU— no salían en esta tabla, y Manizales salía con un
-    guion en la columna satelital pese a tener 127 edificios clasificados. La
-    portada llegó a anunciar un total de las dos miradas que su propia tabla
-    desmentía."""
+    «Satélite» son los tres: Copernicus, UNITAR-UNOSAT e ICube-SERTIT. Mientras
+    solo contó el primero, Viterbo y Anserma —evaluados edificio a edificio por
+    el centro satelital de la ONU— no salían en esta tabla, y Manizales salía
+    con un guion en la columna satelital pese a tener 127 edificios
+    clasificados. La portada llegó a anunciar un total de las dos miradas que su
+    propia tabla desmentía. Con el tercero se repetiría el episodio en Roldanillo
+    y La Virginia, los dos municipios que solo ha mirado SERTIT.
+
+    El orden lo marcan los edificios únicos, no la suma de las tres cifras."""
     sat, ciu = ctx["conteo_satelite"], ctx["conteo_ciudadanos"]
     uno = {m["municipio"]: m["unosat_edificios"] for m in ctx["municipios"]
            if m.get("unosat_edificios")}
-    nombres = {k for k in (set(sat) | set(ciu) | set(uno)) if not k.startswith("__")}
+    ser = {m["municipio"]: m["sertit_edificios"] for m in ctx["municipios"]
+           if m.get("sertit_edificios")}
+    nombres = {k for k in (set(sat) | set(ciu) | set(uno) | set(ser))
+               if not k.startswith("__")}
     filas = []
     for n in nombres:
         m = ctx["idx"][n]
         filas.append({**m, "n_satelite": sat.get(n, 0), "n_ciudadanos": ciu.get(n, 0),
-                      "n_unosat": uno.get(n, 0)})
-    filas.sort(key=lambda f: (f["n_satelite"] + f["n_unosat"] + f["n_ciudadanos"]),
-               reverse=True)
+                      "n_unosat": uno.get(n, 0), "n_sertit": ser.get(n, 0),
+                      "n_evaluados": evaluados_unicos(m, ctx)})
+    filas.sort(key=lambda f: (f["n_evaluados"] + f["n_ciudadanos"]), reverse=True)
     return filas
 
 
@@ -576,7 +725,11 @@ def render_ficha(d: dict) -> str:
             "@type": "Place", "name": f"{nombre}, {depto}, Colombia",
             "identifier": {"@type": "PropertyValue", "propertyID": "DIVIPOLA",
                            "value": m["divipola"]},
-            "geo": {"@type": "GeoCoordinates", "latitude": m["lat"], "longitude": m["lon"]}},
+            # Sin cabecera en DIVIPOLA el campo se omite: en JSON-LD, omitir es
+            # lo que significa «no lo sabemos»; un cero significaría el golfo de
+            # Guinea (R3).
+            **({"geo": {"@type": "GeoCoordinates", "latitude": m["lat"],
+                        "longitude": m["lon"]}} if d["tiene_coords"] else {})},
         "isPartOf": {"@type": "Dataset", "name": "Monitor de brechas — Terremoto de Colombia 2026",
                      "url": "https://brechas.orkidea.eu/"}}
     migas = [("Monitor de brechas", f"{BASE}/"),
@@ -642,15 +795,28 @@ def render_ficha(d: dict) -> str:
     # Es un enlace, no una carga: la ficha sigue sin descargar Leaflet ni los
     # geojson, que son megabytes que la mayoría de lectores no va a necesitar.
     destino = f"/?municipio={urllib.parse.quote(nombre)}#mapa"
-    o.append(f'<a href="{destino}" class="mapa-enlace"'
-             f' aria-label="Abrir {e(nombre)} en el mapa interactivo">')
-    o.append(mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"]))
-    o.append("</a>")
-    o.append('<p class="leyenda">'
-             f'<span class="badge" style="--bc:var(--s8)">{e(nombre)}</span>'
-             '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
-             '<span class="badge" style="--bc:var(--s7)">reporte ciudadano</span>'
-             '<span class="badge" style="--bc:var(--critical)">epicentro</span></p>')
+    svg = mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"])
+    if svg:
+        o.append(f'<a href="{destino}" class="mapa-enlace"'
+                 f' aria-label="Abrir {e(nombre)} en el mapa interactivo">')
+        o.append(svg)
+        o.append("</a>")
+        o.append('<p class="leyenda">'
+                 f'<span class="badge" style="--bc:var(--s8)">{e(nombre)}</span>'
+                 '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
+                 '<span class="badge" style="--bc:var(--s7)">reporte ciudadano</span>'
+                 '<span class="badge" style="--bc:var(--critical)">epicentro</span></p>')
+    else:
+        # El municipio entró por el registro oficial y el catálogo DIVIPOLA no
+        # trae su cabecera. Sin coordenada no hay mapa, ni distancia a las zonas
+        # analizadas, ni reportes «del entorno»: la ficha lo dice en vez de
+        # dibujar un punto que no sabemos dónde está.
+        o.append(f'<p class="note">El monitor <strong>no tiene la coordenada de la cabecera '
+                 f'de {e(nombre)}</strong>: entró por el registro de damnificados y el '
+                 f'catálogo oficial de la División Político-Administrativa (DIVIPOLA) no la '
+                 f'publica. Sin ella no se puede situar en el mapa ni medir su distancia a '
+                 f'las zonas que ha analizado el satélite, ni atribuirle reportes ciudadanos '
+                 f'del entorno. Las cifras del registro de esta ficha no dependen de eso.</p>')
     vistos_mapa = satelites_con_dato(m, d["satelite"])
     if not vistos_mapa:
         cerca = (f' La más próxima, {e(d["zonas"][0][0])}, está a '
@@ -673,12 +839,23 @@ def render_ficha(d: dict) -> str:
         rango = (f' con intensidad percibida de {fmt(min(d["mmis"]), 1)} a '
                  f'{fmt(max(d["mmis"]), 1)} en la escala de Mercalli modificada'
                  if d["mmis"] else "")
+        # Por qué esta frase es condicional: «Donde el satélite no ha mirado,
+        # cada reporte cuenta» se emitía siempre, así que seis fichas —Pereira,
+        # Cali, Quibdó, Manizales, Buenaventura y Roldanillo— afirmaban arriba
+        # que el satélite había clasificado sus edificios y lo negaban aquí, en
+        # la misma pantalla. Donde el satélite SÍ miró, el argumento no es que
+        # no haya mirado: es que fotointerpreta tejados desde el aire y no
+        # comprueba nada en el suelo.
+        porque = ('Donde el satélite no ha mirado, cada reporte cuenta. '
+                  if not satelites_con_dato(m, d["satelite"]) else
+                  'El satélite clasifica tejados desde el aire y no comprueba nada sobre '
+                  'el terreno: tu reporte es la mirada que le falta. ')
         o.append(f'<div class="aviso aviso--accion">'
                  f'<p><strong>{fmt_prosa(len(d["ciudadanos"]))} reportes ciudadanos</strong> '
                  f'georreferenciados en el entorno de {e(nombre)}, {fmt_prosa(d["con_medio"])} '
                  f'con foto o vídeo{rango}. <span class="badge">verificación automática superada · '
                  f'pendientes de revisión humana</span></p>'
-                 f'<p>Donde el satélite no ha mirado, cada reporte cuenta. '
+                 f'<p>{porque}'
                  f'¿Estás en {e(nombre)}? <a href="{CHATMAP}" target="_blank" rel="noopener">'
                  f'<strong>Reporta daños con tu ubicación y foto por WhatsApp</strong></a> '
                  f'(ChatMap, de OpenStreetMap Colombia, UN Mappers y el Equipo Humanitario de '
@@ -793,10 +970,7 @@ def render_ficha(d: dict) -> str:
              "<td>registro progresivo, verificación posterior</td></tr>"
              "<tr><td>Población 2026</td><td>DANE · proyecciones municipales por área</td>"
              "<td>estadística oficial</td></tr>"
-             '<tr><td>Daño en edificios</td><td><a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/"'
-             ' target="_blank" rel="noopener">Servicio de emergencias de Copernicus (EMS),'
-             ' activación EMSR916</a></td>'
-             "<td>evaluación satelital de daño</td></tr>"
+             + filas_fuentes_satelitales(m, d["satelite"]) +
              f'<tr><td>Reportes ciudadanos</td><td><a href="{CHATMAP}" target="_blank" '
              'rel="noopener">ChatMap · OSM Colombia</a></td>'
              "<td>comunidad, sin validación humana</td></tr>"
@@ -823,7 +997,8 @@ def es_elegible(nombre: str, ctx: dict) -> bool:
     penalizarían al dominio entero."""
     m = ctx["idx"][nombre]
     return bool(m.get("rud_familias") or m.get("n_noticias") or m.get("dyfi_respuestas")
-                or m.get("en_aoi_copernicus") or m.get("unosat_edificios") is not None
+                or m.get("en_aoi_copernicus")
+                or any(m.get(sat["campo"]) is not None for sat in SATELITES if sat["campo"])
                 or ctx["conteo_satelite"].get(nombre) or ctx["conteo_ciudadanos"].get(nombre))
 
 
@@ -848,7 +1023,8 @@ def run(destino: Path) -> dict:
 # ---------------------------------------------- tabla de municipios (fase B)
 # Espejo de ESTADO_MUNICIPIO en site/ui.js. Vive en dos superficies porque el
 # mapa (app.js) lo sigue necesitando en el navegador: si tocas una, mira la otra.
-# `tests/test_render_html.py::TestEstadosEspejo` compara ambas y falla si divergen.
+# `TestEspejoConElFrontend::test_estados_de_municipio_coinciden` compara las dos
+# tablas enteras —clave, etiqueta, color y explicación— y falla si divergen.
 ESTADO_MUNICIPIO = {
     "en_aoi": ("En zona Copernicus", "--s1",
                "El municipio cae dentro de una zona que el satélite del servicio "
@@ -859,6 +1035,10 @@ ESTADO_MUNICIPIO = {
                         "edificio, fuera de toda zona de Copernicus. Es lectura "
                         "de imágenes de muy alta resolución, no comprobada sobre "
                         "el terreno por la propia fuente"),
+    "evaluado_satelite": ("Evaluado por satélite", "--s9",
+                         "Un servicio de cartografía rápida evaluó allí edificio a edificio, "
+                         "fuera de toda zona de Copernicus. Es lectura de imágenes de muy "
+                         "alta resolución, no comprobada sobre el terreno"),
     "intensidad_alta": ("Intensidad alta", "--warning",
                         "La población declaró una intensidad de 6 o más en el "
                         "cuestionario del Servicio Geológico de Estados Unidos, "
@@ -897,32 +1077,46 @@ def _celda_prensa(m: dict) -> str:
     return fmt(0)
 
 
-def _celda_satelite(m: dict, n_copernicus: int) -> str:
-    """Lo que han visto los satélites, con la fuente pegada a cada cifra.
+def _celda_satelite(m: dict, n_copernicus: int, cruce: dict | None = None) -> str:
+    """Lo que han visto los satélites: una línea por servicio, nunca sumadas.
 
-    **No se suman**: Copernicus cuenta edificios a los que ha clasificado un
-    grado de daño; UNOSAT, los que ha observado uno a uno sobre imagen de muy
-    alta resolución. Son mediciones distintas de cosas distintas, y sumarlas
-    daría un número que no significa nada.
+    Cada servicio elige qué trozo de ciudad mira y con qué imagen. Copernicus
+    cuenta edificios a los que ha clasificado un grado de daño dentro de las
+    zonas que delimitó; UNOSAT, los que ha observado uno a uno sobre imagen de
+    muy alta resolución; ICube-SERTIT, los de su propio recorte para la Carta
+    Internacional. En Pereira, Copernicus clasificó 193 edificios sobre 9,8 km²
+    y SERTIT 252 sobre 2,78 km²: **dos ventanas distintas sobre la misma ciudad,
+    no dos versiones de la misma cifra**. Sumar 193 y 252 daría un número que no
+    significa nada, y quedarse con la mayor sería elegir por la fuente.
+
+    Cuando dos servicios coinciden sobre un municipio, la celda añade cuántos
+    edificios vieron los dos —y cuántos de esos ven con distinta gravedad—, o
+    dice que no comparten ninguno. Esa cuenta no se hace aquí: la resuelve
+    `ingest/satelites.py` y llega hecha en monitor.json.
 
     Donde ninguno ha mirado no hay cero, hay ausencia (R3)."""
+    cruce = cruce or {}
     partes = []
     if n_copernicus:
         partes.append(
             f'<span title="Edificios con daño clasificado uno a uno por lectura de imágenes '
             f'de satélite del servicio de emergencias de Copernicus (activación EMSR916), cuya coordenada '
-            f'cae en este municipio.">{fmt(n_copernicus)} '
+            f'cae en este municipio, dentro de las zonas que Copernicus delimitó para '
+            f'analizar.">{fmt(n_copernicus)} '
             f'<span style="color:var(--muted)">Copernicus</span></span>')
     if m.get("unosat_edificios") is not None:
         otros = ""
-        if m.get("unosat_otros_eventos"):
-            otros = (f' <span title="UNOSAT los publica en la misma capa, sobre la misma '
-                     f'imagen y en el mismo producto que los demás, pero con un código de '
-                     f'evento distinto y fechado después de la propia imagen: una '
-                     f'inconsistencia de la fuente. El monitor no los suma al total —corregir '
-                     f'la etiqueta por su cuenta sería inventar— ni les atribuye ningún otro '
-                     f'sismo, porque eso el dato no lo sostiene." '
-                     f'style="color:var(--warning)">+{fmt(m["unosat_otros_eventos"])}</span>')
+        if m.get("unosat_codigo_inconsistente"):
+            otros = (f' <span title="De esos edificios, los que UNOSAT publica con un código '
+                     f'de evento distinto del que declara su propio producto, y fechado '
+                     f'después de la imagen que los retrata: la fuente se contradice a sí '
+                     f'misma. Entran en la cifra —a qué terremoto pertenece un punto lo dice '
+                     f'el identificador del producto que lo publica— y se señalan aquí para '
+                     f'que la discrepancia no se pierda dentro del total. El monitor no '
+                     f'reescribe la etiqueta ni les atribuye ningún otro sismo, porque el '
+                     f'dato no lo sostiene." '
+                     f'style="color:var(--warning)">⚠ {fmt(m["unosat_codigo_inconsistente"])} '
+                     f'con código inconsistente</span>')
         partes.append(
             f'<span title="Edificios evaluados por UNITAR-UNOSAT, el centro satelital de la '
             f'ONU, sobre imagen de muy alta resolución. Entre paréntesis, los que la propia '
@@ -930,6 +1124,54 @@ def _celda_satelite(m: dict, n_copernicus: int) -> str:
             f'campo.">{fmt(m["unosat_edificios"])} '
             f'<span style="color:var(--muted)">({fmt(m["unosat_observados"])}) UNOSAT</span>'
             f'</span>{otros}')
+    if m.get("sertit_edificios") is not None:
+        # El recorte va en el título: es lo que convierte «252» en una cifra
+        # legible. Sin saber sobre cuánta superficie mira cada servicio, dos
+        # cifras en la misma celda parecen competir por ser la verdadera.
+        # «ventana», no «recorte del municipio»: es un recuadro propio del
+        # servicio, que en La Virginia cubre más superficie que el municipio.
+        recorte = (f' sobre una ventana de {fmt(m["sertit_area_km2"], 2)} km²'
+                   if m.get("sertit_area_km2") is not None else "")
+        # Aquí el «+» sí es un más: son puntos que la capa trae y el recuento
+        # NO incluye, al revés que el ⚠ de UNOSAT, que marca una parte de la
+        # cifra ya contada. La diferencia entre los puntos de la capa y los que
+        # se cuentan tiene que verse: en Cali, 94 clasificados de 103 puntos era
+        # una resta que no se explicaba en ninguna parte.
+        sin_grado = ""
+        if m.get("sertit_sin_grado"):
+            sin_grado = (f' <span title="Puntos que ICube-SERTIT marcó en este municipio y '
+                         f'para los que no asignó grado de daño («Not Applicable»). No se '
+                         f'cuentan como daño clasificado —afirmarlo sería decir lo que la '
+                         f'fuente no dijo— ni se descartan: siguen pintados en el mapa." '
+                         f'style="color:var(--warning)">+{fmt(m["sertit_sin_grado"])}</span>')
+        partes.append(
+            f'<span title="Edificios evaluados por ICube-SERTIT (laboratorio ICube, '
+            f'Universidad de Estrasburgo) para la activación 1048 de la Carta Internacional '
+            f'del Espacio y las Grandes Catástrofes, sobre imagen Pléiades{recorte}. Entre '
+            f'paréntesis, los que da por destruidos; el resto son daños y daños posibles. '
+            f'Fotointerpretación, sin validar en campo. © ICube-SERTIT 2026.'
+            f'">{fmt(m["sertit_edificios"])} '
+            f'<span style="color:var(--muted)">({fmt(m["sertit_destruidos"])}) SERTIT</span>'
+            f'</span>{sin_grado}')
+    if len(partes) > 1:
+        comunes = cruce.get("coincidencias")
+        if comunes:
+            discrepan = cruce.get("discrepan_de_grado") or 0
+            grado = (f' En {fmt(discrepan)} de ellos los servicios no coinciden en la '
+                     f'gravedad que le asignan al mismo edificio.' if discrepan else "")
+            partes.append(
+                f'<span style="color:var(--muted)" title="Edificios que aparecen en dos '
+                f'productos a la vez: dos puntos de servicios distintos a menos de '
+                f'{fmt(cruce.get("umbral_m"))} metros se toman por el mismo edificio.{grado} '
+                f'El resto de cada cifra solo lo vio ese servicio. Por eso las cifras no se '
+                f'suman: el municipio tiene {fmt(cruce.get("unidades"))} edificios evaluados, '
+                f'contando cada uno una sola vez.">{fmt(comunes)} en común</span>')
+        elif cruce:
+            partes.append(
+                '<span style="color:var(--muted)" title="Los servicios cartografiaron zonas '
+                'distintas del mismo municipio y no comparten ni un edificio. No hay nada que '
+                'comparar entre las dos cifras ni motivo para sumarlas: son dos ventanas sobre '
+                'trozos distintos de la ciudad.">sin edificios en común</span>')
     if not partes:
         return ('<span title="Ningún producto satelital de daño ha mirado este municipio. '
                 'Un guion no es un cero: es ausencia de evaluación.">—</span>')
@@ -955,7 +1197,7 @@ def filas_municipios(ctx: dict) -> str:
         n_cop = ctx["conteo_satelite"].get(m["municipio"], 0)
         n_ciu = ctx["conteo_ciudadanos"].get(m["municipio"], 0)
         etiquetas = []
-        if not n_cop and m.get("unosat_edificios") is None:
+        if not satelites_con_dato(m, n_cop):
             etiquetas.append("sin-satelite")
         if m.get("rud_personas"):
             etiquetas.append("con-rud")
@@ -963,10 +1205,11 @@ def filas_municipios(ctx: dict) -> str:
             etiquetas.append("sin-rud")
         if n_ciu:
             etiquetas.append("con-ciudadanos")
-        # clave de orden de la columna satelital: el total evaluado desde el
-        # aire, venga de donde venga. Sirve para ordenar «cuánto se ha mirado»;
-        # las cifras NO se suman en la celda, porque miden cosas distintas.
-        v_sat = n_cop + (m.get("unosat_edificios") or 0)
+        # clave de orden de la columna satelital: los edificios únicos del
+        # municipio, cada uno contado una vez aunque lo hayan visto dos
+        # servicios. Sirve para ordenar «cuánto se ha mirado»; las cifras NO se
+        # suman ni en la celda ni aquí, porque miden trozos distintos de ciudad.
+        v_sat = evaluados_unicos(m, ctx)
         valores = [m["municipio"], etiqueta, m.get("poblacion_2026"), v_sat or None,
                    m.get("rud_personas"), m.get("tasa_rud_pct"), m.get("dyfi_max_cdi"),
                    m.get("dyfi_respuestas"),
@@ -983,7 +1226,7 @@ def filas_municipios(ctx: dict) -> str:
             f'<td class="num" title="Población proyectada para 2026 por el Departamento '
             f'Administrativo Nacional de Estadística (DANE), por municipio y área">'
             f'{fmt(m.get("poblacion_2026"))}</td>'
-            f'<td class="num">{_celda_satelite(m, ctx["conteo_satelite"].get(m["municipio"], 0))}</td>'
+            f'<td class="num">{_celda_satelite(m, n_cop, ctx["cruce_satelital"].get(m["municipio"]))}</td>'
             f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
             f'<td class="num">{pct(m.get("tasa_rud_pct"))}</td>'
             f'<td class="num">{fmt(m.get("dyfi_max_cdi"), 1)}</td>'
@@ -1000,7 +1243,7 @@ def filas_portada(ctx: dict) -> str:
     Deja de organizarse por lo que el satélite decidió mirar (las AOI de la
     activación) y pasa a organizarse por dónde hay prueba georreferenciada,
     venga del satélite o de la comunidad. El hallazgo que lo justifica: los
-    satélites han mirado 9 municipios; la comunidad ha documentado 26.
+    satélites han mirado 11 municipios; la comunidad ha documentado 36.
 
     Cada fila lleva su coordenada para que el clic siga centrando el mapa.
     El detalle por AOI —vías, interrupciones, fecha de entrega— no cabe en una
@@ -1010,16 +1253,18 @@ def filas_portada(ctx: dict) -> str:
         etiqueta, color, explica = ESTADO_MUNICIPIO.get(m.get("estado"), SIN_CLASIFICAR)
         sat = m["n_satelite"]
         ciu = m["n_ciudadanos"]
+        cruce = ctx["cruce_satelital"].get(m["municipio"])
         ficha = f"/municipio/{slug(m['municipio'])}/"
         filas.append(
-            f'<tr data-lat="{m["lat"]}" data-lon="{m["lon"]}"'
+            f'<tr data-lat="{"" if m["lat"] is None else m["lat"]}"'
+            f' data-lon="{"" if m["lon"] is None else m["lon"]}"'
             f' data-buscar="{e(norm_busqueda(m["municipio"] + " " + m["departamento"]))}">'
             f'<td><a href="{ficha}" style="color:inherit"><strong>{e(m["municipio"])}</strong></a>'
             f'<br><span style="color:var(--muted)">{e(m["departamento"])}</span></td>'
             f'<td><span class="badge" style="--bc:var({color})" title="{e(explica)}">'
             f'{e(etiqueta)}</span></td>'
             f'<td class="num" title="Proyección DANE 2026">{fmt(m.get("poblacion_2026"))}</td>'
-            f'<td class="num">{_celda_satelite(m, sat)}</td>'
+            f'<td class="num">{_celda_satelite(m, sat, cruce)}</td>'
             f'<td class="num">{fmt(ciu) if ciu else "—"}</td>'
             f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
             f'<td class="num">{_celda_prensa(m)}</td>'
@@ -1079,7 +1324,9 @@ def filas_rud(ctx: dict) -> str:
 # compleja —qué snapshot representa el día— sigue viviendo solo en el frontend.
 # `tests/test_render_html.py::TestBalances` compara ambas expresiones.
 _LIVEBLOG = re.compile(
-    r"en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog",
+    # con límite de palabra, igual que ui.js y el worker: «directo» casaba
+    # dentro de «directorio». R10 aplicada a R8.
+    r"\b(en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog)\b",
     re.I)
 
 NIVELES = {
@@ -1102,7 +1349,8 @@ def filas_balances(ctx: dict) -> str:
     R9: esto NO es el balance oficial, es lo que la prensa publica citándolo. La
     tabla lo dice en cada fila con el nivel de la fuente y el enlace a la
     publicación. La marca «usada en la serie» la sigue poniendo el navegador:
-    depende de comparar cada snapshot con el del día anterior."""
+    depende de comparar cada captura con el consolidado acumulado, que se
+    calcula recorriendo la serie entera."""
     feed = ctx.get("oficiales") or {}
     filas = []
     for item in sorted(feed.get("items") or [],

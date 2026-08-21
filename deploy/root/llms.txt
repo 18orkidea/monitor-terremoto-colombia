@@ -1,13 +1,19 @@
 # Monitor de brechas — Terremoto de Colombia 2026
 
 > Observatorio abierto del terremoto M7.4 del 10 de agosto de 2026 en Colombia (epicentro
-> San José del Palmar, Chocó). Cruza a diario cuatro miradas independientes — daño satelital
-> (1.007 edificios clasificados uno a uno: 622 del servicio de emergencias de Copernicus,
-> activación EMSR916, y 385 de UNITAR-UNOSAT, de los que 289 son solo «daño posible» sin
-> validar en campo; miran municipios distintos, por eso se suman), reportes ciudadanos por WhatsApp
-> (ChatMap/OSM Colombia), titulares de prensa de feeds abiertos y balances citados en medios
-> extraídos con IA — y mide las brechas del reporte oficial. Cada cifra es rastreable hasta
-> su petición de origen (snapshots inmutables + hash sha256).
+> San José del Palmar, Chocó). Cruza a diario cuatro miradas independientes: daño satelital
+> (1.578 edificios en 11 municipios, clasificados uno a uno por tres servicios), reportes
+> ciudadanos por WhatsApp (ChatMap/OSM Colombia), titulares de prensa de feeds abiertos y
+> balances citados en medios — y mide las brechas del reporte oficial.
+> Los tres servicios satelitales son el de emergencias de Copernicus (635 edificios clasificados uno a uno; su propio resumen por zonas declara 622,
+> activación EMSR916), UNITAR-UNOSAT, el centro satelital de la ONU (548, de los que 443 son
+> solo «daño posible»), e ICube-SERTIT (503, dentro de la activación 1048 de la Carta
+> Internacional del Espacio). El total no se obtiene sumando esas tres cifras: se cuentan
+> los puntos y cada edificio vale una vez, así que los 108 edificios de Pereira que vieron
+> Copernicus y SERTIT a la vez no cuentan dos veces. Donde dos servicios miran la misma
+> ciudad, cartografían recortes distintos, no versiones de una misma medición. Nada de ello
+> está validado en campo. Cada cifra es rastreable hasta su petición de origen (snapshots
+> inmutables + hash sha256).
 
 Reglas de rigor: «Coincide cualitativamente» exige evidencia oficial (EDAN); la prensa y los
 reportes ciudadanos solo alcanzan estados intermedios. Los balances citados en medios NO son
@@ -31,10 +37,22 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
 - [Noticias emparejadas](https://brechas.orkidea.eu/data/public/noticias.json)
 - [GeoJSON de daño satelital · Copernicus](https://brechas.orkidea.eu/data/public/damage_points.geojson)
 - [GeoJSON de daño satelital · UNITAR-UNOSAT](https://brechas.orkidea.eu/data/public/unosat_damage.geojson):
-  385 edificios de este terremoto evaluados uno a uno en Caldas (289 solo «daño posible»),
-  ninguno validado en campo; la capa incluye además 8 puntos con un código de evento
-  inconsistente —fechado después de la imagen que los retrata—, que no se suman al total ni
-  se descartan
+  548 edificios de este terremoto evaluados uno a uno en Anserma, Manizales y Viterbo
+  (Caldas) y en Zarzal (Valle del Cauca) —443 solo «daño posible»—, ninguno validado en
+  campo. De ellos, 209 llevan un código de evento que no coincide con el que declara su
+  propio producto y que además está fechado después de la imagen que los retrata: una
+  contradicción de la fuente consigo misma. Cuentan —a qué terremoto pertenece un punto lo
+  decide el identificador del producto que lo publica, no un campo interno de su
+  geometría— y se publican marcados, para que quien audite pueda rehacer la cuenta con el
+  criterio contrario
+- [GeoJSON de daño satelital · ICube-SERTIT](https://brechas.orkidea.eu/data/public/sertit_damage.geojson):
+  512 puntos en Pereira, Cali, Roldanillo, La Virginia y Manizales dentro de la
+  activación 1048 de la Carta Internacional del Espacio; Roldanillo y La Virginia no los ha
+  mirado ningún otro servicio. De los 512, 503 llevan grado de daño y entran en el
+  recuento; en nueve —todos en Cali— la fuente no asignó ninguno: se pintan en el mapa
+  pero no se cuentan como daño clasificado. Fotointerpretación sin validar en campo. Licencia propia,
+  más restrictiva que el resto del monitor: © ICube-SERTIT 2026, uso no comercial con
+  atribución obligatoria
 - [Feed de balances (JSON)](https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json)
 
 ## Código y metodología

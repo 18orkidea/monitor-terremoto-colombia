@@ -58,7 +58,11 @@ const FIRECRAWL_DAILY_QUERY_TEMPLATES = [
 /* Versión del código que produce cada feed: sin esto no hay forma de saber qué
    criterios generaron un ítem archivado (deploy manual, KV fuera de git). Subir
    al cambiar cualquier regla de interpretación. */
-const WORKER_VERSION = "2026-08-17-r10";
+export const WORKER_VERSION = "2026-08-21-balance-v2";
+export const EXTRACTION_CRITERIA = Object.freeze({
+  lugares: "limite_palabra_sin_enlaces",
+  cifras: "texto_sin_enlaces_v2"
+});
 
 const MUNICIPIOS = [
   ["Armenia", "Quindío"],
@@ -331,10 +335,7 @@ async function runCollection(env, options = {}) {
       private: true,
       model: env.QWEN_OCR_MODEL || "qwen-vl-ocr-2025-11-20",
       version: WORKER_VERSION,
-      criterios: {
-        lugares: "limite_palabra_sin_enlaces",
-        cifras: "texto_sin_enlaces"
-      },
+      criterios: EXTRACTION_CRITERIA,
       note: "La inferencia IA no se expone; solo se publica el feed estructurado."
     }
   };
@@ -501,6 +502,7 @@ async function discoverWithFirecrawl(entry, source, env, runDate) {
       discovered_from: `firecrawl:${result.query_label}`,
       discovery_role: entry.role,
       extraction_method: scraped.ok ? "firecrawl_search_then_scrape" : "firecrawl_search_snippet",
+      published_time: scraped.publishedTime || null,
       firecrawl_job_id: result.firecrawl_job_id,
       firecrawl_scrape_status: scraped.status,
       firecrawl_scrape_error: scraped.error || null,
@@ -558,6 +560,14 @@ async function scrapeWithFirecrawl(url, env) {
     title: payload.metadata?.title || payload.title || "",
     siteName: payload.metadata?.siteName || payload.metadata?.["og:site_name"] || "",
     description: payload.metadata?.description || "",
+    // Fecha de PUBLICACIÓN declarada por el propio medio. Es el dato de fecha
+    // más fiable que pasa por aquí y se estaba descartando: sin él, la única
+    // fecha del ítem era `search_date`, que es la que se le pidió al buscador
+    // y no dice nada de cuándo se publicó el balance ni de qué corte habla.
+    publishedTime: payload.metadata?.publishedTime ||
+      payload.metadata?.["article:published_time"] ||
+      payload.metadata?.["og:published_time"] ||
+      payload.metadata?.datePublished || null,
     text: payload.markdown || payload.content || payload.text || ""
   };
 }
@@ -679,7 +689,12 @@ async function processDocument(candidate, env) {
     firecrawl_scrape_error: candidate.firecrawl_scrape_error || null,
     discovered_from: candidate.discovered_from || null,
     discovery_role: candidate.discovery_role || null,
-    text_excerpt: text.slice(0, 700),
+    // 700 caracteres no bastaban ni para fechar ni para extraer: la fecha de
+    // corte del boletín suele ir en el cuerpo («con corte a las 6:00 a. m.
+    // del 18 de agosto»), y lo que se archivaba del boletín de la UNGRD eran
+    // 145 caracteres truncados. El texto es la evidencia, no un adorno.
+    text_excerpt: text.slice(0, 4000),
+    publicado_en: candidate.published_time || null,
     evidencia_evento_especifico: isSpecificEventEvidence(evidenceText),
     ...structured
   };
@@ -740,24 +755,17 @@ function structureOfficialText(text, candidate) {
   );
   if (candidate.source.department) departamentos.add(candidate.source.department);
 
+  const vigilada = extraerCifrasVigiladas(limpio, text);
   return {
     relacionado_evento: isSpecificEventEvidence(`${candidate.title} ${candidate.summary || ""} ${limpio}`),
     fecha: findDate(limpio),
+    fecha_corte: findCutoffDate(limpio),
     departamentos: [...departamentos].sort(),
     municipios: municipios.sort(),
     estado: classify(limpio),
-    cifras: {
-      departamentos_afectados: findMetricNumber(limpio, "departamentos"),
-      municipios_afectados: findMetricNumber(limpio, "municipios"),
-      personas_afectadas: findMetricNumber(limpio, "personas"),
-      familias_afectadas: findMetricNumber(limpio, "familias"),
-      viviendas_averiadas: findMetricNumber(limpio, "viviendas_averiadas"),
-      viviendas_destruidas: findMetricNumber(limpio, "viviendas_destruidas"),
-      heridos: findMetricNumber(limpio, "heridos"),
-      fallecidos: findMetricNumber(limpio, "fallecidos"),
-      desaparecidos: findMetricNumber(limpio, "desaparecidos"),
-      rescatados: findMetricNumber(limpio, "rescatados")
-    },
+    cifras: vigilada.cifras,
+    extraccion_intentos: vigilada.extraccion_intentos,
+    extraccion_descartada: vigilada.extraccion_descartada,
     requiere_revision_humana: true,
     confianza: confidence(limpio),
     cita: findQuote(text),
@@ -767,8 +775,80 @@ function structureOfficialText(text, candidate) {
     // cual, así que los feeds archivados mezclan ambos criterios: sin el sello
     // no habría forma de distinguirlos dentro de veinte años.
     atribucion_lugares: "limite_palabra_sin_enlaces",
-    cifras_desde: "texto_sin_enlaces"
+    // sello del criterio de EXTRACCIÓN, por el mismo motivo que el de lugares:
+    // hasta la v2 (21-ago-2026) las reglas perdían las víctimas en femenino
+    // («4.548 heridas») y confundían «N personas fallecidas» con afectadas.
+    // Los ítems archivados antes conservan esas cifras: no se reescriben.
+    cifras_desde: "texto_sin_enlaces_v2",
+    extraccion_version: 2
   };
+}
+
+/* Vigilante de extracción (decisión de 21-ago-2026). Las cifras salen de
+   reglas de texto, y una regla puede equivocarse de casilla: el boletín de la
+   UNGRD del 18-ago dejó «304 personas fallecidas» guardado como 304 personas
+   AFECTADAS, y con eso la portada publicó 304 afectados donde la víspera
+   declaraba 186.016.
+
+   Antes de publicar nada se comprueban relaciones que no pueden romperse sin
+   que la extracción esté mal. Si se rompen, se REINTENTA sobre el texto crudo
+   —otra entrada, no la misma dos veces, que daría el mismo resultado—; si
+   vuelve a fallar, se desestima la cifra culpable y se conserva el resto del
+   balance, que suele estar bien. Nada se borra en silencio: el ítem viaja con
+   el registro de sus intentos, y el sitio conserva el último máximo bueno. */
+const RELACIONES_CIFRAS = [
+  ["personas_afectadas", "familias_afectadas"],
+  ["personas_afectadas", "fallecidos"],
+  ["personas_afectadas", "heridos"],
+  ["personas_afectadas", "desaparecidos"]
+];
+
+function incoherenciasDeCifras(cifras) {
+  const rotas = [];
+  for (const [mayor, menor] of RELACIONES_CIFRAS) {
+    const a = cifras[mayor], b = cifras[menor];
+    if (a != null && b != null && a < b) rotas.push(`${mayor} < ${menor}`);
+  }
+  return rotas;
+}
+
+function extraerCifras(texto) {
+  return {
+    departamentos_afectados: findMetricNumber(texto, "departamentos"),
+    municipios_afectados: findMetricNumber(texto, "municipios"),
+    personas_afectadas: findMetricNumber(texto, "personas"),
+    familias_afectadas: findMetricNumber(texto, "familias"),
+    viviendas_averiadas: findMetricNumber(texto, "viviendas_averiadas"),
+    viviendas_destruidas: findMetricNumber(texto, "viviendas_destruidas"),
+    heridos: findMetricNumber(texto, "heridos"),
+    fallecidos: findMetricNumber(texto, "fallecidos"),
+    desaparecidos: findMetricNumber(texto, "desaparecidos"),
+    rescatados: findMetricNumber(texto, "rescatados")
+  };
+}
+
+function extraerCifrasVigiladas(limpio, crudo) {
+  const intentos = [];
+  const primera = extraerCifras(limpio);
+  const rotas = incoherenciasDeCifras(primera);
+  intentos.push({ intento: 1, sobre: "texto_sin_enlaces", incoherencias: rotas });
+  if (!rotas.length) {
+    return { cifras: primera, extraccion_intentos: intentos,
+             extraccion_descartada: null };
+  }
+  const segunda = extraerCifras(crudo);
+  const rotasSegunda = incoherenciasDeCifras(segunda);
+  intentos.push({ intento: 2, sobre: "texto_crudo", incoherencias: rotasSegunda });
+  if (!rotasSegunda.length) {
+    return { cifras: segunda, extraccion_intentos: intentos,
+             extraccion_descartada: null };
+  }
+  const culpables = [...new Set(
+    rotas.concat(rotasSegunda).map((r) => r.split(" < ")[0]))];
+  const cifras = { ...primera };
+  for (const k of culpables) cifras[k] = null;
+  return { cifras, extraccion_intentos: intentos,
+           extraccion_descartada: { cifras: culpables, motivo: rotasSegunda } };
 }
 
 function classify(text) {
@@ -792,6 +872,41 @@ function findQuote(text) {
   return (sentences[0] || text.slice(0, 240)).slice(0, 280);
 }
 
+/* Fecha del CORTE del que habla el balance, que no es la fecha en que se
+   publicó ni el día en que lo encontramos. Es la pieza que convierte una lista
+   de capturas en una serie temporal: sin ella, el mismo artículo de El Tiempo
+   figuraba como el balance del 12, el 14, el 15 y el 18 de agosto, según el
+   día que se le pidiera al buscador.
+
+   La trampa que hay que esquivar es la fecha del propio terremoto: casi toda
+   noticia dice «el sismo del 10 de agosto», y aceptarla convertiría cualquier
+   artículo en un corte del día del desastre. Es la misma trampa que R10 con
+   los topónimos —una coincidencia de texto que parece un dato— y se cierra
+   igual: mirando el contexto y no solo la coincidencia. */
+const MESES_ES = {
+  enero: "01", febrero: "02", marzo: "03", abril: "04", mayo: "05",
+  junio: "06", julio: "07", agosto: "08", septiembre: "09", octubre: "10",
+  noviembre: "11", diciembre: "12"
+};
+const HABLA_DE_CORTE = /balance|corte|reporte|consolidado|actualiz|cifras|informe/i;
+const HABLA_DEL_EVENTO = /(sismo|terremoto|temblor|magnitud|epicentro)[^.]{0,24}$/i;
+
+function findCutoffDate(text, anioPorDefecto = "2026") {
+  const re = new RegExp(
+    `\\b(\\d{1,2})\\s+de\\s+(${Object.keys(MESES_ES).join("|")})` +
+    `(?:\\s+de\\s+(20\\d{2}))?\\b`, "gi");
+  for (const m of text.matchAll(re)) {
+    const antes = text.slice(Math.max(0, m.index - 70), m.index);
+    // «el terremoto del 10 de agosto» no fecha ningún balance
+    if (HABLA_DEL_EVENTO.test(antes)) continue;
+    const cerca = antes + m[0] + text.slice(m.index + m[0].length, m.index + m[0].length + 45);
+    if (!HABLA_DE_CORTE.test(cerca)) continue;
+    const dia = String(m[1]).padStart(2, "0");
+    return `${m[3] || anioPorDefecto}-${MESES_ES[m[2].toLowerCase()]}-${dia}`;
+  }
+  return null;
+}
+
 function findDate(text) {
   const m = text.match(/\b(\d{1,2})\s+de\s+([a-záéíóú]+)\s+de\s+(20\d{2})\b/i);
   if (!m) return null;
@@ -811,6 +926,22 @@ function findNumber(text, pattern) {
   return m ? Number(m[0].replace(/[.,]/g, "")) : null;
 }
 
+/* La UNGRD publica así sus boletines: «Población: 304 personas fallecidas,
+   4.548 heridas, 426 desaparecidas y 356 personas rescatadas». Tres trampas en
+   una sola línea, y las tres costaban cifras el 18-ago-2026:
+   - el sustantivo va DELANTE del adjetivo («N personas fallecidas»), así que
+     un patrón `N\s+fallecid` no casa nada;
+   - el género es femenino, y `heridos?` no encuentra «heridas»;
+   - en el segundo y el tercer término se elide «personas».
+   Se prueban en este orden para que la forma más específica gane. */
+function victimas(number, raiz) {
+  return [
+    new RegExp(`${number}\\s+personas?\\s+${raiz}[oa]s?\\b`, "i"),
+    new RegExp(`${number}\\s+${raiz}[oa]s?\\b`, "i"),
+    new RegExp(`${raiz}[oa]s?\\s*[:;\\-–]\\s*${number}`, "i")
+  ];
+}
+
 function findMetricNumber(text, metric) {
   const number = "(\\d{1,3}(?:[.,]\\d{3})*|\\d+)";
   const patterns = {
@@ -825,7 +956,10 @@ function findMetricNumber(text, metric) {
     personas: [
       new RegExp(`${number}\\s+(personas|habitantes)\\s+(afectad|damnificad)`, "i"),
       new RegExp(`(personas|habitantes)\\s+(afectad|damnificad)\\w*\\D{0,40}${number}`, "i"),
-      new RegExp(`${number}\\s+(personas|habitantes)(?:\\W|$)`, "i")
+      // el laxo va el último y NO puede llevarse una víctima detrás: el
+      // boletín del 18-ago-2026 decía «304 personas fallecidas» y esto lo
+      // guardaba como 304 personas AFECTADAS, que eran los muertos
+      new RegExp(`${number}\\s+(personas|habitantes)(?!\\s+(?:fallecid|muert|herid|desaparecid|rescatad|damnificad))(?:\\W|$)`, "i")
     ],
     familias: [
       new RegExp(`${number}\\s+familias?\\s+(afectad|damnificad)?`, "i"),
@@ -833,28 +967,21 @@ function findMetricNumber(text, metric) {
     ],
     viviendas_averiadas: [
       new RegExp(`${number}\\s+viviendas?\\s+(averiad|afectad)`, "i"),
-      new RegExp(`viviendas?\\s+(averiad|afectad)\\w*\\D{0,40}${number}`, "i")
+      new RegExp(`viviendas?\\s+(averiad|afectad)\\w*\\D{0,40}${number}`, "i"),
+      // «134.342 viviendas averiadas, 29.554 destruidas»: en el segundo
+      // término se elide «viviendas», así que se ancla a la mención anterior
+      // dentro de la misma frase en vez de aceptar un adjetivo suelto
+      new RegExp(`viviendas?[^.]{0,80}?${number}\\s+(averiad|afectad)[oa]s?\\b`, "i")
     ],
     viviendas_destruidas: [
       new RegExp(`${number}\\s+viviendas?\\s+(destruid|colapsad)`, "i"),
-      new RegExp(`viviendas?\\s+(destruid|colapsad)\\w*\\D{0,40}${number}`, "i")
+      new RegExp(`viviendas?\\s+(destruid|colapsad)\\w*\\D{0,40}${number}`, "i"),
+      new RegExp(`viviendas?[^.]{0,80}?${number}\\s+(destruid|colapsad)[oa]s?\\b`, "i")
     ],
-    heridos: [
-      new RegExp(`${number}\\s+heridos?`, "i"),
-      new RegExp(`heridos?\\s*[:;\\-–]\\s*${number}`, "i")
-    ],
-    fallecidos: [
-      new RegExp(`${number}\\s+(fallecid|muert)`, "i"),
-      new RegExp(`(fallecid|muert)\\w*\\s*[:;\\-–]\\s*${number}`, "i")
-    ],
-    desaparecidos: [
-      new RegExp(`${number}\\s+desaparecid`, "i"),
-      new RegExp(`desaparecid\\w*\\s*[:;\\-–]\\s*${number}`, "i")
-    ],
-    rescatados: [
-      new RegExp(`${number}\\s+rescatad`, "i"),
-      new RegExp(`rescatad\\w*\\s*[:;\\-–]\\s*${number}`, "i")
-    ]
+    heridos: victimas(number, "herid"),
+    fallecidos: victimas(number, "(?:fallecid|muert)"),
+    desaparecidos: victimas(number, "desaparecid"),
+    rescatados: victimas(number, "rescatad")
   };
   for (const pattern of patterns[metric] || []) {
     const match = text.match(pattern);
@@ -1288,4 +1415,6 @@ function cors(response) {
    tests/test_worker_toponimos.py ejecuta esta misma función con node, para no
    testear una copia — la lección de crosscheck aplica también aquí. */
 export { MUNICIPIOS, EVENT_PLACES, mentionsPlace, sinEnlaces,
-         hasEventTerm, hasImpactedPlace, structureOfficialText };
+         hasEventTerm, hasImpactedPlace, structureOfficialText,
+         findMetricNumber, extraerCifras, extraerCifrasVigiladas,
+         incoherenciasDeCifras, findCutoffDate };

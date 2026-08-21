@@ -12,25 +12,24 @@
   document.getElementById("generado").textContent =
     "Actualizado el " + fechaLarga(data.generado);
 
-  // derivado, no escrito a mano: la cobertura satelital cambia con cada entrega
-  const enAoi = data.items.filter((m) => m.en_aoi_copernicus).length;
   // los homónimos tampoco se escriben a mano: si el RUD registra un tercero,
   // la salvedad debe nombrarlo sola
   const spanHom = document.getElementById("mun-homonimos");
   if (spanHom) spanHom.textContent = window.UI.fraseHomonimos(data.items);
 
-  // Desde el 19-ago-2026 hay un segundo satélite y la frase no puede seguir
-  // diciendo que al resto «no lo ha mirado ninguno»: a tres sí, y ninguno de
-  // ellos está en zona Copernicus.
-  const enUnosat = data.items.filter((m) => m.unosat_edificios != null).length;
-  // contado, no restado: un municipio puede estar a la vez en zona Copernicus y
-  // evaluado por UNOSAT (lo contempla test_copernicus_manda_sobre_unosat), y la
-  // resta mentiría en silencio el día que ocurra
-  const sinSatelite = data.items.filter(
-    (m) => !m.en_aoi_copernicus && m.unosat_edificios == null).length;
+  // derivado, no escrito a mano: la cobertura satelital cambia con cada entrega.
+  // Ya son TRES los servicios que miran —Copernicus, UNOSAT e ICube-SERTIT— y
+  // uno solo basta para que el municipio esté mirado: la frase pregunta por
+  // cualquiera de ellos, no por el primero que llegó.
+  const miradoPorSatelite = (m) => !!m.en_aoi_copernicus
+    || m.unosat_edificios != null || m.sertit_edificios != null;
+  // contados los dos, no restado uno: un municipio puede estar a la vez en zona
+  // Copernicus y evaluado por otro servicio (Pereira y Cali lo están), y sumar
+  // las coberturas contaría dos veces el mismo municipio
+  const conSatelite = data.items.filter(miradoPorSatelite).length;
+  const sinSatelite = data.items.filter((m) => !miradoPorSatelite(m)).length;
   const cobertura = document.getElementById("mun-cobertura");
   if (cobertura) {
-    const conSatelite = enAoi + enUnosat;
     cobertura.textContent =
       `A ${fmtProsa(sinSatelite)} de los ${data.items.length} no los ha mirado ningún satélite` +
       (conSatelite ? `; los otros ${fmtProsa(conSatelite)}, sí.` : ".");
@@ -106,7 +105,7 @@
     { id: "todos", label: "Todos", test: () => true },
     { id: "sin-satelite", label: "Sin mirar por satélite",
       test: (tr) => chip(tr, "sin-satelite"),
-      tip: "Ningún producto satelital ha evaluado sus edificios: ni Copernicus ni UNOSAT" },
+      tip: "Ningún producto satelital ha evaluado sus edificios: ni Copernicus, ni UNOSAT, ni ICube-SERTIT" },
     { id: "con-rud", label: "Con damnificados inscritos",
       test: (tr) => chip(tr, "con-rud"),
       tip: "El municipio ya ha inscrito damnificados en el Registro Único de Damnificados (RUD)" },

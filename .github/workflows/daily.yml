@@ -23,6 +23,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      # node ejecuta la regla del balance, que vive en site/ui.js (R14). La
+      # imagen del runner ya lo trae, pero sin fijar versión: si un día
+      # desapareciera, alerts.py degradaría y dejaría de publicar la cifra.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       # run_daily sale 1 si CUALQUIER fuente falló, y eso abortaba el job antes
       # de commitear: el 17-ago-2026 un HTTP 502 pasajero del DANE costó los
       # snapshots de las otras doce fuentes (2 archivados ese día, frente a 70
@@ -57,6 +64,14 @@ jobs:
       # población— salen de la base para no fijarlos a mano. No fatal.
       - name: Archivar fuentes frágiles en Wayback
         run: |
+          # Las dos URLs de cada producto: su página en SERTIT y el mapa
+          # público en el portal de la Charter. Un SELECT roto NO puede
+          # confundirse con «no hay filas»: sin este aviso, el arreglo de
+          # Wayback puede llevar meses sin ejecutarse y figurar como hecho.
+          SERTIT=$(sqlite3 data/monitor.sqlite \
+            "SELECT url_producto FROM sertit_productos WHERE url_producto IS NOT NULL
+             UNION SELECT url_mapa FROM sertit_productos WHERE url_mapa IS NOT NULL;") \
+            || echo "::warning::consulta de URLs de SERTIT rota: nada suyo irá a Wayback"
           UNOSAT=$(sqlite3 data/monitor.sqlite \
             "SELECT pdf_url FROM unosat_products WHERE pdf_url IS NOT NULL
              UNION SELECT xlsx_url FROM unosat_products WHERE xlsx_url IS NOT NULL;" \
@@ -65,7 +80,8 @@ jobs:
             "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T" \
             "https://chatmap.hotosm.org/api/v1/map/89319bbb-a14a-4dfd-b9a1-c83b8b55785f" \
             "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" \
-            $UNOSAT; do
+            "https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/" \
+            $UNOSAT $SERTIT; do
             curl -sS -m 90 -o /dev/null "https://web.archive.org/save/${url}" \
               || echo "::warning::Wayback save falló hoy para ${url}"
             sleep 10

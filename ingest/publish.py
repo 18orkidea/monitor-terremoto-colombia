@@ -497,7 +497,7 @@ def run() -> dict:
                 " WHERE snapshot_date=? ORDER BY familias DESC", (ult_dia,)):
             fila = {"departamento": dep, "municipio": mun, "familias": fam,
                     "personas": per, "viv_destruidas": dest, "viv_averiadas": aver}
-            pop = _find_population(poblacion, mun, {"departamento": dep})
+            pop = _find_population(poblacion, mun, {"departamento": dep}, divipola)
             fila["poblacion_2026"] = pop.get("poblacion_2026") if pop else None
             # 4 decimales: una persona en una capital da 0,0003 % — redondear
             # a 2 lo convertiría en 0,0 y el sitio leería «sin damnificados»
@@ -526,24 +526,27 @@ def run() -> dict:
             " FROM unosat_damage WHERE municipio IS NOT NULL AND paquete_sha=?"
             " GROUP BY municipio, dano, event_code", (sha_vigente,)):
         d = unosat_por_mun.setdefault(mun, {"edificios": 0, "observados": 0,
-                                            "posibles": 0, "otros_eventos": 0,
+                                            "posibles": 0,
+                                            "codigo_inconsistente": 0,
                                             "fecha_imagen": None})
-        # 8 puntos de Manizales llegan con el código EQ20260822COL, que
-        # implica un sismo del 22-ago-2026: una fecha POSTERIOR a la imagen
-        # que los retrata (11-ago) y a la publicación del producto. En todo
-        # lo demás son idénticos a los otros 127 de Manizales —misma capa,
-        # mismo sensor, misma fecha de imagen, mismos productos, misma
-        # confianza—, así que el código no designa otro evento: es una
-        # inconsistencia de etiquetado en origen.
+        # El código de evento de un punto NO decide a qué terremoto pertenece:
+        # lo decide el GLIDE que declara el PRODUCTO que lo publica, que es
+        # donde la fuente dice de qué habla. Los cinco productos de UNOSAT
+        # declaran EQ20260810COL, este terremoto.
         #
-        # Se excluyen del total y se cuentan aparte. NO porque sean de otro
-        # terremoto —eso el archivo no lo sostiene— sino porque la etiqueta
-        # es de la fuente y sobrescribirla por nuestra cuenta sería inventar.
-        # Excluir es la opción reversible; reetiquetar, no. La disyuntiva está
-        # planteada en docs/DECISIONES.md a la espera de decisión editorial.
+        # Dentro del shapefile, en cambio, 209 puntos —los 201 de Zarzal y 8
+        # de Manizales— llevan `EQ20260822COL`, un código que implica un sismo
+        # del 22-ago-2026: una fecha posterior a la imagen que los retrata (13
+        # y 11 de agosto) y que, cuando esto se escribió, aún no había llegado.
+        # Es un error de etiquetado en origen, y el producto que los publica lo
+        # desmiente.
+        #
+        # Hasta el 21-ago-2026 se excluían del total. Se dejó de hacer cuando
+        # la fuente publicó Zarzal: excluir 8 puntos era prudencia; excluir un
+        # municipio entero que nadie más ha mirado era callar lo que la fuente
+        # sí dijo. Se cuentan, y la inconsistencia se publica al lado.
         if (code or "").upper() != UNOSAT_GLIDE:
-            d["otros_eventos"] += n
-            continue
+            d["codigo_inconsistente"] += n
         d["edificios"] += n
         # la fuente escribe «Damage» en unas capas y «Damaged» en otras para lo
         # mismo; «Possible Damage» es la hipótesis, no el hallazgo
@@ -555,11 +558,33 @@ def run() -> dict:
         # contado en `edificios`, que es lo que UNOSAT miró.
         d["fecha_imagen"] = max(d["fecha_imagen"] or "", fecha or "") or None
 
+    # ICube-SERTIT por municipio: la tercera mirada. No se funde con las otras
+    # dos —cada servicio recortó su propia zona— y por eso viaja con el área
+    # que declara haber analizado: sin ella, comparar 253 con 182 en Pereira
+    # sería comparar dos ventanas distintas como si fueran la misma.
+    from sources.sertit import resumen as sertit_resumen
+    sertit_por_mun = {}
+    for mun, d in sertit_resumen(conn).items():
+        grados = d.get("por_grado") or {}
+        sertit_por_mun[mun] = {
+            "edificios": d.get("edificios") or 0,
+            "sin_grado": d.get("sin_grado") or None,
+            "destruidos": grados.get("Destroyed"),
+            "danados": grados.get("Damaged"),
+            "posibles": grados.get("Possibly damaged"),
+            "area_km2": d.get("area_km2"),
+            # literal de la fuente, en francés («Pléiades Néo acquise le
+            # 11/08/2026»): se conserva tal cual y se nombra por lo que es,
+            # para que nadie lo confunda con una fecha normalizada (R3)
+            "imagen_literal": d.get("imagen"),
+        }
+
     from sources.community_feeds import municipal_google_news_feeds
     con_busqueda = {f["municipio"] for f in municipal_google_news_feeds()}
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
                                                  poblacion, rud_por_mun, divipola,
-                                                 unosat_por_mun, con_busqueda)
+                                                 unosat_por_mun, con_busqueda,
+                                                 sertit=sertit_por_mun)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))
@@ -594,25 +619,38 @@ def run() -> dict:
         "detalle_diario": rud_detalle,
     }, ensure_ascii=False))
 
-    # Las dos miradas satelitales, agregadas para portada. Se publican juntas
-    # y con la lista de municipios que las dos miran a la vez: la portada suma
-    # los edificios de ambas SOLO porque hoy esa lista está vacía —Copernicus
-    # cartografía el eje Cali-Pereira-Chocó y UNOSAT, tres municipios de
-    # Caldas donde Copernicus no ha mirado—. El día que se pisen, el sitio
-    # tendrá el dato para dejar de sumar en vez de contar dos veces el mismo
-    # tejado. `posibles` viaja al lado del total porque no es lo mismo un
-    # edificio observado que uno que la fuente solo cree dañado.
+    # UNOSAT agregado, tal como estaba: lo consumen el sitio y los monitor.json
+    # archivados, y quitarlo rompería la serie. Lo que YA NO se hace con estas
+    # cifras es sumarlas para la portada — de eso se encarga ahora el bloque
+    # `satelital`, que une los puntos en vez de sumar totales.
+    # `posibles` viaja al lado del total porque no es lo mismo un edificio
+    # observado que uno que la fuente solo cree dañado.
     unosat_totales = {
         "edificios": sum(d["edificios"] for d in unosat_por_mun.values()),
         "observados": sum(d["observados"] for d in unosat_por_mun.values()),
         "posibles": sum(d["posibles"] for d in unosat_por_mun.values()),
-        "otros_eventos": sum(d["otros_eventos"] for d in unosat_por_mun.values()),
+        "codigo_inconsistente": sum(d["codigo_inconsistente"]
+                                    for d in unosat_por_mun.values()),
         "municipios": sorted(m["municipio"] for m in municipios
                              if m.get("unosat_edificios")),
         "municipios_tambien_en_aoi_copernicus": sorted(
             m["municipio"] for m in municipios
             if m.get("unosat_edificios") and m.get("en_aoi_copernicus")),
     }
+
+    # El recuento satelital del monitor. Tres servicios miran ya el mismo país
+    # y dos de ellos, las mismas ciudades: sumar sus totales contaría dos veces
+    # los mismos tejados y quedarse con el mayor tiraría lo que el otro vio en
+    # exclusiva. Se unen los PUNTOS, que es lo único que sabe distinguir un
+    # edificio de una cifra. Ver ingest/satelites.py.
+    from satelites import recuento as recuento_satelital
+    satelital = recuento_satelital(PUBLIC)
+    # La fecha viaja DENTRO del bloque, no solo en el fichero suelto: la
+    # tarjeta de portada la lee de aquí, y sin ella se fechaba con la última
+    # entrega de Copernicus —otro servicio, otra pregunta—.
+    satelital["generado"] = snap
+    (PUBLIC / "satelital.json").write_text(json.dumps(
+        satelital, ensure_ascii=False))
 
     monitor = {
         # granularidad de día, no de hora: dos corridas el mismo día deben
@@ -624,6 +662,7 @@ def run() -> dict:
         "brechas_oficiales": gaps, "exposicion": exposicion,
         "rud": {"serie": rud_serie, "municipios": rud_municipios},
         "unosat": unosat_totales,
+        "satelital": satelital,
         "citizen": {"chatmap_total": len(cit_feats),
                     "en_aoi": sum(1 for f in cit_feats
                                   if f["properties"].get("aoi"))},

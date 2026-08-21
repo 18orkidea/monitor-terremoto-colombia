@@ -6,6 +6,69 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-21 — El balance no retrocede, y cada cifra dice de quién es
+
+Contexto: el sitio publicaba **11.132 familias afectadas** donde el RUD registraba
+65.663, y se contradecía consigo mismo entre dos páginas. Cuatro fallos encadenados,
+todos con el mismo origen: **la serie estaba fechada por `search_date`, que es la fecha
+que se le pidió al buscador, no la del balance**. El mismo artículo de El Tiempo figuraba
+como el corte del 12, el 14, el 15 y el 18 de agosto. El 19-ago entraron tres capturas y
+las tres eran viejas —del 10, el 11 y el 14—: ese día no hubo balance nuevo, y el sitio
+estaba obligado a enseñar uno. Sucede a la decisión de 2026-08-17, cuya regla resultó
+insuficiente por comparar contra el ítem de la víspera y no contra el consolidado.
+
+Decisión, en cinco piezas:
+
+1. **Monotonía total**: ninguna cifra del balance baja, y una cifra entra solo si supera
+   a la vigente, tiene atribución oficial trazable, es coherente con el resto de su
+   balance y no da un salto mayor de ×5. Lo rechazado **se enseña con su motivo**: la
+   discrepancia es brecha (R12), no un error que ocultar.
+2. **Se rotula «máximo informado»**, no «cifra actual». Los desaparecidos SÍ bajan en la
+   realidad cuando aparece gente viva; con monotonía total —decisión explícita— llamarlos
+   «actuales» sería afirmar algo que el monitor no sabe. El corolario asumido es que una
+   corrección oficial a la baja (294 → 289 fallecidos el 17-ago) queda congelada y
+   aparece entre las cifras descartadas.
+3. **El techo de salto es obligatorio, no un adorno**: con monotonía, un error de
+   extracción al alza sería permanente, y el worker ya produjo un «900 municipios» desde
+   el nombre de una imagen. Se marca, no se descarta en silencio.
+4. **La marca de liveblog baja por debajo de la atribución oficial**. R8 dice que se
+   marcan y pesan menos, no que pierdan siempre: un liveblog que cita a la UNGRD y al SGC
+   informa mejor que un estático mudo. Sigue penalizado entre iguales.
+5. **Vigilante de extracción con reintento** en el worker: si las cifras rompen una
+   relación imposible se reintenta sobre el texto crudo —otra entrada, no la misma dos
+   veces— y al segundo fallo se desestima la cifra culpable, conservando el resto.
+
+Dos decisiones de diseño que conviene no deshacer sin leer esto:
+
+- **La vitrina y lo publicado se acumulan por separado.** `maximos` recoge todo lo visto
+  y sirve para detectar el corte viejo; `consolidado` es lo que se publica y exige
+  atribución. Fundirlos deja sin referencia los días en que ninguna fuente es atribuible,
+  que es exactamente como entró el 11.132.
+- **El consolidado se compone por cifra, no por ítem ganador.** Las 134.342 viviendas
+  averiadas del boletín oficial del 18-ago se perdían si solo se miraba al ganador.
+
+Consecuencia: con el corpus real, el 18-ago pasa a publicar 123.789 familias y 304
+fallecidos —lo que el push ya venía anunciando por su cuenta—, y el 19-ago conserva el
+consolidado en vez de hundirlo. `alerts.py` deja de tener su propia regla: llama a
+`site/ui.js` con node, porque con la suya habría anunciado «180 fallecidos (-124 vs día
+anterior)», o sea 124 resucitados. Si node falta, no se publica cifra con otra regla: se
+avisa (R11, R13).
+
+**Fronteras de despliegue:** el worker con las reglas nuevas se desplegó el
+**2026-08-21 a las 09:06:28 UTC**, versión de Cloudflare
+`20277ba9-9609-4554-86ca-a9efef8cdb68`. La corrida de las 09:17 UTC ya produjo ítems
+con `extraccion_version: 2`, `fecha_corte` y `publicado_en`, pero destapó que la cabecera
+global aún se rotulaba `2026-08-17-r10` y declaraba el criterio anterior. El sello se
+corrigió y se redesplegó a las **09:19:36 UTC**, versión
+`a156e546-cf4a-49e5-8cca-73c503a11077`, con cabecera
+`2026-08-21-balance-v2` y `texto_sin_enlaces_v2`. Los ítems anteriores a la primera
+frontera no deben atribuirse a estas reglas solo por la fecha del feed.
+
+Pendiente declarado: **la serie sigue indexada por `search_date`**. Fecharla por corte
+exige que el worker desplegado calcule `fecha_corte`; hoy solo 15 de 26 capturas se
+pueden fechar y las 11 restantes desaparecerían de la página. Un test de supuesto vigila
+la cobertura y falla al superar el 80 % — romperse ahí es buena noticia.
+
 ## 2026-08-16 — GitHub Pages como única vía de deploy
 
 Contexto: existían dos pipelines divergentes (build inline en pages.yml con sitemap de
@@ -143,6 +206,17 @@ la celda «Balboa» del canal de Panamá se estaba publicando como intensidad
 sentida en Balboa (Risaralda), a 595 km. Y el registro oficial ya no queda
 tapado por una celda DYFI floja: antes, un CDI de 5,6 mandaba al gris a Belén de
 Umbría, con 2.266 damnificados registrados.
+
+Corolario del 21-ago-2026: **el nombre no es la identidad entre catálogos
+administrativos**. El RUD escribió `SOTARÁ PAISPAMBA` donde DIVIPOLA conserva
+`SOTARÁ - PAISPAMBA`; y el RUD/DIVIPOLA ya usan `San Sebastián de Mariquita`
+mientras la proyección de población del DANE aún dice `Mariquita`. La primera
+diferencia se resuelve con una normalización exclusiva para catálogos que ignora
+puntuación —sin tocar `_norm`, porque la puntuación protege topónimos de prensa—;
+la segunda, uniendo por el código DIVIPOLA estable (`19760` y `73443`). Solo se
+aceptan coincidencias únicas. Los JSON derivados no reciben alias manuales: dos
+tests unitarios fijan ambas clases y los guardianes estructurales llaman al mismo
+resolvedor que producción.
 
 ## 2026-08-17 — R10 llega al worker de balances (la última superficie sin guardián)
 
@@ -695,6 +769,11 @@ Se mantiene 385 mientras no se decida, porque es la opción que no escribe nada
 que la fuente no diga. El coste está acotado y declarado: ocho edificios de 393,
 el 2 %, visibles en la ficha de Manizales y en el globo del mapa.
 
+> **Cerrada el 21-ago-2026** (ver «Zarzal» más abajo): se cuentan. El coste dejó
+> de estar acotado el día que UNOSAT publicó un municipio entero con ese código.
+> Este bloque se conserva tal cual porque es el estado en que se tomó la
+> decisión, no una descripción de cómo funciona hoy el monitor.
+
 **622 (Copernicus).** Sale de las estadísticas por AOI del último snapshot de
 productos (2026-08-18), eligiendo por AOI el mayor número de monitoreo y, a
 igualdad, la mayor versión: 7 (Cali norte, GRA 00 v2) + 182 (Pereira) + 14
@@ -779,3 +858,159 @@ edificios de Copernicus a **Yumbo** en tres superficies. Quien abra Yumbo ve un
 sexto municipio que la frase no nombra. Ninguna prueba vigila esa lista, a
 diferencia del «9 municipios». Cuando se resuelva el denominador, que la
 solución cubra las dos cosas: el número y la enumeración.
+
+## 21-ago-2026 · Alta de ICube-SERTIT: los satélites dejan de sumarse
+
+**Decisión**: entra una tercera fuente satelital, ICube-SERTIT, con 512
+edificios georreferenciados en cinco municipios; y el recuento del monitor deja
+de sumar totales por fuente para **unir puntos**.
+
+**Por qué el cambio de criterio.** Copernicus y UNOSAT se sumaban porque miraban
+municipios disjuntos: 622 + 385 = 1.007. SERTIT rompe esa premisa —cartografió
+Pereira, Cali y Manizales, ya cubiertos— y sumar habría contado dos veces los
+mismos tejados. Se descartó también quedarse con la cifra mayor de cada
+municipio: tirar lo que el otro servicio vio en exclusiva es perder dato. Lo que
+se hace es unir los puntos (`ingest/satelites.py`): dos puntos de servicios
+distintos a menos de 20 m son el mismo edificio; dos del mismo servicio, nunca.
+El total pasa a **1.415 edificios únicos**.
+
+**El umbral es nuestro, y por eso se publica.** 20 m sale del experimento del
+18-ago (los daños de Copernicus tienen mediana de 25 m al vecino más próximo) y
+se valida contra un test de azar en cada corrida: en Pereira empareja el 42,9 %
+frente al 1,4 % del azar. La cifra depende del umbral, así que el umbral viaja
+dentro de `satelital.json` junto al resultado. Un número que no se puede auditar
+es un número inventado con decimales.
+
+**Lo que la unión hace visible**, y no se podía ni preguntar antes: en Cali y
+Manizales los servicios cartografiaron zonas distintas de la misma ciudad y no
+comparten ni un edificio; en Pereira coinciden en 108 y **discrepan sobre la
+gravedad en 49 de ellos**.
+
+**Sobre el canal de entrega.** Los vectores no se descargan: SERTIT los manda
+por correo tras un formulario. Se añadió `common.registrar_entrega()` para que
+un cuerpo que no llega por HTTP tenga igualmente fila en `sources_log` con su
+sha, su ruta y el canal por el que entró. R4 pide constancia de dónde sale cada
+cifra, no que todo venga de una petición GET; el dato que no se puede volver a
+pedir es el que más necesita constar.
+
+**Sobre el estado nuevo `evaluado_satelite`.** Roldanillo y La Virginia no
+podían quedarse como «evaluado por UNOSAT» —UNOSAT no los ha mirado— ni caer a
+«mención en prensa» teniendo evaluación satelital. Se añade un estado propio en
+el mismo escalón que `evaluado_unosat`. Con dos servicios fuera de Copernicus,
+nombrar a cada uno cuesta menos que abstraerlos mal; **el día que entre un
+cuarto, hay que unificarlos en un estado genérico** en vez de seguir añadiendo.
+
+**Lo que NO se tocó**: R1 y R2. Una evaluación de SERTIT no habilita «coincide»,
+igual que no lo hace una de UNOSAT — el cruce sigue operando sobre las AOI de
+Copernicus con estadísticas. Con vectores propios el debate se puede reabrir,
+pero no como efecto colateral de un alta de fuente.
+
+**Pendiente que este cambio hereda y no resuelve**: los dos denominadores de
+Copernicus (622 declarado por AOI frente a 635 por atribución punto→municipio).
+La unión espacial usa los **puntos**, porque unir exige geometría, así que en
+Pereira compara 252 de SERTIT con 193 de Copernicus mientras la tarjeta de
+portada sigue diciendo 182. Son tres números legítimos y distintos que hoy
+conviven declarados; unificarlos es trabajo propio.
+
+### Cerrado de paso: los tres puntos de Yumbo y los dos denominadores
+
+La entrada del 20-ago dejó anotado un pendiente: la portada decía «622 edificios
+de Copernicus» (suma de las estadísticas por AOI) mientras la tabla sumaba 635
+por atribución punto→municipio, y tres de esos puntos iban a **Yumbo**, un
+municipio que Copernicus nunca cartografió.
+
+La causa era que cada superficie adivinaba el municipio de un punto por
+**proximidad a la cabecera**, con radio de 25 km: tres edificios del AOI
+«Northern Cali» caen más cerca de la cabecera de Yumbo que de la de Cali. La
+fuente, sin embargo, sí dice a qué zona pertenece cada edificio.
+
+Se resuelve haciendo que el municipio **viaje en el dato publicado**:
+`copernicus_layers` escribe `municipio` en cada punto a partir de la tabla
+curada `satelites.AOI_MUNICIPIO`, y las superficies lo leen en vez de
+recalcularlo. La proximidad sigue existiendo como respaldo para los puntos que
+no declaran AOI. Efectos: Yumbo deja de figurar con daño satelital que nadie vio
+allí, la tabla pasa de 635 a 622 —el mismo denominador que la portada— y el
+recuento de municipios mirados por satélite baja de 11 a 10, que es lo que
+publica `satelital.por_municipio`.
+
+Se descartó importar `satelites.py` desde `deploy/`: habría acoplado la capa de
+render a la de ingesta para resolver algo que es un atributo del dato. Un punto
+que no sabe de qué municipio es obliga a que cada superficie lo adivine, y tres
+superficies adivinando dan tres respuestas.
+
+### Ajuste del mismo día: 1.424 → 1.415
+
+El primer cálculo contaba los 512 puntos de SERTIT como «daño clasificado», y
+nueve de ellos —todos en Cali— llegan con `DAMAGE: Not Applicable`: la fuente
+los señaló y **no les asignó grado**. Contarlos en un total que se anuncia como
+clasificado sería afirmar lo que la fuente no dijo. Se apartan igual que los
+ocho puntos de código imposible de UNOSAT: **no se descartan** —el edificio
+está marcado y se pinta en el mapa— pero no entran en el recuento, y salen
+declarados en `sertit_sin_grado`.
+
+Lo cazó la revisión de archivo, no un test. De ahí sale un test nuevo.
+
+### El código de evento lo decide el producto, no el punto (21-ago-2026)
+
+**Decisión de JP**: un punto de UNOSAT pertenece a este terremoto si el
+**producto que lo publica** declara su GLIDE, no si lo declara el campo
+`event_code` de la geometría.
+
+Contexto: hasta hoy se excluían del total los puntos cuyo `event_code` no
+cuadraba —8 en Manizales, con `EQ20260822COL`, una fecha que ni siquiera había
+llegado—. Al reparar los volcados apareció que UNOSAT ha publicado un producto
+nuevo, **Zarzal (201 edificios)**, y que sus 201 puntos llevan ese mismo código.
+El filtro dejaba fuera un municipio entero que **ningún otro servicio ha
+mirado**, y el monitor habría callado el único análisis satelital que existe de
+Zarzal.
+
+Lo que inclina la balanza es que los **cinco productos declaran
+`EQ20260810COL`** en sus metadatos: la fuente dice, en el sitio donde se dice,
+que todo eso es de este terremoto. El campo interno del shapefile la contradice
+y está fechado once días después de la imagen que retrata. Entre dos
+afirmaciones de la misma fuente, manda la que hace el producto.
+
+Excluir 8 puntos era prudencia; excluir 201 era callar. Los 209 se cuentan y la
+inconsistencia se publica al lado, en `unosat_codigo_inconsistente` — que
+cambió de nombre porque cambió de significado: ya no es «no suman», es «suman y
+su etiqueta no cuadra».
+
+**Total satelital: 1.578 edificios en 11 municipios.**
+
+### UNOSAT reeditó Viterbo a la baja: 154 → 108
+
+En el mismo paquete, la evaluación de Viterbo pasa de 154 edificios a 108. No
+es un error del monitor ni una corrección nuestra: **la fuente cambió su propia
+cifra**, y el monitor publica la vigente y deja constancia de la anterior. Es
+exactamente el tipo de movimiento que este archivo existe para registrar — sin
+los snapshots diarios, nadie sabría que Viterbo llegó a tener 154.
+
+### La clave de la fuente no se puede repartir de nuevo
+
+Al volcar `sertit_productos` apareció que `dump_db` omitía la columna
+`producto_id`: SQLite trata `INTEGER PRIMARY KEY` como alias de rowid, y el
+volcado lo descarta a propósito porque el `id` de `sources_log` no significa
+nada. Aquí sí significa: es el número con el que la fuente publica cada informe.
+Al reconstruir, sqlite repartía 1..N y **el producto 3244 pasaba a ser el 1**.
+
+El fallo **no lo introdujo este cambio**: `unosat_products.product_id` llevaba
+igual desde su alta, y sus cuatro informes se reconstruían como 1, 2, 3 y 4 —
+perdiendo el identificador con el que se le puede reclamar un producto a UNOSAT.
+Se corrige con `PK_DE_LA_FUENTE` en `ingest/dump_db.py`, una lista explícita de
+las claves que son de la fuente y no contadores nuestros.
+
+### Una exención retirada por falsa (21-ago-2026)
+
+Este módulo llegó a archivar solo el catálogo extraído del HTML de SERTIT, en
+vez del cuerpo servido, con el argumento de que la página traía un token de
+formulario que cambiaba en cada visita y que archivarla serían ~46 MB al año de
+ruido. Se creó para eso una constante de exención, `NOTA_VOLATIL`.
+
+**La premisa era falsa y nadie la había comprobado.** Las dieciséis peticiones
+registradas ese día devuelven el mismo sha256, y tres comprobaciones seguidas
+también. El token no cambia. La exención se retiró entera —constante, función y
+excepción en el test— y el HTML se archiva como cualquier otro cuerpo.
+
+Queda escrito porque el error no fue archivar de menos: fue **justificar una
+excepción al principio de archivo con una afirmación que no se verificó**. Lo
+caza cualquiera que mire el log; no lo cazó nadie hasta la revisión de archivo.

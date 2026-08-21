@@ -31,8 +31,13 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
   `ingest/verify_citizen.py`
 - **R7** Checks de verificación ciudadana A-E (MMI, AOI, temporalidad, duplicado sha256,
   medio). `verify_citizen.py:71-101`
-- **R8** Liveblogs se marcan y pesan menos; la serie elige el mejor snapshot no-liveblog.
-  `site/ui.js::isLiveblog/bestSnapshot` (fuente única en el frontend)
+- **R8** Liveblogs se marcan y **pesan menos, no pierden siempre**: la marca desempata
+  por debajo de la atribución oficial, porque un liveblog que cita UNGRD+SGC informa
+  mejor que un estático mudo. Vive en TRES superficies con `\b` —si tocas una, mira las
+  otras—: `site/ui.js::isLiveblog`, `deploy/render_html.py::es_liveblog` y
+  `workers/ai-view::isLiveblog`. Selección y consolidado en `site/ui.js::bestSnapshot` /
+  `mejorPorDia` (fuente única de la regla; `alerts.py` la invoca con node).
+  `tests/test_render_html.py::test_la_deteccion_de_liveblog_es_espejo_de_ui_js_y_del_worker`
 - **R9** Prensa/web nunca se promueven a EDAN; dos niveles de atribución (publicador vs
   fuente citada). `workers/ai-view/`
 - **R10** Topónimos con límite de palabra (`\b`): Cali ≠ California. Vive en TRES
@@ -48,8 +53,16 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
 - **R13** Un feed que falla no rompe la corrida (degradación elegante).
   `ingest/run_daily.py::step`
 - **R14** **Solo stdlib de Python en runtime** (urllib + sqlite3). Dev-tools en CI están
-  bien; dependencias en `ingest/` no.
+  bien; dependencias en `ingest/` no. **Única excepción: `node`**, para ejecutar reglas
+  que ya viven en `site/ui.js` y no replicarlas en un segundo lenguaje —nunca para pedir
+  red ni para transformar datos por su cuenta—. Si falta, se degrada avisando y no se
+  publica la cifra. `ingest/alerts.py::_consolidado_de_la_serie` · `daily.yml`
 - **R15** Detector de silencio: fuente que calla >48 h ⇒ alerta. `ingest/alerts.py`
+- **R16** El balance consolidado **no retrocede**: una cifra entra si supera a la
+  vigente, tiene atribución oficial trazable, es coherente con su balance y no supera el
+  techo de salto. Se rotula «máximo informado» —los desaparecidos pueden bajar en la
+  realidad— y lo rechazado se enseña con su motivo.
+  `site/ui.js::consolidarDia` · `tests/test_frontend.py::TestConsolidadoMonotono`
 
 ## Principio de archivo
 
@@ -78,7 +91,7 @@ No formatear código en masa: el blame también es archivo.
 
 Ningún cambio está terminado sin sus 6 casillas:
 
-1. **Reglas**: conforme a R1–R15 y a idioma/naming.
+1. **Reglas**: conforme a R1–R16 y a idioma/naming.
 2. **Test**: comportamiento nuevo ⇒ test nuevo (unit/hipótesis/supuesto según capa);
    bug corregido ⇒ el test que lo habría cazado. Suite en verde:
    `python3 -m unittest discover -s tests`.

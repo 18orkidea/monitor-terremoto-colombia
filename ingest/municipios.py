@@ -317,7 +317,48 @@ def _pop_key(municipio: str, departamento: str) -> str:
     return f"{_norm(municipio)}|{_norm(departamento)}"
 
 
-def _find_population(poblacion: dict | None, municipio: str, meta: dict) -> dict | None:
+def _admin_norm(s: str) -> str:
+    """Nombre administrativo comparable entre catálogos.
+
+    No se puede ampliar `_norm`: los topónimos de prensa conservan puntuación a
+    propósito (por ejemplo, «san jose, caldas» evita capturar el epicentro). En
+    los catálogos oficiales, en cambio, `SOTARÁ - PAISPAMBA` y
+    `Sotará Paispamba` identifican la misma entidad.
+    """
+    return re.sub(r"[^a-z0-9]+", " ", _norm(s)).strip()
+
+
+def _divipola_key(value) -> str:
+    value = str(value or "").strip()
+    return value.zfill(5) if value.isdigit() else value
+
+
+def _find_divipola(divipola: dict | None, municipio: str,
+                    departamento: str) -> dict | None:
+    """Resuelve un municipio en el catálogo geográfico sin inventar alias.
+
+    Primero conserva la ruta exacta. Si dos fuentes difieren solo en
+    puntuación, acepta el resultado únicamente cuando la forma administrativa
+    normalizada es única dentro del departamento.
+    """
+    if not divipola:
+        return None
+    exact = divipola.get(_pop_key(municipio, departamento))
+    if exact:
+        return exact
+    mun_n, dep_n = _admin_norm(municipio), _admin_norm(departamento)
+    candidatos = []
+    for raw_key, row in divipola.items():
+        key_mun, _, key_dep = raw_key.partition("|")
+        row_mun = row.get("municipio") or key_mun
+        row_dep = row.get("departamento") or key_dep
+        if (_admin_norm(row_mun), _admin_norm(row_dep)) == (mun_n, dep_n):
+            candidatos.append(row)
+    return candidatos[0] if len(candidatos) == 1 else None
+
+
+def _find_population(poblacion: dict | None, municipio: str, meta: dict,
+                     divipola: dict | None = None) -> dict | None:
     if not poblacion:
         return None
     departamento = meta["departamento"]
@@ -326,6 +367,19 @@ def _find_population(poblacion: dict | None, municipio: str, meta: dict) -> dict
         pop = poblacion.get(_pop_key(name, departamento))
         if pop:
             return pop
+    # Los nombres oficiales también cambian: DANE aún publica «Mariquita» y
+    # DIVIPOLA ya publica «San Sebastián de Mariquita». El código municipal es
+    # la identidad estable que permite unirlos sin una tabla manual de alias.
+    code = meta.get("divipola")
+    if not code and divipola:
+        div = _find_divipola(divipola, municipio, departamento)
+        code = div.get("divipola") if div else None
+    if code:
+        code_n = _divipola_key(code)
+        candidatos = [row for row in poblacion.values()
+                      if _divipola_key(row.get("divipola")) == code_n]
+        if len(candidatos) == 1:
+            return candidatos[0]
     return None
 
 
@@ -363,22 +417,25 @@ def municipios_dinamicos(rud_municipios: dict | None,
         return {}
     cubiertos = set()
     for mun, meta in MUNICIPIOS.items():
-        dep = _norm(meta["departamento"])
+        dep = _admin_norm(meta["departamento"])
         for name in [mun, *meta.get("toponimos", [])]:
-            cubiertos.add((dep, _norm(name)))
+            cubiertos.add((dep, _admin_norm(name)))
     # nombres de departamento del propio catálogo: un municipio que se llame
     # como uno de ellos nace ya marcado, sin esperar a que alguien lo cure
     deptos = {_norm(v.get("departamento")) for v in (divipola or {}).values()}
     extras = {}
     for (dep_n, mun_n), fila in rud_municipios.items():
-        if (dep_n, mun_n) in cubiertos:
+        if (_admin_norm(dep_n), _admin_norm(mun_n)) in cubiertos:
             continue
-        div = (divipola or {}).get(f"{mun_n}|{dep_n}")
+        departamento = fila.get("departamento") or dep_n
+        municipio = fila.get("municipio") or mun_n
+        div = _find_divipola(divipola, municipio, departamento)
         nombre = _title_es(fila.get("municipio") or mun_n)
         key = nombre if nombre not in MUNICIPIOS and nombre not in extras \
             else f"{nombre} ({_title_es(fila.get('departamento') or dep_n)})"
         extras[key] = {
-            "departamento": _title_es(fila.get("departamento") or dep_n),
+            "departamento": _title_es(departamento),
+            "divipola": div.get("divipola") if div else None,
             "lat": div.get("lat") if div else None,
             "lon": div.get("lon") if div else None,
             "toponimos": [mun_n],
@@ -399,7 +456,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      rud_municipios: dict | None = None,
                      divipola: dict | None = None,
                      unosat: dict | None = None,
-                     con_busqueda_propia: set[str] | None = None) -> tuple[list[dict], dict]:
+                     con_busqueda_propia: set[str] | None = None,
+                     *, sertit: dict | None = None) -> tuple[list[dict], dict]:
     catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
@@ -407,15 +465,15 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
            for m, meta in catalogo.items()}
 
     for mun, row in out.items():
-        pop = _find_population(poblacion, mun, row)
+        pop = _find_population(poblacion, mun, row, divipola)
         if pop:
-            row["divipola"] = pop.get("divipola")
+            row["divipola"] = pop.get("divipola") or row.get("divipola")
             row["poblacion_2026"] = pop.get("poblacion_2026")
             row["cabecera_2026"] = pop.get("cabecera_2026")
             row["rural_2026"] = pop.get("rural_2026")
             row["poblacion_fuente"] = "DANE PPED municipal por área 2018-2042"
         else:
-            row["divipola"] = None
+            row["divipola"] = row.get("divipola")
             row["poblacion_2026"] = None
             row["cabecera_2026"] = None
             row["rural_2026"] = None
@@ -474,10 +532,13 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         tiene_rud = rud is not None
         uno = (unosat or {}).get(mun)
         tiene_unosat = bool(uno and uno.get("edificios"))
+        ser = (sertit or {}).get(mun)
+        tiene_sertit = bool(ser and ser.get("edificios"))
         # Una evaluación satelital basta para entrar en la capa aunque no haya
         # prensa, ni DYFI, ni registro oficial: es justo el caso de Viterbo, y
         # que nadie más lo mire no es motivo para que el monitor tampoco.
-        if not (tiene_prensa or tiene_dyfi or tiene_rud or tiene_unosat):
+        if not (tiene_prensa or tiene_dyfi or tiene_rud or tiene_unosat
+                or tiene_sertit):
             continue
         lon, lat = row["lon"], row["lat"]
         en_aoi = (lon is not None and lat is not None
@@ -493,6 +554,14 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
             # validado en campo», no estadísticas revisadas por AOI. Lleva
             # etiqueta propia justamente para no confundirse con la anterior.
             estado = "evaluado_unosat"
+        elif tiene_sertit:
+            # Mismo escalón que UNOSAT y por la misma razón: verificación
+            # satelital independiente, fotointerpretada y sin validar en campo.
+            # Etiqueta propia porque decir «evaluado por UNOSAT» de Roldanillo
+            # —que UNOSAT no ha mirado— sería falso. El día que entre una
+            # cuarta mirada habrá que unificarlas en un estado genérico; con
+            # dos, nombrar a cada una cuesta menos que abstraerlas mal.
+            estado = "evaluado_satelite"
         elif tiene_dyfi and (row["dyfi_max_cdi"] or 0) >= 6:
             estado = "intensidad_alta"
         elif tiene_prensa:
@@ -513,7 +582,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         row["fuentes"] = [x for x, ok in (("prensa", tiene_prensa),
                                           ("dyfi", tiene_dyfi),
                                           ("rud", tiene_rud),
-                                          ("unosat", tiene_unosat)) if ok]
+                                          ("unosat", tiene_unosat),
+                                          ("sertit", tiene_sertit)) if ok]
         # R3: sin evaluación de UNOSAT no hay ceros, hay ausencia — un 0 se
         # leería como «el satélite miró y no vio nada», que es lo contrario
         # «observados», no «confirmados»: UNOSAT marca todos sus puntos como
@@ -522,11 +592,25 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         row["unosat_observados"] = uno.get("observados") if tiene_unosat else None
         row["unosat_posibles"] = uno.get("posibles") if tiene_unosat else None
         row["unosat_fecha_imagen"] = uno.get("fecha_imagen") if tiene_unosat else None
-        # edificios con un código de evento inconsistente en la misma capa
-        # (ver publish.py): no suman al total, pero ocultarlos sería perder
-        # una discrepancia de la fuente que merece constar
-        row["unosat_otros_eventos"] = (uno.get("otros_eventos") or None) \
-            if tiene_unosat else None
+        # Edificios cuyo código de evento no cuadra con el que declara su
+        # propio producto (ver publish.py). Desde el 21-ago-2026 SÍ suman —lo
+        # decide el GLIDE del producto, no el campo del punto— pero se publican
+        # aparte: es una discrepancia de la fuente y ocultarla sería perderla.
+        row["unosat_codigo_inconsistente"] = (
+            uno.get("codigo_inconsistente") or None) if tiene_unosat else None
+        # SERTIT: mismo criterio de R3 que UNOSAT — sin evaluación, ausencia,
+        # nunca 0. Se guarda además el área que declara haber mirado, porque
+        # sin ella su cifra no se puede comparar con la de Copernicus: en
+        # Pereira miró 2,78 km² y Copernicus 9,8, y son dos preguntas distintas.
+        row["sertit_edificios"] = ser.get("edificios") if tiene_sertit else None
+        row["sertit_destruidos"] = ser.get("destruidos") if tiene_sertit else None
+        row["sertit_danados"] = ser.get("danados") if tiene_sertit else None
+        row["sertit_posibles"] = ser.get("posibles") if tiene_sertit else None
+        # puntos que SERTIT señaló sin asignarles grado: existen y se pintan,
+        # pero no son daño clasificado y no entran en el total (R3)
+        row["sertit_sin_grado"] = ser.get("sin_grado") if tiene_sertit else None
+        row["sertit_area_km2"] = ser.get("area_km2") if tiene_sertit else None
+        row["sertit_imagen_literal"] = ser.get("imagen_literal") if tiene_sertit else None
         # R3 en el producto descargable, no solo en la tabla: para un homónimo
         # de departamento el monitor no puede atribuir titulares, y eso es
         # ausencia de dato — quien lea el JSON no debe encontrar un 0.

@@ -124,15 +124,33 @@
       el.innerHTML = "<p class='note'>Todavía no hay ninguna captura.</p>";
       return;
     }
-    // consolidado: el último valor conocido de cada cifra, con su fecha de
-    // origen marcada cuando no es del propio día — un dato no desaparece
-    // porque el snapshot del día no lo traiga
+    // consolidado: el MÁXIMO informado de cada cifra, con su fecha y su medio
+    // de origen. Se rotula «máximo informado» y no «cifra actual» porque una
+    // cifra no baja nunca en esta serie, y algunas —los desaparecidos— sí
+    // pueden bajar en la realidad cuando aparece gente viva.
     const cc = (k) => {
       const v = (consolidado || {})[k];
       if (!v) return card(NOMBRES_UI[k], "—");
-      const origen = v.fecha !== ult.fecha ? `del ${fechaEs(v.fecha)}` : null;
-      return card(NOMBRES_UI[k], fmt(v.valor), origen);
+      const partes = [];
+      if (v.fecha !== ult.fecha) partes.push(`del ${fechaEs(v.fecha)}`);
+      if (v.medio) partes.push(v.medio);
+      return card(NOMBRES_UI[k], fmt(v.valor), partes.join(" · ") || null);
     };
+    // lo que NO entró en la serie, con su motivo: un balance menor, sin
+    // atribución o incoherente sigue siendo información de brecha
+    const rechazadas = (ult.ignoradas || []).filter((g) => NOMBRES[g.cifra]);
+    const notaRechazadas = rechazadas.length
+      ? `<p class="note full">Este día se descartaron ` +
+        `${fmt(rechazadas.length)} cifras de la serie: ` +
+        rechazadas.slice(0, 4).map((g) =>
+          (g.url ? `<a href="${esc(g.url)}" target="_blank" rel="noopener">` : "") +
+          `${NOMBRES[g.cifra]} ${fmt(g.valor)}` +
+          (g.url ? `</a>` : "") +
+          (g.medio ? ` (${esc(g.medio)})` : "") + `, ${esc(g.motivo)}`).join(" · ") +
+        (rechazadas.length > 4 ? ` · y ${fmt(rechazadas.length - 4)} más` : "") +
+        `. No se borran: se enseñan, porque la distancia entre lo que publica ` +
+        `cada medio es justamente lo que este monitor mide.</p>`
+      : "";
     // disputa entre medios del día: se muestra, no se suprime — la
     // discrepancia entre fuentes ES información de brecha
     const notaDisputa = disputa
@@ -140,23 +158,36 @@
         `este día</strong>: ` +
         Object.entries(disputa).map(([k, v]) =>
           `${NOMBRES[k]} entre ${fmt(v.min)} y ${fmt(v.max)}`).join(" · ") +
-        `. Se muestra la captura coherente con la serie (un balance acumulado ` +
-        `no retrocede), priorizando la prensa nacional colombiana; los medios ` +
-        `internacionales tardíos con cortes viejos se penalizan.</p>`
+        `. Se muestra la captura coherente con la serie: un balance acumulado ` +
+        `no retrocede, y un medio que llega tarde con un corte viejo no puede ` +
+        `hacerla bajar.</p>`
       : "";
     el.innerHTML =
       card("Última fecha", fechaEs(ult.fecha)) +
       cc("fallecidos") + cc("heridos") + cc("desaparecidos") +
       cc("familias_afectadas") +
       card("Capturas", `${fmt(total)} / ${fmt(nDates)} días`) +
-      notaDisputa +
-      `<p class="note full">Captura elegida en un medio que cita fuentes oficiales: <a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
-      `publica ${esc(publisherName(item))} · fuente citada: ${sourceLinks(item)}. ` +
-      `Cada cifra mostrada es <strong>la mejor disponible del total de capturas</strong> ` +
-      `según los criterios de la serie —estabilidad, prensa nacional, coberturas en vivo ` +
-      `penalizadas, número de cifras y fuente citada—, no necesariamente la más reciente ` +
-      `publicada: puede ir por detrás de la realidad. Las tarjetas que llevan una fecha ` +
-      `debajo conservan el último valor conocido, porque la captura del día no lo trae.</p>`;
+      notaDisputa + notaRechazadas +
+      // los DOS niveles de atribución de R9: un balance que la prensa cita no
+      // se presenta igual que uno que publica la propia entidad. Antes, un
+      // ítem oficial salía como «medio que cita fuentes oficiales» y con
+      // «fuente citada: —», porque no cita a nadie: es la fuente.
+      `<p class="note full">` +
+      ((item.reported_data_source || []).length
+        ? `Captura elegida en un medio que cita fuentes oficiales: `
+        : `Captura elegida, publicada por la propia entidad oficial: `) +
+      `<a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
+      `publica ${esc(publisherName(item))}` +
+      ((item.reported_data_source || []).length
+        ? ` · fuente citada: ${sourceLinks(item)}. `
+        : `. No cita fuente ajena porque es la fuente; aun así no es un EDAN. `) +
+      `Cada cifra es <strong>el máximo informado hasta la fecha</strong>, no la ` +
+      `última publicada: entra en la serie si supera a la vigente, si se puede ` +
+      `atribuir a una fuente oficial y si es coherente con el resto del mismo ` +
+      `balance. Cada tarjeta indica, debajo, de qué día y de qué medio sale su ` +
+      `cifra, que no tiene por qué ser el de la captura elegida. Puede ir por ` +
+      `detrás de la realidad, y los desaparecidos pueden bajar en la realidad ` +
+      `sin bajar aquí: por eso se llama máximo informado.</p>`;
   }
 
 
@@ -197,7 +228,7 @@
     for (const p of paneles) {
       const H = p.alto;
       const maxY = Math.max(1, ...rows.flatMap((r) =>
-        p.metrics.map(([k]) => consDe(r.search_date, k)?.valor || 0)));
+        p.metrics.map(([k]) => consDe(r.search_date, k)?.valor ?? 0)));
       const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
       let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${p.titulo} por día">`;
       // banda ámbar en los días con cifras en disputa entre medios
@@ -213,8 +244,15 @@
           `<text x="${M.l - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="${css("--muted")}">${fmt(v)}</text>`;
       }
       p.metrics.forEach(([key, label, color], mi) => {
-        const d = rows.map((r, i) =>
-          `${i ? "L" : "M"} ${x(i)} ${y(consDe(r.search_date, key)?.valor || 0)}`).join(" ");
+        // La línea ARRANCA en el primer día con valor, no en el eje: antes,
+        // los días anteriores al primer dato se dibujaban con `|| 0` y una
+        // ausencia parecía un cero medido. Es la R3 en el gráfico, y la misma
+        // lección que los globos del mapa sin cifras.
+        const d = rows.map((r, i) => {
+          const v = consDe(r.search_date, key)?.valor;
+          return v == null ? null : `${x(i)} ${y(v)}`;
+        }).filter(Boolean)
+          .map((punto, i) => `${i ? "L" : "M"} ${punto}`).join(" ");
         svg += `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" />`;
         rows.forEach((r, i) => {
           const cv = consDe(r.search_date, key);

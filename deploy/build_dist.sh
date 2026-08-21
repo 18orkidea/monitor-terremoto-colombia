@@ -10,6 +10,12 @@ mkdir -p dist dist/data/public dist/data/media
 
 # el sitio vive en la RAÍZ del dominio, no en /site/: la home del dominio debe
 # tener contenido indexable, y una URL corta se comparte y se enlaza mejor
+# Las imágenes que se comparten se regeneran ANTES de copiar el sitio: no
+# pueden depender de que alguien las ejecute a mano. El 21-ago-2026 la portada
+# se compartía con 1.415 edificios mientras el monitor sostenía 1.578, y su
+# propio texto alternativo ya decía la cifra buena.
+python3 deploy/gen_og.py
+
 cp -R site/. dist/
 cp -R data/public/. dist/data/public/
 # solo imágenes (los videos quedan fuera de git y del deploy; URL remota registrada)
