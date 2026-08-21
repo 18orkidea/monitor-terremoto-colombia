@@ -1104,7 +1104,8 @@ def filas_balances(ctx: dict) -> str:
     R9: esto NO es el balance oficial, es lo que la prensa publica citándolo. La
     tabla lo dice en cada fila con el nivel de la fuente y el enlace a la
     publicación. La marca «usada en la serie» la sigue poniendo el navegador:
-    depende de comparar cada snapshot con el del día anterior."""
+    depende de comparar cada captura con el consolidado acumulado, que se
+    calcula recorriendo la serie entera."""
     feed = ctx.get("oficiales") or {}
     filas = []
     for item in sorted(feed.get("items") or [],

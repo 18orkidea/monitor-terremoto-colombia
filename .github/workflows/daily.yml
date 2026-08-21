@@ -23,6 +23,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      # node ejecuta la regla del balance, que vive en site/ui.js (R14). La
+      # imagen del runner ya lo trae, pero sin fijar versión: si un día
+      # desapareciera, alerts.py degradaría y dejaría de publicar la cifra.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       # run_daily sale 1 si CUALQUIER fuente falló, y eso abortaba el job antes
       # de commitear: el 17-ago-2026 un HTTP 502 pasajero del DANE costó los
       # snapshots de las otras doce fuentes (2 archivados ese día, frente a 70

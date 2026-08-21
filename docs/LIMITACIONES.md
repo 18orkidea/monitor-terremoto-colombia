@@ -42,6 +42,24 @@ cuando faltan, el manifiesto podría desfasarse durante meses en la máquina del
 mantenedor y saltar únicamente en CI. Un cuerpo fuera de git y fuera del
 manifiesto no es recuperable ni auditable, y el test lo trata como roto.
 
+## Las cifras del balance no bajan nunca, y una de ellas debería poder bajar
+
+Desde el 21-ago-2026 el consolidado del balance conserva el **máximo informado** de cada
+cifra (R16). Es una decisión editorial, con dos consecuencias que conviene tener a la
+vista:
+
+- **Una corrección oficial a la baja queda congelada.** El 17-ago la UNGRD pasó de 294 a
+  289 fallecidos; con esta regla, el sitio sigue publicando 294 y el 289 aparece entre las
+  cifras descartadas del día, con su medio y su enlace.
+- **Los desaparecidos no bajan aquí y sí bajan en la realidad**, cuando aparece gente
+  viva. Por eso las tarjetas se rotulan «máximo informado» y no «cifras actuales»: el
+  monitor no sabe cuántos siguen desaparecidos hoy, solo cuántos llegó a informar la
+  prensa citando a las autoridades.
+
+El motivo de la regla está en `docs/DECISIONES.md` (2026-08-21): sin ella, un medio tardío
+citando un corte viejo hundía la serie —el 19-ago se publicaron 11.132 familias afectadas
+donde el registro oficial ya llevaba 65.663—.
+
 ## La serie de balances está fechada por el día de la búsqueda, no por el del balance
 
 `search_date` es la fecha que se le pidió al buscador, no la fecha del corte del que

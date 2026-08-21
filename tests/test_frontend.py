@@ -979,7 +979,10 @@ class TestParidadAlertasYSitio(unittest.TestCase):
         with mock.patch.object(alerts.shutil, "which", return_value=None):
             serie, regla = alerts._consolidado_de_la_serie({"items": []})
         self.assertEqual(serie, [])
-        self.assertEqual(regla, "maximo_del_dia_sin_serie")
+        self.assertEqual(regla, "sin_regla__no_se_publica",
+                         "la etiqueta no puede nombrar una regla que no se "
+                         "aplicó: quien lea el JSON archivado creería que la "
+                         "cifra salió de un cálculo que no se hizo")
 
 
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
@@ -1013,3 +1016,39 @@ class TestDisputaEntreMedios(unittest.TestCase):
             [anon, captura("2026-08-18", "Serio", {"familias_afectadas": 123789})],
             "UI.mejorPorDia(items)")
         self.assertIsNone(serie[-1]["disputa"])
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestPuenteANodeAguantaElFeed(unittest.TestCase):
+    """El feed entero viaja hasta node. Pasarlo como argumento funcionaba en
+    macOS y habría reventado en el runner de la corrida diaria: Linux limita
+    cada argumento de execve a 128 KiB (MAX_ARG_STRLEN) y el feed real ya pesa
+    ~100 KB. El fallo habría sido silencioso, diario, y justo en el camino que
+    degrada — publicando la imagen social sin cifras y un aviso de nivel alta
+    por push todos los días."""
+
+    def test_un_feed_mayor_que_el_limite_de_argumento_se_procesa(self):
+        import sys
+        sys.path.insert(0, str(ROOT / "ingest"))
+        import alerts
+
+        # 400 capturas con texto largo: bastante más que MAX_ARG_STRLEN
+        relleno = "x" * 4000
+        items = [{
+            "search_date": f"2026-08-{10 + (i % 10):02d}",
+            "title": f"balance {i}", "text_excerpt": relleno,
+            "publisher": {"name": f"Medio {i}", "domain": f"m{i}.co"},
+            "reported_data_source": [{"id": "UNGRD"}],
+            "is_liveblog": False, "captured_at": "2026-08-20T04:00",
+            "cifras": {"fallecidos": 300 + i, "familias_afectadas": 120000 + i},
+        } for i in range(400)]
+        feed = {"items": items}
+        self.assertGreater(len(json.dumps(feed)), 140_000,
+                           "la fixture debe superar el límite que se vigila")
+
+        serie, regla = alerts._consolidado_de_la_serie(feed)
+        self.assertEqual(regla, "serie_consolidada_ui_js",
+                         "el feed grande no puede tumbar el puente a node")
+        self.assertTrue(serie)
+        self.assertIsNotNone(
+            (serie[-1]["consolidado"].get("fallecidos") or {}).get("valor"))

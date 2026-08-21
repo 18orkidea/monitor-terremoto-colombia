@@ -143,9 +143,11 @@
       ? `<p class="note full">Este día se descartaron ` +
         `${fmt(rechazadas.length)} cifras de la serie: ` +
         rechazadas.slice(0, 4).map((g) =>
+          (g.url ? `<a href="${esc(g.url)}" target="_blank" rel="noopener">` : "") +
           `${NOMBRES[g.cifra]} ${fmt(g.valor)}` +
+          (g.url ? `</a>` : "") +
           (g.medio ? ` (${esc(g.medio)})` : "") + `, ${esc(g.motivo)}`).join(" · ") +
-        (rechazadas.length > 4 ? " · y más" : "") +
+        (rechazadas.length > 4 ? ` · y ${fmt(rechazadas.length - 4)} más` : "") +
         `. No se borran: se enseñan, porque la distancia entre lo que publica ` +
         `cada medio es justamente lo que este monitor mide.</p>`
       : "";
@@ -166,12 +168,23 @@
       cc("familias_afectadas") +
       card("Capturas", `${fmt(total)} / ${fmt(nDates)} días`) +
       notaDisputa + notaRechazadas +
-      `<p class="note full">Captura elegida en un medio que cita fuentes oficiales: <a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
-      `publica ${esc(publisherName(item))} · fuente citada: ${sourceLinks(item)}. ` +
+      // los DOS niveles de atribución de R9: un balance que la prensa cita no
+      // se presenta igual que uno que publica la propia entidad. Antes, un
+      // ítem oficial salía como «medio que cita fuentes oficiales» y con
+      // «fuente citada: —», porque no cita a nadie: es la fuente.
+      `<p class="note full">` +
+      ((item.reported_data_source || []).length
+        ? `Captura elegida en un medio que cita fuentes oficiales: `
+        : `Captura elegida, publicada por la propia entidad oficial: `) +
+      `<a href="${esc(item.publication_url || item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a> · ` +
+      `publica ${esc(publisherName(item))}` +
+      ((item.reported_data_source || []).length
+        ? ` · fuente citada: ${sourceLinks(item)}. `
+        : `. No cita fuente ajena porque es la fuente; aun así no es un EDAN. `) +
       `Cada cifra es <strong>el máximo informado hasta la fecha</strong>, no la ` +
       `última publicada: entra en la serie si supera a la vigente, si se puede ` +
       `atribuir a una fuente oficial y si es coherente con el resto del mismo ` +
-      `balance. Las tarjetas llevan debajo de qué día y de qué medio sale su ` +
+      `balance. Cada tarjeta indica, debajo, de qué día y de qué medio sale su ` +
       `cifra, que no tiene por qué ser el de la captura elegida. Puede ir por ` +
       `detrás de la realidad, y los desaparecidos pueden bajar en la realidad ` +
       `sin bajar aquí: por eso se llama máximo informado.</p>`;
@@ -215,7 +228,7 @@
     for (const p of paneles) {
       const H = p.alto;
       const maxY = Math.max(1, ...rows.flatMap((r) =>
-        p.metrics.map(([k]) => consDe(r.search_date, k)?.valor || 0)));
+        p.metrics.map(([k]) => consDe(r.search_date, k)?.valor ?? 0)));
       const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
       let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${p.titulo} por día">`;
       // banda ámbar en los días con cifras en disputa entre medios
@@ -231,8 +244,15 @@
           `<text x="${M.l - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="${css("--muted")}">${fmt(v)}</text>`;
       }
       p.metrics.forEach(([key, label, color], mi) => {
-        const d = rows.map((r, i) =>
-          `${i ? "L" : "M"} ${x(i)} ${y(consDe(r.search_date, key)?.valor || 0)}`).join(" ");
+        // La línea ARRANCA en el primer día con valor, no en el eje: antes,
+        // los días anteriores al primer dato se dibujaban con `|| 0` y una
+        // ausencia parecía un cero medido. Es la R3 en el gráfico, y la misma
+        // lección que los globos del mapa sin cifras.
+        const d = rows.map((r, i) => {
+          const v = consDe(r.search_date, key)?.valor;
+          return v == null ? null : `${x(i)} ${y(v)}`;
+        }).filter(Boolean)
+          .map((punto, i) => `${i ? "L" : "M"} ${punto}`).join(" ");
         svg += `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" />`;
         rows.forEach((r, i) => {
           const cv = consDe(r.search_date, key);

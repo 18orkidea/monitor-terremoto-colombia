@@ -685,7 +685,7 @@ window.UI = (function () {
           continue;
         }
         if (vigente != null && vigente > 0 && v > vigente * TECHO_SALTO) {
-          rechaza(`salto mayor de ×${TECHO_SALTO} sobre el máximo informado`);
+          rechaza(`salto de más de ${TECHO_SALTO} veces el máximo informado`);
           continue;
         }
         consolidado[k] = { valor: v, fecha, medio, url };
@@ -846,10 +846,19 @@ window.UI = (function () {
       // el 19-ago la portada anunciaba como suyo un dato del 18
       const fecha = (ultimo.consolidado.familias_afectadas || {}).fecha
         || ultimo.fecha;
+      const orig = ultimo.consolidado.familias_afectadas || {};
       out.push({
         id: "medios", nombre: "Balances en medios · citan oficiales",
         href: "balances.html", fecha,
         alcance: `${fmt(c.municipios_afectados)} municipios afectados`,
+        // R16: es el máximo informado, no la cifra del día. La portada lo
+        // decía como si fuera un reporte fresco, y encima con la fecha del
+        // último día con capturas en vez de la del dato.
+        nota: `Máximo informado hasta la fecha por medios que citan fuentes `
+          + `oficiales, o por la propia entidad. Las ${fmt(c.familias_afectadas)} `
+          + `familias salen de ${orig.medio || "una captura"} y son del `
+          + `${fechaEs(orig.fecha || fecha)}. No es el balance oficial ni un `
+          + `EDAN, y no baja aunque una fuente corrija a la baja.`,
         cifras: { municipios: c.municipios_afectados,
                   familias: c.familias_afectadas, personas: c.personas_afectadas,
                   viv_destruidas: c.viviendas_destruidas,

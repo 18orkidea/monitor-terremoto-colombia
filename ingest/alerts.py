@@ -26,6 +26,18 @@ FEED_BALANCES = ("https://monitor-terremoto-colombia-oficiales-ai"
 UNGRD_ESTANCADO = "2024-02-17"   # si supera esto, la fuente oficial despertó
 
 
+def _sha_de_la_regla() -> str | None:
+    """sha256 de site/ui.js: la regla que produjo el consolidado cambia con el
+    tiempo (el techo de salto, las anclas, qué cuenta como atribución), así que
+    sin esto un derivado archivado no es reconstruible aunque se conserve el
+    cuerpo de entrada."""
+    try:
+        import hashlib
+        return hashlib.sha256(UI_JS.read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
 def _consolidado_de_la_serie(feed: dict) -> tuple[list, str]:
     """El consolidado del balance, calculado por la ÚNICA implementación de la
     regla: site/ui.js, ejecutado con node.
@@ -36,25 +48,46 @@ def _consolidado_de_la_serie(feed: dict) -> tuple[list, str]:
     anterior)», o sea 124 resucitados, mientras la web mostraba 304. El día no
     traía balance nuevo: traía tres cortes viejos.
 
-    R13: si node no está, no se rompe la corrida. Se devuelve la regla vieja
-    marcada, y quien lea el JSON sabe con cuál se calculó.
+    R13: si node no está, no se rompe la corrida — pero tampoco se publica una
+    cifra calculada con otra regla. Se devuelve la lista vacía y una etiqueta
+    que dice justamente eso, para que nadie lea en un JSON archivado que la
+    cifra salió de un cálculo que no se hizo.
     """
     node = shutil.which("node")
     if node and UI_JS.exists():
+        # El feed viaja por STDIN, no como argumento: Linux limita cada
+        # argumento de execve a 128 KiB (MAX_ARG_STRLEN) y el feed ya pesa
+        # ~100 KB, así que pasarlo en la línea de órdenes funcionaba en macOS
+        # y habría reventado en el runner de la corrida diaria — en silencio,
+        # todos los días, justo en el camino que degrada.
         script = (
             "global.window = {};"
             f"require({json.dumps(str(UI_JS))});"
-            f"const feed = {json.dumps(feed, ensure_ascii=False)};"
+            "const feed = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
             "const items = (feed.items || []).filter((x) => x.search_date);"
             "console.log(JSON.stringify(window.UI.mejorPorDia(items)));")
         try:
-            r = subprocess.run([node, "-e", script], capture_output=True,
-                               text=True, timeout=60)
+            r = subprocess.run([node, "-e", script],
+                               input=json.dumps(feed, ensure_ascii=False),
+                               capture_output=True, text=True, timeout=60)
             if r.returncode == 0:
                 return json.loads(r.stdout), "serie_consolidada_ui_js"
         except (OSError, ValueError, subprocess.SubprocessError):
             pass
-    return [], "maximo_del_dia_sin_serie"
+    return [], "sin_regla__no_se_publica"
+
+
+_MESES_ES = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+             "agosto", "septiembre", "octubre", "noviembre", "diciembre")
+
+
+def _fecha_es(iso: str) -> str:
+    """«2026-08-18» → «18 de agosto de 2026». El aviso lo leen personas."""
+    try:
+        a, m, d = iso.split("-")
+        return f"{int(d)} de {_MESES_ES[int(m) - 1]} de {a}"
+    except (ValueError, IndexError):
+        return iso
 
 
 def _ayer() -> str:
@@ -260,9 +293,24 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                 "fecha": serie[-1]["fecha"], "regla": regla,
                 "cifras": {k: (v or {}).get("valor")
                            for k, v in serie[-1]["consolidado"].items()},
+                # cada cifra con su fecha, su medio y SU ENLACE: es un dato
+                # derivado, y sin la url nadie puede volver dentro de años al
+                # artículo del que salió
                 "origen": {k: {"fecha": (v or {}).get("fecha"),
-                               "medio": (v or {}).get("medio")}
-                           for k, v in serie[-1]["consolidado"].items()}}
+                               "medio": (v or {}).get("medio"),
+                               "url": (v or {}).get("url")}
+                           for k, v in serie[-1]["consolidado"].items()},
+                # lo descartado y por qué: la brecha (R12) también se archiva,
+                # no solo se pinta en el navegador
+                "ignoradas": serie[-1].get("ignoradas") or [],
+                # R4: un derivado tiene que decir de qué cuerpo sale y con qué
+                # versión de la regla, o no se puede reconstruir
+                "derivado_de": {
+                    "url": FEED_BALANCES,
+                    "snapshot": f"data/snapshots/{snap}/oficiales_feed.json",
+                    "items": len([i for i in feed.get("items") or []
+                                  if i.get("search_date")]),
+                    "regla_sha256": _sha_de_la_regla()}}
         if not serie:
             alerts.append({
                 "tipo": "regla_de_balance_degradada", "nivel": "alta",
@@ -285,13 +333,17 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                 delta = ""
                 if antes is not None and c["fallecidos"] is not None:
                     d_f = c["fallecidos"] - antes
-                    delta = f" (+{d_f} vs día anterior)" if d_f else ""
+                    delta = (f" (+{d_f} desde el balance anterior)"
+                             if d_f else "")
+                mil = lambda n: (f"{n:,}".replace(",", ".")
+                                 if isinstance(n, int) else "?")
                 alerts.append({
                     "tipo": "balance_en_medios", "nivel": "info",
-                    "texto": f"Balance en medios citando fuentes oficiales ({ult}): "
-                             f"{c['fallecidos']} fallecidos{delta}, "
-                             f"{c['heridos'] or '?'} heridos, "
-                             f"{c['desaparecidos'] or '?'} desaparecidos",
+                    "texto": f"Máximo informado en medios que citan fuentes "
+                             f"oficiales ({_fecha_es(ult)}): "
+                             f"{mil(c['fallecidos'])} fallecidos{delta}, "
+                             f"{mil(c['heridos'])} heridos, "
+                             f"{mil(c['desaparecidos'])} desaparecidos",
                     "fecha_balance": ult, "cifras": c, "regla": regla})
 
     # 6b) RUD: el registro oficial de damnificados crece — contar el delta

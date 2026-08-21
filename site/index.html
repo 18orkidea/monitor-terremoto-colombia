@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Terremoto de Colombia 2026 (M7.4): daños, municipios y prensa — Cali, Pereira, Quibdó, Buenaventura | Monitor de brechas</title>
-<meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite (Copernicus EMSR916 y UNITAR-UNOSAT), municipios con prensa o intensidad percibida, población DANE, reportes ciudadanos por WhatsApp, balances oficiales citados en medios (extraídos con IA), titulares por zona y la brecha frente a fuentes oficiales UNGRD.">
+<meta name="description" content="Mapa interactivo del terremoto del 10 de agosto de 2026 en Colombia (M7.4, San José del Palmar, Chocó): daños por satélite (Copernicus EMSR916 y UNITAR-UNOSAT), municipios con prensa o intensidad percibida, población DANE, reportes ciudadanos por WhatsApp, balances oficiales citados en medios, titulares por zona y la brecha frente a fuentes oficiales UNGRD.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://brechas.orkidea.eu/">
 <meta property="og:url" content="https://brechas.orkidea.eu/">
@@ -39,7 +39,7 @@
   "mainEntity": {
     "@type": "Dataset",
     "name": "Cruce diario de daños del terremoto de Colombia 2026",
-    "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), municipios con prensa o intensidad percibida, población DANE 2026, reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI, titulares por zona desde feeds abiertos, balances publicados en medios que citan fuentes oficiales (extracción con IA) y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
+    "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), municipios con prensa o intensidad percibida, población DANE 2026, reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI, titulares por zona desde feeds abiertos, balances publicados en medios que citan fuentes oficiales y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
     "creator": { "@type": "Organization", "name": "Monitor de brechas de reporte de desastres" },
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "temporalCoverage": "2026-08-10/..",
@@ -85,7 +85,7 @@
   uno—, los <strong>reportes ciudadanos con
   foto</strong> enviados por WhatsApp (ChatMap · OpenStreetMap Colombia), los
   <strong>titulares de prensa</strong> de feeds internacionales y regionales abiertos, y los
-  <strong>balances oficiales citados en medios</strong>, extraídos a diario con IA.
+  <strong>balances oficiales citados en medios</strong>, recogidos a diario.
   El total satelital suma las dos miradas que cubren el sismo: 622 edificios del programa
   europeo Copernicus en Cali, Pereira, Quibdó, Istmina y Buenaventura, y 385 del centro
   satelital de la ONU (UNITAR-UNOSAT) en Anserma, Manizales y Viterbo (Caldas), donde
@@ -134,8 +134,8 @@
       <li><strong><a href="rud.html">RUD oficial</a></strong> (página aparte): el registro
       oficial de damnificados día a día y municipio a municipio, con buscador.</li>
       <li><strong><a href="balances.html">Balances</a></strong> (página aparte): las cifras de
-      fallecidos/heridos/viviendas que los medios publican citando a UNGRD o SGC, extraídas con
-      IA — y la comparativa contra el RUD. Ojo con la etiqueta: es <em>prensa que cita lo
+      fallecidos/heridos/viviendas que los medios publican citando a UNGRD o SGC — y la
+      comparativa contra el RUD. Ojo con la etiqueta: es <em>prensa que cita lo
       oficial</em>, no el balance oficial.</li>
       <li><strong><a href="noticias.html">Titulares</a></strong> (página aparte): todos los
       titulares del evento recogidos, filtrables por zona, medio y texto — la prensa anterior
@@ -250,7 +250,7 @@
     <p>El monitor no produce cifras: <strong>audita y cruza las que existen</strong>. Cada día,
     de forma automática, ocurren tres ciclos:</p>
     <ol>
-      <li><strong>23:00 (Colombia)</strong> — un proceso con IA busca en la prensa los
+      <li><strong>23:00 (Colombia)</strong> — un proceso automático busca en la prensa los
       balances del día que citan fuentes oficiales (UNGRD, SGC, gobernaciones), descarga los
       artículos y extrae las cifras con su cita textual. Las <em>coberturas en vivo</em> se marcan y
       pesan menos. Alimenta la página de <a href="balances.html">Balances</a>.</li>
@@ -266,7 +266,7 @@
       Si una fuente cambia o calla, salta una alerta en la portada.</li>
     </ol>
     <p><strong>Trazabilidad:</strong> toda petición HTTP queda registrada con URL, estado,
-    huella digital (sha256) y fecha; ninguna cifra publicada carece de fila en ese registro. Los
+    huella digital (sha256) y fecha; ninguna cifra publicada carece de fila en ese registro. Las
     copias originales se archivan en el
     <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">repositorio público</a>,
     así que cualquier número puede reconstruirse y rebatirse.</p>

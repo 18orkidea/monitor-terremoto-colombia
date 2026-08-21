@@ -814,7 +814,8 @@
       satelite: (f) => [fmt0(f.cifras.edificios_dañados),
                         "edificios con daño clasificado por satélite"],
       rud: (f) => [fmt0(f.cifras.familias), "familias registradas oficialmente"],
-      medios: (f) => [fmt0(f.cifras.familias), "familias afectadas según medios"],
+      medios: (f) => [fmt0(f.cifras.familias),
+                      "familias afectadas · máximo informado en medios"],
       ciudadano: (f) => [fmt0(f.cifras.reportes), "reportes ciudadanos con foto"],
     };
     window.UI.metricCards(el, fuentes.map((f) => {

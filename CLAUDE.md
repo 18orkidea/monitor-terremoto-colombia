@@ -53,7 +53,10 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
 - **R13** Un feed que falla no rompe la corrida (degradación elegante).
   `ingest/run_daily.py::step`
 - **R14** **Solo stdlib de Python en runtime** (urllib + sqlite3). Dev-tools en CI están
-  bien; dependencias en `ingest/` no.
+  bien; dependencias en `ingest/` no. **Única excepción: `node`**, para ejecutar reglas
+  que ya viven en `site/ui.js` y no replicarlas en un segundo lenguaje —nunca para pedir
+  red ni para transformar datos por su cuenta—. Si falta, se degrada avisando y no se
+  publica la cifra. `ingest/alerts.py::_consolidado_de_la_serie` · `daily.yml`
 - **R15** Detector de silencio: fuente que calla >48 h ⇒ alerta. `ingest/alerts.py`
 - **R16** El balance consolidado **no retrocede**: una cifra entra si supera a la
   vigente, tiene atribución oficial trazable, es coherente con su balance y no supera el

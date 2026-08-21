@@ -91,7 +91,7 @@ def main():
     # matiz: el pie lo lleva. Un total de dos fuentes que no dice de cuáles ni
     # cuántos son hipótesis se comparte solo, y ya no se puede matizar.
     pie = ([f"{fmt(cop)} de Copernicus EMSR916 + {fmt(n_uno)} de UNITAR-UNOSAT.",
-            f"{fmt(uno.get('posibles') or 0)} de los de UNOSAT son solo «daño posible», "
+            f"De los de UNOSAT, {fmt(uno.get('posibles') or 0)} son solo «daño posible», "
             f"sin validar en campo."]
            if n_uno else
            ["Clasificados uno a uno por el servicio de emergencias de Copernicus (EMSR916)."])
