@@ -217,8 +217,13 @@ class TestDescubrimiento(unittest.TestCase):
         self.assertIn(f"<lastmod>{esperada}</lastmod>", self.xml)
 
     def test_llms_full_lleva_las_cifras_en_locale_es_co(self):
-        self.assertIn("25,03%", self.llms)          # coma decimal
-        self.assertIn("10.016", self.llms)          # punto de millar
+        # se comprueba la PROPIEDAD (locale es-CO), no dos cifras concretas:
+        # fijar «25,03%» ataba el test al corpus de un día y lo rompía al
+        # siguiente sin que nada estuviera mal
+        self.assertRegex(self.llms, r"\d+,\d+%",
+                         "los porcentajes van con coma decimal")
+        self.assertRegex(self.llms, r"\b\d{1,3}\.\d{3}\b",
+                         "los millares van con punto")
         self.assertNotRegex(self.llms, r"\d+\.\d{4}%",
                             "un porcentaje sin formatear se ha colado (p. ej. 21.5722%)")
 
