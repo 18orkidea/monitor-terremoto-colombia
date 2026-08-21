@@ -6,6 +6,59 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-21 — El balance no retrocede, y cada cifra dice de quién es
+
+Contexto: el sitio publicaba **11.132 familias afectadas** donde el RUD registraba
+65.663, y se contradecía consigo mismo entre dos páginas. Cuatro fallos encadenados,
+todos con el mismo origen: **la serie estaba fechada por `search_date`, que es la fecha
+que se le pidió al buscador, no la del balance**. El mismo artículo de El Tiempo figuraba
+como el corte del 12, el 14, el 15 y el 18 de agosto. El 19-ago entraron tres capturas y
+las tres eran viejas —del 10, el 11 y el 14—: ese día no hubo balance nuevo, y el sitio
+estaba obligado a enseñar uno. Sucede a la decisión de 2026-08-17, cuya regla resultó
+insuficiente por comparar contra el ítem de la víspera y no contra el consolidado.
+
+Decisión, en cinco piezas:
+
+1. **Monotonía total**: ninguna cifra del balance baja, y una cifra entra solo si supera
+   a la vigente, tiene atribución oficial trazable, es coherente con el resto de su
+   balance y no da un salto mayor de ×5. Lo rechazado **se enseña con su motivo**: la
+   discrepancia es brecha (R12), no un error que ocultar.
+2. **Se rotula «máximo informado»**, no «cifra actual». Los desaparecidos SÍ bajan en la
+   realidad cuando aparece gente viva; con monotonía total —decisión explícita— llamarlos
+   «actuales» sería afirmar algo que el monitor no sabe. El corolario asumido es que una
+   corrección oficial a la baja (294 → 289 fallecidos el 17-ago) queda congelada y
+   aparece entre las cifras descartadas.
+3. **El techo de salto es obligatorio, no un adorno**: con monotonía, un error de
+   extracción al alza sería permanente, y el worker ya produjo un «900 municipios» desde
+   el nombre de una imagen. Se marca, no se descarta en silencio.
+4. **La marca de liveblog baja por debajo de la atribución oficial**. R8 dice que se
+   marcan y pesan menos, no que pierdan siempre: un liveblog que cita a la UNGRD y al SGC
+   informa mejor que un estático mudo. Sigue penalizado entre iguales.
+5. **Vigilante de extracción con reintento** en el worker: si las cifras rompen una
+   relación imposible se reintenta sobre el texto crudo —otra entrada, no la misma dos
+   veces— y al segundo fallo se desestima la cifra culpable, conservando el resto.
+
+Dos decisiones de diseño que conviene no deshacer sin leer esto:
+
+- **La vitrina y lo publicado se acumulan por separado.** `maximos` recoge todo lo visto
+  y sirve para detectar el corte viejo; `consolidado` es lo que se publica y exige
+  atribución. Fundirlos deja sin referencia los días en que ninguna fuente es atribuible,
+  que es exactamente como entró el 11.132.
+- **El consolidado se compone por cifra, no por ítem ganador.** Las 134.342 viviendas
+  averiadas del boletín oficial del 18-ago se perdían si solo se miraba al ganador.
+
+Consecuencia: con el corpus real, el 18-ago pasa a publicar 123.789 familias y 304
+fallecidos —lo que el push ya venía anunciando por su cuenta—, y el 19-ago conserva el
+consolidado en vez de hundirlo. `alerts.py` deja de tener su propia regla: llama a
+`site/ui.js` con node, porque con la suya habría anunciado «180 fallecidos (-124 vs día
+anterior)», o sea 124 resucitados. Si node falta, no se publica cifra con otra regla: se
+avisa (R11, R13).
+
+Pendiente declarado: **la serie sigue indexada por `search_date`**. Fecharla por corte
+exige que el worker desplegado calcule `fecha_corte`; hoy solo 15 de 26 capturas se
+pueden fechar y las 11 restantes desaparecerían de la página. Un test de supuesto vigila
+la cobertura y falla al superar el 80 % — romperse ahí es buena noticia.
+
 ## 2026-08-16 — GitHub Pages como única vía de deploy
 
 Contexto: existían dos pipelines divergentes (build inline en pages.yml con sitemap de

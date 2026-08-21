@@ -42,6 +42,39 @@ cuando faltan, el manifiesto podría desfasarse durante meses en la máquina del
 mantenedor y saltar únicamente en CI. Un cuerpo fuera de git y fuera del
 manifiesto no es recuperable ni auditable, y el test lo trata como roto.
 
+## La serie de balances está fechada por el día de la búsqueda, no por el del balance
+
+`search_date` es la fecha que se le pidió al buscador, no la fecha del corte del que
+habla la noticia. Por eso el mismo artículo de El Tiempo —el balance del 15 de agosto—
+figura en el archivo como si fuera el del 12, el 14, el 15 y el 18, con cuatro hashes
+distintos. Y por eso el 19 de agosto la serie tiene tres capturas cuyos artículos son
+del 10, el 11 y el 14: ese día no llegó ningún balance nuevo.
+
+Desde el 21-ago-2026 el worker calcula `fecha_corte` leyendo lo que el propio texto dice
+de sí mismo («balance de este 15 de agosto»), y `UI.fechaCorte` la lee con dos respaldos
+—la fecha de la URL y el campo `fecha`—. **La serie todavía NO se indexa por ella**:
+sobre el corpus del 20-ago solo 15 de 26 capturas se pueden fechar, y las 11 restantes
+desaparecerían de la página. La señal buena llega cuando el worker esté desplegado.
+
+`tests/test_frontend.py::TestSupuestoCoberturaDeFechado` vigila la cobertura y falla
+cuando supera el 80 %: ese fallo es el aviso de que ya se puede cambiar el eje y
+publicar el retraso de cada medio.
+
+## Los balances archivados antes del 21-ago-2026 traen cifras mutiladas
+
+Hasta esa fecha, las reglas de extracción del worker perdían las víctimas escritas en
+femenino («4.548 heridas») y confundían «N personas fallecidas» con personas afectadas:
+del boletín de la UNGRD del 18-ago solo salió `personas_afectadas: 304`, que eran los
+muertos. Los ítems ya archivados **no se reescriben** —el KV los reutiliza tal cual y el
+archivo es inmutable—, así que los feeds de `feeds/balances/` mezclan ambos criterios.
+Se distinguen por el sello `extraccion_version: 2` y `cifras_desde:
+"texto_sin_enlaces_v2"`; los que no lo llevan son anteriores.
+
+Del mismo periodo viene otra laguna: el `text_excerpt` archivado eran 700 caracteres, y
+del boletín de la UNGRD del 18-ago solo quedaron 145, truncados a mitad de frase, porque
+además el intento de descargar el post devolvió HTTP 403 (Facebook no permite
+archivarlo). A partir del 21-ago se archivan 4.000 caracteres.
+
 ## El feed de balances depende de un worker en cuenta ajena
 
 El worker de balances (`monitor-terremoto-colombia-oficiales-ai`) corre en la
