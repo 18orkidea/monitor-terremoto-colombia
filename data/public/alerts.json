@@ -9,27 +9,9 @@
    "n": 604
   },
   {
-   "tipo": "balance_en_medios",
-   "nivel": "info",
-   "texto": "Balance en medios citando fuentes oficiales (2026-08-19): 180 fallecidos (-124 vs día anterior), 1595 heridos, 37 desaparecidos",
-   "fecha_balance": "2026-08-19",
-   "cifras": {
-    "departamentos_afectados": null,
-    "municipios_afectados": null,
-    "personas_afectadas": 181,
-    "familias_afectadas": null,
-    "viviendas_averiadas": 862,
-    "viviendas_destruidas": null,
-    "heridos": 1595,
-    "fallecidos": 180,
-    "desaparecidos": 37,
-    "rescatados": 86
-   }
-  },
-  {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +14 municipios. +13.836 familias vs snapshot anterior"
+   "texto": "RUD actualizado: +14 municipios. +13.836 familias desde la captura anterior"
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -39,5 +21,214 @@
    "capa": "PNEO3_STD_20260811_BuildingDamageAsessment_Manizales",
    "puntos": 8
   }
- ]
+ ],
+ "balance_consolidado": {
+  "fecha": "2026-08-19",
+  "regla": "serie_consolidada_ui_js",
+  "cifras": {
+   "departamentos_afectados": 15,
+   "municipios_afectados": 450,
+   "personas_afectadas": 292043,
+   "familias_afectadas": 123789,
+   "viviendas_averiadas": 134342,
+   "viviendas_destruidas": 26945,
+   "heridos": 4548,
+   "fallecidos": 304,
+   "desaparecidos": 496,
+   "rescatados": 354
+  },
+  "origen": {
+   "departamentos_afectados": {
+    "fecha": "2026-08-10",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+   },
+   "municipios_afectados": {
+    "fecha": "2026-08-16",
+    "medio": "Clarín",
+    "url": "https://www.clarin.com/mundo/terremoto-74-colombia-hoy-vivo-todas-noticias-sismo-domingo-16-agosto_0_zTomDC8Gv6.html"
+   },
+   "personas_afectadas": {
+    "fecha": "2026-08-18",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
+   },
+   "familias_afectadas": {
+    "fecha": "2026-08-18",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
+   },
+   "viviendas_averiadas": {
+    "fecha": "2026-08-18",
+    "medio": "facebook.com",
+    "url": "https://www.facebook.com/GestionUNGRD/posts/actualizaci%C3%B3n-cifra-de-afectaciones-sismo-de-magnitud-74-en-san-jos%C3%A9-del-palmar-/1458820886274214/"
+   },
+   "viviendas_destruidas": {
+    "fecha": "2026-08-17",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+   },
+   "heridos": {
+    "fecha": "2026-08-18",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
+   },
+   "fallecidos": {
+    "fecha": "2026-08-18",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
+   },
+   "desaparecidos": {
+    "fecha": "2026-08-13",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   "rescatados": {
+    "fecha": "2026-08-13",
+    "medio": "El Colombiano",
+    "url": "https://www.elcolombiano.com/colombia/cifra-muertos-heridos-desaparecidos-por-terremoto-colombia-MK39884181"
+   }
+  },
+  "ignoradas": [
+   {
+    "cifra": "municipios_afectados",
+    "valor": 357,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 20017,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 181,
+    "motivo": "cifra incoherente con el resto del mismo balance",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 181,
+    "motivo": "cifra incoherente con el resto del mismo balance",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 11132,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 7,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "viviendas_averiadas",
+    "valor": 20557,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   {
+    "cifra": "viviendas_averiadas",
+    "valor": 862,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+   },
+   {
+    "cifra": "viviendas_averiadas",
+    "valor": 8357,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "viviendas_destruidas",
+    "valor": 3715,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   {
+    "cifra": "viviendas_destruidas",
+    "valor": 715,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 1595,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 278,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 180,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 18,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 37,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 14,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 86,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/11/balance-de-las-zonas-mas-afectadas-por-el-terremoto-en-colombia-esta-es-la-situacion-de-las-ciudades-en-alerta-roja/"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 35,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Yahoo Noticias",
+    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+   }
+  ],
+  "derivado_de": {
+   "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
+   "snapshot": "data/snapshots/2026-08-20/oficiales_feed.json",
+   "items": 26,
+   "regla_sha256": "647462f21c0172af5b77903524d8144daa2674c94bf210fd028212f58c807707"
+  }
+ }
 }

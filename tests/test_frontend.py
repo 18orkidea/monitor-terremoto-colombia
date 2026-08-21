@@ -1052,3 +1052,33 @@ class TestPuenteANodeAguantaElFeed(unittest.TestCase):
         self.assertTrue(serie)
         self.assertIsNotNone(
             (serie[-1]["consolidado"].get("fallecidos") or {}).get("valor"))
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestEspejoDeCoherencia(unittest.TestCase):
+    """La regla de coherencia vive en DOS superficies: el worker la aplica al
+    capturar (para reintentar y descartar) y ui.js al consolidar (para no
+    publicar). Hoy son equivalentes, y nada impedía que dejaran de serlo al
+    añadir una relación en un lado — que es exactamente como `directo` acabó
+    casando dentro de `directorio`."""
+
+    def test_las_dos_superficies_declaran_las_mismas_relaciones(self):
+        import re as _re
+        worker = (ROOT / "workers/ai-view/src/index.js").read_text(encoding="utf-8")
+        bloque = worker[worker.index("const RELACIONES_CIFRAS = ["):]
+        bloque = bloque[:bloque.index("];")]
+        en_worker = set(_re.findall(r'\["(\w+)", "(\w+)"\]', bloque))
+        self.assertTrue(en_worker, "no se han leído las relaciones del worker")
+
+        ui = (ROOT / "site/ui.js").read_text(encoding="utf-8")
+        cuerpo = ui[ui.index("function incoherencias(item) {"):]
+        cuerpo = cuerpo[:cuerpo.index("\n  }")]
+        en_ui = {("personas_afectadas", "familias_afectadas")} if \
+            "familias_afectadas" in cuerpo else set()
+        for k in _re.findall(r'"(fallecidos|heridos|desaparecidos)"', cuerpo):
+            en_ui.add(("personas_afectadas", k))
+
+        self.assertEqual(en_worker, en_ui,
+                         "el worker y ui.js comprueban relaciones distintas: "
+                         "una cifra imposible podría pasar por una superficie "
+                         "y no por la otra")

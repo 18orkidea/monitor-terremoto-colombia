@@ -90,6 +90,80 @@ def _fecha_es(iso: str) -> str:
         return iso
 
 
+def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
+    """Los avisos del balance y el consolidado que se archiva, en una sola
+    función para que el artefacto se pueda REGENERAR con este mismo código.
+
+    Vive aparte de `run()` por un motivo concreto: `data/public/alerts.json`
+    está versionado y se despliega con el merge, así que un cambio de regla que
+    no regenere el artefacto publica la cifra vieja hasta la corrida siguiente.
+    Pasó el 21-ago-2026, y el aviso archivado anunciaba «180 fallecidos (-124
+    vs día anterior)» — 124 resucitados— con la web ya diciendo 304.
+    """
+    serie, regla = _consolidado_de_la_serie(feed)
+    if not serie:
+        return ([{
+            "tipo": "regla_de_balance_degradada", "nivel": "alta",
+            "texto": "No se ha podido calcular la serie de balances con "
+                     "site/ui.js (¿falta node?): el aviso del día se omite "
+                     "en vez de publicar una cifra con otra regla."}], None)
+
+    ultimo = serie[-1]
+    valor = lambda d, k: (d["consolidado"].get(k) or {}).get("valor")
+    # se publica SIEMPRE, no solo cuando hay aviso: la imagen social y
+    # cualquier otro consumidor necesitan la cifra vigente también los días
+    # en que no llega ningún balance nuevo
+    consolidado = {
+        "fecha": ultimo["fecha"], "regla": regla,
+        "cifras": {k: (v or {}).get("valor")
+                   for k, v in ultimo["consolidado"].items()},
+        # cada cifra con su fecha, su medio y SU ENLACE: es un dato derivado, y
+        # sin la url nadie puede volver dentro de años al artículo del que salió
+        "origen": {k: {"fecha": (v or {}).get("fecha"),
+                       "medio": (v or {}).get("medio"),
+                       "url": (v or {}).get("url")}
+                   for k, v in ultimo["consolidado"].items()},
+        # lo descartado y por qué: la brecha (R12) también se archiva, no solo
+        # se pinta en el navegador
+        "ignoradas": ultimo.get("ignoradas") or [],
+        # R4: un derivado tiene que decir de qué cuerpo sale y con qué versión
+        # de la regla, o no se puede reconstruir
+        "derivado_de": {
+            "url": FEED_BALANCES,
+            "snapshot": f"data/snapshots/{snap}/oficiales_feed.json",
+            "items": len([i for i in feed.get("items") or []
+                          if i.get("search_date")]),
+            "regla_sha256": _sha_de_la_regla()}}
+
+    if ultimo["fecha"] not in (snap, _ayer()):
+        return ([], consolidado)
+
+    c = {k: valor(ultimo, k)
+         for k in ("fallecidos", "heridos", "desaparecidos",
+                   "familias_afectadas", "personas_afectadas")}
+    prev = serie[-2] if len(serie) > 1 else None
+    antes = valor(prev, "fallecidos") if prev else None
+    # el consolidado no retrocede, así que un delta 0 significa que ese día no
+    # llegó ningún balance nuevo: no hay nada que avisar
+    if prev is not None and c["fallecidos"] == antes:
+        return ([], consolidado)
+
+    delta = ""
+    if antes is not None and c["fallecidos"] is not None:
+        d_f = c["fallecidos"] - antes
+        delta = f" (+{d_f} desde el balance anterior)" if d_f else ""
+    mil = lambda n: f"{n:,}".replace(",", ".") if isinstance(n, int) else "?"
+    return ([{
+        "tipo": "balance_en_medios", "nivel": "info",
+        "texto": f"Máximo informado en medios que citan fuentes oficiales "
+                 f"({_fecha_es(ultimo['fecha'])}): "
+                 f"{mil(c['fallecidos'])} fallecidos{delta}, "
+                 f"{mil(c['heridos'])} heridos, "
+                 f"{mil(c['desaparecidos'])} desaparecidos",
+        "fecha_balance": ultimo["fecha"], "cifras": c,
+        "regla": regla}], consolidado)
+
+
 def _ayer() -> str:
     return (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
 
@@ -284,67 +358,8 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                          f"(última: {gen[:16]}): revisar logs en Cloudflare "
                          f"(¿clave de Firecrawl/Qwen caducada?)"})
     if feed and feed.get("items"):
-        serie, regla = _consolidado_de_la_serie(feed)
-        if serie:
-            # se publica SIEMPRE, no solo cuando hay aviso: la imagen social y
-            # cualquier otro consumidor necesitan la cifra vigente también los
-            # días en que no llega ningún balance nuevo
-            balance_consolidado = {
-                "fecha": serie[-1]["fecha"], "regla": regla,
-                "cifras": {k: (v or {}).get("valor")
-                           for k, v in serie[-1]["consolidado"].items()},
-                # cada cifra con su fecha, su medio y SU ENLACE: es un dato
-                # derivado, y sin la url nadie puede volver dentro de años al
-                # artículo del que salió
-                "origen": {k: {"fecha": (v or {}).get("fecha"),
-                               "medio": (v or {}).get("medio"),
-                               "url": (v or {}).get("url")}
-                           for k, v in serie[-1]["consolidado"].items()},
-                # lo descartado y por qué: la brecha (R12) también se archiva,
-                # no solo se pinta en el navegador
-                "ignoradas": serie[-1].get("ignoradas") or [],
-                # R4: un derivado tiene que decir de qué cuerpo sale y con qué
-                # versión de la regla, o no se puede reconstruir
-                "derivado_de": {
-                    "url": FEED_BALANCES,
-                    "snapshot": f"data/snapshots/{snap}/oficiales_feed.json",
-                    "items": len([i for i in feed.get("items") or []
-                                  if i.get("search_date")]),
-                    "regla_sha256": _sha_de_la_regla()}}
-        if not serie:
-            alerts.append({
-                "tipo": "regla_de_balance_degradada", "nivel": "alta",
-                "texto": "No se ha podido calcular la serie de balances con "
-                         "site/ui.js (¿falta node?): el aviso del día se omite "
-                         "en vez de publicar una cifra con otra regla."})
-        elif serie[-1]["fecha"] in (snap, _ayer()):
-            ult = serie[-1]["fecha"]
-            valor = lambda d, k: (d["consolidado"].get(k) or {}).get("valor")
-            c = {k: valor(serie[-1], k)
-                 for k in ("fallecidos", "heridos", "desaparecidos",
-                           "familias_afectadas", "personas_afectadas")}
-            prev = serie[-2] if len(serie) > 1 else None
-            antes = valor(prev, "fallecidos") if prev else None
-            # el consolidado no retrocede, así que un delta 0 significa que ese
-            # día no llegó ningún balance nuevo: no hay nada que avisar
-            if prev is not None and c["fallecidos"] == antes:
-                pass
-            else:
-                delta = ""
-                if antes is not None and c["fallecidos"] is not None:
-                    d_f = c["fallecidos"] - antes
-                    delta = (f" (+{d_f} desde el balance anterior)"
-                             if d_f else "")
-                mil = lambda n: (f"{n:,}".replace(",", ".")
-                                 if isinstance(n, int) else "?")
-                alerts.append({
-                    "tipo": "balance_en_medios", "nivel": "info",
-                    "texto": f"Máximo informado en medios que citan fuentes "
-                             f"oficiales ({_fecha_es(ult)}): "
-                             f"{mil(c['fallecidos'])} fallecidos{delta}, "
-                             f"{mil(c['heridos'])} heridos, "
-                             f"{mil(c['desaparecidos'])} desaparecidos",
-                    "fecha_balance": ult, "cifras": c, "regla": regla})
+        avisos, balance_consolidado = balance_de_medios(feed, snap)
+        alerts.extend(avisos)
 
     # 6b) RUD: el registro oficial de damnificados crece — contar el delta
     hoy_rud = conn.execute(
@@ -374,7 +389,7 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                 "tipo": "rud_actualizado", "nivel": "info",
                 "texto": f"RUD actualizado: {'+' if d_mun >= 0 else ''}{d_mun} "
                          f"municipios, {'+' if d_fam >= 0 else ''}{d_fam:,.0f} "
-                         f"familias vs snapshot anterior".replace(",", ".")})
+                         f"familias desde la captura anterior".replace(",", ".")})
 
     # 6) ¿despertó la fuente oficial? (nivel alta: cambia el cruce entero)
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
