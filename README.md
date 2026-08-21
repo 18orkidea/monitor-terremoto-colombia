@@ -16,6 +16,9 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
   de interés (AOI) con estado del cruce, intensidad
   ShakeMap, 430+ reportes ciudadanos con foto (ChatMap/WhatsApp), municipios del área de
   influencia con población DANE, y 1.173 sismos históricos de contexto.
+- **Fichas municipales** — cada municipio conserva un mapa de situación estático y, cuando
+  tiene puntos satelitales o ciudadanos, ofrece un mapa de evidencias dentro de la misma
+  página. Leaflet y el paquete recortado al municipio se cargan solo al abrir esa vista.
 - **[Titulares](https://brechas.orkidea.eu/site/noticias.html)** — 3.000+ noticias del
   evento emparejadas por zona, desde GDACS-EMM y un **registro abierto de feeds**
   ([`feeds/registry.json`](feeds/registry.json)) al que cualquiera puede sumar un medio

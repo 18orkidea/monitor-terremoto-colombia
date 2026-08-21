@@ -518,7 +518,7 @@ a.metric-card:hover { border-color: var(--s1); }
 .nota-pie { margin: 10px var(--margen) 22px; }
 
 /* Mapas estáticos en SVG: se generan en el build, se indexan y no necesitan JS.
-   Los interactivos (Leaflet) siguen siendo solo de la portada. */
+   En las fichas siguen siendo la vista inicial; Leaflet llega solo a petición. */
 .mapa-estatico {
   width: 100%; height: auto; display: block; background: var(--surface-1);
   border: 1px solid var(--border); border-radius: 8px;
@@ -532,6 +532,12 @@ a.metric-card:hover { border-color: var(--s1); }
   paint-order: stroke; stroke: var(--surface-1); stroke-width: 3px;
   stroke-linejoin: round;
 }
+/* Cuando no hay evidencias locales, el SVG conserva la salida al mapa general.
+   En las fichas con pestañas no se enlaza: allí la exploración vive al lado. */
+.mapa-enlace { display: block; border-radius: 8px; }
+.mapa-enlace:hover .mapa-estatico,
+.mapa-enlace:focus-visible .mapa-estatico { border-color: var(--s1); }
+.mapa-enlace:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
 /* El texto vive dentro del viewBox: al encoger el mapa encoge con él. Por eso
    aquí la letra CRECE en pantallas estrechas — al revés de lo habitual, pero es
    lo que mantiene los rótulos legibles cuando el mapa mide 330 px de ancho. */
@@ -584,13 +590,62 @@ a.metric-card:hover { border-color: var(--s1); }
   .filtros input, .filtros select { flex: 0 0 auto; width: 100%; max-width: none; }
 }
 
-/* Un mapa estático que lleva al interactivo. La ficha no carga Leaflet ni los
-   geojson —son megabytes que la mayoría de lectores no necesita—, así que la
-   imagen es el enlace y el mapa completo se pide expresamente. */
-.mapa-enlace { display: block; border-radius: 8px; }
-.mapa-enlace:hover .mapa-estatico,
-.mapa-enlace:focus-visible .mapa-estatico { border-color: var(--s1); }
-.mapa-enlace:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+/* Dos lecturas del territorio. Sin JavaScript la lista de pestañas desaparece
+   y «Situación» sigue siendo el documento completo. Con JavaScript, el patrón
+   ARIA activa el segundo panel y solo entonces pide Leaflet y el JSON local. */
+.mapa-tabs { margin-top: 4px; }
+.mapa-tabs__lista {
+  display: none; gap: 2px; align-items: flex-end;
+  border-bottom: 1px solid var(--border); margin-bottom: 12px;
+}
+.js-activo .mapa-tabs__lista { display: flex; }
+.mapa-tabs__lista button {
+  appearance: none; border: 0; border-bottom: 2px solid transparent;
+  min-height: 44px; margin-bottom: -1px; padding: 8px 13px;
+  background: transparent; color: var(--ink-2); cursor: pointer;
+  font: 600 13.5px/1.25 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.mapa-tabs__lista button:hover { color: var(--ink); background: var(--surface-1); }
+.mapa-tabs__lista button[aria-selected="true"] {
+  color: var(--s1); border-bottom-color: var(--s1);
+}
+.mapa-tabs [role="tabpanel"][hidden] { display: none; }
+.mapa-evidencias__resumen { margin-bottom: 10px; }
+.mapa-evidencias {
+  width: 100%; min-height: 430px; position: relative; overflow: hidden;
+  background: color-mix(in srgb, var(--s1) 3%, var(--surface-1));
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.mapa-evidencias__placeholder,
+.mapa-evidencias__error {
+  min-height: 430px; display: grid; place-content: center; justify-items: center;
+  gap: 12px; padding: 24px; text-align: center; color: var(--ink-2);
+}
+.mapa-evidencias__placeholder span {
+  width: 68px; height: 48px; display: block; border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--s1) 25%, var(--border));
+  background:
+    linear-gradient(145deg, transparent 44%, color-mix(in srgb, var(--s1) 16%, transparent) 45% 54%, transparent 55%),
+    color-mix(in srgb, var(--s1) 6%, var(--surface-1));
+}
+.mapa-evidencias__placeholder p,
+.mapa-evidencias__error p { margin: 0; max-width: 38ch; }
+.mapa-evidencias__error strong { color: var(--ink); }
+.mapa-evidencias__error a { color: var(--s1); }
+.mapa-evidencias__error button {
+  min-height: 40px; padding: 7px 12px; border: 1px solid var(--border);
+  border-radius: 6px; background: var(--surface-1); color: var(--ink);
+  font: inherit; font-size: 13px; font-weight: 600; line-height: 1.25; cursor: pointer;
+}
+.mapa-evidencias.leaflet-container { font: inherit; }
+.mapa-evidencias .leaflet-control-layers { max-width: min(280px, 72vw); }
+
+@media (max-width: 560px) {
+  .mapa-tabs__lista button { flex: 1 1 50%; padding-inline: 8px; }
+  .mapa-evidencias,
+  .mapa-evidencias__placeholder,
+  .mapa-evidencias__error { min-height: min(460px, 62vh); }
+}
 /* «vía Google News»: el enlace no lleva al medio sino al agregador, y eso se
    dice en la propia línea de firma en vez de dejar que el lector lo descubra
    al hacer clic. */

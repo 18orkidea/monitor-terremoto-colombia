@@ -29,11 +29,38 @@ MINIMOS = {
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 MIN_FICHAS = 50
+SCRIPTS_FICHA = {"/ui.js", "/municipio.js"}
 
 
 def _texto(html: str) -> str:
     limpio = re.sub(r"<(script|style).*?</\1>", " ", html, flags=re.S)
     return re.sub(r"<[^>]+>", " ", limpio)
+
+
+def _scripts_ficha_validos(html: str) -> bool:
+    """Solo admite la mejora progresiva del mapa, nunca datos escritos por JS.
+
+    Las cifras, la prosa y el SVG deben seguir en el documento. Los dos scripts
+    permitidos son el constructor compartido de globos y el controlador que
+    descarga Leaflet después de activar la pestaña. Un tercero, un inline o una
+    ficha sin su contenido estático vuelven a ser una regresión SEO.
+    """
+    ejecutables = []
+    for atributos in re.findall(r"<script\b([^>]*)>", html):
+        if "application/ld+json" in atributos:
+            continue
+        src = re.search(r'\bsrc=["\']([^"\']+)', atributos)
+        if not src:
+            return False
+        ruta = src.group(1).split("?", 1)[0]
+        if ruta not in SCRIPTS_FICHA:
+            return False
+        ejecutables.append(ruta)
+    if not ejecutables:
+        return True
+    return (set(ejecutables) == SCRIPTS_FICHA
+            and 'class="mapa-estatico"' in html
+            and 'data-evidencia="/data/public/municipios/' in html)
 
 
 def revisar(dist: Path) -> dict:
@@ -76,8 +103,8 @@ def revisar(dist: Path) -> dict:
         fallos.append(f"fichas municipales: {len(fichas)}, mínimo {MIN_FICHAS}")
     for ficha in fichas:
         html = ficha.read_text(encoding="utf-8")
-        if re.search(r"<script(?![^>]*application/ld\+json)", html):
-            fallos.append(f"{ficha.parent.name}: la ficha lleva JavaScript ejecutable")
+        if not _scripts_ficha_validos(html):
+            fallos.append(f"{ficha.parent.name}: la ficha lleva JavaScript ejecutable inesperado")
             break
         if re.search(r"\(R\d+\)", _texto(html)):
             avisos.append(f"{ficha.parent.name}: cita códigos internos de reglas")

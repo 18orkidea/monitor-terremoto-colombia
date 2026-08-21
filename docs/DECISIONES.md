@@ -6,6 +6,24 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-21 — El RUD separa el total acumulado de las altas entre capturas
+
+Contexto: la curva solo mostraba el total acumulado. Permitía saber cuánto llevaba el
+registro, pero ocultaba el ritmo: el lector tenía que restar dos etiquetas para descubrir
+cuántas familias habían entrado desde la víspera.
+
+Decisión: el mismo gráfico conserva la línea acumulada y añade columnas con la diferencia
+neta frente a la captura anterior. Ambas usan la misma escala. Cada columna escribe su valor
+con signo y mantiene forma y texto propios para no depender del color. La primera captura no
+se convierte en un alta diaria: se marca «sin base», porque no existe un cierre anterior y
+atribuir sus 21.275 familias al 16 de agosto inventaría una precisión que la fuente no da.
+Una corrección a la baja conserva su signo y se distingue como tal, nunca se reemplaza por
+cero.
+
+Consecuencia: en una sola lectura se ven el volumen total y el ritmo de incorporación al
+RUD. El SVG explica las dos series en texto accesible y la página declara cómo se calcula la
+columna.
+
 ## 2026-08-21 — El histórico del RUD es acumulativo y no puede encogerse
 
 Contexto: las capturas de los cierres del 18 y 19 de agosto seguían archivadas, pero sus
@@ -22,6 +40,35 @@ continuidad entre la primera y la última captura.
 Consecuencia: una base local atrasada falla de forma visible en vez de reescribir el archivo,
 y un merge que vuelva a perder un día rompe CI. Los cierres recuperados son 18-ago: 51.827
 familias en 106 municipios; 19-ago: 65.663 familias en 120 municipios.
+
+## 2026-08-21 — Dos vistas municipales, con el mapa pesado bajo demanda
+
+Contexto: cada ficha municipal ofrecía un SVG pequeño que explicaba la posición del
+municipio, el epicentro, las zonas de Copernicus y los reportes próximos. El SVG enlazaba
+a la portada para explorar los puntos, lo que sacaba al lector de la ficha. Incorporar el
+mapa nacional completo en cada una de las fichas habría obligado a descargar Leaflet y
+varios GeoJSON de alcance nacional aunque nadie pidiera esa exploración.
+
+Decisión: las fichas que tienen al menos un punto satelital o ciudadano ofrecen dos vistas:
+**Situación**, el SVG estático e indexable que queda activo por defecto, y **Mapa de
+evidencias**, un Leaflet que solo se inicia al abrir su pestaña. El build genera un JSON por
+municipio con sus puntos Copernicus, UNITAR-UNOSAT, ICube-SERTIT y ChatMap, además de los
+polígonos Copernicus directamente relacionados. Las fuentes son capas separadas porque
+pueden señalar el mismo edificio y no se deben sumar. Las fichas sin puntos no muestran
+pestañas ni cargan JavaScript ejecutable; en ellas, el SVG conserva el enlace al mapa de la
+portada. En las fichas con evidencias, el SVG deja de ser enlace porque la exploración está
+en la pestaña contigua. Sin JavaScript, la situación completa permanece visible y se ofrece
+un enlace alternativo al mapa de la portada.
+
+Se descarta por ahora una tercera vista de imágenes satelitales: los tres servicios publican
+productos y evidencias derivadas, pero no entregan de manera uniforme una escena raster
+georreferenciada y redistribuible. Llamarla imagen o superponer un PDF/JPG cartográfico como
+si fuera una capa introduciría una precisión falsa.
+
+Consecuencia: la ficha conserva su peso y su lectura documental inicial, pero permite
+explorar sus evidencias sin abandonar la página. La coordenada ciudadana sigue siendo la
+redondeada para publicación; la atribución y el vocabulario propio de cada servicio viajan
+hasta cada globo del mapa.
 
 ## 2026-08-21 — El balance no retrocede, y cada cifra dice de quién es
 
