@@ -791,6 +791,128 @@ class TestDumpRoundtrip(unittest.TestCase):
             origen.close()
 
 
+class TestDumpHistoricoRud(unittest.TestCase):
+    """Una base local o una rama atrasada no pueden acortar la serie RUD."""
+
+    @staticmethod
+    def _fila(dia, municipio, familias=1.0):
+        return (dia, "CHOCÓ", municipio, familias, 2.0, 0.0, 1.0, 0.0, 0.0)
+
+    def test_rebuild_sincroniza_filas_que_faltan_en_una_bd_existente(self):
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                fuente = sqlite3.connect(tmp / "fuente.sqlite")
+                fuente.executescript(SCHEMA)
+                fuente.executemany(
+                    "INSERT INTO rud_daily VALUES (?,?,?,?,?,?,?,?,?)",
+                    [self._fila("2026-08-18", "ISTMINA"),
+                     self._fila("2026-08-19", "QUIBDÓ")])
+                fuente.execute(
+                    "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                    "snapshot_path,note) VALUES (?,?,?,?,?,?,?)",
+                    ("2026-08-19T10:45:12Z", "https://rud.example/", 200,
+                     "abc", 123, "data/snapshots/rud.json", "rud 2026T"))
+                fuente.commit()
+                dump_db.dump(fuente)
+                fuente.close()
+
+                atrasada = sqlite3.connect(tmp / "atrasada.sqlite")
+                atrasada.executescript(SCHEMA)
+                atrasada.execute(
+                    "INSERT INTO rud_daily VALUES (?,?,?,?,?,?,?,?,?)",
+                    self._fila("2026-08-18", "ISTMINA", familias=999.0))
+                atrasada.commit()
+                atrasada.close()
+
+                resultado = dump_db.rebuild(tmp / "atrasada.sqlite")
+                reparada = sqlite3.connect(tmp / "atrasada.sqlite")
+                fechas = [r[0] for r in reparada.execute(
+                    "SELECT snapshot_date FROM rud_daily ORDER BY snapshot_date")]
+                familias = reparada.execute(
+                    "SELECT familias FROM rud_daily WHERE snapshot_date='2026-08-18'"
+                ).fetchone()[0]
+                logs = reparada.execute("SELECT COUNT(*) FROM sources_log").fetchone()[0]
+                reparada.close()
+                segunda = dump_db.rebuild(tmp / "atrasada.sqlite")
+                comprobacion = sqlite3.connect(tmp / "atrasada.sqlite")
+                logs_despues = comprobacion.execute(
+                    "SELECT COUNT(*) FROM sources_log").fetchone()[0]
+                comprobacion.close()
+            finally:
+                dump_db.DUMPS = dumps_orig
+            self.assertEqual(fechas, ["2026-08-18", "2026-08-19"])
+            self.assertEqual(familias, 1.0, "el dump no corrigió el valor atrasado")
+            self.assertEqual(resultado["sync"]["rud_daily"], 2)
+            self.assertEqual(logs, 1)
+            self.assertEqual(logs_despues, 1, "la sincronización duplicó el log")
+            self.assertEqual(segunda["sync"]["sources_log"], 0)
+
+    def test_dump_rechaza_borrar_una_clave_historica(self):
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn = sqlite3.connect(tmp / "rud.sqlite")
+            conn.executescript(SCHEMA)
+            conn.executemany(
+                "INSERT INTO rud_daily VALUES (?,?,?,?,?,?,?,?,?)",
+                [self._fila("2026-08-17", "NÓVITA"),
+                 self._fila("2026-08-18", "ISTMINA")])
+            conn.commit()
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                dump_db.dump(conn)
+                ruta = dump_db.DUMPS / "rud_daily.csv"
+                antes = ruta.read_text(encoding="utf-8")
+                conn.execute("DELETE FROM rud_daily WHERE snapshot_date='2026-08-18'")
+                conn.commit()
+                with self.assertRaisesRegex(RuntimeError, "claves históricas"):
+                    dump_db.dump(conn)
+                despues = ruta.read_text(encoding="utf-8")
+            finally:
+                dump_db.DUMPS = dumps_orig
+                conn.close()
+            self.assertEqual(antes, despues, "el guardián no preservó el CSV")
+
+    def test_dump_rechaza_borrar_el_log_de_procedencia(self):
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn = sqlite3.connect(tmp / "rud.sqlite")
+            conn.executescript(SCHEMA)
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                "snapshot_path,note) VALUES (?,?,?,?,?,?,?)",
+                ("2026-08-19T10:45:12Z", "https://rud.example/", 200,
+                 "abc", 123, "data/snapshots/rud.json", "rud 2026T"))
+            conn.commit()
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                dump_db.dump(conn)
+                ruta = dump_db.DUMPS / "sources_log.csv"
+                antes = ruta.read_text(encoding="utf-8")
+                conn.execute("DELETE FROM sources_log")
+                conn.commit()
+                with self.assertRaisesRegex(RuntimeError, "sources_log"):
+                    dump_db.dump(conn)
+                despues = ruta.read_text(encoding="utf-8")
+            finally:
+                dump_db.DUMPS = dumps_orig
+                conn.close()
+            self.assertEqual(antes, despues, "se reescribió el log incompleto")
+
+
 class TestAlertsRss(unittest.TestCase):
     """El RSS de alertas debe ser XML válido con escape correcto: los textos
     de alerta traen &, <, comillas y emoji — un feed roto es peor que no
@@ -922,6 +1044,33 @@ class TestSerieRudReconstruida(unittest.TestCase):
             if d.get("reconstruido"):
                 self.assertTrue(d.get("origen"),
                                 "un punto marcado sin origen no es auditable")
+
+    def test_no_hay_dias_perdidos_entre_capturas(self):
+        import csv
+        from datetime import date, timedelta
+        p = self.ROOT / "data" / "public" / "rud.json"
+        serie = json.loads(p.read_text())["serie"]
+        fechas = {date.fromisoformat(d["fecha"]) for d in serie}
+        esperadas = {
+            min(fechas) + timedelta(days=i)
+            for i in range((max(fechas) - min(fechas)).days + 1)
+        }
+        self.assertEqual(
+            fechas, esperadas,
+            "la serie RUD perdió días entre capturas; restaurar desde snapshots")
+        with open(self.ROOT / "data" / "dumps" / "rud_daily.csv",
+                  newline="", encoding="utf-8") as f:
+            fechas_dump = {
+                date.fromisoformat(r["snapshot_date"])
+                for r in csv.DictReader(f)
+            }
+        propias = {
+            date.fromisoformat(d["fecha"])
+            for d in serie if not d.get("reconstruido")
+        }
+        self.assertEqual(
+            fechas_dump, propias,
+            "rud.json y el detalle versionado discrepan sobre los días capturados")
 
 
 class TestExencionDeSondas(unittest.TestCase):

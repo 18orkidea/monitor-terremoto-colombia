@@ -830,6 +830,22 @@
     "viv_averiadas": 11940.0
    },
    {
+    "fecha": "2026-08-18",
+    "municipios": 106,
+    "familias": 51827.0,
+    "personas": 116085.0,
+    "viv_destruidas": 3782.0,
+    "viv_averiadas": 16949.0
+   },
+   {
+    "fecha": "2026-08-19",
+    "municipios": 120,
+    "familias": 65663.0,
+    "personas": 146870.0,
+    "viv_destruidas": 4880.0,
+    "viv_averiadas": 21636.0
+   },
+   {
     "fecha": "2026-08-20",
     "municipios": 158,
     "familias": 80897.0,
@@ -848,7 +864,7 @@
     "viv_averiadas": 1958.0,
     "poblacion_2026": 2269983,
     "tasa_pct": 0.9012,
-    "delta_familias": 5368.0,
+    "delta_familias": 2056.0,
     "nuevo": false
    },
    {
@@ -860,7 +876,7 @@
     "viv_averiadas": 2547.0,
     "poblacion_2026": 335217,
     "tasa_pct": 3.8193,
-    "delta_familias": 5215.0,
+    "delta_familias": 1703.0,
     "nuevo": false
    },
    {
@@ -872,7 +888,7 @@
     "viv_averiadas": 1113.0,
     "poblacion_2026": 38639,
     "tasa_pct": 10.5955,
-    "delta_familias": 1018.0,
+    "delta_familias": 335.0,
     "nuevo": false
    },
    {
@@ -884,7 +900,7 @@
     "viv_averiadas": 879.0,
     "poblacion_2026": 44172,
     "tasa_pct": 10.1693,
-    "delta_familias": 1040.0,
+    "delta_familias": 289.0,
     "nuevo": false
    },
    {
@@ -896,7 +912,7 @@
     "viv_averiadas": 925.0,
     "poblacion_2026": 30248,
     "tasa_pct": 12.9166,
-    "delta_familias": 1176.0,
+    "delta_familias": 29.0,
     "nuevo": false
    },
    {
@@ -908,7 +924,7 @@
     "viv_averiadas": 832.0,
     "poblacion_2026": 34699,
     "tasa_pct": 9.7524,
-    "delta_familias": 1827.0,
+    "delta_familias": 30.0,
     "nuevo": false
    },
    {
@@ -920,7 +936,7 @@
     "viv_averiadas": 966.0,
     "poblacion_2026": 17617,
     "tasa_pct": 25.5889,
-    "delta_familias": 848.0,
+    "delta_familias": 284.0,
     "nuevo": false
    },
    {
@@ -932,7 +948,7 @@
     "viv_averiadas": 332.0,
     "poblacion_2026": 143332,
     "tasa_pct": 3.7033,
-    "delta_familias": 1092.0,
+    "delta_familias": 424.0,
     "nuevo": false
    },
    {
@@ -944,7 +960,7 @@
     "viv_averiadas": 345.0,
     "poblacion_2026": 14922,
     "tasa_pct": 26.3437,
-    "delta_familias": 309.0,
+    "delta_familias": 85.0,
     "nuevo": false
    },
    {
@@ -956,7 +972,7 @@
     "viv_averiadas": 1188.0,
     "poblacion_2026": 10016,
     "tasa_pct": 35.8127,
-    "delta_familias": 565.0,
+    "delta_familias": 112.0,
     "nuevo": false
    },
    {
@@ -968,7 +984,7 @@
     "viv_averiadas": 70.0,
     "poblacion_2026": 475690,
     "tasa_pct": 0.7732,
-    "delta_familias": 1072.0,
+    "delta_familias": 335.0,
     "nuevo": false
    },
    {
@@ -980,7 +996,7 @@
     "viv_averiadas": 529.0,
     "poblacion_2026": 43993,
     "tasa_pct": 7.5148,
-    "delta_familias": 593.0,
+    "delta_familias": 61.0,
     "nuevo": false
    },
    {
@@ -992,7 +1008,7 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 246388,
     "tasa_pct": 1.5236,
-    "delta_familias": 282.0,
+    "delta_familias": 142.0,
     "nuevo": false
    },
    {
@@ -1004,7 +1020,7 @@
     "viv_averiadas": 544.0,
     "poblacion_2026": 17825,
     "tasa_pct": 16.1907,
-    "delta_familias": 1067.0,
+    "delta_familias": 300.0,
     "nuevo": false
    },
    {
@@ -1016,7 +1032,7 @@
     "viv_averiadas": 107.0,
     "poblacion_2026": 84054,
     "tasa_pct": 4.0343,
-    "delta_familias": 827.0,
+    "delta_familias": 280.0,
     "nuevo": false
    },
    {
@@ -1028,7 +1044,7 @@
     "viv_averiadas": 435.0,
     "poblacion_2026": 18765,
     "tasa_pct": 13.2054,
-    "delta_familias": 135.0,
+    "delta_familias": 32.0,
     "nuevo": false
    },
    {
@@ -1040,7 +1056,7 @@
     "viv_averiadas": 37.0,
     "poblacion_2026": 19486,
     "tasa_pct": 7.0153,
-    "delta_familias": 424.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1052,7 +1068,7 @@
     "viv_averiadas": 260.0,
     "poblacion_2026": 17320,
     "tasa_pct": 16.6513,
-    "delta_familias": 176.0,
+    "delta_familias": 44.0,
     "nuevo": false
    },
    {
@@ -1064,7 +1080,7 @@
     "viv_averiadas": 425.0,
     "poblacion_2026": 9312,
     "tasa_pct": 29.6929,
-    "delta_familias": 49.0,
+    "delta_familias": 44.0,
     "nuevo": false
    },
    {
@@ -1076,7 +1092,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 35053,
     "tasa_pct": 5.4917,
-    "delta_familias": 857.0,
+    "delta_familias": 320.0,
     "nuevo": false
    },
    {
@@ -1088,7 +1104,7 @@
     "viv_averiadas": 22.0,
     "poblacion_2026": 12620,
     "tasa_pct": 24.1759,
-    "delta_familias": 69.0,
+    "delta_familias": 28.0,
     "nuevo": false
    },
    {
@@ -1100,7 +1116,7 @@
     "viv_averiadas": 253.0,
     "poblacion_2026": 19402,
     "tasa_pct": 13.2615,
-    "delta_familias": 925.0,
+    "delta_familias": 187.0,
     "nuevo": false
    },
    {
@@ -1112,7 +1128,7 @@
     "viv_averiadas": 627.0,
     "poblacion_2026": 25277,
     "tasa_pct": 10.5234,
-    "delta_familias": 61.0,
+    "delta_familias": 39.0,
     "nuevo": false
    },
    {
@@ -1124,7 +1140,7 @@
     "viv_averiadas": 303.0,
     "poblacion_2026": 7441,
     "tasa_pct": 31.4608,
-    "delta_familias": 88.0,
+    "delta_familias": 15.0,
     "nuevo": false
    },
    {
@@ -1136,7 +1152,7 @@
     "viv_averiadas": 580.0,
     "poblacion_2026": 27635,
     "tasa_pct": 11.8762,
-    "delta_familias": 599.0,
+    "delta_familias": 256.0,
     "nuevo": false
    },
    {
@@ -1148,7 +1164,7 @@
     "viv_averiadas": 317.0,
     "poblacion_2026": 9164,
     "tasa_pct": 22.021,
-    "delta_familias": 105.0,
+    "delta_familias": 20.0,
     "nuevo": false
    },
    {
@@ -1160,7 +1176,7 @@
     "viv_averiadas": 184.0,
     "poblacion_2026": 16843,
     "tasa_pct": 14.837,
-    "delta_familias": 214.0,
+    "delta_familias": 2.0,
     "nuevo": false
    },
    {
@@ -1172,7 +1188,7 @@
     "viv_averiadas": 318.0,
     "poblacion_2026": 36717,
     "tasa_pct": 3.6386,
-    "delta_familias": 466.0,
+    "delta_familias": 169.0,
     "nuevo": false
    },
    {
@@ -1184,7 +1200,7 @@
     "viv_averiadas": 403.0,
     "poblacion_2026": 25109,
     "tasa_pct": 7.798,
-    "delta_familias": 514.0,
+    "delta_familias": 90.0,
     "nuevo": false
    },
    {
@@ -1196,7 +1212,7 @@
     "viv_averiadas": 217.0,
     "poblacion_2026": 74399,
     "tasa_pct": 2.7205,
-    "delta_familias": 637.0,
+    "delta_familias": 263.0,
     "nuevo": false
    },
    {
@@ -1208,7 +1224,7 @@
     "viv_averiadas": 511.0,
     "poblacion_2026": 28053,
     "tasa_pct": 9.1755,
-    "delta_familias": 105.0,
+    "delta_familias": 28.0,
     "nuevo": false
    },
    {
@@ -1220,7 +1236,7 @@
     "viv_averiadas": 313.0,
     "poblacion_2026": 20058,
     "tasa_pct": 10.4447,
-    "delta_familias": 714.0,
+    "delta_familias": 242.0,
     "nuevo": false
    },
    {
@@ -1232,7 +1248,7 @@
     "viv_averiadas": 258.0,
     "poblacion_2026": 5136,
     "tasa_pct": 35.3583,
-    "delta_familias": 358.0,
+    "delta_familias": 110.0,
     "nuevo": false
    },
    {
@@ -1244,7 +1260,7 @@
     "viv_averiadas": 171.0,
     "poblacion_2026": 307103,
     "tasa_pct": 0.5021,
-    "delta_familias": 750.0,
+    "delta_familias": 299.0,
     "nuevo": false
    },
    {
@@ -1268,7 +1284,7 @@
     "viv_averiadas": 225.0,
     "poblacion_2026": 16021,
     "tasa_pct": 10.7734,
-    "delta_familias": 496.0,
+    "delta_familias": 205.0,
     "nuevo": false
    },
    {
@@ -1280,8 +1296,8 @@
     "viv_averiadas": 105.0,
     "poblacion_2026": 16207,
     "tasa_pct": 9.8167,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 259.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -1292,7 +1308,7 @@
     "viv_averiadas": 305.0,
     "poblacion_2026": 52118,
     "tasa_pct": 3.8183,
-    "delta_familias": 407.0,
+    "delta_familias": 180.0,
     "nuevo": false
    },
    {
@@ -1304,7 +1320,7 @@
     "viv_averiadas": 322.0,
     "poblacion_2026": 15958,
     "tasa_pct": 8.2592,
-    "delta_familias": 531.0,
+    "delta_familias": 198.0,
     "nuevo": false
    },
    {
@@ -1316,7 +1332,7 @@
     "viv_averiadas": 296.0,
     "poblacion_2026": 14335,
     "tasa_pct": 8.7408,
-    "delta_familias": 341.0,
+    "delta_familias": 95.0,
     "nuevo": false
    },
    {
@@ -1328,7 +1344,7 @@
     "viv_averiadas": 153.0,
     "poblacion_2026": 31350,
     "tasa_pct": 4.9793,
-    "delta_familias": 337.0,
+    "delta_familias": 82.0,
     "nuevo": false
    },
    {
@@ -1340,7 +1356,7 @@
     "viv_averiadas": 59.0,
     "poblacion_2026": 5538,
     "tasa_pct": 29.5052,
-    "delta_familias": 632.0,
+    "delta_familias": 373.0,
     "nuevo": false
    },
    {
@@ -1352,7 +1368,7 @@
     "viv_averiadas": 201.0,
     "poblacion_2026": 12968,
     "tasa_pct": 13.6258,
-    "delta_familias": 67.0,
+    "delta_familias": 31.0,
     "nuevo": false
    },
    {
@@ -1364,8 +1380,8 @@
     "viv_averiadas": 221.0,
     "poblacion_2026": 60038,
     "tasa_pct": 2.3269,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 488.0,
+    "nuevo": false
    },
    {
     "departamento": "RISARALDA",
@@ -1376,7 +1392,7 @@
     "viv_averiadas": 426.0,
     "poblacion_2026": 6601,
     "tasa_pct": 26.2233,
-    "delta_familias": 158.0,
+    "delta_familias": 52.0,
     "nuevo": false
    },
    {
@@ -1388,7 +1404,7 @@
     "viv_averiadas": 69.0,
     "poblacion_2026": 11296,
     "tasa_pct": 5.108,
-    "delta_familias": 236.0,
+    "delta_familias": 55.0,
     "nuevo": false
    },
    {
@@ -1400,7 +1416,7 @@
     "viv_averiadas": 53.0,
     "poblacion_2026": 28386,
     "tasa_pct": 5.3371,
-    "delta_familias": 262.0,
+    "delta_familias": 149.0,
     "nuevo": false
    },
    {
@@ -1424,7 +1440,7 @@
     "viv_averiadas": 494.0,
     "poblacion_2026": 3378,
     "tasa_pct": 40.2309,
-    "delta_familias": 248.0,
+    "delta_familias": 140.0,
     "nuevo": false
    },
    {
@@ -1436,7 +1452,7 @@
     "viv_averiadas": 281.0,
     "poblacion_2026": 12698,
     "tasa_pct": 11.4979,
-    "delta_familias": 204.0,
+    "delta_familias": 37.0,
     "nuevo": false
    },
    {
@@ -1448,7 +1464,7 @@
     "viv_averiadas": 318.0,
     "poblacion_2026": 12461,
     "tasa_pct": 11.0746,
-    "delta_familias": 228.0,
+    "delta_familias": 144.0,
     "nuevo": false
    },
    {
@@ -1460,7 +1476,7 @@
     "viv_averiadas": 453.0,
     "poblacion_2026": 12936,
     "tasa_pct": 8.7585,
-    "delta_familias": 49.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1472,7 +1488,7 @@
     "viv_averiadas": 55.0,
     "poblacion_2026": 17244,
     "tasa_pct": 6.321,
-    "delta_familias": 325.0,
+    "delta_familias": 100.0,
     "nuevo": false
    },
    {
@@ -1484,7 +1500,7 @@
     "viv_averiadas": 19.0,
     "poblacion_2026": 29358,
     "tasa_pct": 3.5527,
-    "delta_familias": 130.0,
+    "delta_familias": 42.0,
     "nuevo": false
    },
    {
@@ -1496,7 +1512,7 @@
     "viv_averiadas": 176.0,
     "poblacion_2026": 12765,
     "tasa_pct": 7.9984,
-    "delta_familias": 315.0,
+    "delta_familias": 109.0,
     "nuevo": false
    },
    {
@@ -1508,7 +1524,7 @@
     "viv_averiadas": 296.0,
     "poblacion_2026": 5848,
     "tasa_pct": 22.8112,
-    "delta_familias": 309.0,
+    "delta_familias": 55.0,
     "nuevo": false
    },
    {
@@ -1520,7 +1536,7 @@
     "viv_averiadas": 148.0,
     "poblacion_2026": 144206,
     "tasa_pct": 0.3044,
-    "delta_familias": 192.0,
+    "delta_familias": 98.0,
     "nuevo": false
    },
    {
@@ -1532,7 +1548,7 @@
     "viv_averiadas": 172.0,
     "poblacion_2026": 33758,
     "tasa_pct": 3.1607,
-    "delta_familias": 339.0,
+    "delta_familias": 53.0,
     "nuevo": false
    },
    {
@@ -1544,7 +1560,7 @@
     "viv_averiadas": 117.0,
     "poblacion_2026": 7010,
     "tasa_pct": 13.3666,
-    "delta_familias": 369.0,
+    "delta_familias": 272.0,
     "nuevo": false
    },
    {
@@ -1556,7 +1572,7 @@
     "viv_averiadas": 215.0,
     "poblacion_2026": 12558,
     "tasa_pct": 6.6651,
-    "delta_familias": 301.0,
+    "delta_familias": 106.0,
     "nuevo": false
    },
    {
@@ -1568,7 +1584,7 @@
     "viv_averiadas": 180.0,
     "poblacion_2026": 11079,
     "tasa_pct": 9.0351,
-    "delta_familias": 112.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1580,7 +1596,7 @@
     "viv_averiadas": 108.0,
     "poblacion_2026": 15966,
     "tasa_pct": 5.0232,
-    "delta_familias": 156.0,
+    "delta_familias": 5.0,
     "nuevo": false
    },
    {
@@ -1592,7 +1608,7 @@
     "viv_averiadas": 211.0,
     "poblacion_2026": 19254,
     "tasa_pct": 3.8849,
-    "delta_familias": 316.0,
+    "delta_familias": 93.0,
     "nuevo": false
    },
    {
@@ -1604,8 +1620,8 @@
     "viv_averiadas": 29.0,
     "poblacion_2026": 28971,
     "tasa_pct": 1.1701,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 39.0,
+    "nuevo": false
    },
    {
     "departamento": "RISARALDA",
@@ -1628,7 +1644,7 @@
     "viv_averiadas": 204.0,
     "poblacion_2026": 18515,
     "tasa_pct": 5.1742,
-    "delta_familias": 81.0,
+    "delta_familias": 35.0,
     "nuevo": false
    },
    {
@@ -1640,7 +1656,7 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 74463,
     "tasa_pct": 1.0166,
-    "delta_familias": 79.0,
+    "delta_familias": 17.0,
     "nuevo": false
    },
    {
@@ -1652,7 +1668,7 @@
     "viv_averiadas": 21.0,
     "poblacion_2026": 8768,
     "tasa_pct": 3.6268,
-    "delta_familias": 85.0,
+    "delta_familias": 64.0,
     "nuevo": false
    },
    {
@@ -1676,8 +1692,8 @@
     "viv_averiadas": 116.0,
     "poblacion_2026": 31774,
     "tasa_pct": 1.9135,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 149.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -1688,7 +1704,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 50452,
     "tasa_pct": 1.2368,
-    "delta_familias": 100.0,
+    "delta_familias": 40.0,
     "nuevo": false
    },
    {
@@ -1700,7 +1716,7 @@
     "viv_averiadas": 50.0,
     "poblacion_2026": 115667,
     "tasa_pct": 0.5516,
-    "delta_familias": 167.0,
+    "delta_familias": 9.0,
     "nuevo": false
    },
    {
@@ -1712,8 +1728,8 @@
     "viv_averiadas": 40.0,
     "poblacion_2026": 10372,
     "tasa_pct": 6.6525,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 157.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1724,7 +1740,7 @@
     "viv_averiadas": 154.0,
     "poblacion_2026": 5601,
     "tasa_pct": 7.1237,
-    "delta_familias": 12.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1736,7 +1752,7 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 18970,
     "tasa_pct": 1.4918,
-    "delta_familias": 192.0,
+    "delta_familias": 33.0,
     "nuevo": false
    },
    {
@@ -1748,8 +1764,8 @@
     "viv_averiadas": 33.0,
     "poblacion_2026": 12345,
     "tasa_pct": 2.9324,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 200.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -1772,7 +1788,7 @@
     "viv_averiadas": 102.0,
     "poblacion_2026": 37483,
     "tasa_pct": 1.526,
-    "delta_familias": 204.0,
+    "delta_familias": 69.0,
     "nuevo": false
    },
    {
@@ -1784,7 +1800,7 @@
     "viv_averiadas": 49.0,
     "poblacion_2026": 10781,
     "tasa_pct": 4.4245,
-    "delta_familias": 147.0,
+    "delta_familias": 49.0,
     "nuevo": false
    },
    {
@@ -1796,7 +1812,7 @@
     "viv_averiadas": 90.0,
     "poblacion_2026": 5863,
     "tasa_pct": 7.6923,
-    "delta_familias": 42.0,
+    "delta_familias": 11.0,
     "nuevo": false
    },
    {
@@ -1808,7 +1824,7 @@
     "viv_averiadas": 51.0,
     "poblacion_2026": 11341,
     "tasa_pct": 3.1831,
-    "delta_familias": 91.0,
+    "delta_familias": 48.0,
     "nuevo": false
    },
    {
@@ -1820,7 +1836,7 @@
     "viv_averiadas": 38.0,
     "poblacion_2026": 4960,
     "tasa_pct": 5.6452,
-    "delta_familias": 63.0,
+    "delta_familias": 26.0,
     "nuevo": false
    },
    {
@@ -1832,8 +1848,8 @@
     "viv_averiadas": 70.0,
     "poblacion_2026": 132250,
     "tasa_pct": 0.2904,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 74.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -1844,7 +1860,7 @@
     "viv_averiadas": 92.0,
     "poblacion_2026": 10931,
     "tasa_pct": 3.1836,
-    "delta_familias": 135.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1856,7 +1872,7 @@
     "viv_averiadas": 126.0,
     "poblacion_2026": 20404,
     "tasa_pct": 1.8379,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1868,7 +1884,7 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 225868,
     "tasa_pct": 0.1647,
-    "delta_familias": 115.0,
+    "delta_familias": 37.0,
     "nuevo": false
    },
    {
@@ -1880,8 +1896,8 @@
     "viv_averiadas": 89.0,
     "poblacion_2026": 7694,
     "tasa_pct": 4.445,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 81.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1892,7 +1908,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 24545,
     "tasa_pct": 0.9696,
-    "delta_familias": 95.0,
+    "delta_familias": 5.0,
     "nuevo": false
    },
    {
@@ -1904,8 +1920,8 @@
     "viv_averiadas": 116.0,
     "poblacion_2026": 21673,
     "tasa_pct": 1.4534,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 38.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -1916,8 +1932,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6063,
     "tasa_pct": 1.8968,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 70.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -1928,7 +1944,7 @@
     "viv_averiadas": 108.0,
     "poblacion_2026": 10485,
     "tasa_pct": 2.5083,
-    "delta_familias": 80.0,
+    "delta_familias": 14.0,
     "nuevo": false
    },
    {
@@ -1940,8 +1956,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 22301,
     "tasa_pct": 1.2062,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 41.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -1952,7 +1968,7 @@
     "viv_averiadas": 35.0,
     "poblacion_2026": 115933,
     "tasa_pct": 0.2251,
-    "delta_familias": 23.0,
+    "delta_familias": 16.0,
     "nuevo": false
    },
    {
@@ -1964,7 +1980,7 @@
     "viv_averiadas": 66.0,
     "poblacion_2026": 16455,
     "tasa_pct": 1.4099,
-    "delta_familias": 28.0,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
@@ -1976,8 +1992,8 @@
     "viv_averiadas": 61.0,
     "poblacion_2026": 12653,
     "tasa_pct": 2.1576,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 12.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -2000,8 +2016,8 @@
     "viv_averiadas": 56.0,
     "poblacion_2026": 5347,
     "tasa_pct": 4.7877,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 32.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -2012,7 +2028,7 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 10327,
     "tasa_pct": 2.0432,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2024,7 +2040,7 @@
     "viv_averiadas": 12.0,
     "poblacion_2026": 2676,
     "tasa_pct": 6.6517,
-    "delta_familias": 48.0,
+    "delta_familias": 35.0,
     "nuevo": false
    },
    {
@@ -2048,7 +2064,7 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 3165,
     "tasa_pct": 2.3065,
-    "delta_familias": 23.0,
+    "delta_familias": 8.0,
     "nuevo": false
    },
    {
@@ -2060,7 +2076,7 @@
     "viv_averiadas": 19.0,
     "poblacion_2026": 34739,
     "tasa_pct": 0.4088,
-    "delta_familias": 60.0,
+    "delta_familias": 12.0,
     "nuevo": false
    },
    {
@@ -2072,7 +2088,7 @@
     "viv_averiadas": 48.0,
     "poblacion_2026": 8477,
     "tasa_pct": 1.7813,
-    "delta_familias": 50.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2108,8 +2124,8 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 6585,
     "tasa_pct": 1.9134,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 3.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -2120,8 +2136,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 7464,
     "tasa_pct": 0.6163,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -2156,8 +2172,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 5679,
     "tasa_pct": 1.1798,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 21.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -2168,8 +2184,8 @@
     "viv_averiadas": 35.0,
     "poblacion_2026": 7761,
     "tasa_pct": 1.1081,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 17.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -2192,8 +2208,8 @@
     "viv_averiadas": 36.0,
     "poblacion_2026": 10798,
     "tasa_pct": 1.0002,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 6.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2240,8 +2256,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 11015,
     "tasa_pct": 0.4721,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -2252,7 +2268,7 @@
     "viv_averiadas": 22.0,
     "poblacion_2026": 69514,
     "tasa_pct": 0.082,
-    "delta_familias": 9.0,
+    "delta_familias": 3.0,
     "nuevo": false
    },
    {
@@ -2264,8 +2280,8 @@
     "viv_averiadas": 6.0,
     "poblacion_2026": 4708,
     "tasa_pct": 0.8284,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -2288,7 +2304,7 @@
     "viv_averiadas": 16.0,
     "poblacion_2026": 10943,
     "tasa_pct": 0.4204,
-    "delta_familias": 17.0,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
@@ -2300,8 +2316,8 @@
     "viv_averiadas": 10.0,
     "poblacion_2026": 22750,
     "tasa_pct": 0.2198,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -2312,8 +2328,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 4821,
     "tasa_pct": 1.0164,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 8.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2372,8 +2388,8 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 408218,
     "tasa_pct": 0.0059,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -2396,8 +2412,8 @@
     "viv_averiadas": 10.0,
     "poblacion_2026": 9363,
     "tasa_pct": 0.4165,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -2468,8 +2484,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 76970,
     "tasa_pct": 0.0299,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2504,8 +2520,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 25527,
     "tasa_pct": 0.0744,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2528,8 +2544,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 7856,
     "tasa_pct": 0.1782,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -2612,8 +2628,8 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 7143,
     "tasa_pct": 0.14,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -2624,8 +2640,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 28561,
     "tasa_pct": 0.056,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2708,8 +2724,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6314,
     "tasa_pct": 0.0317,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "RISARALDA",
