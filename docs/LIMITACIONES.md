@@ -42,6 +42,31 @@ cuando faltan, el manifiesto podría desfasarse durante meses en la máquina del
 mantenedor y saltar únicamente en CI. Un cuerpo fuera de git y fuera del
 manifiesto no es recuperable ni auditable, y el test lo trata como roto.
 
+## La serie consolidada de balances no se puede descargar entera
+
+`data/public/alerts.json` publica el consolidado **del último día** —con la fecha, el
+medio y el enlace de cada cifra, lo descartado y de qué cuerpo sale—, pero la serie
+completa se calcula en el navegador y no existe como fichero. Reconstruir su histórico
+exige recorrer el historial de git de `alerts.json` día a día, o volver a ejecutar
+`site/ui.js` sobre cada `feeds/balances/*.json`.
+
+Merece un export dedicado (`data/public/balance_serie.json`), como se hizo con `rud.json`
+cuando surgió la misma pregunta. Mientras no exista, el dato es reconstruible pero no
+está publicado.
+
+## El despliegue del worker no deja rastro en el repositorio
+
+El worker de balances vive en una cuenta ajena y se despliega a mano, así que **el
+repositorio no sabe qué versión está viva**. La prueba está en el archivo: el sello
+`cifras_desde: "texto_sin_enlaces"` se escribió y documentó en su día y **nunca llegó a
+los feeds** —ningún ítem archivado entre el 16 y el 20 de agosto lo trae—, mientras
+`atribucion_lugares`, del mismo fichero, sí aparece desde el 18.
+
+Consecuencia para quien lea esto después: un ítem sin `extraccion_version` puede ser
+anterior a las reglas nuevas **o** posterior al despliegue pero servido desde la caché
+del worker. Al desplegar hay que anotar en `docs/DECISIONES.md` la fecha y hora UTC, que
+es la única frontera fiable.
+
 ## Las cifras del balance no bajan nunca, y una de ellas debería poder bajar
 
 Desde el 21-ago-2026 el consolidado del balance conserva el **máximo informado** de cada
