@@ -67,7 +67,12 @@
 
   const j = window.UI.fetchJson;
   const base = "/data/public/";
-  const OFFICIAL_FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
+  // La MISMA fuente que balances.html: el producto propio, no el worker en
+  // vivo. Leyendo cada página de un sitio distinto, la portada enseñaba el
+  // corte del worker y balances.html el archivado, y las dos podían dar
+  // cifras y fechas distintas del mismo día. Además el sitio deja de depender
+  // de que un worker en cuenta ajena siga en pie.
+  const OFFICIAL_FEED = `${base}oficiales.json`;
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
          dmgPts, dmgLines, notAnalysed, unosat, oficiales,
          hitosCurados] = await Promise.all([

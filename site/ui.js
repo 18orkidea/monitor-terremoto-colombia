@@ -839,9 +839,13 @@ window.UI = (function () {
       // y las cifras salen del consolidado (el último valor conocido de cada
       // una) — que el snapshot del día no traiga familias no las borra
       const ultimo = mejorPorDia(items).at(-1);
-      const fecha = ultimo.fecha;
       const c = Object.fromEntries(Object.entries(ultimo.consolidado)
         .map(([k, v]) => [k, v.valor]));
+      // la fecha de la tarjeta es la de la CIFRA que enseña, no la del último
+      // día con capturas: el consolidado arrastra el máximo informado, así que
+      // el 19-ago la portada anunciaba como suyo un dato del 18
+      const fecha = (ultimo.consolidado.familias_afectadas || {}).fecha
+        || ultimo.fecha;
       out.push({
         id: "medios", nombre: "Balances en medios · citan oficiales",
         href: "balances.html", fecha,
