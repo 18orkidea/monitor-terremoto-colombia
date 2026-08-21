@@ -4,7 +4,7 @@
 > San José del Palmar, Chocó). Cruza a diario cuatro miradas independientes: daño satelital
 > (1.578 edificios en 11 municipios, clasificados uno a uno por tres servicios), reportes
 > ciudadanos por WhatsApp (ChatMap/OSM Colombia), titulares de prensa de feeds abiertos y
-> balances citados en medios extraídos con IA — y mide las brechas del reporte oficial.
+> balances citados en medios — y mide las brechas del reporte oficial.
 > Los tres servicios satelitales son el de emergencias de Copernicus (635 edificios clasificados uno a uno; su propio resumen por zonas declara 622,
 > activación EMSR916), UNITAR-UNOSAT, el centro satelital de la ONU (548, de los que 443 son
 > solo «daño posible»), e ICube-SERTIT (503, dentro de la activación 1048 de la Carta

@@ -16,7 +16,9 @@ las decisiones fechadas en [DECISIONES.md](DECISIONES.md); las lagunas conocidas
                                                                         (frontend sin build)
 
 worker aparte: workers/ai-view (Cloudflare, cron 23:00 Col) ──► KV ──► /oficiales.json
-  balances en medios extraídos con IA; snapshot diario al repo en feeds/balances/
+  balances en medios: las cifras se extraen con reglas de texto deterministas,
+  no con un modelo de lenguaje —el modelo solo hace OCR de documentos
+  escaneados—; snapshot diario al repo en feeds/balances/
 
 worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Telegram
   el daily le manda alerts.json fresco (POST con Bearer); cron 11:20 UTC de
