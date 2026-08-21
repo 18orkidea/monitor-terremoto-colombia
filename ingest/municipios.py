@@ -399,7 +399,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      rud_municipios: dict | None = None,
                      divipola: dict | None = None,
                      unosat: dict | None = None,
-                     con_busqueda_propia: set[str] | None = None) -> tuple[list[dict], dict]:
+                     con_busqueda_propia: set[str] | None = None,
+                     *, sertit: dict | None = None) -> tuple[list[dict], dict]:
     catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
@@ -474,10 +475,13 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         tiene_rud = rud is not None
         uno = (unosat or {}).get(mun)
         tiene_unosat = bool(uno and uno.get("edificios"))
+        ser = (sertit or {}).get(mun)
+        tiene_sertit = bool(ser and ser.get("edificios"))
         # Una evaluación satelital basta para entrar en la capa aunque no haya
         # prensa, ni DYFI, ni registro oficial: es justo el caso de Viterbo, y
         # que nadie más lo mire no es motivo para que el monitor tampoco.
-        if not (tiene_prensa or tiene_dyfi or tiene_rud or tiene_unosat):
+        if not (tiene_prensa or tiene_dyfi or tiene_rud or tiene_unosat
+                or tiene_sertit):
             continue
         lon, lat = row["lon"], row["lat"]
         en_aoi = (lon is not None and lat is not None
@@ -493,6 +497,14 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
             # validado en campo», no estadísticas revisadas por AOI. Lleva
             # etiqueta propia justamente para no confundirse con la anterior.
             estado = "evaluado_unosat"
+        elif tiene_sertit:
+            # Mismo escalón que UNOSAT y por la misma razón: verificación
+            # satelital independiente, fotointerpretada y sin validar en campo.
+            # Etiqueta propia porque decir «evaluado por UNOSAT» de Roldanillo
+            # —que UNOSAT no ha mirado— sería falso. El día que entre una
+            # cuarta mirada habrá que unificarlas en un estado genérico; con
+            # dos, nombrar a cada una cuesta menos que abstraerlas mal.
+            estado = "evaluado_satelite"
         elif tiene_dyfi and (row["dyfi_max_cdi"] or 0) >= 6:
             estado = "intensidad_alta"
         elif tiene_prensa:
@@ -513,7 +525,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         row["fuentes"] = [x for x, ok in (("prensa", tiene_prensa),
                                           ("dyfi", tiene_dyfi),
                                           ("rud", tiene_rud),
-                                          ("unosat", tiene_unosat)) if ok]
+                                          ("unosat", tiene_unosat),
+                                          ("sertit", tiene_sertit)) if ok]
         # R3: sin evaluación de UNOSAT no hay ceros, hay ausencia — un 0 se
         # leería como «el satélite miró y no vio nada», que es lo contrario
         # «observados», no «confirmados»: UNOSAT marca todos sus puntos como
@@ -522,11 +535,25 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         row["unosat_observados"] = uno.get("observados") if tiene_unosat else None
         row["unosat_posibles"] = uno.get("posibles") if tiene_unosat else None
         row["unosat_fecha_imagen"] = uno.get("fecha_imagen") if tiene_unosat else None
-        # edificios con un código de evento inconsistente en la misma capa
-        # (ver publish.py): no suman al total, pero ocultarlos sería perder
-        # una discrepancia de la fuente que merece constar
-        row["unosat_otros_eventos"] = (uno.get("otros_eventos") or None) \
-            if tiene_unosat else None
+        # Edificios cuyo código de evento no cuadra con el que declara su
+        # propio producto (ver publish.py). Desde el 21-ago-2026 SÍ suman —lo
+        # decide el GLIDE del producto, no el campo del punto— pero se publican
+        # aparte: es una discrepancia de la fuente y ocultarla sería perderla.
+        row["unosat_codigo_inconsistente"] = (
+            uno.get("codigo_inconsistente") or None) if tiene_unosat else None
+        # SERTIT: mismo criterio de R3 que UNOSAT — sin evaluación, ausencia,
+        # nunca 0. Se guarda además el área que declara haber mirado, porque
+        # sin ella su cifra no se puede comparar con la de Copernicus: en
+        # Pereira miró 2,78 km² y Copernicus 9,8, y son dos preguntas distintas.
+        row["sertit_edificios"] = ser.get("edificios") if tiene_sertit else None
+        row["sertit_destruidos"] = ser.get("destruidos") if tiene_sertit else None
+        row["sertit_danados"] = ser.get("danados") if tiene_sertit else None
+        row["sertit_posibles"] = ser.get("posibles") if tiene_sertit else None
+        # puntos que SERTIT señaló sin asignarles grado: existen y se pintan,
+        # pero no son daño clasificado y no entran en el total (R3)
+        row["sertit_sin_grado"] = ser.get("sin_grado") if tiene_sertit else None
+        row["sertit_area_km2"] = ser.get("area_km2") if tiene_sertit else None
+        row["sertit_imagen_literal"] = ser.get("imagen_literal") if tiene_sertit else None
         # R3 en el producto descargable, no solo en la tabla: para un homónimo
         # de departamento el monitor no puede atribuir titulares, y eso es
         # ausencia de dato — quien lea el JSON no debe encontrar un 0.

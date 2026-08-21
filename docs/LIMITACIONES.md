@@ -270,31 +270,42 @@ Consecuencias para leer estas cifras:
 
 ## UNOSAT: lo que se archiva y lo que no
 
-La capa de UNITAR-UNOSAT trae 393 edificios evaluados en Anserma, Manizales y
-Viterbo. **El sitio publica 385**: los otros ocho —todos en Manizales, uno con
-daño observado y siete de «daño posible»— traen el código de evento
-`EQ20260822COL` en vez de `EQ20260810COL`.
+La capa de UNITAR-UNOSAT trae **548 edificios evaluados** en Anserma, Manizales
+y Viterbo (Caldas) y en Zarzal (Valle del Cauca). **El sitio los publica todos**,
+y avisa de que **209 de ellos** —8 en Manizales y los 201 de Zarzal— traen el
+código de evento `EQ20260822COL` en vez de `EQ20260810COL`.
 
 **Ese código no puede designar otro terremoto, y el monitor no afirma que lo
-haga.** Los ocho puntos son idénticos a los otros 127 de Manizales en todos los
-demás campos: misma capa (`PNEO3_STD_20260811_BuildingDamageAsessment_Manizales`),
+haga.** Los 8 de Manizales son idénticos a los otros 127 de su capa en todos
+los demás campos: misma capa (`PNEO3_STD_20260811_BuildingDamageAsessment_Manizales`),
 mismo sensor (Pleiades NEO), misma fecha de imagen (11-ago-2026), mismos
 productos (4251, 4252, 4253) y la misma confianza «To Be Evaluated». Y el código
-implica un sismo del **22 de agosto de 2026**: doce días *posterior* a la imagen
-que retrata los daños, y posterior a la publicación del producto. Una imagen no
-puede fotografiar el daño de un sismo que aún no ha ocurrido. Todo apunta a un
-**error de etiquetado en origen**. No hubo reetiquetado: llegaron así en la
-única captura del paquete (19-ago-2026).
+implica un sismo del **22 de agosto de 2026**: *posterior* a las imágenes que
+retratan los daños (11 y 13-ago-2026) y posterior a la publicación de los
+productos. Una imagen no puede fotografiar el daño de un sismo que aún no ha
+ocurrido. Todo apunta a un **error de etiquetado en origen**. No hubo
+reetiquetado: llegaron así en la única captura de cada paquete.
 
-Se excluyen del total **no por atribuirlos a ningún otro sismo —el archivo no
-lo sostiene— sino porque la etiqueta es de la fuente y sobrescribirla por
-nuestra cuenta sería inventar** — el error
-más grave que este proyecto puede cometer es convertir un fallo de la fuente en
-un hecho propio. Excluir es reversible; reetiquetar, no. Se cuentan aparte
-(`unosat_otros_eventos`) y se enseñan en la ficha y en el globo del mapa como
-lo que constan: un código inconsistente. **Si UNOSAT lo corrige, los ocho entran
-solos y el total pasa a 393.** La disyuntiva —contarlos o no— está planteada en
-`docs/DECISIONES.md` a la espera de decisión editorial.
+**Hasta el 21 de agosto de 2026 esos puntos se excluían del total.** Eran ocho sueltos y
+apartarlos era prudencia: la etiqueta es de la fuente y sobrescribirla por
+nuestra cuenta sería inventar, el error más grave que este proyecto puede
+cometer. Ese día UNOSAT publicó Zarzal entero con el mismo código, y el mismo
+filtro pasó de apartar ocho puntos a callar **el único análisis satelital que
+existe de ese municipio**. Excluir ocho era prudencia; excluir un municipio
+entero era silenciar lo que la fuente sí dijo.
+
+**Cambió el criterio, no el dato**: a qué terremoto pertenece un punto lo decide
+el GLIDE que declara el **producto** que lo publica —los cinco productos de
+UNOSAT declaran `EQ20260810COL`, este terremoto— y no un campo interno de la
+geometría que la propia fuente contradice. Los 209 cuentan, y la inconsistencia
+se publica al lado (`unosat_codigo_inconsistente`), en la ficha municipal y en
+el globo del mapa, para que quien audite pueda rehacer la cuenta con el criterio
+contrario. Lo que no se hará nunca es **reescribir la etiqueta**: contar un dato
+y enmendárselo a la fuente son cosas distintas. La decisión, con su porqué, está
+en `docs/DECISIONES.md`.
+
+Queda como limitación viva que **la fuente se contradice a sí misma** y que el
+monitor ha tenido que elegir cuál de sus dos afirmaciones vale.
 
 Tres huecos conocidos, ninguno subsanable desde este lado:
 
@@ -311,15 +322,13 @@ Tres huecos conocidos, ninguno subsanable desde este lado:
   cuatro del terremoto entraron porque aún estaban en la ventana el 19-ago-2026.
   Si UNOSAT hubiera publicado once productos de otros eventos antes, se habrían
   perdido sin dejar rastro.
-- **Nada de esto está validado en campo.** Los 393 puntos llevan «aún no
-  validado en campo», y los 239 que traen el campo de confianza dicen todos
-  «pendiente de evaluar» (los 154 de Viterbo no lo traen siquiera): son
-  fotointerpretación sobre imagen de 50 cm, no visitas. Y **296 de los 393 —tres
-  de cada cuatro— son «daño posible»**, que es una hipótesis, no un daño contado.
-  Solo 97 son daño observado. Contando únicamente los 385 que el sitio publica,
-  la proporción no cambia: **289 de «daño posible» y 96 observados**. La cifra
-  va siempre acompañada del reparto: un total que esconda cuántos son hipótesis
-  no sería rastreable hasta su origen.
+- **Nada de esto está validado en campo.** Los 548 puntos llevan «aún no
+  validado en campo», y ninguno alcanza confianza alta: 347 dicen «pendiente de
+  evaluar», 180 «incierto» y 21 «media». Son fotointerpretación sobre imagen de
+  50 centímetros, no visitas. Y **443 de los 548 —cuatro de cada cinco— son «daño
+  posible»**, que es una hipótesis, no un daño contado; solo 105 son daño
+  observado. La cifra va siempre acompañada del reparto: un total que esconda
+  cuántos son hipótesis no sería rastreable hasta su origen.
 
 **Viterbo entró en la capa el 19-ago-2026 y el satélite es su única fuente
 sobre este terremoto.** No tiene una sola fila en el RUD. Su único titular
@@ -349,8 +358,8 @@ sismos—. Ni un solo titular de GDACS-EMM ni de los feeds del registro
 comunitario era previo.
 
 Lo destapó Viterbo (Caldas), dado de alta ese mismo día porque UNOSAT evaluó
-allí 154 edificios: su única noticia atribuida era un sismo de magnitud 3,1 de
-junio de 2024. El topónimo estaba bien; la noticia no era de este desastre.
+allí 154 edificios —hoy 108, tras la reedición de la propia fuente—: su única
+noticia atribuida era un sismo de magnitud 3,1 de junio de 2024. El topónimo estaba bien; la noticia no era de este desastre.
 
 Desde entonces **ningún producto público cuenta prensa anterior al sismo**
 (`FECHA_SISMO`, en `ingest/common.py`). La columna «Prensa» de la capa de
@@ -434,3 +443,148 @@ casos `medio_canonico` queda en `null`, nunca con el nombre del feed. En los
 primeros el sitio no muestra medio alguno; en los segundos el enlace va directo
 al medio y basta con el nombre del feed, que ahí sí es una cabecera.
 
+
+## Lo que ICube-SERTIT publica, y lo que hubo que pedirle
+
+Los cinco mapas de ICube-SERTIT —Pereira, Cali, Manizales, Roldanillo y La
+Virginia, dentro de la activación 1048 de la Charter que solicitó la UNGRD— se
+publican como PDF y JPG, con los símbolos de daño rasterizados dentro de la
+imagen y sin rejilla de coordenadas en los bordes. Comprobado el 20-ago-2026:
+del paquete público no se puede extraer un solo punto georreferenciado.
+
+**Los vectores existen, pero no se descargan.** Se pidieron por correo el
+20-ago y llegaron el 21: su web los entrega como adjunto tras un formulario con
+nombre, correo y aceptación de la política de privacidad. De ahí salen los 512
+edificios que hoy publica el monitor. Consecuencias que conviene tener escritas:
+
+- **No hay URL que reclamar.** El cuerpo de cada paquete vive en
+  `data/documentos/sertit/` (248 KB en total) con su sha256 en `sources_log`, y
+  su fila dice por dónde entró. Es la única fuente del monitor cuyo dato no se
+  puede volver a descargar, y por eso es también de la que más se archiva.
+- **La cadena depende de una persona.** Si SERTIT deja de responder correos, no
+  habrá productos nuevos. Lo ya recibido no se pierde; lo que viene, sí.
+- **La licencia es más restrictiva que la del resto del monitor**: permite usar,
+  modificar y redistribuir **salvo con fines comerciales**, obliga a citar
+  «© ICube-SERTIT 2026» y, si se modifica el producto, a declarar qué se cambió
+  sin sugerir que ICube-SERTIT respalda el uso. Su equipo pidió además que
+  aparezca su logo. Por eso el `copyright` viaja pegado a cada punto hasta el
+  geojson público en lugar de quedarse en un pie de página.
+
+**Sus mapas impresos no cuadran con sus vectores.** El mapa de Cali rotula 86
+edificios y el paquete trae 103; el de Pereira rotula 253 y trae 252. El
+monitor publica lo que traen los vectores, que es lo auditable punto a punto,
+pero la discrepancia queda aquí anotada porque un lector que compare el PDF con
+el mapa la encontrará.
+
+**Y sus cifras no son «el daño del municipio».** Cada servicio recortó su propia
+ventana: en Pereira, SERTIT analizó 2,78 km² y Copernicus 9,8. Comparar 252 con
+193 sin decir eso sería comparar dos preguntas distintas como si fueran la
+misma. Por eso la capa municipal publica también el área analizada.
+
+## Los satélites no miran la misma parte de la misma ciudad
+
+Al cruzar los puntos de las tres miradas apareció algo que ninguna cifra
+agregada dejaba ver:
+
+- En **Cali**, Copernicus cartografió el centro-norte y SERTIT el sur. **No
+  comparten ni un solo edificio**: sus 21 y sus 103 puntos son distintos.
+- En **Manizales** pasa lo mismo entre UNOSAT (noreste) y SERTIT (suroeste):
+  cero coincidencias.
+- Solo en **Pereira** se solapan de verdad: 108 de los 252 puntos de SERTIT
+  caen a menos de 20 m de uno de Copernicus. Y **en 49 de esos 108 los dos
+  servicios discrepan sobre la gravedad** del mismo edificio.
+
+Por eso el recuento del monitor dejó de sumar totales y pasó a unir puntos (ver
+`docs/DECISIONES.md` y `ingest/satelites.py`). Limitación que queda viva: **el
+umbral de 20 m es una decisión nuestra**, no de las fuentes. Está calibrado
+contra un test de azar que la propia corrida publica —en Pereira empareja el
+42,9 % frente al 1,4 % que da el azar—, pero mover ese umbral movería el total.
+Quien audite la cifra debe poder mover el umbral y ver qué pasa; por eso se
+publica junto al dato.
+
+## La API de cartografía rápida de SERTIT se anunció y luego desapareció
+
+SERTIT documenta —y ESA anunció— una API REST pública, sin clave ni registro, con cuatro
+endpoints que devuelven **GeoJSON**: el catálogo de acciones, el detalle de cada una, sus
+productos y el detalle de cada producto. Es exactamente lo que un tercero necesita para
+reutilizar su trabajo.
+
+A **20-ago-2026 no responde**: `https://sertit.unistra.fr/wp-json/rms/v1/actions` y las seis
+variantes probadas devuelven **HTTP 404**, y el espacio de nombres `rms` ya no figura entre
+los que publica el propio sitio, mientras la página que la documenta sigue en pie. Se ha
+avisado a SERTIT en el mismo mensaje con que se le pidieron los datos.
+
+Queda anotado porque es la clase de fragilidad que este archivo existe para registrar: una
+interfaz pública, anunciada por una agencia espacial, que deja de existir sin nota ni aviso.
+Quien lea esto dentro de años y encuentre la documentación no debe deducir que la API
+funcionaba.
+
+## Zarzal, Viterbo y una etiqueta que la propia fuente desmiente
+
+El 21-ago-2026 UNITAR-UNOSAT publicó una evaluación de **Zarzal (Valle del
+Cauca): 201 edificios**, el único análisis satelital que existe de ese
+municipio. Sus 201 puntos llegan con el código de evento `EQ20260822COL` —el
+mismo que ya llevaban 8 puntos de Manizales—, que implica un sismo del 22 de
+agosto de 2026: una fecha **posterior a la imagen que los retrata** (13 de
+agosto) y que, cuando esto se escribió, todavía no había llegado.
+
+El monitor los cuenta. El criterio, decidido ese día, es que **a qué terremoto
+pertenece un punto lo dice el producto que lo publica**, no un campo interno de
+su geometría: los cinco productos de UNOSAT declaran `EQ20260810COL`. Lo que
+queda como limitación es que **la fuente se contradice a sí misma** y que el
+monitor ha tenido que elegir cuál de sus dos afirmaciones vale. Los 209 puntos
+afectados se publican contados y marcados (`unosat_codigo_inconsistente`), para
+que quien audite pueda rehacer la cuenta con el criterio contrario.
+
+En el mismo paquete, **UNOSAT reeditó Viterbo a la baja: de 154 edificios a
+108**. No es una corrección del monitor: es la fuente cambiando su propia
+cifra. Se publica la vigente; la anterior sobrevive en los snapshots diarios y
+en los dumps, que es lo único que permite saber que Viterbo llegó a tener 154.
+
+Consecuencia para quien lea una cifra de UNOSAT en este archivo: **puede haber
+cambiado después**, y el número que se publicó un día concreto solo se
+reconstruye desde `data/snapshots/`.
+
+Esa reedición trajo además **vocabulario nuevo**: hasta el 20-ago la capa solo
+declaraba una confianza, «pendiente de evaluar»; desde el 21 aparecen
+`Uncertain` (180 puntos) y `Medium` (21). El sitio no sabía traducirlas y las
+habría publicado en inglés. No lo cazó ningún test —lo vio una persona leyendo
+los datos— y por eso ahora hay uno
+(`test_toda_confianza_de_unosat_tiene_traduccion`) que falla en cuanto la
+fuente estrena una palabra. Sigue sin haber ni un punto con confianza alta.
+
+## Los identificadores de producto se perdían al reconstruir la base
+
+Hasta el 21-ago-2026, los volcados CSV omitían la columna `product_id` de
+`unosat_products` (y habrían omitido `producto_id` de `sertit_productos`):
+SQLite trata `INTEGER PRIMARY KEY` como alias de rowid y `dump_db` lo descarta
+a propósito, porque el `id` de `sources_log` es un contador sin significado.
+
+Aquí sí lo tenía. En un clon reconstruido desde los dumps, los cuatro informes
+de UNOSAT pasaban a ser 1, 2, 3 y 4 en vez de 4250, 4251, 4252 y 4253 — que es
+el número con el que se le puede pedir cuentas a la fuente. **Ningún dato
+publicado dependía de ese identificador**, así que no hubo cifra afectada, pero
+la procedencia sí quedaba rota. Corregido con `PK_DE_LA_FUENTE` en
+`ingest/dump_db.py`. Los dumps anteriores al arreglo siguen sin la columna: lo
+que se recupera es el presente, no el histórico de los volcados.
+
+## Copernicus publica dos cifras suyas: 622 y 635
+
+El servicio de emergencias de Copernicus declara en el resumen de cada zona un
+total de **622 edificios afectados**, y publica **635 puntos** de daño en sus
+capas vectoriales. Las dos son de la fuente; el monitor no arbitra entre ellas.
+
+Dónde se usa cada una y por qué:
+
+- El **recuento satelital** (`satelital.json`) usa los **puntos**, porque unir
+  las miradas de varios servicios exige geometría: hay que saber si dos
+  servicios señalaron el mismo tejado, y eso solo se puede preguntar a un punto.
+- La **tabla por municipio** usa también los puntos, ahora atribuidos por el AOI
+  que declara cada uno.
+- El **resumen por zona** de cada AOI conserva la cifra declarada por
+  Copernicus, tal cual la publica.
+
+Los trece de diferencia no se han investigado: pueden ser puntos que su propio
+resumen no cuenta, o un desfase entre la estadística y la capa. Lo que no se
+hace es elegir una y callar la otra — desde el 21-ago-2026 la portada cita las
+dos, porque el lector que sume las tres fuentes tiene que poder llegar al total.

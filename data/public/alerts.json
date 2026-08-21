@@ -1,43 +1,40 @@
 {
- "generado": "2026-08-20",
- "fecha": "2026-08-20",
+ "generado": "2026-08-21",
+ "fecha": "2026-08-21",
  "alertas": [
-  {
-   "tipo": "titulares_nuevos",
-   "nivel": "info",
-   "texto": "604 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 604
-  },
   {
    "tipo": "balance_en_medios",
    "nivel": "info",
-   "texto": "Balance en medios citando fuentes oficiales (2026-08-19): 180 fallecidos (-124 vs día anterior), 1595 heridos, 37 desaparecidos",
-   "fecha_balance": "2026-08-19",
+   "texto": "Balance en medios citando fuentes oficiales (2026-08-20): 265 fallecidos (+85 vs día anterior), 3494 heridos, 496 desaparecidos",
+   "fecha_balance": "2026-08-20",
    "cifras": {
     "departamentos_afectados": null,
     "municipios_afectados": null,
-    "personas_afectadas": 181,
-    "familias_afectadas": null,
-    "viviendas_averiadas": 862,
-    "viviendas_destruidas": null,
-    "heridos": 1595,
-    "fallecidos": 180,
-    "desaparecidos": 37,
-    "rescatados": 86
+    "personas_afectadas": 20017,
+    "familias_afectadas": 11132,
+    "viviendas_averiadas": 20557,
+    "viviendas_destruidas": 3715,
+    "heridos": 3494,
+    "fallecidos": 265,
+    "desaparecidos": 496,
+    "rescatados": null
    }
-  },
-  {
-   "tipo": "rud_actualizado",
-   "nivel": "info",
-   "texto": "RUD actualizado: +14 municipios. +13.836 familias vs snapshot anterior"
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
    "nivel": "media",
-   "texto": "UNITAR-UNOSAT publica 8 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los archiva con su literal y no los suma. Si UNOSAT lo corrige, entran solos.",
+   "texto": "UNITAR-UNOSAT publica 8 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los cuenta —lo decide el identificador que declara el producto, no la etiqueta del punto— y publica la discrepancia aparte. Si UNOSAT la corrige, la nota desaparece sola.",
    "event_code": "EQ20260822COL",
    "capa": "PNEO3_STD_20260811_BuildingDamageAsessment_Manizales",
    "puntos": 8
+  },
+  {
+   "tipo": "unosat_codigo_evento_imposible",
+   "nivel": "media",
+   "texto": "UNITAR-UNOSAT publica 201 puntos con el código «EQ20260822COL» y su fecha (2026-08-22) aún no ha llegado: no puede designar un evento real, así que es un error de etiquetado en origen. El monitor los cuenta —lo decide el identificador que declara el producto, no la etiqueta del punto— y publica la discrepancia aparte. Si UNOSAT la corrige, la nota desaparece sola.",
+   "event_code": "EQ20260822COL",
+   "capa": "Pleiades_20260813_BuildingDamageAsessment_Zarzal",
+   "puntos": 201
   }
  ]
 }

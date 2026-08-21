@@ -73,6 +73,11 @@ window.UI = (function () {
                       "edificio, fuera de toda zona de Copernicus. Es lectura " +
                       "de imágenes de muy alta resolución, no comprobada sobre " +
                       "el terreno por la propia fuente"],
+    evaluado_satelite: ["Evaluado por satélite", "--s9",
+                        "Un servicio de cartografía rápida evaluó allí " +
+                        "edificio a edificio, fuera de toda zona de " +
+                        "Copernicus. Es lectura de imágenes de muy alta " +
+                        "resolución, no comprobada sobre el terreno"],
     intensidad_alta: ["Intensidad alta", "--warning",
                       "La población declaró una intensidad de 6 o más en el " +
                       "cuestionario del Servicio Geológico de Estados Unidos, " +
@@ -594,63 +599,145 @@ window.UI = (function () {
     });
   }
 
+  /* Enumeración española: «a, b y c», con «e» cuando la última pieza empieza
+     por sonido i (ICube-SERTIT). La necesitan ya dos listas distintas. */
+  function enumeraEs(xs) {
+    const l = (xs || []).filter(Boolean).map(String);
+    if (l.length < 2) return l.join("");
+    const y = /^(i|hi(?!e))/i.test(l[l.length - 1]) ? "e" : "y";
+    return `${l.slice(0, -1).join(", ")} ${y} ${l[l.length - 1]}`;
+  }
+
+  /* Nombres públicos de los servicios satelitales y su orden de llegada al
+     monitor. Uno nuevo se pinta igual, al final y con su clave cruda: mejor
+     una etiqueta fea que un servicio invisible (R11). */
+  const SERVICIO_ES = { copernicus: "Copernicus", unosat: "UNOSAT",
+                        sertit: "ICube-SERTIT" };
+  const ORDEN_SERVICIOS = ["copernicus", "unosat", "sertit"];
+
+  /* Tarjeta del satélite cuando la ingesta ya ha resuelto el recuento
+     (`monitor.satelital`). Aquí NO se calcula ningún total: se lee. Con tres
+     servicios mirando —y dos de ellos las mismas ciudades— decidir qué edificio
+     ya estaba contado exige geometría, no aritmética de portada. */
+  function tarjetaSatelital(sat, entregas) {
+    const muns = Object.entries(sat.por_municipio || {});
+    const claves = [...new Set(muns.flatMap(
+      ([, v]) => Object.keys(v.fuentes || {})))];
+    const rango = (k) => { const i = ORDEN_SERVICIOS.indexOf(k);
+                           return i < 0 ? 99 : i; };
+    claves.sort((a, b) => rango(a) - rango(b));
+    const lista = enumeraEs(claves.map((k) => SERVICIO_ES[k] || k));
+    const coincid = muns.reduce((a, [, v]) => a + (v.coincidencias || 0), 0);
+    const discrepan = muns.reduce((a, [, v]) => a + (v.discrepan_de_grado || 0), 0);
+    const soloUno = muns.filter(
+      ([, v]) => Object.keys(v.fuentes || {}).length === 1).length;
+    /* El municipio donde más discrepan: la cifra global no enseña nada, el caso
+       sí. Se elige solo, para que el día que el peor sea otro lo diga él. */
+    const peor = muns.filter(([, v]) => v.discrepan_de_grado)
+      .sort((a, b) => b[1].discrepan_de_grado - a[1].discrepan_de_grado)[0] || null;
+    return {
+      id: "satelite",
+      nombre: `Satélite · ${lista}`,
+      href: "index.html#mapa",
+      // la fecha de la última entrega de Copernicus ya no fecha la tarjeta
+      // entera: si la ingesta declara cuándo resolvió el recuento, manda esa
+      fecha: sat.generado || entregas.map((e) => e.fecha).sort().at(-1) || null,
+      alcance: `${fmt(muns.length)} municipios evaluados`,
+      cifras: { edificios_dañados: sat.total_edificios,
+                edificios_vistos_por_dos: coincid,
+                edificios_en_desacuerdo: discrepan,
+                municipios_evaluados: muns.length },
+      // la línea visible de la tarjeta: se lee sin hover, que es como se lee
+      // en un teléfono. El detalle largo va en `nota`.
+      desglose: `${fmtProsa(claves.length)} servicios`
+        + (coincid ? `, ${fmt(coincid)} edificios vistos por dos` : ""),
+      nota: `Es el mayor recuento de edificios con daño clasificado que puede `
+        + `hacerse sin contar dos veces el mismo tejado: `
+        + `${fmt(sat.total_edificios)} en ${fmt(muns.length)} municipios, `
+        + `mirados por ${lista}. Un edificio cuenta una vez aunque lo hayan `
+        + `dibujado dos servicios —dos puntos a menos de ${fmt(sat.umbral_m)} m `
+        + `son el mismo edificio—, y esa decisión se toma en la ingesta, no en `
+        + `esta página.`
+        + (peor ? ` En ${peor[0]}, ${fmt(peor[1].coincidencias)} edificios los `
+          + `vieron dos servicios y en ${fmt(peor[1].discrepan_de_grado)} de `
+          + `ellos no coinciden sobre la gravedad.` : "")
+        + (soloUno ? ` A ${fmt(soloUno)} de esos municipios los ha mirado un `
+          + `solo servicio: allí no hay segunda opinión.` : ""),
+    };
+  }
+
   /* Comparativa de fuentes: las cuatro miradas sobre el mismo desastre,
      con cifras homogéneas para portada (tarjetas) y balances (tabla). */
   function comparativaFuentes(mon, oficiales) {
     const out = [];
-    const aois = (mon && mon.aois) || [];
-    const edifDe = (z) => (z.resumen && z.resumen.edificios_afectados) || 0;
-    const copernicus = aois.reduce((a, z) => a + edifDe(z), 0);
-    const zonas = aois.filter((z) => edifDe(z) > 0).length;
     const entregas = (mon && mon.entregas) || [];
-    // OJO: esta regla vive en DOS superficies —aquí y en deploy/gen_og.py, que
-    // pinta la imagen que se comparte—. Si tocas una, mira la otra.
-    // Las dos miradas satelitales se suman porque miran municipios distintos:
-    // Copernicus, las zonas urbanas del eje Cali-Pereira-Chocó; UNOSAT, tres
-    // municipios de Caldas donde Copernicus no ha cartografiado nada. Si un
-    // día se pisaran, la ingesta lo dice en `municipios_tambien_en_aoi_copernicus`
-    // y la portada deja de sumar sola: contar dos veces el mismo tejado sería
-    // peor que quedarse corto. Los `posibles` de UNOSAT viajan aparte para que
-    // el sitio pueda decir cuántos de esos edificios son hipótesis.
-    const uno = (mon && mon.unosat) || null;
-    const solapan = !!(uno && (uno.municipios_tambien_en_aoi_copernicus || []).length);
-    const unosat = uno && !solapan ? (uno.edificios || 0) : 0;
-    const munsUnosat = unosat ? (uno.municipios || []) : [];
-    const munUnosat = munsUnosat.length;
-    // los municipios se nombran, no se cuentan: son tres y decir cuáles vale
-    // más que decir cuántos. Enumeración española: «a, b y c».
-    const listaUnosat = munsUnosat.length > 1
-      ? `${munsUnosat.slice(0, -1).join(", ")} y ${munsUnosat.at(-1)}`
-      : munsUnosat.join("");
-    out.push({
-      id: "satelite",
-      nombre: unosat ? "Satélite · Copernicus y UNOSAT" : "Satélite · Copernicus",
-      href: "index.html#mapa",
-      fecha: entregas.map((e) => e.fecha).sort().at(-1) || null,
-      alcance: unosat
-        ? `${fmt(zonas)} zonas urbanas y ${fmt(munUnosat)} municipios evaluados`
-        : `${fmt(zonas)} zonas urbanas mapeadas`,
-      cifras: { edificios_dañados: copernicus + unosat,
-                edificios_copernicus: copernicus,
-                edificios_unosat: unosat || null,
-                edificios_unosat_posibles: unosat ? (uno.posibles || 0) : null },
-      // Resumen corto para la línea visible de la tarjeta. El `title` explica;
-      // esto se lee sin hover, que es como se lee en un teléfono.
-      desglose: unosat
-        ? `${fmt(copernicus)} Copernicus + ${fmt(unosat)} UNOSAT, `
-          + `${fmt(uno.posibles || 0)} solo «daño posible»`
-        : null,
-      nota: unosat
-        ? `El servicio de emergencias de Copernicus (activación EMSR916) ha `
-          + `clasificado ${fmt(copernicus)} edificios en ${fmt(zonas)} zonas `
-          + `urbanas; UNITAR-UNOSAT, ${fmt(unosat)} en ${listaUnosat}, `
-          + `donde Copernicus no ha cartografiado nada. De esos ${fmt(unosat)}, `
-          + `${fmt(uno.posibles || 0)} son «daño posible»: una hipótesis de la `
-          + `fuente, sin validar en campo. Se suman porque ninguna de las dos `
-          + `mira el municipio de la otra: no hay edificio contado dos veces.`
-        : `Edificios con daño clasificado por el servicio de emergencias de `
-          + `Copernicus (activación EMSR916) en ${fmt(zonas)} zonas urbanas.`,
-    });
+    /* El total satelital ya no se calcula aquí. Con tres servicios mirando
+       —y dos de ellos las mismas ciudades— decidir qué edificio ya estaba
+       contado exige geometría, no aritmética de portada: la ingesta
+       (`ingest/satelites.py`) lo resuelve una vez y publica `satelital`; el
+       sitio lo muestra. OJO: la imagen que se comparte (deploy/gen_og.py)
+       enseña esta misma cifra y debe leerla del mismo sitio.
+       El respaldo de abajo no es decorativo: el archivo guarda monitor.json
+       anteriores a este bloque —y anteriores incluso a UNOSAT— y deben seguir
+       pintándose con las miradas que tuvieran entonces. */
+    const sat = mon && mon.satelital && mon.satelital.total_edificios != null
+      ? mon.satelital : null;
+    if (sat) {
+      out.push(tarjetaSatelital(sat, entregas));
+    } else {
+      const aois = (mon && mon.aois) || [];
+      const edifDe = (z) => (z.resumen && z.resumen.edificios_afectados) || 0;
+      const copernicus = aois.reduce((a, z) => a + edifDe(z), 0);
+      const zonas = aois.filter((z) => edifDe(z) > 0).length;
+      // OJO: esta regla vive en DOS superficies —aquí y en deploy/gen_og.py, que
+      // pinta la imagen que se comparte—. Si tocas una, mira la otra.
+      // Las dos miradas satelitales se suman porque miran municipios distintos:
+      // Copernicus, las zonas urbanas del eje Cali-Pereira-Chocó; UNOSAT, tres
+      // municipios de Caldas donde Copernicus no ha cartografiado nada. Si un
+      // día se pisaran, la ingesta lo dice en `municipios_tambien_en_aoi_copernicus`
+      // y la portada deja de sumar sola: contar dos veces el mismo tejado sería
+      // peor que quedarse corto. Los `posibles` de UNOSAT viajan aparte para que
+      // el sitio pueda decir cuántos de esos edificios son hipótesis.
+      const uno = (mon && mon.unosat) || null;
+      const solapan = !!(uno && (uno.municipios_tambien_en_aoi_copernicus || []).length);
+      const unosat = uno && !solapan ? (uno.edificios || 0) : 0;
+      const munsUnosat = unosat ? (uno.municipios || []) : [];
+      const munUnosat = munsUnosat.length;
+      // los municipios se nombran, no se cuentan: son tres y decir cuáles vale
+      // más que decir cuántos. Enumeración española: «a, b y c».
+      const listaUnosat = munsUnosat.length > 1
+        ? `${munsUnosat.slice(0, -1).join(", ")} y ${munsUnosat.at(-1)}`
+        : munsUnosat.join("");
+      out.push({
+        id: "satelite",
+        nombre: unosat ? "Satélite · Copernicus y UNOSAT" : "Satélite · Copernicus",
+        href: "index.html#mapa",
+        fecha: entregas.map((e) => e.fecha).sort().at(-1) || null,
+        alcance: unosat
+          ? `${fmt(zonas)} zonas urbanas y ${fmt(munUnosat)} municipios evaluados`
+          : `${fmt(zonas)} zonas urbanas mapeadas`,
+        cifras: { edificios_dañados: copernicus + unosat,
+                  edificios_copernicus: copernicus,
+                  edificios_unosat: unosat || null,
+                  edificios_unosat_posibles: unosat ? (uno.posibles || 0) : null },
+        // Resumen corto para la línea visible de la tarjeta. El `title` explica;
+        // esto se lee sin hover, que es como se lee en un teléfono.
+        desglose: unosat
+          ? `${fmt(copernicus)} Copernicus + ${fmt(unosat)} UNOSAT, `
+            + `${fmt(uno.posibles || 0)} solo «daño posible»`
+          : null,
+        nota: unosat
+          ? `El servicio de emergencias de Copernicus (activación EMSR916) ha `
+            + `clasificado ${fmt(copernicus)} edificios en ${fmt(zonas)} zonas `
+            + `urbanas; UNITAR-UNOSAT, ${fmt(unosat)} en ${listaUnosat}, `
+            + `donde Copernicus no ha cartografiado nada. De esos ${fmt(unosat)}, `
+            + `${fmt(uno.posibles || 0)} son «daño posible»: una hipótesis de la `
+            + `fuente, sin validar en campo. Se suman porque ninguna de las dos `
+            + `mira el municipio de la otra: no hay edificio contado dos veces.`
+          : `Edificios con daño clasificado por el servicio de emergencias de `
+            + `Copernicus (activación EMSR916) en ${fmt(zonas)} zonas urbanas.`,
+      });
+    }
     const rudSerie = mon && mon.rud && mon.rud.serie || [];
     if (rudSerie.length) {
       const u = rudSerie.at(-1);

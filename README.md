@@ -10,9 +10,10 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
 ## Qué contiene
 
 - **[Mapa interactivo](https://brechas.orkidea.eu/site/)** — daño satelital punto a punto
-  (1.007 edificios con daño clasificado: 622 de Copernicus y 385 de UNITAR-UNOSAT, dos
-  fuentes que miran municipios distintos; 289 de los 385 son solo «daño posible»), zonas
-  AOI con estado del cruce, intensidad
+  (1.578 edificios en 11 municipios con daño clasificado por tres servicios satelitales,
+  contando una sola vez los que dos de ellos vieron a la vez: no es una suma de fuentes, es una unión de
+  puntos —ver [DECISIONES](docs/DECISIONES.md)—), zonas
+  de interés (AOI) con estado del cruce, intensidad
   ShakeMap, 430+ reportes ciudadanos con foto (ChatMap/WhatsApp), municipios del área de
   influencia con población DANE, y 1.173 sismos históricos de contexto.
 - **[Titulares](https://brechas.orkidea.eu/site/noticias.html)** — 3.000+ noticias del
@@ -82,7 +83,8 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [DIVIPOLA geolocalizado `gdxc-w37w`](https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w) | Centroide y código de los 1.122 municipios: cualquier municipio que entre al RUD resuelve coordenadas sin curación manual | Público (Socrata, `$limit` explícito); referencia estática — se regenera a mano con `ingest/build_divipola.py`, no en la corrida diaria |
 | [ChatMap OSM Colombia](https://chatmap.hotosm.org/colombia.html) ([uMap](https://umap.hotosm.org/en/map/colombia-m-74-earthquake-10-ago-2026_3482), [proyecto HOT](https://www.hotosm.org/en/projects/2026-colombia-earthquake-response/)) | 430+ reportes ciudadanos con foto (WhatsApp→mapa) | Endpoint de activación: puede cerrar; medios copiados localmente |
 | [UNGRD RUD](https://rud.gestiondelriesgo.gov.co/) (`/home/json.php?temp=2026T`) | **La primera fuente oficial que cubre el evento**: damnificados por municipio (familias, personas, viviendas), cargado por autoridades locales | Público de lectura, NO documentado (descubierto 16-ago); vigilado por test de supuesto |
-| [UNITAR-UNOSAT](https://unosat.org/products/4253) (`/our_products/`, `/our_products/<id>`) | **La segunda mirada satelital**: 385 edificios evaluados uno a uno en Anserma, Manizales y Viterbo (Caldas), donde Copernicus no cartografía nada —289 de ellos son «daño posible», hipótesis de la fuente sin validar en campo—. La capa trae 8 puntos más, en Manizales, con un código de evento inconsistente —fechado después de la propia imagen que los retrata—: no se suman ni se descartan, se cuentan aparte con el literal de la fuente ([por qué](docs/LIMITACIONES.md)). Shapefiles leídos con stdlib | Público, sin clave ni API documentada; licencia no declarada ([UNITAR legal](https://www.unitar.org/legal)). El listado es una ventana fija de 11 productos sin paginar: el módulo consulta también los ids ya vistos para no perder el histórico |
+| [UNITAR-UNOSAT](https://unosat.org/products/4253) (`/our_products/`, `/our_products/<id>`) | **La segunda mirada satelital**: 548 edificios evaluados uno a uno en Anserma, Manizales y Viterbo (Caldas) y en Zarzal (Valle del Cauca), donde Copernicus no cartografía nada —443 de ellos son «daño posible», hipótesis de la fuente sin validar en campo—. De esos 548, 209 traen un código de evento que no coincide con el que declara su propio producto y que está fechado después de la imagen que los retrata: la fuente se contradice a sí misma. Cuentan —manda el identificador del producto— y se publican marcados en `unosat_codigo_inconsistente`, nunca reescritos ([por qué](docs/LIMITACIONES.md)). Viterbo pasó de 154 edificios a 108 porque UNOSAT reeditó su propia evaluación: se publica la vigente y la anterior sobrevive en los snapshots. Shapefiles leídos con stdlib | Público, sin clave ni API documentada; licencia no declarada ([UNITAR legal](https://www.unitar.org/legal)). El listado es una ventana fija de 11 productos sin paginar: el módulo consulta también los ids ya vistos para no perder el histórico |
+| [ICube-SERTIT](https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/) (catálogo por HTTP; vectores por correo) | **La tercera mirada satelital**: 512 puntos en Pereira (252), Cali (103), Roldanillo (77), La Virginia (49) y Manizales (31), de los que **503 traen grado de daño** — los otros 9, todos en Cali, la fuente los señaló sin clasificarlos y no cuentan como daño clasificado, dentro de la activación 1048 de la Charter que pidió la UNGRD. **Roldanillo y La Virginia no los ha mirado ningún otro servicio.** Comparte vocabulario de daño con Copernicus, así que las dos capas se leen con la misma leyenda | Los mapas son públicos como PDF/JPG; **los vectores no se descargan**: su web los manda por correo tras un formulario. Se pidieron el 20-ago-2026 y se recibieron el 21, y viven en `data/documentos/sertit/` con su sha256. Licencia **no comercial** con atribución obligatoria «© ICube-SERTIT 2026» y logo — más restrictiva que el resto del monitor ([por qué](docs/LIMITACIONES.md)) |
 | [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
 | Worker interno `monitor-terremoto-colombia-oficiales-ai` | Monitoreo de canales oficiales y extracción estructurada de documentos con `qwen-vl-ocr-2025-11-20` | Privado para inferencia; público solo JSON/RSS estructurado |
 
@@ -131,6 +133,17 @@ Detalles de operación en [workers/push/README.md](workers/push/README.md).
 - Toda cifra es rastreable: `sources_log` (URL, HTTP, sha256, timestamp) + snapshot inmutable
   en `data/snapshots/YYYY-MM-DD/`.
 
+## Quién mira desde el aire, y quién no
+
+`docs/INVESTIGACION-SATELITES.md` inventaria las miradas satelitales del
+terremoto: las 495 escenas de doce misiones que movilizó la Charter
+Internacional, los quince productos públicos que salieron de ellas —de los que
+el monitor ingiere los de tres equipos—, el producto de movimiento del terreno
+que Copernicus prometió y acabó declarando no producible, el interferograma
+NISAR abierto que nadie ha explotado, y los operadores comerciales que abrieron
+datos para otros desastres y no para este. Es la base probatoria de lo que este
+repositorio afirma sobre la cobertura satelital.
+
 ## Extensión documentada: asentamientos bajo dosel
 
 Para señalar población invisible al mapeo óptico (ríos de Chocó bajo selva): HRSL de Meta
@@ -148,7 +161,9 @@ ingest/           # pipeline (solo stdlib de Python)
   crosscheck.py   # las 5 categorías del cruce
   verify_citizen.py, alerts.py, publish.py, run_daily.py
 data/
-  monitor.sqlite  # series + procedencia
+  monitor.sqlite  # series + procedencia (NO versionado: se reconstruye de dumps/)
+  dumps/          # los CSV que sí van a git: de aquí renace la base en un clon
+  documentos/     # cuerpos entregados fuera de banda (ICube-SERTIT, por correo)
   snapshots/      # respuestas crudas por día (inmutables)
   media/          # fotos ciudadanas (videos en R2, hash registrado)
   public/         # artefactos que consume el mapa

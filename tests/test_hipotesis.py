@@ -384,24 +384,56 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                     f"{fichero} publica nombres de feed en `{campo}`: {colados[:3]}")
 
     def test_una_derivacion_no_finge_ser_una_peticion(self):
-        """`sources_log` tiene dos escritores: `fetch()`, que pide por HTTP, y
-        `registrar_derivacion()`, que anota lo deducido del propio archivo. La
-        segunda clase se reconoce porque NO trae nada de una petición. Sin este
-        invariante, mañana una derivación podría registrarse con `http_status`
-        200 y colarse en el régimen fuerte de trazabilidad por la puerta de
-        atrás — con sha256 de un cuerpo que nadie descargó."""
+        """`sources_log` tiene tres escritores: `fetch()`, que pide por HTTP;
+        `registrar_derivacion()`, que anota lo deducido del propio archivo; y
+        `registrar_entrega()`, que anota un cuerpo llegado por otro canal. Sin
+        este invariante, mañana una derivación podría registrarse con
+        `http_status` 200 y colarse en el régimen fuerte de trazabilidad por la
+        puerta de atrás — con sha256 de un cuerpo que nadie descargó.
+
+        Las entregas SÍ traen sha, bytes y ruta —el fichero existe y se puede
+        verificar— y por eso quedan exentas por contrato explícito, no por
+        texto libre. Lo que ninguna de las dos puede hacer es fingir un
+        `http_status`: eso sigue siendo exclusivo de una petición real.
+        """
         why = skip_sin_datos("sources_log")
         if why:
             self.skipTest(why)
+        from common import NOTA_ENTREGA
         impostoras = q(
             "SELECT url, http_status, sha256, bytes, snapshot_path"
             " FROM sources_log WHERE http_status IS NULL AND ("
             "  sha256 IS NOT NULL OR bytes IS NOT NULL"
-            "  OR snapshot_path IS NOT NULL)")
+            "  OR snapshot_path IS NOT NULL)"
+            " AND (note IS NULL OR note NOT LIKE ?)", NOTA_ENTREGA + "%")
         self.assertEqual(
             impostoras, [],
             "filas sin petición que traen rastro de una: si no hubo HTTP, no "
             "hay hash ni cuerpo ni snapshot propio que registrar")
+
+        # La exención de las entregas no puede ser solo sustractiva: si se
+        # limitara a sacarlas del invariante, cualquier fila podría escaparse
+        # poniéndose la nota. A cambio de salir, se les exige MÁS que al resto:
+        # cuerpo presente, sha coincidente y ruta dentro del archivo.
+        entregas = q(
+            "SELECT url, sha256, bytes, snapshot_path FROM sources_log"
+            " WHERE note LIKE ?", NOTA_ENTREGA + "%")
+        import hashlib
+        for url, sha, bytes_, ruta in entregas:
+            self.assertTrue(
+                sha and bytes_ and ruta,
+                f"entrega sin cuerpo verificable ({url}): una entrega existe "
+                f"precisamente porque hay un fichero — si no lo hay, es una "
+                f"derivación y va sin sha")
+            self.assertTrue(
+                ruta.startswith("data/documentos/"),
+                f"{ruta}: las entregas viven en data/documentos/, no en "
+                f"snapshots — un cuerpo que nadie descargó no es un snapshot")
+            f = ROOT / ruta
+            self.assertTrue(f.exists(), f"{ruta}: registrado y ausente")
+            self.assertEqual(
+                hashlib.sha256(f.read_bytes()).hexdigest(), sha,
+                f"{ruta}: el cuerpo cambió desde que se registró")
 
     def test_snapshot_de_copernicus_existe(self):
         snaps = list((ROOT / "data" / "snapshots").glob("*/copernicus_EMSR916.json"))
@@ -477,3 +509,128 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestPaquetesDeSertit(unittest.TestCase):
+    """Los ZIP de ICube-SERTIT son el único dato del monitor que no se puede
+    volver a descargar: su web los entrega por correo. Si uno cambia o
+    desaparece, la cifra publicada deja de tener respaldo — y eso hay que
+    comprobarlo SIN red, porque el clon del futuro no la tendrá.
+    """
+
+    def test_los_paquetes_archivados_no_han_cambiado(self):
+        import hashlib
+        docs = ROOT / "data" / "documentos" / "sertit"
+        if not docs.exists():
+            self.skipTest("sin paquetes archivados")
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        from common import NOTA_ENTREGA
+        filas = q("SELECT snapshot_path, sha256 FROM sources_log"
+                  " WHERE note LIKE ? AND snapshot_path LIKE ?",
+                  NOTA_ENTREGA + "%", "data/documentos/sertit/%")
+        if not filas:
+            self.skipTest("los paquetes aún no se han registrado")
+        for ruta, sha in filas:
+            f = ROOT / ruta
+            self.assertTrue(f.exists(), f"{ruta}: consta y no está en disco")
+            self.assertEqual(
+                hashlib.sha256(f.read_bytes()).hexdigest(), sha,
+                f"{ruta}: cambió de contenido desde que se registró")
+
+    def test_ningun_cuerpo_entregado_vive_sin_su_fila(self):
+        """El recorrido inverso: todo fichero de `data/documentos/` tiene fila.
+
+        El invariante de arriba comprueba «fila ⇒ cuerpo». Sin este, un
+        fichero podría entrar al repositorio sin que nada dijera de dónde
+        salió ni cuándo — que es exactamente el modo de fallo que dejó un
+        `sertit_catalogo_845.json` huérfano en snapshots al retirar un
+        mecanismo, y que solo cazó una revisión humana.
+        """
+        docs = ROOT / "data" / "documentos"
+        if not docs.exists():
+            self.skipTest("sin entregas archivadas")
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        registrados = {r[0] for r in q(
+            "SELECT snapshot_path FROM sources_log"
+            " WHERE snapshot_path LIKE 'data/documentos/%'")}
+        huerfanos = [str(f.relative_to(ROOT)) for f in docs.rglob("*")
+                     if f.is_file() and str(f.relative_to(ROOT)) not in registrados]
+        self.assertEqual(
+            huerfanos, [],
+            "cuerpos en el archivo sin fila que los explique: un fichero que "
+            "nadie registró no se puede fechar ni atribuir")
+
+    def test_cada_paquete_registrado_una_sola_vez(self):
+        """Una entrega es un suceso, no un estado. Si se registrara en cada
+        corrida, dentro de un año el log diría que SERTIT entregó cinco ZIP
+        todos los días — sucesos que no ocurrieron."""
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        from common import NOTA_ENTREGA
+        filas = q("SELECT sha256, COUNT(*) FROM sources_log"
+                  " WHERE note LIKE ? GROUP BY sha256", NOTA_ENTREGA + "%")
+        repetidas = [(sha, n) for sha, n in filas if n > 1]
+        self.assertEqual(
+            repetidas, [],
+            "el mismo cuerpo registrado como entrega más de una vez: el log "
+            "estaría afirmando entregas que no ocurrieron")
+
+    def test_los_puntos_sin_grado_no_cuentan_como_dano_clasificado(self):
+        """Nueve puntos de SERTIT en Cali llegan con `Not Applicable`: la
+        fuente los señaló y no les asignó grado. Se pintan, pero no entran en
+        un total que se anuncia como daño clasificado."""
+        import json as _json
+        pub = ROOT / "data" / "public"
+        if not (pub / "sertit_damage.geojson").exists():
+            self.skipTest("sin capa de SERTIT")
+        capa = _json.loads((pub / "sertit_damage.geojson").read_text(encoding="utf-8"))
+        sin_grado = [f for f in capa["features"]
+                     if (f["properties"].get("dano") or "").lower().startswith("not applicable")]
+        mon = _json.loads((pub / "monitor.json").read_text(encoding="utf-8"))
+        sat = mon.get("satelital") or {}
+        if not sat:
+            self.skipTest("sin recuento satelital")
+        fuentes = sum(d["fuentes"].get("sertit", 0)
+                      for d in sat["por_municipio"].values())
+        self.assertEqual(
+            fuentes, len(capa["features"]) - len(sin_grado),
+            "el recuento satelital cuenta puntos que la fuente no clasificó")
+
+
+class TestVocabularioDeLasFuentes(unittest.TestCase):
+    """Una fuente que estrena una palabra no puede pasar desapercibida.
+
+    El 21-ago-2026, al reeditar Viterbo y publicar Zarzal, UNOSAT empezó a
+    declarar confianzas que su capa nunca había usado —`Uncertain` y
+    `Medium`—. El sitio solo sabía traducir `To Be Evaluated`, así que las
+    nuevas se habrían publicado en inglés sin que nadie se enterase. Nadie lo
+    cazó: lo vio una persona leyendo los datos.
+
+    Que este test falle es buena noticia (R11): significa que la fuente ha
+    dicho algo que no decía, y eso hay que mirarlo antes de publicarlo.
+    """
+
+    def test_toda_confianza_de_unosat_tiene_traduccion(self):
+        import json as _json
+        import re as _re
+        capa = ROOT / "data" / "public" / "unosat_damage.geojson"
+        app = ROOT / "site" / "app.js"
+        if not capa.exists() or not app.exists():
+            self.skipTest("sin capa de UNOSAT")
+        valores = {(f["properties"] or {}).get("confianza")
+                   for f in _json.loads(capa.read_text(encoding="utf-8"))["features"]}
+        valores.discard(None)
+        dicc = app.read_text(encoding="utf-8")
+        bloque = dicc[dicc.index("const UNOSAT_ES"):dicc.index("};", dicc.index("const UNOSAT_ES"))]
+        conocidos = set(_re.findall(r'"([^"]+)":', bloque))
+        huerfanos = sorted(valores - conocidos)
+        self.assertEqual(
+            huerfanos, [],
+            f"UNOSAT declara confianzas que el sitio no sabe traducir: "
+            f"{huerfanos}. Se publicarían en inglés, y peor: nadie habría "
+            f"decidido qué significan para el lector")

@@ -54,6 +54,18 @@ def _es_rowid(info: list) -> str | None:
     return None
 
 
+# Tablas donde la clave entera NO es un contador nuestro sino el identificador
+# que usa la FUENTE. Omitirla —como se hace con el `id` de `sources_log`, que no
+# significa nada— corrompería el dato: al reconstruir, sqlite reparte 1..N y el
+# producto 3244 de SERTIT pasa a ser el 1. Descubierto el 21-ago-2026 al dar de
+# alta SERTIT; afectaba ya a `unosat_products`, cuyo `product_id` es el número
+# con el que UNOSAT publica cada informe y con el que se le puede reclamar.
+PK_DE_LA_FUENTE = {
+    "unosat_products": "product_id",
+    "sertit_productos": "producto_id",
+}
+
+
 def _columnas(conn: sqlite3.Connection, tabla: str) -> tuple[list[str], list[str]]:
     """Columnas a volcar y orden del volcado.
 
@@ -61,12 +73,15 @@ def _columnas(conn: sqlite3.Connection, tabla: str) -> tuple[list[str], list[str
     reparta de nuevo al insertar, en el mismo orden. Los dumps anteriores al
     cambio siguen reconstruyéndose sin tocar nada, porque `rebuild` inserta por
     nombre de columna: si el CSV trae `id`, se respeta.
+
+    Salvo que esa clave sea el identificador de la fuente (`PK_DE_LA_FUENTE`):
+    entonces se vuelca, porque repartirla de nuevo cambiaría el dato.
     """
     info = conn.execute(f"PRAGMA table_info({tabla})").fetchall()
     cols = [r[1] for r in info]
     pk = [r[1] for r in sorted((r for r in info if r[5]), key=lambda r: r[5])]
     rowid = _es_rowid(info)
-    if rowid:
+    if rowid and rowid != PK_DE_LA_FUENTE.get(tabla):
         cols = [c for c in cols if c != rowid]
     return cols, pk
 

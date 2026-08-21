@@ -114,16 +114,19 @@ def llms_full(destino: Path) -> int:
         else:
             partes.append("RUD: sin inscripciones en la última captura. Sin registro aún "
                           "no significa sin daño.")
-        # Los DOS satélites, y por EVIDENCIA, no por pertenencia a una zona.
+        # Los TRES satélites, y por EVIDENCIA, no por pertenencia a una zona.
         # Mientras esto miró una sola fuente, este fichero —el que leen los
         # sistemas de IA— afirmaba que «ningún producto satelital» había mirado
-        # Anserma, Manizales y Viterbo, los tres municipios que aportan los 385
-        # edificios de UNOSAT. Y mientras Copernicus se resolvió por AOI, lo
+        # Anserma, Manizales y Viterbo, los municipios que entonces aportaban
+        # los 385 edificios de UNOSAT (hoy son 548 y son cuatro, con Zarzal). Y mientras Copernicus se resolvió por AOI, lo
         # afirmaba también de Yumbo, que tiene 3 edificios clasificados con
         # coordenada dentro pero ninguna AOI encima: la ficha del municipio y
         # la tabla de portada decían 3, y este fichero decía que ninguno.
         # La pregunta correcta no es «¿está en una zona?» sino «¿hay evidencia
         # satelital dentro?», que es la que usan las tablas.
+        # Con ICube-SERTIT el episodio se repetiría en Roldanillo y La Virginia,
+        # que no ha mirado ningún otro servicio: este fichero diría de los dos
+        # que nadie evaluó sus edificios mientras la ficha publica 77 y 49.
         satelital = []
         n_cop = conteo_copernicus.get(nombre, 0)
         if n_cop:
@@ -142,6 +145,30 @@ def llms_full(destino: Path) -> int:
                 f"UNITAR-UNOSAT, el centro satelital de la ONU, de los que "
                 f"{fmt(m['unosat_observados'])} son daño observado y el resto, «daño "
                 f"posible»; ninguno validado en campo")
+        if m.get("sertit_edificios") is not None:
+            # «ventana», no «recorte del municipio»: lo que miran es un recuadro
+            # propio, que en La Virginia es más grande que el municipio entero.
+            ventana = (f", sobre una ventana de {fmt(m['sertit_area_km2'], 2)} km²"
+                       if m.get("sertit_area_km2") is not None else "")
+            # Sin cifra de destruidos no se escribe un cero ni un guion en prosa:
+            # simplemente no se afirma nada sobre ellos (R3).
+            destruidos = (f", de los que da por destruidos {fmt(m['sertit_destruidos'])}"
+                          if m.get("sertit_destruidos") is not None else "")
+            satelital.append(
+                f"{fmt(m['sertit_edificios'])} edificios evaluados por ICube-SERTIT "
+                f"(Universidad de Estrasburgo) para la activación 1048 de la Carta "
+                f"Internacional del Espacio y las Grandes Catástrofes{ventana}"
+                f"{destruidos}; fotointerpretación sobre imagen Pléiades, sin validar "
+                f"en campo (© ICube-SERTIT 2026)")
+        # Cada servicio mira su propio recorte: dos cifras sobre el mismo
+        # municipio son dos ventanas distintas, no dos versiones de la misma
+        # medida. Quien lea esto sin la advertencia las sumaría.
+        if len(satelital) > 1:
+            satelital.append(
+                "cada servicio cartografió su propio recorte del municipio, así que sus "
+                "cifras no son versiones de una misma medición ni se suman: para el total "
+                "de edificios únicos, contando una sola vez los que vieron dos servicios, "
+                f"está el bloque «satelital» de {DOMINIO}/data/public/monitor.json")
         partes.append("Cobertura satelital: " + "; ".join(satelital) + "."
                       if satelital else
                       "Cobertura satelital: ningún producto satelital de daño ha reportado "
@@ -164,6 +191,9 @@ def llms_full(destino: Path) -> int:
           "- RUD (Registro Único de Damnificados), UNGRD: https://rud.gestiondelriesgo.gov.co/",
           "- Proyecciones de población municipal 2026, DANE",
           "- Servicio de gestión de emergencias de Copernicus (EMS), activación EMSR916",
+          "- UNITAR-UNOSAT, centro satelital de la ONU: https://unosat.org/products/4253",
+          "- ICube-SERTIT (Universidad de Estrasburgo), Carta Internacional del Espacio y",
+          "  las Grandes Catástrofes, activación 1048: © ICube-SERTIT 2026, uso no comercial",
           "- Servicio Geológico de Estados Unidos (USGS): mapa de intensidad ShakeMap y",
           "  cuestionario ciudadano DYFI («Did You Feel It?», ¿lo sintió usted?)",
           "- ChatMap · OpenStreetMap Colombia (reportes ciudadanos)",

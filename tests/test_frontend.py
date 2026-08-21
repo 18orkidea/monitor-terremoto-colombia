@@ -573,7 +573,7 @@ class TestTotalSatelital(unittest.TestCase):
                  {"resumen": {"edificios_afectados": None}}],
         "entregas": [{"fecha": "2026-08-18"}],
         "unosat": {"edificios": 385, "observados": 96, "posibles": 289,
-                   "otros_eventos": 8,
+                   "codigo_inconsistente": 8,
                    "municipios": ["Anserma", "Manizales", "Viterbo"],
                    "municipios_tambien_en_aoi_copernicus": []},
         "citizen": {"chatmap_total": 439, "en_aoi": 100},
@@ -618,3 +618,97 @@ class TestTotalSatelital(unittest.TestCase):
         sat = self._satelite(mon)
         self.assertEqual(sat["cifras"]["edificios_dañados"], 622)
         self.assertIn("zonas urbanas", sat["alcance"])
+
+
+@unittest.skipUnless(NODE, "node no disponible")
+class TestTotalSatelitalTresServicios(unittest.TestCase):
+    """Con tres servicios mirando, el sitio deja de calcular el total.
+
+    Hasta el 20-ago-2026 la portada sumaba Copernicus + UNOSAT con una guarda de
+    solape, y esa aritmética bastaba porque las dos miraban municipios
+    distintos. ICube-SERTIT rompe el supuesto: mira Pereira y Cali, que ya
+    miraba Copernicus, y en Pereira 108 de sus edificios son los mismos que ya
+    estaban contados. Decidir cuáles exige geometría, así que la decisión se
+    toma una sola vez en la ingesta (`ingest/satelites.py`, que publica
+    `monitor.satelital`) y el sitio la LEE. Este test vigila que la lea: si
+    alguien vuelve a sumar aquí, el total dejará de cuadrar con el que publica
+    el resto del monitor.
+    """
+
+    MON = {
+        "fecha": "2026-08-21",
+        # las AOIs siguen ahí, y su suma (622) NO es la cifra de la tarjeta:
+        # si alguien vuelve a calcular, el test lo ve
+        "aois": [{"resumen": {"edificios_afectados": 400}},
+                 {"resumen": {"edificios_afectados": 222}}],
+        "entregas": [{"fecha": "2026-08-18"}],
+        "unosat": {"edificios": 385, "observados": 96, "posibles": 289,
+                   "municipios": ["Anserma", "Manizales", "Viterbo"],
+                   "municipios_tambien_en_aoi_copernicus": []},
+        "satelital": {
+            "total_edificios": 1424, "umbral_m": 20,
+            "criterio": "Cada edificio se cuenta una vez.",
+            "por_municipio": {
+                "Pereira": {"unidades": 337,
+                            "fuentes": {"copernicus": 193, "sertit": 252},
+                            "coincidencias": 108, "discrepan_de_grado": 49},
+                "Roldanillo": {"unidades": 77, "fuentes": {"sertit": 77},
+                               "coincidencias": 0, "discrepan_de_grado": 0},
+                "Anserma": {"unidades": 104, "fuentes": {"unosat": 104},
+                            "coincidencias": 0, "discrepan_de_grado": 0},
+            },
+        },
+    }
+
+    def _satelite(self, mon):
+        fuentes = correr_ui("UI.comparativaFuentes("
+                            f"{json.dumps(mon, ensure_ascii=False)}, null)")
+        return next(f for f in fuentes if f["id"] == "satelite")
+
+    def test_lee_el_total_de_la_ingesta_en_vez_de_calcularlo(self):
+        sat = self._satelite(self.MON)
+        self.assertEqual(sat["cifras"]["edificios_dañados"], 1424,
+                         "el total sale de monitor.satelital, no de sumar fuentes")
+
+    def test_un_total_que_cambia_en_la_ingesta_cambia_en_la_portada(self):
+        """Si el sitio calculara, este monitor daría el mismo número que el
+        anterior. Leerlo significa obedecerlo, aunque sea absurdo."""
+        mon = {**self.MON, "satelital": {**self.MON["satelital"],
+                                         "total_edificios": 7}}
+        self.assertEqual(self._satelite(mon)["cifras"]["edificios_dañados"], 7)
+
+    def test_nombra_los_tres_servicios(self):
+        sat = self._satelite(self.MON)
+        for servicio in ("Copernicus", "UNOSAT", "ICube-SERTIT"):
+            self.assertIn(servicio, sat["nombre"],
+                          f"la tarjeta calla {servicio}")
+
+    def test_declara_el_solape_y_el_desacuerdo(self):
+        """Una cifra que descarta duplicados sin decir cuántos no es
+        rastreable: los 108 edificios que dos servicios vieron a la vez —y los
+        49 en los que no coinciden— son el hallazgo, no un detalle técnico."""
+        sat = self._satelite(self.MON)
+        self.assertEqual(sat["cifras"]["edificios_vistos_por_dos"], 108)
+        self.assertEqual(sat["cifras"]["edificios_en_desacuerdo"], 49)
+        self.assertIn("108", sat["nota"])
+        self.assertIn("49", sat["nota"])
+        self.assertIn("Pereira", sat["nota"],
+                      "el municipio donde discrepan se nombra, no se cuenta")
+
+    def test_no_dice_que_suma_ni_que_corrige_a_nadie(self):
+        """El monitor no arbitra entre satélites: mide la distancia entre
+        ellos. Ni la tarjeta suma fuentes ni proclama que una enmiende a otra."""
+        sat = self._satelite(self.MON)
+        texto = " ".join(str(sat.get(k) or "")
+                         for k in ("nombre", "alcance", "desglose", "nota"))
+        for palabra in ("suma", "corrige", "desmiente"):
+            self.assertNotIn(palabra, texto.lower(),
+                             f"la tarjeta dice «{palabra}»")
+
+    def test_un_monitor_sin_bloque_satelital_no_revienta(self):
+        """El archivo guarda monitor.json anteriores a este bloque: deben
+        seguir pintándose con las miradas que tuvieran entonces."""
+        mon = {k: v for k, v in self.MON.items() if k != "satelital"}
+        sat = self._satelite(mon)
+        self.assertEqual(sat["cifras"]["edificios_dañados"], 1007,
+                         "respaldo: 622 de Copernicus + 385 de UNOSAT")

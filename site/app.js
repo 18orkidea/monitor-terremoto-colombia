@@ -7,11 +7,16 @@
   };
   const fmt = (n) => window.UI.fmt(n, 1);
   const ficha = window.UI.fichaMapa;   // único constructor de globos (ui.js)
-  /* Los shapefiles de UNOSAT fechan sus imágenes como AAAAMMDD; el sitio
-     escribe las fechas de una sola manera (UI.fechaEs). */
-  const fechaCompacta = (s) => {
-    const m = /^(\d{4})(\d{2})(\d{2})$/.exec(String(s || ""));
-    return m ? window.UI.fechaEs(`${m[1]}-${m[2]}-${m[3]}`) : (s || null);
+  /* Cada servicio satelital fecha sus imágenes a su manera —UNOSAT en
+     AAAAMMDD, ICube-SERTIT en «AAAA/MM/DD HH:MM UTC»— y el sitio escribe las
+     fechas de una sola manera (UI.fechaEs). La hora se conserva cuando la
+     fuente la da: dos pasadas del mismo día no retratan lo mismo. */
+  const fechaImagen = (s) => {
+    const m = /^(\d{4})[/-]?(\d{2})[/-]?(\d{2})(?:[ T](\d{2}:\d{2}))?\s*(UTC)?/
+      .exec(String(s || ""));
+    if (!m) return s || null;
+    const dia = window.UI.fechaEs(`${m[1]}-${m[2]}-${m[3]}`);
+    return m[4] ? `${dia}, ${m[4]}${m[5] ? " UTC" : ""}` : dia;
   };
 
   // ---- traducción de etiquetas que llegan en inglés desde las fuentes.
@@ -51,7 +56,8 @@
      miradas que lo han registrado). */
   const FUENTE_ES = { prensa: "prensa", rud: "registro municipal (RUD)",
                       dyfi: "intensidad percibida (DYFI)",
-                      unosat: "evaluación satelital (UNOSAT)" };
+                      unosat: "evaluación satelital (UNOSAT)",
+                      sertit: "evaluación satelital (ICube-SERTIT)" };
   const t = (s) => DICT[s] || s;
   /* Término traducido conservando entre paréntesis el original: es el que
      aparece en los productos descargables de la fuente, y sin él no se puede
@@ -69,7 +75,7 @@
   const base = "/data/public/";
   const OFFICIAL_FEED = `${window.UI.OFICIALES_BASE}/oficiales.json`;
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
-         dmgPts, dmgLines, notAnalysed, unosat, oficiales,
+         dmgPts, dmgLines, notAnalysed, unosat, sertit, oficiales,
          hitosCurados] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
     j(base + "chatmap.geojson"),
@@ -77,6 +83,7 @@
     j(base + "shakemap_mmi.geojson"), j(base + "alerts.json"),
     j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
     j(base + "not_analysed.geojson"), j(base + "unosat_damage.geojson"),
+    j(base + "sertit_damage.geojson"),
     j(OFFICIAL_FEED),
     j(base + "hitos_monitor.json"),
   ]);
@@ -190,9 +197,12 @@
   } else { map.setView([4.5, -76.3], 8); }
 
   // ---- detecciones de daño de Copernicus (la faceta punto a punto)
+  /* Vocabulario de daño compartido: Copernicus e ICube-SERTIT gradúan con las
+     mismas tres palabras, así que el color lo pone UNA tabla. SERTIT añade
+     edificios que dibujó sin asignarles grado. */
   const GRADO_COLOR = {
     "Destroyed": css("--critical"), "Damaged": "#ec835a",
-    "Possibly damaged": css("--warning"),
+    "Possibly damaged": css("--warning"), "Not Applicable": css("--muted"),
   };
   const GRADO_ES = { "Destroyed": "Destruido", "Damaged": "Dañado",
                      "Possibly damaged": "Posiblemente dañado" };
@@ -266,6 +276,10 @@
     "Possible Damage": "Daño posible", "Destroyed": "Destruido",
     "Damaged Buildings": "Edificios dañados",
     "To Be Evaluated": "pendiente de evaluar",
+    /* Vocabulario que UNOSAT estrenó el 21-ago-2026, al reeditar Viterbo y
+       publicar Zarzal: hasta entonces su capa solo usaba «To Be Evaluated», y
+       ningún punto declaraba una confianza distinta. */
+    "Uncertain": "incierta", "Medium": "media", "High": "alta", "Low": "baja",
     "Not yet field validated": "aún no validado en campo",
     "Field validated": "validado en campo",
   };
@@ -294,14 +308,14 @@
           // y se señala como inconsistencia, no se corrige por nuestra cuenta
           // ni se afirma que pertenezcan a otro sismo.
           const otroEvento = p.event_code && p.event_code !== "EQ20260810COL"
-            ? `${p.event_code} — código inconsistente: no es el del terremoto`
+            ? `${p.event_code} — inconsistente: no es el que declara su producto`
             : null;
           l.bindPopup(ficha({
             titulo: unoConOriginal(p.dano) || "Edificio evaluado",
             subtitulo: [p.municipio, p.departamento].filter(Boolean).join(", ")
               || null,
             filas: [
-              ["Imagen", [p.sensor, fechaCompacta(p.sensor_date)]
+              ["Imagen", [p.sensor, fechaImagen(p.sensor_date)]
                 .filter(Boolean).join(", ") || null],
               ["Confianza del análisis", p.confianza
                 ? unoConOriginal(p.confianza) : null],
@@ -312,6 +326,56 @@
             ],
             pie: "UNITAR-UNOSAT" +
               (p.productos ? ` · producto ${p.productos.split(",")[0]}` : ""),
+          }));
+        },
+      }).addTo(map);
+  }
+
+  // ---- ICube-SERTIT: la tercera mirada satelital. Servicio de cartografía
+  // rápida de la Universidad de Estrasburgo, que evalúa edificio a edificio
+  // con imágenes Pléiades. Gradúa el daño con el mismo vocabulario que
+  // Copernicus —por eso comparte la tabla de colores—, pero no mira las mismas
+  // ventanas: en Pereira dibuja sobre 2,78 km² donde Copernicus cubre 9,8, y
+  // en Roldanillo y La Virginia es el único que ha mirado.
+  const SERTIT_ES = {
+    // lo que el vocabulario de Copernicus (DICT) no cubre
+    "Not Applicable": "Sin grado de daño asignado",
+    "Tent/shelter": "Carpa o refugio", "Industrial": "Industrial",
+    "Religious": "Religioso", "Hospital": "Hospital",
+    "Educational": "Educativo", "Transportation": "Transporte",
+    "Sport hall": "Polideportivo",
+  };
+  /* Igual que `conOriginal` para Copernicus y `unoConOriginal` para UNOSAT: el
+     término inglés es el que aparece en el producto descargable, y sin él no
+     se puede localizar allí lo que el mapa enseña. Lo que SERTIT nombra igual
+     que Copernicus se traduce una sola vez, en DICT. */
+  const ser = (s) => SERTIT_ES[s] || DICT[s] || s;
+  const serConOriginal = (s) => !s || ser(s) === s ? ser(s)
+    : `${ser(s)} <span style="color:var(--muted)">(${s})</span>`;
+  if (sertit && sertit.features.length) {
+    layers[`Edificios evaluados — satélite ICube-SERTIT (${sertit.features.length})`] =
+      L.geoJSON(sertit, {
+        pointToLayer: (f, ll) => L.circleMarker(ll, {
+          radius: 5.5, weight: 1.5, color: "#fff", dashArray: "2 3",
+          fillOpacity: 0.9,
+          fillColor: GRADO_COLOR[f.properties.dano] || css("--muted"),
+        }),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          l.bindPopup(ficha({
+            titulo: serConOriginal(p.dano) || "Edificio evaluado",
+            subtitulo: [p.municipio, p.departamento].filter(Boolean).join(", ")
+              || null,
+            filas: [
+              ["Tipo de edificio", p.tipo ? serConOriginal(p.tipo) : null],
+              ["Imagen", [p.sensor, fechaImagen(p.sensor_date)]
+                .filter(Boolean).join(", ") || null],
+              ["Método de detección", p.metodo ? serConOriginal(p.metodo) : null],
+            ],
+            // El crédito no es adorno: la licencia de SERTIT obliga a atribuir
+            // el dato allí donde se publique, y aquí se publica punto a punto.
+            pie: (p.copyright || "ICube-SERTIT") +
+              (p.producto_id ? ` · producto ${p.producto_id}` : ""),
           }));
         },
       }).addTo(map);
@@ -434,19 +498,30 @@
                 ? null
                 : `${fmt(p.unosat_edificios)}, de los que ` +
                   `${fmt(p.unosat_observados)} con daño observado`],
-              ["Con código de evento inconsistente", p.unosat_otros_eventos == null
+              ["Con código de evento inconsistente", p.unosat_codigo_inconsistente == null
                 ? null
-                : `${fmt(p.unosat_otros_eventos)}, no sumados al total`],
+                : `${fmt(p.unosat_codigo_inconsistente)}, contados igual`],
+              // los destruidos solo se nombran si la fuente los declara: un
+              // «0 destruidos» donde SERTIT no asignó grado sería un cero
+              // inventado (R3)
+              ["Edificios evaluados por ICube-SERTIT", p.sertit_edificios == null
+                ? null
+                : fmt(p.sertit_edificios) + (p.sertit_destruidos == null ? ""
+                  : `, de los que ${fmt(p.sertit_destruidos)} ` +
+                    `destruido${p.sertit_destruidos === 1 ? "" : "s"}`)],
               ["Damnificados en el RUD", p.rud_personas == null ? null
                 : `${fmt(p.rud_personas)} personas` +
                   (p.tasa_rud_pct != null
                     ? ` (${window.UI.pct(p.tasa_rud_pct)} de la población proyectada 2026)`
                     : "")],
             ],
-            // La advertencia depende de lo que este municipio tenga: para los
-            // que UNOSAT sí ha evaluado, decir «no equivale a daño satelital»
-            // sería falso — lo que les falta es la verificación oficial.
-            pie: p.unosat_edificios == null
+            // La advertencia depende de lo que este municipio tenga: donde un
+            // servicio satelital sí ha evaluado edificios, decir «no equivale a
+            // daño satelital» sería falso — lo que les falta es la
+            // verificación oficial. Se pregunta por CUALQUIERA de las miradas:
+            // con una sola condición, los municipios que solo vio SERTIT
+            // leerían lo contrario de lo que la propia ficha acaba de afirmar.
+            pie: p.unosat_edificios == null && p.sertit_edificios == null
               ? "No equivale a daño visto por satélite ni a una evaluación oficial " +
                 "de daños en el terreno (EDAN)."
               : "Evaluación satelital sin comprobar sobre el terreno; no equivale a " +

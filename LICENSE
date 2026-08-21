@@ -26,3 +26,29 @@ Nota sobre los datos: los datos crudos pertenecen a sus fuentes (Copernicus EMS,
 USGS, GDACS, GDELT, UNGRD, OSM Colombia/HOT, EMSC) y conservan sus licencias
 originales. Los datos derivados publicados por este proyecto (cruce, series,
 exportaciones en data/public/) se distribuyen bajo CC BY 4.0.
+
+--------------------------------------------------------------------------
+EXCEPCIÓN: datos de ICube-SERTIT (no comercial)
+
+Lo anterior NO se aplica a:
+
+  · data/documentos/sertit/*.zip
+  · data/public/sertit_damage.geojson
+  · los campos `sertit_*` de data/public/municipios.json
+
+Esos datos son de ICube-SERTIT (Universidad de Estrasburgo), entregados al
+monitor el 21-ago-2026 bajo condiciones propias, y NO se redistribuyen bajo
+CC BY 4.0 porque esa licencia permitiría un uso comercial que su titular
+excluye. Sus condiciones, tal como las entregó la fuente:
+
+  · uso, copia, modificación y redistribución permitidas para cualquier fin
+    SALVO fines comerciales;
+  · obligación de indicar la fuente y de citar «© ICube-SERTIT 2026»;
+  · si se modifica el producto, obligación de declarar qué se modificó, sin
+    sugerir que ICube-SERTIT respalda ese uso.
+
+El equipo de ICube-SERTIT pidió además que su logotipo acompañe a la
+publicación de sus productos.
+
+Se documenta aquí, y no solo en la tabla de fuentes del README, porque este
+fichero es el que manda cuando alguien reutiliza el repositorio.
