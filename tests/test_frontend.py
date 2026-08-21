@@ -13,6 +13,7 @@ import os
 import re
 import shutil
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -1058,27 +1059,49 @@ class TestPuenteANodeAguantaElFeed(unittest.TestCase):
 class TestEspejoDeCoherencia(unittest.TestCase):
     """La regla de coherencia vive en DOS superficies: el worker la aplica al
     capturar (para reintentar y descartar) y ui.js al consolidar (para no
-    publicar). Hoy son equivalentes, y nada impedía que dejaran de serlo al
-    añadir una relación en un lado — que es exactamente como `directo` acabó
-    casando dentro de `directorio`."""
+    publicar). Nada impedía que dejaran de coincidir al tocar una — que es
+    exactamente como `directo` acabó casando dentro de `directorio`.
 
-    def test_las_dos_superficies_declaran_las_mismas_relaciones(self):
-        import re as _re
-        worker = (ROOT / "workers/ai-view/src/index.js").read_text(encoding="utf-8")
-        bloque = worker[worker.index("const RELACIONES_CIFRAS = ["):]
-        bloque = bloque[:bloque.index("];")]
-        en_worker = set(_re.findall(r'\["(\w+)", "(\w+)"\]', bloque))
-        self.assertTrue(en_worker, "no se han leído las relaciones del worker")
+    Las relaciones se descubren EJECUTANDO cada regla contra un caso que la
+    violaría, no leyendo su código: un test que busca nombres fijados solo caza
+    las divergencias que ya imaginó quien lo escribió."""
 
-        ui = (ROOT / "site/ui.js").read_text(encoding="utf-8")
-        cuerpo = ui[ui.index("function incoherencias(item) {"):]
-        cuerpo = cuerpo[:cuerpo.index("\n  }")]
-        en_ui = {("personas_afectadas", "familias_afectadas")} if \
-            "familias_afectadas" in cuerpo else set()
-        for k in _re.findall(r'"(fallecidos|heridos|desaparecidos)"', cuerpo):
-            en_ui.add(("personas_afectadas", k))
+    CIFRAS = ["departamentos_afectados", "municipios_afectados",
+              "personas_afectadas", "familias_afectadas", "viviendas_averiadas",
+              "viviendas_destruidas", "heridos", "fallecidos", "desaparecidos",
+              "rescatados"]
 
-        self.assertEqual(en_worker, en_ui,
-                         "el worker y ui.js comprueban relaciones distintas: "
-                         "una cifra imposible podría pasar por una superficie "
-                         "y no por la otra")
+    def relaciones_de_ui(self):
+        casos = [{"cifras": {a: 1, b: 100}} for a in self.CIFRAS
+                 for b in self.CIFRAS if a != b]
+        marcados = correr_con(
+            casos, "items.map((x) => UI.incoherencias(x).length > 0)")
+        pares = [(a, b) for a in self.CIFRAS for b in self.CIFRAS if a != b]
+        return {par for par, roto in zip(pares, marcados) if roto}
+
+    def relaciones_del_worker(self):
+        pares = [(a, b) for a in self.CIFRAS for b in self.CIFRAS if a != b]
+        casos = json.dumps([{a: 1, b: 100} for a, b in pares])
+        with tempfile.TemporaryDirectory() as tmp:
+            copia = Path(tmp) / "worker.mjs"
+            copia.write_bytes(
+                (ROOT / "workers/ai-view/src/index.js").read_bytes())
+            script = (f"const W = await import({json.dumps(copia.as_uri())});"
+                      f"const casos = {casos};"
+                      "console.log(JSON.stringify(casos.map((c) => "
+                      "W.incoherenciasDeCifras(c).length > 0)));")
+            r = subprocess.run([NODE, "--input-type=module", "-e", script],
+                               capture_output=True, text=True, timeout=30)
+        if r.returncode != 0:
+            raise AssertionError(f"node falló: {r.stderr[:400]}")
+        return {par for par, roto in zip(pares, json.loads(r.stdout)) if roto}
+
+    def test_las_dos_superficies_marcan_lo_mismo(self):
+        ui, worker = self.relaciones_de_ui(), self.relaciones_del_worker()
+        self.assertTrue(ui, "ui.js no marca ninguna incoherencia")
+        self.assertEqual(
+            ui, worker,
+            "el worker y ui.js comprueban relaciones distintas: una cifra "
+            "imposible podría pasar por una superficie y no por la otra.\n"
+            f"  solo en ui.js : {sorted(ui - worker)}\n"
+            f"  solo en worker: {sorted(worker - ui)}")
