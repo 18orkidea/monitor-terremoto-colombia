@@ -175,7 +175,11 @@ class TestR10EnElWorker(unittest.TestCase):
             "W.structureOfficialText('Balance en Cali',"
             " { title: '', summary: '', source: { department: null } })")
         self.assertEqual(out["atribucion_lugares"], "limite_palabra_sin_enlaces")
-        self.assertEqual(out["cifras_desde"], "texto_sin_enlaces")
+        self.assertEqual(out["cifras_desde"], "texto_sin_enlaces_v2")
+        self.assertEqual(out["extraccion_version"], 2,
+                         "el sello de extracción distingue los ítems anteriores "
+                         "a las reglas de 21-ago-2026, que perdían las víctimas "
+                         "en femenino y confundían personas con fallecidos")
 
     def test_acentos_y_derivadas(self):
         self.assertTrue(correr_worker(

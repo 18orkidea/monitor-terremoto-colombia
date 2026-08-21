@@ -369,9 +369,10 @@ class TestCoherenciaDeCifras(unittest.TestCase):
         # si el worker añade una métrica y nadie la declara aquí, entraría en
         # el consolidado sin regla de monotonía y en silencio
         worker = (ROOT / "workers" / "ai-view" / "src" / "index.js").read_text()
-        bloque = worker[worker.index("    cifras: {") + len("    cifras: {"):]
-        bloque = bloque[:bloque.index("}")]
-        emitidas = set(re.findall(r"^\s*(\w+):", bloque, re.M))
+        bloque = worker[worker.index("function extraerCifras(texto) {"):]
+        bloque = bloque[:bloque.index("\n}")]
+        emitidas = set(re.findall(r"^\s*(\w+): findMetricNumber", bloque, re.M))
+        self.assertTrue(emitidas, "no se han podido leer las cifras del worker")
         declaradas = set(correr_con([], "UI.CIFRAS_BALANCE"))
         self.assertEqual(emitidas - declaradas, set(),
                          "cifra del worker sin clasificar en CIFRAS_BALANCE")
