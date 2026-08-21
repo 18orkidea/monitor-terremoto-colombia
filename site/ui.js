@@ -496,7 +496,11 @@ window.UI = (function () {
   function isLiveblog(item) {
     const text = `${item.title || ""} ${item.publication_url || item.url || ""}`.toLowerCase();
     return item.is_liveblog ||
-      /en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog/.test(text);
+      // con límite de palabra, como en el worker: sin él, «directo» casa
+      // dentro de «directorio» y marca como cobertura en vivo un artículo que
+      // no lo es. Es R10 aplicada a R8 — la misma clase de falso positivo que
+      // convertía «Cali» en «California».
+      /\b(en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog)\b/.test(text);
   }
   const metricCount = (item) =>
     Object.values(item.cifras || {}).filter((v) => v != null).length;
@@ -713,6 +717,44 @@ window.UI = (function () {
     });
   }
 
+  /* Fecha del CORTE del que habla una captura: el día del balance, no el día
+     en que lo encontramos. `search_date` es la fecha que se le pidió al
+     buscador, y por eso el mismo artículo de El Tiempo figuraba como el
+     balance del 12, el 14, el 15 y el 18 de agosto.
+
+     Tres señales, en el orden que decidió el proyecto: lo que el propio texto
+     dice de sí mismo («balance de este 15 de agosto»), que es lo único que
+     habla del corte; la fecha de la URL, que es de publicación y sirve de
+     aproximación; y el campo `fecha`, que mezcla ambas cosas. La primera la
+     calcula el worker al capturar —donde está el documento entero— y no se
+     replica aquí: una segunda implementación sería una segunda superficie que
+     mantener, que es justo lo que R8 y R10 enseñaron a evitar.
+
+     Devuelve {fecha, señal} o null, para que el sitio pueda decir de dónde
+     salió cada fecha en vez de presentarlas todas como equivalentes. */
+  function fechaCorte(item) {
+    if (!item) return null;
+    if (item.fecha_corte) return { fecha: item.fecha_corte, senal: "texto" };
+    const m = /\/(20\d\d)\/(\d\d)\/(\d\d)\//.exec(
+      item.publication_url || item.url || "");
+    if (m) return { fecha: `${m[1]}-${m[2]}-${m[3]}`, senal: "url" };
+    if (item.fecha) return { fecha: item.fecha, senal: "campo" };
+    return null;
+  }
+
+  /* Retraso entre el corte del que habla un balance y el día en que se
+     publica: la métrica que convierte el corte viejo de estorbo en hallazgo.
+     «Caracol seguía sirviendo el 19 un balance del 10» es exactamente la
+     brecha que este monitor mide. Devuelve días, o null si falta una fecha. */
+  function retrasoDelBalance(item) {
+    const corte = fechaCorte(item);
+    const pub = (item && item.publicado_en) || null;
+    if (!corte || !pub) return null;
+    const dias = Math.round(
+      (Date.parse(pub.slice(0, 10)) - Date.parse(corte.fecha)) / 86400000);
+    return Number.isFinite(dias) && dias >= 0 ? dias : null;
+  }
+
   /* Comparativa de fuentes: las cuatro miradas sobre el mismo desastre,
      con cifras homogéneas para portada (tarjetas) y balances (tabla). */
   function comparativaFuentes(mon, oficiales) {
@@ -822,6 +864,7 @@ window.UI = (function () {
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            medioDe, viaGoogleNews, hostDe,
            retrocede, sinAnclas, esCoherente, incoherencias, atribucionOficial,
+           fechaCorte, retrasoDelBalance,
            esNacional, CIFRAS_BALANCE, TECHO_SALTO,
            disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
            VAPID_PUBLIC_KEY, TELEGRAM_CANAL };

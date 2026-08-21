@@ -1079,7 +1079,9 @@ def filas_rud(ctx: dict) -> str:
 # compleja —qué snapshot representa el día— sigue viviendo solo en el frontend.
 # `tests/test_render_html.py::TestBalances` compara ambas expresiones.
 _LIVEBLOG = re.compile(
-    r"en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog",
+    # con límite de palabra, igual que ui.js y el worker: «directo» casaba
+    # dentro de «directorio». R10 aplicada a R8.
+    r"\b(en vivo|directo|live[-_\s]?news|última hora|ultima hora|minuto a minuto|liveblog)\b",
     re.I)
 
 NIVELES = {

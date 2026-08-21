@@ -869,3 +869,73 @@ class TestTotalSatelital(unittest.TestCase):
         sat = self._satelite(mon)
         self.assertEqual(sat["cifras"]["edificios_dañados"], 622)
         self.assertIn("zonas urbanas", sat["alcance"])
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestFechaDeCorte(unittest.TestCase):
+    """`search_date` es la fecha que se le pidió al buscador, no la del
+    balance: el mismo artículo de El Tiempo figuraba como el corte del 12, el
+    14, el 15 y el 18 de agosto. `fechaCorte` es la pieza que convierte la
+    lista de capturas en una serie temporal de verdad."""
+
+    def test_manda_lo_que_el_texto_dice_de_si_mismo(self):
+        r = correr_con([{"fecha_corte": "2026-08-15",
+                         "publication_url": "https://x.com/2026/08/18/a",
+                         "fecha": "2026-08-11"}],
+                       "UI.fechaCorte(items[0])")
+        self.assertEqual(r, {"fecha": "2026-08-15", "senal": "texto"})
+
+    def test_sin_texto_vale_la_url(self):
+        r = correr_con([{"publication_url": "https://x.com/2026/08/11/a",
+                         "fecha": "2026-08-18"}],
+                       "UI.fechaCorte(items[0])")
+        self.assertEqual(r, {"fecha": "2026-08-11", "senal": "url"})
+
+    def test_sin_texto_ni_url_vale_el_campo(self):
+        r = correr_con([{"fecha": "2026-08-14"}], "UI.fechaCorte(items[0])")
+        self.assertEqual(r, {"fecha": "2026-08-14", "senal": "campo"})
+
+    def test_sin_ninguna_senal_no_se_inventa_una_fecha(self):
+        # el search_date NO sirve de respaldo: es justamente el dato que
+        # fechaba mal la serie
+        r = correr_con([{"search_date": "2026-08-19"}], "UI.fechaCorte(items[0])")
+        self.assertIsNone(r)
+
+    def test_el_retraso_mide_del_corte_a_la_publicacion(self):
+        dias = correr_con([{"fecha_corte": "2026-08-10",
+                            "publicado_en": "2026-08-19T10:00:00Z"}],
+                          "UI.retrasoDelBalance(items[0])")
+        self.assertEqual(dias, 9, "un balance del 10 publicado el 19")
+
+    def test_sin_fecha_de_publicacion_no_hay_retraso_inventado(self):
+        self.assertIsNone(correr_con([{"fecha_corte": "2026-08-10"}],
+                                     "UI.retrasoDelBalance(items[0])"))
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestSupuestoCoberturaDeFechado(unittest.TestCase):
+    """R11: el supuesto avisa, y romperse aquí es BUENA noticia.
+
+    La serie sigue indexada por `search_date` porque hoy no hay con qué
+    fecharla mejor: la señal fiable —lo que el texto dice de su propio corte—
+    la calcula el worker, y hasta que esté desplegado el corpus solo trae la
+    fecha de la URL y el campo `fecha`. Cuando la cobertura suba del umbral,
+    este test falla y toca cambiar el eje de la serie a la fecha de corte."""
+
+    UMBRAL = 0.80
+
+    def test_avisa_cuando_ya_se_puede_fechar_por_corte(self):
+        feed = json.loads(
+            (ROOT / "data/public/oficiales.json").read_text(encoding="utf-8"))
+        items = [i for i in feed.get("items", []) if i.get("search_date")]
+        if not items:
+            self.skipTest("el feed archivado no trae capturas")
+        fechados = correr_con(
+            items, "items.filter((x) => UI.fechaCorte(x)).length")
+        cobertura = fechados / len(items)
+        self.assertLess(
+            cobertura, self.UMBRAL,
+            f"{fechados} de {len(items)} capturas ({cobertura:.0%}) ya tienen "
+            f"fecha de corte: toca indexar la serie por ella en vez de por "
+            f"`search_date`, y publicar el retraso de cada medio. Ver "
+            f"docs/LIMITACIONES.md.")

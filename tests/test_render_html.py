@@ -693,13 +693,31 @@ class TestBalances(unittest.TestCase):
         self.assertEqual(self.html.count(">liveblog<"), esperados)
         self.assertGreater(esperados, 0, "el corpus debería traer algún liveblog")
 
-    def test_la_deteccion_de_liveblog_es_espejo_de_ui_js(self):
-        """La expresión vive en dos lenguajes; si divergen, la misma pieza se
-        marcaría en una página y no en otra."""
-        ui = (Path(__file__).parent.parent / "site/ui.js").read_text(encoding="utf-8")
-        for termino in ("en vivo", "directo", "última hora", "minuto a minuto", "liveblog"):
-            self.assertIn(termino, ui)
-            self.assertIn(termino, R._LIVEBLOG.pattern)
+    def test_la_deteccion_de_liveblog_es_espejo_de_ui_js_y_del_worker(self):
+        """R8 dice «fuente única», pero la expresión vive en TRES lenguajes:
+        ui.js, este render y el worker. Comparar término a término no bastaba:
+        las tres tenían las mismas palabras y dos de ellas no llevaban límite
+        de palabra, así que «directo» casaba dentro de «directorio» en el sitio
+        y no en el worker. Ahora se compara la expresión entera."""
+        raiz = Path(__file__).parent.parent
+        alternancia = ("en vivo|directo|live[-_\\s]?news|última hora|"
+                       "ultima hora|minuto a minuto|liveblog")
+        ui = (raiz / "site/ui.js").read_text(encoding="utf-8")
+        worker = (raiz / "workers/ai-view/src/index.js").read_text(encoding="utf-8")
+        self.assertIn(f"\\b({alternancia})\\b", ui,
+                      "ui.js debe llevar el límite de palabra")
+        self.assertIn(f"\\b({alternancia})\\b", R._LIVEBLOG.pattern,
+                      "render_html debe llevar el límite de palabra")
+        # el worker escribe los términos sin tilde en «ultima hora» y con ella
+        # en «última hora», igual que los otros dos
+        self.assertIn("\\b(en vivo|directo|", worker,
+                      "el worker debe seguir llevando el límite de palabra")
+
+    def test_un_directorio_no_es_un_liveblog(self):
+        """El falso positivo que el límite de palabra evita, comprobado sobre
+        el código real de las dos superficies en Python y JavaScript."""
+        self.assertFalse(R.es_liveblog({"title": "El directorio de medios"}))
+        self.assertTrue(R.es_liveblog({"title": "Terremoto en directo"}))
 
     def test_cada_fila_dice_de_quien_es_la_cifra(self):
         """R9: no es el balance oficial, es lo que la prensa publica citándolo."""
