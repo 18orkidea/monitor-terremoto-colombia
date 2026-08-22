@@ -82,9 +82,12 @@
       (viaGoogleNews(n)
         ? ` · <span class="via" title="Google News recopila titulares de otros medios. El enlace que publica su feed lleva ahí, no a la página del medio.">vía Google News</span>`
         : "") + `</span>` +
-      (n.aois || []).map((a) => `<span class="chip" title="${esc(a)}">${esc(aoiEs(a))}</span>`).join("") +
-      (n.departamentos || []).map((d) => `<span class="chip dep">${esc(d)}</span>`).join("") +
-      (n.municipios || []).map((m) => `<span class="chip mun">${esc(m)}</span>`).join("") +
+      // `.etiqueta`, no `.chip`: un chip es una acción y estas no lo son.
+      // Espejo de deploy/render_html.py, que pinta las mismas en el build —
+      // si tocas una, mira la otra (tests/test_frontend.py::TestChipsSonAcciones).
+      (n.aois || []).map((a) => `<span class="etiqueta" title="${esc(a)}">${esc(aoiEs(a))}</span>`).join("") +
+      (n.departamentos || []).map((d) => `<span class="etiqueta dep">${esc(d)}</span>`).join("") +
+      (n.municipios || []).map((m) => `<span class="etiqueta mun">${esc(m)}</span>`).join("") +
       // titular y enlace vienen de canales ajenos: sin escapar, un titular con
       // una etiqueta dentro ejecutaría lo que quisiera quien lo publicó
       `<br><a href="${esc(enlaceSeguro(n.url))}" target="_blank" rel="noopener nofollow">` +

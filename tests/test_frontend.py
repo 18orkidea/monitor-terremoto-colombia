@@ -1306,3 +1306,55 @@ class TestTotalSatelitalTresServicios(unittest.TestCase):
         sat = self._satelite(mon)
         self.assertEqual(sat["cifras"]["edificios_dañados"], 1007,
                          "respaldo: 622 de Copernicus + 385 de UNOSAT")
+
+
+class TestChipsSonAcciones(unittest.TestCase):
+    """Un chip se pulsa; lo que no se pulsa no es un chip.
+
+    Las dos cosas compartían la clase `.chip` y solo se distinguían por el
+    cursor: en reposo eran idénticas, así que la lista de titulares servía 316
+    pastillas con aspecto de control que no hacían nada. Quien aprende que un
+    chip se pulsa se encontraba 316 que no.
+
+    La regla vive en DOS superficies —si tocas una, mira la otra—:
+    `site/noticias.js` y `deploy/render_html.py`, que pintan las mismas
+    etiquetas, una en el navegador y otra en el build.
+    """
+
+    JS = (ROOT / "site" / "noticias.js").read_text(encoding="utf-8")
+    PY_ = (ROOT / "deploy" / "render_html.py").read_text(encoding="utf-8")
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+
+    def test_ningun_span_lleva_la_clase_de_accion(self):
+        """El marcado pasivo es `<span>`; si lleva `.chip`, promete un clic."""
+        for nombre, fuente in (("site/noticias.js", self.JS),
+                               ("deploy/render_html.py", self.PY_)):
+            with self.subTest(fuente=nombre):
+                spans = re.findall(r'<span class="chip[^"]*"', fuente)
+                self.assertEqual(spans, [], f"{nombre}: etiqueta con clase de acción")
+
+    def test_las_dos_superficies_pintan_la_misma_clase(self):
+        """El prerenderizado y el navegador tienen que coincidir: si divergen,
+        la misma etiqueta se ve de dos maneras según se ejecute o no el JS."""
+        self.assertIn('class="etiqueta mun"', self.JS)
+        self.assertIn('class="etiqueta mun"', self.PY_)
+
+    def test_cada_superficie_nombra_a_la_otra(self):
+        """R8/R10: una regla en dos idiomas se documenta cruzada o se olvida."""
+        self.assertIn("render_html", self.JS)
+        self.assertIn("noticias.js", self.PY_)
+
+    def test_la_etiqueta_no_se_disfraza_de_boton(self):
+        """No basta con renombrar: si `.etiqueta` copia la pastilla del chip,
+        el lector sigue viendo un control donde no lo hay."""
+        m = re.search(r"^\.etiqueta\s*\{([^}]*)\}", self.CSS, re.M | re.S)
+        self.assertIsNotNone(m, "falta la regla .etiqueta en styles.css")
+        cuerpo = " ".join(m.group(1).split())
+        self.assertNotIn("border:", cuerpo, "una etiqueta con borde parece un botón")
+        self.assertNotIn("cursor: pointer", cuerpo)
+        self.assertNotIn("999px", cuerpo, "el radio de pastilla es del chip")
+
+    def test_el_chip_si_declara_que_se_pulsa(self):
+        m = re.search(r"^\.chip\s*\{([^}]*)\}", self.CSS, re.M | re.S)
+        self.assertIsNotNone(m)
+        self.assertIn("cursor: pointer", " ".join(m.group(1).split()))

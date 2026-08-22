@@ -246,20 +246,32 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 /* chips de filtro reutilizables (cronología, y donde hagan falta) */
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
 * + .chips { margin-top: 12px; }
-/* La misma pastilla hace dos oficios: dentro de `.chips` es un botón de filtro
-   y en la lista de titulares, una etiqueta de zona. `inline-block` porque el
-   marcado las pega sin espacio entre ellas y en `inline` la línea no tenía por
-   dónde partirse: en móvil una tira de municipios sacaba la página de cuadro. */
+/* UN CHIP ES UNA ACCIÓN. Antes esta misma pastilla hacía dos oficios —botón de
+   filtro y etiqueta de zona en los titulares— y solo se distinguían por el
+   cursor: en reposo eran idénticas, así que la lista de titulares enseñaba 316
+   pastillas con aspecto de control que no hacían nada. Quien aprende que un
+   chip se pulsa, se encuentra 316 que no. Lo pasivo vive ahora en `.etiqueta`.
+   `inline-block` porque el marcado las pega sin espacio entre ellas y en
+   `inline` la línea no tenía por dónde partirse: en móvil una tira de
+   municipios sacaba la página de cuadro. */
 .chip {
   display: inline-block; margin: 2px 4px 2px 0;
   border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px;
   font-size: 12px; line-height: 1.35; background: var(--surface-1); color: var(--ink-2);
-  font-family: inherit;
+  font-family: inherit; cursor: pointer;
 }
-/* El filtro se pulsa; la etiqueta, no. El cursor y el resalte son del botón. */
 .chips .chip { margin: 0; padding: 5px 12px; }
-button.chip { cursor: pointer; }
-button.chip:hover { border-color: var(--s1); }
+.chip:hover { border-color: var(--s1); }
+
+/* Metadato, no control: sin pastilla ni borde, para que no prometa un clic que
+   no existe. Sigue agrupando visualmente —fondo tenue y esquinas suaves— pero
+   se lee como lo que es, la zona o el municipio que menciona el titular. */
+.etiqueta {
+  display: inline-block; margin: 2px 4px 2px 0; padding: 2px 7px;
+  border-radius: 4px; font-size: 11.5px; line-height: 1.35;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--muted); font-family: inherit;
+}
 .chip.activa {
   border-color: var(--s1); color: var(--ink);
   background: color-mix(in srgb, var(--s1) 12%, transparent);

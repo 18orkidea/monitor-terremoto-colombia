@@ -6,6 +6,34 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-22 — Un chip es una acción; lo que no se pulsa, no es un chip
+
+Contexto: la misma pastilla `.chip` hacía dos oficios. En los filtros de la portada, del
+RUD y de municipios es un `<button>` que enciende una capa o filtra una tabla. En la lista
+de titulares es un `<span>` con la zona, el departamento y el municipio que menciona la
+noticia. El CSS ya reconocía la duplicidad en un comentario y la resolvía a medias: daba
+`cursor: pointer` y resalte solo al botón, pero **en reposo las dos eran idénticas** —mismo
+borde, mismo radio de pastilla, mismo fondo—. El resultado es que `noticias.html` sirve
+**316 pastillas con aspecto de control que no hacen nada**: quien aprende en la portada que
+un chip se pulsa, se encuentra 316 que no.
+
+Decisión: `.chip` queda reservado a lo que se pulsa y declara `cursor: pointer` en la clase
+base. Lo pasivo pasa a `.etiqueta`, que deja de parecer un control: sin borde, sin radio de
+pastilla, fondo tenue y tipografía de metadato. Sigue agrupando visualmente —es la zona o
+el municipio del titular— pero ya no promete un clic que no existe. El marcado no cambia de
+elemento: ya era `<span>` frente a `<button>`, así que la semántica era correcta y lo que
+fallaba era solo el aspecto.
+
+Vive en DOS superficies, y las dos se tocan a la vez: `site/noticias.js` las pinta en el
+navegador y `deploy/render_html.py` las escribe en el build. Si divergen, la misma etiqueta
+se ve de dos maneras según se ejecute o no el JavaScript.
+
+Consecuencia: `tests/test_frontend.py::TestChipsSonAcciones` cae si un `<span>` recupera la
+clase de acción, si las dos superficies dejan de pintar la misma, si dejan de nombrarse
+mutuamente en el código, o si `.etiqueta` vuelve a copiar el borde, el cursor o el radio de
+pastilla del chip —renombrar sin cambiar el aspecto no habría arreglado nada—. Validado por
+mutación: al reintroducir `class="chip"` en el span, caen dos.
+
 ## 2026-08-22 — El mapa enseña los 196 municipios que nadie miró desde el aire
 
 Contexto: el mapa de portada solo podía pintar evidencia — zonas de Copernicus, puntos de

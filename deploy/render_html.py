@@ -1722,7 +1722,8 @@ def filas_noticias(ctx: dict) -> str:
                'El enlace que publica su feed lleva ahí, no a la página del medio.">'
                'vía Google News</span>' if via_google_news(n) else "")
         etiquetas = "".join(
-            f'<span class="chip mun">{e(m)}</span>' for m in (n.get("municipios") or []))
+            # `.etiqueta`: espejo de site/noticias.js — un chip es una acción
+            f'<span class="etiqueta mun">{e(m)}</span>' for m in (n.get("municipios") or []))
         salida.append(
             f'<li><span class="meta-n">{e(fecha)}'
             f'{f" · {e(medio)}" if medio else ""}{" · " + via if via else ""}</span>'
