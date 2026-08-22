@@ -6,6 +6,33 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-22 — Las cifras de atributos las escribe el build; las del README van fechadas
+
+Contexto: el diagnóstico que siguió a la nota de portada encontró el mismo patrón en dos
+superficies más. La `og:description` de la portada —lo que se ve al compartir el enlace—
+anunciaba «430+ reportes ciudadanos» con 542 archivados, y el README, «430+ reportes» y
+«3.000+ noticias» con 6.304 titulares. El «+» las salvaba de ser falsas, pero subestimaban
+a la mitad y nadie las vigilaba. Ninguna de las dos admite la solución de la portada: en un
+atributo `content` no cabe un `<span data-gen>`, y un README no pasa por el build.
+
+Decisión: dos caminos según la superficie.
+
+- **En el HTML**, marcador `{{clave}}` y `deploy/render_html.py::sustituir_cifras` escribe
+  el dato del día sobre todo `dist/`, fichas municipales incluidas. Un marcador sin valor
+  **rompe el build a propósito**: no es una fuente que falla (R13), es un error de
+  programación, y publicar «{{reportes_ciudadanos}}» en la etiqueta que se comparte es peor
+  que no publicar. `ingest/seo_check.py` lo vigila además en el artefacto.
+- **En el README**, cifras **fechadas** («542 reportes ciudadanos … al 22-ago-2026»): una
+  cifra con su fecha describe un momento y no envejece, solo se queda corta. El guardián
+  (`tests/test_unit.py::TestCifrasFechadasDelReadme`) exige que no sobreafirme y **no pone
+  cota por abajo a propósito**: obligar al README a seguir el ritmo del corpus lo dejaría en
+  rojo cada mañana sin que nada estuviera roto, que es justo la avería que se evita.
+
+Consecuencia: quedan tres reglas según cómo se comporte la cifra. Si se mueve y va en el
+HTML servido, la escribe el build. Si se mueve y vive fuera del build, va fechada y con
+guardián de no-sobreafirmación. Si describe un hecho pasado —«UNOSAT reeditó Viterbo de 154
+a 108»—, no se toca: ya lleva su momento dentro.
+
 ## 2026-08-22 — La cifra que va dentro de un párrafo también la escribe el build
 
 Contexto: la nota de portada anunciaba a mano «los satélites han mirado 11 municipios; la

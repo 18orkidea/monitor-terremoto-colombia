@@ -92,6 +92,11 @@ def revisar(dist: Path) -> dict:
             if not m.group(4).strip():
                 fallos.append(f"{pagina}: el contenedor «{m.group(3)}» quedó vacío")
 
+        # un marcador {{clave}} sin sustituir es una cifra que se iba a publicar
+        # cruda en el HTML servido; el build debería haber roto antes
+        for marcador in set(re.findall(r"\{\{\w+\}\}", html)):
+            fallos.append(f"{pagina}: el marcador «{marcador}» llegó sin sustituir")
+
         if "<link rel=\"canonical\"" not in html:
             fallos.append(f"{pagina}: sin canonical")
         # R3 en el HTML servido: un cero donde el dato no existe

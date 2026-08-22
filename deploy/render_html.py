@@ -1623,11 +1623,49 @@ def inyectar_tablas(destino: Path, ctx: dict) -> dict:
     return hechas
 
 
+# ------------------------------------------------- cifras dentro de atributos
+# Un <span data-gen> no cabe dentro de un atributo, y ahí también hay cifras que
+# se mueven a diario: la og:description de la portada —lo que se ve al compartir
+# el enlace— anunciaba «430+ reportes ciudadanos» con 542 archivados. Para esos
+# casos el HTML lleva un marcador {{clave}} y el build escribe el dato del día.
+def cifras_del_dia(ctx: dict) -> dict:
+    """Lo que vale hoy cada marcador {{clave}} de los HTML del sitio."""
+    return {"reportes_ciudadanos": fmt(len(ctx["chatmap"]))}
+
+
+def sustituir_cifras(destino: Path, ctx: dict) -> dict:
+    """Escribe en `dist/` las cifras marcadas con {{clave}}.
+
+    Un marcador sin valor **rompe el build a propósito**: no es una fuente que
+    falla (R13), es un error de programación, y publicar «{{reportes_ciudadanos}}»
+    en la etiqueta que ve quien comparte el enlace es peor que no publicar."""
+    cifras, hechas = cifras_del_dia(ctx), {}
+    # todo el artefacto, también las fichas municipales dos niveles abajo: un
+    # marcador que se cuele en una plantilla no puede publicarse crudo
+    for pagina in sorted(destino.rglob("*.html")):
+        html = pagina.read_text(encoding="utf-8")
+        claves = set(re.findall(r"\{\{(\w+)\}\}", html))
+        if not claves:
+            continue
+        desconocidas = claves - set(cifras)
+        if desconocidas:
+            raise KeyError(f"{pagina.name}: marcador sin valor {sorted(desconocidas)}"
+                           f" — añádelo a cifras_del_dia() o quítalo del HTML")
+        for clave in claves:
+            html = html.replace("{{" + clave + "}}", cifras[clave])
+        pagina.write_text(html, encoding="utf-8")
+        hechas[str(pagina.relative_to(destino))] = sorted(claves)
+    return hechas
+
+
 if __name__ == "__main__":
     import sys
     salida = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "dist"
     res = run(salida)
     print(f"fichas municipales: {res['fichas']} escritas, {res['omitidas']} sin señal")
-    tablas = inyectar_tablas(salida, contexto())
+    ctx = contexto()
+    tablas = inyectar_tablas(salida, ctx)
     for nombre, piezas in tablas.items():
         print(f"prerenderizado: {nombre} con {piezas} pieza(s)")
+    for pagina, claves in sustituir_cifras(salida, ctx).items():
+        print(f"cifras del día en {pagina}: {', '.join(claves)}")
