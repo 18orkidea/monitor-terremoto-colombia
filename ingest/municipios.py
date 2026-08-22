@@ -457,7 +457,8 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      divipola: dict | None = None,
                      unosat: dict | None = None,
                      con_busqueda_propia: set[str] | None = None,
-                     *, sertit: dict | None = None) -> tuple[list[dict], dict]:
+                     *, sertit: dict | None = None,
+                     grid_mmi=None) -> tuple[list[dict], dict]:
     catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
@@ -530,10 +531,16 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         tiene_prensa = row["n_noticias"] > 0
         rud = _find_rud(rud_municipios, mun, row)
         tiene_rud = rud is not None
+        # `is not None`, NO truthiness: haber mirado y no haber encontrado
+        # edificios con grado de daño es un resultado, no una ausencia de
+        # evaluación (R3 leído al revés). Con `bool()`, un municipio donde
+        # SERTIT solo marcó puntos sin grado —edificios = 0— figuraba como no
+        # evaluado, y la capa de la ausencia llegaba a decirle al lector que
+        # nadie lo había mirado. Publicar eso es peor que no publicar nada.
         uno = (unosat or {}).get(mun)
-        tiene_unosat = bool(uno and uno.get("edificios"))
+        tiene_unosat = uno is not None and uno.get("edificios") is not None
         ser = (sertit or {}).get(mun)
-        tiene_sertit = bool(ser and ser.get("edificios"))
+        tiene_sertit = ser is not None and ser.get("edificios") is not None
         # Una evaluación satelital basta para entrar en la capa aunque no haya
         # prensa, ni DYFI, ni registro oficial: es justo el caso de Viterbo, y
         # que nadie más lo mire no es motivo para que el monitor tampoco.
@@ -625,6 +632,14 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         # 0 se leería como «nadie lo sintió»
         if not row["dyfi_celdas"]:
             row["dyfi_respuestas"] = None
+        # Intensidad que el modelo del USGS estima para la cabecera municipal.
+        # NO es la percibida: esa es dyfi_max_cdi, que solo cubre 23 de los 196
+        # municipios sin mirada satelital y no alcanza para pintar un mapa. La
+        # rejilla llega al 95%, y donde no llega el valor queda en None: fuera
+        # de la rejilla no hay «intensidad baja», hay ausencia de dato (R3).
+        mmi = (grid_mmi.mmi_at(lon, lat)
+               if grid_mmi and lon is not None and lat is not None else None)
+        row["mmi_usgs"] = round(mmi, 2) if mmi is not None else None
         per, pob = row["rud_personas"], row["poblacion_2026"]
         # 4 decimales: ver nota en publish.py — un 0,0003 % redondeado a
         # 0,0 se leería como «sin damnificados»
@@ -642,3 +657,74 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                              -(r["dyfi_max_cdi"] or 0),
                              -(r["n_noticias"] or 0), r["municipio"]))
     return rows, {"type": "FeatureCollection", "features": features}
+
+
+def sin_mirada_satelital(m: dict) -> bool:
+    """¿Municipio con damnificados registrados al que nadie miró desde el aire?
+
+    Los tres servicios que sigue el monitor son Copernicus EMS, UNITAR-UNOSAT e
+    ICube-SERTIT. Que falten los tres no significa «sin daño»: significa que la
+    evidencia de este municipio es que su alcaldía inscribió damnificados en
+    el RUD (el registro lo cargan las autoridades, no los damnificados).
+    Tampoco significa que ningún satélite pasara por encima: solo que ninguno
+    de los tres publicó un producto de daño.
+
+    `is not None` en las miradas, y NO truthiness: cero edificios con grado es
+    un resultado de haber mirado, no una ausencia de evaluación. En las familias
+    sí se exige que haya alguna: un municipio inscrito con cero familias no
+    tiene damnificados que contrastar, y la capa habla de los que sí los tienen.
+
+    «Sin mirada satelital» vive en DOS superficies —si tocas una, mira la otra—:
+    aquí y en `site/municipios.js::miradoPorSatelite`. **No son la misma
+    pregunta y no deben dar la misma cifra**: el JS cuenta todos los municipios
+    sin producto satelital (197) y esta función solo los que además tienen
+    damnificados registrados (196). El que sobra es Palmira, con prensa y DYFI
+    pero sin una fila en el RUD. La diferencia es legítima; lo que no se puede
+    es rotular ninguna de las dos sin su condición, que fue como la portada
+    llegó a prometer 196 bajo un texto que describía las 197.
+    `tests/test_unit.py::TestLasDosPreguntasSobreLaMirada`
+    """
+    return bool(m.get("rud_familias")) and not (
+        m.get("unosat_edificios") is not None
+        or m.get("sertit_edificios") is not None
+        or m.get("en_aoi_copernicus"))
+
+
+def capa_sin_mirada(municipios: list[dict], generado: str, grid_mmi=None) -> dict:
+    """La capa de la ausencia, en su fichero propio y mínimo.
+
+    Aparte de municipios.json porque ese pesa 340 KB por los ejemplos de prensa
+    que el mapa no usa hasta que se abre un globo. Y calculada aquí, no en el
+    navegador: la cifra que el sitio enseña y la que pinta tienen que salir del
+    mismo sitio, o vuelven a divergir como divergieron los 36 de la portada con
+    los 43 de su propia tabla.
+    """
+    items = [m for m in municipios if sin_mirada_satelital(m)]
+    return {
+        "generado": generado,
+        # el rótulo viaja con el dato: quien lea el JSON no tiene que adivinar
+        # que la intensidad es modelada y no sentida
+        "fuente_mmi": "ShakeMap del USGS (sacudida estimada por un modelo, "
+                      "no medida en el terreno ni reportada por la gente)",
+        "fuente_mmi_url":
+            "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap",
+        # De QUÉ rejilla salieron estas intensidades. `grid_mmi_vigente` se cae
+        # al snapshot anterior cuando la corrida del día no trae ShakeMap, así
+        # que sin esto un producto fechado hoy podría llevar intensidades de
+        # hace días sin que nada lo dijera (R4).
+        "fuente_mmi_snapshot": getattr(grid_mmi, "origen", None),
+        "total": len(items),
+        # cuántos se pueden pintar: el mapa dibuja por coordenada, y un rótulo
+        # que prometa más puntos de los que hay es la divergencia de siempre
+        "con_coordenadas": sum(1 for m in items
+                               if m.get("lat") is not None and m.get("lon") is not None),
+        # se publica cuántos se quedaron sin intensidad, para que la laguna se
+        # pueda contar en vez de descubrirse mirando el mapa
+        "sin_mmi": sum(1 for m in items if m.get("mmi_usgs") is None),
+        "items": [{"municipio": m["municipio"], "departamento": m["departamento"],
+                   "lat": m.get("lat"), "lon": m.get("lon"),
+                   "rud_familias": m.get("rud_familias"),
+                   "rud_personas": m.get("rud_personas"),
+                   "mmi_usgs": m.get("mmi_usgs")}
+                  for m in items],
+    }

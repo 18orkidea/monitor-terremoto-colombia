@@ -134,6 +134,43 @@ MMI≥6. Todo lo que el monitor dice del daño satelital aplica solo a esas
 zonas; el resto es población que ningún producto de daño ha mirado de cerca
 (extensión documentada en el README: HRSL, Open Buildings, NISAR).
 
+## La intensidad de la capa de la ausencia la estima un modelo, y nueve municipios no la tienen
+
+Los municipios con registro en el Registro Único de Damnificados (RUD) y sin
+evaluación satelital se pintan graduados por la intensidad que el ShakeMap del
+Servicio Geológico de Estados Unidos (USGS) **estima** para su cabecera. No es la
+intensidad percibida: esa es la del DYFI («Did You Feel It?», el cuestionario del
+USGS), la que reporta la gente, y **al 22-ago-2026** solo existe en 23 de los 196
+— demasiado poco para un mapa, y por eso se descartó pese a ser el dato preferible.
+
+En esos 23 las dos medidas no se contradicen ni se confirman: el DYFI queda por
+encima del modelo en 10 de los 23, la diferencia media es de +0,05 puntos y el
+rango va de −1,5 a +1,7. No hay sesgo sistemático, pero la dispersión es real, y
+conviene no leer la sacudida estimada como si fuera lo que la gente sintió.
+
+**Al 22-ago-2026**, nueve municipios caen fuera de la cuadrícula que calcula el
+ShakeMap: Acandí (Chocó) y ocho de Norte de Santander (Ábrego, Cáchira, El Tarra,
+Mutiscua, Ocaña, Pamplonita, Silos y Teorama). Se pintan grises, no con la
+intensidad más baja: no saber lo que se sintió no es lo mismo que saber que se
+sintió poco. Todas estas cifras cambian con cada corrida —el RUD crece, el DYFI
+acumula respuestas y que entre un satélite es buena noticia—, así que van fechadas
+y las vigentes se leen en `municipios_mapa.json`, en los campos `total` y
+`sin_mmi`.
+
+La rejilla del ShakeMap se revisa durante semanas y la corrida del día puede no
+traerla: cuando falta, se usa la del snapshot anterior. De cuál salió cada cifra
+se publica en `fuente_mmi_snapshot` (día y sha256), porque un producto fechado hoy
+puede llevar intensidades de días atrás.
+
+Y «lo miró Copernicus» significa que la **cabecera** del municipio cae dentro
+de una zona analizada, decidido por punto-en-polígono. Es un criterio
+conservador —subestima la ausencia— y no distingue las zonas que Copernicus
+recortó pero dejó sin analizar (`not_analysed.geojson`).
+
+Además, la intensidad se calcula en la **cabecera municipal**, no en el
+territorio: en municipios extensos —Chocó, sobre todo— un solo valor puede
+ocultar diferencias grandes dentro del mismo municipio.
+
 ## Los avisos push tienen límites de plataforma
 
 Las notificaciones Web Push funcionan con un clic en Android y escritorio; en

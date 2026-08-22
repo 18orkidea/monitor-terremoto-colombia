@@ -33,7 +33,17 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
 - **`ingest/crosscheck.py`** aplica la cadena de estados por AOI:
   `no_comparable → coincide → prensa → ciudadano → pendiente` (R1/R2).
 - **`ingest/publish.py`** genera todos los artefactos públicos de `data/public/`
-  (solo coordenadas redondeadas `lat_pub/lon_pub` — R5).
+  (solo coordenadas redondeadas `lat_pub/lon_pub` — R5). Entre ellos
+  `municipios_mapa.json`, la capa de la ausencia: los municipios con registro
+  en el RUD y sin ninguna evaluación satelital, con la intensidad estimada del USGS.
+  Va aparte de `municipios.json` porque el mapa no necesita los titulares que
+  ese arrastra, y se filtra aquí y no en el navegador para que la cifra que se
+  publica y los puntos que se pintan salgan del mismo recuento
+  (`municipios.py::capa_sin_mirada`).
+- **`ingest/geo.py`** geometría sin dependencias: WKT, punto-en-polígono y
+  `MMIGrid` sobre el ShakeMap del USGS. `grid_mmi_vigente()` localiza la rejilla
+  más reciente del archivo y la comparten la verificación ciudadana y la capa de
+  municipios.
 - **`site/`** es frontend estático sin build: `ui.js` (componentes compartidos:
   `fmt`, `norm`, `tablaBuscable`, `metricCards`, `attachTooltip`,
   `comparativaFuentes`, `isLiveblog`/`bestSnapshot`), `common.js` (nav/footer),

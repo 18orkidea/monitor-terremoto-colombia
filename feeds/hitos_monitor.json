@@ -172,6 +172,13 @@
    "resumen": "El monitor estrena dominio propio y el anterior queda redirigido para siempre.",
    "texto": "El observatorio pasa a publicarse en datosdelterremoto.org, un dominio propio en vez de un subdominio personal: un archivo que promete durar veinte años no puede depender de la renovación de otra cosa. Las direcciones anteriores no se rompen —quedan con redirección permanente— porque hay enlaces citados en prensa y programas que descargan los JSON y el CSV a diario.",
    "url": "/"
+  },
+  {
+   "fecha": "2026-08-22",
+   "tipo": "monitor",
+   "resumen": "El mapa dibuja los 196 municipios que ningún satélite ha evaluado.",
+   "texto": "El mapa deja de enseñar solo lo que alguien miró. Entra una capa con los 196 municipios que tienen familias inscritas en el registro oficial de damnificados y ninguna evaluación de Copernicus, UNOSAT ni ICube-SERTIT. El rojo se gradúa con la intensidad que el modelo del USGS estima para cada cabecera municipal, no con la que la gente sintió, que solo se conoce en 23 de ellos. Los nueve municipios que quedan fuera de ese mapa de intensidad se pintan grises en vez de recibir la intensidad más baja: no saber no es lo mismo que haber temblado poco.",
+   "url": "/#mapa"
   }
  ]
 }

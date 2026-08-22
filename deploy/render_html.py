@@ -760,6 +760,16 @@ def municipios_con_evidencia_puntual(ctx: dict) -> list:
 
     El orden lo marcan los edificios únicos, no la suma de las tres cifras."""
     sat, ciu = ctx["conteo_satelite"], ctx["conteo_ciudadanos"]
+    # Aquí el cero SÍ se colapsa, y es deliberado: esta tabla promete
+    # «municipios con prueba sobre el terreno», así que un municipio evaluado
+    # con cero edificios con grado no tiene sitio en ella —saldría como una
+    # fila con guiones en todas las columnas, que es la lección de los globos
+    # sin datos en formato tabla, y rompería el invariante de
+    # `test_render_html.py::…n_evaluados or n_ciudadanos`.
+    # Es la diferencia con `ingest/municipios.py::sin_mirada_satelital`, donde
+    # el mismo cero sí se distingue porque allí la pregunta es otra: si alguien
+    # miró, no si encontró. Si algún día un servicio publica un municipio a
+    # cero, hay que decidir qué enseña esa fila antes de dejarla entrar.
     uno = {m["municipio"]: m["unosat_edificios"] for m in ctx["municipios"]
            if m.get("unosat_edificios")}
     ser = {m["municipio"]: m["sertit_edificios"] for m in ctx["municipios"]

@@ -77,7 +77,7 @@
   const OFFICIAL_FEED = `${base}oficiales.json`;
   const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
          dmgPts, dmgLines, notAnalysed, unosat, sertit, oficiales,
-         hitosCurados] = await Promise.all([
+         hitosCurados, sinMirada] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
     j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
@@ -87,6 +87,7 @@
     j(base + "sertit_damage.geojson"),
     j(OFFICIAL_FEED),
     j(base + "hitos_monitor.json"),
+    j(base + "municipios_mapa.json"),
   ]);
   // ---- banda de brechas oficiales
   // La banda YA VIENE ESCRITA desde el build (deploy/render_html.py::banda_brechas).
@@ -144,6 +145,82 @@
         `Intensidad ${f.properties.value ?? "—"} en la escala de Mercalli modificada`),
     }).addTo(map);
   }
+  /* La capa de la ausencia: municipios con damnificados registrados sobre los
+     que ninguno de los tres servicios que sigue el monitor —Copernicus EMS,
+     UNITAR-UNOSAT e ICube-SERTIT— ha publicado un producto de daño. NO dice
+     que ningún satélite pasara por encima, que es lo que nadie puede saber.
+     Es la tesis del proyecto dibujada —la distancia entre lo que se ve y lo
+     que se cuenta—, así que va encendida de entrada y al fondo (bringToBack):
+     la ausencia es contexto, no puede tapar la evidencia que sí existe.
+     El rojo lo gradúa la intensidad que el modelo del USGS estima para la
+     cabecera: es SACUDIDA ESTIMADA, no daño observado — precisamente aquí
+     nadie ha medido daño, y sin ese aviso 196 anillos rojos se leen como un
+     mapa de destrucción. Donde el ShakeMap no llega, gris: fuera de su
+     cuadrícula no hay «intensidad baja», hay ausencia de dato, y pintarla del
+     rojo más pálido sería un cero disfrazado, además del más tranquilizador
+     (R3). */
+  const colorAusencia = (mmi) => {
+    if (mmi == null) return css("--muted");
+    const t = Math.max(0, Math.min(1, (mmi - 3.5) / 4));
+    return `hsl(${Math.round(8 - 8 * t)},${Math.round(45 + 35 * t)}%,${
+      Math.round(74 - 34 * t)}%)`;
+  };
+  if (sinMirada && sinMirada.items && sinMirada.items.length) {
+    // El rótulo cuenta lo que se PINTA, no lo que trae el fichero: si algún
+    // municipio llegara sin coordenadas, la etiqueta prometería más puntos de
+    // los que hay. Es la divergencia de los «36 en portada, 43 en la tabla».
+    const conCoords = sinMirada.items.filter((m) => m.lat != null && m.lon != null);
+    const capa = L.geoJSON({
+      type: "FeatureCollection",
+      features: conCoords
+        .map((m) => ({ type: "Feature", properties: m,
+                       geometry: { type: "Point", coordinates: [m.lon, m.lat] } })),
+    }, {
+      // Anillo punteado y relleno muy tenue: hueco por dentro, porque eso es
+      // lo que dice el dato. Con relleno sólido estos 196 competían con los
+      // municipios que SÍ tienen evidencia y el mapa dejaba de distinguir
+      // «mirado» de «no mirado», que es justo lo que viene a enseñar.
+      pointToLayer: (f, latlng) => L.circleMarker(latlng, {
+        radius: 7, weight: 1.5, opacity: 0.75, fillOpacity: 0.12,
+        dashArray: "2 2",
+        color: colorAusencia(f.properties.mmi_usgs),
+        fillColor: colorAusencia(f.properties.mmi_usgs),
+      }),
+      onEachFeature: (f, l) => {
+        const p = f.properties;
+        l.bindPopup(ficha({
+          titulo: window.UI.esc(p.municipio),
+          subtitulo: window.UI.esc(p.departamento),
+          filas: [
+            // por fmt(): el millar del sitio es es-CO («1.234»), nunca el crudo
+            ["Familias registradas en el RUD", p.rud_familias == null
+              ? null : fmt(p.rud_familias)],
+            ["Personas registradas en el RUD", p.rud_personas == null
+              ? null : fmt(p.rud_personas)],
+            // sin dato se dice, no se rellena con un número que no existe.
+            // Con la escala: el mismo emisor publica dos intensidades en este
+            // mapa —esta y la percibida del DYFI— y el número solo no distingue
+            ["Sacudida estimada (modelo ShakeMap)",
+             p.mmi_usgs == null ? "sin dato"
+               : `${fmt(p.mmi_usgs)} en la escala de Mercalli modificada`],
+          ],
+          pie: "Familias y personas: RUD de la UNGRD, inscripciones que carga "
+            + "el municipio, no una evaluación de daños · Sacudida: modelo "
+            + "ShakeMap del USGS, ni medida en el terreno ni reportada por la "
+            + "gente · Sin producto de daño de Copernicus EMS, UNOSAT ni "
+            + "ICube-SERTIT",
+        }));
+      },
+    }).addTo(map);
+    capa.bringToBack();
+    // «con damnificados» NO es adorno: sin esa condición el rótulo enuncia un
+    // predicado que da 197, y municipios.html publica justo ese —Palmira no
+    // tiene registro en el RUD y sí entra en su cuenta—. Dos páginas del mismo
+    // sitio con dos cifras del mismo hecho es el fallo de los «36 y 43».
+    layers[`Municipios con damnificados y sin producto de daño satelital `
+           + `(${fmt(conCoords.length)})`] = capa;
+  }
+
   const aoiLayerById = {};
   const munLayerById = {};
   if (aois) {
@@ -707,7 +784,25 @@
     // los estados: sin este subgrupo su color queda sin explicar
     `<span class="leyenda-sep">Municipios (círculos):</span>` +
     Object.values(window.UI.ESTADO_MUNICIPIO).map(([txt, v, tip]) =>
-      `<span class="badge" style="--bc:${css(v)}" title="${tip}">${txt}</span>`).join("");
+      `<span class="badge" style="--bc:${css(v)}" title="${tip}">${txt}</span>`).join("") +
+    // La capa de la ausencia necesita leyenda propia por dos razones: su rojo
+    // NO significa daño —significa sacudida estimada donde nadie ha medido
+    // daño— y su gris compite en este mismo mapa con «No comparable 1:1» y con
+    // el «No aplica» de Copernicus. Sin esto, el color afirma lo que el texto
+    // se cuida de no afirmar. El recuento sale del dato, nunca escrito a mano.
+    (sinMirada && sinMirada.items && sinMirada.items.length
+      ? `<span class="leyenda-sep">Con damnificados y sin producto de daño ` +
+        `satelital (anillo punteado) — el color es la sacudida que estima el ` +
+        `modelo ShakeMap del USGS, no daño observado:</span>` +
+        [4, 5, 6, 7].map((m) =>
+          `<span class="badge" style="--bc:${colorAusencia(m)}" ` +
+          `title="Intensidad ${fmt(m)} en la escala de Mercalli modificada">` +
+          `${fmt(m)}</span>`).join("") +
+        `<span class="badge" style="--bc:${css("--muted")}" ` +
+        `title="El ShakeMap del USGS no cubre estos municipios: no se sabe ` +
+        `qué sacudida hubo, que no es lo mismo que saber que fue leve">` +
+        `Sin dato de sacudida (${fmt(sinMirada.sin_mmi)})</span>`
+      : "");
 
   // ---- gráfico temporal (volumen) + banda de hitos aparte, misma escala de fechas
   const fechaEvento = (hitos.find((h) => h.tipo === "evento") || {}).fecha;

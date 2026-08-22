@@ -47,7 +47,8 @@
     "distribution": [
       { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "/data/public/crosscheck.csv" },
       { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/public/monitor.json" },
-      { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "/data/public/unosat_damage.geojson" }
+      { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "/data/public/unosat_damage.geojson" },
+      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/public/municipios_mapa.json" }
     ]
   }
 }
@@ -74,6 +75,7 @@
     <a class="btn" href="/data/public/monitor.json" target="_blank">JSON</a>
     <a class="btn" href="/data/public/unosat_damage.geojson" download>GeoJSON UNOSAT</a>
     <a class="btn" href="/data/public/sertit_damage.geojson" download>GeoJSON SERTIT</a>
+    <a class="btn" href="/data/public/municipios_mapa.json" download>JSON sin satélite</a>
   </div>
 </header>
 
@@ -193,7 +195,10 @@
     <a href="/data/public/unosat_damage.geojson">GeoJSON de UNITAR-UNOSAT</a>, y el de los
     que cartografió ICube-SERTIT, en su
     <a href="/data/public/sertit_damage.geojson">GeoJSON</a> — este último con licencia
-    propia, no comercial y con atribución obligatoria a «© ICube-SERTIT 2026».</p>
+    propia, no comercial y con atribución obligatoria a «© ICube-SERTIT 2026». Y los
+    municipios que tienen damnificados registrados y ningún producto de daño satelital,
+    con la sacudida que les estima el modelo del USGS, en el
+    <a href="/data/public/municipios_mapa.json">JSON de municipios sin satélite</a>.</p>
     <div class="tabla-scroll"><table id="tabla">
       <thead>
         <tr>

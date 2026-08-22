@@ -581,15 +581,22 @@ def run() -> dict:
 
     from sources.community_feeds import municipal_google_news_feeds
     con_busqueda = {f["municipio"] for f in municipal_google_news_feeds()}
+    from geo import grid_mmi_vigente
+    grid_mmi = grid_mmi_vigente()
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
                                                  poblacion, rud_por_mun, divipola,
                                                  unosat_por_mun, con_busqueda,
-                                                 sertit=sertit_por_mun)
+                                                 sertit=sertit_por_mun,
+                                                 grid_mmi=grid_mmi)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))
     (PUBLIC / "municipios.geojson").write_text(json.dumps(
         municipios_gj, ensure_ascii=False))
+
+    from municipios import capa_sin_mirada
+    (PUBLIC / "municipios_mapa.json").write_text(json.dumps(
+        capa_sin_mirada(municipios, snap, grid_mmi), ensure_ascii=False))
 
     # Hitos curados (respuesta local + cambios del monitor): el fichero fuente
     # vive en feeds/ y se publica tal cual junto al resto de datos.

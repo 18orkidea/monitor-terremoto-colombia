@@ -21,6 +21,11 @@
   // Ya son TRES los servicios que miran —Copernicus, UNOSAT e ICube-SERTIT— y
   // uno solo basta para que el municipio esté mirado: la frase pregunta por
   // cualquiera de ellos, no por el primero que llegó.
+  // Espejo parcial de `ingest/municipios.py::sin_mirada_satelital`, que alimenta
+  // la capa del mapa de portada. NO son la misma pregunta: aquella exige además
+  // damnificados registrados en el RUD, así que da 196 donde esta da 197 (el que
+  // sobra es Palmira, con prensa y DYFI pero sin fila en el RUD). La diferencia
+  // es legítima; rotular cualquiera de las dos sin su condición, no.
   const miradoPorSatelite = (m) => !!m.en_aoi_copernicus
     || m.unosat_edificios != null || m.sertit_edificios != null;
   // contados los dos, no restado uno: un municipio puede estar a la vez en zona

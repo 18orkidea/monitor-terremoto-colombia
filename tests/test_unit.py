@@ -2366,3 +2366,338 @@ class TestLaImagenCompartidaNoSeQuedaAtras(unittest.TestCase):
             "gen_og.py", build,
             "build_dist.sh no regenera las imágenes compartidas: volverán a "
             "quedarse atrás en silencio la próxima vez que cambie una cifra")
+
+
+class TestCapaDeLaAusencia(unittest.TestCase):
+    """Los municipios con damnificados a los que no miró ningún satélite.
+
+    Es la tesis del proyecto dibujada: la distancia entre lo que se ve y lo que
+    se cuenta. Por eso la capa se calcula en el build y no en el navegador —la
+    cifra que el sitio enseña y la que pinta tienen que salir del mismo sitio—
+    y por eso «sin intensidad» no puede acabar siendo «intensidad baja».
+    """
+
+    REJILLA = {
+        # 3x3 grados alrededor del epicentro, MMI decreciente hacia el borde
+        "domain": {"axes": {"x": {"start": -77.0, "stop": -75.0, "num": 3},
+                            "y": {"start": 4.0, "stop": 6.0, "num": 3}}},
+        "ranges": {"mmi": {"values": [4.0, 4.5, 4.0,
+                                      5.0, 7.5, 5.0,
+                                      4.0, 4.5, 4.0]}},
+    }
+
+    def _municipios(self, **cambios):
+        base = {"municipio": "Sin Mirar", "departamento": "Chocó",
+                "lat": 5.0, "lon": -76.0, "rud_familias": 120,
+                "rud_personas": 400, "mmi_usgs": 7.5,
+                "unosat_edificios": None, "sertit_edificios": None,
+                "en_aoi_copernicus": False}
+        return [{**base, **cambios}]
+
+    def test_el_municipio_que_nadie_miro_entra_en_la_capa(self):
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(self._municipios(), "2026-08-22")
+        self.assertEqual(capa["total"], 1)
+        self.assertEqual(capa["items"][0]["municipio"], "Sin Mirar")
+        self.assertEqual(capa["items"][0]["rud_familias"], 120)
+
+    def test_la_cifra_publicada_es_la_de_la_lista_no_una_constante(self):
+        """El 196 del rótulo y los 196 puntos del mapa son el mismo recuento.
+
+        Es la lección de la portada que decía 36 con 43 en su propia tabla: en
+        cuanto la cifra se escribe aparte de la lista, las dos divergen.
+        """
+        from municipios import capa_sin_mirada
+        muchos = [dict(m, municipio=f"M{i}")
+                  for i in range(7) for m in self._municipios()]
+        capa = capa_sin_mirada(muchos, "2026-08-22")
+        self.assertEqual(capa["total"], len(capa["items"]))
+
+    def test_estrenar_mirada_satelital_saca_al_municipio_de_la_capa(self):
+        """R11: el día que un satélite lo mire, el municipio debe desaparecer
+        solo. Si hubiera que borrarlo a mano, la capa mentiría al día siguiente.
+        """
+        from municipios import capa_sin_mirada
+        for mirada in ("unosat_edificios", "sertit_edificios"):
+            with self.subTest(mirada=mirada):
+                capa = capa_sin_mirada(self._municipios(**{mirada: 30}),
+                                       "2026-08-22")
+                self.assertEqual(capa["total"], 0)
+        capa = capa_sin_mirada(self._municipios(en_aoi_copernicus=True),
+                               "2026-08-22")
+        self.assertEqual(capa["total"], 0)
+
+    def test_sin_damnificados_registrados_no_entra(self):
+        """La capa habla de municipios con damnificados a los que nadie miró.
+        Sin registro no hay nada que contrastar: sería ruido, no una brecha."""
+        from municipios import capa_sin_mirada
+        for vacio in (None, 0):
+            with self.subTest(rud_familias=vacio):
+                capa = capa_sin_mirada(self._municipios(rud_familias=vacio),
+                                       "2026-08-22")
+                self.assertEqual(capa["total"], 0)
+
+    # dos municipios del catálogo con registro RUD: uno dentro del cuadro de la
+    # rejilla de prueba (Roldanillo) y otro muy fuera (Acandí, en el Darién)
+    RUD = {("valle del cauca", "roldanillo"): {
+               "departamento": "VALLE DEL CAUCA", "municipio": "ROLDANILLO",
+               "familias": 40, "personas": 100,
+               "viv_destruidas": 0, "viv_averiadas": 0},
+           ("choco", "acandi"): {
+               "departamento": "CHOCÓ", "municipio": "ACANDÍ",
+               "familias": 12, "personas": 30,
+               "viv_destruidas": 0, "viv_averiadas": 0}}
+
+    def test_fuera_de_la_rejilla_no_hay_intensidad_baja_hay_ausencia(self):
+        """R3 en el mapa: un municipio que el ShakeMap no cubre se queda en
+        None y se pinta gris. Darle el escalón más bajo sería publicar un dato
+        que nadie ha medido, y encima el más tranquilizador."""
+        from geo import MMIGrid
+        from municipios import build_municipios
+        # Acandí (8.51, -77.28) cae fuera del cuadro de la rejilla
+        rows, _ = build_municipios([], None, {}, None, self.RUD,
+                                   grid_mmi=MMIGrid(self.REJILLA))
+        acandi = next(r for r in rows if r["municipio"] == "Acandí")
+        self.assertIsNone(acandi["mmi_usgs"])
+
+    def test_la_intensidad_sale_de_la_rejilla_del_usgs(self):
+        """Dentro de la rejilla sí hay dato, y es el que da el ShakeMap."""
+        from geo import MMIGrid
+        from municipios import build_municipios
+        # Roldanillo (4.41, -76.15) cae dentro del cuadro
+        rows, _ = build_municipios([], None, {}, None, self.RUD,
+                                   grid_mmi=MMIGrid(self.REJILLA))
+        rold = next(r for r in rows if r["municipio"] == "Roldanillo")
+        self.assertIsNotNone(rold["mmi_usgs"])
+        self.assertGreaterEqual(rold["mmi_usgs"], 4.0)
+
+    def test_sin_shakemap_la_capa_sigue_saliendo_sin_intensidad(self):
+        """R13: que falte el ShakeMap no puede tumbar la capa. Se publica sin
+        color graduado, no se deja de publicar."""
+        from municipios import build_municipios
+        rows, _ = build_municipios([], None, {}, None, self.RUD, grid_mmi=None)
+        self.assertTrue(rows)
+        self.assertTrue(all(r["mmi_usgs"] is None for r in rows))
+
+    def test_la_laguna_se_cuenta_no_se_descubre_mirando_el_mapa(self):
+        """Cuántos se quedaron sin intensidad se publica como cifra: un archivo
+        honesto documenta lo que no tiene."""
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(self._municipios(mmi_usgs=None), "2026-08-22")
+        self.assertEqual(capa["sin_mmi"], 1)
+
+    def test_el_json_dice_que_la_intensidad_es_estimada_no_percibida(self):
+        """R9: el rótulo viaja con el dato. Quien lea el JSON no tiene que
+        adivinar que es un modelo y no lo que la gente sintió."""
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(self._municipios(), "2026-08-22")
+        self.assertIn("estimada", capa["fuente_mmi"])
+        self.assertIn("USGS", capa["fuente_mmi"])
+
+    def test_la_capa_no_arrastra_los_titulares_que_el_mapa_no_usa(self):
+        """El fichero existe aparte justamente para no pesar: si vuelve a
+        llevar noticias_ejemplo, deja de tener sentido."""
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(
+            self._municipios(noticias_ejemplo=[{"titulo": "x"} for _ in range(9)],
+                             n_noticias=9),
+            "2026-08-22")
+        self.assertNotIn("noticias_ejemplo", capa["items"][0])
+        self.assertNotIn("n_noticias", capa["items"][0])
+
+
+class TestLaCapaNoAcusaEnFalso(unittest.TestCase):
+    """Haber mirado y no encontrar nada no es no haber mirado.
+
+    Los recuentos satelitales se comprobaban con `bool()`, así que un municipio
+    donde el servicio miró y marcó cero edificios con grado de daño figuraba
+    como no evaluado — y la capa de la ausencia llegaba a decirle al lector que
+    nadie lo había mirado. Es R3 leído al revés: el cero convertido en ausencia.
+    """
+
+    def test_cero_edificios_evaluados_no_es_ausencia_de_evaluacion(self):
+        from municipios import build_municipios
+        for fuente, campo in (("unosat", "unosat_edificios"),
+                              ("sertit", "sertit_edificios")):
+            with self.subTest(fuente=fuente):
+                paquete = {"Viterbo": {"edificios": 0}}
+                rows, _ = build_municipios(
+                    [], None, {}, None, None, None,
+                    paquete if fuente == "unosat" else None,
+                    sertit=paquete if fuente == "sertit" else None)
+                vit = next(r for r in rows if r["municipio"] == "Viterbo")
+                self.assertEqual(vit[campo], 0,
+                                 "cero evaluados es un resultado, no un hueco")
+                self.assertIn(fuente, vit["fuentes"])
+
+    def test_el_municipio_evaluado_a_cero_no_entra_en_la_capa(self):
+        """El caso completo: si SERTIT lo miró, la capa no puede afirmar que
+        nadie lo hizo, por mucho que el recuento con grado sea cero."""
+        from municipios import capa_sin_mirada
+        mirado = {"municipio": "Mirado", "departamento": "Chocó",
+                  "lat": 5.0, "lon": -76.0, "rud_familias": 120,
+                  "sertit_edificios": 0, "unosat_edificios": None,
+                  "en_aoi_copernicus": False}
+        self.assertEqual(capa_sin_mirada([mirado], "2026-08-22")["total"], 0)
+
+    def test_la_procedencia_de_la_rejilla_viaja_con_el_dato(self):
+        """R4: `grid_mmi_vigente` se cae a snapshots anteriores en silencio, así
+        que el producto tiene que decir de qué rejilla salieron sus cifras."""
+        from municipios import capa_sin_mirada
+
+        class GridFalso:
+            origen = {"snapshot": "2026-08-20", "sha256": "abc123"}
+
+        sin = {"municipio": "Sin Mirar", "departamento": "Chocó",
+               "lat": 5.0, "lon": -76.0, "rud_familias": 10,
+               "unosat_edificios": None, "sertit_edificios": None,
+               "en_aoi_copernicus": False}
+        capa = capa_sin_mirada([sin], "2026-08-22", GridFalso())
+        self.assertEqual(capa["fuente_mmi_snapshot"]["snapshot"], "2026-08-20")
+        self.assertIn("us6000tjl2", capa["fuente_mmi_url"])
+
+    def test_el_rotulo_cuenta_los_que_se_pueden_pintar(self):
+        """Un municipio sin coordenadas cuenta en el total y no en el mapa: si
+        el rótulo usa el total, promete puntos que no existen."""
+        from municipios import capa_sin_mirada
+        base = {"departamento": "Chocó", "rud_familias": 10,
+                "unosat_edificios": None, "sertit_edificios": None,
+                "en_aoi_copernicus": False}
+        capa = capa_sin_mirada(
+            [{**base, "municipio": "Con", "lat": 5.0, "lon": -76.0},
+             {**base, "municipio": "Sin", "lat": None, "lon": None}],
+            "2026-08-22")
+        self.assertEqual(capa["total"], 2)
+        self.assertEqual(capa["con_coordenadas"], 1)
+
+
+class TestLasDosPreguntasSobreLaMirada(unittest.TestCase):
+    """«Sin satélite» se pregunta de dos maneras y las dos cifras difieren.
+
+    `municipios.py::sin_mirada_satelital` (la capa del mapa) exige damnificados
+    registrados; `site/municipios.js::miradoPorSatelite` (la tabla) no. Por eso
+    la portada publica 196 y municipios.html 197, y las dos tienen razón. Lo que
+    no puede pasar —y pasó— es que un rótulo enuncie una y muestre la otra.
+    """
+
+    RAIZ = Path(__file__).parent.parent
+
+    def _municipio(self, **cambios):
+        base = {"municipio": "X", "departamento": "Chocó", "lat": 5.0,
+                "lon": -76.0, "rud_familias": 10, "unosat_edificios": None,
+                "sertit_edificios": None, "en_aoi_copernicus": False}
+        return {**base, **cambios}
+
+    def test_sin_registro_en_el_rud_queda_fuera_de_la_capa_pero_sigue_sin_satelite(self):
+        """El caso Palmira: es la diferencia entre las dos cifras, y existe."""
+        from municipios import capa_sin_mirada, sin_mirada_satelital
+        palmira = self._municipio(municipio="Palmira", rud_familias=None,
+                                  n_noticias=31, dyfi_max_cdi=4.3)
+        self.assertFalse(sin_mirada_satelital(palmira))
+        self.assertEqual(capa_sin_mirada([palmira], "2026-08-22")["total"], 0)
+        # y sin embargo ningún satélite lo ha mirado: la otra pregunta da 1
+        self.assertIsNone(palmira["unosat_edificios"])
+        self.assertIsNone(palmira["sertit_edificios"])
+        self.assertFalse(palmira["en_aoi_copernicus"])
+
+    def test_las_dos_superficies_usan_el_mismo_criterio_de_mirada(self):
+        """Lo que sí debe coincidir es QUÉ cuenta como mirada satelital: las tres
+        fuentes y el `is not None`. Si una superficie añade o quita un servicio,
+        las dos cifras dejan de ser comparables y nadie se entera."""
+        js = (self.RAIZ / "site/municipios.js").read_text(encoding="utf-8")
+        py = (self.RAIZ / "ingest/municipios.py").read_text(encoding="utf-8")
+        for campo in ("en_aoi_copernicus", "unosat_edificios", "sertit_edificios"):
+            self.assertIn(campo, js, f"{campo} falta en la regla del navegador")
+            self.assertIn(campo, py, f"{campo} falta en la regla del build")
+        self.assertIn("!= null", js,
+                      "el JS debe distinguir cero de ausencia, no usar truthiness")
+
+    def test_cada_superficie_se_nombra_en_la_otra(self):
+        """R8/R10: una regla en dos idiomas se documenta cruzada, o se olvida."""
+        js = (self.RAIZ / "site/municipios.js").read_text(encoding="utf-8")
+        py = (self.RAIZ / "ingest/municipios.py").read_text(encoding="utf-8")
+        self.assertIn("sin_mirada_satelital", js)
+        self.assertIn("miradoPorSatelite", py)
+
+    def test_el_rotulo_del_mapa_dice_su_condicion(self):
+        """El rótulo de la capa tiene que enunciar el predicado que cuenta. Sin
+        «damnificados», describe las 197 y enseña 196.
+
+        Se mira SOLO el literal del rótulo, nunca el comentario que lo precede:
+        la primera versión de este test leía los 400 caracteres anteriores y
+        pasaba en verde con el rótulo malo, porque la palabra estaba en el
+        comentario que explica por qué hace falta. Un guardián que no guarda.
+        """
+        app = (self.RAIZ / "site/app.js").read_text(encoding="utf-8")
+        capa = [r for r in re.findall(r"layers\[((?:\s*`[^`]*`\s*\+?)+)\]", app)
+                if "conCoords.length" in r]
+        self.assertTrue(capa, "no se encuentra el rótulo de la capa de la ausencia")
+        texto = " ".join(re.findall(r"`([^`]*)`", capa[0]))
+        self.assertIn("damnificados", texto,
+                      f"la etiqueta omite la condición del RUD: {texto!r}")
+
+
+class TestProcedenciaDeLaRejilla(unittest.TestCase):
+    """`grid_mmi_vigente` se cae a snapshots anteriores; el salto debe dejar rastro."""
+
+    def _covjson(self):
+        return {"domain": {"axes": {"x": {"start": -77.0, "stop": -75.0, "num": 2},
+                                    "y": {"start": 4.0, "stop": 6.0, "num": 2}}},
+                "ranges": {"mmi": {"values": [4.0, 5.0, 6.0, 7.0]}}}
+
+    def test_usa_el_snapshot_de_hoy_y_sella_su_sha256(self):
+        import hashlib
+        import json
+        import tempfile
+        from pathlib import Path as P
+
+        import geo
+        with tempfile.TemporaryDirectory() as tmp:
+            hoy = P(tmp) / "2026-08-22"
+            hoy.mkdir()
+            crudo = json.dumps(self._covjson()).encode()
+            (hoy / "usgs_mmi_grid.covjson").write_bytes(crudo)
+            grid = geo.grid_mmi_vigente(hoy)
+        self.assertEqual(grid.origen["snapshot"], "2026-08-22")
+        self.assertEqual(grid.origen["sha256"], hashlib.sha256(crudo).hexdigest())
+
+    def test_si_hoy_no_trae_rejilla_cae_al_anterior_y_lo_dice(self):
+        """Es el caso que hace falta sellar: el dato se publica con fecha de hoy
+        y viene de días atrás. Sin el sello, nadie podría saberlo (R4)."""
+        import json
+        import tempfile
+        from pathlib import Path as P
+
+        import geo
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = P(tmp)
+            for dia in ("2026-08-20", "2026-08-21", "2026-08-22"):
+                (raiz / dia).mkdir()
+            (raiz / "2026-08-21" / "usgs_mmi_grid.covjson").write_text(
+                json.dumps(self._covjson()))
+            original = geo.SNAPSHOTS if hasattr(geo, "SNAPSHOTS") else None
+            import common
+            previo = common.SNAPSHOTS
+            common.SNAPSHOTS = raiz
+            try:
+                grid = geo.grid_mmi_vigente(raiz / "2026-08-22")
+            finally:
+                common.SNAPSHOTS = previo
+                del original
+        self.assertIsNotNone(grid, "R13: sin rejilla de hoy se usa la anterior")
+        self.assertEqual(grid.origen["snapshot"], "2026-08-21",
+                         "el sello tiene que delatar que el dato no es de hoy")
+
+    def test_sin_ninguna_rejilla_devuelve_none_sin_reventar(self):
+        import tempfile
+        from pathlib import Path as P
+
+        import common
+        import geo
+        with tempfile.TemporaryDirectory() as tmp:
+            previo = common.SNAPSHOTS
+            common.SNAPSHOTS = P(tmp) / "no-existe"
+            try:
+                self.assertIsNone(geo.grid_mmi_vigente(P(tmp)))
+            finally:
+                common.SNAPSHOTS = previo

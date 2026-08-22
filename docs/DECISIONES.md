@@ -6,6 +6,59 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-22 — El mapa enseña los 196 municipios que nadie miró desde el aire
+
+Contexto: el mapa de portada solo podía pintar evidencia — zonas de Copernicus, puntos de
+UNOSAT y de ICube-SERTIT, reportes ciudadanos. Todo lo que enseñaba era, por construcción,
+lo que alguien había mirado. Pero la tesis del monitor es la contraria: la distancia entre
+lo que se ve y lo que se cuenta. Había 196 municipios con familias inscritas en el RUD a
+los que no ha mirado ninguno de los tres satélites, y en el mapa eran exactamente igual de
+invisibles que un municipio sin daño. La ausencia no se leía porque no se dibujaba.
+
+Decisión: entra la capa de la ausencia, encendida de entrada y al fondo (`bringToBack`), con
+anillo punteado y relleno tenue — la evidencia que sí existe tiene que seguir mandando. El
+rojo lo grada la intensidad que el ShakeMap del USGS estima para la cabecera municipal,
+derivada con `MMIGrid`, que ya existía en `ingest/geo.py` para la verificación ciudadana; la
+búsqueda del snapshot vigente se sube a `geo.py::grid_mmi_vigente` porque ya son dos los
+consumidores. Se descartó la intensidad **percibida** (`dyfi_max_cdi`, el DYFI del USGS): es
+lo que la gente sintió y sería el dato preferible, pero solo cubre 23 de los 196 y con él el
+mapa quedaba en blanco. La rejilla llega a 187 de los 196 (al 22-ago-2026; las cifras vigentes están en `municipios_mapa.json`). Los nueve restantes caen fuera del ShakeMap y se
+pintan grises: fuera de la rejilla no hay «intensidad baja», hay ausencia de dato, y el rojo
+más pálido habría sido un cero disfrazado, además del más tranquilizador (R3).
+
+La capa va en `data/public/municipios_mapa.json`, un fichero propio de 30 KB, porque
+`municipios.json` pesa 340 KB por los ejemplos de prensa que el mapa no usa hasta que se
+abre un globo. Y el filtro se aplica en el build, no en el navegador: la cifra que el sitio
+enseña y los puntos que pinta salen del mismo recuento, que es justo lo que faltaba el día
+que la portada decía 36 municipios con 43 en su propia tabla.
+
+Dos cifras del mismo hecho, y las dos ciertas: la portada publica 196 y
+`municipios.html` 197. La diferencia es Palmira, que no tiene producto satelital pero
+tampoco fila en el RUD, y sale de que las dos páginas hacen preguntas distintas
+(`municipios.py::sin_mirada_satelital` exige damnificados registrados;
+`site/municipios.js::miradoPorSatelite` no). Legítimo; lo que no lo era es lo que se
+publicó primero: un rótulo que enunciaba el predicado sin su condición —«municipios sin
+producto de daño satelital»— sobre el recuento que sí la aplica. Ahora ambas superficies
+dicen «con damnificados y sin producto de daño satelital», y se nombran mutuamente en el
+código, como manda el patrón de R8 y R10 para una regla que vive en dos idiomas.
+
+Consecuencia: el rótulo del dato viaja dentro del JSON (`fuente_mmi`), para que quien lo
+descargue no confunda un modelo con una medición, y también se publica cuántos se quedaron
+sin intensidad (`sin_mmi`), porque una laguna que se cuenta es mejor que una que se descubre
+mirando el mapa. `tests/test_unit.py::TestCapaDeLaAusencia` cae si un municipio que estrena
+mirada satelital no desaparece solo de la capa (R11), si uno sin registro entra, si el
+recuento publicado deja de coincidir con la lista, o si un municipio fuera de la rejilla
+recibe el escalón más bajo en vez de ausencia, si el rótulo de la capa deja de enunciar
+su condición, o si las dos superficies de la regla dejan de nombrarse.
+
+De paso salió un error más viejo, en código compartido: los recuentos satelitales se
+comprobaban con `bool()`, así que un municipio evaluado con cero edificios con grado de
+daño figuraba como no evaluado. Antes eso era un estado impreciso; con esta capa pasaba a
+ser una afirmación falsa publicada —«nadie ha mirado aquí»— sobre un municipio que sí se
+había mirado. Corregido a `is not None` en `municipios.py` y en la comparativa de
+`render_html.py`. Hoy no hay ningún municipio a cero, así que no cambia ninguna cifra: es
+una trampa desarmada antes de que se dispare.
+
 ## 2026-08-22 — La banda de brechas se escribe en el build, no en el navegador
 
 Contexto: la portada prerenderiza sus tablas con `deploy/render_html.py` desde que se
