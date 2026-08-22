@@ -66,6 +66,35 @@ window.UI = (function () {
   const serieDesde = (serie, fecha) => (serie || [])
     .filter((d) => !fecha || (d.fecha || "") >= fecha.slice(0, 10));
 
+  /* Nombres de las zonas que recortó Copernicus, en español. La fuente los
+     publica en inglés y el original se conserva donde haga falta para
+     localizarlos en sus productos descargables. Vive aquí, y no en cada página,
+     porque ahora también lo lee el prerenderizado del build: espejo de
+     `AOI_ES` en deploy/render_html.py — si tocas uno, mira el otro. */
+  const AOI_ES = {
+    "Northern Cali": "Cali Norte", "Cali Center": "Cali Centro",
+    "Quibdo Centre": "Quibdó Centro", "Western Colombia": "Occidente de Colombia",
+    "Pereira": "Pereira", "Istmina": "Istmina", "Buenaventura": "Buenaventura",
+  };
+  const aoiEs = (n) => AOI_ES[n] || n;
+
+  /* Zonas donde el satélite contó edificios afectados y todavía no hay registro
+     oficial. No se escriben a mano en ningún texto: el día que una de ellas
+     entre al registro, la frase que la nombraba debe dejar de nombrarla sola
+     (R11). Espejo de `zonas_sin_registro` en deploy/render_html.py. */
+  const zonasSinRegistro = (mon) => [...new Set(((mon || {}).aois || [])
+    .filter((a) => (a.resumen || {}).edificios_afectados
+      && !(a.cruce || {}).n_oficial)
+    .map((a) => aoiEs(a.aoi)))];
+
+  /* El inciso que nombra un par de ellas dentro de una frase. Dos como mucho:
+     la banda de portada y la nota del cruce citan ejemplos, no un inventario.
+     Espejo de `ejemplos_sin_registro` en deploy/render_html.py. */
+  const ejemplosSinRegistro = (mon) => {
+    const z = zonasSinRegistro(mon);
+    return z.length ? ` (p. ej. ${z.slice(0, 2).join(" y ")})` : "";
+  };
+
   /* Estados de la capa de municipios: etiqueta, color y explicación en UN solo
      sitio (la tabla y el mapa los pintaban por separado y las etiquetas ya
      habían divergido). El orden es el de la cascada de ingest/municipios.py. */
@@ -973,6 +1002,7 @@ window.UI = (function () {
   }
 
   return { fmt, fmtProsa, pct, fechaEs, fechaLarga, diaMes, serieDesde,
+           AOI_ES, aoiEs, zonasSinRegistro, ejemplosSinRegistro,
            estadoMunicipio, ESTADO_MUNICIPIO,
            fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc,
            fetchJson, tablaBuscable, tablaHidratada, paginador, metricCards,

@@ -21,13 +21,9 @@
 
   // ---- traducción de etiquetas que llegan en inglés desde las fuentes.
   // El nombre original se conserva (title/paréntesis) para poder identificarlo
-  // en los productos de Copernicus.
-  const AOI_ES = {
-    "Northern Cali": "Cali Norte", "Cali Center": "Cali Centro",
-    "Quibdo Centre": "Quibdó Centro", "Western Colombia": "Occidente de Colombia",
-    "Pereira": "Pereira", "Istmina": "Istmina", "Buenaventura": "Buenaventura",
-  };
-  const aoiEs = (n) => AOI_ES[n] || n;
+  // en los productos de Copernicus. Los nombres de zona los pone ui.js: los
+  // leen también los titulares y el prerenderizado del build.
+  const aoiEs = window.UI.aoiEs;
   const aoiLabel = (n) => {
     const es = aoiEs(n);
     return es === n ? n : `${es} <span style="color:var(--muted)">(${n})</span>`;
@@ -92,68 +88,47 @@
     j(OFFICIAL_FEED),
     j(base + "hitos_monitor.json"),
   ]);
+  // ---- banda de brechas oficiales
+  // La banda YA VIENE ESCRITA desde el build (deploy/render_html.py::banda_brechas).
+  // Es el resumen más citable de la portada y llegaba vacía a quien no ejecuta
+  // JavaScript, que es todo rastreador de sistemas de IA. La redacción vive allí
+  // y en ningún otro sitio; aquí solo se refresca lo que depende del reloj de
+  // quien lee y no de la fecha del build: cuántos días lleva callada cada fuente.
+  // Va antes de comprobar los datos porque no los necesita: aunque el monitor no
+  // cargue, la cuenta de días del silencio oficial sigue siendo cierta y actual.
+  // floor, NO round: una fecha ISO sin hora se interpreta a medianoche UTC, así
+  // que a media mañana en Colombia el cociente cruza el medio día y `round`
+  // sumaba uno. La banda daba entonces dos cifras del mismo silencio —1.330 en
+  // el HTML servido, 1.331 en pantalla— y la de pantalla cambiaba sola durante
+  // el día. Con floor son días completos transcurridos, que es lo que dice la
+  // frase y lo que cuenta `_dias_entre` en el build.
+  for (const span of document.querySelectorAll("#banner-brechas [data-dias-desde]")) {
+    const desde = new Date(span.dataset.diasDesde);
+    if (!isNaN(desde.getTime())) {
+      span.textContent = fmt(Math.floor((Date.now() - desde) / 864e5));
+    }
+  }
+
   if (!mon) {
-    document.getElementById("banner-brechas").innerHTML =
+    // El aviso se antepone y NO borra la banda: el resumen de brechas ya viene
+    // escrito desde el build y sigue siendo cierto aunque el mapa no cargue. Por
+    // eso nombra QUÉ ha fallado y avala lo de abajo: un «no se han podido cargar
+    // los datos» a secas, en la misma caja amarilla y encima de las cifras,
+    // invita a leerlas como sospechosas.
+    document.getElementById("banner-brechas").insertAdjacentHTML("afterbegin",
       !/^https?:$/.test(location.protocol)
-        ? "<strong>Esta página está abierta como un archivo del disco:</strong> el " +
-          "navegador bloquea la carga de datos por seguridad. Ábrela en " +
-          "<a href=\"https://datosdelterremoto.org/\">datosdelterremoto.org</a>."
-        : "No se han podido cargar los datos del monitor. Vuelve a intentarlo en " +
-          "unos minutos.";
+        ? "<p role=\"status\"><strong>Esta página está abierta como un archivo del " +
+          "disco:</strong> el navegador bloquea la carga de datos por seguridad. " +
+          "Ábrela en <a href=\"https://datosdelterremoto.org/\">datosdelterremoto.org</a>. " +
+          "El resumen de aquí abajo sí se lee: viaja escrito en la página.</p>"
+        : "<p role=\"status\"><strong>No se han podido cargar el mapa ni las " +
+          "tablas:</strong> vuelve a intentarlo en unos minutos. El resumen de aquí " +
+          "abajo se escribió en la última actualización del monitor y sigue siendo " +
+          "válido.</p>");
     return;
   }
   document.getElementById("generado").textContent =
     "Actualizado el " + window.UI.fechaLarga(mon.generado);
-
-  // ---- banda de brechas oficiales
-  // los ejemplos NO se escriben a mano: el día que un municipio entre al RUD la
-  // frase debe dejar de nombrarlo sola (R11: los supuestos caducan avisando)
-  // frase completa condicional (no solo el paréntesis): el día que toda zona con
-  // daño satelital tenga registro municipal, afirmar la brecha sería falso
-  const brechaMunicipal = () => {
-    const ejemplos = sinRegistroConSatelite();
-    return ejemplos
-      ? `La brecha ahora es municipal: donde las autoridades locales aún no ` +
-        `registran${ejemplos}, el satélite sigue siendo la única evidencia. `
-      : `Ya no queda ninguna zona con daño satelital sin registro municipal. `;
-  };
-
-  const sinRegistroConSatelite = () => {
-    const nombres = (mon.aois || [])
-      .filter((a) => (a.resumen || {}).edificios_afectados
-        && !(a.cruce || {}).n_oficial)
-      .map((a) => aoiEs(a.aoi));
-    const unicos = [...new Set(nombres)];
-    return unicos.length ? ` (p. ej. ${unicos.slice(0, 2).join(" y ")})` : "";
-  };
-
-  const g = mon.brechas_oficiales || {};
-  const soc = g.ungrd_socrata || {}, arc = g.ungrd_arcgis || {};
-  const dias = (d) => d ? Math.round((Date.now() - new Date(d)) / 864e5) : null;
-  const fechaL = window.UI.fechaLarga;
-  document.getElementById("banner-brechas").innerHTML =
-    `<strong>Brecha de reporte oficial:</strong> lo que la Unidad Nacional para la Gestión ` +
-    `del Riesgo de Desastres (UNGRD) publica en el portal datos.gov.co llega hasta el ` +
-    `<strong>${fechaL(soc.hasta)}</strong> (hace ${fmt(dias(soc.hasta))} días); ` +
-    `su otro registro público, el de ArcGIS, hasta el <strong>${fechaL(arc.max_fecha)}</strong> ` +
-    `(hace ${fmt(dias(arc.max_fecha))} días). El sistema nacional de información del riesgo ` +
-    `(SNIGRD, 2026) no ofrece ninguna vía de consulta automática. ` +
-    (g.ungrd_rud ? `<br><strong>La brecha empezó a cerrarse:</strong> el ` +
-      `<a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">RUD</a> ` +
-      `(Registro Único de Damnificados) ya cubre el evento — ` +
-      `<strong>${fmt(g.ungrd_rud.municipios)}</strong> municipios con ` +
-      `<strong>${fmt(g.ungrd_rud.familias)}</strong> familias y ` +
-      `${fmt(g.ungrd_rud.viv_destruidas)} viviendas destruidas registradas. ` +
-      brechaMunicipal() : "") +
-    `Copernicus entregó ${window.UI.fmtProsa(mon.entregas.length)} productos y la ` +
-    `comunidad aportó ${window.UI.fmt(mon.citizen.chatmap_total)} reportes con foto.` +
-    (mon.exposicion ? `<br><strong>Exposición sin mapeo:</strong> unas ` +
-      `${fmt(mon.exposicion.expuesta_mmi6plus)} personas viven donde el sismo alcanzó una ` +
-      `intensidad de 6 o más en la escala de Mercalli modificada, según la estimación rápida ` +
-      `del Servicio Geológico de Estados Unidos (PAGER); las zonas mapeadas por Copernicus ` +
-      `cubren a unas ${fmt(mon.exposicion.en_aois_copernicus)} ` +
-      `(${mon.exposicion.pct_cubierta} %). ` +
-      `El resto es población que nadie ha mirado de cerca.` : "");
 
   // ---- mapa
   const map = L.map("map");
@@ -716,7 +691,7 @@
   // por la buena noticia (romperse puede ser buena noticia — R11)
   const notaSin = document.getElementById("nota-sin-registro");
   if (notaSin) {
-    const ejemplos = sinRegistroConSatelite();
+    const ejemplos = window.UI.ejemplosSinRegistro(mon);
     notaSin.textContent = ejemplos
       ? ` Donde aún no registran${ejemplos}, el satélite sigue siendo la única evidencia.`
       : " Ya no queda ninguna zona con daño satelital sin registro municipal.";

@@ -7,6 +7,8 @@ viendo perfecta en el navegador y estaría vacía para quien la tiene que citar
 """
 import json
 import re
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -16,6 +18,26 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "deploy"))
 
 import render_html as R
+
+ROOT = Path(__file__).parent.parent
+NODE = shutil.which("node")
+
+
+def correr_ui(expresion: str, datos="null"):
+    """Evalúa una expresión sobre `window.UI` con el ui.js real.
+
+    Testear una copia de la regla en Python sería testear nada: cuando este
+    módulo replica algo que vive en JavaScript, la comparación se hace contra
+    el original ejecutándolo."""
+    script = ("global.window = {};"
+              f"require({json.dumps(str(ROOT / 'site' / 'ui.js'))});"
+              "const UI = window.UI;"
+              f"const mon = {json.dumps(datos, ensure_ascii=False)};"
+              f"console.log(JSON.stringify({expresion}));")
+    r = subprocess.run([NODE, "-e", script], capture_output=True, text=True, timeout=30)
+    if r.returncode != 0:
+        raise AssertionError(f"node falló: {r.stderr[:500]}")
+    return json.loads(r.stdout)
 
 
 class TestFormato(unittest.TestCase):
@@ -622,6 +644,192 @@ class TestTablaPortada(unittest.TestCase):
         no caben en una tabla municipal, pero no se pierden: siguen en el CSV."""
         html = (Path(__file__).parent.parent / "site/index.html").read_text()
         self.assertIn("crosscheck.csv", html)
+
+
+class TestBandaDeBrechas(unittest.TestCase):
+    """La banda amarilla de la portada, escrita en el build y no en el navegador.
+
+    Resume las dos brechas centrales del monitor —cuánto llevan calladas las
+    fuentes oficiales abiertas y cuánta población expuesta queda fuera de las
+    zonas mapeadas por satélite— y es, con diferencia, el texto más citable de
+    la portada. Llegaba vacía a quien no ejecuta JavaScript: exactamente la
+    regresión que el prerenderizado de las tablas existe para evitar."""
+
+    MONITOR = {
+        "generado": "2026-08-22",
+        "brechas_oficiales": {
+            "ungrd_socrata": {"hasta": "2022-12-31T00:00:00.000"},
+            "ungrd_arcgis": {"max_fecha": "2024-02-17"},
+            "ungrd_rud": {"municipios": 207, "familias": 100231.0,
+                          "viv_destruidas": 6638.0},
+        },
+        "aois": [
+            {"aoi": "Quibdo Centre", "resumen": {"edificios_afectados": 120},
+             "cruce": {"n_oficial": None}},
+            {"aoi": "Buenaventura", "resumen": {"edificios_afectados": 134},
+             "cruce": {}},
+            {"aoi": "Cali Center", "resumen": {"edificios_afectados": 90},
+             "cruce": {"n_oficial": 42}},
+            {"aoi": "Western Colombia", "resumen": {"edificios_afectados": None},
+             "cruce": {}},
+        ],
+        "entregas": [1, 2, 3],
+        "citizen": {"chatmap_total": 542},
+        "exposicion": {"expuesta_mmi6plus": 10487959, "en_aois_copernicus": 1040000.0,
+                       "pct_cubierta": 9.9},
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = R.banda_brechas({"monitor": cls.MONITOR})
+
+    # ------------------------------------------------ el guardián de la regresión
+    def test_la_banda_llega_escrita_al_artefacto(self):
+        """Si vuelve a llegar vacía, este test cae.
+
+        Se ejecuta el inyector de verdad sobre el index.html del repositorio,
+        que es como se construye `dist/`: así también cae si alguien quita la
+        marca, cambia la etiqueta del contenedor o desconecta el generador."""
+        destino = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, destino, ignore_errors=True)
+        shutil.copy(ROOT / "site" / "index.html", destino / "index.html")
+        hechas = R.inyectar_prerenderizado(destino, R.contexto())
+        self.assertIn("brechas", hechas,
+                      "el inyector no reconoció la banda: llegaría vacía al artefacto")
+        salida = (destino / "index.html").read_text(encoding="utf-8")
+        cuerpo = re.search(r'<section[^>]*\bdata-gen="brechas"[^>]*>(.*?)</section>',
+                           salida, re.S)
+        self.assertTrue(cuerpo, "la banda ya no está en la portada")
+        self.assertTrue(cuerpo.group(1).strip(), "la banda quedó vacía en el artefacto")
+        self.assertIn("Brecha de reporte oficial", cuerpo.group(1))
+        self.assertGreater(len(re.sub(r"<[^>]+>", " ", cuerpo.group(1)).split()), 80,
+                           "la banda llegó recortada: ya no dice lo que se cita de ella")
+
+    def test_el_marcador_existe_en_la_portada(self):
+        """Si alguien quita la marca, el build dejaría la banda vacía en silencio."""
+        html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('data-gen="brechas"', html)
+        self.assertIn('id="banner-brechas"', html)
+
+    def test_seo_check_caza_la_banda_vacia(self):
+        """El verificador del artefacto vigila también las secciones de prosa.
+
+        Antes su expresión solo miraba <tbody> y <ul>: una banda vacía habría
+        pasado el control sin una línea de aviso."""
+        sys.path.insert(0, str(ROOT / "ingest"))
+        import seo_check
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        (tmp / "index.html").write_text(
+            '<link rel="canonical" href="/"><section id="banner-brechas" '
+            'data-gen="brechas"></section>' + "palabra " * 900, encoding="utf-8")
+        res = seo_check.revisar(tmp)
+        self.assertTrue(any("«brechas» quedó vacío" in f for f in res["fallos"]),
+                        f"seo_check no vio la banda vacía: {res['fallos']}")
+
+    # ---------------------------------------------- una sola fuente de redacción
+    def test_el_javascript_ya_no_redacta_la_banda(self):
+        """La redacción vive en Python. Dos versiones del mismo párrafo en dos
+        lenguajes divergen: es la lección de los topónimos y del liveblog."""
+        js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        for frase in ("Brecha de reporte oficial", "Exposición sin mapeo",
+                      "La brecha empezó a cerrarse", "brechaMunicipal"):
+            self.assertNotIn(frase, js, f"«{frase}» sigue escrito en app.js")
+        self.assertIn("banner-brechas", js, "el JS ya no refresca los días")
+
+    def test_el_javascript_solo_refresca_los_contadores_de_dias(self):
+        """Lo único que no puede fijar el build: cuántos días lleva callada una
+        fuente depende del reloj de quien lee, no de la fecha de construcción."""
+        self.assertIn('data-dias-desde="2022-12-31"', self.html)
+        self.assertIn('data-dias-desde="2024-02-17"', self.html)
+        js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("data-dias-desde", js)
+
+    # ------------------------------------------------------- lo que la banda dice
+    def test_dice_las_dos_brechas_centrales(self):
+        self.assertIn("Brecha de reporte oficial", self.html)
+        self.assertIn("Exposición sin mapeo", self.html)
+        self.assertIn("31 de diciembre de 2022", self.html)      # fecha en prosa, sin abreviar
+        self.assertIn(">1.330<", self.html)                      # días de silencio, locale es-CO
+
+    def test_los_porcentajes_llevan_coma_decimal(self):
+        """`es-CO`: «9,9 %». El JavaScript imprimía el número crudo del JSON y
+        publicaba «9.9 %», con punto, en un sitio que escribe con coma."""
+        self.assertIn("(9,9 %)", self.html)
+
+    def test_las_zonas_sin_registro_no_se_escriben_a_mano(self):
+        """R11: el día que una zona entre al registro, la frase deja de
+        nombrarla sola — y que se rompa la afirmación es una buena noticia."""
+        self.assertIn("p. ej. Quibdó Centro y Buenaventura", self.html)
+        sin_pendientes = {**self.MONITOR,
+                          "aois": [{"aoi": "Cali Center",
+                                    "resumen": {"edificios_afectados": 90},
+                                    "cruce": {"n_oficial": 42}}]}
+        otra = R.banda_brechas({"monitor": sin_pendientes})
+        self.assertIn("Ya no queda ninguna zona con daño satelital sin registro", otra)
+        self.assertNotIn("p. ej.", otra)
+
+    def test_sin_datos_no_inventa_ceros(self):
+        """R3: sin dato no hay cero, hay ausencia — y aquí el cero acusaría.
+
+        La primera versión de la banda publicaba «Copernicus entregó cero
+        productos» cuando faltaba la clave `entregas`: no un dato que falta, sino
+        una acusación falsa a la fuente. Este test se escribió sin mirar esa
+        frase y la dejó pasar; ahora comprueba la banda entera."""
+        vacia = R.banda_brechas({"monitor": {}})
+        self.assertNotIn("hace", vacia)
+        self.assertNotIn("data-dias-desde", vacia)
+        self.assertNotIn("La brecha empezó a cerrarse", vacia)
+        self.assertNotIn("cero", vacia)
+        self.assertNotIn("Copernicus entregó", vacia)
+        self.assertNotIn("la comunidad aportó", vacia)
+
+    def test_un_cero_medido_de_verdad_si_se_publica(self):
+        """La regla es no inventar el cero, no ocultarlo: una lista vacía de
+        entregas significa que Copernicus no entregó nada, y eso se cuenta."""
+        banda = R.banda_brechas({"monitor": {"entregas": [], "citizen": {}}})
+        self.assertIn("Copernicus entregó cero productos", banda)
+        self.assertNotIn("la comunidad aportó", banda)   # chatmap_total ausente
+
+    def test_los_dos_contadores_de_dias_cuentan_igual(self):
+        """El build y el navegador daban 1.330 y 1.331 del mismo silencio.
+
+        `Math.round` sobre una fecha ISO —medianoche UTC— sumaba un día a media
+        mañana en Colombia, y la cifra cambiaba sola durante el día. Días
+        completos transcurridos, en los dos lados."""
+        js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("Math.floor((Date.now() - desde) / 864e5)", js)
+        self.assertNotIn("Math.round((Date.now() - desde)", js)
+
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_el_navegador_y_el_build_dan_el_mismo_numero_de_dias(self):
+        """Espejo ejecutado: la misma cuenta en los dos lenguajes, para el día
+        de los datos. Es la comprobación que habría cazado el desfase."""
+        import subprocess
+        for desde in ("2022-12-31", "2024-02-17"):
+            script = ("const desde = new Date(%r);"
+                      "const hoy = new Date('2026-08-22T18:00:00Z');"
+                      "console.log(Math.floor((hoy - desde) / 864e5));" % desde)
+            salida = subprocess.run([NODE, "-e", script], capture_output=True,
+                                    text=True, timeout=30)
+            self.assertEqual(int(salida.stdout), R._dias_entre(desde, "2026-08-22"),
+                             f"el navegador y el build no cuentan igual desde {desde}")
+
+    # --------------------------------------------------- espejos con el navegador
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_los_nombres_de_zona_son_espejo_de_ui_js(self):
+        self.assertEqual(correr_ui("UI.AOI_ES"), R.AOI_ES,
+                         "AOI_ES ha divergido entre ui.js y render_html.py")
+
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_las_zonas_sin_registro_son_espejo_de_ui_js(self):
+        """La misma pregunta la hacen la banda (Python) y la nota del cruce
+        (JavaScript): si respondieran distinto, la portada se contradiría."""
+        for datos in (self.MONITOR, R._leer("monitor.json")):
+            self.assertEqual(correr_ui("UI.zonasSinRegistro(mon)", datos),
+                             R.zonas_sin_registro(datos))
+            self.assertEqual(correr_ui("UI.ejemplosSinRegistro(mon)", datos),
+                             R.ejemplos_sin_registro(datos))
 
 
 class TestSitioEnLaRaiz(unittest.TestCase):

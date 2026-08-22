@@ -85,9 +85,12 @@ def revisar(dist: Path) -> dict:
         if kb > MAX_KB_PAGINA:
             avisos.append(f"{pagina}: {kb:.0f} KB, por encima de {MAX_KB_PAGINA}")
 
-        # un <tbody> o <ul> marcado y vacío es exactamente la regresión que se vigila
-        for m in re.finditer(r'<(tbody|ul)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
-                             html, re.S):
+        # un contenedor marcado y vacío es exactamente la regresión que se vigila.
+        # No solo tablas y listas: la banda de brechas de la portada es una
+        # <section> de prosa, y es el texto más citable del sitio.
+        for m in re.finditer(
+                r'<(tbody|ul|section)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
+                html, re.S):
             if not m.group(4).strip():
                 fallos.append(f"{pagina}: el contenedor «{m.group(3)}» quedó vacío")
 

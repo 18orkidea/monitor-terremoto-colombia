@@ -18,12 +18,7 @@
     return;
   }
   const items = data.items || [];
-  const AOI_ES = {
-    "Northern Cali": "Cali Norte", "Cali Center": "Cali Centro",
-    "Quibdo Centre": "Quibdó Centro", "Western Colombia": "Occidente de Colombia",
-    "Pereira": "Pereira", "Istmina": "Istmina", "Buenaventura": "Buenaventura",
-  };
-  const aoiEs = (n) => AOI_ES[n] || n;
+  const aoiEs = window.UI.aoiEs;   // los nombres de zona los pone ui.js
   const aoiLabel = (n) => {
     const es = aoiEs(n);
     return es === n ? n : `${es} (${n})`;

@@ -6,6 +6,36 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-22 — La banda de brechas se escribe en el build, no en el navegador
+
+Contexto: la portada prerenderiza sus tablas con `deploy/render_html.py` desde que se
+descubrió que los rastreadores de sistemas de IA no ejecutan JavaScript. La banda amarilla
+—el resumen de las dos brechas centrales: cuánto llevan calladas las fuentes oficiales
+abiertas y cuánta población expuesta queda fuera de las zonas mapeadas por satélite— se
+había quedado fuera de ese trabajo. Era una `<section>` vacía en el HTML servido y su
+contenido lo inyectaba `site/app.js` al abrirse la página. Es, con diferencia, el párrafo
+más citable del sitio: quien lo tiene que citar era precisamente quien no lo veía.
+
+Decisión: la banda pasa por el mismo camino que las tablas. El contenedor lleva
+`data-gen="brechas"`, el texto lo escribe `render_html.py::banda_brechas` durante el build
+y el inyector —renombrado a `inyectar_prerenderizado`, porque ya no rellena solo tablas—
+acepta también `<section>`. La redacción vive en Python **y en ningún otro sitio**: el
+JavaScript de portada dejó de construir el párrafo y se limita a refrescar los contadores
+de días, lo único que depende del reloj de quien lee y no de la fecha de construcción. Van
+en `<span data-dias-desde="AAAA-MM-DD">`, con «hace» y «días» fuera del span para que la
+prosa tampoco se escriba dos veces. Los helpers que ambos lados necesitan se centralizan en
+`site/ui.js` (`aoiEs`, `zonasSinRegistro`, `ejemplosSinRegistro` — el diccionario de zonas
+estaba duplicado en `app.js` y `noticias.js`) y `render_html.py` los replica con test de
+espejo ejecutado con node contra el `monitor.json` real. El aviso de datos no cargados deja
+de sobrescribir la banda y se antepone: el resumen sigue siendo cierto aunque el mapa falle.
+
+Consecuencia: la portada sirve 3.225 palabras en vez de 3.055, y las dos brechas se leen sin
+ejecutar una línea de JavaScript. `ingest/seo_check.py` vigila ahora también las secciones
+marcadas, no solo `<tbody>` y `<ul>`, y `tests/test_render_html.py::TestBandaDeBrechas` cae
+si la banda vuelve a llegar vacía al artefacto —por marca retirada, generador desconectado o
+contenedor no reconocido—. De paso, el porcentaje de cobertura satelital pasa por `pct()` y
+se publica «9,9 %» en vez del «9.9 %» con punto que imprimía el número crudo del JSON.
+
 ## 2026-08-21 — El RUD separa el total acumulado de las altas entre capturas
 
 Contexto: la curva solo mostraba el total acumulado. Permitía saber cuánto llevaba el

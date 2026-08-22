@@ -617,6 +617,7 @@ LCP < 2,5 s en móvil.
 | B · municipios.html + enlaces | **hecha** — 95 filas y 95 enlaces en el HTML servido |
 | C · portada por evidencia puntual | **hecha** — 28 municipios, sustituye la tabla por AOI |
 | D · resto del prerender | pendiente |
+| D1 · banda de brechas de portada | **hecha** — `banda_brechas`, prosa en el HTML servido |
 | E · sitemap, llms-full, robots | **hecha** — `deploy/render_descubrimiento.py`, 8 tests |
 | E2 · `ingest/seo_check.py` | pendiente |
 | F1 · sitio en la raíz | **hecha** — sin tocar DNS; `/site/*` sigue vivo con canonical |
@@ -628,6 +629,14 @@ Trabajo en la rama `seo-geo-fichas`.
 (191 KB) para dos frases de la introducción —la cobertura satelital y la salvedad de los
 homónimos—, que aún se pintan con JavaScript. Prerenderizarlas eliminaría esa descarga
 por completo; requiere llevar `fraseHomonimos` a Python con su test espejo.
+
+La banda amarilla de la portada —el resumen de las dos brechas centrales— fue la primera
+pieza de **prosa** que pasó por este camino, no una tabla: el contenedor marcado es una
+`<section data-gen="brechas">` y el texto lo escribe `render_html.py::banda_brechas`. Es el
+párrafo más citable del sitio y solo existía en la memoria del navegador. La redacción
+vive en Python y en ningún otro sitio; `site/app.js` únicamente refresca los contadores de
+días, que dependen del reloj de quien lee. Queda pendiente el mismo tratamiento para las
+notas cortas que aún pinta el JavaScript (`nota-rud-desde`, `nota-sin-registro`).
 
 **Deuda anotada de `ui.js`**: conviven `tablaBuscable` (crea filas desde datos) y
 `tablaHidratada` (filtra las ya escritas). Es una migración incremental: `tablaBuscable`
@@ -701,7 +710,8 @@ lo anterior son mediciones de lo publicado, no de lo encontrado.
 ### Cómo se vigila desde ahora
 
 `ingest/seo_check.py` corre en el despliegue y avisa —sin bloquearlo— si alguna página
-baja de su mínimo de palabras o de filas, si un contenedor marcado queda vacío, si el
+baja de su mínimo de palabras o de filas, si un contenedor marcado queda vacío
+—`<tbody>`, `<ul>` o `<section>`—, si el
 sitemap anuncia una URL que no existe, si una ficha gana JavaScript ejecutable o cita
 códigos internos de reglas, o si desaparecen `robots.txt` o los dos `llms.txt`.
 

@@ -34,6 +34,15 @@ DATOS = "/data/public"                  # exportes públicos, fuera de site/
 MIN_CAPTURAS_GRAFICA = 5                # antes de eso, una recta entre dos puntos no es tendencia
 RADIO_MUNICIPIO_M = 25000               # más allá, un punto no se atribuye a ninguna cabecera
 
+# Nombres de las zonas que recortó Copernicus, en español: la fuente los publica
+# en inglés. Espejo de `UI.AOI_ES` en site/ui.js — si tocas uno, mira el otro;
+# `tests/test_render_html.py` compara los dos.
+AOI_ES = {
+    "Northern Cali": "Cali Norte", "Cali Center": "Cali Centro",
+    "Quibdo Centre": "Quibdó Centro", "Western Colombia": "Occidente de Colombia",
+    "Pereira": "Pereira", "Istmina": "Istmina", "Buenaventura": "Buenaventura",
+}
+
 
 # --------------------------------------------------------------- utilidades
 def fmt(n, dec: int = 0) -> str:
@@ -118,6 +127,11 @@ def fecha_larga(iso: str) -> str:
 def e(s) -> str:
     """Escapa TODO lo que venga de fuera: los titulares son texto de terceros."""
     return html.escape(str(s), quote=True)
+
+
+def aoi_es(nombre) -> str:
+    """Espejo de `UI.aoiEs`: la zona con el nombre que se lee, no el de la fuente."""
+    return AOI_ES.get(nombre, nombre)
 
 
 def slug(s: str) -> str:
@@ -708,8 +722,10 @@ def contexto() -> dict:
     # Cuántos edificios ÚNICOS tiene cada municipio cuando dos servicios miran
     # el mismo sitio. No se calcula aquí: la regla vive en `ingest/satelites.py`
     # y viaja resuelta en monitor.json, con su umbral y su criterio.
-    satelital = _leer("monitor.json").get("satelital") or {}
+    monitor = _leer("monitor.json")
+    satelital = monitor.get("satelital") or {}
     return {
+        "monitor": monitor,          # la banda de portada lo lee entero
         "municipios": municipios,
         "idx": {m["municipio"]: m for m in municipios},
         "rud": _leer("rud.json"),
@@ -1356,6 +1372,131 @@ def filas_municipios(ctx: dict) -> str:
     return "\n".join(filas)
 
 
+# --------------------------------------------- la banda de brechas (portada)
+def zonas_sin_registro(mon: dict) -> list:
+    """Zonas con edificios afectados por satélite y todavía sin registro oficial.
+
+    Espejo de `UI.zonasSinRegistro` en site/ui.js. No se escriben a mano en
+    ningún texto: el día que una de ellas entre al registro, la frase que la
+    nombraba debe dejar de nombrarla sola (R11)."""
+    vistas = []
+    for a in mon.get("aois") or []:
+        if not (a.get("resumen") or {}).get("edificios_afectados"):
+            continue
+        if (a.get("cruce") or {}).get("n_oficial"):
+            continue
+        nombre = aoi_es(a.get("aoi"))
+        if nombre not in vistas:
+            vistas.append(nombre)
+    return vistas
+
+
+def ejemplos_sin_registro(mon: dict) -> str:
+    """El inciso que nombra un par de esas zonas dentro de una frase.
+
+    Espejo de `UI.ejemplosSinRegistro`. Dos como mucho: los textos citan
+    ejemplos, no un inventario."""
+    zonas = zonas_sin_registro(mon)
+    # escapado como todo lo demás del módulo: los nombres vienen de Copernicus,
+    # así que el riesgo es nulo hoy, pero la disciplina no admite excepciones
+    # por lo improbable de la fuente
+    return f" (p. ej. {' y '.join(e(z) for z in zonas[:2])})" if zonas else ""
+
+
+def _dias_entre(iso: str, referencia: str):
+    """Días enteros entre dos fechas ISO. R3: sin fecha no hay cero, hay nada."""
+    desde, hasta = _FECHA.match(iso or ""), _FECHA.match(referencia or "")
+    if not (desde and hasta):
+        return None
+    return (date(int(hasta[1]), int(hasta[2]), int(hasta[3]))
+            - date(int(desde[1]), int(desde[2]), int(desde[3]))).days
+
+
+def _silencio(iso: str, referencia: str) -> str:
+    """«(hace 1.330 días)», con la fecha dentro para que el navegador la refresque.
+
+    El número se escribe contra la fecha de los datos, no contra el reloj del
+    build; `site/app.js` lo recalcula al abrir la página, porque quien lee puede
+    hacerlo semanas después desde una caché. Si no hay fecha, no hay paréntesis:
+    una cuenta de días sin origen no se publica."""
+    dias = _dias_entre(iso, referencia)
+    if dias is None:
+        return ""
+    return f' (hace <span data-dias-desde="{e(iso[:10])}">{fmt(dias)}</span> días)'
+
+
+def banda_brechas(ctx: dict) -> str:
+    """El resumen de las dos brechas centrales, escrito en el build.
+
+    Es el párrafo más citable de la portada y hasta este cambio solo existía en la
+    memoria del navegador: quien no ejecuta JavaScript —todo rastreador de
+    sistemas de IA— leía una sección vacía, justo lo contrario de lo que
+    persigue el prerenderizado de las tablas.
+
+    La redacción vive AQUÍ y en ningún otro sitio. `site/app.js` se limita a
+    refrescar los contadores de días.
+
+    Nada se escribe a mano: si el registro oficial se pone al día, o si toda
+    zona con daño satelital acaba registrada, las frases dejan de afirmarlo
+    solas (R11) — y romperse, aquí, sería una buena noticia."""
+    mon = ctx["monitor"]
+    hoy = mon.get("generado") or ""
+    g = mon.get("brechas_oficiales") or {}
+    soc, arc = g.get("ungrd_socrata") or {}, g.get("ungrd_arcgis") or {}
+    rud, exposicion = g.get("ungrd_rud"), mon.get("exposicion")
+
+    partes = [
+        "<strong>Brecha de reporte oficial:</strong> lo que la Unidad Nacional para la "
+        "Gestión del Riesgo de Desastres (UNGRD) publica en el portal datos.gov.co llega "
+        f"hasta el <strong>{fecha_larga(soc.get('hasta'))}</strong>"
+        f"{_silencio(soc.get('hasta'), hoy)}; su otro registro público, el de ArcGIS, "
+        f"hasta el <strong>{fecha_larga(arc.get('max_fecha'))}</strong>"
+        f"{_silencio(arc.get('max_fecha'), hoy)}. El sistema nacional de información del "
+        "riesgo (SNIGRD, 2026) no ofrece ninguna vía de consulta automática. "
+    ]
+    if rud:
+        # la frase completa es condicional, no solo el paréntesis: el día que
+        # toda zona con daño satelital tenga registro municipal, afirmar la
+        # brecha sería falso
+        ejemplos = ejemplos_sin_registro(mon)
+        cierre = (f"La brecha ahora es municipal: donde las autoridades locales aún no "
+                  f"registran{ejemplos}, el satélite sigue siendo la única evidencia. "
+                  if ejemplos else
+                  "Ya no queda ninguna zona con daño satelital sin registro municipal. ")
+        partes.append(
+            "<br><strong>La brecha empezó a cerrarse:</strong> el "
+            '<a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" '
+            'rel="noopener">RUD</a> (Registro Único de Damnificados) ya cubre el evento — '
+            f"<strong>{fmt(rud.get('municipios'))}</strong> municipios con "
+            f"<strong>{fmt(rud.get('familias'))}</strong> familias y "
+            f"{fmt(rud.get('viv_destruidas'))} viviendas destruidas registradas. " + cierre)
+    # R3, y aquí duele especialmente: si falta la clave, «Copernicus entregó cero
+    # productos» no es un dato que falta, es una acusación falsa a la fuente. Un
+    # cero medido de verdad —una lista vacía— sí se publica; una clave ausente
+    # retira la afirmación entera.
+    medidas = []
+    entregas = mon.get("entregas")
+    if entregas is not None:
+        medidas.append(f"Copernicus entregó {fmt_prosa(len(entregas))} productos")
+    reportes = (mon.get("citizen") or {}).get("chatmap_total")
+    if reportes is not None:
+        medidas.append(f"la comunidad aportó {fmt(reportes)} reportes con foto")
+    if medidas:
+        frase = " y ".join(medidas)
+        partes.append(frase[0].upper() + frase[1:] + ". ")
+    if exposicion:
+        partes.append(
+            "<br><strong>Exposición sin mapeo:</strong> unas "
+            f"{fmt(exposicion.get('expuesta_mmi6plus'))} personas viven donde el sismo "
+            "alcanzó una intensidad de 6 o más en la escala de Mercalli modificada, según "
+            "la estimación rápida del Servicio Geológico de Estados Unidos (PAGER); las "
+            "zonas mapeadas por Copernicus cubren a unas "
+            f"{fmt(exposicion.get('en_aois_copernicus'))} "
+            f"({pct(exposicion.get('pct_cubierta'))}). "
+            "El resto es población que nadie ha mirado de cerca.")
+    return "".join(partes)
+
+
 def filas_portada(ctx: dict) -> str:
     """La tabla de la portada: municipios con evidencia sobre el terreno.
 
@@ -1562,24 +1703,29 @@ def filas_noticias(ctx: dict) -> str:
     return "\n".join(salida)
 
 
-def inyectar_tablas(destino: Path, ctx: dict) -> dict:
-    """Rellena en `dist/` los <tbody> marcados con data-gen.
+def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
+    """Rellena en `dist/` los contenedores marcados con data-gen.
+
+    No solo tablas: la banda de brechas de la portada es prosa, y es
+    probablemente el texto más citable del sitio. El contenedor puede ser un
+    <tbody>, un <ul> o un <section>.
 
     Se hace sobre el artefacto, nunca sobre site/*.html: un HTML que cambiara
     entero cada día destruiría el blame, y el dato ya está versionado."""
     hechas = {}
     generadores = {"municipios": filas_municipios, "portada": filas_portada,
                    "rud": filas_rud, "balances": filas_balances,
-                   "noticias": filas_noticias}
+                   "noticias": filas_noticias, "brechas": banda_brechas}
+    paginas = {"portada": "index", "brechas": "index"}
     for nombre, generador in generadores.items():
-        archivo = "index" if nombre == "portada" else nombre
-        pagina = destino / f"{archivo}.html"
+        pagina = destino / f"{paginas.get(nombre, nombre)}.html"
         if not pagina.exists():
             continue
         html = pagina.read_text(encoding="utf-8")
-        # el contenedor puede ser una tabla o una lista, y llevar otros atributos
+        # el contenedor puede ser una tabla, una lista o una sección de prosa,
+        # y llevar otros atributos
         marca = re.compile(
-            rf'<(tbody|ul)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
+            rf'<(tbody|ul|section)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
         m = marca.search(html)
         if not m:
             continue
@@ -1587,8 +1733,10 @@ def inyectar_tablas(destino: Path, ctx: dict) -> dict:
         html = (html[:m.start()] + f"<{m.group(1)}{m.group(2)}>\n{cuerpo}\n</{m.group(1)}>"
                 + html[m.end():])
         pagina.write_text(html, encoding="utf-8")
+        # se mide en filas lo que son filas y en palabras lo que es prosa: un
+        # «0 filas» en la banda de brechas parecería la regresión que se vigila
         hechas[nombre] = (cuerpo.count("<tr ") + cuerpo.count("<tr>")
-                          + cuerpo.count("<li>"))
+                          + cuerpo.count("<li>")) or len(cuerpo.split())
     return hechas
 
 
@@ -1597,6 +1745,6 @@ if __name__ == "__main__":
     salida = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "dist"
     res = run(salida)
     print(f"fichas municipales: {res['fichas']} escritas, {res['omitidas']} sin señal")
-    tablas = inyectar_tablas(salida, contexto())
-    for nombre, filas in tablas.items():
-        print(f"tabla prerenderizada: {nombre} con {filas} filas")
+    prerender = inyectar_prerenderizado(salida, contexto())
+    for nombre, elementos in prerender.items():
+        print(f"prerenderizado: {nombre} con {elementos} elementos")
