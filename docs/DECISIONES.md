@@ -1137,3 +1137,40 @@ cómo se llama lo que audita — y además esa es la forma con la que se busca.
 La marca sigue siendo doble a propósito: «Monitor de brechas» describe lo que el
 sitio hace y vive en la navegación y en la metodología; «Datos del terremoto de
 Colombia 2026» es el nombre público, alineado con el dominio.
+
+### Avisar en vez de esperar: IndexNow en cada corrida (22-ago-2026)
+
+El sitio se regenera a diario, pero un buscador solo se entera cuando vuelve a
+pasar, y por la cola larga de fichas municipales eso son semanas. Justo ahí —el
+municipio pequeño del Chocó que nadie más publica— es donde el monitor aporta y
+donde llegar tarde equivale a no llegar. Desde hoy, cada corrida avisa por
+IndexNow de lo que cambió.
+
+**Se avisa solo de lo que cambió, y eso exige recordar lo de ayer.** Las cinco
+páginas fijas entran siempre, porque sus cifras cambian a diario; de las 208
+fichas entran las que difieren de la corrida anterior, comparando la huella
+sha256 de sus datos guardada en `data/indexnow_estado.json`. Avisar de las 213
+cada día sería equivalente a no avisar de ninguna.
+
+**El estado solo avanza si el aviso se aceptó.** Si el buscador falla, mañana se
+reintenta el mismo listado: se prefiere avisar dos veces a perder la ficha que
+sí cambió.
+
+La clave del protocolo no es un secreto —se publica en la raíz, en un fichero
+cuyo nombre es la clave— y por eso vive en `deploy/root/`, no en configuración:
+la única copia es la publicada y rotarla es sustituir ese fichero. Un test
+comprueba que el nombre y el contenido coinciden, porque si no el buscador
+rechaza el aviso sin decir por qué.
+
+Se añadió `common.notificar()` para no romper R4: un POST de aviso no trae datos,
+pero sigue siendo una petición que hicimos, y queda en `sources_log` con el
+sha256 del cuerpo **enviado** —lo que se archiva es lo que dijimos—.
+
+Se descartó, de momento, Crawler Hints de Cloudflare, que hace lo mismo con un
+interruptor: exige tener el proxy delante y decide él qué notificar. Esto es
+determinista, queda en el archivo y sobrevive a un cambio de proveedor.
+
+Y se declararon explícitamente `OAI-SearchBot` y `ChatGPT-User` en `robots.txt`.
+Ya estaban permitidos por el comodín, pero el fichero declara uno a uno a los
+rastreadores de IA para que un cambio futuro no los excluya sin querer, y esos
+dos —no GPTBot, que solo entrena— son los que deciden si ChatGPT cita el sitio.

@@ -7,6 +7,15 @@ Allow: /
 User-agent: GPTBot
 Allow: /
 
+# GPTBot solo entrena. Estos dos son los que deciden si ChatGPT encuentra el
+# monitor y lo cita: OAI-SearchBot construye su índice y ChatGPT-User entra en
+# vivo cuando alguien pregunta.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
 User-agent: ClaudeBot
 Allow: /
 

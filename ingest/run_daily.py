@@ -30,7 +30,8 @@ def main():
     from sources import copernicus, copernicus_layers, usgs, gdacs, gdelt, \
         ungrd_arcgis, ungrd_socrata, ungrd_rud, chatmap, emsc, community_feeds, \
         unosat, sertit
-    import backfill_medios, dump_db, verify_citizen, crosscheck, alerts, publish
+    import backfill_medios, dump_db, verify_citizen, crosscheck, alerts, publish, \
+        indexnow
 
     # el sqlite no se versiona: en un clon nuevo (o en CI) se reconstruye
     # desde los dumps CSV antes de empezar
@@ -58,6 +59,11 @@ def main():
     step("crosscheck", crosscheck.run)
     step("alerts", alerts.run, RESULTS.get("copernicus") or {})
     step("publish", publish.run)
+    # avisar a los buscadores de lo que cambió: sin esto, la cifra de un
+    # municipio pequeño tarda semanas en ser encontrable, que es justo la cola
+    # donde el monitor aporta. Va después de publish porque compara los datos
+    # ya publicados con los de ayer
+    step("indexnow", indexnow.run)
     # al cerrar: volcar la BD a dumps CSV — lo que git versiona y diffea
     step("dump_db", dump_db.dump)
 

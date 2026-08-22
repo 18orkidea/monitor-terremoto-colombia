@@ -486,6 +486,44 @@ def fetch(url: str, params: dict | None = None, *, note: str = "",
     return status, body
 
 
+def notificar(url: str, payload: dict, *, note: str = "", timeout: int = 30,
+              conn: sqlite3.Connection | None = None):
+    """POST de aviso (no trae datos) con la misma trazabilidad que `fetch()`.
+
+    R4 exige que ninguna petición HTTP quede fuera de `sources_log`, y hasta
+    ahora todas eran GET de fuentes. Avisar a un buscador de que publicamos algo
+    también es una petición que hicimos: se registra igual, con el sha256 del
+    cuerpo ENVIADO —lo que se archiva aquí es lo que dijimos, no lo que nos
+    respondieron— y sin snapshot, porque el cuerpo ya está en el propio log.
+
+    No lanza: un buscador caído no puede tumbar una corrida diaria (R13).
+    """
+    cuerpo = json.dumps(payload, ensure_ascii=False).encode()
+    req = urllib.request.Request(
+        url, data=cuerpo, method="POST",
+        headers={"User-Agent": USER_AGENT, "Content-Type": "application/json; charset=utf-8"})
+    status, err = 0, None
+    try:
+        with urllib.request.urlopen(req, timeout=timeout, context=SSL_CTX) as r:
+            status = r.status
+    except urllib.error.HTTPError as e:
+        status = e.code
+    except Exception as e:
+        status, err = -1, str(e)
+    own = conn is None
+    c = conn or db()
+    c.execute(
+        "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,snapshot_path,note)"
+        " VALUES (?,?,?,?,?,NULL,?)",
+        (utcnow(), url, status, hashlib.sha256(cuerpo).hexdigest(), len(cuerpo),
+         note or err),
+    )
+    if own:
+        c.commit()
+        c.close()
+    return status
+
+
 def fetch_json(url: str, params: dict | None = None, **kw):
     status, body = fetch(url, params, **kw)
     if status != 200 or not body:
