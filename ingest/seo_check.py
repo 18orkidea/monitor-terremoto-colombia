@@ -85,8 +85,9 @@ def revisar(dist: Path) -> dict:
         if kb > MAX_KB_PAGINA:
             avisos.append(f"{pagina}: {kb:.0f} KB, por encima de {MAX_KB_PAGINA}")
 
-        # un <tbody> o <ul> marcado y vacío es exactamente la regresión que se vigila
-        for m in re.finditer(r'<(tbody|ul)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
+        # un contenedor marcado y vacío es exactamente la regresión que se vigila:
+        # una tabla, una lista o la cifra que va escrita dentro de un párrafo
+        for m in re.finditer(r'<(tbody|ul|span)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
                              html, re.S):
             if not m.group(4).strip():
                 fallos.append(f"{pagina}: el contenedor «{m.group(3)}» quedó vacío")

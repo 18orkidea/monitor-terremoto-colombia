@@ -6,6 +6,29 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-22 — La cifra que va dentro de un párrafo también la escribe el build
+
+Contexto: la nota de portada anunciaba a mano «los satélites han mirado 11 municipios; la
+comunidad ha documentado 36» mientras su propia tabla, tres párrafos más abajo, listaba 43
+municipios con reportes ciudadanos. No es un descuido aislado: el recuento ciudadano se
+mueve con cada corrida diaria, así que la frase envejece sola. Ya había pasado antes —el
+día que el conteo satelital incorporó a UNOSAT— y entonces se arregló volviéndola a
+escribir a mano. La tabla que la desmiente sí se genera en el build desde el dato del día.
+
+Decisión: la frase se genera en `deploy/render_html.py::nota_mirada_portada`, a partir de
+las mismas filas que ordenan la tabla (`municipios_con_evidencia_puntual`), y se inyecta
+en `dist/` por la puerta que ya existía para las tablas, ampliada de `<tbody>`/`<ul>` a
+`<span>`: una cifra escrita dentro de un párrafo envejece igual que una fila. El generador
+devuelve la oración entera, raya incluida, para que un build que no la inyecte deje una
+frase correcta sin cifra y nunca una raya huérfana. `ingest/seo_check.py` vigila también el
+contenedor de prosa vacío, y el test que comparaba el texto del repo con los datos pasa a
+comparar el generador con los datos, más otro que exige que en `site/index.html` no quede
+ninguna cifra escrita a mano.
+
+Consecuencia: el texto del sitio y su propia tabla no pueden contradecirse, y el mecanismo
+queda disponible para cualquier otra cifra que hoy viva dentro de un párrafo. El HTML del
+repositorio conserva el blame: sigue sin cambiar cada día.
+
 ## 2026-08-21 — El RUD separa el total acumulado de las altas entre capturas
 
 Contexto: la curva solo mostraba el total acumulado. Permitía saber cuánto llevaba el

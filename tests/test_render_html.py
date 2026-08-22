@@ -11,11 +11,18 @@ import sys
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
+from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "deploy"))
 
 import render_html as R
+
+
+def _dias_entre(desde: str, hasta: str) -> list:
+    """Todos los días, uno a uno, entre dos fechas ISO (extremos incluidos)."""
+    a, b = date.fromisoformat(desde), date.fromisoformat(hasta)
+    return [(a + timedelta(days=i)).isoformat() for i in range((b - a).days + 1)]
 
 
 class TestFormato(unittest.TestCase):
@@ -147,25 +154,33 @@ class TestFicha(unittest.TestCase):
         """La ficha municipal usa el mismo histórico que la gráfica general.
 
         La pérdida de los cierres del 18 y 19 pasó inadvertida porque la ficha
-        seguía mostrando una tabla plausible con los extremos. Se vigilan aquí
-        tanto las filas intermedias como la duración que se explica en prosa.
-        """
-        datos = R.datos_ficha("Cali", self.ctx)
-        self.assertEqual(
-            [fecha for fecha, _ in datos["serie"]],
-            ["2026-08-16", "2026-08-17", "2026-08-18", "2026-08-19", "2026-08-20"],
-        )
-        html = R.render_ficha(datos)
-        self.assertIn("18-ago-2026", html)
-        self.assertIn("19-ago-2026", html)
-        self.assertIn("un salto del 750% en cuatro días", html)
+        seguía mostrando una tabla plausible con los extremos. Lo que se vigila
+        es que no falte ningún día entre el primero y el último: enumerar las
+        fechas a mano solo aguantaba hasta la corrida siguiente —este test se
+        cayó al llegar la captura del 21-ago— y una lista caduca no es un
+        guardián, es una alarma que hay que apagar cada mañana (R12)."""
+        serie = [fecha for fecha, _ in R.datos_ficha("Cali", self.ctx)["serie"]]
+        self.assertGreaterEqual(len(serie), 5, "el histórico de Cali se ha encogido")
+        self.assertEqual(serie[0], "2026-08-16", "la primera captura del RUD")
+        self.assertEqual(serie, sorted(serie), "las capturas van en orden")
+        esperadas = _dias_entre(serie[0], serie[-1])
+        self.assertEqual(serie, esperadas,
+                         f"faltan capturas: {sorted(set(esperadas) - set(serie))}")
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        for fecha in serie:                       # cada captura, también en la tabla
+            self.assertIn(R.fecha_corta(fecha), html)
 
     def test_duracion_municipal_se_calcula_entre_fechas(self):
-        """Una captura ausente no debe acortar artificialmente el periodo."""
+        """Una captura ausente no debe acortar artificialmente el periodo.
+
+        Con la serie recortada a sus extremos, la prosa tiene que seguir midiendo
+        la distancia entre las dos fechas, no el número de puntos que le quedan.
+        """
         datos = R.datos_ficha("Cali", self.ctx)
-        datos = dict(datos, serie=[datos["serie"][0], datos["serie"][-1]])
-        html = R.render_ficha(datos)
-        self.assertIn("en cuatro días", html)
+        serie = [fecha for fecha, _ in datos["serie"]]
+        dias = len(_dias_entre(serie[0], serie[-1])) - 1
+        html = R.render_ficha(dict(datos, serie=[datos["serie"][0], datos["serie"][-1]]))
+        self.assertIn(f"en {R.fmt_prosa(dias)} días", html)
         self.assertNotIn("en un día", html)
 
 
@@ -570,23 +585,45 @@ class TestTablaPortada(unittest.TestCase):
                           "la columna satelital debe nombrar a UNOSAT")
 
     def test_la_nota_de_portada_no_miente_sobre_cuantos_miro_cada_fuente(self):
-        """«Los satélites han mirado 11 municipios; la comunidad ha documentado
-        36» está escrito a mano en site/index.html, y la primera mitad cambió
-        el día que el conteo pasó a incluir UNOSAT. Si vuelve a moverse, este
-        test dice el número nuevo en vez de dejar la frase envejecer sola."""
+        """«Los satélites han mirado N municipios; la comunidad ha documentado M»
+        la escribe el build desde las mismas filas de la tabla.
+
+        Estuvo a mano en site/index.html y envejeció dos veces: primero al pasar
+        el conteo satelital a incluir UNOSAT, después con las corridas diarias,
+        que anunciaban 36 municipios ciudadanos con 43 en su propia tabla. Ya no
+        se vigila un texto fijo: se vigila que el generador diga lo que dicen los
+        datos."""
         # `n_evaluados` cuenta a los TRES satélites. Mientras esto sumó solo dos
         # columnas, el guardián daba por buena la nota que decía «9 municipios»
         # con once en su propia tabla: un guardián mal apuntado no protege nada.
         sat = len([f for f in self.filas if f["n_evaluados"]])
         ciu = len([f for f in self.filas if f["n_ciudadanos"]])
-        html = (Path(__file__).parent.parent / "site/index.html").read_text(
-            encoding="utf-8")
-        m = re.search(r"satélites han mirado (\d+)\s*\n?\s*municipios; la comunidad "
-                      r"ha documentado (\d+)", html)
+        nota = R.nota_mirada_portada(self.ctx)
+        m = re.search(r"satélites han mirado (\S+) municipios; la comunidad "
+                      r"ha documentado (\S+)</strong>", nota)
         self.assertIsNotNone(m, "la nota de portada ya no dice cuántos miró cada fuente")
-        self.assertEqual((int(m.group(1)), int(m.group(2))), (sat, ciu),
+        self.assertEqual((m.group(1), m.group(2)),
+                         (R.fmt_prosa(sat), R.fmt_prosa(ciu)),
                          f"la nota de portada dice {m.group(1)}/{m.group(2)} y los "
                          f"datos dicen {sat}/{ciu}")
+
+    def test_la_nota_de_portada_la_escribe_el_build(self):
+        """El HTML del repo lleva la marca y ninguna cifra a mano: si alguien la
+        vuelve a escribir, envejecerá con la siguiente corrida diaria."""
+        html = (Path(__file__).parent.parent / "site/index.html").read_text(
+            encoding="utf-8")
+        self.assertIn('<span data-gen="mirada-portada"></span>', html)
+        self.assertNotIn("han mirado", html)
+
+    def test_sin_la_nota_la_portada_sigue_leyendose(self):
+        """La raya va dentro de lo generado: si el build no inyectara, la frase
+        quedaría completa y sin cifra, nunca con una raya huérfana."""
+        html = (Path(__file__).parent.parent / "site/index.html").read_text(
+            encoding="utf-8")
+        i = html.index('<span data-gen="mirada-portada"></span>')
+        self.assertTrue(html[:i].rstrip().endswith("venga de donde venga"))
+        self.assertTrue(html[i:].split("</span>", 1)[1].startswith("."))
+        self.assertTrue(R.nota_mirada_portada(self.ctx).startswith(" —"))
 
     def test_cada_fila_lleva_su_coordenada_para_el_mapa(self):
         """El clic en la fila centra el mapa; sin data-lat/data-lon el JavaScript

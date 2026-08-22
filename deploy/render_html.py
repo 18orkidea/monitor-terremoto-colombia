@@ -1361,8 +1361,9 @@ def filas_portada(ctx: dict) -> str:
 
     Deja de organizarse por lo que el satélite decidió mirar (las AOI de la
     activación) y pasa a organizarse por dónde hay prueba georreferenciada,
-    venga del satélite o de la comunidad. El hallazgo que lo justifica: los
-    satélites han mirado 11 municipios; la comunidad ha documentado 36.
+    venga del satélite o de la comunidad. El hallazgo que lo justifica lo
+    escribe `nota_mirada_portada` con las cifras del día, para que ni el texto
+    del sitio ni este comentario envejezcan por su cuenta.
 
     Cada fila lleva su coordenada para que el clic siga centrando el mapa.
     El detalle por AOI —vías, interrupciones, fecha de entrega— no cabe en una
@@ -1389,6 +1390,24 @@ def filas_portada(ctx: dict) -> str:
             f'<td class="num">{_celda_prensa(m)}</td>'
             "</tr>")
     return "\n".join(filas)
+
+
+def nota_mirada_portada(ctx: dict) -> str:
+    """Cuántos municipios ha mirado cada fuente, escrito en el build.
+
+    La frase vivía a mano en `site/index.html` y envejecía sola: cada corrida
+    diaria mueve el recuento ciudadano, y llegó a anunciar 36 municipios con 43
+    en su propia tabla, tres párrafos más abajo. Sale de las mismas filas que la
+    tabla —`municipios_con_evidencia_puntual`—, así que texto y tabla no pueden
+    contradecirse.
+
+    Devuelve la oración entera, raya incluida: si algún día no se inyecta, la
+    portada queda con una frase correcta y sin la cifra, nunca con un hueco."""
+    filas = municipios_con_evidencia_puntual(ctx)
+    sat = len([m for m in filas if m["n_evaluados"]])
+    ciu = len([m for m in filas if m["n_ciudadanos"]])
+    return (f" —<strong>los satélites han mirado {fmt_prosa(sat)} municipios; "
+            f"la comunidad ha documentado {fmt_prosa(ciu)}</strong>")
 
 
 def filas_rud(ctx: dict) -> str:
@@ -1563,32 +1582,44 @@ def filas_noticias(ctx: dict) -> str:
 
 
 def inyectar_tablas(destino: Path, ctx: dict) -> dict:
-    """Rellena en `dist/` los <tbody> marcados con data-gen.
+    """Rellena en `dist/` los contenedores marcados con data-gen.
 
     Se hace sobre el artefacto, nunca sobre site/*.html: un HTML que cambiara
-    entero cada día destruiría el blame, y el dato ya está versionado."""
+    entero cada día destruiría el blame, y el dato ya está versionado. No solo
+    son tablas: una cifra escrita dentro de un párrafo envejece igual que una
+    fila, así que la nota de portada se escribe por la misma puerta."""
     hechas = {}
     generadores = {"municipios": filas_municipios, "portada": filas_portada,
                    "rud": filas_rud, "balances": filas_balances,
-                   "noticias": filas_noticias}
+                   "noticias": filas_noticias,
+                   "mirada-portada": nota_mirada_portada}
+    paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
+               "balances": "balances", "noticias": "noticias",
+               "mirada-portada": "index"}
     for nombre, generador in generadores.items():
-        archivo = "index" if nombre == "portada" else nombre
-        pagina = destino / f"{archivo}.html"
+        pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():
             continue
         html = pagina.read_text(encoding="utf-8")
-        # el contenedor puede ser una tabla o una lista, y llevar otros atributos
+        # el contenedor puede ser una tabla, una lista o un trozo de prosa, y
+        # llevar otros atributos
         marca = re.compile(
-            rf'<(tbody|ul)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
+            rf'<(tbody|ul|span)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
         m = marca.search(html)
         if not m:
             continue
         cuerpo = generador(ctx)
-        html = (html[:m.start()] + f"<{m.group(1)}{m.group(2)}>\n{cuerpo}\n</{m.group(1)}>"
+        # la prosa se pega sin saltos de línea: dentro de un párrafo, un salto
+        # es un espacio, y la raya quedaría separada de la palabra anterior
+        salto = "" if m.group(1) == "span" else "\n"
+        html = (html[:m.start()]
+                + f"<{m.group(1)}{m.group(2)}>{salto}{cuerpo}{salto}</{m.group(1)}>"
                 + html[m.end():])
         pagina.write_text(html, encoding="utf-8")
+        # un texto no tiene filas, pero tampoco puede contarse como cero: sería
+        # indistinguible de un contenedor que se quedó vacío
         hechas[nombre] = (cuerpo.count("<tr ") + cuerpo.count("<tr>")
-                          + cuerpo.count("<li>"))
+                          + cuerpo.count("<li>")) or 1
     return hechas
 
 
@@ -1598,5 +1629,5 @@ if __name__ == "__main__":
     res = run(salida)
     print(f"fichas municipales: {res['fichas']} escritas, {res['omitidas']} sin señal")
     tablas = inyectar_tablas(salida, contexto())
-    for nombre, filas in tablas.items():
-        print(f"tabla prerenderizada: {nombre} con {filas} filas")
+    for nombre, piezas in tablas.items():
+        print(f"prerenderizado: {nombre} con {piezas} pieza(s)")
