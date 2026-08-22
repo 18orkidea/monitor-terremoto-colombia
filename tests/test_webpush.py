@@ -129,7 +129,7 @@ console.log(JSON.stringify(r));
         self.assertIn("2026-08-17", out["titulo"])
         self.assertIn("⚠️", out["cuerpo"])
         self.assertIn("y 3 más", out["cuerpo"])
-        self.assertTrue(out["url"].startswith("https://brechas.orkidea.eu/"))
+        self.assertTrue(out["url"].startswith("https://datosdelterremoto.org/"))
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ from render_html import (asigna_a_municipios, fecha_larga, fmt, slug,  # noqa: E
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "data" / "public"
-DOMINIO = "https://brechas.orkidea.eu"
+DOMINIO = "https://datosdelterremoto.org"
 
 # páginas fijas del sitio, con su prioridad y cadencia declarada
 PAGINAS = [

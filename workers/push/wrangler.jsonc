@@ -26,7 +26,7 @@
 		// privada va como secreto VAPID_PRIVATE_JWK. Generar par: ver README.
 		"VAPID_PUBLIC_KEY": "BBrMEN-T86OTPOCsTn6CbJSnqaLJeOGWjaVnNbe8WB6RCwEXaDORqDVWxnD-6jhBr3g5XkD72fce-jEKQDycAwc",
 		"VAPID_SUB": "mailto:gestion@inforesidencias.com",
-		"ALERTS_URL": "https://brechas.orkidea.eu/data/public/alerts.json",
+		"ALERTS_URL": "https://datosdelterremoto.org/data/public/alerts.json",
 		// canal público de Telegram (p. ej. "@brechas_terremoto"); vacío = sin Telegram
 		"TELEGRAM_CHAT": "@terremotoCO2026"
 	}

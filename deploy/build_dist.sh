@@ -58,11 +58,11 @@ for f in dist/*.html; do
 <head>
 <meta charset="utf-8">
 <meta http-equiv="refresh" content="0; url=${destino}">
-<link rel="canonical" href="https://brechas.orkidea.eu${destino}">
+<link rel="canonical" href="https://datosdelterremoto.org${destino}">
 <meta name="robots" content="noindex, follow">
 <title>El monitor se mudó a la raíz del dominio</title>
 </head>
-<body><p>Esta página ahora vive en <a href="${destino}">brechas.orkidea.eu${destino}</a>.</p></body>
+<body><p>Esta página ahora vive en <a href="${destino}">datosdelterremoto.org${destino}</a>.</p></body>
 </html>
 HTML
 done

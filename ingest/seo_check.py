@@ -118,7 +118,7 @@ def revisar(dist: Path) -> dict:
         urls = re.findall(r"<loc>([^<]+)</loc>", sm.read_text(encoding="utf-8"))
         datos["urls_sitemap"] = len(urls)
         for u in urls:
-            ruta = u.split("brechas.orkidea.eu", 1)[-1]
+            ruta = u.split("datosdelterremoto.org", 1)[-1]
             destino = dist / (ruta.lstrip("/") or "index.html")
             if destino.is_dir():
                 destino = destino / "index.html"

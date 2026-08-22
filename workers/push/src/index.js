@@ -140,7 +140,7 @@ export default {
     return json({
       servicio: "avisos del monitor de brechas (terremoto Colombia 2026)",
       rutas: ["POST /suscribir", "POST /desuscribir", "GET /stats"],
-      sitio: "https://brechas.orkidea.eu/site/",
+      sitio: "https://datosdelterremoto.org/",
     });
   },
 

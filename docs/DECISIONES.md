@@ -1099,3 +1099,41 @@ al 16 y al 19 de agosto contienen reportes de los días anteriores y posteriores
 pero ninguno de esos dos días. Por tanto son ceros observados, no días sin
 captura. La ingesta ahora completa con cero los días cerrados que no aparecen y
 mantiene abierto el día de la corrida, que todavía puede recibir reportes.
+
+### El monitor se muda a dominio propio (22-ago-2026)
+
+`brechas.orkidea.eu` colgaba de un dominio personal: si esa renovación falla, se
+lleva por delante un archivo que promete ser reconstruible dentro de veinte años.
+El monitor pasa a **`datosdelterremoto.org`**, registrado aparte y con el DNS en
+Cloudflare, donde ya viven el worker, R2 y las analíticas.
+
+Se eligió `.org` sobre `.co` por dos razones que pesan más que la señal local:
+renovación estable y barata para un archivo de décadas, y una lectura no comercial
+que separa al monitor de los agregadores de subsidios que ocupan las búsquedas de
+«consultar damnificados». Como en Colombia lo oficial es `.gov.co`, el `.org`
+también desactiva por sí solo la lectura de que esto sea un portal del Estado.
+
+**El dominio viejo no se abandona: se redirige con 301 permanente, indefinidamente.**
+Hay URLs publicadas en prensa, en el archivo y en consumidores automáticos de los
+JSON y el CSV. Por eso las URL autorreferenciales de los hitos pasaron a rutas
+relativas: el hecho archivado es el hito, no el host desde el que se sirvió, y así
+no vuelven a caducar en la próxima mudanza.
+
+Lo que **no** se reescribe: `docs/` y los snapshots. Son archivo fechado, y
+cambiarles el dominio falsearía lo que se dijo entonces.
+
+### Los títulos dejan de firmar y pasan a responder (22-ago-2026)
+
+Los `<title>` medían entre 95 y 124 caracteres y terminaban en `| Monitor de
+brechas`. Google corta cerca de los 60: las palabras que importan quedaban fuera de
+la pantalla de resultados, y los 22 caracteres finales los gastaba una marca que
+nadie busca. El nombre del sitio se declara ahora en el JSON-LD (`WebSite.name`),
+que es de donde el buscador lo toma.
+
+Se corrigió además el nombre de la fuente: es **Registro Único de Damnificados**,
+no «oficial» ni «unificado». Un monitor que audita a otros no puede equivocarse en
+cómo se llama lo que audita — y además esa es la forma con la que se busca.
+
+La marca sigue siendo doble a propósito: «Monitor de brechas» describe lo que el
+sitio hace y vive en la navegación y en la metodología; «Datos del terremoto de
+Colombia 2026» es el nombre público, alineado con el dominio.

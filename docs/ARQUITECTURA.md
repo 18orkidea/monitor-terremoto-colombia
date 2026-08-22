@@ -71,7 +71,7 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
    feed de balances → commit del bot → (dispara el deploy).
 3. **En cada push a main** (`.github/workflows/pages.yml`): regenera OG, construye
    `dist/` con `deploy/build_dist.sh` y publica en **GitHub Pages** (única vía de
-   deploy; el dominio brechas.orkidea.eu apunta ahí por CNAME).
+   deploy; el dominio datosdelterremoto.org apunta ahí por CNAME).
 
 ## Deploy
 

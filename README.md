@@ -1,6 +1,6 @@
 # Monitor de brechas de reporte de desastres — Colombia
 
-**🌐 [brechas.orkidea.eu](https://brechas.orkidea.eu/site/)** · terremoto M7.4 · 10-ago-2026 · San José del Palmar (Chocó)
+**🌐 [datosdelterremoto.org](https://datosdelterremoto.org/)** · terremoto M7.4 · 10-ago-2026 · San José del Palmar (Chocó)
 
 Observatorio abierto del terremoto más fuerte registrado en Colombia en más de un siglo — y
 del ecosistema de datos que lo rodea. No produce cifras nuevas: **audita las que existen** —
@@ -9,7 +9,7 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
 
 ## Qué contiene
 
-- **[Mapa interactivo](https://brechas.orkidea.eu/site/)** — daño satelital punto a punto
+- **[Mapa interactivo](https://datosdelterremoto.org/)** — daño satelital punto a punto
   (1.578 edificios en 11 municipios con daño clasificado por tres servicios satelitales,
   contando una sola vez los que dos de ellos vieron a la vez: no es una suma de fuentes, es una unión de
   puntos —ver [DECISIONES](docs/DECISIONES.md)—), zonas
@@ -19,11 +19,11 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
 - **Fichas municipales** — cada municipio conserva un mapa de situación estático y, cuando
   tiene puntos satelitales o ciudadanos, ofrece un mapa de evidencias dentro de la misma
   página. Leaflet y el paquete recortado al municipio se cargan solo al abrir esa vista.
-- **[Titulares](https://brechas.orkidea.eu/site/noticias.html)** — 3.000+ noticias del
+- **[Titulares](https://datosdelterremoto.org/noticias.html)** — 3.000+ noticias del
   evento emparejadas por zona, desde GDACS-EMM y un **registro abierto de feeds**
   ([`feeds/registry.json`](feeds/registry.json)) al que cualquiera puede sumar un medio
   con un PR. Los medios regionales cambian el cruce: Istmina solo existe en la prensa del Chocó.
-- **[Balances en medios](https://brechas.orkidea.eu/site/balances.html)** — un worker con IA
+- **[Balances en medios](https://datosdelterremoto.org/balances.html)** — un worker con IA
   (Firecrawl + Qwen, cron diario) rastrea los balances publicados en prensa que citan
   fuentes oficiales (UNGRD, SGC, gobernaciones), extrae las cifras con su evidencia y las
   presenta como lo que son: *prensa que cita lo oficial*, nunca EDAN.
@@ -105,7 +105,7 @@ monitor — nivel alta y pulso diario), con un solo punto de envío y dedupe:
   «Añadir a pantalla de inicio»). Criptografía propia testeada contra el vector
   del RFC 8291 — sin terceros.
 - **Canal de Telegram**: enlace en el pie del sitio.
-- **RSS**: [`alerts.rss`](https://brechas.orkidea.eu/data/public/alerts.rss)
+- **RSS**: [`alerts.rss`](https://datosdelterremoto.org/data/public/alerts.rss)
   (alertas del día) y el RSS de balances del worker.
 
 Detalles de operación en [workers/push/README.md](workers/push/README.md).

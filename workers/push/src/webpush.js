@@ -169,6 +169,6 @@ export function resumenNotificacion(fecha, alertas) {
   return {
     titulo: `Monitor de brechas · ${fecha}`,
     cuerpo: (cuerpo + extra).slice(0, 500),
-    url: "https://brechas.orkidea.eu/site/#alerts-section",
+    url: "https://datosdelterremoto.org/#alerts-section",
   };
 }

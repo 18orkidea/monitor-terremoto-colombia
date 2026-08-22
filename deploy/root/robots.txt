@@ -22,4 +22,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://brechas.orkidea.eu/sitemap.xml
+Sitemap: https://datosdelterremoto.org/sitemap.xml

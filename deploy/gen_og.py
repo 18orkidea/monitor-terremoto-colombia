@@ -50,7 +50,7 @@ def base(titulo: str, subtitulo: str) -> tuple[Image.Image, ImageDraw.ImageDraw]
     d.text((70, 110), titulo, font=font(64, bold=True), fill=INK)
     d.text((70, 200), subtitulo, font=font(30), fill=INK2)
     # pie
-    d.text((70, H - 70), "brechas.orkidea.eu", font=font(30, bold=True), fill=S1)
+    d.text((70, H - 70), "datosdelterremoto.org", font=font(30, bold=True), fill=S1)
     d.text((W - 70, H - 70), "datos abiertos · actualización diaria",
            font=font(24), fill=MUTED, anchor="ra")
     return img, d

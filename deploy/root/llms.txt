@@ -21,22 +21,22 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
 
 ## Páginas
 
-- [Mapa y cruce por zona](https://brechas.orkidea.eu/): mapa interactivo con daño
+- [Mapa y cruce por zona](https://datosdelterremoto.org/): mapa interactivo con daño
   satelital punto a punto, reportes ciudadanos, municipios con población DANE, cronología y
   alertas del día
-- [Titulares por zona](https://brechas.orkidea.eu/noticias.html): miles de titulares del
+- [Titulares por zona](https://datosdelterremoto.org/noticias.html): miles de titulares del
   evento emparejados por zona afectada, con feeds abiertos a la comunidad
-- [Balances en medios](https://brechas.orkidea.eu/balances.html): serie diaria de cifras
+- [Balances en medios](https://datosdelterremoto.org/balances.html): serie diaria de cifras
   (fallecidos, heridos, desaparecidos, familias) que la prensa publica citando a UNGRD/SGC
 
 ## Datos (CC BY 4.0)
 
-- [JSON del monitor](https://brechas.orkidea.eu/data/public/monitor.json): cruce, series y
+- [JSON del monitor](https://datosdelterremoto.org/data/public/monitor.json): cruce, series y
   exposición
-- [CSV del cruce](https://brechas.orkidea.eu/data/public/crosscheck.csv)
-- [Noticias emparejadas](https://brechas.orkidea.eu/data/public/noticias.json)
-- [GeoJSON de daño satelital · Copernicus](https://brechas.orkidea.eu/data/public/damage_points.geojson)
-- [GeoJSON de daño satelital · UNITAR-UNOSAT](https://brechas.orkidea.eu/data/public/unosat_damage.geojson):
+- [CSV del cruce](https://datosdelterremoto.org/data/public/crosscheck.csv)
+- [Noticias emparejadas](https://datosdelterremoto.org/data/public/noticias.json)
+- [GeoJSON de daño satelital · Copernicus](https://datosdelterremoto.org/data/public/damage_points.geojson)
+- [GeoJSON de daño satelital · UNITAR-UNOSAT](https://datosdelterremoto.org/data/public/unosat_damage.geojson):
   548 edificios de este terremoto evaluados uno a uno en Anserma, Manizales y Viterbo
   (Caldas) y en Zarzal (Valle del Cauca) —443 solo «daño posible»—, ninguno validado en
   campo. De ellos, 209 llevan un código de evento que no coincide con el que declara su
@@ -45,7 +45,7 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
   decide el identificador del producto que lo publica, no un campo interno de su
   geometría— y se publican marcados, para que quien audite pueda rehacer la cuenta con el
   criterio contrario
-- [GeoJSON de daño satelital · ICube-SERTIT](https://brechas.orkidea.eu/data/public/sertit_damage.geojson):
+- [GeoJSON de daño satelital · ICube-SERTIT](https://datosdelterremoto.org/data/public/sertit_damage.geojson):
   512 puntos en Pereira, Cali, Roldanillo, La Virginia y Manizales dentro de la
   activación 1048 de la Carta Internacional del Espacio; Roldanillo y La Virginia no los ha
   mirado ningún otro servicio. De los 512, 503 llevan grado de daño y entran en el
@@ -58,5 +58,5 @@ el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
 ## Código y metodología
 
 - [Repositorio (MIT) con snapshots crudos](https://github.com/18orkidea/monitor-terremoto-colombia)
-- [Metodología completa](https://brechas.orkidea.eu/#metodologia)
+- [Metodología completa](https://datosdelterremoto.org/#metodologia)
 - Mantenido por @jp@col.social (https://col.social/@jp) con apoyo de Orkidea

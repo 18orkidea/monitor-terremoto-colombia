@@ -635,7 +635,7 @@ class TestSitioEnLaRaiz(unittest.TestCase):
     def test_ninguna_pagina_se_referencia_bajo_site(self):
         for f in (self.RAIZ / "site").glob("*.html"):
             s = f.read_text(encoding="utf-8")
-            self.assertNotIn("brechas.orkidea.eu/site/", s,
+            self.assertNotIn("datosdelterremoto.org/site/", s,
                              f"{f.name} sigue declarando su canonical bajo /site/")
 
     def test_las_rutas_de_datos_son_absolutas(self):
@@ -983,7 +983,7 @@ class TestSeoCheck(unittest.TestCase):
 
     def test_caza_un_sitemap_que_promete_lo_que_no_existe(self):
         (self.tmp / "sitemap.xml").write_text(
-            "<urlset><url><loc>https://brechas.orkidea.eu/municipio/fantasma/</loc>"
+            "<urlset><url><loc>https://datosdelterremoto.org/municipio/fantasma/</loc>"
             "</url></urlset>", encoding="utf-8")
         res = self.seo.revisar(self.tmp)
         self.assertTrue(any("y no existe" in f for f in res["fallos"]))

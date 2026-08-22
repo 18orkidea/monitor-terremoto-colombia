@@ -97,7 +97,7 @@
       !/^https?:$/.test(location.protocol)
         ? "<strong>Esta página está abierta como un archivo del disco:</strong> el " +
           "navegador bloquea la carga de datos por seguridad. Ábrela en " +
-          "<a href=\"https://brechas.orkidea.eu/\">brechas.orkidea.eu</a>."
+          "<a href=\"https://datosdelterremoto.org/\">datosdelterremoto.org</a>."
         : "No se han podido cargar los datos del monitor. Vuelve a intentarlo en " +
           "unos minutos.";
     return;

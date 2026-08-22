@@ -769,9 +769,8 @@ def render_ficha(d: dict) -> str:
     página del sitio."""
     m = d["muni"]
     nombre, depto = m["municipio"], m["departamento"]
-    url = f"https://brechas.orkidea.eu/municipio/{d['slug']}/"
-    titulo = (f"Terremoto de Colombia 2026 en {nombre} ({depto}): damnificados, "
-              f"daños y cobertura")
+    url = f"https://datosdelterremoto.org/municipio/{d['slug']}/"
+    titulo = f"Terremoto en {nombre} ({depto}) 2026: damnificados y daños"
     descr = (f"{nombre} ({depto}): {fmt(m['rud_familias'])} familias inscritas en el RUD, "
              f"{fmt(m['rud_viv_averiadas'])} viviendas averiadas y "
              f"{'sin' if not satelites_con_dato(m, d['satelite']) else 'con'} "
@@ -791,8 +790,8 @@ def render_ficha(d: dict) -> str:
             # Guinea (R3).
             **({"geo": {"@type": "GeoCoordinates", "latitude": m["lat"],
                         "longitude": m["lon"]}} if d["tiene_coords"] else {})},
-        "isPartOf": {"@type": "Dataset", "name": "Monitor de brechas — Terremoto de Colombia 2026",
-                     "url": "https://brechas.orkidea.eu/"}}
+        "isPartOf": {"@type": "Dataset", "name": "Datos del terremoto de Colombia 2026",
+                     "url": "https://datosdelterremoto.org/"}}
     migas = [("Monitor de brechas", f"{BASE}/"),
              ("Municipios", f"{BASE}/municipios.html"),
              (nombre, None)]
@@ -800,7 +799,7 @@ def render_ficha(d: dict) -> str:
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": txt,
-             **({"item": f"https://brechas.orkidea.eu{href}"} if href else {})}
+             **({"item": f"https://datosdelterremoto.org{href}"} if href else {})}
             for i, (txt, href) in enumerate(migas)]}
     scripts_mapa = (
         f'<script src="{BASE}/ui.js?v=dev" defer></script>\n'
@@ -809,7 +808,7 @@ def render_ficha(d: dict) -> str:
 
     o = ['<!DOCTYPE html>', '<html lang="es">', '<head>', '<meta charset="utf-8">',
          '<meta name="viewport" content="width=device-width, initial-scale=1">',
-         f'<title>{e(titulo)} | Monitor de brechas</title>',
+         f'<title>{e(titulo)}</title>',
          f'<meta name="description" content="{e(descr)}">',
          '<meta name="robots" content="index, follow">',
          f'<link rel="canonical" href="{url}">',
@@ -818,7 +817,7 @@ def render_ficha(d: dict) -> str:
          '<meta property="og:locale" content="es_CO">',
          f'<meta property="og:title" content="{e(titulo)}">',
          f'<meta property="og:description" content="{e(descr)}">',
-         f'<meta property="og:image" content="https://brechas.orkidea.eu{BASE}/og/portada.png">',
+         f'<meta property="og:image" content="https://datosdelterremoto.org{BASE}/og/portada.png">',
          '<meta name="twitter:card" content="summary_large_image">',
          f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>',
          f'<script type="application/ld+json">{json.dumps(ld_migas, ensure_ascii=False)}</script>',
