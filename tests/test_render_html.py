@@ -661,6 +661,58 @@ class TestTablaPortada(unittest.TestCase):
         self.assertIn("crosscheck.csv", html)
 
 
+class TestCifrasEnAtributos(unittest.TestCase):
+    """La og:description es la superficie que se ve al compartir el enlace, y
+    ahí no cabe un <span data-gen>: la cifra va marcada con {{clave}}."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.index = (Path(__file__).parent.parent / "site/index.html").read_text(
+            encoding="utf-8")
+
+    def test_la_og_description_no_lleva_la_cifra_escrita_a_mano(self):
+        """Decía «430+ reportes ciudadanos» con 542 archivados, y nadie lo veía
+        porque un meta no se lee en pantalla."""
+        og = re.search(r'<meta property="og:description" content="([^"]*)"', self.index)
+        self.assertIsNotNone(og, "la portada perdió su og:description")
+        self.assertIn("{{reportes_ciudadanos}}", og.group(1))
+        self.assertNotRegex(og.group(1), r"\d[\d.]* reportes",
+                            "la cifra vuelve a estar escrita a mano")
+
+    def test_el_build_escribe_la_cifra_del_dia(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            (destino / "index.html").write_text(
+                '<meta content="{{reportes_ciudadanos}} reportes">', encoding="utf-8")
+            hechas = R.sustituir_cifras(destino, self.ctx)
+            servido = (destino / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(hechas, {"index.html": ["reportes_ciudadanos"]})
+        self.assertIn(f'{R.fmt(len(self.ctx["chatmap"]))} reportes', servido)
+        self.assertNotIn("{{", servido)
+
+    def test_un_marcador_sin_valor_rompe_el_build_en_vez_de_publicarse(self):
+        """Publicar «{{lo_que_sea}}» en la etiqueta que se comparte es peor que
+        no publicar: aquí romper es la degradación elegante."""
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            (destino / "index.html").write_text("<p>{{invento}}</p>", encoding="utf-8")
+            with self.assertRaises(KeyError) as caso:
+                R.sustituir_cifras(destino, self.ctx)
+        self.assertIn("invento", str(caso.exception))
+
+    def test_tambien_alcanza_las_fichas_municipales(self):
+        """Un marcador colado en una plantilla de ficha vive dos niveles por
+        debajo de la raíz: el barrido no puede quedarse en dist/*.html."""
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            ficha = destino / "municipio" / "cali"
+            ficha.mkdir(parents=True)
+            (ficha / "index.html").write_text("{{reportes_ciudadanos}}", encoding="utf-8")
+            hechas = R.sustituir_cifras(destino, self.ctx)
+        self.assertIn("municipio/cali/index.html", hechas)
+
+
 class TestSitioEnLaRaiz(unittest.TestCase):
     """El sitio vive en la raíz del dominio, no en /site/.
 
