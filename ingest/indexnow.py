@@ -24,7 +24,6 @@ como cualquier otra (R4), con el sha256 de lo que se envió.
 import hashlib
 import json
 import re
-from pathlib import Path
 
 import common
 
