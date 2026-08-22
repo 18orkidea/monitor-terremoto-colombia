@@ -570,23 +570,45 @@ class TestTablaPortada(unittest.TestCase):
                           "la columna satelital debe nombrar a UNOSAT")
 
     def test_la_nota_de_portada_no_miente_sobre_cuantos_miro_cada_fuente(self):
-        """«Los satélites han mirado 11 municipios; la comunidad ha documentado
-        36» está escrito a mano en site/index.html, y la primera mitad cambió
-        el día que el conteo pasó a incluir UNOSAT. Si vuelve a moverse, este
-        test dice el número nuevo en vez de dejar la frase envejecer sola."""
+        """«Los satélites han mirado N municipios; la comunidad ha documentado M»
+        la escribe el build desde las mismas filas de la tabla.
+
+        Estuvo a mano en site/index.html y envejeció dos veces: primero al pasar
+        el conteo satelital a incluir UNOSAT, después con las corridas diarias,
+        que anunciaban 36 municipios ciudadanos con 43 en su propia tabla. Ya no
+        se vigila un texto fijo: se vigila que el generador diga lo que dicen los
+        datos."""
         # `n_evaluados` cuenta a los TRES satélites. Mientras esto sumó solo dos
         # columnas, el guardián daba por buena la nota que decía «9 municipios»
         # con once en su propia tabla: un guardián mal apuntado no protege nada.
         sat = len([f for f in self.filas if f["n_evaluados"]])
         ciu = len([f for f in self.filas if f["n_ciudadanos"]])
-        html = (Path(__file__).parent.parent / "site/index.html").read_text(
-            encoding="utf-8")
-        m = re.search(r"satélites han mirado (\d+)\s*\n?\s*municipios; la comunidad "
-                      r"ha documentado (\d+)", html)
+        nota = R.nota_mirada_portada(self.ctx)
+        m = re.search(r"satélites han mirado (\S+) municipios; la comunidad "
+                      r"ha documentado (\S+)</strong>", nota)
         self.assertIsNotNone(m, "la nota de portada ya no dice cuántos miró cada fuente")
-        self.assertEqual((int(m.group(1)), int(m.group(2))), (sat, ciu),
+        self.assertEqual((m.group(1), m.group(2)),
+                         (R.fmt_prosa(sat), R.fmt_prosa(ciu)),
                          f"la nota de portada dice {m.group(1)}/{m.group(2)} y los "
                          f"datos dicen {sat}/{ciu}")
+
+    def test_la_nota_de_portada_la_escribe_el_build(self):
+        """El HTML del repo lleva la marca y ninguna cifra a mano: si alguien la
+        vuelve a escribir, envejecerá con la siguiente corrida diaria."""
+        html = (Path(__file__).parent.parent / "site/index.html").read_text(
+            encoding="utf-8")
+        self.assertIn('<span data-gen="mirada-portada"></span>', html)
+        self.assertNotIn("han mirado", html)
+
+    def test_sin_la_nota_la_portada_sigue_leyendose(self):
+        """La raya va dentro de lo generado: si el build no inyectara, la frase
+        quedaría completa y sin cifra, nunca con una raya huérfana."""
+        html = (Path(__file__).parent.parent / "site/index.html").read_text(
+            encoding="utf-8")
+        i = html.index('<span data-gen="mirada-portada"></span>')
+        self.assertTrue(html[:i].rstrip().endswith("venga de donde venga"))
+        self.assertTrue(html[i:].split("</span>", 1)[1].startswith("."))
+        self.assertTrue(R.nota_mirada_portada(self.ctx).startswith(" —"))
 
     def test_cada_fila_lleva_su_coordenada_para_el_mapa(self):
         """El clic en la fila centra el mapa; sin data-lat/data-lon el JavaScript
