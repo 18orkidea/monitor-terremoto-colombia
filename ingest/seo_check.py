@@ -85,14 +85,19 @@ def revisar(dist: Path) -> dict:
         if kb > MAX_KB_PAGINA:
             avisos.append(f"{pagina}: {kb:.0f} KB, por encima de {MAX_KB_PAGINA}")
 
-        # un contenedor marcado y vacío es exactamente la regresión que se vigila.
-        # No solo tablas y listas: la banda de brechas de la portada es una
-        # <section> de prosa, y es el texto más citable del sitio.
+        # un contenedor marcado y vacío es exactamente la regresión que se vigila:
+        # una tabla, una lista, la cifra escrita dentro de un párrafo o la banda
+        # de brechas de la portada, que es una <section> de prosa entera
         for m in re.finditer(
-                r'<(tbody|ul|section)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
+                r'<(tbody|ul|span|section)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
                 html, re.S):
             if not m.group(4).strip():
                 fallos.append(f"{pagina}: el contenedor «{m.group(3)}» quedó vacío")
+
+        # un marcador {{clave}} sin sustituir es una cifra que se iba a publicar
+        # cruda en el HTML servido; el build debería haber roto antes
+        for marcador in set(re.findall(r"\{\{\w+\}\}", html)):
+            fallos.append(f"{pagina}: el marcador «{marcador}» llegó sin sustituir")
 
         if "<link rel=\"canonical\"" not in html:
             fallos.append(f"{pagina}: sin canonical")

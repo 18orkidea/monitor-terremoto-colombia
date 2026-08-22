@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Datos del terremoto de Colombia 2026: mapa, cifras y brechas">
-<meta property="og:description" content="Daños clasificados por satélite (Copernicus EMSR916, UNITAR-UNOSAT e ICube-SERTIT), municipios mencionados en prensa o DYFI, población DANE, 430+ reportes ciudadanos con foto y brecha de fuentes oficiales.">
+<meta property="og:description" content="Daños clasificados por satélite (Copernicus EMSR916, UNITAR-UNOSAT e ICube-SERTIT), municipios mencionados en prensa o DYFI, población DANE, {{reportes_ciudadanos}} reportes ciudadanos geolocalizados por WhatsApp y brecha de fuentes oficiales.">
 <meta property="og:image" content="https://datosdelterremoto.org/og/portada.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -184,8 +184,9 @@
     <p class="note">Los municipios donde hay prueba georreferenciada dentro de sus
     límites: edificios clasificados por satélite o reportes de la comunidad. La tabla no
     se organiza por lo que el satélite decidió mirar, sino por
-    dónde hay evidencia, venga de donde venga —<strong>los satélites han mirado 11
-    municipios; la comunidad ha documentado 36</strong>. Clic en una fila para centrarla
+    dónde hay evidencia, venga de donde venga<span data-gen="mirada-portada"></span>.
+    <!-- la cifra la escribe deploy/render_html.py en el build: se mueve cada día -->
+    Clic en una fila para centrarla
     en el mapa. El detalle por zona Copernicus (vías, interrupciones y fecha de entrega
     de cada producto) sigue en el <a href="/data/public/crosscheck.csv">CSV del
     cruce</a>; el de los municipios que evaluó el centro satelital de la ONU, en el

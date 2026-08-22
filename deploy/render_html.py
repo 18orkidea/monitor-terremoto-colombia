@@ -1502,8 +1502,9 @@ def filas_portada(ctx: dict) -> str:
 
     Deja de organizarse por lo que el satélite decidió mirar (las AOI de la
     activación) y pasa a organizarse por dónde hay prueba georreferenciada,
-    venga del satélite o de la comunidad. El hallazgo que lo justifica: los
-    satélites han mirado 11 municipios; la comunidad ha documentado 36.
+    venga del satélite o de la comunidad. El hallazgo que lo justifica lo
+    escribe `nota_mirada_portada` con las cifras del día, para que ni el texto
+    del sitio ni este comentario envejezcan por su cuenta.
 
     Cada fila lleva su coordenada para que el clic siga centrando el mapa.
     El detalle por AOI —vías, interrupciones, fecha de entrega— no cabe en una
@@ -1530,6 +1531,24 @@ def filas_portada(ctx: dict) -> str:
             f'<td class="num">{_celda_prensa(m)}</td>'
             "</tr>")
     return "\n".join(filas)
+
+
+def nota_mirada_portada(ctx: dict) -> str:
+    """Cuántos municipios ha mirado cada fuente, escrito en el build.
+
+    La frase vivía a mano en `site/index.html` y envejecía sola: cada corrida
+    diaria mueve el recuento ciudadano, y llegó a anunciar 36 municipios con 43
+    en su propia tabla, tres párrafos más abajo. Sale de las mismas filas que la
+    tabla —`municipios_con_evidencia_puntual`—, así que texto y tabla no pueden
+    contradecirse.
+
+    Devuelve la oración entera, raya incluida: si algún día no se inyecta, la
+    portada queda con una frase correcta y sin la cifra, nunca con un hueco."""
+    filas = municipios_con_evidencia_puntual(ctx)
+    sat = len([m for m in filas if m["n_evaluados"]])
+    ciu = len([m for m in filas if m["n_ciudadanos"]])
+    return (f" —<strong>los satélites han mirado {fmt_prosa(sat)} municipios; "
+            f"la comunidad ha documentado {fmt_prosa(ciu)}</strong>")
 
 
 def filas_rud(ctx: dict) -> str:
@@ -1706,37 +1725,83 @@ def filas_noticias(ctx: dict) -> str:
 def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
     """Rellena en `dist/` los contenedores marcados con data-gen.
 
-    No solo tablas: la banda de brechas de la portada es prosa, y es
-    probablemente el texto más citable del sitio. El contenedor puede ser un
-    <tbody>, un <ul> o un <section>.
+    Ya no son solo tablas —de ahí el nombre—: una cifra escrita dentro de un
+    párrafo envejece igual que una fila, y la banda de brechas de la portada es
+    prosa entera, probablemente el texto más citable del sitio. El contenedor
+    puede ser un <tbody>, un <ul>, un <span> o un <section>.
 
     Se hace sobre el artefacto, nunca sobre site/*.html: un HTML que cambiara
     entero cada día destruiría el blame, y el dato ya está versionado."""
     hechas = {}
     generadores = {"municipios": filas_municipios, "portada": filas_portada,
                    "rud": filas_rud, "balances": filas_balances,
-                   "noticias": filas_noticias, "brechas": banda_brechas}
-    paginas = {"portada": "index", "brechas": "index"}
+                   "noticias": filas_noticias,
+                   "mirada-portada": nota_mirada_portada,
+                   "brechas": banda_brechas}
+    # explícito a propósito: un generador nuevo sin su página revienta aquí en
+    # vez de no escribir nada y dejar el contenedor vacío en silencio
+    paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
+               "balances": "balances", "noticias": "noticias",
+               "mirada-portada": "index", "brechas": "index"}
     for nombre, generador in generadores.items():
-        pagina = destino / f"{paginas.get(nombre, nombre)}.html"
+        pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():
             continue
         html = pagina.read_text(encoding="utf-8")
-        # el contenedor puede ser una tabla, una lista o una sección de prosa,
-        # y llevar otros atributos
+        # el contenedor puede ser una tabla, una lista, un trozo de prosa dentro
+        # de un párrafo o una sección entera, y llevar otros atributos
         marca = re.compile(
-            rf'<(tbody|ul|section)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
+            rf'<(tbody|ul|span|section)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
         m = marca.search(html)
         if not m:
             continue
         cuerpo = generador(ctx)
-        html = (html[:m.start()] + f"<{m.group(1)}{m.group(2)}>\n{cuerpo}\n</{m.group(1)}>"
+        # la prosa se pega sin saltos de línea: dentro de un párrafo, un salto
+        # es un espacio, y la raya quedaría separada de la palabra anterior
+        salto = "" if m.group(1) == "span" else "\n"
+        html = (html[:m.start()]
+                + f"<{m.group(1)}{m.group(2)}>{salto}{cuerpo}{salto}</{m.group(1)}>"
                 + html[m.end():])
         pagina.write_text(html, encoding="utf-8")
-        # se mide en filas lo que son filas y en palabras lo que es prosa: un
-        # «0 filas» en la banda de brechas parecería la regresión que se vigila
+        # un texto no tiene filas, pero tampoco puede contarse como cero: sería
+        # indistinguible de un contenedor que se quedó vacío
         hechas[nombre] = (cuerpo.count("<tr ") + cuerpo.count("<tr>")
-                          + cuerpo.count("<li>")) or len(cuerpo.split())
+                          + cuerpo.count("<li>")) or 1
+    return hechas
+
+
+# ------------------------------------------------- cifras dentro de atributos
+# Un <span data-gen> no cabe dentro de un atributo, y ahí también hay cifras que
+# se mueven a diario: la og:description de la portada —lo que se ve al compartir
+# el enlace— anunciaba «430+ reportes ciudadanos» con 542 archivados. Para esos
+# casos el HTML lleva un marcador {{clave}} y el build escribe el dato del día.
+def cifras_del_dia(ctx: dict) -> dict:
+    """Lo que vale hoy cada marcador {{clave}} de los HTML del sitio."""
+    return {"reportes_ciudadanos": fmt(len(ctx["chatmap"]))}
+
+
+def sustituir_cifras(destino: Path, ctx: dict) -> dict:
+    """Escribe en `dist/` las cifras marcadas con {{clave}}.
+
+    Un marcador sin valor **rompe el build a propósito**: no es una fuente que
+    falla (R13), es un error de programación, y publicar «{{reportes_ciudadanos}}»
+    en la etiqueta que ve quien comparte el enlace es peor que no publicar."""
+    cifras, hechas = cifras_del_dia(ctx), {}
+    # todo el artefacto, también las fichas municipales dos niveles abajo: un
+    # marcador que se cuele en una plantilla no puede publicarse crudo
+    for pagina in sorted(destino.rglob("*.html")):
+        html = pagina.read_text(encoding="utf-8")
+        claves = set(re.findall(r"\{\{(\w+)\}\}", html))
+        if not claves:
+            continue
+        desconocidas = claves - set(cifras)
+        if desconocidas:
+            raise KeyError(f"{pagina.name}: marcador sin valor {sorted(desconocidas)}"
+                           f" — añádelo a cifras_del_dia() o quítalo del HTML")
+        for clave in claves:
+            html = html.replace("{{" + clave + "}}", cifras[clave])
+        pagina.write_text(html, encoding="utf-8")
+        hechas[str(pagina.relative_to(destino))] = sorted(claves)
     return hechas
 
 
@@ -1745,6 +1810,8 @@ if __name__ == "__main__":
     salida = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "dist"
     res = run(salida)
     print(f"fichas municipales: {res['fichas']} escritas, {res['omitidas']} sin señal")
-    prerender = inyectar_prerenderizado(salida, contexto())
-    for nombre, elementos in prerender.items():
-        print(f"prerenderizado: {nombre} con {elementos} elementos")
+    ctx = contexto()
+    for nombre, piezas in inyectar_prerenderizado(salida, ctx).items():
+        print(f"prerenderizado: {nombre} con {piezas} pieza(s)")
+    for pagina, claves in sustituir_cifras(salida, ctx).items():
+        print(f"cifras del día en {pagina}: {', '.join(claves)}")

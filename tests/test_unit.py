@@ -1993,6 +1993,65 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
                           f"llms.txt no declara {self._es(cifra)}")
 
 
+class TestCifrasFechadasDelReadme(unittest.TestCase):
+    """El escaparate del proyecto no puede prometer más de lo que archiva.
+
+    El README anunciaba «430+ reportes ciudadanos» con 542 archivados y «3.000+
+    noticias» con 6.304: cifras que crecen con cada corrida y que nadie vigilaba.
+    No pasan por el build —un README no se genera—, así que van **fechadas**: una
+    cifra con su fecha describe un momento y no envejece, solo se queda corta.
+
+    Lo que se vigila es que no SOBREAFIRME. No hay cota por abajo a propósito:
+    exigir que el README siga el ritmo del corpus lo pondría en rojo cada mañana
+    sin que nada estuviera roto, que es la avería que este test evita, no la que
+    provoca. Si el dato baja —una purga, un criterio nuevo—, el README pasa a
+    prometer de más y aquí se entera.
+    """
+
+    RAIZ = Path(__file__).parent.parent
+
+    @classmethod
+    def setUpClass(cls):
+        cls.readme = (cls.RAIZ / "README.md").read_text(encoding="utf-8")
+        pub = cls.RAIZ / "data/public"
+        cls.reportes = len(json.loads((pub / "chatmap.geojson")
+                                      .read_text(encoding="utf-8"))["features"])
+        cls.con_media = len([f for f in json.loads((pub / "chatmap.geojson")
+                                                   .read_text(encoding="utf-8"))["features"]
+                             if f["properties"].get("media")])
+        cls.titulares = int(json.loads((pub / "noticias.json")
+                                       .read_text(encoding="utf-8"))["total"])
+
+    def _escrita(self, patron: str) -> int:
+        m = re.search(patron, self.readme)
+        self.assertIsNotNone(m, f"el README ya no dice «{patron}»")
+        return int(m.group(1).replace(".", ""))
+
+    def test_los_reportes_ciudadanos_no_prometen_de_mas(self):
+        escrita = self._escrita(r"([\d.]+) reportes ciudadanos con coordenada")
+        self.assertLessEqual(escrita, self.reportes,
+                             f"el README dice {escrita} reportes ciudadanos y hay "
+                             f"{self.reportes}: actualiza la cifra y su fecha")
+
+    def test_los_reportes_con_media_no_prometen_de_mas(self):
+        escrita = self._escrita(r"([\d.]+) con foto\s*\n?\s*o vídeo")
+        self.assertLessEqual(escrita, self.con_media,
+                             f"el README dice {escrita} reportes con foto o vídeo y hay "
+                             f"{self.con_media}")
+
+    def test_los_titulares_no_prometen_de_mas(self):
+        escrita = self._escrita(r"([\d.]+) titulares del")
+        self.assertLessEqual(escrita, self.titulares,
+                             f"el README dice {escrita} titulares y hay {self.titulares}")
+
+    def test_cada_cifra_que_crece_lleva_su_fecha(self):
+        """Sin fecha, la cifra es una promesa sobre hoy; con fecha, un dato."""
+        for patron in (r"reportes ciudadanos con coordenada", r"titulares del"):
+            frase = re.search(patron + r".{0,160}", self.readme, re.S)
+            self.assertIn("22-ago-2026", frase.group(0),
+                          f"la cifra de «{patron}» se publica sin fecha")
+
+
 class TestCodigoDeEventoImposible(unittest.TestCase):
     """R11 sobre el etiquetado de UNOSAT: un código con fecha imposible avisa.
 
