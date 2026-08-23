@@ -6,6 +6,43 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-23 — Reglas de método (M1–M10): las cicatrices se escriben en el contrato
+
+Contexto: en una sola jornada de rediseño aparecieron cuatro errores del mismo tipo, y
+ninguno era un error el día que se escribió. Dos URL declaradas dos veces con la copia
+muerta envejeciendo. Un pie que vivía en Python y en JavaScript y llevaba meses siendo
+más pobre en 208 páginas sin que nadie lo viera. Un plegable estilado por sus cuatro
+ubicaciones en vez de por lo que es, con una víctima ya publicada. Una identidad de autor
+con el nombre interno en un sitio y el público en otro. Se estropearon solos, después,
+porque nada vigilaba que las copias siguieran diciendo lo mismo.
+
+En la misma jornada, cuatro tests escritos para cazar un bug **pasaron en verde con el
+bug puesto**: uno buscaba una palabra que estaba en el comentario de su propio autor,
+otro comparaba conjuntos sobre el fichero entero y sobrevivía si el defecto quedaba en
+uno de los dos sitios, y dos guardianes «de sí mismos» comprobaban «la lista no está
+vacía». Y una pregunta al mantenedor se hizo sobre una premisa falsa —«sin emoticonos,
+como las fichas», cuando las fichas los tenían—, así que hubo que volver a preguntar.
+
+Decisión: `CLAUDE.md` gana una sección de **reglas de método M1–M10**, hermana de las
+reglas de rigor R1–R16. Las R son sobre los datos; las M, sobre cómo se trabaja. Cada M
+lleva **la cicatriz que la causó**: una regla sin el incidente que la originó no se
+recuerda y acaba siendo decoración. Se citan por su número en las revisiones —«esto
+incumple M2»— igual que las R.
+
+Y un mecanismo para que la lista crezca sola: un error que aparece por **segunda** vez
+deja de ser un error y pasa a ser un patrón; se escribe con su cicatriz y, si es
+automatizable, llega acompañado de su test, validado por M1.
+
+Consecuencia: las revisiones tienen vocabulario para nombrar fallos de método, no solo de
+datos. M1 (validar rompiendo) y M2 (toda segunda copia diverge) ya han cambiado tres
+commits de este rediseño: el chip que deducía su maqueta de sus hijos, el inventario del
+pie fijado por destino, y el marcado estructurado, donde se descubrió que `@id` **no
+resuelve entre documentos** y que por tanto una identidad repetida en 213 páginas solo la
+sostiene un test, nunca la sintaxis.
+
+Una regla que estorbe se discute y se retira, con su entrada aquí. Lo que no se hace es
+ignorarla en silencio.
+
 ## 2026-08-22 — Un chip es una acción; lo que no se pulsa, no es un chip
 
 Contexto: la misma pastilla `.chip` hacía dos oficios. En los filtros de la portada, del

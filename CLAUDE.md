@@ -105,6 +105,93 @@ Ningún cambio está terminado sin sus 6 casillas:
 6. **Memoria**: anotación en la memoria local si hubo decisión o hallazgo no derivable
    del código.
 
+## Reglas de método (M1–M10) — aprendidas a golpes, con su cicatriz
+
+Las R son sobre **los datos**; estas son sobre **cómo se trabaja**. Cada una nace
+de un error real que ya se cometió aquí. **Se citan por su número en las
+revisiones**, igual que las R.
+
+- **M1 · Un guardián se valida rompiendo el código, no leyéndolo.** Escribe el
+  test, **mete el bug a propósito y comprueba que el test cae**; después deshaz.
+  *Cicatriz: ha pasado cuatro veces. Un test buscaba una palabra que estaba en
+  el comentario del propio autor. Otro comparaba conjuntos sobre el fichero
+  entero y sobrevivía si el defecto quedaba en uno de los dos sitios. Dos
+  guardianes «de sí mismos» comprobaban «la lista no está vacía», que es la
+  misma trampa con otro traje.* **Si un test pasa con el fallo puesto, se tira y
+  se empieza otro** — no se retoca.
+
+- **M2 · Toda segunda copia diverge. Al encontrarla: fundir y poner un test que
+  se rompa si vuelven a separarse.** *Cicatriz: en un solo día aparecieron dos
+  URL declaradas dos veces con la copia muerta envejeciendo; un pie que vivía en
+  Python y en JavaScript y llevaba meses siendo más pobre en 208 páginas sin que
+  nadie lo viera; una identidad de autor con el nombre interno en un sitio y el
+  público en otro.* Ninguna estaba mal el día que se escribió. **El daño no está
+  en copiar: está en que nada vigile que las copias sigan diciendo lo mismo.**
+
+- **M3 · Un comentario en mayúsculas no es un guardián.** Si una decisión merece
+  explicarse, merece un test. *Cicatriz: tres decisiones del sistema visual
+  estaban solo en comentarios enfáticos —la exclusión de los chips del eje entre
+  ellas— y las tres se podían deshacer con la suite en verde.*
+
+- **M4 · El repositorio manda sobre cualquier documento.** Planes, traspasos y
+  hojas de ruta describen la intención; el código y `docs/DECISIONES.md`
+  describen lo que hay. **Ante discrepancia, gana el repo.** *Cicatriz: un
+  handoff afirmaba que el nombre del sitio «convivía sin decidirse» y estaba
+  decidido en `DECISIONES.md`; y la línea base de la portada arrastraba 3.225
+  palabras cuando eran 3.259.* **Una línea base se toma midiendo en el momento,
+  nunca citando un documento.**
+
+- **M5 · Verifica la premisa ANTES de convertirla en una pregunta.** Ofrecer una
+  opción falsa hace que se decida sobre algo que no existe. *Cicatriz: se
+  presentó «sin emoticonos, como las fichas» y las fichas los tenían. Hubo que
+  volver a preguntar.* Si la premisa no está medida, se mide; y si no se puede,
+  se dice que es una suposición.
+
+- **M6 · Mide antes de retocar estética.** Cuando JP dice que algo se ve mal,
+  **apunta casi siempre a algo más profundo de lo que señala**. *Cicatriz: «los
+  prototipos dan un paso atrás» era que no cargaban `styles.css`; «no hace el
+  zoom» era un GeoJSON de 199 KB bloqueando el vuelo; «faltan las cifras» era un
+  contenedor que rellenaba el JS; «el encabezado se come la primera línea» era
+  que `overflow-x:auto` convierte el otro eje en contenedor de scroll.*
+
+- **M7 · Aritmética correcta no es procedencia rastreable.** Una cifra exacta
+  cuyo snapshot no tiene fila en `sources_log` **no se publica**, o se publica
+  con esa advertencia. *Cicatriz: un porcentaje verificado por dos vías salió de
+  un fichero sin registro de quién lo pidió.* Y **toda cifra de una fuente viva
+  lleva su corte**: el RUD pasó de 65.663 a 100.231 familias en dos días — sin
+  fecha, una cifra miente en 48 horas.
+
+- **M8 · Verifica por segunda vía lo que va a acabar impreso.** *Cicatriz: la
+  segunda vía destapó un alias de topónimo —«Guadalajara de Buga» frente a
+  «Buga»— que inflaba una cifra en 206 familias, y tirando de ese hilo apareció
+  una fuga de trazabilidad.* La segunda vía no es desconfianza: es el método.
+
+- **M9 · Lo temporal que importa no vive en un worktree.** Un worktree se borra
+  sin ceremonia. Traspasos y hojas de ruta van junto a la memoria local, con
+  entrada en su índice, **y lo que no se versiona se ignora explícitamente**.
+  *Cicatriz: un `git add -A` habría publicado el documento que dice que nunca se
+  publica, con la ruta local dentro.*
+
+- **M10 · Omitir es lo que significa «no lo sabemos».** Vale para el JSON-LD,
+  para el mapa y para la prosa: donde falta el dato **se calla el campo**, nunca
+  se escribe 0. *Cicatriz: un cero en `geo` señalaría el golfo de Guinea; un
+  «Copernicus entregó cero productos» acusaba a la fuente de no haber entregado
+  nada cuando lo que faltaba era la clave.* Es la R3 fuera de la base de datos.
+
+### Cómo crece esta lista (el autoaprendizaje)
+
+1. **Un error que aparece por segunda vez deja de ser un error: es un patrón**, y
+   se escribe aquí con su cicatriz. Una regla sin el incidente que la causó no se
+   recuerda y acaba siendo decoración.
+2. **Si el patrón es automatizable, la regla llega acompañada de su test** — y el
+   test se valida por M1. Una regla que solo vive en prosa se incumple.
+3. **Al cerrar una sesión relevante**, revisar si algo de lo ocurrido merece
+   entrar aquí, y anotarlo también en la memoria local.
+4. **Las revisiones citan estas reglas por su número.** «Esto incumple M2» tiene
+   que ser una frase normal en un informe, igual que «esto incumple R3».
+5. **Una regla que estorba se discute y se retira**, con su entrada en
+   `docs/DECISIONES.md`. Lo que no se hace es ignorarla en silencio.
+
 ## Flujo de trabajo con agentes
 
 idea → diseño (plan mode si toca >2 archivos) → implementación (sesión principal) →
