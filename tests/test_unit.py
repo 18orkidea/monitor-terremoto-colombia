@@ -636,6 +636,94 @@ class TestFeedsComunitarios(unittest.TestCase):
                          f"feed automático que atribuye prensa a un homónimo de "
                          f"departamento: {homonimos & declarados}")
 
+    # Catálogo DIVIPOLA mínimo: municipios reales del RUD y los nombres de
+    # departamento con los que se detecta un homónimo.
+    DIVIPOLA_FIXTURE = {
+        "aguadas|caldas": {"municipio": "AGUADAS", "departamento": "CALDAS",
+                           "divipola": "17013", "lat": 5.61, "lon": -75.45},
+        "bolivar|cauca": {"municipio": "BOLÍVAR", "departamento": "CAUCA",
+                          "divipola": "19100", "lat": 1.84, "lon": -76.96},
+        # el homónimo se detecta contra los nombres de departamento que trae
+        # el propio catálogo geográfico: sin esta fila, «Bolívar» pasaría
+        "cartagena|bolivar": {"municipio": "CARTAGENA", "departamento": "BOLÍVAR",
+                              "divipola": "13001", "lat": 10.39, "lon": -75.51},
+    }
+
+    def _catalogo(self, *filas):
+        """El catálogo completo (curados + RUD) a partir de filas del RUD."""
+        from municipios import catalogo_municipios, _norm
+        rud = {(_norm(dep), _norm(mun)): {"departamento": dep, "municipio": mun}
+               for dep, mun in filas}
+        return catalogo_municipios(rud, self.DIVIPOLA_FIXTURE)
+
+    def test_la_busqueda_se_deriva_del_catalogo_completo_no_del_curado(self):
+        """El monitor publicaba «ni un titular» de 126 municipios a los que
+        nunca preguntó: los que abre el RUD no estaban en la lista de
+        búsquedas. Si esto vuelve a recorrer solo MUNICIPIOS, cae."""
+        from community_feeds import municipal_google_news_feeds
+        from municipios import MUNICIPIOS
+        self.assertNotIn("Aguadas", MUNICIPIOS, "el fixture perdió sentido: "
+                         "Aguadas ya está curado y no prueba la derivación")
+        feeds = municipal_google_news_feeds(self._catalogo(("CALDAS", "AGUADAS")))
+        aguadas = [f for f in feeds if f["municipio"] == "Aguadas"]
+        self.assertEqual(len(aguadas), 1,
+                         "un municipio que abre el RUD se queda sin búsqueda")
+        self.assertIn("%22aguadas%22", aguadas[0]["url"])
+        self.assertIn("%22caldas%22", aguadas[0]["url"])
+
+    def test_el_municipio_dinamico_sin_toponimo_no_genera_consulta(self):
+        """M10: si no se puede preguntar, no se pregunta. Una consulta sin
+        frase (`"" "caldas"`) traería los titulares del departamento entero y el
+        feed los atribuiría a un municipio, porque publish.py cree al feed."""
+        from community_feeds import municipal_google_news_feeds, motivo_sin_busqueda
+        catalogo = self._catalogo(("CALDAS", "AGUADAS"))
+        catalogo["Aguadas"]["toponimos"] = []
+        self.assertEqual(motivo_sin_busqueda(catalogo["Aguadas"]), "sin topónimo")
+        self.assertEqual([f for f in municipal_google_news_feeds(catalogo)
+                          if f["municipio"] == "Aguadas"], [])
+
+    def test_el_municipio_dinamico_homonimo_de_departamento_no_genera_consulta(self):
+        """Bolívar (Cauca) llega por el RUD sin que nadie lo cure: la marca de
+        homónimo tiene que nacer con él, o `"bolivar" "cauca"` traería los
+        titulares del departamento de Bolívar atribuidos a un municipio."""
+        from community_feeds import municipal_google_news_feeds
+        catalogo = self._catalogo(("CAUCA", "BOLÍVAR"))
+        self.assertTrue(catalogo["Bolívar"]["homonimo_de_departamento"])
+        declarados = {m for f in municipal_google_news_feeds(catalogo)
+                      for m in (f.get("municipios") or [])}
+        self.assertNotIn("Bolívar", declarados)
+
+    def test_el_toponimo_de_catalogo_administrativo_no_genera_consulta(self):
+        """«sotara - paispamba» es como lo escribe el registro, no como lo
+        escribe un titular: la búsqueda devolvería cero para siempre y nadie
+        sabría por qué. Es la misma trampa que las claves con paréntesis."""
+        from community_feeds import municipal_google_news_feeds, motivo_sin_busqueda
+        catalogo = self._catalogo(("CALDAS", "AGUADAS"))
+        catalogo["Aguadas"]["toponimos"] = ["sotara - paispamba"]
+        self.assertIn("no buscable", motivo_sin_busqueda(catalogo["Aguadas"]) or "")
+        self.assertEqual([f for f in municipal_google_news_feeds(catalogo)
+                          if f["municipio"] == "Aguadas"], [])
+        # la coma sí es contexto real de prensa («San José, Caldas»)
+        catalogo["Aguadas"]["toponimos"] = ["san jose, caldas"]
+        self.assertIsNone(motivo_sin_busqueda(catalogo["Aguadas"]))
+
+    def test_los_municipios_sin_busqueda_se_cuentan_con_su_motivo(self):
+        """Un hueco declarado no es un hueco callado: la corrida dice cuántos
+        municipios no pudo preguntar y por qué."""
+        from community_feeds import municipios_sin_busqueda
+        sin = municipios_sin_busqueda(self._catalogo(("CAUCA", "BOLÍVAR")))
+        self.assertEqual(sin.get("Bolívar"), "homónimo de departamento")
+        self.assertNotIn("Armenia", sin)
+
+    def test_el_catalogo_se_entrega_en_copia_y_no_reescribe_el_curado(self):
+        """`MUNICIPIOS` es un literal del módulo: si el catálogo devolviera
+        las mismas fichas, anotar una en el llamante reescribiría el catálogo
+        curado para el resto del proceso y el fallo saldría en otro sitio."""
+        from municipios import MUNICIPIOS, catalogo_municipios
+        antes = dict(MUNICIPIOS["Armenia"])
+        catalogo_municipios()["Armenia"]["toponimos"] = ["destrozado"]
+        self.assertEqual(MUNICIPIOS["Armenia"], antes)
+
     def test_feed_municipal_no_depende_del_filtro_general(self):
         from community_feeds import _relevante
         import re

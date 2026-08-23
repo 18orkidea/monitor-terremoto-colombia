@@ -579,8 +579,14 @@ def run() -> dict:
             "imagen_literal": d.get("imagen"),
         }
 
+    # Las búsquedas de prensa se derivan del MISMO catálogo que verá
+    # `build_municipios` —curados + los que abre el RUD—, no de uno propio: si
+    # se derivaran por separado, `busqueda_propia` podría afirmar de un
+    # municipio lo contrario de lo que hizo la corrida (M2).
+    from municipios import catalogo_municipios
     from sources.community_feeds import municipal_google_news_feeds
-    con_busqueda = {f["municipio"] for f in municipal_google_news_feeds()}
+    catalogo = catalogo_municipios(rud_por_mun, divipola)
+    con_busqueda = {f["municipio"] for f in municipal_google_news_feeds(catalogo)}
     from geo import grid_mmi_vigente
     grid_mmi = grid_mmi_vigente()
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,

@@ -5,8 +5,10 @@ por prensa o con intensidad percibida, aunque no hayan sido mapeadas por satéli
 """
 from __future__ import annotations
 
+import json
 import math
 import re
+import sqlite3
 import unicodedata
 
 from geo import point_in_wkt_polygon
@@ -450,6 +452,77 @@ def municipios_dinamicos(rud_municipios: dict | None,
     return extras
 
 
+def catalogo_municipios(rud_municipios: dict | None = None,
+                        divipola: dict | None = None) -> dict[str, dict]:
+    """El catálogo que el monitor observa: los curados a mano MÁS los que abre
+    el registro oficial.
+
+    Una sola definición porque de ella cuelgan dos cosas que tienen que decir
+    lo mismo: la ficha que se publica de cada municipio y la búsqueda de prensa
+    que se le hace. Cuando se separaron, 126 de los 207 municipios con
+    damnificados se quedaron sin búsqueda y el sitio publicaba de ellos «ni un
+    titular» sin haber preguntado nunca (M2).
+    """
+    # Copia de cada ficha: el catálogo se entrega para leerlo y anotarlo, y
+    # `MUNICIPIOS` es un literal del módulo — un `catalogo[m]["toponimos"] = …`
+    # de cualquier llamante reescribiría el catálogo curado para el resto del
+    # proceso, y el fallo aparecería en otro sitio.
+    return {mun: dict(meta) for mun, meta in
+            {**MUNICIPIOS,
+             **municipios_dinamicos(rud_municipios, divipola)}.items()}
+
+
+def _rud_ultimo_dia(conn: sqlite3.Connection) -> dict[tuple[str, str], dict]:
+    """Municipios del último día capturado del RUD, con la misma clave
+    normalizada que usa `publish.py` para cruzarlos con el catálogo.
+
+    El `ORDER BY familias DESC` no es decorativo y hay que dejarlo escrito:
+    `municipios_dinamicos` reparte el nombre a secas al PRIMERO de dos
+    homónimos («Argelia» para el Cauca y «Argelia (Valle del Cauca)» para el
+    otro), así que el orden de las filas decide las claves. Leerlas en otro
+    orden aquí daría un catálogo con nombres distintos a los que publica
+    `publish.py`, y los identificadores de los feeds dejarían de casar con los
+    titulares ya archivados. Es la misma consulta, deliberadamente.
+    """
+    fila = conn.execute("SELECT MAX(snapshot_date) FROM rud_daily").fetchone()
+    dia = fila[0] if fila else None
+    if not dia:
+        return {}
+    return {(_norm(dep), _norm(mun)): {"departamento": dep, "municipio": mun}
+            for dep, mun in conn.execute(
+                "SELECT departamento, municipio FROM rud_daily"
+                " WHERE snapshot_date=? ORDER BY familias DESC", (dia,))}
+
+
+def catalogo_vigente() -> dict[str, dict]:
+    """El catálogo de HOY, leído del archivo, para quien no tiene el RUD a mano.
+
+    Existe para que la lista de municipios observados no se mantenga a mano en
+    ningún sitio: el que entra hoy al registro oficial entra hoy al catálogo.
+    Si el archivo aún no está (clon nuevo, CI antes del `rebuild`), devuelve
+    los curados y sigue — un dato que falta degrada la cobertura, no la
+    corrida (R13).
+    """
+    from common import DB_PATH, PUBLIC        # local: esta capa es de dominio
+    rud: dict[tuple[str, str], dict] = {}
+    if DB_PATH.exists():
+        conn = sqlite3.connect(DB_PATH, timeout=60)
+        try:
+            rud = _rud_ultimo_dia(conn)
+        except sqlite3.Error:
+            rud = {}
+        finally:
+            conn.close()
+    div_path = PUBLIC / "divipola_coords.json"
+    divipola = None
+    if div_path.exists():
+        try:
+            divipola = json.loads(div_path.read_text()).get("items") or {}
+        except (OSError, json.JSONDecodeError):
+            divipola = None
+    return catalogo_municipios(rud, divipola)
+
+
 def build_municipios(noticias: list[dict], dyfi: dict | None,
                      aoi_extents: dict[str, str],
                      poblacion: dict | None = None,
@@ -459,7 +532,7 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      con_busqueda_propia: set[str] | None = None,
                      *, sertit: dict | None = None,
                      grid_mmi=None) -> tuple[list[dict], dict]:
-    catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
+    catalogo = catalogo_municipios(rud_municipios, divipola)
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
                "dyfi_respuestas": 0, "dyfi_celdas": 0, "dyfi_min_dist_km": None}

@@ -1833,3 +1833,83 @@ retirar cada @media, cada `transform` y cada clase del SVG—. **Una decimoterce
 sobrevive y se deja escrito por qué**: subir `.g-total` a 26 px en la banda de 760 no
 rompe ningún test porque no se sale ni se pisa con nada. Los guardianes son de
 **geometría, no de gusto**; que quede claro es mejor que un test que finge cubrirlo.
+
+## 2026-08-23 — La búsqueda de prensa se deriva del catálogo y crece sola
+
+Contexto: `municipal_google_news_feeds()` recorría `MUNICIPIOS`, el catálogo
+curado a mano. Pero el catálogo que el monitor observa es
+`{**MUNICIPIOS, **municipios_dinamicos(rud, divipola)}` — los que abre el propio
+registro oficial según crece. Medido el 22-ago-2026 sobre `municipios.json`: de
+**207** municipios con damnificados inscritos, **81** tenían búsqueda propia; de
+los **119** sin un solo titular, solo **10** la tenían. **El monitor publicaba
+que 119 municipios no tienen ni un titular y en 109 de ellos nunca llegó a
+preguntar.** Una celda vacía por «no hemos buscado» y otra por «no hay nada» se
+veían exactamente igual — justo el tipo de afirmación que este proyecto existe
+para no hacer.
+
+Decisión: la lista **se deriva del catálogo completo en cada corrida y no se
+mantiene a mano en ningún sitio**. `catalogo_municipios()` es la definición
+única —de ella cuelgan la ficha municipal y la búsqueda de prensa, que tienen
+que decir lo mismo (M2)— y `catalogo_vigente()` la deriva del archivo (último
+día del RUD + DIVIPOLA) para quien no tiene el registro a mano. Un municipio que
+el RUD estrene hoy tiene su búsqueda hoy, sin que nadie toque un fichero. De
+**82 a 203** búsquedas.
+
+Los dos cuidados que ya vivían en el docstring se convierten en código con
+nombre, `motivo_sin_busqueda()`, porque ahora los topónimos no los escribe una
+persona: llegan del registro oficial tal como el registro los escriba.
+
+1. **La frase buscada es el topónimo, no la clave**: `"riosucio (caldas)"` no
+   aparece en ningún titular — un feed que devuelve cero para siempre y nadie
+   sabe por qué. Se añade el caso hermano que solo puede llegar por la vía
+   dinámica: un nombre de catálogo administrativo («sotará - paispamba»).
+2. **Los homónimos de departamento no generan feed**, ni curados ni dinámicos:
+   `"bolivar" "cauca"` casa con los titulares del departamento y, como el feed
+   declara su municipio, colaría por la puerta de atrás la atribución que
+   `_menciona_municipio` rechaza (publish.py cree lo que el feed declara).
+
+Cuando no se puede construir una consulta segura **no se construye ninguna y se
+dice cuántos son** (M10): el resumen de la corrida lleva
+`_busquedas_municipales` con el recuento y el motivo de cada exclusión. Hoy son
+**cinco**, los cinco homónimos de departamento: Bolívar (Valle del Cauca),
+Bolívar (Cauca), Córdoba (Quindío), Risaralda (Caldas) y Sucre (Cauca).
+
+Coste medido, que es real: ~121 peticiones HTTP más por corrida, cada una con su
+snapshot y su fila en `sources_log` (R4). Al ritmo observado en `sources_log`
+—0,35-0,74 s por petición en las cinco últimas tandas— la tanda pasa de ~45 s
+a **~2 min**; los snapshots de estas búsquedas pasan de 7,3 MB a **entre 12 y
+18 MB al día** (el feed más pequeño de hoy pesa 6,6 KB y la mediana 83 KB),
+sobre los 19 MB diarios que ya se archivan, y **se versionan en git**. Nunca se
+ha registrado un 429 de Google News, pero la primera tanda (15-ago, 50
+peticiones) fue a 11,4 s por petición: a ese ritmo, 203 peticiones son 38 min y
+el `timeout-minutes: 45` de `daily.yml` queda al borde. No se pone un límite
+arbitrario: se deja el dato escrito y, si aparece, R13 ya degrada feed a feed
+sin romper la corrida.
+
+Hallazgo del camino, que no se buscaba: **el orden de las filas del RUD decide
+los nombres del catálogo**. `municipios_dinamicos` reparte el nombre a secas al
+primero de dos homónimos y el paréntesis al segundo, así que «Argelia» es la del
+Valle del Cauca (851 familias) y «Argelia (Cauca)» la del Cauca (1 familia)
+**porque `publish.py` lee las filas por familias descendentes**. La primera
+versión de `catalogo_vigente()` las leía sin ordenar y salían al revés: los
+identificadores de los feeds municipales habrían dejado de casar con los
+titulares ya archivados y con las URL de las fichas. Se deja el mismo `ORDER BY`
+—escrito y explicado— y un test que compara las dos derivaciones. Queda apuntado
+lo que no se toca aquí: la identidad de una ficha municipal depende hoy de una
+cifra que cambia todos los días, y si mañana el Cauca adelanta al Valle, la URL
+`/municipio/argelia/` pasaría a ser otro municipio. Eso es otra decisión.
+
+Guardián (R11): `tests/test_hipotesis.py::TestSupuestoBusquedaMunicipal` compara
+los municipios del catálogo con los que tienen búsqueda y **falla en cuanto
+aparece uno sin cubrir que no esté en la lista de excepciones escrita a mano** —
+y también si sobra una excepción. Que se rompa es la señal de que hay trabajo,
+no de que algo va mal. Siete mutaciones caen (M1): volver a recorrer solo el
+catálogo curado, quitar cada uno de los tres guardianes de consulta segura,
+buscar la clave en vez del topónimo, devolver el catálogo sin copiar y leer las
+filas del RUD sin ordenar.
+
+**El dato publicado no cambia hasta que pase una corrida real**: `busqueda_propia`
+seguirá diciendo lo de hoy hasta que el flujo diario vuelva a ejecutarse. Los tres
+niveles del banner de silencio (`site/ui.js::silencioDePrensa`) no se tocan aquí:
+cuando la corrida limpia pase, el segundo nivel se quedará casi vacío por sí solo
+y ese texto es otra decisión.

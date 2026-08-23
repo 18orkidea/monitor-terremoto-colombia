@@ -214,6 +214,13 @@
    "resumen": "En la lista de municipios se pulsa la fila entera, no solo el nombre.",
    "texto": "En la tabla de municipios, abrir la ficha de un municipio exigía acertar sobre su nombre: una palabra dentro de una fila de diez columnas, difícil de tocar en un teléfono. Ahora la fila entera lleva a la ficha, sin necesidad de JavaScript y sin multiplicar los enlaces: sigue habiendo un único enlace real por fila, que se puede recorrer con el tabulador y copiar como dirección. Las cifras siguen pudiéndose seleccionar y copiar, y las explicaciones que aparecen al posar el ratón sobre el estado, la población o las columnas de satélite siguen apareciendo: pulsar exactamente encima de un dato no abre la ficha, porque ahí manda el dato. La tabla del registro oficial no cambia; enlazar sus filas exige cruzar dos catálogos de nombres de municipio y ese cruce se hace en la ingesta, no al dibujar la página.",
    "url": "/municipios.html"
+  },
+  {
+   "fecha": "2026-08-23",
+   "tipo": "monitor",
+   "resumen": "El monitor busca prensa de 203 municipios, no de 82.",
+   "texto": "La tabla de municipios decía de 119 municipios que no tienen ni un titular, y en 109 de ellos el monitor nunca había llegado a preguntar: la búsqueda de prensa recorría una lista escrita a mano, mientras que la tabla se alimenta del registro oficial de damnificados, que crece cada día con municipios nuevos. Una casilla vacía porque no hay noticias y otra vacía porque nadie buscó se veían exactamente igual. Desde hoy la lista de búsquedas se deriva del propio registro en cada corrida: pasa de 82 a 203 municipios y crece sola, sin que nadie tenga que añadir nada. Quedan cinco fuera, y por una razón que se explica: Bolívar (Cauca), Bolívar (Valle del Cauca), Córdoba (Quindío), Risaralda (Caldas) y Sucre (Cauca) se llaman igual que un departamento, así que una búsqueda por su nombre traería noticias del departamento entero y se las atribuiría al municipio. Su prensa solo puede llegar por un medio local dado de alta a mano. La cobertura nueva se ve en el sitio a partir de la primera corrida completa.",
+   "url": "/municipios.html"
   }
  ]
 }

@@ -656,3 +656,93 @@ class TestVocabularioDeLasFuentes(unittest.TestCase):
             f"UNOSAT declara confianzas que el sitio no sabe traducir: "
             f"{huerfanos}. Se publicarían en inglés, y peor: nadie habría "
             f"decidido qué significan para el lector")
+
+
+class TestSupuestoBusquedaMunicipal(unittest.TestCase):
+    """R11: a todo municipio que el RUD registra hay que haberle preguntado.
+
+    El monitor publicaba «ni un titular» de 114 municipios y en 104 de ellos
+    nunca había llegado a preguntar: la lista de búsquedas recorría el
+    catálogo curado a mano, no el que abre el propio registro oficial. Una
+    celda vacía por «no hemos buscado» y otra por «no hay nada» se veían
+    exactamente igual.
+
+    Que este test falle es la señal de que hay trabajo, no de que algo va mal:
+    significa que el RUD estrenó un municipio al que el monitor no sabe
+    preguntar. Se mira, se decide y se anota aquí —nunca se amplía la lista de
+    excepciones sin mirar el municipio—.
+    """
+
+    # Municipios que NO pueden tener búsqueda propia, uno a uno y por su
+    # nombre: todos se llaman igual que un departamento colombiano, así que
+    # `"bolivar" "cauca"` casaría con los titulares del departamento y el feed,
+    # que declara su municipio, colaría esa atribución por la puerta de atrás.
+    # Su prensa solo puede venir de un feed del registro comunitario.
+    # Las claves son las que reparte `municipios_dinamicos`: el nombre a secas
+    # va al primero de dos homónimos por familias registradas, así que
+    # «Bolívar» es hoy el del Valle del Cauca y el del Cauca lleva su
+    # departamento entre paréntesis.
+    SIN_BUSQUEDA_ESPERADOS = {
+        "Bolívar",            # Valle del Cauca
+        "Bolívar (Cauca)",
+        "Córdoba",            # Quindío
+        "Risaralda",          # Caldas
+        "Sucre",              # Cauca
+    }
+
+    def test_todo_municipio_del_rud_recibe_su_busqueda_de_prensa(self):
+        why = skip_sin_datos("rud_daily")
+        if why:
+            self.skipTest(why)
+        from municipios import catalogo_vigente
+        sys.path.insert(0, str(ROOT / "ingest" / "sources"))
+        from community_feeds import municipal_google_news_feeds, motivo_sin_busqueda
+        catalogo = catalogo_vigente()
+        con_busqueda = {f["municipio"] for f in municipal_google_news_feeds(catalogo)}
+        # el catálogo vigente ES el del RUD más los curados: lo que interesa
+        # aquí es que nadie se quede fuera de la pregunta
+        sin = {mun: motivo_sin_busqueda(meta) for mun, meta in catalogo.items()
+               if mun not in con_busqueda}
+        nuevos = {m: v for m, v in sin.items()
+                  if m not in self.SIN_BUSQUEDA_ESPERADOS}
+        self.assertEqual(
+            nuevos, {},
+            f"Municipios del catálogo sin búsqueda propia de prensa: {nuevos}. "
+            f"El sitio dirá de ellos «ni un titular» sin haber preguntado — "
+            f"mirar el motivo y, si es legítimo, anotarlo en "
+            f"SIN_BUSQUEDA_ESPERADOS con su porqué")
+        # y al revés: si un homónimo deja de serlo (o desaparece del RUD), la
+        # excepción sobra y hay que quitarla — una lista de excepciones que
+        # nadie poda acaba tapando huecos de verdad
+        sobran = self.SIN_BUSQUEDA_ESPERADOS - set(sin)
+        self.assertEqual(sobran, set(),
+                         f"excepciones que ya no hacen falta: {sobran}")
+
+    def test_el_catalogo_de_las_busquedas_es_el_que_se_publica(self):
+        """M2: `catalogo_vigente()` (de donde salen las búsquedas y los
+        identificadores de sus feeds) y el catálogo que arma `publish.py` para
+        las fichas tienen que dar las MISMAS claves.
+
+        No es una formalidad: `municipios_dinamicos` reparte el nombre a secas
+        al primero de dos homónimos —«Argelia» al Cauca y «Argelia (Valle del
+        Cauca)» al otro—, así que el orden de las filas del RUD decide las
+        claves, y de las claves cuelgan la URL de la ficha y el id del feed.
+        Leerlas en otro orden publicaría un municipio con el nombre del otro.
+        """
+        why = skip_sin_datos("rud_daily")
+        if why:
+            self.skipTest(why)
+        from municipios import catalogo_municipios, catalogo_vigente, _norm
+        div_path = ROOT / "data" / "public" / "divipola_coords.json"
+        divipola = (json.loads(div_path.read_text()).get("items")
+                    if div_path.exists() else {})
+        ult = q("SELECT MAX(snapshot_date) FROM rud_daily")[0][0]
+        # espejo literal de la consulta de ingest/publish.py::run
+        filas = q("SELECT departamento, municipio FROM rud_daily"
+                  " WHERE snapshot_date=? ORDER BY familias DESC", ult)
+        rud = {(_norm(dep), _norm(mun)): {"departamento": dep, "municipio": mun}
+               for dep, mun in filas}
+        self.assertEqual(
+            set(catalogo_municipios(rud, divipola)), set(catalogo_vigente()),
+            "el catálogo de las búsquedas y el de las fichas dan nombres "
+            "distintos: los feeds municipales dejarían de casar con las fichas")

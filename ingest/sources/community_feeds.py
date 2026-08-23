@@ -14,7 +14,7 @@ from email.utils import parsedate_to_datetime
 from urllib.parse import quote_plus, urlparse
 
 from common import db, fetch, today, ROOT
-from municipios import MUNICIPIOS
+from municipios import catalogo_vigente
 
 REGISTRY = ROOT / "feeds" / "registry.json"
 GOOGLE_NEWS_RSS = "https://news.google.com/rss/search"
@@ -101,8 +101,51 @@ def _slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", _norm(s)).strip("-")
 
 
-def municipal_google_news_feeds() -> list[dict]:
+# Un topónimo escrito como lo escribe un catálogo administrativo —paréntesis
+# de desambiguación, guion de fusión municipal («sotara - paispamba»), punto de
+# abreviatura— no aparece así en ningún titular. Se admite la coma porque el
+# corpus la usa como contexto de verdad («san jose, caldas»).
+TOPONIMO_BUSCABLE = re.compile(r"[a-z0-9 ,]+")
+
+
+def _primer_toponimo(meta: dict) -> str | None:
+    return next((t.strip() for t in (meta.get("toponimos") or []) if t.strip()),
+                None)
+
+
+def motivo_sin_busqueda(meta: dict) -> str | None:
+    """Por qué NO se puede preguntar por este municipio; None si sí se puede.
+
+    Mejor un hueco declarado que un feed que trae titulares de otro sitio o que
+    devuelve cero para siempre sin que nadie sepa por qué (M10).
+    """
+    from municipios import _norm
+    if meta.get("homonimo_de_departamento"):
+        # `"risaralda" "caldas"` casa con los titulares del DEPARTAMENTO, y
+        # como el feed declara su municipio se colaría por la puerta de atrás
+        # la atribución que `_menciona_municipio` rechaza (publish.py confía en
+        # lo que el feed declara). Su prensa solo puede venir de un feed del
+        # registro comunitario, donde el municipio lo declara una persona.
+        return "homónimo de departamento"
+    frase = _primer_toponimo(meta)
+    if not frase:
+        return "sin topónimo"
+    if not TOPONIMO_BUSCABLE.fullmatch(_norm(frase)):
+        return f"topónimo no buscable en prensa: «{frase}»"
+    if not _norm(meta.get("departamento") or "").strip():
+        return "sin departamento con el que desambiguar"
+    return None
+
+
+def municipal_google_news_feeds(catalogo: dict | None = None) -> list[dict]:
     """Búsquedas Google News por municipio observado en el área de influencia.
+
+    La lista se DERIVA del catálogo completo —los curados a mano más los que
+    abre el propio RUD— en cada corrida: un municipio que el registro oficial
+    estrene hoy tiene su búsqueda hoy, sin que nadie toque un fichero. Cuando
+    recorría solo el catálogo curado, 126 de los 207 municipios con damnificados
+    se quedaban sin búsqueda y el sitio publicaba de ellos «ni un titular» sin
+    haber preguntado nunca.
 
     Dos cuidados que no son cosméticos:
 
@@ -111,19 +154,17 @@ def municipal_google_news_feeds() -> list[dict]:
       `"riosucio (caldas)"`, que no aparece en ningún titular — un feed que
       devuelve cero para siempre y nadie sabe por qué.
     - Los municipios homónimos de un departamento (Risaralda en Caldas,
-      Córdoba en Quindío) NO generan feed: su búsqueda `"risaralda" "caldas"`
-      casa con los titulares del departamento, y como el feed declara su
-      municipio, se colaría por la puerta de atrás la atribución que
-      `_menciona_municipio` rechaza. Su prensa solo puede venir de un feed del
-      registro comunitario, donde el municipio lo declara una persona.
+      Córdoba en Quindío) NO generan feed, ni curados ni dinámicos: ver
+      `motivo_sin_busqueda`.
     """
     from municipios import _norm
+    catalogo = catalogo_vigente() if catalogo is None else catalogo
     feeds = []
-    for municipio, meta in MUNICIPIOS.items():
-        if meta.get("homonimo_de_departamento"):
+    for municipio, meta in catalogo.items():
+        if motivo_sin_busqueda(meta):
             continue
         depto = meta["departamento"]
-        frase = meta["toponimos"][0]
+        frase = _primer_toponimo(meta)
         query = f'("terremoto" OR "sismo" OR "temblor") "{frase}" "{_norm(depto)}"'
         feeds.append({
             "id": f"googlenews-municipio-{_slug(municipio)}",
@@ -140,10 +181,19 @@ def municipal_google_news_feeds() -> list[dict]:
     return feeds
 
 
-def iter_feeds(reg: dict) -> list[dict]:
+def municipios_sin_busqueda(catalogo: dict | None = None) -> dict[str, str]:
+    """Los municipios del catálogo a los que el monitor no puede preguntar, con
+    su motivo. Un hueco que se cuenta y se explica no es lo mismo que un hueco
+    que se calla."""
+    catalogo = catalogo_vigente() if catalogo is None else catalogo
+    return {mun: motivo for mun, meta in catalogo.items()
+            if (motivo := motivo_sin_busqueda(meta))}
+
+
+def iter_feeds(reg: dict, catalogo: dict | None = None) -> list[dict]:
     feeds = list(reg.get("feeds", []))
     if reg.get("busquedas_municipales_google_news", True):
-        feeds.extend(municipal_google_news_feeds())
+        feeds.extend(municipal_google_news_feeds(catalogo))
     return feeds
 
 
@@ -168,8 +218,21 @@ def run() -> dict:
     pat = re.compile("|".join(re.escape(k) for k in kws)) if kws else None
     conn = db()
     snap = today()
-    out = {}
-    for feed in iter_feeds(reg):
+    # El catálogo se deriva UNA vez por corrida y de él salen las dos listas:
+    # a quién se pregunta y a quién no se ha podido preguntar. Derivarlas por
+    # separado sería volver a tener dos copias que pueden discrepar (M2).
+    catalogo = catalogo_vigente()
+    feeds = iter_feeds(reg, catalogo)
+    # Primero el recuento, para que el resumen de la corrida diga a cuántos
+    # municipios se preguntó y a cuántos no se pudo — un hueco que se cuenta no
+    # se confunde con un municipio del que no hay nada que contar.
+    sin_busqueda = municipios_sin_busqueda(catalogo)
+    out: dict = {"_busquedas_municipales": {
+        "feeds": sum(1 for f in feeds if f.get("municipio")),
+        "sin_busqueda_segura": len(sin_busqueda),
+        "municipios_sin_busqueda_segura": sin_busqueda,
+    }}
+    for feed in feeds:
         if not feed.get("activo") or feed.get("tipo") != "rss":
             continue  # los 'builtin' (GDACS EMM) los ingesta su propio módulo
         fid = feed["id"]

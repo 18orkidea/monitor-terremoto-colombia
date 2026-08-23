@@ -533,37 +533,49 @@ Lo que queda como limitación:
   «mención en prensa» a «solo registro municipal (RUD)». Los ceros no valen
   todos lo mismo: en **Guacarí y Quinchía** el nombre no admite duda y el
   monitor lanza una búsqueda propia, así que ahí el cero es el dato. En los
-  otros seis solo se atribuyen titulares que nombren también el departamento, y
-  **Argelia y Trujillo** ni siquiera tienen búsqueda propia (ver la sección
-  siguiente): su cero es en parte silencio del monitor.
+  otros seis solo se atribuyen titulares que nombren también el departamento,
+  así que el cero puede ser del filtro. **Argelia y Trujillo** tampoco tenían
+  búsqueda propia hasta el 23-ago-2026 (ver la sección siguiente): su cero fue,
+  hasta esa fecha, en parte silencio del monitor.
 
-## Los municipios que entran solos por el RUD no tienen búsqueda propia de prensa
+## Cinco municipios no pueden tener búsqueda propia de prensa
 
-`municipal_google_news_feeds()` genera una búsqueda de Google News por cada
-municipio del catálogo curado de `ingest/municipios.py`. Los que entran solos
-desde el RUD (`municipios_dinamicos`) **no la generan**: su prensa solo puede
-llegar si un titular de otro feed los nombra junto a su departamento, porque
-nacen con `requiere_depto`.
+Hasta el 23-ago-2026, `municipal_google_news_feeds()` recorría **solo el catálogo
+curado a mano** de `ingest/municipios.py`. Los municipios que entran solos desde
+el RUD (`municipios_dinamicos`) no generaban búsqueda: su prensa solo podía
+llegar si un titular de otro feed los nombraba junto a su departamento. Medido
+el 22-ago-2026 sobre `municipios.json`: de **207** municipios con damnificados
+registrados, **81** tenían búsqueda propia; de los **119** sin ni un titular,
+solo **10**. El monitor publicaba «ni un titular» de municipios a los que nunca
+había preguntado, y una celda vacía por «no hemos buscado» se veía igual que una
+por «no hay nada».
 
-Medido el 19-ago-2026: de los 33 municipios con damnificados registrados y cero
-titulares atribuidos, **23 no tienen búsqueda propia**. Su silencio es, en parte,
-silencio del monitor. Por eso el banner de la página de municipios separa tres
-niveles y solo afirma el cero de los municipios que cumplen las dos condiciones:
-topónimo sin ambigüedad **y** búsqueda propia de prensa.
+Desde entonces la lista **se deriva del catálogo completo en cada corrida** y
+crece sola: el municipio que el RUD estrene hoy tiene su búsqueda hoy. Pasa de
+82 a **203** búsquedas. **El dato publicado solo lo refleja después de una
+corrida real**: hasta que el flujo diario vuelva a pasar, `busqueda_propia`
+sigue diciendo lo que decía.
 
-De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular
-desde que la búsqueda existe** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—.
-Conviene medir la afirmación: esas búsquedas nacieron el 18-ago-2026 y llevan
-cinco peticiones registradas en `sources_log`, no meses. Y desde el 19-ago ese
-cero histórico ya **no se puede comprobar desde `noticias.json`**, precisamente
-porque este cambio sacó del producto público lo anterior al sismo: consta en la
-base local y en los snapshots.
+Queda un hueco, y es deliberado: **cinco municipios no reciben búsqueda propia
+porque se llaman igual que un departamento** —Bolívar (Cauca), Bolívar (Valle
+del Cauca), Córdoba (Quindío), Risaralda (Caldas) y Sucre (Cauca)—. La consulta
+`"bolivar" "cauca"` casa con los titulares del departamento de Bolívar, y como
+el feed declara su municipio colaría por la puerta de atrás la atribución que el
+emparejador de topónimos rechaza (R10). Su prensa solo puede venir de un feed
+del registro comunitario, donde el municipio lo declara una persona. Lo mismo
+vale para un municipio que llegara sin topónimo utilizable o con el nombre
+escrito como lo escribe un catálogo administrativo («sotará - paispamba», que no
+aparece así en ningún titular): **no se construye ninguna consulta y se dice
+cuántos son**, en el resumen de la corrida y en
+`tests/test_hipotesis.py::TestSupuestoBusquedaMunicipal`, que avisa (R11) en
+cuanto aparezca uno nuevo sin cubrir.
 
 Laguna emparentada, ya descrita más arriba: la tabla de municipios cuenta solo
 las menciones que pasan el filtro de topónimo, mientras que la página de
 titulares atribuye además por el municipio que declara el feed. Un municipio con
 búsqueda propia puede mostrar «0» en la tabla y tener titulares en su página de
 prensa (Andalucía y Obando son los casos vivos).
+
 ## La URL original de la mitad de los titulares se perdió en el origen
 
 De las noticias que llegan por búsquedas de Google News —cerca de la mitad del
