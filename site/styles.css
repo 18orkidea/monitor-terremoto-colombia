@@ -594,6 +594,58 @@ a.metric-card:hover { border-color: var(--s1); }
   .mapa-estatico text { stroke-width: 5px; }
 }
 
+/* El gráfico del RUD tiene el MISMO problema que el mapa y se arregla igual.
+   Su `viewBox` mide 900 y en un móvil de 375 px se dibuja sobre 313: los
+   rótulos de 10 caían a 3,5 px efectivos, ilegibles. El tamaño base sigue
+   viniendo del atributo `font-size` del SVG —así el gráfico se lee aunque la
+   hoja no cargue— y aquí solo se sube en pantalla estrecha.
+
+   Los topes NO son estéticos, son geométricos y por eso van comentados:
+   · `.g-eje` no puede pasar de 15 porque su rótulo más largo («110.254») se
+     escribe hacia la izquierda dentro de los 58 unidades del margen; más
+     grande y el SVG lo recorta.
+   · `.g-alta`, `.g-dia` y `.g-total` están limitados por la separación entre
+     puntos: hoy son 153 unidades y la etiqueta más ancha mide 87 a 24 px.
+     Con la serie creciendo, ese margen se estrecha —lo vigila
+     `test_los_rotulos_del_grafico_caben_en_movil`—.
+   · La leyenda solo escala porque su segunda entrada se aparta a la derecha;
+     si no, las dos se solapan.
+
+   Y son DOS bandas, no una, porque el SVG no encoge de golpe: entre 481 y 760
+   px se dibuja sobre 400-680, y el salto de la banda estrecha lo dejaría
+   ilegible por el otro lado, más grande que en escritorio. Las dos van
+   vigiladas por `TestElGraficoSeLeeEnMovil`, que reconstruye la cascada. */
+@media (max-width: 760px) {
+  .grafico-rud .g-eje     { font-size: 13px; }
+  .grafico-rud .g-vacio   { font-size: 12px; }
+  .grafico-rud .g-alta,
+  .grafico-rud .g-dia     { font-size: 14px; }
+  .grafico-rud .g-total   { font-size: 15px; }
+  .grafico-rud .g-leyenda { font-size: 14px; }
+  .grafico-rud .g-leyenda-2 { transform: translate(180px, 0); }
+  .grafico-rud .g-vacio { transform: translate(0, -5px); }
+  .grafico-rud .g-dia   { transform: translate(0, 8px); }
+}
+@media (max-width: 480px) {
+  .grafico-rud .g-eje     { font-size: 15px; }
+  .grafico-rud .g-alta,
+  .grafico-rud .g-dia     { font-size: 24px; }
+  .grafico-rud .g-total   { font-size: 26px; }
+  .grafico-rud .g-leyenda { font-size: 22px; }
+  /* Al crecer la letra, cuatro rótulos se disputan la esquina de abajo a la
+     izquierda: el acumulado del primer día, el «sin base», el cero del eje y
+     la fecha. Es una esquina estrecha por construcción —con `piso` en 0, la
+     línea del cero y el pie del lienzo distan 16 unidades—, así que la fecha
+     baja y el «sin base» se queda pequeño: es la única de las cuatro que el
+     `<p class="sub">` de encima ya explica con todas sus letras («El primer
+     día no tiene una captura previa con la que compararse»). Se separan aquí,
+     donde nació el problema, y no moviendo la geometría, que cambiaría
+     también el gráfico de escritorio.
+     Medido, no estimado: `test_ningun_rotulo_se_pisa_en_movil`. */
+  .grafico-rud .g-vacio { font-size: 14px; transform: translate(0, -6px); }
+  .grafico-rud .g-dia   { transform: translate(0, 14px); }
+}
+
 /* En móvil el margen lateral de 20 px se come una décima parte del ancho útil:
    un solo token y toda la página se estrecha a la vez. */
 @media (max-width: 560px) {
@@ -1134,6 +1186,10 @@ details.pliegue[open]>summary::before{content:"▾ "}
    fichas, `.aviso`—; aplicarla a un bloque alineado a la izquierda no produce
    una columna de lectura, produce un hueco. */
 details.pliegue p{font-size:14.5px;color:var(--ink-2)}
+/* Una .intro dentro del plegable recibiría DOS ejes: el suyo más el de
+   details.pliegue. El eje lo pone el contenedor y solo él — es el mismo fallo
+   ya corregido en `.zona-datos > .contenido`. */
+details.pliegue > .intro { margin-left: 0; margin-right: 0; }
 details.denso{border-top:1px solid var(--border)}
 details.denso>summary{color:var(--ink)}
 

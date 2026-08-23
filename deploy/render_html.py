@@ -2066,7 +2066,8 @@ def grafico_rud(ctx: dict) -> str:
     ticks = [piso, 0, techo] if piso < 0 else [0, techo / 2, techo]
 
     o = [f'<svg viewBox="0 0 {W} {H}" width="100%" xmlns="http://www.w3.org/2000/svg"'
-         f' role="img" aria-labelledby="rud-chart-title rud-chart-desc">',
+         f' role="img" class="grafico-rud"'
+         f' aria-labelledby="rud-chart-title rud-chart-desc">',
          '<title id="rud-chart-title">Familias registradas en el RUD: total '
          'acumulado y nuevas inscripciones</title>',
          f'<desc id="rud-chart-desc">{e(descripcion)}</desc>']
@@ -2075,13 +2076,15 @@ def grafico_rud(ctx: dict) -> str:
         o.append(f'<line x1="{_n(m_l)}" x2="{_n(W - m_r)}" y1="{_n(yy)}" '
                  f'y2="{_n(yy)}" stroke="var(--grid)"/>'
                  f'<text x="{_n(m_l - 6)}" y="{_n(yy + 4)}" text-anchor="end" '
-                 f'font-size="10" fill="var(--muted)">{fmt(round(v))}</text>')
+                 f'class="g-eje" font-size="10" fill="var(--muted)">'
+                 f'{fmt(round(v))}</text>')
 
     # Las barras van primero para que la curva acumulada permanezca legible encima.
     for i, valor in enumerate(altas):
         if valor is None:
             o.append(f'<text x="{_n(x(i))}" y="{_n(y0 - 7)}" text-anchor="middle" '
-                     f'font-size="9" fill="var(--muted)">sin base</text>')
+                     f'class="g-vacio" font-size="9" fill="var(--muted)">'
+                     f'sin base</text>')
             continue
         yy = y(valor)
         # Una corrección a la baja NO es un cero ni un hueco: se pinta con el
@@ -2097,8 +2100,8 @@ def grafico_rud(ctx: dict) -> str:
             f'<title>{e(fecha_larga(serie[i].get("fecha")))}: {etiqueta} familias '
             f'desde la captura anterior</title></rect>'
             f'<text x="{_n(x(i))}" y="{_n(yy + 13 if valor < 0 else yy - 6)}" '
-            f'text-anchor="middle" font-size="10" font-weight="600" '
-            f'fill="{color}">{etiqueta}</text>')
+            f'text-anchor="middle" class="g-alta" font-size="10" '
+            f'font-weight="600" fill="{color}">{etiqueta}</text>')
 
     linea = " ".join(f'{"L" if i else "M"} {_n(x(i))} {_n(y(d.get("familias") or 0))}'
                      for i, d in enumerate(serie))
@@ -2119,22 +2122,28 @@ def grafico_rud(ctx: dict) -> str:
             f'familias acumuladas, {fmt(d.get("municipios"))} municipios'
             f'{origen}</title></circle>'
             f'<text x="{_n(x(i))}" y="{_n(cy - 10)}" text-anchor="middle" '
-            f'font-size="11" font-weight="600" fill="var(--good)">'
+            f'class="g-total" font-size="11" font-weight="600" fill="var(--good)">'
             f'{fmt(d.get("familias"))}</text>'
             f'<text x="{_n(x(i))}" y="{_n(H - m_b + 16)}" text-anchor="middle" '
-            f'font-size="10" fill="var(--muted)">{dia_mes(d.get("fecha"))}</text>')
+            f'class="g-dia" font-size="10" fill="var(--muted)">'
+            f'{dia_mes(d.get("fecha"))}</text>')
 
     lx = m_l
     o.append(
         f'<rect x="{_n(lx)}" y="7" width="12" height="9" rx="2" fill="var(--s8)" '
         f'fill-opacity="0.28" stroke="var(--s8)"/>'
-        f'<text x="{_n(lx + 18)}" y="15" font-size="10" fill="var(--ink-2)">'
-        f'Nuevas desde captura anterior</text>'
+        f'<text x="{_n(lx + 18)}" y="15" class="g-leyenda" font-size="10" '
+        f'fill="var(--ink-2)">Nuevas desde captura anterior</text>'
+        # La segunda entrada viaja en su propio grupo porque en pantalla
+        # estrecha la letra CRECE (ver `.grafico-rud` en styles.css) y la
+        # primera entrada —29 caracteres— se le echaría encima. Desplazarla
+        # con una @media es lo único que deja escalar también la leyenda.
+        f'<g class="g-leyenda-2">'
         f'<line x1="{_n(lx + 207)}" x2="{_n(lx + 227)}" y1="12" y2="12" '
         f'stroke="var(--good)" stroke-width="2.5"/>'
         f'<circle cx="{_n(lx + 217)}" cy="12" r="3.5" fill="var(--good)"/>'
-        f'<text x="{_n(lx + 234)}" y="15" font-size="10" fill="var(--ink-2)">'
-        f'Total acumulado</text></svg>')
+        f'<text x="{_n(lx + 234)}" y="15" class="g-leyenda" font-size="10" '
+        f'fill="var(--ink-2)">Total acumulado</text></g></svg>')
     return "".join(o)
 
 

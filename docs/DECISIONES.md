@@ -1686,3 +1686,75 @@ Laguna medida y no corregida aquí: a 375 px los rótulos del gráfico caen de u
 anterior, pero **el porte lo empeora un 24 %**. La solución conocida está al lado —las
 media queries de `.mapa-estatico`, que hacen CRECER la letra en pantalla estrecha— y es
 un cambio visible: va con el reorden de la página, no colado aquí.
+
+## 2026-08-23 — `rud.html` se reordena: el dato arriba, la metodología plegada
+
+Contexto: la página abría con cuatro párrafos de introducción —268 palabras— entre la
+entradilla y el primer gráfico. Medido a 375 × 812, había que bajar **más de una pantalla
+entera** antes de ver una cifra, y la página entera medía **4,71 pantallas**. Es la
+primera de las cinco que se reordena y **la única parte de la fase que se ve**.
+
+Decisión: **mover, no reescribir.** Los cuatro párrafos se reparten literales entre dos
+plegables, con el reparto que dio JP:
+
+- Arriba, entre la entradilla y la tabla, `<details class="pliegue">` **«Cómo leer estas
+  cifras»** con los dos párrafos que enseñan a leerla (80 + 43 = **123 palabras**). Van
+  antes de la tabla porque es lo que explican.
+- Al final, `<details class="pliegue denso">` **«Qué es el RUD y qué no es»** con los dos
+  que definen la fuente (46 + 99 = **145**). 123 + 145 = **268**: ni una palabra menos.
+- En medio, una `<div class="zona-datos">` con el gráfico y la tabla, que suben.
+
+Tres decisiones de forma, con su porqué:
+
+- **El `<h2>` y el `<p class="sub">` del gráfico se quedan en el HTML**, no pasan al
+  generador: es lo que deja pasar sin relajarlo a
+  `TestTablaRud::test_el_grafico_explica_las_dos_series_y_la_primera_captura`.
+- **Una línea de CSS nueva**, `details.pliegue > .intro { margin-left: 0; margin-right: 0 }`:
+  una `.intro` dentro del plegable recibiría **dos ejes**, el suyo y el del contenedor.
+  Es el mismo fallo ya corregido en `.zona-datos > .contenido`, y ahora tiene test.
+- **El plegable es el componente, no el `<details>` desnudo del navegador**: los dos
+  llevan `class="pliegue"`, que es para lo que se declaró en el lote 3.
+
+Se cierra además la laguna que dejó abierta la entrada anterior: **la legibilidad del SVG
+a 375 px**. Se aplica el patrón de `.mapa-estatico` —la letra CRECE en pantalla estrecha,
+porque el texto vive dentro del `viewBox` y encoge con él— con clases por tipo de rótulo
+(`g-eje`, `g-alta`, `g-dia`, `g-total`, `g-vacio`, `g-leyenda`) y el `font-size` del SVG
+como base, de modo que **el gráfico de escritorio no cambia un píxel**. Los rótulos de
+dato pasan de **3,46 a 8,3-9,0 px efectivos**. Tres topes son geométricos, no estéticos, y
+por eso llevan test en vez de comentario:
+
+1. El rótulo del eje se escribe **hacia la izquierda** dentro de las 58 unidades del
+   margen: por encima de 15 px el SVG lo recorta (5,2 px efectivos, el único que no se
+   arregla sin cambiar la geometría).
+2. Los rótulos de los puntos no pueden ser más anchos que la separación entre puntos.
+   Hoy sobra —87 unidades de 153— pero **la serie crece cada día**, así que el margen se
+   estrecha solo y el test avisa (R11) antes de que se pisen.
+3. La segunda entrada de la leyenda **se aparta a la derecha** con un `transform` en la
+   propia @media; sin eso, las dos entradas se solapan en cuanto la letra crece.
+
+Son **dos bandas de @media y no una** —760 y 480—, porque el SVG no encoge de golpe:
+entre 481 y 760 px se dibuja sobre 400-680 y el salto de la banda estrecha lo dejaría
+más grande que en escritorio. Medido en las dos: 6,0-7,0 px efectivos a 481 px (el punto
+más flojo, justo por encima del corte), 11,1-12,0 a 480 y 9,9-11,4 a 760. El test
+reconstruye la cascada de las dos bandas: mirar solo la de 480 dejaba la tableta sin
+vigilar, y ahí sí había rótulos superpuestos.
+
+Y una renuncia medida: el **«sin base»** del primer día se queda pequeño. Cuatro rótulos
+se disputan la esquina de abajo a la izquierda —con `piso` en 0, la línea del cero y el
+pie del lienzo distan 16 unidades— y es el único de los cuatro que el `<p class="sub">`
+de encima ya explica con todas sus letras.
+
+Consecuencia: `rud.html` baja de **4,71 a 3,78 pantallas** a 375 px y el primer dato pasa
+de estar a más de una pantalla a estar **a 310 px**; el gráfico entero cabe en la primera
+pantalla (809 px de 812). **No llega a las 2,9 pantallas que preveía el plan, y no puede
+llegar moviendo prosa**: cerrados los dos plegables, lo que queda son 90 px de barra, 206
+de encabezado, 289 de entradilla, 1.658 de datos y **691 de pie** — el pie solo son 0,85
+pantallas. Bajar de ahí es paginar la tabla de otra manera o adelgazar el pie, y las dos
+cosas son otra decisión. `seo_check` da **+12 palabras exactas** en `rud.html` (3.210 →
+3.222) y **cero** en las otras cuatro: las 12 son los dos `<summary>` nuevos, lo único
+que se escribe en todo el paso. 588 → **597 tests**; **doce mutaciones caen** (M1) —
+quitar un párrafo del plegable, romper la línea del doble eje, anidar un plegable en otro,
+retirar cada @media, cada `transform` y cada clase del SVG—. **Una decimotercera
+sobrevive y se deja escrito por qué**: subir `.g-total` a 26 px en la banda de 760 no
+rompe ningún test porque no se sale ni se pisa con nada. Los guardianes son de
+**geometría, no de gusto**; que quede claro es mejor que un test que finge cubrirlo.

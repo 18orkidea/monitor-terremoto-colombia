@@ -1552,6 +1552,233 @@ class TestGraficoRud(unittest.TestCase):
         self.assertEqual(html.read_text(encoding="utf-8").count("<svg"), 1)
 
 
+class TestLosDosPlegablesDelRud(unittest.TestCase):
+    """La introducción se reparte entre dos plegables y no se pierde una palabra.
+
+    La página servía cuatro párrafos —268 palabras— entre la entradilla y el
+    primer dato. Se pliegan en dos: arriba, antes de la tabla, los dos que
+    enseñan a LEERLA (123 palabras); al final, los dos que dicen QUÉ ES el RUD
+    y qué no es (145). El reparto lo decidió JP el 23-ago y los dos superan su
+    umbral de 120 palabras.
+
+    Es un movimiento, no una reescritura, y este test es lo único que lo
+    distingue: sin él, resumir un párrafo «para que quepa» deja la suite en
+    verde y se lleva por delante prosa que ya estaba publicada."""
+
+    PALABRAS = {"Cómo leer estas cifras": 123, "Qué es el RUD y qué no es": 145}
+    UMBRAL = 120        # nada se pliega por debajo (criterio de JP)
+
+    @classmethod
+    def setUpClass(cls):
+        html = (ROOT / "site" / "rud.html").read_text(encoding="utf-8")
+        cls.bloques = re.findall(
+            r'<details class="pliegue[^"]*">(.*?)</details>', html, re.S)
+        cls.html = html
+
+    @staticmethod
+    def _palabras(fragmento):
+        return len(re.sub(r"<[^>]+>", " ", fragmento).split())
+
+    def test_son_dos_y_ninguno_vive_dentro_del_otro(self):
+        self.assertEqual(len(self.bloques), 2, "`rud.html` tiene dos plegables")
+        for b in self.bloques:
+            self.assertNotIn("<details", b, "ningún plegable dentro de otro")
+
+    def test_cada_plegable_conserva_su_mitad_de_la_introduccion(self):
+        visto = {}
+        for b in self.bloques:
+            titulo = re.search(r"<summary>(.*?)</summary>", b, re.S).group(1).strip()
+            cuerpo = re.search(r'<section class="intro">(.*?)</section>', b, re.S)
+            self.assertIsNotNone(
+                cuerpo, f"«{titulo}» ya no envuelve su prosa en una .intro")
+            visto[titulo] = self._palabras(cuerpo.group(1))
+        self.assertEqual(visto, self.PALABRAS,
+                         "alguien reescribió, resumió o perdió un párrafo de la "
+                         "introducción: era un movimiento, no una redacción")
+        self.assertEqual(sum(visto.values()), 268,
+                         "las 268 palabras de la introducción no cuadran")
+        for titulo, n in visto.items():
+            self.assertGreaterEqual(
+                n, self.UMBRAL,
+                f"«{titulo}» tiene {n} palabras: nada se pliega por debajo de "
+                f"{self.UMBRAL}, porque plegar lo corto solo esconde")
+
+    def test_el_que_ensena_a_leer_va_antes_de_la_tabla_y_el_otro_al_final(self):
+        """El orden es el argumento: se explica cómo leer la tabla ANTES de la
+        tabla, y qué es el RUD después, para quien siga preguntándoselo."""
+        i_como = self.html.index("Cómo leer estas cifras")
+        i_zona = self.html.index('<div class="zona-datos">')
+        i_que = self.html.index("Qué es el RUD y qué no es")
+        self.assertLess(i_como, i_zona, "el «cómo leer» quedó debajo de la tabla")
+        self.assertLess(i_zona, i_que, "el «qué es» quedó por encima de la tabla")
+
+    def test_el_plegable_no_sangra_dos_veces(self):
+        """Una `.intro` dentro de `details.pliegue` recibiría DOS ejes: el suyo
+        (`margin: 6px var(--margen)`) más el del contenedor. El eje lo pone el
+        contenedor y solo él — mismo fallo ya corregido en `.zona-datos >
+        .contenido`. Sin esta regla el texto de los dos plegables empieza más
+        adentro que su propio título, y la suite seguía en verde."""
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        regla = re.search(r"details\.pliegue\s*>\s*\.intro\s*\{([^}]*)\}", css)
+        self.assertIsNotNone(regla, "no está la regla que quita el segundo eje")
+        for lado in ("margin-left", "margin-right"):
+            self.assertRegex(regla.group(1), rf"{lado}:\s*0",
+                             f"el plegable sigue sangrando por {lado}")
+
+
+class TestElGraficoSeLeeEnMovil(unittest.TestCase):
+    """Los rótulos crecen en pantalla estrecha, y crecen lo que caben.
+
+    El `viewBox` mide 900 y en un móvil de 375 px el SVG se dibuja sobre 313:
+    un `font-size` de 10 vale 3,5 px efectivos. La solución es la que el mapa
+    estático ya usa —subir la letra con una @media, porque el texto vive dentro
+    del `viewBox` y encoge con él—, pero aquí hay tres topes que un ojo no ve:
+    el rótulo del eje se escribe hacia la izquierda dentro del margen, los de
+    los puntos se solapan si crecen más que la separación entre puntos, y la
+    esquina de abajo a la izquierda tiene cuatro rótulos disputándose 16
+    unidades. La serie crece cada día: estos tests avisan (R11) el día que deje
+    de caber, en vez de publicar un gráfico ilegible.
+
+    **Se comprueban las DOS bandas**, no solo la más estrecha: entre 481 y 760
+    px se aplica únicamente la primera @media, y ahí los tamaños son otros. Un
+    test que mirase solo la de 480 dejaría la tableta sin vigilancia."""
+
+    ANCHO = 0.52        # ancho medio de carácter en proporción al cuerpo
+    ALTO_ARRIBA = 0.78  # de la línea base hacia arriba
+    ALTO_ABAJO = 0.22   # y hacia abajo
+
+    @classmethod
+    def setUpClass(cls):
+        cls.svg = R.grafico_rud(R.contexto())
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        bloques = [(int(ancho), cuerpo) for ancho, cuerpo in re.findall(
+            r"@media \(max-width: (\d+)px\) \{(.*?)\n\}", css, re.S)
+            if ".grafico-rud" in cuerpo]
+        # Cada banda es la cascada que de verdad se aplica a esa anchura: la
+        # de 480 hereda lo de 760 y solo pisa lo que redeclara.
+        cls.bandas, acumulado = {}, {}
+        for ancho, cuerpo in sorted(bloques, key=lambda b: -b[0]):
+            acumulado = {c: dict(v) for c, v in acumulado.items()}
+            for sels, decls in re.findall(r"([^{}]+)\{([^{}]*)\}", cuerpo):
+                cpo = re.search(r"font-size:\s*([\d.]+)px", decls)
+                mueve = re.search(r"translate\(\s*([-\d.]+)(?:px)?\s*,"
+                                  r"\s*([-\d.]+)(?:px)?\s*\)", decls)
+                for s in sels.split(","):
+                    clase = re.search(r"\.(g-[\w-]+)", s)
+                    if not clase:
+                        continue
+                    v = acumulado.setdefault(clase.group(1), {})
+                    if cpo:
+                        v["tam"] = float(cpo.group(1))
+                    if mueve:
+                        v["dx"] = float(mueve.group(1))
+                        v["dy"] = float(mueve.group(2))
+            cls.bandas[ancho] = acumulado
+
+    def _rotulos(self, clase):
+        return re.findall(rf'<text[^>]*class="{clase}"[^>]*>(.*?)</text>', self.svg)
+
+    def _cajas(self, banda):
+        """Cada `<text>` con su caja aproximada, ya desplazada."""
+        aparte = re.search(r'<g class="g-leyenda-2">(.*?)</g>', self.svg, re.S)
+        dx_grupo = banda.get("g-leyenda-2", {}).get("dx", 0.0)
+        cajas = []
+        for atrs, texto in re.findall(r"<text ([^>]*)>(.*?)</text>", self.svg):
+            clase = re.search(r'class="(g-[\w-]+)"', atrs)
+            if not clase or clase.group(1) not in banda:
+                continue
+            estilo = banda[clase.group(1)]
+            cuerpo = estilo["tam"]
+            x = float(re.search(r'x="([-\d.]+)"', atrs).group(1))
+            y = float(re.search(r'y="([-\d.]+)"', atrs).group(1)) + estilo.get("dy", 0)
+            ancla = re.search(r'text-anchor="(\w+)"', atrs)
+            ancho = len(texto) * self.ANCHO * cuerpo
+            x0 = {"end": x - ancho, "middle": x - ancho / 2}.get(
+                ancla.group(1) if ancla else "start", x) + estilo.get("dx", 0)
+            if aparte and f"<text {atrs}>" in aparte.group(1):
+                x0 += dx_grupo
+            cajas.append((f"{clase.group(1)}:{texto}", x0, x0 + ancho,
+                          y - self.ALTO_ARRIBA * cuerpo, y + self.ALTO_ABAJO * cuerpo))
+        return cajas
+
+    def test_hay_dos_bandas_y_las_dos_agrandan_los_rotulos(self):
+        """Guardián de sí mismo: sin esto, las comprobaciones de abajo
+        recorrerían un diccionario vacío y pasarían sin mirar nada."""
+        self.assertEqual(sorted(self.bandas), [480, 760],
+                         "el gráfico ya no declara sus dos bandas de @media")
+        for ancho, banda in self.bandas.items():
+            for clase in ("g-eje", "g-alta", "g-dia", "g-total", "g-leyenda"):
+                with self.subTest(ancho=ancho, clase=clase):
+                    self.assertIn(clase, banda,
+                                  f"`.{clase}` no crece por debajo de {ancho}px")
+                    self.assertGreater(banda[clase]["tam"], 11,
+                                       f"`.{clase}` no gana nada respecto al SVG")
+                    self.assertTrue(self._rotulos(clase),
+                                    f"el gráfico ya no emite ningún `.{clase}`")
+
+    def test_el_rotulo_del_eje_no_se_sale_del_lienzo(self):
+        """Va anclado por la derecha en `x = m_l - 6`, así que todo su ancho
+        cae hacia la izquierda: si pasa de ahí, el SVG lo recorta."""
+        hueco = min(float(x) for x in re.findall(
+            r'<text x="([\d.]+)"[^>]*class="g-eje"', self.svg))
+        for ancho, banda in self.bandas.items():
+            for texto in self._rotulos("g-eje"):
+                with self.subTest(ancho=ancho, texto=texto):
+                    medida = len(texto) * self.ANCHO * banda["g-eje"]["tam"]
+                    self.assertLess(medida, hueco,
+                                    f"«{texto}» mide {medida:.0f} y solo hay "
+                                    f"{hueco:.0f} hasta el borde: se recorta")
+
+    def test_los_rotulos_del_grafico_caben_en_movil(self):
+        """Los tres rótulos que cuelgan de un punto no pueden ser más anchos
+        que la distancia entre puntos, o se pisan unos a otros."""
+        xs = sorted(float(v) for v in re.findall(
+            r'<circle cx="([\d.]+)" cy="[\d.]+" r="5"', self.svg))
+        if len(xs) < 2:
+            self.skipTest("con un solo punto no hay separación que respetar")
+        paso = min(b - a for a, b in zip(xs, xs[1:]))
+        for ancho, banda in self.bandas.items():
+            for clase in ("g-alta", "g-dia", "g-total"):
+                with self.subTest(ancho=ancho, clase=clase):
+                    largo = max((len(t) for t in self._rotulos(clase)), default=0)
+                    medida = largo * self.ANCHO * banda[clase]["tam"]
+                    self.assertLess(
+                        medida, paso,
+                        f"a {banda[clase]['tam']:.0f}px los rótulos `.{clase}` "
+                        f"miden {medida:.0f} y los puntos están a {paso:.0f}: "
+                        "con la serie más larga se solapan. Baja el tamaño de "
+                        f"la @media de {ancho}px o cambia la geometría de "
+                        "`grafico_rud`.")
+
+    def test_ningun_rotulo_se_pisa_en_movil(self):
+        """Al crecer la letra, cuatro rótulos se disputan la esquina de abajo a
+        la izquierda: el acumulado del primer día, el «sin base», el cero del
+        eje y la fecha. Las @media los separan; sin este test, subir un tamaño
+        los vuelve a juntar y nadie se entera hasta que alguien abre la página
+        en un móvil."""
+        for ancho, banda in self.bandas.items():
+            cajas = self._cajas(banda)
+            pisados = [(a[0], b[0]) for i, a in enumerate(cajas)
+                       for b in cajas[i + 1:]
+                       if a[1] < b[2] and b[1] < a[2] and a[3] < b[4] and b[3] < a[4]]
+            with self.subTest(ancho=ancho):
+                self.assertEqual(
+                    pisados, [],
+                    f"rótulos superpuestos por debajo de {ancho}px: {pisados}. "
+                    f"Baja el tamaño en esa @media o separa las cajas con un "
+                    "`transform`.")
+
+    def test_ningun_rotulo_se_sale_por_abajo(self):
+        """Los desplazamientos que separan la esquina empujan hacia el pie del
+        lienzo, y lo que pasa de `H` no se dibuja."""
+        alto = float(re.search(r'viewBox="0 0 \d+ ([\d.]+)"', self.svg).group(1))
+        for ancho, banda in self.bandas.items():
+            for nombre, _, _, _, abajo in self._cajas(banda):
+                with self.subTest(ancho=ancho, rotulo=nombre):
+                    self.assertLessEqual(abajo, alto,
+                                         f"«{nombre}» cae fuera del lienzo")
+
+
 class TestChipsDelRud(unittest.TestCase):
     """El recuento del chip y la etiqueta de la fila salen del mismo predicado.
 
