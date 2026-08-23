@@ -37,3 +37,14 @@ dist/
 !.claude/launch.json
 !.claude/agents/
 !.claude/skills/
+
+# Rediseño 2026 — material temporal que no viaja al repositorio público.
+# El prototipo se borra al cerrar la última fase, y los documentos de traspaso
+# viven junto a la memoria local, fuera de cualquier worktree: un worktree se
+# borra sin ceremonia y se llevaría por delante la hoja de ruta. Sin estas
+# líneas, un `git add -A` publicaría un fichero que dice «nunca commiteado al
+# repositorio público» — y con la ruta local del ordenador dentro.
+prototipo/
+COORDINACION-REDISENO.md
+HANDOFF*.md
+dist-antes-*/
