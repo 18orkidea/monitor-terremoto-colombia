@@ -1027,3 +1027,79 @@ details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--
   margin:0 0 4px;line-height:1.6}
 .entradilla b{color:var(--ink);font-variant-numeric:tabular-nums}
 
+/* ── LOTE 3 · El plegable, componente y no lista de sitios ──────────────
+   Diagnóstico: arriba, esta hoja estiliza los plegables como
+   `#como-leer, .intro details, .aviso details, #alerts-section > details`.
+   Eso describe DÓNDE está el plegable, no QUÉ es, y por eso todo plegable
+   nuevo nace sin estilo: hoy mismo `#metodologia-box` no casa con ninguno de
+   los cuatro y sale sin caja, y el patrón que necesita la fase 3 —un
+   `<details>` que ENVUELVE a `.intro`— tampoco casaría.
+
+   La corrección convierte cuatro casos en una regla, sin ventana rota:
+   `.pliegue` es el componente y los cuatro selectores viejos quedan como
+   ALIAS del mismo bloque, de modo que nada de lo publicado cambia de aspecto
+   hoy. A medida que cada fase toque su página se pone `class="pliegue"` en su
+   `<details>`; CUANDO NO QUEDE NINGUNO QUE DEPENDA DE LOS ALIAS, LOS CUATRO
+   SELECTORES VIEJOS SE RETIRAN EN UN COMMIT PROPIO —de aquí y del bloque de
+   arriba—, que es un cambio verificable y no un efecto colateral. */
+.pliegue,
+#como-leer, .intro details, .aviso details, #alerts-section > details {
+  margin-top: 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface-1); font-size: 13px;
+}
+.pliegue > summary,
+#como-leer summary, .intro details summary, .aviso details summary,
+#alerts-section > details summary {
+  padding: 9px 14px; cursor: pointer; color: var(--ink); user-select: none;
+}
+.pliegue > summary:hover,
+#como-leer summary:hover, .intro details summary:hover,
+.aviso details summary:hover, #alerts-section > details summary:hover {
+  background: color-mix(in srgb, var(--s1) 6%, transparent); border-radius: 8px;
+}
+.pliegue[open] > summary,
+#como-leer[open] summary, .intro details[open] summary,
+.aviso details[open] summary, #alerts-section > details[open] summary {
+  border-bottom: 1px solid var(--grid);
+}
+.pliegue ol,
+#como-leer ol, .intro details ol, .aviso details ol { margin: 10px 0; padding: 0 18px 4px 34px; line-height: 1.6; color: var(--ink-2); }
+.pliegue li,
+#como-leer li, .intro details li, .aviso details li { margin-bottom: 8px; }
+.pliegue li strong,
+#como-leer li strong, .intro details li strong, .aviso details li strong { color: var(--ink); }
+.pliegue a,
+#como-leer a, .intro details a, .aviso details a { color: var(--s1); }
+
+/* Y aquí el plegable del rediseño, que es el MISMO componente afinado: se
+   apoya en el bloque de arriba —de ahí hereda el acolchado del summary, el
+   hover y el color de sus enlaces— y le quita la caja. Que las dos mitades se
+   contradigan en `background` y `border` es a propósito y en este orden: sin
+   la primera, un `<details class="pliegue">` nuevo nacería con el triángulo
+   desnudo del navegador; sin la segunda, saldría como caja rellena.
+   El `border-top` sobrevive a propósito —se anulan los otros tres y no él—:
+   es el filete que separa un plegable de lo que va encima, y es exactamente
+   lo que se veía en el prototipo, donde `#como-leer` sí recibía la caja de
+   esta hoja. Antes lo tenía un plegable y ahora lo tienen todos, que es el
+   sentido de llamarlo componente. */
+details.pliegue{padding:0 14px 12px}
+/* El plegable que viene del HTML publicado traía además el FONDO de
+   `.intro details` de styles.css, así que aun con la clase correcta se
+   veía como una caja rellena entre otras transparentes. Se declara el
+   fondo, no solo el borde: heredar a medias es peor que no heredar. */
+/* `styles.css` estiliza este plegable POR ID (`#como-leer`), y un id gana
+   a cualquier clase: `details.pliegue` no podía anularlo por mucho que se
+   declarara después. Se iguala la especificidad nombrando el id. */
+details.pliegue,#como-leer.pliegue{background:transparent;border-radius:0;
+  border-left:0;border-right:0;border-bottom:0}
+details.pliegue > summary,#como-leer.pliegue > summary{background:transparent;
+  padding-left:0;padding-right:0}
+details.pliegue[open] > summary,#como-leer.pliegue[open] > summary{border-bottom:0}
+details.pliegue>summary{cursor:pointer;font-size:14px;color:var(--copernicus);
+  font-weight:600;list-style:none;padding:6px 0}
+details.pliegue>summary::-webkit-details-marker{display:none}
+details.pliegue>summary::before{content:"▸ "}
+details.pliegue[open]>summary::before{content:"▾ "}
+details.pliegue p{font-size:14.5px;color:var(--ink-2);max-width:70ch}
+details.denso{border-top:1px solid var(--border)}
+details.denso>summary{color:var(--ink)}
