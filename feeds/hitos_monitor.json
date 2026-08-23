@@ -200,6 +200,20 @@
    "resumen": "Las fichas municipales se presentaban mal ante los buscadores y los sistemas de IA.",
    "texto": "Cada una de las 208 fichas municipales lleva una tarjeta invisible para el lector y decisiva para quien no lee con los ojos: la ficha técnica que describe, en un formato normalizado, qué datos contiene la página. Dentro de esa tarjeta, la línea que decía «esto forma parte del sitio» no enlazaba al sitio: declaraba un segundo conjunto de datos, sin descripción, que los validadores leen como incompleto. Se corrige cambiando la forma y no rellenando el hueco: la tarjeta pasa a apuntar a una identidad única —quién publica esto— escrita igual en las 213 páginas del monitor. En la portada, además, las cuatro descargas de datos abiertos declaraban direcciones relativas, que un programa que extrae la ficha técnica por separado no puede resolver, y la autoría figuraba con el nombre interno del proyecto en vez del público. Nada de esto cambia lo que se ve en pantalla: cambia quién puede citar estas cifras sin equivocarse.",
    "url": "/municipio/cali/"
+  },
+  {
+   "fecha": "2026-08-23",
+   "tipo": "monitor",
+   "resumen": "El sitio se presenta en su barra como «Datos del terremoto».",
+   "texto": "La barra de navegación de las 213 páginas se presentaba con el nombre interno del proyecto, «Monitor de brechas», y debajo una segunda línea con la magnitud y la fecha del sismo. Pasa a decir «Datos del terremoto», que es como se llama el sitio de cara al público y como se escribe su dirección. El dato del sismo no se pierde: baja al encabezado de cada página, en su propio renglón encima de la fecha de la última corrida, con una sola redacción para las cinco. En un teléfono de 375 píxeles la barra, que va pegada arriba mientras se lee, encoge de 86 a 73 píxeles: un 16 % de su altura recuperada en cada desplazamiento. Las 208 fichas municipales no reciben esa línea porque su titular ya nombra el terremoto y su mapa rotula el epicentro.",
+   "url": "/"
+  },
+  {
+   "fecha": "2026-08-23",
+   "tipo": "monitor",
+   "resumen": "En la lista de municipios se pulsa la fila entera, no solo el nombre.",
+   "texto": "En la tabla de municipios, abrir la ficha de un municipio exigía acertar sobre su nombre: una palabra dentro de una fila de diez columnas, difícil de tocar en un teléfono. Ahora la fila entera lleva a la ficha, sin necesidad de JavaScript y sin multiplicar los enlaces: sigue habiendo un único enlace real por fila, que se puede recorrer con el tabulador y copiar como dirección. Las cifras siguen pudiéndose seleccionar y copiar, y las explicaciones que aparecen al posar el ratón sobre el estado, la población o las columnas de satélite siguen apareciendo: pulsar exactamente encima de un dato no abre la ficha, porque ahí manda el dato. La tabla del registro oficial no cambia; enlazar sus filas exige cruzar dos catálogos de nombres de municipio y ese cruce se hace en la ingesta, no al dibujar la página.",
+   "url": "/municipios.html"
   }
  ]
 }

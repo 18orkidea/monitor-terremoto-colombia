@@ -54,7 +54,11 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   grandes). Ese mismo paso escribe el **nodo de identidad JSON-LD**
   (`BLOQUE_IDENTIDAD`): quién publica el sitio, byte a byte igual en las 213,
   porque `@id` no resuelve entre documentos y solo la constante única lo
-  garantiza.
+  garantiza. En `municipios.html` la **fila entera es pulsable sin JavaScript**:
+  el ancla del nombre (`.fila-enlace`) estira un pseudoelemento sobre la fila, y
+  de ahí sale una regla al escribirla —**nada de texto pelado colgando de un
+  `<td>`**, cada valor en su elemento (`valor_suelto()`)—, porque lo que queda
+  debajo de esa capa deja de poder seleccionarse y pierde su `title`.
 
 ## Modelo de datos (sqlite, 16 tablas)
 

@@ -15,6 +15,7 @@ import unittest
 import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import date, timedelta
+from html.parser import HTMLParser
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "deploy"))
@@ -542,6 +543,191 @@ class TestTablaMunicipios(unittest.TestCase):
         """La celda de prensa construye una URL con el nombre del municipio."""
         celda = R._celda_prensa({"municipio": 'A "B" & C', "n_noticias": 3})
         self.assertNotIn('"B"', celda.split("</a>")[0].split(">")[-1])
+
+
+class _Arbol(HTMLParser):
+    """Recorre un fragmento de filas y anota, por cada nodo, su camino.
+
+    Sin dependencias: la fila es HTML generado por este mismo módulo, no hay
+    que tolerar marcado ajeno. Guarda (a) un camino por cada texto no vacío y
+    (b) un camino por cada elemento, para poder preguntar si el CSS lo sube por
+    encima del enlace estirado."""
+
+    VACIOS = {"br", "img", "input", "meta", "link"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.pila = []
+        self.textos = []      # (texto, camino)
+        self.elementos = []   # (tag, attrs, camino incluido él mismo)
+        self.hijos = {}       # id del padre -> nº de elementos que cuelgan de él
+
+    def _abre(self, tag, attrs):
+        nodo = (tag, dict(attrs), len(self.elementos))
+        self.elementos.append((tag, dict(attrs), self.pila + [nodo]))
+        # los vacíos (un <br>) no cuentan: no pueden enseñar nada al ratón
+        if self.pila and tag not in self.VACIOS:
+            self.hijos[self.pila[-1][2]] = self.hijos.get(self.pila[-1][2], 0) + 1
+        return nodo
+
+    def handle_starttag(self, tag, attrs):
+        nodo = self._abre(tag, attrs)
+        if tag not in self.VACIOS:
+            self.pila.append(nodo)
+
+    def handle_startendtag(self, tag, attrs):
+        self._abre(tag, attrs)
+
+    def handle_endtag(self, tag):
+        for i in range(len(self.pila) - 1, -1, -1):
+            if self.pila[i][0] == tag:
+                del self.pila[i:]
+                return
+
+    def handle_data(self, data):
+        if data.strip():
+            self.textos.append((data.strip(), list(self.pila)))
+
+
+def _por_encima_de_la_capa(camino, clase_estirada):
+    """¿Lo sube el CSS por encima del enlace estirado?
+
+    Espejo en Python de las dos reglas de `site/styles.css`:
+    `td > *:not(.fila-enlace)` y `.fila-enlace > strong`. Lo que cuelga de un
+    elemento ya subido va dentro de su contexto de apilamiento, así que hereda
+    la posición: basta con mirar quién es el hijo del `<td>`."""
+    tags = [n[0] for n in camino]
+    if "td" not in tags:
+        return False
+    i = tags.index("td")
+    if len(camino) <= i + 1:
+        return False                      # cuelga pelado del <td>
+    attrs_hijo = camino[i + 1][1]
+    if clase_estirada not in (attrs_hijo.get("class") or "").split():
+        return True                       # td > * : subido
+    # dentro del ancla estirada solo se sube el <strong> del nombre
+    return len(camino) > i + 2 and camino[i + 2][0] == "strong"
+
+
+class TestFilaPulsableDeMunicipios(unittest.TestCase):
+    """La fila entera lleva a la ficha, sin JavaScript y con un solo href.
+
+    El patrón —un pseudoelemento del ancla estirado sobre la fila— tiene un
+    efecto colateral medido, no supuesto: en Chrome, arrastrar el ratón sobre
+    «26.377» devolvía una selección vacía, y los `title` que explican estado,
+    población y satélites dejaban de aparecer al pasar por encima. En una tabla
+    de cifras eso es una pérdida real, así que el contenido de la fila vive por
+    encima de la capa y **nada puede colgar pelado de un `<td>`**: un texto sin
+    elemento no se puede subir por CSS.
+
+    Estos tests son estructurales a propósito (M12): no miden píxeles, miden
+    que ningún dato de la fila quede debajo de la capa."""
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.filas = R.filas_municipios(cls.ctx)
+        cls.arbol = _Arbol()
+        cls.arbol.feed(cls.filas)
+        m = re.search(r"#municipios-tabla \.([\w-]+)::after\s*\{([^}]*)\}", cls.CSS)
+        cls.regla_capa = m
+        cls.clase = m.group(1) if m else "fila-enlace"
+
+    def test_el_css_estira_la_misma_clase_que_escribe_el_build(self):
+        """Las dos mitades del pareado. Renombrar una sola deja la fila sin
+        zona de clic y **no se ve nada roto**: el enlace del nombre sigue ahí."""
+        self.assertIsNotNone(self.regla_capa,
+                             "no hay regla que estire ningún ancla en la tabla")
+        cuerpo = self.regla_capa.group(2)
+        self.assertIn("position: absolute", cuerpo)
+        self.assertIn("inset: 0", cuerpo)
+        clases = {c for tag, attrs, _cam in self.arbol.elementos if tag == "a"
+                  for c in (attrs.get("class") or "").split()}
+        self.assertIn(self.clase, clases,
+                      f"el CSS estira .{self.clase} y las filas no la escriben")
+
+    def test_el_css_sube_el_contenido_de_la_fila_por_encima_de_la_capa(self):
+        """La otra mitad del mecanismo, y la que se puede borrar sin que se vea
+        nada raro: sin esta regla la tabla sigue pulsable y calladamente deja de
+        poder copiarse y de explicar sus columnas. `_por_encima_de_la_capa`, que
+        es el modelo en Python de este selector, se queda mintiendo si la regla
+        no está."""
+        m = re.search(r"([^{}]*td > \*[^{}]*)\{([^}]*)\}", self.CSS)
+        self.assertIsNotNone(m, "nada sube el contenido de la fila")
+        selector, cuerpo = m.group(1), m.group(2)
+        self.assertIn(f"#municipios-tabla tbody td > *:not(.{self.clase})", selector)
+        self.assertIn(f".{self.clase} > strong", selector)
+        self.assertIn("position: relative", cuerpo)
+        arriba = re.search(r"z-index:\s*(-?\d+)", cuerpo)
+        abajo = re.search(r"z-index:\s*(-?\d+)", self.regla_capa.group(2))
+        self.assertIsNotNone(arriba, "el contenido no declara su altura")
+        self.assertIsNotNone(abajo, "la capa no declara su altura")
+        self.assertGreater(int(arriba.group(1)), int(abajo.group(1)),
+                           "el contenido de la fila ya no está por encima de la capa")
+
+    def test_la_fila_es_el_marco_de_la_capa(self):
+        """Sin `position: relative` en el `<tr>`, la capa se estira sobre el
+        primer antepasado posicionado —la tabla entera, o la ventana— y la
+        página queda cubierta por un enlace invisible."""
+        m = re.search(r"#municipios-tabla tbody tr\s*\{([^}]*)\}", self.CSS)
+        self.assertIsNotNone(m, "la fila de municipios no declara su posición")
+        self.assertIn("position: relative", m.group(1))
+
+    def test_cada_fila_tiene_un_solo_enlace_a_la_ficha(self):
+        """Estirar el ancla no es multiplicarla: sigue habiendo un href real,
+        rastreable y navegable con el tabulador."""
+        estirados = [a for tag, a, _ in self.arbol.elementos
+                     if tag == "a" and self.clase in (a.get("class") or "").split()]
+        self.assertEqual(len(estirados), len(self.ctx["municipios"]))
+        for a in estirados:
+            self.assertRegex(a.get("href", ""), r"^/municipio/[a-z0-9-]+/$")
+
+    def test_ningun_valor_cuelga_pelado_de_su_celda(self):
+        """El guardián de la selección: lo que cuelga directamente del `<td>`
+        queda debajo de la capa y deja de poder copiarse. Cae en cuanto una
+        cifra pierde su `valor_suelto()`."""
+        hundidos = [t for t, camino in self.arbol.textos
+                    if not _por_encima_de_la_capa(camino, self.clase)]
+        self.assertEqual(hundidos[:5], [],
+                         f"{len(hundidos)} textos de la tabla quedan bajo la capa "
+                         f"del enlace estirado y no se pueden seleccionar")
+
+    def test_lo_que_se_explica_o_lleva_a_otro_sitio_queda_por_encima(self):
+        """Los `title` de la fila no son adorno: dicen que un guion no es un
+        cero y que dos satélites no se suman. Y la columna Prensa lleva a otro
+        destino. Si la capa los tapa, el lector pierde información, no un clic."""
+        tapados, vistos = [], 0
+        for tag, attrs, camino in self.arbol.elementos:
+            if tag == "td":
+                continue          # su `title` lo hereda el valor que lleva dentro
+            if self.clase in (attrs.get("class") or "").split():
+                continue          # el ancla estirada ES la capa
+            if "title" not in attrs and "href" not in attrs:
+                continue
+            vistos += 1
+            if not _por_encima_de_la_capa(camino, self.clase):
+                tapados.append((tag, attrs.get("title", attrs.get("href"))[:40]))
+        self.assertEqual(tapados[:5], [],
+                         f"{len(tapados)} elementos con explicación o destino "
+                         f"propio quedan debajo de la capa")
+        self.assertGreater(vistos, len(self.ctx["municipios"]),
+                           "el test no está mirando los títulos de la tabla")
+
+    def test_cada_celda_con_title_lleva_dentro_algo_que_lo_pueda_ensenar(self):
+        """El `title` del `<td>` de población solo se ve si el ratón llega a
+        algo que esté por encima de la capa; el navegador lo busca subiendo por
+        el árbol. Sin un elemento dentro, el título es letra muerta."""
+        vistos = 0
+        for tag, attrs, camino in self.arbol.elementos:
+            if tag != "td" or "title" not in attrs:
+                continue
+            vistos += 1
+            self.assertTrue(self.arbol.hijos.get(camino[-1][2]),
+                            f"un <td title> sin ningún elemento dentro: su "
+                            f"explicación no se puede leer ({attrs['title'][:40]})")
+        self.assertGreater(vistos, 0, "ninguna celda con título: el test no mira nada")
 
 
 class TestEspejoConElFrontend(unittest.TestCase):
@@ -2608,20 +2794,95 @@ class TestIdentidadDelSitio(unittest.TestCase):
         self.assertIn("La distancia entre sus cifras es la brecha de reporte.", pie)
         self.assertIn("quedó archivado.", pie)
 
-    def test_la_barra_conserva_el_nombre_interno(self):
-        """La marca es doble a propósito: quitar «Monitor de brechas» de la
-        navegación no sería aplicar la decisión, sería cambiarla.
+    def test_la_barra_se_presenta_por_el_nombre_publico(self):
+        """Decisión de JP del 23-ago-2026: la barra dice «Datos del terremoto».
+
+        Sustituye a `test_la_barra_conserva_el_nombre_interno`, que fijaba
+        «Monitor de brechas» ahí. No es que aquel guardián estuviera mal: es que
+        vigilaba una decisión que se ha cambiado, y una decisión cambiada se
+        cambia también en su test. «Monitor de brechas» sigue siendo el nombre
+        interno del proyecto en la documentación y en las migas de las fichas.
 
         Mira el rótulo de la marca, no el fichero entero: la primera versión de
-        este test buscaba «Monitor de brechas» en el texto crudo de common.js y
-        pasaba en verde con la barra ya rota, porque esas tres palabras estaban
-        en el comentario que hay justo encima. Un guardián que se contenta con
-        su propia documentación no guarda nada.
+        este test buscaba el nombre en el texto crudo de common.js y pasaba en
+        verde con la barra ya rota, porque esas palabras estaban en el
+        comentario que hay justo encima. Un guardián que se contenta con su
+        propia documentación no guarda nada.
         """
         marca = r'class="brand"[^>]*>\s*<strong>([^<]+)</strong>'
         hallado = re.search(marca, R.nav_estatico())
         self.assertIsNotNone(hallado, "nav_estatico: no se encuentra el rótulo")
-        self.assertEqual(hallado.group(1).strip(), "Monitor de brechas")
+        self.assertEqual(hallado.group(1).strip(), "Datos del terremoto")
+        self.assertEqual(hallado.group(1).strip(), R.MARCA,
+                         "el rótulo y la constante MARCA se han separado")
+
+
+class TestContextoDelSismo(unittest.TestCase):
+    """De qué terremoto habla el sitio: una vez por cabecera, y siempre igual.
+
+    Vivía en la segunda línea de la barra, es decir en las 213 páginas y dentro
+    de un elemento pegado que roba 13,75 px de pantalla en cada scroll de un
+    móvil. Bajó al encabezado de cada página, junto al sello de fecha: el hecho
+    y la fecha del dato se leen de un tirón.
+
+    Es texto fijo escrito cinco veces —no se genera: `data-gen` es el mecanismo
+    de lo que caduca con la corrida—, así que necesita un guardián que impida
+    que las cinco copias se separen (M2) y que la frase se diga dos veces en la
+    misma cabecera, que es lo que pasaba en la portada mientras el subtítulo
+    también la llevaba.
+
+    Las 208 fichas NO la reciben: su H1 ya dice «Terremoto de Colombia 2026 en
+    X», su mapa de situación rotula el epicentro con la magnitud y el pie de
+    las 213 páginas lo escribe entero. Añadirles una línea de contexto sería
+    devolver el subtítulo que JP retiró el 23-ago-2026."""
+
+    PAGINAS = ("index.html", "municipios.html", "rud.html", "balances.html",
+               "noticias.html")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.cabeceras = {}
+        for pagina in cls.PAGINAS:
+            texto = (ROOT / "site" / pagina).read_text(encoding="utf-8")
+            m = re.search(r"<header[^>]*>(.*?)</header>", texto, re.S)
+            assert m, f"{pagina}: no se encuentra el encabezado"
+            cls.cabeceras[pagina] = m.group(1)
+
+    def test_las_cinco_cabeceras_dicen_de_que_sismo_hablan(self):
+        esperado = f'<span class="contexto-sismo">{R.CONTEXTO_SISMO}</span>'
+        for pagina, cabecera in self.cabeceras.items():
+            self.assertIn(esperado, cabecera,
+                          f"{pagina}: el encabezado no dice de qué sismo habla, "
+                          f"o lo dice con otras palabras que las otras cuatro")
+
+    def test_el_contexto_va_junto_al_sello_y_no_en_el_subtitulo(self):
+        """Su sitio es `.meta`, donde está la fecha del dato. En el subtítulo
+        volvería a mezclarse con lo que cada página tiene de propio."""
+        for pagina, cabecera in self.cabeceras.items():
+            meta = re.search(r'<div class="meta">(.*?)</div>', cabecera, re.S)
+            self.assertIsNotNone(meta, f"{pagina}: no hay contenedor .meta")
+            self.assertIn("contexto-sismo", meta.group(1),
+                          f"{pagina}: el contexto del sismo se ha salido de .meta")
+
+    def test_ninguna_cabecera_lo_dice_dos_veces(self):
+        """La portada lo decía en el subtítulo Y en el sello: la misma frase a
+        un centímetro de sí misma. Al mudarla hay que retirarla de donde estaba,
+        y este test es el que se entera si vuelve."""
+        for pagina, cabecera in self.cabeceras.items():
+            self.assertEqual(cabecera.count("10 de agosto de 2026"), 1,
+                             f"{pagina}: la fecha del sismo aparece "
+                             f"{cabecera.count('10 de agosto de 2026')} veces "
+                             f"en el mismo encabezado")
+
+    def test_la_barra_ya_no_carga_con_el_dato_del_sismo(self):
+        """La barra es navegación; el sismo es contexto de la página."""
+        nav = R.nav_estatico()
+        self.assertNotIn("10-ago-2026", nav)
+        self.assertNotIn("M7.4", nav)
+        marca = re.search(r'class="brand"[^>]*>(.*?)</a>', nav, re.S)
+        self.assertIsNotNone(marca)
+        self.assertNotIn("<span", marca.group(1),
+                         "la marca ha recuperado su segunda línea")
 
 
 class TestInventarioDelPie(unittest.TestCase):

@@ -80,6 +80,19 @@ def fmt_prosa(n, femenino: bool = False) -> str:
     return _LETRAS[entero]
 
 
+def valor_suelto(x) -> str:
+    """Envuelve una cifra pelada de la tabla de municipios en su propio <span>.
+
+    No es decoración: es lo que permite subirla por encima del enlace estirado
+    que hace pulsable la fila entera (`site/styles.css`, «la fila entera de
+    municipios.html»). Un texto sin elemento no se puede subir por CSS, y la
+    capa se lo traga: medido, arrastrar el ratón sobre «26.377» devolvía una
+    selección vacía y el `title` de la columna dejaba de aparecer. Cuesta 13
+    bytes por celda; la alternativa era publicar una tabla de cifras que no se
+    pueden copiar."""
+    return f"<span>{x}</span>"
+
+
 def pct(n) -> str:
     """Porcentaje con un decimal, espejo de `UI.pct`.
 
@@ -492,6 +505,27 @@ BLOQUE_IDENTIDAD = ('<script type="application/ld+json" id="site-identity">'
                     + json.dumps(IDENTIDAD, ensure_ascii=False) + '</script>')
 
 
+# Cómo se llama el sitio a sí mismo en su barra: el nombre público, corto.
+#
+# Hasta el 23-ago-2026 la barra decía «Monitor de brechas» sobre una segunda
+# línea con «Terremoto de Colombia M7.4 · 10-ago-2026». Las dos cosas cambian a
+# la vez y por el mismo motivo: el nombre interno describe lo que el monitor
+# HACE y nadie lo busca; el dato del sismo no es navegación, es contexto de la
+# página, y pagaba su sitio en la barra pegada de las 213 —13,75 px en cada
+# scroll de un móvil de 375 px, el 15,9 % de la altura de la propia barra—.
+# «Monitor de brechas» sigue siendo el nombre interno en la documentación y en
+# las migas de las fichas; lo que cambia es cómo se presenta el sitio.
+MARCA = "Datos del terremoto"
+
+# El contexto del sismo, que salió de la barra y ahora encabeza cada página
+# junto al sello de fecha. Es un hecho fijo —no caduca con la corrida—, así que
+# se escribe en el HTML de cada página y NO se genera: `data-gen` es el
+# mecanismo de lo que cambia cada día. Vive aquí porque una frase escrita cinco
+# veces necesita una fuente única aunque no la inyecte nadie: la ata a las
+# cinco páginas `tests/test_render_html.py::TestContextoDelSismo` (M2).
+CONTEXTO_SISMO = "M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)"
+
+
 def nav_estatico(activa: str = "municipios.html", botones_js: bool = False) -> str:
     """La barra del sitio.
 
@@ -513,8 +547,7 @@ def nav_estatico(activa: str = "municipios.html", botones_js: bool = False) -> s
         '<button id="btn-compartir" title="Compartir esta página">↗ Compartir</button>'
     ) if botones_js else ""
     return (f'<nav id="site-nav" aria-label="Navegación del sitio">'
-            f'<a class="brand" href="{BASE}/"><strong>Monitor de brechas</strong>'
-            f'<span>Terremoto de Colombia M7.4 · 10-ago-2026</span></a>'
+            f'<a class="brand" href="{BASE}/"><strong>{MARCA}</strong></a>'
             f'<div class="nav-links">{enlaces}'
             f'<a href="{CHATMAP}" target="_blank" rel="noopener" class="nav-cta">'
             f'📍 Reportar daño</a>'
@@ -1428,6 +1461,10 @@ def _celda_prensa(m: dict) -> str:
                 'departamento. No es que no haya prensa — es que no se puede afirmar '
                 'cuál le corresponde.">—</span>')
     if m.get("n_noticias"):
+        # El segundo destino de la fila, y el único que no es la ficha. Va en
+        # su propio elemento —como todo lo demás de la celda— para que el CSS
+        # pueda subirlo por encima del enlace estirado; si no, la capa que
+        # hace pulsable la fila entera se lo tragaría.
         return (f'<a href="noticias.html?municipio={urllib.parse.quote(m["municipio"])}"'
                 f' style="color:var(--s1)">{fmt(m["n_noticias"])}</a>')
     if m.get("requiere_depto"):
@@ -1435,7 +1472,7 @@ def _celda_prensa(m: dict) -> str:
                 f'en otro departamento: solo se le atribuyen titulares que nombren también '
                 f'{e(m["departamento"])}. Puede haber prensa que el monitor no pueda '
                 f'asignarle.">0</span>')
-    return fmt(0)
+    return valor_suelto(fmt(0))
 
 
 def _celda_satelite(m: dict, n_copernicus: int, cruce: dict | None = None) -> str:
@@ -1541,19 +1578,31 @@ def _celda_satelite(m: dict, n_copernicus: int, cruce: dict | None = None) -> st
 
 
 def filas_municipios(ctx: dict) -> str:
-    """Las 95 filas, ya escritas en el HTML.
+    """Las filas de la tabla de municipios, ya escritas en el HTML.
 
     La primera celda enlaza a la ficha del municipio: sin este enlace las fichas
     quedan huérfanas y solo se descubren por el sitemap, que es un canal mucho
-    más débil que un enlace real desde una página del sitio."""
+    más débil que un enlace real desde una página del sitio.
+
+    Ese enlace es también el que se estira sobre la fila entera desde el CSS,
+    así que la fila se escribe con una regla: **nada de texto pelado colgando
+    de un `<td>`**. Cada valor va dentro de un elemento —`valor_suelto()` para
+    las cifras, un `<span title>` para lo que se explica, el `<a>` de prensa
+    para el segundo destino— porque solo un elemento se puede subir por encima
+    de la capa. Un texto sin envoltorio deja de poder copiarse y su título deja
+    de poder leerse."""
     filas = []
     for m in sorted(ctx["municipios"], key=lambda x: x.get("poblacion_2026") or 0,
                     reverse=True):
         etiqueta, color, explica = ESTADO_MUNICIPIO.get(m.get("estado"), SIN_CLASIFICAR)
         enlace = f"/municipio/{slug(m['municipio'])}/" if es_elegible(m["municipio"], ctx) else None
         nombre = f"<strong>{e(m['municipio'])}</strong>"
-        celda = (f'<a href="{enlace}" style="color:inherit">{nombre}</a>' if enlace
-                 else nombre)
+        # `fila-enlace` es la mitad de un pareado: la otra vive en
+        # `site/styles.css` y estira este ancla sobre la fila entera. Si se
+        # renombra aquí, la fila deja de ser pulsable sin que se vea nada roto;
+        # por eso el nombre de la clase tiene su test espejo (M2).
+        celda = (f'<a class="fila-enlace" href="{enlace}" style="color:inherit">{nombre}</a>'
+                 if enlace else nombre)
         buscar = norm_busqueda(f'{m["municipio"]} {m["departamento"]}')
         n_cop = ctx["conteo_satelite"].get(m["municipio"], 0)
         n_ciu = ctx["conteo_ciudadanos"].get(m["municipio"], 0)
@@ -1586,14 +1635,14 @@ def filas_municipios(ctx: dict) -> str:
             f"{e(etiqueta)}</span></td>"
             f'<td class="num" title="Población proyectada para 2026 por el Departamento '
             f'Administrativo Nacional de Estadística (DANE), por municipio y área">'
-            f'{fmt(m.get("poblacion_2026"))}</td>'
+            f'{valor_suelto(fmt(m.get("poblacion_2026")))}</td>'
             f'<td class="num">{_celda_satelite(m, n_cop, ctx["cruce_satelital"].get(m["municipio"]))}</td>'
-            f'<td class="num">{fmt(m.get("rud_personas"))}</td>'
-            f'<td class="num">{pct(m.get("tasa_rud_pct"))}</td>'
-            f'<td class="num">{fmt(m.get("dyfi_max_cdi"), 1)}</td>'
-            f'<td class="num">{fmt(m.get("dyfi_respuestas"))}</td>'
+            f'<td class="num">{valor_suelto(fmt(m.get("rud_personas")))}</td>'
+            f'<td class="num">{valor_suelto(pct(m.get("tasa_rud_pct")))}</td>'
+            f'<td class="num">{valor_suelto(fmt(m.get("dyfi_max_cdi"), 1))}</td>'
+            f'<td class="num">{valor_suelto(fmt(m.get("dyfi_respuestas")))}</td>'
             f'<td class="num">{_celda_prensa(m)}</td>'
-            f'<td>{e(", ".join(m.get("fuentes") or [])) or "—"}</td>'
+            f'<td>{valor_suelto(e(", ".join(m.get("fuentes") or [])) or "—")}</td>'
             "</tr>")
     return "\n".join(filas)
 

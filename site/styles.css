@@ -86,6 +86,21 @@ h2 + .sub { margin-bottom: 12px; }
 * + .metric-strip, * + .tabla-scroll { margin-top: 12px; }
 .sub a { color: var(--s1); }
 .meta { text-align: right; font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+/* Qué sismo es esto. Bajó de la barra —donde ocupaba una segunda línea en las
+   213 páginas— al encabezado de cada página, encima del sello de fecha: el
+   hecho y hasta cuándo llega el dato, uno debajo del otro.
+
+   En su propio renglón, y no pegado al sello con un punto medio como en el
+   prototipo, porque medido a 1.280 px la cabecera ya parte los dos en dos
+   líneas: el punto quedaba huérfano abriendo el renglón siguiente. Un
+   separador que solo funciona cuando no hay salto de línea no es un
+   separador. Así el reparto es el mismo a cualquier anchura.
+
+   Entera en un renglón mientras la cabecera va en dos columnas: en titulares,
+   donde el subtítulo es largo y la columna de la derecha lleva un solo botón,
+   se partía dejando «(Chocó)» solo en la línea siguiente. El `nowrap` obliga a
+   la columna a reservarle su anchura. */
+.meta > .contexto-sismo { flex: 1 0 100%; white-space: nowrap; }
 .support-line {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   color: var(--ink-2); font-size: 12px; line-height: 1.35;
@@ -186,12 +201,43 @@ th.ord[aria-sort="descending"]::after { content: "▼"; opacity: 1; }
 th.ord[aria-sort="ascending"], th.ord[aria-sort="descending"] { color: var(--s1); }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 /* La mano solo donde la fila lleva de verdad a algún sitio: la tabla del cruce
-   de la portada. En las demás (municipios, RUD, balances, fichas) el enlace
-   está dentro de la celda y el cursor prometía un clic que no existe. El
+   de la portada, que la mueve con JavaScript, y la de municipios, que estira
+   su enlace (más abajo) y por tanto hereda el cursor del propio <a> sin que
+   nadie se lo declare. En las demás (RUD, balances, fichas) el enlace está
+   dentro de la celda y el cursor prometería un clic que no existe. El
    resaltado al pasar sí se queda en todas: en una tabla ancha ayuda a no
    perder el renglón. */
 #tabla tbody tr { cursor: pointer; }
 tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
+
+/* ---- la fila entera de municipios.html lleva a su ficha, sin JavaScript ----
+
+   Enlace estirado: el <a> del nombre extiende un pseudoelemento sobre toda la
+   fila. Sigue habiendo UN solo href de verdad —rastreable, enfocable con el
+   tabulador y con su destino visible en la barra de estado—; lo que crece es
+   la zona de clic, que en móvil pasa de una palabra a un renglón entero.
+
+   La capa se traga todo lo que hay debajo, y eso NO es aceptable en una tabla
+   de datos: medido en Chrome, arrastrar el ratón sobre «26.377» devolvía una
+   selección vacía, y los `title` que explican estado, población y satélites
+   dejaban de aparecer. Por eso el contenido de la fila vive por encima de la
+   capa: cada cifra suelta viaja envuelta en su <span> (`valor_suelto()` en
+   deploy/render_html.py) para que exista un elemento al que subir. Reparto
+   medido, no estimado: los renglones escritos ocupan el 14 % de la superficie
+   de la fila, y preguntando punto a punto quién recibe el clic, el **85 %** de
+   la fila sigue llevando a la ficha.
+
+   El <strong> del nombre se sube igual, y ahí no hay renuncia: está DENTRO del
+   ancla, así que se puede seleccionar y sigue navegando al pulsarlo. */
+#municipios-tabla tbody tr { position: relative; }
+#municipios-tabla .fila-enlace::after { content: ""; position: absolute; inset: 0; z-index: 0; }
+#municipios-tabla tbody td > *:not(.fila-enlace),
+#municipios-tabla .fila-enlace > strong { position: relative; z-index: 1; }
+/* El foco se ve en la fila, no solo en el nombre: el anillo del navegador
+   sigue dibujándose sobre el ancla —no se apaga nunca— y la fila entera se
+   tiñe, que es lo que hace legible dónde está el tabulador en una tabla de
+   diez columnas. */
+#municipios-tabla tbody tr:focus-within { background: color-mix(in srgb, var(--s1) 12%, transparent); }
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600;
@@ -367,6 +413,9 @@ a.metric-card:hover { border-color: var(--s1); }
   #map { min-height: 46vh; }
   header { flex-direction: column; }
   .meta, .support-line-header { justify-content: flex-start; text-align: left; }
+  /* En una sola columna ya no hay nada que reservar y el `nowrap` sacaría la
+     línea por el borde derecho de un móvil de 375 px. */
+  .meta > .contexto-sismo { white-space: normal; }
 }
 
 /* ---- barra de navegación y pie de sitio compartidos (common.js) ---- */
@@ -376,8 +425,11 @@ a.metric-card:hover { border-color: var(--s1); }
   background: var(--surface-1); border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 1100;
 }
-#site-nav .brand { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); line-height: 1.25; }
-#site-nav .brand span { font-size: 11px; color: var(--muted); }
+/* Una sola línea desde el 23-ago-2026: la marca dice el nombre público y el
+   dato del sismo se lee en el encabezado de la página. La regla que estilaba
+   la segunda línea (`.brand span`) se retira con ella; dejarla sería invitar
+   a devolver el subtítulo sin volver a decidirlo. */
+#site-nav .brand { display: flex; text-decoration: none; color: var(--ink); line-height: 1.25; }
 #site-nav .nav-links { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 #site-nav .nav-links a {
   padding: 5px 11px; border-radius: 999px; text-decoration: none;
@@ -672,8 +724,9 @@ a.metric-card:hover { border-color: var(--s1); }
   #site-nav .nav-links a { padding: 5px 9px; font-size: 12.5px; }
   /* la barra pegada mide dos renglones aquí: el ancla no puede quedar debajo */
   section[id], main[id], footer[id] { scroll-margin-top: 96px; }
-  /* La cabecera de página: la fecha en su renglón y las descargas juntas en el
-     siguiente, en vez de un botón huérfano colgando de la fecha. */
+  /* La cabecera de página: la fecha en su renglón —el contexto del sismo ya
+     tiene el suyo a cualquier anchura— y las descargas juntas en el siguiente,
+     en vez de un botón huérfano colgando de la fecha. */
   .meta > #generado { flex: 1 0 100%; }
   /* Apilados y cada uno con el ancho de su opción más larga (311, 308, 196,
      176, 319 px en titulares), los filtros parecían un error de maqueta. En

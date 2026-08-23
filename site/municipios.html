@@ -32,11 +32,12 @@
 <header>
   <div>
     <h1>Datos de los municipios con alguna señal del sismo</h1>
-    <p class="sub">Área de influencia del sismo M7.4 del 10 de agosto de 2026: registro oficial de
+    <p class="sub">Área de influencia del sismo: registro oficial de
     damnificados, prensa, reportes «lo sentí» (DYFI) y cobertura satelital, municipio a
     municipio.</p>
   </div>
   <div class="meta">
+    <span class="contexto-sismo">M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)</span>
     <span id="generado" data-gen="municipios-sello"></span><!-- lo rellena deploy/render_html.py en el build -->
     <a class="btn" href="/data/public/municipios.json" target="_blank">JSON</a>
     <a class="btn" href="/data/public/municipios.geojson" target="_blank">GeoJSON</a>
@@ -78,7 +79,7 @@
   <div class="tabla-scroll"><table id="municipios-tabla">
     <thead>
       <tr>
-        <th title="Municipio del área de influencia del sismo. Clic para verlo en el mapa de la portada.">Municipio</th>
+        <th title="Municipio del área de influencia del sismo. Clic en cualquier punto de la fila para abrir su ficha, con sus cifras, su mapa y sus fuentes.">Municipio</th>
         <th title="Siete situaciones: dentro de una zona con mapa de daños por satélite de Copernicus; evaluado edificio a edificio por UNITAR-UNOSAT fuera de toda zona de Copernicus; evaluado por otro servicio de cartografía rápida, también fuera de toda zona de Copernicus; fuera de ellas con intensidad percibida alta (DYFI ≥ 6); mencionado en prensa; solo con registro en el RUD, sin satélite ni prensa; o con intensidad sentida (DYFI &lt; 6) y nada más.">Estado</th>
         <th class="num" title="Población municipal proyectada 2026 (DANE, proyecciones postcensales por área). Ordenado por esta columna.">Población 2026</th>
       <th scope="col" class="num" title="Edificios evaluados desde el aire, una línea por servicio y con la fuente pegada a cada cifra. Dentro de un municipio no se suman: cada servicio cartografía su propio recorte, así que dos cifras sobre la misma ciudad son dos ventanas distintas, no dos versiones de la misma medida. Copernicus cuenta edificios a los que ha clasificado un grado de daño; UNITAR-UNOSAT, los que ha observado uno a uno sobre imagen de muy alta resolución; ICube-SERTIT, los de su ventana para la Carta Internacional del Espacio. Cuando dos coinciden sobre un municipio, la celda dice cuántos edificios vieron los dos. El total del monitor cuenta cada edificio una sola vez y vive en el bloque «satelital» de monitor.json. Un guion significa que ningún producto satelital ha mirado ese municipio, no que no haya daño.">Edif. satélite</th>

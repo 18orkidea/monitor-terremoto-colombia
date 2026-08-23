@@ -6,6 +6,81 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-23 — La barra dice «Datos del terremoto»; el sismo baja al encabezado
+
+Contexto: la barra de las 213 páginas se presentaba con «Monitor de brechas» sobre una
+segunda línea, «Terremoto de Colombia M7.4 · 10-ago-2026». La entrada «El sitio se
+presenta por su nombre público, y la marca sigue siendo doble» (más abajo, del mismo
+día) dejó escrito que el nombre interno **se quedaba** en la barra y en la metodología.
+Dos hechos la desbordan. El primero: en la metodología no estaba —`grep` de «Monitor de
+brechas» en `site/*.html` da manifest, un comentario de `app.js` y el título por defecto
+de las notificaciones, y ninguna de las tres es la metodología—, así que la marca doble
+se sostenía sobre una sola pata. El segundo: JP decide que la barra diga el nombre
+público corto.
+
+Decisión: la marca de la barra pasa a **«Datos del terremoto»** (`render_html.MARCA`) y
+**pierde su segunda línea**. Esto **cambia** la decisión anterior, no la aplica; queda
+aquí dicho para que nadie la lea como una regresión. «Monitor de brechas» sigue siendo
+el nombre interno del proyecto en la documentación, y sigue publicado en las migas de
+las 208 fichas, en el `manifest.json` de la aplicación instalable y en el título de las
+notificaciones. **Que las migas digan un nombre y la barra otro, en la misma página, es
+una decisión editorial pendiente de JP** — no se ha tocado aquí porque cambiar la
+primera miga cambia también el `BreadcrumbList` de 208 páginas.
+
+El dato del sismo no se pierde: se muda al encabezado de cada una de las cinco páginas
+grandes, en su propio renglón encima del sello de fecha, con una sola redacción
+(`render_html.CONTEXTO_SISMO`, «M7.4 · 10 de agosto de 2026 · San José del Palmar
+(Chocó)») y un test que ata las cinco copias (`TestContextoDelSismo`). Va escrito y no
+generado: es un hecho fijo, y `data-gen` es el mecanismo de lo que caduca con la
+corrida. Donde ya lo decía el subtítulo —portada, municipios, RUD— se retira de ahí: la
+portada llegó a decirlo dos veces en el mismo encabezado.
+
+**Las 208 fichas no lo reciben.** Su H1 ya dice «Terremoto de Colombia 2026 en X», su
+mapa de situación rotula el epicentro con la magnitud y el pie de las 213 páginas lo
+escribe entero. Añadirles una línea de contexto sería devolver el subtítulo que se
+retiró el mismo día.
+
+Consecuencia medida: la barra pegada baja de 86,30 a 72,55 px en un móvil de 375 px
+—13,75 px menos, el **15,9 %** de la propia barra— y de 54,75 a 50,55 px en escritorio.
+Es altura recuperada en cada scroll de cada página, que era lo que la segunda línea
+costaba.
+
+## 2026-08-23 — La fila entera de municipios lleva a la ficha, y el dato sigue copiable
+
+Contexto: en `municipios.html` solo el nombre del municipio enlazaba a su ficha: un
+objetivo de una palabra en una fila de diez columnas, y en móvil, donde se lee este
+monitor, un blanco diminuto.
+
+Decisión: **enlace estirado, sin JavaScript**. La fila es `position: relative` y el ancla
+del nombre extiende un pseudoelemento sobre ella. Sigue habiendo **un solo `<a href>`
+real** —rastreable, enfocable con el tabulador y con su destino en la barra de estado—;
+lo que crece es la zona de clic.
+
+Y el efecto colateral del patrón, **medido y no supuesto**: con la capa puesta y nada
+más, arrastrar el ratón sobre «26.377» devuelve una selección vacía, y los `title` que
+explican estado, población y satélites dejan de aparecer. En una tabla de cifras que la
+gente copia eso es una pérdida real. Por eso el contenido de la fila se sube por encima
+de la capa, y de ahí sale la regla que gobierna cómo se escribe: **nada cuelga pelado de
+un `<td>`** —un texto sin elemento no se puede subir por CSS—, así que cada cifra viaja
+en su `<span>` (`valor_suelto()`). Contrastado en el navegador: sin esa regla la misma
+selección devuelve cadena vacía; con ella devuelve el texto de la fila.
+
+El reparto que resulta, medido y no estimado: los renglones escritos ocupan el **14 %**
+de la superficie de la fila, y preguntando punto a punto quién recibiría el clic, el
+**85 %** de la fila lleva a la ficha (22.592 puntos sobre las tres filas más altas de la
+tabla, que son las que más texto llevan). Pulsar
+exactamente sobre una cifra no abre la ficha —ahí manda el dato: se selecciona y enseña
+su explicación—; pulsar en cualquier otro punto, sí. El nombre del municipio es la
+excepción y no renuncia a nada: está dentro del ancla, así que se puede seleccionar y
+sigue navegando.
+
+Consecuencia: `municipios.html` pasa de 273 a 293 KB (unos 1.450 `<span>`), lejos del
+aviso de 400 KB de `seo_check`; ninguna fila se pierde. El foco se percibe en la fila
+—`tr:focus-within` la tiñe— sin apagar nunca el anillo del navegador sobre el enlace.
+Fuera de alcance por decisión de JP: la tabla de `rud.html`, cuyas filas no tienen
+ningún enlace y cuyo cruce con el catálogo curado es el que ya falló con «Guadalajara de
+Buga» (R10, M8); eso lo escribe la ingesta en la fase 4.
+
 ## 2026-08-23 — Reglas de método (M1–M10): las cicatrices se escriben en el contrato
 
 Contexto: en una sola jornada de rediseño aparecieron cuatro errores del mismo tipo, y
