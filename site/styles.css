@@ -748,3 +748,46 @@ a.metric-card:hover { border-color: var(--s1); }
    municipios 3.552/209 · balances 1.880/38 · noticias 6.277/206.
    Cualquier variación delata que se coló algo que no era CSS.
    ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── LOTE 1 · Tokens ────────────────────────────────────────────────────
+   Solo alias y tokens nuevos. NO se redeclara ni uno de los que ya existen
+   arriba: sus valores oscuros están razonados con ratios de contraste
+   anotados, y cambiarlos sería una decisión estética disfrazada de porte.
+
+   Por qué los alias son `var(...)` y no el color copiado: una propiedad
+   personalizada se sustituye en el momento de USARSE, no de declararse, así
+   que `--copernicus` recoge sola el valor que `--s1` tenga en el tema activo.
+   Un alias no puede desincronizarse; un color copiado sí. Y por eso este
+   bloque puede vivir al final de la hoja sin romper el tema oscuro. */
+:root {
+  /* Los cuatro colores tenían ya nombre en esta hoja, pero el nombre no dice
+     qué son. Fuente de verdad siguen siendo los --sN, que el marcado emite en
+     línea 21 veces desde render_html.py y otras tantas desde app.js: aquí solo
+     se les pone encima un nombre legible para escribir código nuevo. */
+  --copernicus: var(--s1);
+  --unosat:     var(--s9);
+  --sertit:     var(--s8);
+  --ciudadano:  var(--s7);
+
+  /* El gris de lo que nadie miró. Es el mismo tono de --muted, pero con su
+     propio nombre porque significa otra cosa: no es «texto secundario», es
+     «aquí no hay dato». Un municipio en gris NO es un municipio con cero
+     daño — R3 en forma de color. */
+  --ausencia: var(--muted);
+
+  /* El prototipo llama --surface a lo que esta hoja llama --surface-1.
+     Sin este alias, 19 reglas del sistema nuevo caerían a `unset` y barra,
+     chips, panel, tarjetas y cabeceras de tabla se quedarían transparentes
+     sobre el fondo de la página. */
+  --surface: var(--surface-1);
+
+  /* El radio del sistema. Ya se usaba a mano en seis sitios de esta hoja. */
+  --radio: 10px;
+
+  /* UN SOLO EJE para las 213 páginas. El prototipo traía el suyo a 1.240 px
+     sin saber que la hoja ya tenía --margen a 1.100: dos ejes dan dos bordes
+     izquierdos, que es el defecto que el propio prototipo midió y corrigió
+     dentro de su hoja. Aquí es alias, no valor: el eje del sitio manda.
+     Todavía no lo consume nadie — se aplica en el lote 5. */
+  --eje: var(--margen);
+}
