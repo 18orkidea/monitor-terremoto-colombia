@@ -2,7 +2,7 @@
 
    La barra y el pie YA NO se inyectan aquí: los escribe el build
    (`deploy/render_html.py::nav_estatico` / `pie_estatico`, y el paso
-   `escribir_barra_y_pie`), que es la fuente única de las 213 páginas. Vivían
+   `escribir_piezas_compartidas`), que es la fuente única de las 213 páginas. Vivían
    dos veces —aquí y allí— y había que sincronizarlas a mano; además, inyectadas
    por JavaScript llegaban vacías a quien lee el sitio sin ejecutarlo.
 

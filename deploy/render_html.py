@@ -404,6 +404,42 @@ OFICIALES_BASE = ("https://monitor-terremoto-colombia-oficiales-ai"
                   ".inforesidencias.workers.dev")
 TELEGRAM_CANAL = "https://t.me/terremotoCO2026"
 
+# ------------------------------------------------------- identidad publicadora
+# Quién publica esto, idéntico en las 213 páginas. La constante única no es
+# manía de estilo: **`@id` NO resuelve entre documentos**. Dentro de una misma
+# página un parser fusiona los bloques y resuelve las referencias; entre páginas
+# distintas, no —cada URL se procesa aislada—, así que un `{"@id": "…#organization"}`
+# en la ficha de Cali no va a buscar su definición a la portada. Lo que hace que
+# las 213 hablen de la misma entidad no es la sintaxis: es que el valor sea el
+# mismo en las 213. De ahí una constante y un solo camino para escribirla (M2),
+# con `TestMarcadoEstructurado` comprobando que llega igual a las 213.
+#
+# `WebSite` y `DataCatalog` en un solo nodo —JSON-LD admite `@type` como lista—
+# para no inventar una tercera entidad: esto es a la vez el sitio y el catálogo
+# que contiene los 208 datasets municipales.
+ORGANIZACION = "https://datosdelterremoto.org/#organization"
+SITIO = "https://datosdelterremoto.org/#site"
+IDENTIDAD = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {"@type": "Organization", "@id": ORGANIZACION,
+         "name": "Datos del terremoto de Colombia 2026",
+         "url": "https://datosdelterremoto.org/",
+         "logo": "https://datosdelterremoto.org/icons/icono-512.png",
+         "sameAs": [REPO]},
+        {"@type": ["WebSite", "DataCatalog"], "@id": SITIO,
+         "name": "Datos del terremoto de Colombia 2026",
+         "url": "https://datosdelterremoto.org/",
+         "inLanguage": "es",
+         "publisher": {"@id": ORGANIZACION}},
+    ]}
+# Serializado una sola vez: así «idéntico en las 213» es un hecho del código y
+# no una intención. El `id` sobrevive a la escritura a propósito — es lo que
+# permite a `escribir_piezas_compartidas()` distinguir el marcador perdido del
+# marcador ya gastado.
+BLOQUE_IDENTIDAD = ('<script type="application/ld+json" id="site-identity">'
+                    + json.dumps(IDENTIDAD, ensure_ascii=False) + '</script>')
+
 
 def nav_estatico(activa: str = "municipios.html", botones_js: bool = False) -> str:
     """La barra del sitio.
@@ -885,10 +921,18 @@ def render_ficha(d: dict) -> str:
              f"evaluación satelital de daño. "
              f"Cada cifra con su fuente y su fecha.")
     ld = {
-        "@context": "https://schema.org", "@type": "Dataset", "url": url,
+        "@context": "https://schema.org", "@type": "Dataset",
+        "@id": f"{url}#dataset", "url": url,
         "name": f"Damnificados y cobertura del terremoto de 2026 en {nombre} ({depto})",
         "description": descr, "inLanguage": "es", "temporalCoverage": "2026-08-10/..",
         "license": "https://creativecommons.org/licenses/by/4.0/",
+        # R9 en el marcado: quien compiló ESTE documento —el cruce de RUD,
+        # satélites y DANE para este municipio— es el monitor, no la fuente. Si
+        # `creator` apuntara a la UNGRD publicaríamos que la UNGRD firma un
+        # documento que mezcla tres satélites y el DANE. La atribución de origen
+        # vive en otro campo (`citation`), que llega con la ficha.
+        "creator": {"@id": ORGANIZACION},
+        "publisher": {"@id": ORGANIZACION},
         "spatialCoverage": {
             "@type": "Place", "name": f"{nombre}, {depto}, Colombia",
             "identifier": {"@type": "PropertyValue", "propertyID": "DIVIPOLA",
@@ -898,8 +942,16 @@ def render_ficha(d: dict) -> str:
             # Guinea (R3).
             **({"geo": {"@type": "GeoCoordinates", "latitude": m["lat"],
                         "longitude": m["lon"]}} if d["tiene_coords"] else {})},
-        "isPartOf": {"@type": "Dataset", "name": "Datos del terremoto de Colombia 2026",
-                     "url": "https://datosdelterremoto.org/"}}
+        # Dos referencias por `@id`, nunca un nodo dentro de otro: Google valida
+        # recursivamente CUALQUIER nodo `"@type": "Dataset"`, esté donde esté
+        # anidado, así que el `isPartOf` que embebía un segundo Dataset se
+        # validaba como dataset independiente —sin `description`— en las 208
+        # fichas. No se parchea añadiéndole el campo que le falta: se cambia la
+        # forma, para que no quede un Dataset dentro de otro que nadie pueda
+        # copiar mañana. Quién es `#site` lo dice `BLOQUE_IDENTIDAD`, en esta
+        # misma página. G2 lo vigila a cualquier profundidad.
+        "isPartOf": {"@id": SITIO},
+        "includedInDataCatalog": {"@id": SITIO}}
     migas = [("Monitor de brechas", f"{BASE}/"),
              ("Municipios", f"{BASE}/municipios.html"),
              (nombre, None)]
@@ -931,6 +983,7 @@ def render_ficha(d: dict) -> str:
          f'<meta property="og:description" content="{e(descr)}">',
          f'<meta property="og:image" content="https://datosdelterremoto.org{BASE}/og/portada.png">',
          '<meta name="twitter:card" content="summary_large_image">',
+         BLOQUE_IDENTIDAD,
          f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>',
          f'<script type="application/ld+json">{json.dumps(ld_migas, ensure_ascii=False)}</script>',
          f'<link rel="stylesheet" href="{BASE}/styles.css?v=dev">',
@@ -1841,7 +1894,7 @@ def filas_noticias(ctx: dict) -> str:
     return "\n".join(salida)
 
 
-# ------------------------------------------- barra y pie de las cinco páginas
+# --------------------------------- piezas compartidas de las cinco páginas
 # Qué enlace va marcado en cada página. Explícito, y no derivado del nombre del
 # fichero, porque `nav_estatico()` decide por el `href` y una página que no
 # estuviera en `PAGINAS` se quedaría sin marca sin que nada lo dijera.
@@ -1854,16 +1907,24 @@ _MARCA_PIE = re.compile(r'<div id="site-footer"[^>]*></div>')
 # averías que comparten síntoma: el marcador borrado y el marcador ya gastado.
 _CONTENEDOR_NAV = re.compile(r'<nav id="site-nav"[^>]*>')
 _CONTENEDOR_PIE = re.compile(r'<div id="site-footer"[^>]*>')
+# El nodo de identidad va en el <head>, y ahí el contenedor vacío es un
+# <script> sin cuerpo. Repetir el literal en las cinco páginas habría sido la
+# sexta copia de algo cuya única virtud es ser idéntico (M2): se escribe desde
+# la misma constante que usan las 208 fichas.
+_MARCA_LD = re.compile(
+    r'<script type="application/ld\+json" id="site-identity"></script>')
+_CONTENEDOR_LD = re.compile(r'<script type="application/ld\+json" id="site-identity">')
 
 
-def escribir_barra_y_pie(destino: Path) -> dict:
-    """Escribe la barra y el pie en las cinco páginas grandes de `dist/`.
+def escribir_piezas_compartidas(destino: Path) -> dict:
+    """Escribe la identidad, la barra y el pie en las cinco páginas de `dist/`.
 
     Paso propio y no un generador de `data-gen`: aquel empareja un generador con
     UNA página, lo llama sin argumentos y solo acepta `tbody|ul|span|section`.
     Aquí hacen falta cinco páginas con `activa` distinto y la etiqueta `nav`. Y
     sobre todo, `data-gen` es el mecanismo de los datos del día —lo que caduca
-    con la corrida—, y una barra de navegación no lo es.
+    con la corrida—, y ni una barra de navegación ni el nodo de identidad lo son:
+    el de identidad, justo al revés, vale porque no cambia nunca.
 
     Se hace sobre el artefacto y nunca sobre `site/*.html`, igual que el resto
     del prerenderizado: los marcadores vacíos son lo que se versiona.
@@ -1875,6 +1936,7 @@ def escribir_barra_y_pie(destino: Path) -> dict:
             continue
         html = f.read_text(encoding="utf-8")
         for etiqueta, marca, contenedor, pieza in (
+                ("identidad", _MARCA_LD, _CONTENEDOR_LD, BLOQUE_IDENTIDAD),
                 ("barra", _MARCA_NAV, _CONTENEDOR_NAV,
                  nav_estatico(activa, botones_js=True)),
                 ("pie", _MARCA_PIE, _CONTENEDOR_PIE, pie_estatico())):
@@ -1991,8 +2053,8 @@ if __name__ == "__main__":
     salida = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "dist"
     res = run(salida)
     print(f"fichas municipales: {res['fichas']} escritas, {res['omitidas']} sin señal")
-    for pagina, activa in escribir_barra_y_pie(salida).items():
-        print(f"barra y pie en {pagina}: enlace activo «{activa}»")
+    for pagina, activa in escribir_piezas_compartidas(salida).items():
+        print(f"identidad, barra y pie en {pagina}: enlace activo «{activa}»")
     ctx = contexto()
     for nombre, piezas in inyectar_prerenderizado(salida, ctx).items():
         print(f"prerenderizado: {nombre} con {piezas} pieza(s)")

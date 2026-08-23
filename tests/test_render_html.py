@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import date, timedelta
 from pathlib import Path
@@ -39,6 +40,42 @@ def correr_ui(expresion: str, datos="null"):
     if r.returncode != 0:
         raise AssertionError(f"node falló: {r.stderr[:500]}")
     return json.loads(r.stdout)
+
+
+# ---------------------------------------------------- lectura del JSON-LD
+# Un bloque JSON-LD no es un nodo: es un árbol, y puede ser un `@graph` con
+# varios. Google valida recursivamente CUALQUIER nodo, esté a la profundidad que
+# esté —de ahí que el `isPartOf` con un Dataset embebido se le exigiera como
+# dataset independiente—. Estas tres funciones son la única forma de leerlo en
+# los tests: mirar `ld["@type"]` del primer bloque es lo que dejó pasar el bug.
+
+def bloques_ld(html: str) -> list:
+    """Todos los bloques `application/ld+json` de un documento, ya parseados."""
+    return [json.loads(crudo) for crudo in re.findall(
+        r'<script type="application/ld\+json"[^>]*>(.+?)</script>', html, re.S)]
+
+
+def nodos_ld(valor):
+    """Cada objeto del árbol, a cualquier profundidad."""
+    if isinstance(valor, dict):
+        yield valor
+        for v in valor.values():
+            yield from nodos_ld(v)
+    elif isinstance(valor, list):
+        for v in valor:
+            yield from nodos_ld(v)
+
+
+def tipos_ld(nodo: dict) -> list:
+    """`@type` admite una cadena o una lista; se lee siempre como lista."""
+    t = nodo.get("@type", [])
+    return [t] if isinstance(t, str) else list(t)
+
+
+def datasets_ld(html: str) -> list:
+    """Los nodos `Dataset` de un documento, vengan de donde vengan."""
+    return [n for bloque in bloques_ld(html) for n in nodos_ld(bloque)
+            if "Dataset" in tipos_ld(n)]
 
 
 def _dias_entre(desde: str, hasta: str) -> list:
@@ -132,11 +169,24 @@ class TestFicha(unittest.TestCase):
         self.assertIn("<desc", svg.group(0))
 
     def test_json_ld_parseable_con_divipola(self):
-        crudo = re.search(r'application/ld\+json">(.*?)</script>', self.html, re.S).group(1)
-        ld = json.loads(crudo)
-        self.assertEqual(ld["@type"], "Dataset")
+        """Extendido el 23-ago-2026, y por un motivo: **no cazó el bug**.
+
+        Miraba `ld["@type"]` del primer bloque, y el fallo estaba un nivel más
+        abajo — un `isPartOf` que embebía un segundo `Dataset` sin
+        `description`, publicado así en las 208 fichas—. Un guardián que solo
+        mira la raíz no guarda el árbol. Ahora se leen todos los bloques y se
+        baja a cualquier profundidad, que es como valida Google.
+        """
+        datasets = datasets_ld(self.html)
+        self.assertEqual(len(datasets), 1,
+                         "una ficha describe UN dataset: si hay dos, alguno va "
+                         "anidado dentro del otro y se validará por separado")
+        ld, = datasets
         self.assertEqual(ld["spatialCoverage"]["identifier"]["value"],
                          self.ctx["idx"][self.nombre]["divipola"])
+        for campo in ("name", "description"):
+            self.assertTrue((ld.get(campo) or "").strip(),
+                            f"el dataset de la ficha se publica sin «{campo}»")
 
     def test_el_rud_se_describe_como_registro_progresivo(self):
         """El vocabulario lo fija docs/LIMITACIONES.md: «registro progresivo,
@@ -1500,8 +1550,7 @@ class TestMunicipioSinCabecera(unittest.TestCase):
 
     def test_el_json_ld_no_publica_una_coordenada_inventada(self):
         html = R.render_ficha(R.datos_ficha(self.NOMBRE, self.ctx))
-        ld = json.loads(re.search(
-            r'<script type="application/ld\+json">(.+?)</script>', html).group(1))
+        ld, = datasets_ld(html)               # el dataset, esté en el bloque que esté
         self.assertIn("identifier", ld["spatialCoverage"])
         self.assertNotIn("geo", ld["spatialCoverage"])
 
@@ -1579,9 +1628,7 @@ class TestClaveYToponimo(unittest.TestCase):
         self.assertNotIn("Riosucio (Caldas)", rotulos)
 
     def test_el_json_ld_nombra_el_municipio_una_sola_vez(self):
-        crudo = re.search(r'application/ld\+json">(.*?)</script>',
-                          self.html, re.S).group(1)
-        ld = json.loads(crudo)
+        ld, = datasets_ld(self.html)
         self.assertNotIn("(Caldas) (Caldas)", ld["name"])
         self.assertEqual(ld["spatialCoverage"]["name"], "Riosucio, Caldas, Colombia")
 
@@ -1738,7 +1785,7 @@ class TestInventarioDelPie(unittest.TestCase):
 
     def test_el_inventario_llega_al_artefacto(self):
         """Fijar el generador no basta: lo que se publica es `dist/`, y el pie
-        viaja por dos caminos distintos —`escribir_barra_y_pie` en las cinco
+        viaja por dos caminos distintos —`escribir_piezas_compartidas` en las cinco
         páginas grandes, `render_ficha` en las 208 fichas—."""
         dist = ROOT / "dist"
         if not dist.exists():
@@ -1780,7 +1827,7 @@ class TestBarraYPieUnaSolaVez(unittest.TestCase):
         cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
         for pagina in cls.PAGINAS:
             shutil.copy(ROOT / "site" / pagina, cls.tmp / pagina)
-        cls.escritas = R.escribir_barra_y_pie(cls.tmp)
+        cls.escritas = R.escribir_piezas_compartidas(cls.tmp)
         cls.html = {p: (cls.tmp / p).read_text(encoding="utf-8") for p in cls.PAGINAS}
 
     # Un contenedor vacío es literalmente `<nav …></nav>`: no hace falta
@@ -1898,7 +1945,7 @@ class TestBarraYPieUnaSolaVez(unittest.TestCase):
         (mudo / "index.html").write_text("<html><body>sin marcadores</body></html>",
                                          encoding="utf-8")
         with self.assertRaises(LookupError) as roto:
-            R.escribir_barra_y_pie(mudo)
+            R.escribir_piezas_compartidas(mudo)
         self.assertIn("marcador", str(roto.exception))
         self.assertNotIn("ya estaba escrita", str(roto.exception))
 
@@ -1914,10 +1961,10 @@ class TestBarraYPieUnaSolaVez(unittest.TestCase):
         self.addCleanup(shutil.rmtree, repetido, ignore_errors=True)
         for pagina in self.PAGINAS:
             shutil.copy(ROOT / "site" / pagina, repetido / pagina)
-        self.assertEqual(sorted(R.escribir_barra_y_pie(repetido)),
+        self.assertEqual(sorted(R.escribir_piezas_compartidas(repetido)),
                          sorted(self.PAGINAS), "la primera pasada ya falló")
         with self.assertRaises(LookupError) as repetida:
-            R.escribir_barra_y_pie(repetido)
+            R.escribir_piezas_compartidas(repetido)
         aviso = str(repetida.exception)
         self.assertIn("ya estaba escrita", aviso)
         self.assertNotIn("marcador", aviso, "sigue mandando a mirar site/*.html")
@@ -1961,3 +2008,139 @@ class TestSubtituloRetirado(unittest.TestCase):
         fecha = R.fecha_larga(self.datos["generado"])
         tabla = self.html.split("Fuentes y trazabilidad")[1]
         self.assertIn(fecha, tabla, "la ficha dejó de decir de qué día son sus cifras")
+
+
+class TestMarcadoEstructurado(unittest.TestCase):
+    """Los guardianes del JSON-LD, sobre las 213 páginas construidas.
+
+    No sobre una ficha de muestra: el bug que motiva esta clase —un `isPartOf`
+    que embebía un segundo `Dataset` sin `description`— se publicó en las 208
+    fichas a la vez, y el test que había miraba el nodo raíz de un solo
+    documento. Aquí se construye el artefacto entero y se recorre cada bloque
+    JSON-LD hasta el fondo, que es como lo lee Google.
+
+    Se valida sobre el JSON parseado, nunca sobre el texto crudo: buscar
+    `"contentUrl": "/` con expresiones regulares daría falsos positivos con
+    cualquier URL externa legítima que lleve una barra.
+    """
+
+    URL_ABSOLUTA = ("contentUrl", "url", "logo", "@id")
+    # Escritas aquí y no leídas de `R.PAGINAS_GRANDES`: si el guardián tomara
+    # su expectativa de la misma lista que vigila, una página que desapareciera
+    # del build desaparecería a la vez de la comprobación y el test seguiría en
+    # verde sobre cuatro páginas.
+    ESTATICAS = ("index.html", "municipios.html", "rud.html",
+                 "balances.html", "noticias.html")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
+        cls.res = R.run(cls.tmp)                       # las 208 fichas
+        for pagina in cls.ESTATICAS:                   # y las cinco grandes
+            shutil.copy(ROOT / "site" / pagina, cls.tmp / pagina)
+        R.escribir_piezas_compartidas(cls.tmp)
+        cls.paginas = sorted(cls.tmp.rglob("*.html"))
+
+    def _nombre(self, pagina: Path) -> str:
+        return str(pagina.relative_to(self.tmp))
+
+    def test_la_cobertura_es_de_verdad_las_213(self):
+        """Sin esto, los guardianes de abajo podrían estar recorriendo tres
+        páginas y dando verde: «la lista no está vacía» es la trampa de M1 con
+        otro traje. El número de fichas no se escribe a mano —crece con los
+        datos—: se compara con el que declara el propio build."""
+        fichas = [p for p in self.paginas if p.parent.parent.name == "municipio"]
+        self.assertEqual(len(fichas), self.res["fichas"])
+        self.assertGreater(len(fichas), 200, "el artefacto se ha encogido")
+        self.assertEqual(sorted(R.PAGINAS_GRANDES), sorted(self.ESTATICAS),
+                         "el build dejó de escribir alguna de las cinco grandes")
+        self.assertEqual(len(self.paginas), len(fichas) + len(self.ESTATICAS))
+        for pagina in self.paginas:
+            self.assertTrue(bloques_ld(pagina.read_text(encoding="utf-8")),
+                            f"{self._nombre(pagina)}: sin ningún bloque JSON-LD")
+
+    def test_g2_ningun_dataset_sin_nombre_ni_descripcion(self):
+        """G2 · A cualquier profundidad y en cualquiera de las 213.
+
+        Google valida recursivamente CUALQUIER nodo `"@type": "Dataset"`, esté
+        anidado donde esté: uno embebido dentro de otro se valida como dataset
+        independiente y se le exigen sus propios campos. La forma correcta es
+        referenciar por `@id`, nunca meter un dataset dentro de otro — por eso
+        este test no se conforma con que existan los campos: comprueba también
+        que no haya un `Dataset` colgando de otro.
+        """
+        for pagina in self.paginas:
+            html = pagina.read_text(encoding="utf-8")
+            for nodo in datasets_ld(html):
+                for campo in ("name", "description"):
+                    valor = nodo.get(campo)
+                    self.assertIsInstance(
+                        valor, str,
+                        f"{self._nombre(pagina)}: un Dataset sin «{campo}» "
+                        f"({nodo.get('@id') or nodo.get('name') or nodo})")
+                    self.assertTrue(
+                        valor.strip(),
+                        f"{self._nombre(pagina)}: Dataset con «{campo}» vacío")
+                for clave, valor in nodo.items():
+                    if clave == "@type":
+                        continue
+                    anidados = [n for n in nodos_ld(valor)
+                                if "Dataset" in tipos_ld(n)]
+                    self.assertEqual(
+                        anidados, [],
+                        f"{self._nombre(pagina)}: un Dataset anidado dentro de "
+                        f"otro en «{clave}» — referencia por @id, no lo embebas")
+
+    def test_g6_toda_url_del_marcado_es_absoluta(self):
+        """G6 · Una ruta relativa depende de conocer la URL base del documento:
+        cierto para un navegador, falso para el indexador de datasets que
+        extrae el bloque JSON-LD como JSON suelto — que es justo quien lo lee.
+        """
+        for pagina in self.paginas:
+            html = pagina.read_text(encoding="utf-8")
+            for bloque in bloques_ld(html):
+                for nodo in nodos_ld(bloque):
+                    for campo in self.URL_ABSOLUTA:
+                        valor = nodo.get(campo)
+                        # una lista de URLs vale; un objeto anidado (un `logo`
+                        # que sea ImageObject) lo alcanza la propia recursión
+                        crudas = [valor] if isinstance(valor, str) else [
+                            v for v in (valor or []) if isinstance(v, str)]
+                        for cruda in crudas:
+                            partes = urllib.parse.urlparse(cruda)
+                            self.assertTrue(
+                                partes.scheme and partes.netloc,
+                                f"{self._nombre(pagina)}: «{campo}» relativo "
+                                f"→ {cruda}")
+
+    def test_la_identidad_llega_identica_a_las_213(self):
+        """`@id` NO resuelve entre documentos: cada URL se procesa aislada, así
+        que lo que hace que las 213 hablen de la misma entidad no es la
+        sintaxis, es que el valor sea el mismo. Se compara la cadena entera,
+        no «contiene un #organization»."""
+        for pagina in self.paginas:
+            html = pagina.read_text(encoding="utf-8")
+            self.assertEqual(
+                html.count(R.BLOQUE_IDENTIDAD), 1,
+                f"{self._nombre(pagina)}: el nodo de identidad no llega igual")
+
+    def test_la_identidad_declara_las_dos_entidades_que_se_referencian(self):
+        """Un `@id` que no se define en la misma página es un cascarón vacío
+        para quien lee solo esa página. Todo `@id` referenciado desde cualquier
+        bloque tiene que estar definido en ese mismo documento."""
+        for pagina in self.paginas:
+            html = pagina.read_text(encoding="utf-8")
+            definidos, referenciados = set(), set()
+            for bloque in bloques_ld(html):
+                for nodo in nodos_ld(bloque):
+                    ident = nodo.get("@id")
+                    if not isinstance(ident, str):
+                        continue
+                    (referenciados if set(nodo) == {"@id"} else definidos).add(ident)
+            self.assertLessEqual(
+                referenciados, definidos,
+                f"{self._nombre(pagina)}: referencia a "
+                f"{sorted(referenciados - definidos)} sin definirla aquí")
+            self.assertIn(R.ORGANIZACION, definidos)
+            self.assertIn(R.SITIO, definidos)

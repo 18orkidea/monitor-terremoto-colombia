@@ -1489,3 +1489,78 @@ Consecuencia medida sobre `dist/`: las cinco páginas ganan **216 palabras cada
 una** en el HTML servido (index 3.259 → 3.475 · municipios 3.552 → 3.768 · rud
 2.603 → 2.819 · balances 1.880 → 2.096 · noticias 6.277 → 6.493), sin perder
 ninguna fila.
+
+### Un `Dataset` no vive dentro de otro: la identidad se referencia (23-ago-2026)
+
+Contexto: las 208 fichas municipales publicaban su tarjeta legible por máquina
+—el `Dataset` de schema.org que dice qué contiene la página— con una línea que
+decía «esto forma parte del sitio» **embebiendo un segundo `Dataset` completo**:
+
+```json
+"isPartOf": {"@type": "Dataset", "name": "Datos del terremoto de Colombia 2026",
+             "url": "https://datosdelterremoto.org/"}
+```
+
+Google valida **recursivamente cualquier nodo `"@type": "Dataset"`**, esté a la
+profundidad que esté. Ese nodo anidado no es un enlace: es un dataset
+independiente al que se le exigen sus propios campos, y no tenía `description`.
+Un dataset inválido en las 208 fichas, en producción. El test que debía cazarlo
+—`test_json_ld_parseable_con_divipola`— **miraba solo el nodo raíz** y llevaba
+meses en verde: otro guardián que no guarda (M1).
+
+Decisión, en tres partes:
+
+1. **No se parchea añadiendo el campo que falta: se cambia la forma.** El nodo
+   anidado desaparece y quedan dos referencias por `@id`, `isPartOf` e
+   `includedInDataCatalog`, que no son nodos que validar sino punteros. Así
+   nadie puede copiar mañana el patrón malo, que es lo que un `description`
+   añadido habría dejado intacto.
+2. **Un nodo de identidad, idéntico en las 213 páginas**, con la `Organization`
+   que publica y un nodo `["WebSite", "DataCatalog"]` —JSON-LD admite `@type`
+   como lista, y esto es a la vez el sitio y el catálogo de los 208 datasets
+   municipales—. Vive en **una sola constante**, `render_html.py::IDENTIDAD`,
+   serializada una vez en `BLOQUE_IDENTIDAD`.
+3. **Las cinco páginas grandes lo reciben del build, no del copiar y pegar.**
+   `escribir_barra_y_pie()` pasa a llamarse **`escribir_piezas_compartidas()`**
+   y escribe una tercera pieza en el `<head>` de las cinco, con el mismo
+   mecanismo de marcador vacío que la barra y el pie. Repetir el literal en
+   `site/*.html` habría creado seis copias de algo **cuya única virtud es ser
+   idéntico**: la definición de M2.
+
+El porqué del punto 3 no es de estilo. **`@id` NO resuelve entre documentos**:
+dentro de una página un parser fusiona los bloques y resuelve las referencias,
+pero entre páginas distintas cada URL se procesa aislada, y un
+`{"@id": "…#organization"}` en la ficha de Cali **no** va a buscar su definición
+a la portada. Lo que hace que las 213 hablen de la misma entidad no es la
+sintaxis: es que el valor sea el mismo en las 213. Eso solo lo garantiza una
+constante única **más un test que lo compruebe**.
+
+De paso, tres correcciones de la misma familia:
+
+- Las cuatro descargas de la portada declaraban `contentUrl` **relativo**
+  (`/data/public/crosscheck.csv`). Una ruta relativa depende de conocer la URL
+  base del documento: cierto para un navegador, **falso para el indexador de
+  datasets que extrae el bloque JSON-LD como JSON suelto**, que es justo quien
+  lo lee. Lo mismo en `balances.html`.
+- El `creator` de la portada decía «Monitor de brechas de reporte de
+  desastres» —el nombre interno— y pasa a referenciar la identidad compartida.
+  Es la misma avería de identidad doble que ya se corrigió en el pie.
+- El `isPartOf` de `noticias.html` embebía otro `WebSite` con nombre y URL.
+  Con el nodo de identidad en la página serían **dos entidades sitio en el
+  mismo documento**: pasa a referenciar `#site` por `@id`.
+
+Consecuencia: `TestMarcadoEstructurado` construye las 213 páginas y las recorre
+enteras. **G2**: ningún `Dataset`, a cualquier profundidad, sin `name` y
+`description` no vacíos — y ninguno anidado dentro de otro. **G6**: toda URL de
+`contentUrl`/`url`/`logo`/`@id` es absoluta, comprobado **sobre el JSON
+parseado y no sobre el texto crudo**, para no dar falsos positivos con URLs
+externas legítimas. Los nueve bugs que se le metieron a propósito mueren, el
+de hoy incluido (M1). El HTML visible no cambia: las cinco páginas conservan
+sus palabras exactas (3.475 · 3.768 · 2.819 · 2.096 · 6.493), porque
+`seo_check` descarta los `<script>`.
+
+**Lo que NO entra en esta pasada**, y queda para la ficha: `variableMeasured`
+con valor y unidad, `citation` con las fuentes que de verdad tienen dato, y
+`measurementTechnique` —el campo que impide que una IA confunda «familias
+**inscritas**» con «**verificadas**»—. Con `variableMeasured` llega su guardián
+G1: ningún `value: 0` donde el origen es `None`, que es la R3 en el marcado.

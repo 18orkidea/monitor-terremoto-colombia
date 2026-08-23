@@ -193,6 +193,13 @@
    "resumen": "Las cinco páginas principales ya se leen sin ejecutar JavaScript.",
    "texto": "El mapa, los municipios, el registro oficial, los balances y los titulares llegaban al lector sin barra de navegación y sin pie: los escribía el navegador al abrirlos, así que quien lee el sitio sin ejecutar JavaScript —los archivos de la web y los rastreadores que alimentan los sistemas de inteligencia artificial— recibía cinco páginas sin un solo enlace hacia el resto del monitor. Desde hoy van escritas en el documento, como ya lo estaban en las 208 fichas municipales. Es la misma navegación de siempre, con dos diferencias: los enlaces pierden el icono que los precedía y el pie pasa a ser idéntico en las 213 páginas.",
    "url": "/"
+  },
+  {
+   "fecha": "2026-08-23",
+   "tipo": "monitor",
+   "resumen": "Las fichas municipales se presentaban mal ante los buscadores y los sistemas de IA.",
+   "texto": "Cada una de las 208 fichas municipales lleva una tarjeta invisible para el lector y decisiva para quien no lee con los ojos: la ficha técnica que describe, en un formato normalizado, qué datos contiene la página. Dentro de esa tarjeta, la línea que decía «esto forma parte del sitio» no enlazaba al sitio: declaraba un segundo conjunto de datos, sin descripción, que los validadores leen como incompleto. Se corrige cambiando la forma y no rellenando el hueco: la tarjeta pasa a apuntar a una identidad única —quién publica esto— escrita igual en las 213 páginas del monitor. En la portada, además, las cuatro descargas de datos abiertos declaraban direcciones relativas, que un programa que extrae la ficha técnica por separado no puede resolver, y la autoría figuraba con el nombre interno del proyecto en vez del público. Nada de esto cambia lo que se ve en pantalla: cambia quién puede citar estas cifras sin equivocarse.",
+   "url": "/municipio/cali/"
   }
  ]
 }

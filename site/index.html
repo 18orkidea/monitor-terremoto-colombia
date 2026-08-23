@@ -25,6 +25,7 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://datosdelterremoto.org/#site",
   "name": "Datos del terremoto de Colombia 2026",
   "inLanguage": "es",
   "about": {
@@ -41,20 +42,23 @@
     "@type": "Dataset",
     "name": "Cruce diario de daños del terremoto de Colombia 2026",
     "description": "Daños por AOI del servicio Copernicus EMS (EMSR916), municipios con prensa o intensidad percibida, población DANE 2026, reportes ciudadanos geolocalizados (ChatMap OSM Colombia), intensidad USGS ShakeMap/DYFI, titulares por zona desde feeds abiertos, balances publicados en medios que citan fuentes oficiales y cobertura de fuentes oficiales UNGRD, con trazabilidad completa de cada cifra.",
-    "creator": { "@type": "Organization", "name": "Monitor de brechas de reporte de desastres" },
+    "creator": { "@id": "https://datosdelterremoto.org/#organization" },
+    "publisher": { "@id": "https://datosdelterremoto.org/#organization" },
+    "includedInDataCatalog": { "@id": "https://datosdelterremoto.org/#site" },
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "temporalCoverage": "2026-08-10/..",
     "spatialCoverage": { "@type": "Place", "name": "Occidente de Colombia" },
     "distribution": [
-      { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "/data/public/crosscheck.csv" },
-      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/public/monitor.json" },
-      { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "/data/public/unosat_damage.geojson" },
-      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/public/municipios_mapa.json" }
+      { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://datosdelterremoto.org/data/public/crosscheck.csv" },
+      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://datosdelterremoto.org/data/public/monitor.json" },
+      { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://datosdelterremoto.org/data/public/unosat_damage.geojson" },
+      { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://datosdelterremoto.org/data/public/municipios_mapa.json" }
     ]
   }
 }
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script type="application/ld+json" id="site-identity"></script>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
