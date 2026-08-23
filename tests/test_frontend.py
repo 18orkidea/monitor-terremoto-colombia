@@ -1372,6 +1372,48 @@ def _css_sin_comentarios(css):
     return re.sub(r"/\*.*?\*/", lambda m: " " * len(m.group(0)), css, flags=re.S)
 
 
+def _reglas(css_limpio):
+    """Cada regla de una hoja ya sin comentarios: (selectores, declaraciones).
+
+    Los selectores llegan sueltos y normalizados a un espacio, y las reglas de
+    dentro de un `@media` entran como cualquier otra —el `[^{}]` no cruza
+    llaves, así que lo que se recoge es la regla interna y no el `@media`—.
+    """
+    fuera = []
+    for selector, cuerpo in re.findall(r"([^{}]+)\{([^{}]*)\}", css_limpio):
+        if "@" in selector:
+            continue
+        sels = [" ".join(s.split()) for s in selector.split(",") if s.strip()]
+        decls = [" ".join(d.split()) for d in cuerpo.split(";") if d.strip()]
+        if sels:
+            fuera.append((sels, decls))
+    return fuera
+
+
+def _sujeto(selector):
+    """El compuesto FINAL de un selector: el elemento que la regla ESTILA.
+
+    `.chip .n` estila el `.n`, que está dentro; `.chip:has(.punto)` estila el
+    CHIP. Esa diferencia es justo la que separa la parte de un componente de
+    una deducción sobre el componente entero.
+    """
+    return re.split(r"[\s>+~]+", selector.strip())[-1]
+
+
+# Propiedades que mueven cajas. Un color de más se ve y se corrige; una caja
+# que cambia de `display` remaqueta la tira entera y arrastra a sus vecinas.
+_MAQUETA = (
+    "display", "position", "float", "clear", "overflow", "inset", "order",
+    "width", "height", "min-width", "min-height", "max-width", "max-height",
+    "margin", "padding", "gap", "flex", "grid", "columns", "white-space",
+    "align-", "justify-", "place-", "top", "right", "bottom", "left",
+)
+
+
+def _es_maqueta(declaracion):
+    return declaracion.split(":", 1)[0].strip().startswith(_MAQUETA)
+
+
 class TestSistemaDelRedisenoNoPisaLaHojaVieja(unittest.TestCase):
     """El `:root` del final no puede redeclarar ni un token de los de arriba.
 
@@ -1391,10 +1433,44 @@ class TestSistemaDelRedisenoNoPisaLaHojaVieja(unittest.TestCase):
     CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
     MARCA = "SISTEMA DEL REDISEÑO 2026"
 
+    # Mirar solo los `:root` dejaba fuera la mitad del peligro. Un token no se
+    # pisa únicamente desde la raíz: se pisa desde CUALQUIER bloque que alcance
+    # a todo el documento. `body { --ink: #333 }` al final de la hoja no compite
+    # con `:root` por especificidad —hereda a todos sus descendientes y les gana
+    # en los dos temas—, y pasaba en verde viéndose perfectamente.
+    ALCANCE_GLOBAL = re.compile(r"^(?::root|html|body|\*)(?![\w-])")
+
+    # `html` a secas es la única excepción, y no por costumbre: `:root` vale
+    # (0,1,0) y `html` (0,0,1) sobre EL MISMO elemento, así que `:root` gana
+    # pase donde pase en la hoja. Redeclarar ahí es una declaración muerta, no
+    # un fallo visible. Cualquier cosa más específica —`html.tema`,
+    # `html[data-tema]`— sí gana, y por eso la excepción es un literal exacto
+    # y no un prefijo.
+    INOCUOS = {"html"}
+
     def _roots(self, texto):
         """Los tokens declarados en cada bloque `:root` de un tramo de hoja."""
         return [set(re.findall(r"(--[a-zA-Z0-9_-]+)\s*:", cuerpo))
                 for cuerpo in re.findall(r":root\s*\{([^{}]*)\}", texto)]
+
+    def _globales(self, texto):
+        """(selector, tokens) de cada bloque que redefine para TODO el documento.
+
+        Global es el selector de UN SOLO compuesto anclado en la raíz o en un
+        ancestro de todo: `body .aviso { --ac: … }` no lo es —solo alcanza a
+        `.aviso`, y acotar un token a un componente es scoping legítimo—, ni lo
+        es `#site-nav .nav-links > *`, que ya vive en esta hoja.
+        """
+        fuera = []
+        for sels, decls in _reglas(texto):
+            tokens = {m.group(1) for m in
+                      (re.match(r"(--[a-zA-Z0-9_-]+)\s*:", d) for d in decls) if m}
+            if not tokens:
+                continue
+            for s in sels:
+                if s == _sujeto(s) and self.ALCANCE_GLOBAL.match(s):
+                    fuera.append((s, tokens))
+        return fuera
 
     def setUp(self):
         self.assertIn(self.MARCA, self.CSS,
@@ -1403,6 +1479,8 @@ class TestSistemaDelRedisenoNoPisaLaHojaVieja(unittest.TestCase):
         limpio = _css_sin_comentarios(self.CSS)
         self.arriba = self._roots(limpio[:corte])
         self.abajo = self._roots(limpio[corte:])
+        self.globales_arriba = self._globales(limpio[:corte])
+        self.globales_abajo = self._globales(limpio[corte:])
 
     def test_el_bloque_nuevo_declara_tokens_y_los_de_arriba_siguen_ahi(self):
         """Guardián de sí mismo: si el parseo no encuentra nada, el test de
@@ -1416,6 +1494,17 @@ class TestSistemaDelRedisenoNoPisaLaHojaVieja(unittest.TestCase):
             "arriba tienen que seguir estando al menos el `:root` inicial y el "
             "del bloque oscuro")
         self.assertIn("@media (prefers-color-scheme: dark)", self.CSS)
+        self.assertGreaterEqual(
+            len(self.globales_arriba), 2,
+            "el analizador de alcance global no reconoce ni los `:root` de "
+            "arriba: el test de abajo no vigilaría nada")
+        self.assertEqual(
+            {s for s, _ in self.globales_arriba}, {":root"},
+            "arriba, los tokens solo se declaran en `:root`; si aparece otro "
+            "bloque global declarándolos, la frontera de esta clase cambia")
+        self.assertIn(
+            "--ink", set().union(*(t for _s, t in self.globales_arriba)),
+            "el analizador no ve ni `--ink` entre los tokens de arriba")
 
     def test_el_root_del_final_no_redeclara_ningun_token_de_arriba(self):
         previos = set().union(*self.arriba)
@@ -1427,6 +1516,28 @@ class TestSistemaDelRedisenoNoPisaLaHojaVieja(unittest.TestCase):
             "donde el valor correcto lo pone el `@media (prefers-color-scheme: "
             "dark)` de arriba. Si de verdad hay que cambiar ese token, se "
             "cambia donde vive, con su pareja clara y oscura.")
+
+    def test_ningun_bloque_de_alcance_global_pisa_un_token_heredado(self):
+        """La red ancha: `:root` no es el único sitio desde el que se pisa un
+        token. `body { --ink: #333 }` al final de la hoja no compite con
+        `:root` por especificidad —está POR DEBAJO, hereda a todo lo visible y
+        le gana por proximidad—, y lo mismo hace `*`. El síntoma sería el de
+        siempre: tinta casi negra sobre fondo casi negro en las cinco páginas y
+        en las 208 fichas, sin que ningún `:root` nuevo aparezca en el diff."""
+        previos = set().union(*self.arriba)
+        for sel, tokens in self.globales_abajo:
+            if sel in self.INOCUOS:
+                continue
+            repetidos = sorted(tokens & previos)
+            with self.subTest(selector=sel):
+                self.assertEqual(
+                    repetidos, [],
+                    f"`{sel}` redeclara " + ", ".join(repetidos) + ": alcanza a "
+                    "todo el documento y se aplica DESPUÉS de los tokens de "
+                    "arriba, así que gana también en tema oscuro, donde el "
+                    "valor correcto lo pone el `@media (prefers-color-scheme: "
+                    "dark)`. Si de verdad hay que cambiar ese token, se cambia "
+                    "donde vive, con su pareja clara y oscura.")
 
 
 class TestPlegableLegadoYComponenteNoDivergen(unittest.TestCase):
@@ -1448,33 +1559,63 @@ class TestPlegableLegadoYComponenteNoDivergen(unittest.TestCase):
     CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
     LEGADOS = ("#como-leer", ".intro details", ".aviso details",
                "#alerts-section > details")
+    # Las parejas que hay hoy, contadas el 23-ago-2026. Es un número a mano
+    # a propósito: mientras dure la convivencia, el plegable no crece ni
+    # mengua solo. Si cambia, cambia con un commit que lo explique.
+    PAREJAS = 8
 
     @classmethod
     def setUpClass(cls):
         limpio = _css_sin_comentarios(cls.CSS)
-        cls.legado, cls.componente = {}, {}
-        for selector, cuerpo in re.findall(r"([^{}]+)\{([^{}]*)\}", limpio):
-            sels = [" ".join(s.split()) for s in selector.split(",") if s.strip()]
+        cls.legado, cls.componente, cls.contaminadas = {}, {}, []
+        for sels, decls in _reglas(limpio):
             pliegues = [s for s in sels if ".pliegue" in s]
-            viejos = [s for s in sels if s.startswith(cls.LEGADOS)]
-            # Solo las reglas del plegable: o son alias puros, o son el
-            # componente con sus alias colgando. Cualquier otra mezcla no es
-            # este bloque y no se compara.
-            if not viejos or len(viejos) + len(pliegues) != len(sels):
+            # `#como-leer.pliegue` empieza por un selector legado y además
+            # lleva la clase nueva: es el componente igualando especificidad
+            # con el id, no un alias. Cuenta como `.pliegue`.
+            alias = [s for s in sels
+                     if s.startswith(cls.LEGADOS) and ".pliegue" not in s]
+            ajenos = [s for s in sels if s not in pliegues and s not in alias]
+            if not alias:
+                # O no habla del plegable, o es una regla del componente sin
+                # alias que emparejar (`details.pliegue`), o es una lista de
+                # otro lote que incluye `details.pliegue` —la del eje—.
                 continue
-            decls = [" ".join(d.split()) for d in cuerpo.split(";") if d.strip()]
+            if ajenos:
+                cls.contaminadas.append((sels, ajenos))
+                continue
             destino = cls.componente if pliegues else cls.legado
-            destino[tuple(viejos)] = decls
+            destino[tuple(alias)] = decls
 
     def test_los_dos_bloques_del_plegable_siguen_conviviendo(self):
-        """Guardián de sí mismo: sin reglas emparejadas, el test de abajo
-        pasaría en verde comparando dos diccionarios vacíos. Si los alias se
-        retiraron de verdad, este test se retira con ellos en ese mismo commit
-        —que es justo el cambio verificable que pide el lote 3—."""
-        self.assertTrue(self.legado, "no queda ni una regla con los selectores "
-                                     "viejos: ¿se retiraron los alias?")
-        self.assertTrue(self.componente, "no queda ni una regla de `.pliegue` "
-                                         "que herede de los alias")
+        """Guardián de sí mismo, y por eso CUENTA en vez de preguntar si hay
+        algo. «No vacío» era exactamente el hueco: añadiendo un selector ajeno
+        a los DOS bloques, las dos reglas dejan de parsearse a la vez, salen
+        del emparejamiento, los diccionarios siguen sin estar vacíos y a partir
+        de ahí los dos bloques pueden divergir en verde. Es encogimiento
+        silencioso. Si los alias se retiraron de verdad, este test se retira
+        con ellos en ese mismo commit —que es justo el cambio verificable que
+        pide el lote 3—."""
+        self.assertEqual(
+            len(self.legado), self.PAREJAS,
+            f"hay {len(self.legado)} reglas con los selectores viejos y se "
+            f"esperaban {self.PAREJAS}: o se retiraron alias, o alguna se cayó "
+            "del análisis y ya no se compara con nada.")
+        self.assertEqual(
+            len(self.componente), self.PAREJAS,
+            f"hay {len(self.componente)} reglas de `.pliegue` con alias "
+            f"colgando y se esperaban {self.PAREJAS}.")
+
+    def test_ninguna_regla_del_plegable_se_cae_del_emparejamiento(self):
+        """La forma exacta del encogimiento: basta con colar un selector ajeno
+        en una regla del plegable para que se salga del análisis SIN QUE NADA
+        FALLE. Se detecta aquí, en vez de descartarla en silencio."""
+        self.assertEqual(
+            [(sels, ajenos) for sels, ajenos in self.contaminadas], [],
+            "una regla del plegable mezcla selectores que no son ni alias ni "
+            f"`.pliegue`: {self.contaminadas}. Así sale del emparejamiento y "
+            "los dos bloques pueden divergir sin que ningún test se entere. Si "
+            "ese selector tiene que ir ahí, se le da su propia regla.")
 
     def test_cada_regla_legada_tiene_su_espejo_en_el_componente(self):
         huerfanas = sorted(set(self.legado) - set(self.componente))
@@ -1575,3 +1716,204 @@ class TestNingunTokenSeUsaSinRespaldo(unittest.TestCase):
                         any(token in d for d in hereda),
                         f"`{sel}` hereda `{token}` de `{padre}`, pero `{padre}` "
                         "ya no lo declara: la herencia se quedó sin origen.")
+
+
+class TestElChipDeclaraLoQueEsYNoLoDeduce(unittest.TestCase):
+    """Un componente declara su tipo; no lo adivina por sus hijos.
+
+    `.chip` está vivo en tres páginas publicadas —`site/app.js`, `site/rud.js`
+    y `site/municipios.js` pintan las tres tiras de filtros— y `.punto` es un
+    nombre genérico y apetecible. El lote 4 llegó a decir
+    `.chip:has(.punto) { display: inline-flex; … }`: casaba con cero elementos,
+    cierto, pero dejaba el `display` de las tres tiras a merced de que alguien
+    metiera algún día un `.punto` dentro de un chip por cualquier otro motivo.
+    La tira se habría remaquetado sola sin que nadie tocase el CSS.
+
+    Ninguno de estos invariantes tenía guardián: en la fase 2, borrar
+    `.chip.activa`, ensanchar la regla del punto a `.chip` entera o meter
+    `.chips` en la lista del eje dejaban los 511 tests en verde. Un comentario
+    en mayúsculas no es un guardián.
+    """
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+    MARCA = "SISTEMA DEL REDISEÑO 2026"
+    # Las tres superficies que pintan un chip activo en el sitio publicado.
+    TIRAS = ("site/app.js", "site/rud.js", "site/municipios.js")
+
+    @classmethod
+    def setUpClass(cls):
+        limpio = _css_sin_comentarios(cls.CSS)
+        cls.reglas = _reglas(limpio)
+        # Sin cabezal no hay frontera: se deja el tramo nuevo vacío y que lo
+        # cuente el guardián de sí mismo, en vez de reventar en el setUpClass
+        # con un ValueError que no explica nada.
+        corte = cls.CSS.find(cls.MARCA)
+        cls.nuevas = _reglas(limpio[corte:]) if corte >= 0 else []
+
+    def test_el_analizador_mira_algo(self):
+        """Guardián de sí mismo: con un parseo vacío, o sin ninguna propiedad
+        de maqueta reconocida, los tests de abajo pasarían sin mirar nada."""
+        self.assertIn(self.MARCA, self.CSS, "el cabezal es la frontera")
+        self.assertGreater(len(self.reglas), 100, "no parsea la hoja")
+        self.assertGreater(len(self.nuevas), 20, "no parsea el sistema nuevo")
+        chips = [s for sels, _ in self.reglas for s in sels if ".chip" in s]
+        self.assertGreater(len(chips), 10, "no encuentra ni las reglas del chip")
+        # El filtro se comprueba contra ejemplos, no contando cuántos pasan:
+        # quitarle `display` lo dejaba medio ciego sin que nada bajara de cero.
+        for decl in ("display: inline-flex", "padding-left: var(--eje)",
+                     "gap: 7px", "margin: 16px var(--margen)"):
+            self.assertTrue(_es_maqueta(decl), f"`{decl}` es maqueta y no lo ve")
+        for decl in ("color: var(--ink)", "font-weight: 700",
+                     "border-radius: 999px", "background: var(--surface-1)"):
+            self.assertFalse(_es_maqueta(decl), f"`{decl}` no es maqueta")
+        # Y el sujeto, que es donde vive toda la diferencia entre estilar una
+        # PARTE del componente y remaquetar el componente ENTERO.
+        for selector, sujeto in ((".chip .n", ".n"),
+                                 ("details.pliegue > summary", "summary"),
+                                 (".chips-mapa .chip", ".chip"),
+                                 (".chip:has(.punto)", ".chip:has(.punto)"),
+                                 ("#site-nav .nav-links > *", "*")):
+            self.assertEqual(_sujeto(selector), sujeto,
+                             f"el sujeto de `{selector}` es `{sujeto}`")
+
+    def test_ninguna_regla_deduce_la_maqueta_de_un_componente_de_sus_hijos(self):
+        """`:has()` no está prohibido por feo: está prohibido para decidir
+        CAJAS. Un selector que mira dentro y cambia el `display` del padre
+        convierte a cualquier hijo futuro en el dueño de la maqueta."""
+        culpables = [
+            (s, [d for d in decls if _es_maqueta(d)])
+            for sels, decls in self.reglas for s in sels
+            if ":has(" in s and any(_es_maqueta(d) for d in decls)]
+        self.assertEqual(
+            culpables, [],
+            "una regla deduce la maqueta de un componente de sus hijos: "
+            f"{culpables}. El tipo de un componente se DECLARA con un "
+            "modificador en el marcado; si se infiere, el día que aparezca un "
+            "hijo con ese nombre por otro motivo la caja se remaqueta sola.")
+
+    def test_el_sistema_nuevo_no_remaqueta_chip_ni_chips_a_pelo(self):
+        """Regla 1 del cabezal, y promesa literal del lote 4: «`.chips` y
+        `.chip` NO se tocan». Lo aditivo entra con nombre propio.
+
+        «A pelo» quiere decir SIN NINGUNA CALIFICACIÓN: `.chips-mapa .chip`
+        —que vive en este mismo tramo— alcanza solo a los chips de un
+        contenedor que alguien escribió a mano, y eso es alcance declarado. Lo
+        que no puede pasar es que una regla nueva alcance a TODOS los chips del
+        sitio, que son las tres tiras de filtros publicadas.
+        """
+        for sels, decls in self.nuevas:
+            for s in sels:
+                clases = set(re.findall(r"\.([A-Za-z_][\w-]*)", s))
+                if _sujeto(s) not in (".chip", ".chips"):
+                    continue
+                if clases - {"chip", "chips"} or "#" in s or "[" in s:
+                    continue
+                self.fail(
+                    f"la regla `{', '.join(sels)}` estila `{_sujeto(s)}` a pelo "
+                    "desde el sistema del rediseño: alcanza a los chips de "
+                    "todo el sitio, o sea a las tres tiras de filtros "
+                    "publicadas. Lo nuevo entra como modificador con nombre "
+                    f"propio. Declara: {decls}")
+
+    def test_el_punto_del_chip_cuelga_de_un_modificador_declarado(self):
+        """Las dos mitades del componente —la caja y el punto— viven en el
+        mismo sitio: `.chip--punto`. Fuera de él, un `.punto` suelto dentro de
+        un chip no se pinta ni se coloca, que es lo que debe pasar."""
+        caja = [decls for sels, decls in self.nuevas if sels == [".chip--punto"]]
+        self.assertEqual(len(caja), 1,
+                         "falta (o sobra) la regla del modificador `.chip--punto`")
+        self.assertIn("display: inline-flex", caja[0],
+                      "el modificador existe pero no es quien maqueta el chip")
+        self.assertTrue(
+            [1 for sels, _ in self.nuevas if ".chip--punto .punto" in sels],
+            "el punto no cuelga del modificador")
+        sueltas = [", ".join(sels) for sels, _ in self.reglas
+                   if ".chip .punto" in sels]
+        self.assertEqual(
+            sueltas, [],
+            f"`.chip .punto` vuelve a estar en la hoja ({sueltas}): el punto se "
+            "pinta dentro del componente que lo declara, no en cualquier chip "
+            "que resulte contener un `.punto`.")
+
+    def test_el_estado_activo_del_chip_conserva_las_dos_mecanicas(self):
+        """El sitio marca el chip activo con `.activa` y el sistema del
+        rediseño con `aria-pressed`. Las dos van FUNDIDAS en un selector: si
+        se cae `.chip.activa`, las tres tiras publicadas pierden el estado
+        activo —y ningún test se enteraba—; si se cae `aria-pressed`, lo pierde
+        todo lo que llegue del rediseño y además el lector de pantalla."""
+        for archivo in self.TIRAS:
+            with self.subTest(fuente=archivo):
+                fuente = (ROOT / archivo).read_text(encoding="utf-8")
+                self.assertRegex(
+                    fuente, r'class="chip\$\{[^`]*?\bactiva\b',
+                    f"{archivo} ya no pinta el chip activo con `.activa`: si de "
+                    "verdad se pasó a `aria-pressed`, este test y la hoja se "
+                    "actualizan juntos")
+        fundidas = [sels for sels, _ in self.reglas
+                    if ".chip.activa" in sels
+                    and '.chip[aria-pressed="true"]' in sels]
+        self.assertEqual(
+            len(fundidas), 1,
+            "`.chip.activa` y `.chip[aria-pressed=\"true\"]` tienen que compartir "
+            "una sola regla. O falta una de las dos mecánicas, o el estilo se "
+            "escribió dos veces y ya pueden divergir.")
+
+
+class TestElEjeUnicoNoEntraDosVeces(unittest.TestCase):
+    """La tira de chips queda fuera del eje, y eso es un test, no un comentario.
+
+    `.chips` es la única exclusión de la lista del lote 5 y la única de esas
+    clases con elementos en el marcado publicado: tres tiras de filtros que ya
+    reciben su sangrado lateral de la `.page-section` que las contiene.
+    Sumarles el eje las metería dos veces hacia adentro y dejarían de alinearse
+    con el H2 de su propia sección. El comentario lo decía EN MAYÚSCULAS y aun
+    así meter `.chips` en la lista dejaba los 511 tests en verde.
+    """
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+    MARCA = "SISTEMA DEL REDISEÑO 2026"
+
+    @classmethod
+    def setUpClass(cls):
+        limpio = _css_sin_comentarios(cls.CSS)
+        cls.reglas = _reglas(limpio)
+        cls.eje = [sels for sels, decls in cls.reglas
+                   if "padding-left: var(--eje)" in decls]
+
+    def _clases(self, selector):
+        return set(re.findall(r"\.([A-Za-z_][\w-]*)", selector))
+
+    def test_hay_una_sola_regla_del_eje_y_lleva_los_dos_lados(self):
+        """Guardián de sí mismo: si el analizador no encuentra la regla, el
+        test de abajo comprobaría que `.chips` no está en una lista vacía."""
+        self.assertEqual(len(self.eje), 1,
+                         "el eje se aplica en una sola regla, o deja de ser único")
+        self.assertGreaterEqual(len(self.eje[0]), 5,
+                                "la lista del eje se ha quedado en nada")
+        for imprescindible in ("details.pliegue", ".zona-datos"):
+            self.assertIn(imprescindible, self.eje[0],
+                          "no es la regla del eje que este test cree mirar")
+        decls = [decls for sels, decls in self.reglas if sels == self.eje[0]][0]
+        self.assertIn("padding-right: var(--eje)", decls,
+                      "el eje sangra por los dos lados o no es un eje")
+
+    def test_la_tira_de_chips_queda_fuera_de_la_lista_del_eje(self):
+        dentro = [s for s in self.eje[0] if "chips" in self._clases(s)]
+        self.assertEqual(
+            dentro, [],
+            f"`.chips` ha entrado en la lista del eje ({dentro}): ya recibe su "
+            "sangrado de la `.page-section` que la contiene, así que el eje la "
+            "mete DOS veces hacia adentro y las tres tiras de filtros "
+            "publicadas dejan de alinearse con el H2 de su sección. Vuelve a "
+            "la lista el día que los chips salgan de las `.page-section`, y "
+            "ese día este test se retira con el cambio que lo justifica.")
+
+    def test_ninguna_otra_regla_le_da_el_eje_a_los_chips(self):
+        """Por la puerta de atrás cuenta igual: `.chips { padding-left:
+        var(--eje) }` en su propia regla sangra dos veces lo mismo."""
+        culpables = [", ".join(sels) for sels, decls in self.reglas
+                     if any("var(--eje)" in d for d in decls)
+                     and any("chips" in self._clases(s) or "chip" in self._clases(s)
+                             for s in sels)]
+        self.assertEqual(culpables, [],
+                         f"una regla le da el eje a los chips: {culpables}")

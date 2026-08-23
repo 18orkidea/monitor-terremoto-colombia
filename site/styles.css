@@ -1134,23 +1134,47 @@ details.denso>summary{color:var(--ink)}
    de filtros publicadas el mismo día. La tira deslizable entra como variante
    con nombre propio, para ponerla donde se quiera y no donde toque. */
 
-/* El punto de color hereda el color del chip, así que un chip cambia de fuente
-   cambiando una sola declaración y el punto le sigue. */
-.chip .punto { width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
+/* UN CHIP CON PUNTO ES UNA CLASE DE CHIP, NO UN CHIP QUE RESULTA CONTENER
+   ALGO. Por eso el modificador se declara en el marcado —`class="chip
+   chip--punto"`— y no se deduce de que dentro haya un `<span class="punto">`.
+   La primera versión de este bloque decía `.chip:has(.punto)`: casaba con cero
+   elementos, sí, pero le entregaba a un nombre tan genérico y apetecible como
+   `.punto` la llave del `display` de un componente vivo en tres páginas
+   publicadas. El día que alguien metiera un `.punto` dentro de un chip por
+   cualquier otro motivo, las tres tiras de filtros se habrían remaquetado
+   solas sin que nadie tocara el CSS, y el cambio de `display` es lo que más se
+   ve. Un componente declara lo que es; no lo adivina por sus hijos.
+
+   Aviso para quien porte el marcado del prototipo: allí `.chip` ya es
+   `inline-flex` para todos y los chips de capa no llevan modificador. Aquí no
+   se puede ensanchar `.chip` (regla 1 del cabezal), así que al traer ese
+   marcado hay que añadirle la clase. */
+.chip--punto { display: inline-flex; align-items: center; gap: 7px; }
+
+/* El punto va colgado del modificador y no de `.chip`, porque es la otra mitad
+   del mismo componente: fuera de él, un `.punto` suelto no se pinta ni se
+   coloca, que es exactamente lo que debe pasar. Dentro, hereda el color del
+   chip: un chip cambia de fuente cambiando una sola declaración y el punto le
+   sigue. */
+.chip--punto .punto { width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
 
 /* La cifra del chip, en tinta plena y con dígitos de ancho fijo: al filtrar,
-   los números cambian pero el chip no cambia de anchura y la tira no baila. */
+   los números cambian pero el chip no cambia de anchura y la tira no baila.
+   Esta SÍ se estila por descendencia, y es una decisión, no un descuido: `.n`
+   no decide nada del chip que lo contiene —se pinta a sí mismo, y solo color y
+   tipografía—, así que un `.n` inesperado dentro de un chip saldría en negrita
+   y ahí acabaría todo. No remaqueta la tira ni mueve de sitio a nadie. */
 .chip .n { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--ink); }
-
-/* Un chip con punto necesita alinearlo con el texto: inline-flex solo cuando
-   hay punto, para no alterar los chips de texto suelto que ya existen. */
-.chip:has(.punto) { display: inline-flex; align-items: center; gap: 7px; }
 
 /* La clave de color por fuente. Los tres satélites conservan de momento su
    color propio, porque unificarlos en azul —decidido por JP el 23-ago— cambia
    el significado visual de las tablas de municipios y de las 208 fichas, y eso
    va en su propia fase con su propia verificación. Cuando llegue, se cambia
-   aquí y en los --sN que el marcado emite en línea, no solo aquí. */
+   aquí y en los --sN que el marcado emite en línea, no solo aquí.
+   `data-capa` no es una deducción como lo era `:has(.punto)`, sino lo
+   contrario: el marcado DECLARA de qué capa habla el chip, y la hoja se limita
+   a darle su color. Un atributo escrito a mano es una declaración explícita;
+   un hijo que aparece es un accidente. */
 .chip[data-capa="copernicus"] { color: var(--copernicus); }
 .chip[data-capa="unosat"]     { color: var(--unosat); }
 .chip[data-capa="sertit"]     { color: var(--sertit); }
