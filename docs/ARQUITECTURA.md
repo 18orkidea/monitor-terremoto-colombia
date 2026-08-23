@@ -67,7 +67,7 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
 - **`ingest/crosscheck.py`** aplica la cadena de estados por AOI:
   `no_comparable → coincide → prensa → ciudadano → pendiente` (R1/R2).
 - **`ingest/publish.py`** genera todos los artefactos públicos de `data/public/`
-  (solo coordenadas redondeadas `lat_pub/lon_pub` — R5). Entre ellos
+  (`lat_pub/lon_pub` son la coordenada tal como llega, sin reposicionar — R5). Entre ellos
   `municipios_mapa.json`, la capa de la ausencia: los municipios con registro
   en el RUD y sin ninguna evaluación satelital, con la intensidad estimada del USGS.
   Va aparte de `municipios.json` porque el mapa no necesita los titulares que

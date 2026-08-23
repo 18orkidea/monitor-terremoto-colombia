@@ -221,28 +221,66 @@ class TestHipotesisCiudadana(unittest.TestCase):
         self.assertGreater(n, 0, "ningún reporte ciudadano cae en un AOI: "
                            "el cruce satélite↔suelo no está funcionando")
 
-    def test_privacidad_coordenadas(self):
+    def test_privacidad_el_reporte_no_se_reposiciona(self):
+        """R5 desde el 24-ago-2026: se publica donde la fuente lo registró.
+
+        Antes esto exigía lo contrario —tres decimales, ~110 m— y era un
+        engaño por los dos lados: ChatMap publica la coordenada exacta en su
+        endpoint abierto, así que no protegía a nadie, y movía la foto de daño
+        a la casa de enfrente. Mover un punto es afirmar que el daño estaba
+        donde no estaba, y este monitor no reposiciona nada."""
         why = skip_sin_datos("citizen_reports")
         if why:
             self.skipTest(why)
-        rows = q("SELECT lat_pub, lon_pub FROM citizen_reports"
-                 " WHERE lat_pub IS NOT NULL LIMIT 200")
-        for lat, lon in rows:
-            self.assertEqual(round(lat, 3), lat, "lat_pub sin redondear")
-            self.assertEqual(round(lon, 3), lon, "lon_pub sin redondear")
+        rows = q("SELECT lat, lon, lat_pub, lon_pub FROM citizen_reports"
+                 " WHERE lat IS NOT NULL AND lat_pub IS NOT NULL LIMIT 500")
+        self.assertTrue(rows, "sin reportes con coordenada que comprobar")
+        for lat, lon, lat_pub, lon_pub in rows:
+            self.assertEqual(lat, lat_pub, "el reporte se publicó movido de sitio")
+            self.assertEqual(lon, lon_pub, "el reporte se publicó movido de sitio")
 
-    def test_publicado_no_contiene_coordenada_exacta(self):
+    def test_lo_publicado_es_lo_que_dijo_la_fuente(self):
+        """Espejo del anterior sobre el artefacto, no sobre la base."""
         pub = ROOT / "data" / "public" / "chatmap.geojson"
         if not pub.exists():
             self.skipTest("sin chatmap.geojson publicado")
         gj = json.loads(pub.read_text())
-        exactas = q("SELECT lat, lon FROM citizen_reports"
-                    " WHERE lat IS NOT NULL AND ABS(lat-ROUND(lat,3))>1e-9 LIMIT 50")
-        publicadas = {tuple(f["geometry"]["coordinates"][::-1])
-                      for f in gj["features"]}
-        for lat, lon in exactas:
-            self.assertNotIn((lat, lon), publicadas,
-                             "¡coordenada exacta filtrada al GeoJSON público!")
+        origen = {rid: (lat, lon) for rid, lat, lon in
+                  q("SELECT id_externo, lat, lon FROM citizen_reports"
+                    " WHERE lat IS NOT NULL")}
+        if not origen:
+            self.skipTest("sin reportes en la base")
+        visto = 0
+        for f in gj["features"]:
+            rid = f["properties"].get("id")
+            if rid not in origen:
+                continue
+            lon, lat = f["geometry"]["coordinates"]
+            self.assertEqual((lat, lon), origen[rid],
+                             f"el reporte {rid} se publicó en otro punto")
+            visto += 1
+        self.assertGreater(visto, 0, "ningún reporte publicado cuadra con la base")
+
+    def test_el_exif_jamas_se_publica(self):
+        """La mitad de R5 que NO cambió, y la que de verdad protegía algo.
+
+        El EXIF puede llevar el modelo del teléfono, su número de serie y la
+        coordenada del disparo con precisión de GPS. La columna existe en la
+        base y la ingesta nunca la rellena; esto vigila que siga así y que no
+        se cuele en ningún artefacto público."""
+        pub = ROOT / "data" / "public" / "chatmap.geojson"
+        if not pub.exists():
+            self.skipTest("sin chatmap.geojson publicado")
+        crudo = pub.read_text()
+        for prohibido in ("exif", "EXIF", "Make", "Model", "GPSLatitude",
+                          "SerialNumber", "telefono", "phone"):
+            self.assertNotIn(prohibido, crudo,
+                             f"«{prohibido}» apareció en el GeoJSON público")
+        why = skip_sin_datos("citizen_reports")
+        if why:
+            return
+        n = q("SELECT COUNT(*) FROM citizen_reports WHERE exif_ts IS NOT NULL")[0][0]
+        self.assertEqual(n, 0, "la ingesta empezó a guardar EXIF")
 
 
 class TestPublicacionBienFormada(unittest.TestCase):

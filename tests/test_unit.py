@@ -134,12 +134,18 @@ class TestToponimos(unittest.TestCase):
 
 
 class TestPrivacidad(unittest.TestCase):
-    def test_redondeo_publico(self):
+    def test_el_reporte_se_publica_donde_la_fuente_lo_registro(self):
+        """R5 desde el 24-ago-2026. Antes esto exigía lo contrario.
+
+        Redondear a ~110 m no protegía —ChatMap publica la coordenada exacta en
+        su endpoint abierto— y movía la foto de daño a la casa de enfrente: la
+        mediana de los 542 reportes estaba a 43 m de donde se tomó, y 199 a más
+        de 50. Mover un punto es afirmar que el daño estaba donde no estaba."""
         sys.path.insert(0, str(Path(__file__).parent.parent / "ingest" / "sources"))
-        from chatmap import _round_pub
-        self.assertEqual(_round_pub(3.9099751234), 3.910)
-        # 3 decimales ≈ 110 m: la coordenada exacta no debe sobrevivir
-        self.assertNotEqual(_round_pub(3.9099751234), 3.9099751234)
+        from chatmap import _coordenada_publica
+        for v in (3.9099751234, -76.55279292639023, 0.0, -0.000001):
+            self.assertEqual(_coordenada_publica(v), v,
+                             "la coordenada se publicó movida de sitio")
 
 
 class TestSerieChatMap(unittest.TestCase):

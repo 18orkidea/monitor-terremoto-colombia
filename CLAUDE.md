@@ -25,8 +25,12 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
   `ingest/common.py::to_num` · `test_unit.py::test_na_nunca_es_cero`
 - **R4** Toda petición HTTP pasa por `common.fetch()` → `sources_log` (URL, HTTP,
   sha256, ts) + snapshot inmutable. Ninguna fuente llama a la red por su cuenta.
-- **R5** Privacidad ciudadana: coordenadas públicas ~110 m (`lat_pub/lon_pub`), EXIF
-  jamás publicado, sin PII. `ingest/sources/chatmap.py` · `test_hipotesis.py::test_privacidad*`
+- **R5** Privacidad ciudadana: **el reporte se publica en el punto que la fuente
+  registró; el monitor no reposiciona nada.** ChatMap ya publica la coordenada exacta
+  en su endpoint abierto, así que redondearla no protegía nada y sí engañaba: una foto
+  de daño a 110 m señala la casa de enfrente. **EXIF jamás publicado, sin PII** — esa
+  mitad no cambia y es la que el guardián vigila.
+  `ingest/sources/chatmap.py` · `test_hipotesis.py::test_privacidad*`
 - **R6** Nada se marca `validado` sin revisión humana; el score solo ordena la cola.
   `ingest/verify_citizen.py`
 - **R7** Checks de verificación ciudadana A-E (MMI, AOI, temporalidad, duplicado sha256,

@@ -1228,8 +1228,8 @@ def render_ficha(d: dict) -> str:
                  f'¿Estás en {e(nombre)}? <a href="{CHATMAP}" target="_blank" rel="noopener">'
                  f'<strong>Reporta daños con tu ubicación y foto por WhatsApp</strong></a> '
                  f'(ChatMap, de OpenStreetMap Colombia, UN Mappers y el Equipo Humanitario de '
-                 f'OpenStreetMap). Tu reporte se publica con la coordenada redondeada a unos '
-                 f'110 metros, sin los datos ocultos de la foto y sin datos personales.</p></div>')
+                 f'OpenStreetMap). Tu reporte se publica en el punto exacto que registres '
+                 f'en ChatMap, sin los datos ocultos de la foto y sin datos personales.</p></div>')
     else:
         o.append(f'<div class="aviso aviso--accion"><p>Todavía <strong>no hay reportes '
                  f'ciudadanos</strong> georreferenciados en {e(nombre)}. '

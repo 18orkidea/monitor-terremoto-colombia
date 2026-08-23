@@ -17,7 +17,8 @@
 
 Reglas de rigor: «Coincide cualitativamente» exige evidencia oficial (EDAN); la prensa y los
 reportes ciudadanos solo alcanzan estados intermedios. Los balances citados en medios NO son
-el balance oficial. Coordenadas ciudadanas publicadas redondeadas a ~110 m.
+el balance oficial. Los reportes ciudadanos se publican en el punto que registró ChatMap,
+sin reposicionar; el EXIF nunca se publica.
 
 ## Páginas
 

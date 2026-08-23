@@ -27,9 +27,22 @@ MAX_MEDIA_BYTES = 300 * 1024 * 1024   # el archivo vive en R2 (10 GB gratis)
 IMG_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 
 
-def _round_pub(x: float) -> float:
-    """~110 m de precisión pública (3 decimales)."""
-    return round(x, 3)
+def _coordenada_publica(x: float) -> float:
+    """La coordenada que llega, sin reposicionar (R5, 24-ago-2026).
+
+    Hasta hoy esto redondeaba a 3 decimales, ~110 m. No protegía nada: ChatMap
+    publica la coordenada con seis decimales en su endpoint abierto, así que el
+    dato ya circulaba. Y sí engañaba, por partida doble — al lector, porque una
+    foto de daño a 110 m señala la casa de enfrente y en un mapa de evidencias
+    eso es peor que inútil; y a quien reporta, porque se le prometía una
+    protección que la fuente no le estaba dando.
+
+    La privacidad la gobierna ChatMap, que es quien recoge el reporte y fija sus
+    condiciones. El monitor publica lo que le llega y no reposiciona nada.
+
+    Lo que NO cambió: el EXIF sigue sin publicarse jamás y sigue sin haber PII.
+    Esa mitad de R5 es la que de verdad protegía algo."""
+    return x
 
 
 def conteos_por_dia(feats: list[dict], snapshot_date: str) -> Counter:
@@ -115,8 +128,8 @@ def run(download_media: bool = True) -> dict:
             "  media_sha256=COALESCE(excluded.media_sha256, media_sha256),"
             "  snapshot_date=excluded.snapshot_date",
             (str(rid), t, lat, lon,
-             _round_pub(lat) if lat is not None else None,
-             _round_pub(lon) if lon is not None else None,
+             _coordenada_publica(lat) if lat is not None else None,
+             _coordenada_publica(lon) if lon is not None else None,
              murl, mlocal, msha, p.get("message") or "", snap))
         conn.commit()   # commit por fila: no retener el lock durante descargas
     for d, n in days.items():
