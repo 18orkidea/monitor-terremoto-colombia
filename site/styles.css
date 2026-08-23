@@ -686,3 +686,65 @@ a.metric-card:hover { border-color: var(--s1); }
    dice en la propia línea de firma en vez de dejar que el lector lo descubra
    al hacer clic. */
 .via { color: var(--muted); font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SISTEMA DEL REDISEÑO 2026
+   ═══════════════════════════════════════════════════════════════════════
+
+   De aquí abajo vive el sistema visual que ordena las cinco páginas y las 208
+   fichas: encabezado compacto, entradilla, plegable, zona de datos, chips y
+   eje único. Viene del prototipo aprobado con JP, que se borra al cerrar la
+   última fase — por eso su conocimiento se muda aquí y no se queda allí.
+
+   TRES REGLAS DEL PORTE, que no son estilo sino método:
+
+   1. NADA DE AQUÍ ABAJO TOCA UN SELECTOR DE ARRIBA. La hoja anterior es el
+      activo del sitio, no el lastre: cuando el prototipo se cargó sin ella,
+      734 apariciones de clase se quedaron sin estilo y el rediseño «parecía
+      peor». No lo era. Excepción única y anotada: la fusión de estados del
+      chip.
+
+   2. EL ORDEN RELATIVO ES INTOCABLE. El bloque del eje va SIEMPRE el último y
+      anula a propósito al `@media (min-width:900px)` que lo precede. Agrupar
+      los media queries «para que quede limpio» invierte la cascada y devuelve
+      los bordes múltiples.
+
+   3. ANTES DE INVENTAR UN NOMBRE, `grep` EN ESTE ARCHIVO. Ya mordió tres
+      veces: `.contenido` (columna de lectura de 760 px), `.fuentes` (los
+      puntos de la lista) y `.lienzo` (`display:grid`, que pisaba a
+      `.lienzo-mun`). Nombres genéricos ya ocupados o peligrosos: .panel
+      .lienzo .marca .fuente .fuentes .dato .brecha .pie .ley .linea .resumen
+      .v .f .n
+
+   CUATRO FALLOS YA CAZADOS. Están aquí porque cada uno costó una tarde y
+   porque ninguno se ve venir leyendo el CSS:
+
+   · UNA VARIABLE USADA EN DOS SITIOS HAY QUE DECLARARLA EN LOS DOS. `--eje`
+     existía solo en la portada; en las interiores `var(--eje)` no resolvía y
+     el panel se pegaba al borde. Corolario vivo: el prototipo usa
+     `var(--surface)`, que en esta hoja se llama `--surface-1`. Sin el alias,
+     19 superficies se vuelven transparentes.
+
+   · UN ID GANA A CUALQUIER CLASE. Esta hoja estiliza por id `#como-leer`,
+     `#balance-hero`, `#metodologia`, `#balance-chart-section`, `#resumen`,
+     `#balance-resumen`, `#panel`, `#map`, `#site-nav`, `#site-footer`. Un
+     componente nuevo con el mismo cometido NO se aplica encima: hay que
+     nombrar el id explícitamente o el bloque nuevo es papel mojado.
+
+   · ALINEAR UN CONTENEDOR NO ES VACIAR UNA CAJA. Un `padding: 0 !important`
+     sobre `.page-section` alineó los bordes y dejó sin aire por dentro a todas
+     las cajas del sitio. Una `.page-section` es una CAJA con fondo y borde, no
+     texto suelto: lo que estorba es su margen lateral, no su acolchado.
+
+   · EL TEMA OSCURO SE REDECLARA EN BLOQUE O NO SE TOCA. Las variantes oscuras
+     de esta hoja viven en un `@media (prefers-color-scheme: dark)` que va
+     ARRIBA. Un `:root` plano añadido aquí abajo gana también en oscuro: fondo
+     correcto y texto casi negro sobre casi negro, en las 5 páginas y en las
+     208 fichas. Tokens claros y oscuros viajan juntos, siempre.
+
+   Y UNA MEDIDA QUE ES EL CONTRATO DE TODA LA OBRA: si el CSS no toca el HTML,
+   no puede perderse una palabra. Línea base de `ingest/seo_check.py` el
+   23-ago-2026, en palabras / filas: index 3.259/62 · rud 2.603/208 ·
+   municipios 3.552/209 · balances 1.880/38 · noticias 6.277/206.
+   Cualquier variación delata que se coló algo que no era CSS.
+   ═══════════════════════════════════════════════════════════════════════ */
