@@ -1124,7 +1124,16 @@ details.pliegue>summary{cursor:pointer;font-size:14px;color:var(--copernicus);
 details.pliegue>summary::-webkit-details-marker{display:none}
 details.pliegue>summary::before{content:"▸ "}
 details.pliegue[open]>summary::before{content:"▾ "}
-details.pliegue p{font-size:14.5px;color:var(--ink-2);max-width:70ch}
+/* SIN columna de lectura propia. El prototipo traía `max-width: 70ch` aquí y
+   es una regresión respecto al sitio publicado: la prosa del sitio ocupa el
+   ancho de su contenedor —1.100 px a 1.370 de pantalla— y el texto del
+   plegable de la portada mide hoy 1.046 px. Ceñirlo a 70ch lo dejaba en 639 y
+   abría un canal vacío de 400 px a la derecha, dentro de una caja que sí va a
+   ancho completo. La medida de lectura de esta hoja (`--ancho-lectura`) se
+   reserva a los contenedores que además SE CENTRAN —`.contenido` de las
+   fichas, `.aviso`—; aplicarla a un bloque alineado a la izquierda no produce
+   una columna de lectura, produce un hueco. */
+details.pliegue p{font-size:14.5px;color:var(--ink-2)}
 details.denso{border-top:1px solid var(--border)}
 details.denso>summary{color:var(--ink)}
 
