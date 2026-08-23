@@ -1277,6 +1277,22 @@ class TestSeoCheck(unittest.TestCase):
         res = self.seo.revisar(self.tmp)
         self.assertTrue(any("quedó vacío" in f for f in res["fallos"]))
 
+    def test_caza_la_barra_y_el_pie_vacios(self):
+        """La regresión que motivó la fase: `#site-nav` y `#site-footer` no
+        llevan `data-gen`, así que el chequeo de contenedores marcados no los
+        veía, y las cinco páginas se servían sin un solo enlace interno."""
+        (self.tmp / "rud.html").write_text(
+            '<link rel="canonical" href="/x">'
+            '<nav id="site-nav" aria-label="Navegación del sitio"></nav>'
+            '<div id="site-footer"></div>'
+            "<table>" + "<tr><td>x</td></tr>" * 60 + "</table>" + "palabra " * 700,
+            encoding="utf-8")
+        fallos = self.seo.revisar(self.tmp)["fallos"]
+        self.assertTrue(any("barra de navegación" in f and "vacía" in f for f in fallos),
+                        f"la barra vacía pasó desapercibida: {fallos}")
+        self.assertTrue(any("pie de página" in f and "vacío" in f for f in fallos),
+                        f"el pie vacío pasó desapercibido: {fallos}")
+
     def test_caza_un_sitemap_que_promete_lo_que_no_existe(self):
         (self.tmp / "sitemap.xml").write_text(
             "<urlset><url><loc>https://datosdelterremoto.org/municipio/fantasma/</loc>"
@@ -1632,28 +1648,17 @@ class TestIdentidadDelSitio(unittest.TestCase):
             texto = (ROOT / "site" / pagina).read_text(encoding="utf-8")
             self.assertIn(esperado, texto, f"{pagina} no declara og:site_name")
 
-    def test_el_pie_abre_con_el_nombre_publico_en_las_dos_superficies(self):
-        """El pie vive dos veces: `common.js` lo inyecta en las cinco páginas y
-        `pie_estatico()` lo escribe en las 208 fichas. Si divergen, el sitio se
-        presenta de dos maneras distintas según dónde estés."""
+    def test_el_pie_abre_con_el_nombre_publico(self):
+        """El pie ya vive una sola vez —`pie_estatico()`, para las 213 páginas—,
+        y abre por el nombre público: es por donde se busca esto."""
         apertura = f"<strong>{self.NOMBRE_PUBLICO}</strong>"
         self.assertIn(apertura, R.pie_estatico())
-        self.assertIn(apertura, self.common)
 
-    def test_la_descripcion_del_pie_es_identica_en_las_dos_superficies(self):
-        def frases(texto):
-            # El texto es el mismo; solo cambia cómo lo concatena cada lenguaje.
-            crudo = re.sub(r"[`']\s*\+?\s*\n?\s*[`']?", "", texto)
-            return re.sub(r"\s+", " ", crudo)
-        marca = "Damnificados, viviendas destruidas y daños"
-        fin = "quedó archivado."
-        py = frases(R.pie_estatico())
-        js = frases(self.common)
-        for superficie, texto in (("pie_estatico", py), ("common.js", js)):
-            self.assertIn(marca, texto, superficie)
-            self.assertIn("La distancia entre sus cifras es la brecha de reporte.",
-                          texto, superficie)
-            self.assertIn(fin, texto, superficie)
+    def test_la_descripcion_del_pie_sigue_completa(self):
+        pie = re.sub(r"\s+", " ", R.pie_estatico())
+        self.assertIn("Damnificados, viviendas destruidas y daños", pie)
+        self.assertIn("La distancia entre sus cifras es la brecha de reporte.", pie)
+        self.assertIn("quedó archivado.", pie)
 
     def test_la_barra_conserva_el_nombre_interno(self):
         """La marca es doble a propósito: quitar «Monitor de brechas» de la
@@ -1666,11 +1671,127 @@ class TestIdentidadDelSitio(unittest.TestCase):
         su propia documentación no guarda nada.
         """
         marca = r'class="brand"[^>]*>\s*<strong>([^<]+)</strong>'
-        for superficie, texto in (("nav_estatico", R.nav_estatico()),
-                                  ("common.js", self.common)):
-            hallado = re.search(marca, texto)
-            self.assertIsNotNone(hallado, f"{superficie}: no se encuentra el rótulo")
-            self.assertEqual(hallado.group(1).strip(), "Monitor de brechas", superficie)
+        hallado = re.search(marca, R.nav_estatico())
+        self.assertIsNotNone(hallado, "nav_estatico: no se encuentra el rótulo")
+        self.assertEqual(hallado.group(1).strip(), "Monitor de brechas")
+
+
+class TestBarraYPieUnaSolaVez(unittest.TestCase):
+    """La barra y el pie los escribe el build en las 213 páginas.
+
+    Antes vivían dos veces —`nav_estatico()`/`pie_estatico()` para las 208
+    fichas y `site/common.js` para las cinco páginas grandes— y había un test de
+    espejo vigilando que no divergieran. Ese espejo se quedó sin objeto el
+    23-ago-2026: ahora hay una sola superficie, y lo que hace falta vigilar es
+    (a) que el JavaScript no vuelva a escribirlas y (b) que lleguen escritas al
+    artefacto, que es lo que lee quien no ejecuta JavaScript.
+    """
+
+    PAGINAS = ("index.html", "municipios.html", "rud.html",
+               "balances.html", "noticias.html")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.common = (ROOT / "site/common.js").read_text(encoding="utf-8")
+        # El artefacto de mentira: los HTML de `site/` tal cual se versionan,
+        # con sus contenedores vacíos, y el paso real del build encima. No
+        # depende de que haya un `dist/` construido, así que vigila siempre.
+        cls.tmp = Path(tempfile.mkdtemp())
+        cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
+        for pagina in cls.PAGINAS:
+            shutil.copy(ROOT / "site" / pagina, cls.tmp / pagina)
+        cls.escritas = R.escribir_barra_y_pie(cls.tmp)
+        cls.html = {p: (cls.tmp / p).read_text(encoding="utf-8") for p in cls.PAGINAS}
+
+    # Un contenedor vacío es literalmente `<nav …></nav>`: no hace falta
+    # emparejar etiquetas anidadas para verlo, y el pie lleva tres <div> dentro.
+    VACIOS = (("barra", re.compile(r'<nav id="site-nav"[^>]*>\s*</nav>'), "nav-links"),
+              ("pie", re.compile(r'<div id="site-footer"[^>]*>\s*</div>'), "sf-cols"))
+
+    def _barra(self, html):
+        hallado = re.search(r'<nav id="site-nav".*?>(.*?)</nav>', html, re.S)
+        self.assertIsNotNone(hallado, "no está la barra")
+        return hallado.group(1)
+
+    def test_las_cinco_paginas_traen_la_barra_y_el_pie_escritos(self):
+        """La regresión que motiva todo esto: llegaban vacíos al HTML servido."""
+        self.assertEqual(sorted(self.escritas), sorted(self.PAGINAS))
+        for pagina in self.PAGINAS:
+            html = self.html[pagina]
+            for etiqueta, vacio, dentro in self.VACIOS:
+                self.assertIsNone(vacio.search(html),
+                                  f"{pagina}: la {etiqueta} llegó vacía")
+                self.assertIn(dentro, html,
+                              f"{pagina}: la {etiqueta} no trae su contenido")
+
+    def test_cada_pagina_marca_su_propio_enlace_como_activo(self):
+        """Una barra escrita en el build con la misma página activa en las cinco
+        sería peor que no tenerla: diría al lector que está donde no está."""
+        for pagina in self.PAGINAS:
+            barra = self._barra(self.html[pagina])
+            activos = re.findall(r'<a href="([^"]+)"[^>]*class="activa"', barra)
+            self.assertEqual(activos, [f"/{pagina}"],
+                             f"{pagina}: enlace activo {activos}")
+
+    def test_los_botones_de_javascript_solo_en_las_cinco_paginas(self):
+        """`common.js` los busca por `getElementById` y **hace `return` en
+        silencio** si no están: sin ellos la portada perdería el botón de
+        compartir y el de alertas sin que nada avise. Y al revés, una ficha con
+        el botón puesto ofrecería un clic muerto: ahí no hay quien lo escuche."""
+        for pagina in self.PAGINAS:
+            for boton in ("btn-alertas", "btn-compartir"):
+                self.assertIn(f'id="{boton}"', self.html[pagina],
+                              f"{pagina}: falta el botón «{boton}» que common.js busca")
+        ficha = R.nav_estatico("municipios.html")
+        self.assertNotIn("btn-alertas", ficha, "la ficha ganó un botón sin quien lo escuche")
+        self.assertNotIn("btn-compartir", ficha)
+        # Y el valor por defecto es el de la ficha: quien llame sin pensar no
+        # puede colar los botones en las 208 páginas que nunca los tuvieron.
+        self.assertEqual(R.nav_estatico("municipios.html"),
+                         R.nav_estatico("municipios.html", botones_js=False))
+
+    def test_common_js_ya_no_escribe_la_barra_ni_el_pie(self):
+        """La duplicación que se acaba de fundir no puede volver por la puerta
+        de atrás. Mira el código, no los comentarios: se le quitan antes de
+        buscar, porque el fichero explica en prosa lo que ya no hace —y un
+        guardián que se conforma con su propia documentación no guarda nada."""
+        codigo = re.sub(r"/\*.*?\*/", " ", self.common, flags=re.S)
+        codigo = re.sub(r"//[^\n]*", " ", codigo)
+        for prohibido in ('getElementById("site-nav")',
+                          'getElementById("site-footer")',
+                          "sf-cols", "nav-links"):
+            self.assertNotIn(prohibido, codigo,
+                             f"common.js vuelve a escribir la barra o el pie: «{prohibido}»")
+
+    def test_common_js_conserva_lo_que_solo_puede_hacer_el_navegador(self):
+        """Borrar de más es la otra mitad del riesgo: compartir, alertas y la
+        apertura del <details> de un ancla siguen siendo cosa del navegador."""
+        for pieza in ('getElementById("btn-alertas")',
+                      'getElementById("btn-compartir")',
+                      "menu-compartir", "navigator.share",
+                      "pushManager", "closest(\"details\")"):
+            self.assertIn(pieza, self.common, f"common.js perdió «{pieza}»")
+
+    def test_el_paso_avisa_si_alguien_borra_el_marcador(self):
+        """No escribir la barra y seguir adelante publicaría la página muda."""
+        mudo = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, mudo, ignore_errors=True)
+        (mudo / "index.html").write_text("<html><body>sin marcadores</body></html>",
+                                         encoding="utf-8")
+        with self.assertRaises(LookupError):
+            R.escribir_barra_y_pie(mudo)
+
+    def test_el_artefacto_real_trae_la_barra_y_el_pie(self):
+        dist = ROOT / "dist"
+        if not dist.exists():
+            self.skipTest("no hay dist construido")
+        for pagina in self.PAGINAS:
+            html = (dist / pagina).read_text(encoding="utf-8")
+            for etiqueta, vacio, dentro in self.VACIOS:
+                self.assertIsNone(vacio.search(html),
+                                  f"dist/{pagina}: la {etiqueta} llegó vacía")
+                self.assertIn(dentro, html,
+                              f"dist/{pagina}: la {etiqueta} no trae su contenido")
 
 
 class TestSubtituloRetirado(unittest.TestCase):

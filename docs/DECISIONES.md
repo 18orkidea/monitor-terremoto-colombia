@@ -1389,8 +1389,9 @@ Y el pie abría con «Monitor de brechas de reporte», el nombre interno, que no
 busca nadie. Ahora abre con «Datos del terremoto de Colombia 2026» y despliega
 qué cruza el sitio con el léxico del corpus, siguiendo `SEO-GEO.md`: no competir
 en el territorio de la noticia, sino en el del dato municipal trazable. El
-texto vive **en dos superficies espejo** —`site/common.js` para las cinco
-páginas y `pie_estatico()` para las 208 fichas—; si tocas una, mira la otra.
+texto vivía **en dos superficies espejo** —`site/common.js` para las cinco
+páginas y `pie_estatico()` para las 208 fichas—. Ya no: las dos se fundieron el
+mismo 23 de agosto (ver la entrada siguiente) y hoy hay una sola.
 
 «Monitor de brechas» **se queda** en la barra y en la metodología. Quitarlo de
 ahí no sería aplicar la decisión, sería cambiarla.
@@ -1401,3 +1402,53 @@ cifras una línea más abajo. El código DIVIPOLA y la fecha de la corrida no
 desaparecen con él: bajan a «Fuentes y trazabilidad». La fecha estuvo a punto
 de perderse en el camino —el prototipo se llevaba el subtítulo entero— y un
 archivo que no dice de cuándo es su cifra deja de ser un archivo.
+
+### La barra y el pie se escriben una sola vez, en el build (23-ago-2026)
+
+Contexto: el sitio tiene 213 páginas y su navegación estaba escrita **dos
+veces**. Las 208 fichas municipales la traían en el HTML desde el build
+(`nav_estatico()` / `pie_estatico()`); las cinco páginas grandes la recibían del
+navegador (`site/common.js`), y por tanto **llegaban sin barra y sin pie a quien
+no ejecuta JavaScript**: ni un enlace interno, ni el pie que dice de qué va esto.
+Dos copias del mismo texto en dos lenguajes, sincronizadas a mano y vigiladas por
+un test de espejo. Ya habían divergido en tres sitios: los emoticonos de los
+enlaces, dos enlaces del pie (el RSS de balances y el canal de Telegram) y el
+destino del rótulo de la marca.
+
+Decisión: **`deploy/render_html.py` es la fuente única**. Un paso propio del
+build, `escribir_barra_y_pie()`, las escribe también en las cinco páginas. No se
+reutilizó el mecanismo de `data-gen` a propósito: aquel empareja un generador con
+una sola página y sirve para los **datos del día** —lo que caduca con la
+corrida—, y una barra de navegación no es eso.
+
+Tres consecuencias visibles:
+
+- **Los enlaces pierden el emoticono** (🗺️ 🏘️ 🏛️ 📊 📰), como el prototipo
+  aprobado. Lo llevaban las dos superficies, así que también lo pierden las 208
+  fichas. **El 📍 de «Reportar daño» se queda**: ahí el icono señala una acción,
+  no decora una etiqueta.
+- **Los dos controles que solo sirven con JavaScript** —🔔 alertas y ↗ compartir—
+  los emite ahora `nav_estatico(botones_js=True)`, y **solo en las cinco
+  páginas**. Es la trampa del cambio: `common.js` los busca por `getElementById`
+  y **hace `return` en silencio** si no están, así que olvidarlos habría quitado
+  el botón de compartir de la portada sin que nada avisara. El valor por defecto
+  del parámetro es el de las fichas, que nunca los tuvieron.
+- **El pie de las fichas gana los dos enlaces que le faltaban** (RSS de balances
+  y canal de Telegram). Se omitían para no duplicar en Python dos URLs que vivían
+  en `site/ui.js`; con una sola superficie esa razón desaparece, y el pie del
+  sitio pasa a ser el mismo en las 213 páginas.
+
+El test de espejo se quedó sin objeto y **se sustituye por el guardián que ahora
+hace falta**: que las cinco páginas del artefacto traigan `#site-nav` y
+`#site-footer` escritos, con su propio enlace marcado como activo, y que
+`common.js` no vuelva a escribirlos. `ingest/seo_check.py` lo mira además sobre
+`dist/` y lo trata como **fallo, no aviso**: por el mismo criterio que un
+contenedor `data-gen` vacío —es determinista, no depende de ninguna fuente que
+pueda fallar (R13) y deja la página sin la única red de enlaces que la conecta
+con las otras 212—. Estos dos contenedores no llevan `data-gen`, así que el
+chequeo que ya existía no los veía.
+
+Consecuencia medida sobre `dist/`: las cinco páginas ganan **216 palabras cada
+una** en el HTML servido (index 3.259 → 3.475 · municipios 3.552 → 3.768 · rud
+2.603 → 2.819 · balances 1.880 → 2.096 · noticias 6.277 → 6.493), sin perder
+ninguna fila.

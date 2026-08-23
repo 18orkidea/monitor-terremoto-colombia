@@ -46,8 +46,11 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   municipios.
 - **`site/`** es frontend estático sin build: `ui.js` (componentes compartidos:
   `fmt`, `norm`, `tablaBuscable`, `metricCards`, `attachTooltip`,
-  `comparativaFuentes`, `isLiveblog`/`bestSnapshot`), `common.js` (nav/footer),
-  un JS por página.
+  `comparativaFuentes`, `isLiveblog`/`bestSnapshot`), `common.js` (lo que solo
+  puede hacer el navegador: compartir, alertas push y abrir el `<details>` de un
+  ancla) y un JS por página. **La barra y el pie no los escribe el navegador**:
+  los escribe el build en las 213 páginas (`render_html.py::nav_estatico` /
+  `pie_estatico`, con el paso `escribir_barra_y_pie` para las cinco grandes).
 
 ## Modelo de datos (sqlite, 16 tablas)
 

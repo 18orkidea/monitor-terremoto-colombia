@@ -42,6 +42,21 @@ DEPTO_DUPLICADO = re.compile(r"\(([^()]{2,40})\)(?: \(\1\)|, \1\b)")
 MIN_FICHAS = 50
 SCRIPTS_FICHA = {"/ui.js", "/municipio.js"}
 
+# La barra y el pie no llevan `data-gen` —no son datos del día, son la
+# navegación del sitio—, así que el chequeo de contenedores marcados no los ve.
+# Hasta el 23-ago-2026 llegaban vacíos a las cinco páginas grandes y los
+# rellenaba `site/common.js` en el navegador: quien no ejecuta JavaScript veía
+# una página sin un solo enlace interno y sin el pie que dice de qué va esto.
+# Es **fallo y no aviso**, por el mismo criterio que un contenedor `data-gen`
+# vacío: es determinista, no depende de ninguna fuente que pueda fallar (R13) y
+# deja la página sin la única red de enlaces que la conecta con las otras 212.
+CONTENEDORES_DEL_SITIO = (
+    ("la barra de navegación", "vacía",
+     re.compile(r'<nav id="site-nav"[^>]*>\s*</nav>'), "nav-links"),
+    ("el pie de página", "vacío",
+     re.compile(r'<div id="site-footer"[^>]*>\s*</div>'), "sf-cols"),
+)
+
 
 def _entre(patron: str, html: str) -> str | None:
     """El primer grupo de `patron`, o None si no aparece."""
@@ -110,6 +125,14 @@ def revisar(dist: Path) -> dict:
                 html, re.S):
             if not m.group(4).strip():
                 fallos.append(f"{pagina}: el contenedor «{m.group(3)}» quedó vacío")
+
+        # la barra y el pie, que no llevan data-gen y por eso se les mira aparte
+        for etiqueta, adjetivo, vacio, dentro in CONTENEDORES_DEL_SITIO:
+            if vacio.search(html):
+                fallos.append(f"{pagina}: {etiqueta} llegó {adjetivo} al HTML servido"
+                              " — ¿volvió a escribirlo el JavaScript?")
+            elif dentro not in html:
+                fallos.append(f"{pagina}: no se encuentra {etiqueta}")
 
         # un marcador {{clave}} sin sustituir es una cifra que se iba a publicar
         # cruda en el HTML servido; el build debería haber roto antes

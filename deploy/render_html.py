@@ -380,30 +380,57 @@ def barra_escala(escala: float, ancho: int, alto: int) -> str:
 
 
 # ------------------------------------------- cabecera y pie compartidos
-# `common.js` los inyecta en las páginas del sitio; aquí se escriben en el HTML
-# porque una ficha tiene que leerse con el JavaScript apagado. Mismas clases
-# (#site-nav, #site-footer) y mismos estilos: es la misma barra, no una copia
-# parecida. Los botones que solo existen con JS (🔔 alertas, ↗ compartir) no
-# aparecen; tampoco los dos enlaces cuya URL vive en `site/ui.js`, para no
-# duplicar constantes entre dos lenguajes sin nada que vigile la copia.
-PAGINAS = [("index.html", "🗺️ Mapa"), ("municipios.html", "🏘️ Municipios"),
-           ("rud.html", "🏛️ RUD"), ("balances.html", "📊 Balances"),
-           ("noticias.html", "📰 Titulares")]
+# **Fuente única de la barra y del pie de las 213 páginas del sitio.** Hasta el
+# 23-ago-2026 vivían dos veces: aquí, para las 208 fichas, y en `site/common.js`,
+# que las inyectaba en el navegador en las cinco páginas grandes. Dos copias que
+# había que sincronizar a mano y que ya habían divergido en tres sitios —los
+# emoticonos de los enlaces, dos enlaces del pie y el rótulo de la marca—.
+# Ahora las cinco páginas también se escriben en el build: se leen con el
+# JavaScript apagado y hay un solo texto que mantener.
+#
+# Los enlaces van SIN emoticono (decisión de JP, 23-ago-2026): los llevaban tanto
+# la barra del navegador como estas fichas, y el prototipo aprobado no. El 📍 del
+# botón «Reportar daño» se queda, porque ahí el icono señala una acción.
+PAGINAS = [("index.html", "Mapa"), ("municipios.html", "Municipios"),
+           ("rud.html", "RUD"), ("balances.html", "Balances"),
+           ("noticias.html", "Titulares")]
 REPO = "https://github.com/18orkidea/monitor-terremoto-colombia"
+# Las dos URLs que antes solo existían en `site/ui.js`. Se traen aquí porque el
+# pie ya no lo escribe el navegador: sin ellas, las cinco páginas perderían dos
+# enlaces que hoy publican. `ui.js` las conserva para lo suyo —el worker de
+# balances se consulta desde el navegador—, pero el pie manda desde el build.
+OFICIALES_BASE = ("https://monitor-terremoto-colombia-oficiales-ai"
+                  ".inforesidencias.workers.dev")
+TELEGRAM_CANAL = "https://t.me/terremotoCO2026"
 
 
-def nav_estatico(activa: str = "municipios.html") -> str:
+def nav_estatico(activa: str = "municipios.html", botones_js: bool = False) -> str:
+    """La barra del sitio.
+
+    `botones_js` emite los dos controles que solo sirven de algo con JavaScript:
+    🔔 alertas (se muestra sola si hay clave VAPID) y ↗ compartir. Por defecto NO
+    salen: las 208 fichas nunca los han tenido y `common.js` los busca por
+    `getElementById` y **se calla si no están**, así que una ficha con el botón
+    puesto y sin quien lo escuche ofrecería un clic muerto. Las cinco páginas
+    grandes sí los piden.
+    """
     def enlace(href: str, txt: str) -> str:
         cls = ' class="activa"' if href == activa else ""
         return f'<a href="{BASE}/{href}"{cls}>{txt}</a>'
 
     enlaces = "".join(enlace(h, t) for h, t in PAGINAS)
+    botones = (
+        '<button id="btn-alertas" hidden '
+        'title="Recibir las alertas del día como notificación">🔔 Alertas</button>'
+        '<button id="btn-compartir" title="Compartir esta página">↗ Compartir</button>'
+    ) if botones_js else ""
     return (f'<nav id="site-nav" aria-label="Navegación del sitio">'
             f'<a class="brand" href="{BASE}/"><strong>Monitor de brechas</strong>'
             f'<span>Terremoto de Colombia M7.4 · 10-ago-2026</span></a>'
             f'<div class="nav-links">{enlaces}'
             f'<a href="{CHATMAP}" target="_blank" rel="noopener" class="nav-cta">'
             f'📍 Reportar daño</a>'
+            f'{botones}'
             f'<a href="{REPO}" target="_blank" rel="noopener" '
             f'title="Código y datos abiertos">GitHub</a>'
             f'<a href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener" '
@@ -417,8 +444,6 @@ def pie_estatico() -> str:
         # Abre con el nombre público, no con el interno: es la marca doble ya
         # decidida (docs/DECISIONES.md, 22-ago-2026). «Monitor de brechas»
         # sigue en la barra y en la metodología; aquí manda cómo se busca esto.
-        # ESPEJO EXACTO de `site/common.js`: si tocas uno, toca el otro — lo
-        # vigila `tests/test_render_html.py`.
         '<div><strong>Datos del terremoto de Colombia 2026</strong><br>'
         'Damnificados, viviendas destruidas y daños <strong>municipio a municipio</strong> '
         'tras el terremoto de magnitud 7,4 del 10 de agosto de 2026, con epicentro en '
@@ -441,7 +466,10 @@ def pie_estatico() -> str:
         f'<a href="{DATOS}/rud.json" target="_blank">Histórico del RUD</a> · '
         f'<a href="{DATOS}/divipola_coords.json" target="_blank">Catálogo de municipios '
         f'(DIVIPOLA)</a><br>'
+        f'<a href="{OFICIALES_BASE}/oficiales.rss" target="_blank" rel="noopener">'
+        f'RSS de balances</a> · '
         f'<a href="{DATOS}/alerts.rss" target="_blank" rel="noopener">RSS de alertas</a><br>'
+        f'<a href="{TELEGRAM_CANAL}" target="_blank" rel="noopener">Canal de Telegram</a><br>'
         f'<a href="{REPO}" target="_blank" rel="noopener">Repositorio y copias archivadas'
         f'</a></div>'
         '</div>'
@@ -1812,6 +1840,51 @@ def filas_noticias(ctx: dict) -> str:
     return "\n".join(salida)
 
 
+# ------------------------------------------- barra y pie de las cinco páginas
+# Qué enlace va marcado en cada página. Explícito, y no derivado del nombre del
+# fichero, porque `nav_estatico()` decide por el `href` y una página que no
+# estuviera en `PAGINAS` se quedaría sin marca sin que nada lo dijera.
+PAGINAS_GRANDES = {"index.html": "index.html", "municipios.html": "municipios.html",
+                   "rud.html": "rud.html", "balances.html": "balances.html",
+                   "noticias.html": "noticias.html"}
+_MARCA_NAV = re.compile(r'<nav id="site-nav"[^>]*></nav>')
+_MARCA_PIE = re.compile(r'<div id="site-footer"[^>]*></div>')
+
+
+def escribir_barra_y_pie(destino: Path) -> dict:
+    """Escribe la barra y el pie en las cinco páginas grandes de `dist/`.
+
+    Paso propio y no un generador de `data-gen`: aquel empareja un generador con
+    UNA página, lo llama sin argumentos y solo acepta `tbody|ul|span|section`.
+    Aquí hacen falta cinco páginas con `activa` distinto y la etiqueta `nav`. Y
+    sobre todo, `data-gen` es el mecanismo de los datos del día —lo que caduca
+    con la corrida—, y una barra de navegación no lo es.
+
+    Se hace sobre el artefacto y nunca sobre `site/*.html`, igual que el resto
+    del prerenderizado: los marcadores vacíos son lo que se versiona.
+    """
+    hechas = {}
+    for pagina, activa in PAGINAS_GRANDES.items():
+        f = destino / pagina
+        if not f.exists():
+            continue
+        html = f.read_text(encoding="utf-8")
+        for etiqueta, marca, pieza in (
+                ("barra", _MARCA_NAV, nav_estatico(activa, botones_js=True)),
+                ("pie", _MARCA_PIE, pie_estatico())):
+            html, sustituciones = marca.subn(lambda _m, p=pieza: p, html, count=1)
+            if not sustituciones:
+                # Callarse aquí es publicar la página sin barra ni pie y no
+                # enterarse: es un error de programación, no una fuente que
+                # falla (R13), así que rompe el build.
+                raise LookupError(
+                    f"{pagina}: no se encuentra el contenedor de la {etiqueta} "
+                    f"— ¿se editó el marcador en site/{pagina}?")
+        f.write_text(html, encoding="utf-8")
+        hechas[pagina] = activa
+    return hechas
+
+
 def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
     """Rellena en `dist/` los contenedores marcados con data-gen.
 
@@ -1900,6 +1973,8 @@ if __name__ == "__main__":
     salida = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "dist"
     res = run(salida)
     print(f"fichas municipales: {res['fichas']} escritas, {res['omitidas']} sin señal")
+    for pagina, activa in escribir_barra_y_pie(salida).items():
+        print(f"barra y pie en {pagina}: enlace activo «{activa}»")
     ctx = contexto()
     for nombre, piezas in inyectar_prerenderizado(salida, ctx).items():
         print(f"prerenderizado: {nombre} con {piezas} pieza(s)")
