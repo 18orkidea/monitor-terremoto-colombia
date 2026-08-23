@@ -3,14 +3,12 @@
    ejecute JavaScript — que es lo que necesitan los rastreadores de sistemas de
    IA, que no lo ejecutan. */
 (async function () {
-  const { fmt, fmtProsa, pct, fechaLarga, fetchJson, tablaHidratada } = window.UI;
+  const { fmt, fmtProsa, pct, fetchJson, tablaHidratada } = window.UI;
 
   // La tabla no necesita el JSON —viene escrita en el HTML—, pero los textos
   // derivados de la introducción sí: cambian con cada entrega.
   const data = await fetchJson("/data/public/municipios.json");
   if (!data || !data.items || !data.items.length) return;
-  document.getElementById("generado").textContent =
-    "Actualizado el " + fechaLarga(data.generado);
 
   // los homónimos tampoco se escriben a mano: si el RUD registra un tercero,
   // la salvedad debe nombrarlo sola

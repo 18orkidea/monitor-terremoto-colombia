@@ -124,6 +124,46 @@ def fecha_larga(iso: str) -> str:
             if m else (iso or "—"))
 
 
+def _solo_fecha(iso):
+    """La parte «AAAA-MM-DD» de un ISO, o None si no la hay.
+
+    `rud.json` fecha la corrida con la fecha pelada y `oficiales.json` con marca
+    de tiempo completa (`2026-08-22T04:02:41.917Z`). El sello tiene que poder
+    compararlas y escribirlas igual, así que primero las iguala."""
+    m = _FECHA.match(iso or "")
+    return m[0] if m else None
+
+
+def sello_fechas(hasta, corrida, que: str) -> str:
+    """El sello del encabezado: hasta cuándo llega el dato y cuándo se construyó.
+
+    No son lo mismo, y confundirlas miente: `rud.json` se genera el 22 con una
+    serie que termina el 21, y la página anunciaba «Actualizado el 22 de agosto
+    de 2026» sobre cifras del 21. Las dos fechas salen del dato, ninguna se
+    escribe a mano (R4), y viajan en un `<time datetime>` legible por máquina.
+
+    Cuando las dos caen en el mismo mes, la corrida se dice solo con su día
+    —«hasta el 21 de agosto de 2026 · corrida del 22»—: repetir mes y año no
+    añade nada. En cuanto cambian, se escribe entera; ahí «corrida del 1» sería
+    un acertijo.
+
+    **M10**: donde falta una fecha se calla ESE trozo, nunca se inventa la otra.
+    Y si faltan las dos, lo dice con todas las letras: devolver una cadena vacía
+    dejaría el contenedor `data-gen` vacío y rompería el build."""
+    hasta, corrida = _solo_fecha(hasta), _solo_fecha(corrida)
+    if not hasta and not corrida:
+        return f"Sin ninguna captura {que} todavía"
+    if not hasta:
+        return f'Corrida del <time datetime="{corrida}">{fecha_larga(corrida)}</time>'
+    dato = (f'Datos {que} hasta el '
+            f'<time datetime="{hasta}">{fecha_larga(hasta)}</time>')
+    if not corrida:
+        return dato
+    mismo_mes = hasta[:7] == corrida[:7]
+    dicha = str(int(corrida[8:10])) if mismo_mes else fecha_larga(corrida)
+    return f'{dato} · corrida del <time datetime="{corrida}">{dicha}</time>'
+
+
 def e(s) -> str:
     """Escapa TODO lo que venga de fuera: los titulares son texto de terceros."""
     return html.escape(str(s), quote=True)
@@ -823,7 +863,8 @@ def parrafo_respuesta(d: dict) -> str:
 # ------------------------------------------------------------- contexto único
 def contexto() -> dict:
     """Carga una sola vez todo lo que comparten las fichas y las tablas."""
-    municipios = _leer("municipios.json")["items"]
+    municipios_json = _leer("municipios.json")
+    municipios = municipios_json["items"]
     noticias = _leer("noticias.json")
     if isinstance(noticias, dict):
         noticias = noticias.get("items") or noticias.get("noticias") or []
@@ -840,6 +881,9 @@ def contexto() -> dict:
         "monitor": monitor,          # la banda de portada lo lee entero
         "municipios": municipios,
         "idx": {m["municipio"]: m for m in municipios},
+        # la corrida de municipios.json, que el sello de esa página necesita y
+        # que se perdía al quedarnos solo con `items`
+        "municipios_generado": municipios_json.get("generado"),
         "rud": _leer("rud.json"),
         "aois": _leer("aois.geojson")["features"],
         "damage": damage,
@@ -1894,6 +1938,43 @@ def filas_noticias(ctx: dict) -> str:
     return "\n".join(salida)
 
 
+# ------------------------------------------------- el sello de fecha, por página
+# Un componente y cuatro fuentes, no cuatro redacciones (M2). Lo escribía el
+# navegador en las cuatro páginas —`getElementById("generado").textContent`, sin
+# guarda ninguna—, así que quien no ejecuta JavaScript leía una raya y una
+# excepción en una sola de las cuatro llamadas se llevaba por delante el resto
+# del guion. Al servirlo desde el build, esas cuatro llamadas se quedan sin
+# motivo y desaparecen.
+def sello_portada(ctx: dict) -> str:
+    """Portada: solo corrida. `monitor.json` no publica hasta dónde llega la
+    serie —son muchas fuentes con cortes distintos—, y M10 prohíbe inventarla."""
+    return sello_fechas(None, (ctx["monitor"] or {}).get("generado"), "del monitor")
+
+
+def sello_municipios(ctx: dict) -> str:
+    """Municipios: solo corrida, por lo mismo que la portada."""
+    return sello_fechas(None, ctx.get("municipios_generado"), "de los municipios")
+
+
+def sello_rud(ctx: dict) -> str:
+    """RUD: las dos fechas. Es la página donde la confusión se veía."""
+    rud = ctx["rud"] or {}
+    serie = rud.get("serie") or []
+    return sello_fechas(serie[-1].get("fecha") if serie else None,
+                        rud.get("generado"), "del RUD")
+
+
+def sello_balances(ctx: dict) -> str:
+    """Balances: las dos también. `oficiales.json` fecha cada nota con la
+    búsqueda que la encontró (`search_date`) y el fichero entero con
+    `generated_at`; la última búsqueda es hasta dónde llega el rastreo."""
+    oficiales = ctx.get("oficiales") or {}
+    buscadas = [i.get("search_date") for i in (oficiales.get("items") or [])
+                if i.get("search_date")]
+    return sello_fechas(max(buscadas) if buscadas else None,
+                        oficiales.get("generated_at"), "de los balances")
+
+
 # --------------------------------- piezas compartidas de las cinco páginas
 # Qué enlace va marcado en cada página. Explícito, y no derivado del nombre del
 # fichero, porque `nav_estatico()` decide por el `href` y una página que no
@@ -1974,18 +2055,30 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
     puede ser un <tbody>, un <ul>, un <span> o un <section>.
 
     Se hace sobre el artefacto, nunca sobre site/*.html: un HTML que cambiara
-    entero cada día destruiría el blame, y el dato ya está versionado."""
+    entero cada día destruiría el blame, y el dato ya está versionado.
+
+    **Un contenedor declarado que no aparece rompe el build**, con los dos
+    mensajes distinguidos de `escribir_piezas_compartidas`: marcador perdido o
+    marcador ya gastado. Antes seguía adelante en silencio y la página salía con
+    el hueco; el aviso llegaba mucho después, desde `seo_check` y con otro
+    nombre."""
     hechas = {}
     generadores = {"municipios": filas_municipios, "portada": filas_portada,
                    "rud": filas_rud, "balances": filas_balances,
                    "noticias": filas_noticias,
                    "mirada-portada": nota_mirada_portada,
-                   "brechas": banda_brechas}
+                   "brechas": banda_brechas,
+                   "portada-sello": sello_portada,
+                   "municipios-sello": sello_municipios,
+                   "rud-sello": sello_rud,
+                   "balances-sello": sello_balances}
     # explícito a propósito: un generador nuevo sin su página revienta aquí en
     # vez de no escribir nada y dejar el contenedor vacío en silencio
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
                "balances": "balances", "noticias": "noticias",
-               "mirada-portada": "index", "brechas": "index"}
+               "mirada-portada": "index", "brechas": "index",
+               "portada-sello": "index", "municipios-sello": "municipios",
+               "rud-sello": "rud", "balances-sello": "balances"}
     for nombre, generador in generadores.items():
         pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():
@@ -1995,9 +2088,32 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
         # de un párrafo o una sección entera, y llevar otros atributos
         marca = re.compile(
             rf'<(tbody|ul|span|section)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
+        # El contenedor con lo que lleve dentro, para separar las dos averías que
+        # comparten síntoma, igual que en `escribir_piezas_compartidas`. No basta
+        # con mirar si el contenedor está: en el fallo MÁS probable —un salto de
+        # línea entre la apertura y el cierre— el contenedor está y sigue vacío,
+        # y acusar ahí al artefacto manda a reconstruir `dist/` cuando lo que hay
+        # que mirar es `site/`. Lo que distingue una avería de la otra es si
+        # dentro hay algo escrito.
+        contenedor = re.compile(
+            rf'<(tbody|ul|span|section)[^>]*\bdata-gen="{re.escape(nombre)}"[^>]*>'
+            rf'(.*?)</\1>', re.S)
         m = marca.search(html)
         if not m:
-            continue
+            # Callarse aquí publicaba el contenedor vacío y una línea de menos en
+            # el informe del build: el fallo aparecía después, en `seo_check`, en
+            # otro proceso y con otro nombre. Es un error de programación, no una
+            # fuente que falla (R13).
+            hay = contenedor.search(html)
+            if hay and hay.group(2).strip():
+                raise LookupError(
+                    f"{pagina.name}: el contenedor «{nombre}» ya estaba escrito "
+                    f"— este paso no se puede repetir sobre el mismo dist/; "
+                    f"reconstruye desde cero con bash deploy/build_dist.sh")
+            raise LookupError(
+                f"{pagina.name}: no se encuentra el marcador de «{nombre}» — "
+                f"míralo en site/{pagina.name}: la apertura y el cierre van "
+                f"pegados, sin un salto de línea entre ellos")
         cuerpo = generador(ctx)
         # la prosa se pega sin saltos de línea: dentro de un párrafo, un salto
         # es un espacio, y la raya quedaría separada de la palabra anterior

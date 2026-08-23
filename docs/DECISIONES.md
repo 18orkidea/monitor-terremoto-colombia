@@ -1564,3 +1564,67 @@ con valor y unidad, `citation` con las fuentes que de verdad tienen dato, y
 `measurementTechnique` —el campo que impide que una IA confunda «familias
 **inscritas**» con «**verificadas**»—. Con `variableMeasured` llega su guardián
 G1: ningún `value: 0` donde el origen es `None`, que es la R3 en el marcado.
+
+## 2026-08-23 — El sello de fecha: la corrida no es la fecha del dato
+
+Contexto: las cuatro páginas con encabezado escribían «Actualizado el 22 de agosto de
+2026» desde el navegador, con `getElementById("generado").textContent`. En `rud.html` esa
+frase era falsa: `rud.json` se genera el 22 con una serie que **termina el 21**, así que
+la página fechaba en el 22 unas cifras del 21 — y lo hacía en HTML indexable y con
+permanencia de archivo, que es donde una confusión se queda a vivir (M7: toda cifra de
+una fuente viva lleva su corte).
+
+Las cuatro llamadas iban además **sin guarda**. Quien no ejecuta JavaScript —los
+rastreadores de sistemas de IA— leía una raya; y una `TypeError` sobre `null` dentro de un
+IIFE `async` **rechaza la promesa en silencio**, así que un cambio en el encabezado se
+habría llevado por delante el resto del guion de la página sin un aviso.
+
+Decisión: un componente, `render_html.py::sello_fechas(hasta, corrida, que)`, y cuatro
+generadores que lo alimentan desde cuatro fuentes distintas —`monitor.json`,
+`municipios.json`, `rud.json` y `oficiales.json`—. Se sirve desde el build por el
+mecanismo `data-gen`, como las tablas y la banda de brechas. Ninguna fecha se escribe a
+mano (R4) y las dos viajan en un `<time datetime>` legible por máquina.
+
+- **El RUD y los balances dicen las dos**: «Datos del RUD hasta el 21 de agosto de 2026 ·
+  corrida del 22». En los balances el corte del dato es la **última** `search_date`, no la
+  del fichero. Cuando las dos fechas caen en el mismo mes, la corrida se dice solo con su
+  día; en cuanto cambia el mes se escribe entera, porque «corrida del 1» sería un acertijo.
+- **La portada y los municipios dicen solo la corrida**: sus fuentes no publican hasta
+  dónde llega la serie, y **M10 prohíbe inventar la otra** — donde falta el dato se calla
+  ese trozo. Si faltasen las dos, el sello lo dice con todas las letras: devolver una
+  cadena vacía dejaría el contenedor `data-gen` vacío y eso rompe el build.
+- **A las cuatro llamadas del navegador no se les pone un `if`: se les quita el motivo.**
+  `app.js`, `municipios.js`, `rud.js` y `balances.js` dejan de tocar `#generado`.
+
+Consecuencia: `TestSelloDeFecha` ejecuta el inyector real sobre los cuatro HTML del
+repositorio y exige sello no vacío con `<time>`; `TestElSelloYaNoLoEscribeElNavegador`
+vigila el marcador en `site/` y que ningún JS vuelva a redactarlo. Las once mutaciones
+—las dos fechas salidas del mismo campo, la cadena vacía, la fecha inventada, la
+abreviatura cruzando de mes, la primera búsqueda en vez de la última, el generador
+desconectado, el marcador con un carácter de menos, el marcador partido, el JS
+reinstalado— caen todas (M1). Palabras servidas: index 3.475 → 3.481 · municipios
+3.768 → 3.774 · rud 2.819 → 2.832 · balances 2.096 → 2.110 · noticias sin sello, 6.493.
+
+## 2026-08-23 — `inyectar_prerenderizado` deja de callarse: `continue` → `raise`
+
+Contexto: si un contenedor `data-gen` declarado no casaba con la expresión, el inyector
+hacía `continue`. **Basta un salto de línea entre la apertura y el cierre** para que no
+case. Consecuencia medida rompiéndolo a propósito: el build termina en verde, el informe
+imprime **una línea menos** —que nadie echa de menos entre once— y la avería sale mucho
+después, desde `seo_check`, en otro proceso y **con otro nombre** (el del atributo mal
+escrito, no el del generador declarado). Es un error de programación, no una fuente que
+falla: la degradación elegante de R13 no aplica.
+
+Decisión: rompe el build, con los **dos mensajes distinguidos** que ya usaba
+`escribir_piezas_compartidas` — marcador perdido frente a marcador ya gastado.
+
+Y una corrección que solo apareció al validar por mutación (M1): **mirar si el contenedor
+está presente no separa las dos averías**. En el fallo más probable —el salto de línea—
+el contenedor está y sigue vacío, y el mensaje acusaba al artefacto, mandando a
+reconstruir `dist/` cuando lo que hay que mirar es `site/`. Lo que las separa es **si
+dentro hay algo escrito**, no si el contenedor existe.
+
+Consecuencia: `TestElInyectorNoSeCalla`, con las tres averías y el caso que **no** es
+avería — un `dist/` parcial, como el que arma `TestBandaDeBrechas` con solo la portada:
+una página que no está se sigue saltando. Lo que rompe es el contenedor que falta en una
+página que sí está.

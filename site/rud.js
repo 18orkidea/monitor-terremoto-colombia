@@ -113,8 +113,6 @@
       "Vuelve a intentarlo en unos minutos.";
     return;
   }
-  document.getElementById("generado").textContent =
-    "Actualizado el " + fechaLarga(rud.generado);
   const serie = rud.serie;
 
   // ---- acumulado + altas desde la captura anterior (SVG a mano)

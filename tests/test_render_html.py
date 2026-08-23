@@ -918,6 +918,242 @@ class TestBandaDeBrechas(unittest.TestCase):
             self.assertEqual(correr_ui("UI.ejemplosSinRegistro(mon)", datos),
                              R.ejemplos_sin_registro(datos))
 
+class TestSelloDeFecha(unittest.TestCase):
+    """La fecha del build no es la fecha del dato.
+
+    `rud.json` se genera el 22 con una serie que termina el 21, y el encabezado
+    anunciaba «Actualizado el 22 de agosto de 2026» sobre cifras del 21 — la
+    confusión escrita en HTML indexable y con permanencia de archivo. El sello
+    dice las dos, cada una desde el dato (R4).
+
+    Y lo escribe el build. Las cuatro páginas lo resolvían con
+    `getElementById("generado").textContent`, **sin guarda ninguna**: quien no
+    ejecuta JavaScript leía una raya, y una `TypeError` sobre `null` dentro de
+    un IIFE `async` rechaza la promesa en silencio y se lleva por delante el
+    resto del guion de la página."""
+
+    PAGINAS = {"index.html": "portada-sello", "municipios.html": "municipios-sello",
+               "rud.html": "rud-sello", "balances.html": "balances-sello"}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        for pagina in cls.PAGINAS:
+            shutil.copy(ROOT / "site" / pagina, cls.tmp / pagina)
+        cls.hechas = R.inyectar_prerenderizado(cls.tmp, R.contexto())
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def sello_servido(self, pagina: str, clave: str) -> str:
+        html = (self.tmp / pagina).read_text(encoding="utf-8")
+        cuerpo = re.search(
+            rf'<span id="generado"[^>]*\bdata-gen="{clave}"[^>]*>(.*?)</span>',
+            html, re.S)
+        self.assertTrue(cuerpo, f"{pagina}: el sello ya no está en el encabezado")
+        return cuerpo.group(1)
+
+    # ---------------------------------------------------------- el componente
+    def test_dice_las_dos_fechas_con_su_rotulo_y_legibles_por_maquina(self):
+        sello = R.sello_fechas("2026-08-21", "2026-08-22", "del RUD")
+        self.assertIn('<time datetime="2026-08-21">21 de agosto de 2026</time>', sello)
+        self.assertIn("hasta el", sello)
+        self.assertIn("corrida del", sello)
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)"', sello),
+                         ["2026-08-21", "2026-08-22"])
+
+    def test_el_sello_del_rud_no_confunde_la_corrida_con_el_ultimo_dato(self):
+        """El bug que motivó el componente: las dos fechas salían del mismo
+        campo. Aquí la serie termina el 20 y la corrida es del 22."""
+        sello = R.sello_rud({"rud": {"generado": "2026-08-22",
+                                     "serie": [{"fecha": "2026-08-19"},
+                                               {"fecha": "2026-08-20"}]}})
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)"', sello),
+                         ["2026-08-20", "2026-08-22"])
+
+    def test_el_sello_de_balances_fecha_la_ultima_busqueda_no_la_primera(self):
+        """`oficiales.json` fecha cada nota con la búsqueda que la encontró; el
+        rastreo llega hasta la última, y el orden del fichero no lo garantiza."""
+        sello = R.sello_balances({"oficiales": {
+            "generated_at": "2026-08-22T04:02:41.917Z",
+            "items": [{"search_date": "2026-08-21"}, {"search_date": "2026-08-14"},
+                      {"titulo": "sin fecha de búsqueda"}]}})
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)"', sello),
+                         ["2026-08-21", "2026-08-22"])
+        self.assertNotIn("04:02", sello, "la marca de tiempo se cuela en la prosa")
+
+    def test_la_corrida_se_abrevia_solo_dentro_del_mismo_mes(self):
+        """«hasta el 21 de agosto de 2026 · corrida del 22» se lee; repetir mes
+        y año no añade nada. En cuanto cambian, «corrida del 1» es un acertijo."""
+        self.assertIn('corrida del <time datetime="2026-08-22">22</time>',
+                      R.sello_fechas("2026-08-21", "2026-08-22", "del RUD"))
+        self.assertIn('corrida del <time datetime="2026-09-01">1 de septiembre'
+                      ' de 2026</time>',
+                      R.sello_fechas("2026-08-31", "2026-09-01", "del RUD"))
+
+    # ------------------------------------------- M10: lo que falta se calla
+    def test_sin_fecha_del_dato_no_se_inventa_una(self):
+        """La portada y los municipios están en este caso: `monitor.json` y
+        `municipios.json` no publican hasta dónde llega su serie."""
+        sello = R.sello_fechas(None, "2026-08-22", "del monitor")
+        self.assertNotIn("hasta", sello)
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)"', sello),
+                         ["2026-08-22"])
+
+    def test_sin_corrida_tampoco_se_inventa(self):
+        sello = R.sello_fechas("2026-08-21", None, "del RUD")
+        self.assertNotIn("corrida", sello)
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)"', sello),
+                         ["2026-08-21"])
+
+    def test_sin_ninguna_fecha_lo_dice_y_jamas_devuelve_vacio(self):
+        """Una cadena vacía dejaría el contenedor `data-gen` vacío, y eso
+        rompe el build por `seo_check`: el silencio hay que decirlo."""
+        for hasta, corrida in ((None, None), ("", ""), ("mañana", None)):
+            with self.subTest(hasta=hasta, corrida=corrida):
+                sello = R.sello_fechas(hasta, corrida, "del RUD")
+                self.assertTrue(sello.strip(), "el sello salió vacío")
+                self.assertIn("Sin ninguna captura del RUD", sello)
+
+    # ------------------------------------------ el guardián de la regresión
+    def test_los_cuatro_sellos_llegan_escritos_al_artefacto(self):
+        """Se ejecuta el inyector de verdad sobre los HTML del repositorio, que
+        es como se construye `dist/`: así cae también si alguien quita la marca,
+        cambia la etiqueta del contenedor o desconecta el generador."""
+        for pagina, clave in self.PAGINAS.items():
+            with self.subTest(pagina=pagina):
+                self.assertIn(clave, self.hechas,
+                              f"{pagina}: el inyector no reconoció el sello")
+                cuerpo = self.sello_servido(pagina, clave)
+                self.assertTrue(cuerpo.strip(), f"{pagina}: el sello quedó vacío")
+                self.assertIn("<time datetime=", cuerpo,
+                              f"{pagina}: la fecha no es legible por máquina")
+
+    def test_el_rud_y_los_balances_fechan_tambien_el_dato(self):
+        """Las dos páginas cuyas fuentes sí saben hasta dónde llegan."""
+        for pagina, clave in (("rud.html", "rud-sello"),
+                              ("balances.html", "balances-sello")):
+            with self.subTest(pagina=pagina):
+                cuerpo = self.sello_servido(pagina, clave)
+                self.assertEqual(len(re.findall(r'<time ', cuerpo)), 2,
+                                 f"{pagina}: el sello dejó de decir las dos fechas")
+                self.assertIn("corrida del", cuerpo)
+
+    def test_la_portada_y_los_municipios_no_inventan_la_fecha_del_dato(self):
+        """M10: sus fuentes no la publican, así que ese trozo se calla."""
+        for pagina, clave in (("index.html", "portada-sello"),
+                              ("municipios.html", "municipios-sello")):
+            with self.subTest(pagina=pagina):
+                cuerpo = self.sello_servido(pagina, clave)
+                self.assertEqual(len(re.findall(r'<time ', cuerpo)), 1)
+                self.assertNotIn("hasta el", cuerpo)
+
+
+class TestElSelloYaNoLoEscribeElNavegador(unittest.TestCase):
+    """Lo que se comprueba sobre las fuentes, no sobre el artefacto.
+
+    Va en su propia clase a propósito: si el marcador de una página se rompe, el
+    inyector revienta y se llevaría por delante el `setUpClass` de la otra, y
+    entonces estos dos guardianes nunca llegarían a decir lo suyo."""
+
+    PAGINAS = TestSelloDeFecha.PAGINAS
+
+    def test_el_marcador_va_vacio_y_con_la_apertura_pegada_al_cierre(self):
+        """Un salto de línea entre la apertura y el cierre y la marca no casa."""
+        for pagina, clave in self.PAGINAS.items():
+            with self.subTest(pagina=pagina):
+                html = (ROOT / "site" / pagina).read_text(encoding="utf-8")
+                self.assertIn(f'<span id="generado" data-gen="{clave}"></span>', html)
+
+    def test_ningun_javascript_vuelve_a_escribir_el_sello(self):
+        """No se le pone un `if` a la llamada sin guarda: se le quita el motivo.
+        Y la redacción vive en un solo sitio (M2), que ahora es Python."""
+        for js in ("app.js", "municipios.js", "rud.js", "balances.js",
+                   "common.js", "ui.js"):
+            with self.subTest(js=js):
+                texto = (ROOT / "site" / js).read_text(encoding="utf-8")
+                # `assertFalse` y no `assertNotIn`: el fallo importa, el volcado
+                # del fichero entero en el informe no
+                self.assertFalse('getElementById("generado")' in texto,
+                                 f"{js} vuelve a escribir el sello desde el navegador")
+                self.assertFalse('"Actualizado el "' in texto,
+                                 f"{js} conserva la redacción vieja del sello")
+
+
+class TestElInyectorNoSeCalla(unittest.TestCase):
+    """Un contenedor `data-gen` declarado que no casa rompe el build.
+
+    Basta un salto de línea entre la apertura y el cierre para que la expresión
+    no case. Antes eso era un `continue`: una línea de menos en el informe del
+    build, la página publicada con el hueco y el aviso mucho después, desde
+    `seo_check`, en otro proceso y con otro nombre. Es un error de programación,
+    no una fuente que falla (R13)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def rud_con(self, destino: Path, marcador: str) -> None:
+        html = (ROOT / "site" / "rud.html").read_text(encoding="utf-8")
+        viejo = '<tbody data-gen="rud"></tbody>'
+        assert viejo in html, "cambió el marcador de la tabla del RUD"
+        (destino / "rud.html").write_text(html.replace(viejo, marcador),
+                                          encoding="utf-8")
+
+    def test_un_marcador_partido_por_un_salto_de_linea_revienta_nombrandolo(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            self.rud_con(destino, '<tbody data-gen="rud">\n</tbody>')
+            with self.assertRaises(LookupError) as roto:
+                R.inyectar_prerenderizado(destino, self.ctx)
+        aviso = str(roto.exception)
+        self.assertIn("«rud»", aviso, "el aviso no dice qué contenedor falló")
+        self.assertIn("marcador", aviso)
+        self.assertIn("site/rud.html", aviso, "manda a mirar el sitio equivocado")
+        self.assertNotIn("ya estaba escrito", aviso,
+                         "confunde el marcador partido con el marcador gastado: "
+                         "el contenedor está en los dos casos, y lo que los "
+                         "separa es si dentro hay algo escrito")
+
+    def test_el_marcador_borrado_manda_a_mirar_site_y_no_el_artefacto(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            self.rud_con(destino, "<tbody></tbody>")
+            with self.assertRaises(LookupError) as roto:
+                R.inyectar_prerenderizado(destino, self.ctx)
+        aviso = str(roto.exception)
+        self.assertIn("site/rud.html", aviso)
+        self.assertNotIn("ya estaba escrito", aviso)
+
+    def test_repetir_el_paso_dice_que_ya_estaba_escrito_y_no_culpa_al_marcador(self):
+        """Mismo criterio que `escribir_piezas_compartidas`: dos averías con el
+        mismo síntoma, y decir la que no es manda a depurar el sitio
+        equivocado. Quien refresca el artefacto a mano es quien se lo encuentra."""
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            self.rud_con(destino, '<tbody data-gen="rud"></tbody>')
+            self.assertEqual(sorted(R.inyectar_prerenderizado(destino, self.ctx)),
+                             ["rud", "rud-sello"], "la primera pasada ya falló")
+            with self.assertRaises(LookupError) as repetida:
+                R.inyectar_prerenderizado(destino, self.ctx)
+        aviso = str(repetida.exception)
+        self.assertIn("ya estaba escrito", aviso)
+        self.assertNotIn("marcador", aviso, "sigue mandando a mirar site/*.html")
+        self.assertIn("build_dist.sh", aviso, "no dice cómo salir del atolladero")
+
+    def test_una_pagina_que_no_esta_se_sigue_saltando(self):
+        """Lo que rompe es el contenedor que falta en una página que SÍ está.
+        Un `dist/` parcial —el que arma `TestBandaDeBrechas`— no es una avería:
+        si lo fuera, este cambio se habría llevado por delante aquel test."""
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            shutil.copy(ROOT / "site" / "index.html", destino / "index.html")
+            hechas = R.inyectar_prerenderizado(destino, self.ctx)
+        self.assertEqual(sorted(hechas),
+                         ["brechas", "mirada-portada", "portada", "portada-sello"])
+
+
 class TestCifrasEnAtributos(unittest.TestCase):
     """La og:description es la superficie que se ve al compartir el enlace, y
     ahí no cabe un <span data-gen>: la cifra va marcada con {{clave}}."""

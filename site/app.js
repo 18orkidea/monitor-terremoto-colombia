@@ -128,8 +128,6 @@
           "válido.</p>");
     return;
   }
-  document.getElementById("generado").textContent =
-    "Actualizado el " + window.UI.fechaLarga(mon.generado);
 
   // ---- mapa
   const map = L.map("map");

@@ -25,9 +25,6 @@
   }
 
   const items = (feed.items || []).filter((x) => x.search_date);
-  document.getElementById("generado").textContent =
-    "Actualizado el " + fechaLarga(feed.generated_at);
-
   const dates = [...new Set(items.map((x) => x.search_date))].sort();
   const levels = [...new Set(items.map((x) => x.source_level || "sin_nivel"))].sort();
   const selDate = document.getElementById("balance-fecha");
