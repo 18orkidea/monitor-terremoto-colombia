@@ -356,6 +356,29 @@ Fuera de alcance por decisión de JP: la tabla de `rud.html`, cuyas filas no tie
 ningún enlace y cuyo cruce con el catálogo curado es el que ya falló con «Guadalajara de
 Buga» (R10, M8); eso lo escribe la ingesta en la fase 4.
 
+## 2026-08-24 — Un error en cómo mostramos el dato se corrige; el cambio lo documenta git
+
+Contexto: al revisar qué se versiona apareció que `data/dumps/citizen_reports.csv` lleva
+la coordenada exacta de los 542 reportes ciudadanos, mientras el sitio promete publicarla
+redondeada a ~110 m. Al discutir cómo arreglarlo se invocó la inmutabilidad de los
+snapshots como argumento para no tocar lo ya publicado — y ahí se vio que estábamos
+mezclando dos capas distintas.
+
+Decisión de JP: **si encontramos un error en la manera en que mostramos los datos, se
+corrige, y eso manda sobre conservar la versión equivocada.** Los cambios no se archivan:
+se documentan en git, que es su sitio, y los datos se arreglan para que correspondan.
+
+La distinción que queda escrita en `CLAUDE.md`: **lo que la fuente dijo es intocable**
+—el snapshot, su sha256 y su fila en `sources_log`—; **lo que nosotros hicimos con lo que
+dijo es responsabilidad nuestra y se corrige**. Un dato mal derivado, mal redondeado o
+mal rotulado no es archivo histórico: es un error, y dejarlo puesto para «no tocar el
+pasado» publica una falsedad con aspecto de registro. Las dos trazas se conservan: el
+snapshot demuestra qué dijo la fuente, el commit demuestra qué corregimos y cuándo.
+
+Consecuencia: las correcciones retroactivas de lo publicado dejan de necesitar
+justificación caso a caso. Lo que sigue necesitándola es tocar un snapshot, que no se
+hace nunca.
+
 ## 2026-08-23 — Reglas de método (M1–M10): las cicatrices se escriben en el contrato
 
 Contexto: en una sola jornada de rediseño aparecieron cuatro errores del mismo tipo, y

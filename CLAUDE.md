@@ -73,6 +73,28 @@ decide si hay que traer algo pregunta al archivo, nunca al sistema de ficheros,
 que en la máquina de la corrida arranca vacío de todo lo que git ignora.
 `ingest/common.py::activo_archivado` · `test_unit.py::TestActivosDelArchivo`
 
+### Dos capas, y solo una es inmutable
+
+Lo de arriba habla de **lo que la fuente dijo**: eso no se toca nunca. **Cómo lo
+enseñamos nosotros es otra capa, y esa sí se corrige.**
+
+> **Si encontramos un error en la manera en que mostramos los datos, se corrige.
+> Esto manda sobre conservar la versión equivocada. Los cambios no se archivan:
+> se documentan en git, que es su sitio — y los datos se arreglan para que
+> correspondan.**
+
+Un dato mal derivado, mal redondeado o mal rotulado **no es archivo histórico:
+es un error nuestro**, y dejarlo puesto para «no tocar el pasado» publica una
+falsedad con aspecto de registro. El snapshot original sigue ahí para demostrar
+qué dijo la fuente; el commit demuestra qué corregimos y cuándo. **Las dos
+trazas se conservan; lo que se arregla es lo publicado.**
+
+Confundir las dos capas es fácil y ya pasó: se llegó a defender un redondeo
+equivocado apelando a la inmutabilidad de los snapshots, que no tenían nada que
+ver. **Ante la duda: ¿esto es lo que dijo la fuente, o lo que hicimos nosotros
+con lo que dijo?** Lo primero es intocable. Lo segundo es responsabilidad
+nuestra y se corrige.
+
 Toda fuente nueva necesita, desde el día uno: snapshot diario, test de supuesto y
 plan de sucesión (¿qué pasa si muere? ¿merece Wayback? ¿hay export dedicado tipo
 `rud.json`?). Las lagunas conocidas se documentan en `docs/LIMITACIONES.md` — un
