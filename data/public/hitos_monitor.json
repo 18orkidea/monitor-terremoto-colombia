@@ -165,6 +165,13 @@
    "resumen": "Las fichas con evidencia incorporan una vista de mapa bajo demanda.",
    "texto": "Las fichas municipales con datos satelitales o ciudadanos incorporan dos vistas: Situación mantiene el resumen estático e indexable, y Mapa de evidencias carga la exploración interactiva solo cuando el lector la solicita. Las fichas sin puntos conservan su enlace al mapa general.",
    "url": "/municipio/cali/"
+  },
+  {
+   "fecha": "2026-08-22",
+   "tipo": "monitor",
+   "resumen": "El monitor estrena dominio propio y el anterior queda redirigido para siempre.",
+   "texto": "El observatorio pasa a publicarse en datosdelterremoto.org, un dominio propio en vez de un subdominio personal: un archivo que promete durar veinte años no puede depender de la renovación de otra cosa. Las direcciones anteriores no se rompen —quedan con redirección permanente— porque hay enlaces citados en prensa y programas que descargan los JSON y el CSV a diario.",
+   "url": "/"
   }
  ]
 }

@@ -1,5 +1,5 @@
 {
- "generado": "2026-08-22",
+ "generado": "2026-08-23",
  "bucket": "monitor-terremoto-media",
  "objetos": [
   {
@@ -146,6 +146,11 @@
    "objeto": "5e91e24f-0ea0-4f76-9459-f50bd1c65241.mp4",
    "sha256": "07bd8f702e97ca1f1c0a6ded1a7fdcf63a9ef2e7a51460d8d9188be83c20c33f",
    "bytes": 2677946
+  },
+  {
+   "objeto": "5f242f4c-032e-47f0-a5df-83d4fcd8a6d3.mp4",
+   "sha256": "215a9d95646f0362fcab897ff356251a7632bd7db9692a07676dd751ca09b55b",
+   "bytes": 2358486
   },
   {
    "objeto": "5f568d18-7a3e-4168-9e4d-dde5bc849010.mp4",
