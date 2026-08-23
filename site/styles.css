@@ -272,7 +272,13 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
   background: color-mix(in srgb, var(--ink) 6%, transparent);
   color: var(--muted); font-family: inherit;
 }
-.chip.activa {
+/* Dos mecánicas para un mismo estado. El sitio marca el chip activo con una
+   clase; el sistema del rediseño lo marca con `aria-pressed`, que es lo que un
+   lector de pantalla anuncia. Se funden en un solo selector en vez de escribir
+   el estilo dos veces: es la ÚNICA línea de la hoja vieja que toca la fase 2,
+   y es un añadido de selector, no un cambio de declaración. */
+.chip.activa,
+.chip[aria-pressed="true"] {
   border-color: var(--s1); color: var(--ink);
   background: color-mix(in srgb, var(--s1) 12%, transparent);
 }
@@ -1121,3 +1127,38 @@ details.pliegue[open]>summary::before{content:"▾ "}
 details.pliegue p{font-size:14.5px;color:var(--ink-2);max-width:70ch}
 details.denso{border-top:1px solid var(--border)}
 details.denso>summary{color:var(--ink)}
+
+/* ── LOTE 4 · Chips: lo aditivo ─────────────────────────────────────────
+   `.chips` y `.chip` NO se tocan: el sitio los envuelve (`flex-wrap`) y el
+   prototipo los desliza (`overflow-x`), y cambiar eso movería las tres tiras
+   de filtros publicadas el mismo día. La tira deslizable entra como variante
+   con nombre propio, para ponerla donde se quiera y no donde toque. */
+
+/* El punto de color hereda el color del chip, así que un chip cambia de fuente
+   cambiando una sola declaración y el punto le sigue. */
+.chip .punto { width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* La cifra del chip, en tinta plena y con dígitos de ancho fijo: al filtrar,
+   los números cambian pero el chip no cambia de anchura y la tira no baila. */
+.chip .n { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--ink); }
+
+/* Un chip con punto necesita alinearlo con el texto: inline-flex solo cuando
+   hay punto, para no alterar los chips de texto suelto que ya existen. */
+.chip:has(.punto) { display: inline-flex; align-items: center; gap: 7px; }
+
+/* La clave de color por fuente. Los tres satélites conservan de momento su
+   color propio, porque unificarlos en azul —decidido por JP el 23-ago— cambia
+   el significado visual de las tablas de municipios y de las 208 fichas, y eso
+   va en su propia fase con su propia verificación. Cuando llegue, se cambia
+   aquí y en los --sN que el marcado emite en línea, no solo aquí. */
+.chip[data-capa="copernicus"] { color: var(--copernicus); }
+.chip[data-capa="unosat"]     { color: var(--unosat); }
+.chip[data-capa="sertit"]     { color: var(--sertit); }
+.chip[data-capa="ciudadanos"] { color: var(--ciudadano); }
+.chip[data-capa="ausencia"]   { color: var(--ausencia); }
+
+/* La tira deslizable, como variante y no como norma: una fila de chips que no
+   parte de línea y se arrastra en horizontal. Sin barra visible, porque en el
+   móvil la barra roba alto al mapa. */
+.chips--tira { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.chips--tira::-webkit-scrollbar { display: none; }
