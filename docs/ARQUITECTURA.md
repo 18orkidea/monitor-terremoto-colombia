@@ -39,9 +39,22 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
     capas. `common.py::copia_vigente` · `test_unit.py::TestPeticionesCondicionales`
   - **Solo se pregunta condicionalmente por lo que se puede servir del archivo**:
     `copia_vigente()` exige que el fichero esté en disco y que su sha256 cuadre
-    con el log. Los vídeos ciudadanos viven en R2 y no en el repo, así que por
-    ellos no se pregunta: se descargan como siempre. Es el invariante que impide
-    que un 304 deje al llamante sin cuerpo o al log con un sha sin nada detrás.
+    con el log. Es el invariante que impide que un 304 deje al llamante sin
+    cuerpo o al log con un sha sin nada detrás. Los vídeos ciudadanos viven en
+    R2 y no en el repo, así que por ellos no se pregunta — y por eso necesitan
+    el mecanismo de abajo, que es otro.
+  - **Un activo se archiva una vez.** `activo_archivado()` responde «¿este
+    cuerpo ya es nuestro?» preguntando **al archivo** —el cuerpo en disco, si
+    está; `citizen_reports.media_sha256`; `data/r2_manifest.json`— y no al
+    sistema de ficheros, que en la máquina de la corrida arranca vacío de todo
+    lo que git ignora. Si la base y el manifiesto se contradicen **devuelve
+    None**: un archivo que se desmiente a sí mismo no autoriza a saltarse nada,
+    y la contradicción se canta (`alerts.divergencias_del_archivo_de_activos`).
+    La distinción es dato/activo: un cuerpo que puede cambiar se pregunta cada
+    día; un vídeo con URL propia —un UUID que ChatMap acuña al subirlo— no. Y
+    solo alcanza a lo que git NO versiona (`ARCHIVO_EN_R2`): para una foto, que
+    viaja en el clon, el archivo es el disco y si falta se vuelve a traer.
+    `common.py::activo_archivado` · `test_unit.py::TestActivosDelArchivo`
   - **Un contenido idéntico no se archiva dos veces.** Si la fuente no soporta
     condicionales y manda 200 con un cuerpo que ya está archivado, la fila
     apunta a la copia existente y **no se escribe un fichero nuevo**. Nada se
@@ -146,8 +159,19 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 1. **23:00 Colombia** (`workers/ai-view`, cron Cloudflare): balances en medios que
    citan fuentes oficiales — Firecrawl + extracción IA → KV → `/oficiales.json`.
 2. **05:30 Colombia** (`.github/workflows/daily.yml`): corrida completa de ingesta →
-   tests contra datos frescos → sync de vídeos a R2 → Wayback del RUD → snapshot del
-   feed de balances → commit del bot → (dispara el deploy).
+   tests contra datos frescos → sync de vídeos a R2 → **auditoría del bucket
+   (`ingest/auditar_r2.py`)** → Wayback del RUD → snapshot del feed de balances →
+   commit del bot → (dispara el deploy).
+   La auditoría no es adorno ni es un aviso: **sale 1**. Mientras el runner se
+   bajaba los 77 vídeos cada día, el `sync` los volvía a ofrecer y un objeto que
+   faltara en R2 se curaba solo al día siguiente. Desde que no se descarga lo ya
+   archivado, ese remiendo no existe, y si la subida no ocurre —secreto
+   caducado, un fork— un vídeo nuevo vive solo en el workspace, que se destruye
+   al acabar, mientras el manifiesto ya declara su sha256. Por eso falla el día
+   en que un cuerpo solo existe aquí o el manifiesto declara algo que R2 no
+   tiene. Corre **antes** del commit, así que el archivo del día se guarda igual,
+   y deja su informe en `data/auditoria_r2.json`, versionado: los `::error::` de
+   Actions caducan a los 90 días y viven fuera del repositorio.
 3. **En cada push a main** (`.github/workflows/pages.yml`): regenera OG, construye
    `dist/` con `deploy/build_dist.sh` y publica en **GitHub Pages** (única vía de
    deploy; el dominio datosdelterremoto.org apunta ahí por CNAME).

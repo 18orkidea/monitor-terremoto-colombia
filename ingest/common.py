@@ -450,6 +450,111 @@ def registrar_entrega(conn: sqlite3.Connection, *, url: str, ruta: Path,
     return sha
 
 
+# --- Activos: contenido que no cambia ----------------------------------------
+# Un cuerpo que se vuelve a pedir cada día es un DATO: puede haber cambiado y
+# preguntar es la única forma de saberlo. Un vídeo ciudadano no: nace con una
+# dirección propia —un UUID que ChatMap acuña al subirlo— y su contenido es el
+# que es. Eso es un ACTIVO, y un activo se archiva una vez.
+#
+# La distinción no es cosmética: medido sobre `sources_log` el 24-ago-2026, de
+# los 3.931 MB que el monitor ha descargado en su vida, 2.648 son 77 vídeos
+# bajados una media de 4,8 veces cada uno, siempre con el mismo sha256 (cero
+# excepciones en 372 descargas). No cabían en git, así que el runner arrancaba
+# sin ellos y el guardián, que miraba el disco, nunca los encontraba.
+MANIFIESTO_R2 = DATA / "r2_manifest.json"
+
+# Las extensiones cuyo cuerpo NO cabe en git y por tanto vive en el bucket.
+# Vive en CUATRO superficies y hay un guardián que las compara
+# (`TestActivosDelArchivo::test_las_extensiones_de_r2_dicen_lo_mismo_
+#  en_las_cuatro_superficies`):
+# aquí, en `.gitignore`, en el `aws s3 sync` de `daily.yml` y en el test de
+# trazabilidad. Que se separen no es un descuido teórico: `.avi` llevaba desde
+# el principio en `.gitignore` y en ninguna de las otras tres, así que un vídeo
+# con esa extensión se habría descargado, no habría entrado en git, no habría
+# subido a R2 y no habría figurado en el manifiesto — irrecuperable en cuanto
+# el runner se apagara, y sin una sola línea roja.
+ARCHIVO_EN_R2 = (".mp4", ".mov", ".avi", ".webm", ".opus", ".ogg", ".m4a")
+
+
+def manifiesto_r2(ruta: Path | None = None) -> dict[str, dict]:
+    """El manifiesto versionado del bucket, como {objeto: {sha256, bytes}}.
+
+    Es la copia del archivo que VIAJA CON EL CLON: la base de datos se
+    reconstruye de los volcados y puede no estar todavía, pero este fichero
+    está en git desde el primer `git clone`. Si no se puede leer, devuelve {}
+    y quien pregunte se queda sin esa vía — nunca rompe la corrida (R13).
+    """
+    try:
+        datos = json.loads((ruta or MANIFIESTO_R2).read_text(encoding="utf-8"))
+        return {o["objeto"]: o for o in datos.get("objetos", [])
+                if o.get("objeto") and o.get("sha256")}
+    except (OSError, ValueError, TypeError, AttributeError):
+        return {}
+
+
+def activo_archivado(url: str, conn: sqlite3.Connection | None = None, *,
+                     destino: Path | None = None,
+                     manifiesto: dict | None = None) -> dict | None:
+    """¿Este activo ya está en el archivo? Devuelve su sha256 y su ruta, o None.
+
+    Pregunta AL ARCHIVO, no al sistema de ficheros, porque el sistema de
+    ficheros de la máquina que corre el proceso arranca vacío de todo lo que
+    git ignora. Tres vías, en orden de fuerza de la evidencia:
+
+    1. **El cuerpo en disco.** Es la prueba, no un registro de la prueba.
+    2. **`citizen_reports.media_sha256`.** La base viva, que `run_daily`
+       reconstruye entera desde `data/dumps/` antes de empezar la corrida.
+    3. **`data/r2_manifest.json`.** El manifiesto versionado, que sobrevive a
+       la pérdida de la base porque viaja en el clon.
+
+    **Las vías 2 y 3 solo valen para cuerpos que viven FUERA de git**, es decir
+    `ARCHIVO_EN_R2`. Para una foto, que sí viaja en el clon, el archivo ES el
+    disco: si falta, hay que volver a traerla, y fiarse de la base la declararía
+    archivada para siempre. Antes de esta distinción, borrar una imagen del repo
+    la condenaba a no recuperarse nunca — se vería en rojo (el régimen fuerte lo
+    caza) pero solo se arreglaría a mano.
+
+    **Si la base y el manifiesto se contradicen, devuelve None**: un archivo
+    que se desmiente a sí mismo no autoriza a saltarse nada, así que se vuelve
+    a descargar y se restablece la verdad. La contradicción se canta aparte
+    (`alerts.divergencias_del_archivo_de_activos`), porque es un hallazgo.
+    """
+    clave = (url or "").rsplit("/", 1)[-1]
+    if not clave:
+        return None
+    if destino is not None:
+        try:
+            cuerpo = destino.read_bytes()
+            return {"sha256": hashlib.sha256(cuerpo).hexdigest(),
+                    "ruta": str(destino.relative_to(ROOT)),
+                    "bytes": len(cuerpo), "origen": "disco"}
+        except OSError:
+            pass            # no está: sigue preguntando al archivo
+    if not clave.lower().endswith(ARCHIVO_EN_R2):
+        return None         # su cuerpo viaja en git: si no está, se trae otra vez
+    en_base = None
+    if conn is not None:
+        try:
+            fila = conn.execute(
+                "SELECT media_sha256, media_local FROM citizen_reports"
+                " WHERE media_url=? AND media_sha256 IS NOT NULL"
+                " ORDER BY snapshot_date DESC LIMIT 1", (url,)).fetchone()
+            if fila:
+                en_base = {"sha256": fila[0],
+                           "ruta": fila[1] or f"data/media/{clave}",
+                           "bytes": None, "origen": "base"}
+        except sqlite3.Error:
+            en_base = None   # base antigua o rota: R13, se degrada a la otra vía
+    mani = manifiesto_r2() if manifiesto is None else manifiesto
+    obj = mani.get(clave)
+    en_manifiesto = ({"sha256": obj["sha256"], "ruta": f"data/media/{clave}",
+                      "bytes": obj.get("bytes"), "origen": "manifiesto"}
+                     if obj else None)
+    if en_base and en_manifiesto and en_base["sha256"] != en_manifiesto["sha256"]:
+        return None
+    return en_base or en_manifiesto
+
+
 def copia_vigente(url: str, conn: sqlite3.Connection | None = None) -> dict | None:
     """La última copia archivada de esa URL cuyo cuerpo se puede servir HOY.
 
@@ -520,6 +625,32 @@ CABECERA_REUTILIZADOS = (
     "# mismo que ya teníamos, así que la copia viva es la de otro día. Una\n"
     "# línea por cuerpo: nombre que habría tenido aquí, copia vigente, sha256.\n"
     "# El índice completo de peticiones es data/dumps/sources_log.csv.\n")
+
+
+def _ocupado_por_otro_cuerpo(ruta: Path, sha: str) -> bool:
+    """¿Hay ya algo ahí que NO es este cuerpo?
+
+    Defensivo a propósito (R13): si la ruta existe y no se deja leer —un
+    directorio, un permiso—, se responde que sí, y el cuerpo nuevo se escribe al
+    lado en vez de reventar una corrida que ya tenía los bytes en la mano.
+    """
+    try:
+        return hashlib.sha256(ruta.read_bytes()).hexdigest() != sha
+    except FileNotFoundError:
+        return False
+    except OSError:
+        return True
+
+
+def _nombre_con_contenido(nombre: str, sha: str) -> str:
+    """`capa.json` + sha → `capa_1a2b3c4d.json`. Una sola implementación (M2).
+
+    El archivo no se sobrescribe nunca: cuando llega un cuerpo distinto bajo un
+    nombre que ya está ocupado, se guarda al lado con la firma de su contenido.
+    Lo usan los snapshots intradía y los cuerpos que van a `save_to`.
+    """
+    stem, punto, ext = nombre.rpartition(".")
+    return f"{stem}_{sha[:8]}.{ext}" if punto else f"{nombre}_{sha[:8]}"
 
 
 def _anotar_reutilizado(nombre: str, spath: str, sha: str) -> None:
@@ -633,9 +764,19 @@ def fetch(url: str, params: dict | None = None, *, note: str = "",
                     spath = reusable["snapshot_path"]
                 else:
                     save_to.parent.mkdir(parents=True, exist_ok=True)
-                    if not save_to.exists():
-                        save_to.write_bytes(body)
-                    spath = str(save_to.relative_to(ROOT))
+                    destino = save_to
+                    if _ocupado_por_otro_cuerpo(save_to, sha):
+                        # Mismo nombre, contenido DISTINTO. Antes esto no
+                        # escribía nada y la fila del log declaraba un sha256
+                        # apuntando a un fichero con OTRO cuerpo: la única
+                        # forma de que este archivo mienta sin que nadie lo
+                        # note. Copia aparte, jamás encima — la misma política
+                        # que los snapshots intradía, aquí abajo.
+                        destino = save_to.with_name(
+                            _nombre_con_contenido(save_to.name, sha))
+                    if not destino.exists():
+                        destino.write_bytes(body)
+                    spath = str(destino.relative_to(ROOT))
         elif snapshot_name:
             p = snapshot_dir() / snapshot_name
             if p.exists() and hashlib.sha256(p.read_bytes()).hexdigest() == sha:
@@ -648,10 +789,7 @@ def fetch(url: str, params: dict | None = None, *, note: str = "",
                 spath = str(p.relative_to(ROOT))
             else:
                 # mismo día, contenido DISTINTO: copia aparte, jamás encima
-                stem, dot, ext = snapshot_name.rpartition(".")
-                nombre = (f"{stem}_{sha[:8]}.{ext}" if dot
-                          else f"{snapshot_name}_{sha[:8]}")
-                p = snapshot_dir() / nombre
+                p = snapshot_dir() / _nombre_con_contenido(snapshot_name, sha)
                 if not p.exists():
                     p.write_bytes(body)
                 spath = str(p.relative_to(ROOT))

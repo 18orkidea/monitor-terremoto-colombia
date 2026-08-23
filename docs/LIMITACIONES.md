@@ -42,25 +42,67 @@ cuando faltan, el manifiesto podría desfasarse durante meses en la máquina del
 mantenedor y saltar únicamente en CI. Un cuerpo fuera de git y fuera del
 manifiesto no es recuperable ni auditable, y el test lo trata como roto.
 
-## Los vídeos ciudadanos se vuelven a descargar enteros cada día (24-ago-2026)
+## Un vídeo que cambie en origen no se detectaría el mismo día (24-ago-2026)
 
-Consecuencia del punto anterior, medida sobre `sources_log`: los `.mp4` y demás
-audiovisuales están en `.gitignore`, así que **el runner de la corrida diaria
-empieza cada día con `data/media/` vacía**. `chatmap.py` solo se salta la
-descarga si el fichero existe en disco (`dest.exists()`), y en CI nunca existe:
-el cuerpo ya archivado en R2 se vuelve a pedir entero.
+Desde el 24-ago-2026 los vídeos ciudadanos **se archivan una vez**: si la base o
+el manifiesto de R2 dicen que ese cuerpo ya es nuestro, no se vuelve a pedir
+(ver `docs/DECISIONES.md`). Eso ahorra **630,2 MB al día** —dos tercios de todo
+el tráfico que el monitor había generado en su vida— y tiene un precio que hay
+que decir en voz alta: **si ChatMap sustituyera el contenido de una de esas
+direcciones sin cambiarla, el monitor no se enteraría**, porque ya no pregunta.
 
-En los ocho días medidos son **2.647 MB de 3.931**, o sea **dos tercios de todo
-lo que el monitor ha descargado en su vida**, para reescribir bytes que ya
-estaban archivados y verificados por sha256. Un solo vídeo de 59,6 MB se ha
-descargado seis veces.
+No es una sospecha abstracta ni una probabilidad alta: las 372 descargas de esos
+77 objetos devolvieron siempre el mismo sha256, cero excepciones, y la dirección
+de cada medio es un UUID que la fuente acuña al subirlo. Pero es el supuesto
+sobre el que se apoya el ahorro, y conviene saber que es un supuesto.
 
-Las peticiones condicionales de `fetch()` **no lo arreglan**: por diseño, solo
-se pregunta con validadores por un cuerpo que se pueda servir del archivo local,
-y estos no están ahí. La salida sería que el guardián de `chatmap.py` consulte
-el archivo (`citizen_reports.media_sha256` / `sources_log`) en vez del sistema
-de ficheros — un medio ya registrado con su sha no hay que volver a pedirlo—,
-pero eso toca la cadena de archivo en R2 y su manifiesto, y se decide aparte.
+Lo que sí quedaría detectado el día que ocurra:
+
+- **si el cuerpo llega alguna vez** —porque el archivo perdió su copia, porque
+  la base y el manifiesto se contradicen, o porque el objeto es nuevo—, se
+  compara con el sha archivado y, si difiere, **se guarda al lado con la firma
+  de su contenido**: el viejo no se toca y el log no puede acabar declarando un
+  sha256 sobre un fichero con otro cuerpo dentro;
+- **si la base y el manifiesto dejan de decir lo mismo**, la corrida lo canta
+  (`alerts.divergencias_del_archivo_de_activos`) y vuelve a descargar ese objeto;
+- **si el bucket pierde un cuerpo que el manifiesto declara archivado**, la
+  auditoría de `daily.yml` lo pone en rojo — sin git y sin R2, ese vídeo es
+  irrecuperable.
+
+Y una consecuencia menor de la misma decisión: **el `aws s3 sync` compara por
+tamaño (`--size-only`)**, y la auditoría del bucket también, porque R2 no publica
+el sha256 de sus objetos y el `ETag` de una subida multiparte no es un md5 del
+cuerpo. Una sustitución del mismo peso no se vería desde fuera.
+
+Lo que NO existe es una revalidación periódica contra la fuente. Haría falta que
+ChatMap sirviera `ETag`/`Last-Modified` en sus medios —hoy no consta que lo
+haga: ninguna de las 372 descargas guardó validador alguno, porque son
+anteriores al mecanismo condicional— o una petición `HEAD` diaria por objeto.
+Ninguna de las dos se ha medido contra el servidor real. Es la vía si algún día
+el supuesto deja de dar confianza.
+
+## Deuda heredada que este cambio no causa pero sí hereda (24-ago-2026)
+
+Tres cosas que salieron al auditar el archivo de medios y que no arregla el
+cambio del guardián. Se anotan porque un archivo honesto documenta lo que no
+tiene, no porque haya prisa por tocarlas.
+
+1. **Hay cuatro fotos en `data/media/` que ningún reporte de la base referencia y
+   que no tienen fila en `sources_log`** (`3de65c0a…`, `6699d22c…`, `77ca9e47…`,
+   `84654d4f…`, entradas el 19-ago-2026). Están en los snapshots de ChatMap del 19
+   y el 20 y desaparecieron de la captura del 22. Viajan en git, así que el cuerpo
+   está a salvo; lo que falta es la constancia de quién las pidió.
+2. **No existe el recorrido inverso fichero → log para `data/media/`.** Sí existe
+   para `data/documentos/` (`test_hipotesis.py::TestPaquetesDeSertit`) y ahora
+   también manifiesto → log para los A/V. El hueco es el de las fotos: un fichero
+   en el repositorio sin petición que lo explique no salta en ningún test.
+3. **`data/dumps/citizen_reports.csv` versiona `lat`/`lon` exactas.** Lo publicado
+   solo lleva `lat_pub`/`lon_pub` redondeadas a ~110 m (R5) y los tests de
+   privacidad lo comprueban sobre `data/public/`, pero el volcado que reconstruye
+   la base —y que está en el repositorio público— conserva la coordenada de
+   origen. Es una decisión que merece tomarse a la vista, no heredarse por
+   omisión: si se cambia, hay que decidir qué pasa con los volcados ya
+   commiteados, que son archivo y no se reescriben.
 
 ## La serie consolidada de balances no se puede descargar entera
 

@@ -67,10 +67,16 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
 ## Principio de archivo
 
 **Nada se publica sin snapshot + sha256 + fila en `sources_log`. Los snapshots son
-inmutables: no se sobrescriben ni se migran.** Toda fuente nueva necesita, desde el
-día uno: snapshot diario, test de supuesto y plan de sucesión (¿qué pasa si muere?
-¿merece Wayback? ¿hay export dedicado tipo `rud.json`?). Las lagunas conocidas se
-documentan en `docs/LIMITACIONES.md` — un archivo honesto documenta lo que no tiene.
+inmutables: no se sobrescriben ni se migran.** Y **nada que sea contenido que no
+cambia se archiva más de una vez: es un activo, no un dato archivable** — quien
+decide si hay que traer algo pregunta al archivo, nunca al sistema de ficheros,
+que en la máquina de la corrida arranca vacío de todo lo que git ignora.
+`ingest/common.py::activo_archivado` · `test_unit.py::TestActivosDelArchivo`
+
+Toda fuente nueva necesita, desde el día uno: snapshot diario, test de supuesto y
+plan de sucesión (¿qué pasa si muere? ¿merece Wayback? ¿hay export dedicado tipo
+`rud.json`?). Las lagunas conocidas se documentan en `docs/LIMITACIONES.md` — un
+archivo honesto documenta lo que no tiene.
 
 ## Idioma y naming
 

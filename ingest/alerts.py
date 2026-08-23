@@ -339,6 +339,72 @@ def cambios_en_peticiones_condicionales(conn, hoy: str) -> list[dict]:
     return avisos
 
 
+def divergencias_del_archivo_de_activos(conn) -> list[dict]:
+    """¿Dicen lo mismo el manifiesto de R2 y la base sobre cada vídeo?
+
+    Desde el 24-ago-2026 el monitor NO vuelve a descargar un activo que el
+    archivo ya declara suyo. Ese ahorro se apoya entero en que las dos vías del
+    archivo —`citizen_reports.media_sha256` y `data/r2_manifest.json`— digan lo
+    mismo, así que la que las vigila no puede ser la misma que las usa (M2).
+
+    Dos cosas se cantan y una NO:
+    - un objeto con **sha256 distinto** en cada vía: el archivo se desmiente a
+      sí mismo y `activo_archivado` deja de fiarse de los dos (vuelve a
+      descargar); esto explica por qué.
+    - un objeto del manifiesto que **la base no conoce**: sobra en el bucket, o
+      la base perdió una fila.
+    - un vídeo de la base que **aún no está en el manifiesto** no se avisa: el
+      manifiesto lo escribe `publish`, que corre DESPUÉS de esta función, así
+      que el día que llega un vídeo nuevo esa diferencia es lo normal. Avisar
+      de lo normal es la forma más rápida de que dejen de leerse las alertas.
+    """
+    from common import manifiesto_r2
+    manifiesto = manifiesto_r2()
+    if not manifiesto:
+        return []           # sin manifiesto no hay nada que comparar (R13)
+    try:
+        base = {(u or "").rsplit("/", 1)[-1]: s for u, s in conn.execute(
+            "SELECT media_url, media_sha256 FROM citizen_reports"
+            " WHERE media_sha256 IS NOT NULL")}
+    except sqlite3.Error:
+        return []
+    if not base:
+        # El espejo del caso de arriba, y el que de verdad muerde: si
+        # `rebuild_db` o `chatmap` fallan, R13 se los traga y la base llega
+        # vacía. Sin esta guarda, los 77 objetos del manifiesto salen como
+        # huérfanos y la alerta acusa al bucket de un fallo de la base. Un
+        # aviso que suena en falso deja de leerse, y entonces no avisa de nada.
+        return [{"tipo": "base_sin_reportes_ciudadanos", "nivel": "media",
+                 "texto": ("La base no tiene ni un reporte ciudadano con sha256, "
+                           "así que hoy no se puede comparar con el manifiesto de "
+                           f"R2 ({len(manifiesto)} objetos). No es que sobren en "
+                           "el bucket: es que falta la base — revisar si "
+                           "`rebuild_db` o `chatmap` fallaron."),
+                 "objetos_en_manifiesto": len(manifiesto)}]
+    avisos = []
+    discrepan = sorted(k for k, o in manifiesto.items()
+                       if k in base and base[k] != o["sha256"])
+    if discrepan:
+        avisos.append({
+            "tipo": "manifiesto_r2_discrepa_de_la_base", "nivel": "alta",
+            "texto": (f"{len(discrepan)} vídeo(s) ciudadanos tienen un sha256 en "
+                      f"la base y otro en el manifiesto de R2. Mientras dure, "
+                      f"esos cuerpos se vuelven a descargar enteros: el archivo "
+                      f"no autoriza a saltarse lo que él mismo desmiente. "
+                      f"Ejemplo: {discrepan[0]}"),
+            "objetos": discrepan[:10], "n": len(discrepan)})
+    huerfanos = sorted(set(manifiesto) - set(base))
+    if huerfanos:
+        avisos.append({
+            "tipo": "manifiesto_r2_con_objetos_sin_reporte", "nivel": "media",
+            "texto": (f"{len(huerfanos)} objeto(s) del manifiesto de R2 no "
+                      f"corresponden a ningún reporte ciudadano de la base: o "
+                      f"sobran en el bucket o la base perdió su fila. "
+                      f"Ejemplo: {huerfanos[0]}"),
+            "objetos": huerfanos[:10], "n": len(huerfanos)})
+    return avisos
+
+
 def run(copernicus_summary: dict | None = None) -> list[dict]:
     conn = db()
     snap = today()
@@ -539,6 +605,14 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     try:
         alerts.extend(cambios_en_peticiones_condicionales(conn, snap))
     except sqlite3.OperationalError:
+        pass
+
+    # 10) ¿siguen diciendo lo mismo el manifiesto de R2 y la base sobre los
+    # vídeos ciudadanos? El ahorro de no volver a descargarlos se apoya en que
+    # sí; el día que se separen hay que verlo (R11).
+    try:
+        alerts.extend(divergencias_del_archivo_de_activos(conn))
+    except sqlite3.Error:
         pass
 
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}

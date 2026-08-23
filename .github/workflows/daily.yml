@@ -52,8 +52,45 @@ jobs:
         run: |
           aws s3 sync data/media/ s3://monitor-terremoto-media/ \
             --endpoint-url https://fe26e2674ce7e3cdf6b07397be7ee8e8.r2.cloudflarestorage.com \
-            --exclude "*" --include "*.mp4" --include "*.mov" --include "*.webm" \
-            --include "*.opus" --include "*.ogg" --include "*.m4a" --size-only
+            --exclude "*" --include "*.mp4" --include "*.mov" --include "*.avi" \
+            --include "*.webm" --include "*.opus" --include "*.ogg" \
+            --include "*.m4a" --size-only
+
+      # El manifiesto contra la realidad (R11), y la red que este cambio quitó.
+      #
+      # Hasta el 24-ago-2026 el runner se bajaba TODOS los vídeos cada día y el
+      # `sync` de arriba los volvía a ofrecer: un objeto que faltara en el
+      # bucket se curaba solo al día siguiente. Desde que el guardián no
+      # descarga lo ya archivado, ese remiendo no existe — y hay un camino por
+      # el que un cuerpo se pierde PARA SIEMPRE con la corrida en verde: si el
+      # `sync` no ocurre (token rotado, secreto caducado, un fork sin secrets),
+      # un vídeo nuevo existe solo en el workspace, que se destruye al acabar,
+      # mientras `publish` ya escribió su sha256 en el manifiesto y en la base.
+      # Desde el día siguiente el guardián lo declara archivado y no vuelve a
+      # pedirlo nunca: un sha256 sin cuerpo en ninguna parte.
+      #
+      # Por eso esto NO es un aviso: sale 1. Corre antes del commit, así que el
+      # archivo del día se guarda igual, y el rojo lo pone el último paso.
+      - name: Auditar el bucket contra data/r2_manifest.json
+        id: auditoria
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_LISTADO: /tmp/r2.tsv
+        continue-on-error: true
+        run: |
+          export R2_DISPONIBLE=0
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::warning::Sin credenciales R2: el bucket no se pudo listar hoy"
+          elif aws s3api list-objects-v2 --bucket monitor-terremoto-media \
+              --endpoint-url https://fe26e2674ce7e3cdf6b07397be7ee8e8.r2.cloudflarestorage.com \
+              --query "Contents[].[Key,Size]" --output text > "$R2_LISTADO"; then
+            export R2_DISPONIBLE=1
+          else
+            echo "::warning::No se pudo listar el bucket R2 hoy"
+          fi
+          python ingest/auditar_r2.py
 
       # Copia independiente en la Wayback Machine de las fuentes más frágiles
       # (nadie archivaba el RUD durante la semana del sismo; que no vuelva a
@@ -169,7 +206,7 @@ jobs:
       # El rojo llega aquí, con el día ya archivado: se ve el fallo sin perder
       # el snapshot. Si esto salta, mirar el RESUMEN de la corrida más arriba.
       - name: Marcar la corrida en rojo si algo falló
-        if: steps.corrida.outcome == 'failure' || steps.hipotesis.outcome == 'failure'
+        if: steps.corrida.outcome == 'failure' || steps.hipotesis.outcome == 'failure' || steps.auditoria.outcome == 'failure'
         run: |
-          echo "::error::La corrida (${{ steps.corrida.outcome }}) o los tests de hipótesis (${{ steps.hipotesis.outcome }}) fallaron. El archivo del día SÍ se guardó; revisar el resumen de fuentes."
+          echo "::error::La corrida (${{ steps.corrida.outcome }}), los tests de hipótesis (${{ steps.hipotesis.outcome }}) o la auditoría de R2 (${{ steps.auditoria.outcome }}) fallaron. El archivo del día SÍ se guardó; revisar el resumen de fuentes y data/auditoria_r2.json."
           exit 1

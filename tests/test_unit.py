@@ -3484,3 +3484,743 @@ class TestProcedenciaDeLaRejilla(unittest.TestCase):
                 self.assertIsNone(geo.grid_mmi_vigente(P(tmp)))
             finally:
                 common.SNAPSHOTS = previo
+
+
+class TestActivosDelArchivo(unittest.TestCase):
+    """Un activo se archiva UNA vez.
+
+    Medido sobre `sources_log` el 24-ago-2026: de los 3.931 MB que el monitor
+    había descargado en su vida, **2.648 eran 77 vídeos ciudadanos bajados una
+    media de 4,8 veces cada uno**, siempre con el mismo sha256 — cero
+    excepciones en 372 descargas. Uno de 59,6 MB se bajó seis veces. La causa
+    no era la red: los vídeos están en `.gitignore`, la máquina de la corrida
+    arranca sin uno solo, y el guardián preguntaba al disco.
+
+    Lo que vigilan estos tests no es el ahorro —eso lo cuenta el log— sino las
+    cuatro cosas que el ahorro no puede costar: que un vídeo NUEVO deje de
+    bajarse, que uno CAMBIADO deje de archivarse, que un archivo ilegible tumbe
+    la corrida, y que el manifiesto —lo único que hace auditable el bucket—
+    pierda lo que ya sabía.
+    """
+
+    VIDEO = "https://chatmap.hotosm.org/api/v1/media/aaaa-1.mp4"
+    SHA_ARCHIVADO = "e" * 64
+
+    class SinCerrar:
+        """La conexión que le damos a `chatmap.run()`: hace todo menos
+        cerrarse, para que el test pueda mirar la base después."""
+
+        def __init__(self, conn):
+            self._c = conn
+
+        def __getattr__(self, nombre):
+            return getattr(self._c, nombre)
+
+        def close(self):
+            pass
+
+    # --- andamio -----------------------------------------------------------
+
+    def _mundo(self, tmp, *, objetos=None, manifiesto_crudo=None):
+        """Un repo de mentira: data/media vacía y un manifiesto a elegir.
+
+        Devuelve (conn, parches). `objetos` escribe un manifiesto normal;
+        `manifiesto_crudo` escribe el texto tal cual (para romperlo a mano).
+        """
+        import sqlite3
+        from unittest import mock
+        import common
+        (tmp / "data" / "media").mkdir(parents=True, exist_ok=True)
+        manifiesto = tmp / "data" / "r2_manifest.json"
+        if manifiesto_crudo is not None:
+            manifiesto.write_text(manifiesto_crudo, encoding="utf-8")
+        elif objetos is not None:
+            manifiesto.write_text(json.dumps(
+                {"generado": "2026-08-22", "bucket": "b", "objetos": objetos}))
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(common.SCHEMA)
+        parches = (mock.patch.object(common, "ROOT", tmp),
+                   mock.patch.object(common, "DATA", tmp / "data"),
+                   mock.patch.object(common, "MEDIA", tmp / "data" / "media"),
+                   mock.patch.object(common, "SNAPSHOTS", tmp / "data" / "snapshots"),
+                   mock.patch.object(common, "MANIFIESTO_R2", manifiesto))
+        return conn, parches
+
+    def _reporte_en_base(self, conn, url, sha):
+        conn.execute(
+            "INSERT INTO citizen_reports (origen, id_externo, ts, media_url,"
+            " media_local, media_sha256, estado, snapshot_date)"
+            " VALUES ('chatmap',?,'2026-08-14T10:00:00',?,?,?,'recibido',"
+            "'2026-08-22')",
+            (url.rsplit("/", 1)[-1], url,
+             "data/media/" + url.rsplit("/", 1)[-1], sha))
+
+    def _corre_chatmap(self, tmp, conn, parches, *, cuerpo=b"VIDEO-NUEVO"):
+        """Corre `chatmap.run()` contra una API falsa. Devuelve (salida, urls).
+
+        `urls` son las que de verdad salieron a la red: es lo que se mide.
+        """
+        from unittest import mock
+        import common
+        import sources.chatmap as chatmap
+        pedidas = []
+        geojson = json.dumps({"features": [{
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [-76.5, 3.4]},
+            "properties": {"id": "r1", "time": "2026-08-14T10:00:00",
+                           "message": "", "file": self.VIDEO}}]}).encode()
+
+        def falso(req, **kw):
+            pedidas.append(req.full_url)
+            return TestPeticionesCondicionales.Resp(
+                geojson if "/map/" in req.full_url else cuerpo)
+
+        with parches[0], parches[1], parches[2], parches[3], parches[4], \
+                mock.patch.object(chatmap, "MEDIA", tmp / "data" / "media"), \
+                mock.patch.object(chatmap, "db",
+                                  lambda: self.SinCerrar(conn)), \
+                mock.patch.object(common.urllib.request, "urlopen",
+                                  side_effect=falso):
+            salida = chatmap.run()
+        return salida, pedidas
+
+    # --- 1. un vídeo nuevo se sigue descargando ----------------------------
+
+    def test_un_video_nuevo_si_se_descarga(self):
+        """Lo primero que hay que probar de un atajo: que no atajó de más."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertIn(self.VIDEO, pedidas,
+                          "un vídeo que el archivo no conoce TIENE que pedirse")
+            self.assertEqual(salida["medios_nuevos"], 1)
+            self.assertTrue((tmp / "data" / "media" / "aaaa-1.mp4").exists(),
+                            "y su cuerpo tiene que quedar archivado")
+            import hashlib
+            self.assertEqual(
+                conn.execute("SELECT media_sha256 FROM citizen_reports").fetchone()[0],
+                hashlib.sha256(b"VIDEO-NUEVO").hexdigest())
+            conn.close()
+
+    # --- 2. lo ya archivado no se vuelve a pedir ---------------------------
+
+    def test_un_video_del_manifiesto_no_se_vuelve_a_pedir(self):
+        """El caso de los 2.648 MB: el cuerpo está en R2, no en el clon, y el
+        manifiesto versionado lo dice. Mirar el disco era decir «no lo tengo»
+        sobre algo archivado y verificado por sha256 hacía días."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertNotIn(self.VIDEO, pedidas,
+                             "el archivo ya tiene ese cuerpo: pedirlo otra vez "
+                             "son megas por nada")
+            self.assertEqual(salida["medios_ya_archivados"], 1)
+            self.assertEqual(salida["medios_nuevos"], 0)
+            self.assertEqual(
+                conn.execute("SELECT media_sha256 FROM citizen_reports").fetchone()[0],
+                self.SHA_ARCHIVADO,
+                "y el reporte conserva el sha que dice el archivo, no un hueco")
+            conn.close()
+
+    def test_la_base_basta_aunque_el_manifiesto_no_este(self):
+        """Las dos vías son independientes a propósito: la base se reconstruye
+        de los volcados al empezar la corrida, y el manifiesto viaja en el clon.
+        Perder una no puede costar el ahorro."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp)          # sin manifiesto siquiera
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertNotIn(self.VIDEO, pedidas)
+            self.assertEqual(salida["medios_ya_archivados"], 1)
+            conn.close()
+
+    def test_si_la_base_y_el_manifiesto_se_contradicen_se_descarga(self):
+        """Un archivo que se desmiente a sí mismo no autoriza a saltarse nada.
+        Se vuelve a pedir el cuerpo —que es lo que restablece la verdad— y la
+        contradicción se canta aparte (R11)."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": "f" * 64, "bytes": 4096}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            _, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertIn(self.VIDEO, pedidas)
+            conn.close()
+
+    def test_la_contradiccion_del_archivo_se_canta(self):
+        """M3: si merece explicarse, merece salir en las alertas."""
+        import tempfile
+        from unittest import mock
+        import alerts
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": "f" * 64, "bytes": 4096}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            tipos = {a["tipo"] for a in avisos}
+            self.assertIn("manifiesto_r2_discrepa_de_la_base", tipos)
+            conn.close()
+
+    def test_un_video_de_la_base_que_falta_en_el_manifiesto_no_es_alerta(self):
+        """`publish` escribe el manifiesto DESPUÉS de `alerts`: el día que llega
+        un vídeo nuevo, que la base lo conozca y el manifiesto no es lo normal.
+        Avisar de lo normal es la forma más rápida de que dejen de leerse las
+        alertas.
+
+        Cierra el CONJUNTO de tipos, no la ausencia de uno: mirar solo si falta
+        `manifiesto_r2_discrepa_de_la_base` no guarda nada, porque en este
+        escenario ese tipo es estructuralmente imposible —base y manifiesto no
+        comparten ni una clave— y un aviso nuevo cualquiera pasaría entero.
+        """
+        import tempfile
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "otro.mp4", "sha256": "a" * 64, "bytes": 1}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            self.assertEqual(
+                {a["tipo"] for a in avisos},
+                {"manifiesto_r2_con_objetos_sin_reporte"},
+                "el único aviso legítimo aquí es el huérfano del manifiesto: "
+                "que la base conozca un vídeo que el manifiesto todavía no "
+                "tiene es el estado normal de un vídeo nuevo")
+            conn.close()
+
+    def test_el_huerfano_del_manifiesto_si_es_alerta(self):
+        """Lo que el test de arriba NO puede dejar de guardar: un objeto en el
+        bucket que ningún reporte respalda sí se canta."""
+        import tempfile
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "huerfano.mp4", "sha256": "a" * 64, "bytes": 1}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            aviso = [a for a in avisos
+                     if a["tipo"] == "manifiesto_r2_con_objetos_sin_reporte"]
+            self.assertEqual(len(aviso), 1)
+            self.assertEqual(aviso[0]["objetos"], ["huerfano.mp4"])
+            conn.close()
+
+    def test_una_base_vacia_no_acusa_al_bucket(self):
+        """El espejo del «sin manifiesto no hay nada que comparar», y el que de
+        verdad muerde: si `rebuild_db` o `chatmap` fallan, R13 se los traga y la
+        base llega vacía. Sin guarda, los 77 objetos salen como huérfanos y la
+        alerta acusa al bucket de un fallo de la base — 77 avisos falsos, que es
+        la forma más rápida de que nadie vuelva a leer una alerta."""
+        import tempfile
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096},
+                {"objeto": "bbbb-2.mp4", "sha256": "b" * 64, "bytes": 8}])
+            with parches[0], parches[4]:          # base sin un solo reporte
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            self.assertEqual({a["tipo"] for a in avisos},
+                             {"base_sin_reportes_ciudadanos"},
+                             "sin base no se puede acusar al bucket de nada")
+            conn.close()
+
+    # --- 3. el reverso: un cuerpo que cambia se vuelve a archivar -----------
+
+    def test_un_cuerpo_distinto_bajo_el_mismo_nombre_no_se_pisa(self):
+        """Aquí es donde esta clase de optimización falla en silencio.
+
+        Antes, si el fichero ya estaba y llegaba OTRO cuerpo, `fetch` no
+        escribía nada y la fila del log declaraba el sha256 del cuerpo nuevo
+        apuntando a un fichero con el viejo dentro: la única forma de que este
+        archivo mienta sin que nadie lo note. Ahora se guarda al lado, con la
+        firma de su contenido, y el viejo no se toca (principio de archivo).
+        """
+        import hashlib
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            dest = tmp / "data" / "media" / "aaaa-1.mp4"
+            dest.write_bytes(b"VIEJO")
+            nuevo = b"REEDITADO EN ORIGEN"
+            sha_nuevo = hashlib.sha256(nuevo).hexdigest()
+            with parches[0], parches[1], parches[2], parches[3], parches[4], \
+                    mock.patch.object(
+                        common.urllib.request, "urlopen",
+                        side_effect=lambda req, **kw:
+                        TestPeticionesCondicionales.Resp(nuevo)):
+                common.fetch(self.VIDEO, note="chatmap media aaaa-1.mp4",
+                             conn=conn, save_to=dest)
+            self.assertEqual(dest.read_bytes(), b"VIEJO",
+                             "el cuerpo archivado no se sobrescribe jamás")
+            spath, sha = conn.execute(
+                "SELECT snapshot_path, sha256 FROM sources_log"
+                " ORDER BY id DESC LIMIT 1").fetchone()
+            self.assertEqual(sha, sha_nuevo)
+            cuerpo = (tmp / spath)
+            self.assertTrue(cuerpo.exists(),
+                            "un sha256 en el log sin cuerpo detrás no es evidencia")
+            self.assertEqual(hashlib.sha256(cuerpo.read_bytes()).hexdigest(), sha,
+                             "el cuerpo al que apunta la fila tiene que ser ESE")
+            self.assertNotEqual(cuerpo, dest)
+            conn.close()
+
+    # --- 4. R13: el archivo ilegible degrada, no rompe ---------------------
+
+    def test_un_manifiesto_corrupto_no_rompe_la_corrida(self):
+        """R13. Y degrada del lado seguro: si no se puede leer el manifiesto,
+        no se da por archivado nada — se descarga."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, manifiesto_crudo="{no es json")
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertNotIn("error", salida)
+            self.assertIn(self.VIDEO, pedidas)
+            conn.close()
+
+    def test_sin_manifiesto_y_sin_base_no_se_da_nada_por_archivado(self):
+        import tempfile
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp)
+            with parches[0], parches[4]:
+                self.assertIsNone(common.activo_archivado(self.VIDEO, conn))
+                self.assertEqual(common.manifiesto_r2(), {})
+            conn.close()
+
+    def test_una_base_sin_la_tabla_no_tumba_al_guardian(self):
+        """La corrida reconstruye la base antes de empezar, pero si esa
+        reconstrucción fallara el guardián no puede llevarse la ingesta por
+        delante: se queda sin esa vía y sigue con el manifiesto (R13)."""
+        import sqlite3
+        import tempfile
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            _, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            vacia = sqlite3.connect(":memory:")      # sin una sola tabla
+            with parches[0], parches[4]:
+                ya = common.activo_archivado(self.VIDEO, vacia)
+            self.assertEqual(ya["sha256"], self.SHA_ARCHIVADO)
+            self.assertEqual(ya["origen"], "manifiesto")
+            vacia.close()
+
+    # --- 5. el manifiesto no puede perder lo que ya sabía -------------------
+
+    def test_el_manifiesto_no_pierde_los_bytes_sin_el_cuerpo_delante(self):
+        """La trampa de segundo orden de este cambio: como la máquina de la
+        corrida ya no descarga los vídeos, preguntarle solo al disco habría
+        escrito `bytes: null` en los 77 objetos y el manifiesto habría perdido
+        su columna entera en el primer commit automático."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos, [{"objeto": "aaaa-1.mp4",
+                                        "sha256": self.SHA_ARCHIVADO,
+                                        "bytes": 4096}])
+            conn.close()
+
+    def test_los_bytes_salen_del_log_antes_que_del_manifiesto_viejo(self):
+        """El registro de la descarga es archivo de primera mano; el manifiesto
+        anterior es una copia suya. Ante duda, manda el log."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 1}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note) VALUES"
+                " ('2026-08-15T10:00:00Z',?,200,?,4096,'data/media/aaaa-1.mp4',"
+                "'chatmap media aaaa-1.mp4')", (self.VIDEO, self.SHA_ARCHIVADO))
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos[0]["bytes"], 4096)
+            conn.close()
+
+    def test_sin_nadie_que_lo_sepa_los_bytes_se_omiten(self):
+        """M10: donde falta el dato se calla el campo, nunca se escribe 0."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertIsNone(objetos[0]["bytes"])
+            conn.close()
+
+    def test_los_bytes_nunca_son_los_de_otro_cuerpo(self):
+        """Las tres vías van atadas al sha256 que se está escribiendo.
+
+        `bytes` es el ÚNICO campo que la auditoría puede contrastar contra R2.
+        Una cifra que no sea de ese cuerpo o suena en falso todos los días —y un
+        aviso falso mata la lectura de las alertas— o enmascara una sustitución
+        de verdad. Aquí las tres vías tienen un tamaño a mano y las tres son de
+        OTRO contenido: el manifiesto tiene que salir sin cifra (M10).
+        """
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": "d" * 64, "bytes": 111}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            # el disco tiene un cuerpo que no es ese
+            (tmp / "data" / "media" / "aaaa-1.mp4").write_bytes(b"OTRA COSA")
+            # y el log guarda la descarga de un tercer contenido
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note) VALUES"
+                " ('2026-08-15T10:00:00Z',?,200,?,222,'data/media/aaaa-1.mp4','x')",
+                (self.VIDEO, "c" * 64))
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos[0]["sha256"], self.SHA_ARCHIVADO)
+            self.assertIsNone(
+                objetos[0]["bytes"],
+                "ningún tamaño a la vista es de ESE cuerpo: se omite el campo, "
+                "no se coge el que haya más a mano")
+            conn.close()
+
+    def test_el_manifiesto_no_encoge_si_la_base_llega_vacia(self):
+        """`rebuild_db` y `chatmap` son `step()`: R13 los deja fallar sin tumbar
+        la corrida. Si el manifiesto se regenerara de una base vacía escribiría
+        `objetos: []` y el bot lo commitearía — los cuerpos seguirían en R2 pero
+        dejarían de estar declarados, que es justo lo que hace auditable el
+        bucket."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            with parches[0], parches[4]:          # base sin un solo reporte
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos, [{"objeto": "aaaa-1.mp4",
+                                        "sha256": self.SHA_ARCHIVADO,
+                                        "bytes": 4096}],
+                             "lo que ya se declaró archivado sigue declarado")
+            conn.close()
+
+    def test_una_foto_que_falta_del_repo_se_vuelve_a_traer(self):
+        """Las vías de la base y del manifiesto valen para cuerpos que viven
+        FUERA de git. Una foto sí viaja en el clon: para ella el archivo ES el
+        disco, y fiarse de la base la declararía archivada para siempre — se
+        vería en rojo, pero solo se arreglaría a mano."""
+        import tempfile
+        import common
+        FOTO = "https://chatmap.hotosm.org/api/v1/media/bbbb-2.jpg"
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            self._reporte_en_base(conn, FOTO, "a" * 64)
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                self.assertIsNone(
+                    common.activo_archivado(
+                        FOTO, conn, destino=tmp / "data" / "media" / "bbbb-2.jpg"),
+                    "su cuerpo va en git: si no está, hay que traerlo otra vez")
+                # y el vídeo, cuyo cuerpo NO va en git, sigue resolviéndose
+                self.assertIsNotNone(
+                    common.activo_archivado(self.VIDEO, conn,
+                                            destino=tmp / "data" / "media" / "x"))
+            conn.close()
+
+    def test_un_destino_ilegible_no_tumba_la_descarga(self):
+        """R13. Si la ruta de destino existe y no se deja leer —un directorio,
+        un permiso—, el cuerpo que YA está en la mano se guarda al lado en vez
+        de reventar la corrida."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            dest = tmp / "data" / "media" / "aaaa-1.mp4"
+            dest.mkdir(parents=True)              # un directorio, no un fichero
+            with parches[0], parches[1], parches[2], parches[3], parches[4], \
+                    mock.patch.object(
+                        common.urllib.request, "urlopen",
+                        side_effect=lambda req, **kw:
+                        TestPeticionesCondicionales.Resp(b"CUERPO")):
+                st, body = common.fetch(self.VIDEO, note="chatmap media",
+                                        conn=conn, save_to=dest)
+            self.assertEqual((st, body), (200, b"CUERPO"))
+            spath = conn.execute(
+                "SELECT snapshot_path FROM sources_log ORDER BY id DESC"
+                " LIMIT 1").fetchone()[0]
+            self.assertTrue((tmp / spath).is_file(),
+                            "el cuerpo tenía que acabar en algún sitio legible")
+            conn.close()
+
+    # --- 6. la red que este cambio quitó, repuesta -------------------------
+
+    def _auditar(self, tmp, *, disponible, bucket=None, manifiesto=None,
+                 locales=()):
+        """Corre `ingest/auditar_r2.py` sobre un repo de mentira.
+
+        Devuelve (codigo_de_salida, salida, informe_archivado).
+        """
+        import json as _json
+        import subprocess
+        import sys as _sys
+        raiz = Path(__file__).parent.parent
+        (tmp / "data" / "media").mkdir(parents=True, exist_ok=True)
+        for nombre in locales:
+            (tmp / "data" / "media" / nombre).write_bytes(b"cuerpo")
+        if manifiesto is not None:
+            (tmp / "data" / "r2_manifest.json").write_text(_json.dumps(
+                {"generado": "2026-08-22", "bucket": "b",
+                 "objetos": manifiesto}))
+        listado = tmp / "r2.tsv"
+        listado.write_text("\n".join(f"{k}\t{v}" for k, v in (bucket or {}).items()))
+        guion = (tmp / "ingest" / "auditar_r2.py")
+        guion.parent.mkdir(parents=True, exist_ok=True)
+        guion.write_bytes((raiz / "ingest" / "auditar_r2.py").read_bytes())
+        (tmp / "ingest" / "common.py").write_bytes(
+            (raiz / "ingest" / "common.py").read_bytes())
+        r = subprocess.run(
+            [_sys.executable, str(guion)], capture_output=True, text=True,
+            env={"R2_DISPONIBLE": "1" if disponible else "0",
+                 "R2_LISTADO": str(listado), "PATH": "/usr/bin:/bin"})
+        destino = tmp / "data" / "auditoria_r2.json"
+        informe = _json.loads(destino.read_text()) if destino.exists() else None
+        return r.returncode, r.stdout + r.stderr, informe
+
+    OBJ = {"objeto": "aaaa-1.mp4", "sha256": "e" * 64, "bytes": 6}
+
+    def test_un_dia_sin_credenciales_y_con_medios_nuevos_pone_la_corrida_en_rojo(self):
+        """**El agujero que abría este cambio.**
+
+        El `sync` a R2 se salta entero si falta el secreto —token rotado, un
+        fork—. Ese día un vídeo nuevo existe SOLO en el workspace del runner:
+        git lo ignora y el workspace se destruye al acabar. Mientras tanto
+        `publish` ya escribió su sha256 en el manifiesto y en la base, así que
+        desde mañana el guardián lo da por archivado y no vuelve a pedirlo
+        JAMÁS. Antes la redescarga diaria lo reofrecía; esa red la quitamos
+        nosotros. Si esto puede pasar en verde, no hemos arreglado nada.
+        """
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=False, manifiesto=[self.OBJ],
+                locales=["aaaa-1.mp4"])
+            self.assertEqual(codigo, 1,
+                             "un cuerpo que solo existe en el workspace tiene "
+                             "que poner la corrida en rojo, no dejar un aviso")
+            self.assertIn("::error::", salida)
+            self.assertEqual(informe["cuerpos_solo_en_el_workspace"],
+                             ["aaaa-1.mp4"])
+            self.assertFalse(informe["auditado"])
+
+    def test_un_dia_sin_credenciales_y_sin_medios_nuevos_no_rompe(self):
+        """El reverso: no hay nada que perder, así que no hay nada que romper.
+        Un rojo diario en un fork sin secrets tampoco se leería (R13)."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=False, manifiesto=[self.OBJ])
+            self.assertEqual(codigo, 0)
+            self.assertIn("::warning::", salida)
+            self.assertEqual(informe["cuerpos_solo_en_el_workspace"], [])
+
+    def test_un_cuerpo_que_el_manifiesto_declara_y_r2_no_tiene_pone_en_rojo(self):
+        """Sin git y sin bucket ese cuerpo es irrecuperable: es lo más grave
+        que le puede pasar a este archivo y no puede quedar en un aviso."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=True, bucket={}, manifiesto=[self.OBJ])
+            self.assertEqual(codigo, 1)
+            self.assertEqual(informe["faltan_en_r2"], ["aaaa-1.mp4"])
+            self.assertIn("irrecuperables", salida)
+
+    def test_un_bucket_que_cuadra_sale_en_verde(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, _, informe = self._auditar(
+                tmp, disponible=True, bucket={"aaaa-1.mp4": 6},
+                manifiesto=[self.OBJ], locales=["aaaa-1.mp4"])
+            self.assertEqual(codigo, 0)
+            self.assertEqual(informe["objetos_en_bucket"], 1)
+            self.assertEqual(informe["faltan_en_r2"], [])
+            self.assertEqual(informe["cuerpos_solo_en_el_workspace"], [])
+
+    def test_el_que_pesa_distinto_y_el_que_sobra_avisan_sin_romper(self):
+        """Un tamaño que no cuadra puede ser una sustitución o un desajuste
+        nuestro: se mira, no se para la corrida."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=True,
+                bucket={"aaaa-1.mp4": 99, "intruso.mp4": 7},
+                manifiesto=[self.OBJ])
+            self.assertEqual(codigo, 0)
+            self.assertEqual(informe["difieren_en_tamano"],
+                             [{"objeto": "aaaa-1.mp4", "manifiesto": 6, "r2": 99}])
+            self.assertEqual(informe["sobran_en_r2"], ["intruso.mp4"])
+            self.assertNotIn("::error::", salida)
+
+    def test_la_auditoria_se_archiva_tambien_cuando_no_se_pudo_auditar(self):
+        """Los `::error::` de Actions viven fuera del repositorio y caducan a
+        los 90 días: un aviso que no se archiva no cumple el principio de
+        archivo. «Ese día no pudimos mirar» también es información."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            _, _, informe = self._auditar(tmp, disponible=False,
+                                          manifiesto=[self.OBJ])
+            self.assertIsNotNone(informe, "la auditoría tiene que quedar en el "
+                                          "repositorio, no solo en el log de CI")
+            self.assertIn("motivo", informe)
+            self.assertIn("fecha", informe)
+            self.assertEqual(informe["objetos_en_bucket"], None,
+                             "M10: sin listado no se inventa un recuento")
+
+    def test_sin_manifiesto_la_auditoria_avisa_y_no_revienta(self):
+        """R13: si `publish` falló, este paso no puede escupir un traceback."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=True, bucket={"x.mp4": 1})
+            self.assertEqual(codigo, 0)
+            self.assertNotIn("Traceback", salida)
+            self.assertIn("::warning::", salida)
+            self.assertEqual(informe["objetos_en_manifiesto"], 0)
+
+    def test_el_workflow_llama_a_la_auditoria_y_la_pone_en_el_rojo_final(self):
+        """El guion puede salir 1 todo lo que quiera: si el workflow no mira su
+        `outcome`, el día acaba en verde igual. Las dos mitades o van juntas o
+        no sirven (M2)."""
+        raiz = Path(__file__).parent.parent
+        flujo = (raiz / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        self.assertIn("python ingest/auditar_r2.py", flujo)
+        self.assertIn("id: auditoria", flujo)
+        rojo = flujo[flujo.index("Marcar la corrida en rojo"):]
+        self.assertIn("steps.auditoria.outcome == 'failure'",
+                      rojo[:rojo.index("run:")],
+                      "la auditoría sale 1 pero nadie mira su resultado: el día "
+                      "se cerraría en verde con un cuerpo perdido")
+
+    # --- 7. el patrón, no el caso ------------------------------------------
+
+    def test_lo_que_git_ignora_y_se_descarga_esta_declarado(self):
+        """El barrido, convertido en guardián.
+
+        La firma del fallo es reconocible: **decidir si hay que traer algo
+        mirando el disco, cuando el disco arranca vacío**. Solo puede pasar con
+        contenido que git ignora. Hoy, bajo `data/`, eso es exactamente dos
+        cosas: los audiovisuales ciudadanos —que van a R2— y el sqlite, que no
+        se descarga de ninguna parte: se reconstruye de `data/dumps/*.csv`.
+
+        Se miran `data/` y `feeds/`, que son las dos carpetas donde aterriza lo
+        que entra de fuera. Si mañana alguien ignora otra ruta descargable, este
+        test lo para y le obliga a decidir dónde vive su archivo antes de que la
+        corrida empiece a bajarla entera cada día. Es el guardián que le habría
+        faltado a `data/indexnow_estado.json`, que decide si hay que avisar a
+        los buscadores mirando el disco y solo sobrevive porque nadie lo ignoró.
+        """
+        from common import ARCHIVO_EN_R2
+        raiz = Path(__file__).parent.parent
+        lineas = [l.strip() for l in
+                  (raiz / ".gitignore").read_text(encoding="utf-8").splitlines()
+                  if l.strip() and not l.strip().startswith("#")]
+        # Un patrón SIN barra interior lo aplica git a cualquier profundidad:
+        # un `*.mp4` suelto ignoraría `data/media/` sin nombrarlo, y el guardián
+        # que solo mirase las líneas `data/…` no lo vería pasar.
+        apuntan_al_archivo, sueltos = [], []
+        for l in lineas:
+            cuerpo = l.lstrip("!").rstrip("/")
+            if l.startswith(("data/", "feeds/")):
+                apuntan_al_archivo.append(l)
+            elif "/" not in cuerpo:
+                sueltos.append(l)
+        esperados = {f"data/media/*{ext}" for ext in ARCHIVO_EN_R2}
+        esperados |= {"data/monitor.sqlite", "data/monitor.sqlite-wal",
+                      "data/monitor.sqlite-shm"}
+        self.assertEqual(
+            set(apuntan_al_archivo), esperados,
+            "una ruta de data/ o feeds/ ignorada por git arranca VACÍA en la "
+            "máquina de la corrida: si su contenido se descarga, el guardián "
+            "que decide si hay que traerlo no puede mirar el disco (ver "
+            "docs/DECISIONES.md, 24-ago-2026)")
+        # Los patrones sueltos alcanzan al archivo aunque no lo nombren, así
+        # que cada uno tiene que ser algo que NUNCA es contenido descargable:
+        # cachés y artefactos de herramienta, credenciales, y el material
+        # temporal del rediseño. Ninguno lo trae una fuente.
+        self.assertEqual(
+            set(sueltos),
+            {"node_modules/", "__pycache__/", "*.pyc", ".DS_Store",
+             "dist/", ".pytest_cache/", ".benchmarks/",
+             ".env", ".env.*", "*.pem", "*.key", "*token*",
+             "!package-lock.json",
+             "prototipo/", "COORDINACION-REDISENO.md", "HANDOFF*.md",
+             "dist-antes-*/"},
+            "un patrón sin barra se aplica a cualquier profundidad, también "
+            "dentro de data/: un «*.mp4» suelto ignoraría los vídeos sin "
+            "nombrarlos y este guardián no lo vería pasar. Si lo que se añade "
+            "es contenido que se descarga, su guardián no puede mirar el disco")
+
+    def test_las_extensiones_de_r2_dicen_lo_mismo_en_las_cuatro_superficies(self):
+        """M2. `.avi` llevaba desde el principio en `.gitignore` y en ninguna de
+        las otras tres: un vídeo con esa extensión se habría descargado, no
+        habría entrado en git, no habría subido a R2 y no habría figurado en el
+        manifiesto — irrecuperable en cuanto el runner se apagara."""
+        from common import ARCHIVO_EN_R2
+        raiz = Path(__file__).parent.parent
+        gitignore = (raiz / ".gitignore").read_text(encoding="utf-8")
+        flujo = (raiz / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        sync = flujo[flujo.index("aws s3 sync data/media/"):]
+        sync = sync[:sync.index("--size-only")]
+        for ext in ARCHIVO_EN_R2:
+            self.assertIn(f"data/media/*{ext}", gitignore,
+                          f"{ext} va a R2 pero git no lo ignora")
+            self.assertIn(f'--include "*{ext}"', sync,
+                          f"{ext} está fuera de git y el sync no lo sube: "
+                          f"su cuerpo se perdería con el runner")
+        self.assertEqual(
+            sync.count("--include"), len(ARCHIVO_EN_R2),
+            "el sync sube extensiones que nadie declara, o al revés")

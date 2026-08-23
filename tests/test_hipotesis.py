@@ -16,6 +16,15 @@ sys.path.insert(0, str(ROOT / "ingest"))
 
 DB = ROOT / "data" / "monitor.sqlite"
 
+# Los vídeos y audios ciudadanos no caben en git (580+ MB): su cuerpo se archiva
+# en el bucket R2 y el repo versiona el manifiesto auditable
+# `data/r2_manifest.json`. Para ellos la evidencia es estar en el manifiesto con
+# el mismo sha256, no el fichero en disco: en un clon limpio nunca está, y
+# exigirlo hacía que el test pasara en la máquina del mantenedor y fallara en CI.
+# La lista de extensiones es la de `common`, una sola para las cuatro
+# superficies que la usan (M2).
+from common import ARCHIVO_EN_R2
+
 
 def q(sql, *args):
     conn = sqlite3.connect(DB)
@@ -522,14 +531,6 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
     # docs/LIMITACIONES.md (el log también es archivo y no se retoca).
     REGIMEN_FUERTE_DESDE = "2026-08-17"
 
-    # Los vídeos y audios ciudadanos no caben en git (580+ MB): su cuerpo se
-    # archiva en el bucket R2 y el repo versiona el manifiesto auditable
-    # `data/r2_manifest.json` — está en docs/LIMITACIONES.md y en .gitignore.
-    # Para ellos la evidencia es estar en el manifiesto con el mismo sha256, no
-    # el fichero en disco: en un clon limpio nunca está, y exigirlo hacía que el
-    # test pasara en la máquina del mantenedor y fallara en CI.
-    ARCHIVO_EN_R2 = (".mp4", ".mov", ".webm", ".opus", ".ogg", ".m4a")
-
     def _manifiesto_r2(self):
         f = ROOT / "data" / "r2_manifest.json"
         if not f.exists():
@@ -559,7 +560,7 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                 sin_ruta += 1
                 continue
             f = ROOT / spath
-            if spath.lower().endswith(self.ARCHIVO_EN_R2):
+            if spath.lower().endswith(ARCHIVO_EN_R2):
                 # se comprueba SIEMPRE, exista o no en disco: si solo se mirara
                 # cuando falta, el manifiesto podría desfasarse durante meses en
                 # la máquina donde sí están los ficheros y saltar solo en CI
@@ -578,6 +579,70 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                          f"{sin_ruta} peticiones 200 sin snapshot_path desde "
                          f"{self.REGIMEN_FUERTE_DESDE} — un sha sin cuerpo no es evidencia")
         self.assertFalse(rotos, "snapshots rotos: " + "; ".join(rotos[:5]))
+
+
+class TestManifiestoDeR2(unittest.TestCase):
+    """El recorrido inverso: manifiesto ⇒ log.
+
+    `test_todo_cuerpo_publicado_tiene_snapshot_verificable` demuestra la ida —
+    toda petición A/V figura en el manifiesto con su sha—. La vuelta importa
+    desde que **el manifiesto autoriza a no descargar**: una fila mal generada
+    ahí deja al guardián dando por archivado un sha256 que nunca se pidió, y
+    entonces el manifiesto no sería una copia del archivo sino una afirmación
+    sobre él. Es el invariante gemelo del de las entregas de SERTIT.
+
+    Se comprueba **leyendo solo ficheros versionados** —el manifiesto y
+    `data/dumps/sources_log.csv`—, sin base de datos y sin bucket: es lo que
+    hace el manifiesto autoverificable desde un clon pelado.
+    """
+
+    def _manifiesto(self):
+        f = ROOT / "data" / "r2_manifest.json"
+        if not f.exists():
+            self.skipTest("sin manifiesto de R2")
+        return json.loads(f.read_text(encoding="utf-8")).get("objetos") or []
+
+    def _peticiones_del_csv(self):
+        import csv
+        f = ROOT / "data" / "dumps" / "sources_log.csv"
+        if not f.exists():
+            self.skipTest("sin volcado de sources_log")
+        vistas = set()
+        with open(f, newline="", encoding="utf-8") as fh:
+            for fila in csv.DictReader(fh):
+                spath = fila.get("snapshot_path") or ""
+                if spath and spath != r"\N":
+                    vistas.add((spath.rsplit("/", 1)[-1], fila.get("sha256")))
+        return vistas
+
+    def test_cada_objeto_del_manifiesto_tiene_su_peticion_en_el_log(self):
+        objetos = self._manifiesto()
+        self.assertTrue(objetos, "un manifiesto vacío no declara nada")
+        vistas = self._peticiones_del_csv()
+        huerfanos = [o["objeto"] for o in objetos
+                     if (o["objeto"], o["sha256"]) not in vistas]
+        self.assertFalse(
+            huerfanos,
+            "objeto(s) del manifiesto sin una petición que los explique en "
+            "data/dumps/sources_log.csv: " + ", ".join(huerfanos[:5]) +
+            " — el manifiesto autoriza a no descargar, así que una línea suya "
+            "sin cuerpo detrás deja un sha256 archivado que nadie pidió")
+
+    def test_ningun_objeto_del_manifiesto_se_declara_dos_veces(self):
+        """Dos líneas con la misma clave y distinto sha harían que el guardián
+        se fiara de la que saliera primero."""
+        objetos = self._manifiesto()
+        claves = [o["objeto"] for o in objetos]
+        self.assertEqual(len(claves), len(set(claves)),
+                         "el manifiesto declara un objeto más de una vez")
+
+    def test_el_manifiesto_solo_declara_lo_que_git_no_versiona(self):
+        """Un objeto en el manifiesto cuyo cuerpo SÍ viaja en git sería una
+        declaración de custodia en el sitio equivocado."""
+        from common import ARCHIVO_EN_R2
+        malos = [o["objeto"] for o in self._manifiesto()
+                 if not o["objeto"].lower().endswith(ARCHIVO_EN_R2)]
+        self.assertFalse(malos, "no son cuerpos de R2: " + ", ".join(malos[:5]))
 
 
 if __name__ == "__main__":

@@ -6,6 +6,172 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — Un activo se archiva una vez: el guardián pregunta al archivo, no al disco
+
+**Contexto (medido sobre `sources_log`, 15 a 22-ago-2026).** De los **3.931 MB**
+que el monitor ha descargado en su vida, **2.648 son 77 vídeos ciudadanos
+bajados una media de 4,8 veces cada uno** — dos tercios de todo el tráfico del
+proyecto para reescribir bytes que ya estaban archivados y verificados. Uno de
+59,6 MB se descargó seis veces. Las 372 descargas de esos 77 objetos devolvieron
+**siempre el mismo sha256: cero excepciones**. Las 434 descargas de fotos, en
+cambio, fueron 434 fotos distintas: ni una repetida.
+
+La causa no estaba en la red. Los `.mp4` y demás audiovisuales están en
+`.gitignore` —630 MB no caben en el repo—, así que **la máquina que corre el
+proceso diario arranca con `data/media/` sin un solo vídeo**, mientras que las
+459 fotos sí llegan en el clon. Y el guardián que decidía si había que descargar
+miraba el sistema de ficheros (`chatmap.py`, `if dest.exists()`). En el runner
+nunca existía. Por eso el desperdicio caía entero del lado de los vídeos: el
+mismo código acertaba con las fotos, porque de las fotos sí hay copia en git.
+
+Las peticiones condicionales que se estrenaron el mismo día **no lo arreglaban**:
+`copia_vigente()` solo pregunta con validadores por un cuerpo que se pueda servir
+del archivo local, y estos no están ahí. Es su invariante, y es correcto.
+
+**Y no era un problema de almacenamiento.** El bucket guarda cada vídeo una vez
+y va por 630 MB de 10 GB; el `aws s3 sync --size-only` ya se saltaba lo que
+estaba subido. La fuga era de una sola dirección: tráfico y tiempo de bajada.
+
+**La distinción que faltaba: dato frente a activo.** Un cuerpo que puede cambiar
+es un **dato**: preguntar cada día es la única forma de saberlo, y eso lo
+resuelven las condicionales. Un vídeo ciudadano no: nace con una dirección
+propia —un UUID que ChatMap acuña al subirlo— y su contenido es el que es. Es un
+**activo**, y un activo se archiva una vez. En palabras de JP: «nada que sea
+contenido que no cambia se archiva más de una vez: es un activo, no un dato
+archivable».
+
+**Decisión.**
+
+1. **El guardián pregunta al archivo.** `common.activo_archivado(url)` responde
+   por tres vías, de más a menos fuerte: **el cuerpo en disco** (es la prueba,
+   no un registro de la prueba), **`citizen_reports.media_sha256`** —la base
+   viva, que `run_daily` reconstruye entera desde `data/dumps/` antes de
+   empezar— y **`data/r2_manifest.json`**, el manifiesto versionado que viaja
+   en el clon aunque la base se pierda.
+2. **Si la base y el manifiesto se contradicen, no vale ninguna de las dos.**
+   Devuelve `None`, el cuerpo se vuelve a descargar —que es lo que restablece la
+   verdad— y la contradicción sale en las alertas
+   (`alerts.divergencias_del_archivo_de_activos`, R11). Medido hoy: **0 casos**
+   sobre 77 objetos; las dos vías coinciden objeto a objeto y sha a sha.
+3. **Lo que NO se avisa, a propósito**: que la base conozca un vídeo que el
+   manifiesto todavía no tiene. `publish` escribe el manifiesto DESPUÉS de
+   `alerts`, así que el día que llega un vídeo nuevo esa diferencia es lo
+   normal, y avisar de lo normal es la forma más rápida de que dejen de leerse
+   las alertas.
+4. **El reverso, que es donde esto falla en silencio.** Si llega un cuerpo
+   distinto bajo un nombre ya archivado, `fetch(save_to=…)` lo guarda **al
+   lado**, con la firma de su contenido (`_sha8`), y no toca el viejo — la misma
+   política que los snapshots intradía, ahora con una sola implementación
+   (`_nombre_con_contenido`, M2). Antes no escribía nada y la fila del log
+   declaraba el sha256 del cuerpo nuevo apuntando a un fichero con el viejo
+   dentro: **la única forma de que este archivo mienta sin que nadie lo note**.
+   El camino era inalcanzable desde ChatMap por el propio `dest.exists()`; al
+   quitarlo dejaba de serlo.
+5. **El manifiesto no puede perder lo que ya sabía.** Los bytes de un activo
+   salen del cuerpo si está, del registro de su descarga en `sources_log` si no,
+   y de lo que ya declaraba el manifiesto anterior en último término (M10: si
+   nadie lo sabe, se omite el campo; jamás un 0). Sin esto, la primera corrida
+   con el guardián nuevo habría escrito `bytes: null` en los 77 objetos —
+   comprobado sobre un clon limpio— y el commit automático se habría llevado por
+   delante la columna que hace auditable el bucket.
+6. **La red de seguridad que desaparecía, repuesta — y no con un aviso.**
+   Mientras el runner se bajaba los vídeos cada día, el `sync` los volvía a
+   ofrecer y cualquier objeto que faltara en R2 se curaba solo al día siguiente.
+   Ya no, y eso abría el camino por el que **un cuerpo se pierde para siempre
+   con la corrida en verde**: el `sync` se salta entero si falta el secreto
+   —token rotado, un fork—, y ese día un vídeo nuevo existe solo en el
+   workspace del runner, que git ignora y que se destruye al acabar, mientras
+   `publish` ya escribió su sha256 en el manifiesto y en la base. Desde el día
+   siguiente el guardián lo da por archivado y no vuelve a pedirlo jamás.
+   `ingest/auditar_r2.py` lista el bucket y **sale 1** —no avisa: falla— cuando
+   el manifiesto declara un cuerpo que R2 no tiene, o cuando hay un A/V que solo
+   existe en el workspace. El workflow mira su `outcome` en el paso que pone la
+   corrida en rojo, y como la auditoría corre antes del commit, el archivo del
+   día se guarda igual. La auditoría compara presencia y tamaño, no sha256: R2
+   no publica el hash de sus objetos y el `ETag` de una subida multiparte no es
+   un md5 del cuerpo. Es lo que se puede comprobar desde fuera, y se dice.
+7. **Y el resultado de la auditoría se archiva.** Los `::error::` de Actions
+   viven fuera del repositorio y caducan a los 90 días: **un aviso que no se
+   archiva no cumple el principio de archivo**. Cada corrida deja
+   `data/auditoria_r2.json` —fecha, objetos en bucket y en manifiesto, y las
+   listas de lo que falta, lo que difiere y lo que sobra—, que el commit del bot
+   versiona. También los días en que no se pudo auditar: «ese día no pudimos
+   mirar» es información, igual que un 304.
+8. **Cada línea del manifiesto se defiende sola.** Las tres vías del tamaño van
+   atadas al sha256 que se está escribiendo —el fichero se verifica antes de
+   medirlo, el `SELECT` lleva `AND sha256=?`, y el manifiesto anterior solo vale
+   si declaraba ESE contenido—. `bytes` es el único campo que la auditoría puede
+   contrastar contra R2: una cifra desalineada o suena en falso todos los días
+   —y un aviso falso mata la lectura de las alertas— o enmascara una sustitución
+   real. Si ninguna vía sabe el tamaño de ese cuerpo, se omite (M10).
+9. **El manifiesto no encoge.** `rebuild_db` y `chatmap` son `step()`: R13 los
+   deja fallar. Con la base vacía, el manifiesto se habría regenerado como
+   `objetos: []` y el bot lo habría commiteado — los cuerpos seguirían en R2
+   pero **dejarían de estar declarados**, que es exactamente lo que hace
+   auditable el bucket. Lo ya declarado se arrastra, y que la base no lo
+   reconozca se canta como el huérfano que es.
+10. **Y las alertas no acusan al bucket de un fallo de la base.** El espejo del
+    mismo problema: con `citizen_reports` vacía, los 77 objetos del manifiesto
+    salían como huérfanos. Ahora eso es un aviso distinto —«falta la base»— y no
+    77 dedos apuntando a R2.
+
+**El barrido, porque el patrón importa más que el caso.** Se revisaron las **72
+apariciones** de `.exists()`, `glob`, `iterdir` e `isfile` de `ingest/` —50 son
+`.exists()`, repartidas sobre todo por `publish.py` (23) y `common.py` (10)—,
+cruzadas con `.gitignore`. Bajo `data/`, git ignora exactamente dos cosas: los
+audiovisuales de `data/media/` —que van a R2— y `data/monitor.sqlite`, que no se
+descarga de ninguna parte: se reconstruye de `data/dumps/*.csv`. Ningún otro
+guardián decide una descarga mirando el disco: los demás `.exists()` leen el
+propio archivo (snapshots, dumps, `data/public/`, los ZIP de SERTIT) o `dist/`,
+que se construye. **El patrón no se repite en ningún otro sitio.** Queda un test
+que lo vigila hacia adelante: si mañana alguien ignora otra ruta descargable, se
+para y le obliga a decidir dónde vive su archivo.
+
+**Lo que el barrido sí encontró.** `.avi` llevaba desde el principio en
+`.gitignore` y **en ninguna de las otras tres superficies** que declaran qué vive
+en el bucket: ni en el `aws s3 sync`, ni en el manifiesto, ni en el test de
+trazabilidad. Un vídeo con esa extensión se habría descargado, no habría entrado
+en git, no habría subido a R2 y no habría figurado en el manifiesto —
+irrecuperable en cuanto se apagara el runner, y sin una sola línea roja. Nunca
+llegó ninguno. Ahora la lista es una (`common.ARCHIVO_EN_R2`, con `.avi`
+dentro) y hay un guardián que compara las cuatro superficies (M2).
+
+**Consecuencia, medida sobre un clon limpio con la base reconstruida de los
+volcados:** de 536 medios, **536 se resuelven del archivo y 0 se piden** — 459
+fotos por su copia en git y los 77 vídeos por la base. **630,2 MB que dejan de
+viajar cada día.** El manifiesto que genera esa corrida es byte a byte el mismo
+que el versionado.
+
+**El alcance del guardián, acotado.** Las vías de la base y del manifiesto valen
+solo para cuerpos que viven FUERA de git (`ARCHIVO_EN_R2`). Para una foto, que sí
+viaja en el clon, **el archivo es el disco**: si falta, se vuelve a traer. Sin esa
+distinción, borrar una imagen del repositorio la habría condenado a no recuperarse
+nunca — se vería en rojo, pero solo se arreglaría a mano.
+
+**Y el manifiesto se puede verificar desde un clon pelado.** Estaba demostrada la
+ida (toda petición A/V figura en el manifiesto con su sha); desde que el manifiesto
+**autoriza a no descargar**, hace falta la vuelta: cada objeto suyo tiene que tener
+una petición que lo explique. Se comprueba leyendo solo el manifiesto y
+`data/dumps/sources_log.csv` —sin base y sin bucket—, que es lo que lo hace
+autoverificable. Se cumple 77/77.
+
+**Lo que este cambio NO hace, y hay que saberlo.** Un vídeo cuyo contenido
+cambiara en origen manteniendo su URL ya no se detectaría el mismo día: el
+archivo dice que es nuestro y no se vuelve a preguntar. Es una consecuencia
+directa de tratarlo como activo, no un descuido — y está en
+`docs/LIMITACIONES.md` con lo que sí lo detectaría el día que ocurra. Se valoró
+revalidar con un `HEAD` diario por objeto; se descarta por ahora porque añade un
+método nuevo a `fetch()` y es otra decisión.
+
+**Revisión.** El archivista y el revisor-qa lo rechazaron en su primera pasada, y
+los dos encontraron cosas que esta sesión no podía verse sola: **el camino por el
+que un cuerpo se pierde en verde** (el archivista) y **un test que pasaba con el
+fallo puesto** — `test_un_video_de_la_base_que_falta_en_el_manifiesto_no_es_alerta`
+comprobaba la ausencia de un tipo de aviso que en su escenario era imposible, así
+que un aviso nuevo cualquiera pasaba entero. Se tiró y se escribió otro que cierra
+el conjunto (M1: si pasa con el fallo puesto, no se retoca). **Treinta y dos
+mutaciones; ninguna sobrevivió.**
+
 ## 2026-08-24 — Se pregunta antes de descargar, y un contenido idéntico no se archiva dos veces
 
 **Contexto (medido sobre las 4.277 filas de `sources_log`, 15 a 23-ago-2026).**
@@ -112,7 +278,8 @@ ficheros y 83,2 MB** de copias: en un día de corrida completa, 31 de 137
 snapshots. El 2.647 MB restante del archivo es otra cosa y no la arregla este
 mecanismo: son los vídeos ciudadanos, que se rebajan en R2 y no viajan en git,
 así que en el runner nunca están en disco y se vuelven a descargar enteros.
-Anotado en `docs/LIMITACIONES.md`.
+Anotado en `docs/LIMITACIONES.md`. **Resuelto el mismo día, arriba: «Un activo se
+archiva una vez».**
 
 ## 2026-08-23 — La barra dice «Datos del terremoto»; el sismo baja al encabezado
 
