@@ -701,3 +701,48 @@ Los trece de diferencia no se han investigado: pueden ser puntos que su propio
 resumen no cuenta, o un desfase entre la estadística y la capa. Lo que no se
 hace es elegir una y callar la otra — desde el 21-ago-2026 la portada cita las
 dos, porque el lector que sume las tres fuentes tiene que poder llegar al total.
+
+## 72 de las 208 fichas tienen un título más largo de lo que Google enseña
+
+Medido el 23-ago-2026 sobre `dist/`, **después** de corregir el departamento
+duplicado: los `<title>` de las fichas municipales miden **59,5 caracteres de
+media, con un máximo de 75**, y **72 de 208 (35 %)** pasan de los 60 que el
+buscador enseña antes de cortar. El más largo es «Terremoto en San Sebastián de
+Mariquita (Tolima) 2026: damnificados y daños».
+
+La cifra se remidió a propósito: antes de la corrección eran 77 de 208 (37 %),
+y las cinco fichas arregladas perdieron entre seis y ocho caracteres al dejar de
+repetir el departamento, así que cruzaron el umbral. Citar la medición vieja en
+el mismo commit que la invalida es la trampa de las cifras a mano que envejecen.
+
+Esa misma métrica llevó, el 22 de agosto de 2026, a quitar la marca de los
+títulos de las cinco páginas grandes. Las fichas no entraron en aquella revisión.
+
+**Se deja como está, a sabiendas.** Se decidió el 23 de agosto de 2026 tocar
+solo el departamento duplicado y no reordenar el título. Reordenarlo mueve el
+encabezado de 208 páginas indexadas, y esa decisión pertenece a la revisión
+editorial de la identidad, no a la corrección de un error. Lo que se pierde al
+cortar es la cola —«damnificados y daños»—, no el nombre del municipio, que va
+delante: el título truncado sigue identificando la página, aunque pierda las
+palabras con las que se busca.
+
+Medidas las tres alternativas sobre las 208, por si sirven cuando se retome la
+revisión del título —y ninguna resuelve las dos cosas a la vez:
+
+| plantilla | media | máximo | pasan de 60 |
+|---|---|---|---|
+| «Terremoto en {municipio} ({depto}) 2026: damnificados y daños» (actual) | 59,5 | 75 | 72 |
+| «Terremoto en {municipio} 2026: damnificados y daños» | 48,2 | 66 | 4 |
+| «{municipio}: damnificados del terremoto de 2026» | 44,2 | 62 | 1 |
+| «{municipio} ({depto}): damnificados del terremoto de 2026» | 55,5 | 71 | 47 |
+
+Las dos plantillas que bajan de verdad **quitan el departamento, y eso produce
+títulos duplicados**: entre las 208 hay cuatro nombres repetidos —Argelia,
+Balboa, Bolívar y Riosucio—. La que lo conserva y antepone el municipio baja la
+media a 55,5 caracteres, pero todavía deja 47 títulos por encima de 60. No hay
+plantilla que desambigüe y quepa a la vez; hay que elegir cuál de las dos cosas
+importa más, y eso es una decisión editorial.
+
+El guardián de `seo_check.py` **no vigila esta longitud** a propósito: un
+guardián que falla desde el primer día contra una decisión ya tomada es ruido.
+Vigila solo el departamento duplicado, que sí era un error.

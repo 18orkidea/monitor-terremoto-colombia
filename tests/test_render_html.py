@@ -1302,6 +1302,40 @@ class TestSeoCheck(unittest.TestCase):
         res = self.seo.revisar(dist)
         self.assertEqual(res["fallos"], [], "el artefacto publicado tiene fallos de SEO")
 
+    def test_el_guardian_del_departamento_duplicado_caza_el_fallo(self):
+        """Que el artefacto real pase NO demuestra que el guardián vigile.
+
+        `test_el_artefacto_real_pasa` seguiría en verde si el patrón no cazara
+        nada: no distingue «no hay fallo» de «no hay guardián». Aquí se le pone
+        delante el fallo tal como estuvo publicado y se comprueba que salta —y
+        que no salta con el texto ya corregido.
+        """
+        malos = ["Terremoto en Riosucio (Caldas) (Caldas) 2026: damnificados y daños",
+                 "Terremoto de Colombia 2026 en Riosucio (Caldas), Caldas",
+                 "Argelia (Cauca) (Cauca): 1 familia inscrita en el RUD"]
+        for texto in malos:
+            self.assertIsNotNone(self.seo.DEPTO_DUPLICADO.search(texto),
+                                 f"el guardián deja pasar «{texto}»")
+        buenos = ["Terremoto en Riosucio (Caldas) 2026: damnificados y daños",
+                  "Terremoto de Colombia 2026 en Riosucio, Caldas",
+                  "Argelia (Cauca): 1 familia inscrita en el RUD",
+                  # Un paréntesis que no es el departamento no puede saltar.
+                  "Copernicus (EMSR916) miró Cali (Valle del Cauca) el 12 de agosto"]
+        for texto in buenos:
+            self.assertIsNone(self.seo.DEPTO_DUPLICADO.search(texto),
+                              f"el guardián acusa en falso a «{texto}»")
+
+    def test_el_guardian_recorre_las_208_aunque_otro_chequeo_corte(self):
+        """Los dos `break` del bucle de fichas abortan el recorrido entero.
+        Este chequeo vive en su propio bucle justamente por eso: colgado del
+        otro, una ficha con un script raro escondía el resto."""
+        fuente = (Path(__file__).parent.parent / "ingest/seo_check.py").read_text(encoding="utf-8")
+        cuerpo = fuente.split("DEPTO_DUPLICADO.search")[0]
+        ultimo_for = cuerpo.rfind("for ficha in fichas:")
+        self.assertGreater(ultimo_for, cuerpo.rfind("break"),
+                           "el chequeo del departamento duplicado volvió a colgar "
+                           "de un bucle que corta con break")
+
 
 class TestCoherenciaDeLaFicha(unittest.TestCase):
     """Una ficha no puede afirmar y negar lo mismo en la misma pantalla.
@@ -1458,3 +1492,209 @@ class TestMunicipioSinCabecera(unittest.TestCase):
         html = R.filas_portada(ctx)
         self.assertIn(self.NOMBRE, html)
         self.assertNotIn('data-lat="None"', html)
+
+
+class TestClaveYToponimo(unittest.TestCase):
+    """La clave del diccionario no es el nombre que lee una persona.
+
+    Los homónimos se desambiguan metiendo el departamento entre paréntesis
+    —«Riosucio (Caldas)», «Riosucio (Chocó)»— porque un diccionario no admite
+    dos veces la misma llave. Confundir esa llave con el topónimo publicó
+    «Terremoto en Riosucio (Caldas) (Caldas) 2026» en cinco fichas.
+
+    La misma lección ya estaba aprendida en `municipal_google_news_feeds()`,
+    donde buscar la clave literal daba un feed en cero para siempre. La ficha
+    no la había aprendido.
+    """
+
+    CLAVE = "Riosucio (Caldas)"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.datos = R.datos_ficha(cls.CLAVE, cls.ctx)
+        cls.html = R.render_ficha(cls.datos)
+
+    def test_toponimo_recorta_solo_el_departamento_que_sobra(self):
+        self.assertEqual(R.toponimo("Riosucio (Caldas)", "Caldas"), "Riosucio")
+        self.assertEqual(R.toponimo("Riosucio (Chocó)", "Chocó"), "Riosucio")
+        # Un municipio sin paréntesis sale intacto.
+        self.assertEqual(R.toponimo("Nóvita", "Chocó"), "Nóvita")
+        # Y un paréntesis que NO es el departamento no se toca: recortar por la
+        # forma y no por el contenido mutilaría un nombre propio.
+        self.assertEqual(R.toponimo("Argelia (Cauca)", "Valle del Cauca"),
+                         "Argelia (Cauca)")
+
+    def test_el_departamento_no_se_escribe_dos_veces_en_toda_la_ficha(self):
+        """En la ficha ENTERA, no solo en los metadatos.
+
+        La primera versión de este test miraba el título, el H1 y la
+        `description`, y daba verde mientras el párrafo destacado —justo el que
+        citan los buscadores— seguía diciendo «Riosucio (Caldas) (Caldas) tiene
+        832 familias». Lo cazó el navegador, no el test. Ahora se mira todo el
+        documento: el texto visible y el marcado.
+        """
+        dup = re.compile(r"\(([^()]{2,40})\)(?: \(\1\)|, \1\b)")
+        sin_scripts = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", self.html, flags=re.S)
+        visible = re.sub(r"<[^>]+>", " ", sin_scripts)
+        for superficie, texto in (("texto visible", visible), ("marcado", self.html)):
+            hallado = dup.search(texto)
+            self.assertIsNone(hallado, f"{superficie}: «{hallado.group(0) if hallado else ''}»")
+
+    def test_el_parrafo_destacado_nombra_el_municipio_una_vez(self):
+        """Es el párrafo que citan los buscadores y los sistemas de IA."""
+        parrafo = R.parrafo_respuesta(self.datos)
+        self.assertIn("Riosucio", parrafo)
+        self.assertNotIn("(Caldas) (Caldas)", parrafo)
+
+    def test_el_mapa_estatico_rotula_con_el_toponimo(self):
+        """El SVG rotula al municipio sobre su propio mapa: ahí «(Caldas)» no
+        desambigua nada —el mapa ya enseña dónde está— y solo mete ruido de
+        base de datos en una imagen. No era el fallo publicado, pero deja el
+        rótulo en espejo con el H1."""
+        svg = re.search(r"<svg.*?</svg>", self.html, re.S).group(0)
+        rotulos = re.findall(r"<text[^>]*>([^<]*)</text>", svg)
+        self.assertIn("Riosucio", rotulos)
+        self.assertNotIn("Riosucio (Caldas)", rotulos)
+
+    def test_el_json_ld_nombra_el_municipio_una_sola_vez(self):
+        crudo = re.search(r'application/ld\+json">(.*?)</script>',
+                          self.html, re.S).group(1)
+        ld = json.loads(crudo)
+        self.assertNotIn("(Caldas) (Caldas)", ld["name"])
+        self.assertEqual(ld["spatialCoverage"]["name"], "Riosucio, Caldas, Colombia")
+
+    def test_el_enlace_al_mapa_conserva_la_clave(self):
+        """El topónimo desambiguado sirve para leer; para buscar, no.
+
+        `app.js` indexa el mapa de la portada por la llave del diccionario
+        (`munLayerById[pedido]`). Si este enlace viajara con «Riosucio» a
+        secas, los dos Riosucios dejarían de distinguirse y el mapa se
+        quedaría quieto sin decir por qué: un fallo mudo.
+        """
+        import urllib.parse
+        enlaces = re.findall(r'href="/\?municipio=([^"#]*)', self.html)
+        self.assertTrue(enlaces, "la ficha debe enlazar al mapa de la portada")
+        for crudo in enlaces:
+            self.assertEqual(urllib.parse.unquote(crudo), self.CLAVE)
+
+
+class TestConcordanciaDeLaFicha(unittest.TestCase):
+    """«1 familias inscritas» estuvo publicado en ocho fichas, y «1 viviendas
+    averiadas» en otras siete —13 fichas distintas, porque dos fallaban en las
+    dos—. La revisión destapó tres frases más con el mismo defecto."""
+
+    def test_solo_el_uno_va_en_singular(self):
+        self.assertEqual(R.concuerda(1, "familia", "familias"), "familia")
+        self.assertEqual(R.concuerda(2, "familia", "familias"), "familias")
+        self.assertEqual(R.concuerda(0, "familia", "familias"), "familias")
+
+    def test_una_ausencia_no_es_una_unidad(self):
+        """R3: el «—» conserva el plural. «— familia inscrita» afirmaría un
+        recuento que nadie ha publicado."""
+        self.assertEqual(R.concuerda(None, "familia", "familias"), "familias")
+
+    def test_la_description_concuerda_con_su_cifra(self):
+        ctx = R.contexto()
+        vistos = 0
+        for nombre in ctx["idx"]:
+            m = ctx["idx"][nombre]
+            if m.get("rud_familias") != 1:
+                continue
+            html = R.render_ficha(R.datos_ficha(nombre, ctx))
+            descr = re.search(r'<meta name="description" content="([^"]*)"',
+                              html).group(1)
+            self.assertIn("1 familia inscrita", descr, nombre)
+            self.assertNotIn("1 familias inscritas", descr, nombre)
+            vistos += 1
+        self.assertGreater(vistos, 0, "no hay ningún municipio con una sola familia: "
+                                      "el test dejó de comprobar lo que dice")
+
+
+class TestIdentidadDelSitio(unittest.TestCase):
+    """La marca doble, ya decidida (docs/DECISIONES.md, 22-ago-2026): «Datos del
+    terremoto de Colombia 2026» es el nombre público; «Monitor de brechas» se
+    queda en la barra y en la metodología."""
+
+    NOMBRE_PUBLICO = "Datos del terremoto de Colombia 2026"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.html = R.render_ficha(R.datos_ficha("Nóvita", cls.ctx))
+        cls.common = (ROOT / "site/common.js").read_text(encoding="utf-8")
+
+    def test_og_site_name_en_las_cinco_paginas_y_en_la_ficha(self):
+        esperado = f'<meta property="og:site_name" content="{self.NOMBRE_PUBLICO}">'
+        self.assertIn(esperado, self.html, "la ficha no declara og:site_name")
+        for pagina in ("index.html", "municipios.html", "rud.html",
+                       "balances.html", "noticias.html"):
+            texto = (ROOT / "site" / pagina).read_text(encoding="utf-8")
+            self.assertIn(esperado, texto, f"{pagina} no declara og:site_name")
+
+    def test_el_pie_abre_con_el_nombre_publico_en_las_dos_superficies(self):
+        """El pie vive dos veces: `common.js` lo inyecta en las cinco páginas y
+        `pie_estatico()` lo escribe en las 208 fichas. Si divergen, el sitio se
+        presenta de dos maneras distintas según dónde estés."""
+        apertura = f"<strong>{self.NOMBRE_PUBLICO}</strong>"
+        self.assertIn(apertura, R.pie_estatico())
+        self.assertIn(apertura, self.common)
+
+    def test_la_descripcion_del_pie_es_identica_en_las_dos_superficies(self):
+        def frases(texto):
+            # El texto es el mismo; solo cambia cómo lo concatena cada lenguaje.
+            crudo = re.sub(r"[`']\s*\+?\s*\n?\s*[`']?", "", texto)
+            return re.sub(r"\s+", " ", crudo)
+        marca = "Damnificados, viviendas destruidas y daños"
+        fin = "quedó archivado."
+        py = frases(R.pie_estatico())
+        js = frases(self.common)
+        for superficie, texto in (("pie_estatico", py), ("common.js", js)):
+            self.assertIn(marca, texto, superficie)
+            self.assertIn("La distancia entre sus cifras es la brecha de reporte.",
+                          texto, superficie)
+            self.assertIn(fin, texto, superficie)
+
+    def test_la_barra_conserva_el_nombre_interno(self):
+        """La marca es doble a propósito: quitar «Monitor de brechas» de la
+        navegación no sería aplicar la decisión, sería cambiarla.
+
+        Mira el rótulo de la marca, no el fichero entero: la primera versión de
+        este test buscaba «Monitor de brechas» en el texto crudo de common.js y
+        pasaba en verde con la barra ya rota, porque esas tres palabras estaban
+        en el comentario que hay justo encima. Un guardián que se contenta con
+        su propia documentación no guarda nada.
+        """
+        marca = r'class="brand"[^>]*>\s*<strong>([^<]+)</strong>'
+        for superficie, texto in (("nav_estatico", R.nav_estatico()),
+                                  ("common.js", self.common)):
+            hallado = re.search(marca, texto)
+            self.assertIsNotNone(hallado, f"{superficie}: no se encuentra el rótulo")
+            self.assertEqual(hallado.group(1).strip(), "Monitor de brechas", superficie)
+
+
+class TestSubtituloRetirado(unittest.TestCase):
+    """El subtítulo repetía el H1 y colaba el código DIVIPOLA en la portada de
+    la ficha. Se retira; el código y la fecha bajan a «Fuentes y trazabilidad»,
+    que es donde los busca quien los necesita — y no se pierden, porque un
+    archivo que no dice de cuándo es su cifra deja de ser un archivo."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.datos = R.datos_ficha("Nóvita", cls.ctx)
+        cls.html = R.render_ficha(cls.datos)
+
+    def test_el_subtitulo_no_vuelve(self):
+        self.assertNotIn("Damnificados inscritos, daños y cobertura", self.html)
+
+    def test_divipola_sigue_publicado_en_trazabilidad(self):
+        divipola = self.ctx["idx"]["Nóvita"]["divipola"]
+        self.assertIn(divipola, self.html, "el código DIVIPOLA se perdió por el camino")
+        tabla = self.html.split("Fuentes y trazabilidad")[1]
+        self.assertIn(divipola, tabla, "DIVIPOLA no está en «Fuentes y trazabilidad»")
+
+    def test_la_fecha_de_la_corrida_sigue_publicada(self):
+        fecha = R.fecha_larga(self.datos["generado"])
+        tabla = self.html.split("Fuentes y trazabilidad")[1]
+        self.assertIn(fecha, tabla, "la ficha dejó de decir de qué día son sus cifras")

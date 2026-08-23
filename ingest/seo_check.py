@@ -28,8 +28,25 @@ MINIMOS = {
     "noticias.html": {"palabras": 1000, "filas": 100},
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
+
+# «Riosucio (Caldas) (Caldas)»: el departamento escrito dos veces porque se
+# confundió la CLAVE del diccionario —que desambigua los homónimos metiendo el
+# departamento entre paréntesis— con el TOPÓNIMO que lee una persona. Estuvo
+# publicado en cinco fichas hasta el 23-ago-2026.
+#
+# Vigila SOLO esa duplicación. NO vigila la longitud del título: que 77 de 208
+# pasen de 60 caracteres es una laguna conocida, fechada y decidida
+# (docs/LIMITACIONES.md), y un guardián que falla desde el primer día contra
+# una decisión tomada es ruido, no vigilancia.
+DEPTO_DUPLICADO = re.compile(r"\(([^()]{2,40})\)(?: \(\1\)|, \1\b)")
 MIN_FICHAS = 50
 SCRIPTS_FICHA = {"/ui.js", "/municipio.js"}
+
+
+def _entre(patron: str, html: str) -> str | None:
+    """El primer grupo de `patron`, o None si no aparece."""
+    hallado = re.search(patron, html, re.S)
+    return hallado.group(1) if hallado else None
 
 
 def _texto(html: str) -> str:
@@ -117,6 +134,28 @@ def revisar(dist: Path) -> dict:
         if re.search(r"\(R\d+\)", _texto(html)):
             avisos.append(f"{ficha.parent.name}: cita códigos internos de reglas")
             break
+
+
+    # Bucle propio, y no dentro del anterior: aquel corta con `break` en cuanto
+    # ve un script inesperado o una cita de regla, para no repetir el mismo
+    # aviso 208 veces. Colgado de él, este chequeo dejaba de mirar las 207
+    # fichas restantes en cuanto otra cosa saltara primero.
+    for ficha in fichas:
+        html = ficha.read_text(encoding="utf-8")
+        # El documento entero, no solo los metadatos: el fallo vivía también en
+        # el JSON-LD, en las migas y en el párrafo destacado —el que citan los
+        # buscadores—, y una comprobación limitada al <title> los dejaba pasar.
+        for etiqueta, texto in (("título", _entre(r"<title>(.*?)</title>", html)),
+                                ("H1", _entre(r"<h1[^>]*>(.*?)</h1>", html)),
+                                ("description",
+                                 _entre(r'<meta name="description" content="([^"]*)"', html)),
+                                ("documento", html)):
+            hallado = DEPTO_DUPLICADO.search(texto or "")
+            if hallado:
+                fallos.append(f"{ficha.parent.name}: el {etiqueta} repite el departamento "
+                              f"«{hallado.group(0)}» — es la clave del diccionario "
+                              f"usada como topónimo")
+                break
 
     # el sitemap no puede prometer lo que no existe
     sm = dist / "sitemap.xml"

@@ -139,6 +139,37 @@ def slug(s: str) -> str:
     return "-".join(x for x in "".join(c if c.isalnum() else " " for c in s).split())
 
 
+def toponimo(clave: str, depto: str) -> str:
+    """El nombre que se lee, a partir de la clave que desambigua.
+
+    Las claves de `MUNICIPIOS` resuelven los homónimos metiendo el departamento
+    entre paréntesis —«Riosucio (Caldas)», «Riosucio (Chocó)»— porque un
+    diccionario no admite dos veces la misma llave. Ese paréntesis pertenece a
+    la clave, no al topónimo: nadie llama a ese pueblo «Riosucio (Caldas)».
+
+    Cuando la ficha ya escribe el departamento por su cuenta, repetirlo produce
+    «Riosucio (Caldas) (Caldas)», que es lo que estuvo publicado en cinco
+    fichas. Se recorta solo el paréntesis final que coincide EXACTAMENTE con el
+    departamento: así un municipio que algún día lleve paréntesis de verdad en
+    su nombre no se queda mutilado.
+
+    Es la misma lección que ya aprendió `municipal_google_news_feeds()`, donde
+    buscar la clave literal daba un feed en cero para siempre.
+    """
+    sufijo = f" ({depto})"
+    return clave[: -len(sufijo)] if clave.endswith(sufijo) else clave
+
+
+def concuerda(n, singular: str, plural: str) -> str:
+    """Sustantivo concordado con la cifra que lo precede.
+
+    Solo el uno va en singular. El «—» de un dato ausente (R3) conserva el
+    plural: una ausencia no es una unidad, y «— familia inscrita» afirmaría un
+    recuento que nadie ha publicado.
+    """
+    return singular if n == 1 else plural
+
+
 def norm_busqueda(s: str) -> str:
     """Espejo de `UI.norm`: NFD, fuera los diacríticos, minúsculas.
 
@@ -256,7 +287,8 @@ def mapa_svg(muni: dict, zonas: list, ciudadanos: list, ancho=680, alto=430) -> 
     def proyecta(lat, lon):
         return (ox + (lon - caja[2]) * k * escala, oy + (caja[1] - lat) * escala)
 
-    nombre = muni["municipio"]
+    # El rótulo del mapa nombra al municipio, no a la llave con que se guarda.
+    nombre = toponimo(muni["municipio"], muni["departamento"])
     # `mapa-estatico` es la clase compartida de styles.css: de ella salen el ancho
     # fluido, el halo de los rótulos y los tamaños que crecen en pantalla estrecha
     o = [f'<svg viewBox="0 0 {ancho} {alto}" xmlns="http://www.w3.org/2000/svg" role="img"'
@@ -382,10 +414,19 @@ def nav_estatico(activa: str = "municipios.html") -> str:
 def pie_estatico() -> str:
     return (
         '<div id="site-footer"><div class="sf-cols">'
-        '<div><strong>Monitor de brechas de reporte</strong><br>'
-        'Observatorio abierto del terremoto M7.4 de Colombia del 10 de agosto de 2026. '
-        'Cruza satélite, reporte ciudadano, prensa y fuentes oficiales — con cada cifra '
-        'rastreable a su origen.</div>'
+        # Abre con el nombre público, no con el interno: es la marca doble ya
+        # decidida (docs/DECISIONES.md, 22-ago-2026). «Monitor de brechas»
+        # sigue en la barra y en la metodología; aquí manda cómo se busca esto.
+        # ESPEJO EXACTO de `site/common.js`: si tocas uno, toca el otro — lo
+        # vigila `tests/test_render_html.py`.
+        '<div><strong>Datos del terremoto de Colombia 2026</strong><br>'
+        'Damnificados, viviendas destruidas y daños <strong>municipio a municipio</strong> '
+        'tras el terremoto de magnitud 7,4 del 10 de agosto de 2026, con epicentro en '
+        'San José del Palmar (Chocó). Cruza el registro oficial de damnificados (RUD de '
+        'la UNGRD), las evaluaciones de daño por satélite (Copernicus EMS, UNITAR-UNOSAT '
+        'e ICube-SERTIT), los reportes de la comunidad y los balances de la prensa. '
+        '<strong>La distancia entre sus cifras es la brecha de reporte.</strong> '
+        'Cada dato dice de dónde sale, de qué día es y con qué huella quedó archivado.</div>'
         '<div><strong>Secciones</strong><br>'
         f'<a href="{BASE}/index.html">Mapa y cruce por zona</a><br>'
         f'<a href="{BASE}/municipios.html">Municipios del área de influencia</a><br>'
@@ -618,7 +659,11 @@ def parrafo_respuesta(d: dict) -> str:
     """El párrafo que citan los buscadores y los sistemas de IA: una idea por
     frase, cada una con su cifra, su fecha y su fuente."""
     m = d["muni"]
-    nombre, depto = m["municipio"], m["departamento"]
+    # El topónimo, no la clave: este párrafo es el que citan los buscadores y
+    # los sistemas de IA, y estuvo publicando «Riosucio (Caldas) (Caldas) tiene
+    # 832 familias».
+    depto = m["departamento"]
+    nombre = toponimo(m["municipio"], depto)
     partes = []
     if m.get("rud_familias"):
         partes.append(
@@ -628,8 +673,10 @@ def parrafo_respuesta(d: dict) -> str:
             f"Riesgo de Desastres (UNGRD), el <strong>{fmt(m['tasa_rud_pct'], 2)}%</strong> de sus "
             f"{fmt(m['poblacion_2026'])} habitantes proyectados para 2026 por el Departamento "
             f"Administrativo Nacional de Estadística (DANE). "
-            f"El registro municipal declara {fmt(m['rud_viv_destruidas'])} viviendas destruidas "
-            f"y {fmt(m['rud_viv_averiadas'])} averiadas. <strong>El RUD es un registro progresivo "
+            f"El registro municipal declara {fmt(m['rud_viv_destruidas'])} "
+            f"{concuerda(m['rud_viv_destruidas'], 'vivienda destruida', 'viviendas destruidas')} "
+            f"y {fmt(m['rud_viv_averiadas'])} "
+            f"{concuerda(m['rud_viv_averiadas'], 'averiada', 'averiadas')}. <strong>El RUD es un registro progresivo "
             f"que cargan las autoridades municipales y está sujeto a verificación posterior</strong>: mide inscripciones tramitadas, no daño comprobado.")
     else:
         partes.append(
@@ -794,11 +841,17 @@ def render_ficha(d: dict) -> str:
     .metric-strip, .mapa-estatico…): una misma idea se ve igual en cualquier
     página del sitio."""
     m = d["muni"]
-    nombre, depto = m["municipio"], m["departamento"]
+    # `clave` es la llave del diccionario y solo sirve para buscar —el mapa de
+    # la portada indexa por ella—; `nombre` es lo que lee una persona. Confundir
+    # las dos publicaba «Riosucio (Caldas) (Caldas)» en cinco fichas.
+    clave, depto = m["municipio"], m["departamento"]
+    nombre = toponimo(clave, depto)
     url = f"https://datosdelterremoto.org/municipio/{d['slug']}/"
     titulo = f"Terremoto en {nombre} ({depto}) 2026: damnificados y daños"
-    descr = (f"{nombre} ({depto}): {fmt(m['rud_familias'])} familias inscritas en el RUD, "
-             f"{fmt(m['rud_viv_averiadas'])} viviendas averiadas y "
+    descr = (f"{nombre} ({depto}): {fmt(m['rud_familias'])} "
+             f"{concuerda(m['rud_familias'], 'familia inscrita', 'familias inscritas')} "
+             f"en el RUD, {fmt(m['rud_viv_averiadas'])} "
+             f"{concuerda(m['rud_viv_averiadas'], 'vivienda averiada', 'viviendas averiadas')} y "
              f"{'sin' if not satelites_con_dato(m, d['satelite']) else 'con'} "
              f"evaluación satelital de daño. "
              f"Cada cifra con su fuente y su fecha.")
@@ -841,6 +894,10 @@ def render_ficha(d: dict) -> str:
          f'<meta property="og:url" content="{url}">',
          '<meta property="og:type" content="article">',
          '<meta property="og:locale" content="es_CO">',
+         # El nombre público, el mismo que `WebSite.name` de la portada: la
+         # marca doble ya decidida (docs/DECISIONES.md, 22-ago-2026). No
+         # existía en ninguna página; aquí había ausencia, no conflicto.
+         '<meta property="og:site_name" content="Datos del terremoto de Colombia 2026">',
          f'<meta property="og:title" content="{e(titulo)}">',
          f'<meta property="og:description" content="{e(descr)}">',
          f'<meta property="og:image" content="https://datosdelterremoto.org{BASE}/og/portada.png">',
@@ -860,9 +917,11 @@ def render_ficha(d: dict) -> str:
              for txt, href in migas) + '</ol></nav>',
          '<header><div>',
          f'<h1>Terremoto de Colombia 2026 en {e(nombre)}, {e(depto)}</h1>',
-         f'<p class="sub">Damnificados inscritos, daños y cobertura de cada fuente · '
-         f'código DIVIPOLA {e(m["divipola"])} (División Político-Administrativa de '
-         f'Colombia) · actualizado el {e(fecha_larga(d["generado"]))}</p>',
+         # El subtítulo decía en otras palabras lo que ya dice el H1, y lo que
+         # prometía —damnificados, daños, cobertura— lo cumple la tira de
+         # cifras una línea más abajo. El código DIVIPOLA y la fecha de la
+         # corrida no se pierden: bajan a «Fuentes y trazabilidad», que es
+         # donde los busca quien los necesita.
          '</div></header>',
          '<main>',
          f'<p class="destacado">{parrafo_respuesta(d)}</p>']
@@ -871,7 +930,8 @@ def render_ficha(d: dict) -> str:
                 ("Personas", fmt(m["rud_personas"]),
                  f'{fmt(m["tasa_rud_pct"], 2)}% de la población'),
                 ("Viviendas averiadas", fmt(m["rud_viv_averiadas"]),
-                 f'{fmt(m["rud_viv_destruidas"])} destruidas'),
+                 f'{fmt(m["rud_viv_destruidas"])} '
+                 f'{concuerda(m["rud_viv_destruidas"], "destruida", "destruidas")}'),
                 ("Población 2026", fmt(m["poblacion_2026"]), "proyección DANE")]
     o.append('<div class="metric-strip">')
     for etiqueta, valor, sub in tarjetas:
@@ -886,7 +946,11 @@ def render_ficha(d: dict) -> str:
     # Solo las fichas con puntos de evidencia reciben dos pestañas. El segundo
     # panel nace vacío: municipio.js pide Leaflet y el JSON recortado al primer
     # clic, nunca durante la lectura de «Situación».
-    destino = f"/?municipio={urllib.parse.quote(nombre)}#mapa"
+    # La clave, no el topónimo: `app.js` indexa el mapa de la portada por la
+    # llave del diccionario (`munLayerById[pedido]`), así que los dos Riosucios
+    # solo se distinguen aquí. Con el topónimo, el enlace no encuentra la capa
+    # y el mapa se queda quieto sin decir por qué.
+    destino = f"/?municipio={urllib.parse.quote(clave)}#mapa"
     svg = mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"])
     if svg:
         if d["hay_evidencia"]:
@@ -920,7 +984,8 @@ def render_ficha(d: dict) -> str:
                 partes.append(f'{fmt(conteos["satelite"])} puntos publicados por los '
                               'servicios satelitales')
             if conteos["ciudadanos"]:
-                partes.append(f'{fmt(conteos["ciudadanos"])} reportes ciudadanos')
+                partes.append(f'{fmt(conteos["ciudadanos"])} '
+                              f'{concuerda(conteos["ciudadanos"], "reporte ciudadano", "reportes ciudadanos")}')
             resumen = " y ".join(partes)
             o.append('</div>')
             o.append(f'<div id="{evidencia_id}" role="tabpanel" '
@@ -1115,6 +1180,20 @@ def render_ficha(d: dict) -> str:
              "<td>comunidad, sin validación humana</td></tr>"
              "<tr><td>Titulares</td><td>feeds abiertos del monitor y Google News municipal</td>"
              "<td>prensa · nunca equivale a balance oficial</td></tr>"
+             # El código DIVIPOLA y la fecha de la corrida bajaron aquí desde el
+             # subtítulo: son trazabilidad, no portada de ficha. La fecha no
+             # podía perderse por el camino — un archivo que no dice de cuándo
+             # es su cifra deja de ser un archivo.
+             f'<tr><td>Identificador del municipio</td>'
+             f'<td>DIVIPOLA (División Político-Administrativa) · DANE</td>'
+             f'<td>código oficial {e(m["divipola"])}, catálogo nacional de '
+             f'municipios</td></tr>'
+             # «Fecha de las cifras», no «de esta página»: el valor sale de
+             # `ctx["rud"]["generado"]`, que es cuándo se capturó el RUD. Mientras
+             # las dos corridas van juntas coinciden, pero el día que la página se
+             # genere sin RUD nuevo, «actualizada» afirmaría más de lo que sabemos.
+             f'<tr><td>Fecha de las cifras</td><td>captura diaria del RUD</td>'
+             f'<td>datos del {e(fecha_larga(d["generado"]))}</td></tr>'
              "</tbody></table></div>")
     o.append('<p class="note">Cada petición queda registrada con su dirección, su código de '
              "respuesta, su huella digital (sha256) y su fecha; la copia original de lo que "

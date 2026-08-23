@@ -1334,3 +1334,70 @@ Y se declararon explícitamente `OAI-SearchBot` y `ChatGPT-User` en `robots.txt`
 Ya estaban permitidos por el comodín, pero el fichero declara uno a uno a los
 rastreadores de IA para que un cambio futuro no los excluya sin querer, y esos
 dos —no GPTBot, que solo entrena— son los que deciden si ChatGPT cita el sitio.
+
+### La clave que desambigua no es el nombre que se lee (23-ago-2026)
+
+Colombia tiene municipios homónimos: hay un Riosucio en Caldas y otro en Chocó,
+y tres nombres más repetidos —Argelia, Balboa y Bolívar—, cada uno en dos
+departamentos entre Cauca, Valle del Cauca y Risaralda. El monitor los distingue
+en su diccionario poniendo el departamento entre paréntesis —`Riosucio
+(Caldas)`—, porque una llave no puede repetirse.
+
+Esa llave se estaba publicando como si fuera el topónimo. Cinco fichas salían
+tituladas **«Terremoto en Riosucio (Caldas) (Caldas) 2026»**, con el
+departamento escrito dos veces en el `<title>`, el H1, la `description`, el
+JSON-LD y las migas. El repositorio ya había aprendido esta lección en
+`municipal_google_news_feeds()`, donde buscar la clave literal daba un feed en
+cero para siempre; la ficha no la había aprendido.
+
+`toponimo(clave, depto)` recorta **solo el paréntesis final que coincide
+exactamente con el departamento**, no cualquier paréntesis: un municipio que
+algún día lleve uno de verdad en su nombre no puede salir mutilado. Y el
+enlace al mapa de la portada **sigue viajando con la clave**, porque `app.js`
+indexa por ella (`munLayerById[pedido]`) y es lo único que distingue los dos
+Riosucios; con el topónimo, el mapa se quedaría quieto sin decir por qué.
+
+Se corrige en el mismo sitio la concordancia. En la `description` eran 13
+fichas —15 frases, porque dos fallaban en las dos— que decían «1 familias
+inscritas» o «1 viviendas averiadas». La revisión destapó tres sitios más con el
+mismo defecto, y entran en la misma corrección: «1 destruidas» en la tarjeta de
+viviendas, «1 reportes ciudadanos» en el resumen de evidencia y «1 viviendas
+destruidas y 1 averiadas» en el párrafo de respuesta. `concuerda()` pone el
+singular solo en el uno; el «—» de un dato ausente conserva el plural, porque
+una ausencia no es una unidad (R3).
+
+**El guardián vigila la duplicación, no la longitud.** `seo_check.py` devuelve
+código 1 si el título, el H1 o la `description` de una ficha repiten el
+departamento —bloquea al ejecutarlo a mano; en el despliegue avisa sin frenarlo,
+porque el flujo lo corre con `continue-on-error` (R11)—. Vive en su propio
+bucle: el que ya recorría las fichas corta con `break` para no repetir el mismo
+aviso 208 veces, y colgado de él este chequeo dejaba de mirar el resto. No comprueba que el título quepa en 60 caracteres, aunque 77 de
+los 208 no quepan: eso está decidido y documentado como laguna
+(`LIMITACIONES.md`), y un guardián que falla desde el primer día contra una
+decisión tomada es ruido, no vigilancia.
+
+### El sitio se presenta por su nombre público, y la marca sigue siendo doble (23-ago-2026)
+
+No es una decisión nueva: es aplicar la del 22 de agosto de 2026, que ya había
+separado los dos nombres. Faltaban dos piezas.
+
+`og:site_name` **no existía en ninguna página** —ni en las cinco ni en las 208
+fichas—: ahí no había un conflicto entre dos marcas, había una ausencia. Se
+declara con el nombre público, el mismo que ya llevaba `WebSite.name`.
+
+Y el pie abría con «Monitor de brechas de reporte», el nombre interno, que no
+busca nadie. Ahora abre con «Datos del terremoto de Colombia 2026» y despliega
+qué cruza el sitio con el léxico del corpus, siguiendo `SEO-GEO.md`: no competir
+en el territorio de la noticia, sino en el del dato municipal trazable. El
+texto vive **en dos superficies espejo** —`site/common.js` para las cinco
+páginas y `pie_estatico()` para las 208 fichas—; si tocas una, mira la otra.
+
+«Monitor de brechas» **se queda** en la barra y en la metodología. Quitarlo de
+ahí no sería aplicar la decisión, sería cambiarla.
+
+**El subtítulo de la ficha se retira**: decía en otras palabras lo que ya dice
+el H1, y lo que prometía —damnificados, daños, cobertura— lo cumple la tira de
+cifras una línea más abajo. El código DIVIPOLA y la fecha de la corrida no
+desaparecen con él: bajan a «Fuentes y trazabilidad». La fecha estuvo a punto
+de perderse en el camino —el prototipo se llevaba el subtítulo entero— y un
+archivo que no dice de cuándo es su cifra deja de ser un archivo.

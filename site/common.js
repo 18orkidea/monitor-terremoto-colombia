@@ -32,10 +32,19 @@
   if (foot) {
     foot.innerHTML =
       `<div class="sf-cols">` +
-      `<div><strong>Monitor de brechas de reporte</strong><br>` +
-      `Observatorio abierto del terremoto M7.4 de Colombia del 10 de agosto de 2026. ` +
-      `Cruza satélite, reporte ciudadano, prensa y fuentes oficiales — con cada cifra ` +
-      `rastreable a su origen.</div>` +
+      // Abre con el nombre público, no con el interno: es la marca doble ya
+      // decidida (docs/DECISIONES.md, 22-ago-2026). «Monitor de brechas» sigue
+      // en la barra y en la metodología; aquí manda cómo se busca esto.
+      // ESPEJO EXACTO de `pie_estatico()` en deploy/render_html.py, que es el
+      // pie de las 208 fichas: si tocas uno, toca el otro.
+      `<div><strong>Datos del terremoto de Colombia 2026</strong><br>` +
+      `Damnificados, viviendas destruidas y daños <strong>municipio a municipio</strong> ` +
+      `tras el terremoto de magnitud 7,4 del 10 de agosto de 2026, con epicentro en ` +
+      `San José del Palmar (Chocó). Cruza el registro oficial de damnificados (RUD de ` +
+      `la UNGRD), las evaluaciones de daño por satélite (Copernicus EMS, UNITAR-UNOSAT ` +
+      `e ICube-SERTIT), los reportes de la comunidad y los balances de la prensa. ` +
+      `<strong>La distancia entre sus cifras es la brecha de reporte.</strong> ` +
+      `Cada dato dice de dónde sale, de qué día es y con qué huella quedó archivado.</div>` +
       `<div><strong>Secciones</strong><br>` +
       `<a href="index.html">Mapa y cruce por zona</a><br>` +
       `<a href="municipios.html">Municipios del área de influencia</a><br>` +

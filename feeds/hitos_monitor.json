@@ -179,6 +179,13 @@
    "resumen": "El mapa dibuja los 196 municipios que ningún satélite ha evaluado.",
    "texto": "El mapa deja de enseñar solo lo que alguien miró. Entra una capa con los 196 municipios que tienen familias inscritas en el registro oficial de damnificados y ninguna evaluación de Copernicus, UNOSAT ni ICube-SERTIT. El rojo se gradúa con la intensidad que el modelo del USGS estima para cada cabecera municipal, no con la que la gente sintió, que solo se conoce en 23 de ellos. Los nueve municipios que quedan fuera de ese mapa de intensidad se pintan grises en vez de recibir la intensidad más baja: no saber no es lo mismo que haber temblado poco.",
    "url": "/#mapa"
+  },
+  {
+   "fecha": "2026-08-23",
+   "tipo": "monitor",
+   "resumen": "El monitor corrige cinco fichas municipales que publicaban el departamento repetido.",
+   "texto": "Cinco fichas se titulaban con el departamento escrito dos veces: por ejemplo, «Terremoto en Riosucio (Caldas) (Caldas) 2026». Son las de los dos Riosucios —el de Caldas y el del Chocó— y las de Argelia, Balboa y Bolívar, en el Cauca. Colombia tiene municipios homónimos, y el monitor los distingue internamente: añade el departamento entre paréntesis al nombre con el que los guarda. Ese nombre interno se estaba publicando como si fuera el del pueblo. Ya no: la ficha escribe el topónimo y deja el departamento donde corresponde. El enlace al mapa sigue viajando con el nombre interno, que es lo único que distingue los dos Riosucios. De paso se corrige la concordancia en 13 fichas que decían «1 familias inscritas» o «1 viviendas averiadas». Y el código de la División Político-Administrativa (DIVIPOLA) y la fecha de la corrida diaria bajan del subtítulo a «Fuentes y trazabilidad», que es donde los busca quien los necesita.",
+   "url": "/municipio/riosucio-caldas/"
   }
  ]
 }
