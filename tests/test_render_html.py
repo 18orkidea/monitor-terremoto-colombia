@@ -1200,7 +1200,12 @@ class TestBalances(unittest.TestCase):
         self.assertIn("snapshots", feed["archivado_de"]["snapshot"])
         js = (Path(__file__).parent.parent / "site/balances.js").read_text(encoding="utf-8")
         self.assertIn('"/data/public/oficiales.json"', js)
-        self.assertNotIn("OFICIALES_BASE}/oficiales.json", js)
+        # El guardián miraba el NOMBRE de la constante (`OFICIALES_BASE}/…`), y
+        # esa constante ya no existe en el JavaScript: quien reintrodujera la
+        # llamada al worker escribiendo la URL a mano habría pasado en verde.
+        # Se vigila el destino, que es lo que de verdad importa.
+        self.assertNotIn("oficiales-ai", js)
+        self.assertNotIn("workers.dev", js)
 
 
 class TestTitulares(unittest.TestCase):

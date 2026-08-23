@@ -495,17 +495,21 @@ window.UI = (function () {
     return tip;
   }
 
-  /* ---- feed de balances (worker externo): URL única del frontend.
-     El worker guarda la copia viva; el repo archiva un snapshot diario en
-     feeds/balances/. Cambiarla aquí y solo aquí. */
-  const OFICIALES_BASE = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev";
+  /* El feed de balances y el canal de Telegram YA NO VIVEN AQUÍ. Sus URL solo
+     las gastaba el pie que inyectaba common.js, y desde que el pie se escribe
+     en el build (23-ago-2026) la única fuente es `deploy/render_html.py`
+     —`OFICIALES_BASE` y `TELEGRAM_CANAL`, junto a `pie_estatico()`—. Dejarlas
+     declaradas aquí no era inofensivo: eran una segunda copia sin consumidor,
+     y una segunda copia de una URL termina divergiendo de la buena.
+     El feed archivado que sí lee el navegador es `/data/public/oficiales.json`,
+     y lo pide `site/balances.js`: nunca el worker, que es de cuenta ajena y el
+     día que se apague la página tiene que seguir enseñando el dato. */
 
-  /* ---- worker de avisos (Web Push + Telegram). VAPID_PUBLIC_KEY vacía =
-     los avisos aún no están desplegados y el botón 🔔 no se muestra.
-     Al desplegar workers/push (ver su README), pegar aquí la clave pública. */
+  /* ---- worker de avisos (Web Push). VAPID_PUBLIC_KEY vacía = los avisos aún
+     no están desplegados y el botón 🔔 no se muestra. Al desplegar
+     workers/push (ver su README), pegar aquí la clave pública. */
   const PUSH_BASE = "https://monitor-terremoto-colombia-push.inforesidencias.workers.dev";
   const VAPID_PUBLIC_KEY = "BBrMEN-T86OTPOCsTn6CbJSnqaLJeOGWjaVnNbe8WB6RCwEXaDORqDVWxnD-6jhBr3g5XkD72fce-jEKQDycAwc";
-  const TELEGRAM_CANAL = "https://t.me/terremotoCO2026";
 
   /* ---- medio de una noticia (regla compartida: página de titulares, fichas
      municipales y cualquier recuento de pluralidad).
@@ -1012,6 +1016,5 @@ window.UI = (function () {
            retrocede, sinAnclas, esCoherente, incoherencias, atribucionOficial,
            fechaCorte, retrasoDelBalance,
            esNacional, CIFRAS_BALANCE, TECHO_SALTO,
-           disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
-           VAPID_PUBLIC_KEY, TELEGRAM_CANAL };
+           disputaDia, comparativaFuentes, PUSH_BASE, VAPID_PUBLIC_KEY };
 })();
