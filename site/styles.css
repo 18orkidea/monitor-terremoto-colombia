@@ -791,3 +791,239 @@ a.metric-card:hover { border-color: var(--s1); }
      Todavía no lo consume nadie — se aplica en el lote 5. */
   --eje: var(--margen);
 }
+
+/* ── LOTE 2 · Componentes nuevos e inertes ──────────────────────────────
+   Ninguna de estas reglas tiene hoy una etiqueta que estilar: son las piezas
+   que montarán las fases 3-6. Se portan ANTES de usarlas para que cada fase
+   añada marcado y no CSS, y para que el sistema se lea entero en un sitio.
+   Los comentarios del prototipo viajan pegados a su regla: cada uno documenta
+   un fallo que costó una tarde y que no se ve venir leyendo el CSS.
+   Origen: `prototipo/estilo.py`, que se borra al cerrar la última fase. */
+
+/* Ficha municipal: panel y mapa conviven, sin pestañas. En móvil el MAPA va
+   primero —se llega buscando «qué pasó aquí» y el mapa sitúa— y los datos
+   debajo; en pantalla ancha, panel a la izquierda y mapa a la derecha, igual
+   que la portada. El orden del DOM deja el panel antes para que quien navegue
+   con teclado o lector llegue al dato sin cruzar el mapa; el orden visual lo
+   pone `order`. */
+.lienzo-mun{display:flex;flex-direction:column;gap:0;margin:0 0 18px}
+.lienzo-mun .marco-mapa{order:1;position:relative}
+.lienzo.lienzo-mun .panel{order:2;padding:14px var(--eje);background:var(--surface);
+  border-top:1px solid var(--border)}
+.lienzo-mun #map-mun{height:48vh;min-height:280px;background:var(--grid);
+  display:block;z-index:1}
+.lienzo-mun .panel h2{font-size:16px;margin:0 0 2px}
+.lienzo-mun .panel .sub{margin:0 0 10px}
+/* La fila de vistas: dos pestañas a la izquierda y, cuando el mapa está
+   activo, los chips de fuente a la derecha. Comparten renglón porque son la
+   misma decisión —qué estoy mirando— y separarlas obligaba a buscar el filtro
+   en otro sitio. */
+.vistas{display:flex;align-items:center;gap:4px;flex-wrap:wrap;
+  padding:0 0 8px}
+.vistas [role="tab"]{background:none;border:0;font:inherit;font-size:14px;
+  padding:6px 10px;border-radius:99px;color:var(--muted);cursor:pointer}
+.vistas [role="tab"][aria-selected="true"]{background:var(--ink);color:var(--page);
+  font-weight:600}
+.chips-mapa{margin-left:auto;padding:0;gap:6px;overflow:visible}
+.chips-mapa .chip{padding:4px 10px;font-size:12.5px}
+.chips-mapa .chip .n{margin-left:2px}
+.chips-mapa .chip[data-capa="copernicus"]{color:var(--copernicus)}
+.chips-mapa .chip[data-capa="unosat"]{color:#5aa0e8}
+.chips-mapa .chip[data-capa="sertit"]{color:#1b4f96}
+.chips-mapa .chip[data-capa="ciudadanos"]{color:var(--ciudadano)}
+.chips-mapa .chip[aria-pressed="false"]{opacity:.45}
+/* Las dos vistas ocupan lo que ocupa la ficha de al lado: el hueco de 151 px
+   bajo el mapa de Situación era el panel siendo más alto que su contenido.
+   El SVG se centra con `meet` en vez de estirarse: deformar un mapa para
+   rellenar cambiaría las distancias, que es lo único que ese mapa dice. */
+/* `.lienzo` (de la portada) declara `display:grid` y ganaba a `.lienzo-mun`,
+   así que la cadena de alturas se rompía y la vista se quedaba en su alto
+   natural dejando 478 px de hueco. Se nombra la doble clase para igualar
+   especificidad, y la altura baja por flex —no por `height:100%`, que no
+   resuelve contra una altura repartida por el contenedor—. */
+.lienzo.lienzo-mun .marco-mapa{display:flex;flex-direction:column;min-height:0}
+.lienzo.lienzo-mun .marco-mapa > .vista{margin:0;display:flex;
+  flex-direction:column;min-height:0}
+.lienzo.lienzo-mun .marco-mapa > .vista[hidden]{display:none}
+.lienzo.lienzo-mun .marco-mapa > .vista:not([hidden]){flex:1 1 auto}
+.lienzo.lienzo-mun .vista > svg{flex:1 1 auto;min-height:0;width:100%;height:auto}
+.lienzo.lienzo-mun #map-mun{flex:1 1 auto;min-height:280px;height:auto}
+.lienzo-mun .dato.grado{padding:5px 0 5px 18px;font-size:13px;border-bottom:0}
+.lienzo-mun .dato.grado .v{font-weight:600}
+@media (min-width:900px){
+  /* El `:root{--eje:max(24px,(100% - 1240px)/2)}` con que el prototipo abría
+     este bloque NO se porta. El lote 1 ya decidió UN SOLO EJE —`--eje` es
+     alias de `--margen`— y el 1.240 del prototipo se inventó sin saber que
+     esta hoja ya tenía eje a 1.100. Redeclararlo aquí, al final de la hoja y
+     dentro de un media query, ganaría sobre el alias en toda pantalla ≥900 px
+     y devolvería los dos bordes izquierdos que el propio prototipo midió y
+     corrigió dentro de su hoja. El valor del eje se decide en el lote 5. */
+  /* El mapa mide lo que mide la ficha CON TODOS SUS DATOS: el panel deja de
+     tener alto fijo y scroll propio —esconder cifras tras un segundo scroll,
+     dentro de una página que ya se desplaza, es pedirle al lector que descubra
+     que hay más— y el mapa se estira hasta igualarlo. `stretch` es el
+     comportamiento por defecto del flex; lo que había que quitar era el
+     `align-items:flex-start` que lo impedía. */
+  .lienzo-mun{flex-direction:row;gap:18px;padding:0 var(--eje);align-items:stretch}
+  .lienzo-mun .panel{order:1;flex:0 0 360px;border:1px solid var(--border);
+    border-radius:var(--radio);height:auto;overflow:visible;padding:14px}
+  .lienzo-mun .marco-mapa{order:2;flex:1 1 auto;min-height:420px}
+  .lienzo-mun #map-mun{height:100%;min-height:420px;border-radius:var(--radio)}
+}
+
+/* el dato manda: las secciones de contenido pegadas arriba y sin adornos */
+/* Las reglas de tabla del prototipo (`.zona-datos table/thead th/td`) NO se
+   portan: el sitio ya las resuelve mejor —incluida la sombra de `.tabla-scroll`
+   que aparece solo mientras queda tabla a la derecha, sin JS— y `td.num`/
+   `th.num` está ya declarado idéntico al dígito más arriba en esta hoja. */
+.zona-datos{padding:0 14px 8px}
+.zona-datos section{margin:0 0 22px}
+.zona-datos h2{font-size:17px;margin:0 0 6px}
+.zona-datos .sub{font-size:13px;color:var(--muted);margin:0 0 10px}
+/* Ritmo vertical y respiración. El contenido copiado del sitio trae su propio
+   interlineado y sus márgenes, así que unas secciones venían apretadas y otras
+   sueltas. Aquí se fija UNA medida: el mismo aire entre secciones, la misma
+   altura de línea en la prosa y el mismo eje lateral que el resto de la página
+   —el de `--eje`, para que móvil y escritorio tengan el mismo borde—. */
+/* Las secciones copiadas traen el acolchado lateral de `.page-section` del
+   sitio (18 px) SUMADO al eje de su contenedor: el texto acababa 46 px dentro
+   mientras el titular estaba en 14. El eje lo pone el contenedor y solo él. */
+.zona-datos > .contenido{max-width:none;padding:0;margin:0}
+/* COMPONENTE «caja de sección» (.page-section del sistema): fondo, borde y
+   acolchado propio. Del contenedor solo se le quita el MARGEN lateral, porque
+   el eje ya lo pone la zona; su acolchado interno es suyo y no se toca.
+   La primera versión de esta regla llevaba `padding:0 !important` para alinear
+   el texto con el titular, y dejó sin aire por dentro a todas las cajas a
+   partir de «Cómo avanza el registro oficial». Alinear un contenedor no es lo
+   mismo que vaciar una caja. */
+.zona-datos section,.zona-datos .page-section{margin-left:0;margin-right:0}
+/* el aire ENTRE cajas, uno solo para todas: sin él, el gráfico quedaba pegado
+   al aviso de reportes ciudadanos que va justo debajo */
+/* A cualquier profundidad, no solo a las hijas directas: enumerando niveles
+   («> section», «.contenido > section») las cajas más anidadas se quedaban con
+   el margen de 16 px del sistema y el ritmo saltaba de 22 a 16 dentro de la
+   misma página. Un componente se comporta igual esté donde esté. */
+/* `!important` a propósito, y solo aquí: varias de estas cajas están
+   estilizadas POR ID en styles.css (#balance-hero, #balance-chart-section,
+   #metodologia…) y un id gana a cualquier clase, así que sin esto el ritmo
+   saltaba de 22 a 16 px dentro de la misma página según qué caja llevara id.
+   Perseguir los ids uno a uno sería una lista que caduca al añadir la próxima
+   sección; el ritmo del componente lo decide esta hoja. */
+.zona-datos section,.zona-datos .page-section{
+  margin-top:0 !important;margin-bottom:22px !important}
+.zona-datos section:last-child,.zona-datos .page-section:last-child{
+  margin-bottom:0 !important}
+.zona-datos > section:last-child{margin-bottom:0}
+.zona-datos p,.zona-datos li{line-height:1.65}
+.zona-datos h2{margin:0 0 8px;line-height:1.25}
+.zona-datos h3{margin:18px 0 6px;line-height:1.3}
+.zona-datos table{margin-top:10px}
+.zona-datos .note,.zona-datos .sub{line-height:1.55}
+
+.brecha{margin:0;padding:16px 14px;background:var(--surface);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  font-size:15.5px;line-height:1.55}
+.brecha b{font-variant-numeric:tabular-nums}
+.brecha .enlace{color:var(--copernicus);font-size:14px;text-decoration:none;font-weight:600}
+.tarjetas{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+.tarjeta{display:block;padding:13px;border:1px solid var(--border);border-radius:var(--radio);
+  background:var(--surface);text-decoration:none}
+.tarjeta strong{display:block;font-size:14.5px;margin-bottom:3px}
+.tarjeta span{font-size:12.5px;color:var(--muted);line-height:1.35;display:block}
+.descripcion-sitio{padding:18px var(--eje) 0;border-top:1px solid var(--border);
+  margin-top:8px}
+.descripcion-sitio h2{font-size:15px;margin:0 0 6px}
+.descripcion-sitio p{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 8px;
+  max-width:72ch}
+
+details.denso table{font-size:12.5px;width:100%;border-collapse:collapse;display:block;
+  overflow-x:auto;white-space:nowrap}
+details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--border)}
+/* Al tocar un municipio en móvil el mapa cede la mitad de su alto para que la
+   ficha se lea SIN hacer scroll: el dato es lo que se ha ido a buscar, y
+   obligar a desplazarse después de tocar es pedir dos gestos para una
+   respuesta. El mapa no desaparece —sigue viéndose dónde está el municipio— y
+   el botón «Ampliar el mapa» lo devuelve a su alto completo. */
+.lienzo.con-ficha #map{height:34vh;min-height:200px}
+/* El tirador de ampliar no es un botón más: es una banda al ancho del mapa,
+   pegada a su borde inferior y semitransparente, de modo que el mapa se ve por
+   debajo. Así se lee como «hay más mapa aquí abajo» y no como un control que
+   compite con el resto de la interfaz. Solo existe con la ficha abierta. */
+.ampliar{display:none}
+.lienzo.con-ficha .ampliar{display:none;align-items:center;justify-content:center;
+  gap:8px;position:absolute;left:0;right:0;bottom:0;z-index:600;
+  padding:9px 0 11px;border:0;border-top:1px solid rgba(255,255,255,.35);
+  background:linear-gradient(to bottom,rgba(252,252,251,0),rgba(252,252,251,.82) 45%);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  color:var(--ink-2);font:inherit;font-size:12.5px;letter-spacing:.01em;
+  cursor:pointer;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.lienzo.con-ficha .ampliar:hover{color:var(--ink)}
+.ampliar .flecha{font-size:14px;line-height:1}
+.lista-mun{list-style:none;margin:0;padding:0}
+.lista-mun li{border-bottom:1px solid var(--border)}
+.lista-mun button{display:flex;width:100%;gap:10px;align-items:baseline;
+  padding:9px 2px;background:none;border:0;font:inherit;text-align:left;
+  cursor:pointer;color:var(--ink)}
+.lista-mun button:hover{color:var(--copernicus)}
+.lista-mun .nom{flex:1;font-size:14px}
+.lista-mun .dep{color:var(--muted);font-size:11.5px;display:block;font-weight:400}
+.lista-mun .cifra{font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink-2);
+  white-space:nowrap}
+.lista-mun .fuentes{display:flex;gap:3px;flex:none;align-self:center}
+.lista-mun .marca{width:8px;height:8px;border-radius:50%;flex:none;align-self:center}
+.ficha-completa{display:block;text-align:center;padding:10px 14px;font-size:14px;
+  text-decoration:none}
+.comparativa{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;margin:12px 0 0}
+.comparativa .fuente{border:1px solid var(--border);border-top:3px solid var(--fc);
+  border-radius:var(--radio);padding:11px 13px;background:var(--surface)}
+.fuente h3{margin:0;font-size:14.5px;line-height:1.25}
+.fuente-sub{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.3}
+/* la cifra que se compara va grande y en la misma unidad en las cuatro */
+.fuente-muns{margin:0;font-size:13px;color:var(--ink-2)}
+.fuente-muns b{font-size:21px;color:var(--fc);font-variant-numeric:tabular-nums;
+  display:block;line-height:1.1}
+.fuente-nd{font-size:12px;color:var(--muted);font-style:italic}
+.fuente-cif{margin:6px 0 0;font-size:12.5px;color:var(--ink-2);
+  font-variant-numeric:tabular-nums}
+.fuente-fecha{margin:6px 0 0;font-size:11.5px;color:var(--muted)}
+.volver{display:inline-flex;align-items:center;gap:6px;margin:0 0 10px;padding:5px 0;
+  background:none;border:0;font:inherit;font-size:13px;color:var(--copernicus);
+  cursor:pointer}
+/* la marca de color y el nombre, en una línea; la explicación, debajo */
+.dato .etiq{display:block;min-width:0}
+.dato .linea{display:flex;align-items:center}
+
+/* Leyendas de gráficos y mapas. Vivía solo en el generador de la portada, así
+   que en las páginas interiores las viñetas salían una pegada a la otra:
+   «El municipioZona con producto satelitalReporte de un vecino…». */
+/* Chips de la cronología: llevan el color del carril que filtran, así que el
+   chip y el punto que va a quedar visible en la gráfica son reconociblemente
+   lo mismo. Apagado, el color se atenúa en vez de desaparecer: el filtro sigue
+   diciendo de qué habla aunque no esté activo. */
+.chip-crono{display:inline-flex;align-items:center;gap:7px;color:var(--fc)}
+.chip-crono .punto{width:9px;height:9px;border-radius:50%;background:currentColor;
+  flex:none}
+.chip-crono[aria-pressed="true"]{border-color:currentColor;
+  background:color-mix(in srgb,currentColor 12%,transparent);font-weight:600}
+.chip-crono[aria-pressed="false"]{opacity:.62}
+.leyenda-graf{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 0;
+  font-size:12.5px;color:var(--ink-2)}
+.leyenda-graf--sec{margin-top:4px;font-size:12px;color:var(--muted)}
+.ley{display:inline-flex;align-items:center;gap:6px}
+.ley .pt{width:18px;height:3px;border-radius:2px;flex:none}
+.ley .pt-b{width:9px;height:9px;border-radius:50%}
+
+.marca-f{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none;
+  margin-right:7px}
+
+/* La entradilla: la frase que resume la página bajo el titular. En el
+   prototipo se llamaba `.resumen`, pero ese nombre YA ESTÁ OCUPADO en esta
+   hoja —la línea de recuento de una tabla, 13 px y gris, y encima pisada por
+   `#resumen` y `#balance-resumen`—, así que una entradilla con ese nombre
+   habría salido en letra pequeña en balances y en titulares. Se llama
+   `.entradilla`, verificado libre. */
+.entradilla{padding:0 14px 10px;font-size:15px;color:var(--ink-2);
+  margin:0 0 4px;line-height:1.6}
+.entradilla b{color:var(--ink);font-variant-numeric:tabular-nums}
+
