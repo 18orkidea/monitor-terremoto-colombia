@@ -1162,3 +1162,40 @@ details.denso>summary{color:var(--ink)}
    móvil la barra roba alto al mapa. */
 .chips--tira { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
 .chips--tira::-webkit-scrollbar { display: none; }
+
+/* ── LOTE 5 · El eje único ──────────────────────────────────────────────
+   Medido en el prototipo antes de existir esta regla: a 1.370 px el texto de
+   la página empezaba en CINCO sitios distintos (65, 75, 79, 94 y 154 px) y a
+   768 px en cuatro (0, 14, 28 y 39). No era un descuido de un componente: era
+   que cada uno traía su propio margen y ninguno sabía de los demás.
+
+   El eje es un sistema, no una regla de escritorio: se aplica en todos los
+   anchos y lo que cambia con la pantalla es el VALOR de --eje, que aquí es
+   alias de --margen (lote 1). Por eso no hay `@media` en este bloque.
+
+   `.chips` queda FUERA de la lista a propósito, y es la única exclusión: es la
+   única de estas clases que hoy tiene elementos en el marcado —tres tiras de
+   filtros publicadas— y ya recibe su sangrado lateral de la `.page-section`
+   que la contiene. Sumarle el eje la metería dos veces hacia adentro y las
+   tres tiras dejarían de alinearse con el H2 de su propia sección. Vuelve a la
+   lista cuando la fase de la portada saque los chips de las `.page-section`. */
+.barra,
+.encabezado,
+.entradilla,
+details.pliegue,
+.brecha,
+.tarjetas,
+.canales,
+.zona-datos { padding-left: var(--eje); padding-right: var(--eje); }
+
+/* Los canales viven dentro de .zona-datos, que ya pone el eje: sumar el suyo
+   los empujaba más adentro que todo lo demás. */
+.zona-datos .canales { padding-left: 0; padding-right: 0; }
+
+/* Una .page-section es una CAJA con fondo y borde, no texto suelto: al eje va
+   su BORDE, y dentro conserva su acolchado. Quitárselo —como hizo la primera
+   versión de esta regla, para alinear su texto con el resto— dejaba las letras
+   pegadas al filo de la caja. Es el cuarto fallo del cabezal, y esta regla es
+   la forma correcta que quedó después. */
+.zona-datos > .page-section,
+.zona-datos > section { margin-left: 0; margin-right: 0; }
