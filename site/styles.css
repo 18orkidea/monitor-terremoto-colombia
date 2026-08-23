@@ -975,7 +975,22 @@ details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--
   text-decoration:none}
 .comparativa{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
   gap:10px;margin:12px 0 0}
-.comparativa .fuente{border:1px solid var(--border);border-top:3px solid var(--fc);
+/* `--fc` es el color de la fuente y lo emite el marcado EN LÍNEA, tarjeta a
+   tarjeta, igual que `.badge` recibe `--bc` y `.aviso` recibe `--ac`. Aquí se
+   declara su valor por defecto en la regla base del componente —el patrón de
+   `--ac: var(--muted)` de esta misma hoja—, y el valor es el mismo `var(--muted)`
+   que el propio prototipo emite como respaldo cuando un id no está en su paleta
+   (`COLOR.get(id, "var(--muted)")`): una fuente sin color asignado se dibuja en
+   gris neutro, que es lo que ya se veía.
+   No es cosmética. Sin declaración, `border-top:3px solid var(--fc)` no da un
+   filete gris: el atajo entero es INVÁLIDO en tiempo de cómputo, `border-top-style`
+   vuelve a `none` y el filete no se degrada, DESAPARECE. Hoy no se nota porque
+   estas reglas casan con cero elementos; el día que una fase pinte una tarjeta
+   sin `--fc` en línea, sí.
+   `.fuente-muns b` va dentro de esta tarjeta y hereda el token; `.chip-crono`
+   es un componente independiente y declara el suyo. */
+.comparativa .fuente{--fc:var(--muted);
+  border:1px solid var(--border);border-top:3px solid var(--fc);
   border-radius:var(--radio);padding:11px 13px;background:var(--surface)}
 .fuente h3{margin:0;font-size:14.5px;line-height:1.25}
 .fuente-sub{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.3}
@@ -1001,7 +1016,10 @@ details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--
    chip y el punto que va a quedar visible en la gráfica son reconociblemente
    lo mismo. Apagado, el color se atenúa en vez de desaparecer: el filtro sigue
    diciendo de qué habla aunque no esté activo. */
-.chip-crono{display:inline-flex;align-items:center;gap:7px;color:var(--fc)}
+/* El `--fc` por defecto, otra vez: el chip no está dentro de `.comparativa
+   .fuente`, así que no hereda nada y necesita el suyo propio. */
+.chip-crono{--fc:var(--muted);display:inline-flex;align-items:center;gap:7px;
+  color:var(--fc)}
 .chip-crono .punto{width:9px;height:9px;border-radius:50%;background:currentColor;
   flex:none}
 .chip-crono[aria-pressed="true"]{border-color:currentColor;

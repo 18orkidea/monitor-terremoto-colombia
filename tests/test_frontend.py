@@ -1358,3 +1358,220 @@ class TestChipsSonAcciones(unittest.TestCase):
         m = re.search(r"^\.chip\s*\{([^}]*)\}", self.CSS, re.M | re.S)
         self.assertIsNotNone(m)
         self.assertIn("cursor: pointer", " ".join(m.group(1).split()))
+
+
+def _css_sin_comentarios(css):
+    """Borra los comentarios CONSERVANDO los desplazamientos del archivo.
+
+    Cada comentario se sustituye por tantos espacios como ocupaba, de modo que
+    un índice medido sobre el texto crudo —el del cabezal del rediseño, que
+    vive dentro de un comentario— sigue valiendo sobre el texto limpio. Con un
+    `re.sub` normal, el cabezal desaparecería y con él la frontera entre la
+    hoja vieja y el sistema nuevo.
+    """
+    return re.sub(r"/\*.*?\*/", lambda m: " " * len(m.group(0)), css, flags=re.S)
+
+
+class TestSistemaDelRedisenoNoPisaLaHojaVieja(unittest.TestCase):
+    """El `:root` del final no puede redeclarar ni un token de los de arriba.
+
+    Es la única barrera contra el fallo que el propio cabezal de `styles.css`
+    describe: las variantes oscuras de esta hoja viven en un
+    `@media (prefers-color-scheme: dark)` que va ARRIBA, así que un `:root`
+    plano añadido ABAJO gana también en tema oscuro. El síntoma no sería un
+    color raro: sería tinta casi negra sobre fondo casi negro en las cinco
+    páginas y en las 208 fichas. Por eso el bloque nuevo solo puede contener
+    alias (`var(...)`, que se resuelven al usarse y recogen solos el tema
+    activo) y tokens que no existían.
+
+    La revisión de la fase 2 comprobó a mano —y una sola vez— que la
+    intersección era vacía. Este test la comprueba en cada corrida.
+    """
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+    MARCA = "SISTEMA DEL REDISEÑO 2026"
+
+    def _roots(self, texto):
+        """Los tokens declarados en cada bloque `:root` de un tramo de hoja."""
+        return [set(re.findall(r"(--[a-zA-Z0-9_-]+)\s*:", cuerpo))
+                for cuerpo in re.findall(r":root\s*\{([^{}]*)\}", texto)]
+
+    def setUp(self):
+        self.assertIn(self.MARCA, self.CSS,
+                      "el cabezal del rediseño es la frontera: sin él no hay test")
+        corte = self.CSS.index(self.MARCA)
+        limpio = _css_sin_comentarios(self.CSS)
+        self.arriba = self._roots(limpio[:corte])
+        self.abajo = self._roots(limpio[corte:])
+
+    def test_el_bloque_nuevo_declara_tokens_y_los_de_arriba_siguen_ahi(self):
+        """Guardián de sí mismo: si el parseo no encuentra nada, el test de
+        abajo pasaría en verde sin haber mirado nada."""
+        self.assertEqual(len(self.abajo), 1,
+                         "el sistema del rediseño abre UN solo `:root`; si son "
+                         "dos, el segundo también gana en tema oscuro")
+        self.assertTrue(self.abajo[0], "el `:root` del rediseño no declara nada")
+        self.assertGreaterEqual(
+            len(self.arriba), 2,
+            "arriba tienen que seguir estando al menos el `:root` inicial y el "
+            "del bloque oscuro")
+        self.assertIn("@media (prefers-color-scheme: dark)", self.CSS)
+
+    def test_el_root_del_final_no_redeclara_ningun_token_de_arriba(self):
+        previos = set().union(*self.arriba)
+        repetidos = sorted(self.abajo[0] & previos)
+        self.assertEqual(
+            repetidos, [],
+            "el `:root` del final redeclara " + ", ".join(repetidos) + ": un "
+            "`:root` plano al final de la hoja gana TAMBIÉN en tema oscuro, "
+            "donde el valor correcto lo pone el `@media (prefers-color-scheme: "
+            "dark)` de arriba. Si de verdad hay que cambiar ese token, se "
+            "cambia donde vive, con su pareja clara y oscura.")
+
+
+class TestPlegableLegadoYComponenteNoDivergen(unittest.TestCase):
+    """Los cuatro selectores viejos del plegable y `.pliegue` dicen lo mismo.
+
+    Conviven a propósito: el componente `.pliegue` es la regla nueva y los
+    cuatro selectores de sitio (`#como-leer`, `.intro details`,
+    `.aviso details`, `#alerts-section > details`) quedan como ALIAS para que
+    nada de lo publicado cambie de aspecto hoy. La retirada está escrita en el
+    comentario del lote 3: cuando ninguna página dependa de los alias, los
+    cuatro se van EN UN COMMIT PROPIO, de aquí y del bloque de arriba.
+
+    Mientras dure la convivencia, un ajuste hecho en un bloque y no en el otro
+    los hace divergir EN SILENCIO: el aspecto cambiaría según qué plegable
+    lleve ya la clase nueva. Este test empareja cada regla legada con su espejo
+    del componente y exige declaraciones idénticas.
+    """
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+    LEGADOS = ("#como-leer", ".intro details", ".aviso details",
+               "#alerts-section > details")
+
+    @classmethod
+    def setUpClass(cls):
+        limpio = _css_sin_comentarios(cls.CSS)
+        cls.legado, cls.componente = {}, {}
+        for selector, cuerpo in re.findall(r"([^{}]+)\{([^{}]*)\}", limpio):
+            sels = [" ".join(s.split()) for s in selector.split(",") if s.strip()]
+            pliegues = [s for s in sels if ".pliegue" in s]
+            viejos = [s for s in sels if s.startswith(cls.LEGADOS)]
+            # Solo las reglas del plegable: o son alias puros, o son el
+            # componente con sus alias colgando. Cualquier otra mezcla no es
+            # este bloque y no se compara.
+            if not viejos or len(viejos) + len(pliegues) != len(sels):
+                continue
+            decls = [" ".join(d.split()) for d in cuerpo.split(";") if d.strip()]
+            destino = cls.componente if pliegues else cls.legado
+            destino[tuple(viejos)] = decls
+
+    def test_los_dos_bloques_del_plegable_siguen_conviviendo(self):
+        """Guardián de sí mismo: sin reglas emparejadas, el test de abajo
+        pasaría en verde comparando dos diccionarios vacíos. Si los alias se
+        retiraron de verdad, este test se retira con ellos en ese mismo commit
+        —que es justo el cambio verificable que pide el lote 3—."""
+        self.assertTrue(self.legado, "no queda ni una regla con los selectores "
+                                     "viejos: ¿se retiraron los alias?")
+        self.assertTrue(self.componente, "no queda ni una regla de `.pliegue` "
+                                         "que herede de los alias")
+
+    def test_cada_regla_legada_tiene_su_espejo_en_el_componente(self):
+        huerfanas = sorted(set(self.legado) - set(self.componente))
+        sobrantes = sorted(set(self.componente) - set(self.legado))
+        self.assertEqual(
+            (huerfanas, sobrantes), ([], []),
+            "una regla del plegable existe en un bloque y no en el otro: "
+            f"solo arriba {huerfanas}, solo abajo {sobrantes}")
+
+    def test_las_declaraciones_de_ambos_bloques_son_identicas(self):
+        for clave in sorted(set(self.legado) & set(self.componente)):
+            with self.subTest(regla=", ".join(clave)):
+                self.assertEqual(
+                    self.legado[clave], self.componente[clave],
+                    "los dos bloques del plegable dicen cosas distintas para el "
+                    "mismo selector: se tocó uno y no el otro, y el aspecto de "
+                    "un plegable pasa a depender de si ya lleva `class=pliegue`")
+
+
+class TestNingunTokenSeUsaSinRespaldo(unittest.TestCase):
+    """Un `var(--x)` sin declaración no se degrada: borra la propiedad entera.
+
+    Los tokens que el marcado emite EN LÍNEA —`--bc` en `.badge`, `--ac` en
+    `.aviso`, `--fc` en las tarjetas de fuente y en los chips de cronología—
+    no existen hasta que un elemento los trae puestos. Si la hoja los usa sin
+    valor por defecto, la declaración que los consume es INVÁLIDA en tiempo de
+    cómputo: `border-top: 3px solid var(--fc)` no da un filete gris, devuelve
+    `border-top-style` a `none` y el filete DESAPARECE.
+
+    Un caso así no se ve venir leyendo el CSS ni se nota en el navegador
+    mientras la regla case con cero elementos: aparece el día que una fase
+    pinta el primer elemento sin el token en línea. De ahí el guardián.
+
+    Las dos formas válidas de respaldo, ambas en uso en esta hoja:
+    `var(--bc, var(--muted))` en el punto de uso (`:199`) y `--ac: var(--muted)`
+    en la regla base del componente (`:495`; `--fc` sigue este segundo patrón).
+    """
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+
+    # La única regla que usa un token en línea sin declararlo: lo HEREDA de su
+    # contenedor. Se escribe con su ascendiente porque el test comprueba que
+    # ese ascendiente sí lo declara; una herencia que no se puede nombrar es
+    # una herencia que no se puede verificar.
+    HEREDAN = {".fuente-muns b": ".comparativa .fuente"}
+
+    @classmethod
+    def setUpClass(cls):
+        limpio = _css_sin_comentarios(cls.CSS)
+        cls.limpio = limpio
+        cls.reglas = []          # (selector normalizado, declarados, usados sin respaldo)
+        for selector, cuerpo in re.findall(r"([^{}]+)\{([^{}]*)\}", limpio):
+            sel = " ".join(selector.split())
+            declarados = set(re.findall(r"(--[a-zA-Z0-9_-]+)\s*:", cuerpo))
+            # `var(--x)` a secas: sin coma no hay respaldo en el punto de uso.
+            pelados = set(re.findall(r"var\(\s*(--[a-zA-Z0-9_-]+)\s*\)", cuerpo))
+            cls.reglas.append((sel, declarados, pelados))
+        cls.de_root = set()
+        for cuerpo in re.findall(r":root\s*\{([^{}]*)\}", limpio):
+            cls.de_root |= set(re.findall(r"(--[a-zA-Z0-9_-]+)\s*:", cuerpo))
+
+    def test_ningun_token_se_usa_sin_declararlo_en_ningun_sitio(self):
+        """La red gruesa: un token que no se declara en NINGUNA parte de la
+        hoja. Es el estado en que estaba `--fc` —el único— antes del lote."""
+        declarados = set(re.findall(r"(--[a-zA-Z0-9_-]+)\s*:", self.limpio))
+        con_respaldo = set(re.findall(r"var\(\s*(--[a-zA-Z0-9_-]+)\s*,", self.limpio))
+        usados = set(re.findall(r"var\(\s*(--[a-zA-Z0-9_-]+)", self.limpio))
+        self.assertTrue(usados, "el analizador no encontró ni un token: no mira nada")
+        huerfanos = sorted(usados - declarados - con_respaldo)
+        self.assertEqual(huerfanos, [], f"tokens sin declarar en toda la hoja: {huerfanos}")
+
+    def test_cada_regla_que_gasta_un_token_de_marcado_le_pone_defecto(self):
+        """La red fina, que es la que hace falta: los tokens que NINGÚN `:root`
+        declara solo pueden llegar desde el marcado, así que el defecto tiene
+        que estar en CADA componente que los gasta. Que otro componente lo
+        declare no salva al vecino: `--fc` en `.comparativa .fuente` no llega a
+        `.chip-crono`, que no está dentro.
+        """
+        de_marcado = set()
+        for _sel, _decl, pelados in self.reglas:
+            de_marcado |= {t for t in pelados if t not in self.de_root}
+        self.assertTrue(de_marcado, "ningún token de marcado: el analizador no mira nada")
+
+        for sel, declarados, pelados in self.reglas:
+            for token in sorted(pelados & de_marcado):
+                if token in declarados:
+                    continue
+                with self.subTest(regla=sel, token=token):
+                    padre = self.HEREDAN.get(sel)
+                    self.assertIsNotNone(
+                        padre,
+                        f"`{sel}` usa `{token}` sin declararle un valor por "
+                        "defecto. O se lo declara en su propia regla base, o "
+                        "se anota en HEREDAN de quién lo hereda.")
+                    hereda = [d for s, d, _ in self.reglas if s == padre]
+                    self.assertTrue(hereda, f"el ascendiente `{padre}` no existe")
+                    self.assertTrue(
+                        any(token in d for d in hereda),
+                        f"`{sel}` hereda `{token}` de `{padre}`, pero `{padre}` "
+                        "ya no lo declara: la herencia se quedó sin origen.")
