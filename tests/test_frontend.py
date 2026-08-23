@@ -75,61 +75,6 @@ def correr_ui(expresion: str) -> dict:
     return json.loads(r.stdout)
 
 
-def correr_rud(expresion: str):
-    """Ejecuta las funciones reales del gráfico del RUD sin un navegador."""
-    script = (
-        "global.document={getElementById:()=>({textContent:''})};"
-        "global.window={UI:{"
-        "fetchJson:async()=>({serie:[]}),"
-        "fmt:(v)=>String(v),fechaLarga:(v)=>v,diaMes:(v)=>v.slice(8),"
-        "cssVar:(v)=>v,esc:(v)=>String(v),tablaHidratada:()=>()=>{}"
-        "}};"
-        f"require({json.dumps(str(ROOT / 'site' / 'rud.js'))});"
-        "const RUD=window.RUD,UI=window.UI;"
-        f"console.log(JSON.stringify({expresion}));"
-    )
-    r = subprocess.run([NODE, "-e", script], capture_output=True, text=True,
-                       timeout=30)
-    if r.returncode != 0:
-        raise AssertionError(f"node falló: {r.stderr[:500]}")
-    return json.loads(r.stdout)
-
-
-@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
-class TestGraficoRud(unittest.TestCase):
-    """La columna es el cambio entre capturas, nunca el acumulado repetido."""
-
-    SERIE_JS = "[{fecha:'2026-08-16',familias:100,municipios:2}," \
-               "{fecha:'2026-08-17',familias:130,municipios:3}," \
-               "{fecha:'2026-08-18',familias:145,municipios:4}]"
-
-    def test_altas_son_diferencias_y_el_primer_dia_no_inventa_una(self):
-        altas = correr_rud(
-            f"RUD.altasDiarias({self.SERIE_JS}).map((d)=>d.familias)")
-        self.assertEqual(altas, [None, 30, 15])
-
-    def test_svg_combina_columnas_y_curva_con_valores_visibles(self):
-        svg = correr_rud(
-            f"RUD.graficoFamilias({self.SERIE_JS},900,UI)")
-        self.assertIn('data-altas="30"', svg)
-        self.assertIn('data-altas="15"', svg)
-        self.assertNotIn('data-altas="100"', svg)
-        self.assertIn(">+30</text>", svg)
-        self.assertIn(">+15</text>", svg)
-        self.assertIn("sin base", svg)
-        self.assertIn("Total acumulado", svg)
-        self.assertIn("Nuevas desde captura anterior", svg)
-        self.assertIn('aria-labelledby="rud-chart-title rud-chart-desc"', svg)
-
-    def test_una_correccion_a_la_baja_no_se_convierte_en_cero(self):
-        svg = correr_rud(
-            "RUD.graficoFamilias([{fecha:'2026-08-16',familias:100,municipios:2},"
-            "{fecha:'2026-08-17',familias:90,municipios:2}],900,UI)")
-        self.assertIn('data-altas="-10"', svg)
-        self.assertIn(">-10</text>", svg)
-        self.assertIn("--critical", svg)
-
-
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
 class TestSerieGraficoPortada(unittest.TestCase):
     def test_la_presentacion_empieza_el_dia_del_sismo(self):
@@ -1721,9 +1666,10 @@ class TestNingunTokenSeUsaSinRespaldo(unittest.TestCase):
 class TestElChipDeclaraLoQueEsYNoLoDeduce(unittest.TestCase):
     """Un componente declara su tipo; no lo adivina por sus hijos.
 
-    `.chip` está vivo en tres páginas publicadas —`site/app.js`, `site/rud.js`
-    y `site/municipios.js` pintan las tres tiras de filtros— y `.punto` es un
-    nombre genérico y apetecible. El lote 4 llegó a decir
+    `.chip` está vivo en tres páginas publicadas —`site/app.js` y
+    `site/municipios.js` pintan dos de las tiras de filtros en el navegador, y
+    `deploy/render_html.py::chips_rud` pinta la del RUD en el build desde la
+    fase 3— y `.punto` es un nombre genérico y apetecible. El lote 4 llegó a decir
     `.chip:has(.punto) { display: inline-flex; … }`: casaba con cero elementos,
     cierto, pero dejaba el `display` de las tres tiras a merced de que alguien
     metiera algún día un `.punto` dentro de un chip por cualquier otro motivo.
@@ -1737,8 +1683,14 @@ class TestElChipDeclaraLoQueEsYNoLoDeduce(unittest.TestCase):
 
     CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
     MARCA = "SISTEMA DEL REDISEÑO 2026"
-    # Las tres superficies que pintan un chip activo en el sitio publicado.
-    TIRAS = ("site/app.js", "site/rud.js", "site/municipios.js")
+    # Las tres superficies que pintan un chip activo en el sitio publicado, y
+    # el patrón con que cada una lo escribe. La del RUD se mudó al build en la
+    # fase 3 —la tira llega prerenderizada, no la construye `rud.js`—, así que
+    # su plantilla es de Python: sigue siendo la misma regla y sigue en la
+    # lista, con la forma que le toca.
+    TIRAS = {"site/app.js": r'class="chip\$\{[^`]*?\bactiva\b',
+             "site/municipios.js": r'class="chip\$\{[^`]*?\bactiva\b',
+             "deploy/render_html.py": r'class="chip\{" activa" if\b'}
 
     @classmethod
     def setUpClass(cls):
@@ -1841,11 +1793,11 @@ class TestElChipDeclaraLoQueEsYNoLoDeduce(unittest.TestCase):
         se cae `.chip.activa`, las tres tiras publicadas pierden el estado
         activo —y ningún test se enteraba—; si se cae `aria-pressed`, lo pierde
         todo lo que llegue del rediseño y además el lector de pantalla."""
-        for archivo in self.TIRAS:
+        for archivo, patron in self.TIRAS.items():
             with self.subTest(fuente=archivo):
                 fuente = (ROOT / archivo).read_text(encoding="utf-8")
                 self.assertRegex(
-                    fuente, r'class="chip\$\{[^`]*?\bactiva\b',
+                    fuente, patron,
                     f"{archivo} ya no pinta el chip activo con `.activa`: si de "
                     "verdad se pasó a `aria-pressed`, este test y la hoja se "
                     "actualizan juntos")

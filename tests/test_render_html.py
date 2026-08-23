@@ -1080,6 +1080,21 @@ class TestElSelloYaNoLoEscribeElNavegador(unittest.TestCase):
                 self.assertFalse('"Actualizado el "' in texto,
                                  f"{js} conserva la redacción vieja del sello")
 
+    def test_el_contador_de_capturas_no_vuelve_a_fechar_el_dato(self):
+        """El sello arreglaba la confusión en el encabezado de balances y la
+        misma página la repetía tres centímetros más abajo: `#balance-resumen`
+        escribía «30 de 30 capturas · actualizado el 22 de agosto de 2026» con
+        `generated_at`, que es la corrida y no el corte del rastreo. Dos frases
+        sobre la misma fecha diciendo cosas distintas. La fecha vive en el
+        sello y solo ahí (M2); el contador cuenta capturas."""
+        js = (ROOT / "site" / "balances.js").read_text(encoding="utf-8")
+        cuerpo = re.search(r'resumen\.textContent\s*=(.*?);', js, re.S)
+        self.assertTrue(cuerpo, "el contador de capturas cambió de forma")
+        self.assertNotIn("fechaLarga", cuerpo.group(1),
+                         "el contador vuelve a fechar el dato por su cuenta")
+        self.assertNotIn("generated_at", cuerpo.group(1))
+        self.assertIn("capturas", cuerpo.group(1))
+
 
 class TestElInyectorNoSeCalla(unittest.TestCase):
     """Un contenedor `data-gen` declarado que no casa rompe el build.
@@ -1134,7 +1149,9 @@ class TestElInyectorNoSeCalla(unittest.TestCase):
             destino = Path(tmp)
             self.rud_con(destino, '<tbody data-gen="rud"></tbody>')
             self.assertEqual(sorted(R.inyectar_prerenderizado(destino, self.ctx)),
-                             ["rud", "rud-sello"], "la primera pasada ya falló")
+                             ["rud", "rud-chips", "rud-grafico", "rud-nota",
+                              "rud-resumen", "rud-sello"],
+                             "la primera pasada ya falló")
             with self.assertRaises(LookupError) as repetida:
                 R.inyectar_prerenderizado(destino, self.ctx)
         aviso = str(repetida.exception)
@@ -1411,20 +1428,436 @@ class TestTablaRud(unittest.TestCase):
         self.assertIn("—", fila)
 
     def test_el_javascript_ya_no_construye_las_filas(self):
+        """Ni las filas, ni el gráfico, ni los chips, ni la prosa del pie: al
+        navegador le quedan el filtro, el orden, la paginación y el recuento
+        vivo. Lo que se borró no se guarda comentado — el blame es el archivo."""
         js = (Path(__file__).parent.parent / "site/rud.js").read_text(encoding="utf-8")
         self.assertIn("tablaHidratada", js)
         self.assertNotIn("tablaBuscable", js)
         self.assertNotIn("<tr>", js)
+        self.assertNotIn("graficoFamilias", js)
+        self.assertNotIn("altasDiarias", js)
+        self.assertNotIn("Object.freeze", js)
+        self.assertNotIn("todavía sin evaluar", js)
+        self.assertNotIn('getElementById("generado")', js)
 
     def test_el_marcador_existe(self):
         html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
-        self.assertIn('<tbody data-gen="rud">', html)
+        self.assertIn('<tbody data-gen="rud"></tbody>', html)
 
     def test_el_grafico_explica_las_dos_series_y_la_primera_captura(self):
         html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
         self.assertIn("acumulado y nuevas por día", html)
         self.assertIn("desde la captura anterior", html)
         self.assertIn("El primer día no tiene una captura", html)
+
+
+class TestGraficoRud(unittest.TestCase):
+    """La columna es el cambio entre capturas, nunca el acumulado repetido.
+
+    **Portados de `tests/test_frontend.py`**, donde llamaban por `node` a
+    `rud.js::graficoFamilias`. El gráfico lo dibuja ahora el build, así que las
+    mismas aserciones se hacen sobre el SVG que se sirve — y dejan de estar
+    bajo `@skipUnless(NODE)`: el guardián del riesgo más difícil de ver de esta
+    fase —un gráfico que se dibuja y miente— ya no depende de que el runner
+    tenga node."""
+
+    SERIE = [{"fecha": "2026-08-16", "familias": 100, "municipios": 2},
+             {"fecha": "2026-08-17", "familias": 130, "municipios": 3},
+             {"fecha": "2026-08-18", "familias": 145, "municipios": 4}]
+
+    @staticmethod
+    def svg(serie):
+        return R.grafico_rud({"rud": {"serie": serie}})
+
+    def test_altas_son_diferencias_y_el_primer_dia_no_inventa_una(self):
+        self.assertEqual(R._altas_diarias(self.SERIE), [None, 30, 15])
+
+    def test_svg_combina_columnas_y_curva_con_valores_visibles(self):
+        svg = self.svg(self.SERIE)
+        self.assertIn('data-altas="30"', svg)
+        self.assertIn('data-altas="15"', svg)
+        self.assertNotIn('data-altas="100"', svg)
+        self.assertIn(">+30</text>", svg)
+        self.assertIn(">+15</text>", svg)
+        self.assertIn("sin base", svg)
+        self.assertIn("Total acumulado", svg)
+        self.assertIn("Nuevas desde captura anterior", svg)
+        self.assertIn('aria-labelledby="rud-chart-title rud-chart-desc"', svg)
+
+    def test_una_correccion_a_la_baja_no_se_convierte_en_cero(self):
+        """El más valioso del grupo: distingue «bajó» de «no hay dato». Un
+        registro también se corrige a la baja, y pintarlo como cero —o no
+        pintarlo— borraría la corrección (R3, R16)."""
+        svg = self.svg([{"fecha": "2026-08-16", "familias": 100, "municipios": 2},
+                        {"fecha": "2026-08-17", "familias": 90, "municipios": 2}])
+        self.assertIn('data-altas="-10"', svg)
+        self.assertIn(">-10</text>", svg)
+        self.assertIn("--critical", svg)
+
+    # ------------------------------------- lo que gana el gráfico al portarse
+    def test_el_eje_no_esta_del_reves(self):
+        """En SVG la `y` crece hacia abajo, así que MÁS familias es MENOS `y`.
+        Un signo invertido dibuja una serie que baja mientras el registro sube
+        y no lo delata ningún número: el SVG se ve perfecto y miente."""
+        svg = self.svg(self.SERIE)
+        ys = [float(v) for v in re.findall(
+            r'<circle cx="[\d.]+" cy="([\d.]+)" r="5"', svg)]
+        self.assertEqual(len(ys), len(self.SERIE), "falta algún punto de la curva")
+        self.assertEqual(ys, sorted(ys, reverse=True),
+                         "la curva del acumulado baja mientras las familias suben")
+
+    def test_el_grafico_sigue_el_tema_y_no_congela_ningun_color(self):
+        """`ui.cssVar()` resolvía la variable a un color literal en el momento
+        de dibujar: el SVG salía con los colores del tema que hubiera puesto y
+        se quedaba así. Al escribirlo el build, un color literal quedaría
+        además congelado en el archivo."""
+        svg = self.svg(self.SERIE)
+        self.assertIn("var(--good)", svg)
+        self.assertIn("var(--muted)", svg)
+        self.assertEqual(re.findall(r'(?:fill|stroke)="(#[0-9a-fA-F]+)"', svg), [],
+                         "un color literal dentro del SVG congela el tema claro")
+
+    def test_el_desc_narra_la_serie_entera_dia_a_dia(self):
+        """Son las ~80 palabras indexables que justifican el porte: hoy solo
+        existían en la memoria del navegador. Crecen solas con la serie."""
+        desc = re.search(r'<desc id="rud-chart-desc">(.*?)</desc>',
+                         self.svg(self.SERIE), re.S).group(1)
+        for d in self.SERIE:
+            self.assertIn(R.fecha_larga(d["fecha"]), desc)
+        self.assertIn("sin captura anterior", desc)
+        self.assertIn("acumuladas", desc)
+
+    def test_el_desc_del_dato_real_tiene_un_dia_por_punto(self):
+        serie = R.contexto()["rud"]["serie"]
+        desc = re.search(r'<desc id="rud-chart-desc">(.*?)</desc>',
+                         R.grafico_rud(R.contexto()), re.S).group(1)
+        self.assertEqual(len(re.findall(r"\d+ de \w+ de \d{4}", desc)), len(serie))
+
+    def test_sin_serie_no_se_dibuja_un_lienzo_vacio_ni_se_devuelve_nada(self):
+        """M10: una cadena vacía dejaría el contenedor `data-gen` vacío y el
+        build lo daría por bueno; un SVG sin puntos sería peor todavía."""
+        for rud in ({"serie": []}, {}, None):
+            with self.subTest(rud=rud):
+                salida = R.grafico_rud({"rud": rud})
+                self.assertTrue(salida.strip())
+                self.assertNotIn("<svg", salida)
+
+    def test_el_grafico_llega_dibujado_al_artefacto(self):
+        """La comprobación de fondo de todo el paso: `rud.html` pasa de servir
+        cero `<svg>` a servir uno."""
+        html = (ROOT / "dist" / "rud.html")
+        if not html.exists():
+            self.skipTest("no hay dist/ construido")
+        self.assertEqual(html.read_text(encoding="utf-8").count("<svg"), 1)
+
+
+class TestChipsDelRud(unittest.TestCase):
+    """El recuento del chip y la etiqueta de la fila salen del mismo predicado.
+
+    Vivían separados —el array `CHIPS` de `site/rud.js` contaba las filas ya
+    escritas, y `filas_rud` las etiquetaba con su propia copia de las
+    condiciones—, así que nada impedía que «Nuevos (49)» filtrase otra cosa
+    (M2). `CHIPS_RUD` es ahora la única definición."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.chips = R.chips_rud(cls.ctx)
+        cls.filas = R.filas_rud(cls.ctx)
+
+    def test_el_recuento_del_chip_es_el_de_las_etiquetas_de_fila(self):
+        """El guardián de la divergencia: cuenta lo que dice el botón y lo que
+        hay escrito en las filas, y compara."""
+        dichos = dict(re.findall(r'data-chip="(\w+)"[^>]*>[^<]*\((\d[\d.]*)\)</button>',
+                                 self.chips))
+        self.assertEqual(set(dichos), {c[0] for c in R.CHIPS_RUD},
+                         "algún chip dejó de decir su recuento")
+        total = len(self.ctx["rud"]["municipios"])
+        for clave, dicho in dichos.items():
+            with self.subTest(chip=clave):
+                n = int(dicho.replace(".", ""))
+                etiquetadas = (total if clave == "todos" else
+                               len(re.findall(rf'data-chips="[^"]*\b{clave}\b',
+                                              self.filas)))
+                self.assertEqual(n, etiquetadas,
+                                 f"«{clave}»: el chip dice {n} y hay {etiquetadas} "
+                                 f"filas etiquetadas")
+
+    def test_los_cuatro_chips_dicen_algo_y_ninguno_sale_a_cero_por_error(self):
+        for clave, etiqueta, _, _ in R.CHIPS_RUD:
+            with self.subTest(chip=clave):
+                self.assertIn(f'data-chip="{clave}"', self.chips)
+                self.assertIn(etiqueta, self.chips)
+
+    def test_el_chip_declara_su_estado_de_las_dos_maneras(self):
+        """`styles.css` funde `.chip.activa` y `.chip[aria-pressed="true"]` en un
+        solo selector: la clase estiliza, el atributo lo anuncia el lector de
+        pantalla. El build las pinta juntas y el navegador las mueve juntas."""
+        self.assertIn('class="chip activa" data-chip="todos" aria-pressed="true"',
+                      self.chips)
+        self.assertEqual(self.chips.count('aria-pressed="false"'),
+                         len(R.CHIPS_RUD) - 1)
+        js = (ROOT / "site" / "rud.js").read_text(encoding="utf-8")
+        self.assertIn('setAttribute("aria-pressed"', js)
+        self.assertIn('classList.toggle("activa"', js)
+
+    def test_el_javascript_ya_no_define_los_chips(self):
+        """Dejar las dos definiciones es M2 el día uno."""
+        js = (ROOT / "site" / "rud.js").read_text(encoding="utf-8")
+        self.assertNotIn("const CHIPS", js)
+        # el atributo lo ESCRIBE el build; el navegador solo lee `dataset.chip`
+        self.assertNotIn('data-chip="', js)
+        for _, etiqueta, tip, _ in R.CHIPS_RUD:
+            if tip:
+                self.assertNotIn(tip, js, "la explicación del chip vuelve a "
+                                          "estar en dos sitios")
+            if " " in etiqueta:   # «Todos» y «Nuevos» son palabras corrientes
+                self.assertNotIn(etiqueta, js,
+                                 "el rótulo del chip vuelve a estar en dos sitios")
+
+
+class TestEntradillaRud(unittest.TestCase):
+    """La frase que resume la página, con el hallazgo que no se publicaba.
+
+    El RUD no se está estabilizando y no crece por donde parece: la mayor parte
+    del último salto es revisión al alza de municipios ya registrados, no
+    municipios nuevos. Cualquier total suyo es un mínimo provisional (R16)."""
+
+    SERIE = [{"fecha": "2026-08-20", "familias": 1000, "personas": 2000,
+              "municipios": 10, "viv_destruidas": 5, "viv_averiadas": 7},
+             {"fecha": "2026-08-21", "familias": 1300, "personas": 2600,
+              "municipios": 12, "viv_destruidas": 8, "viv_averiadas": 9}]
+    DETALLE = {
+        "2026-08-20": [{"departamento": "CHOCÓ", "municipio": "QUIBDÓ", "familias": 600},
+                       {"departamento": "VALLE DEL CAUCA", "municipio": "CALI",
+                        "familias": 400}],
+        "2026-08-21": [{"departamento": "CHOCÓ", "municipio": "QUIBDÓ", "familias": 780},
+                       {"departamento": "VALLE DEL CAUCA", "municipio": "CALI",
+                        "familias": 450},
+                       {"departamento": "CALDAS", "municipio": "ANSERMA", "familias": 70}],
+    }
+
+    def entradilla(self, **cambios):
+        rud = {"serie": self.SERIE, "detalle_diario": self.DETALLE}
+        rud.update(cambios)
+        return R.entradilla_rud({"rud": rud})
+
+    def test_las_cifras_son_las_de_la_ultima_captura(self):
+        texto = self.entradilla()
+        for n in ("1.300", "2.600", "12", "8", "9"):
+            self.assertIn(n, texto)
+        self.assertIn("21 de agosto de 2026", texto,
+                      "una cifra del RUD sin su corte miente en 48 horas (M7)")
+
+    def test_el_desglose_del_salto_se_calcula_y_suma_el_salto(self):
+        """230 de revisión (180 de Quibdó + 50 de Cali) y 70 de un municipio
+        nuevo: 300, que es justo lo que subió la serie."""
+        texto = self.entradilla()
+        self.assertIn("300 familias", texto)
+        self.assertIn("230", texto)
+        self.assertIn("70", texto)
+        self.assertIn("primera vez", texto)
+
+    def test_el_rotulo_de_minimo_provisional_no_falta(self):
+        self.assertIn("mínimo provisional", self.entradilla())
+
+    def test_sin_segunda_captura_la_frase_del_salto_se_retira_entera(self):
+        """No queda un «de las — familias»: la oración desaparece."""
+        texto = self.entradilla(serie=self.SERIE[-1:])
+        self.assertNotIn("De las", texto)
+        self.assertNotIn("primera vez", texto)
+        self.assertNotIn("—", texto.replace("—<b>", "").replace("</b>—", ""))
+        self.assertIn("mínimo provisional", texto)
+
+    def test_sin_detalle_diario_tampoco_se_inventa_el_reparto(self):
+        texto = self.entradilla(detalle_diario={})
+        self.assertNotIn("De las", texto)
+        self.assertIn("1.300", texto)
+
+    def test_un_desglose_que_no_cuadra_no_se_publica(self):
+        """M7: aritmética que no cierra no se imprime.
+
+        El detalle justifica 170 (100 de revisión en Quibdó y 70 de un
+        municipio nuevo) y la serie dice +300: el detalle diario y la serie ya
+        no hablan del mismo corte. Las DOS mitades del contraste existen aquí a
+        propósito —revisión y nuevos son mayores que cero—, para que lo único
+        que pueda rechazar la frase sea la suma. La primera versión de este
+        test caía antes en el otro guardián y pasaba en verde con el de la
+        aritmética desconectado."""
+        detalle = {"2026-08-20": self.DETALLE["2026-08-20"],
+                   "2026-08-21": [{"departamento": "CHOCÓ", "municipio": "QUIBDÓ",
+                                   "familias": 700},
+                                  {"departamento": "VALLE DEL CAUCA",
+                                   "municipio": "CALI", "familias": 400},
+                                  {"departamento": "CALDAS", "municipio": "ANSERMA",
+                                   "familias": 70}]}
+        reparto = R._salto_del_rud({"serie": self.SERIE, "detalle_diario": detalle})
+        self.assertIsNone(reparto, "un reparto que no suma su propio total")
+        self.assertNotIn("De las", self.entradilla(detalle_diario=detalle))
+
+    def test_si_el_salto_no_tiene_las_dos_mitades_no_hay_frase_que_contar(self):
+        """La oración termina afirmando que lo que crece son los municipios ya
+        contados. Si el salto entero viene de municipios nuevos, esa conclusión
+        es falsa: la frase no se corrige, se retira (M10)."""
+        detalle = {"2026-08-20": self.DETALLE["2026-08-20"],
+                   "2026-08-21": self.DETALLE["2026-08-20"] +
+                   [{"departamento": "CALDAS", "municipio": "ANSERMA",
+                     "familias": 300}]}
+        self.assertIsNone(R._salto_del_rud({"serie": self.SERIE,
+                                            "detalle_diario": detalle}))
+        texto = self.entradilla(detalle_diario=detalle)
+        self.assertNotIn("De las", texto)
+        self.assertNotIn("son los municipios ya contados", texto)
+
+    def test_sin_ninguna_captura_lo_dice_y_jamas_devuelve_vacio(self):
+        """Era el aviso que `rud.js` escribía en el navegador: quien no ejecuta
+        JavaScript no lo leía nunca. Y una cadena vacía rompería el build."""
+        for rud in ({"serie": []}, {}, None):
+            with self.subTest(rud=rud):
+                texto = R.entradilla_rud({"rud": rud})
+                self.assertTrue(texto.strip())
+                self.assertIn("Todavía no hay ninguna captura", texto)
+
+    def test_una_cifra_ausente_se_calla_y_no_se_convierte_en_cero(self):
+        """M10/R3: sin viviendas cargadas no hay «0 viviendas destruidas»."""
+        serie = [dict(self.SERIE[-1], viv_destruidas=None, viv_averiadas=None)]
+        texto = R.entradilla_rud({"rud": {"serie": serie}})
+        self.assertNotIn("viviendas", texto)
+        self.assertNotIn(" 0 ", texto)
+        self.assertIn("1.300", texto)
+
+    def test_el_dato_real_cuadra_con_la_serie_publicada(self):
+        """Segunda vía sobre lo que se va a publicar de verdad (M8)."""
+        ctx = R.contexto()
+        serie = ctx["rud"]["serie"]
+        salto = R._salto_del_rud(ctx["rud"])
+        self.assertIsNotNone(salto, "el desglose del salto real dejó de cuadrar")
+        self.assertEqual(round(salto["nuevos"] + salto["revision"]),
+                         round(serie[-1]["familias"] - serie[-2]["familias"]))
+        self.assertIn(R.fmt(salto["revision"]), R.entradilla_rud(ctx))
+
+
+class TestNotaRud(unittest.TestCase):
+    """El pie de la tabla: la prosa invariante la escribe el build, el recuento
+    vivo se queda en el navegador. Ni una palabra en los dos sitios."""
+
+    def test_dice_lo_que_no_depende_de_ningun_filtro(self):
+        nota = R.nota_rud(R.contexto())
+        self.assertIn("La columna Δ compara con la captura anterior", nota)
+        self.assertIn("Serie iniciada el", nota)
+        self.assertIn("todavía sin evaluar", nota)
+
+    def test_no_se_lleva_el_recuento_vivo(self):
+        """Sabe cuántos municipios hay, pero no cuántos quedan filtrados: eso
+        solo lo sabe el navegador."""
+        nota = R.nota_rud(R.contexto())
+        self.assertNotIn("filtros activos", nota)
+        self.assertNotIn("de 15 en 15", nota)
+
+    def test_la_advertencia_de_puntos_reconstruidos_es_condicional(self):
+        """R11: el día que no quede ningún punto reconstruido, la frase
+        desaparece sola. Nadie tiene que acordarse de borrarla."""
+        serie = [{"fecha": "2026-08-20"}, {"fecha": "2026-08-21"}]
+        self.assertNotIn("puntos huecos", R.nota_rud({"rud": {"serie": serie}}))
+        con = [dict(serie[0], reconstruido=True), serie[1]]
+        self.assertIn("puntos huecos", R.nota_rud({"rud": {"serie": con}}))
+
+    def test_el_literal_no_vive_ya_en_el_javascript(self):
+        """La nota duplicada era el riesgo 4 de la fase: dos redacciones de lo
+        mismo, y el día que una cambiara la página diría dos cosas."""
+        js = (ROOT / "site" / "rud.js").read_text(encoding="utf-8")
+        self.assertNotIn("todavía sin evaluar", js)
+        self.assertNotIn("Serie iniciada", js)
+        self.assertNotIn("La columna Δ", js)
+
+    def test_sin_serie_no_devuelve_vacio(self):
+        for rud in ({"serie": []}, {}, None):
+            with self.subTest(rud=rud):
+                self.assertTrue(R.nota_rud({"rud": rud}).strip())
+
+
+class TestPiezasDelRudLleganEscritas(unittest.TestCase):
+    """Los cinco contenedores de `rud.html` llegan llenos al artefacto.
+
+    Se ejecuta el inyector de verdad sobre el HTML del repositorio, que es como
+    se construye `dist/`: así cae también si alguien quita la marca, mete un
+    salto de línea entre la apertura y el cierre, cambia la etiqueta del
+    contenedor o desconecta el generador."""
+
+    CLAVES = ("rud-sello", "rud-resumen", "rud-grafico", "rud-chips", "rud-nota")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        shutil.copy(ROOT / "site" / "rud.html", cls.tmp / "rud.html")
+        cls.hechas = R.inyectar_prerenderizado(cls.tmp, R.contexto())
+        cls.html = (cls.tmp / "rud.html").read_text(encoding="utf-8")
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def cuerpo(self, clave: str) -> str:
+        m = re.search(rf'<(tbody|ul|span|section)[^>]*\bdata-gen="{clave}"[^>]*>'
+                      rf'(.*?)</\1>', self.html, re.S)
+        self.assertTrue(m, f"«{clave}» ya no está en site/rud.html")
+        return m.group(2)
+
+    def test_los_cinco_contenedores_llegan_no_vacios(self):
+        for clave in self.CLAVES:
+            with self.subTest(clave=clave):
+                self.assertIn(clave, self.hechas,
+                              f"el inyector no reconoció «{clave}»")
+                self.assertTrue(self.cuerpo(clave).strip(),
+                                f"«{clave}» quedó vacío en el artefacto")
+
+    def test_el_grafico_es_un_svg_de_verdad(self):
+        cuerpo = self.cuerpo("rud-grafico")
+        self.assertIn("<svg", cuerpo)
+        self.assertIn("<desc", cuerpo)
+
+    def test_el_marcador_va_vacio_en_el_repositorio(self):
+        """Todo contenedor marcado se versiona vacío, y con la apertura pegada
+        al cierre: un salto de línea y la marca no casa."""
+        fuente = (ROOT / "site" / "rud.html").read_text(encoding="utf-8")
+        for etiqueta, clave in (("section", "rud-resumen"), ("section", "rud-grafico"),
+                                ("section", "rud-chips"), ("span", "rud-nota")):
+            with self.subTest(clave=clave):
+                self.assertRegex(
+                    fuente,
+                    rf'<{etiqueta}[^>]*\bdata-gen="{clave}"[^>]*></{etiqueta}>')
+
+    def test_el_recuento_vivo_sigue_teniendo_su_hueco_vacio(self):
+        """`#rud-nota` lo escribe el navegador con cada filtro; si lo llenara el
+        build, la primera pulsación lo borraría."""
+        fuente = (ROOT / "site" / "rud.html").read_text(encoding="utf-8")
+        self.assertIn('<p class="note" id="rud-nota"></p>', fuente)
+
+
+class TestEspejoDeDiaMes(unittest.TestCase):
+    """`dia_mes` es el cuarto helper de formato que vive en los dos lenguajes.
+
+    El eje del gráfico lo rotulaba `UI.diaMes` en el navegador; ahora lo escribe
+    el build. Si divergen, el mismo día se leería distinto según quién dibuje."""
+
+    FECHAS = ("2026-08-10", "2026-01-01", "2026-12-31", "2026-09-05", "")
+
+    def test_el_formato_es_el_esperado(self):
+        self.assertEqual(R.dia_mes("2026-08-18"), "18-ago")
+        self.assertEqual(R.dia_mes("2026-01-01"), "1-ene")
+        self.assertEqual(R.dia_mes(None), "—")
+
+    def test_el_eje_no_repite_el_ano_que_ya_declara_el_grafico(self):
+        self.assertNotIn("2026", R.dia_mes("2026-08-18"))
+
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_es_espejo_ejecutado_de_ui_js(self):
+        for iso in self.FECHAS:
+            with self.subTest(iso=iso):
+                self.assertEqual(correr_ui(f"UI.diaMes({json.dumps(iso)})"),
+                                 R.dia_mes(iso),
+                                 "diaMes ha divergido entre ui.js y render_html.py")
 
 
 class TestBalances(unittest.TestCase):

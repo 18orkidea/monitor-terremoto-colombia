@@ -303,9 +303,19 @@
       (b.search_date || "").localeCompare(a.search_date || "") ||
       metricCount(b) - metricCount(a));
 
-    document.getElementById("balance-resumen").textContent =
-      `${fmt(selected.length)} de ${fmt(items.length)} capturas · ` +
-      `actualizado el ${fechaLarga(feed.generated_at)}`;
+    // Solo el recuento de lo filtrado. La fecha la decía aquí también —«30 de
+    // 30 capturas · actualizado el 22 de agosto de 2026», sacada de
+    // `generated_at`— y era la fecha de la CORRIDA presentada como la del
+    // dato: exactamente la confusión que el sello del encabezado acaba de
+    // separar tres centímetros más arriba, en esta misma página. Dos frases
+    // sobre la misma fecha diciendo cosas distintas. El sello dice las dos
+    // —hasta dónde llega el rastreo y cuándo se construyó— y las dice una sola
+    // vez (M2); este contador cuenta capturas, que es lo suyo.
+    const resumen = document.getElementById("balance-resumen");
+    if (resumen) {
+      resumen.textContent =
+        `${fmt(selected.length)} de ${fmt(items.length)} capturas`;
+    }
 
     // filas cuyas cifras alimentan la serie/tarjetas: el snapshot elegido de
     // cada día — marcadas para que la selección sea auditable a simple vista

@@ -124,6 +124,17 @@ def fecha_larga(iso: str) -> str:
             if m else (iso or "—"))
 
 
+def dia_mes(iso: str) -> str:
+    """«18-ago»: solo para ejes de gráfico, donde no cabe ni la forma corta.
+
+    El año lo declara el propio gráfico, así que repetirlo en cada punto del eje
+    roba el sitio que necesitan las etiquetas. Espejo exacto de `UI.diaMes` en
+    site/ui.js — si tocas una, mira la otra; `tests/test_render_html.py` las
+    ejecuta y compara."""
+    m = _FECHA.match(iso or "")
+    return f"{int(m[3])}-{_MESES[int(m[2]) - 1]}" if m else (iso or "—")
+
+
 def _solo_fecha(iso):
     """La parte «AAAA-MM-DD» de un ISO, o None si no la hay.
 
@@ -1766,6 +1777,367 @@ def nota_mirada_portada(ctx: dict) -> str:
             f"la comunidad ha documentado {fmt_prosa(ciu)}</strong>")
 
 
+# ------------------------------------------------ los filtros rápidos del RUD
+# Los cuatro chips, con su rótulo, su explicación y su predicado, en UN solo
+# sitio. Antes vivían partidos: `site/rud.js` traía el array `CHIPS` con las
+# condiciones para contar las filas ya escritas, y `filas_rud` traía aquí su
+# propia copia de esas mismas condiciones para etiquetar cada fila. Dos
+# definiciones de lo mismo en dos lenguajes (M2): el día que una cambiara, el
+# chip diría «Nuevos (49)» y filtraría otra cosa, y nada lo habría avisado.
+# Ahora el recuento del chip y la etiqueta de la fila salen del mismo
+# predicado, y `tests/test_render_html.py::TestChipsDelRud` los compara.
+CHIPS_RUD = (
+    ("todos", "Todos", None, lambda m: True),
+    ("nuevos", "Nuevos",
+     "Municipios que aparecieron por primera vez en la última captura",
+     lambda m: bool(m.get("nuevo"))),
+    ("crecieron", "Crecieron en la última captura",
+     "Su registro subió respecto a la captura anterior: siguen registrando",
+     lambda m: (m.get("delta_familias") or 0) > 0),
+    ("destruidas", "Con viviendas destruidas",
+     "El municipio ya ha cargado viviendas destruidas. Que un municipio no salga "
+     "aquí puede ser que aún no las haya evaluado",
+     lambda m: (m.get("viv_destruidas") or 0) > 0),
+)
+
+
+def _chips_de(m: dict) -> list:
+    """Los filtros a los que pertenece un municipio.
+
+    «todos» no etiqueta nada: es el chip que no filtra, y escribirlo en cada
+    fila sería ruido en 207 atributos."""
+    return [clave for clave, _, _, cumple in CHIPS_RUD
+            if clave != "todos" and cumple(m)]
+
+
+def chips_rud(ctx: dict) -> str:
+    """La tira de filtros de la tabla del RUD, con su recuento.
+
+    El número entre paréntesis lo contaba el navegador sobre las filas ya
+    escritas; ahora lo cuenta el build sobre el mismo dato del que salen las
+    etiquetas. Quien no ejecuta JavaScript leía cuatro botones sin números —o
+    ninguno, si algo antes había fallado— y ahora lee la composición del
+    registro sin pulsar nada.
+
+    `aria-pressed` acompaña a la clase `activa`: son las dos mecánicas del
+    mismo estado y `styles.css` las funde en un solo selector; el navegador
+    sigue moviendo las dos al pulsar."""
+    munis = (ctx["rud"] or {}).get("municipios") or []
+    botones = []
+    for clave, etiqueta, tip, cumple in CHIPS_RUD:
+        activo = clave == "todos"
+        botones.append(
+            f'<button class="chip{" activa" if activo else ""}"'
+            f' data-chip="{clave}" aria-pressed="{"true" if activo else "false"}"'
+            + (f' title="{e(tip)}"' if tip else "")
+            + f'>{e(etiqueta)} ({fmt(sum(1 for m in munis if cumple(m)))})</button>')
+    return "".join(botones)
+
+
+def _salto_del_rud(rud: dict):
+    """Cómo se reparte el último salto de familias del RUD.
+
+    La pregunta editorial no es cuánto creció, sino POR DÓNDE: un registro que
+    crece porque aparecen municipios nuevos se está acercando a su cobertura
+    final; uno que crece porque los municipios ya contados suben sus cifras no
+    se está estabilizando, y cualquier total suyo es un mínimo provisional
+    (R16). Se calcula recorriendo `detalle_diario` municipio a municipio, con
+    la clave `(departamento, municipio)` y nunca por nombre normalizado: unir
+    por nombre es el error de 206 familias que ya se cazó con «Guadalajara de
+    Buga» (R10, M8).
+
+    Devuelve None —y la frase desaparece entera— si no hay con qué compararse o
+    si el reparto no cuadra con el salto de la serie. Un desglose que no suma
+    su propio total no se publica (M7): es aritmética, y si falla es que el
+    detalle diario y la serie ya no hablan del mismo corte."""
+    serie = rud.get("serie") or []
+    detalle = rud.get("detalle_diario") or {}
+    if len(serie) < 2:
+        return None
+    hoy, ayer = serie[-1].get("fecha"), serie[-2].get("fecha")
+    if hoy not in detalle or ayer not in detalle:
+        return None
+    antes = {(x.get("departamento"), x.get("municipio")): (x.get("familias") or 0)
+             for x in detalle[ayer]}
+    nuevos = revision = 0.0
+    municipios_nuevos = 0
+    for x in detalle[hoy]:
+        clave = (x.get("departamento"), x.get("municipio"))
+        familias = x.get("familias") or 0
+        if clave in antes:
+            revision += familias - antes[clave]
+        else:
+            nuevos += familias
+            municipios_nuevos += 1
+    salto = (serie[-1].get("familias") or 0) - (serie[-2].get("familias") or 0)
+    if round(nuevos + revision) != round(salto):
+        # R11: el supuesto roto avisa, no rompe la corrida (R13) ni publica un
+        # desglose que no cuadra.
+        print(f"AVISO: el desglose del salto del RUD ({nuevos + revision:.0f}) no "
+              f"cuadra con la serie ({salto:.0f}); la frase no se publica")
+        return None
+    if nuevos <= 0 or revision <= 0 or municipios_nuevos <= 0:
+        # La oración que se construye con esto termina afirmando que lo que
+        # crece son los municipios ya contados. Si al salto le falta una de sus
+        # dos mitades, esa conclusión deja de ser cierta: la frase no se
+        # corrige con un cero, se retira entera (M10).
+        return None
+    return {"salto": salto, "nuevos": nuevos, "revision": revision,
+            "municipios_nuevos": municipios_nuevos}
+
+
+def entradilla_rud(ctx: dict) -> str:
+    """La frase que resume la página bajo el titular, con el hallazgo dentro.
+
+    Todo sale de `serie[-1]` y de `detalle_diario`; ni una cifra se escribe a
+    mano. Va en `fmt` y no en `fmt_prosa` a propósito: la oración existe para
+    el contraste entre 16.155 y 3.179, y las letras lo disuelven.
+
+    **M10**: donde falta el dato se calla ese trozo. Si no hay ni una captura,
+    lo dice con palabras — devolver cadena vacía rompería el build, y era
+    además el mensaje que `rud.js` escribía en el navegador cuando el JSON no
+    llegaba: quien no ejecuta JavaScript no lo leía nunca."""
+    rud = ctx["rud"] or {}
+    serie = rud.get("serie") or []
+    if not serie:
+        return ("<p>Todavía no hay ninguna captura del registro oficial de "
+                "damnificados. La serie y el detalle municipal se publican en "
+                "cuanto la UNGRD abra el primer corte.</p>")
+    ult = serie[-1]
+    familias, personas = ult.get("familias"), ult.get("personas")
+    if familias is not None and personas is not None:
+        sujeto = (f'<b>{fmt(familias)} familias</b> damnificadas '
+                  f'—<b>{fmt(personas)} personas</b>—')
+    elif familias is not None:
+        sujeto = f'<b>{fmt(familias)} familias</b> damnificadas'
+    elif personas is not None:
+        sujeto = f'<b>{fmt(personas)} personas</b> damnificadas'
+    else:
+        sujeto = None
+    municipios = ult.get("municipios")
+    if sujeto and municipios is not None:
+        cabeza = f'El registro oficial suma {sujeto} en <b>{fmt(municipios)} municipios</b>'
+    elif sujeto:
+        cabeza = f'El registro oficial suma {sujeto}'
+    elif municipios is not None:
+        cabeza = f'El registro oficial cubre <b>{fmt(municipios)} municipios</b>'
+    else:
+        cabeza = None
+
+    destruidas, averiadas = ult.get("viv_destruidas"), ult.get("viv_averiadas")
+    if destruidas is not None and averiadas is not None:
+        viviendas = (f'<b>{fmt(destruidas)} viviendas destruidas</b> y '
+                     f'<b>{fmt(averiadas)} averiadas</b>')
+    elif destruidas is not None:
+        viviendas = f'<b>{fmt(destruidas)} viviendas destruidas</b>'
+    elif averiadas is not None:
+        viviendas = f'<b>{fmt(averiadas)} viviendas averiadas</b>'
+    else:
+        viviendas = None
+
+    frases = []
+    if cabeza:
+        # La fecha del corte viaja DENTRO de la frase: es el párrafo que se cita
+        # suelto, lejos del sello del encabezado, y una cifra del RUD sin su
+        # corte miente en 48 horas (M7).
+        corte = (f', en la captura del {fecha_larga(ult["fecha"])}'
+                 if ult.get("fecha") else "")
+        frases.append(cabeza + (f', con {viviendas}' if viviendas else "") + corte + ".")
+    elif viviendas:
+        frases.append(f'El registro oficial ha cargado {viviendas}.')
+    frases.append("Es un <b>mínimo provisional</b>, no un balance cerrado.")
+
+    salto = _salto_del_rud(rud)
+    if salto:
+        frases.append(
+            f'De las {fmt(salto["salto"])} familias que entraron en la última '
+            f'captura, <b>{fmt(salto["revision"])} son revisión al alza de '
+            f'municipios que ya estaban registrados</b> y solo '
+            f'{fmt(salto["nuevos"])} llegan de los '
+            f'{fmt(salto["municipios_nuevos"])} que aparecieron por primera vez: '
+            f'lo que crece no es la cola del registro, son los municipios ya '
+            f'contados.')
+    return "<p>" + " ".join(frases) + "</p>"
+
+
+def nota_rud(ctx: dict) -> str:
+    """El pie de la tabla: la prosa que no depende de ningún filtro.
+
+    El recuento vivo —«15 de 207 municipios con los filtros activos»— se queda
+    en el navegador, que es el único que sabe qué hay filtrado. Aquí vive lo
+    que vale igual con la página recién abierta o con tres filtros puestos, y
+    vive SOLO aquí: si el literal siguiera además en `rud.js`, el día que uno
+    cambiara la página diría dos cosas (M2)."""
+    rud = ctx["rud"] or {}
+    serie = rud.get("serie") or []
+    partes = ["La columna Δ compara con la captura anterior"]
+    if serie and serie[-1].get("fecha"):
+        partes[0] += ('; «nuevo» marca los municipios que aparecieron por primera '
+                      f'vez el {fecha_larga(serie[-1]["fecha"])}')
+    partes[0] += "."
+    if serie and serie[0].get("fecha"):
+        partes.append(f'Serie iniciada el {fecha_larga(serie[0]["fecha"])}.')
+    partes.append("Un cero en las columnas de viviendas puede significar «todavía "
+                  "sin evaluar», no «sin daño».")
+    # R11: la advertencia se apaga sola el día que no quede ningún punto
+    # reconstruido. No es un literal que alguien tenga que acordarse de borrar.
+    if any(d.get("reconstruido") for d in serie):
+        partes.append("Los puntos huecos de la curva no son capturas del RUD: se "
+                      "reconstruyeron desde otra evidencia archivada porque ese día "
+                      "se perdió la corrida, y de ellos solo se conoce el total, no "
+                      "el detalle municipal.")
+    return " ".join(partes)
+
+
+def _n(v) -> str:
+    """Un número dentro del SVG, sin la cola decimal que no aporta nada.
+
+    Las familias del RUD llegan como flotantes (`21275.0`), y un
+    `data-altas="19334.0"` no es lo que nadie escribiría a mano ni lo que
+    espera quien lea el atributo."""
+    f = float(v)
+    return str(int(f)) if f == int(f) else f"{f:.2f}".rstrip("0").rstrip(".")
+
+
+def _altas_diarias(serie: list) -> list:
+    """Lo que entró desde la captura anterior, día a día.
+
+    El primer día no inventa un alta: sin captura previa el dato no existe, y
+    un 0 diría «ese día no entró nadie» (R3)."""
+    altas = []
+    for i, d in enumerate(serie):
+        previo = serie[i - 1].get("familias") if i else None
+        altas.append(None if not i or d.get("familias") is None or previo is None
+                     else d["familias"] - previo)
+    return altas
+
+
+def grafico_rud(ctx: dict) -> str:
+    """El gráfico de familias del RUD, SVG estático escrito en el build.
+
+    Porte de `rud.js::graficoFamilias`, con el precedente de `mapa_svg()`: lo
+    dibujaba el navegador, así que la página servía un `<div>` vacío y su
+    `<desc>` —ochenta y tantas palabras que narran la serie día a día, la única
+    prosa del sitio que crece sola con el dato— no lo leía nadie más que quien
+    ejecutaba JavaScript.
+
+    Las dos dependencias del navegador MEJORAN al portarse:
+
+    · `ui.cssVar()` resolvía la variable CSS a un color literal y lo congelaba
+      dentro del SVG: el gráfico salía siempre con los colores del tema que
+      estuviera puesto al dibujarlo. Aquí se emite `var(--…)`, que es lo que la
+      hoja de estilos espera, y el gráfico sigue el tema oscuro como el resto.
+    · `clientWidth` medía la caja para elegir el ancho; el `viewBox` ya hace el
+      SVG fluido, así que el lienzo es 900 fijo y el ancho lo pone el CSS.
+
+    **No se tocan los colores**: `--s8` significa hoy dos cosas —SERTIT y RUD—
+    y unificar la clave de color va en su propia fase. Lo que sí cambia es que
+    a partir de ahora esa ambigüedad queda escrita en el artefacto."""
+    serie = (ctx["rud"] or {}).get("serie") or []
+    if not serie:
+        # M10: sin serie no hay gráfico que dibujar, y un lienzo vacío sería
+        # peor que decirlo. La entradilla ya cuenta lo mismo con más detalle.
+        return ("<p class=\"note\">Sin ninguna captura del RUD todavía no hay "
+                "serie que dibujar.</p>")
+    W, H = 900, 230
+    m_t, m_r, m_b, m_l = 38, 70, 38, 64
+    altas = _altas_diarias(serie)
+    cambios = [v for v in altas if v is not None]
+    max_total = max([1] + [d.get("familias") or 0 for d in serie] + cambios)
+    min_cambio = min([0] + cambios)
+    techo = max_total * 1.1
+    piso = min_cambio * 1.1 if min_cambio < 0 else 0
+
+    def x(i):
+        return W / 2 if len(serie) == 1 else m_l + i * (W - m_l - m_r) / (len(serie) - 1)
+
+    def y(v):
+        return m_t + (H - m_t - m_b) * (1 - (v - piso) / (techo - piso))
+
+    y0 = y(0)
+    paso = (W - m_l - m_r) / max(1, len(serie) - 1)
+    ancho_barra = min(44, paso * 0.44)
+    descripcion = ". ".join(
+        f'{fecha_larga(d.get("fecha"))}: sin captura anterior para calcular '
+        f'nuevas inscripciones' if altas[i] is None else
+        f'{fecha_larga(d.get("fecha"))}: {fmt(altas[i])} familias desde la '
+        f'captura anterior; {fmt(d.get("familias"))} acumuladas'
+        for i, d in enumerate(serie))
+    ticks = [piso, 0, techo] if piso < 0 else [0, techo / 2, techo]
+
+    o = [f'<svg viewBox="0 0 {W} {H}" width="100%" xmlns="http://www.w3.org/2000/svg"'
+         f' role="img" aria-labelledby="rud-chart-title rud-chart-desc">',
+         '<title id="rud-chart-title">Familias registradas en el RUD: total '
+         'acumulado y nuevas inscripciones</title>',
+         f'<desc id="rud-chart-desc">{e(descripcion)}</desc>']
+    for v in ticks:
+        yy = y(v)
+        o.append(f'<line x1="{_n(m_l)}" x2="{_n(W - m_r)}" y1="{_n(yy)}" '
+                 f'y2="{_n(yy)}" stroke="var(--grid)"/>'
+                 f'<text x="{_n(m_l - 6)}" y="{_n(yy + 4)}" text-anchor="end" '
+                 f'font-size="10" fill="var(--muted)">{fmt(round(v))}</text>')
+
+    # Las barras van primero para que la curva acumulada permanezca legible encima.
+    for i, valor in enumerate(altas):
+        if valor is None:
+            o.append(f'<text x="{_n(x(i))}" y="{_n(y0 - 7)}" text-anchor="middle" '
+                     f'font-size="9" fill="var(--muted)">sin base</text>')
+            continue
+        yy = y(valor)
+        # Una corrección a la baja NO es un cero ni un hueco: se pinta con el
+        # color de alarma y con su signo, porque el registro también se corrige
+        # hacia abajo y eso es información (R3, R16).
+        color = "var(--critical)" if valor < 0 else "var(--s8)"
+        etiqueta = ("+" if valor > 0 else "") + fmt(valor)
+        o.append(
+            f'<rect x="{_n(x(i) - ancho_barra / 2)}" y="{_n(min(yy, y0))}" '
+            f'width="{_n(ancho_barra)}" height="{_n(max(1, abs(y0 - yy)))}" rx="2" '
+            f'fill="{color}" fill-opacity="0.28" stroke="{color}" '
+            f'data-altas="{_n(valor)}">'
+            f'<title>{e(fecha_larga(serie[i].get("fecha")))}: {etiqueta} familias '
+            f'desde la captura anterior</title></rect>'
+            f'<text x="{_n(x(i))}" y="{_n(yy + 13 if valor < 0 else yy - 6)}" '
+            f'text-anchor="middle" font-size="10" font-weight="600" '
+            f'fill="{color}">{etiqueta}</text>')
+
+    linea = " ".join(f'{"L" if i else "M"} {_n(x(i))} {_n(y(d.get("familias") or 0))}'
+                     for i, d in enumerate(serie))
+    o.append(f'<path d="{linea}" fill="none" stroke="var(--good)" stroke-width="2.5"/>')
+    for i, d in enumerate(serie):
+        # el punto reconstruido se pinta hueco: no es una captura del endpoint
+        rec = d.get("reconstruido")
+        cy = y(d.get("familias") or 0)
+        discontinua = ' stroke-dasharray="3 2"' if rec else ""
+        origen = (e("; punto reconstruido: " + str(d.get("origen") or ""))
+                  if rec else "")
+        o.append(
+            f'<circle cx="{_n(x(i))}" cy="{_n(cy)}" r="5" '
+            f'fill="{"var(--surface-1)" if rec else "var(--good)"}" '
+            f'stroke="var(--good)" stroke-width="{2.5 if rec else 2}"'
+            f'{discontinua}>'
+            f'<title>{e(fecha_larga(d.get("fecha")))}: {fmt(d.get("familias"))} '
+            f'familias acumuladas, {fmt(d.get("municipios"))} municipios'
+            f'{origen}</title></circle>'
+            f'<text x="{_n(x(i))}" y="{_n(cy - 10)}" text-anchor="middle" '
+            f'font-size="11" font-weight="600" fill="var(--good)">'
+            f'{fmt(d.get("familias"))}</text>'
+            f'<text x="{_n(x(i))}" y="{_n(H - m_b + 16)}" text-anchor="middle" '
+            f'font-size="10" fill="var(--muted)">{dia_mes(d.get("fecha"))}</text>')
+
+    lx = m_l
+    o.append(
+        f'<rect x="{_n(lx)}" y="7" width="12" height="9" rx="2" fill="var(--s8)" '
+        f'fill-opacity="0.28" stroke="var(--s8)"/>'
+        f'<text x="{_n(lx + 18)}" y="15" font-size="10" fill="var(--ink-2)">'
+        f'Nuevas desde captura anterior</text>'
+        f'<line x1="{_n(lx + 207)}" x2="{_n(lx + 227)}" y1="12" y2="12" '
+        f'stroke="var(--good)" stroke-width="2.5"/>'
+        f'<circle cx="{_n(lx + 217)}" cy="12" r="3.5" fill="var(--good)"/>'
+        f'<text x="{_n(lx + 234)}" y="15" font-size="10" fill="var(--ink-2)">'
+        f'Total acumulado</text></svg>')
+    return "".join(o)
+
+
 def filas_rud(ctx: dict) -> str:
     """El registro oficial municipio a municipio, escrito en el HTML.
 
@@ -1779,13 +2151,9 @@ def filas_rud(ctx: dict) -> str:
     filas = []
     for m in sorted(rud["municipios"], key=lambda x: x.get("personas") or 0, reverse=True):
         nombre, depto = m["municipio"], m["departamento"]
-        etiquetas = []
-        if m.get("nuevo"):
-            etiquetas.append("nuevos")
-        if (m.get("delta_familias") or 0) > 0:
-            etiquetas.append("crecieron")
-        if (m.get("viv_destruidas") or 0) > 0:
-            etiquetas.append("destruidas")
+        # el MISMO predicado que cuenta el chip de arriba: si la etiqueta de la
+        # fila y el número del chip salieran de dos sitios, divergirían (M2)
+        etiquetas = _chips_de(m)
         # valor por columna, en el mismo orden que el <thead>: permite ordenar
         # sobre el DOM sin volver a leer el JSON
         valores = [nombre, m.get("familias"), m.get("personas"), m.get("poblacion_2026"),
@@ -2071,14 +2439,20 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "portada-sello": sello_portada,
                    "municipios-sello": sello_municipios,
                    "rud-sello": sello_rud,
-                   "balances-sello": sello_balances}
+                   "balances-sello": sello_balances,
+                   "rud-resumen": entradilla_rud,
+                   "rud-grafico": grafico_rud,
+                   "rud-chips": chips_rud,
+                   "rud-nota": nota_rud}
     # explícito a propósito: un generador nuevo sin su página revienta aquí en
     # vez de no escribir nada y dejar el contenedor vacío en silencio
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
                "balances": "balances", "noticias": "noticias",
                "mirada-portada": "index", "brechas": "index",
                "portada-sello": "index", "municipios-sello": "municipios",
-               "rud-sello": "rud", "balances-sello": "balances"}
+               "rud-sello": "rud", "balances-sello": "balances",
+               "rud-resumen": "rud", "rud-grafico": "rud",
+               "rud-chips": "rud", "rud-nota": "rud"}
     for nombre, generador in generadores.items():
         pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():

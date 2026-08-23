@@ -1628,3 +1628,61 @@ Consecuencia: `TestElInyectorNoSeCalla`, con las tres averías y el caso que **n
 avería — un `dist/` parcial, como el que arma `TestBandaDeBrechas` con solo la portada:
 una página que no está se sigue saltando. Lo que rompe es el contenedor que falta en una
 página que sí está.
+
+## 2026-08-23 — Las cifras del RUD y su gráfico pasan al build
+
+Contexto: `rud.html` servía un `<div>` vacío donde el navegador dibujaba el gráfico, una
+tira de chips vacía, y ninguna cifra en prosa. Quien no ejecuta JavaScript —todo
+rastreador de sistemas de IA— leía la tabla y nada más. Dentro de aquel gráfico vivía un
+`<desc>` de 77 palabras que narra la serie día a día, la única prosa del sitio que crece
+sola con el dato, **y no la leía nadie**.
+
+Decisión: cuatro generadores nuevos por el mecanismo `data-gen` (`rud-resumen`,
+`rud-grafico`, `rud-chips`, `rud-nota`), y ninguna etiqueta de sitio cambia de sitio —el
+reorden de la página es un paso aparte—.
+
+- **La entradilla publica el hallazgo que no estaba en ninguna parte.** De las 19.334
+  familias del último salto, **16.155 son revisión al alza de municipios ya registrados y
+  solo 3.179 vienen de los 49 nuevos**: el RUD no crece por la cola, crecen los ya
+  contados. Se calcula recorriendo `detalle_diario` con la clave `(departamento,
+  municipio)` —nunca por nombre normalizado, que es el error de 206 familias de
+  «Guadalajara de Buga» (R10, M8)— y el total se rotula **«mínimo provisional»** (R16).
+  El desglose **no se publica si no suma su propio salto** (M7) ni si le falta una de sus
+  dos mitades: la oración termina afirmando que lo que crece son los municipios ya
+  contados, y con el salto entero en municipios nuevos esa conclusión sería falsa (M10).
+- **Los predicados de los chips salen a `CHIPS_RUD` + `_chips_de(m)`, compartidos con
+  `filas_rud`.** Vivían partidos —el array `CHIPS` de `rud.js` contaba filas, `filas_rud`
+  las etiquetaba con su propia copia—, así que nada impedía que «Nuevos (49)» filtrase
+  otra cosa (M2). La definición **desaparece de `rud.js`**: dejar las dos era M2 el día uno.
+- **La nota del pie se parte por lo que es invariante, no por lo que es cómodo.** La
+  prosa —qué compara la columna Δ, cuándo empezó la serie, que un cero puede ser
+  «todavía sin evaluar»— la escribe el build; **el recuento vivo se queda en el
+  navegador**, que es el único que sabe qué hay filtrado. Cero literales duplicados.
+- **El gráfico se porta a Python** con el precedente de `mapa_svg()`. Las dos
+  dependencias del navegador mejoran al portarse: `ui.cssVar()` resolvía la variable a un
+  color literal y **congelaba el tema claro dentro del SVG**, y ahora se emite
+  `var(--…)`, así que el gráfico sigue el tema oscuro; `clientWidth` pasa a 900 fijo
+  porque el `viewBox` ya lo hace fluido. **Los colores no se tocan**: `--s8` significa hoy
+  dos cosas —SERTIT y RUD— y unificar la clave de color va en su propia fase; lo que
+  cambia es que a partir de ahora esa ambigüedad queda escrita en el artefacto.
+- **El contador de balances deja de fechar el dato.** `#balance-resumen` decía «30 de 30
+  capturas · actualizado el 22 de agosto de 2026» desde `generated_at` —la corrida, no el
+  corte del rastreo—: la misma confusión que el sello acababa de separar tres centímetros
+  más arriba, en la misma página. La fecha vive en el sello y solo ahí (M2).
+
+Consecuencia: los tres tests de `TestGraficoRud` **se portan a Python sin perder una
+aserción** —incluido el de la corrección a la baja (`data-altas="-10"`, `--critical`),
+que distingue «bajó» de «no hay dato»— y de paso dejan de estar bajo `@skipUnless(NODE)`.
+Se suman `TestChipsDelRud`, `TestEntradillaRud`, `TestNotaRud`,
+`TestPiezasDelRudLleganEscritas` y `TestEspejoDeDiaMes` (`dia_mes` es el cuarto helper de
+formato que vive en dos lenguajes). 555 → 588 tests. Las catorce mutaciones caen (M1);
+**una decimoquinta sobrevivió y su test se tiró y se rehizo**: el desglose que no cuadra
+se rechazaba antes por el otro guardián, así que el de la aritmética estaba sin vigilar.
+`rud.html` pasa de **0 a 1 `<svg>`** servido y de 2.832 a **3.210 palabras**; las otras
+cuatro páginas, sin mover una.
+
+Laguna medida y no corregida aquí: a 375 px los rótulos del gráfico caen de un efectivo
+**4,57 px a 3,46 px** al fijar el lienzo en 900. Los dos son ilegibles y el problema es
+anterior, pero **el porte lo empeora un 24 %**. La solución conocida está al lado —las
+media queries de `.mapa-estatico`, que hacen CRECER la letra en pantalla estrecha— y es
+un cambio visible: va con el reorden de la página, no colado aquí.

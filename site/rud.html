@@ -42,6 +42,8 @@
   </div>
 </header>
 
+<section class="entradilla" data-gen="rud-resumen"></section><!-- lo rellena deploy/render_html.py en el build -->
+
 <section class="intro">
   <p>El RUD es el registro con el que se focalizan las ayudas: <strong>lo cargan las
   autoridades municipales</strong>, municipio a municipio, y la UNGRD lo consolida. No es
@@ -77,12 +79,12 @@
   <p class="sub">La línea muestra el total acumulado. Las columnas muestran cuántas
     familias se añadieron desde la captura anterior. El primer día no tiene una captura
     previa con la que compararse.</p>
-  <div id="rud-chart"></div>
+  <section id="rud-chart" data-gen="rud-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
 </section>
 
 <section class="page-section">
   <h2>Detalle municipal</h2>
-  <div class="chips" id="rud-chips" role="group" aria-label="Filtros de la tabla"></div>
+  <section class="chips" id="rud-chips" role="group" aria-label="Filtros de la tabla" data-gen="rud-chips"></section><!-- lo rellena deploy/render_html.py en el build -->
   <div class="filtros">
     <input id="rud-buscar" type="search"
       placeholder="Buscar municipio o departamento…"
@@ -104,6 +106,7 @@
   </table></div>
   <nav id="paginado" class="paginado" aria-label="Paginación de municipios del RUD"></nav>
   <p class="note" id="rud-nota"></p>
+  <p class="note" id="rud-pie-tabla"><span data-gen="rud-nota"></span></p><!-- lo rellena deploy/render_html.py en el build -->
 </section>
 
 <script src="ui.js?v=dev"></script>
