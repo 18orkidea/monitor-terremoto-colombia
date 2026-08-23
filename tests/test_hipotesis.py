@@ -441,6 +441,73 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                 hashlib.sha256(f.read_bytes()).hexdigest(), sha,
                 f"{ruta}: el cuerpo cambió desde que se registró")
 
+    def test_un_304_apunta_a_un_cuerpo_que_sigue_estando(self):
+        """Un 304 dice «lo mismo que ya tienes». Si eso que ya teníamos
+        desapareciera, la fila estaría afirmando la vigencia de un cuerpo que
+        nadie puede leer — y el ahorro habría costado el archivo.
+
+        El régimen fuerte mira las filas 200 con cuerpo; este es su reverso:
+        las filas SIN cuerpo que apuntan al de otro día.
+        """
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        filas = q("SELECT url, snapshot_path, sha256, bytes FROM sources_log"
+                  " WHERE http_status=304")
+        if not filas:
+            self.skipTest("ninguna fuente ha contestado 304 todavía")
+        import hashlib
+        rotos = []
+        for url, spath, sha, bytes_ in filas:
+            if bytes_:
+                rotos.append(f"{url}: un 304 no trae cuerpo, y declara "
+                             f"{bytes_} bytes")
+            if sha is None or spath is None:
+                # 304 a una petición sin validadores: R13, se registra como el
+                # hecho raro que es y no afirma nada del archivo
+                if sha is not None or spath is not None:
+                    rotos.append(f"{url}: 304 a medias — o certifica un cuerpo "
+                                 f"con su sha Y su ruta, o no certifica nada")
+                continue
+            f = ROOT / spath
+            if not f.exists():
+                rotos.append(f"{spath}: la fila del 304 lo declara vigente y "
+                             f"no está")
+            elif hashlib.sha256(f.read_bytes()).hexdigest() != sha:
+                rotos.append(f"{spath}: el cuerpo que el 304 declaró vigente "
+                             f"ya no es el que dice el log")
+        self.assertFalse(rotos, "304 sin cuerpo detrás: " + "; ".join(rotos[:5]))
+
+    def test_la_carpeta_del_dia_no_miente_sobre_lo_que_no_contiene(self):
+        """`reutilizados.txt` es la copia legible de lo que dice el log: sin un
+        guardián, las dos superficies divergen (M2). Cada línea tiene que
+        corresponder a una fila que apunte a ese mismo cuerpo."""
+        from common import REUTILIZADOS
+        indices = sorted((ROOT / "data" / "snapshots").glob(f"*/{REUTILIZADOS}"))
+        if not indices:
+            self.skipTest("ningún día ha reutilizado un cuerpo todavía")
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        registradas = {(r[0], r[1]) for r in q(
+            "SELECT snapshot_path, sha256 FROM sources_log"
+            " WHERE snapshot_path IS NOT NULL AND sha256 IS NOT NULL")}
+        malas = []
+        for f in indices:
+            for linea in f.read_text(encoding="utf-8").splitlines():
+                if not linea or linea.startswith("#"):
+                    continue
+                partes = linea.split("\t")
+                if len(partes) != 3:
+                    malas.append(f"{f}: línea ilegible «{linea[:60]}»")
+                    continue
+                _, spath, sha = partes
+                if (spath, sha) not in registradas:
+                    malas.append(f"{f}: apunta a {spath} y el log no lo dice")
+                elif not (ROOT / spath).exists():
+                    malas.append(f"{f}: apunta a {spath}, que no está")
+        self.assertFalse(malas, "; ".join(malas[:5]))
+
     def test_snapshot_de_copernicus_existe(self):
         snaps = list((ROOT / "data" / "snapshots").glob("*/copernicus_EMSR916.json"))
         if not DB.exists():

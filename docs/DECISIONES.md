@@ -6,6 +6,114 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — Se pregunta antes de descargar, y un contenido idéntico no se archiva dos veces
+
+**Contexto (medido sobre las 4.277 filas de `sources_log`, 15 a 23-ago-2026).**
+`fetch()` descargaba el cuerpo entero siempre: ni `If-None-Match`, ni
+`If-Modified-Since`, ni manejo de 304. El coste:
+
+- `data/snapshots/` ocupa 205 MB, de los que **63,7 MB (31 %) son contenido
+  byte-idéntico repetido**: 1.512 ficheros para 1.327 cuerpos distintos.
+- De **283 URLs pedidas más de una vez, 164 devuelven siempre lo mismo**. No es
+  un caso raro: es más de la mitad del archivo diario.
+- El peor caso son las **16 capas vectoriales de Copernicus: 128 descargas para
+  16 cuerpos**, 57,4 MB tirados. Ninguna ha cambiado nunca.
+
+**Y la separación que lo hace seguro, que está en el código y no en una
+intuición.** El **índice** de la activación (`public-activations/?code=EMSR916`)
+se ha pedido 346 veces y ha devuelto **2 contenidos distintos**: cambia, y es
+quien revela los productos nuevos. Las **capas** no cambian porque Copernicus
+**versiona en la URL** — `..._notAnalysedA_v2.json` —: un producto revisado no
+muta de contenido, **aparece como URL nueva**, y quien la revela es el índice.
+Dejar de descargar dos veces una capa ya archivada no puede costar un producto.
+
+**Decisión.**
+
+1. **Peticiones condicionales.** Si el archivo tiene una copia utilizable de esa
+   URL, `fetch()` manda sus validadores. Un 304 no trae cuerpo: **cero bytes**.
+2. **Un 304 no es «no hubo petición».** Deja su fila en `sources_log` con
+   `http_status` 304, `bytes` 0 y el `sha256`/`snapshot_path` de la copia
+   vigente. Un historiador tiene que poder ver que **ese día preguntamos y la
+   fuente contestó que lo mismo** — que es información, no ausencia (R4).
+3. **Al llamante le llega el cuerpo vigente con su 200.** `copernicus_layers`
+   reconstruye las capas públicas con el cuerpo de cada respuesta y hace
+   `if not gj: continue`: un 304 vacío habría borrado del mapa las 16 capas el
+   primer día que la fuente dijera «sin cambios». El 304 es un hecho de la red y
+   vive en el log, que es donde el archivo guarda la verdad de la red.
+4. **Solo se pregunta condicionalmente por lo que se puede servir del archivo.**
+   `copia_vigente()` exige fichero en disco **y** sha256 que cuadre con el log.
+   Es el invariante que sostiene todo: sin él, un 304 podría dejar al llamante
+   sin cuerpo o al log con un sha sin nada detrás.
+5. **Un contenido idéntico no se archiva dos veces.** Cuando la fuente no
+   soporta condicionales y manda 200 con un cuerpo ya archivado, la fila apunta
+   a la copia existente y no se escribe fichero nuevo. **La regla es por
+   contenido y por URL, jamás una lista de fuentes «estáticas»**: de las 283
+   URLs repetidas, 119 sí cambian, y una fuente quieta hoy puede moverse mañana.
+
+**Dónde viven los validadores: dos columnas en `sources_log`, no una tabla
+aparte.** El ETag es *lo que dijo esa respuesta*, igual que `sha256` o `bytes`:
+pertenece a la fila. Una tabla de estado por URL sería una segunda copia de algo
+que el log ya sabe, y toda segunda copia diverge (M2). Se añaden por
+`MIGRACIONES` (nacen en NULL sobre las 4.277 filas viejas: un NULL ahí significa
+exactamente «ese día no se lo preguntamos»), viajan solas en el volcado —`dump`
+vuelca lo que declara `PRAGMA table_info`— y **no entran en la clave de
+deduplicación de `dump_db.CLAVES_ACUMULATIVAS`**, que sigue siendo la tupla de
+siete columnas: meterlas ahí habría reventado el primer `dump()` contra el CSV
+versionado, que aún no las tiene. Un dump de ayer se sigue reconstruyendo tal
+cual, porque `rebuild` inserta por nombre de columna.
+`test_unit.py::test_un_dump_viejo_sin_validadores_se_sigue_reconstruyendo`
+
+**Esto no cruza el Principio de archivo.** Nada se sobrescribe y nada se migra:
+deja de escribirse una copia redundante de algo que ya está archivado, con su
+sha256 y su fila. Es el principio dicho de otra manera — *un contenido que no
+cambia es un activo, no un dato archivable*.
+
+**Consecuencia visible, y cómo se lee.** Quien abra `data/snapshots/2026-08-24/`
+ya no encontrará ahí la capa de Copernicus: la copia viva es la del 15. Lo
+explican dos superficies, con un test que impide que se separen (M2):
+`sources_log` (índice completo, versionado en `data/dumps/sources_log.csv`) y un
+**`reutilizados.txt` en la propia carpeta del día** —nombre que habría tenido,
+ruta de la copia vigente, sha256—, porque el índice no puede exigir que el
+lector del futuro sepa que existe un sqlite.
+
+**Lo que casi cuesta el cambio, y se arregló de paso.** Dos sitios leían el
+cuerpo de la carpeta de HOY en vez del vigente. Uno era inocuo; el otro,
+`gdacs.emm_items()`, alimenta el emparejamiento por topónimo de `crosscheck`: el
+primer día que GDACS repitiera su feed se habría quedado sin un solo titular y
+**los AOI que solo tienen prensa habrían retrocedido a «pendiente» en silencio**.
+Se añade `common.ultimo_snapshot(nombre)` —una sola implementación de «el cuerpo
+vigente, sea de qué día sea», que `geo.grid_mmi_vigente` ya hacía por su cuenta
+(M2)— y un test estructural que recorre todo `ingest/` buscando el patrón, no el
+caso. El reverso también está pinchado: la cronología institucional NO puede
+resolver un día reutilizado con el cuerpo vigente, o repetiría el mismo aviso
+cada día.
+
+**Lo que avisa (R11).** `alerts.py::cambios_en_peticiones_condicionales` canta,
+**agregado**, tres cambios: una fuente que **estrena** el 304 (buena noticia),
+una que **deja de honrarlo** y vuelve a mandar los mismos megas, y una que
+contesta 304 **sin que le preguntáramos** —contrato roto: esa fila se queda sin
+sha y sin ruta, porque no afirma nada sobre nuestro archivo (R13)—. Agregado a
+propósito: 16 alertas idénticas el día que Copernicus empiece a contestar 304 se
+las salta quien las lee.
+
+**Lo que NO se sabe todavía, y se sabrá solo.** Cuántas fuentes soportan
+condicionales no se puede comprobar sin red y no se ha comprobado. Lo que sí
+consta: las capas —el mayor sumando, 57,4 MB— las sirve
+`rapidmapping-viewer.s3.eu-west-1.amazonaws.com`, un bucket S3, que devuelve
+ETag y Last-Modified por contrato. Desde la próxima corrida, la respuesta deja
+de ser una conjetura y pasa a ser una consulta:
+`SELECT url, etag IS NOT NULL FROM sources_log WHERE ts LIKE '<día>%'`.
+
+**Números.** En los ocho días medidos, con las fuentes honrando los validadores
+se habrían evitado **223,9 MB** de descarga (75,0 de la ingesta diaria y 148,9
+de las sondas de contrato, que reinterrogan las mismas URLs). Independientemente
+de eso —y aunque ninguna fuente soporte el 304— dejan de escribirse **213
+ficheros y 83,2 MB** de copias: en un día de corrida completa, 31 de 137
+snapshots. El 2.647 MB restante del archivo es otra cosa y no la arregla este
+mecanismo: son los vídeos ciudadanos, que se rebajan en R2 y no viajan en git,
+así que en el runner nunca están en disco y se vuelven a descargar enteros.
+Anotado en `docs/LIMITACIONES.md`.
+
 ## 2026-08-23 — La barra dice «Datos del terremoto»; el sismo baja al encabezado
 
 Contexto: la barra de las 213 páginas se presentaba con «Monitor de brechas» sobre una

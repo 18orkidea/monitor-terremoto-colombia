@@ -42,6 +42,26 @@ cuando faltan, el manifiesto podría desfasarse durante meses en la máquina del
 mantenedor y saltar únicamente en CI. Un cuerpo fuera de git y fuera del
 manifiesto no es recuperable ni auditable, y el test lo trata como roto.
 
+## Los vídeos ciudadanos se vuelven a descargar enteros cada día (24-ago-2026)
+
+Consecuencia del punto anterior, medida sobre `sources_log`: los `.mp4` y demás
+audiovisuales están en `.gitignore`, así que **el runner de la corrida diaria
+empieza cada día con `data/media/` vacía**. `chatmap.py` solo se salta la
+descarga si el fichero existe en disco (`dest.exists()`), y en CI nunca existe:
+el cuerpo ya archivado en R2 se vuelve a pedir entero.
+
+En los ocho días medidos son **2.647 MB de 3.931**, o sea **dos tercios de todo
+lo que el monitor ha descargado en su vida**, para reescribir bytes que ya
+estaban archivados y verificados por sha256. Un solo vídeo de 59,6 MB se ha
+descargado seis veces.
+
+Las peticiones condicionales de `fetch()` **no lo arreglan**: por diseño, solo
+se pregunta con validadores por un cuerpo que se pueda servir del archivo local,
+y estos no están ahí. La salida sería que el guardián de `chatmap.py` consulte
+el archivo (`citizen_reports.media_sha256` / `sources_log`) en vez del sistema
+de ficheros — un medio ya registrado con su sha no hay que volver a pedirlo—,
+pero eso toca la cadena de archivo en R2 y su manifiesto, y se decide aparte.
+
 ## La serie consolidada de balances no se puede descargar entera
 
 `data/public/alerts.json` publica el consolidado **del último día** —con la fecha, el

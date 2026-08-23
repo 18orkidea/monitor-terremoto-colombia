@@ -96,15 +96,18 @@ def grid_mmi_vigente(snapshot_hoy=None):
     import hashlib
     import json
 
-    from common import SNAPSHOTS, snapshot_dir
+    from common import snapshot_dir, ultimo_snapshot
 
     candidatos = []
     if snapshot_hoy is None:
         snapshot_hoy = snapshot_dir()
     if snapshot_hoy is not None:
         candidatos.append(snapshot_hoy)
-    if SNAPSHOTS.exists():
-        candidatos += sorted(SNAPSHOTS.iterdir(), reverse=True)
+    # el resto del recorrido lo hace `ultimo_snapshot`: una sola
+    # implementación de «el cuerpo vigente, sea de qué día sea» (M2)
+    vigente = ultimo_snapshot("usgs_mmi_grid.covjson")
+    if vigente is not None:
+        candidatos.append(vigente.parent)
     for d in candidatos:
         f = d / "usgs_mmi_grid.covjson"
         if f.exists():

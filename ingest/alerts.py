@@ -265,6 +265,80 @@ def codigos_de_evento_imposibles(conn, hoy: str, *, paquete: str | None = None) 
     return fuera
 
 
+def cambios_en_peticiones_condicionales(conn, hoy: str) -> list[dict]:
+    """¿Cambió alguna fuente su forma de contestar a `If-None-Match`?
+
+    Desde el 24-ago-2026 el monitor pregunta antes de descargar: si ya tiene
+    una copia utilizable de una URL, manda sus validadores y un 304 le ahorra
+    el cuerpo entero. Que una fuente empiece a soportarlo es BUENA noticia y
+    hay que verla; que deje de hacerlo cuesta megas y también.
+
+    R11 — avisa, no rompe. Y avisa AGREGADO: el día que Copernicus empiece a
+    contestar 304, serían 16 alertas idénticas, y una alerta que se repite
+    dieciséis veces la acaba silenciando quien la lee.
+    """
+    hoy_pfx = f"{hoy}%"
+    trescientos_cuatro = {r[0] for r in conn.execute(
+        "SELECT DISTINCT url FROM sources_log"
+        " WHERE http_status=304 AND ts LIKE ?", (hoy_pfx,))}
+    antes = {r[0] for r in conn.execute(
+        "SELECT DISTINCT url FROM sources_log"
+        " WHERE http_status=304 AND ts NOT LIKE ?", (hoy_pfx,))}
+    avisos = []
+
+    estrenan = sorted(trescientos_cuatro - antes)
+    if estrenan:
+        avisos.append({
+            "tipo": "fuentes_con_peticion_condicional", "nivel": "info",
+            "texto": (f"{len(estrenan)} URL(s) contestaron hoy por primera vez "
+                      f"«304 sin cambios»: preguntar sale gratis y el cuerpo no "
+                      f"se descarga. Ejemplo: {estrenan[0]}"),
+            "urls": estrenan[:10], "n": len(estrenan)})
+
+    # Dejó de honrarlos: ayer contestaba 304 y hoy manda 200 con lo mismo. Se
+    # detecta por el cuerpo, no por la cabecera: da igual qué diga el servidor
+    # si acaba mandando otra vez los mismos megas.
+    reincidentes = []
+    for url in sorted(antes - trescientos_cuatro):
+        fila = conn.execute(
+            "SELECT sha256, bytes FROM sources_log WHERE url=? AND ts LIKE ?"
+            " AND http_status=200 ORDER BY id DESC LIMIT 1",
+            (url, hoy_pfx)).fetchone()
+        if not fila or not fila[0]:
+            continue
+        previo = conn.execute(
+            "SELECT sha256 FROM sources_log WHERE url=? AND ts NOT LIKE ?"
+            " AND sha256 IS NOT NULL ORDER BY id DESC LIMIT 1",
+            (url, hoy_pfx)).fetchone()
+        if previo and previo[0] == fila[0]:
+            reincidentes.append((url, fila[1] or 0))
+    if reincidentes:
+        megas = sum(b for _, b in reincidentes) / 1e6
+        avisos.append({
+            "tipo": "fuente_deja_de_honrar_condicionales", "nivel": "media",
+            "texto": (f"{len(reincidentes)} URL(s) que antes contestaban 304 "
+                      f"volvieron a mandar el cuerpo entero sin haber cambiado "
+                      f"({megas:.1f} MB). Ejemplo: {reincidentes[0][0]}"),
+            "urls": [u for u, _ in reincidentes[:10]],
+            "n": len(reincidentes), "bytes": sum(b for _, b in reincidentes)})
+
+    # Un 304 sin sha es un 304 que llegó sin que preguntáramos: la fuente
+    # afirma «sin cambios» sobre algo que no le planteamos. No rompe nada
+    # (R13) y el llamante degrada, pero es un contrato roto y se canta.
+    sin_pedir = [r[0] for r in conn.execute(
+        "SELECT DISTINCT url FROM sources_log WHERE http_status=304"
+        " AND sha256 IS NULL AND ts LIKE ?", (hoy_pfx,))]
+    if sin_pedir:
+        avisos.append({
+            "tipo": "trescientos_cuatro_sin_preguntar", "nivel": "media",
+            "texto": (f"{len(sin_pedir)} URL(s) contestaron «304 sin cambios» a "
+                      f"una petición que no llevaba validadores: no dicen nada "
+                      f"sobre el cuerpo que tenemos archivado, así que ese día "
+                      f"queda sin captura. Ejemplo: {sin_pedir[0]}"),
+            "urls": sin_pedir[:10], "n": len(sin_pedir)})
+    return avisos
+
+
 def run(copernicus_summary: dict | None = None) -> list[dict]:
     conn = db()
     snap = today()
@@ -459,6 +533,13 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                       f"hizo el 20-ago-2026."),
             "municipio": muni, "producto": pid})
 
+    # 9) ¿cambió alguna fuente su forma de contestar a una petición
+    # condicional? Un supuesto del monitor sobre sus propias fuentes: avisa,
+    # no rompe (R11), y una consulta rota no puede tumbar la corrida (R13).
+    try:
+        alerts.extend(cambios_en_peticiones_condicionales(conn, snap))
+    except sqlite3.OperationalError:
+        pass
 
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}
     if balance_consolidado:

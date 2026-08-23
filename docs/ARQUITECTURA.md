@@ -28,6 +28,27 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
 
 - **`ingest/common.py`** es el corazón: `fetch()` (única puerta a la red: log +
   sha256 + snapshot), esquema sqlite, `to_num` (NA≠0).
+  - **Pregunta antes de descargar.** Si el archivo ya tiene una copia utilizable
+    de esa URL, `fetch()` manda `If-None-Match` con su ETag y `If-Modified-Since`
+    con su Last-Modified (guardados en `sources_log.etag` / `.last_modified`).
+    Un **304 no descarga cuerpo y deja igualmente su fila**, con `http_status`
+    304, `bytes` 0 y el `sha256`/`snapshot_path` de la copia vigente: preguntar
+    y que contesten «lo mismo» es un hecho sobre la fuente, y se archiva como
+    tal. Al llamante le llega el cuerpo vigente con su 200 — si un 304 llegara
+    vacío, el día que Copernicus dijera «sin cambios» el mapa perdería sus 16
+    capas. `common.py::copia_vigente` · `test_unit.py::TestPeticionesCondicionales`
+  - **Solo se pregunta condicionalmente por lo que se puede servir del archivo**:
+    `copia_vigente()` exige que el fichero esté en disco y que su sha256 cuadre
+    con el log. Los vídeos ciudadanos viven en R2 y no en el repo, así que por
+    ellos no se pregunta: se descargan como siempre. Es el invariante que impide
+    que un 304 deje al llamante sin cuerpo o al log con un sha sin nada detrás.
+  - **Un contenido idéntico no se archiva dos veces.** Si la fuente no soporta
+    condicionales y manda 200 con un cuerpo que ya está archivado, la fila
+    apunta a la copia existente y **no se escribe un fichero nuevo**. Nada se
+    sobrescribe ni se migra: deja de escribirse una copia redundante. La regla
+    es **por contenido y por URL, nunca por una lista de fuentes «estáticas»** —
+    una fuente que hoy no cambia puede cambiar mañana y el mecanismo se entera
+    solo.
 - **`ingest/run_daily.py`** orquesta: cada fuente es un `step()` que puede fallar sin
   tumbar la corrida (R13).
 - **`ingest/crosscheck.py`** aplica la cadena de estados por AOI:
@@ -60,13 +81,50 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   `<td>`**, cada valor en su elemento (`valor_suelto()`)—, porque lo que queda
   debajo de esa capa deja de poder seleccionarse y pierde su `title`.
 
+## Cómo se lee `data/snapshots/<día>/`
+
+La carpeta de un día contiene **los cuerpos que ese día llegaron nuevos**, no
+todo lo que ese día se pidió. Desde el 24-ago-2026, un cuerpo que la fuente
+devuelve idéntico al que ya teníamos no se vuelve a escribir: la copia viva es
+la del día en que apareció.
+
+Eso lo dicen dos superficies, y un test vigila que no se separen (M2):
+
+1. **`sources_log` es el índice completo** — toda petición tiene su fila, con
+   `snapshot_path` apuntando al cuerpo vigente aunque sea de otro día. Es lo que
+   se consulta para responder «¿qué se pidió el 24 de agosto?»:
+
+   ```sql
+   SELECT ts, url, http_status, bytes, snapshot_path
+     FROM sources_log WHERE ts LIKE '2026-08-24%';
+   ```
+
+   Versionado y legible sin sqlite en `data/dumps/sources_log.csv`.
+
+2. **`reutilizados.txt`, dentro de la propia carpeta del día** — una línea por
+   cuerpo que no está ahí: nombre que habría tenido, ruta de la copia vigente y
+   sha256. Existe porque quien abra `data/snapshots/2026-08-24/` dentro de
+   veinte años y no encuentre la capa de Copernicus **no tiene por qué saber que
+   existe una base de datos**: la carpeta se explica sola.
+   `test_hipotesis.py::test_la_carpeta_del_dia_no_miente_sobre_lo_que_no_contiene`
+
+**Consecuencia para quien lee el archivo desde el código**: «el fichero de hoy»
+y «el cuerpo vigente» dejaron de ser lo mismo. Para leer un snapshot se usa
+`common.ultimo_snapshot(nombre)`, nunca `snapshot_dir() / nombre` —eso último es
+para escribir, y solo lo hace `fetch()`—. Hay un test estructural que lo vigila
+en todo `ingest/`: `test_unit.py::test_nadie_consume_un_cuerpo_de_la_carpeta_de_hoy`.
+
+Lo que **no** cambia: nada se sobrescribe ni se migra. Un cuerpo distinto el
+mismo día sigue archivándose aparte con su sufijo `_<sha8>`, y un cuerpo nuevo
+siempre se escribe.
+
 ## Modelo de datos (sqlite, 16 tablas)
 
 Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 
 | Tabla | Clave | Qué guarda |
 |---|---|---|
-| `sources_log` | id | Trazabilidad: ts, url, http_status, sha256, bytes, snapshot_path de CADA petición y de cada derivación del propio archivo (estas últimas sin HTTP ni cuerpo: los cuatro campos en NULL) |
+| `sources_log` | id | Trazabilidad: ts, url, http_status, sha256, bytes, snapshot_path de CADA petición y de cada derivación del propio archivo (estas últimas sin HTTP ni cuerpo: los cuatro campos en NULL). Más `etag`/`last_modified`: los validadores que declaró esa respuesta, de los que sale la petición condicional del día siguiente |
 | `activations` | (code, snapshot_date) | Activaciones Copernicus con geometría WKT, por día |
 | `activation_index` | code | Catálogo completo EMSR673+ (vigilancia de nuevas activaciones) |
 | `products` | (code, aoi, ptype, …, snapshot_date) | Productos Copernicus por AOI: tipo, versión, estado, entrega |

@@ -795,6 +795,674 @@ class TestSnapshotsIntradia(unittest.TestCase):
             conn.close()
 
 
+class TestPeticionesCondicionales(unittest.TestCase):
+    """Preguntar sin descargar, y no archivar dos veces lo mismo.
+
+    Medido el 24-ago-2026 sobre las 4.277 filas del log: de 283 URLs pedidas
+    más de una vez, 164 devuelven SIEMPRE el mismo contenido. Las 16 capas de
+    Copernicus se habían descargado 128 veces para entregar 16 cuerpos
+    distintos. Lo que estos tests vigilan no es el ahorro —eso lo cuenta el
+    log— sino las tres cosas que el ahorro no puede costar: que una petición
+    deje de constar, que un cuerpo deje de ser recuperable, y que una URL que
+    SÍ cambia deje de archivarse.
+    """
+
+    class Cabeceras(dict):
+        """Las cabeceras de una respuesta, con el `.get` que usa urllib."""
+
+    class Resp:
+        def __init__(self, body, headers=None, status=200):
+            self.status, self._b = status, body
+            self.headers = headers if headers is not None else {}
+
+        def read(self):
+            return self._b
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def _no_modificado(self, headers=None):
+        import urllib.error
+        return urllib.error.HTTPError(
+            "https://x/f", 304, "Not Modified", headers or {}, None)
+
+    def _escenario(self, tmp, *, cuerpo=b'{"capa":1}', etag='"v1"',
+                   last_mod="Sat, 15 Aug 2026 16:21:23 GMT", dia="2026-08-15"):
+        """Archivo con una copia previa de https://x/f y su fila en el log.
+
+        Devuelve (conn, ruta_relativa, sha256).
+        """
+        import hashlib
+        import sqlite3
+        import common
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(common.SCHEMA)
+        d = tmp / "snapshots" / dia
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "capa.json").write_bytes(cuerpo)
+        rel = f"snapshots/{dia}/capa.json"
+        sha = hashlib.sha256(cuerpo).hexdigest()
+        conn.execute(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            " snapshot_path,note,etag,last_modified)"
+            " VALUES (?,?,?,?,?,?,?,?,?)",
+            (f"{dia}T10:30:00Z", "https://x/f", 200, sha, len(cuerpo), rel,
+             "capa", etag, last_mod))
+        return conn, rel, sha
+
+    def _parche(self, tmp):
+        from unittest import mock
+        import common
+        return (mock.patch.object(common, "ROOT", tmp),
+                mock.patch.object(common, "SNAPSHOTS", tmp / "snapshots"))
+
+    # --- lo que más preocupa: un 304 NO puede dejar de constar --------------
+
+    def test_un_304_deja_su_fila_en_sources_log(self):
+        """R4 no admite excepciones: preguntar es una petición aunque no venga
+        cuerpo. Si un 304 no dejara fila, el log diría que ese día no se
+        preguntó — y «no preguntamos» y «preguntamos y contestó que lo mismo»
+        son hechos distintos sobre la fuente."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            antes = conn.execute("SELECT COUNT(*) FROM sources_log").fetchone()[0]
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            filas = conn.execute(
+                "SELECT http_status, sha256, bytes, snapshot_path FROM"
+                " sources_log ORDER BY id").fetchall()
+            self.assertEqual(len(filas), antes + 1,
+                             "un 304 sin fila borra del archivo la prueba de "
+                             "que ese día se preguntó")
+            self.assertEqual(
+                filas[-1], (304, sha, 0, rel),
+                "la fila del 304 dice: cero bytes descargados y el cuerpo "
+                "vigente es el que ya teníamos")
+            conn.close()
+
+    def test_el_304_devuelve_el_cuerpo_vigente_al_que_lo_pidio(self):
+        """`copernicus_layers` reconstruye las capas públicas con el cuerpo de
+        cada respuesta y hace `if not gj: continue`. Si un 304 llegara vacío,
+        el día que la fuente dijera «sin cambios» el mapa perdería las 16
+        capas — un ahorro que borra datos publicados no es un ahorro."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            self.assertEqual((st, body), (200, b'{"capa":1}'))
+            conn.close()
+
+    def test_un_304_no_escribe_un_fichero_nuevo(self):
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            cuerpos = [f.name for f in hoy.iterdir()
+                       if f.name != common.REUTILIZADOS] if hoy.exists() else []
+            self.assertEqual(cuerpos, [], "un 304 no trae cuerpo que archivar")
+            conn.close()
+
+    def test_se_pregunta_con_el_validador_que_dijo_la_fuente(self):
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            vistas = {}
+
+            def espia(req, **kw):
+                vistas.update(req.headers)
+                raise self._no_modificado()
+
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen", side_effect=espia):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            # urllib capitaliza los nombres de cabecera al registrarlos
+            claves = {k.lower(): v for k, v in vistas.items()}
+            self.assertEqual(claves.get("if-none-match"), '"v1"')
+            self.assertEqual(claves.get("if-modified-since"),
+                             "Sat, 15 Aug 2026 16:21:23 GMT")
+            conn.close()
+
+    def test_no_se_pregunta_por_un_cuerpo_que_ya_no_esta(self):
+        """El invariante que sostiene todo: solo se pregunta condicionalmente
+        por lo que se puede devolver del archivo. Los vídeos ciudadanos viven
+        en R2 y no en el repo; si se preguntara por ellos, un 304 dejaría al
+        llamante sin cuerpo y al log con un sha sin nada detrás."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            (tmp / rel).unlink()            # el cuerpo ya no está en el repo
+            vistas = {}
+
+            def espia(req, **kw):
+                vistas.update(req.headers)
+                return self.Resp(b'{"capa":2}')
+
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen", side_effect=espia):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            claves = {k.lower() for k in vistas}
+            self.assertNotIn("if-none-match", claves)
+            self.assertNotIn("if-modified-since", claves)
+            self.assertEqual((st, body), (200, b'{"capa":2}'))
+            conn.close()
+
+    def test_un_cuerpo_alterado_en_disco_no_se_da_por_bueno(self):
+        """Si el fichero archivado ya no cuadra con su sha, no se pregunta con
+        su validador: se descarga entero. Reutilizar un cuerpo corrupto sería
+        publicar como archivo algo que el archivo no dice."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            (tmp / rel).write_bytes(b'{"capa":"manipulada"}')
+            p1, p2 = self._parche(tmp)
+            with p1, p2:
+                self.assertIsNone(common.copia_vigente("https://x/f", conn))
+            conn.close()
+
+    # --- un contenido idéntico no se archiva dos veces ----------------------
+
+    def test_un_cuerpo_identico_no_se_archiva_dos_veces(self):
+        """El caso de las capas de Copernicus si la fuente no soporta
+        condicionales: 200 con el mismo cuerpo. Se deja de escribir una copia
+        redundante; no se sobrescribe ni se migra nada."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":1}')]):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            cuerpos = [f.name for f in hoy.iterdir()
+                       if f.name != common.REUTILIZADOS] if hoy.exists() else []
+            self.assertEqual(cuerpos, [],
+                             "el mismo contenido archivado dos veces")
+            self.assertEqual(
+                conn.execute("SELECT http_status, snapshot_path FROM sources_log"
+                             " ORDER BY id DESC LIMIT 1").fetchone(),
+                (200, rel),
+                "la fila tiene que apuntar a la copia que sí existe")
+            self.assertEqual((st, body), (200, b'{"capa":1}'))
+            conn.close()
+
+    def test_una_url_que_cambia_sigue_archivandose(self):
+        """La mutación que puede morder: de las 283 URLs repetidas, 119 SÍ
+        cambian. Ni una puede dejar de archivarse por un fallo de comparación —
+        el índice de la activación de Copernicus, que se ha pedido 346 veces y
+        ha cambiado dos, es quien revela los productos nuevos."""
+        import hashlib
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            nuevo = b'{"capa":1,"producto":"AOI07"}'
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(nuevo)]):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            self.assertTrue((hoy / "capa.json").exists(),
+                            "un contenido nuevo TIENE que archivarse")
+            self.assertEqual((hoy / "capa.json").read_bytes(), nuevo)
+            fila = conn.execute(
+                "SELECT http_status, sha256, bytes, snapshot_path FROM"
+                " sources_log ORDER BY id DESC LIMIT 1").fetchone()
+            self.assertEqual(fila[0], 200)
+            self.assertEqual(fila[1], hashlib.sha256(nuevo).hexdigest())
+            self.assertEqual(fila[2], len(nuevo))
+            self.assertNotEqual(fila[3], rel,
+                                "la fila señalaría el cuerpo viejo: el "
+                                "producto nuevo se habría perdido")
+            self.assertEqual((st, body), (200, nuevo))
+            conn.close()
+
+    def test_dos_cuerpos_distintos_el_mismo_dia_siguen_conviviendo(self):
+        """La regla intradía no la deroga la reutilización: un cuerpo distinto
+        el mismo día se archiva aparte con su sufijo de contenido."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":2}'),
+                                 self.Resp(b'{"capa":3}')]):
+                for _ in range(2):
+                    common.fetch("https://x/f", snapshot_name="capa.json",
+                                 conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            cuerpos = sorted(f.name for f in hoy.iterdir()
+                             if f.name != common.REUTILIZADOS)
+            self.assertEqual(len(cuerpos), 2, cuerpos)
+            self.assertIn("capa.json", cuerpos)
+            conn.close()
+
+    # --- la carpeta del día se explica sola ---------------------------------
+
+    def test_la_carpeta_del_dia_dice_lo_que_no_contiene(self):
+        """Quien abra data/snapshots/2026-08-24/ y no encuentre la capa de
+        Copernicus no tiene por qué saber que existe un sqlite. Cada línea de
+        `reutilizados.txt` tiene que corresponder a una fila del log."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self._no_modificado(),
+                                 self._no_modificado()]):
+                for _ in range(2):
+                    common.fetch("https://x/f", snapshot_name="capa.json",
+                                 conn=conn)
+            f = tmp / "snapshots" / common.today() / common.REUTILIZADOS
+            lineas = [l for l in f.read_text(encoding="utf-8").splitlines()
+                      if l and not l.startswith("#")]
+            self.assertEqual(lineas, [f"capa.json\t{rel}\t{sha}"],
+                             "una línea por cuerpo, sin repetirse en la "
+                             "segunda pasada del mismo día")
+            del_log = conn.execute(
+                "SELECT DISTINCT snapshot_path, sha256 FROM sources_log"
+                " WHERE http_status=304").fetchall()
+            self.assertEqual(del_log, [(rel, sha)],
+                             "el índice de la carpeta y el log tienen que "
+                             "decir lo mismo")
+            conn.close()
+
+    def test_la_carpeta_del_dia_tambien_explica_el_cuerpo_identico(self):
+        """El 304 no es el único caso: cuando la fuente no soporta
+        condicionales y manda 200 con lo mismo, tampoco se escribe fichero, y
+        la carpeta tiene que explicarlo igual."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":1}')]):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            f = tmp / "snapshots" / common.today() / common.REUTILIZADOS
+            self.assertTrue(f.exists(),
+                            "la capa no está en la carpeta del día y nada lo "
+                            "explica: el historiador la daría por no pedida")
+            lineas = [l for l in f.read_text(encoding="utf-8").splitlines()
+                      if l and not l.startswith("#")]
+            self.assertEqual(lineas, [f"capa.json\t{rel}\t{sha}"])
+            conn.close()
+
+    # --- R13: una fuente que contesta raro no rompe la corrida --------------
+
+    def test_un_304_que_nadie_pidio_no_rompe_la_corrida(self):
+        """Si el servidor contesta «sin cambios» a una petición que no llevaba
+        validadores, no afirma nada sobre nuestro archivo: la fila consta, se
+        queda sin sha y sin ruta, y el llamante degrada."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            self.assertEqual((st, body), (304, b""))
+            self.assertEqual(
+                conn.execute("SELECT http_status, sha256, snapshot_path FROM"
+                             " sources_log ORDER BY id DESC LIMIT 1").fetchone(),
+                (304, None, None),
+                "un 304 que no contestaba a nuestros validadores no puede "
+                "certificar que el cuerpo archivado siga vigente")
+            conn.close()
+
+    def test_una_respuesta_sin_cabeceras_no_tumba_la_descarga(self):
+        """R13: lo que importa es el cuerpo. Una respuesta que no declara
+        validadores —o cuyas cabeceras no se dejan leer— se archiva igual."""
+        import tempfile
+        from unittest import mock
+        import common
+
+        class Rota:
+            status = 200
+
+            @property
+            def headers(self):
+                raise RuntimeError("cabeceras ilegibles")
+
+            def read(self):
+                return b'{"capa":9}'
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen", side_effect=[Rota()]):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            self.assertEqual((st, body), (200, b'{"capa":9}'))
+            self.assertTrue(
+                (tmp / "snapshots" / common.today() / "capa.json").exists())
+            conn.close()
+
+    def test_un_validador_desmesurado_no_viaja_de_vuelta(self):
+        """Un ETag de 8 KB es una fuente rara, no un motivo para mandar una
+        cabecera de 8 KB en cada petición."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":7}',
+                                           {"ETag": '"' + "x" * 9000 + '"'})]):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            guardado = conn.execute(
+                "SELECT etag FROM sources_log ORDER BY id DESC LIMIT 1"
+            ).fetchone()[0]
+            self.assertEqual(len(guardado), common.MAX_VALIDADOR)
+            conn.close()
+
+    def test_los_validadores_sobreviven_al_volcado(self):
+        """La base no se versiona: se reconstruye desde data/dumps/*.csv. Si
+        los validadores no viajaran en el volcado, el runner amanecería cada
+        día sin con qué preguntar y volvería a descargarlo todo."""
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn = sqlite3.connect(tmp / "a.sqlite")
+            conn.executescript(SCHEMA)
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note,etag,last_modified) VALUES"
+                " ('2026-08-24T10:30:00Z','https://x/f',200,'abc',12,"
+                " 'data/snapshots/2026-08-24/capa.json','capa','\"v1\"',"
+                " 'Sat, 15 Aug 2026 16:21:23 GMT')")
+            conn.commit()
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                dump_db.dump(conn)
+                conn.close()
+                dump_db.rebuild(tmp / "b.sqlite")
+                otra = sqlite3.connect(tmp / "b.sqlite")
+                self.assertEqual(
+                    otra.execute("SELECT etag, last_modified FROM sources_log"
+                                 ).fetchone(),
+                    ('"v1"', "Sat, 15 Aug 2026 16:21:23 GMT"))
+                otra.close()
+            finally:
+                dump_db.DUMPS = dumps_orig
+
+    def test_un_dump_viejo_sin_validadores_se_sigue_reconstruyendo(self):
+        """Los CSV versionados hasta hoy no tienen esas columnas. `rebuild`
+        inserta por nombre de columna: un volcado de ayer tiene que seguir
+        levantando la base sin tocar un byte del archivo."""
+        import sqlite3
+        import tempfile
+        import dump_db
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            dumps = tmp / "dumps"
+            dumps.mkdir()
+            (dumps / "sources_log.csv").write_text(
+                "ts,url,http_status,sha256,bytes,snapshot_path,note\n"
+                "2026-08-15T16:21:23Z,https://x/f,200,abc,12,"
+                "data/snapshots/2026-08-15/capa.json,capa\n",
+                encoding="utf-8")
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, dumps
+            try:
+                dump_db.rebuild(tmp / "b.sqlite")
+                otra = sqlite3.connect(tmp / "b.sqlite")
+                self.assertEqual(
+                    otra.execute("SELECT sha256, etag, last_modified FROM"
+                                 " sources_log").fetchone(),
+                    ("abc", None, None))
+                otra.close()
+            finally:
+                dump_db.DUMPS = dumps_orig
+
+
+class TestElCuerpoVigenteNoEsElDeHoy(unittest.TestCase):
+    """Desde que un contenido idéntico deja de archivarse dos veces, «el
+    fichero de hoy» y «el cuerpo vigente» dejaron de ser lo mismo.
+
+    Quien lea `snapshot_dir() / x` se queda sin nada el primer día que la
+    fuente no cambie — y en silencio. `crosscheck` leía así los titulares de
+    GDACS: sin este arreglo, el día que el feed repitiera contenido los AOI que
+    solo tienen prensa habrían retrocedido a «pendiente» sin que nada avisara.
+    """
+
+    def test_el_vigente_se_encuentra_aunque_hoy_no_haya_fichero(self):
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            snaps = Path(tmp) / "snapshots"
+            (snaps / "2026-08-15").mkdir(parents=True)
+            (snaps / "2026-08-15" / "gdacs_emm.json").write_text('[{"a":1}]')
+            (snaps / "2026-08-16").mkdir()      # día sin ese cuerpo
+            with mock.patch.object(common, "SNAPSHOTS", snaps):
+                self.assertEqual(common.ultimo_snapshot("gdacs_emm.json"),
+                                 snaps / "2026-08-15" / "gdacs_emm.json")
+                self.assertIsNone(common.ultimo_snapshot("no_existe.json"))
+
+    def test_los_titulares_de_gdacs_no_desaparecen_el_dia_sin_cambios(self):
+        import tempfile
+        from unittest import mock
+        import common
+        from sources import gdacs
+        with tempfile.TemporaryDirectory() as tmp:
+            snaps = Path(tmp) / "snapshots"
+            (snaps / "2026-08-15").mkdir(parents=True)
+            (snaps / "2026-08-15" / "gdacs_emm.json").write_text(
+                '[{"title":"Istmina","source":"El Tiempo"}]')
+            (snaps / common.today()).mkdir(exist_ok=True)
+            with mock.patch.object(common, "SNAPSHOTS", snaps):
+                items = gdacs.emm_items()
+            self.assertEqual(len(items), 1,
+                             "sin titulares, crosscheck haría retroceder el "
+                             "estado de los AOI que solo tienen prensa")
+
+    def test_la_cronologia_institucional_no_se_repite_al_reutilizar(self):
+        """El reverso, y la trampa de arreglar esto sin pensar: si un día sin
+        fichero se resolviera con el cuerpo vigente, la comparación «hoy contra
+        la captura anterior» encontraría las MISMAS entradas nuevas cada día y
+        el aviso se repetiría para siempre. Sin fichero hoy significa que el
+        cuerpo no cambió, y eso es exactamente cero entradas nuevas."""
+        import tempfile
+        from unittest import mock
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            snaps = Path(tmp) / "snapshots"
+            (snaps / "2026-08-22").mkdir(parents=True)
+            (snaps / "2026-08-22" / "gdacs_news_institucional.json").write_text(
+                '[{"link":"https://a","pubdate":"2026-08-22"}]')
+            (snaps / "2026-08-23").mkdir()
+            (snaps / "2026-08-23" / "gdacs_news_institucional.json").write_text(
+                '[{"link":"https://a","pubdate":"2026-08-22"},'
+                ' {"link":"https://b","pubdate":"2026-08-23"}]')
+            (snaps / "2026-08-24").mkdir()      # cuerpo reutilizado: sin fichero
+            with mock.patch.object(alerts, "SNAPSHOTS", snaps):
+                self.assertEqual(len(alerts._institucionales_nuevos("2026-08-23")), 1,
+                                 "el día que sí cambió tiene que avisar")
+                self.assertEqual(alerts._institucionales_nuevos("2026-08-24"), [],
+                                 "el día reutilizado no trae nada nuevo: "
+                                 "repetir el aviso sería anunciar dos veces "
+                                 "la misma entrada")
+
+    def test_nadie_consume_un_cuerpo_de_la_carpeta_de_hoy(self):
+        """El guardián del patrón, no del caso: `snapshot_dir()` sirve para
+        ESCRIBIR el snapshot del día, y eso solo lo hace `common.fetch()`.
+        Cualquier otro módulo que lo use para leer un cuerpo está asumiendo que
+        hoy se archivó algo, y desde hoy eso puede ser falso."""
+        import re
+        raiz = Path(__file__).parent.parent / "ingest"
+        malos = []
+        for f in sorted(raiz.rglob("*.py")):
+            if f.name == "common.py":
+                continue        # es quien escribe la carpeta del día
+            for n, linea in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+                if re.search(r"snapshot_dir\(\)\s*/", linea):
+                    malos.append(f"{f.relative_to(raiz)}:{n}: {linea.strip()}")
+        self.assertEqual(
+            malos, [],
+            "leen el cuerpo de la carpeta de hoy en vez del vigente "
+            "(`common.ultimo_snapshot`): " + "; ".join(malos))
+
+
+class TestAvisoDePeticionesCondicionales(unittest.TestCase):
+    """R11: que una fuente empiece —o deje— de contestar 304 tiene que verse.
+
+    Si nadie lo canta, el día que Copernicus deje de honrar los validadores el
+    monitor volverá a descargar 57 MB diarios de capas que no han cambiado sin
+    que nada lo diga, y el día que empiece a honrarlos nadie se enterará de la
+    buena noticia.
+    """
+
+    def _conn(self):
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        return conn
+
+    def _pedir(self, conn, url, ts, status, sha, bytes_=0, spath=None):
+        conn.execute(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            " snapshot_path,note) VALUES (?,?,?,?,?,?,'capa')",
+            (ts, url, status, sha, bytes_, spath))
+
+    def test_una_fuente_que_estrena_el_304_se_canta_una_sola_vez(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        for i in range(16):
+            u = f"https://x/capa{i}.json"
+            self._pedir(conn, u, "2026-08-23T10:30:00Z", 200, "a", 2_380_000, "s/a")
+            self._pedir(conn, u, "2026-08-24T10:30:00Z", 304, "a", 0, "s/a")
+        avisos = cambios_en_peticiones_condicionales(conn, "2026-08-24")
+        tipos = [a["tipo"] for a in avisos]
+        self.assertEqual(tipos, ["fuentes_con_peticion_condicional"])
+        self.assertEqual(avisos[0]["n"], 16)
+        self.assertEqual(len(avisos[0]["urls"]), 10, "la alerta no lista 16")
+        conn.close()
+
+    def test_una_fuente_que_deja_de_honrarlos_se_canta_con_lo_que_cuesta(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/capa.json"
+        self._pedir(conn, u, "2026-08-22T10:30:00Z", 200, "a", 2_380_000, "s/a")
+        self._pedir(conn, u, "2026-08-23T10:30:00Z", 304, "a", 0, "s/a")
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 200, "a", 2_380_000, "s/a")
+        avisos = cambios_en_peticiones_condicionales(conn, "2026-08-24")
+        self.assertEqual([a["tipo"] for a in avisos],
+                         ["fuente_deja_de_honrar_condicionales"])
+        self.assertEqual(avisos[0]["bytes"], 2_380_000)
+        conn.close()
+
+    def test_una_url_que_cambia_de_verdad_no_es_una_regresion(self):
+        """El falso positivo que dejaría la alerta desactivada: la fuente
+        contestaba 304 porque no había cambiado; hoy manda 200 porque SÍ
+        cambió. Eso es la fuente funcionando, no una regresión."""
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/indice.json"
+        self._pedir(conn, u, "2026-08-22T10:30:00Z", 200, "a", 500, "s/a")
+        self._pedir(conn, u, "2026-08-23T10:30:00Z", 304, "a", 0, "s/a")
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 200, "b", 600, "s/b")
+        self.assertEqual(cambios_en_peticiones_condicionales(conn, "2026-08-24"),
+                         [])
+        conn.close()
+
+    def test_un_304_que_nadie_pidio_se_canta(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/rara.json"
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 304, None, 0, None)
+        tipos = [a["tipo"] for a in
+                 cambios_en_peticiones_condicionales(conn, "2026-08-24")]
+        self.assertIn("trescientos_cuatro_sin_preguntar", tipos)
+        conn.close()
+
+    def test_un_dia_sin_novedad_no_genera_ruido(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/capa.json"
+        self._pedir(conn, u, "2026-08-23T10:30:00Z", 304, "a", 0, "s/a")
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 304, "a", 0, "s/a")
+        self.assertEqual(cambios_en_peticiones_condicionales(conn, "2026-08-24"),
+                         [])
+        conn.close()
+
+
 class TestDumpSinRuidoDeRowid(unittest.TestCase):
     """Un diff diario debe contar lo que cambió, no lo que sqlite renumeró.
 
@@ -1449,11 +2117,38 @@ class TestMigracionColumnas(unittest.TestCase):
           fecha TEXT, titulo TEXT, medio TEXT, snapshot_date TEXT NOT NULL);""")
         conn.execute("INSERT INTO news_items VALUES ('u','f','2026-08-15','t','m','2026-08-15')")
         self.assertEqual(migrar(conn), ["news_items.medio_canonico",
-                                        "news_items.medio_dominio"])
+                                        "news_items.medio_dominio"],
+                         "una tabla que no existe no se migra: la crea SCHEMA")
         self.assertEqual(migrar(conn), [], "segunda pasada no hace nada")
         fila = conn.execute(
             "SELECT medio, medio_canonico FROM news_items").fetchone()
         self.assertEqual(fila, ("m", None), "la fila vieja se conserva intacta")
+        conn.close()
+
+    def test_el_log_viejo_estrena_los_validadores_sin_perder_una_fila(self):
+        """La base del runner arrastra 4.277 peticiones sin ETag ni
+        Last-Modified: las columnas nuevas tienen que llegarle por ALTER, en
+        NULL, sin tocar lo que ya estaba."""
+        import sqlite3
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        from common import migrar
+        conn = sqlite3.connect(":memory:")
+        conn.executescript("""CREATE TABLE sources_log (
+          id INTEGER PRIMARY KEY, ts TEXT NOT NULL, url TEXT NOT NULL,
+          http_status INTEGER, sha256 TEXT, bytes INTEGER,
+          snapshot_path TEXT, note TEXT);""")
+        conn.execute(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            " snapshot_path,note) VALUES ('2026-08-15T16:21:23Z','https://x/f',"
+            " 200,'abc',12,'data/snapshots/2026-08-15/f.json','capa')")
+        self.assertEqual(migrar(conn),
+                         ["sources_log.etag", "sources_log.last_modified"])
+        self.assertEqual(
+            conn.execute("SELECT sha256, note, etag, last_modified"
+                         " FROM sources_log").fetchone(),
+            ("abc", "capa", None, None),
+            "la petición de antes del cambio se conserva íntegra y sin "
+            "validadores: NULL aquí significa «no se lo preguntamos»")
         conn.close()
 
 
