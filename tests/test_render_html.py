@@ -1681,6 +1681,81 @@ class TestIdentidadDelSitio(unittest.TestCase):
         self.assertEqual(hallado.group(1).strip(), "Monitor de brechas")
 
 
+class TestInventarioDelPie(unittest.TestCase):
+    """El pie es la superficie que lleva las licencias y los datos abiertos.
+
+    Desde que vive una sola vez —`pie_estatico()`— viaja a las 213 páginas, y
+    eso vale en las dos direcciones: borrar un enlace de ahí no rompe nada, no
+    deja rastro y se lleva un canal de datos **de golpe en todo el sitio**. Un
+    archivo público que pierde en silencio su RSS o su CSV deja de ser
+    consultable, y nadie se entera hasta que alguien lo busca.
+
+    El inventario se fija **por destino, no por texto**: el rótulo es editorial
+    y se puede reescribir cuando convenga; la URL es la promesa. Cuando falla,
+    dice cuál falta."""
+
+    # Cada línea es un compromiso público: una sección del sitio, un export
+    # abierto, un canal de avisos o una atribución. Tocar esta lista es la
+    # conversación que el test quiere provocar — nunca el trámite para que
+    # vuelva a pasar en verde.
+    DESTINOS = (
+        f"{R.BASE}/index.html",
+        f"{R.BASE}/municipios.html",
+        f"{R.BASE}/rud.html",
+        f"{R.BASE}/balances.html",
+        f"{R.BASE}/noticias.html",
+        f"{R.BASE}/index.html#glosario",
+        f"{R.BASE}/index.html#metodologia",
+        f"{R.DATOS}/crosscheck.csv",
+        f"{R.DATOS}/monitor.json",
+        f"{R.DATOS}/rud.json",
+        f"{R.DATOS}/divipola_coords.json",
+        f"{R.OFICIALES_BASE}/oficiales.rss",
+        f"{R.DATOS}/alerts.rss",
+        R.TELEGRAM_CANAL,
+        R.REPO,
+        "https://col.social/@jp",
+        "https://orkidea.eu",
+        "https://www.buymeacoffee.com/orkidea",
+    )
+
+    @classmethod
+    def setUpClass(cls):
+        cls.hrefs = re.findall(r'href="([^"]+)"', R.pie_estatico())
+
+    def test_el_pie_no_pierde_ningun_enlace(self):
+        faltan = [d for d in self.DESTINOS if d not in self.hrefs]
+        self.assertEqual(faltan, [],
+                         "el pie perdió enlaces que publica en las 213 páginas: "
+                         + ", ".join(faltan))
+
+    def test_el_pie_no_gana_enlaces_sin_pasar_por_aqui(self):
+        """Al revés también importa: el pie no es un tablón de anuncios."""
+        sobran = sorted({h for h in self.hrefs if h not in self.DESTINOS})
+        self.assertEqual(sobran, [],
+                         "enlaces nuevos en el pie; si son deliberados, "
+                         "añádelos a DESTINOS: " + ", ".join(sobran))
+
+    def test_el_inventario_llega_al_artefacto(self):
+        """Fijar el generador no basta: lo que se publica es `dist/`, y el pie
+        viaja por dos caminos distintos —`escribir_barra_y_pie` en las cinco
+        páginas grandes, `render_ficha` en las 208 fichas—."""
+        dist = ROOT / "dist"
+        if not dist.exists():
+            self.skipTest("no hay dist construido")
+        paginas = [dist / "index.html"]
+        fichas = sorted(dist.glob("municipio/*/index.html"))
+        self.assertTrue(fichas, "dist/ no trae fichas municipales")
+        paginas.append(fichas[0])
+        for pagina in paginas:
+            html = pagina.read_text(encoding="utf-8")
+            pie = html[html.index('<div id="site-footer"'):]
+            faltan = [d for d in self.DESTINOS if f'href="{d}"' not in pie]
+            self.assertEqual(faltan, [],
+                             f"{pagina.relative_to(dist)}: el pie publicado no "
+                             f"lleva " + ", ".join(faltan))
+
+
 class TestBarraYPieUnaSolaVez(unittest.TestCase):
     """La barra y el pie los escribe el build en las 213 páginas.
 
@@ -1755,16 +1830,55 @@ class TestBarraYPieUnaSolaVez(unittest.TestCase):
         self.assertEqual(R.nav_estatico("municipios.html"),
                          R.nav_estatico("municipios.html", botones_js=False))
 
+    def test_el_boton_de_alertas_sale_oculto_y_lo_desoculta_el_navegador(self):
+        """El 🔔 nace `hidden` y solo lo enseña `common.js` cuando comprueba que
+        el navegador soporta notificaciones.
+
+        Sin ese `hidden`, el botón se ve en un navegador sin soporte, donde
+        `common.js` ya hizo `return` y no hay nadie escuchando: **un clic
+        muerto**, la misma avería que el test de los botones evita en las 208
+        fichas. Y sin el `btn.hidden = false` de `common.js`, el botón no
+        aparece nunca: cada mitad sin la otra es un fallo distinto, así que se
+        fijan juntas."""
+        def atributos(etiqueta):
+            """Los valores entrecomillados fuera: `hidden` cuenta si es un
+            atributo, no si alguien lo escribe dentro de un `title`."""
+            return re.sub(r'"[^"]*"', '""', etiqueta)
+
+        marca = re.compile(r'<button id="btn-alertas"[^>]*>')
+        superficies = {"nav_estatico()": R.nav_estatico("index.html", botones_js=True)}
+        superficies.update({p: self.html[p] for p in self.PAGINAS})
+        for donde, texto in superficies.items():
+            etiqueta = marca.search(texto)
+            self.assertIsNotNone(etiqueta, f"{donde}: no está el botón de alertas")
+            self.assertRegex(atributos(etiqueta.group(0)), r"\bhidden\b",
+                             f"{donde}: el botón de alertas sale visible en "
+                             f"navegadores sin push — un clic muerto")
+        codigo = re.sub(r"/\*.*?\*/", " ", self.common, flags=re.S)
+        codigo = re.sub(r"//[^\n]*", " ", codigo)
+        self.assertRegex(codigo, r"btn\.hidden\s*=\s*false",
+                         "nadie desoculta el botón: saldría oculto siempre")
+
     def test_common_js_ya_no_escribe_la_barra_ni_el_pie(self):
         """La duplicación que se acaba de fundir no puede volver por la puerta
         de atrás. Mira el código, no los comentarios: se le quitan antes de
         buscar, porque el fichero explica en prosa lo que ya no hace —y un
-        guardián que se conforma con su propia documentación no guarda nada."""
+        guardián que se conforma con su propia documentación no guarda nada.
+
+        Lo prohibido son **los nombres**, no la manera de llegar a ellos: la
+        primera versión de este test vetaba `getElementById("site-nav")` y
+        dejaba pasar `querySelector("#site-nav")`, que además sería peor que el
+        bug original —el JavaScript pisaría en el navegador una barra que el
+        HTML ya trae bien, y `seo_check` no lo vería, porque lee el HTML
+        servido y no el DOM ejecutado—. Vetar `.innerHTML =` en bloque tampoco
+        vale: el menú de compartir lo construye así con todo el derecho, y el
+        guardián empezaría a dar falsos positivos por trabajo legítimo. Si
+        `common.js` no tiene por qué nombrar la barra ni el pie, que no los
+        nombre — con `getElementById`, con `querySelector`, con
+        `insertAdjacentHTML` o con lo que se invente."""
         codigo = re.sub(r"/\*.*?\*/", " ", self.common, flags=re.S)
         codigo = re.sub(r"//[^\n]*", " ", codigo)
-        for prohibido in ('getElementById("site-nav")',
-                          'getElementById("site-footer")',
-                          "sf-cols", "nav-links"):
+        for prohibido in ("site-nav", "site-footer", "sf-cols", "nav-links"):
             self.assertNotIn(prohibido, codigo,
                              f"common.js vuelve a escribir la barra o el pie: «{prohibido}»")
 
@@ -1783,8 +1897,31 @@ class TestBarraYPieUnaSolaVez(unittest.TestCase):
         self.addCleanup(shutil.rmtree, mudo, ignore_errors=True)
         (mudo / "index.html").write_text("<html><body>sin marcadores</body></html>",
                                          encoding="utf-8")
-        with self.assertRaises(LookupError):
+        with self.assertRaises(LookupError) as roto:
             R.escribir_barra_y_pie(mudo)
+        self.assertIn("marcador", str(roto.exception))
+        self.assertNotIn("ya estaba escrita", str(roto.exception))
+
+    def test_repetir_el_paso_dice_que_ya_estaba_escrita_y_no_culpa_al_marcador(self):
+        """Correr el paso dos veces sobre el mismo `dist/` no encuentra el
+        marcador —se lo gastó la primera pasada— y acusaba a `site/*.html` de
+        haberlo perdido: mandaba a depurar el sitio equivocado.
+
+        `build_dist.sh` hace `rm -rf dist` antes, así que el camino sancionado
+        está a salvo; quien refresca el artefacto a mano es quien se lo
+        encuentra, y a ese hay que decirle qué pasó y qué hacer."""
+        repetido = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, repetido, ignore_errors=True)
+        for pagina in self.PAGINAS:
+            shutil.copy(ROOT / "site" / pagina, repetido / pagina)
+        self.assertEqual(sorted(R.escribir_barra_y_pie(repetido)),
+                         sorted(self.PAGINAS), "la primera pasada ya falló")
+        with self.assertRaises(LookupError) as repetida:
+            R.escribir_barra_y_pie(repetido)
+        aviso = str(repetida.exception)
+        self.assertIn("ya estaba escrita", aviso)
+        self.assertNotIn("marcador", aviso, "sigue mandando a mirar site/*.html")
+        self.assertIn("build_dist.sh", aviso, "no dice cómo salir del atolladero")
 
     def test_el_artefacto_real_trae_la_barra_y_el_pie(self):
         dist = ROOT / "dist"

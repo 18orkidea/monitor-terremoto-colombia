@@ -397,8 +397,9 @@ PAGINAS = [("index.html", "Mapa"), ("municipios.html", "Municipios"),
 REPO = "https://github.com/18orkidea/monitor-terremoto-colombia"
 # Las dos URLs que antes solo existían en `site/ui.js`. Se traen aquí porque el
 # pie ya no lo escribe el navegador: sin ellas, las cinco páginas perderían dos
-# enlaces que hoy publican. `ui.js` las conserva para lo suyo —el worker de
-# balances se consulta desde el navegador—, pero el pie manda desde el build.
+# enlaces que hoy publican. En `ui.js` ya no están —eran una copia sin lector, y
+# se borró el 23-ago-2026—: el pie manda desde el build. La URL del worker sigue
+# repartida por el repo; el inventario, en docs/LIMITACIONES.md.
 OFICIALES_BASE = ("https://monitor-terremoto-colombia-oficiales-ai"
                   ".inforesidencias.workers.dev")
 TELEGRAM_CANAL = "https://t.me/terremotoCO2026"
@@ -1849,6 +1850,10 @@ PAGINAS_GRANDES = {"index.html": "index.html", "municipios.html": "municipios.ht
                    "noticias.html": "noticias.html"}
 _MARCA_NAV = re.compile(r'<nav id="site-nav"[^>]*></nav>')
 _MARCA_PIE = re.compile(r'<div id="site-footer"[^>]*></div>')
+# El contenedor a secas —vacío o ya lleno—. Sirve para distinguir las dos
+# averías que comparten síntoma: el marcador borrado y el marcador ya gastado.
+_CONTENEDOR_NAV = re.compile(r'<nav id="site-nav"[^>]*>')
+_CONTENEDOR_PIE = re.compile(r'<div id="site-footer"[^>]*>')
 
 
 def escribir_barra_y_pie(destino: Path) -> dict:
@@ -1869,14 +1874,27 @@ def escribir_barra_y_pie(destino: Path) -> dict:
         if not f.exists():
             continue
         html = f.read_text(encoding="utf-8")
-        for etiqueta, marca, pieza in (
-                ("barra", _MARCA_NAV, nav_estatico(activa, botones_js=True)),
-                ("pie", _MARCA_PIE, pie_estatico())):
+        for etiqueta, marca, contenedor, pieza in (
+                ("barra", _MARCA_NAV, _CONTENEDOR_NAV,
+                 nav_estatico(activa, botones_js=True)),
+                ("pie", _MARCA_PIE, _CONTENEDOR_PIE, pie_estatico())):
             html, sustituciones = marca.subn(lambda _m, p=pieza: p, html, count=1)
             if not sustituciones:
                 # Callarse aquí es publicar la página sin barra ni pie y no
                 # enterarse: es un error de programación, no una fuente que
-                # falla (R13), así que rompe el build.
+                # falla (R13), así que rompe el build. Pero son dos averías
+                # distintas con el mismo síntoma, y decir la que no es manda a
+                # depurar el sitio equivocado: si el contenedor sigue ahí y no
+                # está vacío, el marcador no se ha perdido — se gastó en una
+                # pasada anterior. Este paso no es idempotente a propósito (lo
+                # escrito ya no deja marcador donde agarrarse); `build_dist.sh`
+                # borra `dist/` antes, así que el camino sancionado no llega
+                # aquí y quien refresca el artefacto a mano, sí.
+                if contenedor.search(html):
+                    raise LookupError(
+                        f"{pagina}: la {etiqueta} ya estaba escrita — este paso "
+                        f"no se puede repetir sobre el mismo dist/; "
+                        f"reconstruye desde cero con bash deploy/build_dist.sh")
                 raise LookupError(
                     f"{pagina}: no se encuentra el contenedor de la {etiqueta} "
                     f"— ¿se editó el marcador en site/{pagina}?")

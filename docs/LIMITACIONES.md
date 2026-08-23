@@ -127,6 +127,40 @@ corrida diaria guarda el feed completo en `feeds/balances/AAAA-MM-DD.json` —
 la serie es reconstruible desde el repo aunque el worker muera. La migración
 a una cuenta propia está anotada como deuda en DECISIONES.md.
 
+## El subdominio del worker de balances no tiene una sola fuente (23-ago-2026)
+
+`https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev` está
+escrito a mano en cinco ficheros, y el nombre del que sale ese subdominio, en cinco
+más. El 23-ago-2026 se borró la copia que vivía en `site/ui.js` —la única sin
+consumidor, y por eso la que había empezado a divergir—, pero eso no dejó «una sola
+fuente»: dejó una copia menos. El día que ese worker cambie de subdominio o se mude
+a una cuenta del proyecto (la migración está anotada como deuda en DECISIONES.md, y
+la sección anterior explica por qué), hay que mover a mano:
+
+La URL completa:
+
+- `deploy/render_html.py:402` — `OFICIALES_BASE`, el «RSS de balances» que el pie
+  publica en las 213 páginas.
+- `ingest/alerts.py:26` — `FEED_BALANCES`, lo que consulta la corrida diaria.
+- `site/balances.html:114-115` — los dos enlaces al feed vivo, JSON y RSS.
+- `.github/workflows/daily.yml:82` y `:105` — las dos llamadas del workflow.
+- `deploy/root/llms.txt:56` — el feed que se ofrece a los modelos.
+
+El nombre del worker, que es de donde el subdominio sale de verdad:
+
+- `workers/ai-view/wrangler.jsonc:3` — el despliegue.
+- `workers/ai-view/package.json:2` y `workers/ai-view/package-lock.json:2` y `:7`.
+- En prosa: `README.md:94` y esta misma página, en la sección anterior.
+
+El worker de avisos tiene exactamente la misma forma: `site/ui.js:511`,
+`.github/workflows/daily.yml:162`, `workers/push/wrangler.jsonc:4` y sus dos
+ficheros de paquete.
+
+No hay guardián que lo vigile, y unificarlo tampoco es gratis: la URL la necesitan
+Python, JavaScript, YAML y JSONC, y R14 deja el runtime en la stdlib. Queda
+anotado, que es lo que un archivo honesto puede hacer con lo que no ha resuelto:
+**si cambia el subdominio y algo deja de responder, empieza por esta lista.**
+
 ## Cobertura satelital parcial por diseño
 
 Las zonas mapeadas por Copernicus cubren ~8,7 % de la población expuesta a
