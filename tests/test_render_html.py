@@ -5,6 +5,7 @@ de IA no ejecutan JavaScript. Si un test de aquí falla, la página se seguiría
 viendo perfecta en el navegador y estaría vacía para quien la tiene que citar
 — por eso se comprueba el HTML, no el resultado en pantalla.
 """
+import copy
 import json
 import re
 import shutil
@@ -2417,6 +2418,381 @@ class TestLosDosPlegablesDeBalances(unittest.TestCase):
             self.assertFalse(
                 re.search(r"[\U0001F000-\U0001FAFF☀-➿]", titulo),
                 f"el título «{titulo.strip()}» lleva un emoticono")
+
+
+class TestPiezasDeBalancesLleganEscritas(unittest.TestCase):
+    """Los ocho contenedores de `balances.html` llegan llenos al artefacto.
+
+    Se ejecuta el inyector de verdad sobre el HTML del repositorio, que es como
+    se construye `dist/`: así cae también si alguien quita la marca, mete un
+    salto de línea entre la apertura y el cierre, cambia la etiqueta del
+    contenedor o desconecta el generador."""
+
+    CLAVES = ("balances-sello", "balances-resumen", "balances-tarjetas",
+              "balances-grafico", "balances-capturas", "balances-datos-ld",
+              "comparativa-tarjetas", "comparativa-filas")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        shutil.copy(ROOT / "site" / "balances.html", cls.tmp / "balances.html")
+        cls.hechas = R.inyectar_prerenderizado(cls.tmp, R.contexto())
+        cls.html = (cls.tmp / "balances.html").read_text(encoding="utf-8")
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def cuerpo(self, clave: str) -> str:
+        m = re.search(rf'<(tbody|ul|span|section)[^>]*\bdata-gen="{clave}"[^>]*>'
+                      rf'(.*?)</\1>', self.html, re.S)
+        self.assertTrue(m, f"«{clave}» ya no está en site/balances.html")
+        return m.group(2)
+
+    def test_los_ocho_contenedores_llegan_no_vacios(self):
+        for clave in self.CLAVES:
+            with self.subTest(clave=clave):
+                self.assertIn(clave, self.hechas,
+                              f"el inyector no reconoció «{clave}»")
+                self.assertTrue(self.cuerpo(clave).strip(),
+                                f"«{clave}» quedó vacío en el artefacto")
+
+    def test_el_marcador_va_vacio_en_el_repositorio(self):
+        """Todo contenedor marcado se versiona vacío, y con la apertura pegada
+        al cierre: un salto de línea y la marca no casa."""
+        fuente = (ROOT / "site" / "balances.html").read_text(encoding="utf-8")
+        for clave in self.CLAVES:
+            with self.subTest(clave=clave):
+                self.assertRegex(
+                    fuente,
+                    rf'<(tbody|span|section)[^>]*\bdata-gen="{clave}"[^>]*></\1>')
+
+    def test_el_grafico_es_un_svg_servido_con_su_descripcion(self):
+        """Tres paneles con escala propia, cada uno con su `<desc>`: la prosa
+        que narra la serie día a día solo existía en la memoria del navegador."""
+        cuerpo = self.cuerpo("balances-grafico")
+        self.assertEqual(cuerpo.count("<svg"), len(R.PANELES_BALANCE))
+        self.assertEqual(cuerpo.count("<desc"), len(R.PANELES_BALANCE))
+        self.assertIn("máximo informado", cuerpo)
+
+    def test_el_grafico_deja_el_color_al_tema(self):
+        """`ui.cssVar()` resolvía la variable a un color literal y lo congelaba
+        dentro del SVG: el gráfico salía con los colores del tema que estuviera
+        puesto al dibujarlo. Servido, emite la referencia y sigue al tema."""
+        cuerpo = self.cuerpo("balances-grafico")
+        self.assertIn("var(--", cuerpo)
+        self.assertFalse(re.search(r'(?:fill|stroke)="#[0-9a-fA-F]{3,8}"', cuerpo),
+                         "el gráfico congela un color literal en vez de la variable")
+
+    def test_las_cifras_del_navegador_ya_no_las_escribe_el_navegador(self):
+        """M2 · La prosa de las tarjetas, del gráfico y de la comparativa vive
+        ahora en Python. Si volviera además a `balances.js`, el día que una de
+        las dos cambiara la página diría dos cosas — y solo una se leería sin
+        JavaScript."""
+        js = (ROOT / "site" / "balances.js").read_text(encoding="utf-8")
+        for literal in ("máximo informado", "metric-card", "<svg",
+                        "comparativaFuentes", "No se borran"):
+            with self.subTest(literal=literal):
+                self.assertNotIn(literal, js,
+                                 f"balances.js vuelve a redactar «{literal}»")
+
+    def test_las_doce_capturas_elegidas_tienen_su_fila_donde_marcarse(self):
+        """Una captura son su día Y su URL, nunca la URL sola.
+
+        La marca «✓ usada en la serie» se ponía sobre un índice por URL, y el
+        mismo artículo es la captura elegida de varios días: una cobertura en
+        vivo se vuelve a capturar cada mañana y un balance de El Tiempo
+        representó a tres días seguidos. Con doce elegidas y siete URL
+        distintas, cinco filas se quedaban sin marca y la fila que perdía el
+        sitio en el índice dejaba de atender a los filtros. El pie servido dice
+        cuántas alimentan la serie: si la tabla puede marcar menos, la página
+        se contradice a sí misma.
+
+        Se mide sobre el feed real —no sobre una fixture— porque el caso lo
+        produce el archivo, no una hipótesis. Y no se comprueba la marca (eso
+        lo pone el navegador) sino la condición sin la cual no se puede poner:
+        que cada captura elegida tenga una fila propia que la identifique."""
+        ctx = R.contexto()
+        datos = R.consolidado_balances(ctx)
+        if datos is None:                              # R14: sin node, sin regla
+            self.skipTest("node no disponible: la regla del consolidado no corre")
+        cuerpo = self.cuerpo("balances")
+        filas = re.findall(r'<tr data-fecha="([^"]*)" data-url="([^"]*)">', cuerpo)
+        self.assertEqual(len(filas), cuerpo.count("<tr "),
+                         "alguna fila dejó de escribir su día o su URL")
+        self.assertEqual(len(set(filas)), len(filas),
+                         "dos filas comparten día y URL: la captura no se "
+                         "distingue de la otra")
+        elegidas = [d["item"] for d in datos["porDia"] if d.get("item")]
+        claves = {(i.get("search_date") or "",
+                   R.e(i.get("publication_url") or i.get("url") or "#"))
+                  for i in elegidas}
+        self.assertEqual(len(claves), len(elegidas),
+                         "dos días eligieron la misma captura: la clave no las "
+                         "separa")
+        self.assertLessEqual(claves, set(filas),
+                             "una captura elegida no tiene fila donde marcarse")
+        # y el navegador tiene que indexar por las dos mitades, no por una
+        js = (ROOT / "site" / "balances.js").read_text(encoding="utf-8")
+        indice = re.search(r"new Map\(Array\.from\(tbody\.rows\)(.*?)\);", js, re.S)
+        self.assertTrue(indice, "el índice de filas cambió de forma")
+        self.assertIn("dataset.fecha", indice.group(1),
+                      "el índice vuelve a colapsar las capturas por URL")
+
+    def test_el_pie_de_la_tabla_no_sirve_un_estado_del_navegador(self):
+        """«Cargando…» servido a quien no ejecuta JavaScript es una página que
+        nunca termina de cargar. El build escribe el hecho de archivo y el
+        navegador solo lo sustituye cuando hay filtros puestos."""
+        self.assertNotIn("Cargando…", self.html)
+        self.assertIn("capturas archivadas", self.cuerpo("balances-capturas"))
+        js = (ROOT / "site" / "balances.js").read_text(encoding="utf-8")
+        self.assertIn("pieServido", js,
+                      "el navegador ya no devuelve la frase que sirvió el build")
+
+
+class TestBalancesSinNode(unittest.TestCase):
+    """R14 · Sin la regla no se publica la cifra, y se dice.
+
+    El consolidado (R16) vive SOLO en `site/ui.js`. Si `node` falta, cada pieza
+    de la página tiene que publicar su aviso en vez de una cifra calculada con
+    otra regla — que es lo que hacía `alerts.py` el día que dos superficies se
+    contradijeron en público. El seam es el propio caché del contexto: poner
+    `None` es exactamente lo que deja `consolidado_balances` cuando node falla."""
+
+    ITEM = {"search_date": "2026-08-18", "title": "Balance de la UNGRD",
+            "publication_url": "https://ejemplo.co/balance",
+            "publisher": {"name": "El Tiempo"},
+            "reported_data_source": [
+                {"id": "UNGRD", "name": "Unidad Nacional para la Gestión del "
+                                        "Riesgo de Desastres",
+                 "url": "https://portal.gestiondelriesgo.gov.co/"}]}
+
+    def setUp(self):
+        self.ctx = {"_balances_ui": None, "monitor": {},
+                    "oficiales": {"items": [dict(self.ITEM)],
+                                  "generated_at": "2026-08-19T04:00:00Z"}}
+
+    def test_ninguna_pieza_publica_una_cifra_consolidada(self):
+        for generador in (R.resumen_balances, R.tarjetas_balances,
+                          R.grafico_balances, R.tarjetas_comparativa,
+                          R.filas_comparativa):
+            with self.subTest(generador=generador.__name__):
+                salida = generador(self.ctx)
+                self.assertNotIn("máximo informado", salida)
+                self.assertIn("regla", salida,
+                              "la pieza se calla en vez de decir por qué")
+
+    def test_el_recuento_de_archivo_si_se_publica(self):
+        """No todo depende de la regla: cuántas capturas hay y de cuántos
+        publicadores es aritmética de archivo, y esa no se calla."""
+        self.assertIn("1 balances", R.resumen_balances(self.ctx))
+        self.assertIn("1 capturas archivadas", R.capturas_balances(self.ctx))
+        self.assertNotIn("alimentan la serie", R.capturas_balances(self.ctx))
+
+    def test_el_dataset_sigue_existiendo_sin_sus_cifras(self):
+        """El conjunto de datos existe aunque el consolidado no se haya podido
+        calcular: lo que se calla son las cifras, no el dataset."""
+        nodo = json.loads(re.search(
+            r"<script[^>]*>(.+?)</script>", R.marcado_balances(self.ctx), re.S).group(1))
+        self.assertNotIn("variableMeasured", nodo)
+        self.assertIn("creativeWorkStatus", nodo)
+        self.assertEqual(nodo["dateModified"], "2026-08-18")
+
+
+class TestBalancesConSerieSintetica(unittest.TestCase):
+    """Las decisiones editoriales de la página, sobre una serie inventada.
+
+    Con el feed real no se puede provocar el caso que importa —un día sin
+    ninguna cifra al principio de la serie, una cifra rechazada, una disputa—,
+    y un guardián que solo mira el dato de hoy deja de mirar mañana. La serie
+    entra por el caché del contexto, que es la misma puerta por la que entra la
+    de `ui.js`: aquí no se reimplementa la regla, se le da su resultado."""
+
+    # tres días: el primero SIN fallecidos (R3: no es un cero, es un hueco),
+    # el segundo con la primera cifra y el tercero arrastrándola
+    PORDIA = [
+        {"fecha": "2026-08-10", "item": None, "disputa": None, "ignoradas": [],
+         "consolidado": {"fallecidos": {"valor": None}}},
+        {"fecha": "2026-08-11", "disputa": None,
+         "item": {"title": "Balance de la UNGRD",
+                  "publication_url": "https://ejemplo.co/b1",
+                  "publisher": {"name": "El Tiempo"},
+                  "reported_data_source": [
+                      {"id": "UNGRD", "name": "UNGRD",
+                       "url": "https://portal.gestiondelriesgo.gov.co/"}]},
+         "ignoradas": [{"cifra": "fallecidos", "valor": 120,
+                        "motivo": "por debajo de la vigente",
+                        "medio": "Diario Tardío",
+                        "url": "https://ejemplo.co/tarde"}],
+         "consolidado": {
+             "fallecidos": {"valor": 287, "fecha": "2026-08-11",
+                            "medio": "El Tiempo", "url": "https://ejemplo.co/b1"},
+             "familias_afectadas": {"valor": 11132, "fecha": "2026-08-11",
+                                    "medio": "El Tiempo"}}},
+        {"fecha": "2026-08-12", "item": None,
+         "disputa": {"fallecidos": {"min": 287, "max": 340}}, "ignoradas": [],
+         "consolidado": {
+             "fallecidos": {"valor": 287, "fecha": "2026-08-11",
+                            "medio": "El Tiempo"},
+             "familias_afectadas": {"valor": 11132, "fecha": "2026-08-11",
+                                    "medio": "El Tiempo"}}},
+    ]
+
+    def setUp(self):
+        items = [{"search_date": d["fecha"], "title": "t",
+                  "publisher": {"name": "El Tiempo"},
+                  "publication_url": f"https://ejemplo.co/{d['fecha']}",
+                  "reported_data_source": [
+                      {"id": "UNGRD", "name": "UNGRD",
+                       "url": "https://portal.gestiondelriesgo.gov.co/"},
+                      {"id": "alcaldia", "name": "Alcaldía citada en el texto",
+                       "url": None}]}
+                 for d in self.PORDIA]
+        self.ctx = {
+            "monitor": {}, "oficiales": {"items": items},
+            "_balances_ui": {"porDia": copy.deepcopy(self.PORDIA),
+                             "comparativa": []}}
+
+    # ---- R3 en el gráfico
+    def test_el_dia_sin_dato_no_se_dibuja_como_cero(self):
+        """La línea ARRANCA en el primer día con valor. Dibujar los días
+        anteriores con `|| 0` convierte una ausencia en un cero medido — la
+        misma lección que los globos del mapa sin cifras."""
+        svg = R.grafico_balances(self.ctx)
+        panel = svg.split("</svg>")[0]                    # fallecidos y desap.
+        camino = re.search(r'<path d="M ([\d.]+) ', panel)
+        self.assertTrue(camino, "el panel de fallecidos perdió su línea")
+        # con 3 días el primer punto cae en x≈68; arrancar en el día sin dato
+        # lo pondría ~275 unidades a la izquierda
+        banda = (900 - 58 - 18) / 3
+        self.assertGreater(float(camino.group(1)), 58 + banda,
+                           "la línea arranca en un día sin dato")
+
+    def test_la_descripcion_calla_el_dia_entero_que_no_tiene_cifras(self):
+        """M10 · El primer día no tiene ninguna de las dos cifras del panel:
+        se omite de la narración, no se cuenta como una serie de ceros."""
+        desc = re.search(r"<desc[^>]*>(.*?)</desc>", R.grafico_balances(self.ctx),
+                         re.S).group(1)
+        self.assertNotIn("10 de agosto", desc)
+        self.assertIn("11 de agosto de 2026: 287 fallecidos", desc)
+        self.assertIn("cifras en disputa", desc)
+
+    def test_el_eje_deja_el_asidero_para_agrandarse_en_movil(self):
+        """M3 · Esto no puede quedarse en un comentario.
+
+        Medido en el navegador: en un teléfono de 375 px el lienzo de 900 se
+        dibuja sobre 285 —escala 0,317— y un rótulo de 10 queda en 3,17 px
+        efectivos, ilegible. La hoja de estilos solo puede agrandarlo si puede
+        esconder uno de cada dos («21-ago» mide 33,9 unidades y la banda de un
+        día son 68,7, que se estrechan cada día que entra en la serie), y solo
+        puede esconderlos si el generador los distingue. La regla de CSS aún no
+        existe —vive en `styles.css`, superficie compartida—: lo que este
+        guardián sostiene es el asidero, para que no se pierda mientras tanto."""
+        panel = R.grafico_balances(self.ctx).split("</svg>")[0]
+        dias = re.findall(r'class="(g-dia[^"]*)"', panel)
+        self.assertEqual(len(dias), len(self.PORDIA),
+                         "el eje dejó de rotular un día")
+        self.assertEqual(dias.count("g-dia g-dia-alterna"), len(self.PORDIA) // 2,
+                         "el eje ya no distingue una de cada dos fechas")
+
+    # ---- R16 en la prosa servida
+    def test_las_tarjetas_conservan_el_lenguaje_de_r16(self):
+        cuerpo = R.tarjetas_balances(self.ctx)
+        self.assertIn("máximo informado", cuerpo)
+        self.assertNotIn("cifra actual", cuerpo)
+
+    def test_lo_rechazado_se_ensena_con_su_motivo(self):
+        """R16 · Lo que no entra en la serie no se borra: se enseña, con su
+        motivo, su medio y su enlace. La distancia entre lo que publica cada
+        medio es lo que este monitor mide."""
+        cuerpo = R.tarjetas_balances({**self.ctx,
+                                      "_balances_ui": {"porDia": self.PORDIA[:2],
+                                                       "comparativa": []}})
+        self.assertIn("por debajo de la vigente", cuerpo)
+        self.assertIn("Diario Tardío", cuerpo)
+        self.assertIn("https://ejemplo.co/tarde", cuerpo)
+
+    def test_la_entradilla_fecha_la_cifra_que_publica(self):
+        """M7 · Una cifra de una fuente viva sin su corte miente en 48 horas."""
+        self.assertIn("Máximo informado hasta el 12 de agosto de 2026",
+                      R.resumen_balances(self.ctx))
+
+    # ---- R3/M10 en el marcado
+    def _nodo(self, ctx=None):
+        crudo = R.marcado_balances(ctx or self.ctx)
+        return json.loads(re.search(r"<script[^>]*>(.+?)</script>", crudo, re.S).group(1))
+
+    def test_la_cifra_ausente_se_omite_del_marcado_jamas_vale_cero(self):
+        """M10 es la R3 fuera de la base de datos: heridos y desaparecidos no
+        tienen valor en esta serie, así que no aparecen. Un cero ahí sería el
+        monitor afirmando que no hubo ninguno."""
+        medidas = {m["name"]: m for m in self._nodo()["variableMeasured"]}
+        self.assertEqual(sorted(medidas), ["Fallecidos", "Familias afectadas"])
+        for m in medidas.values():
+            self.assertNotEqual(m["value"], 0)
+
+    def test_cada_variable_lleva_su_valor_y_su_unidad(self):
+        for m in self._nodo()["variableMeasured"]:
+            with self.subTest(nombre=m["name"]):
+                self.assertIsInstance(m["value"], (int, float))
+                self.assertTrue(m["unitText"])
+                self.assertIn("Máximo informado hasta el", m["description"])
+        unidades = {m["name"]: m["unitText"] for m in self._nodo()["variableMeasured"]}
+        self.assertEqual(unidades["Fallecidos"], "personas")
+        self.assertEqual(unidades["Familias afectadas"], "familias")
+
+    def test_el_marcado_se_fecha_con_el_dato_y_no_con_la_corrida(self):
+        """`rud.json` ya enseñó la trampa: se genera el 22 con una serie que
+        termina el 21, y la página anunciaba cifras del 21 fechadas el 22."""
+        nodo = self._nodo({**self.ctx,
+                           "oficiales": {**self.ctx["oficiales"],
+                                         "generated_at": "2026-09-30T04:00:00Z"}})
+        self.assertEqual(nodo["dateModified"], "2026-08-12")
+        self.assertEqual(nodo["temporalCoverage"], "2026-08-10/2026-08-12")
+
+    def test_r9_el_monitor_compila_y_las_oficiales_se_citan(self):
+        """Los dos niveles de atribución. `creator`/`publisher` son el monitor
+        —que compiló el artefacto—; la UNGRD va en `citation`. Decir que la
+        UNGRD publica esta página, o que el monitor produjo la cifra oficial,
+        serían las dos mentiras simétricas."""
+        nodo = self._nodo()
+        self.assertEqual(nodo["creator"], {"@id": R.ORGANIZACION})
+        self.assertEqual(nodo["publisher"], {"@id": R.ORGANIZACION})
+        citados = [c["name"] for c in nodo["citation"]]
+        self.assertIn("UNGRD", citados)
+        self.assertNotIn("UNGRD", json.dumps(
+            [nodo["creator"], nodo["publisher"]], ensure_ascii=False))
+
+    def test_la_fuente_citada_sin_url_se_cita_sin_url_no_con_una_inventada(self):
+        """M10 · Omitir es lo que significa «no la sabemos»."""
+        por_nombre = {c["name"]: c for c in self._nodo()["citation"]}
+        self.assertNotIn("url", por_nombre["Alcaldía citada en el texto"])
+        self.assertEqual(por_nombre["UNGRD"]["url"],
+                         "https://portal.gestiondelriesgo.gov.co/")
+
+    def test_ningun_dataset_dentro_de_otro_y_toda_url_absoluta(self):
+        """Los guardianes G2 y G6 sobre el bloque que escribe el build: el
+        `Dataset` anidado invalidó las 208 fichas y las `DataDownload` de la
+        portada llevaban `contentUrl` relativo. Aquí no se repite ninguno."""
+        html = R.marcado_balances(self.ctx)
+        datasets = datasets_ld(html)
+        self.assertEqual(len(datasets), 1, "hay más de un Dataset en la página")
+        nodo = datasets[0]
+        for campo in ("name", "description"):
+            self.assertTrue(str(nodo.get(campo, "")).strip())
+        for clave, valor in nodo.items():
+            if clave == "@type":
+                continue
+            self.assertEqual(
+                [n for n in nodos_ld(valor) if "Dataset" in tipos_ld(n)], [],
+                f"un Dataset anidado dentro de otro en «{clave}»")
+        for n in nodos_ld(bloques_ld(html)[0]):
+            for campo in ("contentUrl", "url", "@id"):
+                v = n.get(campo)
+                if isinstance(v, str):
+                    partes = urllib.parse.urlparse(v)
+                    self.assertTrue(partes.scheme and partes.netloc,
+                                    f"«{campo}» relativo → {v}")
 
 
 class TestTitulares(unittest.TestCase):

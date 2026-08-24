@@ -20,15 +20,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Balances del terremoto citados en medios, día a día">
 <meta name="twitter:description" content="No es el balance oficial: es lo que la prensa publica citándolo. Cada cifra con su URL.">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Dataset",
- "name":"Balances del terremoto de Colombia 2026 citados en medios",
- "description":"Serie diaria de cifras (fallecidos, heridos, desaparecidos, familias) publicadas por medios citando a UNGRD/SGC, con publicador, fuente citada y URL por captura.",
- "inLanguage":"es","license":"https://creativecommons.org/licenses/by/4.0/",
- "temporalCoverage":"2026-08-10/..",
- "distribution":[{"@type":"DataDownload","encodingFormat":"application/json",
-   "contentUrl":"https://datosdelterremoto.org/data/public/oficiales.json"}]}
-</script>
 <script type="application/ld+json" id="site-identity"></script>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icons/favicon.png">
@@ -52,6 +43,8 @@
   </div>
 </header>
 
+<section class="entradilla" data-gen="balances-resumen"></section><!-- lo rellena deploy/render_html.py en el build -->
+
 <details class="pliegue">
   <summary>Por qué las cifras no coinciden</summary>
   <section class="intro">
@@ -74,7 +67,7 @@
 <div class="zona-datos">
 
 <section id="balance-hero">
-  <div id="balance-cards" class="metric-strip"></div>
+  <section id="balance-cards" class="metric-strip" data-gen="balances-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
   <p class="note">Estos valores son el máximo informado de cada cifra, extraído de páginas públicas. El publicador
   suele ser un medio; UNGRD, SGC, Gobernación, Presidencia o Alcaldía aparecen como fuentes
   citadas dentro del texto. Las coberturas en vivo se muestran, pero pesan menos en la serie.</p>
@@ -87,7 +80,7 @@
   publican citando el consolidado
   oficial, lo que ve el satélite y lo que reporta la comunidad. La distancia entre
   columnas <em>es</em> la brecha de reporte.</p>
-  <div id="comparativa-cards" class="metric-strip"></div>
+  <section id="comparativa-cards" class="metric-strip" data-gen="comparativa-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
   <div class="tabla-scroll"><table id="comparativa-tabla">
     <thead><tr>
       <th>Indicador</th>
@@ -95,7 +88,7 @@
       <th class="num" title="Máximo informado hasta el último día por medios que citan el consolidado oficial (UNGRD y SGC).">Medios citando oficiales</th>
       <th class="num" title="Diferencia absoluta entre ambas columnas. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
     </tr></thead>
-    <tbody></tbody>
+    <tbody data-gen="comparativa-filas"></tbody><!-- lo rellena deploy/render_html.py en el build -->
   </table></div>
   <p class="note">El RUD es un <strong>registro progresivo</strong> (municipio a municipio,
   familia a familia); el consolidado citado en medios agrega reportes departamentales aún no
@@ -108,7 +101,7 @@
 <section id="balance-chart-section">
   <h2>Serie del máximo informado por día</h2>
   <p class="sub">El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance.</p>
-  <div id="balance-chart"></div>
+  <section id="balance-chart" data-gen="balances-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
 </section>
 
 <section id="balance-table-section">
@@ -122,7 +115,7 @@
     <select id="balance-fecha"><option value="">Todas las fechas</option></select>
     <select id="balance-nivel"><option value="">Todos los niveles</option></select>
   </div>
-  <p id="balance-resumen">Cargando…</p>
+  <p id="balance-resumen"><span data-gen="balances-capturas"></span></p><!-- lo rellena deploy/render_html.py en el build; el navegador lo reescribe al filtrar -->
   <div class="tabla-scroll"><table id="balance-table">
     <thead>
       <tr>
@@ -204,6 +197,12 @@
     </ol>
   </section>
 </details>
+
+<!-- El Dataset de esta página lo escribe el build: sus cifras (variableMeasured)
+     y su fecha de dato (dateModified) cambian con cada corrida, y un marcado a
+     mano envejece igual que una cifra a mano. JSON-LD dentro del <body> es
+     válido y así viaja por el mismo mecanismo que el resto del prerenderizado. -->
+<section data-gen="balances-datos-ld" hidden></section><!-- lo rellena deploy/render_html.py en el build -->
 
 <script src="ui.js?v=dev"></script>
 <script src="balances.js?v=dev"></script>
