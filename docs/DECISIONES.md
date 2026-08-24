@@ -124,6 +124,38 @@ por otro motivo. **Un cambio de regla no está terminado hasta que se persiguen
 sus literales publicados** — el contrato lo dice y aquí no se cumplió durante un
 día.
 
+**Coda del día siguiente: la décima superficie, y por qué el guardián no la vio.**
+Con las nueve superficies ya corregidas y `TestR5NoPrometeLoQueYaNoHace` en
+verde, el `README.md` seguía diciendo, **en presente**, «el redondeo es una capa
+de prudencia en la presentación, no un secreto» — tres líneas debajo de una
+frase que ya explicaba que no se redondea. El bloque se contradecía a sí mismo
+en la página que más se lee del proyecto.
+
+El guardián no lo vio por dos motivos, y el segundo es el que enseña: el
+`README.md` no estaba en `SUPERFICIES`, **y aunque hubiera estado, el patrón
+tampoco habría casado**. Las tres alternativas se escribieron mirando las
+redacciones que ya se conocían —«coordenada redondeada», «redondeada a ~110»,
+«lat_pub/lon_pub (redondeadas)»— y esta decía lo mismo con otras palabras. Es
+**M1 a escala pequeña: un guardián validado contra el bug que ya se tenía
+delante mide la memoria de quien lo escribe, no el riesgo.**
+
+**Decisión.** El bloque del `README` se reescribe en pasado y pone delante la
+mitad de R5 que de verdad protege —el EXIF no se publica jamás, no sale ningún
+dato personal—, que es lo que había que decir con fuerza desde el principio.
+El guardián suma `README.md` a `SUPERFICIES` y una cuarta alternativa que
+persigue **el verbo en presente** (`el redondeo es|sigue|aporta|protege|añade`),
+no la palabra «redondeo», que tiene que poder contarse en pasado en todas
+partes. Validado por mutación en dos direcciones: la frase vieja del `README`
+hace caer el test por la alternativa nueva, y un «coordenada redondeada» metido
+en el mismo fichero lo hace caer por las viejas —lo segundo prueba que el
+fichero entró en la lista, y no solo que el patrón creció—. Con
+`PYTHONDONTWRITEBYTECODE=1`: sin eso, dos mutaciones seguidas dan un verde falso.
+
+**Lo que queda escrito en el propio test**: un patrón es una red de arrastre, no
+una demostración. No cubre una quinta redacción que nadie ha escrito todavía. Si
+R5 vuelve a moverse, la lista de superficies se revisa a mano, y el comentario
+del guardián dice por qué.
+
 ## 2026-08-24 — El guardián global del marcado recorría menos de lo que prometía
 
 `TestMarcadoEstructurado` —los G1/G2/G6 sobre las 213 páginas— copiaba
