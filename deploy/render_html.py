@@ -2500,6 +2500,180 @@ def nota_rud(ctx: dict) -> str:
     return " ".join(partes)
 
 
+# ------------------------------------------------ el Dataset JSON-LD del RUD
+# Las columnas de la tabla, en el orden en que se leen, con su unidad y con el
+# campo del que sale su total nacional. UN solo sitio: el día que la tabla gane
+# una columna, la que se añada aquí es la misma que se describe (M2).
+#   (campo, rótulo, unidad, total_nacional)
+# `total_nacional=False` marca la columna que solo existe municipio a municipio
+# —la población y su proporción no se suman en la serie— y por eso se describe
+# sin valor: describir la columna no obliga a inventarle un agregado.
+COLUMNAS_RUD = (
+    ("familias", "Familias inscritas", "familias", True),
+    ("personas", "Personas inscritas", "personas", True),
+    ("poblacion_2026", "Población proyectada 2026 (DANE)", "habitantes", False),
+    ("tasa_pct", "Personas del RUD sobre población 2026", "%", False),
+    ("viv_destruidas", "Viviendas destruidas", "viviendas", True),
+    ("viv_averiadas", "Viviendas averiadas", "viviendas", True),
+    ("delta_familias", "Familias nuevas desde la captura anterior",
+     "familias", False),
+    ("municipios", "Municipios con registro en el RUD", "municipios", True),
+)
+
+
+def _cifra_ld(v):
+    """El número tal como se escribe en el JSON-LD, o `None` si no hay dato.
+
+    Las cifras del RUD llegan como flotantes (`100231.0`) y un `"value":
+    100231.0` en el marcado es ruido: quien lo cite lee un decimal que la
+    fuente no publicó. **`None` se propaga como `None`**, nunca como 0 — es la
+    R3 dentro del marcado, y el guardián G1 existe porque un `or 0` aquí
+    produce JSON perfectamente válido del que nadie se queja (M10)."""
+    if v is None or isinstance(v, bool):
+        return None
+    f = float(v)
+    return int(f) if f.is_integer() else f
+
+
+def dataset_rud(ctx: dict) -> str:
+    """El Dataset JSON-LD de rud.html; la página no tenía ningún marcado.
+
+    `variableMeasured` es el DICCIONARIO DE COLUMNAS de la tabla —qué mide
+    cada una y en qué unidad—, no un `ItemList` con las 207 filas: eso sería
+    una segunda copia de la tabla mantenida aparte (M2), y 207 ítems no
+    disparan ningún resultado enriquecido. Es el patrón de `dataset_municipios`
+    y el que la especificación fija para las páginas-tabla.
+
+    A las columnas que la serie sí agrega se les escribe además su **total
+    nacional con su fecha**, igual que hace `marcado_balances`: es la cifra por
+    la que se cita esta página, y publicarla sin fecha la haría mentir en 48
+    horas (M7). Las que solo existen municipio a municipio —la población y su
+    proporción— se describen sin valor: describir una columna no obliga a
+    inventarle un agregado.
+
+    **R3/M10 en el marcado**: la columna sin un solo dato se omite entera y la
+    que lo tiene en el detalle pero no en la serie se describe sin `value`.
+    Jamás un 0: un `"value": 0` en «viviendas destruidas» afirmaría que el
+    registro evaluó y no encontró ninguna, que es justo lo contrario de lo que
+    dice la página.
+
+    **R9**: `creator` y `publisher` son el monitor, que compila el artefacto;
+    **el RUD es de la UNGRD** y va en `citation`. Ningún `Dataset` anidado
+    dentro de otro: la identidad se referencia por `@id` (la define
+    `BLOQUE_IDENTIDAD` en esta misma página).
+
+    `temporalCoverage` arranca el día del sismo y **cierra en la última
+    captura**, no en la corrida; `dateModified` es esa misma fecha del dato.
+    Esta página tiene un sello que distingue «datos hasta el 21» de «corrida
+    del 22»: fechar el marcado con el build publicaría «100.231 familias a 22
+    de agosto», la confusión exacta que el sello corrige en la prosa de al
+    lado.
+
+    Devuelve el `<script>` ENTERO, no solo el JSON: el contenedor que espera en
+    `site/rud.html` es una `<section hidden>`, porque un `<script
+    type="application/ld+json">` vacío a la espera de su relleno es JSON
+    inválido para todo el que lea el documento antes de la inyección."""
+    rud = ctx.get("rud") or {}
+    serie = rud.get("serie") or []
+    munis = rud.get("municipios") or []
+    ult = serie[-1] if serie else {}
+    url = "https://datosdelterremoto.org/rud.html"
+
+    variables, presentes = [], set()
+    for campo, rotulo, unidad, agrega in COLUMNAS_RUD:
+        total = _cifra_ld(ult.get(campo)) if agrega else None
+        # la columna existe si alguna de las dos capas la trae; una fuente que
+        # no publicó nada no aparece con cero, no aparece (R3/M10)
+        if total is None and not any(m.get(campo) is not None for m in munis):
+            continue
+        presentes.add(campo)
+        variable = {"@type": "PropertyValue", "name": rotulo, "unitText": unidad}
+        if total is not None:
+            variable["value"] = total
+            if ult.get("fecha"):
+                cuando = f"en la captura del {fecha_larga(ult['fecha'])}"
+                # el recuento de municipios no es «un total que va municipio a
+                # municipio», y sobre todo es donde hay que decir qué significa
+                # no estar en la lista: la ausencia es el hallazgo del proyecto
+                variable["description"] = (
+                    f"Municipios que habían cargado al menos un damnificado "
+                    f"{cuando}. Que un municipio no aparezca significa «sin "
+                    f"registro aún», no «sin daño»."
+                    if campo == "municipios" else
+                    f"Total {cuando}. Es un mínimo provisional —el registro "
+                    f"sigue abierto— y en la tabla el dato va municipio a "
+                    f"municipio.")
+        variables.append(variable)
+
+    citas = [{"@type": "CreativeWork",
+              "name": "Registro Único de Damnificados (RUD)",
+              "publisher": {
+                  "@type": "Organization",
+                  "name": "Unidad Nacional para la Gestión del Riesgo de "
+                          "Desastres (UNGRD)",
+                  "url": "https://rud.gestiondelriesgo.gov.co/"}}]
+    # la cita del DANE entra con su columna, no antes: si la población dejara
+    # de llegar, la página no seguiría citando a quien no aportó nada
+    if presentes & {"poblacion_2026", "tasa_pct"}:
+        citas.append({
+            "@type": "CreativeWork",
+            "name": "Proyección de población municipal 2026",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Departamento Administrativo Nacional de Estadística "
+                        "(DANE)",
+                "url": "https://www.dane.gov.co/index.php/estadisticas-por-"
+                       "tema-2/demografia-y-poblacion/proyecciones-de-poblacion"}})
+
+    tecnicas = ["Registro administrativo declarativo municipal: lo cargan las "
+                "alcaldías y la UNGRD lo consolida, sujeto a verificación "
+                "posterior. No es un EDAN ni una medición de daño en campo."]
+    if len(citas) > 1:
+        tecnicas.append(
+            "La proporción sobre población es el cociente entre las personas "
+            "inscritas y la proyección municipal 2026 del DANE: magnitud "
+            "relativa, no medición de daño.")
+
+    ld = {
+        "@context": "https://schema.org", "@type": "Dataset",
+        "@id": f"{url}#dataset", "url": url,
+        "name": "Registro Único de Damnificados (RUD) del terremoto de "
+                "Colombia 2026, por municipio",
+        "description":
+            "Serie diaria de familias y personas inscritas como damnificadas, "
+            "y de viviendas destruidas y averiadas, cargada por las alcaldías "
+            "en el RUD de la UNGRD tras el terremoto M7.4 del 10 de agosto de "
+            "2026, municipio a municipio. Que un municipio no aparezca "
+            "significa «sin registro aún», no «sin daño»: es un registro "
+            "administrativo abierto, no un balance cerrado ni una evaluación "
+            "del daño.",
+        "inLanguage": "es",
+        # la cobertura arranca el día del sismo y CIERRA en la última captura;
+        # la corrida del build no pinta nada aquí (M7)
+        **({"temporalCoverage": f"2026-08-10/{ult['fecha']}",
+            "dateModified": ult["fecha"]} if ult.get("fecha") else {}),
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        # R9: quien compila el artefacto, no quien produce la cifra oficial
+        "creator": {"@id": ORGANIZACION},
+        "publisher": {"@id": ORGANIZACION},
+        "includedInDataCatalog": {"@id": SITIO},
+        "spatialCoverage": {"@type": "Place", "name": "Colombia"},
+        "keywords": ["RUD", "damnificados", "terremoto Colombia 2026", "UNGRD",
+                     "familias damnificadas", "viviendas destruidas",
+                     "municipios"],
+        "measurementTechnique": tecnicas,
+        **({"variableMeasured": variables} if variables else {}),
+        "citation": citas,
+        "distribution": [
+            {"@type": "DataDownload",
+             "name": "Serie diaria y detalle municipal del RUD (JSON)",
+             "encodingFormat": "application/json",
+             "contentUrl": "https://datosdelterremoto.org/data/public/rud.json"},
+        ]}
+    return ('<script type="application/ld+json">'
+            + json.dumps(ld, ensure_ascii=False) + "</script>")
+
+
 def _n(v) -> str:
     """Un número dentro del SVG, sin la cola decimal que no aporta nada.
 
@@ -2949,12 +3123,25 @@ def consolidado_balances(ctx: dict):
     """`mejorPorDia` + `comparativaFuentes` calculados por ui.js, o None.
 
     Cacheado en el propio ctx: lo piden cuatro generadores de la misma página
-    y la regla no cambia entre uno y otro."""
+    y la regla no cambia entre uno y otro.
+
+    **Cuando node falla, el porqué se dice (R11).** La página ya avisaba al
+    lector de que el consolidado no se publica —`AVISO_SIN_REGLA`—, pero quien
+    construye no se enteraba de la causa: el `stderr` de node se perdía en un
+    `except: pass` y la degradación era indistinguible de un día sin cifras.
+    Un supuesto roto avisa; no se rompe en silencio."""
     if "_balances_ui" in ctx:
         return ctx["_balances_ui"]
     resultado = None
     node = shutil.which("node")
     ui_js = ROOT / "site" / "ui.js"
+    if not node:
+        print("::warning::balances: no hay node en el PATH, así que la regla "
+              "de site/ui.js no se puede ejecutar y las cifras consolidadas "
+              "no se publican (R14)")
+    elif not ui_js.exists():
+        print(f"::warning::balances: falta {ui_js}, la única implementación de "
+              f"la regla del consolidado: las cifras no se publican")
     if node and ui_js.exists():
         # El feed viaja por STDIN, no como argumento: Linux limita cada
         # argumento de execve a 128 KiB y el feed ya pesa ~100 KB.
@@ -2977,8 +3164,14 @@ def consolidado_balances(ctx: dict):
                 capture_output=True, text=True, timeout=60)
             if r.returncode == 0:
                 resultado = json.loads(r.stdout)
-        except (OSError, ValueError, subprocess.SubprocessError):
-            pass
+            else:
+                print(f"::warning::balances: node salió con {r.returncode} al "
+                      f"ejecutar la regla del consolidado; las cifras no se "
+                      f"publican — {(r.stderr or '').strip()[:300]}")
+        except (OSError, ValueError, subprocess.SubprocessError) as fallo:
+            print(f"::warning::balances: no se pudo ejecutar la regla del "
+                  f"consolidado, las cifras no se publican — "
+                  f"{type(fallo).__name__}: {str(fallo)[:300]}")
     ctx["_balances_ui"] = resultado
     return resultado
 
@@ -3713,6 +3906,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "rud-grafico": grafico_rud,
                    "rud-chips": chips_rud,
                    "rud-nota": nota_rud,
+                   "rud-dataset": dataset_rud,
                    "noticias-resumen": entradilla_noticias,
                    "noticias-nota": nota_noticias,
                    "mun-resumen": entradilla_municipios,
@@ -3738,6 +3932,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "noticias-sello": "noticias",
                "rud-resumen": "rud", "rud-grafico": "rud",
                "rud-chips": "rud", "rud-nota": "rud",
+               "rud-dataset": "rud",
                "noticias-resumen": "noticias", "noticias-nota": "noticias",
                "mun-resumen": "municipios", "mun-silencio": "municipios",
                "mun-chips": "municipios", "mun-homonimos": "municipios",

@@ -5,7 +5,9 @@ de IA no ejecutan JavaScript. Si un test de aquí falla, la página se seguiría
 viendo perfecta en el navegador y estaría vacía para quien la tiene que citar
 — por eso se comprueba el HTML, no el resultado en pantalla.
 """
+import contextlib
 import copy
+import io
 import json
 import re
 import shutil
@@ -13,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import unittest.mock
 import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import date, timedelta
@@ -1417,8 +1420,8 @@ class TestElInyectorNoSeCalla(unittest.TestCase):
             destino = Path(tmp)
             self.rud_con(destino, '<tbody data-gen="rud"></tbody>')
             self.assertEqual(sorted(R.inyectar_prerenderizado(destino, self.ctx)),
-                             ["rud", "rud-chips", "rud-grafico", "rud-nota",
-                              "rud-resumen", "rud-sello"],
+                             ["rud", "rud-chips", "rud-dataset", "rud-grafico",
+                              "rud-nota", "rud-resumen", "rud-sello"],
                              "la primera pasada ya falló")
             with self.assertRaises(LookupError) as repetida:
                 R.inyectar_prerenderizado(destino, self.ctx)
@@ -4614,3 +4617,351 @@ class TestEnlaceSeguroEsEspejo(unittest.TestCase):
                        "data:text/html;base64,x", "vbscript:x"):
             with self.subTest(url=veneno):
                 self.assertEqual(R.enlace_seguro(veneno), "#")
+
+
+class TestDatasetDelRud(unittest.TestCase):
+    """El Dataset JSON-LD de rud.html: la página no tenía ningún marcado.
+
+    Era la única grande sin un solo nodo estructurado —cero `Dataset` en el
+    artefacto—, así que el registro oficial de damnificados, que es el dato que
+    nadie más publica consolidado, no existía para quien indexa conjuntos de
+    datos ni para quien cita sin ejecutar JavaScript.
+
+    Los guardianes de esta clase son los tres de la especificación: **G1** —una
+    cifra ausente se omite, jamás vale 0—, **G2** —ningún `Dataset` sin nombre
+    ni descripción, ni anidado dentro de otro— y **G6** —toda URL absoluta—.
+    """
+
+    SERIE = [{"fecha": "2026-08-20", "familias": 1000.0, "personas": 2000.0,
+              "municipios": 10, "viv_destruidas": 5.0, "viv_averiadas": 7.0},
+             {"fecha": "2026-08-21", "familias": 1300.0, "personas": 2600.0,
+              "municipios": 12, "viv_destruidas": 8.0, "viv_averiadas": 9.0}]
+    MUNICIPIOS = [{"departamento": "CHOCÓ", "municipio": "QUIBDÓ",
+                   "familias": 780.0, "personas": 1600.0, "viv_destruidas": 5.0,
+                   "viv_averiadas": 6.0, "poblacion_2026": 130000,
+                   "tasa_pct": 1.231, "delta_familias": 180.0},
+                  {"departamento": "CALDAS", "municipio": "ANSERMA",
+                   "familias": 70.0, "personas": 150.0, "viv_destruidas": 3.0,
+                   "viv_averiadas": 3.0, "poblacion_2026": 30000,
+                   "tasa_pct": 0.5, "delta_familias": None}]
+
+    def _ld(self, **cambios):
+        rud = {"serie": copy.deepcopy(self.SERIE),
+               "municipios": copy.deepcopy(self.MUNICIPIOS),
+               "generado": "2026-08-22"}
+        rud.update(cambios)
+        crudo = R.dataset_rud({"rud": rud})
+        self.assertTrue(crudo.startswith('<script type="application/ld+json">'),
+                        "el generador debe traer su propio <script>: el "
+                        "contenedor de site/rud.html es una sección, porque un "
+                        "bloque ld+json vacío es JSON inválido")
+        return json.loads(re.search(r">(.*)</script>$", crudo, re.S).group(1))
+
+    def _variables(self, ld) -> dict:
+        return {v["name"]: v for v in ld.get("variableMeasured", [])}
+
+    # ------------------------------------------------------------------ G1
+    def test_g1_una_cifra_ausente_se_omite_entera_y_jamas_sale_en_cero(self):
+        """R3/M10 dentro del marcado.
+
+        Sin viviendas destruidas en ninguna de las dos capas, la columna **no
+        existe**: un `"value": 0` afirmaría que el registro evaluó y no
+        encontró ninguna, que es lo contrario de lo que dice la página. El
+        JSON seguiría siendo válido y Google no se quejaría — este marcado
+        miente en silencio, y por eso hace falta el guardián.
+        """
+        serie = copy.deepcopy(self.SERIE)
+        munis = copy.deepcopy(self.MUNICIPIOS)
+        for d in serie:
+            d["viv_destruidas"] = None
+        for m in munis:
+            m["viv_destruidas"] = None
+        variables = self._variables(self._ld(serie=serie, municipios=munis))
+        self.assertNotIn("Viviendas destruidas", variables,
+                         "una columna sin un solo dato sigue en el marcado")
+        for nombre, variable in variables.items():
+            with self.subTest(columna=nombre):
+                self.assertNotEqual(variable.get("value"), 0,
+                                    "una ausencia se convirtió en un cero")
+
+    def test_g1_el_dato_que_solo_existe_en_el_detalle_se_describe_sin_valor(self):
+        """La columna que la serie no agrega —la población, la proporción, el
+        delta— se describe: existe y el lector la va a encontrar en la tabla.
+        Lo que no se hace es inventarle un total nacional, ni ponerlo a 0."""
+        variables = self._variables(self._ld())
+        for solo_columna in ("Población proyectada 2026 (DANE)",
+                             "Personas del RUD sobre población 2026",
+                             "Familias nuevas desde la captura anterior"):
+            with self.subTest(columna=solo_columna):
+                self.assertIn(solo_columna, variables)
+                self.assertNotIn("value", variables[solo_columna],
+                                 "se le inventó un agregado a una columna que "
+                                 "la serie no suma")
+
+    def test_g1_un_cero_medido_de_verdad_si_se_publica(self):
+        """La otra mitad de R3, la que se olvida: omitir lo falsy también
+        miente. Si la captura dice que el registro no ha cargado ninguna
+        vivienda destruida, ese cero es el dato y se publica."""
+        serie = copy.deepcopy(self.SERIE)
+        serie[-1]["viv_destruidas"] = 0
+        variables = self._variables(self._ld(serie=serie))
+        self.assertEqual(variables["Viviendas destruidas"]["value"], 0)
+
+    def test_las_cifras_no_arrastran_la_cola_decimal_de_la_fuente(self):
+        """El RUD llega en flotantes (`1300.0`): quien cite el marcado leería
+        un decimal que la fuente nunca publicó."""
+        variables = self._variables(self._ld())
+        self.assertEqual(variables["Familias inscritas"]["value"], 1300)
+        for nombre, variable in variables.items():
+            if "value" in variable:
+                with self.subTest(columna=nombre):
+                    self.assertIsInstance(variable["value"], int)
+
+    # ------------------------------------------------------------------ G2
+    def test_g2_el_nodo_tiene_nombre_y_descripcion_y_no_anida_datasets(self):
+        ld = self._ld()
+        for campo in ("name", "description"):
+            self.assertTrue(str(ld.get(campo) or "").strip(), f"sin «{campo}»")
+        anidados = [n for clave, valor in ld.items() if clave != "@type"
+                    for n in nodos_ld(valor) if "Dataset" in tipos_ld(n)]
+        self.assertEqual(anidados, [], "un Dataset dentro de otro: usa @id")
+
+    # ------------------------------------------------------------------ G6
+    def test_g6_toda_url_del_bloque_es_absoluta(self):
+        for nodo in nodos_ld(self._ld()):
+            for campo in ("contentUrl", "url", "logo", "@id"):
+                valor = nodo.get(campo)
+                if not isinstance(valor, str):
+                    continue
+                partes = urllib.parse.urlparse(valor)
+                with self.subTest(campo=campo, valor=valor):
+                    self.assertTrue(partes.scheme and partes.netloc,
+                                    f"«{campo}» relativo → {valor}")
+
+    # ------------------------------------------------------------- atribución
+    def test_r9_el_monitor_compila_y_la_ungrd_se_cita(self):
+        """El monitor no produce la cifra oficial: la compila. La UNGRD no
+        publica esta página: publica el RUD. Confundirlo es el error editorial
+        que R9 prohíbe, y aquí se ve en dos campos distintos."""
+        ld = self._ld()
+        self.assertEqual(ld["creator"], {"@id": R.ORGANIZACION})
+        self.assertEqual(ld["publisher"], {"@id": R.ORGANIZACION})
+        self.assertEqual(ld["includedInDataCatalog"], {"@id": R.SITIO})
+        citados = [c["publisher"]["name"] for c in ld["citation"]]
+        self.assertTrue([n for n in citados if "UNGRD" in n],
+                        "el RUD es de la UNGRD y no aparece citado")
+        self.assertNotIn("UNGRD", json.dumps(ld["publisher"], ensure_ascii=False))
+
+    def test_la_cita_del_dane_entra_con_su_columna_y_no_antes(self):
+        """Consultar una fuente que no aportó nada no se cita: sería atribuirle
+        un dato que no puso."""
+        munis = [{k: v for k, v in m.items()
+                  if k not in ("poblacion_2026", "tasa_pct")}
+                 for m in copy.deepcopy(self.MUNICIPIOS)]
+        sin_dane = self._ld(municipios=munis)
+        self.assertEqual([c["name"] for c in sin_dane["citation"]],
+                         ["Registro Único de Damnificados (RUD)"])
+        self.assertEqual([t for t in sin_dane["measurementTechnique"]
+                          if "DANE" in t], [],
+                         "declara la técnica del DANE sin un solo dato suyo")
+        con_dane = self._ld()
+        self.assertTrue([c for c in con_dane["citation"]
+                         if "DANE" in c["publisher"]["name"]])
+
+    def test_el_rud_no_se_publica_como_una_evaluacion_de_dano(self):
+        """Que un municipio no aparezca significa «sin registro aún», no «sin
+        daño». Es la salvedad central de la página y tiene que viajar en el
+        marcado, que es lo que se cita sin leer la prosa."""
+        ld = self._ld()
+        self.assertIn("sin registro aún", ld["description"])
+        tecnicas = " ".join(ld["measurementTechnique"])
+        self.assertIn("No es un EDAN", tecnicas)
+        variables = self._variables(ld)
+        self.assertIn("sin registro aún",
+                      variables["Municipios con registro en el RUD"]["description"])
+
+    # ------------------------------------------------------------- el fechado
+    def test_m7_el_marcado_se_fecha_con_el_dato_y_no_con_la_corrida(self):
+        """La página distingue «datos hasta el 21» de «corrida del 22» en su
+        sello; el marcado no puede publicar solo la del build, o una IA leería
+        las familias del 21 fechadas el 22. La cobertura arranca el día del
+        sismo y **cierra**: un extremo abierto diría que el registro sigue
+        cargando hoy, que es una afirmación sobre el futuro."""
+        ld = self._ld()
+        self.assertEqual(ld["dateModified"], "2026-08-21")
+        self.assertEqual(ld["temporalCoverage"], "2026-08-10/2026-08-21")
+        self.assertNotIn("2026-08-22", json.dumps(ld, ensure_ascii=False),
+                         "la fecha de la corrida se coló en el marcado")
+        self.assertIn("21 de agosto de 2026",
+                      self._variables(ld)["Familias inscritas"]["description"],
+                      "una cifra del RUD sin su corte miente en 48 horas (M7)")
+
+    def test_sin_ninguna_captura_no_se_inventa_ni_una_fecha_ni_una_cifra(self):
+        """El día que el RUD no haya publicado nada, el conjunto de datos
+        sigue existiendo y la UNGRD sigue siendo su fuente: lo que se calla
+        son las cifras, no la existencia del dataset."""
+        ld = self._ld(serie=[], municipios=[])
+        for campo in ("dateModified", "temporalCoverage", "variableMeasured"):
+            self.assertNotIn(campo, ld, f"«{campo}» inventado sin una captura")
+        self.assertTrue(ld["name"] and ld["description"])
+        self.assertEqual([c["name"] for c in ld["citation"]],
+                         ["Registro Único de Damnificados (RUD)"])
+
+    # --------------------------------------------------- diccionario, no filas
+    def test_variablemeasured_es_el_diccionario_de_columnas_y_no_las_filas(self):
+        """207 filas en un `ItemList` no disparan ningún resultado enriquecido
+        y serían una segunda copia de la tabla mantenida aparte (M2)."""
+        munis = [dict(self.MUNICIPIOS[0], municipio=f"M{i}") for i in range(40)]
+        ld = self._ld(municipios=munis)
+        self.assertNotIn("ItemList", json.dumps(ld, ensure_ascii=False))
+        self.assertLess(len(ld["variableMeasured"]), 15,
+                        "el diccionario de columnas se volvió una lista de filas")
+        for variable in ld["variableMeasured"]:
+            with self.subTest(columna=variable["name"]):
+                self.assertEqual(variable["@type"], "PropertyValue")
+                self.assertTrue(variable.get("unitText"), "columna sin unidad")
+
+    def test_las_columnas_declaradas_son_las_de_la_tabla_servida(self):
+        """El diccionario describe la tabla que se lee debajo: si una columna
+        se fuera del HTML y siguiera aquí, el marcado prometería un dato que la
+        página ya no publica (M2). Se compara contra `COLUMNAS_RUD`, que es de
+        donde salen las dos cosas.
+
+        Se cuentan solo las columnas de cifra (`th.num`): la primera columna es
+        el rótulo de la fila —el nombre del municipio, que no mide nada— y
+        «Municipios con registro» no es una columna de la tabla sino la
+        variable de la serie, así que se excluye de los dos lados.
+        """
+        cabeceras = re.findall(
+            r'<th scope="col" class="num"[^>]*>(.*?)</th>',
+            (ROOT / "site" / "rud.html").read_text(encoding="utf-8"))
+        de_tabla = [c[1] for c in R.COLUMNAS_RUD if c[0] != "municipios"]
+        self.assertEqual(
+            len(cabeceras), len(de_tabla),
+            f"la tabla sirve {len(cabeceras)} columnas de cifra y el marcado "
+            f"describe {len(de_tabla)}: {cabeceras} · {de_tabla}")
+        self.assertIn("Municipios con registro en el RUD",
+                      [c[1] for c in R.COLUMNAS_RUD])
+
+    # ------------------------------------------------------- el dato de verdad
+    def test_el_dato_real_cuadra_con_la_serie_publicada(self):
+        """Sobre `data/public/rud.json`, no sobre el fixture: un marcado que
+        cuadre con un ejemplo inventado y no con el dato publicado no sirve."""
+        ctx = R.contexto()
+        crudo = R.dataset_rud(ctx)
+        ld = json.loads(re.search(r">(.*)</script>$", crudo, re.S).group(1))
+        ult = ctx["rud"]["serie"][-1]
+        variables = self._variables(ld)
+        for campo, rotulo, _, agrega in R.COLUMNAS_RUD:
+            if not agrega or ult.get(campo) is None:
+                continue
+            with self.subTest(columna=rotulo):
+                self.assertEqual(variables[rotulo]["value"], int(ult[campo]))
+        self.assertEqual(ld["dateModified"], ult["fecha"])
+
+
+class TestElDatasetDelRudLlegaAlArtefacto(unittest.TestCase):
+    """El inyector de verdad sobre el `site/rud.html` del repositorio.
+
+    Separa «el generador devuelve algo» de «la página lo lleva»: cae si alguien
+    quita la marca, le cambia la etiqueta al contenedor o desconecta el
+    generador de cualquiera de los dos registros del inyector."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
+        shutil.copy(ROOT / "site" / "rud.html", cls.tmp / "rud.html")
+        cls.hechas = R.inyectar_prerenderizado(cls.tmp, R.contexto())
+        # los dos pasos del build, y en su orden: el nodo de identidad al que
+        # el Dataset referencia por `@id` lo escribe el segundo
+        R.escribir_piezas_compartidas(cls.tmp)
+        cls.html = (cls.tmp / "rud.html").read_text(encoding="utf-8")
+
+    def test_el_contenedor_llega_escrito_y_no_vacio(self):
+        self.assertIn("rud-dataset", self.hechas)
+        dentro = re.search(
+            r'<section[^>]*\bdata-gen="rud-dataset"[^>]*>(.*?)</section>',
+            self.html, re.S)
+        self.assertTrue(dentro, "«rud-dataset» ya no está en site/rud.html")
+        self.assertTrue(dentro.group(1).strip(),
+                        "«rud-dataset» llegó vacío al artefacto")
+
+    def test_la_pagina_publica_un_dataset_y_solo_uno(self):
+        datasets = datasets_ld(self.html)
+        self.assertEqual(len(datasets), 1,
+                         "rud.html seguía sin ningún dato estructurado")
+        self.assertEqual(datasets[0]["@id"],
+                         "https://datosdelterremoto.org/rud.html#dataset")
+
+    def test_el_dataset_referencia_una_identidad_que_la_pagina_trae(self):
+        """`@id` no resuelve entre documentos: la organización y el catálogo a
+        los que apunta tienen que estar definidos en esta misma página."""
+        definidos = {n.get("@id") for bloque in bloques_ld(self.html)
+                     for n in nodos_ld(bloque) if n.get("name")}
+        for referencia in (R.ORGANIZACION, R.SITIO):
+            with self.subTest(id=referencia):
+                self.assertIn(referencia, definidos)
+
+    def test_el_marcador_va_vacio_en_el_repositorio(self):
+        """La apertura pegada al cierre, y sin un `ld+json` a medio escribir
+        dentro: es lo que el inyector busca y lo que lee quien abre `site/`
+        antes del build."""
+        fuente = (ROOT / "site" / "rud.html").read_text(encoding="utf-8")
+        self.assertIn('<section hidden data-gen="rud-dataset"></section>', fuente)
+        self.assertNotRegex(
+            fuente, r'<script type="application/ld\+json"[^>]*>\s*</script>')
+
+
+class TestElConsolidadoDeBalancesNoFallaEnSilencio(unittest.TestCase):
+    """R11 · Un supuesto roto avisa; no se rompe en silencio.
+
+    `TestBalancesSinNode` ya comprueba que la PÁGINA se lo dice al lector. Esto
+    es la otra mitad, la que faltaba: quien construye tiene que enterarse de
+    **por qué**. El `stderr` de node se perdía en un `except: pass`, así que un
+    `ui.js` con un error de sintaxis y un día sin cifras eran indistinguibles
+    desde el registro del build.
+    """
+
+    def _sin_cache(self):
+        return {"monitor": {}, "oficiales": {"items": []}}
+
+    def _corriendo(self, ctx, **parches):
+        salida = io.StringIO()
+        with contextlib.ExitStack() as pila:
+            pila.enter_context(contextlib.redirect_stdout(salida))
+            if parches:
+                pila.enter_context(unittest.mock.patch.multiple(R, **parches))
+            resultado = R.consolidado_balances(ctx)
+        return resultado, salida.getvalue()
+
+    def test_sin_node_se_dice_que_falta_node(self):
+        resultado, avisos = self._corriendo(
+            self._sin_cache(), shutil=unittest.mock.Mock(which=lambda _: None))
+        self.assertIsNone(resultado)
+        self.assertIn("::warning::", avisos, "la degradación pasó en silencio")
+        self.assertIn("node", avisos)
+
+    def test_el_stderr_de_node_llega_al_registro_del_build(self):
+        """Es el caso que motiva el cambio: node existe, se ejecuta y falla.
+        Sin el aviso, el porqué —un `ui.js` roto, por ejemplo— se perdía."""
+        fallo = unittest.mock.Mock(returncode=1, stdout="",
+                                   stderr="SyntaxError: ui.js está roto")
+        resultado, avisos = self._corriendo(
+            self._sin_cache(),
+            subprocess=unittest.mock.Mock(run=lambda *a, **k: fallo,
+                                          SubprocessError=Exception))
+        self.assertIsNone(resultado)
+        self.assertIn("::warning::", avisos)
+        self.assertIn("SyntaxError: ui.js está roto", avisos,
+                      "el stderr de node se sigue tragando")
+
+    def test_una_corrida_sana_no_avisa_de_nada(self):
+        """Un aviso que sale siempre deja de leerse: solo avisa lo que falla."""
+        if not NODE:
+            self.skipTest("sin node no hay corrida sana que comprobar")
+        ctx = R.contexto()
+        ctx.pop("_balances_ui", None)
+        resultado, avisos = self._corriendo(ctx)
+        self.assertIsNotNone(resultado)
+        self.assertNotIn("::warning::", avisos)
