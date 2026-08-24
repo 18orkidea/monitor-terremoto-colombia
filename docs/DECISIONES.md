@@ -74,6 +74,39 @@ diverge del de edificios clasificados, la nota de los chips lo explica. Un
 servicio que no miró no sale con un cero (R3). El lienzo vive fuera de
 `.contenido` porque 760 px no caben panel y mapa lado a lado.
 
+## 2026-08-24 — Un grafo de llamadas para las preguntas de forma, construido al vuelo
+
+**Contexto.** Las fases 4 y 5 gastaron mucho en preguntas que `grep` contesta
+mal: «si cambio esto, ¿qué se rompe?», «¿por qué esta función afecta a aquella?»,
+«¿este guardián pasa de verdad por donde creo?». Medido sobre este repositorio:
+«¿qué depende de `fmt`?» son **~3.800 tokens** de `grep` —154 líneas sueltas, sin
+la cadena— frente a **~140** por el grafo, que además dice a cuántos saltos está
+cada cosa y qué ficheros toca. La pregunta que costó una revisión entera —si
+`TestMarcadoEstructurado` pasaba por el inyector— el grafo la contesta en 0,04 s.
+
+**Decisión.** `tools/grafo_codigo.py`, 60 líneas de `ast` + `re`, **solo
+stdlib**. Vive en `tools/` y no en `ingest/`: R14 protege el runtime y esto es
+análisis, no producción. **El grafo NO se versiona: se construye al vuelo**,
+medio segundo sobre el repo entero. Un índice guardado caduca en silencio, y un
+índice caducado que responde con seguridad es la cicatriz M4 —el documento que
+contradice al repo— con otro traje.
+
+**Lo que se decide que NO haga, y es la mitad del valor.** No ofrece cobertura
+de tests: el build despacha sus generadores por diccionario, así que el grafo
+los cree huérfanos —declaraba once funciones sin test cuando, medido
+ejecutando, las 95 públicas de `render_html` se ejecutan en la suite—. No indexa
+cadenas: para «¿dónde se publica este texto?», `grep`, siempre. Y resuelve las
+llamadas por nombre, así que empareja homónimos de ficheros distintos.
+**Los tres límites están en el docstring y hay un test que los vigila**, porque
+el riesgo de esta herramienta no es equivocarse: es sonar segura.
+
+**Consecuencia, y de dónde sale la lección.** La primera versión afirmó con
+total seguridad que el guardián global sí pasaba por el inyector. No modelaba
+las clases, así que fusionaba los cuarenta `setUpClass` del fichero de tests en
+un solo nodo — **el mismo error que un merge que fusiona clases homónimas**, que
+también costó lo suyo esta semana. Corregido el modelo, la respuesta se
+invirtió. De ahí el primer test: la clase forma parte de la identidad.
+
 ## 2026-08-24 — Un espejo se comprueba ejecutando las dos copias, nunca leyendo una
 
 Cuatro formateadores (`fmt`, `fmt_prosa`, `pct`, `fecha_corta`/`fecha_larga`) se
