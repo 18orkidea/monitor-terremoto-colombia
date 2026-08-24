@@ -132,6 +132,20 @@ window.UI = (function () {
   const estadoMunicipio = (estado) =>
     ESTADO_MUNICIPIO[estado] || ["Sin clasificar", "--muted", ""];
 
+  /* El nombre que se lee, a partir de la clave que desambigua: «Bolívar
+     (Cauca)» es una clave —un diccionario no admite dos veces la misma—, no un
+     topónimo. Cuando el texto escribe además el departamento por su cuenta,
+     repetirlo produce «Bolívar (Cauca) (Cauca)», que estuvo publicado en cinco
+     fichas y volvió a estarlo en la intro de municipios: se arregló en Python
+     y esta copia no se enteró (M2). Espejo EXACTO de
+     `deploy/render_html.py::toponimo` —si tocas una, mira la otra—, con su
+     test de espejo en tests/test_render_html.py. */
+  function toponimo(clave, depto) {
+    const sufijo = ` (${depto})`;
+    return String(clave || "").endsWith(sufijo)
+      ? String(clave).slice(0, -sufijo.length) : String(clave || "");
+  }
+
   /* Salvedad de los homónimos de departamento para la intro de municipios.
      Función pura (no toca el DOM) para que el harness de node la pueda testear:
      incluye la puntuación, porque el punto pertenece a la rama —el HTML lo dejó
@@ -139,9 +153,9 @@ window.UI = (function () {
   function fraseHomonimos(items) {
     const homs = (items || [])
       .filter((m) => m.homonimo_de_departamento && m.estado === "solo_rud")
-      .map((m) => `${m.municipio} (${m.departamento})`);
+      .map((m) => `${toponimo(m.municipio, m.departamento)} (${m.departamento})`);
     return homs.length
-      ? `, salvo ${homs.join(" y ")}, que se llaman igual que un departamento y ` +
+      ? `, salvo ${enumeraEs(homs)}, que se llaman igual que un departamento y ` +
         `a los que el monitor no puede atribuir titulares.`
       : ".";
   }
@@ -810,7 +824,9 @@ window.UI = (function () {
   }
 
   /* Enumeración española: «a, b y c», con «e» cuando la última pieza empieza
-     por sonido i (ICube-SERTIT). La necesitan ya dos listas distintas. */
+     por sonido i (ICube-SERTIT). La casa tiene UNA sola: los servicios
+     satelitales, los municipios de UNOSAT y la salvedad de los homónimos. Las
+     copias sueltas se quedaban en «a y b y c», que no es español. */
   function enumeraEs(xs) {
     const l = (xs || []).filter(Boolean).map(String);
     if (l.length < 2) return l.join("");
@@ -914,10 +930,9 @@ window.UI = (function () {
       const munsUnosat = unosat ? (uno.municipios || []) : [];
       const munUnosat = munsUnosat.length;
       // los municipios se nombran, no se cuentan: son tres y decir cuáles vale
-      // más que decir cuántos. Enumeración española: «a, b y c».
-      const listaUnosat = munsUnosat.length > 1
-        ? `${munsUnosat.slice(0, -1).join(", ")} y ${munsUnosat.at(-1)}`
-        : munsUnosat.join("");
+      // más que decir cuántos. La enumeración española es una sola función
+      // (`enumeraEs`): esta copia se había quedado sin la «e» de «e Ibagué».
+      const listaUnosat = enumeraEs(munsUnosat);
       out.push({
         id: "satelite",
         nombre: unosat ? "Satélite · Copernicus y UNOSAT" : "Satélite · Copernicus",
@@ -1008,6 +1023,7 @@ window.UI = (function () {
   return { fmt, fmtProsa, pct, fechaEs, fechaLarga, diaMes, serieDesde,
            AOI_ES, aoiEs, zonasSinRegistro, ejemplosSinRegistro,
            estadoMunicipio, ESTADO_MUNICIPIO,
+           toponimo, enumeraEs,
            fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc,
            fetchJson, tablaBuscable, tablaHidratada, paginador, metricCards,
            fichaMapa,

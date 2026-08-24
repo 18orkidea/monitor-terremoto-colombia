@@ -6,6 +6,31 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — `toponimo` llega a `ui.js`: la clave desambigua, el texto no la repite
+
+**Contexto.** `municipios.html` publicaba «…salvo Bolívar (Valle del Cauca) y
+**Bolívar (Cauca) (Cauca)** y Córdoba (Quindío)…». Dos defectos en la misma
+frase: el departamento duplicado —el mismo bug que `179edef` arregló en las 208
+fichas con `toponimo()` en Python, y del que `ui.js` **nunca se enteró** (M2)— y
+la enumeración «A y B y C», que no es español, cuando diez líneas más abajo el
+mismo fichero ya tenía `enumeraEs` bien hecha.
+
+**Decisión.** `toponimo(clave, depto)` se escribe en `site/ui.js` como **espejo
+exacto** de `deploy/render_html.py::toponimo`, con test de espejo
+(`test_el_toponimo_de_ui_js_es_espejo_del_de_python`) que cae si divergen — la
+lección de M2 completa: al fundir, un test que se rompa si vuelven a separarse.
+Las enumeraciones sueltas (`fraseHomonimos`, lista de UNOSAT en
+`comparativaFuentes`) pasan por `enumeraEs`, que queda como la única de la casa.
+Los dos globos del mapa que titulan con la clave del catálogo (`app.js`: la capa
+de municipios con señal y la capa de la ausencia, esta última cazada por el
+auditor editorial) dejan de escribir «Riosucio (Caldas) (Caldas)».
+
+**Consecuencia.** Guardianes nuevos en `test_frontend` y `test_render_html`,
+validados por mutación: reintroducir el departamento duplicado, el «a y b y c» y
+la divergencia del espejo tumba los tests. `seo_check.DEPTO_DUPLICADO` no veía
+esta frase porque solo recorre las fichas y esta la escribía el navegador: otro
+motivo para el prerenderizado de la fase 4.
+
 ## 2026-08-24 — Un activo se archiva una vez: el guardián pregunta al archivo, no al disco
 
 **Contexto (medido sobre `sources_log`, 15 a 22-ago-2026).** De los **3.931 MB**

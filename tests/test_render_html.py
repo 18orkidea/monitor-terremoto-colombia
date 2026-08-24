@@ -2677,6 +2677,30 @@ class TestClaveYToponimo(unittest.TestCase):
         self.assertEqual(R.toponimo("Argelia (Cauca)", "Valle del Cauca"),
                          "Argelia (Cauca)")
 
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_el_toponimo_de_ui_js_es_espejo_del_de_python(self):
+        """M2: el recorte vive en DOS lenguajes y ya divergió una vez.
+
+        El commit que lo arregló solo tocó Python, así que las 208 fichas
+        dejaron de repetir el departamento y la intro de municipios —que la
+        escribe el navegador— siguió publicando «Bolívar (Cauca) (Cauca)»
+        durante días. Se comparan EJECUTANDO las dos, no leyendo el código:
+        dos textos parecidos pueden hacer cosas distintas.
+        """
+        casos = [("Riosucio (Caldas)", "Caldas"), ("Riosucio (Chocó)", "Chocó"),
+                 ("Bolívar (Cauca)", "Cauca"), ("Nóvita", "Chocó"),
+                 # el recorte es exacto: un paréntesis que no es EL departamento
+                 # se queda, y las diferencias de mayúsculas o tildes no cuentan
+                 ("Argelia (Cauca)", "Valle del Cauca"),
+                 ("Balboa (Cauca)", "cauca"), ("Bogotá, D.C.", "Bogotá, D.C."),
+                 ("", "Caldas")]
+        js = correr_ui("[" + ",".join(
+            f"UI.toponimo({json.dumps(c, ensure_ascii=False)},"
+            f" {json.dumps(d, ensure_ascii=False)})" for c, d in casos) + "]")
+        self.assertEqual(js, [R.toponimo(c, d) for c, d in casos],
+                         "el topónimo de site/ui.js y el de deploy/render_html.py "
+                         "han dejado de decir lo mismo")
+
     def test_el_departamento_no_se_escribe_dos_veces_en_toda_la_ficha(self):
         """En la ficha ENTERA, no solo en los metadatos.
 

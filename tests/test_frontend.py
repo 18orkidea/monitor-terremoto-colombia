@@ -481,6 +481,50 @@ class TestFraseHomonimos(unittest.TestCase):
         # la costura original: punto del HTML + raya de la salvedad
         self.assertNotIn(". —", frase)
 
+    # Las claves del catálogo desambiguan los homónimos con el departamento
+    # entre paréntesis. Estas dos son las que se publicaron el 23-ago-2026 en
+    # la frase real de municipios.html.
+    CON_PARENTESIS = [
+        {"municipio": "Bolívar (Cauca)", "departamento": "Cauca",
+         "homonimo_de_departamento": True, "estado": "solo_rud"},
+        {"municipio": "Sucre", "departamento": "Cauca",
+         "homonimo_de_departamento": True, "estado": "solo_rud"},
+    ]
+
+    def test_el_departamento_no_se_escribe_dos_veces(self):
+        """La frase publicada decía «Bolívar (Cauca) (Cauca)»: es la clave del
+        diccionario usada como topónimo, el mismo fallo que `toponimo()` ya
+        había corregido en las 208 fichas y del que esta copia no se enteró
+        (M2). El patrón es el de `ingest/seo_check.py::DEPTO_DUPLICADO`, que
+        casa con este texto pero no lo ve: solo recorre las fichas del build, y
+        esta frase la escribe el navegador."""
+        frase = self._frase(self.CON_PARENTESIS)
+        dup = re.compile(r"\(([^()]{2,40})\)(?: \(\1\)|, \1\b)")
+        hallado = dup.search(frase)
+        self.assertIsNone(hallado,
+                          f"el departamento se repite: «{hallado.group(0) if hallado else ''}»"
+                          f" en «{frase}»")
+        self.assertIn("Bolívar (Cauca)", frase)   # sigue desambiguado una vez
+
+    def _enumerados(self, muns):
+        """Solo el tramo que enumera, sin el resto de la frase."""
+        frase = self._frase(muns)
+        return frase.split(", salvo ", 1)[1].split(", que se llaman", 1)[0]
+
+    def test_la_enumeracion_es_espanola(self):
+        """«A y B y C y D y E» no es español, y es lo que se publicó el
+        23-ago-2026 con cinco homónimos: la lista lleva comas y UNA sola
+        conjunción. La regla ya vivía en `UI.enumeraEs`, en este mismo fichero;
+        esta copia no la usaba (M2)."""
+        self.assertEqual(
+            self._enumerados(self.MUNS + self.CON_PARENTESIS),
+            "Risaralda (Caldas), Córdoba (Quindío), Bolívar (Cauca) "
+            "y Sucre (Cauca)")
+        # con dos no hay coma que valga, y con uno no hay conjunción
+        self.assertEqual(self._enumerados(self.CON_PARENTESIS),
+                         "Bolívar (Cauca) y Sucre (Cauca)")
+        self.assertEqual(self._enumerados(self.MUNS[:1]), "Risaralda (Caldas)")
+
     def test_no_nombra_al_homonimo_que_dejo_de_ser_solo_rud(self):
         # si mañana tiene prensa, deja de ser excepción del párrafo que lo cita
         con_prensa = [{**self.MUNS[0], "estado": "mencion_prensa"}]

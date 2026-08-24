@@ -187,7 +187,9 @@
       onEachFeature: (f, l) => {
         const p = f.properties;
         l.bindPopup(ficha({
-          titulo: window.UI.esc(p.municipio),
+          // la clave del catálogo desambigua («Bolívar (Cauca)»); con el
+          // departamento ya de subtítulo, repetirla duplicaba el paréntesis
+          titulo: window.UI.esc(window.UI.toponimo(p.municipio, p.departamento)),
           subtitulo: window.UI.esc(p.departamento),
           filas: [
             // por fmt(): el millar del sitio es es-CO («1.234»), nunca el crudo
@@ -534,7 +536,10 @@
             ? ` <span style="color:var(--muted)">cabecera ${fmt(p.cabecera_2026)}` +
               ` · rural ${fmt(p.rural_2026)}</span>` : "";
           l.bindPopup(ficha({
-            titulo: `${p.municipio} (${p.departamento})`,
+            // la clave desambigua, el título no la repite: el globo decía
+            // «Riosucio (Caldas) (Caldas)» en los cinco municipios homónimos
+            titulo: `${window.UI.toponimo(p.municipio, p.departamento)}`
+                    + ` (${p.departamento})`,
             subtitulo: p.en_aoi_copernicus
               ? "Dentro de zona mapeada por Copernicus"
               : "Fuera de toda zona mapeada por Copernicus",
