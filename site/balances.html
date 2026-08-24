@@ -38,7 +38,7 @@
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
-<header>
+<header class="encabezado">
   <div>
     <h1>Balances en medios que citan fuentes oficiales</h1>
     <p class="sub">Separa el canal que
@@ -52,74 +52,26 @@
   </div>
 </header>
 
-<section class="intro">
-  <p>Tras el <strong>terremoto M7,4 de Colombia</strong>, las cifras de <strong>fallecidos,
-  heridos, desaparecidos y familias afectadas</strong> circulan antes por la prensa que por
-  los canales oficiales abiertos. Esta página rastrea a diario los <strong>balances que los
-  medios publican citando a las fuentes oficiales</strong> — la Unidad Nacional para la
-  Gestión del Riesgo de Desastres (UNGRD), el Servicio Geológico Colombiano (SGC),
-  gobernaciones y alcaldías — y los convierte en una serie temporal trazable:
-  cada cifra con su fecha, su publicador, la fuente que cita y el enlace al artículo.</p>
-  <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
-  oficial. Es lo que la prensa dice que dicen las fuentes oficiales —y, cuando la
-  hay, lo que publica la propia entidad por sus canales, marcado como tal—: útil porque vuela más
-  rápido que los canales formales, y peligroso si se confunde con un EDAN, la Evaluación de
-  Daños y Análisis de Necesidades que hacen las autoridades sobre el terreno. Por eso cada
-  captura lleva su nivel de confianza, y las <em>coberturas en vivo</em> —que mezclan
-  actualizaciones de horas distintas— se marcan y pesan menos.</p>
-  <details>
-    <summary><strong>Metodología y preguntas frecuentes</strong></summary>
-    <ol>
-      <li><strong>¿Cómo se recogen?</strong> Un proceso automático busca cada noche (23:00
-      de Colombia) balances del día en la prensa, descarga los artículos y extrae las cifras
-      con reglas de texto deterministas —no con un modelo de lenguaje, que aquí solo se usa
-      para leer documentos escaneados—, y guarda la cita textual y la huella digital
-      (sha256) del contenido.
-      El consolidado se calcula solo, sin esperar a nadie, y toda captura viaja
-      marcada como pendiente de revisión: ninguna cifra de esta página es un
-      dato verificado. Lo que sí hay es <strong>revisión humana diaria de lo
-      publicado</strong>, y es la que detecta los errores — así se descubrió que
-      un balance del día 10 estaba hundiendo la serie el 19 de agosto. Por eso
-      se enseñan también las cifras descartadas, con su motivo: para que esa
-      revisión la pueda hacer cualquiera, no solo quien mantiene el
-      monitor.</li>
-      <li><strong>¿Por qué difieren las cifras entre medios el mismo día?</strong> Porque
-      citan cortes distintos del consolidado oficial (mañana o tarde), o arrastran datos de
-      coberturas en vivo — y los medios que llegan tarde a veces publican cortes de días
-      atrás. Cada cifra que se muestra es <strong>el máximo informado</strong> hasta esa
-      fecha, y entra en la serie solo si cumple cuatro condiciones: <strong>supera a la
-      vigente</strong> (un balance acumulado no retrocede), <strong>se puede atribuir a una
-      fuente oficial</strong> —porque el medio la cita o porque la publica la propia
-      entidad—, <strong>es coherente</strong> con el resto de cifras del mismo balance
-      (nadie puede tener más desaparecidos que afectados) y <strong>no da un salto
-      desmedido</strong> sobre la anterior. Lo que no entra se enseña con su motivo: no se
-      borra. Cuando dos capturas que sí podían entrar en la serie se contradicen con fuerza (más de un 15 %), el día se marca
-      <strong>«cifras en disputa»</strong>. Y si la captura elegida no trae una cifra, se
-      conserva el máximo conocido con su fecha y su medio de origen: un dato no desaparece
-      porque un medio no lo repita.</li>
-      <li><strong>¿Por qué «máximo informado» y no «cifra actual»?</strong> Porque en esta
-      serie ninguna cifra baja, y hay una que sí puede bajar en la realidad: los
-      desaparecidos, cuando aparece gente viva. Llamarla «actual» sería afirmar algo que el
-      monitor no sabe. Si un balance oficial corrige a la baja, la corrección aparece entre
-      las cifras descartadas del día en que llega, con su medio y su enlace.</li>
-      <li><strong>¿Una cobertura en vivo puede ser la captura del día?</strong> Sí, si es la
-      única con atribución oficial y las demás vienen vacías o con cortes viejos. Sigue
-      pesando menos que un artículo estático equivalente, pero una cobertura en vivo que
-      cita a la UNGRD y al SGC informa mejor que un artículo que no cita a nadie.</li>
-      <li><strong>¿Qué significa cada nivel?</strong> «Prensa temporal» = artículo fechado
-      de un medio; «Web temporal» = página sin fecha editorial firme; el distintivo
-      <em>cobertura en vivo</em> señala las que se publican «en directo» (fiabilidad
-      histórica baja).</li>
-      <li><strong>¿Dónde están los datos?</strong> El feed completo es público en
-      <a href="/data/public/oficiales.json">JSON</a> —el que pinta esta página, archivado
-      con la corrida diaria— y el feed en vivo del worker que lo genera, en
-      <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" target="_blank" rel="noopener">JSON</a>
-      y <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.rss" target="_blank" rel="noopener">RSS</a>,
-      bajo licencia CC&nbsp;BY&nbsp;4.0. El día que la UNGRD publique el EDAN en datos
-      abiertos, esta página quedará felizmente obsoleta.</li>
-    </ol>
-  </details>
-</section>
+<details class="pliegue">
+  <summary>Por qué las cifras no coinciden</summary>
+  <section class="intro">
+    <p>Cada medio publica la cifra que tenía a mano el día que escribió, citando a quien
+    cita. Que no coincidan no es un error de esta página: <strong>esa distancia es la
+    brecha que el monitor mide</strong>. Las cifras se rotulan como <strong>máximo
+    informado</strong> porque el consolidado no retrocede, aunque en la realidad los
+    desaparecidos sí puedan bajar, y lo que no entra en la serie se enseña con su
+    motivo.</p>
+    <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
+    oficial. Es lo que la prensa dice que dicen las fuentes oficiales —y, cuando la
+    hay, lo que publica la propia entidad por sus canales, marcado como tal—: útil porque vuela más
+    rápido que los canales formales, y peligroso si se confunde con un EDAN, la Evaluación de
+    Daños y Análisis de Necesidades que hacen las autoridades sobre el terreno. Por eso cada
+    captura lleva su nivel de confianza, y las <em>coberturas en vivo</em> —que mezclan
+    actualizaciones de horas distintas— se marcan y pesan menos.</p>
+  </section>
+</details>
+
+<div class="zona-datos">
 
 <section id="balance-hero">
   <div id="balance-cards" class="metric-strip"></div>
@@ -188,7 +140,70 @@
     <tbody data-gen="balances"></tbody><!-- lo rellena deploy/render_html.py en el build -->
   </table></div>
 </section>
+</div>
 
+<details class="pliegue denso">
+  <summary>Cómo se recogen y se validan estos balances</summary>
+  <section class="intro">
+    <p>Tras el <strong>terremoto M7,4 de Colombia</strong>, las cifras de <strong>fallecidos,
+    heridos, desaparecidos y familias afectadas</strong> circulan antes por la prensa que por
+    los canales oficiales abiertos. Esta página rastrea a diario los <strong>balances que los
+    medios publican citando a las fuentes oficiales</strong> — la Unidad Nacional para la
+    Gestión del Riesgo de Desastres (UNGRD), el Servicio Geológico Colombiano (SGC),
+    gobernaciones y alcaldías — y los convierte en una serie temporal trazable:
+    cada cifra con su fecha, su publicador, la fuente que cita y el enlace al artículo.</p>
+    <h3>Metodología y preguntas frecuentes</h3>
+    <ol>
+<li><strong>¿Cómo se recogen?</strong> Un proceso automático busca cada noche (23:00
+      de Colombia) balances del día en la prensa, descarga los artículos y extrae las cifras
+      con reglas de texto deterministas —no con un modelo de lenguaje, que aquí solo se usa
+      para leer documentos escaneados—, y guarda la cita textual y la huella digital
+      (sha256) del contenido.
+      El consolidado se calcula solo, sin esperar a nadie, y toda captura viaja
+      marcada como pendiente de revisión: ninguna cifra de esta página es un
+      dato verificado. Lo que sí hay es <strong>revisión humana diaria de lo
+      publicado</strong>, y es la que detecta los errores — así se descubrió que
+      un balance del día 10 estaba hundiendo la serie el 19 de agosto. Por eso
+      se enseñan también las cifras descartadas, con su motivo: para que esa
+      revisión la pueda hacer cualquiera, no solo quien mantiene el
+      monitor.</li>
+      <li><strong>¿Por qué difieren las cifras entre medios el mismo día?</strong> Porque
+      citan cortes distintos del consolidado oficial (mañana o tarde), o arrastran datos de
+      coberturas en vivo — y los medios que llegan tarde a veces publican cortes de días
+      atrás. Cada cifra que se muestra es <strong>el máximo informado</strong> hasta esa
+      fecha, y entra en la serie solo si cumple cuatro condiciones: <strong>supera a la
+      vigente</strong> (un balance acumulado no retrocede), <strong>se puede atribuir a una
+      fuente oficial</strong> —porque el medio la cita o porque la publica la propia
+      entidad—, <strong>es coherente</strong> con el resto de cifras del mismo balance
+      (nadie puede tener más desaparecidos que afectados) y <strong>no da un salto
+      desmedido</strong> sobre la anterior. Lo que no entra se enseña con su motivo: no se
+      borra. Cuando dos capturas que sí podían entrar en la serie se contradicen con fuerza (más de un 15 %), el día se marca
+      <strong>«cifras en disputa»</strong>. Y si la captura elegida no trae una cifra, se
+      conserva el máximo conocido con su fecha y su medio de origen: un dato no desaparece
+      porque un medio no lo repita.</li>
+      <li><strong>¿Por qué «máximo informado» y no «cifra actual»?</strong> Porque en esta
+      serie ninguna cifra baja, y hay una que sí puede bajar en la realidad: los
+      desaparecidos, cuando aparece gente viva. Llamarla «actual» sería afirmar algo que el
+      monitor no sabe. Si un balance oficial corrige a la baja, la corrección aparece entre
+      las cifras descartadas del día en que llega, con su medio y su enlace.</li>
+      <li><strong>¿Una cobertura en vivo puede ser la captura del día?</strong> Sí, si es la
+      única con atribución oficial y las demás vienen vacías o con cortes viejos. Sigue
+      pesando menos que un artículo estático equivalente, pero una cobertura en vivo que
+      cita a la UNGRD y al SGC informa mejor que un artículo que no cita a nadie.</li>
+      <li><strong>¿Qué significa cada nivel?</strong> «Prensa temporal» = artículo fechado
+      de un medio; «Web temporal» = página sin fecha editorial firme; el distintivo
+      <em>cobertura en vivo</em> señala las que se publican «en directo» (fiabilidad
+      histórica baja).</li>
+      <li><strong>¿Dónde están los datos?</strong> El feed completo es público en
+      <a href="/data/public/oficiales.json">JSON</a> —el que pinta esta página, archivado
+      con la corrida diaria— y el feed en vivo del worker que lo genera, en
+      <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" target="_blank" rel="noopener">JSON</a>
+      y <a href="https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.rss" target="_blank" rel="noopener">RSS</a>,
+      bajo licencia CC&nbsp;BY&nbsp;4.0. El día que la UNGRD publique el EDAN en datos
+      abiertos, esta página quedará felizmente obsoleta.</li>
+    </ol>
+  </section>
+</details>
 
 <script src="ui.js?v=dev"></script>
 <script src="balances.js?v=dev"></script>

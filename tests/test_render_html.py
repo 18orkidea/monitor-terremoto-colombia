@@ -2340,6 +2340,85 @@ class TestBalances(unittest.TestCase):
         self.assertNotIn("workers.dev", js)
 
 
+class TestLosDosPlegablesDeBalances(unittest.TestCase):
+    """La página de balances abre con el dato y pliega la explicación.
+
+    Mismo criterio que el RUD (fase 3): la advertencia editorial —los dos
+    párrafos que explican por qué las cifras no coinciden— se pliega ANTES de
+    los datos, y el «cómo se recogen» (la presentación más la metodología
+    entera) baja al final. La FAQ deja de ser un `<details>` dentro de otro:
+    era la única forma de plegarla al final sin anidar plegables.
+
+    El párrafo de la advertencia y el de la presentación son un movimiento, no
+    una reescritura; el primer párrafo del plegable de arriba sí es nuevo (es
+    el rótulo largo del criterio R16: máximo informado, lo rechazado se
+    enseña). Los recuentos exactos son lo único que distingue mover de
+    resumir."""
+
+    PALABRAS = {"Por qué las cifras no coinciden": 168,
+                "Cómo se recogen y se validan estos balances": 641}
+    UMBRAL = 120        # nada se pliega por debajo (criterio de JP)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = (ROOT / "site" / "balances.html").read_text(encoding="utf-8")
+        cls.bloques = re.findall(
+            r'<details class="pliegue[^"]*">(.*?)</details>', cls.html, re.S)
+
+    @staticmethod
+    def _palabras(fragmento):
+        return len(re.sub(r"<[^>]+>", " ", fragmento).split())
+
+    def test_son_dos_y_ninguno_vive_dentro_del_otro(self):
+        self.assertEqual(len(self.bloques), 2,
+                         "`balances.html` tiene dos plegables")
+        for b in self.bloques:
+            self.assertNotIn("<details", b, "ningún plegable dentro de otro")
+        self.assertEqual(self.html.count("<details"), 2,
+                         "la FAQ ya no vive en un tercer <details> anidado")
+
+    def test_cada_plegable_conserva_su_prosa(self):
+        visto = {}
+        for b in self.bloques:
+            titulo = re.search(r"<summary>(.*?)</summary>", b, re.S).group(1).strip()
+            cuerpo = re.search(r'<section class="intro">(.*?)</section>', b, re.S)
+            self.assertIsNotNone(
+                cuerpo, f"«{titulo}» ya no envuelve su prosa en una .intro")
+            visto[titulo] = self._palabras(cuerpo.group(1))
+        self.assertEqual(visto, self.PALABRAS,
+                         "alguien reescribió, resumió o perdió un párrafo: era "
+                         "un movimiento, no una redacción")
+        for titulo, n in visto.items():
+            self.assertGreaterEqual(
+                n, self.UMBRAL,
+                f"«{titulo}» tiene {n} palabras: nada se pliega por debajo de "
+                f"{self.UMBRAL}, porque plegar lo corto solo esconde")
+
+    def test_la_advertencia_pliega_arriba_y_la_metodologia_al_final(self):
+        """El orden es el argumento: primero el dato, la advertencia a un
+        clic encima de él, y la metodología completa al final."""
+        i_por_que = self.html.index("Por qué las cifras no coinciden")
+        i_zona = self.html.index('<div class="zona-datos">')
+        i_como = self.html.index("Cómo se recogen y se validan estos balances")
+        self.assertLess(i_por_que, i_zona, "la advertencia quedó bajo los datos")
+        self.assertLess(i_zona, i_como, "la metodología quedó encima de los datos")
+
+    def test_el_plegable_de_arriba_conserva_el_lenguaje_de_r16(self):
+        """R16 gobierna esta página: si el texto plegado pierde «máximo
+        informado» o deja de decir que lo rechazado se enseña con su motivo,
+        el marco editorial de la serie desaparece de la explicación."""
+        texto = " ".join(re.sub(r"<[^>]+>", " ", self.bloques[0]).split())
+        self.assertIn("máximo informado", texto)
+        self.assertIn("lo que no entra en la serie se enseña con su motivo", texto)
+
+    def test_ningun_titulo_de_plegable_lleva_emoticono(self):
+        for b in self.bloques:
+            titulo = re.search(r"<summary>(.*?)</summary>", b, re.S).group(1)
+            self.assertFalse(
+                re.search(r"[\U0001F000-\U0001FAFF☀-➿]", titulo),
+                f"el título «{titulo.strip()}» lleva un emoticono")
+
+
 class TestTitulares(unittest.TestCase):
     """Fase D: los titulares más recientes, escritos en el HTML.
 
