@@ -4685,3 +4685,214 @@ class TestChipsDeLaFicha(unittest.TestCase):
         self.assertNotIn('createElement("button")', self.js)
         self.assertNotIn('className = "chip"', self.js)
 
+
+class TestMarcadoDeLaFicha(unittest.TestCase):
+    """El `Dataset` enriquecido de las 208 fichas: cuánto, de cuándo y de quién.
+
+    Hasta hoy la ficha publicaba sus cifras solo como prosa en español, con los
+    miles separados por punto: legible para una persona y no citable por una
+    máquina. `variableMeasured` las convierte en pares (nombre, valor, unidad),
+    `citation` dice de quién es cada una y `measurementTechnique` impide leer
+    «inscritas» como «verificadas».
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def _ld(self, nombre: str) -> dict:
+        """El nodo `Dataset` tal como sale al HTML de esa ficha."""
+        html = R.render_ficha(R.datos_ficha(nombre, self.ctx))
+        datasets = datasets_ld(html)
+        assert len(datasets) == 1, f"{nombre}: {len(datasets)} nodos Dataset"
+        return datasets[0]
+
+    def _medidas(self, ld: dict) -> dict:
+        return {v["name"]: v for v in ld.get("variableMeasured") or []}
+
+    def test_g1_lo_que_la_fuente_calla_no_se_publica_como_cero(self):
+        """G1 · R3 · M10, sobre las 208. La mutación que debe morir es
+        `"value": m.get(campo) or 0`: el JSON seguiría siendo válido, Google no
+        se quejaría y Palmira publicaría que tiene cero familias damnificadas
+        cuando lo que pasa es que el registro aún no ha llegado.
+
+        No se comprueba «ninguna vale cero» —un cero medido de verdad sí se
+        publica—: se comprueba que la variable EXISTE si y solo si su campo de
+        origen no es nulo."""
+        campos = {"Familias inscritas en el RUD": "rud_familias",
+                  "Personas inscritas en el RUD": "rud_personas",
+                  "Viviendas destruidas declaradas en el RUD": "rud_viv_destruidas",
+                  "Viviendas averiadas declaradas en el RUD": "rud_viv_averiadas",
+                  "Población proyectada 2026 (DANE)": "poblacion_2026"}
+        sin_rud = 0
+        for m in self.ctx["municipios"]:
+            nombre = m["municipio"]
+            if not R.es_elegible(nombre, self.ctx):
+                continue
+            d = R.datos_ficha(nombre, self.ctx)
+            ld = R.dataset_ficha(d, nombre, m["departamento"], "https://x/", "d")
+            medidas = self._medidas(ld)
+            for etiqueta, campo in campos.items():
+                if m.get(campo) is None:
+                    self.assertNotIn(etiqueta, medidas,
+                                     f"{nombre}: {etiqueta} publicada sin dato")
+                else:
+                    self.assertIn(etiqueta, medidas, f"{nombre}: falta {etiqueta}")
+                    self.assertIsNotNone(medidas[etiqueta]["value"])
+            if m.get("rud_familias") is None:
+                sin_rud += 1
+        self.assertGreater(sin_rud, 0,
+                           "sin un municipio sin RUD, este guardián no vigila nada")
+
+    def test_la_ungrd_se_cita_aunque_el_municipio_no_tenga_registro(self):
+        """Consultar el RUD y no encontrar al municipio es un hecho de esa
+        fuente, y es justo el hallazgo que el proyecto existe para contar. La
+        cita se queda; lo que desaparece son las cifras."""
+        ld = self._ld("Palmira")
+        self.assertIsNone(self.ctx["idx"]["Palmira"].get("rud_familias"))
+        self.assertNotIn("Familias inscritas en el RUD", self._medidas(ld))
+        citas = [c["name"] for c in ld["citation"]]
+        self.assertIn("Registro Único de Damnificados (RUD)", citas)
+
+    def test_g4_las_citas_satelitales_son_espejo_de_satelites_con_dato(self):
+        """Espejo, no «contiene»: mismo contenido y mismo orden. Citar a quien
+        no miró este municipio le atribuye un trabajo que no hizo; callar a
+        quien sí miró es R9 al revés."""
+        for nombre in ("Cali", "Pereira", "Anserma", "Roldanillo", "Nóvita"):
+            d = R.datos_ficha(nombre, self.ctx)
+            m = self.ctx["idx"][nombre]
+            esperado = [f for f, _ in R.satelites_con_dato(m, d["satelite"])]
+            ld = R.dataset_ficha(d, nombre, m["departamento"], "https://x/", "d")
+            nombres_sat = {s["nombre"] for s in R.SATELITES}
+            citado = [c["name"] for c in ld["citation"] if c["name"] in nombres_sat]
+            self.assertEqual(citado, esperado, f"{nombre}: citas satelitales")
+
+    def test_r9_el_monitor_compila_y_las_fuentes_se_citan(self):
+        """Si `creator` apuntara a la UNGRD publicaríamos que la UNGRD firma un
+        documento que mezcla tres satélites y el DANE."""
+        ld = self._ld("Cali")
+        self.assertEqual(ld["creator"], {"@id": R.ORGANIZACION})
+        self.assertEqual(ld["publisher"], {"@id": R.ORGANIZACION})
+        publicadores = [c["publisher"]["name"] for c in ld["citation"]]
+        self.assertIn("Unidad Nacional para la Gestión del Riesgo de Desastres "
+                      "(UNGRD)", publicadores)
+        for quien in publicadores:
+            self.assertNotIn("datosdelterremoto", quien.lower())
+            self.assertNotIn("Monitor de brechas", quien)
+
+    def test_measurementTechnique_distingue_inscritas_de_verificadas(self):
+        """Aquí no es decorativo: es lo único que impide que un motor
+        generativo lea «11.826 familias inscritas» como «11.826 familias
+        verificadas»."""
+        tecnicas = " ".join(self._ld("Cali")["measurementTechnique"])
+        self.assertIn("inscripciones tramitadas", tecnicas)
+        self.assertIn("verificación posterior", tecnicas)
+        self.assertIn("no verificación de daño en campo", tecnicas)
+        self.assertIn("sin validar sobre el terreno", tecnicas)
+
+    def test_cada_variable_lleva_su_valor_y_su_unidad(self):
+        for nombre in ("Cali", "Palmira", "Nóvita"):
+            ld = self._ld(nombre)
+            for variable in ld.get("variableMeasured") or []:
+                with self.subTest(municipio=nombre, variable=variable["name"]):
+                    self.assertEqual(variable["@type"], "PropertyValue")
+                    self.assertIsNotNone(variable.get("value"))
+                    self.assertTrue(variable.get("unitText"))
+
+    def test_ningun_recuento_se_publica_con_decimales(self):
+        """`municipios.json` trae las familias como float. «11826.0 familias»
+        insinúa una precisión decimal que un recuento de personas no tiene."""
+        for nombre in ("Cali", "Roldanillo", "Pereira"):
+            for variable in self._ld(nombre).get("variableMeasured") or []:
+                if variable["unitText"] == "%":
+                    continue
+                with self.subTest(municipio=nombre, variable=variable["name"]):
+                    self.assertIsInstance(variable["value"], int)
+
+    def test_g3_la_proporcion_del_marcado_es_la_de_la_tarjeta(self):
+        """Publicar 1,162 aquí y 1,16 en la tarjeta serían dos verdades, y cada
+        una se ve bien por separado. Y una proporción diminuta pero real jamás
+        se redondea a cero: un municipio con damnificados no puede leerse como
+        municipio sin damnificados (R3)."""
+        etiqueta = "Personas del RUD sobre la población proyectada 2026"
+        vistos, minimo = 0, 1.0
+        for m in self.ctx["municipios"]:
+            nombre = m["municipio"]
+            if m.get("tasa_rud_pct") is None or not R.es_elegible(nombre, self.ctx):
+                continue
+            d = R.datos_ficha(nombre, self.ctx)
+            ld = R.dataset_ficha(d, nombre, m["departamento"], "https://x/", "d")
+            valor = self._medidas(ld)[etiqueta]["value"]
+            if m["tasa_rud_pct"] > 0:
+                self.assertGreater(valor, 0, f"{nombre}: proporción real a cero")
+            self.assertEqual(R.fmt(valor, 2), R.fmt(m["tasa_rud_pct"], 2),
+                             f"{nombre}: el marcado y la tarjeta no dicen lo mismo")
+            vistos += 1
+            minimo = min(minimo, m["tasa_rud_pct"])
+        self.assertGreater(vistos, 100)
+        self.assertLess(minimo, 0.005,
+                        "sin una proporción diminuta, la mitad del test no vigila")
+
+    def test_g3_las_cifras_del_marcado_estan_en_las_tarjetas(self):
+        """Nada se calcula solo para el marcado: cada cifra citable está
+        también escrita en la página que la publica."""
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        tira = re.search(r'<div class="metric-strip">.*?</div>\s*</div>', html, re.S)
+        self.assertIsNotNone(tira)
+        medidas = self._medidas(datasets_ld(html)[0])
+        for etiqueta in ("Familias inscritas en el RUD",
+                         "Personas inscritas en el RUD",
+                         "Viviendas averiadas declaradas en el RUD",
+                         "Población proyectada 2026 (DANE)"):
+            self.assertIn(R.fmt(medidas[etiqueta]["value"]), tira.group(0),
+                          f"{etiqueta} no está en la tira de tarjetas")
+
+    def test_la_fecha_es_la_del_dato_y_la_cobertura_se_cierra_en_ella(self):
+        """Una cobertura abierta con `dateModified` de la corrida invita a leer
+        «100.231 familias a día de hoy» — literalmente la confusión que el sello
+        corrige en la prosa de esta misma página (M7)."""
+        d = R.datos_ficha("Cali", self.ctx)
+        fecha = R._solo_fecha(d["generado"])
+        ld = self._ld("Cali")
+        self.assertEqual(ld["dateModified"], fecha)
+        self.assertEqual(ld["temporalCoverage"], f"2026-08-10/{fecha}")
+        # y es la misma que la ficha publica como «Fecha de las cifras»
+        self.assertIn(R.fecha_larga(fecha),
+                      R.render_ficha(d))
+
+    def test_sin_fecha_del_dato_no_se_inventa_ninguna_de_las_dos(self):
+        d = copy.deepcopy(R.datos_ficha("Cali", self.ctx))
+        d["generado"] = ""
+        ld = R.dataset_ficha(d, "Cali", "Valle del Cauca", "https://x/", "d")
+        self.assertNotIn("dateModified", ld)
+        self.assertEqual(ld["temporalCoverage"], "2026-08-10/..")
+
+    def test_g2_el_dataset_de_la_ficha_no_anida_otro_ni_se_queda_sin_nombre(self):
+        for nombre in ("Cali", "Palmira", "Cartago"):
+            html = R.render_ficha(R.datos_ficha(nombre, self.ctx))
+            datasets = datasets_ld(html)
+            self.assertEqual(len(datasets), 1, f"{nombre}: Dataset anidado")
+            for campo in ("name", "description"):
+                self.assertTrue(datasets[0].get(campo), f"{nombre}: sin {campo}")
+
+    def test_g6_toda_url_del_marcado_de_la_ficha_es_absoluta(self):
+        """Un indexador de datasets extrae el bloque JSON-LD como JSON suelto,
+        sin la URL base del documento: una ruta relativa allí no apunta a nada."""
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        for bloque in bloques_ld(html):
+            for nodo in nodos_ld(bloque):
+                for campo in ("contentUrl", "url", "logo", "@id", "item"):
+                    valor = nodo.get(campo)
+                    if isinstance(valor, str):
+                        self.assertTrue(R._url_absoluta(valor),
+                                        f"{campo} relativo: {valor}")
+
+    def test_el_evidencia_json_se_ofrece_solo_donde_existe(self):
+        """M10: anunciar una descarga que devuelve 404 es peor que no
+        anunciarla. El build solo escribe `evidencia.json` donde hay puntos."""
+        con = self._ld("Cali")
+        sin = self._ld("Cartago")
+        self.assertTrue(any("evidencia.json" in x["contentUrl"]
+                            for x in con["distribution"]))
+        self.assertFalse(any("evidencia.json" in x["contentUrl"]
+                             for x in sin["distribution"]))

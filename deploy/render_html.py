@@ -1131,6 +1131,237 @@ def nota_chips_evidencia(d: dict) -> str:
     return '<p class="note">' + " ".join(frases) + "</p>"
 
 
+# ------------------------------------------------ marcado estructurado de la ficha
+def _cita(nombre: str, organizacion: str, url: str | None = None) -> dict:
+    """Una entrada de `citation`: la obra, y quién la publica.
+
+    **M10**: la fuente sin URL se cita igual, solo que sin `url`. Inventarle una
+    sería peor que no tenerla."""
+    publisher = {"@type": "Organization", "name": organizacion}
+    if _url_absoluta(url):
+        publisher["url"] = url
+    return {"@type": "CreativeWork", "name": nombre, "publisher": publisher}
+
+
+def _medida(nombre: str, valor, unidad: str, descripcion: str | None = None):
+    """Un `PropertyValue` con su valor y su unidad, o `None` si no hay dato.
+
+    **G1 / R3 / M10**: la mutación que este helper existe para impedir es
+    `"value": m.get(campo) or 0`. Publicaría un cero donde la fuente no dijo
+    nada, el JSON seguiría siendo válido y Google no se quejaría: **mentiría en
+    silencio**, que es la peor clase de error que puede tener un archivo."""
+    if valor is None:
+        return None
+    # 11.826 familias no son «11826.0» familias: el JSON de origen las trae como
+    # float y publicarlas así insinúa una precisión decimal que un recuento de
+    # personas no tiene. Solo se convierte lo que es entero de verdad; un
+    # porcentaje con decimales conserva los suyos.
+    if isinstance(valor, float) and valor.is_integer():
+        valor = int(valor)
+    medida = {"@type": "PropertyValue", "name": nombre, "value": valor,
+              "unitText": unidad}
+    if descripcion:
+        medida["description"] = descripcion
+    return medida
+
+
+def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dict:
+    """El nodo `Dataset` de una ficha, con sus cifras dentro.
+
+    La ficha es la página con más dato por metro cuadrado del sitio y hasta hoy
+    lo publicaba solo como prosa en español, con los miles separados por punto.
+    Aquí cada cifra existe además como par (nombre, valor, unidad), que es lo
+    único que un motor generativo puede citar sin interpretar tipografía.
+
+    **R9 en el marcado, que es la regla que más se juega aquí.** `creator` y
+    `publisher` son el monitor porque el monitor compiló ESTE documento —el
+    cruce de RUD, satélites y DANE para este municipio—; la atribución de origen
+    vive en `citation`, y ahí van la UNGRD, el DANE y los servicios satelitales.
+    Si `creator` apuntara a la UNGRD publicaríamos que la UNGRD firma un
+    documento que mezcla tres satélites y el DANE.
+
+    **`measurementTechnique` no es decorativo**: es lo que impide que una IA lea
+    «11.826 familias inscritas» como «11.826 familias verificadas». El RUD mide
+    inscripciones tramitadas; el satélite fotointerpreta tejados. Decirlo en el
+    marcado es la misma advertencia que la prosa da tres veces en esta página.
+
+    **R3 / M10 en todos los campos**: lo que no hay se OMITE. Un municipio sin
+    registro en el RUD no publica «0 familias» —publicaría que el registro dice
+    que no hay damnificados, cuando lo que dice es que aún no ha llegado—, pero
+    **sí sigue citando a la UNGRD**: consultar una fuente y no encontrar
+    registro es una cita legítima de esa fuente, y es justamente el hallazgo del
+    proyecto.
+
+    **G3**: cada cifra de aquí está también en la prosa o en las tarjetas de la
+    misma página. Nada se calcula solo para el marcado; los porcentajes se
+    redondean como los redondea la tarjeta, para no publicar dos verdades."""
+    m = d["muni"]
+    vistos = satelites_con_dato(m, d["satelite"])
+    cruce = d.get("cruce") or {}
+    # La fecha del DATO, no la del build: es la misma que la tabla de
+    # trazabilidad publica como «Fecha de las cifras». Y la cobertura se cierra
+    # ahí en vez de quedar abierta («2026-08-10/..»), porque una cobertura
+    # abierta con `dateModified` de la corrida invita a leer «100.231 familias a
+    # día de hoy» — literalmente la confusión que el sello corrige en la prosa.
+    fecha = _solo_fecha(d.get("generado"))
+
+    tecnicas = []
+    if m.get("rud_familias") is not None or m.get("rud_personas") is not None:
+        tecnicas.append(
+            "Registro administrativo declarativo municipal (RUD, UNGRD) — "
+            "inscripciones tramitadas por las autoridades locales y sujetas a "
+            "verificación posterior, no verificación de daño en campo")
+    if vistos:
+        tecnicas.append(
+            "Clasificación de daño por interpretación visual de imagen "
+            "satelital de muy alta resolución ("
+            + ", ".join(f for f, _ in vistos)
+            + "), sin validar sobre el terreno")
+    if m.get("poblacion_2026") is not None:
+        tecnicas.append(
+            # «Censo» no se escribe: el guardián del vocabulario del RUD lo
+            # prohíbe en toda la ficha, y con razón —la palabra es justo la que
+            # confunde un registro progresivo con un recuento cerrado—.
+            "Proyección demográfica municipal por área para 2026 (DANE) — "
+            "estimación estadística oficial, no un recuento de ese año")
+    if d["ciudadanos"]:
+        tecnicas.append(
+            "Reportes ciudadanos georreferenciados recogidos por ChatMap y "
+            "filtrados por verificación automática (intensidad plausible, "
+            "temporalidad, duplicado por sha256) — pendientes de revisión "
+            "humana, nada se marca validado sin ella (R6)")
+
+    variables = [
+        _medida("Familias inscritas en el RUD", m.get("rud_familias"), "familias",
+                "Inscripciones tramitadas en el registro oficial de "
+                "damnificados, no viviendas verificadas en campo."),
+        _medida("Personas inscritas en el RUD", m.get("rud_personas"), "personas"),
+        _medida("Viviendas destruidas declaradas en el RUD",
+                m.get("rud_viv_destruidas"), "viviendas"),
+        _medida("Viviendas averiadas declaradas en el RUD",
+                m.get("rud_viv_averiadas"), "viviendas"),
+        # Redondeada como la redondea la tarjeta (`fmt(…, 2)`): publicar aquí
+        # 1,162 y ahí 1,16 serían dos verdades, y cada una se ve bien por
+        # separado (G3). El `or` no es un descuido: si redondear convirtiera en
+        # cero una proporción diminuta pero REAL, vale el valor sin redondear —
+        # un municipio con damnificados no puede publicarse como municipio con
+        # el 0 % de damnificados. Es la misma regla que `pct()` aplica en la
+        # prosa con su «<0,1 %» (R3).
+        _medida("Personas del RUD sobre la población proyectada 2026",
+                None if m.get("tasa_rud_pct") is None
+                else (round(m["tasa_rud_pct"], 2) or m["tasa_rud_pct"]), "%"),
+        _medida("Población proyectada 2026 (DANE)", m.get("poblacion_2026"),
+                "habitantes"),
+    ]
+    for fuente, n in vistos:
+        variables.append(_medida(f"Edificios clasificados por {fuente}", n,
+                                 "edificios"))
+    # Solo cuando la prosa lo dice, y por el mismo motivo: sumar las cifras de
+    # dos servicios que miran el mismo tejado inventaría edificios. Con un solo
+    # servicio, este dato sería su propia cifra repetida con otro nombre.
+    if len(cruce.get("fuentes") or {}) > 1 and cruce.get("coincidencias"):
+        variables.append(_medida(
+            "Edificios evaluados desde el aire, sin doble conteo",
+            cruce.get("unidades"), "edificios",
+            f"{fmt(cruce['coincidencias'])} de ellos los vieron dos servicios; "
+            f"el resto, uno solo."))
+    if d["ciudadanos"]:
+        variables.append(_medida("Reportes ciudadanos georreferenciados",
+                                 len(d["ciudadanos"]), "reportes"))
+        variables.append(_medida("Reportes ciudadanos con foto o vídeo",
+                                 d["con_medio"], "reportes"))
+    if d["titulares"]:
+        variables.append(_medida("Piezas de prensa recogidas por el monitor",
+                                 len(d["titulares"]), "piezas"))
+    variables = [v for v in variables if v]
+
+    # La UNGRD se cita SIEMPRE, tenga o no registro este municipio: haber
+    # consultado el RUD y no encontrar al municipio es un hecho de esa fuente, y
+    # es el hallazgo que esta ficha existe para contar.
+    citas = [_cita("Registro Único de Damnificados (RUD)",
+                   "Unidad Nacional para la Gestión del Riesgo de Desastres "
+                   "(UNGRD)", "https://rud.gestiondelriesgo.gov.co/")]
+    if m.get("poblacion_2026") is not None or m.get("divipola"):
+        citas.append(_cita(
+            "Proyección de población municipal 2026 y catálogo DIVIPOLA",
+            "Departamento Administrativo Nacional de Estadística (DANE)",
+            "https://www.dane.gov.co/index.php/estadisticas-por-tema-2/"
+            "demografia-y-poblacion/proyecciones-de-poblacion"))
+    # G4: exactamente los servicios que `satelites_con_dato` devuelve, en su
+    # mismo orden. Espejo, no «contiene»: citar a quien no miró este municipio
+    # le atribuye un trabajo que no hizo, y callar a quien sí miró es R9 al
+    # revés.
+    nombres_vistos = [f for f, _ in vistos]
+    for sat in SATELITES:
+        if sat["nombre"] in nombres_vistos:
+            citas.append(_cita(sat["nombre"], sat["publicador"], sat["url"]))
+    if d["ciudadanos"]:
+        citas.append(_cita("Reportes ciudadanos del terremoto de Colombia 2026",
+                           "ChatMap · OpenStreetMap Colombia, UN Mappers y el "
+                           "Equipo Humanitario de OpenStreetMap", CHATMAP))
+
+    # El rótulo corto, no el nombre con su código de activación: una palabra
+    # clave es lo que alguien escribe en un buscador, y nadie busca «(EMSR916)».
+    keywords = [nombre, depto, "terremoto Colombia 2026", "damnificados", "RUD",
+                "UNGRD", "DANE"] + [sat["rotulo"] for sat in SATELITES
+                                    if sat["nombre"] in nombres_vistos]
+
+    distribucion = [
+        {"@type": "DataDownload",
+         "name": "Todos los municipios del área de influencia (JSON)",
+         "encodingFormat": "application/json",
+         "contentUrl": "https://datosdelterremoto.org/data/public/"
+                       "municipios.json"}]
+    if d["hay_evidencia"]:
+        distribucion.append(
+            {"@type": "DataDownload",
+             "name": f"Evidencia georreferenciada de {nombre} (GeoJSON por capas)",
+             "encodingFormat": "application/json",
+             "contentUrl": "https://datosdelterremoto.org/data/public/"
+                           f"municipios/{d['slug']}/evidencia.json"})
+
+    return {
+        "@context": "https://schema.org", "@type": "Dataset",
+        "@id": f"{url}#dataset", "url": url,
+        "name": f"Damnificados y cobertura del terremoto de 2026 en {nombre} ({depto})",
+        "description": descr, "inLanguage": "es",
+        "temporalCoverage": f"2026-08-10/{fecha}" if fecha else "2026-08-10/..",
+        **({"dateModified": fecha} if fecha else {}),
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "isAccessibleForFree": True,
+        # R9 en el marcado: quien compiló ESTE documento —el cruce de RUD,
+        # satélites y DANE para este municipio— es el monitor, no la fuente. Si
+        # `creator` apuntara a la UNGRD publicaríamos que la UNGRD firma un
+        # documento que mezcla tres satélites y el DANE. La atribución de origen
+        # vive en `citation`.
+        "creator": {"@id": ORGANIZACION},
+        "publisher": {"@id": ORGANIZACION},
+        "keywords": keywords,
+        **({"measurementTechnique": tecnicas} if tecnicas else {}),
+        **({"variableMeasured": variables} if variables else {}),
+        "citation": citas,
+        "distribution": distribucion,
+        "spatialCoverage": {
+            "@type": "Place", "name": f"{nombre}, {depto}, Colombia",
+            "identifier": {"@type": "PropertyValue", "propertyID": "DIVIPOLA",
+                           "value": m["divipola"]},
+            # Sin cabecera en DIVIPOLA el campo se omite: en JSON-LD, omitir es
+            # lo que significa «no lo sabemos»; un cero significaría el golfo de
+            # Guinea (R3).
+            **({"geo": {"@type": "GeoCoordinates", "latitude": m["lat"],
+                        "longitude": m["lon"]}} if d["tiene_coords"] else {})},
+        # Dos referencias por `@id`, nunca un nodo dentro de otro: Google valida
+        # recursivamente CUALQUIER nodo `"@type": "Dataset"`, esté donde esté
+        # anidado, así que el `isPartOf` que embebía un segundo Dataset se
+        # validaba como dataset independiente —sin `description`— en las 208
+        # fichas. No se parchea añadiéndole el campo que le falta: se cambia la
+        # forma, para que no quede un Dataset dentro de otro que nadie pueda
+        # copiar mañana. Quién es `#site` lo dice `BLOQUE_IDENTIDAD`, en esta
+        # misma página. G2 lo vigila a cualquier profundidad.
+        "isPartOf": {"@id": SITIO},
+        "includedInDataCatalog": {"@id": SITIO}}
+
+
 # ------------------------------------------------------------------ la ficha
 def render_ficha(d: dict) -> str:
     """HTML completo de una ficha municipal.
@@ -1153,38 +1384,7 @@ def render_ficha(d: dict) -> str:
              f"{'sin' if not satelites_con_dato(m, d['satelite']) else 'con'} "
              f"evaluación satelital de daño. "
              f"Cada cifra con su fuente y su fecha.")
-    ld = {
-        "@context": "https://schema.org", "@type": "Dataset",
-        "@id": f"{url}#dataset", "url": url,
-        "name": f"Damnificados y cobertura del terremoto de 2026 en {nombre} ({depto})",
-        "description": descr, "inLanguage": "es", "temporalCoverage": "2026-08-10/..",
-        "license": "https://creativecommons.org/licenses/by/4.0/",
-        # R9 en el marcado: quien compiló ESTE documento —el cruce de RUD,
-        # satélites y DANE para este municipio— es el monitor, no la fuente. Si
-        # `creator` apuntara a la UNGRD publicaríamos que la UNGRD firma un
-        # documento que mezcla tres satélites y el DANE. La atribución de origen
-        # vive en otro campo (`citation`), que llega con la ficha.
-        "creator": {"@id": ORGANIZACION},
-        "publisher": {"@id": ORGANIZACION},
-        "spatialCoverage": {
-            "@type": "Place", "name": f"{nombre}, {depto}, Colombia",
-            "identifier": {"@type": "PropertyValue", "propertyID": "DIVIPOLA",
-                           "value": m["divipola"]},
-            # Sin cabecera en DIVIPOLA el campo se omite: en JSON-LD, omitir es
-            # lo que significa «no lo sabemos»; un cero significaría el golfo de
-            # Guinea (R3).
-            **({"geo": {"@type": "GeoCoordinates", "latitude": m["lat"],
-                        "longitude": m["lon"]}} if d["tiene_coords"] else {})},
-        # Dos referencias por `@id`, nunca un nodo dentro de otro: Google valida
-        # recursivamente CUALQUIER nodo `"@type": "Dataset"`, esté donde esté
-        # anidado, así que el `isPartOf` que embebía un segundo Dataset se
-        # validaba como dataset independiente —sin `description`— en las 208
-        # fichas. No se parchea añadiéndole el campo que le falta: se cambia la
-        # forma, para que no quede un Dataset dentro de otro que nadie pueda
-        # copiar mañana. Quién es `#site` lo dice `BLOQUE_IDENTIDAD`, en esta
-        # misma página. G2 lo vigila a cualquier profundidad.
-        "isPartOf": {"@id": SITIO},
-        "includedInDataCatalog": {"@id": SITIO}}
+    ld = dataset_ficha(d, nombre, depto, url, descr)
     migas = [("Monitor de brechas", f"{BASE}/"),
              ("Municipios", f"{BASE}/municipios.html"),
              (nombre, None)]
