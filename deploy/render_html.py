@@ -865,9 +865,8 @@ def evaluados_unicos(m: dict, ctx: dict) -> int:
                m.get("sertit_edificios") or 0)
 
 
-def parrafo_respuesta(d: dict) -> str:
-    """El párrafo que citan los buscadores y los sistemas de IA: una idea por
-    frase, cada una con su cifra, su fecha y su fuente."""
+def _partes_respuesta(d: dict) -> list[str]:
+    """Una idea por frase: la primera es el lead; el resto, el plegable."""
     m = d["muni"]
     # El topónimo, no la clave: este párrafo es el que citan los buscadores y
     # los sistemas de IA, y estuvo publicando «Riosucio (Caldas) (Caldas) tiene
@@ -962,7 +961,70 @@ def parrafo_respuesta(d: dict) -> str:
                       f"pieza{'s' if n_piezas != 1 else ''} sobre {e(nombre)}, de "
                       f"{fmt_prosa(n_medios)} medio{'s' if n_medios != 1 else ''} "
                       f"identificado{'s' if n_medios != 1 else ''}.")
-    return " ".join(partes)
+    return partes
+
+
+def parrafo_respuesta(d: dict) -> str:
+    """El párrafo que citan los buscadores y los sistemas de IA: una idea por
+    frase, cada una con su cifra, su fecha y su fuente."""
+    return " ".join(_partes_respuesta(d))
+
+
+def resumen_ficha(d: dict) -> str:
+    """Las dos líneas que el prototipo pone bajo el H1, derivadas del dato.
+
+    No es un recorte del destacado: es el mismo recuento en otra escala, con
+    las mismas columnas que las tarjetas (`pct`, no un redondeo a dos
+    decimales) para no publicar dos verdades (G3). Un NA no se escribe 0 (R3)."""
+    m = d["muni"]
+    o = []
+    fam, per = m.get("rud_familias"), m.get("rud_personas")
+    if fam is not None:
+        o.append(f"<b>{fmt(fam)}</b> familias")
+        if per is not None:
+            o.append(f" y <b>{fmt(per)}</b> personas")
+        o.append(" inscritas en el RUD")
+        if m.get("tasa_rud_pct") is not None:
+            o.append(f", el <b>{pct(m['tasa_rud_pct'])}</b> de sus habitantes")
+        o.append(". ")
+    vistos = satelites_con_dato(m, d["satelite"])
+    n_sat = (d.get("cruce") or {}).get("unidades") or sum(n for _, n in vistos)
+    vivs = [n for n in (m.get("rud_viv_destruidas"), m.get("rud_viv_averiadas"))
+            if n is not None]
+    viv = sum(vivs) if vivs else None
+    if n_sat and viv:
+        prop = n_sat / viv * 100
+        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios: el "
+                 f"<b>{fmt(prop, 1)} %</b> de las {fmt(viv)} viviendas que el "
+                 "municipio declara dañadas. ")
+    elif viv and not vistos:
+        o.append(f"Ningún satélite ha clasificado un solo edificio de las "
+                 f"{fmt(viv)} viviendas que el municipio declara dañadas. ")
+    elif n_sat:
+        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios. ")
+    mmi = m.get("mmi_usgs")
+    if mmi is not None:
+        o.append(f"Sacudida estimada de <b>{fmt(mmi, 1)}</b> en la "
+                 "escala de Mercalli modificada.")
+    return "".join(o)
+
+
+def destacado_con_pliegue(d: dict) -> str:
+    """Lead visible; satélites, vecinos y prensa en el plegable amarillo.
+
+    El prototipo corta el destacado tras la salvedad del RUD. La nota de
+    los chips no se genera: JP la retiró el 24-ago."""
+    partes = _partes_respuesta(d)
+    lead = partes[0] if partes else ""
+    resto = " ".join(partes[1:])
+    html = [f'<p class="destacado">{lead}</p>']
+    if resto:
+        html.append(
+            '<details class="pliegue denso">'
+            "<summary>Qué más se sabe de este municipio, y con qué reservas"
+            "</summary>"
+            f'<p class="destacado">{resto}</p></details>')
+    return "".join(html)
 
 
 # ------------------------------------------------------------- contexto único
@@ -1094,8 +1156,7 @@ def chips_evidencia(d: dict) -> str:
     # mapa dibuja, y eso no siempre es lo mismo que los edificios clasificados
     # que publica la prosa —en Cali, ICube-SERTIT dibuja 103 puntos y 94 tienen
     # grado de daño—. Rotularlos «edificios» pondría dos cifras distintas con el
-    # mismo nombre en la misma pantalla (G3); `desajustes_de_capas` cuenta la
-    # diferencia debajo en vez de esconderla.
+    # mismo nombre en la misma pantalla (G3).
     # Solo lleva unidad el chip cuyo rótulo no la nombra ya: «Zonas analizadas 2
     # zonas analizadas» dice dos veces lo mismo dentro de una pastilla de 12 px.
     unidades = {sat["clave"]: ("punto", "puntos") for sat in SATELITES}
@@ -1153,40 +1214,6 @@ def desajustes_de_capas(d: dict) -> list:
             # diccionario de traducción vive en app.js — copiarlo aquí sería M2
             fuera.append((sat["rotulo"], puntos, con_grado, sorted(tipos)))
     return fuera
-
-
-def nota_chips_evidencia(d: dict) -> str:
-    """Qué hace cada chip y qué cuenta su número — DEBAJO de la tira, no al lado.
-
-    La explicación no viaja en un `title`: el móvil no lo enseña, el teclado no
-    lo alcanza y un rastreador no lo indexa. Va en su propia línea, que es donde
-    se puede leer entera."""
-    # «en este municipio y su entorno» y no «en este municipio»: los reportes de
-    # la comunidad se atribuyen por un radio de 12 km desde la cabecera, así que
-    # en Cali barren Yumbo, Jamundí y Palmira. El resumen de arriba ya decía «en
-    # el entorno de Cali» y esta nota decía otra cosa: la ficha se contradecía a
-    # sí misma en la misma pantalla.
-    frases = ['Cada chip retira o devuelve su capa al mapa; el número es el de '
-              'elementos que esa fuente publica en este municipio y su entorno '
-              'inmediato. Los servicios satelitales miran desde el aire y no '
-              'comprueban nada en el suelo; los reportes de la comunidad se '
-              'hacen desde dentro. Ninguna capa sustituye a las otras.']
-    for rotulo, puntos, con_grado, tipos in desajustes_de_capas(d):
-        # El motivo va DENTRO de la frase. Sin él, «llegan sin grado de daño» se
-        # lee como un hueco de la fuente, y no lo es: «Not Applicable» es la
-        # clasificación CORRECTA para algo que no es un edificio. Estos datos
-        # nos los cedió la fuente por correo; la frase tiene que ser justa con
-        # ella, y el proyecto es auto-crítico, nunca acusatorio.
-        que_son = (f' —{e(", ".join(tipos))} en el producto de la fuente—'
-                   if tipos else "")
-        frases.append(
-            f'{e(rotulo)} dibuja aquí {fmt(puntos)} puntos y esta ficha cuenta '
-            f'{fmt(con_grado)} edificios clasificados: los '
-            f'{fmt(puntos - con_grado)} restantes{que_son} no son edificios, '
-            f'así que la fuente los marca «Not Applicable» porque no les '
-            f'corresponde un grado de daño. Se ven en el mapa y no entran en '
-            f'el recuento.')
-    return '<p class="note">' + " ".join(frases) + "</p>"
 
 
 # ------------------------------------------------ lienzo: panel de fuentes + mapa
@@ -1247,12 +1274,22 @@ def _fila_fuente(txt: str, valor, fuente: str, color: str | None = None,
 def panel_fuentes(d: dict) -> str:
     """«Qué dice cada fuente»: la tabla de datos que convive con el mapa.
 
-    Sin las cifras del RUD —esas viven en las tarjetas—. El recuento satelital
-    es el de la capa que el mapa dibuja, no el de los edificios clasificados:
-    si divergen, la nota de los chips lo explica (G3), y el panel no elige."""
+    El RUD va desglosado (familias, personas, viviendas destruidas y
+    averiadas): es el registro oficial y, con la tabla primero, es lo que
+    se viene a leer. Las tarjetas debajo repiten las mismas columnas —un
+    test se rompe si se separan (M2)—. El recuento satelital es el de la
+    capa que el mapa dibuja, no el de los edificios clasificados: si
+    divergen, la nota de los chips lo explica (G3), y el panel no elige."""
     m = d["muni"]
     capas = (d.get("evidencia") or {}).get("capas") or {}
-    filas = []
+    filas = [
+        _fila_fuente("Familias inscritas", m.get("rud_familias"), "RUD · UNGRD"),
+        _fila_fuente("Personas", m.get("rud_personas"), "RUD · UNGRD"),
+        _fila_fuente("Viviendas destruidas", m.get("rud_viv_destruidas"),
+                     "RUD · UNGRD"),
+        _fila_fuente("Viviendas averiadas", m.get("rud_viv_averiadas"),
+                     "RUD · UNGRD"),
+    ]
     for sat in SATELITES:
         features = (capas.get(sat["clave"]) or {}).get("features") or []
         n = len(features)
@@ -1280,8 +1317,7 @@ def panel_fuentes(d: dict) -> str:
     return (
         '<aside class="panel">'
         "<h2>Qué dice cada fuente</h2>"
-        '<p class="sub">Cada cifra, con quién la publica. El registro oficial '
-        "está en las tarjetas de arriba.</p>"
+        '<p class="sub">Cada cifra, con quién la publica.</p>'
         f"{cuerpo}{aviso}</aside>"
     )
 
@@ -1289,9 +1325,10 @@ def panel_fuentes(d: dict) -> str:
 def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
     """Panel a un lado, mapa al otro: las dos cosas a la vista.
 
-    En móvil el mapa va primero (order CSS) y el panel debajo; en escritorio,
-    panel a la izquierda (360 px) y mapa a la derecha, a la altura de todos
-    los datos, sin scroll interno. El DOM deja el panel antes para el teclado.
+    En móvil el panel va primero y el mapa debajo —se llega directo a las
+    cifras—; en escritorio, panel a la izquierda (360 px) y mapa a la
+    derecha, a la altura de todos los datos, sin scroll interno. El DOM
+    deja el panel antes para el teclado.
     Las pestañas Situación/Mapa y los chips de fuente solo existen si hay
     puntos que explorar; sin ellos el SVG (o la nota de que no hay coordenada)
     ocupa el marco."""
@@ -1347,8 +1384,17 @@ def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
         chips_ocultos = chips.replace(
             'class="chips chips-mapa"',
             'class="chips chips-mapa" hidden', 1) if chips else ""
+        # El recuento corto va SIEMPRE encima de las pestañas, también en
+        # Situación: JP (24-ago) lo midió así. La nota de los chips no se
+        # genera.
+        intro = (
+            f'<p class="sub intro-mapa mapa-evidencias__resumen">Este mapa reúne {resumen} '
+            f"en el entorno de {e(nombre)}. Cada fuente permanece en su propia "
+            f"capa.</p>"
+        )
         marco = (
             f'<div class="marco-mapa" data-mapa-tabs>'
+            f"{intro}"
             f'<div class="vistas">'
             f'<div role="tablist" aria-label="Cómo ver {e(nombre)}">'
             f'<button type="button" role="tab" id="tab-{situacion_id}" '
@@ -1363,10 +1409,6 @@ def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
             f"{situacion}</div>"
             f'<div id="{evidencia_id}" role="tabpanel" '
             f'aria-labelledby="tab-{evidencia_id}" hidden class="vista">'
-            f'<p class="sub mapa-evidencias__resumen">Este mapa reúne {resumen} '
-            f"en el entorno de {e(nombre)}. Cada fuente permanece en su propia "
-            f"capa.</p>"
-            f"{nota_chips_evidencia(d)}"
             f'<div class="mapa-evidencias" id="map-mun" '
             f'data-evidencia="{DATOS}/municipios/{d["slug"]}/evidencia.json" '
             f'data-destino="{destino}" aria-label="Mapa interactivo de evidencias '
@@ -1739,13 +1781,30 @@ def render_ficha(d: dict) -> str:
              for txt, href in migas) + '</ol></nav>',
          '<header><div>',
          f'<h1>Terremoto de Colombia 2026 en {e(nombre)}, {e(depto)}</h1>',
-         # El subtítulo decía en otras palabras lo que ya dice el H1, y lo que
-         # prometía —damnificados, daños, cobertura— lo cumple la tira de
-         # cifras una línea más abajo. El código DIVIPOLA y la fecha de la
-         # corrida no se pierden: bajan a «Fuentes y trazabilidad», que es
-         # donde los busca quien los necesita.
+         f'<p class="fecha"><span class="contexto-sismo">{CONTEXTO_SISMO}</span>'
+         f' · actualizado el {e(fecha_larga(d["generado"]))}</p>',
          '</div></header>',
-         f'<p class="destacado">{parrafo_respuesta(d)}</p>']
+         f'<p class="resumen">{resumen_ficha(d)}</p>',
+         # La advertencia del satélite SOLO donde es verdad. Se emitía en las
+         # 208 por igual, así que Pereira —mirada por Copernicus y por
+         # ICube-SERTIT— afirmaba la mirada satelital arriba y la negaba aquí,
+         # en la misma página. Lo cazó `test_ninguna_ficha_afirma_y_niega_el_satelite`.
+         # Y sin plegar: son menos de 120 palabras, el umbral que fija JP, y
+         # una advertencia detrás de un clic es una advertencia que no se ha dado.
+         '<p class="nota-leer">Cada cifra dice de quién es y de qué día.'
+         + ("" if satelites_con_dato(m, d["satelite"]) else
+            " Que ningún satélite haya mirado este municipio no significa que "
+            "no haya daño: significa que nadie lo ha evaluado desde el aire.")
+         + '</p>',
+         '</div>']
+
+    # El lienzo sale FUERA de `.contenido` (max-width 760 px): si vive dentro,
+    # el panel y el mapa no caben lado a lado. El prototipo lo midió así.
+    # Destacado y tarjetas VAN DEBAJO: el mapa y la tabla de fuentes primero,
+    # el lead y las cifras del RUD después (JP, 24-ago, frente al prototipo).
+    destino = f"/?municipio={urllib.parse.quote(clave)}#mapa"
+    svg = mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"])
+    o.append(lienzo_municipal(d, svg, destino))
 
     tarjetas = [("Familias inscritas", fmt(m["rud_familias"]), "RUD · UNGRD · registro"),
                 ("Personas", fmt(m["rud_personas"]),
@@ -1761,19 +1820,13 @@ def render_ficha(d: dict) -> str:
                  f'{fmt(m["rud_viv_destruidas"])} '
                  f'{concuerda(m["rud_viv_destruidas"], "destruida", "destruidas")}'),
                 ("Población 2026", fmt(m["poblacion_2026"]), "proyección DANE")]
+    o.append('<div class="zona-datos">')
+    o.append(destacado_con_pliegue(d))
     o.append('<div class="metric-strip">')
     for etiqueta, valor, sub in tarjetas:
         o.append(f'<div class="metric-card"><span>{etiqueta}</span><strong>{valor}</strong>'
                  f'<small>{sub}</small></div>')
-    o.append('</div></div>')
-
-    # El lienzo sale FUERA de `.contenido` (max-width 760 px): si vive dentro,
-    # el panel y el mapa no caben lado a lado. El prototipo lo midió así.
-    destino = f"/?municipio={urllib.parse.quote(clave)}#mapa"
-    svg = mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"])
-    o.append(lienzo_municipal(d, svg, destino))
-
-    o.append('<div class="zona-datos">')
+    o.append('</div>')
     vistos_mapa = satelites_con_dato(m, d["satelite"])
     if not vistos_mapa:
         cerca = (f' La más próxima, {e(d["zonas"][0][0])}, está a '
@@ -1828,8 +1881,15 @@ def render_ficha(d: dict) -> str:
                  f'OpenStreetMap).</p></div>')
     # ---- evolución del registro
     if d["serie"]:
-        o.append('<section class="page-section">')
+        o.append('<section class="page-section" id="registro">')
         o.append("<h2>Cómo avanza el registro oficial</h2>")
+        # Forma primero, cifra después: el prototipo lo midió así. La tabla
+        # se queda —es el dato citable—; seis filas no enseñan que el
+        # registro se multiplicó. Sin 5 capturas no hay gráfica (la nota
+        # de más abajo lo dice); con ellas, el SVG entra aquí.
+        graf = grafico_rud_municipal(d["serie"], d["slug"])
+        if graf:
+            o.append(graf)
         if d["delta"] is not None:
             # Es la distancia entre las fechas, no el número de intervalos
             # observados. Si una captura diaria falta, decir «en dos días» para

@@ -3430,10 +3430,9 @@ class TestContextoDelSismo(unittest.TestCase):
     misma cabecera, que es lo que pasaba en la portada mientras el subtítulo
     también la llevaba.
 
-    Las 208 fichas NO la reciben: su H1 ya dice «Terremoto de Colombia 2026 en
-    X», su mapa de situación rotula el epicentro con la magnitud y el pie de
-    las 213 páginas lo escribe entero. Añadirles una línea de contexto sería
-    devolver el subtítulo que JP retiró el 23-ago-2026."""
+    Las 208 fichas también la reciben, en `.fecha` bajo el H1: el prototipo
+    lo midió así (JP, 24-ago). Sigue siendo `CONTEXTO_SISMO`, no una tercera
+    copia. El H1 nombra el municipio; esta línea nombra el sismo."""
 
     PAGINAS = ("index.html", "municipios.html", "rud.html", "balances.html",
                "noticias.html")
@@ -5074,40 +5073,40 @@ class TestChipsDeLaFicha(unittest.TestCase):
             self.assertIn('aria-pressed="true"', boton)
             self.assertIn('type="button"', boton)
 
-    def test_la_explicacion_va_debajo_de_los_chips_y_no_en_un_title(self):
-        """Criterio de JP: las explicaciones van DEBAJO del nombre, no al lado.
-        Un `title` no lo enseña el móvil, no lo alcanza el teclado y no lo
-        indexa un rastreador; una línea de prosa hace las tres cosas."""
+    def test_la_explicacion_va_encima_del_mapa_no_debajo_de_los_chips(self):
+        """El recuento corto («Este mapa reúne…») va ENCIMA de las pestañas,
+        siempre visible. La nota de los chips no se genera."""
         html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        intro = re.search(r'<p[^>]*class="[^"]*intro-mapa[^"]*"[^>]*>', html)
+        self.assertIsNotNone(intro)
+        self.assertNotIn(" hidden", intro.group(0))
+        resumen = html.find("Este mapa reúne")
+        chips = html.find('class="chips chips-mapa"')
+        vistas = html.find('class="vistas"')
+        mapa = html.find('class="mapa-evidencias"')
+        self.assertGreater(resumen, 0)
+        self.assertLess(resumen, vistas)
+        self.assertLess(vistas, chips)
+        self.assertLess(chips, mapa)
+        self.assertNotIn("Cada chip retira", html)
         tira = re.search(r'<div class="chips chips-mapa".*?</div>', html, re.S)
         self.assertIsNotNone(tira)
         self.assertNotIn("title=", tira.group(0))
-        nota = html.find('<p class="note">Cada chip', tira.end())
-        mapa = html.find('<div class="mapa-evidencias"', tira.end())
-        self.assertGreater(nota, 0, "los chips se publican sin su explicación")
-        self.assertLess(nota, mapa, "la explicación no va pegada a los chips")
 
-    def test_el_desajuste_entre_la_capa_y_el_recuento_se_publica(self):
+    def test_el_desajuste_entre_la_capa_y_el_recuento_existe_en_el_dato(self):
         """En Cali, ICube-SERTIT dibuja 103 puntos y solo 94 llevan grado de
-        daño. Publicar el chip a 103 junto a una prosa que dice 94 sin explicar
-        la diferencia serían dos verdades en la misma pantalla (G3); elegir una
-        y callar la otra sería peor. Las cifras salen del dato, no escritas a
-        mano: el día que la fuente corrija, la frase se corrige sola."""
+        daño. El chip cuenta puntos; la prosa, edificios. JP retiró la frase
+        que explicaba la distancia: no se autoescribe."""
         d = R.datos_ficha("Cali", self.ctx)
         desajustes = R.desajustes_de_capas(d)
         self.assertTrue(desajustes, "Cali dejó de tener el desajuste de SERTIT")
         rotulo, puntos, con_grado, tipos = desajustes[0]
         self.assertGreater(puntos, con_grado)
-        nota = R.nota_chips_evidencia(d)
-        for cifra in (puntos, con_grado, puntos - con_grado):
-            self.assertIn(R.fmt(cifra), nota)
-        self.assertIn(rotulo, nota)
-        # el QUÉ SON sale del archivo, no de un literal: sin él la frase se lee
-        # como un reproche a la fuente, y «Not Applicable» es la clasificación
-        # correcta para algo que no es un edificio
         self.assertEqual(tipos, ["Tent/shelter"])
-        self.assertIn("Tent/shelter", nota)
-        self.assertIn("no son edificios", nota)
+        html = R.render_ficha(d)
+        self.assertFalse(hasattr(R, "nota_chips_evidencia"))
+        self.assertNotIn("Cada chip retira", html)
+        self.assertNotIn("los 9 restantes", html)
 
     def test_un_desajuste_al_reves_no_se_publica_en_negativo(self):
         """La frase dice «los N restantes», así que solo vale si la capa trae
@@ -5123,7 +5122,6 @@ class TestChipsDeLaFicha(unittest.TestCase):
         self.assertEqual(
             [x for x in R.desajustes_de_capas(d) if x[0] == "ICube-SERTIT"], [],
             "un desajuste en negativo no se publica")
-        self.assertNotIn("restantes", R.nota_chips_evidencia(d))
 
     def test_sin_desajuste_no_se_cuenta_uno(self):
         """M10 al revés: una salvedad que no se cumple aquí no se escribe aquí.
@@ -5131,7 +5129,7 @@ class TestChipsDeLaFicha(unittest.TestCase):
         insinúe que sí."""
         d = R.datos_ficha("Roldanillo", self.ctx)
         self.assertEqual(R.desajustes_de_capas(d), [])
-        self.assertNotIn("sin grado de daño asignado", R.nota_chips_evidencia(d))
+        self.assertNotIn("Cada chip retira", R.render_ficha(d))
 
     def test_todo_servicio_satelital_tiene_su_rotulo_y_su_chip(self):
         """El día que entre el cuarto servicio, su chip y su cita aparecen solos
@@ -5169,7 +5167,7 @@ class TestLienzoMunicipal(unittest.TestCase):
     La fase 5 dejó la ficha a medias: chips y marcado, pero el dato en una
     pestaña y el mapa en otra. JP lo rechazó el 24-ago: la organización del
     prototipo —tabla de datos a un lado, mapa al otro, en móvil y escritorio—
-    ES la ficha. Las tarjetas se conservan; el panel no duplica el RUD.
+    ES la ficha. El panel desglosa el RUD; las tarjetas lo resumen debajo.
     """
 
     @classmethod
@@ -5184,35 +5182,119 @@ class TestLienzoMunicipal(unittest.TestCase):
         return m.group(1)
 
     def test_el_lienzo_pone_el_panel_y_el_mapa_como_hermanos(self):
-        """La organización que el prototipo midió: panel y marco en el mismo
-        lienzo, el panel ANTES en el DOM (teclado, lector) y el mapa primero
-        en móvil porque el CSS le pone `order:1`."""
+        """Panel y marco en el mismo lienzo, el panel ANTES en el DOM (teclado,
+        lector) y también en móvil: JP lo volvió a mirar y llega primero a la
+        tabla. El CSS ya no invierte con `order`."""
         html = self.cali
         self.assertIn('class="lienzo lienzo-mun"', html)
         self.assertIn('class="marco-mapa"', html)
         self.assertLess(html.find('class="panel"'), html.find('class="marco-mapa"'))
         self.assertLess(html.find('class="lienzo lienzo-mun"'),
                         html.find('class="zona-datos"'))
-        # Fuera de `.contenido`: entre las tarjetas y el lienzo se cierra
-        # ese contenedor (max-width 760 px). Un `.*` goloso se traga el
-        # lienzo y el test pasaría con el fallo puesto.
-        entre = html[html.find("class=\"metric-strip\""):html.find('<div class="lienzo lienzo-mun"')]
-        self.assertTrue(entre.rstrip().endswith("</div></div>"),
+        # Fuera de `.contenido`: entre el H1 y el lienzo se cierra ese
+        # contenedor (max-width 760 px). Destacado y tarjetas van DESPUÉS,
+        # en zona-datos.
+        entre = html[html.find('class="contenido contenido-ficha"'):
+                     html.find('<div class="lienzo lienzo-mun"')]
+        self.assertNotIn("metric-strip", entre)
+        self.assertNotIn('class="destacado"', entre)
+        self.assertTrue(entre.rstrip().endswith("</div>"),
                         "el lienzo quedó dentro de .contenido")
+        self.assertLess(html.find('class="lienzo lienzo-mun"'),
+                        html.find('class="destacado"'))
+        self.assertLess(html.find('class="lienzo lienzo-mun"'),
+                        html.find('class="metric-strip"'))
+        self.assertLess(html.find('class="panel"'),
+                        html.find('class="destacado"'))
 
-    def test_las_tarjetas_siguen_y_el_panel_no_repite_el_rud(self):
-        """Decisión de JP del 23-ago: tarjetas intactas; el panel empieza en
-        satélites y vecinos. Duplicar las familias del RUD en los dos sitios
-        sería dos copias de la misma cifra (M2) y no aportaría nada."""
-        self.assertIn('class="metric-strip"', self.cali)
-        self.assertIn("Familias inscritas", self.cali)
+    def test_el_encabezado_trae_fecha_resumen_y_como_leer(self):
+        """El prototipo lo midió: bajo el H1 van el sismo, las dos líneas de
+        cifras y la nota de «cómo leer», antes del lienzo.
+
+        La nota NO se pliega —son menos de 120 palabras, el umbral que fija
+        JP— y su advertencia sobre el satélite es CONDICIONAL: se emitía en
+        las 208 por igual y Pereira, mirada por Copernicus y por ICube-SERTIT,
+        afirmaba la mirada arriba y la negaba aquí. Lo vigila también
+        `TestCoherenciaDeLaFicha::test_ninguna_ficha_afirma_y_niega_el_satelite`.
+        """
+        html = self.cali
+        self.assertIn(f'class="contexto-sismo">{R.CONTEXTO_SISMO}</span>', html)
+        self.assertIn('class="resumen"', html)
+        self.assertIn('class="nota-leer"', html)
+        self.assertIn("Cada cifra dice de quién es y de qué día", html)
+        self.assertLess(html.find("<h1>"), html.find('class="resumen"'))
+        self.assertLess(html.find('class="nota-leer"'),
+                        html.find('class="lienzo lienzo-mun"'))
+        # Cali tiene satélite: la advertencia de la ausencia no le toca
+        self.assertNotIn("no significa que no haya daño", html)
+        d = R.datos_ficha("Cali", self.ctx)
+        m = d["muni"]
+        resumen = re.search(r'<p class="resumen">(.*?)</p>', html, re.S).group(1)
+        self.assertIn(R.fmt(m["rud_familias"]), resumen)
+        self.assertIn(R.pct(m["tasa_rud_pct"]), resumen)
+        self.assertIn(R.fmt(d["cruce"]["unidades"]), resumen)
+
+    def test_el_destacado_se_parte_como_en_el_prototipo(self):
+        """Lead visible; satélites, vecinos y prensa en el plegable amarillo,
+        debajo del primer cuadro, antes de las tarjetas."""
+        html = self.cali
+        pliegue = re.search(
+            r'<details class="pliegue denso">(.*?)</details>', html, re.S)
+        self.assertIsNotNone(pliegue)
+        self.assertIn("Qué más se sabe de este municipio", pliegue.group(0))
+        self.assertNotIn("Cada chip retira", pliegue.group(0))
+        self.assertIn("documentado por satélite", pliegue.group(0))
+        dest = html.find('class="destacado"')
+        self.assertGreater(dest, 0)
+        self.assertLess(dest, pliegue.start())
+        self.assertLess(pliegue.start(), html.find('class="metric-strip"'))
+        lead = html[dest:pliegue.start()]
+        self.assertIn("inscritas como damnificadas", lead)
+        self.assertNotIn("documentado por satélite", lead)
+
+    def test_el_panel_desglosa_el_rud_con_las_mismas_cifras_que_las_tarjetas(self):
+        """JP (24-ago): en la tabla de fuentes hacen falta las cuatro cifras
+        del registro, no un resumen. Las tarjetas siguen debajo (población
+        DANE y el mismo número); si una cifra del panel no es la de la
+        tarjeta, hay dos verdades (M2)."""
+        d = R.datos_ficha("Cali", self.ctx)
+        m = d["muni"]
         panel = self._panel(self.cali)
-        self.assertIn("Qué dice cada fuente", panel)
-        self.assertNotIn("Familias damnificadas", panel)
+        self.assertIn("Familias inscritas", panel)
+        self.assertIn("Viviendas destruidas", panel)
+        self.assertIn("Viviendas averiadas", panel)
+        self.assertIn("RUD · UNGRD", panel)
+        for campo in ("rud_familias", "rud_personas", "rud_viv_destruidas",
+                      "rud_viv_averiadas"):
+            self.assertIn(R.fmt(m[campo]), panel)
+        ini = self.cali.find('class="metric-strip"')
+        fin = self.cali.find("Cómo avanza el registro oficial")
+        tira = self.cali[ini:fin]
+        self.assertGreater(ini, 0)
+        for campo in ("rud_familias", "rud_personas", "rud_viv_destruidas",
+                      "rud_viv_averiadas"):
+            self.assertIn(R.fmt(m[campo]), tira)
+        self.assertLess(panel.find("Familias inscritas"), panel.find("Copernicus"))
+        self.assertLess(panel.find("Viviendas destruidas"), panel.find("Copernicus"))
+        self.assertNotIn("tarjetas de arriba", self.cali)
+        self.assertNotIn("debajo del mapa", panel)
+
+    def test_sin_rud_el_panel_no_inventa_ceros(self):
+        """Palmira aún no tiene registro: omitir la fila, no publicar 0 (R3)."""
+        html = R.render_ficha(R.datos_ficha("Palmira", self.ctx))
+        panel = self._panel(html)
         self.assertNotIn("Familias inscritas", panel)
-        self.assertIn("Copernicus", panel)
-        self.assertIn("ICube-SERTIT", panel)
-        self.assertIn("ChatMap", panel)
+        self.assertNotIn("RUD · UNGRD", panel)
+
+    def test_un_cero_medido_del_rud_si_se_publica(self):
+        """Pereira declara 0 viviendas destruidas: ese cero es dato, no
+        ausencia. Esconderlo sería tratar un 0 medido como un NA (R3)."""
+        html = R.render_ficha(R.datos_ficha("Pereira", self.ctx))
+        panel = self._panel(html)
+        self.assertRegex(
+            panel,
+            r'Viviendas destruidas</span><span class="f">RUD · UNGRD</span>'
+            r'</span><span class="v">0</span>')
 
     def test_el_panel_cuenta_lo_que_el_mapa_pinta_y_esconde_quien_no_miro(self):
         """R3: UNOSAT no miró Cali, así que no sale una fila a cero. El
@@ -5263,6 +5345,9 @@ class TestLienzoMunicipal(unittest.TestCase):
         self.assertGreater(vistas, 0)
         self.assertGreater(tira.start(), vistas)
         self.assertLess(tira.start(), html.find('id="map-mun"'))
+        js = (ROOT / "site" / "municipio.js").read_text(encoding="utf-8")
+        self.assertNotIn("intro.hidden", js)
+        self.assertNotIn('querySelector(".intro-mapa")', js)
 
     def test_el_css_mantiene_el_lienzo_en_flex_y_las_pestanas_en_fila(self):
         """El prototipo midió el lado a lado con flex. Si `.lienzo` vuelve a
@@ -5270,8 +5355,19 @@ class TestLienzoMunicipal(unittest.TestCase):
         y el mapa ya no convive con el panel. El tablist anidado —los chips
         no son pestañas— tiene que ser flex o los dos botones se apilan."""
         css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
-        self.assertIn(".lienzo.lienzo-mun{display:flex", css)
-        self.assertIn('.vistas [role="tablist"]{display:flex', css)
+        vivo = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+        self.assertIn(".lienzo.lienzo-mun{display:flex", vivo)
+        self.assertIn('.vistas [role="tablist"]{display:flex', vivo)
+
+    def test_en_movil_la_tabla_va_antes_que_el_mapa(self):
+        """JP (24-ago): se llega directo a la información. El prototipo ponía
+        el mapa primero con `.marco-mapa{order:1}`; producción no invierte
+        el DOM. Si esa regla vuelve, este test es el que avisa."""
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        vivo = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+        self.assertNotIn(".lienzo-mun .marco-mapa{order:1", vivo)
+        self.assertIn(".lienzo.lienzo-mun .panel{order:1", vivo)
+        self.assertIn(".lienzo-mun .marco-mapa{order:2", vivo)
 
     def test_los_chips_ocultos_no_ocupan_sitio(self):
         """`.chips { display:flex }` anula el `[hidden]` del navegador: la
@@ -5287,6 +5383,81 @@ class TestLienzoMunicipal(unittest.TestCase):
         css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
         self.assertIn(".contenido-ficha{", css)
         self.assertIn("padding-inline:var(--eje)", css)
+
+    def test_la_grafica_entra_despues_del_h2_y_antes_de_la_tabla(self):
+        """El prototipo lo midió: forma primero, cifra citable después.
+        Cali tiene más de cinco capturas; si el SVG no está, la ficha sigue
+        prometiendo una gráfica que no dibuja."""
+        html = self.cali
+        h2 = html.find("<h2>Cómo avanza el registro oficial</h2>")
+        graf = html.find('class="grafico-rud-muni"')
+        tabla = html.find("<table>", h2)
+        self.assertGreater(h2, 0)
+        self.assertGreater(graf, h2)
+        self.assertGreater(tabla, graf)
+        self.assertIn('id="registro"', html[h2 - 80:h2])
+        self.assertIn('class="leyenda-graf"', html[graf:tabla])
+        self.assertNotIn("La gráfica de evolución aparece a partir", html)
+
+    def test_con_menos_de_cinco_capturas_no_hay_grafica(self):
+        """Dos puntos no son tendencia: la ficha lo dice y no dibuja.
+        Mutar Cali a tres capturas es el caso que el umbral tiene que
+        cazar; si el SVG sale igual, el umbral no vigila nada."""
+        d = copy.deepcopy(R.datos_ficha("Cali", self.ctx))
+        d["serie"] = d["serie"][:3]
+        self.assertEqual(R.grafico_rud_municipal(d["serie"], d["slug"]), "")
+        html = R.render_ficha(d)
+        self.assertNotIn('class="grafico-rud-muni"', html)
+        self.assertIn("La gráfica de evolución aparece a partir", html)
+
+    def test_el_primer_dia_no_inventa_una_barra_a_cero(self):
+        """R3: sin captura previa el alta no existe. Un rect de altura 0
+        diría que ese día no entró nadie."""
+        serie = [(f"2026-08-{d:02d}", {"familias": 100 * i})
+                 for i, d in enumerate(range(16, 22), start=1)]
+        svg = R.grafico_rud_municipal(serie, "prueba")
+        altas = re.findall(r'data-altas="([^"]+)"', svg)
+        self.assertEqual(altas, ["100", "100", "100", "100", "100"])
+        self.assertIn("sin captura anterior", svg)
+        self.assertNotRegex(svg, r'fill="#[0-9A-Fa-f]')
+
+    def test_una_baja_del_registro_se_pinta_y_no_se_esconde(self):
+        """El prototipo hacía max(0, …) y recortaba las correcciones a la
+        baja. R16 las enseña: el consolidado no retrocede, el gráfico sí
+        cuenta lo que la fuente publicó ese día."""
+        serie = [(f"2026-08-{d:02d}", {"familias": n})
+                 for d, n in zip(range(16, 21), (100, 200, 180, 220, 250))]
+        svg = R.grafico_rud_municipal(serie, "baja")
+        self.assertIn('data-altas="-20"', svg)
+        self.assertIn("var(--critical)", svg)
+
+    def test_el_esquema_de_titulos_es_el_del_prototipo_sin_saltar_niveles(self):
+        """H1 → panel → registro → prensa → lagunas → trazabilidad.
+        Destacado y tarjetas van DEBAJO del lienzo (JP, 24-ago, frente al
+        prototipo). Ningún H3 sin H2, y el H2 del panel va antes de los de
+        zona-datos."""
+        html = self.cali
+        niveles = [int(n) for n in re.findall(r"<h([1-6])\b", html)]
+        self.assertEqual(niveles[0], 1)
+        for a, b in zip(niveles, niveles[1:]):
+            self.assertLessEqual(b, a + 1, f"salto de h{a} a h{b}")
+        h2s = re.findall(r"<h2>(.*?)</h2>", html)
+        self.assertEqual(h2s[0], "Qué dice cada fuente")
+        self.assertEqual(h2s[1:], [
+            "Cómo avanza el registro oficial",
+            "Qué publicó la prensa sobre Cali",
+            "Qué no sabemos de Cali",
+            "Fuentes y trazabilidad",
+        ])
+        self.assertLess(html.find("<h1>"), html.find("<h2>"))
+        self.assertLess(html.find('class="lienzo lienzo-mun"'),
+                        html.find('class="destacado"'))
+        self.assertLess(html.find('class="lienzo lienzo-mun"'),
+                        html.find('class="metric-strip"'))
+        self.assertLess(html.find('class="destacado"'),
+                        html.find("Cómo avanza el registro oficial"))
+        self.assertLess(html.find('class="metric-strip"'),
+                        html.find("Cómo avanza el registro oficial"))
 
 
 class TestMarcadoDeLaFicha(unittest.TestCase):
@@ -5452,14 +5623,16 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
         """Nada se calcula solo para el marcado: cada cifra citable está
         también escrita en la página que la publica."""
         html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
-        tira = re.search(r'<div class="metric-strip">.*?</div>\s*</div>', html, re.S)
-        self.assertIsNotNone(tira)
+        ini = html.find('class="metric-strip"')
+        fin = html.find("Cómo avanza el registro oficial")
+        self.assertGreater(ini, 0)
+        tira = html[ini:fin]
         medidas = self._medidas(datasets_ld(html)[0])
         for etiqueta in ("Familias inscritas en el RUD",
                          "Personas inscritas en el RUD",
                          "Viviendas averiadas declaradas en el RUD",
                          "Población proyectada 2026 (DANE)"):
-            self.assertIn(R.fmt(medidas[etiqueta]["value"]), tira.group(0),
+            self.assertIn(R.fmt(medidas[etiqueta]["value"]), tira,
                           f"{etiqueta} no está en la tira de tarjetas")
 
     def test_la_fecha_es_la_del_dato_y_la_cobertura_se_cierra_en_ella(self):
@@ -5511,6 +5684,24 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
                             for x in con["distribution"]))
         self.assertFalse(any("evidencia.json" in x["contentUrl"]
                              for x in sin["distribution"]))
+
+    def test_el_grafico_no_anade_un_dataset_ni_duplica_ids(self):
+        """El SVG visualiza cifras que ya están en variableMeasured y en
+        la tabla. Un Dataset extra, o un @id que apunte al title del
+        gráfico, inventaría un recurso que no se puede citar. Los tres
+        bloques JSON-LD de la ficha ya estaban: identidad, Dataset y
+        migas."""
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        bloques = bloques_ld(html)
+        self.assertEqual(len(bloques), 3)
+        self.assertEqual(len(datasets_ld(html)), 1)
+        self.assertIn("@graph", bloques[0])
+        self.assertEqual(bloques[1]["@type"], "Dataset")
+        self.assertEqual(bloques[2]["@type"], "BreadcrumbList")
+        embebido = json.dumps(bloques, ensure_ascii=False)
+        self.assertNotIn("graf-rud-", embebido)
+        self.assertIn('id="graf-rud-cali-t"', html)
+        self.assertIn('id="graf-rud-cali-d"', html)
 
 
 class TestR5NoPrometeLoQueYaNoHace(unittest.TestCase):

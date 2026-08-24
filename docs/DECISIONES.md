@@ -6,6 +6,59 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — Encabezado del prototipo; sin nota autoescrita de los chips
+
+JP lo marcó al comparar ficha y prototipo. Bajo el H1 vuelven la línea del
+sismo (`CONTEXTO_SISMO`), el resumen corto de cifras y «Cómo leer esta
+ficha». El recuento «Este mapa reúne…» se ve siempre, encima de Situación
+y Mapa, sin esperar a que se pida el mapa. La nota «Cada chip retira…»
+(y el desajuste de SERTIT) no se genera: JP la retiró.
+
+## 2026-08-24 — El panel desglosa el RUD; en móvil la tabla va antes que el mapa
+
+JP lo pidió sobre la tabla «Qué dice cada fuente»: hacen falta las cuatro
+cifras del registro (familias inscritas, personas, viviendas destruidas,
+viviendas averiadas), no solo satélites y vecinos. El prototipo ya las
+traía; se habían dejado fuera para no duplicar las tarjetas. Con la tabla
+primero, esconderlas ahí era esconder el dato oficial detrás del mapa.
+
+Las tarjetas siguen debajo (resumen visual + población DANE). La cifra es
+la misma columna: un test se rompe si panel y tarjetas se separan (M2).
+Un municipio sin RUD (Palmira) no publica ceros; un cero medido (Pereira,
+0 viviendas destruidas) sí.
+
+En móvil el CSS deja de poner el mapa encima: tabla, luego mapa. El
+destacado y las tarjetas siguen bajo el lienzo. Los dos párrafos del mapa
+siguen encima del lienzo, no debajo de los chips.
+
+## 2026-08-24 — En la ficha, el mapa va primero; el destacado y las tarjetas, debajo
+
+JP lo marcó sobre el móvil frente al prototipo: los dos párrafos del mapa
+(«Este mapa reúne…», «Cada chip…») tienen que ir **encima del lienzo**, no
+debajo de los chips —en pantalla estrecha la tira envuelve y esos textos
+quedaban entre los filtros y el mapa—. El recuadro amarillo (destacado) y
+las tarjetas del RUD bajan **debajo del mapa y del panel** «Qué dice cada
+fuente». Eso retracta, en la ficha, dejar el lead y las cifras arriba del
+lienzo (23-ago / entrada de esta misma fecha sobre el gráfico): el prototipo
+ya tenía esa jerarquía; lo que no se porta es duplicar las tarjetas también
+en el panel.
+
+## 2026-08-24 — El gráfico del RUD municipal entra junto a la tabla, no en su lugar
+
+La ficha prometía la gráfica «a partir de la 5.ª captura» y no la dibujaba.
+El prototipo la midió: forma primero (barras de altas y línea de acumulado),
+tabla después (dato citable). Producción añade lo que el prototipo escondía:
+el primer día no inventa un alta a cero (R3) y una corrección a la baja se
+pinta, no se recorta (R16). El umbral de cinco capturas se mantiene: dos
+puntos no son tendencia.
+
+**El destacado largo se queda bajo el H1** (lead periodístico) y las
+tarjetas siguen arriba (decisión del 23-ago). El prototipo inventó un
+resumen corto para ese hueco porque el splice dejó el destacado en
+zona-datos; esa duplicación no se porta. El esquema de títulos de la
+ficha es H1 → qué dice cada fuente → cómo avanza el registro → prensa →
+qué no sabemos → fuentes, sin saltar niveles.
+
 ## 2026-08-24 — La ficha municipal es panel + mapa, no dos pestañas
 
 La fase 5 dejó las 208 fichas a medias: chips y marcado estructurado, pero el

@@ -943,24 +943,30 @@ a.metric-card:hover { border-color: var(--s1); }
    un fallo que costó una tarde y que no se ve venir leyendo el CSS.
    Origen: `prototipo/estilo.py`, que se borra al cerrar la última fase. */
 
-/* Ficha municipal: panel y mapa conviven, sin pestañas. En móvil el MAPA va
-   primero —se llega buscando «qué pasó aquí» y el mapa sitúa— y los datos
-   debajo; en pantalla ancha, panel a la izquierda y mapa a la derecha, igual
-   que la portada. El orden del DOM deja el panel antes para que quien navegue
-   con teclado o lector llegue al dato sin cruzar el mapa; el orden visual lo
-   pone `order`. */
+/* Ficha municipal: panel y mapa conviven, sin pestañas. En móvil la TABLA va
+   primero —se llega directo a la información— y el mapa debajo; en pantalla
+   ancha, panel a la izquierda y mapa a la derecha, igual que la portada. El
+   DOM deja el panel antes para teclado y lector; el CSS ya no invierte. */
 /* La doble clase iguala a un `.lienzo{display:grid}` futuro (fase 6, portada):
    una sola clase pierde por orden de aparición y el lienzo municipal deja de
    ser flex — `order` y el lado a lado se caen en las 208 fichas. */
 /* El encabezado de la ficha sale del tubo de 760 px: si no, las tarjetas
    quedan centradas y el lienzo (panel + mapa) empieza más a la izquierda,
-   dos ejes para la misma página. El destacado se queda en 70ch: es prosa. */
+   dos ejes para la misma página. El destacado vive en zona-datos y se
+   queda en 70ch: es prosa, no el lienzo. */
 .contenido-ficha{max-width:none;margin-inline:0;padding-inline:var(--eje)}
-.contenido.contenido-ficha .destacado{max-width:70ch}
+.contenido-ficha .fecha{font-size:13px;color:var(--muted);margin:0 0 8px}
+.contenido-ficha .resumen{font-size:15px;line-height:1.6;color:var(--ink-2);
+  margin:0 0 4px}
+.contenido-ficha details.pliegue{padding-inline:0;margin:0 0 12px}
+.zona-datos > .destacado{max-width:70ch;margin-bottom:12px}
+.zona-datos > details.pliegue{padding-inline:0;margin:0 0 12px}
+.zona-datos details.pliegue .destacado{max-width:70ch}
+.zona-datos > .metric-strip{margin:0 0 18px}
 .lienzo.lienzo-mun{display:flex;flex-direction:column;gap:0;margin:0 0 18px}
-.lienzo-mun .marco-mapa{order:1;position:relative}
-.lienzo.lienzo-mun .panel{order:2;padding:14px var(--eje);background:var(--surface);
-  border-top:1px solid var(--border)}
+.lienzo-mun .marco-mapa{order:2;position:relative}
+.lienzo.lienzo-mun .panel{order:1;padding:14px var(--eje);background:var(--surface);
+  border-bottom:1px solid var(--border)}
 .lienzo-mun #map-mun{height:48vh;min-height:280px;background:var(--grid);
   display:block;z-index:1}
 .lienzo-mun .panel h2{font-size:16px;margin:0 0 2px}
@@ -990,6 +996,11 @@ a.metric-card:hover { border-color: var(--s1); }
    SERTIT salía azul cuando su token es ocre: el color ES información en este
    sitio, así que un chip que miente de color miente de fuente. */
 .chips-mapa .chip[aria-pressed="false"]{opacity:.45}
+/* El recuento corto del mapa: siempre visible, también en Situación. */
+.intro-mapa{padding:4px var(--eje) 10px}
+.intro-mapa .sub{margin:0 0 6px;color:var(--ink-2)}
+.intro-mapa .note{margin:0}
+.intro-mapa[hidden]{display:none}
 /* Las dos vistas ocupan lo que ocupa la ficha de al lado: el hueco de 151 px
    bajo el mapa de Situación era el panel siendo más alto que su contenido.
    El SVG se centra con `meet` en vez de estirarse: deformar un mapa para
@@ -1034,6 +1045,8 @@ a.metric-card:hover { border-color: var(--s1); }
   .lienzo-mun #map-mun{height:100%;min-height:420px;border-radius:var(--radio)}
   /* El lienzo ya sangra con --eje: las pestañas no vuelven a meterse. */
   .lienzo-mun .vistas{padding:0 0 8px}
+  .lienzo-mun .intro-mapa{padding:0 0 10px}
+  .contenido-ficha .resumen{font-size:17px}
 }
 
 /* el dato manda: las secciones de contenido pegadas arriba y sin adornos */
@@ -1196,6 +1209,12 @@ details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--
 .ley{display:inline-flex;align-items:center;gap:6px}
 .ley .pt{width:18px;height:3px;border-radius:2px;flex:none}
 .ley .pt-b{width:9px;height:9px;border-radius:50%}
+/* Clase propia a propósito: `.grafico-rud` de rud.html infla la letra en
+   móvil porque cada barra lleva etiqueta. Aquí las etiquetas van al eje
+   y esa tipografía reventaría el dibujo. No meter esta clase en un
+   @media cuyo cuerpo contenga el texto `.grafico-rud`: el guardián de
+   rud.html busca esa subcadena. */
+.grafico-rud-muni{display:block;width:100%;height:auto;margin:4px 0 2px}
 
 .marca-f{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none;
   margin-right:7px}
