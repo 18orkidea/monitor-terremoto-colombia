@@ -6,6 +6,134 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — El suelo de prosa se mide con un medidor del repositorio, no con un documento
+
+**Contexto.** El contrato del rediseño era «ninguna baja» de palabras, y el
+suelo vivía en un documento de coordinación. Envejeció en una tarde: al cerrar
+la fase 4, **ninguna definición razonable reproducía sus cifras** —para
+`noticias`, tres formas de contar daban 891, 824 y 680 donde el documento decía
+667—. Además los `MINIMOS` absolutos de `seo_check` no vigilaban lo que
+importaba: una tabla de 208 filas los cuadruplica ella sola, así que `rud.html`
+podía perder su introducción entera con el build en verde.
+
+**Decisión.** `seo_check.prosa_propia()` mide lo que una página aporta
+descontando su tabla o lista, la barra y el pie —216 palabras idénticas en las
+213 páginas, un colchón que oculta justo la pérdida que el suelo vigila—, y
+`PROSA_MINIMA` guarda el suelo por página, fechado, medido sobre `dist/`. Si
+baja, **el build se rompe**: es contenido publicado que desaparece. Se sube
+cuando una fase deja la página mejor; bajarlo exige mano y entrada aquí.
+
+**Consecuencia.** El contrato deja de ser una promesa entre dos y pasa a ser
+verificable por cualquiera. Es **M4** aplicado: una línea base se toma midiendo
+en el momento, con un medidor que esté en el repositorio. Validado por mutación:
+retirar un párrafo de `balances.html` en el artefacto tumba el build.
+
+## 2026-08-24 — Un contenedor a la espera de su relleno no puede ser un formato que haya que parsear
+
+**Contexto.** Dos páginas distintas de la fase 4 se averiaron el mismo día por
+la misma causa, descubierta por dos vías independientes. Un
+`<script type="application/ld+json">` vacío —el contenedor natural para un
+bloque que rellena el build— **es JSON inválido** para todo el que lea el
+documento antes de la inyección: el `site/` de desarrollo, y los guardianes
+G2/G6, que construyen las 213 páginas sin pasar por el inyector. El caso de
+`municipios` era su `Dataset` nuevo; el otro era `#site-identity`, vacío en las
+**cinco** páginas desde antes del sprint.
+
+**Decisión.** El marcador es un `<div hidden>` y el `<script>` entero viaja
+dentro de la pieza generada. La regla, general: **un contenedor `data-gen` es
+prosa o marcado, nunca un formato que alguien tenga que parsear.** Se aplica
+también al defecto preexistente, no solo al caso que lo destapó. Corolario para
+`variableMeasured` de las páginas-tabla: es el **diccionario de columnas**, no
+un `ItemList` con las 208 filas, que sería una segunda copia de la tabla (M2) —
+el índice para sistemas de IA ya lo hace `llms-full.txt`.
+
+**Consecuencia.** El bloque publicado no cambia un byte (verificado por sha256
+del contenido de identidad en `dist/` antes y después). El guardián se
+generaliza a las cinco páginas. `_CONTENEDOR_LD` acepta las dos formas —marcador
+y bloque escrito— porque aquí la pieza cambia de etiqueta: sin eso, repetir el
+paso sobre un `dist/` ya construido volvería a acusar a `site/*.html` de haber
+perdido el marcador.
+
+## 2026-08-24 — Balances: el marcado estructurado también caduca con la corrida
+
+La página de balances servía 2.202 palabras y ninguna era una cifra del balance.
+Se prerenderiza igual que el RUD, con dos decisiones propias.
+
+**El consolidado se pide, no se replica.** La regla de R16 vive solo en
+`site/ui.js`. `render_html.py` la ejecuta con node —patrón de
+`alerts.py::_consolidado_de_la_serie`— y escribe lo que devuelve. Si node falta,
+cada pieza publica su aviso; lo que sí se publica sin él es el recuento de
+archivo, que no depende de la regla. Reimplementarla en Python habría sido la
+tercera copia de la única regla que decide qué cifra ve el público.
+
+**El `Dataset` baja del `<head>` al `<body>` y lo escribe el build.** Sus dos
+campos más útiles —`variableMeasured` y `dateModified`— son datos del día, y a
+mano envejecen igual que una cifra a mano: el bloque estático fechaba la
+cobertura con «..» y no publicaba ni una cifra. **R9 en el marcado**:
+`creator`/`publisher` son el monitor, que compiló el artefacto; la UNGRD va en
+`citation`. Decir que la UNGRD publica esta página, o que el monitor produjo la
+cifra oficial, son las dos mentiras simétricas.
+
+**Un rótulo que se cae cuando falta un dato ajeno a él no es un rótulo.** El
+«máximo informado» de R16 viajaba dentro del párrafo de la captura elegida. Un
+día en que el consolidado arrastra el máximo sin captura nueva —justo cuando más
+falta hace la advertencia— la página habría publicado las cifras sin ella. Va
+siempre y en su propio párrafo.
+
+**Una captura son su día Y su URL.** El mismo artículo es la captura elegida de
+varios días. El índice por URL colapsaba doce elegidas en siete filas: seis se
+quedaban sin la marca «✓ usada en la serie» y la fila desplazada dejaba de
+atender a los filtros. Lo destapó el pie servido, que dice cuántas alimentan la
+serie y contradecía a la tabla — **un dato servido audita al navegador, no solo
+al rastreador**.
+
+## 2026-08-24 — El corpus de titulares se declara ajeno: `Dataset` con dos niveles de atribución
+
+La página de titulares publica su corpus como `Dataset` en JSON-LD, y R9 decide
+cómo se firma. `creator` y `publisher` son el monitor **porque el monitor
+compiló este corpus** —el emparejado por topónimo, con su
+`measurementTechnique`—, nunca porque haya escrito un titular. Quién produjo la
+prensa va en `citation`, por canal: GDACS-EMM, el registro abierto de feeds y
+Google News. Ningún nodo se declara `author` de nada y ningún titular se marca
+como `NewsArticle`: sería apropiarse de obra ajena, y es lo que vigila
+`TestMarcadoDeNoticias`.
+
+**Sin `license`**, a diferencia de los datasets municipales: el monitor no puede
+licenciar titulares de terceros. Cambiarlo exige tocar el HTML y el guardián a
+la vez, y volver aquí.
+
+`dateModified` viaja como marcador `{{noticias_corte}}` y lo escribe el build:
+un `<span data-gen>` no cabe dentro de un bloque JSON-LD. Si la corrida falta o
+no es una fecha, la clave no se emite y el build revienta con «marcador sin
+valor» — publicar `"None"` fecharía el corpus en la nada (M10).
+
+**El paginador no se prerenderiza.** `noticias.html?p=2` no existe como URL: sus
+botones son estado del navegador, y servirlos publicaría enlaces muertos. Lo que
+un lector sin JavaScript necesita saber de la lista —que es un recorte, de
+cuánto y por dónde sigue— vive en un pie servido, `nota_noticias()`, y **solo
+ahí**: si el literal siguiera además en `noticias.js`, el día que uno cambiara
+la página diría dos cosas (M2).
+
+## 2026-08-24 — Un guardián que se muda de superficie se repunta o se retira, nunca se relaja
+
+**Contexto.** La regla de «mirado por satélite» de la tabla de municipios pasó
+del navegador al build en la fase 4, y tres guardianes seguían apuntando a
+`site/municipios.js`.
+
+**Decisión.** Dos de ellos comparaban los **nombres** de los campos en el texto
+de los ficheros: repuntarlos a `render_html.py` los habría dejado igual de
+mudos, porque un `assertIn` sobre el código fuente pasa en verde con la
+condición invertida. **Se retiran**, y lo que querían decir lo dice ahora
+`TestLaMiradaSatelitalEnLasDosSuperficies` **llamando a las dos funciones** sobre
+54 combinaciones y afirmando que la única diferencia entre ellas es la condición
+del RUD. El tercero pierde la entrada de `municipios.js` del diccionario `TIRAS`,
+con su cobertura real anotada: la vigilan los tests por ejecución.
+
+**Consecuencia.** Es **M1** como criterio de mantenimiento, no solo de escritura:
+cuando un guardián deja de alcanzar lo que vigilaba, la pregunta no es «¿a dónde
+lo repunto?» sino «¿esto guardaba algo?». Se corrigen de paso los dos punteros
+que mandaban a leer una función que ya no existe.
+
 ## 2026-08-24 — La revisión se cobra por sprint; el trabajo se paraleliza por superficies disjuntas
 
 **Contexto.** Hasta hoy cada cambio pagaba su Definition of Done completa al

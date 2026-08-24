@@ -678,6 +678,33 @@ a.metric-card:hover { border-color: var(--s1); }
   .grafico-rud .g-vacio { transform: translate(0, -5px); }
   .grafico-rud .g-dia   { transform: translate(0, 8px); }
 }
+/* El gráfico de balances tiene el mismo problema y NO la misma geometría, así
+   que no puede reusar los selectores del RUD: son tres paneles de doce bandas
+   de 68,7 unidades, frente a puntos separados 153. Medido en un móvil de 375
+   px: el lienzo de 900 se dibuja sobre 285 (escala 0,317) y un rótulo de 10
+   queda en 3,17 px efectivos.
+
+   La diferencia que obliga a un bloque propio: «21-ago» mide 33,9 unidades, y
+   68,7 / 33,9 × 10 = 20 es el tope del rótulo de fecha SIN esconder la mitad —
+   y ese tope baja cada día que entra en la serie. Por eso el generador emite
+   `g-dia` y `g-dia-alterna`: **se esconde una de cada dos fechas antes de
+   agrandar la otra mitad**, y entonces la banda útil es doble (137,4) y 24 px
+   caben (24 × 3,39 = 81,4). `.g-eje` no pasa de 15: su rótulo más largo
+   («123.789») se escribe hacia la izquierda dentro de las 58 unidades del
+   margen. */
+@media (max-width: 760px) {
+  .grafico-balances .g-eje         { font-size: 13px; }
+  .grafico-balances .g-leyenda     { font-size: 14px; }
+  .grafico-balances .g-alta        { font-size: 14px; }
+  .grafico-balances .g-dia         { font-size: 15px; }
+  .grafico-balances .g-dia-alterna { display: none; }
+}
+@media (max-width: 480px) {
+  .grafico-balances .g-eje     { font-size: 15px; }
+  .grafico-balances .g-leyenda { font-size: 18px; }
+  .grafico-balances .g-alta    { font-size: 20px; }
+  .grafico-balances .g-dia     { font-size: 24px; }
+}
 @media (max-width: 480px) {
   .grafico-rud .g-eje     { font-size: 15px; }
   .grafico-rud .g-alta,

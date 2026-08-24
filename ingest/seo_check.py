@@ -27,6 +27,24 @@ MINIMOS = {
     "balances.html": {"palabras": 600, "filas": 10},
     "noticias.html": {"palabras": 1000, "filas": 100},
 }
+
+# Suelo de prosa propia: lo que cada página aporta descontando su tabla, la
+# barra y el pie (ver `prosa_propia`). **Es el contrato «ninguna baja»**, y
+# hace el trabajo que los MINIMOS de arriba no pueden hacer: son absolutos y
+# una tabla de 208 filas los cuadruplica ella sola, así que hoy `rud.html`
+# podría perder sus 347 palabras de introducción con el build en verde.
+#
+# Medido el 24-ago-2026 sobre `dist/` al cerrar la fase 4 del rediseño. Se sube
+# cuando una fase deja la página mejor —y entonces se anota aquí, con su
+# fecha—; **nunca se baja para que pase un build**. Si baja de verdad, el build
+# tiene que romperse: es contenido publicado que desaparece.
+PROSA_MINIMA = {
+    "index.html": 2814,        # la portada la reordena la fase 6
+    "municipios.html": 813,    # fase 4: 387 → 813
+    "rud.html": 680,           # fase 3
+    "balances.html": 1749,     # fase 4: 1.228 → 1.749
+    "noticias.html": 915,      # fase 4: 824 → 915
+}
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 
 # «Riosucio (Caldas) (Caldas)»: el departamento escrito dos veces porque se
@@ -69,6 +87,28 @@ def _texto(html: str) -> str:
     return re.sub(r"<[^>]+>", " ", limpio)
 
 
+def prosa_propia(html: str) -> int:
+    """Palabras que esta página aporta, sin lo que aportan la tabla y el marco.
+
+    El total de una página con 208 filas no vigila nada: la tabla sola cuadruplica
+    el mínimo, así que `rud.html` podía perder su introducción entera con el build
+    en verde. Y barra y pie son **216 palabras idénticas en las 213 páginas**:
+    contarlas le regala a cada una un colchón que oculta justo la pérdida que el
+    suelo vigila. Se descuentan los tres.
+
+    Nace de una cicatriz de método (M4): la línea base del rediseño se llevaba en
+    un documento, envejeció en una tarde y ninguna definición razonable
+    reproducía sus cifras. Un suelo se mide con un medidor que esté en el
+    repositorio, o no es verificable por nadie.
+    """
+    limpio = re.sub(r"<(script|style|svg).*?</\1>", " ", html, flags=re.S)
+    for patron in (r"<tbody\b.*?</tbody>", r'<ul id="lista".*?</ul>',
+                   r"<nav\b.*?</nav>", r"<header\b.*?</header>",
+                   r"<footer\b.*?</footer>"):
+        limpio = re.sub(patron, " ", limpio, flags=re.S | re.I)
+    return len(_texto(limpio).split())
+
+
 def _scripts_ficha_validos(html: str) -> bool:
     """Solo admite la mejora progresiva del mapa, nunca datos escritos por JS.
 
@@ -105,12 +145,21 @@ def revisar(dist: Path) -> dict:
             continue
         html = f.read_text(encoding="utf-8")
         palabras = len(_texto(html).split())
+        propia = prosa_propia(html)
         filas = len(re.findall(r"<tr[ >]", html)) + len(re.findall(r"<li>", html))
         kb = len(html.encode()) / 1024
-        datos[pagina] = {"palabras": palabras, "filas": filas, "kb": round(kb)}
+        datos[pagina] = {"palabras": palabras, "prosa_propia": propia,
+                         "filas": filas, "kb": round(kb)}
 
         if palabras < minimo["palabras"]:
             fallos.append(f"{pagina}: {palabras} palabras servidas, mínimo {minimo['palabras']}")
+        suelo = PROSA_MINIMA.get(pagina)
+        if suelo is not None and propia < suelo:
+            fallos.append(
+                f"{pagina}: {propia} palabras de prosa propia, suelo {suelo} "
+                f"(faltan {suelo - propia}). Es contenido publicado que "
+                "desaparece: se recupera, o se baja el suelo a mano con su "
+                "porqué en docs/DECISIONES.md")
         if filas < minimo["filas"]:
             fallos.append(f"{pagina}: {filas} filas en el HTML, mínimo {minimo['filas']}"
                           " — ¿se ha roto el prerenderizado?")
