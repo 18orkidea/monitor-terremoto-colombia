@@ -880,7 +880,7 @@ def parrafo_respuesta(d: dict) -> str:
             f"{e(nombre)} ({e(depto)}) tiene <strong>{fmt(m['rud_familias'])} familias "
             f"({fmt(m['rud_personas'])} personas)</strong> inscritas como damnificadas en el "
             f"Registro Único de Damnificados (RUD) de la Unidad Nacional para la Gestión del "
-            f"Riesgo de Desastres (UNGRD), el <strong>{fmt(m['tasa_rud_pct'], 2)}%</strong> de sus "
+            f"Riesgo de Desastres (UNGRD), el <strong>{pct(m['tasa_rud_pct'])}</strong> de sus "
             f"{fmt(m['poblacion_2026'])} habitantes proyectados para 2026 por el Departamento "
             f"Administrativo Nacional de Estadística (DANE). "
             f"El registro municipal declara {fmt(m['rud_viv_destruidas'])} "
@@ -1201,6 +1201,29 @@ def _cita(nombre: str, organizacion: str, url: str | None = None) -> dict:
     return {"@type": "CreativeWork", "name": nombre, "publisher": publisher}
 
 
+# Las dos fuentes que cita CUALQUIER página con cifras del RUD. Estaban escritas
+# tres veces —ficha, municipios y rud—, byte a byte iguales, que es exactamente
+# el estado en que M2 dice que el daño todavía no está: ninguna estaba mal el
+# día que se escribió, y nada vigilaba que siguieran diciendo lo mismo. El
+# nombre de la obra se pasa aparte porque sí cambia (la ficha cita además el
+# catálogo DIVIPOLA); lo que no puede cambiar es QUIÉN publica y con qué URL.
+UNGRD_ORG = "Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)"
+UNGRD_URL = "https://rud.gestiondelriesgo.gov.co/"
+DANE_ORG = "Departamento Administrativo Nacional de Estadística (DANE)"
+DANE_URL = ("https://www.dane.gov.co/index.php/estadisticas-por-tema-2/"
+            "demografia-y-poblacion/proyecciones-de-poblacion")
+
+
+def cita_rud(nombre: str = "Registro Único de Damnificados (RUD)") -> dict:
+    """La cita de la UNGRD, idéntica en las 213 páginas."""
+    return _cita(nombre, UNGRD_ORG, UNGRD_URL)
+
+
+def cita_dane(nombre: str = "Proyección de población municipal 2026") -> dict:
+    """La cita del DANE, idéntica en las 213 páginas."""
+    return _cita(nombre, DANE_ORG, DANE_URL)
+
+
 def _medida(nombre: str, valor, unidad: str, descripcion: str | None = None):
     """Un `PropertyValue` con su valor y su unidad, o `None` si no hay dato.
 
@@ -1341,15 +1364,10 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
     # La UNGRD se cita SIEMPRE, tenga o no registro este municipio: haber
     # consultado el RUD y no encontrar al municipio es un hecho de esa fuente, y
     # es el hallazgo que esta ficha existe para contar.
-    citas = [_cita("Registro Único de Damnificados (RUD)",
-                   "Unidad Nacional para la Gestión del Riesgo de Desastres "
-                   "(UNGRD)", "https://rud.gestiondelriesgo.gov.co/")]
+    citas = [cita_rud()]
     if m.get("poblacion_2026") is not None or m.get("divipola"):
-        citas.append(_cita(
-            "Proyección de población municipal 2026 y catálogo DIVIPOLA",
-            "Departamento Administrativo Nacional de Estadística (DANE)",
-            "https://www.dane.gov.co/index.php/estadisticas-por-tema-2/"
-            "demografia-y-poblacion/proyecciones-de-poblacion"))
+        citas.append(cita_dane(
+            "Proyección de población municipal 2026 y catálogo DIVIPOLA"))
     # G4: exactamente los servicios que `satelites_con_dato` devuelve, en su
     # mismo orden. Espejo, no «contiene»: citar a quien no miró este municipio
     # le atribuye un trabajo que no hizo, y callar a quien sí miró es R9 al
@@ -1391,6 +1409,19 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
         "temporalCoverage": f"2026-08-10/{fecha}" if fecha else "2026-08-10/..",
         **({"dateModified": fecha} if fecha else {}),
         "license": "https://creativecommons.org/licenses/by/4.0/",
+        # La condición de una fuente viaja PEGADA AL DATO, también cuando el
+        # lector es una máquina. `SATELITES` ya lo dice de ICube-SERTIT —«su
+        # licencia obliga a citar y prohíbe el uso comercial»— y la ficha lo
+        # enseñaba en la tabla de fuentes, pero el `Dataset` declaraba CC BY 4.0
+        # a secas sobre un `variableMeasured` que incluye sus edificios y ofrece
+        # como descarga el `evidencia.json`, que lleva su geometría dentro. La
+        # superficie hecha para reutilización automática era justo la que se
+        # callaba la restricción.
+        **({"usageInfo": " · ".join(
+            sat["naturaleza"].split(" · ")[-1] for sat in SATELITES
+            if sat["nombre"] in nombres_vistos and "©" in sat["naturaleza"])}
+           if any(sat["nombre"] in nombres_vistos and "©" in sat["naturaleza"]
+                  for sat in SATELITES) else {}),
         "isAccessibleForFree": True,
         # R9 en el marcado: quien compiló ESTE documento —el cruce de RUD,
         # satélites y DANE para este municipio— es el monitor, no la fuente. Si
@@ -1520,7 +1551,14 @@ def render_ficha(d: dict) -> str:
 
     tarjetas = [("Familias inscritas", fmt(m["rud_familias"]), "RUD · UNGRD · registro"),
                 ("Personas", fmt(m["rud_personas"]),
-                 f'{fmt(m["tasa_rud_pct"], 2)}% de la población'),
+                 # `pct` y no `fmt(...,2)+"%"`: Pereira tiene 4 personas
+                 # inscritas y una tasa de 0,0008, que a dos decimales se
+                 # imprime «0%» — la ficha publicaba que el 0 % de su población
+                 # está damnificada. `pct` tiene el suelo «<0,1 %» justo para
+                 # eso (R3), y además pone el espacio de la RAE que usa el resto
+                 # del sitio. La tabla de municipios ya lo hacía bien: eran dos
+                 # verdades para la misma proporción.
+                 f'{pct(m["tasa_rud_pct"])} de la población'),
                 ("Viviendas averiadas", fmt(m["rud_viv_averiadas"]),
                  f'{fmt(m["rud_viv_destruidas"])} '
                  f'{concuerda(m["rud_viv_destruidas"], "destruida", "destruidas")}'),
@@ -2405,16 +2443,9 @@ def dataset_municipios(ctx: dict) -> str:
 
     citas = []
     if hay["rud"]:
-        citas.append(_cita(
-            "Registro Único de Damnificados (RUD)",
-            "Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)",
-            "https://rud.gestiondelriesgo.gov.co/"))
+        citas.append(cita_rud())
     if hay["dane"]:
-        citas.append(_cita(
-            "Proyección de población municipal 2026",
-            "Departamento Administrativo Nacional de Estadística (DANE)",
-            "https://www.dane.gov.co/index.php/estadisticas-por-tema-2/"
-            "demografia-y-poblacion/proyecciones-de-poblacion"))
+        citas.append(cita_dane())
     if hay["dyfi"]:
         citas.append(_cita(
             "Cuestionario «Did You Feel It?» (DYFI), evento us6000tjl2",
@@ -2468,9 +2499,13 @@ def dataset_municipios(ctx: dict) -> str:
         "creator": {"@id": ORGANIZACION},
         "publisher": {"@id": ORGANIZACION},
         "includedInDataCatalog": {"@id": SITIO},
+        # los servicios salen de SATELITES y no de literales: aquí ponía
+        # «UNOSAT» donde la tabla —y por tanto las 208 fichas— dicen
+        # «UNITAR-UNOSAT». Dos vocabularios para el mismo servicio, justo en el
+        # campo que existe para que una máquina los agrupe (M2).
         "keywords": ["terremoto Colombia 2026", "municipios", "RUD",
                      "damnificados", "UNGRD", "DANE", "DYFI",
-                     "Copernicus EMS", "UNOSAT", "ICube-SERTIT"],
+                     *(sat["rotulo"] for sat in SATELITES)],
         **({"measurementTechnique": tecnicas} if tecnicas else {}),
         **({"variableMeasured": variables} if variables else {}),
         **({"citation": citas} if citas else {}),
@@ -2982,25 +3017,11 @@ def dataset_rud(ctx: dict) -> str:
                     f"municipio.")
         variables.append(variable)
 
-    citas = [{"@type": "CreativeWork",
-              "name": "Registro Único de Damnificados (RUD)",
-              "publisher": {
-                  "@type": "Organization",
-                  "name": "Unidad Nacional para la Gestión del Riesgo de "
-                          "Desastres (UNGRD)",
-                  "url": "https://rud.gestiondelriesgo.gov.co/"}}]
+    citas = [cita_rud()]
     # la cita del DANE entra con su columna, no antes: si la población dejara
     # de llegar, la página no seguiría citando a quien no aportó nada
     if presentes & {"poblacion_2026", "tasa_pct"}:
-        citas.append({
-            "@type": "CreativeWork",
-            "name": "Proyección de población municipal 2026",
-            "publisher": {
-                "@type": "Organization",
-                "name": "Departamento Administrativo Nacional de Estadística "
-                        "(DANE)",
-                "url": "https://www.dane.gov.co/index.php/estadisticas-por-"
-                       "tema-2/demografia-y-poblacion/proyecciones-de-poblacion"}})
+        citas.append(cita_dane())
 
     tecnicas = ["Registro administrativo declarativo municipal: lo cargan las "
                 "alcaldías y la UNGRD lo consolida, sujeto a verificación "

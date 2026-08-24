@@ -3821,9 +3821,22 @@ class TestMarcadoEstructurado(unittest.TestCase):
         self.assertEqual(sorted(R.PAGINAS_GRANDES), sorted(self.ESTATICAS),
                          "el build dejó de escribir alguna de las cinco grandes")
         self.assertEqual(len(self.paginas), len(fichas) + len(self.ESTATICAS))
+        # Cada una de las 213 publica su `Dataset`, y exactamente uno. Exigir
+        # solo «algún bloque JSON-LD» no guardaba nada: `BLOQUE_IDENTIDAD` lo
+        # escribe `escribir_piezas_compartidas` en las 213, así que el test
+        # pasaba en verde con el INYECTOR DESCONECTADO —cero datasets— y G2/G6,
+        # que iteran sobre los datasets, pasaban también porque el bucle no
+        # llegaba a correr. Es «la lista no está vacía» con otro traje, y la
+        # primera versión de este arreglo cayó justo en ella: se comprobó que el
+        # guardián VE el contenido cuando está, no que EXIJA que esté.
         for pagina in self.paginas:
-            self.assertTrue(bloques_ld(pagina.read_text(encoding="utf-8")),
-                            f"{self._nombre(pagina)}: sin ningún bloque JSON-LD")
+            html = pagina.read_text(encoding="utf-8")
+            nombre = self._nombre(pagina)
+            self.assertTrue(bloques_ld(html), f"{nombre}: sin ningún bloque JSON-LD")
+            self.assertEqual(
+                len(datasets_ld(html)), 1,
+                f"{nombre}: {len(datasets_ld(html))} nodos Dataset, se esperaba 1 "
+                "— ¿se desconectó el prerenderizado del marcado?")
 
     def test_g2_ningun_dataset_sin_nombre_ni_descripcion(self):
         """G2 · A cualquier profundidad y en cualquiera de las 213.
@@ -5288,6 +5301,18 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
                 self.assertGreater(valor, 0, f"{nombre}: proporción real a cero")
             self.assertEqual(R.fmt(valor, 2), R.fmt(m["tasa_rud_pct"], 2),
                              f"{nombre}: el marcado y la tarjeta no dicen lo mismo")
+            # …y sobre el HTML de verdad, que es lo que lee una persona. Sin
+            # esto el guardián comparaba `fmt(valor,2)` contra
+            # `fmt(tasa,2)` —dos veces la misma función, los dos «0»— y no veía
+            # que la ficha de Pereira publicara «0%» de damnificados teniendo
+            # cuatro personas inscritas, mientras la tabla decía «<0,1 %» y el
+            # marcado 0.0008. Tres verdades para la misma proporción.
+            if m["tasa_rud_pct"] > 0:
+                html = R.render_ficha(d)
+                self.assertNotIn(">0%<", html,
+                                 f"{nombre}: publica «0%» con damnificados reales")
+                self.assertNotIn("0% de la población", html,
+                                 f"{nombre}: publica «0% de la población»")
             vistos += 1
             minimo = min(minimo, m["tasa_rud_pct"])
         self.assertGreater(vistos, 100)
