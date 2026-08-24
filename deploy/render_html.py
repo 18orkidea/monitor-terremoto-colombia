@@ -1996,13 +1996,28 @@ def render_ficha(d: dict) -> str:
             # falsa y además ocultaría el problema al lector.
             dias = (date.fromisoformat(d["serie"][-1][0])
                     - date.fromisoformat(d["serie"][0][0])).days
-            o.append(f'<p>Las familias inscritas en {e(nombre)} pasaron de '
-                     f'<strong>{fmt(d["primero"]["familias"])}</strong> a '
-                     f'<strong>{fmt(d["ultimo"]["familias"])}</strong> entre el '
-                     f'{e(fecha_larga(d["serie"][0][0]))} y el '
-                     f'{e(fecha_larga(d["serie"][-1][0]))}: un salto del '
-                     f'{fmt(d["pct_delta"], 0)}% en {fmt_prosa(dias)} '
-                     f'{"día" if dias == 1 else "días"}. El RUD no mide cuánto se rompió '
+            # Un registro que NO se mueve no da «un salto del 0 %»: da la
+            # noticia contraria, y es la que este monitor viene a contar.
+            # Pereira publicaba «pasaron de 1 a 1: un salto del 0%» — absurdo
+            # de leer y, encima, sin el espacio que pide la RAE.
+            ini, fin = d["primero"]["familias"], d["ultimo"]["familias"]
+            if not d["pct_delta"]:
+                movimiento = (
+                    f'<p>Las familias inscritas en {e(nombre)} siguen siendo '
+                    f'<strong>{fmt(fin)}</strong> desde el '
+                    f'{e(fecha_larga(d["serie"][0][0]))}: en '
+                    f'{fmt_prosa(dias)} {"día" if dias == 1 else "días"} el '
+                    f'registro no se ha movido. ')
+            else:
+                movimiento = (
+                    f'<p>Las familias inscritas en {e(nombre)} pasaron de '
+                    f'<strong>{fmt(ini)}</strong> a <strong>{fmt(fin)}</strong> '
+                    f'entre el {e(fecha_larga(d["serie"][0][0]))} y el '
+                    f'{e(fecha_larga(d["serie"][-1][0]))}: un salto del '
+                    f'{fmt(d["pct_delta"], 0)} % en {fmt_prosa(dias)} '
+                    f'{"día" if dias == 1 else "días"}. ')
+            o.append(movimiento +
+                     f'El RUD no mide cuánto se rompió '
                      f'el municipio: mide a qué velocidad las autoridades locales alcanzan a '
                      f'registrarlo, y ese registro se verifica después. Por eso <strong>que un municipio '
                      f'no aparezca no significa «sin daño», significa «sin registro aún»</strong>.</p>')
