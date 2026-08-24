@@ -288,6 +288,32 @@ class TestFicha(unittest.TestCase):
         self.assertIn(f"en {R.fmt_prosa(dias)} días", html)
         self.assertNotIn("en un día", html)
 
+    def test_un_salto_real_menor_de_una_decima_no_se_publica_como_cero(self):
+        """Cuatro familias sobre 11.826 son un salto real del 0,03 %.
+
+        La prosa municipal debe aplicar el mismo suelo que `pct()`: redondearlo
+        a cero convertiría un cambio pequeño en ausencia de cambio."""
+        primero = {"familias": 11826, "personas": 20000,
+                   "viv_destruidas": 0, "viv_averiadas": 0}
+        ultimo = dict(primero, familias=11830)
+        pct_delta = ((ultimo["familias"] - primero["familias"])
+                     / primero["familias"] * 100)
+        datos = dict(
+            self.datos,
+            serie=[("2026-08-20", primero), ("2026-08-21", ultimo)],
+            primero=primero,
+            ultimo=ultimo,
+            delta=4,
+            pct_delta=pct_delta,
+        )
+
+        html = R.render_ficha(datos)
+
+        self.assertTrue("un salto del &lt;0,1 % en un día" in html,
+                        "el salto real pequeño no usa el suelo de pct()")
+        self.assertFalse("un salto del 0 %" in html,
+                         "el salto real pequeño se publicó como cero")
+
 
 class TestMapaEvidencias(unittest.TestCase):
     """La segunda pestaña existe solo con puntos y no pesa hasta que se pide.
@@ -3463,6 +3489,39 @@ class TestConcordanciaDeLaFicha(unittest.TestCase):
             self.assertNotIn("1 familias inscritas", descr, nombre)
             vistos += 1
         self.assertGreater(vistos, 0, "no hay ningún municipio con una sola familia: "
+                                      "el test dejó de comprobar lo que dice")
+
+    def test_ninguna_frase_visible_publica_uno_con_plural(self):
+        """Vigila lead, resumen, comparación de viviendas y SVG accesible."""
+        ctx = R.contexto()
+        vistos = 0
+        patron = re.compile(r"(?<![-\d])1 (?:familias|personas|viviendas)\b")
+        for nombre in ctx["idx"]:
+            if not R.es_elegible(nombre, ctx):
+                continue
+            html = R.render_ficha(R.datos_ficha(nombre, ctx))
+            texto = re.sub(r"<[^>]+>", "", html)
+            encontrado = patron.search(texto)
+            detalle = encontrado.group(0) if encontrado else ""
+            self.assertIsNone(encontrado, f"{nombre}: {detalle}")
+            if any(ctx["idx"][nombre].get(campo) == 1 for campo in
+                   ("rud_familias", "rud_personas", "rud_viv_destruidas",
+                    "rud_viv_averiadas")):
+                vistos += 1
+        self.assertGreater(vistos, 0, "el corpus ya no contiene ninguna cifra igual a uno: "
+                                      "el test dejó de comprobar lo que dice")
+
+    def test_el_porcentaje_diminuto_se_escapa_en_los_tres_puntos_de_la_ficha(self):
+        ctx = R.contexto()
+        vistos = 0
+        for nombre, m in ctx["idx"].items():
+            if not (0 < (m.get("tasa_rud_pct") or 0) < 0.05):
+                continue
+            html = R.render_ficha(R.datos_ficha(nombre, ctx))
+            self.assertEqual(html.count("<0,1 %"), 0, nombre)
+            self.assertEqual(html.count("&lt;0,1 %"), 3, nombre)
+            vistos += 1
+        self.assertGreater(vistos, 0, "no hay porcentajes diminutos en el corpus: "
                                       "el test dejó de comprobar lo que dice")
 
 
