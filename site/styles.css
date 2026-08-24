@@ -962,13 +962,18 @@ a.metric-card:hover { border-color: var(--s1); }
   padding:6px 10px;border-radius:99px;color:var(--muted);cursor:pointer}
 .vistas [role="tab"][aria-selected="true"]{background:var(--ink);color:var(--page);
   font-weight:600}
-.chips-mapa{margin-left:auto;padding:0;gap:6px;overflow:visible}
+/* El `margin-left:auto` es de la fila `.vistas` de la portada, no del
+   componente: `.chips-mapa` es la tira de chips de fuente de CUALQUIER mapa, y
+   la ficha municipal la usa fuera de esa fila. */
+.chips-mapa{padding:0;gap:6px;overflow:visible}
+.vistas > .chips-mapa{margin-left:auto}
 .chips-mapa .chip{padding:4px 10px;font-size:12.5px}
 .chips-mapa .chip .n{margin-left:2px}
-.chips-mapa .chip[data-capa="copernicus"]{color:var(--copernicus)}
-.chips-mapa .chip[data-capa="unosat"]{color:#5aa0e8}
-.chips-mapa .chip[data-capa="sertit"]{color:#1b4f96}
-.chips-mapa .chip[data-capa="ciudadanos"]{color:var(--ciudadano)}
+/* Los colores por capa los pone el bloque del sistema (`--copernicus`,
+   `--unosat`, `--sertit`, `--ciudadano`), que sigue al tema. Aquí ganaban por
+   especificidad dos hexes congelados —#5aa0e8 y #1b4f96— y en oscuro el chip de
+   SERTIT salía azul cuando su token es ocre: el color ES información en este
+   sitio, así que un chip que miente de color miente de fuente. */
 .chips-mapa .chip[aria-pressed="false"]{opacity:.45}
 /* Las dos vistas ocupan lo que ocupa la ficha de al lado: el hueco de 151 px
    bajo el mapa de Situación era el panel siendo más alto que su contenido.

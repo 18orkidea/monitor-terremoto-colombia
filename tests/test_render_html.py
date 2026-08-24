@@ -3795,6 +3795,15 @@ class TestMarcadoEstructurado(unittest.TestCase):
         cls.res = R.run(cls.tmp)                       # las 208 fichas
         for pagina in cls.ESTATICAS:                   # y las cinco grandes
             shutil.copy(ROOT / "site" / pagina, cls.tmp / pagina)
+        # Los DOS pasos del build, y este orden. Sin el inyector, el guardián
+        # global recorría el marcado que se versiona pero NO el que se escribe
+        # en el build: medido, veía 0 nodos `Dataset` en municipios.html donde
+        # hay 1. Es decir, todo el marcado que ganaron las fases 4 y 5 nacía
+        # fuera del guardián que dice vigilarlo, y el agujero crecía solo con
+        # cada página que estrenara el suyo. Es la misma forma del bug que
+        # motivó esta clase —un guardián que recorre menos de lo que promete—
+        # con otro traje.
+        R.inyectar_prerenderizado(cls.tmp, R.contexto())
         R.escribir_piezas_compartidas(cls.tmp)
         cls.paginas = sorted(cls.tmp.rglob("*.html"))
 

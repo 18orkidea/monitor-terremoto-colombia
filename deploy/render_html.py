@@ -48,6 +48,23 @@ AOI_ES = {
 
 
 # --------------------------------------------------------------- utilidades
+def redondea_como_se_lee(n, dec: int = 0) -> Decimal:
+    """El número redondeado con la MISMA regla con que se va a imprimir.
+
+    Existe porque `round()` de Python redondea al par y `fmt`/`Intl` se alejan
+    del cero: `round(12.745, 2)` da 12,74 y la tarjeta de al lado imprime 12,75.
+    Eso se publicó en el `Dataset` de la ficha de Alcalá —el marcado decía una
+    cifra y la tarjeta otra, en la misma página— y lo cazó el guardián G3, que
+    compara las dos. Quien necesite el VALOR redondeado (un JSON-LD, un cálculo
+    que luego se imprime) llama aquí; quien necesite el texto, a `fmt`.
+
+    Es la misma lección que el caso de El Cerrito, un escalón más adentro:
+    **redondear y formatear tienen que usar una sola regla, o el sitio publica
+    dos verdades.**"""
+    return Decimal(str(float(n))).quantize(Decimal(1).scaleb(-dec),
+                                           rounding=ROUND_HALF_UP)
+
+
 def fmt(n, dec: int = 0) -> str:
     """Formato es-CO sin `locale` (depende del sistema y en CI no está).
 
@@ -68,8 +85,7 @@ def fmt(n, dec: int = 0) -> str:
     R3: la ausencia de dato es «—», jamás 0."""
     if n is None:
         return "—"
-    q = Decimal(str(float(n))).quantize(Decimal(1).scaleb(-dec),
-                                        rounding=ROUND_HALF_UP)
+    q = redondea_como_se_lee(n, dec)
     s = f"{q:,.{dec}f}"
     if dec:                                   # maximumFractionDigits: quita los ceros
         s = s.rstrip("0").rstrip(".")
@@ -1260,9 +1276,14 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
         # un municipio con damnificados no puede publicarse como municipio con
         # el 0 % de damnificados. Es la misma regla que `pct()` aplica en la
         # prosa con su «<0,1 %» (R3).
+        # `redondea_como_se_lee`, no `round()`: este último redondea al par y la
+        # tarjeta de al lado imprime con la regla de `Intl`, así que Alcalá
+        # publicaba 12,74 en el marcado y 12,75 en la tarjeta — dos verdades en
+        # la misma página, que es justo lo que G3 vigila.
         _medida("Personas del RUD sobre la población proyectada 2026",
                 None if m.get("tasa_rud_pct") is None
-                else (round(m["tasa_rud_pct"], 2) or m["tasa_rud_pct"]), "%"),
+                else (float(redondea_como_se_lee(m["tasa_rud_pct"], 2))
+                      or m["tasa_rud_pct"]), "%"),
         _medida("Población proyectada 2026 (DANE)", m.get("poblacion_2026"),
                 "habitantes"),
     ]
@@ -2339,41 +2360,31 @@ def dataset_municipios(ctx: dict) -> str:
                           "name": "Titulares que mencionan el municipio",
                           "unitText": "titulares"})
 
-    def cita(nombre, org, org_url):
-        return {"@type": "CreativeWork", "name": nombre,
-                "publisher": {"@type": "Organization", "name": org,
-                              "url": org_url}}
-
     citas = []
     if hay["rud"]:
-        citas.append(cita(
+        citas.append(_cita(
             "Registro Único de Damnificados (RUD)",
             "Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)",
             "https://rud.gestiondelriesgo.gov.co/"))
     if hay["dane"]:
-        citas.append(cita(
+        citas.append(_cita(
             "Proyección de población municipal 2026",
             "Departamento Administrativo Nacional de Estadística (DANE)",
             "https://www.dane.gov.co/index.php/estadisticas-por-tema-2/"
             "demografia-y-poblacion/proyecciones-de-poblacion"))
     if hay["dyfi"]:
-        citas.append(cita(
+        citas.append(_cita(
             "Cuestionario «Did You Feel It?» (DYFI), evento us6000tjl2",
             "United States Geological Survey (USGS)",
             "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/"
             "dyfi/intensity"))
     # los tres servicios satelitales salen de SATELITES, no de literales: el
     # día que entre el cuarto, la cita aparece sola en cuanto tenga dato
-    publicadores = {
-        "copernicus": "Copernicus Emergency Management Service",
-        "unosat": "UNITAR-UNOSAT (Centro Satelital de las Naciones Unidas)",
-        "sertit": "ICube-SERTIT, Université de Strasbourg",
-    }
+    # el publicador sale de SATELITES, no de una tabla paralela: el día que entre
+    # el cuarto servicio, su cita aparece sola en cuanto tenga dato (M2)
     for sat in SATELITES:
         if hay.get(sat["clave"]):
-            citas.append(cita(sat["nombre"],
-                              publicadores.get(sat["clave"], sat["nombre"]),
-                              sat["url"]))
+            citas.append(_cita(sat["nombre"], sat["publicador"], sat["url"]))
 
     tecnicas = []
     if hay["rud"]:

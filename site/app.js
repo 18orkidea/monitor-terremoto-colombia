@@ -483,7 +483,7 @@
             ["", p.mensaje || null],
           ],
           html: media || null,
-          pie: "ChatMap · coordenada redondeada a unos 110 metros" +
+          pie: "ChatMap · en el punto que registró la fuente" +
             (p.score == null ? "" : ` · puntuación de la verificación automática: ${p.score}`),
         }));
       },
