@@ -17,16 +17,35 @@ importaba: una tabla de 208 filas los cuadruplica ella sola, así que `rud.html`
 podía perder su introducción entera con el build en verde.
 
 **Decisión.** `seo_check.prosa_propia()` mide lo que una página aporta
-descontando su tabla o lista, la barra y el pie —216 palabras idénticas en las
-213 páginas, un colchón que oculta justo la pérdida que el suelo vigila—, y
-`PROSA_MINIMA` guarda el suelo por página, fechado, medido sobre `dist/`. Si
-baja, **el build se rompe**: es contenido publicado que desaparece. Se sube
-cuando una fase deja la página mejor; bajarlo exige mano y entrada aquí.
+descontando su tabla o lista, la barra y el pie —un colchón idéntico en las 213
+páginas que oculta justo la pérdida que el suelo vigila—, y `PROSA_MINIMA`
+guarda el suelo por página, fechado, medido sobre `dist/`. Se sube cuando una
+fase deja la página mejor; bajarlo exige mano y entrada aquí.
+
+**Dónde muerde, y por qué ahí.** En `pr.yml`, que ahora construye el artefacto:
+en un PR se revisa **código**, y una pieza que deja de escribirse es un error
+nuestro que tiene que doler. En `pages.yml` sigue con `continue-on-error`
+**a propósito** —publicar tarde es peor que publicar con un aviso (R11)—, y esa
+política no la cambia este suelo. Antes de esto el guardián no mordía en ningún
+camino automático: `dist/` está en `.gitignore`, así que sin construirlo el test
+que lo mira se saltaba solo, y un guardián que se salta solo no es un guardián.
+
+**El suelo lleva margen, y el margen es la decisión fina.** Parte de esta prosa
+es condicional: existe solo si el dato del día la trae —la disputa entre medios,
+lo descartado, el aviso de silencio de prensa—. Un día sin disputa no ha perdido
+una palabra escrita, y un día en que la prensa cubre por fin a los municipios
+mudos es una **buena** noticia. Sin margen, el guardián se dispararía justo ahí
+y la salida cómoda sería bajar el suelo, que es como muere un guardián. Vigila
+la regresión de código, no el vaivén del dato.
 
 **Consecuencia.** El contrato deja de ser una promesa entre dos y pasa a ser
 verificable por cualquiera. Es **M4** aplicado: una línea base se toma midiendo
-en el momento, con un medidor que esté en el repositorio. Validado por mutación:
-retirar un párrafo de `balances.html` en el artefacto tumba el build.
+en el momento, con un medidor que esté en el repositorio — y el propio medidor
+lo demostró al nacer, porque descontaba `<footer>` cuando el pie se emite como
+`<div id="site-footer">` y en cambio se comía el `<header>`, que aquí no es
+cromo sino el encabezado propio de la página. **El cromo se descuenta por su
+marca, no por su etiqueta.** Con guardián del guardián:
+`test_el_suelo_de_prosa_caza_la_perdida_y_no_se_queja_de_lo_sano`.
 
 ## 2026-08-24 — Un contenedor a la espera de su relleno no puede ser un formato que haya que parsear
 
@@ -39,13 +58,24 @@ G2/G6, que construyen las 213 páginas sin pasar por el inyector. El caso de
 `municipios` era su `Dataset` nuevo; el otro era `#site-identity`, vacío en las
 **cinco** páginas desde antes del sprint.
 
-**Decisión.** El marcador es un `<div hidden>` y el `<script>` entero viaja
-dentro de la pieza generada. La regla, general: **un contenedor `data-gen` es
-prosa o marcado, nunca un formato que alguien tenga que parsear.** Se aplica
-también al defecto preexistente, no solo al caso que lo destapó. Corolario para
-`variableMeasured` de las páginas-tabla: es el **diccionario de columnas**, no
-un `ItemList` con las 208 filas, que sería una segunda copia de la tabla (M2) —
-el índice para sistemas de IA ya lo hace `llms-full.txt`.
+**Decisión.** El marcador del nodo de identidad es un **comentario HTML**
+(`<!--site-identity-->`) y el `<script>` entero viaja dentro de la pieza
+generada; el `Dataset` de una página lo lleva una `<section hidden>` en el
+`<body>`. La regla, general: **un contenedor a la espera de su relleno es prosa,
+marcado o comentario, nunca un formato que alguien tenga que parsear.** Se
+aplica también al defecto preexistente, no solo al caso que lo destapó.
+Corolario para `variableMeasured` de las páginas-tabla: es el **diccionario de
+columnas**, no un `ItemList` con las 208 filas, que sería una segunda copia de
+la tabla (M2) — el índice para sistemas de IA ya lo hace `llms-full.txt`.
+
+**Un `<div>` no servía, y el porqué merece quedarse escrito**: dentro de
+`<head>`, un `<div>` lo cierra implícitamente por el algoritmo de construcción
+del árbol, y el `manifest`, los iconos y **`styles.css`** —que iban detrás—
+pasan a `<body>`. `dist/` no llegó a verse afectado porque allí el marcador ya
+está sustituido, pero `site/*.html` sí, y es la cicatriz **M6** rondando otra
+vez («los prototipos daban un paso atrás» era que no cargaban `styles.css`). Un
+comentario es válido en `<head>` y no toca el árbol: permutar una invalidez por
+otra no es arreglar.
 
 **Consecuencia.** El bloque publicado no cambia un byte (verificado por sha256
 del contenido de identidad en `dist/` antes y después). El guardián se

@@ -1,12 +1,18 @@
 /* Página de titulares: lista completa con filtros por zona, fuente y texto.
    Usa ui.js (fetchJson, fmt). */
 (async function () {
-  // Solo http(s) llega al atributo href: un `javascript:` en un canal ajeno se
-  // convertiría en código al pulsar el titular.
+  // Solo http(s) ABSOLUTA llega al atributo href: un `javascript:` en un canal
+  // ajeno se convertiría en código al pulsar el titular. Y la URL tiene que
+  // traer su host: resolviéndola contra `location.origin` —como hacía la
+  // primera versión— una ruta relativa se convertía en un enlace a nuestro
+  // propio dominio con aspecto de titular externo. Ninguno de los 6.304
+  // titulares del corpus es relativo, así que exigirlo no pierde ni uno.
+  // Espejo EXACTO de `render_html.py::enlace_seguro`, con test que ejecuta los
+  // dos —si tocas una, mira la otra—.
   const enlaceSeguro = (u) => {
     try {
-      const url = new URL(u, location.origin);
-      return /^https?:$/.test(url.protocol) ? url.href : "#";
+      const url = new URL(u);
+      return /^https?:$/.test(url.protocol) && url.host ? String(u) : "#";
     } catch (e) { return "#"; }
   };
 

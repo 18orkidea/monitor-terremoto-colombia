@@ -29,21 +29,32 @@ MINIMOS = {
 }
 
 # Suelo de prosa propia: lo que cada página aporta descontando su tabla, la
-# barra y el pie (ver `prosa_propia`). **Es el contrato «ninguna baja»**, y
-# hace el trabajo que los MINIMOS de arriba no pueden hacer: son absolutos y
-# una tabla de 208 filas los cuadruplica ella sola, así que hoy `rud.html`
-# podría perder sus 347 palabras de introducción con el build en verde.
+# barra y el pie (ver `prosa_propia`). **Es el contrato «ninguna baja»**, y hace
+# el trabajo que los MINIMOS de arriba no pueden hacer: son absolutos y una
+# tabla de 208 filas los cuadruplica ella sola, así que `rud.html` podría perder
+# su introducción entera con el build en verde.
 #
-# Medido el 24-ago-2026 sobre `dist/` al cerrar la fase 4 del rediseño. Se sube
-# cuando una fase deja la página mejor —y entonces se anota aquí, con su
-# fecha—; **nunca se baja para que pase un build**. Si baja de verdad, el build
-# tiene que romperse: es contenido publicado que desaparece.
+# **El suelo lleva margen a propósito, y no es holgura para descuidarse.** Buena
+# parte de esta prosa es CONDICIONAL: existe solo si el dato del día la trae —la
+# disputa entre medios (~55 palabras), lo descartado (~72), la captura elegida
+# (~29), el aviso de silencio de prensa de municipios (~170)—. Un día sin
+# disputa no ha perdido ni una palabra escrita, y un día en que la prensa cubre
+# por fin a los municipios mudos es una BUENA noticia: sin margen, el guardián
+# se dispararía precisamente ahí, y la salida cómoda sería bajar el suelo, que
+# es como muere un guardián. Lo que vigila es la regresión de código —una pieza
+# que deja de escribirse, una sección que se cae del build—, no el vaivén del
+# dato.
+#
+# Medido el 24-ago-2026 sobre `dist/` al cerrar la fase 4. Se sube cuando una
+# fase deja la página mejor, y se anota aquí con su fecha; **no se baja para que
+# pase un build** sin entrada en `docs/DECISIONES.md`.
+MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200}
 PROSA_MINIMA = {
-    "index.html": 2814,        # la portada la reordena la fase 6
-    "municipios.html": 813,    # fase 4: 387 → 813
-    "rud.html": 680,           # fase 3
-    "balances.html": 1749,     # fase 4: 1.228 → 1.749
-    "noticias.html": 915,      # fase 4: 824 → 915
+    "index.html": 2727,        # la portada la reordena la fase 6
+    "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
+    "rud.html": 578,           # fase 3
+    "balances.html": 1404,     # fase 4: 1.564 medidas − 160 condicionales
+    "noticias.html": 827,      # fase 4; su prosa no depende del dato del día
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 
@@ -102,9 +113,18 @@ def prosa_propia(html: str) -> int:
     repositorio, o no es verificable por nadie.
     """
     limpio = re.sub(r"<(script|style|svg).*?</\1>", " ", html, flags=re.S)
+    # El cromo se descuenta POR SU MARCA, no por su etiqueta: `pie_estatico()`
+    # emite `<div id="site-footer">`, así que un patrón `<footer>` no casaba
+    # nada y colaba las 193 palabras del pie en las cinco páginas — justo el
+    # colchón que este medidor existe para quitar, y encima uno que se mueve a
+    # la vez en las cinco cada vez que se edita el pie.
+    #
+    # Y `<header>` NO se descuenta: en este sitio no es cromo, es el encabezado
+    # propio de la página —su `<h1>`, su bajada y su sello, 51 palabras en
+    # balances—, o sea contenido publicado que el suelo tiene que vigilar.
     for patron in (r"<tbody\b.*?</tbody>", r'<ul id="lista".*?</ul>',
-                   r"<nav\b.*?</nav>", r"<header\b.*?</header>",
-                   r"<footer\b.*?</footer>"):
+                   r'<nav id="site-nav".*?</nav>',
+                   r'<div id="site-footer".*?</div>\s*</div>'):
         limpio = re.sub(patron, " ", limpio, flags=re.S | re.I)
     return len(_texto(limpio).split())
 

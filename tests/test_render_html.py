@@ -2860,6 +2860,42 @@ class TestSeoCheck(unittest.TestCase):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
 
+    def test_el_suelo_de_prosa_caza_la_perdida_y_no_se_queja_de_lo_sano(self):
+        """El guardián del guardián: `test_el_artefacto_real_pasa` no distingue
+        «no hay pérdida» de «no hay guardián», así que aquí se le enseña una
+        página mutilada y otra sana, y tiene que separarlas.
+
+        Se comprueba además lo que costó una revisión entera: que el cromo se
+        descuenta POR SU MARCA. `pie_estatico()` emite `<div id="site-footer">`,
+        no `<footer>`, y el patrón equivocado colaba 193 palabras de pie en las
+        cinco páginas — el colchón que este medidor existe para quitar.
+        """
+        pagina = "balances.html"
+        suelo = self.seo.PROSA_MINIMA[pagina]
+        cuerpo = "palabra " * (suelo + 50)
+        cabeza = '<link rel="canonical" href="/x">'
+        sana = self.tmp / "suelo-ok"
+        sana.mkdir(exist_ok=True)
+        (sana / pagina).write_text(cabeza + f"<p>{cuerpo}</p>", encoding="utf-8")
+        fallos = self.seo.revisar(sana)["fallos"]
+        self.assertFalse([f for f in fallos if "prosa propia" in f],
+                         "se queja de una página que no ha perdido nada")
+
+        rota = self.tmp / "suelo-roto"
+        rota.mkdir(exist_ok=True)
+        (rota / pagina).write_text(
+            cabeza + f"<p>{'palabra ' * (suelo - 40)}</p>", encoding="utf-8")
+        fallos = self.seo.revisar(rota)["fallos"]
+        self.assertTrue([f for f in fallos if "prosa propia" in f],
+                        "el suelo no cazó 40 palabras perdidas")
+
+        # y el cromo compartido no cuenta como prosa de la página
+        solo_cromo = ('<nav id="site-nav">' + "enlace " * 40 + "</nav>"
+                      '<div id="site-footer"><div>' + "aviso " * 150
+                      + "</div></div>")
+        self.assertEqual(self.seo.prosa_propia(solo_cromo), 0,
+                         "la barra o el pie se están contando como prosa propia")
+
     def test_caza_un_contenedor_vacio(self):
         """Es exactamente la regresión que motiva el verificador."""
         (self.tmp / "municipios.html").write_text(
@@ -3978,22 +4014,6 @@ class TestPieDeNoticias(unittest.TestCase):
         self.assertNotIn("0 titulares", nota, "un cero no es una lista vacía")
 
 
-class TestMarcadoDeNoticias(unittest.TestCase):
-    """El JSON-LD de la página de titulares: un corpus, no una redacción.
-
-    R9 es LA regla de esta página: el monitor compiló el corpus —eso firman
-    `creator` y `publisher`— pero no produjo la prensa, y quién la produjo va
-    en `citation`, por canal. Los guardianes G2/G6 (`TestMarcadoEstructurado`)
-    ya recorren este bloque; aquí va lo específico de titulares.
-
-    Se lee la página **servida**, no la del repositorio: `site/noticias.html`
-    versiona el nodo de identidad como un contenedor vacío que solo llena
-    `escribir_piezas_compartidas()`, y un `<script type="application/ld+json">`
-    sin contenido no es JSON — leer el fuente hacía que `bloques_ld` se comiera
-    el documento hasta el siguiente `</script>` y reventara al parsear. Lo que
-    Google indexa es el artefacto, así que es el artefacto lo que se mira. Las
-    cifras del día siguen sin sustituir a propósito: el marcador
-    `{{noticias_corte}}` tiene su propio guardián más abajo."""
 # =====================================================================
 # municipios.html: lo que el navegador escribía y ahora escribe el build
 # =====================================================================
@@ -4260,13 +4280,22 @@ class TestDatasetDeMunicipios(unittest.TestCase):
         self.assertNotIn("dateModified", ld)
 
 
-class TestPrerenderizadoDeMunicipios(unittest.TestCase):
-    """El inyector de verdad sobre el `site/municipios.html` del repositorio.
+class TestMarcadoDeNoticias(unittest.TestCase):
+    """El JSON-LD de la página de titulares: un corpus, no una redacción.
 
-    Es lo que separa «el generador devuelve algo» de «el artefacto lo lleva»:
-    también cae si alguien quita una marca, le cambia la etiqueta al contenedor
-    o desconecta un generador del registro.
-    """
+    R9 es LA regla de esta página: el monitor compiló el corpus —eso firman
+    `creator` y `publisher`— pero no produjo la prensa, y quién la produjo va
+    en `citation`, por canal. Los guardianes G2/G6 (`TestMarcadoEstructurado`)
+    ya recorren este bloque; aquí va lo específico de titulares.
+
+    Se lee la página **servida**, no la del repositorio: `site/noticias.html`
+    versiona el nodo de identidad como un contenedor vacío que solo llena
+    `escribir_piezas_compartidas()`, y un `<script type="application/ld+json">`
+    sin contenido no es JSON — leer el fuente hacía que `bloques_ld` se comiera
+    el documento hasta el siguiente `</script>` y reventara al parsear. Lo que
+    Google indexa es el artefacto, así que es el artefacto lo que se mira. Las
+    cifras del día siguen sin sustituir a propósito: el marcador
+    `{{noticias_corte}}` tiene su propio guardián más abajo."""
 
     @classmethod
     def setUpClass(cls):
@@ -4452,3 +4481,55 @@ class TestLaMiradaSatelitalEnLasDosSuperficies(unittest.TestCase):
             with self.subTest(campo=campo):
                 self.assertTrue(R._mirado_por_satelite({**base, campo: valor}),
                                 f"{campo} dejó de contar como mirada")
+
+
+class TestEnlaceSeguroEsEspejo(unittest.TestCase):
+    """`enlace_seguro` (Python) y `enlaceSeguro` (noticias.js) filtran igual.
+
+    `e()` impide salirse del atributo, pero no impide que el atributo entero
+    sea `javascript:…`: escapar y validar el esquema son cosas distintas. El
+    navegador filtraba desde el principio y la lista servida nació sin filtro
+    —M2 al revés: la copia nueva era la más pobre—, así que la regla se escribe
+    una vez en cada lenguaje y este guardián EJECUTA las dos: el JavaScript se
+    extrae de `site/noticias.js`, no se copia aquí, porque una tercera copia
+    volvería a divergir en silencio.
+    """
+
+    CASOS = ("https://eltiempo.com/x", "http://eltiempo.com/x",
+             "javascript:alert(1)", "JavaScript:alert(1)", "data:text/html,x",
+             "vbscript:x", "", "//eltiempo.com/x", "/relativa", "ftp://x/y")
+
+    @classmethod
+    def setUpClass(cls):
+        fuente = (ROOT / "site" / "noticias.js").read_text(encoding="utf-8")
+        hallado = re.search(
+            r"const enlaceSeguro = \(u\) => \{.*?\n  \};", fuente, re.S)
+        assert hallado, "no encuentro `enlaceSeguro` en site/noticias.js"
+        cls.js_real = hallado.group(0)
+
+    def _js(self, casos):
+        script = (f"{self.js_real}\n"
+                  "const salida = %s.map((x) => "
+                  "  enlaceSeguro(x) === '#' ? 'BLOQUEA' : 'PASA');\n"
+                  "console.log(JSON.stringify(salida));" % json.dumps(list(casos)))
+        r = subprocess.run(["node", "-e", "global.location={origin:"
+                            "'https://datosdelterremoto.org'};" + script],
+                           capture_output=True, text=True)
+        if r.returncode:
+            raise AssertionError(f"node falló: {r.stderr[:400]}")
+        return json.loads(r.stdout)
+
+    def test_las_dos_superficies_dejan_pasar_lo_mismo(self):
+        en_js = self._js(self.CASOS)
+        en_py = ["BLOQUEA" if R.enlace_seguro(u) == "#" else "PASA"
+                 for u in self.CASOS]
+        for caso, a, b in zip(self.CASOS, en_py, en_js):
+            with self.subTest(url=caso):
+                self.assertEqual(a, b,
+                                 f"«{caso}»: Python dice {a} y noticias.js {b}")
+
+    def test_ningun_esquema_ejecutable_llega_a_un_href(self):
+        for veneno in ("javascript:alert(1)", "JAVASCRIPT:alert(1)",
+                       "data:text/html;base64,x", "vbscript:x"):
+            with self.subTest(url=veneno):
+                self.assertEqual(R.enlace_seguro(veneno), "#")

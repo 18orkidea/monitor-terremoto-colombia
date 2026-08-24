@@ -195,6 +195,23 @@ def e(s) -> str:
     return html.escape(str(s), quote=True)
 
 
+def enlace_seguro(u) -> str:
+    """Solo `http(s)` llega a un `href`. Espejo de `noticias.js::enlaceSeguro`.
+
+    `e()` impide salirse del atributo, pero no impide que el atributo entero sea
+    `javascript:…`: escapar y validar el esquema son dos cosas distintas. El
+    navegador ya filtraba; la lista servida nació sin el filtro, y las URL de
+    los titulares vienen de canales ajenos. Es M2 al revés —la copia nueva era
+    la más pobre—, así que la regla se escribe una vez en cada lenguaje con su
+    test de espejo.
+    """
+    try:
+        partes = urllib.parse.urlparse(str(u or ""))
+    except ValueError:
+        return "#"
+    return str(u) if partes.scheme in ("http", "https") and partes.netloc else "#"
+
+
 def aoi_es(nombre) -> str:
     """Espejo de `UI.aoiEs`: la zona con el nombre que se lee, no el de la fuente."""
     return AOI_ES.get(nombre, nombre)
@@ -2718,9 +2735,14 @@ def filas_balances(ctx: dict) -> str:
                     'vivo, minuto a minuto: se muestra, pero pesa menos en la serie porque '
                     'sus cifras cambian durante el día">liveblog</span> '
                     if es_liveblog(item) else "")
-        viviendas = " / ".join(fmt(v) for v in (c.get("viviendas_averiadas"),
-                                                c.get("viviendas_destruidas"))
-                               if v is not None) or "—"
+        # «averiadas / destruidas», y el hueco SE MARCA en su sitio en vez de
+        # colapsar la posición: filtrar los None dejaba una sola cifra suelta
+        # bajo el título de las dos, sin manera de saber cuál era. Un dato que
+        # falta se enseña como «—» (R3/M10), no se hace desaparecer moviendo el
+        # que sí está al hueco del que no.
+        par = (c.get("viviendas_averiadas"), c.get("viviendas_destruidas"))
+        viviendas = ("—" if all(v is None for v in par)
+                     else " / ".join("—" if v is None else fmt(v) for v in par))
         citadas = ", ".join(
             (f'<a href="{e(f["url"])}" target="_blank" rel="noopener nofollow">{e(f.get("id") or "fuente")}</a>'
              if f.get("url") else e(f.get("id") or "fuente"))
@@ -2791,7 +2813,7 @@ def filas_noticias(ctx: dict) -> str:
             f'<li><span class="meta-n">{e(fecha)}'
             f'{f" · {e(medio)}" if medio else ""}{" · " + via if via else ""}</span>'
             f'{etiquetas}'
-            f'<br><a href="{e(n.get("url") or "#")}" target="_blank" rel="noopener nofollow">'
+            f'<br><a href="{e(enlace_seguro(n.get("url")))}" target="_blank" rel="noopener nofollow">'
             f'{e(n.get("titulo") or "")}</a></li>')
     return "\n".join(salida)
 
@@ -3074,21 +3096,51 @@ def tarjetas_balances(ctx: dict) -> str:
     rechazadas = [g for g in (ult.get("ignoradas") or [])
                   if g.get("cifra") in CIFRAS_BALANCE_ES]
     if rechazadas:
-        def _rechazo(g):
-            texto = f"{CIFRAS_BALANCE_ES[g['cifra']]} {fmt(g.get('valor'))}"
-            if g.get("url"):
-                texto = (f'<a href="{e(g["url"])}" target="_blank" '
-                         f'rel="noopener">{texto}</a>')
-            if g.get("medio"):
-                texto += f" ({e(g['medio'])})"
-            return f"{texto}, {e(g.get('motivo'))}"
-        detalle = " · ".join(_rechazo(g) for g in rechazadas[:4])
-        cola = (f" · y {fmt(len(rechazadas) - 4)} más"
-                if len(rechazadas) > 4 else "")
+        # Agrupadas POR MOTIVO, no enumeradas una a una. Enumerarlas repetía
+        # cuatro veces el mismo literal («retrocede sobre el máximo
+        # informado…») y cortaba en «y 6 más», que es lo peor de las dos
+        # opciones: largo y además incompleto. El detalle cifra a cifra, con su
+        # enlace, está entero en la tabla de capturas de esta misma página.
+        # Se agrupa, pero conservando el QUIÉN. Enumerar las diez una a una
+        # repetía cuatro veces el mismo literal y cortaba en «y 6 más» —largo y
+        # además incompleto—; agrupar solo por motivo borraba los medios, y
+        # entonces la frase remataba hablando de «lo que publica cada medio»
+        # sin nombrar ninguno. El detalle cifra a cifra, con su enlace, está
+        # entero en la tabla de capturas de esta misma página.
+        # El nombre del medio ES el enlace a su cifra descartada: así el
+        # resumen no cuesta ni una palabra más que la enumeración larga y NO
+        # pierde la trazabilidad (R4) — cada cifra que se nombra, aunque sea
+        # para decir que no entró, sigue rastreable hasta su origen.
+        motivos, medios = {}, {}
+        for g in rechazadas:
+            clave = g.get("motivo") or "sin motivo declarado"
+            motivos[clave] = motivos.get(clave, 0) + 1
+            if g.get("medio") and g["medio"] not in medios:
+                medios[g["medio"]] = g.get("url")
+        cuantas = fmt(len(rechazadas))
+        plural = "s" if len(rechazadas) != 1 else ""
+        de_quien = ""
+        if medios:
+            visibles = [
+                (f'<a href="{e(u)}" target="_blank" rel="noopener">{e(m)}</a>'
+                 if u else e(m))
+                for m, u in list(medios.items())[:3]]
+            resto = len(medios) - len(visibles)
+            de_quien = (" —de " + " · ".join(visibles)
+                        + (f" y {fmt(resto)} más" if resto else "") + "—")
+        # El motivo va entrecomillado porque es el literal del dato: viene en
+        # singular, describiendo una cifra, y no es prosa nuestra. Sin las
+        # comillas, «todas por lo mismo: retrocede» chirría de número.
+        orden = sorted(motivos.items(), key=lambda kv: -kv[1])
+        if len(orden) == 1:
+            todas = "todas " if len(rechazadas) != 1 else ""
+            porque = f", {todas}por «{e(orden[0][0])}»"
+        else:
+            porque = ": " + " · ".join(f"{fmt(n)} por «{e(m)}»" for m, n in orden)
         tarjetas.append(
-            f'<p class="note full">Este día se descartaron '
-            f"{fmt(len(rechazadas))} cifras de la serie: {detalle}{cola}. "
-            "No se borran: se enseñan, porque la distancia entre lo que "
+            f'<p class="note full">Este día se descartaron {cuantas} '
+            f"cifra{plural} de la serie{de_quien}{porque}. "
+            "No se borran: se enseñan abajo, porque la distancia entre lo que "
             "publica cada medio es justamente lo que este monitor mide.</p>")
 
     item = ult.get("item")
@@ -3100,14 +3152,26 @@ def tarjetas_balances(ctx: dict) -> str:
              f'{e(f.get("id") or "fuente")}</a>')
             if f.get("url") else e(f.get("id") or "fuente")
             for f in citadas) or "—"
-        # los DOS niveles de atribución de R9: un balance que la prensa cita no
-        # se presenta igual que uno que publica la propia entidad
-        cabeza = ("Captura elegida en un medio que cita fuentes oficiales: "
-                  if citadas else
-                  "Captura elegida, publicada por la propia entidad oficial: ")
-        atrib = (f" · fuente citada: {enlaces}. " if citadas else
-                 ". No cita fuente ajena porque es la fuente; aun así no es "
-                 "un EDAN. ")
+        # Los DOS niveles de atribución de R9: un balance que la prensa cita no
+        # se presenta igual que uno que publica la propia entidad. **Quién
+        # publica lo dice el campo `official`, nunca la AUSENCIA de citas**: que
+        # un artículo no cite a nadie no lo convierte en oficial, y `bestSnapshot`
+        # ordena pero no filtra, así que un medio sin citas puede ganar el día.
+        # Hoy acertaba por casualidad —el único ítem sin citas del corpus resulta
+        # ser oficial—, que es la clase de acierto que deja de serlo sin avisar.
+        # M10: cuando no se sabe, se describe lo que hay, no se asciende a
+        # oficial.
+        oficial = bool(item.get("official"))
+        if oficial:
+            cabeza = "Captura elegida, publicada por la propia entidad oficial: "
+            atrib = (f" · fuente citada: {enlaces}. " if citadas else
+                     ". No cita fuente ajena porque es la fuente; aun así no es "
+                     "un EDAN. ")
+        else:
+            cabeza = ("Captura elegida en un medio que cita fuentes oficiales: "
+                      if citadas else "Captura elegida: ")
+            atrib = (f" · fuente citada: {enlaces}. " if citadas else
+                     ". No cita ninguna fuente oficial en el texto. ")
         url = item.get("publication_url") or item.get("url") or "#"
         tarjetas.append(
             '<p class="note full">' + cabeza +
@@ -3121,15 +3185,16 @@ def tarjetas_balances(ctx: dict) -> str:
     # cuando más falta hace la advertencia— publicaba las cifras sin decir que
     # son un máximo informado. Un rótulo que se cae cuando falta un dato
     # ajeno a él no es un rótulo: es una casualidad.
+    # Breve a propósito: los criterios de entrada (supera a la vigente, tiene
+    # atribución oficial, es coherente) los enuncia ya el subtítulo de la serie
+    # justo debajo, y el plegable los desarrolla. Aquí se queda lo que NO se
+    # dice en ningún otro sitio y no puede faltar: qué significa el rótulo y en
+    # qué dirección puede engañar.
     tarjetas.append(
         '<p class="note full">Cada cifra es <strong>el máximo informado hasta '
-        "la fecha</strong>, no la última publicada: entra en la serie si supera "
-        "a la vigente, si se puede atribuir a una fuente oficial y si es "
-        "coherente con el resto del mismo balance. Cada tarjeta indica, debajo, "
-        "de qué día y de qué medio sale su cifra, que no tiene por qué ser el "
-        "de la captura elegida. Puede ir por detrás de la realidad, y los "
-        "desaparecidos pueden bajar en la realidad sin bajar aquí: por eso se "
-        "llama máximo informado.</p>")
+        "la fecha</strong>, no la última publicada: puede ir por detrás de la "
+        "realidad, y los desaparecidos pueden bajar en la realidad sin bajar "
+        "aquí.</p>")
     return "".join(tarjetas)
 
 
@@ -3544,14 +3609,14 @@ _CONTENEDOR_PIE = re.compile(r'<div id="site-footer"[^>]*>')
 # los guardianes G2/G6, que construyen las 213 páginas sin pasar por el
 # inyector—. Costó dos averías el mismo día, en dos páginas distintas de la
 # fase 4. El bloque final que se escribe aquí es idéntico al de siempre.
-_MARCA_LD = re.compile(r'<div id="site-identity" hidden></div>')
+_MARCA_LD = re.compile(r'<!--site-identity-->')
 # El contenedor, en sus DOS formas: el marcador del repositorio y el bloque ya
-# escrito. Aquí la pieza cambia de etiqueta al escribirse —`div` → `script`—, y
-# por eso el patrón acepta las dos: sin la segunda, repetir el paso sobre un
+# escrito. Aquí la pieza cambia de forma al escribirse —comentario → `script`—,
+# y por eso el patrón acepta las dos: sin la segunda, repetir el paso sobre un
 # `dist/` ya construido volvería a acusar a `site/*.html` de haber perdido el
 # marcador, que es justo la avería que este par de patrones distingue.
 _CONTENEDOR_LD = re.compile(
-    r'<div id="site-identity"[^>]*>'
+    r'<!--site-identity-->'
     r'|<script type="application/ld\+json" id="site-identity">')
 
 

@@ -38,6 +38,21 @@ jobs:
       - name: Tests de la lógica en JavaScript (ejecutan el código real con node)
         run: python -m unittest tests.test_frontend tests.test_worker_toponimos -v
 
+      # El artefacto se construye AQUÍ, y aquí `seo_check` sí bloquea. En el
+      # despliegue (`pages.yml`) va con `continue-on-error` a propósito, porque
+      # publicar tarde es peor que publicar con un aviso (R11) — pero eso dejaba
+      # el suelo de prosa sin morder en ningún camino automático: `dist/` está
+      # en .gitignore, así que sin construirlo los tests que lo miran se saltan
+      # solos y un guardián que se salta solo no es un guardián.
+      #
+      # La división es deliberada: en un PR se revisa CÓDIGO —una pieza que deja
+      # de escribirse es un error nuestro y tiene que doler—; en el despliegue
+      # manda el dato del día, que no se le puede exigir a nadie.
+      - name: El artefacto se construye y se mide (aquí el suelo de prosa sí bloquea)
+        run: |
+          bash deploy/build_dist.sh
+          python3 ingest/seo_check.py dist
+
       - name: Lint Python (ruff, solo en CI — el runtime sigue sin dependencias)
         run: |
           pip install --quiet ruff==0.6.9

@@ -20,7 +20,7 @@
 <meta name="twitter:image" content="https://datosdelterremoto.org/og/portada.png">
 <meta name="twitter:title" content="Municipios afectados por el terremoto de Colombia 2026">
 <meta name="twitter:description" content="Damnificados del RUD, prensa, intensidad percibida, población DANE y cobertura satelital por municipio, con buscador.">
-<div id="site-identity" hidden></div>
+<!--site-identity-->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -46,15 +46,17 @@
 
 <section class="entradilla" data-gen="mun-resumen"></section><!-- lo rellena deploy/render_html.py en el build -->
 
-<details class="pliegue">
-  <summary>Cómo leer esta tabla</summary>
-  <section class="intro">
-    <p>Aparecer aquí no significa «municipio destruido»: significa que alguna fuente
-    dejó señal, ya sea el registro de damnificados, la prensa, la intensidad que
-    sintió la población o un satélite. Y no aparecer no significa «sin daño»:
-    significa que nadie ha registrado nada todavía.</p>
-  </section>
-</details>
+<!-- Sin plegar, y por dos motivos: son 47 palabras —muy por debajo del umbral de
+     120 a partir del cual plegar compensa— y sobre todo es la advertencia que el
+     glosario considera imprescindible (R3: que un municipio no aparezca significa
+     «sin registro aún», no «sin daño»). Una advertencia detrás de un clic es una
+     advertencia que no se ha dado. -->
+<section class="intro">
+  <p>Aparecer aquí no significa «municipio destruido»: significa que alguna fuente
+  dejó señal, ya sea el registro de damnificados, la prensa, la intensidad que
+  sintió la población o un satélite. Y no aparecer no significa «sin daño»:
+  significa que nadie ha registrado nada todavía.</p>
+</section>
 
 <section class="aviso aviso--laguna" id="banner-silencio" data-gen="mun-silencio"></section><!-- lo rellena deploy/render_html.py en el build -->
 
