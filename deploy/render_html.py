@@ -1189,6 +1189,204 @@ def nota_chips_evidencia(d: dict) -> str:
     return '<p class="note">' + " ".join(frases) + "</p>"
 
 
+# ------------------------------------------------ lienzo: panel de fuentes + mapa
+# El prototipo lo resolvió y la fase 5 no lo portó: las fichas seguían eligiendo
+# entre ver el dato (una pestaña) y ver dónde está (la otra). JP lo señaló el
+# 24-ago: la organización panel + mapa, en móvil y escritorio, ES la ficha.
+# Las tarjetas de métricas se conservan; este panel no las duplica — empieza en
+# satélites y vecinos, que es lo que aporta.
+_GRADOS_DANO = (
+    ("Destruidos", ("Destroyed",), "var(--critical)"),
+    ("Dañados", ("Damaged", "Damage", "Damaged Buildings"), "#ec835a"),
+    ("Posiblemente dañados", ("Possibly damaged", "Possible Damage"),
+     "var(--warning)"),
+    ("Señalados sin clasificar", ("Not Applicable", None), "var(--muted)"),
+)
+
+
+def _grados_de_capa(features: list) -> str:
+    """Destruidos / dañados / posibles, contados desde la capa que el mapa pinta.
+
+    Así el panel no puede decir una cosa y el mapa otra. Los nombres llegan en
+    inglés y en variantes distintas según la fuente, y «Not Applicable» es un
+    punto señalado sin clasificar: no es lo mismo que no tener daño (R3)."""
+    cuenta = {}
+    for f in features:
+        pr = f.get("properties") or {}
+        bruto = pr.get("damage_gra") or pr.get("dano") or pr.get("dano_agrupado")
+        cuenta[bruto] = cuenta.get(bruto, 0) + 1
+    out = []
+    for txt, claves, color in _GRADOS_DANO:
+        n = sum(cuenta.get(k, 0) for k in claves)
+        if not n:
+            continue
+        out.append(
+            f'<div class="dato grado"><span>'
+            f'<span class="marca-f" style="background:{color}"></span>'
+            f'{txt}</span><span class="v">{fmt(n)}</span></div>')
+    return "".join(out)
+
+
+def _fila_fuente(txt: str, valor, fuente: str, color: str | None = None,
+                 ocultar_cero: bool = False) -> str:
+    if valor in (None, ""):
+        return ""
+    # Un servicio con cero puntos en este municipio NO lo evaluó: el cero
+    # significa «aquí no hay nada suyo», no «miró y no encontró». Publicarlo
+    # como «0 edificios evaluados» sería la acusación al revés (R3).
+    if ocultar_cero and not valor:
+        return ""
+    punto = (f'<span class="marca-f" style="background:{color}"></span>'
+             if color else "")
+    return (f'<div class="dato"><span class="etiq">'
+            f'<span class="linea">{punto}{e(txt)}</span>'
+            f'<span class="f">{e(fuente)}</span></span>'
+            f'<span class="v">{fmt(valor)}</span></div>')
+
+
+def panel_fuentes(d: dict) -> str:
+    """«Qué dice cada fuente»: la tabla de datos que convive con el mapa.
+
+    Sin las cifras del RUD —esas viven en las tarjetas—. El recuento satelital
+    es el de la capa que el mapa dibuja, no el de los edificios clasificados:
+    si divergen, la nota de los chips lo explica (G3), y el panel no elige."""
+    m = d["muni"]
+    capas = (d.get("evidencia") or {}).get("capas") or {}
+    filas = []
+    for sat in SATELITES:
+        features = (capas.get(sat["clave"]) or {}).get("features") or []
+        n = len(features)
+        etiqueta = ("Edificios clasificados" if sat["clave"] == "copernicus"
+                    else "Edificios evaluados")
+        # Los tres satélites comparten azul: son la misma clase de mirada.
+        filas.append(_fila_fuente(etiqueta, n, sat["rotulo"],
+                                  "var(--copernicus)", ocultar_cero=True)
+                     + (_grados_de_capa(features) if n else ""))
+    n_vecinos = len((capas.get("ciudadanos") or {}).get("features") or [])
+    filas.append(_fila_fuente("Fotos y avisos de vecinos", n_vecinos,
+                              "ChatMap · OpenStreetMap Colombia",
+                              "var(--ciudadano)", ocultar_cero=True))
+    filas.append(_fila_fuente("Titulares de prensa", m.get("n_noticias"),
+                              "corpus del monitor"))
+    cuerpo = "".join(x for x in filas if x)
+    sin_sat = not any(len((capas.get(sat["clave"]) or {}).get("features") or [])
+                      for sat in SATELITES)
+    aviso = ""
+    if sin_sat:
+        aviso = ('<div class="aviso aviso--laguna"><p><strong>Ningún servicio '
+                 'satelital ha publicado producto de daño aquí.</strong> Lo que '
+                 'se sabe de este municipio viene del registro oficial y de '
+                 'sus vecinos.</p></div>')
+    return (
+        '<aside class="panel">'
+        "<h2>Qué dice cada fuente</h2>"
+        '<p class="sub">Cada cifra, con quién la publica. El registro oficial '
+        "está en las tarjetas de arriba.</p>"
+        f"{cuerpo}{aviso}</aside>"
+    )
+
+
+def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
+    """Panel a un lado, mapa al otro: las dos cosas a la vista.
+
+    En móvil el mapa va primero (order CSS) y el panel debajo; en escritorio,
+    panel a la izquierda (360 px) y mapa a la derecha, a la altura de todos
+    los datos, sin scroll interno. El DOM deja el panel antes para el teclado.
+    Las pestañas Situación/Mapa y los chips de fuente solo existen si hay
+    puntos que explorar; sin ellos el SVG (o la nota de que no hay coordenada)
+    ocupa el marco."""
+    m = d["muni"]
+    clave, depto = m["municipio"], m["departamento"]
+    nombre = toponimo(clave, depto)
+    situacion_id = f"situacion-{d['slug']}"
+    evidencia_id = f"evidencias-{d['slug']}"
+
+    leyenda = (
+        '<p class="leyenda">'
+        f'<span class="badge" style="--bc:var(--s8)">{e(nombre)}</span>'
+        '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
+        '<span class="badge" style="--bc:var(--s7)">reporte ciudadano</span>'
+        '<span class="badge" style="--bc:var(--critical)">epicentro</span></p>'
+    ) if svg else ""
+
+    if svg and not d["hay_evidencia"]:
+        situacion = (
+            f'<a href="{destino}" class="mapa-enlace" '
+            f'aria-label="Abrir {e(nombre)} en el mapa interactivo">'
+            f"{svg}</a>{leyenda}"
+        )
+    elif svg:
+        situacion = svg + leyenda
+    else:
+        situacion = (
+            f'<p class="note">El monitor <strong>no tiene la coordenada de la '
+            f"cabecera de {e(nombre)}</strong>: entró por el registro de "
+            f"damnificados y el catálogo oficial de la División "
+            f"Político-Administrativa (DIVIPOLA) no la publica. Sin ella no se "
+            f"puede situar en el mapa ni medir su distancia a las zonas que ha "
+            f"analizado el satélite, ni atribuirle reportes ciudadanos del "
+            f"entorno. Las cifras del registro de esta ficha no dependen de "
+            f"eso.</p>"
+        )
+
+    if d["hay_evidencia"]:
+        conteos = d["evidencia"]["conteos"]
+        partes = []
+        if conteos["satelite"]:
+            partes.append(
+                f'{fmt(conteos["satelite"])} puntos publicados por los '
+                "servicios satelitales")
+        if conteos["ciudadanos"]:
+            partes.append(
+                f'{fmt(conteos["ciudadanos"])} '
+                f'{concuerda(conteos["ciudadanos"], "reporte ciudadano", "reportes ciudadanos")}')
+        resumen = " y ".join(partes)
+        chips = chips_evidencia(d)
+        # La tira nace oculta: «Situación» es la vista por defecto y los chips
+        # son un filtro de capas. municipio.js las enseña al pedir el mapa.
+        chips_ocultos = chips.replace(
+            'class="chips chips-mapa"',
+            'class="chips chips-mapa" hidden', 1) if chips else ""
+        marco = (
+            f'<div class="marco-mapa" data-mapa-tabs>'
+            f'<div class="vistas">'
+            f'<div role="tablist" aria-label="Cómo ver {e(nombre)}">'
+            f'<button type="button" role="tab" id="tab-{situacion_id}" '
+            f'aria-controls="{situacion_id}" aria-selected="true">'
+            f"Situación</button>"
+            f'<button type="button" role="tab" id="tab-{evidencia_id}" '
+            f'aria-controls="{evidencia_id}" aria-selected="false" '
+            f'tabindex="-1">Mapa de evidencias</button></div>'
+            f"{chips_ocultos}</div>"
+            f'<div id="{situacion_id}" role="tabpanel" '
+            f'aria-labelledby="tab-{situacion_id}" class="vista">'
+            f"{situacion}</div>"
+            f'<div id="{evidencia_id}" role="tabpanel" '
+            f'aria-labelledby="tab-{evidencia_id}" hidden class="vista">'
+            f'<p class="sub mapa-evidencias__resumen">Este mapa reúne {resumen} '
+            f"en el entorno de {e(nombre)}. Cada fuente permanece en su propia "
+            f"capa.</p>"
+            f"{nota_chips_evidencia(d)}"
+            f'<div class="mapa-evidencias" id="map-mun" '
+            f'data-evidencia="{DATOS}/municipios/{d["slug"]}/evidencia.json" '
+            f'data-destino="{destino}" aria-label="Mapa interactivo de evidencias '
+            f'en {e(nombre)}" aria-busy="false">'
+            f'<div class="mapa-evidencias__placeholder" role="status">'
+            f'<span aria-hidden="true"></span><p>El mapa se cargará al abrir esta '
+            f"pestaña.</p></div></div>"
+            f'<p class="note">Las capas de diferentes servicios pueden observar el '
+            f"mismo edificio. El mapa las muestra por separado y no las suma como si "
+            f"fueran casos distintos.</p></div></div>"
+            f'<noscript><p class="note">Para explorar estos puntos necesitas '
+            f'JavaScript. <a href="{destino}">Abrir {e(nombre)} en el mapa '
+            f"interactivo de la portada</a>.</p></noscript>"
+        )
+    else:
+        marco = f'<div class="marco-mapa"><div class="vista">{situacion}</div></div>'
+
+    return f'<div class="lienzo lienzo-mun">{panel_fuentes(d)}{marco}</div>'
+
+
 # ------------------------------------------------ marcado estructurado de la ficha
 def _cita(nombre: str, organizacion: str, url: str | None = None) -> dict:
     """Una entrada de `citation`: la obra, y quién la publica.
@@ -1533,7 +1731,8 @@ def render_ficha(d: dict) -> str:
          '<meta name="theme-color" content="#101418">',
          '</head>', '<body>',
          nav_estatico(),
-         '<div class="contenido">',
+         '<main>',
+         '<div class="contenido contenido-ficha">',
          '<nav class="migas" aria-label="Ruta"><ol>' + "".join(
              f'<li><a href="{href}">{e(txt)}</a></li>' if href
              else f'<li aria-current="page">{e(txt)}</li>'
@@ -1546,7 +1745,6 @@ def render_ficha(d: dict) -> str:
          # corrida no se pierden: bajan a «Fuentes y trazabilidad», que es
          # donde los busca quien los necesita.
          '</div></header>',
-         '<main>',
          f'<p class="destacado">{parrafo_respuesta(d)}</p>']
 
     tarjetas = [("Familias inscritas", fmt(m["rud_familias"]), "RUD · UNGRD · registro"),
@@ -1567,90 +1765,15 @@ def render_ficha(d: dict) -> str:
     for etiqueta, valor, sub in tarjetas:
         o.append(f'<div class="metric-card"><span>{etiqueta}</span><strong>{valor}</strong>'
                  f'<small>{sub}</small></div>')
-    o.append('</div>')
+    o.append('</div></div>')
 
-    # ---- mapa de situación
-    o.append('<section class="page-section">')
-    o.append(f'<h2>Dónde está {e(nombre)} y qué ha mirado el satélite</h2>')
-    # El SVG sigue siendo la respuesta inmediata, indexable y sin JavaScript.
-    # Solo las fichas con puntos de evidencia reciben dos pestañas. El segundo
-    # panel nace vacío: municipio.js pide Leaflet y el JSON recortado al primer
-    # clic, nunca durante la lectura de «Situación».
-    # La clave, no el topónimo: `app.js` indexa el mapa de la portada por la
-    # llave del diccionario (`munLayerById[pedido]`), así que los dos Riosucios
-    # solo se distinguen aquí. Con el topónimo, el enlace no encuentra la capa
-    # y el mapa se queda quieto sin decir por qué.
+    # El lienzo sale FUERA de `.contenido` (max-width 760 px): si vive dentro,
+    # el panel y el mapa no caben lado a lado. El prototipo lo midió así.
     destino = f"/?municipio={urllib.parse.quote(clave)}#mapa"
     svg = mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"])
-    if svg:
-        if d["hay_evidencia"]:
-            situacion_id = f"situacion-{d['slug']}"
-            evidencia_id = f"evidencias-{d['slug']}"
-            o.append('<div class="mapa-tabs" data-mapa-tabs>')
-            o.append(f'<div class="mapa-tabs__lista" role="tablist" '
-                     f'aria-label="Vistas del mapa de {e(nombre)}">'
-                     f'<button type="button" role="tab" id="tab-{situacion_id}" '
-                     f'aria-controls="{situacion_id}" aria-selected="true">Situación</button>'
-                     f'<button type="button" role="tab" id="tab-{evidencia_id}" '
-                     f'aria-controls="{evidencia_id}" aria-selected="false" '
-                     f'tabindex="-1">Mapa de evidencias</button></div>')
-            o.append(f'<div id="{situacion_id}" role="tabpanel" '
-                     f'aria-labelledby="tab-{situacion_id}">')
-        else:
-            o.append(f'<a href="{destino}" class="mapa-enlace" '
-                     f'aria-label="Abrir {e(nombre)} en el mapa interactivo">')
-        o.append(svg)
-        if not d["hay_evidencia"]:
-            o.append('</a>')
-        o.append('<p class="leyenda">'
-                 f'<span class="badge" style="--bc:var(--s8)">{e(nombre)}</span>'
-                 '<span class="badge" style="--bc:var(--good)">zona con producto satelital</span>'
-                 '<span class="badge" style="--bc:var(--s7)">reporte ciudadano</span>'
-                 '<span class="badge" style="--bc:var(--critical)">epicentro</span></p>')
-        if d["hay_evidencia"]:
-            conteos = d["evidencia"]["conteos"]
-            partes = []
-            if conteos["satelite"]:
-                partes.append(f'{fmt(conteos["satelite"])} puntos publicados por los '
-                              'servicios satelitales')
-            if conteos["ciudadanos"]:
-                partes.append(f'{fmt(conteos["ciudadanos"])} '
-                              f'{concuerda(conteos["ciudadanos"], "reporte ciudadano", "reportes ciudadanos")}')
-            resumen = " y ".join(partes)
-            o.append('</div>')
-            o.append(f'<div id="{evidencia_id}" role="tabpanel" '
-                     f'aria-labelledby="tab-{evidencia_id}" hidden>')
-            o.append(f'<p class="sub mapa-evidencias__resumen">Este mapa reúne {resumen} '
-                     f'en el entorno de {e(nombre)}. Cada fuente permanece en su propia capa.</p>')
-            # Los chips y su explicación DEBAJO, nunca al lado: lo que hace cada
-            # uno se lee en una línea entera, no en un `title` que el móvil no
-            # enseña y el rastreador no indexa.
-            o.append(chips_evidencia(d))
-            o.append(nota_chips_evidencia(d))
-            o.append(f'<div class="mapa-evidencias" id="mapa-evidencias-{d["slug"]}" '
-                     f'data-evidencia="{DATOS}/municipios/{d["slug"]}/evidencia.json" '
-                     f'data-destino="{destino}" aria-label="Mapa interactivo de evidencias '
-                     f'en {e(nombre)}" aria-busy="false">'
-                     '<div class="mapa-evidencias__placeholder" role="status">'
-                     '<span aria-hidden="true"></span><p>El mapa se cargará al abrir esta '
-                     'pestaña.</p></div></div>')
-            o.append('<p class="note">Las capas de diferentes servicios pueden observar el '
-                     'mismo edificio. El mapa las muestra por separado y no las suma como si '
-                     'fueran casos distintos.</p></div></div>')
-            o.append(f'<noscript><p class="note">Para explorar estos puntos necesitas '
-                     f'JavaScript. <a href="{destino}">Abrir {e(nombre)} en el mapa '
-                     f'interactivo de la portada</a>.</p></noscript>')
-    else:
-        # El municipio entró por el registro oficial y el catálogo DIVIPOLA no
-        # trae su cabecera. Sin coordenada no hay mapa, ni distancia a las zonas
-        # analizadas, ni reportes «del entorno»: la ficha lo dice en vez de
-        # dibujar un punto que no sabemos dónde está.
-        o.append(f'<p class="note">El monitor <strong>no tiene la coordenada de la cabecera '
-                 f'de {e(nombre)}</strong>: entró por el registro de damnificados y el '
-                 f'catálogo oficial de la División Político-Administrativa (DIVIPOLA) no la '
-                 f'publica. Sin ella no se puede situar en el mapa ni medir su distancia a '
-                 f'las zonas que ha analizado el satélite, ni atribuirle reportes ciudadanos '
-                 f'del entorno. Las cifras del registro de esta ficha no dependen de eso.</p>')
+    o.append(lienzo_municipal(d, svg, destino))
+
+    o.append('<div class="zona-datos">')
     vistos_mapa = satelites_con_dato(m, d["satelite"])
     if not vistos_mapa:
         cerca = (f' La más próxima, {e(d["zonas"][0][0])}, está a '
@@ -1666,7 +1789,6 @@ def render_ficha(d: dict) -> str:
         o.append(f'<p class="note">{e(nombre)} queda fuera de las zonas que analizó el servicio '
                  f'de emergencias de Copernicus, que son las que dibuja este mapa. Sus edificios '
                  f'sí los ha evaluado {e(fuentes)}.</p>')
-    o.append('</section>')
 
     # ---- comunidad
     if d["ciudadanos"]:
@@ -1837,7 +1959,7 @@ def render_ficha(d: dict) -> str:
     o.append("</section>")
     o.append(f'<p class="note nota-pie"><a href="{BASE}/municipios.html">← Todos los '
              f'municipios del área de influencia</a></p>')
-    o.append("</main></div>")
+    o.append("</div></main>")
     o.append(pie_estatico())
     o.append("</body></html>")
     return "\n".join(o)
@@ -3098,6 +3220,107 @@ def _altas_diarias(serie: list) -> list:
         altas.append(None if not i or d.get("familias") is None or previo is None
                      else d["familias"] - previo)
     return altas
+
+
+def grafico_rud_municipal(serie: list, slug: str) -> str:
+    """Altas por día en barras y acumulado en línea, en la ficha.
+
+    La tabla de capturas es el dato citable; este dibujo enseña la forma —
+    que el registro de Cali se multiplicara en pocos días se lee de un
+    vistazo aquí y hay que calcularlo en la tabla. El prototipo lo midió
+    así: el gráfico entra JUSTO después del H2, antes de la prosa y de la
+    tabla. La ficha prometía la gráfica «a partir de la 5.ª captura» y no
+    llegaba a dibujarla.
+
+    Una corrección a la baja no se recorta a cero (R3, R16): el prototipo
+    usaba `max(0, …)` y escondía las bajas del registro. Aquí se pintan."""
+    puntos = [{"fecha": f, "familias": (fila or {}).get("familias")}
+              for f, fila in serie]
+    if sum(1 for p in puntos if p["familias"] is not None) < MIN_CAPTURAS_GRAFICA:
+        return ""
+    altas = _altas_diarias(puntos)
+    acums = [p["familias"] for p in puntos if p["familias"] is not None]
+    cambios = [v for v in altas if v is not None]
+    tope_ac = max([1] + acums)
+    tope_al = max([1] + [abs(v) for v in cambios])
+    W, H = 880, 230
+    izq, der, arr, aba = 46, 46, 14, 26
+    au, al = W - izq - der, H - arr - aba
+
+    def x(i):
+        return izq + (i + 0.5) * au / len(puntos)
+
+    def y_ac(v):
+        return arr + al - (v / tope_ac) * al
+
+    def y_al(v):
+        return arr + al - (v / tope_al) * al
+
+    bw = max(6, au / len(puntos) * 0.5)
+    tid, did = f"graf-rud-{slug}-t", f"graf-rud-{slug}-d"
+    descripcion = ". ".join(
+        f'{fecha_larga(p["fecha"])}: sin captura anterior para calcular '
+        f'nuevas inscripciones' if altas[i] is None else
+        f'{fecha_larga(p["fecha"])}: {fmt(altas[i])} familias desde la '
+        f'captura anterior; {fmt(p["familias"])} acumuladas'
+        for i, p in enumerate(puntos) if p["familias"] is not None)
+    o = [
+        f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" class="grafico-rud-muni" width="100%" '
+        f'aria-labelledby="{tid} {did}">',
+        f'<title id="{tid}">Familias inscritas en el RUD: barras de altas '
+        f'por día y línea de acumulado</title>',
+        f'<desc id="{did}">{e(descripcion)}</desc>']
+    for k in range(4):
+        yy = arr + al * k / 3
+        frac = (3 - k) / 3
+        o.append(
+            f'<line x1="{_n(izq)}" y1="{_n(yy)}" x2="{_n(W - der)}" '
+            f'y2="{_n(yy)}" stroke="var(--grid)"/>'
+            f'<text x="{_n(izq - 6)}" y="{_n(yy + 4)}" font-size="10" '
+            f'fill="var(--muted)" text-anchor="end">'
+            f'{fmt(round(tope_ac * frac))}</text>'
+            f'<text x="{_n(W - der + 6)}" y="{_n(yy + 4)}" font-size="10" '
+            f'fill="var(--s2)" text-anchor="start">'
+            f'{fmt(round(tope_al * frac))}</text>')
+    for i, valor in enumerate(altas):
+        if valor is None or puntos[i]["familias"] is None:
+            continue
+        color = "var(--critical)" if valor < 0 else "var(--s2)"
+        h = max(1, abs(y_al(0) - y_al(valor))) if valor else 0
+        if not h:
+            continue
+        yy = y_al(max(valor, 0)) if valor >= 0 else y_al(0)
+        o.append(
+            f'<rect x="{_n(x(i) - bw / 2)}" y="{_n(yy)}" width="{_n(bw)}" '
+            f'height="{_n(h)}" fill="{color}" fill-opacity=".55" rx="2" '
+            f'data-altas="{_n(valor)}">'
+            f'<title>{e(fecha_larga(puntos[i]["fecha"]))}:'
+            f' {fmt(valor)} familias ese día</title></rect>')
+    linea = " ".join(
+        f'{_n(x(i))},{_n(y_ac(p["familias"]))}'
+        for i, p in enumerate(puntos) if p["familias"] is not None)
+    o.append(f'<polyline points="{linea}" fill="none" stroke="var(--s8)" '
+             f'stroke-width="2.5"/>')
+    for i, p in enumerate(puntos):
+        if p["familias"] is None:
+            continue
+        o.append(
+            f'<circle cx="{_n(x(i))}" cy="{_n(y_ac(p["familias"]))}" r="3.5" '
+            f'fill="var(--s8)">'
+            f'<title>{e(fecha_larga(p["fecha"]))}:'
+            f' {fmt(p["familias"])} acumuladas</title></circle>'
+            f'<text x="{_n(x(i))}" y="{_n(H - 8)}" font-size="10" '
+            f'fill="var(--muted)" text-anchor="middle">'
+            f'{e(dia_mes(p["fecha"]))}</text>')
+    o.append("</svg>")
+    o.append(
+        '<p class="leyenda-graf">'
+        '<span class="ley"><span class="pt" style="background:var(--s8)"></span>'
+        'Acumulado de familias inscritas</span>'
+        '<span class="ley"><span class="pt pt-b" style="background:var(--s2)">'
+        '</span>Altas de cada día</span></p>')
+    return "".join(o)
 
 
 def grafico_rud(ctx: dict) -> str:

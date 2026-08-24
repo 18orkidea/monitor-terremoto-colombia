@@ -6,6 +6,21 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — La ficha municipal es panel + mapa, no dos pestañas
+
+La fase 5 dejó las 208 fichas a medias: chips y marcado estructurado, pero el
+dato en una pestaña y el mapa en otra. El prototipo ya había resuelto lo
+contrario —panel de fuentes a un lado, mapa al otro, mapa primero en móvil—
+y JP lo rechazó al verlo: «falta la tabla de datos y la organización entre
+el mapa y la tabla».
+
+**Se porta el lienzo del prototipo.** Las tarjetas de métricas se conservan
+(decisión del 23-ago). El panel no las duplica: empieza en satélites y
+vecinos. El recuento satelital es el de la capa que el mapa pinta; si
+diverge del de edificios clasificados, la nota de los chips lo explica. Un
+servicio que no miró no sale con un cero (R3). El lienzo vive fuera de
+`.contenido` porque 760 px no caben panel y mapa lado a lado.
+
 ## 2026-08-24 — Un espejo se comprueba ejecutando las dos copias, nunca leyendo una
 
 Cuatro formateadores (`fmt`, `fmt_prosa`, `pct`, `fecha_corta`/`fecha_larga`) se

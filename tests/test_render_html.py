@@ -5158,6 +5158,135 @@ class TestChipsDeLaFicha(unittest.TestCase):
             "`L.control.layers` dejó de ser el respaldo de los chips")
         self.assertNotIn('createElement("button")', self.js)
         self.assertNotIn('className = "chip"', self.js)
+        self.assertIn('closest(".lienzo-mun")', self.js,
+                      "los chips salieron del tabpanel y el conector no los busca "
+                      "en el lienzo: Leaflet volvería a sacar el control colapsado")
+
+
+class TestLienzoMunicipal(unittest.TestCase):
+    """Panel de fuentes y mapa conviven, como en el prototipo.
+
+    La fase 5 dejó la ficha a medias: chips y marcado, pero el dato en una
+    pestaña y el mapa en otra. JP lo rechazó el 24-ago: la organización del
+    prototipo —tabla de datos a un lado, mapa al otro, en móvil y escritorio—
+    ES la ficha. Las tarjetas se conservan; el panel no duplica el RUD.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.cali = R.render_ficha(R.datos_ficha("Cali", cls.ctx))
+        cls.cartago = R.render_ficha(R.datos_ficha("Cartago", cls.ctx))
+
+    def _panel(self, html: str) -> str:
+        m = re.search(r'<aside class="panel">(.*?)</aside>', html, re.S)
+        self.assertIsNotNone(m, "la ficha se publicó sin el panel de fuentes")
+        return m.group(1)
+
+    def test_el_lienzo_pone_el_panel_y_el_mapa_como_hermanos(self):
+        """La organización que el prototipo midió: panel y marco en el mismo
+        lienzo, el panel ANTES en el DOM (teclado, lector) y el mapa primero
+        en móvil porque el CSS le pone `order:1`."""
+        html = self.cali
+        self.assertIn('class="lienzo lienzo-mun"', html)
+        self.assertIn('class="marco-mapa"', html)
+        self.assertLess(html.find('class="panel"'), html.find('class="marco-mapa"'))
+        self.assertLess(html.find('class="lienzo lienzo-mun"'),
+                        html.find('class="zona-datos"'))
+        # Fuera de `.contenido`: entre las tarjetas y el lienzo se cierra
+        # ese contenedor (max-width 760 px). Un `.*` goloso se traga el
+        # lienzo y el test pasaría con el fallo puesto.
+        entre = html[html.find("class=\"metric-strip\""):html.find('<div class="lienzo lienzo-mun"')]
+        self.assertTrue(entre.rstrip().endswith("</div></div>"),
+                        "el lienzo quedó dentro de .contenido")
+
+    def test_las_tarjetas_siguen_y_el_panel_no_repite_el_rud(self):
+        """Decisión de JP del 23-ago: tarjetas intactas; el panel empieza en
+        satélites y vecinos. Duplicar las familias del RUD en los dos sitios
+        sería dos copias de la misma cifra (M2) y no aportaría nada."""
+        self.assertIn('class="metric-strip"', self.cali)
+        self.assertIn("Familias inscritas", self.cali)
+        panel = self._panel(self.cali)
+        self.assertIn("Qué dice cada fuente", panel)
+        self.assertNotIn("Familias damnificadas", panel)
+        self.assertNotIn("Familias inscritas", panel)
+        self.assertIn("Copernicus", panel)
+        self.assertIn("ICube-SERTIT", panel)
+        self.assertIn("ChatMap", panel)
+
+    def test_el_panel_cuenta_lo_que_el_mapa_pinta_y_esconde_quien_no_miro(self):
+        """R3: UNOSAT no miró Cali, así que no sale una fila a cero. El
+        recuento de Copernicus es el de su capa, y debajo van los grados de
+        daño —la misma clasificación que colorea los puntos."""
+        d = R.datos_ficha("Cali", self.ctx)
+        panel = self._panel(self.cali)
+        n_cop = len(d["evidencia"]["capas"]["copernicus"]["features"])
+        self.assertIn(R.fmt(n_cop), panel)
+        self.assertIn("Destruidos", panel)
+        self.assertIn("Dañados", panel)
+        self.assertNotIn("UNITAR-UNOSAT", panel)
+        self.assertIn("ICube-SERTIT", panel)
+        self.assertIn("Edificios evaluados", panel)
+
+    def test_sin_evidencia_el_panel_avisa_y_no_inventa_pestanas(self):
+        """Cartago no tiene puntos: el lienzo sigue existiendo —el panel es
+        la tabla de datos de TODA ficha—, pero sin pestañas ni JavaScript."""
+        html = self.cartago
+        self.assertIn('class="lienzo lienzo-mun"', html)
+        self.assertIn("Qué dice cada fuente", html)
+        self.assertIn("Ningún servicio satelital ha publicado producto de daño aquí",
+                      html)
+        self.assertNotIn('role="tablist"', html)
+        self.assertNotIn("municipio.js", html)
+
+    def test_la_tabla_del_registro_oficial_sigue_debajo_del_lienzo(self):
+        """La tabla de capturas del RUD no desaparece: es el dato citable.
+        Baja a `.zona-datos`, después del lienzo, que es donde el prototipo
+        la dejó para no pelear el ancho con el mapa."""
+        html = self.cali
+        self.assertIn("Cómo avanza el registro oficial", html)
+        self.assertIn("<table>", html)
+        self.assertLess(html.find('class="lienzo lienzo-mun"'),
+                        html.find("Cómo avanza el registro oficial"))
+        zona = html.find('class="zona-datos"')
+        self.assertGreater(zona, 0)
+        self.assertGreater(html.find("Cómo avanza el registro oficial"), zona)
+
+    def test_los_chips_nacen_ocultos_en_la_fila_de_vistas(self):
+        """Son un filtro de capas: en Situación no hay capas. El prototipo
+        los ponía en la misma fila que las pestañas, a la derecha."""
+        html = self.cali
+        tira = re.search(r'<div class="chips chips-mapa"[^>]*>', html)
+        self.assertIsNotNone(tira)
+        self.assertIn(" hidden", tira.group(0))
+        vistas = html.find('class="vistas"')
+        self.assertGreater(vistas, 0)
+        self.assertGreater(tira.start(), vistas)
+        self.assertLess(tira.start(), html.find('id="map-mun"'))
+
+    def test_el_css_mantiene_el_lienzo_en_flex_y_las_pestanas_en_fila(self):
+        """El prototipo midió el lado a lado con flex. Si `.lienzo` vuelve a
+        ser grid (portada) y gana por especificidad, `order` deja de aplicar
+        y el mapa ya no convive con el panel. El tablist anidado —los chips
+        no son pestañas— tiene que ser flex o los dos botones se apilan."""
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        self.assertIn(".lienzo.lienzo-mun{display:flex", css)
+        self.assertIn('.vistas [role="tablist"]{display:flex', css)
+
+    def test_los_chips_ocultos_no_ocupan_sitio(self):
+        """`.chips { display:flex }` anula el `[hidden]` del navegador: la
+        tira se veía en Situación, donde no hay capas que filtrar. El
+        atributo tiene que volver a esconder."""
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        self.assertRegex(css, r"\.chips\[hidden\]\s*\{\s*display:\s*none")
+
+    def test_el_encabezado_de_la_ficha_comparte_eje_con_el_lienzo(self):
+        """Fuera del tubo de 760 px: si las tarjetas van centradas y el panel
+        arranca en `--eje`, la página tiene dos bordes izquierdos."""
+        self.assertIn('class="contenido contenido-ficha"', self.cali)
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        self.assertIn(".contenido-ficha{", css)
+        self.assertIn("padding-inline:var(--eje)", css)
 
 
 class TestMarcadoDeLaFicha(unittest.TestCase):

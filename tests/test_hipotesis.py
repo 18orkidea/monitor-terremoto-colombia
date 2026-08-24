@@ -34,15 +34,60 @@ def q(sql, *args):
         conn.close()
 
 
+# Cuántos guardianes se ha saltado la corrida por falta de datos, y de qué
+# tablas. No es contabilidad: es la diferencia entre «verde» y «verde que no
+# comprueba nada», y el contador de skips de unittest la esconde.
+SALTADOS_POR_FALTA_DE_DATOS: dict[str, int] = {}
+
+
 def skip_sin_datos(tabla):
+    """Motivo por el que este test no puede correr, o None si sí puede.
+
+    **El estado peligroso no es la base ausente: es la base A MEDIAS.** Sin
+    fichero, la suite salta y se nota; con el esquema creado y las tablas
+    vacías —que es como nace cualquier worktree, y como se queda si algo tocó
+    la base sin poblarla— la suite da verde con los guardianes de datos
+    apagados. Pasó de verdad: una fase entera se cerró con «813 tests en verde»
+    y seis de esos guardianes, los de R5 y los de prensa, no llegaron a
+    ejecutarse. El verde era cierto y no significaba lo que parecía.
+
+    Por eso cada salto se apunta, y `TestLaCorridaDiceQueSeSalto` lo cuenta en
+    voz alta al final. Se arregla en treinta segundos:
+    `rm -f data/monitor.sqlite && python3 ingest/dump_db.py rebuild`.
+    """
     if not DB.exists():
-        return "sin base de datos: ejecutar run_daily primero"
-    try:
-        if not q(f"SELECT COUNT(*) FROM {tabla}")[0][0]:
-            return f"tabla {tabla} vacía"
-    except sqlite3.OperationalError:
-        return f"tabla {tabla} no existe"
-    return None
+        motivo = "sin base de datos: `python3 ingest/dump_db.py rebuild`"
+    else:
+        try:
+            motivo = (None if q(f"SELECT COUNT(*) FROM {tabla}")[0][0]
+                      else f"tabla {tabla} vacía")
+        except sqlite3.OperationalError:
+            motivo = f"tabla {tabla} no existe"
+    if motivo:
+        SALTADOS_POR_FALTA_DE_DATOS[tabla] = \
+            SALTADOS_POR_FALTA_DE_DATOS.get(tabla, 0) + 1
+    return motivo
+
+
+class TestLaCorridaDiceQueSeSalto(unittest.TestCase):
+    """Un verde con guardianes apagados tiene que decirlo, no esconderlo.
+
+    Este test no falla nunca: **avisa** (R11 — los supuestos rotos avisan, no
+    rompen en silencio). Fallar sería peor, porque un clon limpio no tiene la
+    base y no hay nada malo en eso; lo malo es creer que se ha comprobado algo
+    que no se comprobó.
+    """
+
+    def test_avisa_de_los_guardianes_que_no_pudieron_correr(self):
+        if not SALTADOS_POR_FALTA_DE_DATOS:
+            return
+        detalle = " · ".join(f"{t}: {n}" for t, n in
+                             sorted(SALTADOS_POR_FALTA_DE_DATOS.items()))
+        total = sum(SALTADOS_POR_FALTA_DE_DATOS.values())
+        print(f"\nAVISO: {total} guardianes de datos no corrieron por tablas "
+              f"vacías o ausentes ({detalle}). Este verde NO dice nada sobre "
+              f"ellos. Para ejercerlos: rm -f data/monitor.sqlite && "
+              f"python3 ingest/dump_db.py rebuild")
 
 
 class TestHipotesisBrechaOficial(unittest.TestCase):

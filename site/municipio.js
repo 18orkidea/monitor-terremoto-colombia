@@ -74,8 +74,12 @@
      muerto — pero eso no debería pasar nunca: el build emite un chip por capa
      con puntos, la misma condición con que aquí se crea. */
   function conectarChips(contenedor, map, porCapa) {
-    const panel = contenedor.closest('[role="tabpanel"]') || document;
-    const tira = panel.querySelector(".chips-mapa");
+    // Los chips viven en la fila `.vistas`, hermana del tabpanel, no dentro
+    // del mapa: buscarlos en el tabpanel los perdía y Leaflet sacaba el
+    // control de capas colapsado que los chips venían a sustituir.
+    const raiz = contenedor.closest(".lienzo-mun")
+      || contenedor.closest('[role="tabpanel"]') || document;
+    const tira = raiz.querySelector(".chips-mapa");
     if (!tira) return false;
     let vivos = 0;
     for (const chip of tira.querySelectorAll(".chip[data-capa]")) {
@@ -267,6 +271,14 @@
     if (bounds.isValid()) map.fitBounds(bounds.pad(0.12), { maxZoom: 16 });
     else map.setView([municipio.lat, municipio.lon], 13);
     setTimeout(() => map.invalidateSize(), 0);
+    // El mapa mide lo que mide el panel de al lado. Si el panel crece (grados
+    // de daño, aviso), el mapa tiene que estirarse con él: si no, queda un
+    // hueco o un mapa más bajo que sus datos. `invalidateSize` a mitad de una
+    // animación la corta, así que solo se llama cuando el panel ya cambió.
+    const panel = contenedor.closest(".lienzo-mun")?.querySelector(".panel");
+    if (panel && window.ResizeObserver) {
+      new ResizeObserver(() => map.invalidateSize()).observe(panel);
+    }
   }
 
   async function cargarMapa(contenedor) {
@@ -314,6 +326,8 @@
     const panel = document.getElementById(tab.getAttribute("aria-controls"));
     const mapa = panel.querySelector(".mapa-evidencias");
     if (mapa) cargarMapa(mapa);
+    const tira = caja.querySelector(".chips-mapa");
+    if (tira) tira.hidden = !mapa;
     caja.dataset.vista = mapa ? "evidencias" : "situacion";
   }
 

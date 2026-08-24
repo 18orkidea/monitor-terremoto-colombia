@@ -291,6 +291,11 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #timeline a { color: var(--s1); text-decoration: none; }
 /* chips de filtro reutilizables (cronología, y donde hagan falta) */
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
+/* `.chips { display:flex }` gana al `[hidden]` del navegador (misma
+   especificidad, hoja del autor): la tira de capas de la ficha nacía con
+   `hidden` y se veía igual, ocupando dos renglones sobre el mapa de Situación.
+   El atributo tiene que volver a esconder. */
+.chips[hidden] { display: none; }
 * + .chips { margin-top: 12px; }
 /* UN CHIP ES UNA ACCIÓN. Antes esta misma pastilla hacía dos oficios —botón de
    filtro y etiqueta de zona en los titulares— y solo se distinguían por el
@@ -944,20 +949,30 @@ a.metric-card:hover { border-color: var(--s1); }
    que la portada. El orden del DOM deja el panel antes para que quien navegue
    con teclado o lector llegue al dato sin cruzar el mapa; el orden visual lo
    pone `order`. */
-.lienzo-mun{display:flex;flex-direction:column;gap:0;margin:0 0 18px}
+/* La doble clase iguala a un `.lienzo{display:grid}` futuro (fase 6, portada):
+   una sola clase pierde por orden de aparición y el lienzo municipal deja de
+   ser flex — `order` y el lado a lado se caen en las 208 fichas. */
+/* El encabezado de la ficha sale del tubo de 760 px: si no, las tarjetas
+   quedan centradas y el lienzo (panel + mapa) empieza más a la izquierda,
+   dos ejes para la misma página. El destacado se queda en 70ch: es prosa. */
+.contenido-ficha{max-width:none;margin-inline:0;padding-inline:var(--eje)}
+.contenido.contenido-ficha .destacado{max-width:70ch}
+.lienzo.lienzo-mun{display:flex;flex-direction:column;gap:0;margin:0 0 18px}
 .lienzo-mun .marco-mapa{order:1;position:relative}
 .lienzo.lienzo-mun .panel{order:2;padding:14px var(--eje);background:var(--surface);
   border-top:1px solid var(--border)}
 .lienzo-mun #map-mun{height:48vh;min-height:280px;background:var(--grid);
   display:block;z-index:1}
 .lienzo-mun .panel h2{font-size:16px;margin:0 0 2px}
-.lienzo-mun .panel .sub{margin:0 0 10px}
+.lienzo-mun .panel .sub{font-size:12.5px;color:var(--muted);margin:0 0 10px}
 /* La fila de vistas: dos pestañas a la izquierda y, cuando el mapa está
    activo, los chips de fuente a la derecha. Comparten renglón porque son la
    misma decisión —qué estoy mirando— y separarlas obligaba a buscar el filtro
-   en otro sitio. */
+   en otro sitio. El tablist es un hijo (los chips no son pestañas: no pueden
+   vivir dentro del tablist) y tiene que ser flex o los dos botones se apilan. */
 .vistas{display:flex;align-items:center;gap:4px;flex-wrap:wrap;
-  padding:0 0 8px}
+  padding:8px var(--eje)}
+.vistas [role="tablist"]{display:flex;align-items:center;gap:4px}
 .vistas [role="tab"]{background:none;border:0;font:inherit;font-size:14px;
   padding:6px 10px;border-radius:99px;color:var(--muted);cursor:pointer}
 .vistas [role="tab"][aria-selected="true"]{background:var(--ink);color:var(--page);
@@ -991,6 +1006,11 @@ a.metric-card:hover { border-color: var(--s1); }
 .lienzo.lienzo-mun .marco-mapa > .vista:not([hidden]){flex:1 1 auto}
 .lienzo.lienzo-mun .vista > svg{flex:1 1 auto;min-height:0;width:100%;height:auto}
 .lienzo.lienzo-mun #map-mun{flex:1 1 auto;min-height:280px;height:auto}
+.lienzo-mun .dato{display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+  border-bottom:1px solid var(--border);font-size:14px;align-items:baseline}
+.lienzo-mun .dato:last-child{border-bottom:0}
+.lienzo-mun .dato .v{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.lienzo-mun .dato .f{color:var(--muted);font-size:12px;display:block;font-weight:400}
 .lienzo-mun .dato.grado{padding:5px 0 5px 18px;font-size:13px;border-bottom:0}
 .lienzo-mun .dato.grado .v{font-weight:600}
 @media (min-width:900px){
@@ -1007,11 +1027,13 @@ a.metric-card:hover { border-color: var(--s1); }
      que hay más— y el mapa se estira hasta igualarlo. `stretch` es el
      comportamiento por defecto del flex; lo que había que quitar era el
      `align-items:flex-start` que lo impedía. */
-  .lienzo-mun{flex-direction:row;gap:18px;padding:0 var(--eje);align-items:stretch}
-  .lienzo-mun .panel{order:1;flex:0 0 360px;border:1px solid var(--border);
+  .lienzo.lienzo-mun{flex-direction:row;gap:18px;padding:0 var(--eje);align-items:stretch}
+  .lienzo.lienzo-mun .panel{order:1;flex:0 0 360px;border:1px solid var(--border);
     border-radius:var(--radio);height:auto;overflow:visible;padding:14px}
   .lienzo-mun .marco-mapa{order:2;flex:1 1 auto;min-height:420px}
   .lienzo-mun #map-mun{height:100%;min-height:420px;border-radius:var(--radio)}
+  /* El lienzo ya sangra con --eje: las pestañas no vuelven a meterse. */
+  .lienzo-mun .vistas{padding:0 0 8px}
 }
 
 /* el dato manda: las secciones de contenido pegadas arriba y sin adornos */
