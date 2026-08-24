@@ -3539,6 +3539,279 @@ class TestMarcadoDeNoticias(unittest.TestCase):
     Google indexa es el artefacto, así que es el artefacto lo que se mira. Las
     cifras del día siguen sin sustituir a propósito: el marcador
     `{{noticias_corte}}` tiene su propio guardián más abajo."""
+# =====================================================================
+# municipios.html: lo que el navegador escribía y ahora escribe el build
+# =====================================================================
+def _ctx_municipios(items, generado="2026-08-22", satelite=None, ciudadanos=None):
+    """Un contexto mínimo con lo único que leen los generadores de la página.
+
+    No se llama a `R.contexto()`: un fixture escrito a mano es lo que permite
+    fabricar el caso que NO está en los datos de hoy —cero satélites, cero
+    homónimos, cero municipios— que es justo donde vive la regresión."""
+    return {"municipios": items,
+            "municipios_generado": generado,
+            "conteo_satelite": satelite or {},
+            "conteo_ciudadanos": ciudadanos or {},
+            "cruce_satelital": {},
+            "noticias": [], "idx": {m["municipio"]: m for m in items}}
+
+
+def _municipio(nombre="Nóvita", **cambios):
+    base = {"municipio": nombre, "departamento": "Chocó", "estado": "solo_rud",
+            "poblacion_2026": 8000, "rud_personas": 100, "rud_familias": 30,
+            "tasa_rud_pct": 1.25, "dyfi_max_cdi": None, "dyfi_respuestas": None,
+            "n_noticias": 0, "en_aoi_copernicus": False, "unosat_edificios": None,
+            "sertit_edificios": None, "homonimo_de_departamento": False,
+            "fuentes": ["RUD"]}
+    return {**base, **cambios}
+
+
+class TestChipsDeMunicipios(unittest.TestCase):
+    """El recuento del chip y la etiqueta de la fila salen del mismo predicado.
+
+    Es la avería que `CHIPS_RUD` ya había tenido en la otra página: la
+    condición vivía partida entre `site/municipios.js` —que contaba las filas
+    ya escritas— y `filas_municipios` —que las etiquetaba—, así que el día que
+    una de las dos cambiara el chip diría «Sin mirar por satélite (197)» y
+    filtraría otra cosa, sin que nada avisara (M2).
+    """
+
+    # El quinto caso es el que hace de verdad el trabajo: un municipio DENTRO
+    # de una zona de Copernicus y sin un solo edificio clasificado dentro. Está
+    # mirado y sigue sin dato, así que el chip —que promete «nadie ha evaluado
+    # sus edificios»— tiene que contarlo. Sin él, cambiar el predicado del chip
+    # por `_mirado_por_satelite` dejaba la suite entera en verde: la primera
+    # versión de este fixture no lo tenía y la mutación sobrevivió (M1).
+    ITEMS = [
+        _municipio("Con satélite", en_aoi_copernicus=True),
+        _municipio("Sin satélite"),
+        _municipio("Sin registro", rud_personas=None, rud_familias=None),
+        _municipio("Con comunidad"),
+        _municipio("Zona sin puntos", en_aoi_copernicus=True),
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = _ctx_municipios(cls.ITEMS, satelite={"Con satélite": 12},
+                                  ciudadanos={"Con comunidad": 3})
+        cls.html = R.chips_municipios(cls.ctx)
+        cls.filas = R.filas_municipios(cls.ctx)
+
+    def _recuento(self):
+        return {clave: int(n.replace(".", "")) for clave, n in
+                re.findall(r'data-chip="([^"]+)"[^>]*>[^<]*\((\d[\d.]*)\)', self.html)}
+
+    def test_el_numero_del_chip_es_el_de_las_filas_que_filtra(self):
+        """Se cuenta sobre las filas REALMENTE escritas, no sobre otra pasada
+        del mismo predicado: si el chip y la fila se separan, aquí se ve."""
+        etiquetas = re.findall(r'data-chips="([^"]*)"', self.filas)
+        self.assertEqual(len(etiquetas), len(self.ITEMS), "faltan filas")
+        recuento = self._recuento()
+        self.assertEqual(recuento["todos"], len(self.ITEMS))
+        for clave, _, _ in R.CHIPS_MUNICIPIOS:
+            if clave == "todos":
+                continue
+            con_la_etiqueta = sum(1 for e in etiquetas if clave in e.split())
+            self.assertEqual(
+                recuento[clave], con_la_etiqueta,
+                f"el chip «{clave}» dice {recuento[clave]} y las filas "
+                f"etiquetadas son {con_la_etiqueta}")
+
+    def test_los_chips_cuentan_lo_que_prometen(self):
+        """El fixture está escrito para que cada chip tenga una respuesta
+        distinta: si el predicado se cambiara por otro, el recuento cambia."""
+        self.assertEqual(self._recuento(),
+                         {"todos": 5, "sin-satelite": 4, "con-rud": 4,
+                          "sin-rud": 1, "con-ciudadanos": 1})
+
+    def test_estar_en_una_zona_mirada_sin_puntos_dentro_sigue_siendo_sin_dato(self):
+        """Las dos preguntas sobre el satélite no son la misma, y el chip usa
+        la suya: promete «ningún producto ha evaluado sus edificios», que es
+        `satelites_con_dato`, no «nadie miró», que es `_mirado_por_satelite`.
+        Un municipio en zona Copernicus sin un edificio clasificado dentro está
+        mirado y sin dato, y el chip lo cuenta."""
+        zona = [m for m in self.ITEMS if m["municipio"] == "Zona sin puntos"][0]
+        self.assertTrue(R._mirado_por_satelite(zona))
+        self.assertEqual(R.satelites_con_dato(zona, 0), [])
+        self.assertIn("sin-satelite", R._chips_de_municipio(zona, self.ctx))
+
+    def test_el_chip_activo_llega_con_las_dos_mecanicas(self):
+        """`.activa` estiliza y `aria-pressed` lo anuncia el lector de
+        pantalla; styles.css las funde en un solo selector. Se comprueba sobre
+        la tira de ESTA página, no sobre el fichero entero: un guardián que
+        busca el literal en todo `render_html.py` sobrevive si el defecto queda
+        en una de las dos tiras (M1)."""
+        activos = re.findall(r'<button class="chip activa"[^>]*aria-pressed="true"',
+                             self.html)
+        self.assertEqual(len(activos), 1,
+                         f"la tira de municipios no marca exactamente un chip "
+                         f"activo con las dos mecánicas: {self.html[:300]}")
+        self.assertIn('data-chip="todos" aria-pressed="true"', self.html)
+        self.assertEqual(self.html.count('aria-pressed="false"'),
+                         len(R.CHIPS_MUNICIPIOS) - 1,
+                         "los chips inactivos no declaran su estado")
+
+    def test_el_javascript_no_vuelve_a_definir_los_chips(self):
+        """La lista vive en Python y solo ahí: el navegador lee `data-chip` y
+        `data-chips` de lo que el build ya escribió."""
+        js = (ROOT / "site/municipios.js").read_text(encoding="utf-8")
+        for etiqueta in ("Sin mirar por satélite", "Con damnificados inscritos",
+                         "Sin registro aún", "Con reportes de la comunidad"):
+            self.assertNotIn(etiqueta, js,
+                             f"«{etiqueta}» vuelve a estar escrita en el navegador")
+
+
+class TestEntradillaDeMunicipios(unittest.TestCase):
+    """La frase que resume la página, con la brecha dentro y su corte (M7)."""
+
+    def test_dice_las_tres_cifras_y_la_brecha(self):
+        items = [_municipio(f"M{i}") for i in range(9)]
+        items[0]["en_aoi_copernicus"] = True
+        items[1]["unosat_edificios"] = 4
+        items[8]["rud_personas"] = None
+        items[8]["rud_familias"] = None
+        texto = R.entradilla_municipios(_ctx_municipios(items))
+        self.assertIn("<b>9 municipios</b>", texto)   # el total
+        self.assertIn("<b>8</b>", texto)              # con damnificados
+        self.assertIn("<b>2</b>", texto)              # mirados por satélite
+        self.assertIn("<b>6</b>", texto)              # con RUD y sin mirada
+        self.assertIn("22 de agosto de 2026", texto,
+                      "la cifra se cita suelta y viaja sin su corte (M7)")
+
+    def test_sin_ningun_satelite_no_se_inventa_un_cero(self):
+        """M10: donde falta el dato se calla el trozo. «solo 0 han sido
+        mirados» sería un recuento publicado donde no hay ninguno."""
+        texto = R.entradilla_municipios(_ctx_municipios([_municipio()]))
+        self.assertIn("ningún satélite ha evaluado todavía a ninguno", texto)
+        self.assertNotIn("<b>0</b>", texto)
+
+    def test_sin_municipios_lo_dice_en_vez_de_quedarse_vacia(self):
+        """Un contenedor `data-gen` vacío rompe el build y deja la página muda:
+        la rama sin datos tiene que escribir algo verdadero."""
+        texto = R.entradilla_municipios(_ctx_municipios([]))
+        self.assertTrue(texto.strip())
+        self.assertIn("Todavía no hay ningún municipio", texto)
+
+    def test_sin_corrida_se_calla_la_fecha_en_vez_de_inventarla(self):
+        texto = R.entradilla_municipios(
+            _ctx_municipios([_municipio()], generado=None))
+        self.assertNotIn("corrida", texto)
+        self.assertTrue(texto.strip())
+
+
+class TestNotaDeMunicipios(unittest.TestCase):
+    """El pie de la tabla: la prosa invariante, y solo aquí."""
+
+    def test_la_salvedad_de_los_homonimos_se_apaga_sola(self):
+        """R11: es una leyenda de lo que hay, no un literal que alguien tenga
+        que acordarse de borrar el día que no quede ninguno."""
+        sin = R.nota_municipios(_ctx_municipios([_municipio()]))
+        self.assertNotIn("igual que un departamento", sin)
+        con = R.nota_municipios(_ctx_municipios(
+            [_municipio(), _municipio("Sucre", homonimo_de_departamento=True)]))
+        self.assertIn("igual que un departamento", con)
+        self.assertIn("un municipio", con, "no concuerda con la cifra")
+
+    def test_el_guion_se_explica_y_ninguna_ausencia_es_cero(self):
+        nota = R.nota_municipios(_ctx_municipios([_municipio()]))
+        self.assertIn("no que no haya daño", nota)
+        self.assertIn("jamás un cero", nota)
+
+    def test_el_literal_no_vuelve_a_vivir_en_el_navegador(self):
+        """Vivía en `municipios.js` y en el HTML a la vez: dos copias de la
+        misma frase que ya podían divergir (M2)."""
+        js = (ROOT / "site/municipios.js").read_text(encoding="utf-8")
+        self.assertNotIn("no que no haya daño", js)
+
+
+class TestDatasetDeMunicipios(unittest.TestCase):
+    """El Dataset JSON-LD de la página, que antes no existía."""
+
+    def _ld(self, ctx):
+        crudo = R.dataset_municipios(ctx)
+        self.assertTrue(crudo.startswith('<script type="application/ld+json">'),
+                        "el generador debe traer su propio <script>: el "
+                        "contenedor de site/ es una sección, porque un bloque "
+                        "ld+json vacío es JSON inválido")
+        return json.loads(re.search(r">(.*)</script>$", crudo, re.S).group(1))
+
+    def test_g2_el_nodo_tiene_nombre_y_descripcion_y_no_anida_datasets(self):
+        ld = self._ld(_ctx_municipios([_municipio()]))
+        for campo in ("name", "description"):
+            self.assertTrue(str(ld.get(campo) or "").strip(), f"sin «{campo}»")
+        anidados = [n for clave, valor in ld.items() if clave != "@type"
+                    for n in nodos_ld(valor) if "Dataset" in tipos_ld(n)]
+        self.assertEqual(anidados, [], "un Dataset dentro de otro: usa @id")
+
+    def test_g6_toda_url_del_bloque_es_absoluta(self):
+        ld = self._ld(_ctx_municipios([_municipio()]))
+        for nodo in nodos_ld(ld):
+            for campo in ("contentUrl", "url", "logo", "@id"):
+                valor = nodo.get(campo)
+                if not isinstance(valor, str):
+                    continue
+                partes = urllib.parse.urlparse(valor)
+                self.assertTrue(partes.scheme and partes.netloc,
+                                f"«{campo}» relativo → {valor}")
+
+    def test_las_dos_entidades_se_referencian_y_no_se_redefinen(self):
+        """`creator`, `publisher` y el catálogo van por `@id` al nodo de
+        identidad que ya escribe `BLOQUE_IDENTIDAD` en esta misma página."""
+        ld = self._ld(_ctx_municipios([_municipio()]))
+        self.assertEqual(ld["creator"], {"@id": R.ORGANIZACION})
+        self.assertEqual(ld["publisher"], {"@id": R.ORGANIZACION})
+        self.assertEqual(ld["includedInDataCatalog"], {"@id": R.SITIO})
+
+    def test_una_fuente_sin_dato_se_omite_entera_y_jamas_sale_en_cero(self):
+        """R3/M10 dentro del marcado. Con solo el RUD cargado, ni el satélite
+        ni el DYFI ni la prensa tienen columna ni cita: no las hay, y un cero
+        afirmaría que las fuentes miraron y no vieron nada."""
+        ld = self._ld(_ctx_municipios([_municipio()]))
+        nombres = [v["name"] for v in ld["variableMeasured"]]
+        self.assertIn("Personas inscritas en el RUD", nombres)
+        for ausente in ("UNITAR-UNOSAT", "ICube-SERTIT", "Copernicus",
+                        "DYFI", "Titulares"):
+            self.assertFalse([n for n in nombres if ausente in n],
+                             f"«{ausente}» tiene columna sin un solo dato")
+        citas = [c["name"] for c in ld["citation"]]
+        self.assertEqual(len(citas), 2, f"cita fuentes que no aportaron: {citas}")
+        # tres columnas exactas —población, personas del RUD y su proporción—:
+        # ni una más «en cero» para las fuentes que no publicaron nada
+        self.assertEqual(len(nombres), 3, f"columnas de más: {nombres}")
+        self.assertEqual([t for t in ld["measurementTechnique"] if "satelital" in t],
+                         [], "declara técnica satelital sin un solo dato satelital")
+
+    def test_la_cita_del_satelite_aparece_en_cuanto_hay_dato(self):
+        ld = self._ld(_ctx_municipios([_municipio(unosat_edificios=7)]))
+        self.assertTrue([v for v in ld["variableMeasured"]
+                         if "UNITAR-UNOSAT" in v["name"]])
+        self.assertTrue([c for c in ld["citation"]
+                         if "UNOSAT" in c["publisher"]["name"]])
+
+    def test_variablemeasured_es_el_diccionario_de_columnas_y_no_las_filas(self):
+        """208 ítems serían una segunda copia de la tabla (M2); el índice para
+        sistemas de IA ya lo hace llms-full.txt."""
+        items = [_municipio(f"M{i}") for i in range(40)]
+        ld = self._ld(_ctx_municipios(items))
+        self.assertNotIn("ItemList", json.dumps(ld))
+        self.assertLess(len(ld["variableMeasured"]), 15,
+                        "el diccionario de columnas se volvió una lista de filas")
+        for variable in ld["variableMeasured"]:
+            self.assertEqual(variable["@type"], "PropertyValue")
+            self.assertTrue(variable.get("unitText"), "una columna sin unidad")
+
+    def test_sin_corrida_no_se_inventa_dateModified(self):
+        ld = self._ld(_ctx_municipios([_municipio()], generado=None))
+        self.assertNotIn("dateModified", ld)
+
+
+class TestPrerenderizadoDeMunicipios(unittest.TestCase):
+    """El inyector de verdad sobre el `site/municipios.html` del repositorio.
+
+    Es lo que separa «el generador devuelve algo» de «el artefacto lo lleva»:
+    también cae si alguien quita una marca, le cambia la etiqueta al contenedor
+    o desconecta un generador del registro.
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -3604,3 +3877,105 @@ class TestMarcadoDeNoticias(unittest.TestCase):
                                          "noticias_generado": "2026-08-22"})
             escrito = (destino / "noticias.html").read_text(encoding="utf-8")
             self.assertIn('"dateModified":"2026-08-22"', escrito)
+        shutil.copy(ROOT / "site" / "municipios.html", cls.tmp / "municipios.html")
+        cls.hechas = R.inyectar_prerenderizado(cls.tmp, R.contexto())
+        # los dos pasos del build, y en su orden: el nodo de identidad al que
+        # el Dataset referencia por `@id` lo escribe el segundo
+        R.escribir_piezas_compartidas(cls.tmp)
+        cls.html = (cls.tmp / "municipios.html").read_text(encoding="utf-8")
+
+    def test_los_seis_contenedores_de_la_pagina_llegan_escritos(self):
+        for clave in ("municipios", "mun-resumen", "mun-silencio", "mun-chips",
+                      "mun-homonimos", "mun-nota", "mun-dataset"):
+            with self.subTest(contenedor=clave):
+                self.assertIn(clave, self.hechas)
+                dentro = re.search(
+                    rf'<(tbody|span|section)[^>]*\bdata-gen="{clave}"[^>]*>(.*?)</\1>',
+                    self.html, re.S)
+                self.assertTrue(dentro, f"«{clave}» ya no está en site/")
+                self.assertTrue(dentro.group(2).strip(),
+                                f"«{clave}» llegó vacío al artefacto")
+
+    def test_el_dataset_viaja_como_bloque_valido_y_no_como_script_vacio(self):
+        """El contenedor versionado NO puede ser un `ld+json` esperando su
+        relleno: quien lea el documento antes de la inyección —los guardianes
+        G2/G6 entre ellos— se encuentra un bloque JSON-LD que no parsea."""
+        fuente = (ROOT / "site" / "municipios.html").read_text(encoding="utf-8")
+        # `#site-identity` sí llega vacío al repositorio, y es legítimo: lo
+        # rellena `escribir_piezas_compartidas`, que corre también en el build
+        # de los guardianes. Lo que no puede haber es un ld+json esperando al
+        # inyector, que solo corre en el build completo.
+        for atributos in re.findall(
+                r'<script type="application/ld\+json"([^>]*)>\s*</script>', fuente):
+            self.assertNotIn("data-gen", atributos,
+                             "site/municipios.html versiona un ld+json vacío "
+                             "a la espera del prerenderizado")
+        datasets = datasets_ld(self.html)
+        self.assertEqual(len(datasets), 1, "la página no publica su Dataset")
+        self.assertEqual(datasets[0]["@id"],
+                         "https://datosdelterremoto.org/municipios.html#dataset")
+
+    def test_el_hallazgo_del_silencio_de_prensa_llega_servido(self):
+        """Es la cifra más citable de la página y la escribía el navegador."""
+        aviso = re.search(r'<section[^>]*\bdata-gen="mun-silencio"[^>]*>(.*?)</section>',
+                          self.html, re.S).group(1)
+        self.assertIn("no encontró ni un titular", aviso)
+        self.assertGreater(len(re.sub(r"<[^>]+>", " ", aviso).split()), 100,
+                           "el aviso llegó recortado")
+
+
+class TestLaMiradaSatelitalEnLasDosSuperficies(unittest.TestCase):
+    """Las dos preguntas sobre «sin satélite», ejecutadas y comparadas.
+
+    `ingest/municipios.py::sin_mirada_satelital` (la capa del mapa) exige
+    además damnificados registrados; `render_html::_mirado_por_satelite` (la
+    entradilla de la tabla) no. Por eso la portada publica una cifra y
+    municipios.html otra, y las dos tienen razón. Lo que no puede pasar es que
+    dejen de coincidir en QUÉ cuenta como mirada, y eso se comprueba
+    LLAMÁNDOLAS: comparar los nombres de los campos en el texto de los dos
+    ficheros pasa en verde con la condición invertida.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(ROOT / "ingest"))
+        import municipios as M
+        cls.M = M
+
+    def _casos(self):
+        for cop in (False, True):
+            for uno in (None, 0, 5):
+                for ser in (None, 0, 5):
+                    for rud in (None, 0, 12):
+                        yield {"municipio": "X", "departamento": "Chocó",
+                               "en_aoi_copernicus": cop, "unosat_edificios": uno,
+                               "sertit_edificios": ser, "rud_familias": rud}
+
+    def test_la_diferencia_entre_las_dos_es_el_rud_y_nada_mas(self):
+        for m in self._casos():
+            with self.subTest(**m):
+                self.assertEqual(
+                    self.M.sin_mirada_satelital(m),
+                    (not R._mirado_por_satelite(m)) and bool(m["rud_familias"]),
+                    "las dos superficies dejaron de medir la misma mirada")
+
+    def test_cero_edificios_evaluados_es_mirada_y_no_ausencia(self):
+        """`is not None`, no truthiness: un servicio que evaluó el municipio y
+        no encontró ni un edificio dañado SÍ lo miró, y contarlo como ausencia
+        acusaría a la fuente de no haber entregado nada (M10)."""
+        mirados = {"municipio": "X", "departamento": "Chocó",
+                   "en_aoi_copernicus": False, "unosat_edificios": 0,
+                   "sertit_edificios": None, "rud_familias": 12}
+        self.assertTrue(R._mirado_por_satelite(mirados))
+        self.assertFalse(self.M.sin_mirada_satelital(mirados))
+
+    def test_los_tres_servicios_cuentan_uno_a_uno(self):
+        base = {"municipio": "X", "departamento": "Chocó",
+                "en_aoi_copernicus": False, "unosat_edificios": None,
+                "sertit_edificios": None, "rud_familias": 12}
+        self.assertFalse(R._mirado_por_satelite(base))
+        for campo, valor in (("en_aoi_copernicus", True),
+                             ("unosat_edificios", 3), ("sertit_edificios", 3)):
+            with self.subTest(campo=campo):
+                self.assertTrue(R._mirado_por_satelite({**base, campo: valor}),
+                                f"{campo} dejó de contar como mirada")

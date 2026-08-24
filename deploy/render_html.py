@@ -19,6 +19,8 @@ import html
 import json
 import math
 import re
+import shutil
+import subprocess
 import unicodedata
 import urllib.parse
 from datetime import date
@@ -1613,16 +1615,9 @@ def filas_municipios(ctx: dict) -> str:
                  if enlace else nombre)
         buscar = norm_busqueda(f'{m["municipio"]} {m["departamento"]}')
         n_cop = ctx["conteo_satelite"].get(m["municipio"], 0)
-        n_ciu = ctx["conteo_ciudadanos"].get(m["municipio"], 0)
-        etiquetas = []
-        if not satelites_con_dato(m, n_cop):
-            etiquetas.append("sin-satelite")
-        if m.get("rud_personas"):
-            etiquetas.append("con-rud")
-        else:
-            etiquetas.append("sin-rud")
-        if n_ciu:
-            etiquetas.append("con-ciudadanos")
+        # el MISMO predicado que cuenta el chip de arriba: si la etiqueta de la
+        # fila y el número del chip salieran de dos sitios, divergirían (M2)
+        etiquetas = _chips_de_municipio(m, ctx)
         # clave de orden de la columna satelital: los edificios únicos del
         # municipio, cada uno contado una vez aunque lo hayan visto dos
         # servicios. Sirve para ordenar «cuánto se ha mirado»; las cifras NO se
@@ -1653,6 +1648,435 @@ def filas_municipios(ctx: dict) -> str:
             f'<td>{valor_suelto(e(", ".join(m.get("fuentes") or [])) or "—")}</td>'
             "</tr>")
     return "\n".join(filas)
+
+
+# --------------------- los filtros rápidos de municipios (patrón CHIPS_RUD)
+# Los cinco chips, con su rótulo, su explicación y su clave, en UN solo sitio.
+# Antes vivían partidos: `site/municipios.js` traía el array `CHIPS` con las
+# condiciones para contar las filas ya escritas, y `filas_municipios` traía su
+# propia copia para etiquetar cada fila (M2). Ahora el recuento del chip y la
+# etiqueta de la fila salen del mismo predicado (`_chips_de_municipio`), y
+# `tests/test_render_html.py::TestChipsDeMunicipios` los compara.
+CHIPS_MUNICIPIOS = (
+    ("todos", "Todos", None),
+    ("sin-satelite", "Sin mirar por satélite",
+     "Ningún producto satelital ha evaluado sus edificios: ni Copernicus, ni "
+     "UNOSAT, ni ICube-SERTIT"),
+    ("con-rud", "Con damnificados inscritos",
+     "El municipio ya ha inscrito damnificados en el Registro Único de "
+     "Damnificados (RUD)"),
+    ("sin-rud", "Sin registro aún",
+     "No hay inscripciones en el registro oficial de damnificados. Sin registro "
+     "no significa sin daño: significa que las autoridades locales aún no lo "
+     "han cargado"),
+    ("con-ciudadanos", "Con reportes de la comunidad",
+     "Hay reportes ciudadanos georreferenciados dentro del municipio"),
+)
+
+
+def _chips_de_municipio(m: dict, ctx: dict) -> list:
+    """Los filtros a los que pertenece un municipio, con la misma salvedad que
+    `_chips_de`: «todos» no etiqueta nada, es el chip que no filtra.
+
+    «Sin mirar por satélite» pregunta por productos CON DATO en el municipio
+    (`satelites_con_dato`), que es lo que el chip promete: nadie ha evaluado
+    sus edificios. No confundir con `_mirado_por_satelite`, que pregunta si
+    algún servicio MIRÓ —incluida una zona Copernicus sin puntos dentro—: son
+    dos preguntas legítimas y cada superficie usa la suya con su rótulo."""
+    etiquetas = []
+    if not satelites_con_dato(m, ctx["conteo_satelite"].get(m["municipio"], 0)):
+        etiquetas.append("sin-satelite")
+    etiquetas.append("con-rud" if m.get("rud_personas") else "sin-rud")
+    if ctx["conteo_ciudadanos"].get(m["municipio"], 0):
+        etiquetas.append("con-ciudadanos")
+    return etiquetas
+
+
+def chips_municipios(ctx: dict) -> str:
+    """La tira de filtros de la tabla de municipios, con su recuento escrito.
+
+    Cuentan MUNICIPIOS, no personas ni edificios, y el número lo escribe el
+    build sobre el mismo dato del que salen las etiquetas de las filas. Quien
+    no ejecuta JavaScript leía una tira vacía; ahora lee la composición del
+    área de influencia sin pulsar nada. `aria-pressed` acompaña a la clase
+    `activa` igual que en `chips_rud`: styles.css funde las dos mecánicas."""
+    conteo = {clave: 0 for clave, _, _ in CHIPS_MUNICIPIOS}
+    for m in ctx["municipios"]:
+        conteo["todos"] += 1
+        for etiqueta in _chips_de_municipio(m, ctx):
+            conteo[etiqueta] += 1
+    botones = []
+    for clave, etiqueta, tip in CHIPS_MUNICIPIOS:
+        activo = clave == "todos"
+        botones.append(
+            f'<button class="chip{" activa" if activo else ""}"'
+            f' data-chip="{clave}" aria-pressed="{"true" if activo else "false"}"'
+            + (f' title="{e(tip)}"' if tip else "")
+            + f'>{e(etiqueta)} ({fmt(conteo[clave])})</button>')
+    return "".join(botones)
+
+
+def _mirado_por_satelite(m: dict) -> bool:
+    """Si algún servicio satelital MIRÓ el municipio: cae en una zona analizada
+    por Copernicus o tiene evaluación de UNOSAT o de SERTIT.
+
+    Vivía en `site/municipios.js` (`miradoPorSatelite`) para la frase de
+    cobertura que escribía el navegador; al prerenderizarla, esta es la única
+    copia. NO es `satelites_con_dato`: aquella pregunta si hay edificios con
+    dato, esta si alguien miró — un municipio dentro de una zona Copernicus
+    sin puntos dentro está mirado y sin dato, y las dos frases del sitio
+    dicen cada una la suya."""
+    return (bool(m.get("en_aoi_copernicus"))
+            or m.get("unosat_edificios") is not None
+            or m.get("sertit_edificios") is not None)
+
+
+def entradilla_municipios(ctx: dict) -> str:
+    """La frase que resume la página bajo el titular, con la brecha dentro.
+
+    Es la maqueta aprobada del rediseño: el dato arriba —cuántos municipios
+    sigue el archivo, cuántos tienen damnificados, a cuántos los ha mirado un
+    satélite— y la explicación, plegada al final. Ni una cifra se escribe a
+    mano; todas salen de `municipios.json`, y la corrida va DENTRO de la frase
+    porque es el párrafo que se cita suelto, lejos del sello (M7).
+
+    **M10**: donde falta el dato se calla ese trozo, nunca se escribe 0."""
+    items = ctx["municipios"]
+    if not items:
+        return ("<p>Todavía no hay ningún municipio con señal registrada. La "
+                "tabla se publica en cuanto alguna fuente deje la primera.</p>")
+    total = len(items)
+    con_rud = sum(1 for m in items if m.get("rud_personas"))
+    mirados = sum(1 for m in items if _mirado_por_satelite(m))
+    rud_sin_mirar = sum(1 for m in items
+                        if m.get("rud_personas") and not _mirado_por_satelite(m))
+    frases = [f'El monitor sigue a <b>{fmt(total)} '
+              f'{concuerda(total, "municipio", "municipios")}</b> donde alguna '
+              f'fuente ha visto algo: el registro oficial de damnificados, la '
+              f'prensa, la intensidad percibida o un satélite.']
+    if con_rud:
+        cabeza = (f'<b>{fmt(con_rud)}</b> tienen damnificados inscritos en el '
+                  f'registro oficial')
+        if mirados:
+            cabeza += (f' y solo <b>{fmt(mirados)}</b> han sido mirados por '
+                       f'algún satélite')
+            if rud_sin_mirar:
+                cabeza += (f': a <b>{fmt(rud_sin_mirar)}</b> de los que tienen '
+                           f'damnificados nadie los ha evaluado desde el aire')
+        else:
+            cabeza += ' y ningún satélite ha evaluado todavía a ninguno'
+        frases.append(cabeza + ".")
+    corrida = _solo_fecha(ctx.get("municipios_generado"))
+    if corrida:
+        frases.append(f'Cifras de la corrida del {fecha_larga(corrida)}.')
+    return "<p>" + " ".join(frases) + "</p>"
+
+
+def _reglas_ui_municipios(ctx: dict) -> dict:
+    """Las dos reglas de `site/ui.js` que esta página publica, ejecutadas con
+    node sobre el ui.js real (R14, mismo patrón que `ingest/alerts.py`).
+
+    `fraseHomonimos` y `silencioDePrensa` son afirmaciones públicas cuya única
+    definición vive en el frontend: replicarlas aquí sería la segunda copia que
+    diverge (M2). El build las invoca una sola vez —el resultado se guarda en
+    el propio ctx— y la redacción del aviso sí vive en Python, porque el
+    JavaScript que la escribía se retiró al prerenderizarla.
+
+    Sin node el build ROMPE con su motivo, no degrada: publicar la página con
+    el punto pelado de los homónimos afirmaría que no hay ninguno, y ese es
+    justo el tipo de falsedad silenciosa que R14 prohíbe publicar. Aquí no hay
+    corrida que proteger (R13 habla de feeds): no construir es la degradación."""
+    if "_reglas_ui_municipios" not in ctx:
+        node = shutil.which("node")
+        ui_js = ROOT / "site" / "ui.js"
+        if not node:
+            raise RuntimeError(
+                "municipios.html necesita node para ejecutar fraseHomonimos y "
+                "silencioDePrensa de site/ui.js (R14): sin él no se construye, "
+                "porque publicar la página sin la salvedad de los homónimos "
+                "sería afirmar que no existen")
+        script = (
+            "global.window = {};"
+            f"require({json.dumps(str(ui_js))});"
+            "const items = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
+            "console.log(JSON.stringify({"
+            "frase_homonimos: window.UI.fraseHomonimos(items),"
+            "silencio: window.UI.silencioDePrensa(items)}));")
+        # los items viajan por STDIN, no como argumento: Linux limita cada
+        # argumento de execve a 128 KiB y municipios.json ya ronda ese tamaño
+        r = subprocess.run([node, "-e", script],
+                           input=json.dumps(ctx["municipios"], ensure_ascii=False),
+                           capture_output=True, text=True, timeout=60)
+        if r.returncode != 0:
+            raise RuntimeError(f"node falló ejecutando site/ui.js para "
+                               f"municipios.html: {r.stderr[:500]}")
+        ctx["_reglas_ui_municipios"] = json.loads(r.stdout)
+    return ctx["_reglas_ui_municipios"]
+
+
+def frase_homonimos_municipios(ctx: dict) -> str:
+    """La salvedad de los homónimos de departamento, escrita en el build.
+
+    La escribía el navegador (`municipios.js`) y quien no ejecuta JavaScript
+    leía la frase cortada en «alcaldía». Incluye su propia puntuación: la rama
+    sin homónimos devuelve el punto que cierra la oración."""
+    return e(_reglas_ui_municipios(ctx)["frase_homonimos"])
+
+
+def banner_silencio_municipios(ctx: dict) -> str:
+    """Damnificados sin una línea de prensa: el hallazgo de la página, servido.
+
+    La cifra la calcula `UI.silencioDePrensa` (site/ui.js), única definición de
+    la regla; aquí solo se redacta — la redacción vivía en `municipios.js` y se
+    muda entera, porque el hallazgo más citable del monitor no puede depender
+    de que el lector ejecute JavaScript. El titular lleva SOLO la cifra
+    afirmable: los «mudos» incluyen municipios en los que el cero puede ser del
+    monitor y no de la prensa, y publicarlos en negrita sería la ausencia leída
+    como cero — exactamente lo que este monitor le reprocha a las fuentes que
+    audita (R3). Si un día no queda ninguno, lo dice en vez de callar (R11):
+    un contenedor vacío rompería el build."""
+    sil = _reglas_ui_municipios(ctx)["silencio"]
+    if not sil:
+        return ("<p>En la corrida vigente ningún municipio con damnificados "
+                "inscritos se queda sin titulares atribuidos: el silencio de "
+                "prensa que este aviso vigila no aparece hoy.</p>")
+    ciertos = ", ".join(e(x) for x in sil["ciertos"])
+    detalle = [
+        f'<p>En total, {fmt_prosa(sil["mudos"])} municipios tienen damnificados '
+        f'inscritos y ningún titular atribuido ({fmt(sil["personas"])} personas). '
+        f'De ellos, {fmt_prosa(len(sil["ciertos"]))} son afirmables: el monitor '
+        f'sí preguntó por su nombre y no obtuvo nada.</p>']
+    if sil["dudosos"]:
+        sin_busqueda = (
+            f', y por {fmt_prosa(sil["sin_busqueda"])} ni siquiera se lanza una '
+            f'búsqueda propia (entraron solos desde el registro oficial)'
+            if sil["sin_busqueda"] else "")
+        detalle.append(
+            f'<p>En los otros {fmt_prosa(sil["dudosos"])} el cero puede ser del '
+            f'monitor y no de la prensa: su nombre es palabra común o se repite '
+            f'en otro departamento, así que solo se les atribuyen titulares que '
+            f'nombren también su departamento{sin_busqueda}.</p>')
+    if sil["sin_atribucion"]:
+        detalle.append(
+            f'<p>Aparte de esos {fmt_prosa(sil["mudos"])}, hay '
+            f'{fmt_prosa(sil["sin_atribucion"])} municipios más '
+            f'({fmt(sil["personas_sin_atribucion"])} personas) que ni siquiera '
+            f'tienen un cero: se llaman igual que un departamento y no se les '
+            f'puede atribuir ningún titular.</p>')
+    detalle.append(
+        '<p>El recuento sale de lo que rastrea el monitor —el sistema europeo '
+        'de alertas GDACS, canales regionales abiertos y búsquedas municipio a '
+        'municipio—, no de la prensa colombiana entera, y solo cuenta lo '
+        'publicado desde el 10 de agosto de 2026. '
+        '<a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/'
+        'main/docs/LIMITACIONES.md" target="_blank" rel="noopener">Qué no puede '
+        'ver esta cifra</a>.</p>')
+    techo = (f' En {e(sil["techo"]["municipio"])} son el '
+             f'{pct(sil["techo"]["tasa_rud_pct"])} del municipio.'
+             if sil.get("techo") else "")
+    return (
+        f'<p><strong>El monitor buscó prensa en {fmt_prosa(len(sil["ciertos"]))} '
+        f'municipios con damnificados inscritos y no encontró ni un titular'
+        f'</strong> — {fmt(sil["personas_ciertas"])} personas: {ciertos}.{techo}</p>'
+        f'<p class="note">En otros {fmt_prosa(sil["dudosos"])} municipios con '
+        f'damnificados y cero titulares no se puede afirmar lo mismo: el cero '
+        f'puede ser del monitor. <details><summary>Por qué, y qué no puede ver '
+        f'esta cifra</summary>{"".join(detalle)}</details></p>')
+
+
+def nota_municipios(ctx: dict) -> str:
+    """El pie de la tabla de municipios: la prosa que no depende de un filtro.
+
+    Mismo reparto que `nota_rud`. El recuento vivo —«15 de 208 con los filtros
+    activos»— se queda en el navegador, que es el único que sabe qué hay
+    filtrado; aquí vive lo que vale igual con la página recién abierta, y vive
+    SOLO aquí: el literal del guion estaba además dentro de `municipios.js` y
+    las dos copias ya podían divergir (M2).
+
+    La frase de la columna de prensa se apaga sola el día que ningún municipio
+    se llame igual que un departamento (R11): es una leyenda de lo que hay, no
+    un literal que alguien tenga que acordarse de borrar. Cuenta el campo
+    `homonimo_de_departamento` —el mismo que vacía la celda en
+    `filas_municipios`—, y no rehace el filtro de `UI.fraseHomonimos`, que
+    responde otra pregunta: aquella ENUMERA los que además son «solo registro
+    municipal», esta CUENTA todos los que se quedan sin celda."""
+    homonimos = sum(1 for m in ctx["municipios"]
+                    if m.get("homonimo_de_departamento"))
+    partes = ["Un guion en la columna de satélite significa que ningún producto "
+              "satelital ha mirado ese municipio, no que no haya daño."]
+    if homonimos:
+        partes.append(
+            f'En la de prensa, la celda vacía de {fmt_prosa(homonimos)} '
+            f'{concuerda(homonimos, "municipio", "municipios")} dice que se '
+            f'{concuerda(homonimos, "llama", "llaman")} igual que un '
+            f'departamento y el monitor no puede '
+            f'{concuerda(homonimos, "atribuirle", "atribuirles")} titulares.')
+    partes.append("Las celdas vacías son ausencia de dato, jamás un cero.")
+    return " ".join(partes)
+
+
+def dataset_municipios(ctx: dict) -> str:
+    """El Dataset JSON-LD de municipios.html; la página no tenía ninguno.
+
+    `variableMeasured` es el DICCIONARIO DE COLUMNAS de la tabla —qué mide
+    cada una y en qué unidad—, no un ItemList con las 208 filas: 208 ítems
+    serían una segunda copia de la tabla (M2), y el índice para sistemas de IA
+    ya lo hace llms-full.txt. Es el mismo patrón que la especificación fija
+    para las páginas-tabla.
+
+    R3/M10 en el marcado: una fuente sin dato en la corrida no aparece con
+    cero — sus columnas y su cita se OMITEN enteras. `dateModified` es la
+    corrida de los datos (`municipios.json.generado`), no la del build, y sin
+    ella el campo se calla. Ningún Dataset anidado en otro: `creator`,
+    `publisher` y el catálogo van por `@id` (los define `BLOQUE_IDENTIDAD` en
+    esta misma página) y las fuentes son `CreativeWork`.
+
+    Devuelve el `<script>` ENTERO, no solo el JSON: el contenedor que espera en
+    `site/municipios.html` es una `<section hidden>`, porque un
+    `<script type="application/ld+json">` vacío esperando su relleno es JSON
+    inválido para todo el que lea el documento antes de la inyección."""
+    items = ctx["municipios"]
+    url = "https://datosdelterremoto.org/municipios.html"
+    hay = {
+        "rud": any(m.get("rud_personas") or m.get("rud_familias") for m in items),
+        "dane": any(m.get("poblacion_2026") for m in items),
+        "dyfi": any(m.get("dyfi_respuestas") or m.get("dyfi_max_cdi")
+                    for m in items),
+        "copernicus": any(m.get("en_aoi_copernicus") for m in items),
+        "unosat": any(m.get("unosat_edificios") is not None for m in items),
+        "sertit": any(m.get("sertit_edificios") is not None for m in items),
+        "prensa": any(m.get("n_noticias") for m in items),
+    }
+    variables = []
+    if hay["dane"]:
+        variables.append({"@type": "PropertyValue",
+                          "name": "Población proyectada 2026 (DANE)",
+                          "unitText": "habitantes"})
+    if hay["copernicus"]:
+        variables.append({"@type": "PropertyValue",
+                          "name": "Edificios con daño clasificado por "
+                                  "Copernicus EMS (EMSR916)",
+                          "unitText": "edificios"})
+    if hay["unosat"]:
+        variables.append({"@type": "PropertyValue",
+                          "name": "Edificios evaluados por UNITAR-UNOSAT",
+                          "unitText": "edificios"})
+    if hay["sertit"]:
+        variables.append({"@type": "PropertyValue",
+                          "name": "Edificios evaluados por ICube-SERTIT "
+                                  "(Charter 1048)",
+                          "unitText": "edificios"})
+    if hay["rud"]:
+        variables.append({"@type": "PropertyValue",
+                          "name": "Personas inscritas en el RUD",
+                          "unitText": "personas"})
+        if hay["dane"]:
+            variables.append({"@type": "PropertyValue",
+                              "name": "Personas del RUD sobre población 2026",
+                              "unitText": "%"})
+    if hay["dyfi"]:
+        variables.append({"@type": "PropertyValue",
+                          "name": "Intensidad máxima percibida (DYFI)",
+                          "unitText": "CDI"})
+        variables.append({"@type": "PropertyValue",
+                          "name": "Respuestas al cuestionario DYFI",
+                          "unitText": "reportes"})
+    if hay["prensa"]:
+        variables.append({"@type": "PropertyValue",
+                          "name": "Titulares que mencionan el municipio",
+                          "unitText": "titulares"})
+
+    def cita(nombre, org, org_url):
+        return {"@type": "CreativeWork", "name": nombre,
+                "publisher": {"@type": "Organization", "name": org,
+                              "url": org_url}}
+
+    citas = []
+    if hay["rud"]:
+        citas.append(cita(
+            "Registro Único de Damnificados (RUD)",
+            "Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)",
+            "https://rud.gestiondelriesgo.gov.co/"))
+    if hay["dane"]:
+        citas.append(cita(
+            "Proyección de población municipal 2026",
+            "Departamento Administrativo Nacional de Estadística (DANE)",
+            "https://www.dane.gov.co/index.php/estadisticas-por-tema-2/"
+            "demografia-y-poblacion/proyecciones-de-poblacion"))
+    if hay["dyfi"]:
+        citas.append(cita(
+            "Cuestionario «Did You Feel It?» (DYFI), evento us6000tjl2",
+            "United States Geological Survey (USGS)",
+            "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/"
+            "dyfi/intensity"))
+    # los tres servicios satelitales salen de SATELITES, no de literales: el
+    # día que entre el cuarto, la cita aparece sola en cuanto tenga dato
+    publicadores = {
+        "copernicus": "Copernicus Emergency Management Service",
+        "unosat": "UNITAR-UNOSAT (Centro Satelital de las Naciones Unidas)",
+        "sertit": "ICube-SERTIT, Université de Strasbourg",
+    }
+    for sat in SATELITES:
+        if hay.get(sat["clave"]):
+            citas.append(cita(sat["nombre"],
+                              publicadores.get(sat["clave"], sat["nombre"]),
+                              sat["url"]))
+
+    tecnicas = []
+    if hay["rud"]:
+        tecnicas.append(
+            "Registro administrativo declarativo municipal (RUD, UNGRD) — "
+            "inscripciones tramitadas, no verificación de daño en campo")
+    if hay["copernicus"] or hay["unosat"] or hay["sertit"]:
+        tecnicas.append(
+            "Clasificación de daño por interpretación visual de imagen "
+            "satelital de muy alta resolución (Copernicus EMS, UNITAR-UNOSAT, "
+            "ICube-SERTIT), sin validar en campo")
+    if hay["dyfi"]:
+        tecnicas.append(
+            "Cuestionario ciudadano de intensidad percibida (DYFI, USGS) — "
+            "percepción declarada, no medición instrumental")
+    if hay["prensa"]:
+        tecnicas.append(
+            "Recuento de titulares de feeds abiertos de prensa, emparejados "
+            "con el municipio por topónimo con límite de palabra")
+
+    fecha = _solo_fecha(ctx.get("municipios_generado"))
+    ld = {
+        "@context": "https://schema.org", "@type": "Dataset",
+        "@id": f"{url}#dataset", "url": url,
+        "name": "Municipios del área de influencia del terremoto de Colombia "
+                "2026, fuente por fuente",
+        "description": "Qué ha visto cada fuente en cada municipio tras el "
+                       "terremoto M7.4 del 10 de agosto de 2026: damnificados "
+                       "inscritos en el RUD (UNGRD), población proyectada 2026 "
+                       "(DANE), intensidad percibida (DYFI/USGS), titulares de "
+                       "prensa y evaluación satelital de daño (Copernicus EMS, "
+                       "UNITAR-UNOSAT, ICube-SERTIT). La distancia entre sus "
+                       "cifras es la brecha de reporte.",
+        "inLanguage": "es",
+        "temporalCoverage": "2026-08-10/..",
+        **({"dateModified": fecha} if fecha else {}),
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "creator": {"@id": ORGANIZACION},
+        "publisher": {"@id": ORGANIZACION},
+        "includedInDataCatalog": {"@id": SITIO},
+        "keywords": ["terremoto Colombia 2026", "municipios", "RUD",
+                     "damnificados", "UNGRD", "DANE", "DYFI",
+                     "Copernicus EMS", "UNOSAT", "ICube-SERTIT"],
+        **({"measurementTechnique": tecnicas} if tecnicas else {}),
+        **({"variableMeasured": variables} if variables else {}),
+        **({"citation": citas} if citas else {}),
+        "distribution": [
+            {"@type": "DataDownload", "encodingFormat": "application/json",
+             "contentUrl": "https://datosdelterremoto.org/data/public/"
+                           "municipios.json"},
+            {"@type": "DataDownload", "encodingFormat": "application/geo+json",
+             "contentUrl": "https://datosdelterremoto.org/data/public/"
+                           "municipios.geojson"},
+        ]}
+    return ('<script type="application/ld+json">'
+            + json.dumps(ld, ensure_ascii=False) + "</script>")
 
 
 # --------------------------------------------- la banda de brechas (portada)
@@ -2585,7 +3009,13 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "rud-chips": chips_rud,
                    "rud-nota": nota_rud,
                    "noticias-resumen": entradilla_noticias,
-                   "noticias-nota": nota_noticias}
+                   "noticias-nota": nota_noticias,
+                   "mun-resumen": entradilla_municipios,
+                   "mun-silencio": banner_silencio_municipios,
+                   "mun-chips": chips_municipios,
+                   "mun-homonimos": frase_homonimos_municipios,
+                   "mun-nota": nota_municipios,
+                   "mun-dataset": dataset_municipios}
     # explícito a propósito: un generador nuevo sin su página revienta aquí en
     # vez de no escribir nada y dejar el contenedor vacío en silencio
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
@@ -2596,7 +3026,10 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "noticias-sello": "noticias",
                "rud-resumen": "rud", "rud-grafico": "rud",
                "rud-chips": "rud", "rud-nota": "rud",
-               "noticias-resumen": "noticias", "noticias-nota": "noticias"}
+               "noticias-resumen": "noticias", "noticias-nota": "noticias",
+               "mun-resumen": "municipios", "mun-silencio": "municipios",
+               "mun-chips": "municipios", "mun-homonimos": "municipios",
+               "mun-nota": "municipios", "mun-dataset": "municipios"}
     for nombre, generador in generadores.items():
         pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():
