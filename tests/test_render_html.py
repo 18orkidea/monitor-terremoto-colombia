@@ -4366,19 +4366,23 @@ class TestPrerenderizadoDeMunicipios(unittest.TestCase):
                                 f"«{clave}» llegó vacío al artefacto")
 
     def test_el_dataset_viaja_como_bloque_valido_y_no_como_script_vacio(self):
-        """El contenedor versionado NO puede ser un `ld+json` esperando su
-        relleno: quien lea el documento antes de la inyección —los guardianes
-        G2/G6 entre ellos— se encuentra un bloque JSON-LD que no parsea."""
-        fuente = (ROOT / "site" / "municipios.html").read_text(encoding="utf-8")
-        # `#site-identity` sí llega vacío al repositorio, y es legítimo: lo
-        # rellena `escribir_piezas_compartidas`, que corre también en el build
-        # de los guardianes. Lo que no puede haber es un ld+json esperando al
-        # inyector, que solo corre en el build completo.
-        for atributos in re.findall(
-                r'<script type="application/ld\+json"([^>]*)>\s*</script>', fuente):
-            self.assertNotIn("data-gen", atributos,
-                             "site/municipios.html versiona un ld+json vacío "
-                             "a la espera del prerenderizado")
+        """NINGUNA de las cinco páginas versiona un `ld+json` vacío.
+
+        Un contenedor a la espera de su relleno no puede ser un formato que
+        alguien tenga que parsear: quien lea el documento antes del build —el
+        `site/` de desarrollo, y los guardianes G2/G6, que construyen las 213
+        páginas sin pasar por el inyector— se encuentra JSON que no parsea.
+        Costó dos averías el mismo día en dos páginas distintas de la fase 4:
+        el `mun-dataset` de esta y el `#site-identity` de las cinco, que ahora
+        se marcan con `<div hidden>` y no con un `<script>` sin cuerpo.
+        """
+        for pagina in ("index", "municipios", "rud", "balances", "noticias"):
+            fuente = (ROOT / "site" / f"{pagina}.html").read_text(encoding="utf-8")
+            with self.subTest(pagina=pagina):
+                self.assertNotRegex(
+                    fuente, r'<script type="application/ld\+json"[^>]*>\s*</script>',
+                    f"site/{pagina}.html versiona un ld+json vacío: usa un "
+                    "contenedor que no haya que parsear")
         datasets = datasets_ld(self.html)
         self.assertEqual(len(datasets), 1, "la página no publica su Dataset")
         self.assertEqual(datasets[0]["@id"],

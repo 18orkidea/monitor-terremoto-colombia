@@ -3533,13 +3533,26 @@ _MARCA_PIE = re.compile(r'<div id="site-footer"[^>]*></div>')
 # averías que comparten síntoma: el marcador borrado y el marcador ya gastado.
 _CONTENEDOR_NAV = re.compile(r'<nav id="site-nav"[^>]*>')
 _CONTENEDOR_PIE = re.compile(r'<div id="site-footer"[^>]*>')
-# El nodo de identidad va en el <head>, y ahí el contenedor vacío es un
-# <script> sin cuerpo. Repetir el literal en las cinco páginas habría sido la
-# sexta copia de algo cuya única virtud es ser idéntico (M2): se escribe desde
-# la misma constante que usan las 208 fichas.
-_MARCA_LD = re.compile(
-    r'<script type="application/ld\+json" id="site-identity"></script>')
-_CONTENEDOR_LD = re.compile(r'<script type="application/ld\+json" id="site-identity">')
+# El nodo de identidad va en el <head>, y se escribe desde la misma constante
+# que usan las 208 fichas: repetir el literal en las cinco páginas habría sido
+# la sexta copia de algo cuya única virtud es ser idéntico (M2).
+#
+# El marcador es un <div hidden>, NO un <script ld+json> vacío, y esa es la
+# regla: **un contenedor a la espera de su relleno no puede ser un formato que
+# alguien tenga que parsear.** Un bloque `ld+json` sin cuerpo es JSON inválido
+# para todo el que lea el documento antes del build —el `site/` de desarrollo y
+# los guardianes G2/G6, que construyen las 213 páginas sin pasar por el
+# inyector—. Costó dos averías el mismo día, en dos páginas distintas de la
+# fase 4. El bloque final que se escribe aquí es idéntico al de siempre.
+_MARCA_LD = re.compile(r'<div id="site-identity" hidden></div>')
+# El contenedor, en sus DOS formas: el marcador del repositorio y el bloque ya
+# escrito. Aquí la pieza cambia de etiqueta al escribirse —`div` → `script`—, y
+# por eso el patrón acepta las dos: sin la segunda, repetir el paso sobre un
+# `dist/` ya construido volvería a acusar a `site/*.html` de haber perdido el
+# marcador, que es justo la avería que este par de patrones distingue.
+_CONTENEDOR_LD = re.compile(
+    r'<div id="site-identity"[^>]*>'
+    r'|<script type="application/ld\+json" id="site-identity">')
 
 
 def escribir_piezas_compartidas(destino: Path) -> dict:
