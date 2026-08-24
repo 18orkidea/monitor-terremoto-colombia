@@ -74,38 +74,40 @@ diverge del de edificios clasificados, la nota de los chips lo explica. Un
 servicio que no miró no sale con un cero (R3). El lienzo vive fuera de
 `.contenido` porque 760 px no caben panel y mapa lado a lado.
 
-## 2026-08-24 — Un índice de decisiones y documentación, con la orden que NO se automatiza
+## 2026-08-24 — El índice de decisiones se retira: su ahorro medido era cero
 
-**Contexto.** `docs/DECISIONES.md` son **62 entradas y ~44.000 tokens**. Saber si
-algo se decidió ya es carísimo si hay que leerlo, y `grep` sobre él devuelve
-párrafos sueltos sin decir a qué entrada pertenecen ni si siguen en pie. Es la
-otra mitad de la pregunta que se planteó con el grafo de llamadas: aquel sirve
-para leer **código**, este para encontrar **decisiones y documentación**.
+**Se construyó, se midió y se retira el mismo día.** La idea era buena —un índice
+que cruzara las 62 entradas de `docs/DECISIONES.md` (~44.000 tokens) con el
+código que encarnan— y la medición no la sostuvo: «¿qué decisiones tocan
+`render_html.py`?» cuesta **421 tokens con `grep` y 417 con el índice**. El
+ahorro es cero. Lo que aportaba era cualitativo —decir a qué decisión pertenece
+cada línea—, y eso no paga un fichero más, seis tests más y la tentación de
+creerle.
 
-**Decisión.** `tools/indice_decisiones.py`, solo stdlib, construido al vuelo
-como su hermano. Indexa las entradas de los seis documentos y las cruza con las
-reglas (R1–R16, M1–M10), los ficheros y las funciones que mencionan. `regla`,
-`sobre` y `buscar` responden en decenas de tokens lo que costaba miles.
+**La condición era explícita** (JP, 24-ago): «solo si le ves una utilidad de
+ahorro de tokens y tiempo». No la hay, así que se va. Queda su hermano
+`tools/grafo_codigo.py`, que sí la tiene y medida: 3.782 → 138 tokens en «¿qué
+depende de `fmt`?», y contesta en 0,04 s la pregunta que costó una revisión
+entera —si el guardián global pasaba por el inyector—.
 
-**La orden `punteros` se queda, pero declarando que se revisa a mano**, y esa
-rebaja es la parte importante. Su primera versión miraba también `data/` y
-`feeds/`: sacó **24 hallazgos y los 24 eran falsos** —esos ficheros los genera la
-corrida, y las lagunas de `LIMITACIONES.md` citan a propósito ficheros que no
-existen—. Acotada al código y contemplando las clases, saca dos: **uno era un
-puntero muerto real** (una decisión describía en presente
-`escribir_barra_y_pie()`, renombrada hace un día a `escribir_piezas_compartidas()`)
-y el otro **era historia bien contada** — la entrada que cuenta ese mismo
-renombrado tiene que nombrar las dos funciones. Eso último no se puede
-automatizar sin mentir: **en un documento de decisiones, citar el pasado es
-legítimo.**
+**Lo que sí se queda de él, porque valía más que la herramienta:**
 
-**Consecuencia, y la ironía que conviene recordar.** Los dos bugs que tuvo al
-nacer hacían que **la herramienta que caza documentación falsa fuera la que
-gritaba en falso**: una alternancia de expresión regular donde `js` iba antes
-que `json` inventaba `balances.js`, y un buscador que no contemplaba `class`
-daba por muertos los guardianes que las decisiones citan por su nombre. Los dos
-tienen test. El puntero muerto real se corrigió en la misma pasada, conservando
-el nombre histórico junto al vigente.
+1. **Un puntero muerto corregido.** Una decisión describía en presente
+   `escribir_barra_y_pie()`, renombrada el día antes a
+   `escribir_piezas_compartidas()`. Ahora nombra las dos.
+2. **La ironía, que es la lección.** Los dos bugs que tuvo al nacer hacían que
+   **la herramienta que caza documentación falsa fuera la que gritaba en falso**:
+   una alternancia donde `js` iba antes que `json` inventaba «balances.js», y un
+   buscador que no contemplaba `class` daba por muertos los guardianes que las
+   decisiones citan por su nombre. Sacó 24 hallazgos y los 24 eran falsos.
+3. **El límite que no se automatiza:** en un documento de decisiones, **citar un
+   nombre viejo es legítimo** — la entrada que cuenta un renombrado tiene que
+   nombrar las dos cosas. Cualquier guardián que marque eso como error está
+   pidiendo que la historia se borre.
+
+**Regla que deja el episodio:** una herramienta de análisis se mide **contra el
+método que sustituye**, no contra la nada. `grep` era ya suficientemente bueno
+aquí, y no saberlo habría costado mantener código para siempre.
 
 ## 2026-08-24 — Un grafo de llamadas para las preguntas de forma, construido al vuelo
 
