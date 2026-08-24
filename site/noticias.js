@@ -10,7 +10,7 @@
     } catch (e) { return "#"; }
   };
 
-  const { fmt, fechaEs, fechaLarga, fetchJson, medioDe, viaGoogleNews, esc } = window.UI;
+  const { fmt, fechaEs, fetchJson, medioDe, viaGoogleNews, esc } = window.UI;
   const data = await fetchJson("/data/public/noticias.json");
   if (!data) {
     document.getElementById("resumen").textContent =
@@ -67,10 +67,12 @@
     const paginas = Math.max(1, Math.ceil(sel.length / POR_PAGINA));
     if (pagina > paginas) pagina = paginas;
     const desde = (pagina - 1) * POR_PAGINA;
+    // Solo el recuento vivo del filtro: la fecha del dato la sirve el build en
+    // el sello del encabezado. Repetirla aquí con la corrida del JSON volvería
+    // a vestir el empaquetado de fecha del dato (M2 y el bug que motivó el sello).
     resumen.textContent =
       `${fmt(sel.length)} de ${fmt(items.length)} titulares` +
-      (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "") +
-      ` · actualizado el ${fechaLarga(data.generado)}`;
+      (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "");
     // etiqueta de lista: forma corta (9.8), nunca la ISO cruda
     const fechaDe = (n) => {
       const iso = n.fecha || "";
