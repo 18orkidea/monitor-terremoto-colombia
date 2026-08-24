@@ -20,15 +20,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Balances del terremoto citados en medios, día a día">
 <meta name="twitter:description" content="No es el balance oficial: es lo que la prensa publica citándolo. Cada cifra con su URL.">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Dataset",
- "name":"Balances del terremoto de Colombia 2026 citados en medios",
- "description":"Serie diaria de cifras (fallecidos, heridos, desaparecidos, familias) publicadas por medios citando a UNGRD/SGC, con publicador, fuente citada y URL por captura.",
- "inLanguage":"es","license":"https://creativecommons.org/licenses/by/4.0/",
- "temporalCoverage":"2026-08-10/..",
- "distribution":[{"@type":"DataDownload","encodingFormat":"application/json",
-   "contentUrl":"https://datosdelterremoto.org/data/public/oficiales.json"}]}
-</script>
 <script type="application/ld+json" id="site-identity"></script>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icons/favicon.png">
@@ -38,7 +29,7 @@
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
-<header>
+<header class="encabezado">
   <div>
     <h1>Balances en medios que citan fuentes oficiales</h1>
     <p class="sub">Separa el canal que
@@ -52,25 +43,111 @@
   </div>
 </header>
 
-<section class="intro">
-  <p>Tras el <strong>terremoto M7,4 de Colombia</strong>, las cifras de <strong>fallecidos,
-  heridos, desaparecidos y familias afectadas</strong> circulan antes por la prensa que por
-  los canales oficiales abiertos. Esta página rastrea a diario los <strong>balances que los
-  medios publican citando a las fuentes oficiales</strong> — la Unidad Nacional para la
-  Gestión del Riesgo de Desastres (UNGRD), el Servicio Geológico Colombiano (SGC),
-  gobernaciones y alcaldías — y los convierte en una serie temporal trazable:
-  cada cifra con su fecha, su publicador, la fuente que cita y el enlace al artículo.</p>
-  <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
-  oficial. Es lo que la prensa dice que dicen las fuentes oficiales —y, cuando la
-  hay, lo que publica la propia entidad por sus canales, marcado como tal—: útil porque vuela más
-  rápido que los canales formales, y peligroso si se confunde con un EDAN, la Evaluación de
-  Daños y Análisis de Necesidades que hacen las autoridades sobre el terreno. Por eso cada
-  captura lleva su nivel de confianza, y las <em>coberturas en vivo</em> —que mezclan
-  actualizaciones de horas distintas— se marcan y pesan menos.</p>
-  <details>
-    <summary><strong>Metodología y preguntas frecuentes</strong></summary>
+<section class="entradilla" data-gen="balances-resumen"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<details class="pliegue">
+  <summary>Por qué las cifras no coinciden</summary>
+  <section class="intro">
+    <p>Cada medio publica la cifra que tenía a mano el día que escribió, citando a quien
+    cita. Que no coincidan no es un error de esta página: <strong>esa distancia es la
+    brecha que el monitor mide</strong>. Las cifras se rotulan como <strong>máximo
+    informado</strong> porque el consolidado no retrocede, aunque en la realidad los
+    desaparecidos sí puedan bajar, y lo que no entra en la serie se enseña con su
+    motivo.</p>
+    <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
+    oficial. Es lo que la prensa dice que dicen las fuentes oficiales —y, cuando la
+    hay, lo que publica la propia entidad por sus canales, marcado como tal—: útil porque vuela más
+    rápido que los canales formales, y peligroso si se confunde con un EDAN, la Evaluación de
+    Daños y Análisis de Necesidades que hacen las autoridades sobre el terreno. Por eso cada
+    captura lleva su nivel de confianza, y las <em>coberturas en vivo</em> —que mezclan
+    actualizaciones de horas distintas— se marcan y pesan menos.</p>
+  </section>
+</details>
+
+<div class="zona-datos">
+
+<section id="balance-hero">
+  <section id="balance-cards" class="metric-strip" data-gen="balances-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
+  <p class="note">Estos valores son el máximo informado de cada cifra, extraído de páginas públicas. El publicador
+  suele ser un medio; UNGRD, SGC, Gobernación, Presidencia o Alcaldía aparecen como fuentes
+  citadas dentro del texto. Las coberturas en vivo se muestran, pero pesan menos en la serie.</p>
+</section>
+
+<section id="comparativa" class="page-section">
+  <h2>Comparativa de fuentes: registro oficial (RUD) frente a balances en medios</h2>
+  <p class="sub">Las mismas preguntas, respuestas distintas: lo que las autoridades
+  municipales han registrado en el Registro Único de Damnificados (RUD), lo que los medios
+  publican citando el consolidado
+  oficial, lo que ve el satélite y lo que reporta la comunidad. La distancia entre
+  columnas <em>es</em> la brecha de reporte.</p>
+  <section id="comparativa-cards" class="metric-strip" data-gen="comparativa-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
+  <div class="tabla-scroll"><table id="comparativa-tabla">
+    <thead><tr>
+      <th>Indicador</th>
+      <th class="num" title="Registro Único de Damnificados (UNGRD): lo registrado municipio a municipio por las autoridades locales. Registro progresivo — crece a medida que los municipios cargan datos.">RUD (registro oficial)</th>
+      <th class="num" title="Máximo informado hasta el último día por medios que citan el consolidado oficial (UNGRD y SGC).">Medios citando oficiales</th>
+      <th class="num" title="Diferencia absoluta entre ambas columnas. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
+    </tr></thead>
+    <tbody data-gen="comparativa-filas"></tbody><!-- lo rellena deploy/render_html.py en el build -->
+  </table></div>
+  <p class="note">El RUD es un <strong>registro progresivo</strong> (municipio a municipio,
+  familia a familia); el consolidado citado en medios agrega reportes departamentales aún no
+  registrados en el RUD. Que difieran no es un error: <strong>la diferencia mide cuánto
+  falta por registrar formalmente</strong>. El RUD no publica víctimas (fallecidos/heridos) —
+  esas cifras solo circulan vía medios. Detalle municipal en la
+  <a href="rud.html">página del RUD</a>.</p>
+</section>
+
+<section id="balance-chart-section">
+  <h2>Serie del máximo informado por día</h2>
+  <p class="sub">El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance.</p>
+  <section id="balance-chart" data-gen="balances-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
+</section>
+
+<section id="balance-table-section">
+  <h2>Tabla trazable de capturas</h2>
+  <p class="sub">Todas las capturas archivadas, con su publicador y su fuente citada.
+  Las filas marcadas <strong style="color:var(--good)">✓ usada en la serie</strong> son
+  la captura elegida de cada día: sus cifras alimentan la serie, las tarjetas y la
+  comparativa; el resto se conserva como evidencia pero no afecta los datos.</p>
+  <div id="balance-filtros" class="filtros">
+    <input id="balance-buscar" type="search" placeholder="Buscar publicador, fuente o título…">
+    <select id="balance-fecha"><option value="">Todas las fechas</option></select>
+    <select id="balance-nivel"><option value="">Todos los niveles</option></select>
+  </div>
+  <p id="balance-resumen"><span data-gen="balances-capturas"></span></p><!-- lo rellena deploy/render_html.py en el build; el navegador lo reescribe al filtrar -->
+  <div class="tabla-scroll"><table id="balance-table">
+    <thead>
+      <tr>
+        <th title="Día en que el monitor buscó ese balance, no necesariamente el del corte del que habla la noticia.">Fecha de búsqueda</th>
+        <th>Publicador / fuente citada</th>
+        <th class="num">Fallecidos</th>
+        <th class="num">Heridos</th>
+        <th class="num">Desap.</th>
+        <th class="num">Familias</th>
+        <th class="num">Personas</th>
+        <th class="num">Viviendas</th>
+        <th>Trazabilidad</th>
+      </tr>
+    </thead>
+    <tbody data-gen="balances"></tbody><!-- lo rellena deploy/render_html.py en el build -->
+  </table></div>
+</section>
+</div>
+
+<details class="pliegue denso">
+  <summary>Cómo se recogen y se validan estos balances</summary>
+  <section class="intro">
+    <p>Tras el <strong>terremoto M7,4 de Colombia</strong>, las cifras de <strong>fallecidos,
+    heridos, desaparecidos y familias afectadas</strong> circulan antes por la prensa que por
+    los canales oficiales abiertos. Esta página rastrea a diario los <strong>balances que los
+    medios publican citando a las fuentes oficiales</strong> — la Unidad Nacional para la
+    Gestión del Riesgo de Desastres (UNGRD), el Servicio Geológico Colombiano (SGC),
+    gobernaciones y alcaldías — y los convierte en una serie temporal trazable:
+    cada cifra con su fecha, su publicador, la fuente que cita y el enlace al artículo.</p>
+    <h3>Metodología y preguntas frecuentes</h3>
     <ol>
-      <li><strong>¿Cómo se recogen?</strong> Un proceso automático busca cada noche (23:00
+<li><strong>¿Cómo se recogen?</strong> Un proceso automático busca cada noche (23:00
       de Colombia) balances del día en la prensa, descarga los artículos y extrae las cifras
       con reglas de texto deterministas —no con un modelo de lenguaje, que aquí solo se usa
       para leer documentos escaneados—, y guarda la cita textual y la huella digital
@@ -118,77 +195,14 @@
       bajo licencia CC&nbsp;BY&nbsp;4.0. El día que la UNGRD publique el EDAN en datos
       abiertos, esta página quedará felizmente obsoleta.</li>
     </ol>
-  </details>
-</section>
+  </section>
+</details>
 
-<section id="balance-hero">
-  <div id="balance-cards" class="metric-strip"></div>
-  <p class="note">Estos valores son el máximo informado de cada cifra, extraído de páginas públicas. El publicador
-  suele ser un medio; UNGRD, SGC, Gobernación, Presidencia o Alcaldía aparecen como fuentes
-  citadas dentro del texto. Las coberturas en vivo se muestran, pero pesan menos en la serie.</p>
-</section>
-
-<section id="comparativa" class="page-section">
-  <h2>Comparativa de fuentes: registro oficial (RUD) frente a balances en medios</h2>
-  <p class="sub">Las mismas preguntas, respuestas distintas: lo que las autoridades
-  municipales han registrado en el Registro Único de Damnificados (RUD), lo que los medios
-  publican citando el consolidado
-  oficial, lo que ve el satélite y lo que reporta la comunidad. La distancia entre
-  columnas <em>es</em> la brecha de reporte.</p>
-  <div id="comparativa-cards" class="metric-strip"></div>
-  <div class="tabla-scroll"><table id="comparativa-tabla">
-    <thead><tr>
-      <th>Indicador</th>
-      <th class="num" title="Registro Único de Damnificados (UNGRD): lo registrado municipio a municipio por las autoridades locales. Registro progresivo — crece a medida que los municipios cargan datos.">RUD (registro oficial)</th>
-      <th class="num" title="Máximo informado hasta el último día por medios que citan el consolidado oficial (UNGRD y SGC).">Medios citando oficiales</th>
-      <th class="num" title="Diferencia absoluta entre ambas columnas. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
-    </tr></thead>
-    <tbody></tbody>
-  </table></div>
-  <p class="note">El RUD es un <strong>registro progresivo</strong> (municipio a municipio,
-  familia a familia); el consolidado citado en medios agrega reportes departamentales aún no
-  registrados en el RUD. Que difieran no es un error: <strong>la diferencia mide cuánto
-  falta por registrar formalmente</strong>. El RUD no publica víctimas (fallecidos/heridos) —
-  esas cifras solo circulan vía medios. Detalle municipal en la
-  <a href="rud.html">página del RUD</a>.</p>
-</section>
-
-<section id="balance-chart-section">
-  <h2>Serie del máximo informado por día</h2>
-  <p class="sub">El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance.</p>
-  <div id="balance-chart"></div>
-</section>
-
-<section id="balance-table-section">
-  <h2>Tabla trazable de capturas</h2>
-  <p class="sub">Todas las capturas archivadas, con su publicador y su fuente citada.
-  Las filas marcadas <strong style="color:var(--good)">✓ usada en la serie</strong> son
-  la captura elegida de cada día: sus cifras alimentan la serie, las tarjetas y la
-  comparativa; el resto se conserva como evidencia pero no afecta los datos.</p>
-  <div id="balance-filtros" class="filtros">
-    <input id="balance-buscar" type="search" placeholder="Buscar publicador, fuente o título…">
-    <select id="balance-fecha"><option value="">Todas las fechas</option></select>
-    <select id="balance-nivel"><option value="">Todos los niveles</option></select>
-  </div>
-  <p id="balance-resumen">Cargando…</p>
-  <div class="tabla-scroll"><table id="balance-table">
-    <thead>
-      <tr>
-        <th title="Día en que el monitor buscó ese balance, no necesariamente el del corte del que habla la noticia.">Fecha de búsqueda</th>
-        <th>Publicador / fuente citada</th>
-        <th class="num">Fallecidos</th>
-        <th class="num">Heridos</th>
-        <th class="num">Desap.</th>
-        <th class="num">Familias</th>
-        <th class="num">Personas</th>
-        <th class="num">Viviendas</th>
-        <th>Trazabilidad</th>
-      </tr>
-    </thead>
-    <tbody data-gen="balances"></tbody><!-- lo rellena deploy/render_html.py en el build -->
-  </table></div>
-</section>
-
+<!-- El Dataset de esta página lo escribe el build: sus cifras (variableMeasured)
+     y su fecha de dato (dateModified) cambian con cada corrida, y un marcado a
+     mano envejece igual que una cifra a mano. JSON-LD dentro del <body> es
+     válido y así viaja por el mismo mecanismo que el resto del prerenderizado. -->
+<section data-gen="balances-datos-ld" hidden></section><!-- lo rellena deploy/render_html.py en el build -->
 
 <script src="ui.js?v=dev"></script>
 <script src="balances.js?v=dev"></script>

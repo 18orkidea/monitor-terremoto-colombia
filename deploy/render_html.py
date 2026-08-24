@@ -2904,6 +2904,620 @@ def sello_noticias(ctx: dict) -> str:
     fechas = [n["fecha"] for n in (ctx["noticias"] or []) if n.get("fecha")]
     return sello_fechas(max(fechas) if fechas else None,
                         ctx.get("noticias_generado"), "de los titulares")
+# ------------------------------------------ balances: el consolidado, vía node
+# La regla del consolidado (R16: qué cifra entra, qué se rechaza y por qué)
+# vive SOLO en site/ui.js. Aquí no se reimplementa nada: se ejecuta ui.js con
+# node —el patrón de ingest/alerts.py::_consolidado_de_la_serie (R14)— y lo que
+# devuelve se escribe en el HTML. Si node falta, cada pieza publica su aviso en
+# vez de una cifra calculada con otra regla.
+def consolidado_balances(ctx: dict):
+    """`mejorPorDia` + `comparativaFuentes` calculados por ui.js, o None.
+
+    Cacheado en el propio ctx: lo piden cuatro generadores de la misma página
+    y la regla no cambia entre uno y otro."""
+    if "_balances_ui" in ctx:
+        return ctx["_balances_ui"]
+    resultado = None
+    node = shutil.which("node")
+    ui_js = ROOT / "site" / "ui.js"
+    if node and ui_js.exists():
+        # El feed viaja por STDIN, no como argumento: Linux limita cada
+        # argumento de execve a 128 KiB y el feed ya pesa ~100 KB.
+        script = (
+            "global.window = {};"
+            f"require({json.dumps(str(ui_js))});"
+            "const d = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
+            "const items = ((d.oficiales || {}).items || [])"
+            ".filter((x) => x.search_date);"
+            "console.log(JSON.stringify({"
+            "porDia: window.UI.mejorPorDia(items),"
+            "comparativa: window.UI.comparativaFuentes(d.monitor, d.oficiales)"
+            "}));")
+        try:
+            r = subprocess.run(
+                [node, "-e", script],
+                input=json.dumps({"oficiales": ctx.get("oficiales") or {},
+                                  "monitor": ctx.get("monitor") or {}},
+                                 ensure_ascii=False),
+                capture_output=True, text=True, timeout=60)
+            if r.returncode == 0:
+                resultado = json.loads(r.stdout)
+        except (OSError, ValueError, subprocess.SubprocessError):
+            pass
+    ctx["_balances_ui"] = resultado
+    return resultado
+
+
+# R14: sin node no se publica la cifra — y se dice, en vez de dejar un hueco.
+AVISO_SIN_REGLA = (
+    '<p class="note">El consolidado de esta página se calcula con la única '
+    'implementación de su regla (el código compartido del sitio) y en esta '
+    'construcción no se ha podido ejecutar: las cifras consolidadas no se '
+    'publican antes que su regla. La tabla trazable de abajo conserva todas '
+    'las capturas.</p>')
+
+# Las cuatro cifras del balance y su nombre público. Vivían en balances.js,
+# que ya no redacta las tarjetas: se mueven, no se copian.
+CIFRAS_BALANCE_ES = {"fallecidos": "fallecidos", "heridos": "heridos",
+                     "desaparecidos": "desaparecidos",
+                     "familias_afectadas": "familias"}
+CIFRAS_BALANCE_UI = {"fallecidos": "Fallecidos", "heridos": "Heridos",
+                     "desaparecidos": "Desaparecidos",
+                     "familias_afectadas": "Familias afectadas"}
+
+
+def _items_balances(ctx: dict) -> list:
+    feed = ctx.get("oficiales") or {}
+    return [i for i in (feed.get("items") or []) if i.get("search_date")]
+
+
+def _metric_card(label, value, sub=None, title=None, href=None) -> str:
+    """Una tarjeta del `metric-strip`, con el mismo markup que `UI.metricCards`:
+    si el navegador y el build escribieran tarjetas distintas, divergirían (M2)."""
+    inner = f"<span>{e(label)}</span><strong>{e(value)}</strong>"
+    if sub:
+        inner += f"<small>{e(sub)}</small>"
+    t = f' title="{e(title)}"' if title else ""
+    if href:
+        return f'<a class="metric-card" href="{e(href)}"{t}>{inner}</a>'
+    return f'<div class="metric-card"{t}>{inner}</div>'
+
+
+def resumen_balances(ctx: dict) -> str:
+    """La entradilla: cuántas capturas hay y cuál es el máximo informado.
+
+    El recuento de capturas y publicadores es aritmética de archivo y se hace
+    aquí; las cifras consolidadas salen SOLO de ui.js (R16). **M10**: la pieza
+    cuyo dato falta se calla; si no hay ni una captura, se dice con palabras
+    — devolver vacío rompería el build."""
+    items = _items_balances(ctx)
+    if not items:
+        return ("<p>Todavía no hay ninguna captura de balances en medios. La "
+                "serie se publica en cuanto el rastreo nocturno archive la "
+                "primera.</p>")
+    publicadores = {(i.get("publisher") or {}).get("name")
+                    or (i.get("publisher") or {}).get("domain") or "—"
+                    for i in items}
+    cabeza = (f"<b>{fmt(len(items))} balances</b> archivados de "
+              f"<b>{fmt(len(publicadores))} publicadores</b> distintos, cada "
+              f"uno con su URL.")
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        return f"<p>{cabeza}</p>" + AVISO_SIN_REGLA
+    ult = (datos.get("porDia") or [None])[-1]
+    cons = (ult or {}).get("consolidado") or {}
+    piezas = [f"<b>{fmt((cons[k] or {}).get('valor'))}</b> {nombre}"
+              for k, nombre in CIFRAS_BALANCE_ES.items()
+              if (cons.get(k) or {}).get("valor") is not None]
+    if not piezas:
+        return f"<p>{cabeza}</p>"
+    lista = piezas[0] if len(piezas) == 1 else ", ".join(piezas[:-1]) + " y " + piezas[-1]
+    # «máximo informado» y no «cifra actual»: R16 también en la entradilla, y
+    # la fecha viaja dentro de la frase porque es el párrafo que se cita suelto
+    # (M7: una cifra sin su corte miente en 48 horas).
+    return (f"<p>{cabeza} Máximo informado hasta el "
+            f"{fecha_larga(ult.get('fecha'))}: {lista}. No es el balance "
+            f"oficial: es lo que publican los medios citándolo.</p>")
+
+
+def tarjetas_balances(ctx: dict) -> str:
+    """Las tarjetas del consolidado, escritas en el build.
+
+    Porte de `balances.js::renderCards` con la misma prosa: el máximo informado
+    de cada cifra con su fecha y su medio de origen, lo descartado con su
+    motivo, la disputa del día si la hay y la captura elegida con sus dos
+    niveles de atribución (R9). La regla sigue viviendo en ui.js: aquí solo se
+    escribe lo que devolvió (R16, R14)."""
+    items = _items_balances(ctx)
+    if not items:
+        return "<p class=\"note\">Todavía no hay ninguna captura.</p>"
+    fechas = sorted({i["search_date"] for i in items})
+    datos = consolidado_balances(ctx)
+    tarjetas = [_metric_card("Última fecha", fecha_corta(fechas[-1]))]
+    if datos is None:
+        tarjetas.append(_metric_card(
+            "Capturas", f"{fmt(len(items))} / {fmt(len(fechas))} días"))
+        return "".join(tarjetas) + AVISO_SIN_REGLA
+    ult = (datos.get("porDia") or [None])[-1] or {}
+    cons = ult.get("consolidado") or {}
+    for k, nombre in CIFRAS_BALANCE_UI.items():
+        v = cons.get(k)
+        if not v or v.get("valor") is None:
+            tarjetas.append(_metric_card(nombre, "—"))
+            continue
+        partes = []
+        if v.get("fecha") != ult.get("fecha"):
+            partes.append(f"del {fecha_corta(v['fecha'])}")
+        if v.get("medio"):
+            partes.append(v["medio"])
+        tarjetas.append(_metric_card(nombre, fmt(v["valor"]),
+                                     sub=" · ".join(partes) or None))
+    tarjetas.append(_metric_card(
+        "Capturas", f"{fmt(len(items))} / {fmt(len(fechas))} días"))
+
+    # disputa entre medios del día: se muestra, no se suprime — la
+    # discrepancia entre fuentes ES información de brecha
+    disputa = ult.get("disputa")
+    if disputa:
+        rangos = " · ".join(
+            f"{CIFRAS_BALANCE_ES.get(k, k)} entre {fmt(v.get('min'))} y "
+            f"{fmt(v.get('max'))}" for k, v in disputa.items())
+        tarjetas.append(
+            '<p class="note full">⚠️ <strong>Cifras en disputa entre los '
+            f"medios de este día</strong>: {rangos}. Se muestra la captura "
+            "coherente con la serie: un balance acumulado no retrocede, y un "
+            "medio que llega tarde con un corte viejo no puede hacerla "
+            "bajar.</p>")
+
+    # lo que NO entró en la serie, con su motivo: un balance menor, sin
+    # atribución o incoherente sigue siendo información de brecha
+    rechazadas = [g for g in (ult.get("ignoradas") or [])
+                  if g.get("cifra") in CIFRAS_BALANCE_ES]
+    if rechazadas:
+        def _rechazo(g):
+            texto = f"{CIFRAS_BALANCE_ES[g['cifra']]} {fmt(g.get('valor'))}"
+            if g.get("url"):
+                texto = (f'<a href="{e(g["url"])}" target="_blank" '
+                         f'rel="noopener">{texto}</a>')
+            if g.get("medio"):
+                texto += f" ({e(g['medio'])})"
+            return f"{texto}, {e(g.get('motivo'))}"
+        detalle = " · ".join(_rechazo(g) for g in rechazadas[:4])
+        cola = (f" · y {fmt(len(rechazadas) - 4)} más"
+                if len(rechazadas) > 4 else "")
+        tarjetas.append(
+            f'<p class="note full">Este día se descartaron '
+            f"{fmt(len(rechazadas))} cifras de la serie: {detalle}{cola}. "
+            "No se borran: se enseñan, porque la distancia entre lo que "
+            "publica cada medio es justamente lo que este monitor mide.</p>")
+
+    item = ult.get("item")
+    if item:
+        citadas = item.get("reported_data_source") or []
+        pub = item.get("publisher") or {}
+        enlaces = ", ".join(
+            (f'<a href="{e(f["url"])}" target="_blank" rel="noopener">'
+             f'{e(f.get("id") or "fuente")}</a>')
+            if f.get("url") else e(f.get("id") or "fuente")
+            for f in citadas) or "—"
+        # los DOS niveles de atribución de R9: un balance que la prensa cita no
+        # se presenta igual que uno que publica la propia entidad
+        cabeza = ("Captura elegida en un medio que cita fuentes oficiales: "
+                  if citadas else
+                  "Captura elegida, publicada por la propia entidad oficial: ")
+        atrib = (f" · fuente citada: {enlaces}. " if citadas else
+                 ". No cita fuente ajena porque es la fuente; aun así no es "
+                 "un EDAN. ")
+        url = item.get("publication_url") or item.get("url") or "#"
+        tarjetas.append(
+            '<p class="note full">' + cabeza +
+            f'<a href="{e(url)}" target="_blank" rel="noopener">'
+            f'{e(item.get("title") or "")}</a> · publica '
+            f'{e(pub.get("name") or pub.get("domain") or "—")}{atrib.rstrip()}</p>')
+
+    # El rótulo de R16 va SIEMPRE y en su propio párrafo, no colgado de la
+    # atribución. Viajaba dentro del párrafo de la captura elegida, y un día en
+    # que el consolidado arrastra el máximo sin captura nueva —que es justo
+    # cuando más falta hace la advertencia— publicaba las cifras sin decir que
+    # son un máximo informado. Un rótulo que se cae cuando falta un dato
+    # ajeno a él no es un rótulo: es una casualidad.
+    tarjetas.append(
+        '<p class="note full">Cada cifra es <strong>el máximo informado hasta '
+        "la fecha</strong>, no la última publicada: entra en la serie si supera "
+        "a la vigente, si se puede atribuir a una fuente oficial y si es "
+        "coherente con el resto del mismo balance. Cada tarjeta indica, debajo, "
+        "de qué día y de qué medio sale su cifra, que no tiene por qué ser el "
+        "de la captura elegida. Puede ir por detrás de la realidad, y los "
+        "desaparecidos pueden bajar en la realidad sin bajar aquí: por eso se "
+        "llama máximo informado.</p>")
+    return "".join(tarjetas)
+
+
+# Los tres paneles de la serie, con escala propia: mezclar familias (~54.000)
+# con fallecidos (~300) en un solo eje aplasta la serie que más importa.
+# Fallecidos y desaparecidos comparten magnitud (~300): emparejados se
+# comparan entre sí, que es la lectura que importa.
+PANELES_BALANCE = (
+    ("Fallecidos y desaparecidos", 200,
+     (("fallecidos", "Fallecidos", "var(--critical)"),
+      ("desaparecidos", "Desaparecidos", "var(--warning)"))),
+    ("Heridos", 150, (("heridos", "Heridos", "var(--s2)"),)),
+    ("Familias afectadas", 150,
+     (("familias_afectadas", "Familias", "var(--s1)"),)),
+)
+
+
+def grafico_balances(ctx: dict) -> str:
+    """La serie del máximo informado, SVG estático escrito en el build.
+
+    Porte de `balances.js::renderChart` con las convenciones del gráfico del
+    RUD: colores como `var(--…)` para que el SVG siga el tema, lienzo fijo de
+    900 con `viewBox` fluido, y un `<desc>` por panel que narra la serie día a
+    día — la prosa que solo existía en la memoria del navegador.
+
+    La serie sale de ui.js (R16, R14): la línea dibuja el consolidado, no la
+    captura del día, y ARRANCA en el primer día con valor — un día sin dato no
+    se dibuja como cero (R3). El punto sólido marca el dato fresco de ese día;
+    el valor arrastrado mantiene la línea sin fingir un reporte nuevo."""
+    items = _items_balances(ctx)
+    if not items:
+        return "<p class=\"note\">Todavía no hay serie que dibujar.</p>"
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        return AVISO_SIN_REGLA
+    por_dia = datos.get("porDia") or []
+    if not por_dia:
+        return "<p class=\"note\">Todavía no hay serie que dibujar.</p>"
+    W = 900
+    m_t, m_r, m_b, m_l = 24, 18, 40, 58
+    n = len(por_dia)
+    banda = (W - m_l - m_r) / n
+
+    def x(i):
+        return m_l + (i + 0.5) * banda
+
+    o = []
+    for pi, (titulo, H, metricas) in enumerate(PANELES_BALANCE):
+        cons_de = [d.get("consolidado") or {} for d in por_dia]
+        valores = [((c.get(k) or {}).get("valor") or 0)
+                   for c in cons_de for k, _, _ in metricas]
+        max_y = max([1] + valores)
+
+        def y(v):
+            return m_t + (H - m_t - m_b) * (1 - v / max_y)
+
+        descripcion = ". ".join(filter(None, (
+            _narra_dia_balances(d, metricas) for d in por_dia)))
+        o.append(
+            f'<svg viewBox="0 0 {W} {H}" width="100%" '
+            f'xmlns="http://www.w3.org/2000/svg" role="img" '
+            f'class="grafico-balances" '
+            f'aria-labelledby="bal-chart-{pi}-title bal-chart-{pi}-desc">'
+            f'<title id="bal-chart-{pi}-title">{e(titulo)}: máximo informado '
+            f'por día</title>'
+            f'<desc id="bal-chart-{pi}-desc">{e(descripcion)}</desc>')
+        # banda ámbar en los días con cifras en disputa entre medios
+        for i, d in enumerate(por_dia):
+            if d.get("disputa"):
+                o.append(
+                    f'<rect x="{_n(x(i) - banda / 2)}" y="{m_t}" '
+                    f'width="{_n(banda)}" height="{_n(H - m_t - m_b)}" '
+                    f'fill="var(--warning)" opacity="0.10">'
+                    f'<title>{e(fecha_larga(d.get("fecha")))}: cifras en '
+                    f'disputa entre medios este día</title></rect>')
+        for t in (0, 0.5, 1):
+            v = round(max_y * t)
+            yy = y(v)
+            o.append(
+                f'<line x1="{m_l}" x2="{W - m_r}" y1="{_n(yy)}" y2="{_n(yy)}" '
+                f'stroke="var(--grid)"/>'
+                f'<text x="{m_l - 6}" y="{_n(yy + 4)}" text-anchor="end" '
+                f'class="g-eje" font-size="10" fill="var(--muted)">{fmt(v)}</text>')
+        for mi, (k, rotulo, color) in enumerate(metricas):
+            puntos = [(i, (cons_de[i].get(k) or {}))
+                      for i in range(n) if (cons_de[i].get(k) or {}).get("valor") is not None]
+            linea = " ".join(f'{"L" if j else "M"} {_n(x(i))} {_n(y(cv["valor"]))}'
+                             for j, (i, cv) in enumerate(puntos))
+            if linea:
+                o.append(f'<path d="{linea}" fill="none" stroke="{color}" '
+                         f'stroke-width="2.2"/>')
+            for i, cv in puntos:
+                if cv.get("fecha") != por_dia[i].get("fecha"):
+                    continue
+                origen = f' — {cv["medio"]}' if cv.get("medio") else ""
+                o.append(
+                    f'<circle cx="{_n(x(i))}" cy="{_n(y(cv["valor"]))}" r="4" '
+                    f'fill="{color}" stroke="var(--surface-1)" stroke-width="2">'
+                    f'<title>{e(fecha_larga(por_dia[i].get("fecha")))}: '
+                    f'{fmt(cv["valor"])} {e(CIFRAS_BALANCE_ES.get(k, k))} como '
+                    f'máximo informado{e(origen)}</title></circle>')
+            # etiqueta directa sobre el último valor: se lee sin ir a la leyenda
+            if puntos:
+                ult_v = puntos[-1][1]["valor"]
+                o.append(
+                    f'<text x="{W - m_r - 2}" y="{_n(max(12, y(ult_v) - 7))}" '
+                    f'text-anchor="end" class="g-alta" font-size="10" '
+                    f'font-weight="600" fill="{color}">{fmt(ult_v)}</text>')
+            o.append(
+                f'<circle cx="{m_l + mi * 148}" cy="9" r="5" fill="{color}"/>'
+                f'<text x="{m_l + 10 + mi * 148}" y="13" class="g-leyenda" '
+                f'fill="var(--ink-2)" font-size="11">{e(rotulo)}</text>')
+        # El eje lleva DOS clases: `g-dia` en todas y `g-dia-alterna` en las
+        # impares. Sin hoja de estilos no cambia nada —las dos se dibujan igual—
+        # pero deja el asidero para que styles.css pueda agrandar los rótulos en
+        # un móvil escondiendo una de cada dos. Medido, no supuesto: en un
+        # teléfono de 375 px el lienzo de 900 se dibuja sobre 285 (escala 0,317)
+        # y un rótulo de 10 queda en 3,17 px efectivos; agrandarlo sin quitar la
+        # mitad no cabe, porque «21-ago» mide 33,9 unidades y la banda de un día
+        # con esta serie son 68,7 — y se estrecha cada día que pasa.
+        for i, d in enumerate(por_dia):
+            alterna = " g-dia-alterna" if i % 2 else ""
+            o.append(
+                f'<text x="{_n(x(i))}" y="{H - m_b + 16}" text-anchor="middle" '
+                f'class="g-dia{alterna}" font-size="10" fill="var(--muted)">'
+                f'{dia_mes(d.get("fecha"))}</text>')
+        o.append("</svg>")
+    return "".join(o)
+
+
+def _narra_dia_balances(d: dict, metricas) -> str | None:
+    """Una frase del `<desc>`: el consolidado del día para las métricas del
+    panel. **M10**: la cifra que falta se calla; el día sin ninguna, entero."""
+    cons = d.get("consolidado") or {}
+    piezas = [f"{fmt(cv['valor'])} {CIFRAS_BALANCE_ES.get(k, k)}"
+              for k, _, _ in metricas
+              for cv in [cons.get(k) or {}] if cv.get("valor") is not None]
+    if not piezas:
+        return None
+    lista = piezas[0] if len(piezas) == 1 else " y ".join(piezas)
+    marca = ("; cifras en disputa entre medios" if d.get("disputa") else "")
+    return (f"{fecha_larga(d.get('fecha'))}: {lista} como máximo informado"
+            f"{marca}")
+
+
+# La cifra principal de cada tarjeta de la comparativa, por mirada. Es la
+# misma elección editorial que hacía balances.js: la que resume cada fuente.
+_PRINCIPAL_COMPARATIVA = {
+    "satelite": ("edificios_dañados", "edificios con daño clasificado"),
+    "rud": ("familias", "familias registradas"),
+    "medios": ("familias", "familias afectadas"),
+    "ciudadano": ("reportes", "reportes con foto"),
+}
+
+
+def tarjetas_comparativa(ctx: dict) -> str:
+    """Las tarjetas de la comparativa de fuentes, escritas en el build.
+
+    `comparativaFuentes` (ui.js) decide qué miradas hay y con qué cifras; aquí
+    solo se les da la forma de tarjeta. Una mirada nueva que ui.js publique y
+    esta tabla no conozca sale con su cifra en raya, no desaparece (R11)."""
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        return AVISO_SIN_REGLA
+    fuentes = datos.get("comparativa") or []
+    if not fuentes:
+        return ("<p class=\"note\">Todavía no hay ninguna fuente que "
+                "comparar.</p>")
+    tarjetas = []
+    for f in fuentes:
+        clave, unidad = _PRINCIPAL_COMPARATIVA.get(f.get("id"), (None, None))
+        valor = (f.get("cifras") or {}).get(clave) if clave else None
+        sub = " · ".join(filter(None, (
+            unidad, f.get("desglose"), f.get("alcance"),
+            fecha_corta(f["fecha"]) if f.get("fecha") else None)))
+        tarjetas.append(_metric_card(f.get("nombre") or "—", fmt(valor),
+                                     sub=sub or None, title=f.get("nota"),
+                                     href=f.get("href")))
+    return "".join(tarjetas)
+
+
+def filas_comparativa(ctx: dict) -> str:
+    """La tabla RUD frente a medios, escrita en el build.
+
+    R3 en la tabla: el RUD no registra víctimas y eso se dice con «no
+    registra», no con un cero; la diferencia solo existe cuando existen las
+    dos cifras."""
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        return ('<tr><td colspan="4">El consolidado no se ha podido calcular '
+                "en esta construcción: la comparativa no se publica antes que "
+                "su regla.</td></tr>")
+    por = {f.get("id"): f for f in (datos.get("comparativa") or [])}
+    rud = (por.get("rud") or {}).get("cifras") or {}
+    med = (por.get("medios") or {}).get("cifras") or {}
+    filas = (("Municipios afectados", rud.get("municipios"), med.get("municipios")),
+             ("Familias", rud.get("familias"), med.get("familias")),
+             ("Personas", rud.get("personas"), med.get("personas")),
+             ("Viviendas destruidas", rud.get("viv_destruidas"), med.get("viv_destruidas")),
+             ("Viviendas averiadas", rud.get("viv_averiadas"), med.get("viv_averiadas")),
+             ("Fallecidos", None, med.get("fallecidos")),
+             ("Heridos", None, med.get("heridos")),
+             ("Desaparecidos", None, med.get("desaparecidos")))
+    o = []
+    for nombre, r, m in filas:
+        diff = abs(m - r) if (r is not None and m is not None) else None
+        celda_rud = ('<span style="color:var(--muted)" title="El RUD no '
+                     'registra este indicador">no registra</span>'
+                     if r is None else fmt(r))
+        o.append(f"<tr><td>{nombre}</td>"
+                 f'<td class="num">{celda_rud}</td>'
+                 f'<td class="num">{fmt(m)}</td>'
+                 f'<td class="num">{"—" if diff is None else fmt(diff)}</td></tr>')
+    return "\n".join(o)
+
+
+def capturas_balances(ctx: dict) -> str:
+    """El pie de la tabla trazable, servido en vez de «Cargando…».
+
+    El recuento CON filtros solo lo sabe el navegador y se queda allí. Lo que
+    no puede quedarse allí es el hueco: la página servía la palabra «Cargando…»
+    —un estado del navegador presentado como si fuera el dato— a quien no
+    ejecuta JavaScript, que nunca deja de cargar. Aquí se escribe el hecho de
+    archivo: cuántas capturas hay y cuántas alimentan la serie, que es lo que
+    explica la marca «✓ usada en la serie» de la tabla de abajo.
+
+    No es la misma frase que la del navegador y por eso no es una copia (M2):
+    `balances.js` guarda esta al arrancar y la devuelve en cuanto se quitan los
+    filtros, en vez de pisarla con un recuento que no dice nada más."""
+    items = _items_balances(ctx)
+    if not items:
+        return ("Todavía no hay ninguna captura archivada: la tabla se llena en "
+                "cuanto el rastreo nocturno encuentre el primer balance.")
+    total = f"{fmt(len(items))} capturas archivadas"
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        # M10: sin la regla no se dice cuántas alimentan la serie. El recuento
+        # de capturas es aritmética de archivo y ese sí se publica.
+        return total + "."
+    elegidas = len([d for d in (datos.get("porDia") or []) if d.get("item")])
+    return (f"{total}; {fmt(elegidas)} de ellas —una por día— son las que "
+            f"alimentan la serie, las tarjetas y la comparativa. El resto se "
+            f"conserva como evidencia y no afecta a ninguna cifra.")
+
+
+# ------------------------------------------- balances: el Dataset de la página
+# El marcado se escribe en el build por el mismo motivo que la prosa: sus dos
+# campos más útiles —`variableMeasured` (las cifras) y `dateModified` (hasta
+# cuándo llega el dato)— caducan con la corrida, y a mano envejecen igual que
+# una cifra a mano. El bloque que había en el <head> era estático: no publicaba
+# ni una cifra, no decía quién lo compila y fechaba la cobertura con «..».
+#
+# R9 en el marcado, que es donde más fácil se pierde: `creator` y `publisher`
+# son el monitor —que compiló el artefacto—, y las fuentes oficiales van en
+# `citation`. Decir que la UNGRD publica esta página, o que el monitor produjo
+# la cifra oficial, serían las dos mentiras simétricas.
+UNIDAD_BALANCE = {"fallecidos": "personas", "heridos": "personas",
+                  "desaparecidos": "personas",
+                  "familias_afectadas": "familias"}
+
+
+def _url_absoluta(u) -> bool:
+    """Solo entra en el marcado la URL que se sostiene sola.
+
+    Un indexador de datasets extrae el bloque JSON-LD como JSON suelto, sin la
+    URL base del documento: una ruta relativa allí no apunta a ninguna parte.
+    Es el guardián G6 aplicado antes de escribir, no después."""
+    if not isinstance(u, str):
+        return False
+    partes = urllib.parse.urlparse(u)
+    return bool(partes.scheme and partes.netloc)
+
+
+def _fuentes_citadas(items: list) -> list:
+    """Las fuentes oficiales que citan las capturas, sin repetir.
+
+    Ordenadas por cuántas capturas las citan: la que sostiene la serie va
+    primero. **M10**: la que no trae URL se cita igual, solo que sin `url` —
+    omitir el campo es lo que significa «no la sabemos»; inventarla, no."""
+    vistas = {}
+    for i in items:
+        for f in i.get("reported_data_source") or []:
+            nombre = f.get("name") or f.get("id")
+            if not nombre:
+                continue
+            fila = vistas.setdefault(nombre, {"n": 0, "url": None})
+            fila["n"] += 1
+            if fila["url"] is None and _url_absoluta(f.get("url")):
+                fila["url"] = f["url"]
+    salida = []
+    for nombre, fila in sorted(vistas.items(), key=lambda kv: (-kv[1]["n"], kv[0])):
+        cita = {"@type": "CreativeWork", "name": nombre}
+        if fila["url"]:
+            cita["url"] = fila["url"]
+        salida.append(cita)
+    return salida
+
+
+def marcado_balances(ctx: dict) -> str:
+    """El `Dataset` de balances, con sus cifras y su fecha de dato.
+
+    Un solo nodo `Dataset` y ninguno anidado dentro: `creator`, `publisher` e
+    `includedInDataCatalog` referencian por `@id` a la identidad que
+    `escribir_piezas_compartidas` escribe en esta misma página. Es la forma que
+    dejó el arreglo de las 208 fichas —un `Dataset` embebido dentro de otro se
+    valida como un dataset independiente al que le faltan sus campos— y aquí se
+    respeta desde el primer día en vez de repetir el error.
+
+    **R3/M10 en el marcado**: la cifra que el consolidado no tiene no sale como
+    cero, sale como nada. Y el `Dataset` se publica aunque falte node: lo que se
+    calla entonces son las cifras, no la existencia del conjunto de datos."""
+    items = _items_balances(ctx)
+    oficiales = ctx.get("oficiales") or {}
+    fechas = sorted({i["search_date"] for i in items})
+    nodo = {
+        "@context": "https://schema.org", "@type": "Dataset",
+        "name": "Balances del terremoto de Colombia 2026 citados en medios",
+        "description":
+            "Serie diaria de fallecidos, heridos, desaparecidos y familias "
+            "afectadas publicadas por medios que citan a la UNGRD y al SGC, o "
+            "por las propias entidades. Cada captura conserva su fecha de "
+            "búsqueda, su publicador, la fuente oficial que cita y la URL del "
+            "artículo. No es un EDAN ni el balance oficial: es lo que la prensa "
+            "publica citándolo, y la distancia entre versiones es el dato.",
+        "url": "https://datosdelterremoto.org/balances.html",
+        "inLanguage": "es",
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "isAccessibleForFree": True,
+        # R9: quien compila el artefacto, no quien produce la cifra oficial
+        "creator": {"@id": ORGANIZACION},
+        "publisher": {"@id": ORGANIZACION},
+        "includedInDataCatalog": {"@id": SITIO},
+        "isPartOf": {"@id": SITIO},
+        "spatialCoverage": {"@type": "Place", "name": "Occidente de Colombia"},
+        "measurementTechnique":
+            "Extracción determinista por reglas de texto sobre artículos "
+            "archivados con su sha256. El consolidado es monótono: una cifra "
+            "entra si supera a la vigente, se puede atribuir a una fuente "
+            "oficial, es coherente con el resto de su balance y no supera el "
+            "techo de salto. Se publica como máximo informado, no como cifra "
+            "actual, y lo descartado se enseña con su motivo.",
+        "distribution": [
+            {"@type": "DataDownload",
+             "name": "Feed archivado de balances (JSON)",
+             "encodingFormat": "application/json",
+             "contentUrl":
+                 "https://datosdelterremoto.org/data/public/oficiales.json"},
+            {"@type": "DataDownload",
+             "name": "Feed en vivo del worker que genera los balances (JSON)",
+             "encodingFormat": "application/json",
+             "contentUrl": f"{OFICIALES_BASE}/oficiales.json"},
+        ],
+    }
+    if fechas:
+        # la cobertura y la fecha del DATO, nunca la de la corrida: `rud.json`
+        # ya enseñó que confundirlas publica cifras del 21 fechadas el 22
+        nodo["temporalCoverage"] = f"{fechas[0]}/{fechas[-1]}"
+        nodo["dateModified"] = fechas[-1]
+    citas = _fuentes_citadas(items)
+    if citas:
+        nodo["citation"] = citas
+    datos = consolidado_balances(ctx)
+    cons = ((datos or {}).get("porDia") or [{}])[-1].get("consolidado") or {}
+    medidas = []
+    for clave, nombre in CIFRAS_BALANCE_UI.items():
+        v = cons.get(clave) or {}
+        if v.get("valor") is None:
+            continue                      # R3/M10: el hueco se calla, no vale 0
+        medida = {"@type": "PropertyValue", "name": nombre, "value": v["valor"],
+                  "unitText": UNIDAD_BALANCE[clave],
+                  "description":
+                      f"Máximo informado hasta el {fecha_larga(v.get('fecha'))}"
+                      + (f", publicado por {v['medio']}" if v.get("medio") else "")
+                      + ". No baja aunque una fuente corrija a la baja."}
+        if _url_absoluta(v.get("url")):
+            medida["url"] = v["url"]
+        medidas.append(medida)
+    if medidas:
+        nodo["variableMeasured"] = medidas
+    elif oficiales.get("items"):
+        # Ni una cifra y sí capturas: o falta node (R14) o el consolidado las
+        # rechazó todas. Se dice en el propio marcado antes que dejar creer que
+        # el conjunto de datos está vacío.
+        nodo["creativeWorkStatus"] = (
+            "Capturas archivadas sin ninguna cifra consolidada en esta "
+            "construcción: el consolidado no se publica antes que su regla.")
+    return ('<script type="application/ld+json">'
+            + json.dumps(nodo, ensure_ascii=False) + "</script>")
 
 
 # --------------------------------- piezas compartidas de las cinco páginas
@@ -3015,7 +3629,14 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "mun-chips": chips_municipios,
                    "mun-homonimos": frase_homonimos_municipios,
                    "mun-nota": nota_municipios,
-                   "mun-dataset": dataset_municipios}
+                   "mun-dataset": dataset_municipios,
+                   "balances-resumen": resumen_balances,
+                   "balances-tarjetas": tarjetas_balances,
+                   "balances-grafico": grafico_balances,
+                   "balances-capturas": capturas_balances,
+                   "balances-datos-ld": marcado_balances,
+                   "comparativa-tarjetas": tarjetas_comparativa,
+                   "comparativa-filas": filas_comparativa}
     # explícito a propósito: un generador nuevo sin su página revienta aquí en
     # vez de no escribir nada y dejar el contenedor vacío en silencio
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
@@ -3029,7 +3650,14 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "noticias-resumen": "noticias", "noticias-nota": "noticias",
                "mun-resumen": "municipios", "mun-silencio": "municipios",
                "mun-chips": "municipios", "mun-homonimos": "municipios",
-               "mun-nota": "municipios", "mun-dataset": "municipios"}
+               "mun-nota": "municipios", "mun-dataset": "municipios",
+               "balances-resumen": "balances",
+               "balances-tarjetas": "balances",
+               "balances-grafico": "balances",
+               "balances-capturas": "balances",
+               "balances-datos-ld": "balances",
+               "comparativa-tarjetas": "balances",
+               "comparativa-filas": "balances"}
     for nombre, generador in generadores.items():
         pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():
