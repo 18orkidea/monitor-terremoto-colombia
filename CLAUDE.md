@@ -160,6 +160,10 @@ revisiones**, igual que las R.
 
 - **M1 · Un guardián se valida rompiendo el código, no leyéndolo.** Escribe el
   test, **mete el bug a propósito y comprueba que el test cae**; después deshaz.
+  **Con `PYTHONDONTWRITEBYTECODE=1` (o `python3 -B`)**: dos mutaciones del mismo
+  tamaño escritas en el mismo segundo reutilizan el `.pyc` cacheado y dan un
+  **verde falso** — es decir, la validación de M1 puede mentir exactamente igual
+  que el guardián que viene a comprobar. Cazado el 24-ago-2026, y casi colado.
   *Cicatriz: ha pasado cuatro veces. Un test buscaba una palabra que estaba en
   el comentario del propio autor. Otro comparaba conjuntos sobre el fichero
   entero y sobrevivía si el defecto quedaba en uno de los dos sitios. Dos
