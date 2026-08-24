@@ -6,6 +6,140 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — Un espejo se comprueba ejecutando las dos copias, nunca leyendo una
+
+Cuatro formateadores (`fmt`, `fmt_prosa`, `pct`, `fecha_corta`/`fecha_larga`) se
+declaraban «espejo exacto» de su gemela de `site/ui.js` y los vigilaba un
+`assertIn` sobre el **texto** del fichero. Un `assertIn` sobre el código fuente
+pasa en verde con la condición invertida y no mira si las dos funciones
+devuelven lo mismo: es el mismo argumento con el que este sprint se retiraron
+otros dos guardianes (M1). Pasan a compararse **llamando a ambas** con el
+`ui.js` real.
+
+**El cambio destapó lo que el guardián viejo no podía ver:** `%f` redondea al
+par y `Intl` se aleja del cero, así que 0,25 salía «0,2 %» desde el build y
+«0,3 %» desde el navegador. **El Cerrito (Valle del Cauca) lo sufría hoy, en
+producción**: la misma tasa, dos cifras, según por dónde se mirara el sitio. En
+un barrido de 0 a 200 con paso 0,01 habrían divergido 1.000 de 20.001 valores;
+sobre el corpus real, uno. **Se adopta el criterio de `Intl` en Python**, porque
+es el del locale es-CO y porque `ui.js` es la superficie que el build no puede
+tocar. Es corrección de la capa de presentación, no del archivo: lo que dijo la
+fuente no cambia.
+
+**Y un escalón más adentro, el mismo error otra vez:** `round()` de Python
+también redondea al par, así que el `Dataset` de la ficha de Alcalá publicaba
+12,74 donde la tarjeta de al lado imprimía 12,75. Lo cazó el guardián G3 de la
+ficha **al fusionarse las dos ramas**, no antes. De ahí `redondea_como_se_lee`:
+**redondear y formatear tienen que usar una sola regla, o el sitio publica dos
+verdades.**
+
+**Nota de método, ya en `CLAUDE.md`:** la validación por mutación necesita
+`PYTHONDONTWRITEBYTECODE=1`. Dos mutaciones del mismo tamaño en el mismo segundo
+reutilizan el `.pyc` y dan un verde falso — la comprobación que existe para
+descubrir guardianes mudos puede volverse muda ella misma.
+
+## 2026-08-24 — El `Dataset` de `rud.html` publica sus totales, y los fecha con el dato
+
+`rud.html` era la única página grande sin un solo nodo estructurado. Su marcado
+sigue el patrón de página-tabla ya fijado en `municipios.html`:
+**`variableMeasured` es el diccionario de columnas, nunca un `ItemList`** — 207
+filas no disparan ningún resultado enriquecido y serían una segunda copia de la
+tabla mantenida aparte (M2).
+
+**Se decide, además, que las columnas que la serie agrega lleven su total
+nacional con su fecha**, siguiendo el precedente de `marcado_balances` y no la
+letra de la especificación del rediseño, que las dejaba sin valor. El motivo es
+que la cifra por la que se cita esta página **es** el total del RUD, y publicarla
+en el marcado es lo que hace exigible el resto: `temporalCoverage` cerrado y
+`dateModified` en la fecha del dato, no en la de la corrida. Fecharlo con el
+build publicaría «100.231 familias a 22 de agosto», que es la confusión que el
+sello ya corrige en la prosa de al lado (M7). Las columnas que solo existen
+municipio a municipio —la población del DANE y la proporción— se describen **sin
+valor**: describir una columna no obliga a inventarle un agregado.
+
+Contra el error editorial grave: **el RUD no es un EDAN**, y que un municipio no
+aparezca significa «sin registro aún», no «sin daño». Esa frase viaja en el
+`description` del dataset y en el de la variable «Municipios con registro»,
+porque **el marcado es lo que se cita sin leer la página**. R9 en dos campos
+distintos: `creator`/`publisher` son el monitor, que compila el artefacto; el RUD
+es de la UNGRD y va en `citation`, y el DANE entra solo con su columna.
+
+## 2026-08-24 — La ficha: chips que accionan, cifras que se pueden citar
+
+**Chips en vez del control de capas.** El mapa de evidencias repartía sus cinco
+fuentes con `L.control.layers`, que por debajo de 560 px se colapsa en un icono:
+en el móvil había que **descubrir** que los puntos eran separables. La tira la
+escribe el build —rótulo, color y recuento— y `municipio.js` solo la conecta;
+construirla en el navegador sería una segunda copia de los recuentos y dejaría
+la tira vacía para quien lee el documento sin ejecutarlo. Leaflet queda como
+respaldo, no como norma.
+
+**«Los chips cuentan municipios, no puntos» no se aplica aquí, y se dice por
+qué.** Ese criterio nació en la tabla de municipios, donde la misma pastilla
+podía prometer las dos cosas. En una ficha solo hay un municipio: lo único
+contable son los puntos de cada capa. En vez de dejar un número suelto ambiguo,
+**el rótulo nombra la unidad** («Copernicus EMS · 193 puntos») y la línea de
+debajo lo explica. Ningún chip lleva `title`: la explicación va en prosa, que el
+móvil sí enseña y un rastreador sí indexa.
+
+**Y de ahí salió un hallazgo que ya estaba publicado.** En Cali, ICube-SERTIT
+dibuja **103 puntos** y la ficha cuenta **94 edificios clasificados**: los nueve
+de diferencia son carpas y refugios que la propia fuente deja en «Not
+Applicable». Es el único desajuste de las 208. La ficha publica **las dos cifras
+con su motivo** en vez de elegir una — enseñar la distancia entre dos números es
+el oficio de esta página, y esconderla dentro de una etiqueta de capa era
+publicar dos verdades en la misma pantalla.
+
+**El marcado de la ficha pasa de existir a ser citable.** Sus cifras vivían solo
+como prosa en español con los miles separados por punto. Ahora cada una es un
+par (nombre, valor, unidad) en `variableMeasured`; `citation` dice de quién es
+cada una —la tesis del proyecto en formato de máquina—; `dateModified` la fecha
+con la fecha del dato; y `measurementTechnique` impide leer «11.826 familias
+inscritas» como «verificadas». **R3/M10 con un matiz que importa**: un municipio
+sin registro no publica «0 familias» —publicaría que el RUD dice que no hay
+damnificados, cuando lo que dice es que aún no ha llegado—, pero **sí sigue
+citando a la UNGRD**: consultar una fuente y no encontrarse en ella es un hecho
+de esa fuente.
+
+## 2026-08-24 — Dos superficies prometían una protección que el código ya no da
+
+**Contexto.** R5 cambió el 24-ago: el reporte se publica en el punto que
+registró la fuente, porque redondear a ~110 m no protegía nada —ChatMap publica
+la coordenada exacta en su endpoint abierto— y sí engañaba por partida doble: al
+lector, porque una foto de daño a 110 m señala la casa de enfrente; y a quien
+reporta, porque se le prometía una protección que la fuente no le estaba dando.
+`chatmap.py` dejó de redondear ese mismo día. **Los globos de `site/app.js` y
+`site/municipio.js` siguieron diciendo «coordenada redondeada a unos 110
+metros».**
+
+**Decisión.** Las dos superficies dicen ahora «en el punto que registró la
+fuente», y se mueven **a la vez**, que es la única manera de mover una pareja
+M2. Queda pendiente revisar los mismos literales en `verify_citizen.py`,
+`publish.py` y `LIMITACIONES.md`, que describen el mecanismo interno y no lo que
+se publica.
+
+**Consecuencia.** Es el defecto más grave que ha encontrado el rediseño hasta
+ahora, y no lo trajo ningún encargo: apareció al mirar de cerca una superficie
+por otro motivo. **Un cambio de regla no está terminado hasta que se persiguen
+sus literales publicados** — el contrato lo dice y aquí no se cumplió durante un
+día.
+
+## 2026-08-24 — El guardián global del marcado recorría menos de lo que prometía
+
+`TestMarcadoEstructurado` —los G1/G2/G6 sobre las 213 páginas— copiaba
+`site/*.html` y llamaba a `escribir_piezas_compartidas`, **pero nunca pasaba por
+`inyectar_prerenderizado`**. Medido: veía **0** nodos `Dataset` en
+`municipios.html`, donde hay 1. Es decir, **todo el marcado que ganaron las
+fases 4 y 5 nacía fuera del guardián que dice vigilarlo**, y el agujero crecía
+solo con cada página que estrenara el suyo.
+
+Es exactamente la forma del bug que motivó esa clase —un guardián que recorre
+menos de lo que promete— con otro traje: entonces era un test que miraba el nodo
+raíz de un solo documento; ahora, uno que recorre las 213 páginas pero solo en
+su versión sin construir. **Lección que se queda: cuando un guardián dice «sobre
+todas las páginas», hay que preguntarle sobre qué VERSIÓN de cada página.**
+Validado por mutación con las dos ramas de la fase 5 puestas.
+
 ## 2026-08-24 — El suelo de prosa se mide con un medidor del repositorio, no con un documento
 
 **Contexto.** El contrato del rediseño era «ninguna baja» de palabras, y el
