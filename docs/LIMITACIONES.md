@@ -267,6 +267,42 @@ Además, la intensidad se calcula en la **cabecera municipal**, no en el
 territorio: en municipios extensos —Chocó, sobre todo— un solo valor puede
 ocultar diferencias grandes dentro del mismo municipio.
 
+## Nueve municipios del RUD están fuera del terremoto que el monitor mapea (laguna abierta, 24-ago-2026)
+
+La sección anterior dice que esos nueve se pintan grises porque el ShakeMap no llega
+hasta ellos. Queda por decidir algo distinto, y **es editorial, no de cifra**: si un
+municipio al que el modelo del USGS no le asigna intensidad **debe publicarse como
+municipio de este terremoto**, con su ficha, su fila en la tabla y su punto en el mapa.
+
+Medido el 24-ago-2026 sobre `data/public/municipios.json` (generado el 22-ago), con la
+distancia en línea recta a la cabecera desde el epicentro de San José del Palmar:
+
+- Los **199 municipios con intensidad estimada** están entre **9 y 355 km** del
+  epicentro.
+- Los **nueve sin intensidad** están entre **424 y 541 km**: Acandí (Chocó, 424 km) y
+  ocho de Norte de Santander, al otro lado del país —Silos, Mutiscua, Cáchira, Ábrego,
+  Pamplonita, Ocaña, Teorama y El Tarra—. Entre 355 y 424 km no hay ni un municipio: el
+  borde de la cuadrícula del ShakeMap deja un hueco limpio, no una frontera discutible.
+- **Pesan 237 de las 100.231 familias del RUD: el 0,24 %.** En personas, 534 de 223.545,
+  la misma proporción. Ocaña (87 familias) y Acandí (102) son dos tercios de ese total;
+  Pamplonita aporta una familia.
+
+Las dos lecturas son defendibles y por eso la decisión no se toma sola. **Publicarlos**
+es lo que hace hoy el monitor y es coherente con su misión: el RUD los registró como
+damnificados de esta emergencia, y borrarlos sería el monitor enmendándole la cifra a la
+fuente, que es justo lo que no hace. **No publicarlos como municipios del terremoto**
+—o publicarlos apartados, con su explicación— evitaría que una ficha titulada «Terremoto
+en Ocaña (Norte de Santander) 2026» afirme, para el buscador y para quien la cite, una
+relación causal que ninguna medida de sacudida respalda.
+
+**Pendiente de decisión.** Mientras tanto se publican, grises y contados, y esta entrada
+existe para que nadie tome esa elección por un descuido.
+
+Y una premisa que conviene desmontar antes de que circule: **que el sitio publique 208
+fichas para 207 municipios con registro en el RUD no tiene nada que ver con estos
+nueve**, que sí están en el RUD. La ficha número 208 es **Palmira (Valle del Cauca)**,
+que entra por mención en prensa y no tiene ni una familia registrada.
+
 ## Los avisos push tienen límites de plataforma
 
 Las notificaciones Web Push funcionan con un clic en Android y escritorio; en
@@ -412,6 +448,68 @@ Tampoco hay forma de saber qué versión del worker produjo un feed archivado: e
 deploy es manual, el KV vive fuera de git y el bloque `extraction` no registra
 commit ni versión. El sello `atribucion_lugares` cubre solo el criterio de
 atribución de lugares, no el resto del código.
+
+## El tramo del 16 de agosto del feed de balances no tiene cuerpo archivado (24-ago-2026)
+
+Medido el 24-ago-2026 sobre `sources_log`: las **tres capturas del 16 de agosto** del
+endpoint de balances (`…/oficiales.json`, nota «alerts balances»; 11:29, 13:32 y 16:56
+UTC) devolvieron **HTTP 200** y dejaron su **sha256** —el mismo las tres,
+`3d9ff3db1991…`— con el **`snapshot_path` vacío**. La primera fila con snapshot es del
+**17-ago a las 16:20 UTC**, y desde ahí el endpoint archiva cuerpo todos los días en que
+se le pregunta. Es un caso concreto de la laguna general de los dos primeros días de
+operación, descrita al principio de esta página; se detalla aparte porque este feed pasó
+después a sostener una página entera.
+
+El cuerpo de aquel día **no está perdido, pero no está donde el log dice buscarlo**:
+`feeds/balances/2026-08-16.json` tiene exactamente ese sha256, así que la equivalencia se
+puede verificar — hay que descubrirla a mano, porque ninguna fila la declara. Y ese
+fichero lo escribe el `curl` del workflow, que es justo la petición no trazada de la
+sección anterior. Dicho de otro modo: **del 16 de agosto, la única copia del feed es la
+que produjo el camino que R4 prohíbe.**
+
+Por qué importa más ahora que antes: la página de balances **se sirve prerenderizada**.
+Las tarjetas, el gráfico, la tabla, la comparativa de fuentes y el marcado de datos los
+escribe `deploy/render_html.py` en el build, no el navegador. Esas cifras ya no son un
+cálculo del cliente que cualquiera puede rehacer abriendo la consola: son texto
+publicado, y lo único que las sostiene es poder llegar desde ellas hasta la petición de
+origen.
+
+Dos huecos más de la misma serie, medidos el mismo día:
+
+- **Falta el día 21.** `feeds/balances/` tiene el 16, el 17, dos del 18, el 19, el 20 y
+  el 22: el 21 de agosto no llegó a existir, porque ese día el flujo diario no corrió su
+  paso que commitea. Del 21 sí quedan dos snapshots del endpoint en
+  `data/snapshots/2026-08-21/`, con cuerpos distintos, y solo uno tiene fila en
+  `sources_log`.
+- **Tres de los siete ficheros de `feeds/balances/` —el 17, el 19 y el 20— no tienen
+  ninguna fila en `sources_log` con su sha256.** Son los que dejó el `curl` del workflow
+  en días en que la corrida no pidió el feed por la cadena trazada.
+
+### Si el worker se apaga: ¿merece este feed un export dedicado como `rud.json`?
+
+**Sí, y por el mismo motivo.** `rud.json` nació para que el histórico del RUD
+sobreviviera a la muerte de su fuente; aquí la fuente es un worker en una cuenta
+Cloudflare ajena cuyo almacenamiento vivo (KV) no está en git, y su apagado dejaría el
+tramo del 16 sin más recuperación que un fichero al que el log no apunta.
+
+Lo que se midió antes de recomendarlo, el 24-ago-2026:
+
+- **La serie está muy repetida**: 152 apariciones de ítem para **32 ítems distintos** en
+  seis días de captura —un factor de 4,8—, y 624 KB en total. El KV acumula, así que cada
+  captura rearrastra todo lo anterior y el peso de la serie crece más deprisa que su
+  contenido.
+- **Los ítems archivados no se reescriben**: el worker los reutiliza tal cual (por eso
+  conviven dos criterios de atribución, ver más arriba). La serie es entonces una
+  **unión** de ítems fechados, no una sucesión de estados que haya que conservar entera.
+- Un `data/public/balances.json` con cada ítem **una sola vez** y la lista de días en que
+  se vio sería el análogo exacto de `rud.json`, y de paso daría la respuesta trazable a
+  «qué decía el feed el día X» que hoy exige abrir siete ficheros.
+
+No es la misma laguna que «la serie consolidada de balances no se puede descargar
+entera»: aquella pide **lo que el sitio calcula**; esta pide **lo que el worker dijo**.
+Son dos exports distintos, y el segundo es el que sobrevive al apagado. **No se hace
+aquí**: toca ingesta y estrena un artefacto público, así que necesita su alta de fuente
+con la disciplina completa.
 
 ## El 17 de agosto de 2026 casi no tiene archivo (HTTP 502 del DANE)
 

@@ -24,6 +24,7 @@ import subprocess
 import unicodedata
 import urllib.parse
 from datetime import date
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -52,12 +53,24 @@ def fmt(n, dec: int = 0) -> str:
 
     Espejo exacto de `UI.fmt` en site/ui.js, que usa `toLocaleString` con
     `maximumFractionDigits`: los decimales a cero NO se imprimen («7», no «7,0»).
-    Si tocas uno, mira el otro — `tests/test_render_html.py` compara ambos.
+    Si tocas uno, mira el otro — `tests/test_render_html.py` los EJECUTA y
+    compara.
+
+    El redondeo se hace con `Decimal` y no con `%f` porque son dos reglas
+    distintas y la diferencia se publicaba: `%f` redondea al par (0,25 → «0,2»)
+    y `Intl` redondea alejándose del cero (0,25 → «0,3»). El Cerrito, con una
+    tasa de 0,25 %, salía «0,2 %» en la tabla estática y «0,3 %» en el mapa. Se
+    adopta el criterio de `Intl` porque es el del locale es-CO y el que espera
+    quien lee. `Decimal(str(...))` es deliberado: parte de la representación
+    corta del flotante, que es de donde parte ICU — con `Decimal(float(...))`,
+    12,35 volvería a divergir.
 
     R3: la ausencia de dato es «—», jamás 0."""
     if n is None:
         return "—"
-    s = f"{float(n):,.{dec}f}"
+    q = Decimal(str(float(n))).quantize(Decimal(1).scaleb(-dec),
+                                        rounding=ROUND_HALF_UP)
+    s = f"{q:,.{dec}f}"
     if dec:                                   # maximumFractionDigits: quita los ceros
         s = s.rstrip("0").rstrip(".")
     return s.replace(",", "\x00").replace(".", ",").replace("\x00", ".")
