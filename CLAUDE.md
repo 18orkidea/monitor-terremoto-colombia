@@ -137,6 +137,21 @@ Ningún cambio está terminado sin sus 6 casillas:
 6. **Memoria**: anotación en la memoria local si hubo decisión o hallazgo no derivable
    del código.
 
+### Cadencia por sprint (24-ago-2026, decisión de JP)
+
+Las seis casillas no cambian; **cambia cuándo se cobran**. El test se escribe
+**junto al código** —escribirlo después de un sprint grande es cuando salen
+guardianes que no guardan— y la suite rápida se pasa a menudo porque es barata.
+Lo que se cobra **por lote, al cierre de cada página o sprint**: la validación
+por mutación (M1), la verificación en navegador y los tres revisores (una
+revisión por sprint, con los hallazgos aplicados en una sola pasada). El riesgo
+aceptado es rehacer en lote lo que una revisión tardía destape; es aceptable
+porque **nada se publica sin la revisión de sprint** — sigue siendo bloqueante
+antes del PR. El trabajo se paraleliza con agentes **solo sobre superficies
+disjuntas** (cada agente dueño de su página); las superficies compartidas
+(`styles.css`, `ui.js`, `common.js`, `seo_check.py`, docs) las integra la
+coordinación, nunca dos manos a la vez.
+
 ## Reglas de método (M1–M10) — aprendidas a golpes, con su cicatriz
 
 Las R son sobre **los datos**; estas son sobre **cómo se trabaja**. Cada una nace

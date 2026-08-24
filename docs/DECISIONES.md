@@ -6,6 +6,29 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — La revisión se cobra por sprint; el trabajo se paraleliza por superficies disjuntas
+
+**Contexto.** Hasta hoy cada cambio pagaba su Definition of Done completa al
+momento: mutaciones M1, tres revisores y navegador por encargo. Con el
+andamiaje del rediseño puesto (sistema CSS, prerenderizado probado en
+`rud.html` y las 208 fichas), las fases 4–6 son aplicar un patrón conocido a
+varias páginas independientes, y la puerta por-cambio consumía más trabajo que
+el cambio mismo.
+
+**Decisión (JP).** El test se sigue escribiendo junto al código y la suite
+rápida se pasa a menudo (20 s: es gratis). La validación por mutación, la
+verificación en navegador y los tres revisores pasan a cobrarse **por lote al
+cierre de página o sprint**, con los hallazgos aplicados en una sola pasada. El
+trabajo se paraleliza con agentes **solo sobre superficies disjuntas**; lo
+compartido lo integra la coordinación. Riesgo aceptado: rehacer en lote lo que
+una revisión tardía destape — aceptable porque nada se publica sin la revisión
+de sprint, que sigue siendo bloqueante antes del PR.
+
+**Consecuencia.** La sección «Cadencia por sprint» entra en el Definition of
+Done de `CLAUDE.md`. Primer sprint bajo el esquema: la fase 4 del rediseño
+(`municipios.html`, `balances.html`, `noticias.html`), tres agentes en
+paralelo, uno por página.
+
 ## 2026-08-24 — El nombre a secas de los homónimos se congela: una URL publicada no se subasta
 
 **Contexto.** `municipios_dinamicos()` repartía el nombre a secas al **primero**
