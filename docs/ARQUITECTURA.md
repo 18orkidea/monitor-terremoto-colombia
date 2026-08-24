@@ -84,8 +84,9 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   puede hacer el navegador: compartir, alertas push y abrir el `<details>` de un
   ancla) y un JS por página. **La barra y el pie no los escribe el navegador**:
   los escribe el build en las 213 páginas (`render_html.py::nav_estatico` /
-  `pie_estatico`, con el paso `escribir_piezas_compartidas` para las cinco
-  grandes). Ese mismo paso escribe el **nodo de identidad JSON-LD**
+  `pie_estatico`, con el paso `escribir_piezas_compartidas` para las **seis**
+  grandes — la sexta, `referencia.html`, entró el 25-ago con la mudanza de la
+  metodología y el glosario; la lista única es `PAGINAS_GRANDES`). Ese mismo paso escribe el **nodo de identidad JSON-LD**
   (`BLOQUE_IDENTIDAD`): quién publica el sitio, byte a byte igual en las 213,
   porque `@id` no resuelve entre documentos y solo la constante única lo
   garantiza. En `municipios.html` la **fila entera es pulsable sin JavaScript**:

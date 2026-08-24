@@ -25,6 +25,9 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
   de feeds**
   ([`feeds/registry.json`](feeds/registry.json)) al que cualquiera puede sumar un medio
   con un PR. Los medios regionales cambian el cruce: Istmina solo existe en la prensa del Chocó.
+- **[Cómo se construye este monitor](https://datosdelterremoto.org/referencia.html)** —
+  la metodología, la trazabilidad de cada cifra hasta la petición que la trajo, las reglas
+  del cruce, las limitaciones conocidas, todas las fuentes y el glosario de acrónimos.
 - **[Balances en medios](https://datosdelterremoto.org/balances.html)** — un worker con IA
   (Firecrawl + Qwen, cron diario) rastrea los balances publicados en prensa que citan
   fuentes oficiales (UNGRD, SGC, gobernaciones), extrae las cifras con su evidencia y las

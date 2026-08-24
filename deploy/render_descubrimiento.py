@@ -29,6 +29,10 @@ PAGINAS = [
     ("/rud.html", "daily", "0.8"),
     ("/balances.html", "daily", "0.8"),
     ("/noticias.html", "daily", "0.7"),
+    # No cambia a diario: es la página de cómo se construye el monitor, no de
+    # lo que publicó hoy. Declarar «daily» donde el texto es estable gasta
+    # rastreo en una página que casi nunca ha cambiado.
+    ("/referencia.html", "monthly", "0.6"),
 ]
 
 

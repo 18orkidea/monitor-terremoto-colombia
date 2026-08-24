@@ -117,7 +117,10 @@ class TestCronologiaPortada(unittest.TestCase):
 
     def test_bloques_explicativos_de_portada_son_fluidos(self):
         css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
-        for selector in (r"\.sub", r"\.intro p", r"#metodologia-box p"):
+        # `#metodologia-box` era el `<details>` de la portada; la fase 6b mudó
+        # su contenido a `referencia.html` y la regla se fue con él. Vigilar el
+        # id viejo habría dado verde sobre CSS muerto.
+        for selector in (r"\.sub", r"\.intro p", r"\.referencia p"):
             self.assertIsNotNone(
                 re.search(selector + r"[^\{]*\{[^\}]*max-width:\s*none", css),
                 f"{selector} conserva un ancho de lectura fijo")
@@ -1960,9 +1963,11 @@ class TestElEjeUnicoNoEntraDosVeces(unittest.TestCase):
             f"`.chips` ha entrado en la lista del eje ({dentro}): ya recibe su "
             "sangrado de la `.page-section` que la contiene, así que el eje la "
             "mete DOS veces hacia adentro y las tres tiras de filtros "
-            "publicadas dejan de alinearse con el H2 de su sección. Vuelve a "
-            "la lista el día que los chips salgan de las `.page-section`, y "
-            "ese día este test se retira con el cambio que lo justifica.")
+            "publicadas dejan de alinearse con el H2 de su sección. "
+            "La fase 6b ya sacó una tira de las `.page-section` —las capas del "
+            "mapa de la portada— y la respuesta no fue esta: fue el modificador "
+            "`.chips--pagina`, que sí está en la lista. Una tira sin caja lleva "
+            "el modificador; `.chips` se queda fuera.")
 
     def test_ninguna_otra_regla_le_da_el_eje_a_los_chips(self):
         """Por la puerta de atrás cuenta igual: `.chips { padding-left:
@@ -1973,3 +1978,55 @@ class TestElEjeUnicoNoEntraDosVeces(unittest.TestCase):
                              for s in sels)]
         self.assertEqual(culpables, [],
                          f"una regla le da el eje a los chips: {culpables}")
+
+
+class TestAltoDelLienzoDePortada(unittest.TestCase):
+    """El mapa y el panel de la portada, a alto fijo y con el panel desplazable.
+
+    El 23-ago el criterio era el contrario —«el mapa a la altura del panel con
+    todos sus datos, sin scroll interno»— y produjo un lienzo de 2.473 px: el
+    panel lista 48 municipios de un tirón y arrastraba al mapa. El 24, viendo el
+    resultado, JP prefirió la solución de la maqueta (docs/DECISIONES.md).
+
+    Este guardián existe para que nadie lo «arregle» al revés mañana: mide las
+    dos declaraciones que sostienen la decisión —el alto compartido y el
+    `overflow` del panel— en vez de fiarse del comentario que las acompaña.
+    """
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.reglas = _reglas(_css_sin_comentarios(cls.CSS))
+
+    def _decls(self, sujeto):
+        """Declaraciones de la regla que estila `sujeto` dentro del lienzo."""
+        for sels, decls in self.reglas:
+            if any(s.startswith("main#mapa.lienzo") and _sujeto(s) == sujeto
+                   for s in sels):
+                if any(d.startswith("height:") for d in decls):
+                    return decls
+        return None
+
+    def test_el_panel_y_el_mapa_comparten_un_alto_declarado(self):
+        panel, mapa = self._decls(".panel"), self._decls("#map")
+        self.assertIsNotNone(panel, "el panel del lienzo ya no declara alto: "
+                             "vuelve a crecer con la lista de municipios")
+        self.assertIsNotNone(mapa, "el mapa del lienzo ya no declara alto: "
+                             "vuelve a estirarse hasta donde llegue el panel")
+        alto_panel = [d for d in panel if d.startswith("height:")][0]
+        alto_mapa = [d for d in mapa if d.startswith("height:")][0]
+        self.assertEqual(
+            alto_panel, alto_mapa,
+            f"el panel mide «{alto_panel}» y el mapa «{alto_mapa}»: si los dos "
+            "altos no son literalmente el mismo, uno de los dos deja un hueco "
+            "o desborda, y mañana solo se toca uno")
+        self.assertNotIn("auto", alto_mapa,
+                         "un `height: auto` devuelve el mapa a crecer con el panel")
+
+    def test_el_panel_se_desplaza_por_dentro(self):
+        panel = self._decls(".panel")
+        self.assertIn(
+            "overflow: auto", panel,
+            "sin `overflow: auto` el panel a alto fijo RECORTA la lista: los "
+            "municipios que no caben dejan de existir para quien lee")

@@ -2660,7 +2660,23 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
         # lados a la vez y el guardián no serviría de nada.
         cls.satelital = mon.get("satelital") or {}
         cls.total = int(cls.satelital.get("total_edificios") or 0)
-        cls.index = (cls.RAIZ / "site/index.html").read_text(encoding="utf-8")
+        # El tercer sumando. `monitor.json` no publica un agregado de SERTIT
+        # —solo el total unido y el reparto por municipio—, así que se suma el
+        # detalle municipal, que es exactamente de donde sale la cifra que la
+        # prosa escribe a mano.
+        cls.ser = int(sum(
+            m.get("sertit_edificios") or 0
+            for m in json.loads((cls.RAIZ / "data/public/municipios.json")
+                                .read_text(encoding="utf-8"))["items"]))
+        # Las DOS superficies de prosa del sitio, unidas. La fase 6b mudó a
+        # `referencia.html` el párrafo que desglosa el total satelital, y con
+        # `cls.index` a secas el guardián habría dado rojo por un cambio de
+        # sitio, no por una cifra caducada — que es justo lo contrario de lo
+        # que vigila. Lo que importa es que la cifra esté escrita en algún
+        # texto público y sea la de hoy, no en cuál de los dos ficheros.
+        cls.index = "\n".join(
+            (cls.RAIZ / f"site/{n}").read_text(encoding="utf-8")
+            for n in ("index.html", "referencia.html"))
         cls.readme = (cls.RAIZ / "README.md").read_text(encoding="utf-8")
         # llms.txt es la superficie que leen los sistemas de IA: se quedó con
         # 622 y con los 393 de la capa mientras el sitio ya publicaba otra cosa
@@ -2712,12 +2728,21 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
 
     def test_la_portada_desglosa_el_total_y_declara_el_dano_posible(self):
         """Un total compuesto sin desglose no es rastreable hasta su origen, y
-        el «daño posible» de UNOSAT no puede desaparecer dentro de la suma."""
+        el «daño posible» de UNOSAT no puede desaparecer dentro de la suma.
+
+        ICube-SERTIT entra aquí desde la fase 6b: es el tercer sumando del
+        total y su cifra estaba escrita a mano en la prosa sin que nada la
+        vigilara, igual que le pasó a Copernicus con los 622. Se deriva de
+        `municipios.json`, que es de donde sale la del sitio."""
         for cifra, que in ((self.cop, "los edificios de Copernicus"),
                            (self.uno, "los edificios de UNOSAT"),
+                           (self.ser, "los edificios de ICube-SERTIT"),
                            (self.posibles, "el «daño posible» de UNOSAT")):
+            if not cifra:
+                continue          # una fuente que aún no publica no se exige
             self.assertIn(self._es(cifra), self.index,
-                          f"la portada no declara {que} ({self._es(cifra)})")
+                          f"los textos públicos no declaran {que} "
+                          f"({self._es(cifra)})")
 
     def test_el_total_de_unosat_cuadra_con_sus_municipios(self):
         """El agregado de portada y el detalle municipal salen de dos caminos

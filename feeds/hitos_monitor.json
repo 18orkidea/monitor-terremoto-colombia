@@ -179,6 +179,13 @@
    "resumen": "El monitor recupera la publicación diaria tras dos días archivando sin publicar.",
    "texto": "Los días 23 y 24 de agosto el monitor recogió y archivó sus datos con normalidad, pero no llegó a publicarlos: un control interno de calidad —pensado para avisar— estaba apagando el despliegue del sitio, que quedó congelado en la información del día 22. Los datos de esos dos días no se perdieron en ningún momento: estaban archivados y con su huella, y se publican ahora. El control vuelve a lo suyo, avisar sin detener la publicación, y queda vigilado por sus propias pruebas.",
    "url": "/"
+  },
+  {
+   "fecha": "2026-08-25",
+   "tipo": "monitor",
+   "resumen": "La metodología y el glosario salen del plegable de la portada y estrenan página propia.",
+   "texto": "Cómo se construyen las cifras de este monitor —los tres ciclos diarios, la trazabilidad de cada dato hasta la petición que lo trajo, las reglas del cruce, las limitaciones conocidas, todas las fuentes y el glosario de acrónimos— deja de vivir dentro de un plegable cerrado de la portada. Ahora tiene página propia, a la vista y enlazable. Los enlaces ya publicados a la metodología y al glosario siguen funcionando: la portada conserva sus dos anclajes con un resumen que lleva a la página nueva.",
+   "url": "/referencia.html"
   }
  ]
 }

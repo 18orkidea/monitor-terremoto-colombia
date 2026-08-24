@@ -132,7 +132,10 @@ h2 + .sub { margin-bottom: 12px; }
 .intro p + p { margin-top: 8px; }
 .intro p { font-size: 14.5px; line-height: 1.65; color: var(--ink-2); margin: 0; max-width: none; }
 html { scroll-behavior: smooth; }
-section[id], main[id], footer[id] { scroll-margin-top: 66px; }
+/* `#glosario` de la portada es un <p>, no una <section>: sobrevive como
+   ancla de las 220 páginas que lo enlazan desde antes de la mudanza a
+   `referencia.html`, y sin esto la barra pegada se come su primera línea. */
+section[id], main[id], footer[id], p#glosario { scroll-margin-top: 66px; }
 #indice {
   display: flex; flex-wrap: wrap; gap: 6px;
   margin: 12px var(--margen) 0;
@@ -168,9 +171,7 @@ section[id], main[id], footer[id] { scroll-margin-top: 66px; }
 /* EL LIENZO DE LA PORTADA (fase 6). `main#mapa` era una columna: el mapa
    arriba y debajo un panel que contenía la tabla de 62 filas y medía varios
    miles de píxeles. Con la tabla mudada a su plegable, el panel es una lista
-   corta y los dos pueden ser hermanos de una rejilla — que es lo que pide el
-   criterio de JP: «el mapa a la altura del panel con todos sus datos, sin
-   scroll interno», y estirar el mapa antes que rellenar el hueco.
+   corta y los dos pueden ser hermanos de una rejilla.
    La doble marca `main#mapa` no es cosmética: un `.lienzo` a secas pierde por
    especificidad contra el `#mapa` que ya existía, igual que le pasó al lienzo
    municipal contra `.lienzo-mun`. */
@@ -201,16 +202,25 @@ main#mapa.lienzo > .panel .sub { font-size: 12.5px; color: var(--muted); margin:
 }
 .lista-mun a:hover { color: var(--copernicus); }
 @media (min-width: 900px) {
-  /* El panel a la izquierda y el mapa a la derecha, los dos a la misma altura:
-     `stretch` es lo que hace que el mapa CREZCA hasta el panel en vez de dejar
-     un hueco debajo. */
+  /* El panel a la izquierda y el mapa a la derecha, LOS DOS A ALTO FIJO y el
+     panel con scroll propio. Es la solución de la maqueta, y corrige el
+     criterio del 23-ago —«el mapa a la altura del panel con todos sus datos,
+     sin scroll interno»—: con el panel listando 48 municipios de un tirón, la
+     lista arrastraba al mapa hasta 2.473 px y el mapa, que es el protagonista
+     de esta página, dejaba de caber en una pantalla. Ahora el que se desplaza
+     es el panel, que es una lista, y no el mapa, que es una vista.
+     El porqué de la vuelta atrás está en docs/DECISIONES.md (25-ago-2026).
+     Los dos altos son EL MISMO valor escrito dos veces, no dos medidas: si se
+     toca uno hay que tocar el otro, y `TestAltoDelLienzoDePortada` falla si
+     alguien toca solo uno. Es literal y no un token porque un token de maqueta
+     sin `:root` que lo respalde es justo lo que veta `TestNingunTokenSeUsaSinRespaldo`. */
   main#mapa.lienzo {
     grid-template-columns: 360px 1fr; gap: 18px; align-items: stretch;
     padding: 0 var(--eje) 18px;
   }
   main#mapa.lienzo > .marco-mapa { order: 2; display: flex; min-height: 0; }
-  main#mapa.lienzo > .panel { order: 1; }
-  main#mapa.lienzo #map { flex: 1 1 auto; height: auto; min-height: 62vh; }
+  main#mapa.lienzo > .panel { order: 1; height: 70vh; overflow: auto; }
+  main#mapa.lienzo #map { flex: 1 1 auto; height: 70vh; min-height: 0; }
 }
 table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
 th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--grid); }
@@ -389,23 +399,27 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
   color: var(--ink);
 }
 #alerts { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.6; }
-#metodologia-box summary { cursor: pointer; color: var(--ink); font-size: 14px; padding: 2px 0; }
-#metodologia-box summary:hover { color: var(--s1); }
-#metodologia-box h3 { font-size: 15px; margin: 20px 0 8px; }
-#metodologia-box p, #metodologia-box ol { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); max-width: none; }
-#metodologia-box ol { padding-left: 22px; }
-#metodologia-box li { margin-bottom: 6px; }
-#metodologia-box a { color: var(--s1); text-decoration: none; }
-#metodologia-box a:hover { text-decoration: underline; }
-#metodologia-box dl {
+/* La metodología y el glosario: eran `#metodologia-box`, el `<details>` de la
+   portada, y desde la fase 6b son las secciones de `referencia.html`. Las
+   reglas SIGUEN AL CONTENIDO en vez de quedarse mirando a un id que ya no
+   existe — que es lo que pasa cuando un bloque se muda y su hoja no: el
+   glosario habría perdido su rejilla de dos columnas sin que nada fallara.
+   `.referencia` marca las secciones de esa página, y no un id por sección,
+   porque son cuatro y todas piden la misma tipografía de lectura larga. */
+.referencia p, .referencia ol { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); max-width: none; }
+.referencia ol { padding-left: 22px; }
+.referencia li { margin-bottom: 6px; }
+.referencia a { color: var(--s1); text-decoration: none; }
+.referencia a:hover { text-decoration: underline; }
+.referencia dl {
   display: grid; grid-template-columns: max-content 1fr;
   gap: 6px 14px; margin: 0; font-size: 12.5px; line-height: 1.5;
 }
-#metodologia-box dt { font-weight: 600; color: var(--ink); }
-#metodologia-box dd { margin: 0; color: var(--ink-2); }
+.referencia dt { font-weight: 600; color: var(--ink); }
+.referencia dd { margin: 0; color: var(--ink-2); }
 @media (max-width: 700px) {
-  #metodologia-box dl { grid-template-columns: 1fr; gap: 2px; }
-  #metodologia-box dd { margin-bottom: 8px; }
+  .referencia dl { grid-template-columns: 1fr; gap: 2px; }
+  .referencia dd { margin-bottom: 8px; }
 }
 footer { padding: 10px var(--gutter) 24px; font-size: 12px; color: var(--muted); line-height: 1.5; max-width: var(--ancho-pagina); }
 footer a { color: var(--s1); text-decoration: none; }
@@ -788,7 +802,7 @@ a.metric-card:hover { border-color: var(--s1); }
   #site-nav .nav-links > * { flex: 0 0 auto; }
   #site-nav .nav-links a { padding: 5px 9px; font-size: 12.5px; }
   /* la barra pegada mide dos renglones aquí: el ancla no puede quedar debajo */
-  section[id], main[id], footer[id] { scroll-margin-top: 96px; }
+  section[id], main[id], footer[id], p#glosario { scroll-margin-top: 96px; }
   /* La cabecera de página: la fecha en su renglón —el contexto del sismo ya
      tiene el suyo a cualquier anchura— y las descargas juntas en el siguiente,
      en vez de un botón huérfano colgando de la fecha. */
@@ -1420,10 +1434,24 @@ details.denso>summary{color:var(--ink)}
 .chip[data-capa="ciudadanos"] { color: var(--ciudadano); }
 .chip[data-capa="ausencia"]   { color: var(--ausencia); }
 
+/* La tira que se apoya en la PÁGINA y no dentro de una caja. El eje se lo da
+   la lista única de abajo, como a cualquier otro bloque de página; aquí solo
+   queda su aire propio. */
+.chips--pagina { margin-bottom: 10px; }
+
 /* La tira deslizable, como variante y no como norma: una fila de chips que no
    parte de línea y se arrastra en horizontal. Sin barra visible, porque en el
    móvil la barra roba alto al mapa. */
 .chips--tira { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+/* Una tira deslizable que además se apoya en la página: el eje tiene que
+   viajar DENTRO del contenedor que se desplaza, o el último chip se pega al
+   borde derecho en cuanto se arrastra. */
+.chips--tira.chips--pagina { scroll-padding-inline: var(--eje); }
+/* El `nowrap` de la tira es del CONTENEDOR: sin esto, el texto seguía
+   partiéndose DENTRO de cada chip y en un móvil de 375 px la tira medía 165 px
+   —tres renglones robados al mapa, que en esta página es el protagonista—.
+   Con una línea por chip mide 33 y lo que se desplaza es la tira. */
+.chips--tira .chip { white-space: nowrap; }
 .chips--tira::-webkit-scrollbar { display: none; }
 
 /* ── LOTE 5 · El eje único ──────────────────────────────────────────────
@@ -1436,12 +1464,16 @@ details.denso>summary{color:var(--ink)}
    anchos y lo que cambia con la pantalla es el VALOR de --eje, que aquí es
    alias de --margen (lote 1). Por eso no hay `@media` en este bloque.
 
-   `.chips` queda FUERA de la lista a propósito, y es la única exclusión: es la
-   única de estas clases que hoy tiene elementos en el marcado —tres tiras de
-   filtros publicadas— y ya recibe su sangrado lateral de la `.page-section`
-   que la contiene. Sumarle el eje la metería dos veces hacia adentro y las
-   tres tiras dejarían de alinearse con el H2 de su propia sección. Vuelve a la
-   lista cuando la fase de la portada saque los chips de las `.page-section`. */
+   `.chips` a secas queda FUERA de la lista a propósito, y es la única
+   exclusión: las tres tiras de filtros publicadas viven dentro de una
+   `.page-section`, que ya las sangra, y sumarles el eje las metería dos veces
+   hacia adentro hasta desalinearlas del H2 de su propia sección.
+   La fase 6b sacó por fin una tira de las `.page-section` —las capas del mapa
+   de la portada, hermanas del lienzo— y la respuesta NO fue meter `.chips` en
+   esta lista, porque eso habría desalineado a las otras tres: fue el
+   modificador `.chips--pagina`, que dice «esta se apoya en la página». Si
+   mañana aparece otra tira sin caja, lleva el modificador; `.chips` sigue
+   fuera. */
 .barra,
 .encabezado,
 .entradilla,
@@ -1450,6 +1482,7 @@ details.pliegue,
 .tarjetas,
 .canales,
 main#mapa.lienzo,
+.chips--pagina,
 .zona-datos { padding-left: var(--eje); padding-right: var(--eje); }
 /* Por encima de 900 px el lienzo declara su propio `padding` con el mismo
    `--eje` más el hueco de abajo, así que no hace falta repetirlo aquí. */

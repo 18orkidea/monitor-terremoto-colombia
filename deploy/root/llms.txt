@@ -29,6 +29,15 @@ sin reposicionar; el EXIF nunca se publica.
   evento emparejados por zona afectada, con feeds abiertos a la comunidad
 - [Balances en medios](https://datosdelterremoto.org/balances.html): serie diaria de cifras
   (fallecidos, heridos, desaparecidos, familias) que la prensa publica citando a UNGRD/SGC
+- [Municipios del área de influencia](https://datosdelterremoto.org/municipios.html): los
+  municipios con damnificados registrados, prensa o intensidad percibida, con su población
+  proyectada DANE 2026 y qué proporción está inscrita
+- [RUD: registro oficial día a día](https://datosdelterremoto.org/rud.html): el Registro
+  Único de Damnificados (UNGRD); familias y personas damnificadas que cargan las
+  autoridades municipales, municipio a municipio
+- [Cómo se construye este monitor](https://datosdelterremoto.org/referencia.html):
+  metodología, trazabilidad de cada cifra hasta su petición de origen, reglas del cruce,
+  limitaciones conocidas, fuentes y glosario de acrónimos
 
 ## Datos (CC BY 4.0)
 
@@ -59,5 +68,6 @@ sin reposicionar; el EXIF nunca se publica.
 ## Código y metodología
 
 - [Repositorio (MIT) con snapshots crudos](https://github.com/18orkidea/monitor-terremoto-colombia)
-- [Metodología completa](https://datosdelterremoto.org/#metodologia)
+- [Metodología completa](https://datosdelterremoto.org/referencia.html#metodologia)
+- [Glosario de acrónimos](https://datosdelterremoto.org/referencia.html#glosario)
 - Mantenido por @jp@col.social (https://col.social/@jp) con apoyo de Orkidea

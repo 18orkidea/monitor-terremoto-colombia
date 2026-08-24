@@ -505,7 +505,11 @@ def barra_escala(escala: float, ancho: int, alto: int) -> str:
 # botón «Reportar daño» se queda, porque ahí el icono señala una acción.
 PAGINAS = [("index.html", "Mapa"), ("municipios.html", "Municipios"),
            ("rud.html", "RUD"), ("balances.html", "Balances"),
-           ("noticias.html", "Titulares")]
+           ("noticias.html", "Titulares"),
+           # La sexta, desde la fase 6b: la metodología y el glosario dejaron de
+           # vivir dentro de un plegable de la portada. El rótulo dice qué
+           # responde la página, no cómo se llama el fichero.
+           ("referencia.html", "Cómo se construye")]
 REPO = "https://github.com/18orkidea/monitor-terremoto-colombia"
 # Las dos URLs que antes solo existían en `site/ui.js`. Se traen aquí porque el
 # pie ya no lo escribe el navegador: sin ellas, las cinco páginas perderían dos
@@ -612,7 +616,7 @@ def pie_estatico() -> str:
         '<div id="site-footer"><div class="sf-cols">'
         # Abre con el nombre público, no con el interno: es la marca doble ya
         # decidida (docs/DECISIONES.md, 22-ago-2026). «Monitor de brechas»
-        # sigue en la barra y en la metodología; aquí manda cómo se busca esto.
+        # sigue en la barra; aquí manda cómo se busca esto.
         '<div><strong>Datos del terremoto de Colombia 2026</strong><br>'
         'Damnificados, viviendas destruidas y daños <strong>municipio a municipio</strong> '
         'tras el terremoto de magnitud 7,4 del 10 de agosto de 2026, con epicentro en '
@@ -627,8 +631,13 @@ def pie_estatico() -> str:
         f'<a href="{BASE}/rud.html">RUD: registro oficial día a día</a><br>'
         f'<a href="{BASE}/balances.html">Balances en medios y comparativa</a><br>'
         f'<a href="{BASE}/noticias.html">Titulares por zona</a><br>'
-        f'<a href="{BASE}/index.html#glosario">Glosario</a> · '
-        f'<a href="{BASE}/index.html#metodologia">Metodología</a></div>'
+        f'<a href="{BASE}/referencia.html">Cómo se construye este monitor</a><br>'
+        # Apuntan ya a la página propia, no al plegable de la portada. Los
+        # enlaces viejos —220 páginas publicadas con `index.html#glosario`—
+        # siguen llegando: la portada conserva los dos `id` sobre el bloque que
+        # resume y remite aquí. Una URL publicada es un compromiso.
+        f'<a href="{BASE}/referencia.html#glosario">Glosario</a> · '
+        f'<a href="{BASE}/referencia.html#metodologia">Metodología</a></div>'
         '<div><strong>Datos abiertos (CC BY 4.0)</strong><br>'
         f'<a href="{DATOS}/crosscheck.csv" download>CSV del cruce</a><br>'
         f'<a href="{DATOS}/monitor.json" target="_blank">JSON del monitor</a><br>'
@@ -3140,6 +3149,130 @@ def _contrastables(ctx: dict) -> list:
     return fuera
 
 
+# --------------------------------------------- chips del mapa de la portada
+# Las cinco capas que el chip de la portada enciende y apaga, EN EL ORDEN EN QUE
+# `site/app.js` las dibuja. Los tres servicios satelitales no se escriben aquí:
+# salen de `SATELITES` (`clave` + `rotulo`), la misma tabla que decide quién ha
+# mirado cada municipio, para que el cuarto servicio traiga su chip solo.
+#
+# Diferencia deliberada con los chips de la ficha (`chips_evidencia`): allí el
+# número cuenta PUNTOS —«21 edificios»— porque dentro de un municipio no hay
+# municipios que contar. Aquí cuenta MUNICIPIOS, que es el criterio de JP y la
+# única unidad en la que las cinco cifras se pueden comparar entre sí: contadas
+# en edificios, Copernicus parecía cubrir más que el registro oficial cuando es
+# justo al revés.
+def capas_portada() -> tuple:
+    """(clave, rótulo) de cada capa del mapa de la portada, en orden de dibujo."""
+    return (*((sat["clave"], sat["rotulo"]) for sat in SATELITES),
+            # el MISMO rótulo que la tira de la ficha (`capas_evidencia`): dos
+            # vocabularios para la misma capa en dos superficies hermanas es
+            # justo lo que M2 prohíbe
+            ("ciudadanos", "Reportes de la comunidad"),
+            ("ausencia", "Solo en el RUD"))
+
+
+def _municipios_por_capa(ctx: dict) -> dict:
+    """Cuántos MUNICIPIOS aporta cada capa del mapa de la portada.
+
+    Cada cuenta se saca de la misma fuente que dibuja su capa, no de un
+    agregado paralelo: los satélites de `conteo_satelite` y de los campos
+    `unosat_edificios`/`sertit_edificios`, los vecinos de `conteo_ciudadanos` y
+    la ausencia de `municipios_mapa.json`. Así no puede haber un chip que
+    prometa más municipios de los que el mapa enseña, que es la divergencia de
+    los «36 en portada, 43 en la tabla».
+
+    Las claves `__…` de `asigna_a_municipios` —los puntos que no cayeron en
+    ningún municipio— quedan fuera: no son municipios.
+
+    **La ausencia se cuenta del fichero que el mapa dibuja, no de la lista
+    viva.** Es la trampa de los «36 en portada, 43 en la tabla», y volvió a
+    saltar aquí: `municipios_mapa.json` se publica en su propia corrida y puede
+    ir por detrás del catálogo —el 24-ago traía 196 municipios con el catálogo
+    ya en 240, porque el RUD había crecido dos días—. Un chip que prometiera 240
+    encendería una capa de 196 puntos. El párrafo de debajo del mapa sí dice los
+    240: cuenta un hecho del registro, no lo que hay pintado, y esa distancia
+    entre las dos cifras ES la brecha que el sitio mide. `con_coordenadas` es
+    exactamente lo que `app.js` usa para su propio rótulo."""
+    def sin_sinteticos(d):
+        return sum(1 for k, v in d.items() if not k.startswith("__") and v)
+
+    # El cero se colapsa, igual que en `municipios_con_evidencia_puntual` y por
+    # el mismo motivo: un chip enciende una CAPA, y un municipio evaluado con
+    # cero edificios no pone un solo punto en el mapa —encenderlo no cambiaría
+    # nada de lo que se ve—. Es la diferencia con
+    # `ingest/municipios.py::sin_mirada_satelital`, donde ese cero sí se
+    # distingue porque allí la pregunta es si ALGUIEN MIRÓ, no si encontró. El
+    # día que un servicio publique un municipio a cero hay que decidir qué
+    # enseña ese chip antes de dejarlo entrar.
+    por_campo = {}
+    for sat in SATELITES:
+        if sat["campo"]:
+            por_campo[sat["clave"]] = sum(
+                1 for m in ctx["municipios"] if m.get(sat["campo"]))
+    capa = (_leer("municipios_mapa.json")
+            if (PUBLIC / "municipios_mapa.json").exists() else {})
+    return {
+        "copernicus": sin_sinteticos(ctx["conteo_satelite"]),
+        **por_campo,
+        "ciudadanos": sin_sinteticos(ctx["conteo_ciudadanos"]),
+        "ausencia": capa.get("con_coordenadas") or 0,
+    }
+
+
+# Qué enciende cada chip, con todas sus palabras. El rótulo de una pastilla de
+# 12 px no puede llevar la salvedad, y sin ella «Solo en el RUD» se lee como
+# «menos daño» cuando lo que dice es «nadie lo ha mirado» (R3). La explicación
+# larga vive en la leyenda, dentro de un plegable; esta va al alcance del cursor
+# y del lector de pantalla, pegada al control que la necesita.
+QUE_ENCIENDE = {
+    "copernicus": "Edificios, vías e interrupciones que el servicio de "
+                  "emergencias de Copernicus (EMSR916) clasificó por imagen "
+                  "satelital, sin validar en el terreno",
+    "unosat": "Edificios que UNITAR-UNOSAT, el centro satelital de la ONU, "
+              "evaluó por imagen; buena parte solo como «daño posible», y "
+              "ninguno validado en campo",
+    "sertit": "Edificios que ICube-SERTIT evaluó con imagen Pléiades para la "
+              "Carta Internacional del Espacio, sin validar en el terreno",
+    "ciudadanos": "Reportes que los vecinos enviaron por WhatsApp con su "
+                  "ubicación y su foto (ChatMap, de OpenStreetMap Colombia), "
+                  "en el punto exacto que registró la fuente",
+    "ausencia": "Municipios con damnificados inscritos en el RUD sobre los que "
+                "ningún servicio satelital ha publicado producto de daño. No "
+                "significa que no tengan daño: significa que nadie los ha "
+                "mirado todavía",
+}
+
+
+def chips_portada(ctx: dict) -> str:
+    """La tira de chips que enciende y apaga las capas del mapa de la portada.
+
+    Un chip es una acción: por eso es `<button>` con `aria-pressed`, y no una
+    `.badge`, que solo rotula. Y **filtra el MAPA: la lista del panel no se
+    toca** —es un cuadro de honor, no un índice, y el índice filtrable es
+    `/municipios.html`—.
+
+    Sin capa no hay chip: la condición es la misma que usa `app.js` para crear
+    la capa, de modo que no puede quedar un chip huérfano accionando nada. El
+    build los emite todos encendidos porque `app.js` añade las cinco capas al
+    mapa de entrada; si eso cambiara, el propio `app.js` corrige el
+    `aria-pressed` al engancharlos, que es lo que ya hace `municipio.js`."""
+    cuentas = _municipios_por_capa(ctx)
+    botones = []
+    for clave, rotulo in capas_portada():
+        n = cuentas.get(clave) or 0
+        if not n:
+            continue                       # sin capa no hay chip que la accione
+        botones.append(
+            f'<button type="button" class="chip chip--punto" data-capa="{clave}"'
+            f' title="{e(QUE_ENCIENDE[clave])}" aria-pressed="true">'
+            f'<span class="punto" aria-hidden="true"></span>{e(rotulo)} '
+            f'<span class="n">{fmt(n)}</span> '
+            f'{e(concuerda(n, "municipio", "municipios"))}</button>')
+    if not botones:
+        return ""
+    return "".join(botones)
+
+
 def panel_portada(ctx: dict) -> str:
     """El panel que acompaña al mapa: quién está documentado por más de uno.
 
@@ -3231,7 +3364,7 @@ def tarjetas_portada(ctx: dict) -> str:
         ("/noticias.html", "Titulares",
          f"{fmt(noticias)} titulares emparejados por zona"
          if noticias else "Los titulares del evento, emparejados por zona"),
-        ("#metodologia", "Cómo se construye",
+        ("/referencia.html", "Cómo se construye",
          "Metodología, glosario y trazabilidad de cada cifra"),
     ]
     return "".join(
@@ -4083,6 +4216,95 @@ def dataset_rud(ctx: dict) -> str:
         **({"variableMeasured": variables} if variables else {}),
         "citation": citas,
         "distribution": [
+            {"@type": "DataDownload",
+             "name": "Serie diaria y detalle municipal del RUD (JSON)",
+             "encodingFormat": "application/json",
+             "contentUrl": "https://datosdelterremoto.org/data/public/rud.json"},
+        ]}
+    return ('<script type="application/ld+json">'
+            + json.dumps(ld, ensure_ascii=False) + "</script>")
+
+
+def dataset_referencia(ctx: dict) -> str:
+    """El `Dataset` de `referencia.html`, con TODAS sus fuentes citadas.
+
+    **R9, y aquí es donde más se juega:** esta es la página cuyo oficio es
+    documentar de dónde sale cada cifra. Un `Dataset` con `creator` = el monitor
+    y sin una sola `citation` le diría a una máquina que el monitor es el autor
+    de los datos — justo lo contrario de lo que la página entera explica con
+    palabras. `creator` y `publisher` siguen siendo el monitor, porque el
+    monitor compila ESTE artefacto; el origen va en `citation`.
+
+    Las citas de los satélites salen de `SATELITES` (`nombre` + `publicador` +
+    `url`) y no de una lista nueva: una segunda copia de los mismos tres
+    servicios diverge en cuanto entre el cuarto (M2), y ya pasó con `citation`
+    en las fichas.
+
+    Comparte `@id` con el nodo de la portada a propósito: **es el mismo
+    conjunto, no uno nuevo**, así que un consumidor de datos estructurados los
+    funde en vez de contar dos. Por eso tampoco repite aquí las medidas — las
+    publica la portada— y sí aporta lo que solo esta página tiene: la técnica de
+    medición y la procedencia.
+
+    Devuelve el `<script>` entero, como `dataset_rud`, porque un
+    `application/ld+json` vacío a la espera de relleno es JSON inválido para
+    quien lea el documento antes de la inyección."""
+    url = "https://datosdelterremoto.org/referencia.html"
+    citas = [
+        cita_rud(),
+        cita_dane("Proyección de población municipal 2026 y catálogo DIVIPOLA"),
+        _cita("Parámetros del sismo, ShakeMap, PAGER y DYFI",
+              "United States Geological Survey (USGS)",
+              "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2"),
+        _cita("Reportes ciudadanos georreferenciados (ChatMap)",
+              "OpenStreetMap Colombia · Humanitarian OpenStreetMap Team",
+              "https://chatmap.hotosm.org/colombia.html"),
+    ] + [_cita(f"Evaluación satelital de daño — {sat['nombre']}",
+               sat["publicador"], sat["url"]) for sat in SATELITES]
+    ld = {
+        "@context": "https://schema.org", "@type": "Dataset",
+        # el MISMO `@id` que el nodo de la portada: un solo conjunto
+        "@id": "https://datosdelterremoto.org/#dataset",
+        "url": url, "mainEntityOfPage": url,
+        "name": "Cruce diario de daños del terremoto de Colombia 2026",
+        "description":
+            "Metodología, trazabilidad y glosario del cruce diario entre el "
+            "registro oficial de damnificados (RUD de la UNGRD), las "
+            "evaluaciones de daño por satélite (Copernicus EMS EMSR916, "
+            "UNITAR-UNOSAT e ICube-SERTIT), los reportes de la comunidad y los "
+            "balances que la prensa publica citando fuentes oficiales. El "
+            "monitor no produce cifras: audita y cruza las que existen, y cada "
+            "una es rastreable hasta la petición que la trajo.",
+        "inLanguage": "es",
+        "temporalCoverage": "2026-08-10/..",
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "creator": {"@id": ORGANIZACION},
+        "publisher": {"@id": ORGANIZACION},
+        "includedInDataCatalog": {"@id": SITIO},
+        "spatialCoverage": {"@type": "Place", "name": "Occidente de Colombia"},
+        "keywords": ["metodología", "trazabilidad", "glosario",
+                     "terremoto Colombia 2026", "brecha de reporte",
+                     "RUD", "Copernicus EMS", "UNOSAT", "ICube-SERTIT"],
+        "measurementTechnique": [
+            "Ninguna cifra se produce aquí: se recopilan las que publican las "
+            "fuentes y se cruzan entre sí. Toda petición HTTP queda archivada "
+            "con su URL, su estado, su huella sha256 y su fecha, y la copia "
+            "original se conserva inmutable en el repositorio público.",
+            "«Coincide» exige evidencia oficial (EDAN o balance de entidad "
+            "estatal) más producto satelital con estadísticas; la prensa y los "
+            "reportes de la comunidad solo alcanzan estados intermedios "
+            "explícitos. Los «NA» de las fuentes se conservan como tales y "
+            "nunca se convierten en ceros.",
+        ],
+        "citation": citas,
+        "distribution": [
+            {"@type": "DataDownload",
+             "name": "Cruce por zona (CSV)", "encodingFormat": "text/csv",
+             "contentUrl": "https://datosdelterremoto.org/data/public/crosscheck.csv"},
+            {"@type": "DataDownload",
+             "name": "Cruce, series y agregados del monitor (JSON)",
+             "encodingFormat": "application/json",
+             "contentUrl": "https://datosdelterremoto.org/data/public/monitor.json"},
             {"@type": "DataDownload",
              "name": "Serie diaria y detalle municipal del RUD (JSON)",
              "encodingFormat": "application/json",
@@ -5321,7 +5543,8 @@ def marcado_balances(ctx: dict) -> str:
 # estuviera en `PAGINAS` se quedaría sin marca sin que nada lo dijera.
 PAGINAS_GRANDES = {"index.html": "index.html", "municipios.html": "municipios.html",
                    "rud.html": "rud.html", "balances.html": "balances.html",
-                   "noticias.html": "noticias.html"}
+                   "noticias.html": "noticias.html",
+                   "referencia.html": "referencia.html"}
 _MARCA_NAV = re.compile(r'<nav id="site-nav"[^>]*></nav>')
 _MARCA_PIE = re.compile(r'<div id="site-footer"[^>]*></div>')
 # El contenedor a secas —vacío o ya lleno—. Sirve para distinguir las dos
@@ -5424,6 +5647,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    # la portada (fase 6): lo que dibujaba el navegador
                    "portada-entradilla": entradilla_portada,
                    "portada-comoleer": nota_como_leer_portada,
+                   "portada-chips": chips_portada,
                    "portada-panel": panel_portada,
                    "portada-brecha": parrafo_brecha_portada,
                    "portada-grafico": grafico_brecha,
@@ -5437,6 +5661,10 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "portada-nota-sin": nota_sin_registro,
                    "portada-tarjetas": tarjetas_portada,
                    "portada-sello": sello_portada,
+                   # el mismo sello: la página de referencia se rehace en la
+                   # misma corrida y con la misma fecha de datos que la portada
+                   "referencia-sello": sello_portada,
+                   "referencia-dataset": dataset_referencia,
                    "municipios-sello": sello_municipios,
                    "rud-sello": sello_rud,
                    "balances-sello": sello_balances,
@@ -5467,13 +5695,16 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "balances": "balances", "noticias": "noticias",
                "mirada-portada": "index", "brechas": "index",
                "portada-entradilla": "index", "portada-comoleer": "index",
+               "portada-chips": "index",
                "portada-panel": "index", "portada-brecha": "index",
                "portada-grafico": "index", "portada-grafico-sub": "index",
                "portada-fuentes": "index", "portada-alertas": "index",
                "portada-alertas-fecha": "index", "portada-acts": "index",
                "portada-leyenda": "index", "portada-nota-rud": "index",
                "portada-nota-sin": "index", "portada-tarjetas": "index",
-               "portada-sello": "index", "municipios-sello": "municipios",
+               "portada-sello": "index", "referencia-sello": "referencia",
+               "referencia-dataset": "referencia",
+               "municipios-sello": "municipios",
                "rud-sello": "rud", "balances-sello": "balances",
                "noticias-sello": "noticias",
                "rud-resumen": "rud", "rud-grafico": "rud",

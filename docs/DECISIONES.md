@@ -6,6 +6,209 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — La metodología y el glosario se van a página propia; el mapa vuelve a caber en una pantalla
+
+Fase 6b: alinear la portada con la maqueta del prototipo, con el feedback que JP
+dio la noche del 24 viendo la home construida. Cuatro decisiones, y dos de ellas
+corrigen criterios anteriores del propio JP. Se anotan aquí precisamente por
+eso: para que nadie las «arregle» al revés mañana leyendo la entrada vieja.
+
+### 1 · El mapa y el panel, a alto fijo (corrige el criterio del 23-ago)
+
+El 23-ago el criterio era «el mapa a la altura del panel con todos sus datos,
+sin scroll interno». Aplicado, el panel lista 48 municipios de un tirón y
+arrastraba al mapa: **medido a 1.276 px, el lienzo entero medía 2.473 px** y el
+mapa —que es el protagonista de esta página— dejaba de caber en una pantalla.
+
+Decisión: la de la maqueta. Panel y mapa a **70vh**, el panel con `overflow:
+auto`, el panel a la izquierda (360 px) y el mapa a la derecha. Medido después:
+**648 px**. Lo que se desplaza es el panel, que es una lista; no el mapa, que es
+una vista. Los dos altos se escriben literales y no como token: un token de
+maqueta sin `:root` que lo respalde es lo que veta
+`TestNingunTokenSeUsaSinRespaldo`.
+
+Guardián: `tests/test_frontend.py::TestAltoDelLienzoDePortada`, que mide las dos
+declaraciones —el alto compartido y el `overflow`— en vez de fiarse del
+comentario. Cuatro mutaciones caen (M1): devolver el mapa a `height: auto`,
+quitarle el alto al panel, quitarle el `overflow`, y poner dos altos distintos.
+
+### 2 · Los chips de capa de la portada
+
+No existían. La portada tenía doce capas detrás de un `L.control.layers` que en
+un móvil se colapsa en un icono. Se añaden cinco chips —Copernicus EMS,
+UNITAR-UNOSAT, ICube-SERTIT, reportes ciudadanos y «Solo en el RUD»— con el
+mismo mecanismo que ya usan las 252 fichas: **los escribe el build y el
+navegador solo los conecta** (M2 — construirlos en el navegador sería una
+segunda copia de los recuentos y dejaría la tira vacía para quien lee el
+documento sin ejecutarlo).
+
+Tres criterios de JP que aquí no se reinterpretan, y cada uno con su guardián:
+**cuentan municipios, no puntos** (en edificios, Copernicus parecía cubrir más
+que el registro oficial cuando es al revés); **un chip es una acción** —
+`<button>` con `aria-pressed`, no una `.badge`, que solo rotula—; y **filtran el
+MAPA, la lista del panel no cambia** (el panel es un cuadro de honor y una
+puerta de entrada, no un índice: el índice filtrable es `/municipios.html`).
+
+Dos divergencias deliberadas con la maqueta, las dos por coherencia con lo ya
+publicado:
+
+- **El control de capas de Leaflet se queda.** En la ficha municipal los chips
+  lo sustituyen porque cubren todas sus capas; aquí accionan cinco de doce, y
+  retirarlo escondería las otras siete. Por eso los chips **oyen**
+  `overlayadd`/`overlayremove`: si alguien apaga una capa desde el control, su
+  chip se entera, o la tira publicaría un estado que el mapa desmiente.
+- **Nacen encendidos**, no apagados como en la maqueta, porque `app.js` añade
+  las cinco capas al mapa de entrada. El propio `app.js` corrige el
+  `aria-pressed` al engancharlos, así que la marca sigue al mapa y no al revés.
+
+Una clave de chip apunta a VARIAS capas de Leaflet: «Copernicus» son sus
+edificios, sus interrupciones y sus vías —tres capas y un solo servicio que
+mirar o dejar de mirar—.
+
+En un móvil de 375 px la tira medía 165 px, tres renglones robados al mapa: se
+le pone `.chips--tira` (deslizable) y `white-space: nowrap` en sus chips. Mide
+**28 px**. Y estrena `.chips--pagina`: `.chips` a secas sigue FUERA de la lista
+del eje —las otras tres tiras publicadas viven dentro de una `.page-section`,
+que ya las sangra— y la respuesta a la primera tira sin caja es un modificador,
+no meter `.chips` en la lista y desalinear a las otras tres.
+
+Hallazgo del camino, que no se buscaba: **el chip de la ausencia prometía 240
+municipios y su capa dibuja 196.** Es la trampa de los «36 en portada, 43 en su
+propia tabla», con un disfraz nuevo. `municipios_mapa.json` —el fichero que
+`app.js` pinta— se publica en su propia corrida y ese día iba dos días por
+detrás del catálogo: el RUD había crecido y la lista viva ya daba 240. **Un
+control del mapa cuenta lo que se PINTA**, así que el chip pasa a leer
+`con_coordenadas` de ese mismo fichero, que es exactamente lo que `app.js` usa
+para su propio rótulo de capa.
+
+Lo que NO se hace: igualar las dos cifras. El párrafo de debajo del mapa sigue
+diciendo 240 y hace bien —cuenta un hecho del registro oficial, no lo que hay
+dibujado—, y **la distancia entre las dos ES la brecha que este sitio existe
+para medir**. Lo inaceptable era que un botón prometiera puntos que no están.
+Queda apuntado lo que no se arregla aquí: `municipios_mapa.json` va con retraso
+respecto a `municipios.json` porque los escribe la misma corrida pero el
+artefacto publicado es del 22-ago; se resuelve solo en cuanto pase una corrida
+real, y no es una decisión de diseño.
+
+Guardián: `tests/test_render_html.py::TestChipsDeLaPortada`. El test de los
+recuentos mide contra las DOS cifras —que salga la de municipios y que NO salga
+la de puntos—, porque uno que solo comprobara la primera pasaría igual el día
+que alguien vuelva a contar edificios en un municipio con un solo punto. Cinco
+mutaciones caen (M1).
+
+### 3 · `referencia.html`, y el suelo de prosa de la portada
+
+**Esta es la parte con riesgo, y por eso llevaba dos jornadas aplazada: 220
+páginas publicadas enlazan `index.html#glosario` e `index.html#metodologia`.**
+Una URL publicada es un compromiso. Además, hoy ese enlace del pie de cualquiera
+de las 257 páginas aterrizaba **dentro de un `<details>` cerrado**.
+
+Decisión: la metodología, el glosario, la guía «cómo leer cada sección» y «qué
+encontrará en este sitio» se mudan a `referencia.html` («Cómo se construye este
+monitor»), sexta página grande. **La portada conserva los dos `id`** sobre un
+bloque corto que resume y remite, para que los enlaces viejos sigan llegando a
+algo que responde a lo que prometían; el pie de las 257 páginas apunta ya a la
+página nueva, donde el texto vive entero y a la vista.
+
+Las cifras, que es lo que el guardián de `PROSA_MINIMA` existe para forzar:
+
+| | palabras | prosa propia |
+|---|---|---|
+| `index.html` antes | 4.828 | 3.766 |
+| `index.html` después | 3.032 | 1.962 |
+| `referencia.html` | 2.470 | 2.292 |
+| **suma antes** | **4.828** | **3.766** |
+| **suma después** | **5.502** | **4.254** |
+
+**La suma sube: no se ha perdido texto, se ha ganado** —los encabezados de las
+cuatro secciones nuevas y su bajada—. Con eso, y solo con eso, se toca el suelo:
+`PROSA_MINIMA["index.html"]` baja de 2.727 a **1.765** (1.962 medidas − 197 de
+prosa condicional: 151 de las alertas del día, que R11/R15 hacen condicionales
+—un día sin fuente callada publica menos, y eso es una buena noticia—, y 46 de
+las otras activaciones de Copernicus). `referencia.html` entra con **2.292**,
+sin margen: toda su prosa es fija y no hay una sola frase que dependa del dato
+del día.
+
+Una página nueva entra en **once superficies**: barra, pie, `PAGINAS_GRANDES`,
+sello, sitemap, IndexNow, `llms.txt`, `MINIMOS`, `PROSA_MINIMA` y dos listas de
+los tests. De paso se corrige una laguna anterior: `llms.txt` listaba tres de las
+cinco páginas —faltaban `municipios.html` y `rud.html`— y ahora lista las seis.
+
+`referencia.html` lleva su propio nodo `Dataset` en JSON-LD, y **con el mismo
+`@id` que el de la portada**: es el mismo conjunto, no uno nuevo, así que un
+consumidor de datos estructurados los funde en vez de contar dos. Que viva aquí
+no es repetición: esta es la página que documenta cómo se construye ese
+conjunto, que es justo lo que `Dataset` pide declarar.
+
+Guardianes: `TestLaMudanzaDeLaMetodologia` (los dos anclajes siguen en la
+portada, el muñón remite, el texto llegó entero y no se ha quedado una copia en
+la portada, y el pie manda a la página nueva) y `TestLaPaginaDeReferencia` (las
+superficies que un olvido deja rotas **en silencio** — las demás revientan el
+build y se ven solas). Diez mutaciones caen (M1).
+
+### Lo que cambió al pasar los revisores
+
+Cuatro decisiones, no cuatro erratas:
+
+- **Cada chip lleva su `title`** (`QUE_ENCIENDE`). Un rótulo de doce píxeles no
+  puede llevar la salvedad, y sin ella «Solo en el RUD» se lee como *menos
+  daño* cuando lo que dice es *nadie lo ha mirado* (R3). La explicación larga
+  sigue en la leyenda, pero la leyenda vive dentro de un plegable: el control la
+  necesita pegada, al alcance del cursor y del lector de pantalla.
+- **La misma capa se llama igual en las dos tiras.** La de la portada decía
+  «Reportes ciudadanos» y la de las 252 fichas «Reportes de la comunidad»: el
+  mismo dato con dos nombres en dos superficies hermanas es lo que M2 prohíbe.
+  Manda el de la ficha, que está publicado en 252 páginas. Lo vigila un test que
+  compara las claves COMPARTIDAS, no una lista escrita a mano — la portada tiene
+  una capa que la ficha no y viceversa.
+- **El `Dataset` de la página nueva cita a sus siete fuentes**, y las de los
+  satélites salen de `SATELITES` (M2). Nació sin `citation`, con `creator` = el
+  monitor: para una máquina, el monitor firmaba las cifras. Que faltara **justo
+  en la página cuyo oficio es documentar la procedencia** es lo que lo hacía
+  grave, no el campo en sí. `creator` sigue siendo el monitor —compila el
+  artefacto—; el origen va en `citation`, que es R9.
+- **El muñón de la portada desarrolla RUD y EDAN.** El ancla se llama
+  «Glosario»: quien llega desde el pie de una de las 220 páginas publicadas no
+  puede aterrizar en un párrafo que nombra seis siglas sin desplegar ninguna y
+  le pide otro clic. Las dos que más pesan se explican ahí mismo; el resto, en
+  la página.
+
+Y siete frases que **la mudanza volvió falsas**, que es el riesgo propio de
+mover prosa: «(arriba)» y «Debajo, en la cronología» dejaron de ser ciertas al
+cambiar de página; la guía explicaba tres capas del mapa de las cinco que ahora
+anuncian los botones —faltaban ICube-SERTIT y los anillos de la ausencia, que es
+la tesis del proyecto dibujada—; la lista del control de capas se leía
+exhaustiva sin serlo; «los botones de CSV y JSON están en la cabecera de cada
+página» era falso —solo la portada lleva CSV—; «tres ciclos consultan las
+fuentes» atribuía a los tres lo que hacen dos (el tercero es la batería de
+pruebas, que no pide nada a la red); y «vigilancia diaria del catálogo completo»
+prometía más de lo que el índice cubre, que arranca en julio de 2023.
+
+De paso, el guardián de cifras caducadas
+(`test_unit.py::TestCifrasSatelitalesEnLosTextos`) pasa a vigilar **los dos
+ficheros de prosa del sitio** en vez de solo la portada —si no, una mudanza le
+daría rojo por un cambio de sitio y no por una cifra vieja— y **estrena la
+cifra de ICube-SERTIT**, que era el tercer sumando del total y estaba escrita a
+mano sin que nada la mirara, exactamente como le pasó a Copernicus con los 622.
+
+### 4 · Los plegables
+
+«Otras activaciones Copernicus en Colombia» eran 57 palabras: por debajo del
+umbral de 120 de JP, un `<details>` esconde menos de lo que cuesta abrirlo. Se
+despliega. La portada queda con tres plegables —«Cómo leer estas cifras» (162),
+«Alertas y silencios» (166) y «Municipios con evidencia, uno a uno» (573)—,
+todos por encima del umbral.
+
+Lo que NO se hace, y por qué: **la cronología y su gráfica de hitos se quedan en
+la portada**, aunque el plan de fase pedía mudarlas con la metodología. Las
+dibuja `site/app.js` a partir de datos que solo esa página carga (`monitor.json`,
+`oficiales.json`, la serie del RUD y el volumen de medios), así que mudarlas no
+es mover marcado: es partir `app.js` en dos o cargar todo ese contexto en una
+página de texto. **No aportan una sola palabra al documento servido** —son JS
+puro—, de modo que no tocan ninguna de las cifras de arriba ni el conflicto del
+suelo de prosa. Queda como decisión de JP: mudarlas es un porte de JavaScript
+con su propia verificación, no una parte de esta.
+
 ## 2026-08-24 — El desglose del salto del RUD es prosa condicional: sale del suelo de `rud.html`
 
 Al fusionar el snapshot del 24-ago, `seo_check` cantó que `rud.html` perdía 47

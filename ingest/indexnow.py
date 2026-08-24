@@ -32,7 +32,7 @@ ENDPOINT = "https://api.indexnow.org/IndexNow"
 
 # cambian todos los días porque las cifras cambian todos los días
 PAGINAS_FIJAS = ("/", "/municipios.html", "/rud.html", "/balances.html",
-                 "/noticias.html")
+                 "/noticias.html", "/referencia.html")
 
 ESTADO = common.ROOT / "data" / "indexnow_estado.json"
 RAIZ_PUBLICADA = common.ROOT / "deploy" / "root"

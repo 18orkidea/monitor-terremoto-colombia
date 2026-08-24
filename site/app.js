@@ -138,6 +138,19 @@
     { attribution: "© OpenStreetMap", maxZoom: 18 }).addTo(map);
 
   const layers = {};
+  /* Las mismas capas, indexadas por la CLAVE con que el build escribe cada chip
+     en `data-capa`. `layers` sigue existiendo porque es lo que entiende
+     `L.control.layers`, que aquí NO se retira —el mapa de la portada tiene doce
+     capas y los chips accionan cinco—: los chips son el atajo a las cinco que
+     cuentan la historia, y el control sigue guardando el resto.
+     Una clave apunta a VARIAS capas: «Copernicus» son sus edificios, sus
+     interrupciones y sus vías, tres capas de Leaflet y un solo servicio que
+     mirar o dejar de mirar. */
+  const porCapa = {};
+  const conChip = (clave, capa) => {
+    (porCapa[clave] = porCapa[clave] || []).push(capa);
+    return capa;
+  };
   if (shake) {
     layers["Intensidad estimada por el USGS"] = L.geoJSON(shake, {
       style: (f) => ({ color: "#8a5a00", weight: 1, opacity: 0.5, dashArray: "4 3" }),
@@ -170,7 +183,7 @@
     // municipio llegara sin coordenadas, la etiqueta prometería más puntos de
     // los que hay. Es la divergencia de los «36 en portada, 43 en la tabla».
     const conCoords = sinMirada.items.filter((m) => m.lat != null && m.lon != null);
-    const capa = L.geoJSON({
+    const capa = conChip("ausencia", L.geoJSON({
       type: "FeatureCollection",
       features: conCoords
         .map((m) => ({ type: "Feature", properties: m,
@@ -213,7 +226,7 @@
             + "ICube-SERTIT",
         }));
       },
-    }).addTo(map);
+    })).addTo(map);
     capa.bringToBack();
     // «con damnificados» NO es adorno: sin esa condición el rótulo enuncia un
     // predicado que da 197, y municipios.html publica justo ese —Palmira no
@@ -271,7 +284,7 @@
     const crisis = { type: "FeatureCollection",
       features: dmgPts.features.filter((f) => f.properties.layer !== "builtUpP") };
     layers[`Edificios dañados — satélite (${edificios.features.length})`] =
-      L.geoJSON(edificios, {
+      conChip("copernicus", L.geoJSON(edificios, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: 5.5, weight: 1.5, color: "#fff", fillOpacity: 0.9,
           fillColor: GRADO_COLOR[f.properties.damage_gra] || css("--muted"),
@@ -290,10 +303,10 @@
             pie: "Copernicus EMS",
           }));
         },
-      }).addTo(map);
+      })).addTo(map);
     if (crisis.features.length) {
       layers[`Interrupciones / crisis (${crisis.features.length})`] =
-        L.geoJSON(crisis, {
+        conChip("copernicus", L.geoJSON(crisis, {
           pointToLayer: (f, ll) => L.circleMarker(ll, {
             radius: 6, weight: 2, color: css("--critical"),
             fillColor: "#fff", fillOpacity: 0.9,
@@ -307,12 +320,12 @@
               pie: "Copernicus EMS",
             }));
           },
-        }).addTo(map);
+        })).addTo(map);
     }
   }
   if (dmgLines && dmgLines.features.length) {
     layers[`Vías dañadas — satélite (${dmgLines.features.length})`] =
-      L.geoJSON(dmgLines, {
+      conChip("copernicus", L.geoJSON(dmgLines, {
         style: () => ({ color: css("--critical"), weight: 4, opacity: 0.85 }),
         onEachFeature: (f, l) => {
           const p = f.properties;
@@ -324,7 +337,7 @@
             pie: "Copernicus EMS",
           }));
         },
-      }).addTo(map);
+      })).addTo(map);
   }
   // ---- UNITAR-UNOSAT: la segunda mirada satelital, en municipios que
   // Copernicus no cartografía. Vocabulario propio: UNOSAT gradúa entre daño
@@ -354,7 +367,7 @@
       "Possible Damage": css("--warning"), "Destroyed": css("--critical"),
     };
     layers[`Edificios evaluados — satélite UNOSAT (${unosat.features.length})`] =
-      L.geoJSON(unosat, {
+      conChip("unosat", L.geoJSON(unosat, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: 5.5, weight: 1.5, color: "#2b2b2b", fillOpacity: 0.9,
           fillColor: UNOSAT_COLOR[f.properties.dano] || css("--muted"),
@@ -387,7 +400,7 @@
               (p.productos ? ` · producto ${p.productos.split(",")[0]}` : ""),
           }));
         },
-      }).addTo(map);
+      })).addTo(map);
   }
 
   // ---- ICube-SERTIT: la tercera mirada satelital. Servicio de cartografía
@@ -413,7 +426,7 @@
     : `${ser(s)} <span style="color:var(--muted)">(${s})</span>`;
   if (sertit && sertit.features.length) {
     layers[`Edificios evaluados — satélite ICube-SERTIT (${sertit.features.length})`] =
-      L.geoJSON(sertit, {
+      conChip("sertit", L.geoJSON(sertit, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: 5.5, weight: 1.5, color: "#fff", dashArray: "2 3",
           fillOpacity: 0.9,
@@ -437,7 +450,7 @@
               (p.producto_id ? ` · producto ${p.producto_id}` : ""),
           }));
         },
-      }).addTo(map);
+      })).addTo(map);
   }
 
   if (notAnalysed && notAnalysed.features.length) {
@@ -466,7 +479,8 @@
     }));
   }
   if (chat) {
-    layers[`Reportes ciudadanos ChatMap (${chat.features.length})`] = L.geoJSON(chat, {
+    layers[`Reportes ciudadanos ChatMap (${chat.features.length})`] =
+      conChip("ciudadanos", L.geoJSON(chat, {
       pointToLayer: (f, ll) => L.circleMarker(ll, {
         radius: 5, color: css("--s7"), weight: 1.5,
         fillColor: css("--s7"), fillOpacity: 0.55,
@@ -489,7 +503,7 @@
             (p.score == null ? "" : ` · puntuación de la verificación automática: ${p.score}`),
         }));
       },
-    }).addTo(map);
+    })).addTo(map);
   }
   if (dyfi) {
     layers["Intensidad que sintió la población"] = L.geoJSON(dyfi, {
@@ -593,6 +607,53 @@
       }).addTo(map);
   }
   L.control.layers(null, layers, { collapsed: true }).addTo(map);
+
+  /* Los chips de capa, que el build ya dejó escritos con su rótulo y su
+     recuento. No se construyen aquí: los cuenta `render_html.py::chips_portada`
+     sobre los mismos datos que este mapa dibuja, y construirlos en el navegador
+     sería una segunda copia de esos recuentos y dejaría la tira vacía para
+     quien lee el documento sin ejecutarlo (M2).
+
+     Filtran el MAPA. La lista del panel NO se toca: es un cuadro de honor y una
+     puerta de entrada, no un índice — el índice filtrable es /municipios.html.
+
+     A diferencia de la ficha municipal, aquí el control de capas de Leaflet se
+     queda: los chips accionan cinco de las doce capas, y retirarlo escondería
+     las otras siete. Por eso hay que oírlo: si alguien apaga una capa desde el
+     control, su chip tiene que enterarse, o la tira publicaría un estado que el
+     mapa desmiente. */
+  (function conectarChips() {
+    const tira = document.getElementById("capas-mapa");
+    if (!tira) return;
+    const suyas = {};
+    for (const chip of tira.querySelectorAll(".chip[data-capa]")) {
+      const capas = porCapa[chip.dataset.capa];
+      // Un chip sin capa no puede accionar nada: se retira antes que quedarse
+      // como control muerto. No debería pasar —el build emite chip donde hay
+      // municipios y `app.js` crea capa donde hay puntos—, pero el día que las
+      // dos condiciones se separen, el lector no se queda pulsando en vano.
+      if (!capas || !capas.length) { chip.remove(); continue; }
+      suyas[chip.dataset.capa] = capas;
+      const refleja = () => chip.setAttribute(
+        "aria-pressed", String(capas.some((c) => map.hasLayer(c))));
+      refleja();
+      chip.addEventListener("click", () => {
+        const encendido = chip.getAttribute("aria-pressed") === "true";
+        for (const c of capas) {
+          if (encendido) map.removeLayer(c); else c.addTo(map);
+        }
+        chip.setAttribute("aria-pressed", String(!encendido));
+      });
+      chip._refleja = refleja;
+    }
+    if (!Object.keys(suyas).length) { tira.remove(); return; }
+    const resincronizar = () => {
+      for (const chip of tira.querySelectorAll(".chip[data-capa]")) {
+        if (chip._refleja) chip._refleja();
+      }
+    };
+    map.on("overlayadd overlayremove", resincronizar);
+  })();
 
   // el grid asienta su tamaño tarde: reencuadrar cuando el contenedor cambie
   const aoiBounds = layers["Zonas que analizó Copernicus"] &&

@@ -3538,11 +3538,14 @@ class TestIdentidadDelSitio(unittest.TestCase):
         cls.html = R.render_ficha(R.datos_ficha("Nóvita", cls.ctx))
         cls.common = (ROOT / "site/common.js").read_text(encoding="utf-8")
 
-    def test_og_site_name_en_las_cinco_paginas_y_en_la_ficha(self):
+    def test_og_site_name_en_todas_las_paginas_grandes_y_en_la_ficha(self):
         esperado = f'<meta property="og:site_name" content="{self.NOMBRE_PUBLICO}">'
         self.assertIn(esperado, self.html, "la ficha no declara og:site_name")
-        for pagina in ("index.html", "municipios.html", "rud.html",
-                       "balances.html", "noticias.html"):
+        # De `PAGINAS_GRANDES`, no de una lista suelta: son seis desde la fase
+        # 6b y la séptima tiene que entrar aquí sola. `ESTATICAS` de
+        # `TestMarcadoEstructurado` sigue escrita a mano a propósito — es el
+        # cierre bidireccional, y derivarla la volvería tautológica.
+        for pagina in sorted(R.PAGINAS_GRANDES):
             texto = (ROOT / "site" / pagina).read_text(encoding="utf-8")
             self.assertIn(esperado, texto, f"{pagina} no declara og:site_name")
 
@@ -3599,8 +3602,7 @@ class TestContextoDelSismo(unittest.TestCase):
     lo midió así (JP, 24-ago). Sigue siendo `CONTEXTO_SISMO`, no una tercera
     copia. El H1 nombra el municipio; esta línea nombra el sismo."""
 
-    PAGINAS = ("index.html", "municipios.html", "rud.html", "balances.html",
-               "noticias.html")
+    PAGINAS = tuple(sorted(R.PAGINAS_GRANDES))
 
     @classmethod
     def setUpClass(cls):
@@ -3671,8 +3673,13 @@ class TestInventarioDelPie(unittest.TestCase):
         f"{R.BASE}/rud.html",
         f"{R.BASE}/balances.html",
         f"{R.BASE}/noticias.html",
-        f"{R.BASE}/index.html#glosario",
-        f"{R.BASE}/index.html#metodologia",
+        f"{R.BASE}/referencia.html",
+        # Fase 6b: apuntaban a `index.html#…`, dentro de un plegable de la
+        # portada. La metodología y el glosario tienen página propia; los dos
+        # `id` siguen en la portada para que los 220 enlaces ya publicados no
+        # caigan en el vacío, pero el pie manda a donde el texto vive entero.
+        f"{R.BASE}/referencia.html#glosario",
+        f"{R.BASE}/referencia.html#metodologia",
         f"{R.DATOS}/crosscheck.csv",
         f"{R.DATOS}/monitor.json",
         f"{R.DATOS}/rud.json",
@@ -3734,8 +3741,7 @@ class TestBarraYPieUnaSolaVez(unittest.TestCase):
     artefacto, que es lo que lee quien no ejecuta JavaScript.
     """
 
-    PAGINAS = ("index.html", "municipios.html", "rud.html",
-               "balances.html", "noticias.html")
+    PAGINAS = tuple(sorted(R.PAGINAS_GRANDES))
 
     @classmethod
     def setUpClass(cls):
@@ -3960,8 +3966,12 @@ class TestMarcadoEstructurado(unittest.TestCase):
     # su expectativa de la misma lista que vigila, una página que desapareciera
     # del build desaparecería a la vez de la comprobación y el test seguiría en
     # verde sobre cuatro páginas.
+    # A MANO, y no derivada de `PAGINAS_GRANDES`: es el cierre bidireccional.
+    # Derivarla la volvería tautológica y una página que se cayera del build
+    # se llevaría el guardián con ella. La sexta —`referencia.html`— entró en
+    # la fase 6b con la mudanza de la metodología y el glosario.
     ESTATICAS = ("index.html", "municipios.html", "rud.html",
-                 "balances.html", "noticias.html")
+                 "balances.html", "noticias.html", "referencia.html")
 
     @classmethod
     def setUpClass(cls):
@@ -6268,3 +6278,400 @@ class TestElMarcadoDeLaPortada(unittest.TestCase):
                               "chart"):
             self.assertNotIn(f'getElementById("{id_contenedor}")', js,
                              f"el navegador vuelve a rellenar #{id_contenedor}")
+
+
+class TestChipsDeLaPortada(unittest.TestCase):
+    """Los chips que encienden y apagan las cinco capas del mapa de la portada.
+
+    Tres criterios de JP, y cada uno con su guardián porque cada uno ya se ha
+    entendido al revés alguna vez:
+
+    1. **Cuentan MUNICIPIOS, no puntos.** En edificios, Copernicus parecía
+       cubrir más que el registro oficial cuando es justo al contrario.
+    2. **Un chip es una acción**: `<button>` con `aria-pressed`, no una
+       `.badge`, que solo rotula.
+    3. **Filtran el MAPA; la lista del panel NO cambia.** El panel es un cuadro
+       de honor y una puerta de entrada, no un índice.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.html = R.chips_portada(cls.ctx)
+        cls.js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+
+    def _chips(self, html: str) -> list:
+        """(capa, número escrito) de cada chip de la tira."""
+        return [(m.group(1), m.group(2)) for m in re.finditer(
+            r'<button[^>]*data-capa="([^"]+)"[^>]*>.*?'
+            r'<span class="n">([\d.,]+)</span>', html, re.S)]
+
+    def test_hay_un_chip_por_capa_del_mapa_y_ninguno_mas(self):
+        """La tira y `app.js` son superficies espejo: el build emite un chip por
+        capa con municipios y `app.js` registra esa capa con la misma clave. Si
+        divergen, la portada publica un chip que no acciona nada —el control
+        muerto que JP prohíbe— o una capa que ningún chip apaga."""
+        declaradas = {c for c, _ in R.capas_portada()}
+        registradas = set(re.findall(r'conChip\("([^"]+)"', self.js))
+        self.assertEqual(
+            declaradas, registradas,
+            "las claves de `capas_portada()` y las que `app.js` registra con "
+            "`conChip` han dejado de ser las mismas: uno de los dos lados "
+            "publica una capa que el otro no conoce")
+        cuentas = R._municipios_por_capa(self.ctx)
+        self.assertEqual({c for c, _ in self._chips(self.html)},
+                         {c for c in declaradas if cuentas.get(c)},
+                         "hay chip donde no hay municipios, o al revés")
+
+    def test_el_numero_del_chip_cuenta_municipios_y_no_puntos(self):
+        """Criterio de JP. Se mide contra las DOS cifras: la de municipios tiene
+        que salir y la de puntos tiene que NO salir, porque un test que solo
+        comprobara la primera pasaría igual el día que alguien vuelva a contar
+        edificios en un municipio con un solo punto."""
+        cuentas = R._municipios_por_capa(self.ctx)
+        puntos = {"copernicus": len(self.ctx["damage"]),
+                  "unosat": len(self.ctx["unosat"]),
+                  "sertit": len(self.ctx["sertit"]),
+                  "ciudadanos": len(self.ctx["chatmap"])}
+        total = len(self.ctx["municipios"])
+        for capa, escrito in self._chips(self.html):
+            self.assertEqual(escrito, R.fmt(cuentas[capa]),
+                             f"{capa}: el chip promete {escrito}")
+            self.assertLessEqual(
+                cuentas[capa], total,
+                f"{capa}: {cuentas[capa]} supera los {total} municipios del "
+                "catálogo, así que no está contando municipios")
+            if capa in puntos:
+                self.assertNotEqual(
+                    escrito, R.fmt(puntos[capa]),
+                    f"{capa}: el chip escribe los {puntos[capa]} PUNTOS de la "
+                    "capa. Debe contar municipios: es la única unidad en que "
+                    "las cinco cifras se pueden comparar entre sí")
+
+    def test_la_misma_capa_se_llama_igual_en_la_portada_y_en_la_ficha(self):
+        """M2. Las dos tiras son superficies hermanas: la de la portada y la de
+        las 252 fichas. Llegaron a decir «Reportes ciudadanos» y «Reportes de la
+        comunidad» de la MISMA capa, y un lector que pasa de una a otra tiene
+        que reconocerla. Se comprueba sobre las claves compartidas, no sobre una
+        lista escrita aquí: la portada tiene una capa que la ficha no («Solo en
+        el RUD») y la ficha una que la portada no («Zonas analizadas»)."""
+        portada = dict(R.capas_portada())
+        ficha = dict(R.capas_evidencia())
+        comunes = set(portada) & set(ficha)
+        self.assertTrue(comunes, "las dos tiras han dejado de compartir capa")
+        for clave in sorted(comunes):
+            self.assertEqual(
+                portada[clave], ficha[clave],
+                f"la capa «{clave}» se llama «{portada[clave]}» en la portada y "
+                f"«{ficha[clave]}» en la ficha: el mismo dato con dos nombres "
+                "en dos superficies hermanas es lo que M2 prohíbe")
+
+    def test_cada_chip_dice_con_todas_sus_palabras_lo_que_enciende(self):
+        """El rótulo de una pastilla de 12 px no cabe con la salvedad, y sin
+        ella «Solo en el RUD» se lee como «menos daño» cuando lo que dice es
+        «nadie lo ha mirado» (R3). Cada chip lleva su `title`, y el de la
+        ausencia tiene que desmentir esa lectura explícitamente."""
+        for clave, _rotulo in R.capas_portada():
+            self.assertIn(clave, R.QUE_ENCIENDE,
+                          f"la capa «{clave}» no explica qué enciende")
+        self.assertIn("nadie los ha mirado", R.QUE_ENCIENDE["ausencia"],
+                      "el chip de la ausencia no desmiente la lectura de «sin "
+                      "daño», que es la única que su rótulo corto permite")
+        for _clave, _n in self._chips(self.html):
+            pass
+        self.assertEqual(
+            self.html.count('title="'), len(self._chips(self.html)),
+            "hay chips sin `title`: el rótulo corto se queda solo")
+
+    def test_el_chip_de_la_ausencia_promete_los_puntos_que_el_mapa_PINTA(self):
+        """La trampa de los «36 en portada, 43 en su propia tabla», otra vez.
+
+        `municipios_mapa.json` se publica en su propia corrida y puede ir por
+        detrás del catálogo: el 24-ago-2026 traía 196 municipios cuando la lista
+        viva ya daba 240, porque el RUD había crecido dos días. Un chip contado
+        sobre la lista viva encendía una capa de 196 puntos prometiendo 240.
+
+        El chip cuenta lo que se PINTA. El párrafo de debajo del mapa sigue
+        diciendo los 240 y hace bien: cuenta un hecho del registro, no lo
+        dibujado, y la distancia entre las dos cifras es la brecha que el sitio
+        existe para medir. Lo que no puede pasar es que un CONTROL del mapa
+        prometa más de lo que su capa enseña.
+        """
+        capa = json.loads((ROOT / "data/public/municipios_mapa.json")
+                          .read_text(encoding="utf-8"))
+        pintados = sum(1 for m in capa["items"]
+                       if m.get("lat") is not None and m.get("lon") is not None)
+        chips = dict(self._chips(self.html))
+        self.assertEqual(
+            chips.get("ausencia"), R.fmt(pintados),
+            f"el chip de la ausencia promete {chips.get('ausencia')} y el mapa "
+            f"pinta {pintados} puntos")
+        # y el guardián de sí mismo: si las dos cifras coincidieran por
+        # casualidad, este test daría verde sin comprobar nada. Se mide contra
+        # la lista viva para que la divergencia, cuando exista, se vea.
+        vivos = len(R.sin_mirada_satelital(self.ctx))
+        if vivos != pintados:
+            self.assertNotEqual(
+                chips.get("ausencia"), R.fmt(vivos),
+                f"el chip volvió a contar la lista viva ({vivos}) en vez de los "
+                f"{pintados} puntos que su capa dibuja")
+
+    def test_un_chip_es_una_accion(self):
+        """Criterio de JP: `<button>` con `aria-pressed`. Una pastilla que
+        rotula y no acciona es una `.badge`."""
+        self.assertTrue(self.html, "la portada se ha quedado sin chips")
+        for pastilla in re.findall(r'<[a-z]+[^>]*class="chip[\s"][^>]*>', self.html):
+            self.assertTrue(pastilla.startswith("<button"),
+                            f"un chip que no es botón: {pastilla}")
+            self.assertIn("aria-pressed=", pastilla,
+                          f"un chip sin estado anunciado: {pastilla}")
+
+    def test_los_chips_filtran_el_mapa_y_no_tocan_la_lista(self):
+        """Criterio de JP, y se entendió al revés una vez. El manejador del clic
+        solo puede hablarle al mapa: si toca `#panel`, `.lista-mun` o `#tabla`,
+        el cuadro de honor deja de ser un cuadro de honor."""
+        manejador = re.search(
+            r'function conectarChips\(\).*?\n  \}\)\(\);', self.js, re.S)
+        self.assertIsNotNone(manejador, "no se encuentra el conectador de chips")
+        for prohibido in ("#panel", "lista-mun", "#tabla", "getElementById(\"panel\")"):
+            self.assertNotIn(
+                prohibido, manejador.group(0),
+                f"el clic de un chip toca «{prohibido}»: los chips filtran el "
+                "MAPA y la lista del panel no cambia")
+
+    def test_el_marcador_de_la_tira_es_uno_de_los_que_el_inyector_reconoce(self):
+        """El inyector solo rellena `<tbody>`, `<ul>`, `<span>` y `<section>`.
+
+        Con un `<div class="chips" data-gen="portada-chips">` el build no
+        encuentra el marcador y se cae — que es lo que hizo la primera vez. El
+        guardián mide la etiqueta, no la presencia: `data-gen` estaba puesto y
+        aun así la tira no llegaba al documento."""
+        html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+        etiqueta = re.search(r"<(\w+)[^>]*\bdata-gen=\"portada-chips\"", html)
+        self.assertIsNotNone(etiqueta, "la portada perdió el marcador de la tira")
+        self.assertIn(etiqueta.group(1), ("tbody", "ul", "span", "section"),
+                      f"<{etiqueta.group(1)}> no es un contenedor que el "
+                      "inyector sepa rellenar: la tira se quedaría vacía")
+        self.assertRegex(html, r'data-gen="portada-chips"></' + etiqueta.group(1),
+                         "la apertura y el cierre van pegados, sin salto")
+
+    def test_el_chip_se_entera_de_lo_que_se_apaga_desde_el_control_de_capas(self):
+        """El control de capas de Leaflet se queda en la portada —los chips
+        accionan cinco de las doce capas y retirarlo escondería las otras
+        siete—, así que hay dos mandos sobre las mismas capas. Si el chip solo
+        se entera de sus propios clics, apagar la capa desde el control deja la
+        tira publicando un estado que el mapa desmiente: el chip dice
+        «encendido» sobre un mapa que ya no dibuja nada. Es la trampa de M2 con
+        otro traje —dos mandos que divergen— y el día que alguien retire la
+        línea la suite seguía en verde.
+
+        El guardián mide las dos mitades, porque cada una falla sola: que
+        `conectarChips` escuche los dos eventos, y que lo que haga al oírlos
+        sea **releer el mapa** (`hasLayer`) y no repintar un estado propio,
+        que es lo que ya estaría desincronizado."""
+        cuerpo = re.search(r"function conectarChips\(\)(.*?)\n  \}\)\(\);",
+                           self.js, re.S)
+        self.assertIsNotNone(
+            cuerpo, "`conectarChips` ya no es el IIFE que este test sabe leer: "
+            "si se ha renombrado o reescrito, revisa que la resincronización "
+            "siga existiendo antes de adaptar el guardián")
+        cuerpo = cuerpo.group(1)
+        for evento in ("overlayadd", "overlayremove"):
+            self.assertIn(
+                evento, cuerpo,
+                f"`conectarChips` no escucha `{evento}`: quien apague o "
+                "encienda esa capa desde el control de Leaflet dejará el chip "
+                "mintiendo sobre lo que el mapa dibuja")
+        self.assertIn(
+            "hasLayer", cuerpo,
+            "el reflejo del chip no consulta `map.hasLayer`: si repinta un "
+            "estado propio, resincronizar no sincroniza nada")
+
+
+class TestLaMudanzaDeLaMetodologia(unittest.TestCase):
+    """La metodología y el glosario dejaron la portada (fase 6b, 25-ago-2026).
+
+    **220 páginas publicadas enlazan `index.html#glosario` e
+    `index.html#metodologia`.** Una URL publicada es un compromiso: mover el
+    texto sin dejar los dos `id` donde estaban rompería todos esos enlaces de
+    golpe y en silencio —el navegador se queda arriba de una página que ya no
+    responde a lo que el enlace prometía—.
+
+    Este guardián vigila las dos mitades del trato a la vez: que la portada
+    conserve los dos anclajes con algo que responda, y que el texto entero
+    exista de verdad en la página nueva. Cualquiera de las dos sola es una
+    promesa a medias.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.index = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+        cls.ref = (ROOT / "site" / "referencia.html").read_text(encoding="utf-8")
+
+    def test_la_portada_conserva_los_dos_anclajes_publicados(self):
+        for ancla in ("metodologia", "glosario"):
+            self.assertRegex(
+                self.index, rf'id="{ancla}"',
+                f"la portada perdió el ancla #{ancla}: 220 páginas publicadas "
+                "enlazan ahí y se quedarían apuntando a ninguna parte")
+
+    def test_lo_que_queda_en_la_portada_lleva_a_donde_esta_el_texto(self):
+        """Un ancla que aterriza en un párrafo mudo es peor que un 404: parece
+        que funciona. El bloque que se queda tiene que remitir a la página."""
+        bloque = re.search(r'<section[^>]*id="metodologia".*?</section>',
+                           self.index, re.S)
+        self.assertIsNotNone(bloque, "no queda bloque de metodología en la portada")
+        self.assertIn("/referencia.html", bloque.group(0),
+                      "el resumen que se queda en la portada no lleva a la "
+                      "página donde vive la metodología entera")
+
+    def test_el_texto_entero_esta_en_la_pagina_nueva(self):
+        """Se mide con las piezas que NADIE reescribiría por casualidad: las
+        siglas del glosario y los tres ciclos de la metodología. Si el texto se
+        hubiera quedado a medias en la mudanza, faltarían aquí."""
+        for sigla in ("EDAN", "DIVIPOLA", "ShakeMap", "GLIDE", "SNIGRD"):
+            self.assertIn(sigla, self.ref,
+                          f"el glosario llegó incompleto: falta «{sigla}»")
+        for pieza in ("Trazabilidad", "Reglas del cruce", "Limitaciones conocidas"):
+            self.assertIn(pieza, self.ref,
+                          f"la metodología llegó incompleta: falta «{pieza}»")
+        self.assertNotIn("Glosario de acrónimos", self.index,
+                         "el glosario sigue en la portada: se ha copiado en vez "
+                         "de mudarse, y ahora hay dos que envejecen por separado")
+
+    def test_el_pie_de_las_257_paginas_manda_a_la_pagina_nueva(self):
+        """El pie es la superficie que llega a las 257 páginas. Mientras apunte
+        al plegable de la portada, el enlace «Glosario» de cualquier ficha
+        aterriza dentro de un `<details>` cerrado y depende de que el navegador
+        lo abra al saltar al ancla."""
+        pie = R.pie_estatico()
+        for ancla in ("glosario", "metodologia"):
+            self.assertIn(f"{R.BASE}/referencia.html#{ancla}", pie)
+            self.assertNotIn(f'"{R.BASE}/index.html#{ancla}"', pie)
+
+
+class TestLaPaginaDeReferencia(unittest.TestCase):
+    """La sexta página grande: `referencia.html`.
+
+    Una página nueva tiene que entrar en ONCE superficies —barra, pie,
+    identidad, sello, sitemap, IndexNow, llms.txt, seo_check, y las listas de
+    los tests—. Este guardián comprueba las que un olvido deja rotas en
+    silencio: las demás revientan el build y se ven solas.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = (ROOT / "site" / "referencia.html").read_text(encoding="utf-8")
+
+    @staticmethod
+    def _modulo(ruta, nombre):
+        """Un módulo suelto del repo, sin importarlo por paquete.
+
+        `ingest/indexnow.py` importa `common` como hermano, así que su carpeta
+        tiene que estar en la ruta antes de ejecutarlo."""
+        import importlib.util
+        for carpeta in ("ingest", "deploy"):
+            ruta_abs = str(ROOT / carpeta)
+            if ruta_abs not in sys.path:
+                sys.path.insert(0, ruta_abs)
+        esp = importlib.util.spec_from_file_location(nombre, ROOT / ruta)
+        mod = importlib.util.module_from_spec(esp)
+        esp.loader.exec_module(mod)
+        return mod
+
+    def test_entra_en_las_superficies_que_no_avisan_al_olvidarse(self):
+        modulo = self._modulo
+        self.assertIn("referencia.html", dict(R.PAGINAS),
+                      "no sale en la barra de navegación")
+        self.assertIn("referencia.html", R.PAGINAS_GRANDES,
+                      "no recibe barra, pie ni identidad del sitio")
+        desc = modulo("deploy/render_descubrimiento.py", "descubrimiento")
+        self.assertIn("/referencia.html", [u for u, _c, _p in desc.PAGINAS],
+                      "no entra en el sitemap: nadie la va a descubrir")
+        seo = modulo("ingest/seo_check.py", "seo_check")
+        self.assertIn("referencia.html", seo.MINIMOS,
+                      "sin entrada en MINIMOS no se le comprueba NADA")
+        self.assertIn("referencia.html", seo.PROSA_MINIMA,
+                      "sin suelo de prosa, su texto puede desaparecer en silencio")
+        idx = modulo("ingest/indexnow.py", "indexnow")
+        self.assertIn("/referencia.html", idx.PAGINAS_FIJAS,
+                      "no se avisa a los buscadores cuando cambia")
+        llms = (ROOT / "deploy" / "root" / "llms.txt").read_text(encoding="utf-8")
+        self.assertIn("referencia.html", llms,
+                      "los sistemas de IA no saben que existe")
+
+    def test_su_dataset_cita_a_quien_produce_las_cifras(self):
+        """**R9 sobre la página cuyo oficio es documentar la procedencia.**
+
+        `creator` es el monitor —compila el artefacto— y el origen va en
+        `citation`. Un `Dataset` sin `citation` en ESTA página le diría a una
+        máquina que el monitor firma los datos, justo lo contrario de lo que la
+        página entera explica con palabras.
+
+        Los tres servicios satelitales se comprueban contra `SATELITES`, no
+        contra una lista escrita aquí: el día que entre el cuarto, este test
+        pide su cita solo."""
+        ld = R.dataset_referencia(R.contexto())
+        nodo = [n for b in bloques_ld(ld) for n in nodos_ld(b)
+                if "Dataset" in tipos_ld(n)]
+        self.assertEqual(len(nodo), 1)
+        nodo = nodo[0]
+        self.assertEqual(nodo["creator"], {"@id": R.ORGANIZACION},
+                         "`creator` debe ser el monitor, que compila (R9)")
+        publicadores = {c["publisher"]["name"] for c in nodo.get("citation") or []}
+        self.assertTrue(publicadores, "el Dataset no cita a nadie: R9 roto")
+        for sat in R.SATELITES:
+            self.assertIn(
+                sat["publicador"], publicadores,
+                f"{sat['rotulo']} aporta cifras a este conjunto y no está "
+                "citado: la atribución se deriva de SATELITES, así que un "
+                "servicio nuevo entra solo o este test lo canta")
+        for imprescindible in (R.UNGRD_ORG, R.DANE_ORG):
+            self.assertIn(imprescindible, publicadores)
+
+    def test_su_dataset_no_estrena_conjunto_sino_que_comparte_el_de_la_portada(self):
+        """Mismo `@id` que el nodo de la portada: es el MISMO conjunto. Con dos
+        `@id` distintos, un agregador contaría dos conjuntos donde hay uno."""
+        ld = R.dataset_referencia(R.contexto())
+        nodo = [n for b in bloques_ld(ld) for n in nodos_ld(b)
+                if "Dataset" in tipos_ld(n)][0]
+        portada = [n for n in nodos_ld(bloques_ld(
+            (ROOT / "site" / "index.html").read_text(encoding="utf-8")))
+            if "Dataset" in tipos_ld(n)]
+        self.assertEqual(len(portada), 1, "la portada ya no declara su Dataset")
+        # la portada lo declara anidado y sin `@id` propio: hereda el del sitio.
+        # Lo que se exige aquí es que el de la referencia NO invente uno nuevo.
+        self.assertEqual(nodo["@id"], "https://datosdelterremoto.org/#dataset")
+
+    def test_trae_los_tres_marcadores_que_el_build_necesita(self):
+        """Sin cualquiera de los tres, `escribir_piezas_compartidas` no rompe
+        el build de milagro: lo rompe a propósito. Se comprueban aquí para que
+        el fallo llegue con nombre y no como un `LookupError` de la corrida."""
+        for marca in ("<!--site-identity-->",
+                      '<nav id="site-nav" aria-label="Navegación del sitio"></nav>',
+                      '<div id="site-footer"></div>'):
+            self.assertIn(marca, self.html, f"falta el marcador {marca!r}")
+
+    def test_su_suelo_de_prosa_es_el_que_de_verdad_publica(self):
+        """El suelo no puede ser una cifra de deseo. Si sube por encima de lo
+        que la página escribe, el build falla mañana sin que nadie haya tocado
+        nada; si se queda muy por debajo, deja de proteger."""
+        seo = self._modulo("ingest/seo_check.py", "seo_check")
+        # Sobre el ARTEFACTO, que es lo que mide `seo_check`. Rehacerlo aquí
+        # pegando la barra y el pie a mano da una cifra parecida pero distinta
+        # —siete palabras—, y con ella el test acusaba al suelo de un fallo
+        # suyo. Sin `dist/` no hay nada que medir y se dice, en vez de medir
+        # otra cosa.
+        artefacto = ROOT / "dist" / "referencia.html"
+        if not artefacto.exists():
+            self.skipTest("sin dist/: el suelo se mide sobre el artefacto")
+        propias = seo.prosa_propia(artefacto.read_text(encoding="utf-8"))
+        suelo = seo.PROSA_MINIMA["referencia.html"]
+        self.assertGreaterEqual(
+            propias, suelo,
+            f"la página escribe {propias} palabras propias y su suelo pide "
+            f"{suelo}: el build va a fallar")
+        self.assertGreater(
+            suelo, propias * 0.9,
+            f"el suelo ({suelo}) va muy por debajo de las {propias} palabras "
+            "que la página publica: dejaría pasar una mudanza a medias")

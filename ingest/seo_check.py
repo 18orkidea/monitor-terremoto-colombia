@@ -26,6 +26,10 @@ MINIMOS = {
     "rud.html": {"palabras": 600, "filas": 50},
     "balances.html": {"palabras": 600, "filas": 10},
     "noticias.html": {"palabras": 1000, "filas": 100},
+    # La referencia es prosa y un glosario: sus «filas» son los <li> de la guía
+    # y los <dd> no cuentan, así que el suelo lo pone la guía de secciones. No
+    # es una tabla que pueda romperse por un prerenderizado caído.
+    "referencia.html": {"palabras": 1500, "filas": 10},
 }
 
 # Suelo de prosa propia: lo que cada página aporta descontando su tabla, la
@@ -51,7 +55,15 @@ MINIMOS = {
 MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200,
                       "rud.html": 47}
 PROSA_MINIMA = {
-    "index.html": 2727,        # la portada la reordena la fase 6
+    # fase 6b (25-ago-2026, docs/DECISIONES.md): 1.962 medidas − 197 de prosa
+    # condicional. La portada bajó de 3.766 a 1.962 palabras propias porque la
+    # metodología, el glosario y la guía de secciones se MUDARON a
+    # `referencia.html`, que estrena aquí su propio suelo con 2.292: la suma de
+    # las dos pasó de 3.766 a 4.254, así que no se ha perdido texto —se ha
+    # ganado—. Lo condicional que se descuenta son las alertas del día (151
+    # palabras: R11/R15, un día sin fuente callada publica menos, y eso es una
+    # buena noticia) y las otras activaciones de Copernicus en Colombia (46).
+    "index.html": 1765,
     "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
     # fase 3: 578 medidas − 47 del desglose del salto, que es condicional
     # (24-ago-2026, docs/DECISIONES.md). La oración «De las N familias…»
@@ -62,6 +74,10 @@ PROSA_MINIMA = {
     "rud.html": 531,
     "balances.html": 1404,     # fase 4: 1.564 medidas − 160 condicionales
     "noticias.html": 827,      # fase 4; su prosa no depende del dato del día
+    # fase 6b: 2.292 medidas, sin margen. Toda su prosa es fija —metodología,
+    # guía de secciones y glosario—: no hay una sola frase que dependa del dato
+    # del día, así que el suelo puede ser la medida exacta.
+    "referencia.html": 2292,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 
