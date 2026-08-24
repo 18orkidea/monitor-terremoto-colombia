@@ -5367,7 +5367,9 @@ class TestR5NoPrometeLoQueYaNoHace(unittest.TestCase):
     endpoint abierto, y sí engañaba a quien reporta—. Los globos de `app.js` y
     `municipio.js` siguieron diciendo «coordenada redondeada a unos 110 metros»
     durante un día, y `CONTRIBUTING.md`, `publish.py`, `verify_citizen.py` y
-    `LIMITACIONES.md` un poco más.
+    `LIMITACIONES.md` un poco más. El `README.md` aguantó todavía otro repaso:
+    lo decía con otras palabras y en presente, tres líneas debajo de una frase
+    ya corregida.
 
     La lección que fija este guardián: **un cambio de regla no está terminado
     hasta que se persiguen sus literales publicados**, y son más superficies de
@@ -5376,17 +5378,32 @@ class TestR5NoPrometeLoQueYaNoHace(unittest.TestCase):
     """
 
     SUPERFICIES = ("site/app.js", "site/municipio.js", "site/index.html",
-                   "CONTRIBUTING.md", "docs/LIMITACIONES.md",
+                   "README.md", "CONTRIBUTING.md", "docs/LIMITACIONES.md",
                    "ingest/publish.py", "ingest/verify_citizen.py",
                    "ingest/sources/chatmap.py", "CLAUDE.md")
 
     def test_ninguna_superficie_promete_una_coordenada_redondeada(self):
         # el patrón busca la PROMESA, no la palabra: los comentarios que
-        # explican por qué se retiró el redondeo tienen que poder existir
+        # explican por qué se retiró el redondeo tienen que poder existir.
+        #
+        # La cuarta alternativa se añadió después, y enseña M1 a escala
+        # pequeña: las tres primeras se validaron contra las redacciones que ya
+        # se conocían, y el `README.md` decía lo mismo de otra forma —«el
+        # redondeo ES una capa de prudencia en la presentación»— tres líneas
+        # debajo de una frase ya corregida. Ni casaba el patrón ni estaba el
+        # fichero en la lista: el bloque se contradecía a sí mismo y ningún
+        # guardián lo veía. Lo que se persigue aquí es el VERBO en presente —
+        # afirmar que el redondeo sigue vigente—, no la palabra «redondeo», que
+        # tiene que poder contarse en pasado en todas partes.
+        #
+        # Sigue sin cubrir una redacción futura en una quinta forma. Un patrón
+        # es una red de arrastre, no una demostración: si R5 vuelve a moverse,
+        # la lista de superficies se revisa a mano y este comentario dice por qué.
         promesa = re.compile(
             r"coordenada[s]?\s+(?:públicas?\s+)?redondead|"
             r"redondead\w*\s+a\s*~?\s*110|"
-            r"lat_pub/lon_pub\s*\(redondead",
+            r"lat_pub/lon_pub\s*\(redondead|"
+            r"el\s+redondeo\s+(?:es|sigue|aporta|protege|añade)\b",
             re.I)
         for fichero in self.SUPERFICIES:
             ruta = ROOT / fichero
