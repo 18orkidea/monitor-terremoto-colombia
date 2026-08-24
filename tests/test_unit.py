@@ -2392,3 +2392,53 @@ class TestLaImagenCompartidaNoSeQuedaAtras(unittest.TestCase):
             "lo regenerado no entra en el commit del día: mañana el repo "
             "vuelve a traer la imagen vieja y el bucle se reabre")
 
+
+class TestUnaHipotesisCaidaNoApagaLaPublicacion(unittest.TestCase):
+    """R11/R12 en el único sitio donde se pagaban con la web.
+
+    Los días 23 y 24-ago-2026 el monitor archivó su día entero y no publicó
+    nada: un test de datos en rojo tumbaba la corrida diaria, y pages.yml sólo
+    despliega tras un `workflow_run` en verde. Nadie decidió dejar de publicar
+    — lo decidió un aviso que no debía tener ese poder. La corrida fallida sí
+    debe parar el deploy: entonces puede no haber día que publicar."""
+
+    RAIZ = Path(__file__).parent.parent
+
+    def pasos_que_paran_la_corrida(self):
+        """Los bloques del daily que terminan en `exit 1`, con su condición."""
+        daily = (self.RAIZ / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        bloques = daily.split("      - name:")
+        return [b for b in bloques if "exit 1" in b]
+
+    def test_ninguna_hipotesis_puede_apagar_la_publicacion(self):
+        culpables = [b for b in self.pasos_que_paran_la_corrida()
+                     if "hipotesis" in b]
+        self.assertEqual(
+            culpables, [],
+            "un paso que hace `exit 1` vuelve a mirar `steps.hipotesis`: eso "
+            "pone la corrida en rojo, pages.yml se salta el deploy y la web "
+            "se congela con el archivo del día ya guardado. Una hipótesis "
+            "avisa (R11) y su caída puede ser buena noticia (R12)")
+
+    def test_una_corrida_fallida_si_frena_el_deploy(self):
+        """La otra mitad: sin esto, «no romper» se convierte en publicar un
+        día que no se llegó a archivar."""
+        frenos = self.pasos_que_paran_la_corrida()
+        self.assertTrue(
+            any("steps.corrida.outcome == 'failure'" in b for b in frenos),
+            "nada frena ya la corrida diaria: si la ingesta falla, el deploy "
+            "publicaría un día sin archivar")
+
+    def test_la_hipotesis_caida_deja_constancia(self):
+        """Avisar no es callar: R11 dice que los supuestos rotos no se rompen
+        en silencio, y el verde sin anotación es silencio."""
+        daily = (self.RAIZ / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        avisos = [b for b in daily.split("      - name:")
+                  if "steps.hipotesis.outcome == 'failure'" in b]
+        self.assertTrue(avisos, "una hipótesis caída ya no deja ningún rastro")
+        self.assertTrue(
+            all("::error" in b or "::warning" in b for b in avisos),
+            "el paso que atiende la hipótesis caída no la anuncia: se caería "
+            "en silencio, que es justo lo que R11 prohíbe")

@@ -180,10 +180,34 @@ jobs:
       # La vía Cloudflare Pages se eliminó el 16-ago: el dominio apunta a GitHub
       # Pages y publicar por dos caminos divergía (ver docs/DECISIONES.md).
 
+      # R11/R12: una hipótesis caída AVISA, no rompe — y puede ser buena
+      # noticia. El comentario de más arriba ya lo decía mientras estas líneas
+      # hacían lo contrario: hasta el 24-ago-2026 un solo test de datos en rojo
+      # tumbaba la corrida entera, y pages.yml sólo despliega tras un
+      # `workflow_run` en verde. Resultado: los días 23 y 24 el archivo se
+      # guardó entero y la web se quedó congelada en el 22, sin que nadie
+      # hubiera decidido eso.
+      #
+      # La distinción es la que importa, y son dos cosas distintas:
+      #   - la CORRIDA falló  ⇒ puede no haber día que publicar: rojo y alto.
+      #   - una HIPÓTESIS cayó ⇒ el archivo está entero: se anota y se publica.
+      # El rojo por hipótesis sigue vivo donde duele sin coste de archivo: en
+      # pr.yml, tal y como dice el comentario del bloque de verificaciones.
+      - name: Anotar la hipótesis caída sin apagar la publicación
+        if: steps.hipotesis.outcome == 'failure'
+        run: |
+          echo "::error::Una hipótesis cayó con los datos frescos. El día SÍ se archivó y la web SÍ se publica: revisar el resumen de la corrida — que una hipótesis caiga puede ser buena noticia (R12)."
+          {
+            echo "### Una hipótesis cayó con los datos de hoy"
+            echo ""
+            echo "Los tests contra los datos frescos fallaron. **El archivo del día está completo y la publicación sigue su curso** (R11/R12)."
+            echo "Revisar la salida del paso «Tests de hipótesis contra los datos frescos»."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       # El rojo llega aquí, con el día ya archivado: se ve el fallo sin perder
       # el snapshot. Si esto salta, mirar el RESUMEN de la corrida más arriba.
-      - name: Marcar la corrida en rojo si algo falló
-        if: steps.corrida.outcome == 'failure' || steps.hipotesis.outcome == 'failure'
+      - name: Marcar la corrida en rojo si el día no se pudo archivar
+        if: steps.corrida.outcome == 'failure'
         run: |
-          echo "::error::La corrida (${{ steps.corrida.outcome }}) o los tests de hipótesis (${{ steps.hipotesis.outcome }}) fallaron. El archivo del día SÍ se guardó; revisar el resumen de fuentes."
+          echo "::error::La corrida diaria falló (${{ steps.corrida.outcome }}): el día puede haber quedado sin archivar, así que tampoco se publica. Revisar el resumen de fuentes."
           exit 1

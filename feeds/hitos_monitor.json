@@ -172,6 +172,13 @@
    "resumen": "El monitor estrena dominio propio y el anterior queda redirigido para siempre.",
    "texto": "El observatorio pasa a publicarse en datosdelterremoto.org, un dominio propio en vez de un subdominio personal: un archivo que promete durar veinte años no puede depender de la renovación de otra cosa. Las direcciones anteriores no se rompen —quedan con redirección permanente— porque hay enlaces citados en prensa y programas que descargan los JSON y el CSV a diario.",
    "url": "/"
+  },
+  {
+   "fecha": "2026-08-24",
+   "tipo": "monitor",
+   "resumen": "El monitor recupera la publicación diaria tras dos días archivando sin publicar.",
+   "texto": "Los días 23 y 24 de agosto el monitor recogió y archivó sus datos con normalidad, pero no llegó a publicarlos: un control interno de calidad —pensado para avisar— estaba apagando el despliegue del sitio, que quedó congelado en la información del día 22. Los datos de esos dos días no se perdieron en ningún momento: estaban archivados y con su huella, y se publican ahora. El control vuelve a lo suyo, avisar sin detener la publicación, y queda vigilado por sus propias pruebas.",
+   "url": "/"
   }
  ]
 }

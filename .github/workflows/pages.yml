@@ -21,8 +21,11 @@ concurrency:
 
 jobs:
   deploy:
-    # tras el daily solo se despliega si la corrida terminó bien — antes se
-    # redesplegaba también tras corridas fallidas
+    # Tras el daily solo se despliega si la corrida terminó bien — antes se
+    # redesplegaba también tras corridas fallidas. Desde el 24-ago-2026 «bien»
+    # significa «el día se archivó»: una hipótesis caída ya no pone la corrida
+    # en rojo (R11/R12), se anota y se publica igual. Cuando esta condición
+    # frena un deploy es porque de verdad no hay día que publicar.
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
