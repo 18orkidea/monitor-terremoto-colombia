@@ -97,7 +97,7 @@ tiene, no porque haya prisa por tocarlas.
    también manifiesto → log para los A/V. El hueco es el de las fotos: un fichero
    en el repositorio sin petición que lo explique no salta en ningún test.
 3. **`data/dumps/citizen_reports.csv` versiona `lat`/`lon` exactas.** Lo publicado
-   solo lleva `lat_pub`/`lon_pub` redondeadas a ~110 m (R5) y los tests de
+   solo lleva `lat_pub`/`lon_pub` —el punto que registró la fuente (R5)— y los tests de
    privacidad lo comprueban sobre `data/public/`, pero el volcado que reconstruye
    la base —y que está en el repositorio público— conserva la coordenada de
    origen. Es una decisión que merece tomarse a la vista, no heredarse por

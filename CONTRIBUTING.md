@@ -67,8 +67,10 @@ porque ahí el municipio lo declara una persona. Ver `docs/LIMITACIONES.md`.
    como NULL + literal crudo.
 3. **Trazabilidad**: toda petición HTTP pasa por `common.fetch()` (log + sha256 +
    snapshot). Ninguna cifra sin fila en `sources_log`.
-4. **Privacidad ciudadana**: coordenadas públicas redondeadas (~110 m), EXIF nunca
-   publicado, fotos de daño material y no de personas.
+4. **Privacidad ciudadana**: el reporte se publica en el punto que registró la
+   fuente —redondearlo a ~110 m no protegía nada, porque ChatMap ya publica la
+   coordenada exacta, y engañaba a quien reporta—; EXIF nunca publicado, fotos
+   de daño material y no de personas.
 
 ## Flujo
 

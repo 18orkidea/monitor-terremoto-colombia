@@ -1,7 +1,8 @@
 """Genera data/public/*: los artefactos que consume el mapa y las exportaciones.
 
-Privacidad: de citizen_reports sólo salen lat_pub/lon_pub (redondeadas) y la
-URL del medio; jamás la coordenada exacta.
+Privacidad: de citizen_reports sólo salen lat_pub/lon_pub —el punto que
+registró la fuente, sin reposicionar (R5)— y la URL del medio; jamás el EXIF ni
+ningún dato personal, que es la mitad de R5 que de verdad protege algo.
 """
 from __future__ import annotations
 

@@ -9,7 +9,8 @@ sólo aplican al futuro canal Kobo):
   E. tiene medio adjunto verificable
 
 Score 0-5. Nada se marca 'validado' sin revisión humana: el score sólo ordena
-la cola. La coordenada publicada siempre es la redondeada.
+la cola. La coordenada publicada es la que registró la fuente (R5, 24-ago-2026):
+el monitor no reposiciona nada.
 """
 from __future__ import annotations
 

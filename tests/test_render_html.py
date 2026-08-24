@@ -5083,12 +5083,34 @@ class TestChipsDeLaFicha(unittest.TestCase):
         d = R.datos_ficha("Cali", self.ctx)
         desajustes = R.desajustes_de_capas(d)
         self.assertTrue(desajustes, "Cali dejó de tener el desajuste de SERTIT")
-        rotulo, puntos, con_grado = desajustes[0]
+        rotulo, puntos, con_grado, tipos = desajustes[0]
         self.assertGreater(puntos, con_grado)
         nota = R.nota_chips_evidencia(d)
         for cifra in (puntos, con_grado, puntos - con_grado):
             self.assertIn(R.fmt(cifra), nota)
         self.assertIn(rotulo, nota)
+        # el QUÉ SON sale del archivo, no de un literal: sin él la frase se lee
+        # como un reproche a la fuente, y «Not Applicable» es la clasificación
+        # correcta para algo que no es un edificio
+        self.assertEqual(tipos, ["Tent/shelter"])
+        self.assertIn("Tent/shelter", nota)
+        self.assertIn("no son edificios", nota)
+
+    def test_un_desajuste_al_reves_no_se_publica_en_negativo(self):
+        """La frase dice «los N restantes», así que solo vale si la capa trae
+        MÁS puntos que edificios clasificados. Con `!=` en vez de `>`, un
+        servicio que clasificara más de los que dibuja —el agregado y la capa
+        se construyen por vías distintas— publicaba «los −3 restantes»."""
+        d = R.datos_ficha("Cali", self.ctx)
+        capas = (d.get("evidencia") or {}).get("capas") or {}
+        clave = next(s["clave"] for s in R.SATELITES
+                     if s["rotulo"] == R.desajustes_de_capas(d)[0][0])
+        # se le quitan puntos a la capa hasta dejarla por debajo del recuento
+        capas[clave]["features"] = capas[clave]["features"][:3]
+        self.assertEqual(
+            [x for x in R.desajustes_de_capas(d) if x[0] == "ICube-SERTIT"], [],
+            "un desajuste en negativo no se publica")
+        self.assertNotIn("restantes", R.nota_chips_evidencia(d))
 
     def test_sin_desajuste_no_se_cuenta_uno(self):
         """M10 al revés: una salvedad que no se cumple aquí no se escribe aquí.
@@ -5335,3 +5357,56 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
                             for x in con["distribution"]))
         self.assertFalse(any("evidencia.json" in x["contentUrl"]
                              for x in sin["distribution"]))
+
+
+class TestR5NoPrometeLoQueYaNoHace(unittest.TestCase):
+    """Ninguna superficie promete la protección que R5 retiró el 24-ago-2026.
+
+    `chatmap.py::_coordenada_publica` dejó de redondear ese día —redondear a
+    ~110 m no protegía nada, porque ChatMap publica la coordenada exacta en su
+    endpoint abierto, y sí engañaba a quien reporta—. Los globos de `app.js` y
+    `municipio.js` siguieron diciendo «coordenada redondeada a unos 110 metros»
+    durante un día, y `CONTRIBUTING.md`, `publish.py`, `verify_citizen.py` y
+    `LIMITACIONES.md` un poco más.
+
+    La lección que fija este guardián: **un cambio de regla no está terminado
+    hasta que se persiguen sus literales publicados**, y son más superficies de
+    las que uno recuerda. Si algún día R5 vuelve a cambiar, este test cae y
+    enseña la lista entera.
+    """
+
+    SUPERFICIES = ("site/app.js", "site/municipio.js", "site/index.html",
+                   "CONTRIBUTING.md", "docs/LIMITACIONES.md",
+                   "ingest/publish.py", "ingest/verify_citizen.py",
+                   "ingest/sources/chatmap.py", "CLAUDE.md")
+
+    def test_ninguna_superficie_promete_una_coordenada_redondeada(self):
+        # el patrón busca la PROMESA, no la palabra: los comentarios que
+        # explican por qué se retiró el redondeo tienen que poder existir
+        promesa = re.compile(
+            r"coordenada[s]?\s+(?:públicas?\s+)?redondead|"
+            r"redondead\w*\s+a\s*~?\s*110|"
+            r"lat_pub/lon_pub\s*\(redondead",
+            re.I)
+        for fichero in self.SUPERFICIES:
+            ruta = ROOT / fichero
+            if not ruta.exists():
+                continue
+            with self.subTest(fichero=fichero):
+                hallado = promesa.search(ruta.read_text(encoding="utf-8"))
+                self.assertIsNone(
+                    hallado,
+                    f"{fichero} sigue prometiendo una coordenada redondeada "
+                    f"(«{hallado.group(0) if hallado else ''}»), y el código "
+                    "dejó de redondear el 24-ago-2026")
+
+    def test_el_codigo_de_verdad_no_reposiciona(self):
+        """Y el guardián se ancla a lo que hace el código, no solo a los textos:
+        si alguien vuelve a redondear, la lista de arriba deja de ser falsa y
+        este test es el que avisa de que hay que revisarla entera."""
+        sys.path.insert(0, str(ROOT / "ingest"))
+        from sources.chatmap import _coordenada_publica
+        for valor in (3.451234, -76.987654, 0.0, 10.5):
+            with self.subTest(valor=valor):
+                self.assertEqual(_coordenada_publica(valor), valor,
+                                 "el monitor volvió a reposicionar la coordenada")

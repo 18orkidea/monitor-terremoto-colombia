@@ -1132,10 +1132,26 @@ def desajustes_de_capas(d: dict) -> list:
     publicados = dict(satelites_con_dato(d["muni"], d["satelite"]))
     fuera = []
     for sat in SATELITES:
-        puntos = len((capas.get(sat["clave"]) or {}).get("features") or [])
+        rasgos = (capas.get(sat["clave"]) or {}).get("features") or []
+        puntos = len(rasgos)
         con_grado = publicados.get(sat["nombre"])
-        if puntos and con_grado is not None and puntos != con_grado:
-            fuera.append((sat["rotulo"], puntos, con_grado))
+        # `>` y no `!=`: la frase que se publica dice «los N restantes», y con
+        # `!=` un servicio que clasificara más edificios de los que dibuja
+        # —posible, porque el agregado y la capa se construyen por vías
+        # distintas— imprimiría «los −3 restantes».
+        if puntos and con_grado is not None and puntos > con_grado:
+            # el qué son sale del archivo, no de un literal: hoy los nueve de
+            # Cali son todos «Tent/shelter», pero escribir «carpas y refugios»
+            # a mano lo dejaría mintiendo el día que el desajuste sea otro.
+            tipos = {(f.get("properties") or {}).get("tipo")
+                     for f in rasgos
+                     if (f.get("properties") or {}).get("dano") in
+                     (None, "", "Not Applicable")}
+            tipos.discard(None)
+            # el literal crudo de la fuente, sin traducir: es lo que hay que
+            # buscar en su producto para encontrar estos elementos, y el
+            # diccionario de traducción vive en app.js — copiarlo aquí sería M2
+            fuera.append((sat["rotulo"], puntos, con_grado, sorted(tipos)))
     return fuera
 
 
@@ -1145,18 +1161,31 @@ def nota_chips_evidencia(d: dict) -> str:
     La explicación no viaja en un `title`: el móvil no lo enseña, el teclado no
     lo alcanza y un rastreador no lo indexa. Va en su propia línea, que es donde
     se puede leer entera."""
+    # «en este municipio y su entorno» y no «en este municipio»: los reportes de
+    # la comunidad se atribuyen por un radio de 12 km desde la cabecera, así que
+    # en Cali barren Yumbo, Jamundí y Palmira. El resumen de arriba ya decía «en
+    # el entorno de Cali» y esta nota decía otra cosa: la ficha se contradecía a
+    # sí misma en la misma pantalla.
     frases = ['Cada chip retira o devuelve su capa al mapa; el número es el de '
-              'puntos que esa fuente publica en este municipio. Los servicios '
-              'satelitales miran desde el aire y no comprueban nada en el suelo; '
-              'los reportes de la comunidad se hacen desde dentro. Ninguna capa '
-              'sustituye a las otras.']
-    for rotulo, puntos, con_grado in desajustes_de_capas(d):
+              'elementos que esa fuente publica en este municipio y su entorno '
+              'inmediato. Los servicios satelitales miran desde el aire y no '
+              'comprueban nada en el suelo; los reportes de la comunidad se '
+              'hacen desde dentro. Ninguna capa sustituye a las otras.']
+    for rotulo, puntos, con_grado, tipos in desajustes_de_capas(d):
+        # El motivo va DENTRO de la frase. Sin él, «llegan sin grado de daño» se
+        # lee como un hueco de la fuente, y no lo es: «Not Applicable» es la
+        # clasificación CORRECTA para algo que no es un edificio. Estos datos
+        # nos los cedió la fuente por correo; la frase tiene que ser justa con
+        # ella, y el proyecto es auto-crítico, nunca acusatorio.
+        que_son = (f' —{e(", ".join(tipos))} en el producto de la fuente—'
+                   if tipos else "")
         frases.append(
             f'{e(rotulo)} dibuja aquí {fmt(puntos)} puntos y esta ficha cuenta '
             f'{fmt(con_grado)} edificios clasificados: los '
-            f'{fmt(puntos - con_grado)} restantes llegan sin grado de daño '
-            f'asignado por la propia fuente, así que se ven en el mapa pero no '
-            f'entran en el recuento.')
+            f'{fmt(puntos - con_grado)} restantes{que_son} no son edificios, '
+            f'así que la fuente los marca «Not Applicable» porque no les '
+            f'corresponde un grado de daño. Se ven en el mapa y no entran en '
+            f'el recuento.')
     return '<p class="note">' + " ".join(frases) + "</p>"
 
 
@@ -1411,13 +1440,27 @@ def render_ficha(d: dict) -> str:
     nombre = toponimo(clave, depto)
     url = f"https://datosdelterremoto.org/municipio/{d['slug']}/"
     titulo = f"Terremoto en {nombre} ({depto}) 2026: damnificados y daños"
-    descr = (f"{nombre} ({depto}): {fmt(m['rud_familias'])} "
-             f"{concuerda(m['rud_familias'], 'familia inscrita', 'familias inscritas')} "
-             f"en el RUD, {fmt(m['rud_viv_averiadas'])} "
-             f"{concuerda(m['rud_viv_averiadas'], 'vivienda averiada', 'viviendas averiadas')} y "
-             f"{'sin' if not satelites_con_dato(m, d['satelite']) else 'con'} "
-             f"evaluación satelital de daño. "
-             f"Cada cifra con su fuente y su fecha.")
+    # Esta descripción es a la vez la `meta description` y el `description` del
+    # `Dataset`, o sea que la lee una máquina que no ve la página. Ahí una raya
+    # NO significa «no lo sabemos»: significa nada, y un normalizador que la
+    # limpie deja «Palmira: familias inscritas en el RUD», que es peor que
+    # callar. Cuando falta el dato **se dice con palabras** (M10 en prosa).
+    sat = "con" if satelites_con_dato(m, d["satelite"]) else "sin"
+    trozos = []
+    if m.get("rud_familias") is not None:
+        trozos.append(
+            f"{fmt(m['rud_familias'])} "
+            f"{concuerda(m['rud_familias'], 'familia inscrita', 'familias inscritas')}"
+            f" en el RUD")
+    else:
+        trozos.append("sin registro aún en el RUD")
+    if m.get("rud_viv_averiadas") is not None:
+        trozos.append(
+            f"{fmt(m['rud_viv_averiadas'])} "
+            f"{concuerda(m['rud_viv_averiadas'], 'vivienda averiada', 'viviendas averiadas')}")
+    trozos.append(f"{sat} evaluación satelital de daño")
+    descr = (f"{nombre} ({depto}): " + ", ".join(trozos[:-1]) +
+             f" y {trozos[-1]}. Cada cifra con su fuente y su fecha.")
     ld = dataset_ficha(d, nombre, depto, url, descr)
     migas = [("Monitor de brechas", f"{BASE}/"),
              ("Municipios", f"{BASE}/municipios.html"),
@@ -2971,8 +3014,13 @@ def dataset_rud(ctx: dict) -> str:
     ld = {
         "@context": "https://schema.org", "@type": "Dataset",
         "@id": f"{url}#dataset", "url": url,
-        "name": "Registro Único de Damnificados (RUD) del terremoto de "
-                "Colombia 2026, por municipio",
+        # El nombre es el del ARTEFACTO, no el de la fuente. Llamarlo «Registro
+        # Único de Damnificados (RUD)» con `publisher` = el monitor le dice a un
+        # agregador que lea solo esos dos campos —que es el uso que este marcado
+        # teme— que el monitor edita el RUD. La ficha ya lo hacía bien y esta
+        # página no: R9 empieza por cómo se llama lo que se firma.
+        "name": "Serie diaria del RUD (UNGRD) del terremoto de Colombia 2026, "
+                "recopilada municipio a municipio",
         "description":
             "Serie diaria de familias y personas inscritas como damnificadas, "
             "y de viviendas destruidas y averiadas, cargada por las alcaldías "
