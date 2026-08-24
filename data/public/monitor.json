@@ -1,6 +1,6 @@
 {
- "generado": "2026-08-23",
- "fecha": "2026-08-23",
+ "generado": "2026-08-24",
+ "fecha": "2026-08-24",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 604,
-    "n_oficial": 6,
+    "n_prensa": 626,
+    "n_oficial": 7,
     "n_ciudadano": 329,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 517,
-    "n_oficial": 6,
+    "n_prensa": 542,
+    "n_oficial": 7,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 349,
-    "n_oficial": 3,
+    "n_prensa": 355,
+    "n_oficial": 4,
     "n_ciudadano": 160,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 517,
-    "n_oficial": 6,
+    "n_prensa": 542,
+    "n_oficial": 7,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 58,
-    "n_oficial": 6,
+    "n_prensa": 60,
+    "n_oficial": 7,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -512,8 +512,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 26,
-    "n_oficial": 6,
+    "n_prensa": 32,
+    "n_oficial": 7,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 137,
-    "n_oficial": 5,
+    "n_prensa": 142,
+    "n_oficial": 6,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 312
+   "feeds": 317
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 304
+   "feeds": 305
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 288
+   "feeds": 291
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 347
+   "feeds": 355
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 356
+   "feeds": 362
   },
   {
    "fecha": "2026-08-15",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 401
+   "feeds": 402
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 223
+   "feeds": 224
   },
   {
    "fecha": "2026-08-17",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 200
+   "feeds": 202
   },
   {
    "fecha": "2026-08-18",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 240
+   "feeds": 244
   },
   {
    "fecha": "2026-08-19",
@@ -715,7 +715,7 @@
    "gdelt": 0.5095,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 195
+   "feeds": 197
   },
   {
    "fecha": "2026-08-20",
@@ -723,7 +723,7 @@
    "gdelt": 0.3937,
    "fuentes": null,
    "chatmap": 55,
-   "feeds": 250
+   "feeds": 260
   },
   {
    "fecha": "2026-08-21",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 254
+   "feeds": 258
   },
   {
    "fecha": "2026-08-22",
@@ -739,15 +739,23 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 80,
-   "feeds": 175
+   "feeds": 178
   },
   {
    "fecha": "2026-08-23",
    "emm": null,
    "gdelt": null,
    "fuentes": null,
+   "chatmap": 0,
+   "feeds": 115
+  },
+  {
+   "fecha": "2026-08-24",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 39
+   "feeds": 55
   }
  ],
  "entregas": [
@@ -811,11 +819,11 @@
    "total": 85664
   },
   "ungrd_rud": {
-   "municipios": 238,
-   "familias": 126114.0,
-   "personas": 277704.0,
-   "viv_destruidas": 7513.0,
-   "viv_averiadas": 46340.0,
+   "municipios": 252,
+   "familias": 141549.0,
+   "personas": 311354.0,
+   "viv_destruidas": 8116.0,
+   "viv_averiadas": 52236.0,
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
  },
@@ -884,115 +892,147 @@
     "personas": 277704.0,
     "viv_destruidas": 7513.0,
     "viv_averiadas": 46340.0
+   },
+   {
+    "fecha": "2026-08-23",
+    "municipios": 251,
+    "familias": 141547.0,
+    "personas": 311347.0,
+    "viv_destruidas": 8116.0,
+    "viv_averiadas": 52235.0
    }
   ],
   "municipios": [
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "CALI",
-    "familias": 14728.0,
-    "personas": 33041.0,
-    "viv_destruidas": 374.0,
-    "viv_averiadas": 3969.0,
+    "familias": 17559.0,
+    "personas": 39132.0,
+    "viv_destruidas": 456.0,
+    "viv_averiadas": 5057.0,
     "poblacion_2026": 2269983,
-    "tasa_pct": 1.4556,
-    "delta_familias": 2902.0,
+    "tasa_pct": 1.7239,
+    "delta_familias": 2831.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "BUENAVENTURA",
-    "familias": 9505.0,
-    "personas": 21349.0,
-    "viv_destruidas": 1083.0,
-    "viv_averiadas": 4874.0,
+    "familias": 10414.0,
+    "personas": 23710.0,
+    "viv_destruidas": 1094.0,
+    "viv_averiadas": 5498.0,
     "poblacion_2026": 335217,
-    "tasa_pct": 6.3687,
-    "delta_familias": 1955.0,
+    "tasa_pct": 7.073,
+    "delta_familias": 909.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
     "municipio": "CALARCÁ",
-    "familias": 3955.0,
-    "personas": 5690.0,
+    "familias": 4172.0,
+    "personas": 6203.0,
     "viv_destruidas": 10.0,
-    "viv_averiadas": 2641.0,
+    "viv_averiadas": 2692.0,
     "poblacion_2026": 74399,
-    "tasa_pct": 7.648,
-    "delta_familias": 2899.0,
+    "tasa_pct": 8.3375,
+    "delta_familias": 217.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ROLDANILLO",
-    "familias": 3564.0,
-    "personas": 4540.0,
-    "viv_destruidas": 275.0,
-    "viv_averiadas": 1176.0,
+    "familias": 3793.0,
+    "personas": 4834.0,
+    "viv_destruidas": 284.0,
+    "viv_averiadas": 1185.0,
     "poblacion_2026": 38639,
-    "tasa_pct": 11.7498,
-    "delta_familias": 226.0,
+    "tasa_pct": 12.5107,
+    "delta_familias": 229.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "QUIBDÓ",
-    "familias": 3028.0,
-    "personas": 8935.0,
-    "viv_destruidas": 482.0,
-    "viv_averiadas": 500.0,
+    "familias": 3480.0,
+    "personas": 10169.0,
+    "viv_destruidas": 570.0,
+    "viv_averiadas": 552.0,
     "poblacion_2026": 143332,
-    "tasa_pct": 6.2338,
-    "delta_familias": 728.0,
+    "tasa_pct": 7.0947,
+    "delta_familias": 452.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "SEVILLA",
-    "familias": 2779.0,
-    "personas": 6068.0,
-    "viv_destruidas": 154.0,
-    "viv_averiadas": 1154.0,
+    "familias": 3033.0,
+    "personas": 6633.0,
+    "viv_destruidas": 162.0,
+    "viv_averiadas": 1300.0,
     "poblacion_2026": 44172,
-    "tasa_pct": 13.7372,
-    "delta_familias": 466.0,
+    "tasa_pct": 15.0163,
+    "delta_familias": 254.0,
     "nuevo": false
    },
    {
-    "departamento": "RISARALDA",
-    "municipio": "SANTA ROSA DE CABAL",
-    "familias": 2356.0,
-    "personas": 5805.0,
-    "viv_destruidas": 19.0,
-    "viv_averiadas": 249.0,
-    "poblacion_2026": 84054,
-    "tasa_pct": 6.9063,
-    "delta_familias": 229.0,
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "DAGUA",
+    "familias": 2699.0,
+    "personas": 6032.0,
+    "viv_destruidas": 330.0,
+    "viv_averiadas": 939.0,
+    "poblacion_2026": 60038,
+    "tasa_pct": 10.047,
+    "delta_familias": 894.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "LA UNIÓN",
-    "familias": 2353.0,
-    "personas": 4110.0,
-    "viv_destruidas": 148.0,
-    "viv_averiadas": 1010.0,
+    "familias": 2502.0,
+    "personas": 4497.0,
+    "viv_destruidas": 158.0,
+    "viv_averiadas": 1070.0,
     "poblacion_2026": 34699,
-    "tasa_pct": 11.8447,
-    "delta_familias": 380.0,
+    "tasa_pct": 12.96,
+    "delta_familias": 149.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "DOSQUEBRADAS",
+    "familias": 2473.0,
+    "personas": 5932.0,
+    "viv_destruidas": 230.0,
+    "viv_averiadas": 11.0,
+    "poblacion_2026": 246388,
+    "tasa_pct": 2.4076,
+    "delta_familias": 701.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "SANTA ROSA DE CABAL",
+    "familias": 2428.0,
+    "personas": 5999.0,
+    "viv_destruidas": 20.0,
+    "viv_averiadas": 250.0,
+    "poblacion_2026": 84054,
+    "tasa_pct": 7.1371,
+    "delta_familias": 72.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "MEDIO BAUDÓ",
-    "familias": 2236.0,
-    "personas": 5791.0,
-    "viv_destruidas": 261.0,
-    "viv_averiadas": 1284.0,
+    "familias": 2394.0,
+    "personas": 6303.0,
+    "viv_destruidas": 276.0,
+    "viv_averiadas": 1381.0,
     "poblacion_2026": 17617,
-    "tasa_pct": 32.8717,
-    "delta_familias": 230.0,
+    "tasa_pct": 35.7779,
+    "delta_familias": 158.0,
     "nuevo": false
    },
    {
@@ -1004,7 +1044,7 @@
     "viv_averiadas": 989.0,
     "poblacion_2026": 30248,
     "tasa_pct": 14.229,
-    "delta_familias": 130.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1016,103 +1056,79 @@
     "viv_averiadas": 85.0,
     "poblacion_2026": 475690,
     "tasa_pct": 1.033,
-    "delta_familias": 241.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "NÓVITA",
-    "familias": 1808.0,
-    "personas": 3954.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 1362.0,
-    "poblacion_2026": 10016,
-    "tasa_pct": 39.4768,
-    "delta_familias": 60.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "DAGUA",
-    "familias": 1805.0,
-    "personas": 4024.0,
-    "viv_destruidas": 226.0,
-    "viv_averiadas": 604.0,
-    "poblacion_2026": 60038,
-    "tasa_pct": 6.7024,
-    "delta_familias": 757.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "TORO",
-    "familias": 1798.0,
-    "personas": 4166.0,
-    "viv_destruidas": 213.0,
-    "viv_averiadas": 392.0,
-    "poblacion_2026": 14922,
-    "tasa_pct": 27.9185,
-    "delta_familias": 31.0,
+    "municipio": "BOLÍVAR",
+    "familias": 1881.0,
+    "personas": 3555.0,
+    "viv_destruidas": 104.0,
+    "viv_averiadas": 913.0,
+    "poblacion_2026": 15958,
+    "tasa_pct": 22.2772,
+    "delta_familias": 155.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ZARZAL",
-    "familias": 1797.0,
-    "personas": 3826.0,
+    "familias": 1868.0,
+    "personas": 4031.0,
     "viv_destruidas": 96.0,
-    "viv_averiadas": 651.0,
+    "viv_averiadas": 705.0,
     "poblacion_2026": 43993,
-    "tasa_pct": 8.6968,
-    "delta_familias": 210.0,
+    "tasa_pct": 9.1628,
+    "delta_familias": 71.0,
     "nuevo": false
    },
    {
-    "departamento": "RISARALDA",
-    "municipio": "DOSQUEBRADAS",
-    "familias": 1772.0,
-    "personas": 4449.0,
-    "viv_destruidas": 200.0,
-    "viv_averiadas": 6.0,
-    "poblacion_2026": 246388,
-    "tasa_pct": 1.8057,
-    "delta_familias": 241.0,
+    "departamento": "CHOCÓ",
+    "municipio": "NÓVITA",
+    "familias": 1810.0,
+    "personas": 3959.0,
+    "viv_destruidas": 11.0,
+    "viv_averiadas": 1404.0,
+    "poblacion_2026": 10016,
+    "tasa_pct": 39.5268,
+    "delta_familias": 2.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "TORO",
+    "familias": 1807.0,
+    "personas": 4184.0,
+    "viv_destruidas": 213.0,
+    "viv_averiadas": 394.0,
+    "poblacion_2026": 14922,
+    "tasa_pct": 28.0391,
+    "delta_familias": 9.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ANSERMANUEVO",
     "familias": 1727.0,
-    "personas": 3517.0,
+    "personas": 3516.0,
     "viv_destruidas": 138.0,
     "viv_averiadas": 605.0,
     "poblacion_2026": 17825,
-    "tasa_pct": 19.7307,
-    "delta_familias": 104.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "BOLÍVAR",
-    "familias": 1726.0,
-    "personas": 3200.0,
-    "viv_destruidas": 94.0,
-    "viv_averiadas": 796.0,
-    "poblacion_2026": 15958,
-    "tasa_pct": 20.0526,
-    "delta_familias": 727.0,
+    "tasa_pct": 19.7251,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "RIOFRÍO",
-    "familias": 1624.0,
-    "personas": 3577.0,
-    "viv_destruidas": 89.0,
-    "viv_averiadas": 369.0,
+    "familias": 1645.0,
+    "personas": 3628.0,
+    "viv_destruidas": 90.0,
+    "viv_averiadas": 368.0,
     "poblacion_2026": 16207,
-    "tasa_pct": 22.0707,
-    "delta_familias": 698.0,
+    "tasa_pct": 22.3854,
+    "delta_familias": 21.0,
     "nuevo": false
    },
    {
@@ -1124,55 +1140,103 @@
     "viv_averiadas": 510.0,
     "poblacion_2026": 18765,
     "tasa_pct": 15.3371,
-    "delta_familias": 114.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "TRUJILLO",
-    "familias": 1493.0,
-    "personas": 3857.0,
-    "viv_destruidas": 128.0,
-    "viv_averiadas": 572.0,
+    "familias": 1563.0,
+    "personas": 4036.0,
+    "viv_destruidas": 133.0,
+    "viv_averiadas": 592.0,
     "poblacion_2026": 20058,
-    "tasa_pct": 19.2292,
-    "delta_familias": 409.0,
+    "tasa_pct": 20.1216,
+    "delta_familias": 70.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "MARSELLA",
-    "familias": 1485.0,
-    "personas": 3652.0,
+    "familias": 1531.0,
+    "personas": 3711.0,
     "viv_destruidas": 54.0,
-    "viv_averiadas": 367.0,
+    "viv_averiadas": 374.0,
     "poblacion_2026": 17320,
-    "tasa_pct": 21.0855,
-    "delta_familias": 291.0,
+    "tasa_pct": 21.4261,
+    "delta_familias": 46.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "YOTOCO",
+    "familias": 1519.0,
+    "personas": 3806.0,
+    "viv_destruidas": 158.0,
+    "viv_averiadas": 361.0,
+    "poblacion_2026": 16843,
+    "tasa_pct": 22.5969,
+    "delta_familias": 183.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "RESTREPO",
-    "familias": 1349.0,
-    "personas": 3100.0,
-    "viv_destruidas": 142.0,
-    "viv_averiadas": 399.0,
+    "familias": 1434.0,
+    "personas": 3300.0,
+    "viv_destruidas": 149.0,
+    "viv_averiadas": 441.0,
     "poblacion_2026": 16021,
-    "tasa_pct": 19.3496,
-    "delta_familias": 431.0,
+    "tasa_pct": 20.598,
+    "delta_familias": 85.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "BUGALAGRANDE",
+    "familias": 1430.0,
+    "personas": 2317.0,
+    "viv_destruidas": 168.0,
+    "viv_averiadas": 28.0,
+    "poblacion_2026": 25527,
+    "tasa_pct": 9.0767,
+    "delta_familias": 940.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "QUIMBAYA",
+    "familias": 1399.0,
+    "personas": 3330.0,
+    "viv_destruidas": 78.0,
+    "viv_averiadas": 316.0,
+    "poblacion_2026": 31350,
+    "tasa_pct": 10.622,
+    "delta_familias": 346.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "RIOSUCIO",
+    "familias": 1367.0,
+    "personas": 4044.0,
+    "viv_destruidas": 20.0,
+    "viv_averiadas": 525.0,
+    "poblacion_2026": 52118,
+    "tasa_pct": 7.7593,
+    "delta_familias": 260.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "CALIMA",
-    "familias": 1339.0,
-    "personas": 3205.0,
-    "viv_destruidas": 136.0,
-    "viv_averiadas": 331.0,
+    "familias": 1352.0,
+    "personas": 3227.0,
+    "viv_destruidas": 138.0,
+    "viv_averiadas": 334.0,
     "poblacion_2026": 19402,
-    "tasa_pct": 16.5189,
-    "delta_familias": 94.0,
+    "tasa_pct": 16.6323,
+    "delta_familias": 13.0,
     "nuevo": false
    },
    {
@@ -1189,14 +1253,26 @@
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "YOTOCO",
-    "familias": 1336.0,
-    "personas": 3369.0,
-    "viv_destruidas": 154.0,
-    "viv_averiadas": 303.0,
-    "poblacion_2026": 16843,
-    "tasa_pct": 20.0024,
-    "delta_familias": 282.0,
+    "municipio": "ARGELIA",
+    "familias": 1199.0,
+    "personas": 3038.0,
+    "viv_destruidas": 70.0,
+    "viv_averiadas": 118.0,
+    "poblacion_2026": 5538,
+    "tasa_pct": 54.8573,
+    "delta_familias": 83.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "TIMBIQUÍ",
+    "familias": 1180.0,
+    "personas": 1395.0,
+    "viv_destruidas": 9.0,
+    "viv_averiadas": 872.0,
+    "poblacion_2026": 29935,
+    "tasa_pct": 4.6601,
+    "delta_familias": 101.0,
     "nuevo": false
    },
    {
@@ -1208,7 +1284,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 35053,
     "tasa_pct": 5.6828,
-    "delta_familias": 479.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1236,18 +1312,6 @@
     "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "ARGELIA",
-    "familias": 1116.0,
-    "personas": 2840.0,
-    "viv_destruidas": 66.0,
-    "viv_averiadas": 91.0,
-    "poblacion_2026": 5538,
-    "tasa_pct": 51.2821,
-    "delta_familias": 265.0,
-    "nuevo": false
-   },
-   {
     "departamento": "RISARALDA",
     "municipio": "BELÉN DE UMBRÍA",
     "familias": 1112.0,
@@ -1256,19 +1320,19 @@
     "viv_averiadas": 659.0,
     "poblacion_2026": 25277,
     "tasa_pct": 11.014,
-    "delta_familias": 29.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
-    "departamento": "CALDAS",
-    "municipio": "RIOSUCIO",
-    "familias": 1107.0,
-    "personas": 3168.0,
-    "viv_destruidas": 20.0,
-    "viv_averiadas": 352.0,
-    "poblacion_2026": 52118,
-    "tasa_pct": 6.0785,
-    "delta_familias": 275.0,
+    "departamento": "QUINDÍO",
+    "municipio": "GÉNOVA",
+    "familias": 1100.0,
+    "personas": 2587.0,
+    "viv_destruidas": 5.0,
+    "viv_averiadas": 338.0,
+    "poblacion_2026": 7694,
+    "tasa_pct": 33.6236,
+    "delta_familias": 316.0,
     "nuevo": false
    },
    {
@@ -1280,31 +1344,31 @@
     "viv_averiadas": 306.0,
     "poblacion_2026": 28386,
     "tasa_pct": 9.6667,
-    "delta_familias": 368.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
-    "departamento": "CAUCA",
-    "municipio": "TIMBIQUÍ",
-    "familias": 1079.0,
-    "personas": 1286.0,
-    "viv_destruidas": 9.0,
-    "viv_averiadas": 775.0,
-    "poblacion_2026": 29935,
-    "tasa_pct": 4.296,
-    "delta_familias": 157.0,
+    "departamento": "QUINDÍO",
+    "municipio": "ARMENIA",
+    "familias": 1086.0,
+    "personas": 2330.0,
+    "viv_destruidas": 136.0,
+    "viv_averiadas": 246.0,
+    "poblacion_2026": 307103,
+    "tasa_pct": 0.7587,
+    "delta_familias": 57.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "ISTMINA",
-    "familias": 1069.0,
-    "personas": 1492.0,
+    "familias": 1071.0,
+    "personas": 1494.0,
     "viv_destruidas": 8.0,
-    "viv_averiadas": 347.0,
+    "viv_averiadas": 348.0,
     "poblacion_2026": 36717,
-    "tasa_pct": 4.0635,
-    "delta_familias": 107.0,
+    "tasa_pct": 4.069,
+    "delta_familias": 2.0,
     "nuevo": false
    },
    {
@@ -1316,7 +1380,7 @@
     "viv_averiadas": 22.0,
     "poblacion_2026": 12620,
     "tasa_pct": 24.2076,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1328,55 +1392,31 @@
     "viv_averiadas": 304.0,
     "poblacion_2026": 7441,
     "tasa_pct": 32.3478,
-    "delta_familias": 12.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "QUIMBAYA",
-    "familias": 1053.0,
-    "personas": 2550.0,
-    "viv_destruidas": 66.0,
-    "viv_averiadas": 244.0,
-    "poblacion_2026": 31350,
-    "tasa_pct": 8.134,
-    "delta_familias": 265.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "ARMENIA",
-    "familias": 1029.0,
-    "personas": 2147.0,
-    "viv_destruidas": 130.0,
-    "viv_averiadas": 228.0,
-    "poblacion_2026": 307103,
-    "tasa_pct": 0.6991,
-    "delta_familias": 86.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "ALCALÁ",
-    "familias": 1022.0,
-    "personas": 1837.0,
-    "viv_destruidas": 46.0,
-    "viv_averiadas": 381.0,
-    "poblacion_2026": 14335,
-    "tasa_pct": 12.8148,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "EL ÁGUILA",
-    "familias": 1006.0,
-    "personas": 2059.0,
+    "familias": 1026.0,
+    "personas": 2103.0,
     "viv_destruidas": 74.0,
-    "viv_averiadas": 344.0,
+    "viv_averiadas": 354.0,
     "poblacion_2026": 9164,
-    "tasa_pct": 22.4684,
-    "delta_familias": 0.0,
+    "tasa_pct": 22.9485,
+    "delta_familias": 20.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "ALCALÁ",
+    "familias": 1024.0,
+    "personas": 1844.0,
+    "viv_destruidas": 46.0,
+    "viv_averiadas": 381.0,
+    "poblacion_2026": 14335,
+    "tasa_pct": 12.8636,
+    "delta_familias": 2.0,
     "nuevo": false
    },
    {
@@ -1388,7 +1428,31 @@
     "viv_averiadas": 452.0,
     "poblacion_2026": 25109,
     "tasa_pct": 8.7817,
-    "delta_familias": 44.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "BUENOS AIRES",
+    "familias": 966.0,
+    "personas": 2352.0,
+    "viv_destruidas": 30.0,
+    "viv_averiadas": 576.0,
+    "poblacion_2026": 33342,
+    "tasa_pct": 7.0542,
+    "delta_familias": 465.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "PUEBLO RICO",
+    "familias": 906.0,
+    "personas": 3055.0,
+    "viv_destruidas": 72.0,
+    "viv_averiadas": 290.0,
+    "poblacion_2026": 18544,
+    "tasa_pct": 16.4743,
+    "delta_familias": 38.0,
     "nuevo": false
    },
    {
@@ -1400,7 +1464,7 @@
     "viv_averiadas": 195.0,
     "poblacion_2026": 11296,
     "tasa_pct": 7.9143,
-    "delta_familias": 41.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1412,19 +1476,7 @@
     "viv_averiadas": 545.0,
     "poblacion_2026": 28053,
     "tasa_pct": 9.4999,
-    "delta_familias": 2.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "PUEBLO RICO",
-    "familias": 868.0,
-    "personas": 2964.0,
-    "viv_destruidas": 72.0,
-    "viv_averiadas": 277.0,
-    "poblacion_2026": 18544,
-    "tasa_pct": 15.9836,
-    "delta_familias": 111.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1436,7 +1488,19 @@
     "viv_averiadas": 178.0,
     "poblacion_2026": 10327,
     "tasa_pct": 17.6431,
-    "delta_familias": 377.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "EL CAIRO",
+    "familias": 815.0,
+    "personas": 2010.0,
+    "viv_destruidas": 44.0,
+    "viv_averiadas": 234.0,
+    "poblacion_2026": 7010,
+    "tasa_pct": 28.6733,
+    "delta_familias": 47.0,
     "nuevo": false
    },
    {
@@ -1452,51 +1516,63 @@
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "GÉNOVA",
-    "familias": 784.0,
-    "personas": 1900.0,
-    "viv_destruidas": 3.0,
-    "viv_averiadas": 245.0,
-    "poblacion_2026": 7694,
-    "tasa_pct": 24.6946,
-    "delta_familias": 443.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "EL CAIRO",
-    "familias": 768.0,
-    "personas": 1867.0,
-    "viv_destruidas": 42.0,
-    "viv_averiadas": 225.0,
-    "poblacion_2026": 7010,
-    "tasa_pct": 26.6334,
-    "delta_familias": 217.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CAUCA",
     "municipio": "CALDONO",
-    "familias": 742.0,
-    "personas": 1470.0,
+    "familias": 759.0,
+    "personas": 1514.0,
     "viv_destruidas": 24.0,
-    "viv_averiadas": 11.0,
+    "viv_averiadas": 24.0,
     "poblacion_2026": 45131,
-    "tasa_pct": 3.2572,
-    "delta_familias": 96.0,
+    "tasa_pct": 3.3547,
+    "delta_familias": 17.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "LA TEBAIDA",
+    "familias": 752.0,
+    "personas": 1746.0,
+    "viv_destruidas": 10.0,
+    "viv_averiadas": 353.0,
+    "poblacion_2026": 33758,
+    "tasa_pct": 5.1721,
+    "delta_familias": 184.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "LA VICTORIA",
-    "familias": 733.0,
-    "personas": 1643.0,
+    "familias": 748.0,
+    "personas": 1672.0,
     "viv_destruidas": 16.0,
-    "viv_averiadas": 305.0,
+    "viv_averiadas": 317.0,
     "poblacion_2026": 12765,
-    "tasa_pct": 12.8711,
-    "delta_familias": 129.0,
+    "tasa_pct": 13.0983,
+    "delta_familias": 15.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "MISTRATÓ",
+    "familias": 747.0,
+    "personas": 2781.0,
+    "viv_destruidas": 8.0,
+    "viv_averiadas": 631.0,
+    "poblacion_2026": 18515,
+    "tasa_pct": 15.0203,
+    "delta_familias": 233.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "CÓRDOBA",
+    "familias": 742.0,
+    "personas": 1464.0,
+    "viv_destruidas": 19.0,
+    "viv_averiadas": 279.0,
+    "poblacion_2026": 5863,
+    "tasa_pct": 24.9702,
+    "delta_familias": 370.0,
     "nuevo": false
    },
    {
@@ -1508,7 +1584,7 @@
     "viv_averiadas": 243.0,
     "poblacion_2026": 12968,
     "tasa_pct": 15.3378,
-    "delta_familias": 69.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1520,7 +1596,19 @@
     "viv_averiadas": 486.0,
     "poblacion_2026": 6601,
     "tasa_pct": 28.7684,
-    "delta_familias": 24.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "SAN PEDRO",
+    "familias": 660.0,
+    "personas": 1460.0,
+    "viv_destruidas": 8.0,
+    "viv_averiadas": 91.0,
+    "poblacion_2026": 17244,
+    "tasa_pct": 8.4667,
+    "delta_familias": 32.0,
     "nuevo": false
    },
    {
@@ -1532,91 +1620,115 @@
     "viv_averiadas": 343.0,
     "poblacion_2026": 12698,
     "tasa_pct": 13.8053,
-    "delta_familias": 107.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "SIPÍ",
-    "familias": 634.0,
-    "personas": 1549.0,
-    "viv_destruidas": 270.0,
-    "viv_averiadas": 570.0,
+    "familias": 637.0,
+    "personas": 1554.0,
+    "viv_destruidas": 272.0,
+    "viv_averiadas": 572.0,
     "poblacion_2026": 3378,
-    "tasa_pct": 45.8555,
-    "delta_familias": 25.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "SAN PEDRO",
-    "familias": 628.0,
-    "personas": 1394.0,
-    "viv_destruidas": 8.0,
-    "viv_averiadas": 84.0,
-    "poblacion_2026": 17244,
-    "tasa_pct": 8.084,
-    "delta_familias": 78.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "OBANDO",
-    "familias": 588.0,
-    "personas": 1274.0,
-    "viv_destruidas": 16.0,
-    "viv_averiadas": 341.0,
-    "poblacion_2026": 12558,
-    "tasa_pct": 10.1449,
-    "delta_familias": 104.0,
+    "tasa_pct": 46.0036,
+    "delta_familias": 3.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "GUÁTICA",
-    "familias": 570.0,
-    "personas": 1453.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 341.0,
+    "familias": 635.0,
+    "personas": 1611.0,
+    "viv_destruidas": 12.0,
+    "viv_averiadas": 368.0,
     "poblacion_2026": 12461,
-    "tasa_pct": 11.6604,
-    "delta_familias": 0.0,
+    "tasa_pct": 12.9283,
+    "delta_familias": 65.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
-    "municipio": "LA TEBAIDA",
-    "familias": 568.0,
-    "personas": 1423.0,
-    "viv_destruidas": 7.0,
-    "viv_averiadas": 235.0,
-    "poblacion_2026": 33758,
-    "tasa_pct": 4.2153,
-    "delta_familias": 107.0,
+    "municipio": "CIRCASIA",
+    "familias": 618.0,
+    "personas": 1075.0,
+    "viv_destruidas": 48.0,
+    "viv_averiadas": 65.0,
+    "poblacion_2026": 28971,
+    "tasa_pct": 3.7106,
+    "delta_familias": 132.0,
     "nuevo": false
    },
    {
-    "departamento": "CHOCÓ",
-    "municipio": "RÍO IRÓ",
-    "familias": 560.0,
-    "personas": 1738.0,
-    "viv_destruidas": 134.0,
-    "viv_averiadas": 403.0,
-    "poblacion_2026": 5848,
-    "tasa_pct": 29.7196,
-    "delta_familias": 24.0,
+    "departamento": "CAUCA",
+    "municipio": "PIENDAMÓ - TUNÍA",
+    "familias": 611.0,
+    "personas": 724.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 465.0,
+    "poblacion_2026": 42986,
+    "tasa_pct": 1.6843,
+    "delta_familias": 91.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "TULUÁ",
+    "familias": 604.0,
+    "personas": 1162.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 14.0,
+    "poblacion_2026": 225868,
+    "tasa_pct": 0.5145,
+    "delta_familias": 309.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "OBANDO",
+    "familias": 599.0,
+    "personas": 1299.0,
+    "viv_destruidas": 17.0,
+    "viv_averiadas": 349.0,
+    "poblacion_2026": 12558,
+    "tasa_pct": 10.344,
+    "delta_familias": 11.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "ALTO BAUDÓ",
-    "familias": 559.0,
-    "personas": 1292.0,
+    "familias": 583.0,
+    "personas": 1350.0,
     "viv_destruidas": 3.0,
     "viv_averiadas": 19.0,
     "poblacion_2026": 29358,
-    "tasa_pct": 4.4008,
-    "delta_familias": 25.0,
+    "tasa_pct": 4.5984,
+    "delta_familias": 24.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "RÍO IRÓ",
+    "familias": 583.0,
+    "personas": 1793.0,
+    "viv_destruidas": 133.0,
+    "viv_averiadas": 413.0,
+    "poblacion_2026": 5848,
+    "tasa_pct": 30.6601,
+    "delta_familias": 23.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "VITERBO",
+    "familias": 568.0,
+    "personas": 1473.0,
+    "viv_destruidas": 5.0,
+    "viv_averiadas": 90.0,
+    "poblacion_2026": 12613,
+    "tasa_pct": 11.6784,
+    "delta_familias": 303.0,
     "nuevo": false
    },
    {
@@ -1629,30 +1741,6 @@
     "poblacion_2026": 12936,
     "tasa_pct": 8.7585,
     "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "PIENDAMÓ - TUNÍA",
-    "familias": 520.0,
-    "personas": 604.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 384.0,
-    "poblacion_2026": 42986,
-    "tasa_pct": 1.4051,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "MISTRATÓ",
-    "familias": 514.0,
-    "personas": 1948.0,
-    "viv_destruidas": 7.0,
-    "viv_averiadas": 402.0,
-    "poblacion_2026": 18515,
-    "tasa_pct": 10.5212,
-    "delta_familias": 205.0,
     "nuevo": false
    },
    {
@@ -1669,50 +1757,50 @@
    },
    {
     "departamento": "CAUCA",
-    "municipio": "BUENOS AIRES",
-    "familias": 501.0,
-    "personas": 1161.0,
-    "viv_destruidas": 25.0,
-    "viv_averiadas": 278.0,
-    "poblacion_2026": 33342,
-    "tasa_pct": 3.4821,
-    "delta_familias": 404.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "BUGALAGRANDE",
-    "familias": 490.0,
-    "personas": 801.0,
-    "viv_destruidas": 69.0,
-    "viv_averiadas": 22.0,
-    "poblacion_2026": 25527,
-    "tasa_pct": 3.1379,
-    "delta_familias": 480.0,
+    "municipio": "LÓPEZ DE MICAY",
+    "familias": 489.0,
+    "personas": 898.0,
+    "viv_destruidas": 7.0,
+    "viv_averiadas": 83.0,
+    "poblacion_2026": 19757,
+    "tasa_pct": 4.5452,
+    "delta_familias": 40.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
-    "municipio": "CIRCASIA",
-    "familias": 486.0,
-    "personas": 765.0,
-    "viv_destruidas": 41.0,
-    "viv_averiadas": 48.0,
-    "poblacion_2026": 28971,
-    "tasa_pct": 2.6406,
-    "delta_familias": 58.0,
+    "municipio": "FILANDIA",
+    "familias": 473.0,
+    "personas": 1072.0,
+    "viv_destruidas": 11.0,
+    "viv_averiadas": 70.0,
+    "poblacion_2026": 12345,
+    "tasa_pct": 8.6837,
+    "delta_familias": 77.0,
     "nuevo": false
    },
    {
-    "departamento": "CAUCA",
-    "municipio": "LÓPEZ DE MICAY",
-    "familias": 449.0,
-    "personas": 828.0,
-    "viv_destruidas": 6.0,
-    "viv_averiadas": 73.0,
-    "poblacion_2026": 19757,
-    "tasa_pct": 4.1909,
-    "delta_familias": 258.0,
+    "departamento": "RISARALDA",
+    "municipio": "LA CELIA",
+    "familias": 438.0,
+    "personas": 1136.0,
+    "viv_destruidas": 19.0,
+    "viv_averiadas": 221.0,
+    "poblacion_2026": 7700,
+    "tasa_pct": 14.7532,
+    "delta_familias": 21.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "SAN JOSÉ",
+    "familias": 436.0,
+    "personas": 1020.0,
+    "viv_destruidas": 14.0,
+    "viv_averiadas": 143.0,
+    "poblacion_2026": 4960,
+    "tasa_pct": 20.5645,
+    "delta_familias": 21.0,
     "nuevo": false
    },
    {
@@ -1724,43 +1812,79 @@
     "viv_averiadas": 167.0,
     "poblacion_2026": 15966,
     "tasa_pct": 6.1631,
-    "delta_familias": 67.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "LA CELIA",
-    "familias": 417.0,
-    "personas": 1090.0,
-    "viv_destruidas": 18.0,
-    "viv_averiadas": 204.0,
-    "poblacion_2026": 7700,
-    "tasa_pct": 14.1558,
-    "delta_familias": 109.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "SAN JOSÉ",
-    "familias": 415.0,
-    "personas": 962.0,
-    "viv_destruidas": 14.0,
-    "viv_averiadas": 134.0,
-    "poblacion_2026": 4960,
-    "tasa_pct": 19.3952,
-    "delta_familias": 210.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
-    "municipio": "FILANDIA",
-    "familias": 396.0,
-    "personas": 876.0,
-    "viv_destruidas": 10.0,
-    "viv_averiadas": 50.0,
-    "poblacion_2026": 12345,
-    "tasa_pct": 7.096,
-    "delta_familias": 81.0,
+    "municipio": "SALENTO",
+    "familias": 405.0,
+    "personas": 1101.0,
+    "viv_destruidas": 9.0,
+    "viv_averiadas": 81.0,
+    "poblacion_2026": 10372,
+    "tasa_pct": 10.6151,
+    "delta_familias": 66.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "ORTEGA",
+    "familias": 386.0,
+    "personas": 885.0,
+    "viv_destruidas": 7.0,
+    "viv_averiadas": 366.0,
+    "poblacion_2026": 36604,
+    "tasa_pct": 2.4178,
+    "delta_familias": 80.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "VILLAMARÍA",
+    "familias": 385.0,
+    "personas": 1010.0,
+    "viv_destruidas": 43.0,
+    "viv_averiadas": 17.0,
+    "poblacion_2026": 74463,
+    "tasa_pct": 1.3564,
+    "delta_familias": 21.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "ANSERMA",
+    "familias": 384.0,
+    "personas": 1129.0,
+    "viv_destruidas": 47.0,
+    "viv_averiadas": 155.0,
+    "poblacion_2026": 37352,
+    "tasa_pct": 3.0226,
+    "delta_familias": 20.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "PIJAO",
+    "familias": 384.0,
+    "personas": 993.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 300.0,
+    "poblacion_2026": 5347,
+    "tasa_pct": 18.5712,
+    "delta_familias": 49.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "YUMBO",
+    "familias": 382.0,
+    "personas": 1006.0,
+    "viv_destruidas": 11.0,
+    "viv_averiadas": 67.0,
+    "poblacion_2026": 115667,
+    "tasa_pct": 0.8697,
+    "delta_familias": 43.0,
     "nuevo": false
    },
    {
@@ -1772,7 +1896,7 @@
     "viv_averiadas": 190.0,
     "poblacion_2026": 11079,
     "tasa_pct": 9.3871,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1784,7 +1908,7 @@
     "viv_averiadas": 227.0,
     "poblacion_2026": 19254,
     "tasa_pct": 4.29,
-    "delta_familias": 37.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1812,87 +1936,51 @@
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "CÓRDOBA",
-    "familias": 372.0,
-    "personas": 1000.0,
-    "viv_destruidas": 18.0,
-    "viv_averiadas": 223.0,
-    "poblacion_2026": 5863,
-    "tasa_pct": 17.0561,
-    "delta_familias": 125.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "ANSERMA",
-    "familias": 364.0,
-    "personas": 1068.0,
-    "viv_destruidas": 41.0,
-    "viv_averiadas": 150.0,
-    "poblacion_2026": 37352,
-    "tasa_pct": 2.8593,
-    "delta_familias": 67.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "VILLAMARÍA",
-    "familias": 364.0,
-    "personas": 959.0,
-    "viv_destruidas": 43.0,
-    "viv_averiadas": 17.0,
-    "poblacion_2026": 74463,
-    "tasa_pct": 1.2879,
-    "delta_familias": 56.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "SALENTO",
-    "familias": 339.0,
-    "personas": 987.0,
-    "viv_destruidas": 9.0,
-    "viv_averiadas": 73.0,
-    "poblacion_2026": 10372,
-    "tasa_pct": 9.516,
-    "delta_familias": 16.0,
-    "nuevo": false
-   },
-   {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "YUMBO",
-    "familias": 339.0,
-    "personas": 932.0,
-    "viv_destruidas": 9.0,
-    "viv_averiadas": 61.0,
-    "poblacion_2026": 115667,
-    "tasa_pct": 0.8058,
-    "delta_familias": 27.0,
+    "municipio": "GUADALAJARA DE BUGA",
+    "familias": 367.0,
+    "personas": 872.0,
+    "viv_destruidas": 8.0,
+    "viv_averiadas": 117.0,
+    "poblacion_2026": 132250,
+    "tasa_pct": 0.6594,
+    "delta_familias": 45.0,
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "PIJAO",
-    "familias": 335.0,
-    "personas": 898.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 260.0,
-    "poblacion_2026": 5347,
-    "tasa_pct": 16.7945,
-    "delta_familias": 139.0,
+    "departamento": "CAUCA",
+    "municipio": "SUÁREZ",
+    "familias": 358.0,
+    "personas": 909.0,
+    "viv_destruidas": 23.0,
+    "viv_averiadas": 66.0,
+    "poblacion_2026": 38524,
+    "tasa_pct": 2.3596,
+    "delta_familias": 176.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "NEIRA",
+    "familias": 354.0,
+    "personas": 773.0,
+    "viv_destruidas": 7.0,
+    "viv_averiadas": 82.0,
+    "poblacion_2026": 21492,
+    "tasa_pct": 3.5967,
+    "delta_familias": 73.0,
     "nuevo": false
    },
    {
     "departamento": "TOLIMA",
     "municipio": "ATACO",
-    "familias": 334.0,
-    "personas": 575.0,
+    "familias": 345.0,
+    "personas": 600.0,
     "viv_destruidas": 5.0,
-    "viv_averiadas": 242.0,
+    "viv_averiadas": 245.0,
     "poblacion_2026": 20589,
-    "tasa_pct": 2.7928,
-    "delta_familias": 62.0,
+    "tasa_pct": 2.9142,
+    "delta_familias": 11.0,
     "nuevo": false
    },
    {
@@ -1904,7 +1992,19 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 50452,
     "tasa_pct": 1.6828,
-    "delta_familias": 26.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "RONCESVALLES",
+    "familias": 329.0,
+    "personas": 330.0,
+    "viv_destruidas": 4.0,
+    "viv_averiadas": 104.0,
+    "poblacion_2026": 5652,
+    "tasa_pct": 5.8386,
+    "delta_familias": 13.0,
     "nuevo": false
    },
    {
@@ -1916,19 +2016,7 @@
     "viv_averiadas": 200.0,
     "poblacion_2026": 331045,
     "tasa_pct": 0.2293,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "GUADALAJARA DE BUGA",
-    "familias": 322.0,
-    "personas": 770.0,
-    "viv_destruidas": 8.0,
-    "viv_averiadas": 105.0,
-    "poblacion_2026": 132250,
-    "tasa_pct": 0.5822,
-    "delta_familias": 116.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1940,19 +2028,19 @@
     "viv_averiadas": 86.0,
     "poblacion_2026": 10781,
     "tasa_pct": 6.5486,
-    "delta_familias": 102.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
-    "departamento": "TOLIMA",
-    "municipio": "RONCESVALLES",
-    "familias": 316.0,
-    "personas": 317.0,
-    "viv_destruidas": 4.0,
-    "viv_averiadas": 98.0,
-    "poblacion_2026": 5652,
-    "tasa_pct": 5.6086,
-    "delta_familias": 0.0,
+    "departamento": "CAUCA",
+    "municipio": "TORIBÍO",
+    "familias": 311.0,
+    "personas": 905.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 300.0,
+    "poblacion_2026": 40488,
+    "tasa_pct": 2.2352,
+    "delta_familias": 112.0,
     "nuevo": false
    },
    {
@@ -1964,55 +2052,43 @@
     "viv_averiadas": 159.0,
     "poblacion_2026": 46986,
     "tasa_pct": 1.4068,
-    "delta_familias": 124.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "TOLIMA",
-    "municipio": "ORTEGA",
-    "familias": 306.0,
-    "personas": 634.0,
-    "viv_destruidas": 7.0,
-    "viv_averiadas": 287.0,
-    "poblacion_2026": 36604,
-    "tasa_pct": 1.7321,
-    "delta_familias": 28.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "TULUÁ",
-    "familias": 295.0,
-    "personas": 732.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 6.0,
-    "poblacion_2026": 225868,
-    "tasa_pct": 0.3241,
-    "delta_familias": 7.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "NEIRA",
-    "familias": 281.0,
-    "personas": 637.0,
-    "viv_destruidas": 6.0,
-    "viv_averiadas": 41.0,
-    "poblacion_2026": 21492,
-    "tasa_pct": 2.9639,
-    "delta_familias": 103.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "EL CARMEN DE ATRATO",
-    "familias": 277.0,
-    "personas": 321.0,
+    "familias": 302.0,
+    "personas": 346.0,
     "viv_destruidas": 3.0,
     "viv_averiadas": 22.0,
     "poblacion_2026": 8768,
-    "tasa_pct": 3.661,
-    "delta_familias": 0.0,
+    "tasa_pct": 3.9462,
+    "delta_familias": 25.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "ANTIOQUIA",
+    "municipio": "ABEJORRAL",
+    "familias": 289.0,
+    "personas": 325.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 166.0,
+    "poblacion_2026": 21126,
+    "tasa_pct": 1.5384,
+    "delta_familias": 200.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "BALBOA",
+    "familias": 270.0,
+    "personas": 777.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 46.0,
+    "poblacion_2026": 22556,
+    "tasa_pct": 3.4448,
+    "delta_familias": 111.0,
     "nuevo": false
    },
    {
@@ -2028,27 +2104,63 @@
     "nuevo": false
    },
    {
-    "departamento": "CALDAS",
-    "municipio": "VITERBO",
-    "familias": 265.0,
-    "personas": 635.0,
-    "viv_destruidas": 3.0,
-    "viv_averiadas": 55.0,
-    "poblacion_2026": 12613,
-    "tasa_pct": 5.0345,
-    "delta_familias": 234.0,
-    "nuevo": false
+    "departamento": "CAUCA",
+    "municipio": "SANTANDER DE QUILICHAO",
+    "familias": 263.0,
+    "personas": 633.0,
+    "viv_destruidas": 13.0,
+    "viv_averiadas": 123.0,
+    "poblacion_2026": 130768,
+    "tasa_pct": 0.4841,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "TOLIMA",
     "municipio": "ROVIRA",
-    "familias": 251.0,
-    "personas": 679.0,
+    "familias": 256.0,
+    "personas": 690.0,
     "viv_destruidas": 3.0,
-    "viv_averiadas": 39.0,
+    "viv_averiadas": 40.0,
     "poblacion_2026": 22391,
-    "tasa_pct": 3.0325,
-    "delta_familias": 0.0,
+    "tasa_pct": 3.0816,
+    "delta_familias": 5.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "LA VEGA",
+    "familias": 248.0,
+    "personas": 311.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 249.0,
+    "poblacion_2026": 24376,
+    "tasa_pct": 1.2758,
+    "delta_familias": 110.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "JAMBALÓ",
+    "familias": 241.0,
+    "personas": 837.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 216.0,
+    "poblacion_2026": 19492,
+    "tasa_pct": 4.2941,
+    "delta_familias": 42.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "GUACHENÉ",
+    "familias": 239.0,
+    "personas": 321.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 243.0,
+    "poblacion_2026": 20437,
+    "tasa_pct": 1.5707,
+    "delta_familias": 48.0,
     "nuevo": false
    },
    {
@@ -2060,7 +2172,31 @@
     "viv_averiadas": 189.0,
     "poblacion_2026": 21004,
     "tasa_pct": 2.7995,
-    "delta_familias": 158.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "SAN ANTONIO",
+    "familias": 233.0,
+    "personas": 629.0,
+    "viv_destruidas": 6.0,
+    "viv_averiadas": 135.0,
+    "poblacion_2026": 13351,
+    "tasa_pct": 4.7113,
+    "delta_familias": 37.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "EL CANTÓN DEL SAN PABLO",
+    "familias": 229.0,
+    "personas": 653.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 6585,
+    "tasa_pct": 9.9165,
+    "delta_familias": 14.0,
     "nuevo": false
    },
    {
@@ -2072,7 +2208,19 @@
     "viv_averiadas": 210.0,
     "poblacion_2026": 8477,
     "tasa_pct": 8.4582,
-    "delta_familias": 104.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "TIMBÍO",
+    "familias": 227.0,
+    "personas": 495.0,
+    "viv_destruidas": 5.0,
+    "viv_averiadas": 164.0,
+    "poblacion_2026": 39534,
+    "tasa_pct": 1.2521,
+    "delta_familias": 117.0,
     "nuevo": false
    },
    {
@@ -2088,6 +2236,18 @@
     "nuevo": false
    },
    {
+    "departamento": "CAUCA",
+    "municipio": "SUCRE",
+    "familias": 224.0,
+    "personas": 245.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 9826,
+    "tasa_pct": 2.4934,
+    "delta_familias": 223.0,
+    "nuevo": false
+   },
+   {
     "departamento": "CHOCÓ",
     "municipio": "CÉRTEGUI",
     "familias": 224.0,
@@ -2096,67 +2256,91 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6063,
     "tasa_pct": 3.7275,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "VIJES",
+    "familias": 221.0,
+    "personas": 428.0,
+    "viv_destruidas": 15.0,
+    "viv_averiadas": 99.0,
+    "poblacion_2026": 14126,
+    "tasa_pct": 3.0299,
+    "delta_familias": 215.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "FILADELFIA",
+    "familias": 216.0,
+    "personas": 500.0,
+    "viv_destruidas": 5.0,
+    "viv_averiadas": 123.0,
+    "poblacion_2026": 10931,
+    "tasa_pct": 4.5741,
+    "delta_familias": 26.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "PENSILVANIA",
+    "familias": 216.0,
+    "personas": 541.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 184.0,
+    "poblacion_2026": 20404,
+    "tasa_pct": 2.6514,
+    "delta_familias": 17.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "BUENAVISTA",
+    "familias": 214.0,
+    "personas": 280.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 46.0,
+    "poblacion_2026": 3165,
+    "tasa_pct": 8.8468,
+    "delta_familias": 28.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
-    "municipio": "EL CANTÓN DEL SAN PABLO",
-    "familias": 215.0,
-    "personas": 634.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 6585,
-    "tasa_pct": 9.6279,
-    "delta_familias": 96.0,
+    "municipio": "MEDIO ATRATO",
+    "familias": 207.0,
+    "personas": 451.0,
+    "viv_destruidas": 17.0,
+    "viv_averiadas": 57.0,
+    "poblacion_2026": 11341,
+    "tasa_pct": 3.9767,
+    "delta_familias": 19.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
     "municipio": "MONTENEGRO",
     "familias": 207.0,
-    "personas": 572.0,
+    "personas": 576.0,
     "viv_destruidas": 10.0,
     "viv_averiadas": 102.0,
     "poblacion_2026": 37483,
-    "tasa_pct": 1.526,
+    "tasa_pct": 1.5367,
     "delta_familias": 0.0,
     "nuevo": false
    },
    {
-    "departamento": "CALDAS",
-    "municipio": "PENSILVANIA",
-    "familias": 199.0,
-    "personas": 501.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 170.0,
-    "poblacion_2026": 20404,
-    "tasa_pct": 2.4554,
-    "delta_familias": 23.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CAUCA",
-    "municipio": "JAMBALÓ",
-    "familias": 199.0,
-    "personas": 715.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 195.0,
-    "poblacion_2026": 19492,
-    "tasa_pct": 3.6682,
-    "delta_familias": 83.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "TORIBÍO",
-    "familias": 199.0,
-    "personas": 569.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 193.0,
-    "poblacion_2026": 40488,
-    "tasa_pct": 1.4054,
-    "delta_familias": 110.0,
+    "municipio": "MORALES",
+    "familias": 206.0,
+    "personas": 446.0,
+    "viv_destruidas": 8.0,
+    "viv_averiadas": 49.0,
+    "poblacion_2026": 46001,
+    "tasa_pct": 0.9695,
+    "delta_familias": 12.0,
     "nuevo": false
    },
    {
@@ -2168,31 +2352,7 @@
     "viv_averiadas": 167.0,
     "poblacion_2026": 43709,
     "tasa_pct": 0.6498,
-    "delta_familias": 48.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "TOLIMA",
-    "municipio": "SAN ANTONIO",
-    "familias": 196.0,
-    "personas": 524.0,
-    "viv_destruidas": 6.0,
-    "viv_averiadas": 122.0,
-    "poblacion_2026": 13351,
-    "tasa_pct": 3.9248,
-    "delta_familias": 115.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "MORALES",
-    "familias": 194.0,
-    "personas": 422.0,
-    "viv_destruidas": 8.0,
-    "viv_averiadas": 48.0,
-    "poblacion_2026": 46001,
-    "tasa_pct": 0.9174,
-    "delta_familias": 83.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2204,55 +2364,19 @@
     "viv_averiadas": 192.0,
     "poblacion_2026": 21673,
     "tasa_pct": 2.3209,
-    "delta_familias": 6.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "GUACHENÉ",
-    "familias": 191.0,
-    "personas": 268.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 195.0,
-    "poblacion_2026": 20437,
-    "tasa_pct": 1.3113,
-    "delta_familias": 7.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "FILADELFIA",
-    "familias": 190.0,
-    "personas": 434.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 130.0,
-    "poblacion_2026": 10931,
-    "tasa_pct": 3.9704,
-    "delta_familias": 24.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "MEDIO ATRATO",
-    "familias": 188.0,
-    "personas": 402.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 57.0,
-    "poblacion_2026": 11341,
-    "tasa_pct": 3.5447,
     "delta_familias": 0.0,
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "BUENAVISTA",
-    "familias": 186.0,
-    "personas": 252.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 40.0,
-    "poblacion_2026": 3165,
-    "tasa_pct": 7.9621,
-    "delta_familias": 61.0,
+    "departamento": "CALDAS",
+    "municipio": "AGUADAS",
+    "familias": 184.0,
+    "personas": 397.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 22301,
+    "tasa_pct": 1.7802,
+    "delta_familias": 54.0,
     "nuevo": false
    },
    {
@@ -2269,38 +2393,38 @@
    },
    {
     "departamento": "CAUCA",
-    "municipio": "SUÁREZ",
-    "familias": 182.0,
-    "personas": 474.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 45.0,
-    "poblacion_2026": 38524,
-    "tasa_pct": 1.2304,
-    "delta_familias": 144.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "BALBOA",
-    "familias": 159.0,
-    "personas": 475.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 22.0,
-    "poblacion_2026": 22556,
-    "tasa_pct": 2.1059,
-    "delta_familias": 156.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
     "municipio": "CORINTO",
-    "familias": 152.0,
-    "personas": 406.0,
+    "familias": 163.0,
+    "personas": 428.0,
     "viv_destruidas": 9.0,
-    "viv_averiadas": 114.0,
+    "viv_averiadas": 123.0,
     "poblacion_2026": 27500,
-    "tasa_pct": 1.4764,
-    "delta_familias": 0.0,
+    "tasa_pct": 1.5564,
+    "delta_familias": 11.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "FLORIDA",
+    "familias": 163.0,
+    "personas": 365.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 80.0,
+    "poblacion_2026": 57017,
+    "tasa_pct": 0.6402,
+    "delta_familias": 16.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "GUAPI",
+    "familias": 155.0,
+    "personas": 260.0,
+    "viv_destruidas": 4.0,
+    "viv_averiadas": 149.0,
+    "poblacion_2026": 29766,
+    "tasa_pct": 0.8735,
+    "delta_familias": 63.0,
     "nuevo": false
    },
    {
@@ -2312,31 +2436,7 @@
     "viv_averiadas": 138.0,
     "poblacion_2026": 10485,
     "tasa_pct": 3.2904,
-    "delta_familias": 7.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "FLORIDA",
-    "familias": 147.0,
-    "personas": 336.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 75.0,
-    "poblacion_2026": 57017,
-    "tasa_pct": 0.5893,
-    "delta_familias": 109.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "LA VEGA",
-    "familias": 138.0,
-    "personas": 201.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 140.0,
-    "poblacion_2026": 24376,
-    "tasa_pct": 0.8246,
-    "delta_familias": 121.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2352,15 +2452,27 @@
     "nuevo": false
    },
    {
-    "departamento": "CALDAS",
-    "municipio": "AGUADAS",
-    "familias": 130.0,
-    "personas": 314.0,
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "CANDELARIA",
+    "familias": 132.0,
+    "personas": 288.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 22301,
-    "tasa_pct": 1.408,
-    "delta_familias": 20.0,
+    "viv_averiadas": 55.0,
+    "poblacion_2026": 115933,
+    "tasa_pct": 0.2484,
+    "delta_familias": 13.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "DOLORES",
+    "familias": 129.0,
+    "personas": 253.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 128.0,
+    "poblacion_2026": 8635,
+    "tasa_pct": 2.9299,
+    "delta_familias": 44.0,
     "nuevo": false
    },
    {
@@ -2372,7 +2484,19 @@
     "viv_averiadas": 85.0,
     "poblacion_2026": 58555,
     "tasa_pct": 0.4269,
-    "delta_familias": 77.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "CAJAMARCA",
+    "familias": 120.0,
+    "personas": 323.0,
+    "viv_destruidas": 11.0,
+    "viv_averiadas": 56.0,
+    "poblacion_2026": 18927,
+    "tasa_pct": 1.7066,
+    "delta_familias": 68.0,
     "nuevo": false
    },
    {
@@ -2389,26 +2513,14 @@
    },
    {
     "departamento": "VALLE DEL CAUCA",
-    "municipio": "CANDELARIA",
+    "municipio": "PRADERA",
     "familias": 119.0,
-    "personas": 275.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 42.0,
-    "poblacion_2026": 115933,
-    "tasa_pct": 0.2372,
-    "delta_familias": 5.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "TIMBÍO",
-    "familias": 110.0,
-    "personas": 279.0,
-    "viv_destruidas": 3.0,
-    "viv_averiadas": 81.0,
-    "poblacion_2026": 39534,
-    "tasa_pct": 0.7057,
-    "delta_familias": 65.0,
+    "personas": 308.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 101.0,
+    "poblacion_2026": 50067,
+    "tasa_pct": 0.6152,
+    "delta_familias": 78.0,
     "nuevo": false
    },
    {
@@ -2420,7 +2532,7 @@
     "viv_averiadas": 30.0,
     "poblacion_2026": 7565,
     "tasa_pct": 3.0139,
-    "delta_familias": 22.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2432,7 +2544,7 @@
     "viv_averiadas": 34.0,
     "poblacion_2026": 34739,
     "tasa_pct": 0.734,
-    "delta_familias": 43.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2444,7 +2556,19 @@
     "viv_averiadas": 37.0,
     "poblacion_2026": 23909,
     "tasa_pct": 1.1126,
-    "delta_familias": 39.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "SOTARÁ PAISPAMBA",
+    "familias": 103.0,
+    "personas": 161.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 74.0,
+    "poblacion_2026": 14806,
+    "tasa_pct": 1.0874,
+    "delta_familias": 42.0,
     "nuevo": false
    },
    {
@@ -2472,6 +2596,18 @@
     "nuevo": false
    },
    {
+    "departamento": "CALDAS",
+    "municipio": "MARULANDA",
+    "familias": 99.0,
+    "personas": 184.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 12.0,
+    "poblacion_2026": 2676,
+    "tasa_pct": 6.8759,
+    "delta_familias": 6.0,
+    "nuevo": false
+   },
+   {
     "departamento": "TOLIMA",
     "municipio": "FRESNO",
     "familias": 96.0,
@@ -2480,7 +2616,7 @@
     "viv_averiadas": 43.0,
     "poblacion_2026": 31883,
     "tasa_pct": 0.505,
-    "delta_familias": 42.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2492,55 +2628,19 @@
     "viv_averiadas": 79.0,
     "poblacion_2026": 8137,
     "tasa_pct": 1.5976,
-    "delta_familias": 47.0,
+    "delta_familias": 0.0,
     "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "MARULANDA",
-    "familias": 93.0,
-    "personas": 180.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 12.0,
-    "poblacion_2026": 2676,
-    "tasa_pct": 6.7265,
-    "delta_familias": 2.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "GUAPI",
-    "familias": 92.0,
-    "personas": 139.0,
-    "viv_destruidas": 4.0,
-    "viv_averiadas": 78.0,
-    "poblacion_2026": 29766,
-    "tasa_pct": 0.467,
-    "delta_familias": 78.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "ANTIOQUIA",
-    "municipio": "ABEJORRAL",
-    "familias": 89.0,
-    "personas": 110.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 44.0,
-    "poblacion_2026": 21126,
-    "tasa_pct": 0.5207,
-    "delta_familias": null,
-    "nuevo": true
    },
    {
     "departamento": "TOLIMA",
     "municipio": "GUAMO",
-    "familias": 89.0,
-    "personas": 160.0,
+    "familias": 92.0,
+    "personas": 165.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 87.0,
+    "viv_averiadas": 90.0,
     "poblacion_2026": 33934,
-    "tasa_pct": 0.4715,
-    "delta_familias": 33.0,
+    "tasa_pct": 0.4862,
+    "delta_familias": 3.0,
     "nuevo": false
    },
    {
@@ -2552,8 +2652,8 @@
     "viv_averiadas": 86.0,
     "poblacion_2026": 5181,
     "tasa_pct": 5.2307,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -2576,31 +2676,19 @@
     "viv_averiadas": 77.0,
     "poblacion_2026": 9363,
     "tasa_pct": 2.7982,
-    "delta_familias": 10.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "TOLIMA",
-    "municipio": "DOLORES",
-    "familias": 85.0,
-    "personas": 176.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 85.0,
-    "poblacion_2026": 8635,
-    "tasa_pct": 2.0382,
-    "delta_familias": 61.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "TOLIMA",
     "municipio": "VILLAHERMOSA",
-    "familias": 83.0,
-    "personas": 83.0,
+    "familias": 85.0,
+    "personas": 85.0,
     "viv_destruidas": 2.0,
-    "viv_averiadas": 71.0,
+    "viv_averiadas": 73.0,
     "poblacion_2026": 9603,
-    "tasa_pct": 0.8643,
-    "delta_familias": 43.0,
+    "tasa_pct": 0.8851,
+    "delta_familias": 2.0,
     "nuevo": false
    },
    {
@@ -2612,7 +2700,7 @@
     "viv_averiadas": 51.0,
     "poblacion_2026": 11466,
     "tasa_pct": 1.3344,
-    "delta_familias": 21.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2648,7 +2736,7 @@
     "viv_averiadas": 9.0,
     "poblacion_2026": 5679,
     "tasa_pct": 1.7961,
-    "delta_familias": 35.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2664,6 +2752,18 @@
     "nuevo": false
    },
    {
+    "departamento": "CAUCA",
+    "municipio": "TOTORÓ",
+    "familias": 76.0,
+    "personas": 150.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 27.0,
+    "poblacion_2026": 27710,
+    "tasa_pct": 0.5413,
+    "delta_familias": 45.0,
+    "nuevo": false
+   },
+   {
     "departamento": "TOLIMA",
     "municipio": "PRADO",
     "familias": 76.0,
@@ -2676,6 +2776,30 @@
     "nuevo": false
    },
    {
+    "departamento": "CHOCÓ",
+    "municipio": "UNGUÍA",
+    "familias": 73.0,
+    "personas": 193.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 32.0,
+    "poblacion_2026": 12481,
+    "tasa_pct": 1.5464,
+    "delta_familias": 54.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "HUILA",
+    "municipio": "ALGECIRAS",
+    "familias": 73.0,
+    "personas": 157.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 46.0,
+    "poblacion_2026": 22750,
+    "tasa_pct": 0.6901,
+    "delta_familias": 50.0,
+    "nuevo": false
+   },
+   {
     "departamento": "CAUCA",
     "municipio": "PADILLA",
     "familias": 71.0,
@@ -2684,7 +2808,7 @@
     "viv_averiadas": 36.0,
     "poblacion_2026": 10622,
     "tasa_pct": 1.045,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2696,7 +2820,19 @@
     "viv_averiadas": 67.0,
     "poblacion_2026": 5515,
     "tasa_pct": 1.2693,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "ANTIOQUIA",
+    "municipio": "ARGELIA",
+    "familias": 67.0,
+    "personas": 68.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 28.0,
+    "poblacion_2026": 8242,
+    "tasa_pct": 0.825,
+    "delta_familias": 56.0,
     "nuevo": false
    },
    {
@@ -2708,7 +2844,19 @@
     "viv_averiadas": 35.0,
     "poblacion_2026": 27853,
     "tasa_pct": 0.6032,
-    "delta_familias": 64.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "HUILA",
+    "municipio": "LA ARGENTINA",
+    "familias": 65.0,
+    "personas": 147.0,
+    "viv_destruidas": 1.0,
+    "viv_averiadas": 64.0,
+    "poblacion_2026": 14169,
+    "tasa_pct": 1.0375,
+    "delta_familias": 22.0,
     "nuevo": false
    },
    {
@@ -2720,19 +2868,7 @@
     "viv_averiadas": 43.0,
     "poblacion_2026": 18310,
     "tasa_pct": 0.3823,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "SOTARÁ PAISPAMBA",
-    "familias": 61.0,
-    "personas": 104.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 42.0,
-    "poblacion_2026": 14806,
-    "tasa_pct": 0.7024,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2756,7 +2892,43 @@
     "viv_averiadas": 50.0,
     "poblacion_2026": 7761,
     "tasa_pct": 1.6493,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "ANTIOQUIA",
+    "municipio": "SAN RAFAEL",
+    "familias": 56.0,
+    "personas": 145.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 17572,
+    "tasa_pct": 0.8252,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "NATAGAIMA",
+    "familias": 56.0,
+    "personas": 140.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 27.0,
+    "poblacion_2026": 15989,
+    "tasa_pct": 0.8756,
+    "delta_familias": 41.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "VENADILLO",
+    "familias": 55.0,
+    "personas": 111.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 13092,
+    "tasa_pct": 0.8478,
+    "delta_familias": 29.0,
     "nuevo": false
    },
    {
@@ -2772,16 +2944,40 @@
     "nuevo": false
    },
    {
-    "departamento": "TOLIMA",
-    "municipio": "CAJAMARCA",
-    "familias": 52.0,
-    "personas": 151.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 11.0,
-    "poblacion_2026": 18927,
-    "tasa_pct": 0.7978,
-    "delta_familias": 51.0,
+    "departamento": "CAUCA",
+    "municipio": "BOLÍVAR",
+    "familias": 54.0,
+    "personas": 89.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 37932,
+    "tasa_pct": 0.2346,
+    "delta_familias": 53.0,
     "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "PURIFICACIÓN",
+    "familias": 53.0,
+    "personas": 130.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 51.0,
+    "poblacion_2026": 24149,
+    "tasa_pct": 0.5383,
+    "delta_familias": 33.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "ROSAS",
+    "familias": 50.0,
+    "personas": 51.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 51.0,
+    "poblacion_2026": 12211,
+    "tasa_pct": 0.4177,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "TOLIMA",
@@ -2792,7 +2988,7 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 4892,
     "tasa_pct": 1.8397,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2808,18 +3004,6 @@
     "nuevo": false
    },
    {
-    "departamento": "HUILA",
-    "municipio": "LA ARGENTINA",
-    "familias": 43.0,
-    "personas": 64.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 42.0,
-    "poblacion_2026": 14169,
-    "tasa_pct": 0.4517,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
     "departamento": "TOLIMA",
     "municipio": "FALAN",
     "familias": 42.0,
@@ -2832,18 +3016,6 @@
     "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "PRADERA",
-    "familias": 41.0,
-    "personas": 97.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 34.0,
-    "poblacion_2026": 50067,
-    "tasa_pct": 0.1937,
-    "delta_familias": 38.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CAUCA",
     "municipio": "MIRANDA",
     "familias": 40.0,
@@ -2853,6 +3025,18 @@
     "poblacion_2026": 32700,
     "tasa_pct": 0.1223,
     "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CHOCÓ",
+    "municipio": "NUEVO BELÉN DE BAJIRÁ",
+    "familias": 40.0,
+    "personas": 90.0,
+    "viv_destruidas": 17.0,
+    "viv_averiadas": 15.0,
+    "poblacion_2026": 30508,
+    "tasa_pct": 0.295,
+    "delta_familias": 9.0,
     "nuevo": false
    },
    {
@@ -2876,7 +3060,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 8074,
     "tasa_pct": 1.2633,
-    "delta_familias": 35.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2888,8 +3072,20 @@
     "viv_averiadas": 17.0,
     "poblacion_2026": 71480,
     "tasa_pct": 0.1063,
-    "delta_familias": 30.0,
+    "delta_familias": 0.0,
     "nuevo": false
+   },
+   {
+    "departamento": "CAUCA",
+    "municipio": "PATÍA",
+    "familias": 38.0,
+    "personas": 99.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 21.0,
+    "poblacion_2026": 39457,
+    "tasa_pct": 0.2509,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "HUILA",
@@ -2904,27 +3100,15 @@
     "nuevo": false
    },
    {
-    "departamento": "CAUCA",
-    "municipio": "TOTORÓ",
-    "familias": 31.0,
-    "personas": 63.0,
+    "departamento": "HUILA",
+    "municipio": "PAICOL",
+    "familias": 33.0,
+    "personas": 87.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 12.0,
-    "poblacion_2026": 27710,
-    "tasa_pct": 0.2274,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "NUEVO BELÉN DE BAJIRÁ",
-    "familias": 31.0,
-    "personas": 65.0,
-    "viv_destruidas": 17.0,
-    "viv_averiadas": 15.0,
-    "poblacion_2026": 30508,
-    "tasa_pct": 0.2131,
-    "delta_familias": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 7856,
+    "tasa_pct": 1.1074,
+    "delta_familias": 28.0,
     "nuevo": false
    },
    {
@@ -2936,7 +3120,7 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 557317,
     "tasa_pct": 0.0124,
-    "delta_familias": 15.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2948,7 +3132,7 @@
     "viv_averiadas": 23.0,
     "poblacion_2026": 10943,
     "tasa_pct": 0.5574,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2961,18 +3145,6 @@
     "poblacion_2026": 37626,
     "tasa_pct": 0.0797,
     "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "TOLIMA",
-    "municipio": "VENADILLO",
-    "familias": 26.0,
-    "personas": 58.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 13092,
-    "tasa_pct": 0.443,
-    "delta_familias": 8.0,
     "nuevo": false
    },
    {
@@ -3012,18 +3184,6 @@
     "nuevo": false
    },
    {
-    "departamento": "HUILA",
-    "municipio": "ALGECIRAS",
-    "familias": 23.0,
-    "personas": 55.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 11.0,
-    "poblacion_2026": 22750,
-    "tasa_pct": 0.2418,
-    "delta_familias": 3.0,
-    "nuevo": false
-   },
-   {
     "departamento": "NORTE DE SANTANDER",
     "municipio": "MUTISCUA",
     "familias": 23.0,
@@ -3056,8 +3216,20 @@
     "viv_averiadas": 21.0,
     "poblacion_2026": 12183,
     "tasa_pct": 0.4514,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "HUILA",
+    "municipio": "HOBO",
+    "familias": 22.0,
+    "personas": 64.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 20.0,
+    "poblacion_2026": 8175,
+    "tasa_pct": 0.7829,
+    "delta_familias": 17.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3080,20 +3252,8 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 54283,
     "tasa_pct": 0.129,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "TOLIMA",
-    "municipio": "PURIFICACIÓN",
-    "familias": 20.0,
-    "personas": 55.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 19.0,
-    "poblacion_2026": 24149,
-    "tasa_pct": 0.2278,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3104,20 +3264,8 @@
     "viv_averiadas": 8.0,
     "poblacion_2026": 5290,
     "tasa_pct": 1.6635,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "CHOCÓ",
-    "municipio": "UNGUÍA",
-    "familias": 19.0,
-    "personas": 48.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 6.0,
-    "poblacion_2026": 12481,
-    "tasa_pct": 0.3846,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3129,6 +3277,18 @@
     "poblacion_2026": 4821,
     "tasa_pct": 1.0164,
     "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "HUILA",
+    "municipio": "PALERMO",
+    "familias": 19.0,
+    "personas": 44.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 5.0,
+    "poblacion_2026": 26662,
+    "tasa_pct": 0.165,
+    "delta_familias": 5.0,
     "nuevo": false
    },
    {
@@ -3152,7 +3312,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 9857,
     "tasa_pct": 0.4768,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3164,8 +3324,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 9076,
     "tasa_pct": 0.4187,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3188,8 +3348,8 @@
     "viv_averiadas": 13.0,
     "poblacion_2026": 12440,
     "tasa_pct": 0.1929,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3205,30 +3365,6 @@
    },
    {
     "departamento": "TOLIMA",
-    "municipio": "NATAGAIMA",
-    "familias": 15.0,
-    "personas": 41.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 15989,
-    "tasa_pct": 0.2564,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "HUILA",
-    "municipio": "PALERMO",
-    "familias": 14.0,
-    "personas": 35.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 26662,
-    "tasa_pct": 0.1313,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "TOLIMA",
     "municipio": "CASABIANCA",
     "familias": 14.0,
     "personas": 36.0,
@@ -3236,7 +3372,7 @@
     "viv_averiadas": 9.0,
     "poblacion_2026": 6615,
     "tasa_pct": 0.5442,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3248,8 +3384,20 @@
     "viv_averiadas": 11.0,
     "poblacion_2026": 10502,
     "tasa_pct": 0.1238,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "NORCASIA",
+    "familias": 13.0,
+    "personas": 42.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 8.0,
+    "poblacion_2026": 6140,
+    "tasa_pct": 0.684,
+    "delta_familias": 6.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3272,7 +3420,7 @@
     "viv_averiadas": 12.0,
     "poblacion_2026": 18376,
     "tasa_pct": 0.0653,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3288,16 +3436,16 @@
     "nuevo": false
    },
    {
-    "departamento": "ANTIOQUIA",
-    "municipio": "ARGELIA",
+    "departamento": "TOLIMA",
+    "municipio": "MURILLO",
     "familias": 11.0,
-    "personas": 11.0,
+    "personas": 31.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 4.0,
-    "poblacion_2026": 8242,
-    "tasa_pct": 0.1335,
-    "delta_familias": null,
-    "nuevo": true
+    "viv_averiadas": 6.0,
+    "poblacion_2026": 4222,
+    "tasa_pct": 0.7342,
+    "delta_familias": 3.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -3308,6 +3456,18 @@
     "viv_averiadas": 10.0,
     "poblacion_2026": 5310,
     "tasa_pct": 0.3766,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CUNDINAMARCA",
+    "municipio": "SAN JUAN DE RIOSECO",
+    "familias": 10.0,
+    "personas": 19.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 10.0,
+    "poblacion_2026": 8443,
+    "tasa_pct": 0.225,
     "delta_familias": null,
     "nuevo": true
    },
@@ -3344,20 +3504,20 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 31197,
     "tasa_pct": 0.1122,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "TOLIMA",
-    "municipio": "MURILLO",
+    "municipio": "ARMERO",
     "familias": 8.0,
-    "personas": 25.0,
+    "personas": 17.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 4.0,
-    "poblacion_2026": 4222,
-    "tasa_pct": 0.5921,
-    "delta_familias": 4.0,
-    "nuevo": false
+    "viv_averiadas": 8.0,
+    "poblacion_2026": 12795,
+    "tasa_pct": 0.1329,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "TOLIMA",
@@ -3372,16 +3532,16 @@
     "nuevo": false
    },
    {
-    "departamento": "CALDAS",
-    "municipio": "NORCASIA",
+    "departamento": "ANTIOQUIA",
+    "municipio": "SAN VICENTE FERRER",
     "familias": 7.0,
-    "personas": 24.0,
+    "personas": 7.0,
     "viv_destruidas": 0.0,
     "viv_averiadas": 5.0,
-    "poblacion_2026": 6140,
-    "tasa_pct": 0.3909,
-    "delta_familias": 0.0,
-    "nuevo": false
+    "poblacion_2026": 24984,
+    "tasa_pct": 0.028,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -3392,8 +3552,8 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 11618,
     "tasa_pct": 0.1119,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -3432,6 +3592,30 @@
     "nuevo": false
    },
    {
+    "departamento": "CUNDINAMARCA",
+    "municipio": "TIBACUY",
+    "familias": 6.0,
+    "personas": 21.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 6.0,
+    "poblacion_2026": 4222,
+    "tasa_pct": 0.4974,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "CUNDINAMARCA",
+    "municipio": "VERGARA",
+    "familias": 6.0,
+    "personas": 6.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 2.0,
+    "poblacion_2026": 6648,
+    "tasa_pct": 0.0903,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
     "departamento": "TOLIMA",
     "municipio": "FLANDES",
     "familias": 6.0,
@@ -3444,18 +3628,6 @@
     "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "VIJES",
-    "familias": 6.0,
-    "personas": 13.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 3.0,
-    "poblacion_2026": 14126,
-    "tasa_pct": 0.092,
-    "delta_familias": 5.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CUNDINAMARCA",
     "municipio": "MADRID",
     "familias": 5.0,
@@ -3464,30 +3636,6 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 146635,
     "tasa_pct": 0.0061,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "HUILA",
-    "municipio": "HOBO",
-    "familias": 5.0,
-    "personas": 14.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 5.0,
-    "poblacion_2026": 8175,
-    "tasa_pct": 0.1713,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "HUILA",
-    "municipio": "PAICOL",
-    "familias": 5.0,
-    "personas": 14.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 7856,
-    "tasa_pct": 0.1782,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -3512,8 +3660,8 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 4635,
     "tasa_pct": 0.2589,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -3526,6 +3674,30 @@
     "tasa_pct": 0.1899,
     "delta_familias": 0.0,
     "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "HONDA",
+    "familias": 5.0,
+    "personas": 5.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 4.0,
+    "poblacion_2026": 24973,
+    "tasa_pct": 0.02,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "CUNDINAMARCA",
+    "municipio": "PULÍ",
+    "familias": 4.0,
+    "personas": 4.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 3731,
+    "tasa_pct": 0.1072,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "HUILA",
@@ -3560,8 +3732,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 10212,
     "tasa_pct": 0.1077,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -3572,8 +3744,8 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 10653,
     "tasa_pct": 0.0751,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3608,8 +3780,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 8842,
     "tasa_pct": 0.0452,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3620,18 +3792,18 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 7565,
     "tasa_pct": 0.0661,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
-    "municipio": "AGUA DE DIOS",
+    "municipio": "CAPARRAPÍ",
     "familias": 2.0,
     "personas": 7.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 11818,
-    "tasa_pct": 0.0592,
+    "viv_averiadas": 2.0,
+    "poblacion_2026": 11089,
+    "tasa_pct": 0.0631,
     "delta_familias": null,
     "nuevo": true
    },
@@ -3644,6 +3816,18 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 5227,
     "tasa_pct": 0.1148,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "ANTIOQUIA",
+    "municipio": "CARAMANTA",
+    "familias": 1.0,
+    "personas": 1.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 4444,
+    "tasa_pct": 0.0225,
     "delta_familias": null,
     "nuevo": true
    },
@@ -3656,18 +3840,6 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 6089,
     "tasa_pct": 0.0164,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "BOLÍVAR",
-    "familias": 1.0,
-    "personas": 1.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 37932,
-    "tasa_pct": 0.0026,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -3680,20 +3852,20 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 10784,
     "tasa_pct": 0.0185,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
-    "departamento": "CAUCA",
-    "municipio": "SUCRE",
+    "departamento": "HUILA",
+    "municipio": "PITAL",
     "familias": 1.0,
     "personas": 1.0,
     "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 9826,
-    "tasa_pct": 0.0102,
-    "delta_familias": 0.0,
-    "nuevo": false
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 14869,
+    "tasa_pct": 0.0067,
+    "delta_familias": null,
+    "nuevo": true
    },
    {
     "departamento": "HUILA",
@@ -3704,8 +3876,8 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 29544,
     "tasa_pct": 0.0169,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -3740,8 +3912,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 19906,
     "tasa_pct": 0.005,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    }
   ]
  },
@@ -3906,15 +4078,15 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-08-23"
+  "generado": "2026-08-24"
  },
  "citizen": {
   "chatmap_total": 622,
   "en_aoi": 548
  },
  "municipios": {
-  "total": 239,
-  "fuera_de_aoi_copernicus": 234
+  "total": 252,
+  "fuera_de_aoi_copernicus": 247
  },
  "activation_index": [
   {
