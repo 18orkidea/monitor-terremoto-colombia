@@ -29,7 +29,7 @@
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
-<header>
+<header class="encabezado">
   <div>
     <h1>Datos de los municipios con alguna señal del sismo</h1>
     <p class="sub">Área de influencia del sismo: registro oficial de
@@ -44,18 +44,67 @@
   </div>
 </header>
 
-<section class="intro">
-  <p>Los municipios donde alguna fuente ha visto algo: damnificados inscritos en el
-  registro oficial, titulares de prensa o intensidad percibida.
-  <span id="mun-cobertura"></span></p>
-  <details>
-    <summary>Qué mide esta lista y qué no</summary>
+<section class="entradilla" data-gen="mun-resumen"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<details class="pliegue">
+  <summary>Cómo leer esta tabla</summary>
+  <section class="intro">
+    <p>Aparecer aquí no significa «municipio destruido»: significa que alguna fuente
+    dejó señal, ya sea el registro de damnificados, la prensa, la intensidad que
+    sintió la población o un satélite. Y no aparecer no significa «sin daño»:
+    significa que nadie ha registrado nada todavía.</p>
+  </section>
+</details>
+
+<section class="aviso aviso--laguna" id="banner-silencio" data-gen="mun-silencio"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<div class="zona-datos">
+  <section class="page-section">
+    <h2>Detalle municipal</h2>
+    <section class="chips" id="mun-chips" role="group" aria-label="Filtros de la tabla" data-gen="mun-chips"></section><!-- lo rellena deploy/render_html.py en el build -->
+    <div class="filtros">
+      <select id="mun-depto" aria-label="Filtrar por departamento"></select>
+      <input id="mun-buscar" type="search"
+      placeholder="Buscar municipio o departamento…"
+      aria-label="Buscar municipio del área de influencia">
+    </div>
+    <div class="tabla-scroll"><table id="municipios-tabla">
+      <thead>
+        <tr>
+          <th title="Municipio del área de influencia del sismo. Clic en cualquier punto de la fila para abrir su ficha, con sus cifras, su mapa y sus fuentes.">Municipio</th>
+          <th title="Siete situaciones: dentro de una zona con mapa de daños por satélite de Copernicus; evaluado edificio a edificio por UNITAR-UNOSAT fuera de toda zona de Copernicus; evaluado por otro servicio de cartografía rápida, también fuera de toda zona de Copernicus; fuera de ellas con intensidad percibida alta (DYFI ≥ 6); mencionado en prensa; solo con registro en el RUD, sin satélite ni prensa; o con intensidad sentida (DYFI &lt; 6) y nada más.">Estado</th>
+          <th class="num" title="Población municipal proyectada 2026 (DANE, proyecciones postcensales por área). Ordenado por esta columna.">Población 2026</th>
+        <th scope="col" class="num" title="Edificios evaluados desde el aire, una línea por servicio y con la fuente pegada a cada cifra. Dentro de un municipio no se suman: cada servicio cartografía su propio recorte, así que dos cifras sobre la misma ciudad son dos ventanas distintas, no dos versiones de la misma medida. Copernicus cuenta edificios a los que ha clasificado un grado de daño; UNITAR-UNOSAT, los que ha observado uno a uno sobre imagen de muy alta resolución; ICube-SERTIT, los de su ventana para la Carta Internacional del Espacio. Cuando dos coinciden sobre un municipio, la celda dice cuántos edificios vieron los dos. El total del monitor cuenta cada edificio una sola vez y vive en el bloque «satelital» de monitor.json. Un guion significa que ningún producto satelital ha mirado ese municipio, no que no haya daño.">Edif. satélite</th>
+          <th class="num" title="Personas registradas como damnificadas en el RUD (UNGRD). El registro lo cargan las autoridades municipales: sin registro no significa sin daño.">Damnif. RUD</th>
+          <th class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
+          <th class="num" title="Intensidad máxima percibida reportada por ciudadanos al sistema DYFI del USGS (escala de intensidad percibida, de 1 a 10).">Intensidad DYFI</th>
+          <th class="num" title="Reportes ciudadanos «lo sentí» (DYFI/USGS) asociados al municipio. El USGS etiqueta cada celda con el topónimo más cercano del mundo, así que se exige nombre único y proximidad (30 km); si no, no se atribuye y la celda queda vacía, no en cero.">Respuestas</th>
+          <th class="num" title="Titulares publicados desde el 10 de agosto de 2026 que mencionan el municipio, desde GDACS-EMM, feeds regionales abiertos y búsquedas municipales. La prensa anterior al 10-ago-2026 no cuenta: no puede hablar de este terremoto. Si el nombre es palabra común o apellido, solo cuentan los titulares que nombran también el departamento; si es igual al de un departamento, no se atribuye ninguno y la celda queda vacía. Clic para verlos.">Prensa</th>
+          <th title="Qué sistemas del monitor registran señal en este municipio: prensa, DYFI (intensidad percibida), RUD (registro municipal de damnificados), UNOSAT (evaluación satelital de la ONU) o SERTIT (evaluación satelital de ICube-SERTIT, Universidad de Estrasburgo, dentro de la Carta Internacional del Espacio).">Fuentes</th>
+        </tr>
+      </thead>
+      <tbody data-gen="municipios"></tbody><!-- lo rellena deploy/render_html.py en el build -->
+    </table></div>
+    <nav id="mun-paginado" class="paginado" aria-label="Paginación de municipios"></nav>
+    <p class="note" id="mun-nota"></p>
+    <p class="note" id="mun-pie-tabla"><span data-gen="mun-nota"></span></p><!-- lo rellena deploy/render_html.py en el build -->
+    <p class="note">¿Falta un municipio? Los que entran al <a href="rud.html">RUD</a> se
+    incorporan solos en la corrida siguiente; los demás se añaden con un PR al
+    <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank"
+    rel="noopener">registro abierto del monitor</a>. Que un municipio no aparezca aquí no
+    significa «sin daño».</p>
+  </section>
+</div>
+
+<details class="pliegue denso">
+  <summary>Qué mide esta lista y qué no</summary>
+  <section class="intro">
     <p>Es la lista de <strong>dónde más mirar</strong>, no una medición de daño: que un
     municipio aparezca no significa que tenga daño verificado, y que no aparezca no
     significa que esté intacto.</p>
     <p>Los marcados <em>solo registro municipal</em> son aquellos que ninguna otra
     fuente ha documentado: la única constancia es la que carga su propia
-    alcaldía<span id="mun-homonimos">.</span></p>
+    alcaldía<span id="mun-homonimos" data-gen="mun-homonimos"></span><!-- lo rellena deploy/render_html.py en el build --></p>
     <p>La prensa incluye las búsquedas municipales de Google News; la intensidad
     percibida viene del cuestionario DYFI del USGS; y la población es la <a
     href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion"
@@ -63,44 +112,15 @@
     <p>Para el registro oficial municipio a municipio, ver la página del
     <a href="rud.html">RUD</a>; para verlos sobre el mapa, la
     <a href="index.html#mapa">portada</a>.</p>
-  </details>
-</section>
+  </section>
+</details>
 
-<section class="aviso aviso--laguna" id="banner-silencio" hidden></section>
-
-<section class="page-section">
-  <div class="chips" id="mun-chips" role="group" aria-label="Filtros de la tabla"></div>
-  <div class="filtros">
-    <select id="mun-depto" aria-label="Filtrar por departamento"></select>
-    <input id="mun-buscar" type="search"
-    placeholder="Buscar municipio o departamento…"
-    aria-label="Buscar municipio del área de influencia">
-  </div>
-  <div class="tabla-scroll"><table id="municipios-tabla">
-    <thead>
-      <tr>
-        <th title="Municipio del área de influencia del sismo. Clic en cualquier punto de la fila para abrir su ficha, con sus cifras, su mapa y sus fuentes.">Municipio</th>
-        <th title="Siete situaciones: dentro de una zona con mapa de daños por satélite de Copernicus; evaluado edificio a edificio por UNITAR-UNOSAT fuera de toda zona de Copernicus; evaluado por otro servicio de cartografía rápida, también fuera de toda zona de Copernicus; fuera de ellas con intensidad percibida alta (DYFI ≥ 6); mencionado en prensa; solo con registro en el RUD, sin satélite ni prensa; o con intensidad sentida (DYFI &lt; 6) y nada más.">Estado</th>
-        <th class="num" title="Población municipal proyectada 2026 (DANE, proyecciones postcensales por área). Ordenado por esta columna.">Población 2026</th>
-      <th scope="col" class="num" title="Edificios evaluados desde el aire, una línea por servicio y con la fuente pegada a cada cifra. Dentro de un municipio no se suman: cada servicio cartografía su propio recorte, así que dos cifras sobre la misma ciudad son dos ventanas distintas, no dos versiones de la misma medida. Copernicus cuenta edificios a los que ha clasificado un grado de daño; UNITAR-UNOSAT, los que ha observado uno a uno sobre imagen de muy alta resolución; ICube-SERTIT, los de su ventana para la Carta Internacional del Espacio. Cuando dos coinciden sobre un municipio, la celda dice cuántos edificios vieron los dos. El total del monitor cuenta cada edificio una sola vez y vive en el bloque «satelital» de monitor.json. Un guion significa que ningún producto satelital ha mirado ese municipio, no que no haya daño.">Edif. satélite</th>
-        <th class="num" title="Personas registradas como damnificadas en el RUD (UNGRD). El registro lo cargan las autoridades municipales: sin registro no significa sin daño.">Damnif. RUD</th>
-        <th class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
-        <th class="num" title="Intensidad máxima percibida reportada por ciudadanos al sistema DYFI del USGS (escala de intensidad percibida, de 1 a 10).">Intensidad DYFI</th>
-        <th class="num" title="Reportes ciudadanos «lo sentí» (DYFI/USGS) asociados al municipio. El USGS etiqueta cada celda con el topónimo más cercano del mundo, así que se exige nombre único y proximidad (30 km); si no, no se atribuye y la celda queda vacía, no en cero.">Respuestas</th>
-        <th class="num" title="Titulares publicados desde el 10 de agosto de 2026 que mencionan el municipio, desde GDACS-EMM, feeds regionales abiertos y búsquedas municipales. La prensa anterior al 10-ago-2026 no cuenta: no puede hablar de este terremoto. Si el nombre es palabra común o apellido, solo cuentan los titulares que nombran también el departamento; si es igual al de un departamento, no se atribuye ninguno y la celda queda vacía. Clic para verlos.">Prensa</th>
-        <th title="Qué sistemas del monitor registran señal en este municipio: prensa, DYFI (intensidad percibida), RUD (registro municipal de damnificados), UNOSAT (evaluación satelital de la ONU) o SERTIT (evaluación satelital de ICube-SERTIT, Universidad de Estrasburgo, dentro de la Carta Internacional del Espacio).">Fuentes</th>
-      </tr>
-    </thead>
-    <tbody data-gen="municipios"></tbody><!-- lo rellena deploy/render_html.py en el build -->
-  </table></div>
-  <nav id="mun-paginado" class="paginado" aria-label="Paginación de municipios"></nav>
-  <p class="note" id="mun-nota"></p>
-  <p class="note">¿Falta un municipio? Los que entran al <a href="rud.html">RUD</a> se
-  incorporan solos en la corrida siguiente; los demás se añaden con un PR al
-  <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank"
-  rel="noopener">registro abierto del monitor</a>. Que un municipio no aparezca aquí no
-  significa «sin daño».</p>
-</section>
+<!-- El Dataset JSON-LD de la página, que escribe el build
+     (deploy/render_html.py::dataset_municipios). El contenedor es una sección
+     y el bloque entero viaja dentro: un contenedor «ld+json» vacío a la espera
+     de llenarse sería JSON inválido para quien lea el documento antes de la
+     inyección, y los guardianes G2/G6 leen exactamente eso. -->
+<section hidden data-gen="mun-dataset"></section><!-- lo rellena deploy/render_html.py en el build -->
 
 <script src="ui.js?v=dev"></script>
 <script src="municipios.js?v=dev"></script>
