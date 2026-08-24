@@ -120,6 +120,13 @@
   </section>
 </details>
 
+<!-- El Dataset JSON-LD de la página, que escribe el build
+     (deploy/render_html.py::dataset_rud). El contenedor es una sección y el
+     bloque entero viaja dentro: un contenedor «ld+json» vacío a la espera de
+     llenarse sería JSON inválido para quien lea el documento antes de la
+     inyección, y los guardianes G1/G2/G6 leen exactamente eso. -->
+<section hidden data-gen="rud-dataset"></section><!-- lo rellena deploy/render_html.py en el build -->
+
 <script src="ui.js?v=dev"></script>
 <script src="rud.js?v=dev"></script>
 <div id="site-footer"></div>
