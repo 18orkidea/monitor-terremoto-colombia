@@ -923,10 +923,13 @@ def _partes_respuesta(d: dict) -> list[str]:
     partes = []
     if m.get("rud_familias"):
         partes.append(
-            f"{e(nombre)} ({e(depto)}) tiene <strong>{fmt(m['rud_familias'])} familias "
-            f"({fmt(m['rud_personas'])} personas)</strong> inscritas como damnificadas en el "
+            f"{e(nombre)} ({e(depto)}) tiene <strong>{fmt(m['rud_familias'])} "
+            f"{concuerda(m['rud_familias'], 'familia', 'familias')} "
+            f"({fmt(m['rud_personas'])} "
+            f"{concuerda(m['rud_personas'], 'persona', 'personas')})</strong> "
+            f"inscritas como damnificadas en el "
             f"Registro Único de Damnificados (RUD) de la Unidad Nacional para la Gestión del "
-            f"Riesgo de Desastres (UNGRD), el <strong>{pct(m['tasa_rud_pct'])}</strong> de sus "
+            f"Riesgo de Desastres (UNGRD), el <strong>{e(pct(m['tasa_rud_pct']))}</strong> de sus "
             f"{fmt(m['poblacion_2026'])} habitantes proyectados para 2026 por el Departamento "
             f"Administrativo Nacional de Estadística (DANE). "
             f"El registro municipal declara {fmt(m['rud_viv_destruidas'])} "
@@ -1027,12 +1030,12 @@ def resumen_ficha(d: dict) -> str:
     o = []
     fam, per = m.get("rud_familias"), m.get("rud_personas")
     if fam is not None:
-        o.append(f"<b>{fmt(fam)}</b> familias")
+        o.append(f"<b>{fmt(fam)}</b> {concuerda(fam, 'familia', 'familias')}")
         if per is not None:
-            o.append(f" y <b>{fmt(per)}</b> personas")
+            o.append(f" y <b>{fmt(per)}</b> {concuerda(per, 'persona', 'personas')}")
         o.append(" inscritas en el RUD")
         if m.get("tasa_rud_pct") is not None:
-            o.append(f", el <b>{pct(m['tasa_rud_pct'])}</b> de sus habitantes")
+            o.append(f", el <b>{e(pct(m['tasa_rud_pct']))}</b> de sus habitantes")
         o.append(". ")
     vistos = satelites_con_dato(m, d["satelite"])
     n_sat = (d.get("cruce") or {}).get("unidades") or sum(n for _, n in vistos)
@@ -1043,11 +1046,14 @@ def resumen_ficha(d: dict) -> str:
         prop = n_sat / viv * 100
         o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios "
                  f"distintos: el "
-                 f"<b>{fmt(prop, 1)} %</b> de las {fmt(viv)} viviendas que el "
+                 f"<b>{fmt(prop, 1)} %</b> de {concuerda(viv, 'la', 'las')} "
+                 f"{fmt(viv)} {concuerda(viv, 'vivienda', 'viviendas')} que el "
                  "municipio declara dañadas. ")
     elif viv and not vistos:
-        o.append(f"Ningún satélite ha clasificado un solo edificio de las "
-                 f"{fmt(viv)} viviendas que el municipio declara dañadas. ")
+        o.append(f"Ningún satélite ha clasificado un solo edificio de "
+                 f"{concuerda(viv, 'la', 'las')} {fmt(viv)} "
+                 f"{concuerda(viv, 'vivienda', 'viviendas')} que el municipio "
+                 "declara dañadas. ")
     elif n_sat:
         o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios "
                  f"distintos. ")
@@ -1908,7 +1914,7 @@ def render_ficha(d: dict) -> str:
                  # eso (R3), y además pone el espacio de la RAE que usa el resto
                  # del sitio. La tabla de municipios ya lo hacía bien: eran dos
                  # verdades para la misma proporción.
-                 f'{pct(m["tasa_rud_pct"])} de la población'),
+                 f'{e(pct(m["tasa_rud_pct"]))} de la población'),
                 ("Viviendas averiadas", fmt(m["rud_viv_averiadas"]),
                  f'{fmt(m["rud_viv_destruidas"])} '
                  f'{concuerda(m["rud_viv_destruidas"], "destruida", "destruidas")}'),
@@ -2013,7 +2019,7 @@ def render_ficha(d: dict) -> str:
             # Pereira publicaba «pasaron de 1 a 1: un salto del 0%» — absurdo
             # de leer y, encima, sin el espacio que pide la RAE.
             ini, fin = d["primero"]["familias"], d["ultimo"]["familias"]
-            if not d["pct_delta"]:
+            if d["delta"] == 0:
                 movimiento = (
                     f'<p>Las familias inscritas en {e(nombre)} siguen siendo '
                     f'<strong>{fmt(fin)}</strong> desde el '
@@ -2026,7 +2032,7 @@ def render_ficha(d: dict) -> str:
                     f'<strong>{fmt(ini)}</strong> a <strong>{fmt(fin)}</strong> '
                     f'entre el {e(fecha_larga(d["serie"][0][0]))} y el '
                     f'{e(fecha_larga(d["serie"][-1][0]))}: un salto del '
-                    f'{fmt(d["pct_delta"], 0)} % en {fmt_prosa(dias)} '
+                    f'{e(pct(d["pct_delta"]))} en {fmt_prosa(dias)} '
                     f'{"día" if dias == 1 else "días"}. ')
             o.append(movimiento +
                      f'El RUD no mide cuánto se rompió '
@@ -2406,7 +2412,7 @@ def filas_municipios(ctx: dict) -> str:
             f'{valor_suelto(fmt(m.get("poblacion_2026")))}</td>'
             f'<td class="num">{_celda_satelite(m, n_cop, ctx["cruce_satelital"].get(m["municipio"]))}</td>'
             f'<td class="num">{valor_suelto(fmt(m.get("rud_personas")))}</td>'
-            f'<td class="num">{valor_suelto(pct(m.get("tasa_rud_pct")))}</td>'
+            f'<td class="num">{valor_suelto(e(pct(m.get("tasa_rud_pct"))))}</td>'
             f'<td class="num">{valor_suelto(fmt(m.get("dyfi_max_cdi"), 1))}</td>'
             f'<td class="num">{valor_suelto(fmt(m.get("dyfi_respuestas")))}</td>'
             f'<td class="num">{_celda_prensa(m)}</td>'
@@ -2637,7 +2643,7 @@ def banner_silencio_municipios(ctx: dict) -> str:
         'main/docs/LIMITACIONES.md" target="_blank" rel="noopener">Qué no puede '
         'ver esta cifra</a>.</p>')
     techo = (f' En {e(sil["techo"]["municipio"])} son el '
-             f'{pct(sil["techo"]["tasa_rud_pct"])} del municipio.'
+             f'{e(pct(sil["techo"]["tasa_rud_pct"]))} del municipio.'
              if sil.get("techo") else "")
     return (
         f'<p><strong>El monitor buscó prensa en {fmt_prosa(len(sil["ciertos"]))} '
@@ -2951,7 +2957,7 @@ def banda_brechas(ctx: dict) -> str:
             "la estimación rápida del Servicio Geológico de Estados Unidos (PAGER); las "
             "zonas mapeadas por Copernicus cubren a unas "
             f"{fmt(exposicion.get('en_aois_copernicus'))} "
-            f"({pct(exposicion.get('pct_cubierta'))}). "
+            f"({e(pct(exposicion.get('pct_cubierta')))}). "
             "El resto es población que nadie ha mirado de cerca.")
     return "".join(partes)
 
@@ -3449,7 +3455,8 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
     descripcion = ". ".join(
         f'{fecha_larga(p["fecha"])}: sin captura anterior para calcular '
         f'nuevas inscripciones' if altas[i] is None else
-        f'{fecha_larga(p["fecha"])}: {fmt(altas[i])} familias desde la '
+        f'{fecha_larga(p["fecha"])}: {fmt(altas[i])} '
+        f'{concuerda(altas[i], "familia", "familias")} desde la '
         f'captura anterior; {fmt(p["familias"])} acumuladas'
         for i, p in enumerate(puntos) if p["familias"] is not None)
     o = [
@@ -3484,7 +3491,8 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
             f'height="{_n(h)}" fill="{color}" fill-opacity=".55" rx="2" '
             f'data-altas="{_n(valor)}">'
             f'<title>{e(fecha_larga(puntos[i]["fecha"]))}:'
-            f' {fmt(valor)} familias ese día</title></rect>')
+            f' {fmt(valor)} {concuerda(valor, "familia", "familias")} '
+            f'ese día</title></rect>')
     linea = " ".join(
         f'{_n(x(i))},{_n(y_ac(p["familias"]))}'
         for i, p in enumerate(puntos) if p["familias"] is not None)
@@ -3559,7 +3567,8 @@ def grafico_rud(ctx: dict) -> str:
     descripcion = ". ".join(
         f'{fecha_larga(d.get("fecha"))}: sin captura anterior para calcular '
         f'nuevas inscripciones' if altas[i] is None else
-        f'{fecha_larga(d.get("fecha"))}: {fmt(altas[i])} familias desde la '
+        f'{fecha_larga(d.get("fecha"))}: {fmt(altas[i])} '
+        f'{concuerda(altas[i], "familia", "familias")} desde la '
         f'captura anterior; {fmt(d.get("familias"))} acumuladas'
         for i, d in enumerate(serie))
     ticks = [piso, 0, techo] if piso < 0 else [0, techo / 2, techo]
@@ -3596,7 +3605,8 @@ def grafico_rud(ctx: dict) -> str:
             f'width="{_n(ancho_barra)}" height="{_n(max(1, abs(y0 - yy)))}" rx="2" '
             f'fill="{color}" fill-opacity="0.28" stroke="{color}" '
             f'data-altas="{_n(valor)}">'
-            f'<title>{e(fecha_larga(serie[i].get("fecha")))}: {etiqueta} familias '
+            f'<title>{e(fecha_larga(serie[i].get("fecha")))}: {etiqueta} '
+            f'{concuerda(valor, "familia", "familias")} '
             f'desde la captura anterior</title></rect>'
             f'<text x="{_n(x(i))}" y="{_n(yy + 13 if valor < 0 else yy - 6)}" '
             f'text-anchor="middle" class="g-alta" font-size="10" '
@@ -3618,7 +3628,8 @@ def grafico_rud(ctx: dict) -> str:
             f'stroke="var(--good)" stroke-width="{2.5 if rec else 2}"'
             f'{discontinua}>'
             f'<title>{e(fecha_larga(d.get("fecha")))}: {fmt(d.get("familias"))} '
-            f'familias acumuladas, {fmt(d.get("municipios"))} municipios'
+            f'{concuerda(d.get("familias"), "familia", "familias")} acumuladas, '
+            f'{fmt(d.get("municipios"))} municipios'
             f'{origen}</title></circle>'
             f'<text x="{_n(x(i))}" y="{_n(cy - 10)}" text-anchor="middle" '
             f'class="g-total" font-size="11" font-weight="600" fill="var(--good)">'
@@ -3681,7 +3692,7 @@ def filas_rud(ctx: dict) -> str:
             f'<td class="num">{fmt(m.get("familias"))}</td>'
             f'<td class="num">{fmt(m.get("personas"))}</td>'
             f'<td class="num">{fmt(m.get("poblacion_2026"))}</td>'
-            f'<td class="num">{pct(m.get("tasa_pct"))}</td>'
+            f'<td class="num">{e(pct(m.get("tasa_pct")))}</td>'
             f'<td class="num">{fmt(m.get("viv_destruidas"))}</td>'
             f'<td class="num">{fmt(m.get("viv_averiadas"))}</td>'
             f'<td class="num">{delta_txt}</td></tr>')
