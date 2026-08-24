@@ -778,17 +778,98 @@ class TestEspejoConElFrontend(unittest.TestCase):
 
     def test_fmt_no_imprime_decimales_a_cero(self):
         """`UI.fmt` usa maximumFractionDigits: «7», no «7,0». El espejo en Python
-        debe hacer lo mismo o la misma cifra se vería distinta en cada página."""
-        self.assertIn("maximumFractionDigits", self.ui)
+        debe hacer lo mismo o la misma cifra se vería distinta en cada página.
+
+        Aquí solo se fija el comportamiento de la copia en Python; que las dos
+        copias digan lo mismo lo comprueba `TestEspejosDeFormatoEjecutados`
+        ejecutándolas."""
         self.assertEqual(R.fmt(7.0, 1), "7")
         self.assertEqual(R.fmt(7.5, 1), "7,5")
 
     def test_pct_nunca_redondea_a_cero_una_proporcion_real(self):
         """Un municipio con damnificados no puede leerse como municipio sin
         damnificados."""
-        self.assertIn("<0,1 %", self.ui)
         self.assertEqual(R.pct(0.03), "<0,1 %")
         self.assertEqual(R.pct(None), "—")
+
+
+class TestEspejosDeFormatoEjecutados(unittest.TestCase):
+    """Los cuatro formateadores que viven en los dos lenguajes, comparados
+    LLAMÁNDOLOS.
+
+    Estos espejos se vigilaban leyendo el texto de `site/ui.js` con `assertIn`:
+    «¿aparece "maximumFractionDigits" en el fichero?», «¿aparece "<0,1 %"?».
+    Un `assertIn` sobre el código fuente pasa en verde con la condición
+    invertida —la cadena sigue estando ahí— y no mira siquiera si las dos
+    funciones devuelven lo mismo. Es el argumento con el que este sprint se
+    retiraron otros dos guardianes (M1), así que se aplica también aquí.
+
+    Lo que se compara es la salida, caso por caso, con el `ui.js` real. Y no es
+    teórico: al escribirlo apareció El Cerrito, con una tasa de 0,25 %, que la
+    tabla estática publicaba como «0,2 %» y el mapa como «0,3 %» — `%f`
+    redondea al par y `Intl` se aleja del cero (M2: toda segunda copia
+    diverge)."""
+
+    def _comparar(self, expresiones, esperados, que):
+        """Una sola llamada a node para todos los casos: arrancarlo por caso
+        cuesta más que la comprobación entera."""
+        js = correr_ui("[" + ",".join(expresiones) + "]")
+        self.assertEqual(len(js), len(esperados))
+        for expr, obtenido, esperado in zip(expresiones, js, esperados):
+            with self.subTest(caso=expr):
+                self.assertEqual(
+                    obtenido, esperado,
+                    f"{que} ha divergido entre site/ui.js y deploy/render_html.py")
+
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_fmt_es_espejo_ejecutado_de_ui_js(self):
+        """Separador de miles, coma decimal y redondeo, que son tres reglas
+        distintas y las tres se publican."""
+        casos = [(n, d) for n in (None, 0, 1, 7.0, 95, 1000, 26377, 1234567,
+                                  0.3, 0.04, 0.05,
+                                  # empates: donde `%f` y `Intl` discrepaban
+                                  1.5, 0.25, 12.35, 33.75, 199.95,
+                                  -1, -3.5, -0.02)
+                 for d in (0, 1, 2)]
+        self._comparar(
+            [f"UI.fmt({json.dumps(n)}, {d})" for n, d in casos],
+            [R.fmt(n, d) for n, d in casos], "fmt")
+
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_fmt_prosa_es_espejo_ejecutado_de_ui_js(self):
+        """La frontera del Libro de estilo (nueve con letras, 10 en guarismos)
+        y la concordancia de género, en las dos superficies.
+
+        Corre prisa porque las dos escriben en la MISMA página: `fmt_prosa`
+        redacta el hallazgo del silencio municipal en el build y `UI.fmtProsa`
+        sigue vivo dentro de `comparativaFuentes`, que el build ejecuta con node
+        y publica ahí al lado."""
+        casos = [(n, f) for n in (None, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+                                  95, 1.5, -1)
+                 for f in (False, True)]
+        self._comparar(
+            [f"UI.fmtProsa({json.dumps(n)}, {json.dumps(f)})" for n, f in casos],
+            [R.fmt_prosa(n, femenino=f) for n, f in casos], "fmt_prosa")
+
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_pct_es_espejo_ejecutado_de_ui_js(self):
+        """El umbral del «<0,1 %», la coma decimal es-CO y el redondeo."""
+        casos = (None, 0, 0.03, 0.049, 0.05, 0.1, 0.25, 12.34, 12.35, 33.75,
+                 99.95, 100, -0.02)
+        self._comparar([f"UI.pct({json.dumps(n)})" for n in casos],
+                       [R.pct(n) for n in casos], "pct")
+
+    @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+    def test_las_dos_fechas_son_espejo_ejecutado_de_ui_js(self):
+        """Los doce meses uno a uno —en español y con la abreviatura de tres
+        letras—, el día sin cero a la izquierda y lo que no es una fecha."""
+        casos = [f"2026-{m:02d}-0{d}" for m in range(1, 13) for d in (1, 9)]
+        casos += ["2026-08-18", "2026-12-31", "", None, "no es una fecha",
+                  "2026-08-18T14:30:00Z"]
+        self._comparar([f"UI.fechaEs({json.dumps(i)})" for i in casos],
+                       [R.fecha_corta(i) for i in casos], "fecha_corta/fechaEs")
+        self._comparar([f"UI.fechaLarga({json.dumps(i)})" for i in casos],
+                       [R.fecha_larga(i) for i in casos], "fecha_larga/fechaLarga")
 
 
 class TestInyeccion(unittest.TestCase):
