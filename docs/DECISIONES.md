@@ -74,6 +74,39 @@ diverge del de edificios clasificados, la nota de los chips lo explica. Un
 servicio que no miró no sale con un cero (R3). El lienzo vive fuera de
 `.contenido` porque 760 px no caben panel y mapa lado a lado.
 
+## 2026-08-24 — Un índice de decisiones y documentación, con la orden que NO se automatiza
+
+**Contexto.** `docs/DECISIONES.md` son **62 entradas y ~44.000 tokens**. Saber si
+algo se decidió ya es carísimo si hay que leerlo, y `grep` sobre él devuelve
+párrafos sueltos sin decir a qué entrada pertenecen ni si siguen en pie. Es la
+otra mitad de la pregunta que se planteó con el grafo de llamadas: aquel sirve
+para leer **código**, este para encontrar **decisiones y documentación**.
+
+**Decisión.** `tools/indice_decisiones.py`, solo stdlib, construido al vuelo
+como su hermano. Indexa las entradas de los seis documentos y las cruza con las
+reglas (R1–R16, M1–M10), los ficheros y las funciones que mencionan. `regla`,
+`sobre` y `buscar` responden en decenas de tokens lo que costaba miles.
+
+**La orden `punteros` se queda, pero declarando que se revisa a mano**, y esa
+rebaja es la parte importante. Su primera versión miraba también `data/` y
+`feeds/`: sacó **24 hallazgos y los 24 eran falsos** —esos ficheros los genera la
+corrida, y las lagunas de `LIMITACIONES.md` citan a propósito ficheros que no
+existen—. Acotada al código y contemplando las clases, saca dos: **uno era un
+puntero muerto real** (una decisión describía en presente
+`escribir_barra_y_pie()`, renombrada hace un día a `escribir_piezas_compartidas()`)
+y el otro **era historia bien contada** — la entrada que cuenta ese mismo
+renombrado tiene que nombrar las dos funciones. Eso último no se puede
+automatizar sin mentir: **en un documento de decisiones, citar el pasado es
+legítimo.**
+
+**Consecuencia, y la ironía que conviene recordar.** Los dos bugs que tuvo al
+nacer hacían que **la herramienta que caza documentación falsa fuera la que
+gritaba en falso**: una alternancia de expresión regular donde `js` iba antes
+que `json` inventaba `balances.js`, y un buscador que no contemplaba `class`
+daba por muertos los guardianes que las decisiones citan por su nombre. Los dos
+tienen test. El puntero muerto real se corrigió en la misma pasada, conservando
+el nombre histórico junto al vigente.
+
 ## 2026-08-24 — Un grafo de llamadas para las preguntas de forma, construido al vuelo
 
 **Contexto.** Las fases 4 y 5 gastaron mucho en preguntas que `grep` contesta
@@ -2337,7 +2370,8 @@ enlaces, dos enlaces del pie (el RSS de balances y el canal de Telegram) y el
 destino del rótulo de la marca.
 
 Decisión: **`deploy/render_html.py` es la fuente única**. Un paso propio del
-build, `escribir_barra_y_pie()`, las escribe también en las cinco páginas. No se
+build, `escribir_barra_y_pie()` —hoy `escribir_piezas_compartidas()`, ver la
+entrada del 23-ago—, las escribe también en las cinco páginas. No se
 reutilizó el mecanismo de `data-gen` a propósito: aquel empareja un generador con
 una sola página y sirve para los **datos del día** —lo que caduca con la
 corrida—, y una barra de navegación no es eso.
