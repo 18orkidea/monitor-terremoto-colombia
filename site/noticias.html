@@ -22,8 +22,41 @@
 <meta name="twitter:description" content="Feeds abiertos: cualquiera puede sumar un medio local con un PR.">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"CollectionPage",
+ "@id":"https://datosdelterremoto.org/noticias.html",
+ "url":"https://datosdelterremoto.org/noticias.html",
  "name":"Titulares del terremoto de Colombia 2026 por zona",
- "inLanguage":"es","isPartOf":{"@id":"https://datosdelterremoto.org/#site"}}
+ "inLanguage":"es","isPartOf":{"@id":"https://datosdelterremoto.org/#site"},
+ "mainEntity":{"@id":"https://datosdelterremoto.org/noticias.html#dataset"}}
+</script>
+<!-- El corpus como Dataset, con R9 dentro: `creator` y `publisher` son el
+     monitor porque el monitor compiló ESTE corpus —el emparejado por
+     topónimo—, nunca porque haya escrito un titular; quién produjo la prensa
+     va en `citation`, por canal. Sin `license`: el monitor no puede licenciar
+     titulares ajenos. El `dateModified` lo escribe el build vía
+     {{noticias_corte}} — a mano envejecería en 24 horas (M7). -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Dataset",
+ "@id":"https://datosdelterremoto.org/noticias.html#dataset",
+ "url":"https://datosdelterremoto.org/noticias.html",
+ "name":"Titulares de prensa del terremoto de Colombia 2026, emparejados por municipio y zona",
+ "description":"Corpus de titulares sobre el terremoto M7.4 del 10 de agosto de 2026 en Colombia, recogido a diario desde el día del sismo de tres canales: el canal EMM de GDACS ligado al evento, los feeds RSS de prensa colombiana del registro abierto del monitor y búsquedas de Google News por municipio. Cada titular conserva su fecha, el medio que lo firma y el enlace tal como los publicó su feed: los titulares son obra de sus medios, y el monitor solo los reúne y los empareja con los municipios y zonas afectadas.",
+ "inLanguage":"es",
+ "temporalCoverage":"2026-08-10/..",
+ "dateModified":"{{noticias_corte}}",
+ "creator":{"@id":"https://datosdelterremoto.org/#organization"},
+ "publisher":{"@id":"https://datosdelterremoto.org/#organization"},
+ "includedInDataCatalog":{"@id":"https://datosdelterremoto.org/#site"},
+ "measurementTechnique":"Emparejado automático de titulares con municipios y zonas por topónimo en el texto, con acentos normalizados y límite de palabra; mide atención de prensa, no daño, y no verifica el contenido de las piezas.",
+ "citation":[
+  {"@type":"CreativeWork","name":"Canal EMM del evento en GDACS",
+   "publisher":{"@type":"Organization","name":"GDACS — Global Disaster Alert and Coordination System","url":"https://www.gdacs.org/"}},
+  {"@type":"CreativeWork","name":"Feeds RSS del registro abierto de medios del monitor",
+   "url":"https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json"},
+  {"@type":"CreativeWork","name":"Búsquedas de Google News por municipio",
+   "publisher":{"@type":"Organization","name":"Google News","url":"https://news.google.com/"}}],
+ "distribution":[
+  {"@type":"DataDownload","encodingFormat":"application/json",
+   "contentUrl":"https://datosdelterremoto.org/data/public/noticias.json"}]}
 </script>
 <script type="application/ld+json" id="site-identity"></script>
 <link rel="manifest" href="manifest.json">
@@ -43,24 +76,49 @@
   </div>
   <div class="meta">
     <span class="contexto-sismo">M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)</span>
+    <span id="generado" data-gen="noticias-sello"></span><!-- lo rellena deploy/render_html.py en el build -->
     <a class="btn" href="/data/public/noticias.json" target="_blank">JSON</a>
   </div>
 </header>
-<section class="intro">
-  <p>Esta página reúne <strong>todos los titulares de prensa publicados desde el 10 de
-  agosto de 2026 sobre el terremoto de Colombia</strong> (M7,4, epicentro en San José del
-  Palmar, Chocó),
-  emparejados automáticamente con las zonas afectadas: <strong>Cali, Pereira, Quibdó,
-  Istmina y Buenaventura</strong>. Vienen de dos mundos que cuentan historias distintas: el
-  rastreador global GDACS-EMM (miles de medios internacionales) y los <strong>feeds abiertos
-  del monitor</strong> — prensa nacional y regional colombiana que cualquiera puede ampliar.</p>
-  <p>El contraste entre ambos es un hallazgo en sí mismo: la cobertura internacional cayó un
-  92&nbsp;% en cinco días y GDACS purgó su canal el 16 de agosto (estos titulares sobreviven
-  solo en las copias archivadas del monitor), mientras la prensa iberoamericana y regional
-  <em>siguió subiendo</em>. Y los medios pequeños importan: <strong>Istmina solo existe en
-  la prensa del Chocó</strong> — ningún feed internacional la mencionó.</p>
-  <details>
-    <summary><strong>Cómo funciona y preguntas frecuentes</strong></summary>
+
+<section class="entradilla" data-gen="noticias-resumen"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<details class="pliegue">
+  <summary>Qué es este corpus</summary>
+  <section class="intro">
+    <p>Esta página reúne <strong>todos los titulares de prensa publicados desde el 10 de
+    agosto de 2026 sobre el terremoto de Colombia</strong> (M7,4, epicentro en San José del
+    Palmar, Chocó),
+    emparejados automáticamente con las zonas afectadas: <strong>Cali, Pereira, Quibdó,
+    Istmina y Buenaventura</strong>. Vienen de dos mundos que cuentan historias distintas: el
+    rastreador global GDACS-EMM (miles de medios internacionales) y los <strong>feeds abiertos
+    del monitor</strong> — prensa nacional y regional colombiana que cualquiera puede ampliar.</p>
+    <p>El contraste entre ambos es un hallazgo en sí mismo: la cobertura internacional cayó un
+    92&nbsp;% en cinco días y GDACS purgó su canal el 16 de agosto (estos titulares sobreviven
+    solo en las copias archivadas del monitor), mientras la prensa iberoamericana y regional
+    <em>siguió subiendo</em>. Y los medios pequeños importan: <strong>Istmina solo existe en
+    la prensa del Chocó</strong> — ningún feed internacional la mencionó.</p>
+  </section>
+</details>
+
+<div class="zona-datos">
+<section class="page-section">
+  <div id="filtros" class="filtros">
+    <input id="buscar" type="search" placeholder="Buscar en titulares…">
+    <select id="f-aoi"><option value="">Todas las zonas</option></select>
+    <select id="f-depto"><option value="">Todos los departamentos</option></select>
+    <select id="f-municipio"><option value="">Todos los municipios</option></select>
+    <select id="f-origen"><option value="">Todas las fuentes</option></select>
+  </div>
+  <p id="resumen"></p><!-- vacío a propósito: noticias.js escribe aquí el recuento vivo del filtro; la fecha del dato vive en el sello servido del encabezado -->
+  <ul id="lista" data-gen="noticias"></ul><!-- lo rellena deploy/render_html.py en el build -->
+  <nav id="paginado" class="paginado" aria-label="Paginación de titulares"></nav>
+  <p class="note" id="noticias-pie"><span data-gen="noticias-nota"></span></p><!-- lo rellena deploy/render_html.py en el build -->
+</section>
+</div>
+
+<details class="pliegue denso">
+  <summary>Cómo funciona y preguntas frecuentes</summary>
     <ol>
       <li><strong>¿De dónde salen los titulares?</strong> Del canal EMM de GDACS ligado al
       evento, de los RSS del <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a>
@@ -102,23 +160,7 @@
       <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Cómo añadirlo</a>.
       Los medios regionales de las zonas menos cubiertas son los más valiosos.</li>
     </ol>
-  </details>
-</section>
-
-<div class="contenido">
-<section class="page-section">
-  <div id="filtros" class="filtros">
-    <input id="buscar" type="search" placeholder="Buscar en titulares…">
-    <select id="f-aoi"><option value="">Todas las zonas</option></select>
-    <select id="f-depto"><option value="">Todos los departamentos</option></select>
-    <select id="f-municipio"><option value="">Todos los municipios</option></select>
-    <select id="f-origen"><option value="">Todas las fuentes</option></select>
-  </div>
-  <p id="resumen">Cargando…</p>
-  <ul id="lista" data-gen="noticias"></ul><!-- lo rellena deploy/render_html.py en el build -->
-  <nav id="paginado" class="paginado" aria-label="Paginación de titulares"></nav>
-</section>
-</div>
+</details>
 <script src="ui.js?v=dev"></script>
 <script src="noticias.js?v=dev"></script>
 <div id="site-footer"></div>

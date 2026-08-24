@@ -909,9 +909,10 @@ def contexto() -> dict:
     """Carga una sola vez todo lo que comparten las fichas y las tablas."""
     municipios_json = _leer("municipios.json")
     municipios = municipios_json["items"]
-    noticias = _leer("noticias.json")
-    if isinstance(noticias, dict):
-        noticias = noticias.get("items") or noticias.get("noticias") or []
+    noticias_json = _leer("noticias.json")
+    noticias = noticias_json
+    if isinstance(noticias_json, dict):
+        noticias = noticias_json.get("items") or noticias_json.get("noticias") or []
     damage = _leer("damage_points.geojson")["features"]
     unosat = _leer("unosat_damage.geojson")["features"]
     sertit = _leer("sertit_damage.geojson")["features"]
@@ -935,6 +936,13 @@ def contexto() -> dict:
         "sertit": sertit,
         "chatmap": chatmap,
         "noticias": noticias,
+        # la corrida y el arranque del corpus de titulares, que el sello, la
+        # entradilla y el dateModified de esa página necesitan y que se perdían
+        # al quedarnos solo con `items` (mismo caso que municipios_generado)
+        "noticias_generado": (noticias_json.get("generado")
+                              if isinstance(noticias_json, dict) else None),
+        "noticias_desde": (noticias_json.get("desde")
+                           if isinstance(noticias_json, dict) else None),
         "zonas_con_producto": {f["properties"].get("aoi") for f in damage},
         "conteo_satelite": asigna_a_municipios(damage, municipios),
         "cruce_satelital": satelital.get("por_municipio") or {},
@@ -2364,6 +2372,67 @@ def filas_noticias(ctx: dict) -> str:
     return "\n".join(salida)
 
 
+def medios_distintos(noticias: list) -> int:
+    """Cuántas cabeceras distintas hay detrás del corpus, contadas por dominio.
+
+    Por dominio y no por nombre (docs/DECISIONES.md, 19-ago-2026): los nombres
+    llegan con dos convenciones —`infobae` en los slugs del EMM, `Infobae` en
+    las cabeceras del RSS— y contarlos infla el total con duplicados por
+    mayúsculas; el dominio es la clave estable. Quien no trae dominio no se
+    cuenta: el nombre de un feed no es un medio (R3)."""
+    return len({n["medio_dominio"] for n in noticias if n.get("medio_dominio")})
+
+
+def entradilla_noticias(ctx: dict) -> str:
+    """La frase que resume la página de titulares bajo el titular.
+
+    Las cifras salen del corpus en cada build; ninguna se escribe a mano — la
+    portada ya publicó «36 municipios ciudadanos» con 43 en su propia tabla, y
+    esa clase de prosa envejece igual aquí. **M10**: donde falta el dato se
+    calla ese trozo, y sin corpus se dice con palabras, porque una cadena
+    vacía rompería el build.
+
+    R9 en la entradilla: esto es prensa, y la segunda frase lo dice antes de
+    que nadie confunda volumen de titulares con balance oficial."""
+    noticias = ctx["noticias"] or []
+    if not noticias:
+        return ("<p>Todavía no hay ningún titular archivado. La lista se "
+                "publica en cuanto la primera corrida recorra los feeds.</p>")
+    frase = f"El archivo reúne <b>{fmt(len(noticias))} titulares</b>"
+    medios = medios_distintos(noticias)
+    if medios:
+        frase += f" de <b>{fmt(medios)} medios</b> distintos"
+    if ctx.get("noticias_desde"):
+        frase += f" desde el {fecha_larga(ctx['noticias_desde'])}"
+    return ("<p>" + frase + ", emparejados con el municipio o la zona que "
+            "mencionan. El volumen de prensa mide atención, no daño: las "
+            "cifras que los medios publican citando fuentes oficiales van en "
+            '<a href="balances.html">Balances</a>.</p>')
+
+
+def nota_noticias(ctx: dict) -> str:
+    """El pie de la lista de titulares: lo que vale igual sin JavaScript.
+
+    El recuento vivo —«212 de 6.304 titulares · página 2 de 5»— se queda en el
+    navegador, que es el único que sabe qué hay filtrado; el paginador también,
+    porque sus botones son estado y `noticias.html?p=2` no existe como URL.
+    Aquí vive lo que un lector sin JavaScript necesita saber de la lista de
+    arriba: que es un recorte, de cuánto, y por dónde sigue. Y vive SOLO aquí:
+    si el literal siguiera además en `noticias.js`, el día que uno cambiara la
+    página diría dos cosas (M2)."""
+    total = len(ctx["noticias"] or [])
+    if not total:
+        return "Sin titulares archivados todavía, la lista de arriba va vacía."
+    if total <= TITULARES_EN_HTML:
+        return (f"La lista trae los {fmt(total)} titulares del corpus, del más "
+                f"reciente al más antiguo.")
+    return (f"La lista trae los {fmt(TITULARES_EN_HTML)} titulares más "
+            f"recientes de los {fmt(total)} del corpus, del más reciente al "
+            f"más antiguo. El buscador y los filtros de arriba recorren, con "
+            f"JavaScript, el corpus completo, que también puede descargarse "
+            f"entero con el botón JSON del encabezado.")
+
+
 # ------------------------------------------------- el sello de fecha, por página
 # Un componente y cuatro fuentes, no cuatro redacciones (M2). Lo escribía el
 # navegador en las cuatro páginas —`getElementById("generado").textContent`, sin
@@ -2399,6 +2468,18 @@ def sello_balances(ctx: dict) -> str:
                 if i.get("search_date")]
     return sello_fechas(max(buscadas) if buscadas else None,
                         oficiales.get("generated_at"), "de los balances")
+
+
+def sello_noticias(ctx: dict) -> str:
+    """Titulares: las dos fechas también. El corte del dato es la fecha del
+    último titular archivado —el máximo, porque nada garantiza que los ítems
+    lleguen ordenados—, no la corrida que empaquetó el JSON. Era la única de
+    las cinco páginas que publicaba «Cargando…» a quien no ejecuta JavaScript,
+    y la fecha la escribía `noticias.js` con `data.generado`: la corrida
+    vestida de fecha del dato, la confusión que el sello existe para deshacer."""
+    fechas = [n["fecha"] for n in (ctx["noticias"] or []) if n.get("fecha")]
+    return sello_fechas(max(fechas) if fechas else None,
+                        ctx.get("noticias_generado"), "de los titulares")
 
 
 # --------------------------------- piezas compartidas de las cinco páginas
@@ -2498,10 +2579,13 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "municipios-sello": sello_municipios,
                    "rud-sello": sello_rud,
                    "balances-sello": sello_balances,
+                   "noticias-sello": sello_noticias,
                    "rud-resumen": entradilla_rud,
                    "rud-grafico": grafico_rud,
                    "rud-chips": chips_rud,
-                   "rud-nota": nota_rud}
+                   "rud-nota": nota_rud,
+                   "noticias-resumen": entradilla_noticias,
+                   "noticias-nota": nota_noticias}
     # explícito a propósito: un generador nuevo sin su página revienta aquí en
     # vez de no escribir nada y dejar el contenedor vacío en silencio
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
@@ -2509,8 +2593,10 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "mirada-portada": "index", "brechas": "index",
                "portada-sello": "index", "municipios-sello": "municipios",
                "rud-sello": "rud", "balances-sello": "balances",
+               "noticias-sello": "noticias",
                "rud-resumen": "rud", "rud-grafico": "rud",
-               "rud-chips": "rud", "rud-nota": "rud"}
+               "rud-chips": "rud", "rud-nota": "rud",
+               "noticias-resumen": "noticias", "noticias-nota": "noticias"}
     for nombre, generador in generadores.items():
         pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():
@@ -2568,7 +2654,16 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
 # casos el HTML lleva un marcador {{clave}} y el build escribe el dato del día.
 def cifras_del_dia(ctx: dict) -> dict:
     """Lo que vale hoy cada marcador {{clave}} de los HTML del sitio."""
-    return {"reportes_ciudadanos": fmt(len(ctx["chatmap"]))}
+    cifras = {"reportes_ciudadanos": fmt(len(ctx["chatmap"]))}
+    # El corte del corpus de titulares, para el `dateModified` del Dataset en
+    # el <head> de noticias.html: va por marcador porque un <span data-gen> no
+    # cabe dentro de un bloque JSON-LD. Si la corrida falta o no es una fecha,
+    # la clave NO se emite y el build revienta con «marcador sin valor»:
+    # escribir "None" fecharía el corpus en la nada (M10).
+    corte = _solo_fecha(ctx.get("noticias_generado"))
+    if corte:
+        cifras["noticias_corte"] = corte
+    return cifras
 
 
 def sustituir_cifras(destino: Path, ctx: dict) -> dict:

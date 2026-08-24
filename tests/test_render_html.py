@@ -3325,3 +3325,282 @@ class TestMarcadoEstructurado(unittest.TestCase):
                 f"{sorted(referenciados - definidos)} sin definirla aquí")
             self.assertIn(R.ORGANIZACION, definidos)
             self.assertIn(R.SITIO, definidos)
+
+
+class TestNoticiasReordenada(unittest.TestCase):
+    """La página de titulares: el dato arriba y la explicación plegada (fase 4).
+
+    Sigue el patrón que `rud.html` estrenó el 23-ago: entradilla servida bajo el
+    encabezado, la introducción en un plegable antes de la lista y las preguntas
+    frecuentes en otro después. Es un movimiento, no una reescritura, y los
+    recuentos exactos de palabras son lo único que lo distingue: sin ellos,
+    resumir un párrafo «para que quepa» deja la suite en verde y se lleva por
+    delante prosa que ya estaba publicada."""
+
+    # el reparto: la introducción entera (140) arriba, la FAQ (462) al final
+    PALABRAS = {"Qué es este corpus": 140,
+                "Cómo funciona y preguntas frecuentes": 462}
+    UMBRAL = 120        # nada se pliega por debajo (criterio de JP, 23-ago)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = (ROOT / "site" / "noticias.html").read_text(encoding="utf-8")
+        cls.bloques = re.findall(
+            r'<details class="pliegue[^"]*">(.*?)</details>', cls.html, re.S)
+
+    @staticmethod
+    def _palabras(fragmento):
+        return len(re.sub(r"<[^>]+>", " ", fragmento).split())
+
+    def test_son_dos_y_ninguno_vive_dentro_del_otro(self):
+        self.assertEqual(len(self.bloques), 2)
+        for b in self.bloques:
+            self.assertNotIn("<details", b, "ningún plegable dentro de otro")
+
+    def test_cada_plegable_conserva_sus_palabras_y_supera_el_umbral(self):
+        visto = {}
+        for b in self.bloques:
+            titulo = re.search(r"<summary>(.*?)</summary>", b, re.S).group(1).strip()
+            cuerpo = re.search(
+                r'<(?:section class="intro"|ol)>(.*?)</(?:section|ol)>', b, re.S)
+            self.assertIsNotNone(cuerpo, f"«{titulo}» perdió su cuerpo")
+            visto[titulo] = self._palabras(cuerpo.group(1))
+        self.assertEqual(visto, self.PALABRAS,
+                         "alguien reescribió, resumió o perdió prosa de los "
+                         "plegables: era un movimiento, no una redacción")
+        for titulo, n in visto.items():
+            self.assertGreaterEqual(n, self.UMBRAL,
+                                    f"«{titulo}» tiene {n} palabras: nada se "
+                                    f"pliega por debajo de {self.UMBRAL}")
+
+    def test_el_orden_es_el_argumento(self):
+        """Entradilla → qué es el corpus → los datos → las preguntas. El dato
+        deja de tardar dos pantallas en aparecer."""
+        i_entradilla = self.html.index('data-gen="noticias-resumen"')
+        i_corpus = self.html.index("Qué es este corpus")
+        i_zona = self.html.index('<div class="zona-datos">')
+        i_faq = self.html.index("Cómo funciona y preguntas frecuentes")
+        self.assertLess(i_entradilla, i_corpus)
+        self.assertLess(i_corpus, i_zona)
+        self.assertLess(i_zona, i_faq, "la FAQ quedó por encima de la lista")
+
+    def test_los_hallazgos_de_la_introduccion_siguen_publicados(self):
+        """Las frases más citables no pueden perderse en la mudanza."""
+        self.assertIn("Istmina solo existe en", self.html)
+        self.assertIn("849 titulares de otros sismos", self.html)
+        faq = next(b for b in self.bloques if "preguntas frecuentes" in b)
+        self.assertEqual(faq.count("<li><strong>¿"), 6,
+                         "la FAQ dejó de tener sus seis preguntas")
+
+    def test_nadie_lee_cargando_nunca_mas(self):
+        """Era la única de las cinco que publicaba «Cargando…» a quien no
+        ejecuta JavaScript. El recuento vivo lo escribe el navegador en
+        `#resumen`, que ahora viaja vacío; lo que un lector sin JavaScript
+        necesita saber de la lista lo sirve el pie `noticias-nota`."""
+        self.assertNotIn("Cargando", self.html)
+        self.assertIn('<p id="resumen"></p>', self.html)
+        self.assertIn('<span data-gen="noticias-nota"></span>', self.html)
+
+
+class TestSelloDeNoticias(unittest.TestCase):
+    """El sello de titulares: la fecha del último titular no es la corrida.
+
+    `noticias.json` se empaqueta con `generado` y una lista de ítems cuyo
+    máximo de `fecha` es hasta dónde llega de verdad el corpus. La página
+    escribía la corrida desde el navegador («actualizado el …» con
+    `data.generado`), que es la confusión que el sello existe para deshacer."""
+
+    def test_dice_las_dos_fechas_y_toma_el_maximo_no_el_ultimo(self):
+        sello = R.sello_noticias({
+            "noticias": [{"fecha": "2026-08-21T09:09:12"},
+                         {"fecha": "2026-08-19T02:11:33"}],
+            "noticias_generado": "2026-08-22"})
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)"', sello),
+                         ["2026-08-21", "2026-08-22"])
+        self.assertIn("hasta el", sello)
+        self.assertIn("corrida del", sello)
+        self.assertNotIn("09:09", sello, "la hora se cuela en la prosa")
+
+    def test_sin_corrida_o_sin_titulares_no_se_inventa_nada(self):
+        """M10: donde falta una fecha se calla ese trozo."""
+        solo_dato = R.sello_noticias({
+            "noticias": [{"fecha": "2026-08-21"}], "noticias_generado": None})
+        self.assertNotIn("corrida", solo_dato)
+        solo_corrida = R.sello_noticias({
+            "noticias": [], "noticias_generado": "2026-08-22"})
+        self.assertNotIn("hasta", solo_corrida)
+        vacio = R.sello_noticias({"noticias": [], "noticias_generado": None})
+        self.assertIn("Sin ninguna captura de los titulares", vacio)
+
+    def test_el_sello_la_entradilla_y_el_pie_llegan_al_artefacto(self):
+        """El inyector de verdad sobre el HTML del repositorio: cae también si
+        alguien quita la marca o desconecta un generador."""
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        shutil.copy(ROOT / "site" / "noticias.html", tmp / "noticias.html")
+        hechas = R.inyectar_prerenderizado(tmp, R.contexto())
+        for clave in ("noticias-sello", "noticias-resumen", "noticias-nota"):
+            self.assertIn(clave, hechas, f"el inyector no reconoció «{clave}»")
+        html = (tmp / "noticias.html").read_text(encoding="utf-8")
+        sello = re.search(r'<span id="generado"[^>]*>(.*?)</span>', html, re.S)
+        self.assertTrue(sello and sello.group(1).strip())
+        self.assertEqual(len(re.findall(r"<time ", sello.group(1))), 2,
+                         "el sello dejó de decir las dos fechas")
+
+    def test_noticias_js_ya_no_fecha_el_dato(self):
+        """No se le pone un `if` a la fecha del navegador: se le quita el
+        motivo. La redacción vive en un solo sitio (M2), que es Python."""
+        js = (ROOT / "site" / "noticias.js").read_text(encoding="utf-8")
+        self.assertNotIn("fechaLarga", js,
+                         "noticias.js vuelve a fechar el dato por su cuenta")
+        self.assertNotIn("data.generado", js,
+                         "noticias.js vuelve a leer la corrida")
+        self.assertNotIn("Cargando", js)
+
+
+class TestEntradillaDeNoticias(unittest.TestCase):
+    """La frase servida bajo el titular, con sus cifras del build."""
+
+    def test_la_pluralidad_se_cuenta_por_dominio_no_por_nombre(self):
+        """docs/DECISIONES.md (19-ago-2026): `infobae` e `Infobae` son la misma
+        cabecera; el dominio es la clave estable. Y el nombre de un feed sin
+        dominio no es un medio (R3)."""
+        items = [{"medio": "Infobae", "medio_dominio": "infobae.com"},
+                 {"medio": "infobae", "medio_dominio": "infobae.com"},
+                 {"medio": "EL PAÍS", "medio_dominio": "elpais.com"},
+                 {"medio": "Google News (agregador es-CO)"}]
+        self.assertEqual(R.medios_distintos(items), 2)
+        entradilla = R.entradilla_noticias(
+            {"noticias": items, "noticias_desde": "2026-08-10"})
+        self.assertIn("<b>2 medios</b>", entradilla)
+        self.assertIn("<b>4 titulares</b>", entradilla)
+
+    def test_los_numeros_van_en_es_co(self):
+        items = [{"medio_dominio": f"medio-{i}.com"} for i in range(1200)]
+        entradilla = R.entradilla_noticias({"noticias": items})
+        self.assertIn("<b>1.200 titulares</b>", entradilla)
+        self.assertIn("<b>1.200 medios</b>", entradilla)
+
+    def test_m10_lo_que_falta_se_calla(self):
+        sin_dominios = R.entradilla_noticias(
+            {"noticias": [{"medio": "un feed sin dominio"}]})
+        self.assertNotIn("medios</b>", sin_dominios)
+        self.assertNotIn("desde el", sin_dominios)
+        vacia = R.entradilla_noticias({"noticias": []})
+        self.assertTrue(vacia.strip(), "una cadena vacía rompería el build")
+        self.assertNotIn("<b>", vacia, "sin corpus no hay cifra que resaltar")
+
+    def test_r9_la_entradilla_separa_prensa_de_balance(self):
+        entradilla = R.entradilla_noticias(
+            {"noticias": [{"medio_dominio": "a.com"}]})
+        self.assertIn("mide atención, no daño", entradilla)
+        self.assertIn('href="balances.html"', entradilla)
+
+    def test_la_fecha_de_arranque_sale_del_dato(self):
+        entradilla = R.entradilla_noticias(
+            {"noticias": [{"medio_dominio": "a.com"}],
+             "noticias_desde": "2026-08-10"})
+        self.assertIn("desde el 10 de agosto de 2026", entradilla)
+
+
+class TestPieDeNoticias(unittest.TestCase):
+    """El pie servido de la lista: el recorte se declara, con sus dos cifras."""
+
+    def test_declara_el_recorte_cuando_lo_hay(self):
+        nota = R.nota_noticias({"noticias": [{}] * (R.TITULARES_EN_HTML + 100)})
+        self.assertIn(R.fmt(R.TITULARES_EN_HTML), nota)
+        self.assertIn(R.fmt(R.TITULARES_EN_HTML + 100), nota)
+        self.assertIn("más recientes", nota)
+
+    def test_un_corpus_chico_no_presume_de_recorte(self):
+        nota = R.nota_noticias({"noticias": [{}] * 5})
+        self.assertNotIn("más recientes de los", nota)
+        self.assertIn("5", nota)
+
+    def test_sin_corpus_lo_dice_y_jamas_devuelve_vacio(self):
+        nota = R.nota_noticias({"noticias": []})
+        self.assertTrue(nota.strip())
+        self.assertNotIn("0 titulares", nota, "un cero no es una lista vacía")
+
+
+class TestMarcadoDeNoticias(unittest.TestCase):
+    """El JSON-LD de la página de titulares: un corpus, no una redacción.
+
+    R9 es LA regla de esta página: el monitor compiló el corpus —eso firman
+    `creator` y `publisher`— pero no produjo la prensa, y quién la produjo va
+    en `citation`, por canal. Los guardianes G2/G6 (`TestMarcadoEstructurado`)
+    ya recorren este bloque; aquí va lo específico de titulares.
+
+    Se lee la página **servida**, no la del repositorio: `site/noticias.html`
+    versiona el nodo de identidad como un contenedor vacío que solo llena
+    `escribir_piezas_compartidas()`, y un `<script type="application/ld+json">`
+    sin contenido no es JSON — leer el fuente hacía que `bloques_ld` se comiera
+    el documento hasta el siguiente `</script>` y reventara al parsear. Lo que
+    Google indexa es el artefacto, así que es el artefacto lo que se mira. Las
+    cifras del día siguen sin sustituir a propósito: el marcador
+    `{{noticias_corte}}` tiene su propio guardián más abajo."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
+        shutil.copy(ROOT / "site" / "noticias.html", cls.tmp / "noticias.html")
+        R.escribir_piezas_compartidas(cls.tmp)
+        cls.html = (cls.tmp / "noticias.html").read_text(encoding="utf-8")
+        cls.bloques = bloques_ld(cls.html)
+        cls.dataset = next(n for b in cls.bloques for n in nodos_ld(b)
+                           if "Dataset" in tipos_ld(n))
+
+    def test_el_dataset_referencia_la_identidad_no_la_embebe(self):
+        self.assertEqual(self.dataset["@id"],
+                         "https://datosdelterremoto.org/noticias.html#dataset")
+        self.assertEqual(self.dataset["creator"], {"@id": R.ORGANIZACION})
+        self.assertEqual(self.dataset["publisher"], {"@id": R.ORGANIZACION})
+        self.assertEqual(self.dataset["includedInDataCatalog"], {"@id": R.SITIO})
+
+    def test_r9_dos_niveles_de_atribucion_y_ningun_articulo_apropiado(self):
+        """`citation` nombra los tres canales reales; ningún nodo se declara
+        `author` de nada ni marca un titular como artículo propio."""
+        nombres = " · ".join(c.get("name", "") for c in self.dataset["citation"])
+        self.assertIn("GDACS", nombres)
+        self.assertIn("Google News", nombres)
+        self.assertIn("registro abierto", nombres)
+        for bloque in self.bloques:
+            for nodo in nodos_ld(bloque):
+                self.assertNotIn("author", nodo,
+                                 "el monitor no es autor de la prensa (R9)")
+                self.assertNotIn("NewsArticle", tipos_ld(nodo))
+
+    def test_sin_licencia_sobre_prensa_ajena(self):
+        """A diferencia de las fichas, este Dataset no declara `license`: el
+        monitor no puede licenciar titulares de terceros. Si JP decide otra
+        cosa, se cambia aquí y en el HTML a la vez, con su entrada en
+        DECISIONES."""
+        self.assertNotIn("license", self.dataset)
+
+    def test_la_collectionpage_apunta_al_dataset(self):
+        pagina = next(n for b in self.bloques for n in nodos_ld(b)
+                      if "CollectionPage" in tipos_ld(n))
+        self.assertEqual(pagina["mainEntity"], {"@id": self.dataset["@id"]})
+
+    def test_el_corte_lo_escribe_el_build_y_sin_corte_revienta(self):
+        """`dateModified` viaja como marcador {{noticias_corte}} porque un
+        <span data-gen> no cabe en un bloque JSON-LD. Con corrida válida el
+        build lo escribe; sin ella la clave no se emite y `sustituir_cifras`
+        rompe el build — publicar "None" fecharía el corpus en la nada (M10)."""
+        self.assertEqual(self.dataset["dateModified"], "{{noticias_corte}}")
+        con = R.cifras_del_dia({"chatmap": [], "noticias_generado": "2026-08-22"})
+        self.assertEqual(con["noticias_corte"], "2026-08-22")
+        sin = R.cifras_del_dia({"chatmap": [], "noticias_generado": "mañana"})
+        self.assertNotIn("noticias_corte", sin)
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp)
+            shutil.copy(ROOT / "site" / "noticias.html", destino / "noticias.html")
+            with self.assertRaises(KeyError) as roto:
+                R.sustituir_cifras(destino, {"chatmap": [],
+                                             "noticias_generado": None})
+            self.assertIn("noticias_corte", str(roto.exception))
+            R.sustituir_cifras(destino, {"chatmap": [],
+                                         "noticias_generado": "2026-08-22"})
+            escrito = (destino / "noticias.html").read_text(encoding="utf-8")
+            self.assertIn('"dateModified":"2026-08-22"', escrito)
