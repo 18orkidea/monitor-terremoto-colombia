@@ -744,22 +744,35 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
 # `prosa` es cómo se nombra cada servicio dentro de una frase, con su oficio:
 # quien lee «ICube-SERTIT» por primera vez necesita saber qué es antes que sus
 # siglas. `url` es dónde lo publica su dueño, para la tabla de trazabilidad.
+# `publicador` es el nombre completo de la organización que lo firma, para el
+# `citation` del marcado estructurado: vive AQUÍ y no en una tabla aparte del
+# generador de JSON-LD porque una segunda lista de los mismos tres servicios
+# diverge en cuanto entre el cuarto (M2). `rotulo` es el nombre corto, el que
+# cabe dentro de un chip de capa del mapa de evidencias; `clave` es además la
+# capa con que ese servicio viaja en `evidencia.json` y el `data-capa` que
+# `styles.css` tiñe.
 SATELITES = (
     {"clave": "copernicus", "nombre": "Copernicus EMS (EMSR916)",
      "campo": None,           # se cuenta por puntos dentro del municipio
      "prosa": "el servicio de emergencias de Copernicus",
      "url": "https://rapidmapping.emergency.copernicus.eu/EMSR916/",
+     "publicador": "Copernicus Emergency Management Service",
+     "rotulo": "Copernicus EMS",
      "naturaleza": "evaluación satelital de daño, sin validar en campo"},
     {"clave": "unosat", "nombre": "UNITAR-UNOSAT",
      "campo": "unosat_edificios",
      "prosa": "UNITAR-UNOSAT, el centro satelital de la ONU",
      "url": "https://unosat.org/products/4253",
+     "publicador": "UNITAR-UNOSAT (Centro Satelital de las Naciones Unidas)",
+     "rotulo": "UNITAR-UNOSAT",
      "naturaleza": "evaluación satelital de daño, sin validar en campo"},
     {"clave": "sertit", "nombre": "ICube-SERTIT (Charter 1048)",
      "campo": "sertit_edificios",
      "prosa": "ICube-SERTIT, el servicio de cartografía rápida de la Universidad "
               "de Estrasburgo activado por la Carta Internacional del Espacio",
      "url": "https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/",
+     "publicador": "ICube-SERTIT, Université de Strasbourg",
+     "rotulo": "ICube-SERTIT",
      # su licencia obliga a citar y prohíbe el uso comercial: la condición viaja
      # pegada al dato hasta la ficha, no escondida en un pie de página
      "naturaleza": "evaluación satelital de daño, sin validar en campo · "
@@ -1013,6 +1026,111 @@ def municipios_con_evidencia_puntual(ctx: dict) -> list:
     return filas
 
 
+# ------------------------------------------------------- chips del mapa de la ficha
+# Las capas del mapa de evidencias, EN EL ORDEN EN QUE LAS DIBUJA
+# `site/municipio.js`. Los tres servicios satelitales no se escriben aquí: se
+# derivan de `SATELITES` (`clave` + `rotulo`), que es la tabla que ya decide
+# quién ha mirado cada municipio. Así, el día que entre el cuarto servicio, su
+# chip aparece solo en cuanto tenga capa — sin que nadie se acuerde de esta
+# lista.
+#
+# El chip sustituye a `L.control.layers`, que en un móvil se colapsa en un icono
+# de capas: el lector tenía que descubrir que debajo había cinco fuentes
+# separables. Y **un chip es una acción**: estos accionan, encienden y apagan su
+# capa. Lo que solo rotula —la leyenda del mapa estático, el distintivo de
+# verificación— sigue siendo `.badge`, que no se pulsa.
+def capas_evidencia() -> tuple:
+    """(clave, rótulo) de cada capa del mapa de evidencias, en orden de dibujo."""
+    return (("zonas", "Zonas analizadas"),
+            *((sat["clave"], sat["rotulo"]) for sat in SATELITES),
+            ("ciudadanos", "Reportes de la comunidad"))
+
+
+def chips_evidencia(d: dict) -> str:
+    """La tira de chips que enciende y apaga las capas del mapa de evidencias.
+
+    El recuento lo escribe el build sobre el MISMO `evidencia.json` que el
+    navegador va a dibujar, y solo sale chip donde hay puntos: la condición es
+    la misma que usa `municipio.js` para crear la capa (`features.length`), de
+    modo que no puede haber un chip sin capa ni una capa sin chip. Lo vigila
+    `TestChipsDeLaFicha`.
+
+    Cuenta PUNTOS y lo dice —«21 edificios», «3 reportes»—, porque en una ficha
+    no hay municipios que contar: el criterio de JP («los chips cuentan
+    municipios, no puntos») nació en la tabla de municipios, donde la misma
+    pastilla podía prometer las dos cosas. Aquí solo cabe una, y el rótulo la
+    nombra en vez de dejar un número suelto."""
+    capas = (d.get("evidencia") or {}).get("capas") or {}
+    # «Puntos», no «edificios», para los satélites: el chip cuenta lo que el
+    # mapa dibuja, y eso no siempre es lo mismo que los edificios clasificados
+    # que publica la prosa —en Cali, ICube-SERTIT dibuja 103 puntos y 94 tienen
+    # grado de daño—. Rotularlos «edificios» pondría dos cifras distintas con el
+    # mismo nombre en la misma pantalla (G3); `desajustes_de_capas` cuenta la
+    # diferencia debajo en vez de esconderla.
+    # Solo lleva unidad el chip cuyo rótulo no la nombra ya: «Zonas analizadas 2
+    # zonas analizadas» dice dos veces lo mismo dentro de una pastilla de 12 px.
+    unidades = {sat["clave"]: ("punto", "puntos") for sat in SATELITES}
+    botones = []
+    for clave, rotulo in capas_evidencia():
+        n = len((capas.get(clave) or {}).get("features") or [])
+        if not n:
+            continue                       # sin capa no hay chip que la accione
+        unidad = unidades.get(clave)
+        sufijo = f" {e(concuerda(n, *unidad))}" if unidad else ""
+        botones.append(
+            f'<button type="button" class="chip chip--punto" data-capa="{clave}"'
+            f' aria-pressed="true">'
+            f'<span class="punto" aria-hidden="true"></span>{e(rotulo)} '
+            f'<span class="n">{fmt(n)}</span>{sufijo}</button>')
+    if not botones:
+        return ""
+    return ('<div class="chips chips-mapa" role="group" '
+            f'aria-label="Capas del mapa de evidencias de '
+            f'{e(toponimo(d["muni"]["municipio"], d["muni"]["departamento"]))}">'
+            + "".join(botones) + "</div>")
+
+
+def desajustes_de_capas(d: dict) -> list:
+    """Servicios cuya capa del mapa trae más puntos que edificios clasificados
+    publica la ficha, con las dos cifras y el rótulo del servicio.
+
+    No es un error que haya que esconder ni una cifra que haya que elegir. En
+    Cali, ICube-SERTIT dibuja 103 puntos y solo 94 llevan grado de daño: los
+    otros nueve son carpas y refugios que la propia fuente deja en «Not
+    Applicable». Es el único desajuste de las 208 fichas hoy, y el criterio del
+    proyecto es enseñar la distancia entre dos cifras, no escoger una."""
+    capas = (d.get("evidencia") or {}).get("capas") or {}
+    publicados = dict(satelites_con_dato(d["muni"], d["satelite"]))
+    fuera = []
+    for sat in SATELITES:
+        puntos = len((capas.get(sat["clave"]) or {}).get("features") or [])
+        con_grado = publicados.get(sat["nombre"])
+        if puntos and con_grado is not None and puntos != con_grado:
+            fuera.append((sat["rotulo"], puntos, con_grado))
+    return fuera
+
+
+def nota_chips_evidencia(d: dict) -> str:
+    """Qué hace cada chip y qué cuenta su número — DEBAJO de la tira, no al lado.
+
+    La explicación no viaja en un `title`: el móvil no lo enseña, el teclado no
+    lo alcanza y un rastreador no lo indexa. Va en su propia línea, que es donde
+    se puede leer entera."""
+    frases = ['Cada chip retira o devuelve su capa al mapa; el número es el de '
+              'puntos que esa fuente publica en este municipio. Los servicios '
+              'satelitales miran desde el aire y no comprueban nada en el suelo; '
+              'los reportes de la comunidad se hacen desde dentro. Ninguna capa '
+              'sustituye a las otras.']
+    for rotulo, puntos, con_grado in desajustes_de_capas(d):
+        frases.append(
+            f'{e(rotulo)} dibuja aquí {fmt(puntos)} puntos y esta ficha cuenta '
+            f'{fmt(con_grado)} edificios clasificados: los '
+            f'{fmt(puntos - con_grado)} restantes llegan sin grado de daño '
+            f'asignado por la propia fuente, así que se ven en el mapa pero no '
+            f'entran en el recuento.')
+    return '<p class="note">' + " ".join(frases) + "</p>"
+
+
 # ------------------------------------------------------------------ la ficha
 def render_ficha(d: dict) -> str:
     """HTML completo de una ficha municipal.
@@ -1189,6 +1307,11 @@ def render_ficha(d: dict) -> str:
                      f'aria-labelledby="tab-{evidencia_id}" hidden>')
             o.append(f'<p class="sub mapa-evidencias__resumen">Este mapa reúne {resumen} '
                      f'en el entorno de {e(nombre)}. Cada fuente permanece en su propia capa.</p>')
+            # Los chips y su explicación DEBAJO, nunca al lado: lo que hace cada
+            # uno se lee en una línea entera, no en un `title` que el móvil no
+            # enseña y el rastreador no indexa.
+            o.append(chips_evidencia(d))
+            o.append(nota_chips_evidencia(d))
             o.append(f'<div class="mapa-evidencias" id="mapa-evidencias-{d["slug"]}" '
                      f'data-evidencia="{DATOS}/municipios/{d["slug"]}/evidencia.json" '
                      f'data-destino="{destino}" aria-label="Mapa interactivo de evidencias '

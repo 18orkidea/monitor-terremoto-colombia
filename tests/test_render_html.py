@@ -4533,3 +4533,155 @@ class TestEnlaceSeguroEsEspejo(unittest.TestCase):
                        "data:text/html;base64,x", "vbscript:x"):
             with self.subTest(url=veneno):
                 self.assertEqual(R.enlace_seguro(veneno), "#")
+
+
+class TestChipsDeLaFicha(unittest.TestCase):
+    """Los chips que encienden y apagan las capas del mapa de evidencias.
+
+    Sustituyen a `L.control.layers`, que por debajo de 560 px se colapsa en un
+    icono: en el móvil, las cinco fuentes quedaban escondidas detrás de un
+    símbolo que hay que descubrir. La tira la escribe el BUILD, con su rótulo y
+    su recuento; el navegador solo la conecta. Construirla en el navegador sería
+    una segunda copia de los recuentos (M2) y dejaría la tira vacía para quien
+    lee el documento sin ejecutarlo.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.js = (ROOT / "site" / "municipio.js").read_text(encoding="utf-8")
+
+    def _chips(self, html: str) -> list:
+        """(capa, número, texto entero) de cada chip de la tira del mapa."""
+        tira = re.search(r'<div class="chips chips-mapa".*?</div>', html, re.S)
+        if not tira:
+            return []
+        return [(m.group(1), m.group(2), m.group(0))
+                for m in re.finditer(
+                    r'<button[^>]*data-capa="([^"]+)"[^>]*>.*?'
+                    r'<span class="n">([\d.,]+)</span>.*?</button>',
+                    tira.group(0), re.S)]
+
+    def test_hay_un_chip_por_capa_con_puntos_y_ninguno_mas(self):
+        """La condición del chip es la MISMA con que `municipio.js` crea la
+        capa: `features.length`. Si divergieran, la ficha publicaría un chip que
+        no acciona nada —el control muerto que JP prohíbe— o una capa sin quien
+        la apague. Se comprueba sobre las 208, no sobre una."""
+        vistas = 0
+        for m in self.ctx["municipios"]:
+            nombre = m["municipio"]
+            if not R.es_elegible(nombre, self.ctx):
+                continue
+            d = R.datos_ficha(nombre, self.ctx)
+            capas = d["evidencia"]["capas"]
+            con_puntos = {clave for clave, cap in capas.items() if cap["features"]}
+            chips = {clave for clave, _, _ in self._chips(R.chips_evidencia(d))}
+            self.assertEqual(chips, con_puntos,
+                             f"{nombre}: chips y capas con puntos no coinciden")
+            vistas += 1
+        self.assertGreater(vistas, 200, "el recorrido se ha encogido")
+
+    def test_el_numero_del_chip_es_el_de_los_puntos_de_su_capa(self):
+        """El recuento se escribe sobre el mismo `evidencia.json` que el
+        navegador va a dibujar, y en locale es-CO."""
+        for nombre in ("Cali", "Pereira", "Nóvita", "Roldanillo"):
+            d = R.datos_ficha(nombre, self.ctx)
+            for clave, numero, _ in self._chips(R.chips_evidencia(d)):
+                esperado = R.fmt(len(d["evidencia"]["capas"][clave]["features"]))
+                self.assertEqual(numero, esperado,
+                                 f"{nombre}/{clave}: el chip promete {numero}")
+
+    def test_sin_evidencia_no_se_publica_una_tira_vacia(self):
+        """Un contenedor vacío es la lección de los globos sin datos: una tira
+        de chips sin un solo chip ocupa sitio y no dice nada."""
+        d = R.datos_ficha("Cartago", self.ctx)
+        self.assertFalse(d["hay_evidencia"])
+        self.assertEqual(R.chips_evidencia(d), "")
+        self.assertNotIn("chips-mapa", R.render_ficha(d))
+
+    def test_un_chip_es_una_accion_y_lo_pasivo_no_lo_parece(self):
+        """Criterio de JP, y la cicatriz de las 316 pastillas que no hacían
+        nada: todo `.chip` de una ficha es un `<button>` de verdad. Lo que solo
+        rotula —la leyenda del mapa, el distintivo de verificación— sigue siendo
+        `.badge`, que ni es pulsable ni lo aparenta."""
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        # `chip(?:\s|"|--)` y no `chip[^"]*`: el contenedor se llama `chips` y
+        # empieza por las mismas cuatro letras, así que el patrón perezoso lo
+        # casaba y el test fallaba contra el `<div>` que envuelve la tira.
+        for etiqueta in re.findall(r'<(\w+)[^>]*class="chip(?:\s|"|--)', html):
+            self.assertEqual(etiqueta, "button",
+                             f"un .chip escrito como <{etiqueta}> no se puede pulsar")
+        self.assertIn('class="badge"', html)
+        self.assertNotIn('<button class="badge', html)
+
+    def test_cada_chip_declara_su_estado_para_un_lector_de_pantalla(self):
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        botones = re.findall(r'<button[^>]*class="chip chip--punto"[^>]*>', html)
+        self.assertTrue(botones)
+        for boton in botones:
+            self.assertIn('aria-pressed="true"', boton)
+            self.assertIn('type="button"', boton)
+
+    def test_la_explicacion_va_debajo_de_los_chips_y_no_en_un_title(self):
+        """Criterio de JP: las explicaciones van DEBAJO del nombre, no al lado.
+        Un `title` no lo enseña el móvil, no lo alcanza el teclado y no lo
+        indexa un rastreador; una línea de prosa hace las tres cosas."""
+        html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
+        tira = re.search(r'<div class="chips chips-mapa".*?</div>', html, re.S)
+        self.assertIsNotNone(tira)
+        self.assertNotIn("title=", tira.group(0))
+        nota = html.find('<p class="note">Cada chip', tira.end())
+        mapa = html.find('<div class="mapa-evidencias"', tira.end())
+        self.assertGreater(nota, 0, "los chips se publican sin su explicación")
+        self.assertLess(nota, mapa, "la explicación no va pegada a los chips")
+
+    def test_el_desajuste_entre_la_capa_y_el_recuento_se_publica(self):
+        """En Cali, ICube-SERTIT dibuja 103 puntos y solo 94 llevan grado de
+        daño. Publicar el chip a 103 junto a una prosa que dice 94 sin explicar
+        la diferencia serían dos verdades en la misma pantalla (G3); elegir una
+        y callar la otra sería peor. Las cifras salen del dato, no escritas a
+        mano: el día que la fuente corrija, la frase se corrige sola."""
+        d = R.datos_ficha("Cali", self.ctx)
+        desajustes = R.desajustes_de_capas(d)
+        self.assertTrue(desajustes, "Cali dejó de tener el desajuste de SERTIT")
+        rotulo, puntos, con_grado = desajustes[0]
+        self.assertGreater(puntos, con_grado)
+        nota = R.nota_chips_evidencia(d)
+        for cifra in (puntos, con_grado, puntos - con_grado):
+            self.assertIn(R.fmt(cifra), nota)
+        self.assertIn(rotulo, nota)
+
+    def test_sin_desajuste_no_se_cuenta_uno(self):
+        """M10 al revés: una salvedad que no se cumple aquí no se escribe aquí.
+        207 de las 208 fichas no tienen desajuste y no deben leer una frase que
+        insinúe que sí."""
+        d = R.datos_ficha("Roldanillo", self.ctx)
+        self.assertEqual(R.desajustes_de_capas(d), [])
+        self.assertNotIn("sin grado de daño asignado", R.nota_chips_evidencia(d))
+
+    def test_todo_servicio_satelital_tiene_su_rotulo_y_su_chip(self):
+        """El día que entre el cuarto servicio, su chip y su cita aparecen solos
+        porque salen de `SATELITES`. Este test cae si alguien lo da de alta a
+        medias: sin rótulo corto no cabe en un chip y sin publicador no se puede
+        citar."""
+        claves = {clave for clave, _ in R.capas_evidencia()}
+        for sat in R.SATELITES:
+            self.assertIn(sat["clave"], claves,
+                          f"{sat['nombre']} no tiene capa en el mapa de la ficha")
+            for campo in ("rotulo", "publicador"):
+                self.assertTrue(sat.get(campo),
+                                f"{sat['nombre']} sin `{campo}`")
+
+    def test_el_navegador_conecta_los_chips_pero_no_los_construye(self):
+        """Si `municipio.js` volviera a fabricarlos, el recuento viviría en dos
+        sitios y la ficha servida perdería la tira (M2). Y el control de capas
+        de Leaflet queda como respaldo, nunca como norma."""
+        self.assertIn("conectarChips", self.js)
+        self.assertIn("querySelectorAll(\".chip[data-capa]\")", self.js)
+        self.assertRegex(
+            self.js,
+            r"if \(!conectarChips\([^)]*\)\s*\n?\s*&& Object\.keys\(overlays\)",
+            "`L.control.layers` dejó de ser el respaldo de los chips")
+        self.assertNotIn('createElement("button")', self.js)
+        self.assertNotIn('className = "chip"', self.js)
+
