@@ -408,13 +408,86 @@ def _title_es(s: str) -> str:
                     for i, w in enumerate(words))
 
 
+# Quién se queda el nombre a secas cuando dos municipios se llaman igual.
+# Congelado el 24-ago-2026 sobre LO PUBLICADO el 18-ago-2026 (el día que las
+# claves dinámicas entraron a `data/public/municipios.json`), y verificado
+# contra ese fichero: la clave manda sobre la URL de la ficha y sobre el
+# identificador del feed de prensa que ya archivó titulares con ella.
+#
+# La razón de existir es que sin esta tabla el dueño lo decidía el ORDEN de las
+# filas del RUD —familias descendente—, así que «Argelia» era la del Valle
+# porque tenía más damnificados: un municipio homónimo nuevo con más familias
+# se llevaba el nombre corto y cambiaba una URL publicada sin que nadie lo
+# decidiera. 20 nombres del catálogo se repiten en la DIVIPOLA nacional; 12
+# estaban expuestos de verdad y a los otros 8 los anclaba `MUNICIPIOS`.
+#
+# NO se aprovecha para corregir asignaciones discutibles: «Argelia» es hoy el
+# pueblo de 5.538 habitantes y «Argelia (Cauca)» el de 27.853, y es feo, pero
+# es lo publicado. Cambiarlo es una decisión editorial distinta, con su
+# migración y sus redirecciones (docs/DECISIONES.md).
+#
+# La identidad es el código DIVIPOLA; el departamento va al lado porque es lo
+# que un humano lee y la única vía de desempate si un día la fila no resuelve
+# su código.
+NOMBRE_A_SECAS_CONGELADO = {
+    # decididos por el orden del RUD hasta hoy (los expuestos de verdad)
+    "Argelia": {"divipola": "76054", "departamento": "Valle del Cauca"},
+    "Bolívar": {"divipola": "76100", "departamento": "Valle del Cauca"},
+    "Buenavista": {"divipola": "63111", "departamento": "Quindío"},
+    "El Tambo": {"divipola": "19256", "departamento": "Cauca"},
+    "La Unión": {"divipola": "76400", "departamento": "Valle del Cauca"},
+    "La Vega": {"divipola": "19397", "departamento": "Cauca"},
+    "Morales": {"divipola": "19473", "departamento": "Cauca"},
+    "Salamina": {"divipola": "17653", "departamento": "Caldas"},
+    "San Luis": {"divipola": "73678", "departamento": "Tolima"},
+    "Santa María": {"divipola": "41676", "departamento": "Huila"},
+    "Sucre": {"divipola": "19785", "departamento": "Cauca"},
+    "Suárez": {"divipola": "19780", "departamento": "Cauca"},
+    # anclados por `MUNICIPIOS` (el reparto no los toca), anotados igual: si
+    # algún día uno sale del catálogo curado, el nombre no puede quedar a subasta
+    "Armenia": {"divipola": "63001", "departamento": "Quindío"},
+    "Balboa": {"divipola": "66075", "departamento": "Risaralda"},
+    "Candelaria": {"divipola": "76130", "departamento": "Valle del Cauca"},
+    "Córdoba": {"divipola": "63212", "departamento": "Quindío"},
+    "La Victoria": {"divipola": "76403", "departamento": "Valle del Cauca"},
+    "Palestina": {"divipola": "17524", "departamento": "Caldas"},
+    "Restrepo": {"divipola": "76606", "departamento": "Valle del Cauca"},
+    "San Pedro": {"divipola": "76670", "departamento": "Valle del Cauca"},
+}
+
+
+def _dueno_del_nombre(dueno: dict, div: dict | None, departamento: str) -> bool:
+    """¿Es esta fila la que tiene congelado el nombre a secas?
+
+    Por código DIVIPOLA, que es la identidad estable. Si la fila no lo resuelve
+    —nombre que el catálogo geográfico escribe de otra manera—, desempata el
+    departamento; y sin ninguna de las dos vías el municipio se publica con el
+    paréntesis. La degradación segura es «paréntesis», nunca «desaparece».
+    """
+    code = _divipola_key((div or {}).get("divipola"))
+    if code:
+        return code == _divipola_key(dueno.get("divipola"))
+    return _admin_norm(departamento) == _admin_norm(dueno.get("departamento"))
+
+
 def municipios_dinamicos(rud_municipios: dict | None,
                          divipola: dict | None) -> dict[str, dict]:
     """Entradas para municipios que el RUD registra pero MUNICIPIOS no cura
     aún: el registro oficial manda — si un municipio entra al RUD mañana, no
     puede perderse por falta de mantenimiento manual. Coordenadas del catálogo
     DIVIPOLA estático; sin coordenadas la entrada sale igual (sin punto en el
-    mapa) y el test de supuesto avisa."""
+    mapa) y el test de supuesto avisa.
+
+    El nombre a secas de los homónimos lo decide `NOMBRE_A_SECAS_CONGELADO`, no
+    el orden de las filas. Objeción obvia: es mantenimiento manual, justo lo que
+    esta función existe para evitar. No lo es, porque **la tabla no decide quién
+    entra: solo quién se queda el nombre corto.** El municipio nuevo entra
+    igual, con su ficha, su búsqueda y su punto en el mapa; lo único que cambia
+    es que nace desambiguado —«X (Departamento)»— en vez de robarle la URL a
+    otro. Sin entrada en la tabla se cae al reparto de siempre (el primero se lo
+    lleva) y un test de supuesto avisa de que ha nacido un homónimo que hay que
+    anotar.
+    """
     if not rud_municipios:
         return {}
     cubiertos = set()
@@ -433,7 +506,11 @@ def municipios_dinamicos(rud_municipios: dict | None,
         municipio = fila.get("municipio") or mun_n
         div = _find_divipola(divipola, municipio, departamento)
         nombre = _title_es(fila.get("municipio") or mun_n)
-        key = nombre if nombre not in MUNICIPIOS and nombre not in extras \
+        libre = nombre not in MUNICIPIOS and nombre not in extras
+        dueno = NOMBRE_A_SECAS_CONGELADO.get(nombre)
+        if dueno:
+            libre = libre and _dueno_del_nombre(dueno, div, departamento)
+        key = nombre if libre \
             else f"{nombre} ({_title_es(fila.get('departamento') or dep_n)})"
         extras[key] = {
             "departamento": _title_es(departamento),
@@ -476,13 +553,14 @@ def _rud_ultimo_dia(conn: sqlite3.Connection) -> dict[tuple[str, str], dict]:
     """Municipios del último día capturado del RUD, con la misma clave
     normalizada que usa `publish.py` para cruzarlos con el catálogo.
 
-    El `ORDER BY familias DESC` no es decorativo y hay que dejarlo escrito:
-    `municipios_dinamicos` reparte el nombre a secas al PRIMERO de dos
-    homónimos («Argelia» para el Cauca y «Argelia (Valle del Cauca)» para el
-    otro), así que el orden de las filas decide las claves. Leerlas en otro
-    orden aquí daría un catálogo con nombres distintos a los que publica
-    `publish.py`, y los identificadores de los feeds dejarían de casar con los
-    titulares ya archivados. Es la misma consulta, deliberadamente.
+    El `ORDER BY familias DESC` es el espejo literal de la consulta de
+    `publish.py`: las dos leen las mismas filas en el mismo orden porque de las
+    claves cuelgan la URL de la ficha y el identificador del feed de prensa.
+    De los nombres a secas ya no decide el orden —los homónimos publicados los
+    congela `NOMBRE_A_SECAS_CONGELADO`, y por eso «Argelia» es la del Valle del
+    Cauca y la del Cauca lleva su departamento entre paréntesis—, pero el que
+    estrene homonimia sin entrada en la tabla sí se reparte por aquí: leer en
+    otro orden le cambiaría el nombre.
     """
     fila = conn.execute("SELECT MAX(snapshot_date) FROM rud_daily").fetchone()
     dia = fila[0] if fila else None

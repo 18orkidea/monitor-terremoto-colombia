@@ -828,6 +828,94 @@ class TestVocabularioDeLasFuentes(unittest.TestCase):
             f"decidido qué significan para el lector")
 
 
+class TestSupuestoNombreASecas(unittest.TestCase):
+    """R11: la tabla que congela los nombres a secas envejece sola.
+
+    `NOMBRE_A_SECAS_CONGELADO` dice qué código DIVIPOLA se queda con cada
+    nombre sin paréntesis. Mientras el RUD siga creciendo —49 municipios
+    entraron en un solo día—, cualquier alta puede estrenar homonimia con un
+    nombre que la DIVIPOLA nacional repite: si nadie lo anota, el nombre corto
+    vuelve a repartirse por familias registradas y una URL publicada cambia de
+    municipio.
+
+    Que este test falle es la señal de que hay trabajo, no de que algo va mal:
+    o ha nacido un homónimo que hay que congelar, o sobra una entrada porque su
+    municipio salió del catálogo. Una lista de excepciones que nadie poda acaba
+    tapando huecos de verdad.
+    """
+
+    def _nacional(self):
+        """Cuántas veces repite cada nombre la DIVIPOLA de todo el país: es la
+        lista de nombres en riesgo, y no la escribe nadie a mano."""
+        from municipios import _norm
+        div = json.loads((ROOT / "data" / "public" / "divipola_coords.json")
+                         .read_text(encoding="utf-8")).get("items") or {}
+        repetidos = {}
+        for fila in div.values():
+            n = _norm(fila.get("municipio"))
+            repetidos[n] = repetidos.get(n, 0) + 1
+        return div, {n for n, veces in repetidos.items() if veces > 1}
+
+    def test_todo_nombre_a_secas_en_riesgo_esta_congelado(self):
+        why = skip_sin_datos("rud_daily")
+        if why:
+            self.skipTest(why)
+        from municipios import (NOMBRE_A_SECAS_CONGELADO, catalogo_vigente,
+                                _norm)
+        div, repetidos = self._nacional()
+        if not div:
+            self.skipTest("sin catálogo DIVIPOLA")
+        # los nombres sin paréntesis que el país repite: los que pueden perder
+        # su URL en cuanto el RUD registre al homónimo
+        en_riesgo = {clave: meta for clave, meta in catalogo_vigente().items()
+                     if "(" not in clave and _norm(clave) in repetidos}
+        faltan = sorted(set(en_riesgo) - set(NOMBRE_A_SECAS_CONGELADO))
+        self.assertEqual(
+            faltan, [],
+            f"nombres a secas que el país repite y nadie ha congelado: "
+            f"{faltan}. El día que el RUD registre a su homónimo, quien tenga "
+            f"más familias se queda /municipio/<slug>/ — anotarlos en "
+            f"NOMBRE_A_SECAS_CONGELADO con su código DIVIPOLA")
+        sobran = sorted(set(NOMBRE_A_SECAS_CONGELADO) - set(en_riesgo))
+        self.assertEqual(
+            sobran, [],
+            f"entradas congeladas que ya no publican ese nombre: {sobran}. "
+            f"O el municipio salió del catálogo, o dejó de llevar el nombre a "
+            f"secas: mirar cuál de las dos y podar")
+
+    def test_el_dueno_congelado_es_el_que_esta_publicado(self):
+        """La tabla se compara con LO PUBLICADO, no con el catálogo que ella
+        misma decide.
+
+        Comprobarlo contra `catalogo_vigente()` no comprueba nada: cambiar el
+        dueño en la tabla cambia también el catálogo, y las dos mentiras
+        coinciden (M1 — el primer intento de este test pasaba con el fallo
+        puesto). El testigo independiente es `data/public/municipios.json`, que
+        lo escribió una corrida anterior y del que cuelgan las URL vivas.
+        """
+        from municipios import NOMBRE_A_SECAS_CONGELADO, _divipola_key
+        pub = ROOT / "data" / "public" / "municipios.json"
+        if not pub.exists():
+            self.skipTest("sin municipios.json publicado")
+        datos = json.loads(pub.read_text(encoding="utf-8"))
+        items = datos.get("items", datos) if isinstance(datos, dict) else datos
+        publicado = {m["municipio"]: m for m in items}
+        distintos = {}
+        for clave, dueno in NOMBRE_A_SECAS_CONGELADO.items():
+            m = publicado.get(clave)
+            if not m:
+                continue          # lo cuenta el test de arriba, con su motivo
+            if _divipola_key(m.get("divipola")) != _divipola_key(dueno["divipola"]):
+                distintos[clave] = {"publicado": m.get("divipola"),
+                                    "departamento": m.get("departamento"),
+                                    "congelado": dueno["divipola"]}
+        self.assertEqual(
+            distintos, {}, f"la tabla congela un municipio distinto del que "
+            f"publica hoy ese nombre: {distintos}. Cambiar la identidad de una "
+            f"ficha publicada es una decisión editorial con su migración y su "
+            f"redirección — no una línea que se toca de paso")
+
+
 class TestSupuestoBusquedaMunicipal(unittest.TestCase):
     """R11: a todo municipio que el RUD registra hay que haberle preguntado.
 
@@ -849,9 +937,9 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
     # que declara su municipio, colaría esa atribución por la puerta de atrás.
     # Su prensa solo puede venir de un feed del registro comunitario.
     # Las claves son las que reparte `municipios_dinamicos`: el nombre a secas
-    # va al primero de dos homónimos por familias registradas, así que
-    # «Bolívar» es hoy el del Valle del Cauca y el del Cauca lleva su
-    # departamento entre paréntesis.
+    # de los homónimos lo fija `NOMBRE_A_SECAS_CONGELADO`, así que «Bolívar» es
+    # el del Valle del Cauca y el del Cauca lleva su departamento entre
+    # paréntesis.
     SIN_BUSQUEDA_ESPERADOS = {
         "Bolívar",            # Valle del Cauca
         "Bolívar (Cauca)",
@@ -893,11 +981,12 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
         identificadores de sus feeds) y el catálogo que arma `publish.py` para
         las fichas tienen que dar las MISMAS claves.
 
-        No es una formalidad: `municipios_dinamicos` reparte el nombre a secas
-        al primero de dos homónimos —«Argelia» al Cauca y «Argelia (Valle del
-        Cauca)» al otro—, así que el orden de las filas del RUD decide las
-        claves, y de las claves cuelgan la URL de la ficha y el id del feed.
-        Leerlas en otro orden publicaría un municipio con el nombre del otro.
+        No es una formalidad: de las claves cuelgan la URL de la ficha y el id
+        del feed. Los homónimos ya publicados los congela
+        `NOMBRE_A_SECAS_CONGELADO` —«Argelia» es la del Valle del Cauca y la
+        del Cauca lleva el paréntesis—, pero el que estrene homonimia todavía
+        se reparte por el orden de las filas del RUD, así que leerlas en otro
+        orden publicaría un municipio con el nombre del otro.
         """
         why = skip_sin_datos("rud_daily")
         if why:

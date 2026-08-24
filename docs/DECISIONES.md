@@ -6,6 +6,44 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-24 — El nombre a secas de los homónimos se congela: una URL publicada no se subasta
+
+**Contexto.** `municipios_dinamicos()` repartía el nombre a secas al **primero**
+de dos municipios homónimos, y `publish.py` le pasa las filas del RUD ordenadas
+por familias **descendente**: «Argelia» era la del Valle del Cauca porque tenía
+más damnificados. De la clave cuelgan la URL de la ficha (`/municipio/argelia/`)
+y el identificador del feed de prensa, así que **bastaba con que entrara un
+homónimo nuevo con más familias para que una URL publicada pasara a ser otro
+municipio** sin que nadie lo decidiera. Doce URLs estaban expuestas así — y el
+último día entraron 49 municipios de golpe. Los criterios «neutros» no
+salvaban: DIVIPOLA ascendente, departamento A–Z y población descendente
+intercambian HOY los casos publicados (el prefijo 19 del Cauca gana siempre por
+código bajo, y el Cauca es el que hoy pierde siempre).
+
+**Decisión.** `ingest/municipios.py::NOMBRE_A_SECAS_CONGELADO`: una tabla
+versionada que fija **qué código DIVIPOLA se queda con cada nombre a secas**,
+congelada sobre lo publicado el 18-ago-2026. La tabla **no decide quién entra:
+solo quién se queda el nombre corto** — el municipio nuevo entra igual, con su
+ficha y su búsqueda, pero nace desambiguado («X (Departamento)») en vez de robar
+un nombre. Sin entrada en la tabla se cae al reparto de siempre y el test de
+supuesto (`TestSupuestoNombreASecas`) avisa de que nació un homónimo que hay que
+anotar — mismo patrón que `SIN_BUSQUEDA_ESPERADOS`: fallar es la señal de que
+hay trabajo. El guardián vigila bajas **y altas**, como el inventario del pie.
+La identidad es el DIVIPOLA; sin código resuelto desempata el departamento; la
+degradación segura es «paréntesis», nunca «desaparece».
+
+**Lo que la decisión NO hace, a propósito:** no corrige la asignación
+discutible. «Argelia» es hoy el pueblo de 5.538 habitantes y «Argelia (Cauca)»
+el de 27.853; es feo, **pero es lo publicado**. Corregirlo es una decisión
+editorial distinta que exige su propia entrada, migración y redirecciones — no
+viene de contrabando dentro de un arreglo de estabilidad.
+
+**Consecuencia.** Ninguna URL de `dist/municipio/` cambió (208 idénticas,
+verificado antes/después del build). Los guardianes se validaron por mutación
+(M1): entrada que falta, entrada que sobra y reparto que ignora la tabla — los
+tres caen. Se corrigieron además dos docstrings que afirmaban lo contrario de lo
+publicado («Argelia» del Cauca), justo donde alguien iría a leer la regla.
+
 ## 2026-08-24 — `toponimo` llega a `ui.js`: la clave desambigua, el texto no la repite
 
 **Contexto.** `municipios.html` publicaba «…salvo Bolívar (Valle del Cauca) y

@@ -527,6 +527,93 @@ class TestMunicipiosInfluencia(unittest.TestCase):
         self.assertEqual(len(gj["features"]), 0)
 
 
+class TestNombreASecasCongelado(unittest.TestCase):
+    """La identidad de una ficha no la decide quién tiene más damnificados.
+
+    El nombre a secas de dos homónimos se repartía al PRIMERO de las filas del
+    RUD, que llegan ordenadas por familias descendente: «Argelia» era la del
+    Valle porque tenía más damnificados. Bastaba con que entrara un homónimo
+    nuevo con más familias para que se llevara la URL ya publicada —y con ella
+    el identificador del feed que archiva sus titulares—. `municipios.py`
+    congela la asignación publicada; lo que la tabla no anota se reparte como
+    siempre, y el test de supuesto avisa.
+    """
+
+    DIVIPOLA = {
+        "argelia|cauca": {"municipio": "ARGELIA", "departamento": "CAUCA",
+                          "divipola": "19050", "lat": 2.25, "lon": -77.0},
+        "argelia|valle del cauca": {
+            "municipio": "ARGELIA", "departamento": "VALLE DEL CAUCA",
+            "divipola": "76054", "lat": 4.72, "lon": -76.11},
+        "guaduas|cundinamarca": {
+            "municipio": "GUADUAS", "departamento": "CUNDINAMARCA",
+            "divipola": "25320", "lat": 5.07, "lon": -74.59},
+        "guaduas|tolima": {"municipio": "GUADUAS", "departamento": "TOLIMA",
+                           "divipola": "73999", "lat": 4.0, "lon": -75.0},
+    }
+
+    @staticmethod
+    def _fila(dep, mun, familias):
+        return ((dep.lower(), mun.lower()),
+                {"departamento": dep, "municipio": mun, "familias": familias,
+                 "personas": familias * 3, "viv_destruidas": 0,
+                 "viv_averiadas": 1})
+
+    def _rud(self, *filas):
+        """Las filas en el orden en que las lee el RUD: familias descendente."""
+        return dict(sorted((self._fila(*f) for f in filas),
+                           key=lambda kv: -kv[1]["familias"]))
+
+    def test_el_homonimo_nuevo_no_le_quita_la_url_al_publicado(self):
+        from municipios import municipios_dinamicos
+        # la del Cauca duplica hoy a la del Valle en damnificados y encabeza
+        # las filas: con el reparto por orden se habría llevado /municipio/argelia/
+        extras = municipios_dinamicos(
+            self._rud(("CAUCA", "ARGELIA", 1800),
+                      ("VALLE DEL CAUCA", "ARGELIA", 851)),
+            self.DIVIPOLA)
+        self.assertEqual(extras["Argelia"]["divipola"], "76054",
+                         "«Argelia» a secas es la publicada (Valle del Cauca) "
+                         f"desde el 18-ago-2026, gane quien gane: {extras}")
+        self.assertEqual(extras["Argelia (Cauca)"]["divipola"], "19050")
+
+    def test_la_tabla_no_decide_quien_entra_sino_quien_lleva_parentesis(self):
+        """La degradación segura es «paréntesis», nunca «desaparece»."""
+        from municipios import municipios_dinamicos
+        extras = municipios_dinamicos(
+            self._rud(("CAUCA", "ARGELIA", 1800),
+                      ("VALLE DEL CAUCA", "ARGELIA", 851)),
+            self.DIVIPOLA)
+        self.assertEqual(sorted(extras), ["Argelia", "Argelia (Cauca)"])
+        for meta in extras.values():   # las dos fichas, con su punto en el mapa
+            self.assertIsNotNone(meta["lat"])
+
+    def test_el_nombre_sin_anotar_se_reparte_como_siempre(self):
+        """Sin entrada en la tabla no se rompe nada: gana el primero, como
+        antes, y el supuesto de `test_hipotesis` pide anotarlo."""
+        from municipios import municipios_dinamicos, NOMBRE_A_SECAS_CONGELADO
+        self.assertNotIn("Guaduas", NOMBRE_A_SECAS_CONGELADO)
+        extras = municipios_dinamicos(
+            self._rud(("TOLIMA", "GUADUAS", 90),
+                      ("CUNDINAMARCA", "GUADUAS", 10)),
+            self.DIVIPOLA)
+        self.assertEqual(extras["Guaduas"]["divipola"], "73999")
+        self.assertIn("Guaduas (Cundinamarca)", extras)
+
+    def test_sin_codigo_resuelto_desempata_el_departamento(self):
+        """Un municipio que el catálogo geográfico escribe de otra manera se
+        queda sin código. Su nombre no puede quedar a subasta por eso: el
+        departamento, que el RUD siempre trae, sigue distinguiéndolos."""
+        from municipios import municipios_dinamicos
+        extras = municipios_dinamicos(
+            self._rud(("CAUCA", "ARGELIA", 1800),
+                      ("VALLE DEL CAUCA", "ARGELIA", 851)),
+            None)                      # sin catálogo geográfico: cero códigos
+        self.assertEqual(extras["Argelia"]["departamento"], "Valle del Cauca",
+                         f"el desempate por departamento no actuó: {extras}")
+        self.assertIn("Argelia (Cauca)", extras)
+
+
 class TestFeedsComunitarios(unittest.TestCase):
     RSS = b"""<?xml version="1.0"?><rss version="2.0"><channel>
       <item><title>Sismo en Quibd\xc3\xb3 deja da\xc3\xb1os</title>
@@ -694,9 +781,12 @@ class TestFeedsComunitarios(unittest.TestCase):
         titulares del departamento de Bolívar atribuidos a un municipio."""
         from community_feeds import municipal_google_news_feeds
         catalogo = self._catalogo(("CAUCA", "BOLÍVAR"))
-        self.assertTrue(catalogo["Bolívar"]["homonimo_de_departamento"])
+        # la clave lleva el departamento porque el nombre a secas está
+        # congelado para el Bolívar del Valle del Cauca, que es el publicado
+        self.assertTrue(catalogo["Bolívar (Cauca)"]["homonimo_de_departamento"])
         declarados = {m for f in municipal_google_news_feeds(catalogo)
                       for m in (f.get("municipios") or [])}
+        self.assertNotIn("Bolívar (Cauca)", declarados)
         self.assertNotIn("Bolívar", declarados)
 
     def test_el_toponimo_de_catalogo_administrativo_no_genera_consulta(self):
@@ -718,7 +808,7 @@ class TestFeedsComunitarios(unittest.TestCase):
         municipios no pudo preguntar y por qué."""
         from community_feeds import municipios_sin_busqueda
         sin = municipios_sin_busqueda(self._catalogo(("CAUCA", "BOLÍVAR")))
-        self.assertEqual(sin.get("Bolívar"), "homónimo de departamento")
+        self.assertEqual(sin.get("Bolívar (Cauca)"), "homónimo de departamento")
         self.assertNotIn("Armenia", sin)
 
     def test_el_catalogo_se_entrega_en_copia_y_no_reescribe_el_curado(self):
