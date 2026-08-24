@@ -1381,16 +1381,28 @@ def panel_fuentes(d: dict) -> str:
         # hay ni un reporte ciudadano: se atribuía conocimiento a una fuente
         # muda (M10). Y cuando de verdad no ha hablado nadie más, eso ES el
         # hallazgo del monitor y se dice con todas las letras.
-        otras = []
+        # Se nombra SOLO a quien ha hablado, y el registro oficial es uno más:
+        # Palmira recibía «viene del registro oficial» y en la misma página
+        # decía que no tiene ni una familia inscrita. Atribuir conocimiento a
+        # una fuente muda es el error que este bloque vino a corregir, y se
+        # había arreglado para los vecinos y la prensa pero no para el RUD.
+        fuentes = []
+        if m.get("rud_familias") is not None:
+            fuentes.append("del registro oficial")
         if n_vecinos:
-            otras.append("de sus vecinos")
+            fuentes.append("de sus vecinos")
         if m.get("n_noticias"):
-            otras.append("de la prensa")
-        cola = (" Lo que se sabe de este municipio viene del registro oficial y "
-                + (" y ".join(otras) if len(otras) < 3 else ", ".join(otras)) + "."
-                if otras else
-                " Lo único que se sabe de aquí es lo que registró la alcaldía: "
-                "nadie más ha publicado nada.")
+            fuentes.append("de la prensa")
+        if len(fuentes) > 1:
+            # enumeración española: «a, b y c», no «a y b y c» — con dos
+            # elementos la coma no aparece y con tres sí
+            lista = ", ".join(fuentes[:-1]) + " y " + fuentes[-1]
+        else:
+            lista = "".join(fuentes)
+        cola = (f" Lo que se sabe de este municipio viene {lista}."
+                if fuentes else
+                " Y nadie más ha publicado daños aquí: ni el registro oficial, "
+                "ni la prensa, ni sus vecinos.")
         aviso = ('<div class="aviso aviso--laguna"><p><strong>Ningún servicio '
                  'satelital ha publicado producto de daño aquí.</strong>'
                  + cola + '</p></div>')
@@ -3453,10 +3465,10 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
         o.append(
             f'<line x1="{_n(izq)}" y1="{_n(yy)}" x2="{_n(W - der)}" '
             f'y2="{_n(yy)}" stroke="var(--grid)"/>'
-            f'<text x="{_n(izq - 6)}" y="{_n(yy + 4)}" font-size="10" '
+            f'<text x="{_n(izq - 6)}" y="{_n(yy + 4)}" class="g-eje" font-size="10" '
             f'fill="var(--muted)" text-anchor="end">'
             f'{fmt(round(tope_ac * frac))}</text>'
-            f'<text x="{_n(W - der + 6)}" y="{_n(yy + 4)}" font-size="10" '
+            f'<text x="{_n(W - der + 6)}" y="{_n(yy + 4)}" class="g-eje" font-size="10" '
             f'fill="var(--s2)" text-anchor="start">'
             f'{fmt(round(tope_al * frac))}</text>')
     for i, valor in enumerate(altas):
@@ -3486,7 +3498,7 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
             f'fill="var(--s8)">'
             f'<title>{e(fecha_larga(p["fecha"]))}:'
             f' {fmt(p["familias"])} acumuladas</title></circle>'
-            f'<text x="{_n(x(i))}" y="{_n(H - 8)}" font-size="10" '
+            f'<text x="{_n(x(i))}" y="{_n(H - 8)}" class="g-dia" font-size="10" '
             f'fill="var(--muted)" text-anchor="middle">'
             f'{e(dia_mes(p["fecha"]))}</text>')
     o.append("</svg>")

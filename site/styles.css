@@ -1215,6 +1215,21 @@ details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--
    @media cuyo cuerpo contenga el texto `.grafico-rud`: el guardián de
    rud.html busca esa subcadena. */
 .grafico-rud-muni{display:block;width:100%;height:auto;margin:4px 0 2px}
+/* El gráfico de la ficha municipal tenía el MISMO problema que el del RUD y el
+   de balances —rótulos de 10 px sobre un lienzo de 880 que en un móvil de 375
+   se dibuja a 311: letra efectiva de 3,5 px— y no lo arreglaba nadie, porque la
+   cascada de arriba apunta a `.grafico-rud` y `.grafico-balances` y este se
+   llama `.grafico-rud-muni`. Es M2 con otro traje: la tercera copia del mismo
+   dibujo, divergida en la hoja. Doce días y un solo panel, así que las fechas
+   caben sin esconder ninguna. */
+@media (max-width: 760px) {
+  .grafico-rud-muni .g-eje { font-size: 13px; }
+  .grafico-rud-muni .g-dia { font-size: 15px; }
+}
+@media (max-width: 480px) {
+  .grafico-rud-muni .g-eje { font-size: 15px; }
+  .grafico-rud-muni .g-dia { font-size: 22px; }
+}
 
 .marca-f{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none;
   margin-right:7px}
