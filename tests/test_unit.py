@@ -2366,3 +2366,29 @@ class TestLaImagenCompartidaNoSeQuedaAtras(unittest.TestCase):
             "gen_og.py", build,
             "build_dist.sh no regenera las imágenes compartidas: volverán a "
             "quedarse atrás en silencio la próxima vez que cambie una cifra")
+
+    def test_la_corrida_diaria_regenera_la_imagen_antes_de_juzgarla(self):
+        """El bucle que dejó la web dos días sin publicar (23 y 24-ago-2026).
+
+        Regenerar en el deploy no basta: allí ya se hacía, pero el resultado
+        no volvía al repo, así que el fichero versionado envejecía y el test
+        de arriba suspendía cada mañana — y ese suspenso apagaba el deploy,
+        que era lo único que regeneraba la imagen. Para romperlo hacen falta
+        las dos mitades: generar ANTES de juzgar, y commitear lo generado."""
+        daily = (self.RAIZ / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        gen = daily.find("gen_og.py")
+        juicio = daily.find("tests.test_unit")
+        commit = daily.find("git add -A")
+        self.assertNotEqual(gen, -1,
+                            "la corrida diaria ya no regenera las imágenes "
+                            "sociales: volverán a envejecer hasta suspender")
+        self.assertLess(
+            gen, juicio,
+            "la corrida regenera la imagen DESPUÉS de juzgarla: el test la "
+            "seguirá encontrando vieja cada mañana")
+        self.assertIn(
+            "site/og/", daily[commit:commit + 120],
+            "lo regenerado no entra en el commit del día: mañana el repo "
+            "vuelve a traer la imagen vieja y el bucle se reabre")
+

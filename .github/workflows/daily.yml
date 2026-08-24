@@ -110,11 +110,25 @@ jobs:
             rm -f "$DEST"
           fi
 
+      # ORDEN DELIBERADO: las imágenes se regeneran AQUÍ, antes de los tests y
+      # dentro del commit del día. No lo muevas al deploy: allí ya corría, pero
+      # su resultado no se commiteaba, así que el fichero versionado se quedaba
+      # atrás y el test que lo vigila suspendía cada mañana — y ese suspenso
+      # apagaba la publicación entera (23 y 24-ago-2026, dos días sin web con
+      # los datos ya archivados). Regenerar la cifra a mano cerró el aviso un
+      # día y volvió al siguiente: el bucle sólo se rompe generando aquí.
+      # No fatal (R13): sin Pillow se sigue con los PNG versionados.
+      - name: Regenerar las imágenes sociales antes de juzgarlas
+        continue-on-error: true
+        run: |
+          pip install --quiet pillow && python3 deploy/gen_og.py \
+            || echo "::warning::OG no regeneradas hoy; el test de la imagen compartida puede avisar"
+
       - name: Commit del snapshot si hay cambios
         run: |
           git config user.name "monitor-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data/ feeds/balances/
+          git add -A data/ feeds/balances/ site/og/
           if git diff --cached --quiet; then
             echo "Sin cambios hoy."
           else
