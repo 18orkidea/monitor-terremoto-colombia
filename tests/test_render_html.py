@@ -1493,13 +1493,23 @@ class TestElInyectorNoSeCalla(unittest.TestCase):
     def test_una_pagina_que_no_esta_se_sigue_saltando(self):
         """Lo que rompe es el contenedor que falta en una página que SÍ está.
         Un `dist/` parcial —el que arma `TestBandaDeBrechas`— no es una avería:
-        si lo fuera, este cambio se habría llevado por delante aquel test."""
+        si lo fuera, este cambio se habría llevado por delante aquel test.
+
+        Lo que se espera no es una lista escrita a mano —envejecía con cada
+        contenedor nuevo de la portada, y la fase 6 le añadió quince— sino los
+        `data-gen` que la propia `site/index.html` declara. Así el guardián
+        también caza la avería contraria, que hoy nadie vigila: un contenedor
+        marcado en el HTML **sin generador registrado** se rellenaría solo en
+        la imaginación del que lo escribió, porque el inyector recorre los
+        generadores y no los marcadores."""
+        declarados = sorted(set(re.findall(
+            r'data-gen="([^"]+)"',
+            (ROOT / "site" / "index.html").read_text(encoding="utf-8"))))
         with tempfile.TemporaryDirectory() as tmp:
             destino = Path(tmp)
             shutil.copy(ROOT / "site" / "index.html", destino / "index.html")
             hechas = R.inyectar_prerenderizado(destino, self.ctx)
-        self.assertEqual(sorted(hechas),
-                         ["brechas", "mirada-portada", "portada", "portada-sello"])
+        self.assertEqual(sorted(hechas), declarados)
 
 
 class TestCifrasEnAtributos(unittest.TestCase):
@@ -5958,3 +5968,244 @@ class TestLaSerieEsDeEsteMunicipioYNoDeSuVecino(unittest.TestCase):
                 self.assertTrue(serie, f"{nombre} se quedó sin serie")
                 self.assertAlmostEqual(serie[-1][1]["familias"],
                                        d["muni"]["rud_familias"], places=1)
+
+
+class TestLaBrechaDiaADia(unittest.TestCase):
+    """El gráfico de la portada, que dejó de ser el volumen y pasó a ser la brecha.
+
+    Se comprueba sobre una serie inventada y no sobre el dato del día: lo que
+    se vigila es la REGLA —dónde arranca el eje y qué hace la línea donde no
+    hay captura—, no una cifra que se mueve cada mañana."""
+
+    def ctx_con(self, serie_rud, entregas=(), unosat=(), reportes=()):
+        """Un contexto mínimo con las tres miradas gobernadas desde el test."""
+        municipios = [
+            {"municipio": "Manizales", "departamento": "Caldas", "lat": 5.07,
+             "lon": -75.52, "unosat_fecha_imagen": u} for u in unosat]
+        return {
+            "monitor": {"entregas": [{"aoi": a, "fecha": f} for a, f in entregas]},
+            "municipios": municipios,
+            "chatmap": [{"properties": {"time": t}, "geometry": None}
+                        for t in reportes],
+            "rud": {"serie": [{"fecha": f, "municipios": n} for f, n in serie_rud]},
+        }
+
+    def test_el_eje_arranca_en_la_primera_mirada_no_en_la_primera_captura(self):
+        """Los satélites miraron del 11 al 14 y el monitor no capturó el RUD
+        hasta el 16. Recortando la serie por el registro, la línea satelital
+        salía plana en cero y desaparecía del dibujo la entrada de los tres
+        servicios — que es justo lo que el gráfico existe para enseñar."""
+        serie = R.serie_de_la_brecha(self.ctx_con(
+            serie_rud=[("2026-08-16", 75), ("2026-08-17", 90)],
+            entregas=[("Cali Center", "2026-08-12")]))
+        self.assertEqual(serie[0]["fecha"], "2026-08-12",
+                         "el eje empieza después de que el satélite mirara")
+        self.assertEqual(serie[-1]["sat"], 1,
+                         "la mirada anterior a la primera captura no se cuenta")
+
+    def test_antes_de_la_primera_captura_el_registro_no_vale_cero(self):
+        """R3 en el eje: antes de capturar no hay «cero municipios inscritos»,
+        hay ausencia de dato. Un cero ahí diría que nadie estaba registrado."""
+        serie = R.serie_de_la_brecha(self.ctx_con(
+            serie_rud=[("2026-08-16", 75)],
+            entregas=[("Cali Center", "2026-08-12")]))
+        previos = [d for d in serie if d["fecha"] < "2026-08-16"]
+        self.assertTrue(previos, "el fixture no cubre el tramo sin captura")
+        self.assertTrue(all(d["rud"] is None for d in previos),
+                        f"hay un cero inventado: {[d['rud'] for d in previos]}")
+
+    def test_la_linea_del_registro_se_corta_en_el_hueco(self):
+        """Y el dibujo tiene que decir lo mismo que la serie: la traza del RUD
+        empieza donde empieza el dato. Con una `polyline` —que une todos los
+        puntos— el hueco se dibujaba como una caída al suelo."""
+        svg = R.grafico_brecha(self.ctx_con(
+            serie_rud=[("2026-08-16", 75), ("2026-08-17", 90)],
+            entregas=[("Cali Center", "2026-08-12")]))
+        traza = re.search(r'<path d="([^"]+)" fill="none" stroke="var\(--s8\)"', svg)
+        self.assertIsNotNone(traza, "la línea del registro ya no es una traza")
+        self.assertEqual(traza.group(1).count("M"), 1,
+                         "la traza no arranca una sola vez")
+        # cinco días en el eje (12 a 17, sin el 15 que no tiene nada) y solo dos
+        # con captura: la traza no puede tener un vértice por día
+        self.assertEqual(traza.group(1).count("L"), 1,
+                         "la traza une puntos que no tienen dato")
+
+    def test_el_grafico_narra_su_serie_en_prosa(self):
+        """El `<desc>` es lo único del gráfico que puede leer un lector de
+        pantalla o citar un modelo. Sin él, el SVG es un dibujo mudo."""
+        svg = R.grafico_brecha(self.ctx_con(
+            serie_rud=[("2026-08-16", 75), ("2026-08-17", 90)],
+            entregas=[("Cali Center", "2026-08-12")]))
+        desc = re.search(r"<desc[^>]*>(.*?)</desc>", svg, re.S)
+        self.assertIsNotNone(desc, "el gráfico no narra nada")
+        texto = desc.group(1)
+        self.assertIn("90 municipios con damnificados inscritos", texto)
+        self.assertIn("Copernicus publica Cali", texto)
+        # El invariante real: **antes de su primera captura, el registro no se
+        # menciona**. Ni como 0 ni como raya: antes del 16 no vale cero, vale
+        # nada (R3), y este `<desc>` es lo único del gráfico que puede leer un
+        # lector de pantalla.
+        #
+        # Dos intentos fallidos antes de este, y los dos son la lección del
+        # día: `assertNotIn("0 municipios…")` casaba dentro de «90 municipios…»
+        # —R10 aplicada a un número—, y arreglarlo con un límite de dígito dejó
+        # un guardián que pasaba en verde con el fallo puesto, porque con `None`
+        # el texto dice «—» y no «0». Se comprueba por FRASE de día, que es
+        # donde vive el invariante.
+        for dia in texto.split(". "):
+            if dia.startswith(("10 de agosto", "11 de agosto", "12 de agosto",
+                               "13 de agosto", "14 de agosto", "15 de agosto")):
+                self.assertNotIn("damnificados inscritos", dia,
+                                 f"narra el registro antes de su primera "
+                                 f"captura: «{dia}»")
+
+    def test_sin_serie_del_registro_no_se_dibuja_un_lienzo_vacio(self):
+        """M10: donde falta el dato se calla, y se dice por qué."""
+        salida = R.grafico_brecha(self.ctx_con(serie_rud=[]))
+        self.assertNotIn("<svg", salida)
+        self.assertIn("serie", salida)
+
+
+class TestPiezasDeLaPortada(unittest.TestCase):
+    """Los generadores nuevos de la portada, sobre el dato real del artefacto.
+
+    Aquí no se comprueban cifras exactas —se mueven cada corrida— sino que
+    cada pieza escribe una ORACIÓN ENTERA: si algún día el dato falta, la
+    portada tiene que seguir leyéndose, no quedarse con una raya huérfana."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def test_la_entradilla_sin_ninguna_cifra_sigue_siendo_una_frase(self):
+        vacio = dict(self.ctx, monitor={}, municipios=[])
+        salida = R.entradilla_portada(vacio)
+        self.assertTrue(salida.startswith("<p>") and salida.endswith("</p>"))
+        self.assertNotIn("<b>", salida, "publica un hueco donde iba la cifra")
+        self.assertIn("monitor", salida)
+
+    def test_el_parrafo_de_la_brecha_publica_la_buena_noticia_si_se_cierra(self):
+        """R11: que la brecha se cierre es una noticia, no un hueco. El día que
+        no quede ningún municipio sin mirar, la frase dice lo contrario."""
+        cerrado = dict(self.ctx, municipios=[])
+        self.assertIn("se ha cerrado", R.parrafo_brecha_portada(cerrado))
+        self.assertIn("es la brecha", R.parrafo_brecha_portada(self.ctx))
+
+    def test_el_panel_es_un_cuadro_de_honor_y_enlaza_a_las_fichas(self):
+        """Criterio de JP: la lista son los municipios mejor documentados, no
+        un índice de los 208. Y cada fila es un ENLACE, no un botón: sin
+        JavaScript, un botón prerenderizado no lleva a ninguna parte."""
+        salida = R.panel_portada(self.ctx)
+        self.assertIn('<ol class="lista-mun">', salida)
+        self.assertNotIn("<button", salida, "publica controles muertos")
+        self.assertIn('href="/municipio/', salida)
+        self.assertLess(salida.count("<li>"), len(self.ctx["municipios"]),
+                        "la lista es el índice completo, no un cuadro de honor")
+
+    def test_las_cuatro_miradas_se_comparan_en_municipios(self):
+        """La unidad común es el municipio: es lo único que las cuatro fuentes
+        miden igual. En edificios contra familias contra reportes, la
+        comparación parecía decir que Copernicus cubre más que el registro
+        oficial, y es al revés."""
+        salida = R.tarjetas_fuentes_portada(self.ctx)
+        self.assertEqual(salida.count('class="fuente"'),
+                         salida.count("</b> municipios")
+                         + salida.count("fuente-nd"),
+                         "hay una mirada sin su cifra en la unidad común")
+
+    def test_las_alertas_dicen_su_nivel_con_palabras_y_no_solo_con_color(self):
+        salida = R.alertas_portada(self.ctx)
+        self.assertIn("<li>", salida)
+        self.assertNotIn("<ul", salida, "el generador se sale de su contenedor")
+        self.assertRegex(salida, r'<span class="badge"[^>]*>(alta|media|info)</span>')
+
+    def test_la_fecha_de_las_alertas_es_absoluta(self):
+        """M7: esta página se releerá dentro de años; «hoy» no dice nada."""
+        salida = R.fecha_alertas_portada(self.ctx)
+        self.assertNotIn("hoy", salida.lower())
+        self.assertRegex(salida, r"de \d{4}\.$")
+
+    def test_la_rampa_de_la_ausencia_es_espejo_de_app_js(self):
+        """La rampa vive en dos superficies a propósito: el mapa pinta con ella
+        196 anillos en el navegador y la leyenda la necesita en el build. Se
+        comparan EJECUTANDO las dos, no buscando un comentario en el fuente —
+        un guardián de `assertIn` sobre el texto pasa en verde con la regla
+        invertida."""
+        if not NODE:
+            self.skipTest("sin node no se puede ejecutar la copia del navegador")
+        js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        cuerpo = re.search(
+            r"const colorAusencia = \(mmi\) => \{(.*?)\n  \};", js, re.S)
+        self.assertIsNotNone(cuerpo, "colorAusencia ya no está en app.js")
+        guion = ("const css = () => 'var(--muted)';"
+                 "const colorAusencia = (mmi) => {" + cuerpo.group(1) + "};"
+                 "console.log(JSON.stringify([null,3,4,5,6,7,8]"
+                 ".map(colorAusencia)));")
+        del_navegador = json.loads(subprocess.run(
+            [NODE, "-e", guion], capture_output=True, text=True,
+            timeout=30, check=True).stdout)
+        del_build = [R._color_ausencia(m) for m in (None, 3, 4, 5, 6, 7, 8)]
+        self.assertEqual(del_build, del_navegador)
+
+
+class TestElMarcadoDeLaPortada(unittest.TestCase):
+    """Los criterios de diseño que dio JP sobre la portada, con su guardián.
+
+    M3: un comentario en mayúsculas no es un guardián. Estas tres decisiones
+    —ningún plegable dentro de otro, sin emoticonos en los títulos y el mapa a
+    la altura del panel— se podían deshacer sin que nada se quejara."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+
+    def test_ningun_plegable_dentro_de_otro(self):
+        """Dos clics para llegar al texto, y un plegable cerrado dentro de otro
+        que nadie va a abrir. El sitio publicado no tiene ni un caso de
+        anidamiento; la portada no puede estrenarlo."""
+        # Sin los comentarios: el documento explica en uno de ellos por qué «un
+        # <details> cerrado sigue estando en el HTML servido», y contar esa
+        # mención como etiqueta daba un plegable abierto que no existe. El
+        # guardián acusaba al HTML de un fallo que estaba en el guardián.
+        marcado = re.sub(r"<!--.*?-->", " ", self.html, flags=re.S)
+        profundidad, maxima = 0, 0
+        for etiqueta in re.findall(r"</?details\b", marcado):
+            profundidad += 1 if etiqueta == "<details" else -1
+            maxima = max(maxima, profundidad)
+        self.assertEqual(profundidad, 0, "hay un <details> sin cerrar")
+        self.assertEqual(maxima, 1, "hay un plegable dentro de otro")
+
+    def test_sin_emoticonos_en_los_titulos_de_seccion(self):
+        """El plegable ya se anuncia con su triángulo: el icono desalinea el
+        título respecto a los demás y un lector de pantalla lo lee en voz alta."""
+        titulos = re.findall(r"<summary[^>]*>(.*?)</summary>", self.html, re.S)
+        titulos += re.findall(r"<h([12])[^>]*>(.*?)</h\1>", self.html, re.S)
+        planos = [re.sub(r"<[^>]+>", "", t if isinstance(t, str) else t[1])
+                  for t in titulos]
+        self.assertTrue(planos, "no se ha leído ningún título")
+        for texto in planos:
+            self.assertFalse(
+                any(ord(c) > 0x2100 for c in texto),
+                f"un título de sección lleva un pictograma: {texto.strip()[:60]}")
+
+    def test_el_mapa_y_el_panel_son_hermanos_del_lienzo(self):
+        """«El mapa a la altura del panel con todos sus datos, sin scroll
+        interno» solo es posible si son hermanos de la misma rejilla. Con el
+        panel dentro del mapa, o con la tabla dentro del panel, no lo es."""
+        lienzo = re.search(r'<main id="mapa"([^>]*)>(.*?)</main>', self.html, re.S)
+        self.assertIsNotNone(lienzo, "la portada ya no tiene su lienzo")
+        self.assertIn("lienzo", lienzo.group(1), "el lienzo perdió su clase")
+        self.assertIn('<div id="map">', lienzo.group(2))
+        self.assertIn('data-gen="portada-panel"', lienzo.group(2))
+        self.assertNotIn("<table", lienzo.group(2),
+                         "la tabla ha vuelto al panel y el mapa no cabe a su lado")
+
+    def test_app_js_ya_no_dibuja_lo_que_escribe_el_build(self):
+        """M2: dos superficies pintando lo mismo divergen. Al portar una pieza
+        al build, la del navegador no se deja «por si acaso» — se borra."""
+        js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        for id_contenedor in ("leyenda", "fuentes-cards", "colombia-acts",
+                              "alerts", "nota-rud-desde", "nota-sin-registro",
+                              "chart"):
+            self.assertNotIn(f'getElementById("{id_contenedor}")', js,
+                             f"el navegador vuelve a rellenar #{id_contenedor}")

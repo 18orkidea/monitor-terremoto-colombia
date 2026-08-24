@@ -3010,6 +3010,705 @@ def nota_mirada_portada(ctx: dict) -> str:
             f"la comunidad ha documentado {fmt_prosa(ciu)}</strong>")
 
 
+# ============================================================================
+# LA PORTADA (fase 6) — lo que dibujaba el navegador y ahora escribe el build
+#
+# La maqueta aprobada es `prototipo/gen_prototipo.py`: el mapa manda, el dato
+# sube y la explicación se pliega. Al portarla, lo que se gana no es estética:
+# la portada servía DIEZ contenedores vacíos —el gráfico, las cuatro miradas,
+# las alertas, la leyenda, las dos notas del cruce y el catálogo de
+# activaciones— que solo existían para quien ejecuta JavaScript. Un rastreador,
+# un lector de pantalla o un modelo que cite leía la promesa y no el dato.
+#
+# Cada pieza que se escribe aquí se BORRA de `site/app.js` en el mismo cambio:
+# dos superficies dibujando lo mismo divergen (M2), y la del navegador ya no
+# tiene nada que aportar sobre la del build.
+# ----------------------------------------------------------------------------
+
+def sin_mirada_satelital(ctx: dict) -> list:
+    """Municipios con damnificados inscritos y ningún satélite que los mirara.
+
+    Es la tesis del monitor contada como lista. Se pregunta por `mirado`, no
+    por `con dato`: un municipio dentro de una zona de Copernicus sin edificios
+    marcados SÍ fue mirado, y meterlo aquí sería acusar a la fuente de no haber
+    mirado cuando lo que pasó es que no encontró (M10)."""
+    return [m for m in ctx["municipios"]
+            if m.get("rud_familias") and not _mirado_por_satelite(m)]
+
+
+def entradilla_portada(ctx: dict) -> str:
+    """Las tres cifras que abren la portada, escritas en el build.
+
+    Devuelve oraciones enteras y calla la que no tenga dato: una portada sin
+    recuento satelital tiene que leerse igual de bien, no quedarse con una raya
+    donde iba el número (regla del generador, viva en `nota_mirada_portada`)."""
+    sat = (ctx["monitor"].get("satelital") or {})
+    edificios = sat.get("total_edificios")
+    muns_sat = len(sat.get("por_municipio") or {})
+    rud = ((ctx["monitor"].get("brechas_oficiales") or {}).get("ungrd_rud") or {})
+    registrados = rud.get("municipios")
+    sin = len(sin_mirada_satelital(ctx))
+    frases = []
+    if edificios and muns_sat:
+        frases.append(
+            f"El satélite ha clasificado daño en <b>{fmt(edificios)}</b> "
+            f"edificios de <b>{fmt(muns_sat)}</b> "
+            f'{concuerda(muns_sat, "municipio", "municipios")}.')
+    if registrados:
+        frases.append("El registro oficial de damnificados abarca "
+                      f"<b>{fmt(registrados)}</b>.")
+    if sin:
+        frases.append(f"A otros <b>{fmt(sin)}</b> no los ha mirado ningún "
+                      "satélite.")
+    if not frases:
+        return ("<p>Todavía no hay ninguna fuente con cifras agregadas de este "
+                "sismo. El monitor publica lo que haya en cuanto lo haya.</p>")
+    return "<p>" + " ".join(frases) + "</p>"
+
+
+def nota_como_leer_portada(ctx: dict) -> str:
+    """Las cuatro advertencias que hay que leer antes que cualquier cifra.
+
+    Van plegadas pero servidas: un `<details>` cerrado sigue estando en el HTML
+    que lee un rastreador. Los números salen del dato porque envejecen —el
+    recuento de edificios se mueve con cada producto satelital nuevo— y lo
+    fechado se queda quieto."""
+    sat = (ctx["monitor"].get("satelital") or {})
+    edificios = sat.get("total_edificios")
+    umbral = sat.get("umbral_m")
+    servicios = "Copernicus, UNITAR-UNOSAT e ICube-SERTIT"
+    p1 = (f"Los tres servicios satelitales que han mirado este sismo "
+          f"—{servicios}— no miran lo mismo ni al mismo tiempo, así que sus "
+          f"totales no se suman.")
+    if edificios:
+        p1 += (f" <b>{fmt(edificios)}</b> es el recuento de edificios contando "
+               f"una sola vez los que vieron dos servicios")
+        p1 += (f", con el mismo tejado marcado a menos de {fmt(umbral)} metros "
+               f"tratado como uno solo." if umbral else ".")
+    p2 = ("Que un municipio no aparezca en el mapa no significa que no tenga "
+          "daño: significa que nadie lo ha evaluado. Y un cero en el registro "
+          "oficial puede querer decir «todavía sin evaluar», no «sin daño» — "
+          "los «NA» de las fuentes se conservan como tales y jamás se "
+          "convierten en ceros.")
+    p3 = ("«Coincide» es la única etiqueta del cruce que exige evidencia "
+          "oficial —un EDAN o el balance de una entidad estatal— junto a un "
+          "producto satelital con estadísticas. La prensa y los reportes de "
+          "los vecinos, por muchos que sean, alcanzan estados intermedios "
+          "explícitos y nunca se promueven a oficiales.")
+    return f"<p>{p1}</p>\n<p>{p2}</p>\n<p>{p3}</p>"
+
+
+# --------------------------------------------------- el panel: cuadro de honor
+# JP, sobre la maqueta: «la lista es un cuadro de honor —los municipios mejor
+# documentados—, no un índice». Por eso no están los 208: están los que tienen
+# más de una fuente, que son los únicos que se pueden contrastar. El índice
+# completo es `municipios.html`, y la lista enlaza allí.
+_FAMILIAS_DE_FUENTE = (
+    ("rud", "var(--s8)", "Registro oficial de damnificados"),
+    ("ciudadanos", "var(--ciudadano)", "Reportes de los vecinos"),
+    ("satelite", "var(--copernicus)", "Evaluación satelital"),
+)
+
+
+def _fuentes_de_municipio(m: dict, ctx: dict) -> dict:
+    return {
+        "rud": bool(m.get("rud_familias")),
+        "ciudadanos": bool(ctx["conteo_ciudadanos"].get(m["municipio"])),
+        "satelite": _mirado_por_satelite(m),
+    }
+
+
+def _contrastables(ctx: dict) -> list:
+    """Los municipios ordenados por cuántas familias de fuente los miran.
+
+    Las tres familias primero; entre iguales, el más poblado. Es el orden de la
+    maqueta, y dice algo que ninguna otra ordenación dice: dónde se puede
+    contrastar una cifra contra otra."""
+    fuera = []
+    for m in ctx["municipios"]:
+        f = _fuentes_de_municipio(m, ctx)
+        n = sum(1 for v in f.values() if v)
+        if n >= 2:
+            fuera.append((n, m.get("poblacion_2026") or 0, m, f))
+    fuera.sort(key=lambda x: (-x[0], -x[1], x[2]["municipio"]))
+    return fuera
+
+
+def panel_portada(ctx: dict) -> str:
+    """El panel que acompaña al mapa: quién está documentado por más de uno.
+
+    Sustituye a la tabla de 62 filas, que baja al plegable de abajo sin perder
+    una palabra. El motivo no es de sitio: con la tabla dentro, el panel medía
+    varios miles de píxeles y el mapa —que es el protagonista de esta página—
+    no podía ponerse a su altura sin scroll interno."""
+    filas = _contrastables(ctx)
+    total = len(ctx["municipios"])
+    if not filas:
+        return ('<h2>Municipios</h2>\n<p class="vacio">Todavía ningún municipio '
+                'tiene más de una fuente mirándolo. '
+                f'<a class="enlace" href="/municipios.html">Los {fmt(total)}, '
+                'en la tabla →</a></p>')
+    con_las_tres = sum(1 for n, _p, _m, _f in filas if n == 3)
+    sub = (f"De estos, <b>{fmt(con_las_tres)}</b> tienen registro oficial, "
+           f"reportes de sus vecinos y evaluación satelital a la vez: son los "
+           f"únicos que se pueden contrastar. "
+           if con_las_tres else
+           "Ninguno reúne todavía las tres a la vez, que es lo que hace falta "
+           "para contrastar una cifra contra otra. ")
+    sub += (f'<a class="enlace" href="/municipios.html">Los {fmt(total)}, en '
+            f'la tabla →</a>')
+
+    def punto(on: bool, color: str, titulo: str) -> str:
+        # apagado no es ausente: el hueco conserva su filete, así que la fila
+        # dice «esta fuente no lo mira» y no «aquí no hay nada»
+        relleno = color if on else "transparent"
+        return (f'<span class="marca" title="{e(titulo)}" style="background:'
+                f'{relleno};box-shadow:inset 0 0 0 1px '
+                f'{color if on else "var(--border)"}"></span>')
+
+    items = []
+    for _n, _pob, m, f in filas:
+        marcas = "".join(punto(f[clave], color, titulo)
+                         for clave, color, titulo in _FAMILIAS_DE_FUENTE)
+        familias = m.get("rud_familias")
+        cifra = (f'{fmt(familias)} fam.' if familias else "—")
+        items.append(
+            f'<li><a href="/municipio/{slug(m["municipio"])}/">'
+            f'<span class="fuentes">{marcas}</span>'
+            f'<span class="nom">{e(m["municipio"])}'
+            f'<span class="dep">{e(m["departamento"])}</span></span>'
+            f'<span class="cifra">{cifra}</span></a></li>')
+    return (f'<h2>{fmt(len(filas))} municipios con más de una fuente</h2>\n'
+            f'<p class="sub">{sub}</p>\n'
+            f'<ol class="lista-mun">\n' + "\n".join(items) + "\n</ol>")
+
+
+def parrafo_brecha_portada(ctx: dict) -> str:
+    """La frase que dice qué se está mirando, debajo del mapa.
+
+    Oración entera, como todas: si algún día no hubiera ningún municipio sin
+    mirar, la frase que se publica es la contraria —y es una buena noticia
+    (R11), no un hueco."""
+    sin = len(sin_mirada_satelital(ctx))
+    if not sin:
+        return ("Ya no queda ningún municipio con damnificados registrados sin "
+                "una imagen analizada: la brecha que este sitio existe para "
+                "medir se ha cerrado. "
+                '<a class="enlace" href="/municipios.html">Ver la tabla '
+                "completa →</a>")
+    return (f"<b>{fmt(sin)}</b> municipios tienen damnificados registrados y ni "
+            f"una imagen analizada. La distancia entre lo que se ve y lo que se "
+            f"cuenta no es un error del dato: es la brecha que este sitio "
+            f"existe para medir. "
+            '<a class="enlace" href="/municipios.html">Ver la tabla '
+            "completa →</a>")
+
+
+def tarjetas_portada(ctx: dict) -> str:
+    """Las cinco puertas del sitio, con la cifra que hay detrás de cada una.
+
+    Sustituyen al índice de anclas: un índice de la propia página no lleva a
+    ninguna parte nueva, y estas sí. Las cifras se generan porque envejecen."""
+    total = len(ctx["municipios"])
+    rud = ((ctx["monitor"].get("brechas_oficiales") or {}).get("ungrd_rud") or {})
+    familias = rud.get("familias")
+    noticias = len(ctx["noticias"] or [])
+    tarjetas = [
+        ("/municipios.html", "Municipios",
+         f"{fmt(total)} fichas: qué fuente vio qué en cada una"
+         if total else "Qué fuente vio qué en cada municipio"),
+        ("/rud.html", "RUD",
+         f"{fmt(familias)} familias registradas, día a día"
+         if familias else "El registro oficial de damnificados, día a día"),
+        ("/balances.html", "Balances",
+         "Qué cifra publica cada medio y a quién cita"),
+        ("/noticias.html", "Titulares",
+         f"{fmt(noticias)} titulares emparejados por zona"
+         if noticias else "Los titulares del evento, emparejados por zona"),
+        ("#metodologia", "Cómo se construye",
+         "Metodología, glosario y trazabilidad de cada cifra"),
+    ]
+    return "".join(
+        f'<a class="tarjeta" href="{href}"><strong>{e(titulo)}</strong>'
+        f'<span>{e(sub)}</span></a>' for href, titulo, sub in tarjetas)
+
+
+# ------------------------------------------- la brecha, día a día (el gráfico)
+# El gráfico de la portada dejaba de ser el volumen de titulares y pasa a ser LA
+# BRECHA, y ese es el cambio editorial de la maqueta: los titulares están planos
+# —222 el 16-ago y 245 el 21—, así que la serie de volumen no sostiene el «el
+# mundo se olvidó» que parecía contar. Estas dos líneas, en cambio, se separan
+# solas: el registro sube cada día y la mirada satelital lleva parada desde la
+# última entrega.
+_AOI_MUNICIPIO = {"Cali Center": "Cali", "Northern Cali": "Cali",
+                  "Pereira": "Pereira", "Buenaventura": "Buenaventura",
+                  "Istmina": "Istmina", "Quibdo Centre": "Quibdó"}
+_SERVICIOS_BRECHA = (("copernicus", "Copernicus", "var(--copernicus)"),
+                     ("unosat", "UNOSAT", "var(--unosat)"),
+                     ("sertit", "ICube-SERTIT", "var(--sertit)"))
+_FECHA_SERTIT = re.compile(r"(\d{2})/(\d{2})/(\d{4})")
+
+
+def serie_de_la_brecha(ctx: dict) -> list:
+    """Las dos curvas que se separan: municipios registrados vs. mirados.
+
+    La fecha del satélite es la de ADQUISICIÓN de la imagen, no la de
+    publicación: es la que responde a «¿cuándo pasó un satélite por encima de mi
+    pueblo?», que es la pregunta de un damnificado, y la que el propio producto
+    declara. Va rotulada como tal para que nadie la lea como fecha de entrega.
+
+    Los reportes de los vecinos se atribuyen con `asigna_a_municipios`, la misma
+    función que usa el resto del build: un segundo criterio de cercanía daría
+    otro reparto y las dos superficies dirían cifras distintas (M2)."""
+    mon, items = ctx["monitor"], ctx["municipios"]
+    primera, entradas = {}, {k: {} for k, _n, _c in _SERVICIOS_BRECHA}
+
+    def apunta(municipio, fecha, servicio=None):
+        if not (municipio and fecha):
+            return
+        if servicio:
+            entradas[servicio].setdefault(fecha, set()).add(municipio)
+        if municipio not in primera or fecha < primera[municipio]:
+            primera[municipio] = fecha
+
+    for entrega in (mon.get("entregas") or []):
+        apunta(_AOI_MUNICIPIO.get(entrega.get("aoi")),
+               (entrega.get("fecha") or "")[:10], "copernicus")
+    for m in items:
+        cruda = str(m.get("unosat_fecha_imagen") or "")
+        if len(cruda) == 8:
+            apunta(m["municipio"], f"{cruda[:4]}-{cruda[4:6]}-{cruda[6:]}", "unosat")
+        d = _FECHA_SERTIT.search(m.get("sertit_imagen_literal") or "")
+        if d:
+            apunta(m["municipio"], f"{d.group(3)}-{d.group(2)}-{d.group(1)}", "sertit")
+
+    # los vecinos, acumulados por día: es la única de las tres miradas que no
+    # depende de que una institución decida mirar
+    reportes = [f for f in ctx["chatmap"]
+                if ((f.get("properties") or {}).get("time") or "")[:10]]
+    dias_ciudadanos = sorted({f["properties"]["time"][:10] for f in reportes})
+    ciudadanos_por_dia = {
+        dia: len(asigna_a_municipios(
+            [f for f in reportes if f["properties"]["time"][:10] <= dia], items))
+        for dia in dias_ciudadanos}
+
+    serie_rud = [d for d in ((ctx["rud"] or {}).get("serie") or []) if d.get("fecha")]
+    if not serie_rud:
+        return []
+    por_rud = {d["fecha"][:10]: int(d.get("municipios") or 0) for d in serie_rud}
+    # El eje arranca en la PRIMERA observación de cualquiera de las tres
+    # miradas, no en la primera captura del registro: los satélites miraron
+    # entre el 11 y el 14 y el monitor no empezó a capturar el RUD hasta el 16,
+    # así que recortar por el registro borraba del dibujo la entrada de los tres
+    # servicios —justo lo que el gráfico existe para enseñar— y dejaba la línea
+    # satelital plana en cero.
+    dias = sorted(set(por_rud) | set(primera.values()) | set(dias_ciudadanos))
+    primer_rud = min(por_rud)
+    fuera, mirados, vecinos, ultimo_rud = [], 0, 0, None
+    for dia in dias:
+        mirados += sum(1 for f in primera.values() if f == dia)
+        vecinos = ciudadanos_por_dia.get(dia, vecinos)
+        # R3: antes de la primera captura no hay «cero municipios registrados»,
+        # hay ausencia de dato. La línea se corta, no baja al suelo.
+        ultimo_rud = por_rud.get(dia, ultimo_rud if dia >= primer_rud else None)
+        fuera.append({"fecha": dia, "rud": ultimo_rud, "sat": mirados,
+                      "ciu": vecinos,
+                      "entradas": {k: sorted(v.get(dia, ()))
+                                   for k, v in entradas.items() if v.get(dia)}})
+    return fuera
+
+
+def nota_grafico_brecha(ctx: dict) -> str:
+    """La bajada del gráfico: qué es cada línea y qué hay entre ellas.
+
+    Oración entera con sus cifras dentro. Sin serie, dice que no la hay: una
+    bajada que explica un dibujo que no está sería peor que callarse."""
+    serie = serie_de_la_brecha(ctx)
+    if not serie:
+        return ("Todavía no hay serie diaria con la que dibujar la brecha: hace "
+                "falta al menos una captura del registro oficial.")
+    ult = serie[-1]
+    ultima_mirada = max(
+        (d["fecha"] for d in serie if d.get("entradas")), default=None)
+    frase = (f"La línea ocre son los municipios que han inscrito damnificados en "
+             f"el registro oficial: <b>{fmt(ult['rud'])}</b>. La azul, aquellos "
+             f"sobre los que algún satélite ha publicado un producto de daño: "
+             f"<b>{fmt(ult['sat'])}</b>")
+    if ultima_mirada:
+        frase += f", y ninguno nuevo desde el {fecha_larga(ultima_mirada)}"
+    frase += (". <b>Lo que hay en medio es la brecha</b>, y se ensancha cada día "
+              "que el registro crece y nadie mira. La fecha del satélite es la "
+              "de adquisición de la imagen, que es cuando pasó por encima.")
+    return frase
+
+
+def grafico_brecha(ctx: dict, ancho: int = 980, alto: int = 310) -> str:
+    """El gráfico de la brecha como SVG servido, con su serie narrada en prosa.
+
+    Porte de `prototipo/gen_prototipo.py::grafico_brecha` con dos cosas que la
+    maqueta no tenía y que son el motivo de portarlo: un `<desc>` que cuenta la
+    serie día a día —la única forma de que un lector de pantalla o un modelo que
+    cite lea el argumento del gráfico— y `var(--…)` en vez de colores
+    congelados, para que siga el tema oscuro."""
+    serie = serie_de_la_brecha(ctx)
+    if not serie:
+        # M10: sin serie no se dibuja un lienzo vacío, se dice que no la hay
+        return ('<p class="note">Todavía no hay serie diaria del registro '
+                "oficial con la que dibujar la brecha.</p>")
+    izq, der, arr, aba, carril = 44, 14, 16, 30, 74
+    au, al = ancho - izq - der, alto - arr - aba - carril
+    tope = max([d["rud"] for d in serie if d["rud"] is not None] + [1])
+
+    def x(i):
+        return izq + (i * au / max(1, len(serie) - 1))
+
+    def y(v):
+        return arr + al - (v / tope) * al
+
+    # Los días sin captura del registro se SALTAN, no se dibujan a cero: la
+    # misma regla que ya aplican las series de prensa y de reportes ciudadanos.
+    trozos, previo = [], False
+    for i, d in enumerate(serie):
+        if d["rud"] is None:
+            previo = False
+            continue
+        trozos.append(("L" if previo else "M") + f" {x(i):.1f} {y(d['rud']):.1f}")
+        previo = True
+    traza_rud = " ".join(trozos)
+    con_rud = [(i, d) for i, d in enumerate(serie) if d["rud"] is not None]
+    puntos_sat = " ".join(f"{x(i):.1f},{y(d['sat']):.1f}" for i, d in enumerate(serie))
+    puntos_ciu = " ".join(f"{x(i):.1f},{y(d['ciu']):.1f}" for i, d in enumerate(serie))
+    # El área entre las dos curvas ES la brecha, y solo existe donde existen las
+    # dos: se cierra sobre el tramo con registro, no sobre el eje entero.
+    area = (" ".join(f"{x(i):.1f},{y(d['rud']):.1f}" for i, d in con_rud) + " "
+            + " ".join(f"{x(i):.1f},{y(d['sat']):.1f}"
+                       for i, d in reversed(con_rud)))
+    ult = serie[-1]
+
+    # La narración: lo que el dibujo dice, en palabras. Solo se nombran los días
+    # en que algo cambia —el registro crece o un satélite entra—, porque una
+    # lista de treinta días idénticos no es prosa, es ruido.
+    frases = []
+    previo = None
+    for d in serie:
+        cambios = []
+        if d["rud"] is not None and (previo is None or d["rud"] != previo["rud"]):
+            cambios.append(f'{fmt(d["rud"])} municipios con damnificados '
+                           f"inscritos")
+        if previo is None or d["sat"] != previo["sat"]:
+            cambios.append(f'{fmt(d["sat"])} mirados por satélite')
+        if previo is None or d["ciu"] != previo["ciu"]:
+            cambios.append(f'{fmt(d["ciu"])} con reportes de sus vecinos')
+        for clave, nombre, _color in _SERVICIOS_BRECHA:
+            nuevos = (d.get("entradas") or {}).get(clave)
+            if nuevos:
+                cambios.append(f'{nombre} publica {", ".join(nuevos)}')
+        if cambios:
+            frases.append(f'{fecha_larga(d["fecha"])}: {"; ".join(cambios)}')
+        previo = d
+    descripcion = ". ".join(frases) + "."
+
+    o = [f'<svg viewBox="0 0 {ancho} {alto}" xmlns="http://www.w3.org/2000/svg" '
+         f'role="img" style="width:100%;height:auto" '
+         f'aria-labelledby="brecha-title brecha-desc">',
+         '<title id="brecha-title">Municipios con damnificados registrados '
+         'frente a municipios mirados por satélite, día a día</title>',
+         f'<desc id="brecha-desc">{e(descripcion)}</desc>']
+    for k in range(4):
+        yy = arr + al * k / 3
+        o.append(f'<line x1="{izq}" y1="{yy:.0f}" x2="{ancho-der}" y2="{yy:.0f}" '
+                 f'stroke="var(--grid)"/>')
+        o.append(f'<text x="6" y="{yy+4:.0f}" font-size="10" fill="var(--muted)">'
+                 f'{fmt(round(tope * (3 - k) / 3))}</text>')
+    o.append(f'<polygon points="{area}" fill="var(--critical)" opacity=".13"/>')
+    o.append(f'<polyline points="{puntos_ciu}" fill="none" '
+             f'stroke="var(--ciudadano)" stroke-width="2.5"/>')
+    o.append(f'<polyline points="{puntos_sat}" fill="none" '
+             f'stroke="var(--copernicus)" stroke-width="2.5"/>')
+    # El carril propio bajo el eje: encima de la línea, tres marcas en cuatro
+    # días se apelotonaban y tapaban la curva. Aquí se lee que las tres miradas
+    # no se relevaron — entraron casi a la vez y ninguna volvió.
+    base_carril = arr + al + 52
+    o.append(f'<line x1="{izq}" y1="{arr + al + 28:.0f}" x2="{ancho-der}" '
+             f'y2="{arr + al + 28:.0f}" stroke="var(--grid)"/>')
+    o.append(f'<text x="{izq}" y="{arr + al + 44:.0f}" font-size="10.5" '
+             f'fill="var(--muted)">Cuándo miró cada satélite</text>')
+    for i, d in enumerate(serie):
+        for fila, (clave, nombre, color) in enumerate(_SERVICIOS_BRECHA):
+            nuevos = (d.get("entradas") or {}).get(clave)
+            if not nuevos:
+                continue
+            o.append(
+                f'<circle cx="{x(i):.1f}" cy="{base_carril + fila * 11:.1f}" '
+                f'r="4.5" fill="{color}"><title>{e(d["fecha"])} · {e(nombre)}: '
+                f'{e(", ".join(nuevos))}</title></circle>')
+    o.append(f'<path d="{traza_rud}" fill="none" stroke="var(--s8)" '
+             f'stroke-width="2.5"/>')
+    for i, d in enumerate(serie):
+        if i % 2 == 0 or i == len(serie) - 1:
+            o.append(f'<text x="{x(i):.0f}" y="{arr+al+16:.0f}" font-size="10" '
+                     f'fill="var(--muted)" text-anchor="middle">'
+                     f'{d["fecha"][8:]}-{d["fecha"][5:7]}</text>')
+    for valor, color, texto in (
+            (ult["rud"], "var(--s8)", "con damnificados"),
+            (ult["ciu"], "var(--ciudadano)", "con reportes de vecinos"),
+            (ult["sat"], "var(--copernicus)", "mirados por satélite")):
+        if valor is None:
+            continue
+        dy = 16 if color == "var(--copernicus)" else -8
+        o.append(f'<text x="{x(len(serie)-1)-6:.0f}" y="{y(valor)+dy:.0f}" '
+                 f'font-size="12" font-weight="700" fill="{color}" '
+                 f'text-anchor="end">{fmt(valor)} {texto}</text>')
+    o.append("</svg>")
+    # La leyenda va FUERA del SVG, en HTML: así la lee el buscador del
+    # navegador, se traduce y no depende de que el SVG escale bien. Y `svg` es
+    # justo lo que `seo_check::prosa_propia` descuenta.
+    leyenda = "".join(
+        f'<span class="ley"><span class="pt" style="background:{color}">'
+        f'</span>{texto}</span>' for color, texto in (
+            ("var(--s8)", "Municipios con damnificados en el registro oficial"),
+            ("var(--ciudadano)", "Con reportes de vecinos"),
+            ("var(--copernicus)", "Mirados por algún satélite")))
+    entradas = "".join(
+        f'<span class="ley"><span class="pt pt-b" style="background:{color}">'
+        f'</span>Entró {nombre}</span>'
+        for _clave, nombre, color in _SERVICIOS_BRECHA)
+    return ("".join(o) + f'<p class="leyenda-graf">{leyenda}</p>'
+            + f'<p class="leyenda-graf leyenda-graf--sec">{entradas}</p>')
+
+
+# ------------------------------------------ las cuatro miradas, con sus cifras
+# La sección se titula «cuatro miradas, cuatro cifras» y llegaba SIN una sola
+# cifra: su contenedor lo rellenaba `app.js`. La unidad común es el MUNICIPIO,
+# que es lo que permite comparar de un vistazo cuatro fuentes que miden cosas
+# distintas — en edificios contra familias contra reportes, la comparación
+# parecía decir que Copernicus cubre más que el registro oficial, y es al revés.
+_COLOR_MIRADA = {"satelite": "var(--copernicus)", "rud": "var(--s8)",
+                 "medios": "var(--critical)", "ciudadano": "var(--ciudadano)"}
+_CIFRA_PRINCIPAL = (("familias", "familias"),
+                    ("edificios_dañados", "edificios con daño"),
+                    ("reportes", "reportes"))
+
+
+def tarjetas_fuentes_portada(ctx: dict) -> str:
+    """Las cuatro miradas de la portada, escritas en el build.
+
+    Quién mira qué y con qué cifra lo decide `comparativaFuentes` en `ui.js`,
+    ejecutado con node igual que en `tarjetas_comparativa` (R14): la regla vive
+    en un solo idioma. Si node falta, el consolidado avisa y no se publica una
+    cifra sin su regla."""
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        return AVISO_SIN_REGLA
+    fuentes = datos.get("comparativa") or []
+    if not fuentes:
+        return '<p class="note">Todavía no hay ninguna mirada que comparar.</p>'
+    # Los municipios con reporte ciudadano se cuentan UNA vez y se reparten:
+    # `comparativaFuentes` mide el alcance ciudadano en reportes, y la tarjeta
+    # decía «sin recuento por municipio» teniendo el dato al lado.
+    municipios_ciudadanos = len(ctx["conteo_ciudadanos"])
+    tarjetas = ['<div class="comparativa">']
+    for f in fuentes:
+        cifras = f.get("cifras") or {}
+        muns = cifras.get("municipios") or cifras.get("municipios_evaluados")
+        if f.get("id") == "ciudadano" and municipios_ciudadanos:
+            muns = municipios_ciudadanos
+        principal = next(((cifras[clave], unidad)
+                          for clave, unidad in _CIFRA_PRINCIPAL
+                          if cifras.get(clave)), None)
+        nombre = (f.get("nombre") or "—").split(" · ")
+        cuerpo = [
+            f'<article class="fuente" '
+            f'style="--fc:{_COLOR_MIRADA.get(f.get("id"), "var(--muted)")}">',
+            f'<h3>{e(nombre[0])}</h3>',
+            f'<p class="fuente-sub">{e(nombre[-1])}</p>']
+        # R3/M10: sin recuento por municipio se dice que no lo hay, no un cero
+        cuerpo.append(
+            f'<p class="fuente-muns"><b>{fmt(muns)}</b> municipios</p>' if muns
+            else '<p class="fuente-muns fuente-nd">sin recuento por '
+                 'municipio</p>')
+        if principal:
+            cuerpo.append(f'<p class="fuente-cif">{fmt(principal[0])} '
+                          f'{e(principal[1])}</p>')
+        if f.get("fecha"):
+            cuerpo.append(f'<p class="fuente-fecha">al '
+                          f'{fecha_larga(f["fecha"])}</p>')
+        if f.get("href"):
+            cuerpo.append(f'<p class="fuente-fecha">'
+                          f'<a href="{e(f["href"])}">ver el detalle →</a></p>')
+        cuerpo.append("</article>")
+        tarjetas.append("".join(cuerpo))
+    tarjetas.append("</div>")
+    return "".join(tarjetas)
+
+
+# ----------------------------------------------------------- alertas y silencios
+_NIVEL_ALERTA = {"alta": "--critical", "media": "--warning", "info": "--muted"}
+
+
+def _alertas(ctx: dict) -> dict:
+    return _leer("alerts.json") if (PUBLIC / "alerts.json").exists() else {}
+
+
+def fecha_alertas_portada(ctx: dict) -> str:
+    """De cuándo es la revisión que produjo estas alertas.
+
+    Fecha absoluta y nunca «hoy»: esta página se releerá dentro de años, y una
+    alerta sin su corte miente en cuarenta y ocho horas (M7)."""
+    fecha = _solo_fecha(_alertas(ctx).get("fecha") or _alertas(ctx).get("generado"))
+    if not fecha:
+        return "El monitor no ha registrado la fecha de la última revisión."
+    return f"Última revisión del monitor: {fecha_larga(fecha)}."
+
+
+def alertas_portada(ctx: dict) -> str:
+    """Las alertas de la última revisión, escritas en el build.
+
+    Seis líneas que solo existían en el navegador: `<ul id="alerts">` viajaba
+    vacío y lo rellenaba `app.js`, así que la sección prometía «Alertas del
+    monitor» y no enseñaba ninguna a quien no ejecuta JavaScript. El nivel va
+    como etiqueta con su color, no solo como color."""
+    alertas = _alertas(ctx).get("alertas") or []
+    filas = []
+    for a in alertas:
+        texto = (a.get("texto") or a.get("titulo") or "").strip()
+        if not texto:
+            continue
+        url = a.get("url")
+        # el texto trae la URL en crudo —es lo único que viaja a Telegram, push
+        # y RSS—, así que aquí se cambia por un enlace en vez de repetirla
+        enlace = ""
+        if url:
+            texto = texto.replace(" \u2014 " + url, "").replace(url, "").strip()
+            enlace = (f' <a href="{enlace_seguro(url)}" target="_blank" '
+                      f'rel="noopener">ver el producto \u2197</a>')
+        nivel = a.get("nivel") or "info"
+        filas.append(
+            f'<li><span class="badge" style="--bc:var('
+            f'{_NIVEL_ALERTA.get(nivel, "--muted")})">{e(nivel)}</span> '
+            f"{e(texto)}{enlace}</li>")
+    if not filas:
+        # R11: que no haya alertas no es un fallo, es una noticia; se dice.
+        return "<li>Sin novedades de Colombia en la \u00faltima revisi\u00f3n.</li>"
+    return "\n".join(filas)
+
+
+def activaciones_colombia(ctx: dict) -> str:
+    """El catálogo de otras activaciones de Copernicus en Colombia.
+
+    Es vigilancia de catálogo, y es archivo: el día que una de estas
+    activaciones desaparezca del portal, esta lista seguirá diciendo que
+    existió."""
+    mon = ctx["monitor"]
+    otras = [a for a in (mon.get("colombia_activaciones") or [])
+             if a.get("code") != "EMSR916"]
+    indice = len(mon.get("activation_index") or [])
+    nota = (f'<p class="note">Índice completo vigilado: {fmt(indice)} '
+            f"activaciones públicas (todas las emergencias mapeadas por "
+            f"Copernicus desde julio de 2023, en cualquier país) — disponibles "
+            f'en los <a href="/data/public/monitor.json" target="_blank">datos '
+            f"abiertos del monitor</a>.</p>") if indice else ""
+    if not otras:
+        return ('<p class="note">Ninguna otra activación de Colombia en el '
+                "rango público.</p>") + nota
+    parrafos = []
+    for a in otras:
+        zonas = a.get("n_aois")
+        abierta = (' · <span class="badge" style="--bc:var(--warning)">'
+                   "activación abierta</span>") if a.get("closed") is False else ""
+        parrafos.append(
+            f'<p><a href="{enlace_seguro(a.get("visor"))}" target="_blank" '
+            f'rel="noopener"><strong>{e(a.get("code") or "—")}</strong></a> — '
+            f'{e(a.get("name") or "")} · {e(a.get("category") or "")} · '
+            f'{fecha_larga(_solo_fecha(a.get("event_time")))}'
+            + (f' · {fmt(zonas)} {concuerda(zonas, "zona analizada", "zonas analizadas")}'
+               if zonas else "")
+            + f"{abierta}</p>")
+    return "".join(parrafos) + nota
+
+
+# ------------------------------------------------- la leyenda del mapa, servida
+def leyenda_portada(ctx: dict) -> str:
+    """La leyenda del mapa, escrita en el build.
+
+    Explica tres claves de color que hoy conviven en el mismo mapa: el estado
+    del cruce de cada zona, el estado de cada municipio y la capa de la
+    ausencia. Esta última necesita su propio rótulo por dos razones: su rojo NO
+    significa daño —significa sacudida estimada donde nadie ha medido— y su gris
+    compite con el «no comparable» del cruce. Sin el rótulo, el color afirma lo
+    que el texto se cuida de no afirmar."""
+    partes = ["<p class=\"sub\">Zonas del cruce:</p>"]
+    for etiqueta, color in (("Coincide (evidencia oficial)", "--good"),
+                            ("Reportado en prensa", "--s1"),
+                            ("Reportado por ciudadanos", "--s7"),
+                            ("Pendiente de validar", "--warning"),
+                            ("No comparable 1:1", "--muted")):
+        partes.append(f'<span class="badge" style="--bc:var({color})">'
+                      f"{e(etiqueta)}</span>")
+    partes.append('<span class="leyenda-sep">Municipios (círculos):</span>')
+    for etiqueta, color, explica in ESTADO_MUNICIPIO.values():
+        partes.append(f'<span class="badge" style="--bc:var({color})" '
+                      f'title="{e(explica)}">{e(etiqueta)}</span>')
+    sin_mirada = (_leer("municipios_mapa.json")
+                  if (PUBLIC / "municipios_mapa.json").exists() else {})
+    if sin_mirada.get("items"):
+        partes.append(
+            '<span class="leyenda-sep">Con damnificados y sin producto de daño '
+            "satelital (anillo punteado) — el color es la sacudida que estima "
+            "el modelo ShakeMap del USGS, no daño observado:</span>")
+        for mmi in (4, 5, 6, 7):
+            partes.append(
+                f'<span class="badge" style="--bc:{_color_ausencia(mmi)}" '
+                f'title="Intensidad {fmt(mmi)} en la escala de Mercalli '
+                f'modificada">{fmt(mmi)}</span>')
+        sin_mmi = sin_mirada.get("sin_mmi")
+        if sin_mmi:
+            partes.append(
+                '<span class="badge" style="--bc:var(--muted)" title="El '
+                "ShakeMap del USGS no cubre estos municipios: no se sabe qué "
+                "sacudida hubo, que no es lo mismo que saber que fue leve\">"
+                f"Sin dato de sacudida ({fmt(sin_mmi)})</span>")
+    return "".join(partes)
+
+
+def _color_ausencia(mmi) -> str:
+    """La misma rampa que `site/app.js::colorAusencia`.
+
+    Espejo declarado: si se toca una, hay que mirar la otra. El mapa la sigue
+    necesitando en el navegador —pinta 196 anillos— y la leyenda la necesita en
+    el build. `test_frontend.py::TestRampaDeLaAusencia` compara las dos."""
+    if mmi is None:
+        return "var(--muted)"
+    t = max(0.0, min(1.0, (mmi - 3.5) / 4))
+    return (f"hsl({round(8 - 8 * t)},{round(45 + 35 * t)}%,"
+            f"{round(74 - 34 * t)}%)")
+
+
+# ------------------------------------------- las dos notas al pie de la tabla
+def nota_rud_desde(ctx: dict) -> str:
+    """Desde cuándo captura el monitor el RUD. La fecha es la del ARCHIVO.
+
+    Es cuándo empezó a capturarlo el monitor, no cuándo empezó a registrar el
+    RUD: decirlo al revés falsearía el propio archivo."""
+    serie = (ctx["rud"] or {}).get("serie") or []
+    if not serie:
+        return "todavía sin ninguna captura"
+    return f"desde el {fecha_larga(_solo_fecha(serie[0].get('fecha')))}"
+
+
+def nota_sin_registro(ctx: dict) -> str:
+    """La frase condicional sobre las zonas con daño satelital y sin registro.
+
+    El día que toda zona con daño satelital tenga registro municipal, la
+    afirmación deja de ser cierta y se sustituye por la buena noticia —
+    romperse puede ser buena noticia (R11)."""
+    ejemplos = ejemplos_sin_registro(ctx["monitor"])
+    if ejemplos:
+        return (f" Donde aún no registran{ejemplos}, el satélite sigue siendo "
+                "la única evidencia.")
+    return " Ya no queda ninguna zona con daño satelital sin registro municipal."
+
+
 # ------------------------------------------------ los filtros rápidos del RUD
 # Los cuatro chips, con su rótulo, su explicación y su predicado, en UN solo
 # sitio. Antes vivían partidos: `site/rud.js` traía el array `CHIPS` con las
@@ -4711,6 +5410,21 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "noticias": filas_noticias,
                    "mirada-portada": nota_mirada_portada,
                    "brechas": banda_brechas,
+                   # la portada (fase 6): lo que dibujaba el navegador
+                   "portada-entradilla": entradilla_portada,
+                   "portada-comoleer": nota_como_leer_portada,
+                   "portada-panel": panel_portada,
+                   "portada-brecha": parrafo_brecha_portada,
+                   "portada-grafico": grafico_brecha,
+                   "portada-grafico-sub": nota_grafico_brecha,
+                   "portada-fuentes": tarjetas_fuentes_portada,
+                   "portada-alertas": alertas_portada,
+                   "portada-alertas-fecha": fecha_alertas_portada,
+                   "portada-acts": activaciones_colombia,
+                   "portada-leyenda": leyenda_portada,
+                   "portada-nota-rud": nota_rud_desde,
+                   "portada-nota-sin": nota_sin_registro,
+                   "portada-tarjetas": tarjetas_portada,
                    "portada-sello": sello_portada,
                    "municipios-sello": sello_municipios,
                    "rud-sello": sello_rud,
@@ -4741,6 +5455,13 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
                "balances": "balances", "noticias": "noticias",
                "mirada-portada": "index", "brechas": "index",
+               "portada-entradilla": "index", "portada-comoleer": "index",
+               "portada-panel": "index", "portada-brecha": "index",
+               "portada-grafico": "index", "portada-grafico-sub": "index",
+               "portada-fuentes": "index", "portada-alertas": "index",
+               "portada-alertas-fecha": "index", "portada-acts": "index",
+               "portada-leyenda": "index", "portada-nota-rud": "index",
+               "portada-nota-sin": "index", "portada-tarjetas": "index",
                "portada-sello": "index", "municipios-sello": "municipios",
                "rud-sello": "rud", "balances-sello": "balances",
                "noticias-sello": "noticias",

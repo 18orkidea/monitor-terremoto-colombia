@@ -165,19 +165,52 @@ section[id], main[id], footer[id] { scroll-margin-top: 66px; }
 #como-leer li, .intro details li, .aviso details li { margin-bottom: 8px; }
 #como-leer li strong, .intro details li strong, .aviso details li strong { color: var(--ink); }
 #como-leer a, .intro details a, .aviso details a { color: var(--s1); }
-main#mapa {
-  display: flex; flex-direction: column;
-  gap: 12px; padding: 0 var(--margen);
+/* EL LIENZO DE LA PORTADA (fase 6). `main#mapa` era una columna: el mapa
+   arriba y debajo un panel que contenía la tabla de 62 filas y medía varios
+   miles de píxeles. Con la tabla mudada a su plegable, el panel es una lista
+   corta y los dos pueden ser hermanos de una rejilla — que es lo que pide el
+   criterio de JP: «el mapa a la altura del panel con todos sus datos, sin
+   scroll interno», y estirar el mapa antes que rellenar el hueco.
+   La doble marca `main#mapa` no es cosmética: un `.lienzo` a secas pierde por
+   especificidad contra el `#mapa` que ya existía, igual que le pasó al lienzo
+   municipal contra `.lienzo-mun`. */
+main#mapa.lienzo {
+  display: grid; gap: 0; padding: 0;
 }
+.marco-mapa { position: relative; }
 #map {
   min-height: 62vh; border-radius: 10px; border: 1px solid var(--border);
   background: var(--surface-1);
 }
-#panel {
+main#mapa.lienzo > .panel {
   background: var(--surface-1); border: 1px solid var(--border);
   border-radius: 10px; padding: 14px;
   /* el desplazamiento horizontal es de la tabla (`.tabla-scroll`), no del panel:
      antes el título, las notas y la leyenda se iban de lado con ella */
+}
+main#mapa.lienzo > .panel h2 { font-size: 16px; margin: 0 0 2px; }
+main#mapa.lienzo > .panel .sub { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; }
+/* El cuadro de honor: cada fila es un ENLACE a la ficha, no un botón que abra
+   nada aquí. Sin JavaScript sigue llevando a alguna parte, que es lo que un
+   botón prerenderizado no puede prometer. `.lista-mun button` ya existía en
+   esta hoja para el prototipo; se le suma el enlace en vez de duplicar la
+   regla. */
+.lista-mun a {
+  display: flex; width: 100%; gap: 10px; align-items: baseline;
+  padding: 9px 2px; text-decoration: none; color: var(--ink);
+}
+.lista-mun a:hover { color: var(--copernicus); }
+@media (min-width: 900px) {
+  /* El panel a la izquierda y el mapa a la derecha, los dos a la misma altura:
+     `stretch` es lo que hace que el mapa CREZCA hasta el panel en vez de dejar
+     un hueco debajo. */
+  main#mapa.lienzo {
+    grid-template-columns: 360px 1fr; gap: 18px; align-items: stretch;
+    padding: 0 var(--eje) 18px;
+  }
+  main#mapa.lienzo > .marco-mapa { order: 2; display: flex; min-height: 0; }
+  main#mapa.lienzo > .panel { order: 1; }
+  main#mapa.lienzo #map { flex: 1 1 auto; height: auto; min-height: 62vh; }
 }
 table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
 th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--grid); }
@@ -1416,7 +1449,10 @@ details.pliegue,
 .brecha,
 .tarjetas,
 .canales,
+main#mapa.lienzo,
 .zona-datos { padding-left: var(--eje); padding-right: var(--eje); }
+/* Por encima de 900 px el lienzo declara su propio `padding` con el mismo
+   `--eje` más el hueco de abajo, así que no hace falta repetirlo aquí. */
 
 /* Los canales viven dentro de .zona-datos, que ya pone el eje: sumar el suyo
    los empujaba más adentro que todo lo demás. */
