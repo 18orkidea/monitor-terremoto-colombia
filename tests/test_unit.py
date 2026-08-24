@@ -2412,6 +2412,10 @@ class TestUnaHipotesisCaidaNoApagaLaPublicacion(unittest.TestCase):
         return [b for b in bloques if "exit 1" in b]
 
     def test_ninguna_hipotesis_puede_apagar_la_publicacion(self):
+        """Si algún día se añade un paso de auditoría, el criterio es el mismo
+        y conviene extender la lista de abajo: lo que AVISA no puede apagar la
+        publicación; lo que falla al ARCHIVAR el día, sí — porque entonces no
+        hay día que publicar."""
         culpables = [b for b in self.pasos_que_paran_la_corrida()
                      if "hipotesis" in b]
         self.assertEqual(
