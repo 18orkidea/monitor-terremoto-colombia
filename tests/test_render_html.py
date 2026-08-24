@@ -5,7 +5,9 @@ de IA no ejecutan JavaScript. Si un test de aquí falla, la página se seguiría
 viendo perfecta en el navegador y estaría vacía para quien la tiene que citar
 — por eso se comprueba el HTML, no el resultado en pantalla.
 """
+import contextlib
 import copy
+import io
 import json
 import re
 import shutil
@@ -13,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import unittest.mock
 import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import date, timedelta
@@ -4827,3 +4830,57 @@ class TestElDatasetDelRudLlegaAlArtefacto(unittest.TestCase):
         self.assertIn('<section hidden data-gen="rud-dataset"></section>', fuente)
         self.assertNotRegex(
             fuente, r'<script type="application/ld\+json"[^>]*>\s*</script>')
+
+
+class TestElConsolidadoDeBalancesNoFallaEnSilencio(unittest.TestCase):
+    """R11 · Un supuesto roto avisa; no se rompe en silencio.
+
+    `TestBalancesSinNode` ya comprueba que la PÁGINA se lo dice al lector. Esto
+    es la otra mitad, la que faltaba: quien construye tiene que enterarse de
+    **por qué**. El `stderr` de node se perdía en un `except: pass`, así que un
+    `ui.js` con un error de sintaxis y un día sin cifras eran indistinguibles
+    desde el registro del build.
+    """
+
+    def _sin_cache(self):
+        return {"monitor": {}, "oficiales": {"items": []}}
+
+    def _corriendo(self, ctx, **parches):
+        salida = io.StringIO()
+        with contextlib.ExitStack() as pila:
+            pila.enter_context(contextlib.redirect_stdout(salida))
+            if parches:
+                pila.enter_context(unittest.mock.patch.multiple(R, **parches))
+            resultado = R.consolidado_balances(ctx)
+        return resultado, salida.getvalue()
+
+    def test_sin_node_se_dice_que_falta_node(self):
+        resultado, avisos = self._corriendo(
+            self._sin_cache(), shutil=unittest.mock.Mock(which=lambda _: None))
+        self.assertIsNone(resultado)
+        self.assertIn("::warning::", avisos, "la degradación pasó en silencio")
+        self.assertIn("node", avisos)
+
+    def test_el_stderr_de_node_llega_al_registro_del_build(self):
+        """Es el caso que motiva el cambio: node existe, se ejecuta y falla.
+        Sin el aviso, el porqué —un `ui.js` roto, por ejemplo— se perdía."""
+        fallo = unittest.mock.Mock(returncode=1, stdout="",
+                                   stderr="SyntaxError: ui.js está roto")
+        resultado, avisos = self._corriendo(
+            self._sin_cache(),
+            subprocess=unittest.mock.Mock(run=lambda *a, **k: fallo,
+                                          SubprocessError=Exception))
+        self.assertIsNone(resultado)
+        self.assertIn("::warning::", avisos)
+        self.assertIn("SyntaxError: ui.js está roto", avisos,
+                      "el stderr de node se sigue tragando")
+
+    def test_una_corrida_sana_no_avisa_de_nada(self):
+        """Un aviso que sale siempre deja de leerse: solo avisa lo que falla."""
+        if not NODE:
+            self.skipTest("sin node no hay corrida sana que comprobar")
+        ctx = R.contexto()
+        ctx.pop("_balances_ui", None)
+        resultado, avisos = self._corriendo(ctx)
+        self.assertIsNotNone(resultado)
+        self.assertNotIn("::warning::", avisos)

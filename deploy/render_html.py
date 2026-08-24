@@ -3110,12 +3110,25 @@ def consolidado_balances(ctx: dict):
     """`mejorPorDia` + `comparativaFuentes` calculados por ui.js, o None.
 
     Cacheado en el propio ctx: lo piden cuatro generadores de la misma página
-    y la regla no cambia entre uno y otro."""
+    y la regla no cambia entre uno y otro.
+
+    **Cuando node falla, el porqué se dice (R11).** La página ya avisaba al
+    lector de que el consolidado no se publica —`AVISO_SIN_REGLA`—, pero quien
+    construye no se enteraba de la causa: el `stderr` de node se perdía en un
+    `except: pass` y la degradación era indistinguible de un día sin cifras.
+    Un supuesto roto avisa; no se rompe en silencio."""
     if "_balances_ui" in ctx:
         return ctx["_balances_ui"]
     resultado = None
     node = shutil.which("node")
     ui_js = ROOT / "site" / "ui.js"
+    if not node:
+        print("::warning::balances: no hay node en el PATH, así que la regla "
+              "de site/ui.js no se puede ejecutar y las cifras consolidadas "
+              "no se publican (R14)")
+    elif not ui_js.exists():
+        print(f"::warning::balances: falta {ui_js}, la única implementación de "
+              f"la regla del consolidado: las cifras no se publican")
     if node and ui_js.exists():
         # El feed viaja por STDIN, no como argumento: Linux limita cada
         # argumento de execve a 128 KiB y el feed ya pesa ~100 KB.
@@ -3138,8 +3151,14 @@ def consolidado_balances(ctx: dict):
                 capture_output=True, text=True, timeout=60)
             if r.returncode == 0:
                 resultado = json.loads(r.stdout)
-        except (OSError, ValueError, subprocess.SubprocessError):
-            pass
+            else:
+                print(f"::warning::balances: node salió con {r.returncode} al "
+                      f"ejecutar la regla del consolidado; las cifras no se "
+                      f"publican — {(r.stderr or '').strip()[:300]}")
+        except (OSError, ValueError, subprocess.SubprocessError) as fallo:
+            print(f"::warning::balances: no se pudo ejecutar la regla del "
+                  f"consolidado, las cifras no se publican — "
+                  f"{type(fallo).__name__}: {str(fallo)[:300]}")
     ctx["_balances_ui"] = resultado
     return resultado
 
