@@ -67,7 +67,8 @@
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
-<header>
+
+<header class="encabezado">
   <div>
     <h1>Datos del terremoto de Colombia 2026</h1>
     <p class="sub">Copernicus <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">EMSR916</a> ·
@@ -84,8 +85,76 @@
   </div>
 </header>
 
-<section class="intro">
-  <p>El <strong>terremoto del 10 de agosto de 2026 en Colombia</strong> (magnitud 7,4,
+<!-- Las tres cifras que abren la página las escribe el build: se mueven cada
+     día, y escritas a mano llegaron a anunciar 36 municipios con 43 en su
+     propia tabla tres párrafos más abajo. -->
+<section class="entradilla" data-gen="portada-entradilla"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<details class="pliegue">
+  <summary>Cómo leer estas cifras</summary>
+  <section class="intro" data-gen="portada-comoleer"></section><!-- lo rellena deploy/render_html.py en el build -->
+</details>
+
+<section class="aviso aviso--laguna" id="banner-brechas" data-gen="brechas"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<!-- El mapa manda y el panel va a su lado, a su misma altura y sin scroll
+     propio. La tabla de evidencia municipal, que antes vivía aquí dentro y
+     medía varios miles de píxeles, baja al plegable «Municipios con evidencia,
+     uno a uno»: no desaparece —un <details> cerrado sigue estando en el HTML
+     servido— pero deja de impedir que el mapa sea el protagonista. -->
+<main id="mapa" class="lienzo">
+  <div class="marco-mapa">
+    <div id="map"></div>
+  </div>
+  <section class="panel" id="panel" data-gen="portada-panel"></section><!-- lo rellena deploy/render_html.py en el build -->
+</main>
+
+<p class="brecha"><span data-gen="portada-brecha"></span></p><!-- lo rellena deploy/render_html.py en el build -->
+
+<div class="zona-datos">
+
+<section id="brecha-section" class="page-section">
+  <h2>La brecha, día a día</h2>
+  <p class="sub"><span data-gen="portada-grafico-sub"></span></p><!-- lo rellena deploy/render_html.py en el build -->
+  <section id="chart" data-gen="portada-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
+</section>
+
+<section id="fuentes-section" class="page-section">
+  <h2>Cuatro miradas, cuatro cifras: la comparativa de fuentes</h2>
+  <p class="sub">El mismo desastre medido por el satélite, el registro oficial, la prensa
+  que cita a las autoridades y la comunidad. Que los números no coincidan no es un error:
+  <strong>la distancia entre ellos es la brecha de reporte</strong>. La unidad que se
+  compara es el municipio, porque es lo único que las cuatro miden igual. Cada tarjeta
+  lleva a su detalle; la comparación completa está en
+  <a href="balances.html#comparativa">Balances → comparativa</a>.</p>
+  <section id="fuentes-cards" data-gen="portada-fuentes"></section><!-- lo rellena deploy/render_html.py en el build -->
+</section>
+
+<section id="cronologia" class="page-section">
+  <h2>Qué pasó cada día: la cronología del evento</h2>
+  <p class="sub">La banda reparte los hitos por carril:
+  respuesta internacional (▲ = entrega de datos Copernicus),
+  <span style="color:var(--good)">respuesta local u oficial</span> (★ = el sismo) y
+  <span style="color:var(--warning)">cambios del propio monitor</span> — pasa el ratón
+  para leer cada hito. Los hitos se derivan automáticamente de los datos (alta del RUD,
+  primer balance en medios, purga de la serie EMM por GDACS); solo lo no derivable se
+  cura a mano y queda versionado.</p>
+  <div id="crono-banda"></div>
+  <div class="chips" id="crono-filtros" role="group" aria-label="Filtrar cronología"></div>
+  <ol id="timeline"></ol>
+</section>
+
+</div>
+
+<!-- Las cinco puertas del sitio con la cifra que hay detrás de cada una.
+     Sustituyen al índice de anclas que había aquí: un índice de la propia
+     página no lleva a ninguna parte nueva, y estas sí. -->
+<section class="tarjetas" data-gen="portada-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<details class="pliegue denso">
+  <summary>Qué encontrará en este sitio</summary>
+  <section class="intro">
+    <p>El <strong>terremoto del 10 de agosto de 2026 en Colombia</strong> (magnitud 7,4,
   epicentro en San José del Palmar, Chocó) es el sismo más fuerte registrado en el país en
   más de un siglo. Este observatorio reúne, en un solo lugar y con actualización diaria,
   <strong>cuatro miradas independientes sobre el mismo desastre</strong>: los daños
@@ -113,9 +182,11 @@
   no es solo mostrar los datos, sino <strong>cruzarlos y medir sus brechas</strong>: qué ve
   el satélite que nadie reporta, qué reporta la comunidad que nadie mira, y qué publican
   —y qué no— las fuentes oficiales. Cada cifra es rastreable hasta su origen.</p>
+  </section>
+</details>
 
-  <details id="como-leer">
-    <summary><strong>📖 Cómo leer este monitor</strong> — guía rápida de cada sección</summary>
+<details class="pliegue denso" id="como-leer">
+    <summary><strong>Cómo leer este monitor</strong> — guía rápida de cada sección</summary>
     <ol>
       <li><strong><a href="#banner-brechas">La banda amarilla</a></strong> (arriba) resume las dos brechas centrales: cuánto
       tiempo llevan calladas las fuentes oficiales abiertas y cuánta población expuesta al
@@ -132,7 +203,7 @@
       las vías dañadas, las zonas sin analizar y los sismos históricos desde 1914.
       Cada globo enseña solo lo que su fuente midió en ese punto: si una fuente no
       responde a algo ahí, esa línea no aparece.</li>
-      <li><strong><a href="#panel">La tabla del cruce</a></strong>: una fila por zona. La columna «Estado del cruce»
+      <li><strong><a href="#municipios-uno-a-uno">La tabla del cruce</a></strong>: una fila por zona. La columna «Estado del cruce»
       es el corazón del monitor — <em>solo la evidencia oficial</em> (EDAN o balance de entidad
       estatal) permite llegar a «Coincide»; la prensa y los reportes ciudadanos alcanzan estados
       intermedios explícitos. Pasa el ratón por cualquier cabecera para ver qué mide exactamente,
@@ -141,11 +212,12 @@
       tarjetas — satélite, RUD oficial, medios y comunidad — con su cifra principal. La
       distancia entre ellas es la brecha; la comparación completa vive en
       <a href="balances.html#comparativa">Balances</a>.</li>
-      <li><strong><a href="#brecha-section">Brecha de atención y cronología</a></strong>:
-      barras = noticias por día; línea violeta = reportes ciudadanos; ▲ = entregas de datos.
-      Las líneas verticales son los hitos de la respuesta internacional, local y del propio
-      monitor — la lista de debajo se filtra por tipo. Se lee de un vistazo que los datos
-      llegan cuando la prensa ya se fue, y cómo van entrando fuentes nuevas.</li>
+      <li><strong><a href="#brecha-section">La brecha, día a día</a></strong>: la línea
+      ocre son los municipios que han inscrito damnificados en el registro oficial y la
+      azul los que ha mirado algún satélite. Lo que queda en medio es la brecha, y se
+      ensancha cada día que el registro crece y nadie mira. Debajo, en
+      <a href="#cronologia">la cronología</a>, qué pasó cada día: la respuesta
+      internacional, la local y los cambios del propio monitor, filtrables por tipo.</li>
       <li><strong><a href="municipios.html">Municipios</a></strong> (página aparte): los
       municipios del área de influencia con damnificados registrados en el RUD, menciones
       en prensa o intensidad percibida — la lista de «dónde más mirar», con buscador y qué
@@ -160,33 +232,30 @@
       titulares del evento recogidos, filtrables por zona, medio y texto — la prensa anterior
       al 10 de agosto queda en el archivo, no en la página. ¿Falta un medio regional? El registro de
       feeds es abierto — se añade con una propuesta de cambio en GitHub.</li>
-      <li><strong><a href="#glosario">Descargas y verificación</a></strong>: botones CSV/JSON arriba; glosario de
+      <li><strong><a href="#metodologia">Descargas y verificación</a></strong>: botones CSV/JSON arriba; glosario de
       acrónimos y metodología con enlaces a todas las fuentes al pie. Si una cifra no cuadra,
       cada respuesta original está archivada en el repositorio con su huella digital.</li>
     </ol>
   </details>
-</section>
 
+<details class="pliegue denso">
+  <summary>Alertas y silencios</summary>
+  <section id="alerts-section">
+    <h2>Alertas del monitor</h2>
+    <p class="note"><span data-gen="portada-alertas-fecha"></span></p><!-- lo rellena deploy/render_html.py en el build -->
+    <ul id="alerts" data-gen="portada-alertas"></ul><!-- lo rellena deploy/render_html.py en el build -->
+  </section>
+</details>
 
-<nav id="indice" aria-label="Índice de secciones">
-  <a href="#mapa">🗺️ Mapa</a>
-  <a href="#panel">Evidencia por municipio</a>
-  <a href="#fuentes-section">Comparativa</a>
-  <a href="#brecha-section">Brecha y cronología</a>
-  <a href="#alerts-section">Alertas</a>
-  <a href="#glosario">Glosario</a>
-  <a href="#metodologia">Metodología</a>
-  <a href="municipios.html">Municipios ↗</a>
-  <a href="rud.html">RUD ↗</a>
-  <a href="balances.html">Balances ↗</a>
-  <a href="noticias.html">Titulares ↗</a>
-</nav>
+<!-- Hermano y no hijo del plegable de arriba: ningún plegable dentro de otro. -->
+<details class="pliegue denso">
+  <summary><strong>Otras activaciones Copernicus en Colombia</strong> — vigilancia diaria del catálogo completo</summary>
+  <section id="colombia-acts" data-gen="portada-acts"></section><!-- lo rellena deploy/render_html.py en el build -->
+</details>
 
-<section class="aviso aviso--laguna" id="banner-brechas" data-gen="brechas"></section><!-- lo rellena deploy/render_html.py en el build -->
-
-<main id="mapa">
-  <div id="map"></div>
-  <aside id="panel">
+<details class="pliegue denso" id="municipios-uno-a-uno">
+  <summary>Municipios con evidencia, uno a uno</summary>
+  <section class="intro">
     <h2>Municipios con evidencia sobre el terreno</h2>
     <p class="note">Los municipios donde hay prueba georreferenciada dentro de sus
     límites: edificios clasificados por satélite o reportes de la comunidad. La tabla no
@@ -219,58 +288,21 @@
       <tbody data-gen="portada"></tbody><!-- lo rellena deploy/render_html.py en el build -->
     </table></div>
     <p class="note">«Oficial» exige EDAN/balance de entidad estatal. Desde que el monitor
-    captura el <a href="rud.html">RUD</a> (<span id="nota-rud-desde"></span>), ese registro
+    captura el <a href="rud.html">RUD</a> (<span data-gen="portada-nota-rud"></span>), ese registro
     aporta la evidencia donde los municipios ya registran — por eso hay zonas en
-    «Coincide».<span id="nota-sin-registro"></span> La prensa y los reportes ciudadanos no
+    «Coincide».<span data-gen="portada-nota-sin"></span> La prensa y los reportes ciudadanos no
     equivalen a un balance oficial.</p>
     <p class="aviso aviso--accion">¿Estás en la zona? <a href="https://chatmap.hotosm.org/colombia.html"
     target="_blank" rel="noopener"><strong>Reporta daños con tu ubicación y foto por
     WhatsApp</strong></a> (ChatMap, de OpenStreetMap Colombia, UN Mappers y el Equipo Humanitario de OpenStreetMap). Tu reporte aparece
     en este mapa con verificación cruzada satélite↔terreno.</p>
-    <div id="leyenda"></div>
-  </aside>
-</main>
-
-<section id="fuentes-section" class="page-section">
-  <h2>Cuatro miradas, cuatro cifras: la comparativa de fuentes</h2>
-  <p class="sub">El mismo desastre medido por el satélite, el registro oficial, la prensa
-  que cita a las autoridades y la comunidad. Que los números no coincidan no es un error:
-  <strong>la distancia entre ellos es la brecha de reporte</strong>. Cada tarjeta lleva a
-  su detalle; la comparación completa está en
-  <a href="balances.html#comparativa">Balances → comparativa</a>.</p>
-  <div id="fuentes-cards" class="metric-strip"></div>
-</section>
-
-<section id="brecha-section" class="page-section">
-  <h2>Brecha de atención y cronología: cómo se va cerrando</h2>
-  <p class="sub">Arriba, el <strong>volumen</strong>: barras = noticias por día; línea
-  verde = feeds abiertos del monitor; línea violeta = reportes ciudadanos. Debajo, en la
-  misma escala de fechas, la <strong>banda de hitos</strong> por carril:
-  🌍 respuesta internacional (▲ = entrega de datos Copernicus),
-  🇨🇴 <span style="color:var(--good)">respuesta local/oficial</span> (★ = el sismo) y
-  🔧 <span style="color:var(--warning)">cambios del propio monitor</span> — pasa el ratón
-  para leer cada hito. Los hitos se derivan automáticamente de los datos (alta del RUD,
-  primer balance en medios, purga de la serie EMM por GDACS); solo lo no derivable se
-  cura a mano y queda versionado.</p>
-  <div id="chart"></div>
-  <div id="crono-banda"></div>
-  <div class="chips" id="crono-filtros" role="group" aria-label="Filtrar cronología"></div>
-  <ol id="timeline"></ol>
-</section>
-
-<section id="alerts-section">
-  <h2>Alertas del monitor</h2>
-  <ul id="alerts"></ul>
-  <details style="margin-top:10px">
-    <summary style="cursor:pointer"><strong>Otras activaciones Copernicus en Colombia</strong>
-    — vigilancia diaria del catálogo completo</summary>
-    <div id="colombia-acts"></div>
-  </details>
-</section>
+    <section id="leyenda" data-gen="portada-leyenda"></section><!-- lo rellena deploy/render_html.py en el build -->
+  </section>
+</details>
 
 <section id="metodologia">
-  <details id="metodologia-box">
-    <summary><strong>📚 Metodología y glosario</strong> — cómo se construye cada cifra y qué significa cada sigla</summary>
+  <details class="pliegue denso" id="metodologia-box">
+    <summary><strong>Metodología y glosario</strong> — cómo se construye cada cifra y qué significa cada sigla</summary>
 
     <h3>Metodología</h3>
     <p>El monitor no produce cifras: <strong>audita y cruza las que existen</strong>. Cada día,
@@ -368,7 +400,6 @@
   </dl>
   </details>
 </section>
-
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="ui.js?v=dev"></script>

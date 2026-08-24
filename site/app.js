@@ -75,13 +75,15 @@
   // cifras y fechas distintas del mismo día. Además el sitio deja de depender
   // de que un worker en cuenta ajena siga en pie.
   const OFFICIAL_FEED = `${base}oficiales.json`;
-  const [mon, aois, municipios, chat, dyfi, sismos, shake, alerts,
+  // `alerts.json` ya no se pide: las alertas las escribe el build (fase 6), y
+  // pedirlo aquí era descargarlo para no usarlo.
+  const [mon, aois, municipios, chat, dyfi, sismos, shake,
          dmgPts, dmgLines, notAnalysed, unosat, sertit, oficiales,
          hitosCurados, sinMirada] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
     j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
-    j(base + "shakemap_mmi.geojson"), j(base + "alerts.json"),
+    j(base + "shakemap_mmi.geojson"),
     j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
     j(base + "not_analysed.geojson"), j(base + "unosat_damage.geojson"),
     j(base + "sertit_damage.geojson"),
@@ -744,171 +746,25 @@
   }
   pintaCronologia("todos");
 
-  // ---- otras activaciones Copernicus en Colombia
-  const actsEl = document.getElementById("colombia-acts");
-  const acts = (mon.colombia_activaciones || []).filter((x) => x.code !== "EMSR916");
-  actsEl.innerHTML = acts.length
-    ? acts.map((x) =>
-      `<p><a href="${x.visor}" target="_blank" rel="noopener"><strong>${x.code}</strong></a> — ` +
-      `${x.name} · ${t(x.category)}${t(x.category) !== x.category ? ` (${x.category})` : ""} · ${window.UI.fechaEs(x.event_time)} · ` +
-      `${x.n_aois} ${x.n_aois === 1 ? "zona analizada" : "zonas analizadas"}` +
-      `${x.closed === false ? ' · <span class="badge" style="--bc:var(--warning)">activación abierta</span>' : ""}</p>`).join("") +
-      `<p class="note">Índice completo vigilado: ${(mon.activation_index || []).length} activaciones` +
-      ` públicas (todas las emergencias mapeadas por Copernicus desde julio de 2023, en` +
-      ` cualquier país) — disponibles en los` +
-      ` <a href="/data/public/monitor.json" target="_blank">datos abiertos del monitor</a>.</p>`
-    : "<p class='note'>Ninguna otra activación de Colombia en el rango público.</p>";
-  // la nota del cruce no lleva fecha ni municipios escritos a mano: el día que
-  // Pereira o Buenaventura registren, deja de nombrarlos sola (R11)
-  const notaDesde = document.getElementById("nota-rud-desde");
-  if (notaDesde && (mon.rud || {}).serie && mon.rud.serie.length) {
-    // snapshot_date: cuándo empezó a capturarlo el monitor, NO cuándo empezó a
-    // registrar el RUD — decirlo al revés falsearía el propio archivo
-    notaDesde.textContent = window.UI.fechaLarga(mon.rud.serie[0].fecha);
-  }
-  // la frase completa es condicional: el día que toda zona con daño satelital
-  // tenga registro municipal, la afirmación deja de ser cierta y se sustituye
-  // por la buena noticia (romperse puede ser buena noticia — R11)
-  const notaSin = document.getElementById("nota-sin-registro");
-  if (notaSin) {
-    const ejemplos = window.UI.ejemplosSinRegistro(mon);
-    notaSin.textContent = ejemplos
-      ? ` Donde aún no registran${ejemplos}, el satélite sigue siendo la única evidencia.`
-      : " Ya no queda ninguna zona con daño satelital sin registro municipal.";
-  }
+  // Las activaciones de Colombia, las dos notas del cruce y la leyenda del
+  // mapa las escribe el build desde la fase 6 (render_html.py::
+  // activaciones_colombia, nota_rud_desde, nota_sin_registro y
+  // leyenda_portada). La rampa de color de la ausencia sigue aquí porque el
+  // mapa pinta con ella 196 anillos; su espejo en Python está declarado en
+  // render_html.py::_color_ausencia.
 
-  document.getElementById("leyenda").innerHTML = Object.entries({
-    coincide: "Coincide (evidencia oficial)", prensa: "Reportado en prensa",
-    ciudadano: "Reportado por ciudadanos", pendiente: "Pendiente de validar",
-    no_comparable: "No comparable 1:1",
-  }).map(([k, v]) =>
-    `<span class="badge" style="--bc:${ESTADO_COLOR[k]}">${v}</span>`).join("") +
-    // los municipios (círculos) no pasan por el cruce y reutilizan colores de
-    // los estados: sin este subgrupo su color queda sin explicar
-    `<span class="leyenda-sep">Municipios (círculos):</span>` +
-    Object.values(window.UI.ESTADO_MUNICIPIO).map(([txt, v, tip]) =>
-      `<span class="badge" style="--bc:${css(v)}" title="${tip}">${txt}</span>`).join("") +
-    // La capa de la ausencia necesita leyenda propia por dos razones: su rojo
-    // NO significa daño —significa sacudida estimada donde nadie ha medido
-    // daño— y su gris compite en este mismo mapa con «No comparable 1:1» y con
-    // el «No aplica» de Copernicus. Sin esto, el color afirma lo que el texto
-    // se cuida de no afirmar. El recuento sale del dato, nunca escrito a mano.
-    (sinMirada && sinMirada.items && sinMirada.items.length
-      ? `<span class="leyenda-sep">Con damnificados y sin producto de daño ` +
-        `satelital (anillo punteado) — el color es la sacudida que estima el ` +
-        `modelo ShakeMap del USGS, no daño observado:</span>` +
-        [4, 5, 6, 7].map((m) =>
-          `<span class="badge" style="--bc:${colorAusencia(m)}" ` +
-          `title="Intensidad ${fmt(m)} en la escala de Mercalli modificada">` +
-          `${fmt(m)}</span>`).join("") +
-        `<span class="badge" style="--bc:${css("--muted")}" ` +
-        `title="El ShakeMap del USGS no cubre estos municipios: no se sabe ` +
-        `qué sacudida hubo, que no es lo mismo que saber que fue leve">` +
-        `Sin dato de sacudida (${fmt(sinMirada.sin_mmi)})</span>`
-      : "");
-
-  // ---- gráfico temporal (volumen) + banda de hitos aparte, misma escala de fechas
+  // ---- banda de hitos: la única serie que sigue dibujando el navegador
   const fechaEvento = (hitos.find((h) => h.tipo === "evento") || {}).fecha;
   const mediaGrafico = window.UI.serieDesde(mon.media_volume || [], fechaEvento);
-  drawChart(mediaGrafico);
   drawCronoBanda(mediaGrafico, hitos);
-  renderFuentes();
 
-  // ---- alertas
-  const ul = document.getElementById("alerts");
-  const items = (alerts && alerts.alertas) || [];
-  const h2a = document.querySelector("#alerts-section h2");
-  // fecha absoluta, no «hoy»: esta página se releerá dentro de años (2.9)
-  if (h2a && alerts && alerts.fecha)
-    h2a.textContent = `Alertas del ${window.UI.fechaLarga(alerts.fecha)}`;
-  ul.innerHTML = items.length
-    ? items.map((a) => {
-        // Una alerta que nombra un producto debe dejar ir a verlo. El texto ya
-        // trae la URL en crudo —es lo único que viaja a Telegram, push y RSS—
-        // así que aquí se sustituye por un enlace en vez de repetirla.
-        let txt = a.texto || (a.tipo || "").replaceAll("_", " ");
-        let link = "";
-        if (a.url) {
-          txt = txt.replace(" — " + a.url, "").replace(a.url, "").trim();
-          link = ` <a href="${a.url}" target="_blank" rel="noopener">ver el producto ↗</a>`;
-        }
-        return `<li>${a.nivel === "alta" ? "⚠️ " : ""}${txt}${link}</li>`;
-      }).join("")
-    : "<li>Sin novedades de Colombia en la última revisión.</li>";
-
-  // eje X compartido entre la gráfica de volumen y la banda de hitos
+  // eje X de la banda de hitos. Lo compartía con la gráfica de volumen, que
+  // ya no existe: el gráfico de la portada es la brecha y lo escribe el build.
   function ejeX(el, media) {
     const W = Math.max(680, Math.min(el.clientWidth || 900, 1100));
     const M = { t: 28, r: 16, b: 40, l: 48 };
     const x = (i) => M.l + (i + 0.5) * (W - M.l - M.r) / media.length;
     return { W, M, x };
-  }
-
-  function drawChart(media) {
-    const el = document.getElementById("chart");
-    if (!media.length) { el.textContent = "Sin serie temporal todavía."; return; }
-    const { W, M, x } = ejeX(el, media), H = 260;
-    const maxY = Math.max(...media.map((d) => Math.max(d.emm || 0, d.feeds || 0, d.chatmap || 0)));
-    const bw = Math.min(34, (W - M.l - M.r) / media.length * 0.55);
-    const y = (v) => M.t + (H - M.t - M.b) * (1 - v / maxY);
-
-    let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Noticias y reportes ciudadanos por día">`;
-    for (const t of [0, 0.25, 0.5, 0.75, 1]) {
-      const v = Math.round(maxY * t), yy = y(v);
-      s += `<line x1="${M.l}" x2="${W - M.r}" y1="${yy}" y2="${yy}" stroke="${css("--grid")}" stroke-width="1"/>` +
-        `<text x="${M.l - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="${css("--muted")}">${v.toLocaleString("es-CO")}</text>`;
-    }
-    media.forEach((d, i) => {
-      const v = d.emm || 0, xx = x(i) - bw / 2, yy = y(v);
-      s += `<rect data-i="${i}" x="${xx}" y="${yy}" width="${bw}" height="${Math.max(0, H - M.b - yy)}" rx="3" fill="${css("--s1")}"/>`;
-      if (v) s += `<text x="${x(i)}" y="${yy - 4}" text-anchor="middle" font-size="10" fill="${css("--ink-2")}">${v.toLocaleString("es-CO")}</text>`;
-      s += `<text x="${x(i)}" y="${H - M.b + 14}" text-anchor="middle" font-size="10" fill="${css("--muted")}">${window.UI.diaMes(d.fecha)}</text>`;
-    });
-    // feeds abiertos del monitor: la serie que sigue viva tras la purga de EMM
-    const lineF = media.filter((d) => d.feeds != null);
-    if (lineF.length) {
-      const pf = media.map((d, i) => d.feeds == null ? null : `${x(i)},${y(d.feeds)}`)
-        .map((p, i, arr) => p == null ? null : `${arr.slice(0, i).some(q => q != null) ? "L" : "M"} ${p.replace(",", " ")}`)
-        .filter(Boolean).join(" ");
-      s += (`<path d="${pf}" fill="none" stroke="${css("--s3")}" stroke-width="2" stroke-dasharray="1 0"/>`);
-      media.forEach((d, i) => {
-        if (d.feeds == null) return;
-        s += (`<circle data-i="${i}" cx="${x(i)}" cy="${y(d.feeds)}" r="4" fill="${css("--s3")}" stroke="${css("--surface-1")}" stroke-width="2"/>`);
-      });
-    }
-    // reportes ciudadanos: los días sin dato SE SALTAN, igual que la serie de
-    // feeds. Dibujarlos con `|| 0` los pegaba al suelo como si nadie hubiera
-    // reportado nada, que es justo lo que ChatMap no dice de los días que no
-    // midió — la misma regla que sacó los guiones de los globos del mapa.
-    const lineC = media.filter((d) => d.chatmap != null);
-    if (lineC.length) {
-      const pc = media.map((d, i) => d.chatmap == null ? null : `${x(i)} ${y(d.chatmap)}`)
-        .map((p, i, arr) => p == null ? null
-          : `${arr.slice(0, i).some((q) => q != null) ? "L" : "M"} ${p}`)
-        .filter(Boolean).join(" ");
-      s += `<path d="${pc}" fill="none" stroke="${css("--s7")}" stroke-width="2"/>`;
-      media.forEach((d, i) => {
-        if (d.chatmap == null) return;
-        s += `<circle data-i="${i}" cx="${x(i)}" cy="${y(d.chatmap)}" r="4" fill="${css("--s7")}" stroke="${css("--surface-1")}" stroke-width="2"/>`;
-      });
-    }
-
-    s += `<g font-size="11">` +
-      `<rect x="${M.l}" y="4" width="10" height="10" rx="2" fill="${css("--s1")}"/><text x="${M.l + 14}" y="13" fill="${css("--ink-2")}">Noticias EMM (global, purgada)</text>` +
-      `<circle cx="${M.l + 205}" cy="9" r="5" fill="${css("--s3")}"/><text x="${M.l + 214}" y="13" fill="${css("--ink-2")}">Canales abiertos del monitor</text>` +
-      `<circle cx="${M.l + 385}" cy="9" r="5" fill="${css("--s7")}"/><text x="${M.l + 394}" y="13" fill="${css("--ink-2")}">Reportes ciudadanos (ChatMap)</text></g>`;
-    s += `</svg>`;
-    el.innerHTML = s;
-
-    window.UI.attachTooltip(el, (t) => {
-      if (t.dataset.i == null) return null;
-      const d = media[+t.dataset.i];
-      return `<strong>${window.UI.fechaLarga(d.fecha)}</strong><br>` +
-        `Noticias del monitor europeo de medios (EMM), serie global: ${fmt(d.emm)}<br>` +
-        `Canales abiertos del monitor: ${fmt(d.feeds)}<br>` +
-        `ChatMap: ${fmt(d.chatmap)}<br>Volumen en GDELT: ${d.gdelt ?? "—"}` +
-        `${d.fuentes ? "<br>Medios distintos: " + fmt(d.fuentes) : ""}`;
-    });
   }
 
   /* Banda de cronología: los hitos separados del volumen, misma escala de fechas.
@@ -965,26 +821,12 @@
       t.dataset.hito ? `<strong>Hito</strong><br>${t.dataset.hito}` : null);
   }
 
-  /* Tarjetas de la comparativa de fuentes (portada resumen). */
-  function renderFuentes() {
-    const el = document.getElementById("fuentes-cards");
-    if (!el) return;
-    const fuentes = window.UI.comparativaFuentes(mon, oficiales);
-    const fmt0 = (n) => window.UI.fmt(n, 0);
-    const principal = {
-      satelite: (f) => [fmt0(f.cifras.edificios_dañados),
-                        "edificios con daño clasificado por satélite"],
-      rud: (f) => [fmt0(f.cifras.familias), "familias registradas oficialmente"],
-      medios: (f) => [fmt0(f.cifras.familias),
-                      "familias afectadas · máximo informado en medios"],
-      ciudadano: (f) => [fmt0(f.cifras.reportes), "reportes ciudadanos con foto"],
-    };
-    window.UI.metricCards(el, fuentes.map((f) => {
-      const [valor, unidad] = principal[f.id](f);
-      return { label: f.nombre, value: valor,
-               sub: `${unidad} · ${f.desglose ? `${f.desglose} · ` : ""}${f.alcance}` +
-                    `${f.fecha ? ` · ${window.UI.fechaEs(f.fecha)}` : ""}`,
-               title: f.nota, href: f.href };
-    }));
-  }
+  /* La comparativa de fuentes, el gráfico de la brecha, la leyenda, las
+     alertas, el catálogo de activaciones y las dos notas del cruce los
+     escribe ahora el build (deploy/render_html.py, fase 6): eran seis
+     contenedores que viajaban VACÍOS en el HTML y solo existían para quien
+     ejecuta JavaScript. Dibujarlos aquí otra vez sería una segunda copia
+     de la misma regla, que es como divergen (M2). Lo único que sigue
+     dibujando el navegador en esta página es el mapa y la banda de
+     cronología, que son exploración y no archivo. */
 })();
