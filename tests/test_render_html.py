@@ -83,6 +83,34 @@ def datasets_ld(html: str) -> list:
             if "Dataset" in tipos_ld(n)]
 
 
+def ficha_del_corpus(ctx, criterio, queja):
+    """La ficha del PRIMER municipio elegible —por orden alfabético— que cumple
+    el criterio, o `AssertionError` con `queja` si ya no queda ninguno.
+
+    Nombrar un municipio a mano en un test envejece con los datos y lo hace en
+    silencio, porque el test sigue pareciendo correcto: hasta el 24-ago-2026
+    varios tests usaban «Cartago» como ejemplo de ficha sin evidencia, y el 23
+    Cartago recibió sus siete primeros reportes ciudadanos — cuatro rojos sin
+    que nadie hubiera roto nada. Alfabético para que dos corridas del mismo
+    corpus elijan el mismo y el fallo sea reproducible; y si un día no queda
+    candidato, el test lo cuenta como noticia en vez de dar un rojo opaco (R12).
+    """
+    for m in sorted(ctx["municipios"], key=lambda x: x["municipio"]):
+        nombre = m["municipio"]
+        if not R.es_elegible(nombre, ctx):
+            continue
+        d = R.datos_ficha(nombre, ctx)
+        if criterio(d):
+            return d
+    raise AssertionError(queja)
+
+
+SIN_EVIDENCIA_AGOTADA = (
+    "ya no queda ningún municipio elegible SIN evidencia: el mapa cubre todas "
+    "las fichas. Es una gran noticia y este test pierde su caso — "
+    "replantearlo, no buscarle un municipio a mano")
+
+
 def _dias_entre(desde: str, hasta: str) -> list:
     """Todos los días, uno a uno, entre dos fechas ISO (extremos incluidos)."""
     a, b = date.fromisoformat(desde), date.fromisoformat(hasta)
@@ -262,23 +290,47 @@ class TestFicha(unittest.TestCase):
 
 
 class TestMapaEvidencias(unittest.TestCase):
-    """La segunda pestaña existe solo con puntos y no pesa hasta que se pide."""
+    """La segunda pestaña existe solo con puntos y no pesa hasta que se pide.
+
+    Los municipios NO se nombran a mano: se eligen del corpus del día. Hasta el
+    24-ago-2026 aquí estaba escrito «Cartago» como ejemplo de ficha sin
+    evidencia, y el 23 Cartago recibió sus siete primeros reportes ciudadanos:
+    cuatro tests en rojo desde entonces, sin que nadie hubiera roto nada. Un
+    caso citado por su nombre envejece con los datos —la misma familia de fallo
+    que las cifras escritas a mano en la prosa—, y aquí el envejecimiento es
+    silencioso porque el test sigue pareciendo correcto. Elegir del corpus
+    también hace que el test cuente algo cuando ya no queda candidato: que el
+    mapa cubre todo lo elegible, que sería una gran noticia (R12)."""
 
     @classmethod
     def setUpClass(cls):
         cls.ctx = R.contexto()
+        cls.sin_evidencia = cls._elegir(
+            lambda d: not d["hay_evidencia"], SIN_EVIDENCIA_AGOTADA)
+        cls.solo_ciudadana = cls._elegir(
+            lambda d: (d["evidencia"]["conteos"]["ciudadanos"]
+                       and not d["evidencia"]["conteos"]["satelite"]),
+            "ningún municipio tiene solo evidencia ciudadana: o el satélite "
+            "llegó a todas partes, o la ingesta ciudadana dejó de entrar")
+        cls.solo_satelite = cls._elegir(
+            lambda d: (d["evidencia"]["conteos"]["satelite"]
+                       and not d["evidencia"]["conteos"]["ciudadanos"]),
+            "ningún municipio tiene solo evidencia satelital: revisar si el "
+            "cruce ciudadano se está aplicando donde no debe")
+
+    @classmethod
+    def _elegir(cls, criterio, queja):
+        return ficha_del_corpus(cls.ctx, criterio, queja)
 
     def test_visible_con_cualquiera_de_las_dos_clases_de_evidencia(self):
-        ciudadano = R.datos_ficha("Nóvita", self.ctx)
-        satelite = R.datos_ficha("Anserma", self.ctx)
-        ninguna = R.datos_ficha("Cartago", self.ctx)
+        ciudadano, satelite = self.solo_ciudadana, self.solo_satelite
         self.assertTrue(ciudadano["evidencia"]["conteos"]["ciudadanos"])
         self.assertEqual(ciudadano["evidencia"]["conteos"]["satelite"], 0)
         self.assertTrue(ciudadano["hay_evidencia"])
         self.assertTrue(satelite["evidencia"]["conteos"]["satelite"])
         self.assertEqual(satelite["evidencia"]["conteos"]["ciudadanos"], 0)
         self.assertTrue(satelite["hay_evidencia"])
-        self.assertFalse(ninguna["hay_evidencia"])
+        self.assertFalse(self.sin_evidencia["hay_evidencia"])
 
     def test_pestanas_accesibles_y_panel_diferido(self):
         html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
@@ -294,31 +346,39 @@ class TestMapaEvidencias(unittest.TestCase):
         self.assertNotIn("leaflet.js", html)
 
     def test_sin_puntos_no_hay_pestanas_ni_javascript(self):
-        html = R.render_ficha(R.datos_ficha("Cartago", self.ctx))
+        html = R.render_ficha(self.sin_evidencia)
         self.assertNotIn('role="tablist"', html)
         self.assertNotIn("municipio.js", html)
         scripts = re.findall(r"<script[^>]*>", html)
         self.assertTrue(all("application/ld+json" in s for s in scripts))
 
     def test_el_svg_solo_enlaza_a_portada_si_no_hay_mapa_de_evidencias(self):
+        nombre = self.sin_evidencia["muni"]["municipio"]
         con_evidencia = R.render_ficha(R.datos_ficha("Cali", self.ctx))
-        sin_evidencia = R.render_ficha(R.datos_ficha("Cartago", self.ctx))
+        sin_evidencia = R.render_ficha(self.sin_evidencia)
         self.assertNotIn('class="mapa-enlace"', con_evidencia)
+        # el href se escapa como URL y el rótulo como HTML: son dos escapes
+        # distintos sobre el mismo nombre, y el test usa los del generador
         self.assertRegex(
             sin_evidencia,
-            r'<a href="/\?municipio=Cartago#mapa" class="mapa-enlace"[^>]*>\s*<svg',
+            r'<a href="/\?municipio=%s#mapa" class="mapa-enlace"[^>]*>\s*<svg'
+            % re.escape(urllib.parse.quote(nombre)),
         )
         self.assertIn(
-            'aria-label="Abrir Cartago en el mapa interactivo"', sin_evidencia)
+            f'aria-label="Abrir {R.e(nombre)} en el mapa interactivo"',
+            sin_evidencia)
 
     def test_build_escribe_solo_paquetes_necesarios(self):
         with tempfile.TemporaryDirectory() as tmp:
             raiz = Path(tmp)
             R.run(raiz)
             cali = raiz / "data/public/municipios/cali/evidencia.json"
-            cartago = raiz / "data/public/municipios/cartago/evidencia.json"
+            vacio = (raiz / "data/public/municipios"
+                     / self.sin_evidencia["slug"] / "evidencia.json")
             self.assertTrue(cali.exists())
-            self.assertFalse(cartago.exists())
+            self.assertFalse(vacio.exists(),
+                             f"{self.sin_evidencia['muni']['municipio']} no tiene "
+                             f"evidencia y aun así se le escribió paquete")
             paquete = json.loads(cali.read_text(encoding="utf-8"))
             conteos = paquete["conteos"]
             self.assertEqual(conteos["total"], conteos["satelite"] + conteos["ciudadanos"])
@@ -2226,14 +2286,50 @@ class TestEntradillaRud(unittest.TestCase):
         self.assertIn("1.300", texto)
 
     def test_el_dato_real_cuadra_con_la_serie_publicada(self):
-        """Segunda vía sobre lo que se va a publicar de verdad (M8)."""
+        """Segunda vía sobre lo que se va a publicar de verdad (M8).
+
+        El par de capturas NO se fija a mano —ni siquiera «el último»—: se
+        recorre la serie real hacia atrás y se toma el más reciente cuyo
+        reparto se publicaría. Exigir que el último cuadre es fijar un dato a
+        mano con otro nombre, y quien decide si cuadra es la fuente: el
+        23-ago-2026 su detalle diario sumaba 15.435 familias donde su propia
+        serie decía 15.433, dos de diferencia que el monitor no inventó y que
+        hacen desaparecer la frase, que es exactamente lo que debe pasar (M7).
+
+        Lo que se comprueba es invariante: que la prosa publica las mismas
+        cifras que calculó el reparto, y que cuando el cálculo se calla la
+        prosa también —ni media oración—. Si ya no cuadra ningún corte, el
+        test lo cuenta como noticia (R12) en vez de dar un rojo opaco.
+        """
         ctx = R.contexto()
-        serie = ctx["rud"]["serie"]
-        salto = R._salto_del_rud(ctx["rud"])
-        self.assertIsNotNone(salto, "el desglose del salto real dejó de cuadrar")
-        self.assertEqual(round(salto["nuevos"] + salto["revision"]),
-                         round(serie[-1]["familias"] - serie[-2]["familias"]))
-        self.assertIn(R.fmt(salto["revision"]), R.entradilla_rud(ctx))
+        rud = ctx["rud"]
+        serie = rud["serie"]
+        par = salto = None
+        for i in range(len(serie) - 1, 0, -1):
+            candidato = {"serie": serie[i - 1:i + 1],
+                         "detalle_diario": rud["detalle_diario"]}
+            if (salto := R._salto_del_rud(candidato)):
+                par = candidato
+                break
+        self.assertIsNotNone(
+            par,
+            "el detalle diario del RUD ya no cuadra con su serie en ningún "
+            "corte: las dos mitades del registro dejaron de hablar del mismo "
+            "día. Eso es noticia del monitor, no un test que arreglar")
+        self.assertEqual(
+            round(salto["nuevos"] + salto["revision"]),
+            round(par["serie"][-1]["familias"] - par["serie"][0]["familias"]))
+        texto = R.entradilla_rud({"rud": par})
+        for cifra in ("salto", "revision", "nuevos", "municipios_nuevos"):
+            self.assertIn(R.fmt(salto[cifra]), texto,
+                          f"la prosa no publica el {cifra} que calculó")
+        # y lo que hoy sale de verdad: si el último corte no cuadra, la
+        # oración no aparece a medias en la entradilla que se publica
+        hoy, entradilla = R._salto_del_rud(rud), R.entradilla_rud(ctx)
+        if hoy:
+            self.assertIn(R.fmt(hoy["revision"]), entradilla)
+        else:
+            self.assertNotIn("De las", entradilla)
 
 
 class TestNotaRud(unittest.TestCase):
@@ -5055,9 +5151,12 @@ class TestChipsDeLaFicha(unittest.TestCase):
 
     def test_sin_evidencia_no_se_publica_una_tira_vacia(self):
         """Un contenedor vacío es la lección de los globos sin datos: una tira
-        de chips sin un solo chip ocupa sitio y no dice nada."""
-        d = R.datos_ficha("Cartago", self.ctx)
-        self.assertFalse(d["hay_evidencia"])
+        de chips sin un solo chip ocupa sitio y no dice nada.
+
+        El municipio se elige del corpus, no se nombra a mano: ver
+        `ficha_del_corpus`."""
+        d = ficha_del_corpus(self.ctx, lambda f: not f["hay_evidencia"],
+                             SIN_EVIDENCIA_AGOTADA)
         self.assertEqual(R.chips_evidencia(d), "")
         self.assertNotIn("chips-mapa", R.render_ficha(d))
 
@@ -5185,7 +5284,10 @@ class TestLienzoMunicipal(unittest.TestCase):
     def setUpClass(cls):
         cls.ctx = R.contexto()
         cls.cali = R.render_ficha(R.datos_ficha("Cali", cls.ctx))
-        cls.cartago = R.render_ficha(R.datos_ficha("Cartago", cls.ctx))
+        # elegido del corpus, no escrito a mano: ver `ficha_del_corpus`
+        cls.ficha_sin_evidencia = ficha_del_corpus(
+            cls.ctx, lambda f: not f["hay_evidencia"], SIN_EVIDENCIA_AGOTADA)
+        cls.sin_evidencia = R.render_ficha(cls.ficha_sin_evidencia)
 
     def _panel(self, html: str) -> str:
         m = re.search(r'<aside class="panel">(.*?)</aside>', html, re.S)
@@ -5324,9 +5426,9 @@ class TestLienzoMunicipal(unittest.TestCase):
         self.assertIn("Puntos dibujados en el mapa", panel)
 
     def test_sin_evidencia_el_panel_avisa_y_no_inventa_pestanas(self):
-        """Cartago no tiene puntos: el lienzo sigue existiendo —el panel es
+        """Un municipio sin puntos: el lienzo sigue existiendo —el panel es
         la tabla de datos de TODA ficha—, pero sin pestañas ni JavaScript."""
-        html = self.cartago
+        html = self.sin_evidencia
         self.assertIn('class="lienzo lienzo-mun"', html)
         self.assertIn("Qué dice cada fuente", html)
         self.assertIn("Ningún servicio satelital ha publicado producto de daño aquí",
@@ -5692,7 +5794,9 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
         """M10: anunciar una descarga que devuelve 404 es peor que no
         anunciarla. El build solo escribe `evidencia.json` donde hay puntos."""
         con = self._ld("Cali")
-        sin = self._ld("Cartago")
+        sin_evidencia = ficha_del_corpus(
+            self.ctx, lambda f: not f["hay_evidencia"], SIN_EVIDENCIA_AGOTADA)
+        sin = self._ld(sin_evidencia["muni"]["municipio"])
         self.assertTrue(any("evidencia.json" in x["contentUrl"]
                             for x in con["distribution"]))
         self.assertFalse(any("evidencia.json" in x["contentUrl"]
@@ -5831,12 +5935,17 @@ class TestLaSerieEsDeEsteMunicipioYNoDeSuVecino(unittest.TestCase):
     def test_el_nombre_corto_no_se_come_al_vecino_largo(self):
         """«Atrato» y «El Carmen de Atrato» son dos municipios del Chocó, y el
         segundo contiene al primero. La coincidencia exacta tiene que ganar."""
-        for nombre, esperado in (("Atrato", 266.0), ("El Carmen de Atrato", 277.0),
-                                 ("Buga", 206.0), ("Bugalagrande", 10.0)):
+        # Las cifras NO se fijan a mano: se derivan del catálogo. La primera
+        # versión escribió 266, 277, 206 y 10, y el snapshot del día siguiente
+        # las dejó caducadas — un test que hay que actualizar cada mañana acaba
+        # relajándose. Lo invariante es que la serie sea la de SU municipio.
+        for nombre in ("Atrato", "El Carmen de Atrato", "Buga", "Bugalagrande"):
             with self.subTest(municipio=nombre):
-                serie = R.datos_ficha(nombre, self.ctx).get("serie") or []
+                d = R.datos_ficha(nombre, self.ctx)
+                serie = d.get("serie") or []
                 self.assertTrue(serie, f"{nombre} se quedó sin serie")
-                self.assertAlmostEqual(serie[-1][1]["familias"], esperado, places=1)
+                self.assertAlmostEqual(serie[-1][1]["familias"],
+                                       d["muni"]["rud_familias"], places=1)
 
     def test_un_homonimo_toma_el_de_su_departamento(self):
         """«Argelia (Cauca)» tiene 1 familia y «Argelia» (Valle) 851. Sin el

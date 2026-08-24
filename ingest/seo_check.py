@@ -48,11 +48,18 @@ MINIMOS = {
 # Medido el 24-ago-2026 sobre `dist/` al cerrar la fase 4. Se sube cuando una
 # fase deja la página mejor, y se anota aquí con su fecha; **no se baja para que
 # pase un build** sin entrada en `docs/DECISIONES.md`.
-MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200}
+MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200,
+                      "rud.html": 47}
 PROSA_MINIMA = {
     "index.html": 2727,        # la portada la reordena la fase 6
     "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
-    "rud.html": 578,           # fase 3
+    # fase 3: 578 medidas − 47 del desglose del salto, que es condicional
+    # (24-ago-2026, docs/DECISIONES.md). La oración «De las N familias…»
+    # solo se publica si el reparto del último corte cuadra con la serie
+    # del RUD, y ese día dejó de cuadrar por la fuente: su detalle diario
+    # sumaba 15.435 familias donde su propia serie decía 15.433. El suelo
+    # no puede exigir prosa que depende de la aritmética de la fuente.
+    "rud.html": 531,
     "balances.html": 1404,     # fase 4: 1.564 medidas − 160 condicionales
     "noticias.html": 827,      # fase 4; su prosa no depende del dato del día
 }

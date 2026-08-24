@@ -3572,6 +3572,9 @@ class TestProcedenciaDeLaRejilla(unittest.TestCase):
 
 
 class TestActivosDelArchivo(unittest.TestCase):
+    # la trajo el merge con main, cuyo método de la imagen OG la usa
+    RAIZ = Path(__file__).parent.parent
+
     """Un activo se archiva UNA vez.
 
     Medido sobre `sources_log` el 24-ago-2026: de los 3.931 MB que el monitor
@@ -4214,22 +4217,23 @@ class TestActivosDelArchivo(unittest.TestCase):
             self.assertIn("::warning::", salida)
             self.assertEqual(informe["objetos_en_manifiesto"], 0)
 
-    def test_el_workflow_llama_a_la_auditoria_y_la_pone_en_el_rojo_final(self):
-        """El guion puede salir 1 todo lo que quiera: si el workflow no mira su
-        `outcome`, el día acaba en verde igual. Las dos mitades o van juntas o
-        no sirven (M2)."""
-        raiz = Path(__file__).parent.parent
-        flujo = (raiz / ".github" / "workflows" / "daily.yml").read_text(
-            encoding="utf-8")
-        self.assertIn("python ingest/auditar_r2.py", flujo)
-        self.assertIn("id: auditoria", flujo)
-        rojo = flujo[flujo.index("Marcar la corrida en rojo"):]
-        self.assertIn("steps.auditoria.outcome == 'failure'",
-                      rojo[:rojo.index("run:")],
-                      "la auditoría sale 1 pero nadie mira su resultado: el día "
-                      "se cerraría en verde con un cuerpo perdido")
+    def test_el_workflow_mira_el_resultado_de_la_auditoria(self):
+        """La auditoría corre con `continue-on-error`, así que su 1 se queda
+        dentro del paso: si nadie mira su `outcome`, el día cierra en verde con
+        un cuerpo perdido y nadie se entera.
 
-    # --- 7. el patrón, no el caso ------------------------------------------
+        Lo que NO puede hacer es apagar la publicación. Un bucket descuadrado no
+        invalida el archivo del día, y dejar la web sin salir por eso es el
+        error que tuvo la portada congelada dos días (R11: los supuestos
+        avisan). Así que se exige lo uno y se prohíbe lo otro."""
+        wf = (self.RAIZ / ".github/workflows/daily.yml").read_text(encoding="utf-8")
+        self.assertIn("steps.auditoria.outcome == 'failure'", wf,
+                      "nadie mira el resultado de la auditoría")
+        rojo = wf.split("Marcar la corrida en rojo")[1]
+        self.assertNotIn("auditoria", rojo.split("exit 1")[0],
+                         "la auditoría no puede apagar la publicación")
+        self.assertIn("::error::", wf.split("Avisar si la auditoría")[1][:400],
+                      "la auditoría falla sin dejar anotación visible")
 
     def test_lo_que_git_ignora_y_se_descarga_esta_declarado(self):
         """El barrido, convertido en guardián.
@@ -4309,3 +4313,82 @@ class TestActivosDelArchivo(unittest.TestCase):
         self.assertEqual(
             sync.count("--include"), len(ARCHIVO_EN_R2),
             "el sync sube extensiones que nadie declara, o al revés")
+    def test_la_corrida_diaria_regenera_la_imagen_antes_de_juzgarla(self):
+        """El bucle que dejó la web dos días sin publicar (23 y 24-ago-2026).
+
+        Regenerar en el deploy no basta: allí ya se hacía, pero el resultado
+        no volvía al repo, así que el fichero versionado envejecía y el test
+        de arriba suspendía cada mañana — y ese suspenso apagaba el deploy,
+        que era lo único que regeneraba la imagen. Para romperlo hacen falta
+        las dos mitades: generar ANTES de juzgar, y commitear lo generado."""
+        daily = (self.RAIZ / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        gen = daily.find("gen_og.py")
+        juicio = daily.find("tests.test_unit")
+        commit = daily.find("git add -A")
+        self.assertNotEqual(gen, -1,
+                            "la corrida diaria ya no regenera las imágenes "
+                            "sociales: volverán a envejecer hasta suspender")
+        self.assertLess(
+            gen, juicio,
+            "la corrida regenera la imagen DESPUÉS de juzgarla: el test la "
+            "seguirá encontrando vieja cada mañana")
+        self.assertIn(
+            "site/og/", daily[commit:commit + 120],
+            "lo regenerado no entra en el commit del día: mañana el repo "
+            "vuelve a traer la imagen vieja y el bucle se reabre")
+
+
+class TestUnaHipotesisCaidaNoApagaLaPublicacion(unittest.TestCase):
+    """R11/R12 en el único sitio donde se pagaban con la web.
+
+    Los días 23 y 24-ago-2026 el monitor archivó su día entero y no publicó
+    nada: un test de datos en rojo tumbaba la corrida diaria, y pages.yml sólo
+    despliega tras un `workflow_run` en verde. Nadie decidió dejar de publicar
+    — lo decidió un aviso que no debía tener ese poder. La corrida fallida sí
+    debe parar el deploy: entonces puede no haber día que publicar."""
+
+    RAIZ = Path(__file__).parent.parent
+
+    def pasos_que_paran_la_corrida(self):
+        """Los bloques del daily que terminan en `exit 1`, con su condición."""
+        daily = (self.RAIZ / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        bloques = daily.split("      - name:")
+        return [b for b in bloques if "exit 1" in b]
+
+    def test_ninguna_hipotesis_puede_apagar_la_publicacion(self):
+        """Si algún día se añade un paso de auditoría, el criterio es el mismo
+        y conviene extender la lista de abajo: lo que AVISA no puede apagar la
+        publicación; lo que falla al ARCHIVAR el día, sí — porque entonces no
+        hay día que publicar."""
+        culpables = [b for b in self.pasos_que_paran_la_corrida()
+                     if "hipotesis" in b]
+        self.assertEqual(
+            culpables, [],
+            "un paso que hace `exit 1` vuelve a mirar `steps.hipotesis`: eso "
+            "pone la corrida en rojo, pages.yml se salta el deploy y la web "
+            "se congela con el archivo del día ya guardado. Una hipótesis "
+            "avisa (R11) y su caída puede ser buena noticia (R12)")
+
+    def test_una_corrida_fallida_si_frena_el_deploy(self):
+        """La otra mitad: sin esto, «no romper» se convierte en publicar un
+        día que no se llegó a archivar."""
+        frenos = self.pasos_que_paran_la_corrida()
+        self.assertTrue(
+            any("steps.corrida.outcome == 'failure'" in b for b in frenos),
+            "nada frena ya la corrida diaria: si la ingesta falla, el deploy "
+            "publicaría un día sin archivar")
+
+    def test_la_hipotesis_caida_deja_constancia(self):
+        """Avisar no es callar: R11 dice que los supuestos rotos no se rompen
+        en silencio, y el verde sin anotación es silencio."""
+        daily = (self.RAIZ / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        avisos = [b for b in daily.split("      - name:")
+                  if "steps.hipotesis.outcome == 'failure'" in b]
+        self.assertTrue(avisos, "una hipótesis caída ya no deja ningún rastro")
+        self.assertTrue(
+            all("::error" in b or "::warning" in b for b in avisos),
+            "el paso que atiende la hipótesis caída no la anuncia: se caería "
+            "en silencio, que es justo lo que R11 prohíbe")

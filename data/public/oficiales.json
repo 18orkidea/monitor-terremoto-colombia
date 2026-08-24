@@ -1,8 +1,415 @@
 {
- "generated_at": "2026-08-22T04:02:41.917Z",
- "run_date": "2026-08-21",
- "total": 30,
+ "generated_at": "2026-08-24T04:02:15.964Z",
+ "run_date": "2026-08-23",
+ "total": 36,
  "items": [
+  {
+   "url": "https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance",
+   "publication_url": "https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance",
+   "title": "Terremoto en Colombia: UNGRD reporta 312 muertos ...",
+   "snapshot_id": "2026-08-23:https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance",
+   "search_date": "2026-08-23",
+   "search_query": "UNGRD SGC terremoto Colombia 23-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "Agenciapi.co",
+    "domain": "agenciapi.co",
+    "channel": "web",
+    "url": "https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "00c5a644bbf07f85f07c820ca3fc56cd99a9ac488b028ff7a4714e707291bcac",
+   "captured_at": "2026-08-24T04:02:15.964Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a031ed-91ca-743a-821f-6e298247743c",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "### Terremoto en Colombia: UNGRD reporta 312 muertos, 4.611 heridos y 290 desaparecidos en su más reciente balance\n\n## Más de 10 departamentos y 470 municipios afectados, más de 294.000 personas damnificadas y cientos de edificaciones colapsadas.\n\n![Terremoto nueva](https://www.agenciapi.co/sites/default/files/styles/imagen_principal_contenidos_2021/public/2026-08/Terre_0.jpg.webp?h=a955cd85&itok=0fbU6N3v)\n\nLa Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD) entregó un nuevo balance sobre las consecuencias del terremoto de magnitud 7,4 que sacudió a Colombia el pasado 10 de agosto, con epicentro en el municipio de San José del Palmar, Chocó.\n\nSegún el reporte más reciente de la entidad, la tragedia ha dejado 312 personas fallecidas, 4.611 heridas, 290 desaparecidas y 358 rescatadas de entre los escombros, cifras que continúan siendo objeto de verificación y depuración por parte de los organismos de socorro que operan en las zonas afectadas.\n\nDe acuerdo con el balance nacional, la emergencia afecta a 15 departamentos y 470 municipios del país, donde se contabilizan 143.470 familias y 294.278 personas damnificadas. Estas cifras confirman que el sismo, uno de los más destructivos registrados en Colombia en las últimas décadas, tuvo un impacto que trascendió el occidente y el centro del territorio nacional, golpeando con fuerza a regiones como el Eje Cafetero, el Valle del Cauca y el propio Chocó.\n\nEn materia de vivienda, el reporte de la UNGRD detalla que 134.124 viviendas resultaron averiadas y 29.548 fueron destruidas por completo, mientras que 277 edificios colapsaron durante el movimiento telúrico o en las horas posteriores debido a réplicas y daños estructurales. Estas cifras reflejan la magnitud de la crisis habitacional que enfrentan miles de familias, muchas de las cuales permanecen en albergues temporales mientras las autoridades evalúan la viabilidad de sus viviendas y avanzan los procesos de reconstrucción.\n\nEl golpe también se sintió con fuerza en la infraestructura social y de servicios del país. Según la entidad, 335 centros de salud, 3.421 centros educativos y 4.028 centros comunitarios presentaron afectaciones de distinta magnitud, lo que ha complicado la atención médica y la continuidad escolar en las zonas más golpeadas.\n\nA esto se suman los daños en la infraestructura vial y de conectividad: 432 vías, 97 acueductos, 52 puentes vehiculares, 13 puentes peatonales y 5 aeropuertos resultaron afectados, una situación que ha dificultado el ingreso de ayuda humanitaria y equipos de rescate a algunas localidades apartadas.\n\nEl balance de la UNGRD también incluyó un capítulo dedicado a la fauna afectada por el sismo. La entidad reportó el rescate de 485 animales, mientras que otros 1.308 continúan siendo atendidos o monitoreados por las autoridades ambientales y organizaciones de protección animal que se sumaron a la respuesta de emergencia.",
+   "publicado_en": null,
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": null,
+   "departamentos": [
+    "Chocó",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": 470,
+    "personas_afectadas": 294000,
+    "familias_afectadas": 143470,
+    "viviendas_averiadas": null,
+    "viviendas_destruidas": null,
+    "heridos": 4611,
+    "fallecidos": 312,
+    "desaparecidos": 290,
+    "rescatados": 358
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "### Terremoto en Colombia: UNGRD reporta 312 muertos, 4.611 heridos y 290 desaparecidos en su más reciente balance\n\n## Más de 10 departamentos y 470 municipios afectados, más de 294.000 personas damnificadas y cientos de edificaciones colapsadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "title": "Balance oficial de la UNGRD tras terremoto de magnitud 7 ...",
+   "snapshot_id": "2026-08-23:https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "search_date": "2026-08-23",
+   "search_query": "UNGRD SGC terremoto Colombia 23-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "13a53a241dddcc3561f09912ca0795452b0d0f64c4b7f53955f99dc2bbc1e5f3",
+   "captured_at": "2026-08-24T04:02:15.964Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a031ed-91ca-743a-821f-6e298247743c",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/13/6a7e0293687cb.r_d.600-268.png)\n\nEl Gobierno presentó el balance oficial de la emergencia este jueves 13 de agosto. Foto: UNGRD/EFE\n\n### Cifras oficiales de víctimas que deja el terremoto en Colombia\n\nEl consolidado presentado por la UNGRD, con corte de las 5 de la tarde, reporta las siguientes cifras de afectación a la población:\n\n- **Familias afectadas:** 44.936.\n- **Personas afectadas:** 102.105.\n- **Fallecidos:** 281.\n- **Heridos:** 3.971.\n- **Desaparecidos:** 379, según cifras de la Fiscalía General de la Nación.\n- **Departamentos afectados:** 15.\n- **Municipios afectados:** 426.\n- **Personas rescatadas:** 348.\n\nDe los fallecidos, **260 han ingresado a Medicina Legal**, **246 han sido reconocidos** y **222 cuerpos han sido entregados a sus familias.**\n\n### Daños en viviendas e infraestructura por el terremoto en Colombia\n\nEl balance presentado por la entidad también da cuenta de **daños en viviendas, edificaciones y servicios esenciales**:\n\n- **Viviendas destruidas:** 10.677.\n- **Viviendas averiadas:** 65.841.\n- **Edificios colapsados:** 127.\n- **Centros educativos afectados:** 2.136.\n- **Centros de salud afectados:** 236.\n- **Centros comunitarios afectados:** 825.\n- **Vías:** 198.\n- **Puentes vehiculares:** 34.\n- **Puentes peatonales:** 12.\n- **Acueductos afectados:** 71.\n- **Entidades bancarias afectadas:** 29.\n- **Aeropuertos afectados:** 5.\n\nEl reporte oficial también registra **243 animales afectados** y **169 rescatados**, que permanecen en **albergues con atención veterinaria**.\n\n### Imágenes satelitales y drones respaldan monitoreo de municipios afectados\n\nDurante una rueda de prensa este jueves, David Santiago Tamayo Roldán, **director de la UNGRD**, también se refirió a las herramientas tecnológicas utilizadas **para evaluar las zonas afectadas por el terremoto**. Explicó que, mediante alianzas con la **NASA** y otras entidades, **se han procesado 166 imágenes satelitales de alta definición.**\n\nEl funcionario señaló que este material incluye fotografías de ultradetalle de **Cali, Cartago, Manizales y Pereira**. Asimismo, indicó que **85 municipios fueron priorizados para la toma de fotografías aéreas** con aviones y drones, proceso que hasta el momento se ha completado en **13 de ellos**, ubicados en **Valle del Cauca, Chocó, Risaralda, Caldas y Quindío.**\n\n### Gobierno mantiene monitoreo del volcán Puracé en alerta naranja\n\nAunque el terremoto **constituye la prioridad nacional**, Tamayo precisó que la UNGRD mantiene la **atención sobre otras situaciones críticas** que permanecen activas en el territorio.\n\nLa entidad trabaja de manera simultánea frente al sismo, la **actividad volcánica y los incendios forestales**. En el caso del **volcán Puracé**, que continúa en **alerta naranja**, una **comisión técnica de la UNGRD** permanece en la zona desde el pasado fin de semana **para evaluar su actividad.**\n\n_Termino_",
+   "publicado_en": "2026-08-13T13:05:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-13",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Cali",
+    "Cartago",
+    "Manizales",
+    "Pereira"
+   ],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 426,
+    "personas_afectadas": 102105,
+    "familias_afectadas": 44936,
+    "viviendas_averiadas": 65841,
+    "viviendas_destruidas": 10677,
+    "heridos": 3971,
+    "fallecidos": 281,
+    "desaparecidos": 379,
+    "rescatados": 169
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
+   "title": "Balance oficial de la UNGRD este 15 de agosto tras ...",
+   "snapshot_id": "2026-08-22:https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
+   "search_date": "2026-08-22",
+   "search_query": "UNGRD SGC terremoto Colombia 22-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "6d9cb6e7d790b595195d439f335b47759dd4a245553ff159343d8fecb7a4a62f",
+   "captured_at": "2026-08-23T04:02:03.648Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a02cc7-342d-778d-8470-d32874e68106",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Balance oficial de la UNGRD este 15 de agosto tras terremoto de 7,4 en Colombia: 294 fallecidos, 3.935 heridos y 320 desaparecidos\n\nEl consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/14/6a7f4d88d64ed.r_d.572-268.png)  \nBalance tras terremoto Foto: UNGRD/EFE  \n\n**PERIODISTA** 15.08.2026 10:18 Actualizado: 15.08.2026 10:54  \n\nLa **Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)** actualizó este sábado 15 de agosto el balance tras el terremoto de magnitud 7,4 con epicentro en San José del Palmar, en el departamento del Chocó, Colombia.\n\nEl reporte, con corte a las 6:30 de la mañana, incluye información sobre el **número de personas afectadas y los daños ocasionados.**\n\n## Balance oficial de víctimas y población afectada por el terremoto\n\nEl nuevo consolidado nacional establece:  \n- **Personas fallecidas:** 294  \n- **Personas heridas:** 3.935  \n- **Personas desaparecidas:** 320  \n- **Personas rescatadas:** 353  \n- **Departamentos afectados:** 15  \n- **Municipios afectados:** 448  \n- **Familias afectadas:** 54.008  \n- **Personas afectadas:** 115.461  \n\n## Viviendas destruidas y daños en infraestructura tras el fuerte sismo\n\nEl informe también registra **daños en viviendas, edificaciones, infraestructura** y servicios esenciales:  \n- **Viviendas averiadas:** 81.506  \n- **Viviendas destruidas:** 14.493  \n- **Edificios colapsados:** 66  \n- **Centros de salud afectados:** 241  \n- **Centros educativos afectados:**  2.612  \n- **Centros comunitarios afectados:** 3.621  \n- **Vías afectadas:** 298  \n- **Acueductos afectados:** 59  \n- **Puentes vehiculares afectados:** 44  \n- **Puentes peatonales afectados:** 5  \n- **Aeropuertos afectados:** 5.  \n\nEl reporte oficial también **da cuenta de 578 animales afectados y 188 rescatados.**  \n\n## Gobierno prepara plan de reconstrucción\n\nEl plan se desarrollará bajo las directrices del **presidente de la República** y articulará las capacidades de la **Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)**, el **Ministerio de Vivienda**, los **empresarios** y las **entidades territoriales**, junto con otros actores públicos y privados, entidades financieras y organismos de cooperación.\n\nLa **coordinación de las acciones y los recursos** se llevará a cabo en el marco del **Fondo Milagro**, creado por el Gobierno Nacional como instrumento para **articular los esfuerzos destinados a la reconstrucción** de las zonas afectadas.\n\nEl **terremoto** afectó a los departamentos de Caldas, Quindío y Chocó, región del Pacífico colombiano donde se ubicó el epicentro, en el municipio de San José del Palmar.\n\nSegún el SGC, hasta la noche del viernes se habían producido **256 réplicas** del temblor, **17 de ellas con magnitud mayor a 3,0 y dos superiores a 4,0.**  \n\n**GERALDINE BAJONERO VÁSQUEZ**  \nPeriodista Últimas Noticias de EL TIEMPO",
+   "publicado_en": "2026-08-15T10:18:42-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-15",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 448,
+    "personas_afectadas": 115461,
+    "familias_afectadas": 54008,
+    "viviendas_averiadas": 81506,
+    "viviendas_destruidas": 14493,
+    "heridos": 3935,
+    "fallecidos": 294,
+    "desaparecidos": 320,
+    "rescatados": 188
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Balance oficial de la UNGRD este 15 de agosto tras terremoto de 7,4 en Colombia: 294 fallecidos, 3.935 heridos y 320 desaparecidos\n\nEl consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/",
+   "publication_url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/",
+   "title": "UNGRD actualiza cifras del terremoto en Colombia",
+   "snapshot_id": "2026-08-22:https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/",
+   "search_date": "2026-08-22",
+   "search_query": "UNGRD SGC terremoto Colombia 22-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "www.vanguardia.com",
+    "domain": "vanguardia.com",
+    "channel": "web",
+    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "23ffdd4e772c202f1db2ae690d5110fd5b386f34eaabf4ebaf072e0a73a46040",
+   "captured_at": "2026-08-23T04:02:03.648Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a02cc7-342d-778d-8470-d32874e68106",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# UNGRD actualiza cifras del terremoto en Colombia: 319 fallecidos y 31.461 viviendas destruidas\n\nLa emergencia se ha extendido en 15 departamentos y 476 municipios.\n\n![Fotografía que muestra una vivienda destruida este sábado en Cali (Colombia). EFE/Mario Baos ](https://www.vanguardia.com/resizer/v2/instituto-de-medicina-legal-de-colombia-ha-recibido-304-cuerpos-de-victimas-del-terremoto-I7WE3N23EZEF7GZ6X44AVLOXCM.jpg?auth=016766a74612debff56752b42ff420c067f83d3dff6febd966012a9313010556&smart=true&width=1200&height=800&quality=70)\n\nLa Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD) actualizó este 20 de agosto el balance de afectaciones ocasionadas por el sismo de magnitud 7,4 que tuvo su epicentro en San José del Palmar, Chocó, el pasado 10 de agosto.\n\nDe acuerdo con el Reporte, el desastre deja **319 personas fallecidas, 4.506 heridas y 260 desaparecidas**. En total, la entidad reporta **282.709 personas afectadas**, pertenecientes a 153.336 familias.\n\nEl informe también muestra la magnitud de los daños en viviendas. Hasta el momento se contabilizan **31.461 viviendas destruidas y 163.492 averiadas**. Además, hay 302 edificios colapsados y 5.809 edificios averiados.\n\n![Asesinan a un patrullero de la Policía en un tiroteo en Cundinamarca](https://www.vanguardia.com/resizer/v2/un-disparo-de-un-policia-termino-con-la-vida-de-un-hombre-en-bogota-5F2ILA2PMJG4DFUORGBBPRXRGY.png?auth=be44a203f2ce217c0cf2d73ae33a2534d951a7686ea4d8b60d5f12934e491e3a&smart=true&width=150&height=100&quality=70)\n\n**La emergencia se extiende a** **15 departamentos y 476 municipios**, según el consolidado nacional de la UNGRD. Entre los territorios incluidos en el reporte están Valle del Cauca, Risaralda, Chocó, Caldas, Quindío, Cauca, Huila, Nariño, Antioquia, Tolima, Cundinamarca y Norte de Santander, entre otros.\n\n**Valle del Cauca concentra la mayor cifra de fallecidos**\n\nEl Valle del Cauca registra el mayor número de personas fallecidas, con **190 víctimas**, seguido de Risaralda, con 108, y Chocó, con 12. Caldas reporta cinco fallecidos y Quindío, tres.\n\n**En cuanto a personas heridas,** el Valle del Cauca también concentra la cifra más alta, con **2.906 casos**, mientras que Risaralda registra 588 y Quindío, 315.\n\nLa situación de las viviendas también refleja una afectación considerable en el Valle del Cauca: el departamento registra **11.386 viviendas destruidas y 44.373 averiadas**. Risaralda suma 11.757 viviendas destruidas y 48.755 averiadas.\n\n![Coronel Carlos Didier Pérez habría recibido $30 millones semanales de la Segunda Marquetalia, según Fiscalía](https://www.vanguardia.com/resizer/v2/policia-4VI367NYNRCHZPMF3MSZRYFD5Y.webp?auth=1ae702993185bb697e21c2c1f186ae99c2ec27e6388580724c2aa8a9cf9e410c&smart=true&width=150&height=100&quality=70)\n\n**En el consolidado nacional aparecen además** **3.483 centros educativos afectados, 4.996 centros comunitarios, 348 centros de salud, 449 vías, 112 acueductos, 68 puentes vehiculares y 14 puentes peatonales**.\n\n**El epicentro del terremoto** del pasado 10 de agosto fue en el municipio de San José del Palmar, Chocó. El evento tuvo una magnitud de 7,4 y una profundidad reportada de 103 kilómetros.\n\nEl informe señala que, después del sismo principal, se habían registrado **332 movimientos sísmicos hasta el 17 de agosto**. De ellos, 21 tuvieron magnitudes superiores a 3,0 y dos superaron una magnitud de 4,0.\n\nLas labores de búsqueda y rescate también continúan dentro del balance de la emergencia. El reporte consolidado del Programa Nacional de Búsqueda y Rescate de la UNGRD registra **364 personas rescatadas y 216 cuerpos recuperados**.",
+   "publicado_en": "2026-08-20T13:13:50Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-20",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 282709,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 163492,
+    "viviendas_destruidas": 31461,
+    "heridos": 4506,
+    "fallecidos": 319,
+    "desaparecidos": 260,
+    "rescatados": 364
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# UNGRD actualiza cifras del terremoto en Colombia: 319 fallecidos y 31.461 viviendas destruidas\n\nLa emergencia se ha extendido en 15 departamentos y 476 municipios.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "title": "Balance oficial de la UNGRD tras terremoto de magnitud 7 ...",
+   "snapshot_id": "2026-08-22:https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "search_date": "2026-08-22",
+   "search_query": "UNGRD SGC terremoto Colombia 22-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "525a230ec2acc98795bbfc8d975f1a7a8088a06204e50dbe69a10a3aee32205f",
+   "captured_at": "2026-08-23T04:02:03.648Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a02cc7-342d-778d-8470-d32874e68106",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Noticia\n\n# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/13/6a7e0293687cb.r_d.600-268.png)\n\nEl Gobierno presentó el balance oficial de la emergencia este jueves 13 de agosto. Foto: UNGRD/EFE\n\n### Cifras oficiales de víctimas que deja el terremoto en Colombia\n\nEl consolidado presentado por la UNGRD, con corte de las 5 de la tarde, reporta las siguientes cifras de afectación a la población:\n\n- **Familias afectadas:** 44.936.\n- **Personas afectadas:** 102.105.\n- **Fallecidos:** 281.\n- **Heridos:** 3.971.\n- **Desaparecidos:** 379, según cifras de la Fiscalía General de la Nación.\n- **Departamentos afectados:** 15.\n- **Municipios afectados:** 426.\n- **Personas rescatadas:** 348.\n\nDe los fallecidos, **260 han ingresado a Medicina Legal**, **246 han sido reconocidos** y **222 cuerpos han sido entregados a sus familias.**\n\n### Daños en viviendas e infraestructura por el terremoto en Colombia\n\nEl balance presentado por la entidad también da cuenta de **daños en viviendas, edificaciones y servicios esenciales**:\n\n- **Viviendas destruidas:**  10.677.\n- **Viviendas averiadas:** 65.841.\n- **Edificios colapsados:**  127.\n- **Centros educativos afectados:**  2.136.\n- **Centros de salud afectados:** 236.\n- **Centros comunitarios afectados:** 825.\n- **Vías:** 198.\n- **Puentes vehiculares:** 34.\n- **Puentes peatonales:** 12.\n- **Acueductos afectados:** 71.\n- **Entidades bancarias afectadas:** 29.\n- **Aeropuertos afectados:** 5.\n\nEl reporte oficial también registra **243 animales afectados** y **169 rescatados**, que permanecen en **albergues con atención veterinaria**.\n\n### Imágenes satelitales y drones respaldan monitoreo de municipios afectados\n\nDurante una rueda de prensa este jueves, David Santiago Tamayo Roldán, **director de la UNGRD**, también se refirió a las herramientas tecnológicas utilizadas **para evaluar las zonas afectadas por el terremoto**. Explicó que, mediante alianzas con la **NASA** y otras entidades, **se han procesado 166 imágenes satelitales de alta definición.**\n\n### Gobierno mantiene monitoreo del volcán Puracé en alerta naranja\n\nAunque el terremoto **constituye la prioridad nacional**, Tamayo precisó que la UNGRD mantiene la **atención sobre otras situaciones críticas** que permanecen activas en el territorio. \n\nLa entidad trabaja de manera simultánea frente al sismo, la **actividad volcánica y los incendios forestales**. En el caso del **volcán Puracé**, que continúa en **alerta naranja**, una **comisión técnica de la UNGRD** permanece en la zona desde el pasado fin de semana **para evaluar su actividad.**",
+   "publicado_en": "2026-08-13T13:05:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-13",
+   "departamentos": [],
+   "municipios": [],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 426,
+    "personas_afectadas": 102105,
+    "familias_afectadas": 44936,
+    "viviendas_averiadas": 65841,
+    "viviendas_destruidas": 10677,
+    "heridos": 3971,
+    "fallecidos": 281,
+    "desaparecidos": 379,
+    "rescatados": 169
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "## Noticia\n\n# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
    "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
@@ -2444,6 +2851,122 @@
    "confianza": "media",
    "cita": "![Asocapitales informó que Quibdó, Cali, Manizales, Pereira y Armenia quedaron en alerta roja tras los colapsos causados por el terremoto - crédito @Alcaldiapereira/X](https://www.infobae.com/resizer/v2/5TKPZUI4HNHORBMUSY6BKORPQM.jpg?auth=348ac493b4a34fa88dc9f22bf510d18025918c0b0",
    "atribucion_lugares": "limite_palabra_sin_enlaces"
+  },
+  {
+   "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/",
+   "publication_url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/",
+   "title": "Estos son los municipios y ciudades más afectados por el ...",
+   "snapshot_id": "2026-08-23:https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/",
+   "search_date": "2026-08-23",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 23-08-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "infobae",
+    "domain": "infobae.com",
+    "channel": "web",
+    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "7e4fa033df88e2ed38e1e87b8b53042c044a3379c27409958923fdecbfd25ef8",
+   "captured_at": "2026-08-24T04:02:15.964Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a031ed-a84b-72de-9514-90e25f7d12cb",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "![Asocapitales informó que Quibdó, Cali, Manizales, Pereira y Armenia quedaron en alerta roja tras los colapsos causados por el terremoto - crédito @Alcaldiapereira/X](https://www.infobae.com/resizer/v2/5TKPZUI4HNHORBMUSY6BKORPQM.jpg?auth=348ac493b4a34fa88dc9f22bf510d18025918c0b07232f62226a54a8ef0b6938&smart=true&width=350&height=222&quality=85)Asocapitales informó que Quibdó, Cali, Manizales, Pereira y Armenia quedaron en alerta roja tras los colapsos causados por el terremoto - crédito @Alcaldiapereira/X\n\n18 Ago, 2026 10:42 a. m. EST\n\nEl terremoto de magnitud 7,4 que sacudió a Colombia el lunes 10 de agosto de 2026 dejó su impacto más grave en el occidente y suroccidente del país, con 472 municipios reportados como afectados en los primeros balances y cinco capitales en alerta roja, en una emergencia que sigue bajo evaluación de las autoridades.\n\nEn el más reciente reporte difundido por la Unidad Nacional para la Gestión del Riesgo de Desastres (Ungrd) el martes 18 de agosto informó 123.789 familias afectadas, 292.043 personas afectadas, 304 fallecidos, 4.548 heridos y 426 desaparecidos.\n\nAsí mismo, según el Servicio Geológico Colombiano, **el epicentro se localizó en inmediaciones de San José del Palmar, en el departamento del Chocó**. La Ungrd advirtió que las cifras podían modificarse a medida que avanzaran los censos y las verificaciones en terreno.\n\nAsocapitales atribuyó a Cali y Pereira las mayores afectaciones en pérdidas humanas y colapsos de infraestructura.\n\n![Cali concentró la mayor cantidad de fallecidos entre las capitales y registró viviendas, vías, estaciones de policía y estructuras colapsadas - crédito @alejoeder/X](https://www.infobae.com/resizer/v2/LX3DAEXSEJHPTN6JTHKGNCKEVQ.jpg?auth=1df95a010ef4e8fe1811d59a82ff78b6911d3401ddefd25953fdf72dcb625e78&smart=true&width=350&height=233&quality=85)Cali concentró la mayor cantidad de fallecidos entre las capitales y registró viviendas, vías, estaciones de policía y estructuras colapsadas - crédito @alejoeder/X\n\nCali ha concentrado la mayor cantidad de decesos en las capitales. **La ciudad registró 96 fallecidos, 1.224 heridos, 88 rescatados y 111 desaparecidos, además de 107 viviendas colapsadas**, 800 viviendas averiadas, 56 estructuras colapsadas, tres vías colapsadas y cuatro estaciones de policía afectadas.\n\nLas labores de búsqueda en la capital del Valle del Cauca movilizaban 750 rescatistas, de los cuales 350 eran de apoyo externo y 400 de Cali, junto con 14 caninos. Los barrios y zonas más afectados eran Alameda, Nueva Tequendama, Cámbulos, Guadalupe, El Refugio, Pampalinda, El Limonar, Capri y Caldas.\n\nEn todo el Valle del Cauca, según el último reporte entregado por la Gobernación **los daños se extendieron a municipios como Calima-El Darién, Zarzal, El Cairo, Buenaventura, Sevilla, Roldanillo, Buga, Yumbo, Florida, Yotoco, Versalles, La Unión, El Águila, Cartago y Riofrío**, donde en los lugares más golpeados el daño estructural alcanzaba hasta 80% de las edificaciones.\n\n![Pereira reportó la mayor cifra de desaparecidos, con 260 personas no localizadas, además de afectaciones en vías, puentes, la terminal y el aeropuerto Matecaña - crédito Juan Felipe León/Reuters](https://www.infobae.com/resizer/v2/2NS5AGZB5FCWLJVN32FSMDP7P4.JPG?auth=7d7b5b10c77be152e89d6a36c41811fe3721cb64e410e09cba79380ec9cf4c9f&smart=true&width=350&height=197&quality=85)Pereira reportó la mayor cifra de desaparecidos, con 260 personas no localizadas, además de afectaciones en vías, puentes, la terminal y el aeropuerto Matecaña - crédito Juan Felipe León/Reuters\n\nEn Pereira, capital de Risaralda, se reportó la cifra más alta de personas desaparecidas: 260. El último informe indicó 93 fallecidos, 259 heridos y 260 personas rescatadas, además de 66 estructuras colapsadas y 67 averiadas.\n\nLa ciudad tenía hasta 14 vías y puentes afectados. **La Terminal de Transporte de Pereira permanecía cerrada y el Aeropuerto Internacional Matecaña operaba con restricciones**; entre los sectores más dañ",
+   "publicado_en": "2026-08-18T14:42:57.178Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Buenaventura",
+    "Buga",
+    "Calarcá",
+    "Cali",
+    "Cartago",
+    "Dosquebradas",
+    "Istmina",
+    "Manizales",
+    "Montenegro",
+    "Pereira",
+    "Quibdó",
+    "Roldanillo",
+    "Salento",
+    "San José del Palmar",
+    "Sevilla",
+    "Villamaría",
+    "Zarzal"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 292043,
+    "familias_afectadas": 123789,
+    "viviendas_averiadas": 800,
+    "viviendas_destruidas": 107,
+    "heridos": 4548,
+    "fallecidos": 304,
+    "desaparecidos": 426,
+    "rescatados": 260
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "![Asocapitales informó que Quibdó, Cali, Manizales, Pereira y Armenia quedaron en alerta roja tras los colapsos causados por el terremoto - crédito @Alcaldiapereira/X](https://www.infobae.com/resizer/v2/5TKPZUI4HNHORBMUSY6BKORPQM.jpg?auth=348ac493b4a34fa88dc9f22bf510d18025918c0b0",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -2623,8 +3146,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a027a0-d5be-74e1-93b9-99569304c524",
-       "query": "UNGRD SGC terremoto Colombia 21-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a031ed-91ca-743a-821f-6e298247743c",
+       "query": "UNGRD SGC terremoto Colombia 23-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -2632,8 +3155,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a027a0-e83d-7426-8322-a81f65c72e16",
-       "query": "Gobernación Alcaldía terremoto Colombia 21-08-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a031ed-a84b-72de-9514-90e25f7d12cb",
+       "query": "Gobernación Alcaldía terremoto Colombia 23-08-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -2641,8 +3164,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a027a0-ef3a-723b-a7a9-0f48636bc559",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 21-08-2026 reporte oficial afectados",
+       "id": "01a031ed-b60d-7135-94c4-8c3d59ff3244",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 23-08-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -2708,22 +3231,18 @@
      "type": "html",
      "url": "https://www.valledelcauca.gov.co/riesgo/",
      "note": "Sección de Gestión del Riesgo; puede devolver 502, se considera fuente inestable.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 90,
-     "candidates": 2,
-     "result": "candidate_links"
+     "http_status": 502,
+     "ok": false,
+     "result": "no_usable"
     },
     {
      "role": "noticias",
      "type": "html",
      "url": "https://www.valledelcauca.gov.co/publicaciones/noticias/",
      "note": "Listado de publicaciones/noticias del dominio oficial.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 73,
-     "candidates": 1,
-     "result": "candidate_links"
+     "http_status": 502,
+     "ok": false,
+     "result": "no_usable"
     }
    ]
   },
@@ -2753,9 +3272,11 @@
      "type": "rss",
      "url": "https://www.caldas.gov.co/noticias-gobernacion?format=feed&type=rss",
      "note": "RSS Joomla de Noticias Gobernación; es el canal más útil para datos publicados.",
-     "ok": false,
-     "result": "error",
-     "error": "The operation was aborted due to timeout"
+     "http_status": 200,
+     "ok": true,
+     "links_found": 2,
+     "candidates": 0,
+     "result": "no_event_specific_links"
     },
     {
      "role": "riesgo",
@@ -2780,11 +3301,9 @@
      "type": "html",
      "url": "https://www.risaralda.gov.co/publicaciones/noticias/",
      "note": "Portal oficial de noticias; puede bloquear 403 a tráfico automatizado.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 119,
-     "candidates": 5,
-     "result": "candidate_links"
+     "http_status": 403,
+     "ok": false,
+     "result": "no_usable"
     }
    ]
   },
@@ -2819,6 +3338,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-08-22/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-08-24/oficiales_feed.json"
  }
 }

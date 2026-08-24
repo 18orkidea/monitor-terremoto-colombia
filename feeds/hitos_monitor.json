@@ -174,53 +174,11 @@
    "url": "/"
   },
   {
-   "fecha": "2026-08-22",
+   "fecha": "2026-08-24",
    "tipo": "monitor",
-   "resumen": "El mapa dibuja los 196 municipios que ningún satélite ha evaluado.",
-   "texto": "El mapa deja de enseñar solo lo que alguien miró. Entra una capa con los 196 municipios que tienen familias inscritas en el registro oficial de damnificados y ninguna evaluación de Copernicus, UNOSAT ni ICube-SERTIT. El rojo se gradúa con la intensidad que el modelo del USGS estima para cada cabecera municipal, no con la que la gente sintió, que solo se conoce en 23 de ellos. Los nueve municipios que quedan fuera de ese mapa de intensidad se pintan grises en vez de recibir la intensidad más baja: no saber no es lo mismo que haber temblado poco.",
-   "url": "/#mapa"
-  },
-  {
-   "fecha": "2026-08-23",
-   "tipo": "monitor",
-   "resumen": "El monitor corrige cinco fichas municipales que publicaban el departamento repetido.",
-   "texto": "Cinco fichas se titulaban con el departamento escrito dos veces: por ejemplo, «Terremoto en Riosucio (Caldas) (Caldas) 2026». Son las de los dos Riosucios —el de Caldas y el del Chocó— y las de Argelia, Balboa y Bolívar, en el Cauca. Colombia tiene municipios homónimos, y el monitor los distingue internamente: añade el departamento entre paréntesis al nombre con el que los guarda. Ese nombre interno se estaba publicando como si fuera el del pueblo. Ya no: la ficha escribe el topónimo y deja el departamento donde corresponde. El enlace al mapa sigue viajando con el nombre interno, que es lo único que distingue los dos Riosucios. De paso se corrige la concordancia en 13 fichas que decían «1 familias inscritas» o «1 viviendas averiadas». Y el código de la División Político-Administrativa (DIVIPOLA) y la fecha de la corrida diaria bajan del subtítulo a «Fuentes y trazabilidad», que es donde los busca quien los necesita.",
-   "url": "/municipio/riosucio-caldas/"
-  },
-  {
-   "fecha": "2026-08-23",
-   "tipo": "monitor",
-   "resumen": "Las cinco páginas principales ya se leen sin ejecutar JavaScript.",
-   "texto": "El mapa, los municipios, el registro oficial, los balances y los titulares llegaban al lector sin barra de navegación y sin pie: los escribía el navegador al abrirlos, así que quien lee el sitio sin ejecutar JavaScript —los archivos de la web y los rastreadores que alimentan los sistemas de inteligencia artificial— recibía cinco páginas sin un solo enlace hacia el resto del monitor. Desde hoy van escritas en el documento, como ya lo estaban en las 208 fichas municipales. Es la misma navegación de siempre, con dos diferencias: los enlaces pierden el icono que los precedía y el pie pasa a ser idéntico en las 213 páginas.",
+   "resumen": "El monitor recupera la publicación diaria tras dos días archivando sin publicar.",
+   "texto": "Los días 23 y 24 de agosto el monitor recogió y archivó sus datos con normalidad, pero no llegó a publicarlos: un control interno de calidad —pensado para avisar— estaba apagando el despliegue del sitio, que quedó congelado en la información del día 22. Los datos de esos dos días no se perdieron en ningún momento: estaban archivados y con su huella, y se publican ahora. El control vuelve a lo suyo, avisar sin detener la publicación, y queda vigilado por sus propias pruebas.",
    "url": "/"
-  },
-  {
-   "fecha": "2026-08-23",
-   "tipo": "monitor",
-   "resumen": "Las fichas municipales se presentaban mal ante los buscadores y los sistemas de IA.",
-   "texto": "Cada una de las 208 fichas municipales lleva una tarjeta invisible para el lector y decisiva para quien no lee con los ojos: la ficha técnica que describe, en un formato normalizado, qué datos contiene la página. Dentro de esa tarjeta, la línea que decía «esto forma parte del sitio» no enlazaba al sitio: declaraba un segundo conjunto de datos, sin descripción, que los validadores leen como incompleto. Se corrige cambiando la forma y no rellenando el hueco: la tarjeta pasa a apuntar a una identidad única —quién publica esto— escrita igual en las 213 páginas del monitor. En la portada, además, las cuatro descargas de datos abiertos declaraban direcciones relativas, que un programa que extrae la ficha técnica por separado no puede resolver, y la autoría figuraba con el nombre interno del proyecto en vez del público. Nada de esto cambia lo que se ve en pantalla: cambia quién puede citar estas cifras sin equivocarse.",
-   "url": "/municipio/cali/"
-  },
-  {
-   "fecha": "2026-08-23",
-   "tipo": "monitor",
-   "resumen": "El sitio se presenta en su barra como «Datos del terremoto».",
-   "texto": "La barra de navegación de las 213 páginas se presentaba con el nombre interno del proyecto, «Monitor de brechas», y debajo una segunda línea con la magnitud y la fecha del sismo. Pasa a decir «Datos del terremoto», que es como se llama el sitio de cara al público y como se escribe su dirección. El dato del sismo no se pierde: baja al encabezado de cada página, en su propio renglón encima de la fecha de la última corrida, con una sola redacción para las cinco. En un teléfono de 375 píxeles la barra, que va pegada arriba mientras se lee, encoge de 86 a 73 píxeles: un 16 % de su altura recuperada en cada desplazamiento. Las 208 fichas municipales no reciben esa línea porque su titular ya nombra el terremoto y su mapa rotula el epicentro.",
-   "url": "/"
-  },
-  {
-   "fecha": "2026-08-23",
-   "tipo": "monitor",
-   "resumen": "En la lista de municipios se pulsa la fila entera, no solo el nombre.",
-   "texto": "En la tabla de municipios, abrir la ficha de un municipio exigía acertar sobre su nombre: una palabra dentro de una fila de diez columnas, difícil de tocar en un teléfono. Ahora la fila entera lleva a la ficha, sin necesidad de JavaScript y sin multiplicar los enlaces: sigue habiendo un único enlace real por fila, que se puede recorrer con el tabulador y copiar como dirección. Las cifras siguen pudiéndose seleccionar y copiar, y las explicaciones que aparecen al posar el ratón sobre el estado, la población o las columnas de satélite siguen apareciendo: pulsar exactamente encima de un dato no abre la ficha, porque ahí manda el dato. La tabla del registro oficial no cambia; enlazar sus filas exige cruzar dos catálogos de nombres de municipio y ese cruce se hace en la ingesta, no al dibujar la página.",
-   "url": "/municipios.html"
-  },
-  {
-   "fecha": "2026-08-23",
-   "tipo": "monitor",
-   "resumen": "El monitor busca prensa de 203 municipios, no de 82.",
-   "texto": "La tabla de municipios decía de 119 municipios que no tienen ni un titular, y en 109 de ellos el monitor nunca había llegado a preguntar: la búsqueda de prensa recorría una lista escrita a mano, mientras que la tabla se alimenta del registro oficial de damnificados, que crece cada día con municipios nuevos. Una casilla vacía porque no hay noticias y otra vacía porque nadie buscó se veían exactamente igual. Desde hoy la lista de búsquedas se deriva del propio registro en cada corrida: pasa de 82 a 203 municipios y crece sola, sin que nadie tenga que añadir nada. Quedan cinco fuera, y por una razón que se explica: Bolívar (Cauca), Bolívar (Valle del Cauca), Córdoba (Quindío), Risaralda (Caldas) y Sucre (Cauca) se llaman igual que un departamento, así que una búsqueda por su nombre traería noticias del departamento entero y se las atribuiría al municipio. Su prensa solo puede llegar por un medio local dado de alta a mano. La cobertura nueva se ve en el sitio a partir de la primera corrida completa.",
-   "url": "/municipios.html"
   }
  ]
 }

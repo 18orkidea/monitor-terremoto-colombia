@@ -147,11 +147,25 @@ jobs:
             rm -f "$DEST"
           fi
 
+      # ORDEN DELIBERADO: las imágenes se regeneran AQUÍ, antes de los tests y
+      # dentro del commit del día. No lo muevas al deploy: allí ya corría, pero
+      # su resultado no se commiteaba, así que el fichero versionado se quedaba
+      # atrás y el test que lo vigila suspendía cada mañana — y ese suspenso
+      # apagaba la publicación entera (23 y 24-ago-2026, dos días sin web con
+      # los datos ya archivados). Regenerar la cifra a mano cerró el aviso un
+      # día y volvió al siguiente: el bucle sólo se rompe generando aquí.
+      # No fatal (R13): sin Pillow se sigue con los PNG versionados.
+      - name: Regenerar las imágenes sociales antes de juzgarlas
+        continue-on-error: true
+        run: |
+          pip install --quiet pillow && python3 deploy/gen_og.py \
+            || echo "::warning::OG no regeneradas hoy; el test de la imagen compartida puede avisar"
+
       - name: Commit del snapshot si hay cambios
         run: |
           git config user.name "monitor-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data/ feeds/balances/
+          git add -A data/ feeds/balances/ site/og/
           if git diff --cached --quiet; then
             echo "Sin cambios hoy."
           else
@@ -203,10 +217,51 @@ jobs:
       # La vía Cloudflare Pages se eliminó el 16-ago: el dominio apunta a GitHub
       # Pages y publicar por dos caminos divergía (ver docs/DECISIONES.md).
 
+      # R11/R12: una hipótesis caída AVISA, no rompe — y puede ser buena
+      # noticia. El comentario de más arriba ya lo decía mientras estas líneas
+      # hacían lo contrario: hasta el 24-ago-2026 un solo test de datos en rojo
+      # tumbaba la corrida entera, y pages.yml sólo despliega tras un
+      # `workflow_run` en verde. Resultado: los días 23 y 24 el archivo se
+      # guardó entero y la web se quedó congelada en el 22, sin que nadie
+      # hubiera decidido eso.
+      #
+      # La distinción es la que importa, y son dos cosas distintas:
+      #   - la CORRIDA falló  ⇒ puede no haber día que publicar: rojo y alto.
+      #   - una HIPÓTESIS cayó ⇒ el archivo está entero: se anota y se publica.
+      # El rojo por hipótesis sigue vivo donde duele sin coste de archivo: en
+      # pr.yml, tal y como dice el comentario del bloque de verificaciones.
+      - name: Anotar la hipótesis caída sin apagar la publicación
+        if: steps.hipotesis.outcome == 'failure'
+        run: |
+          echo "::error::Una hipótesis cayó con los datos frescos. El día SÍ se archivó y la web SÍ se publica: revisar el resumen de la corrida — que una hipótesis caiga puede ser buena noticia (R12)."
+          {
+            echo "### Una hipótesis cayó con los datos de hoy"
+            echo ""
+            echo "Los tests contra los datos frescos fallaron. **El archivo del día está completo y la publicación sigue su curso** (R11/R12)."
+            echo "Revisar la salida del paso «Tests de hipótesis contra los datos frescos»."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       # El rojo llega aquí, con el día ya archivado: se ve el fallo sin perder
       # el snapshot. Si esto salta, mirar el RESUMEN de la corrida más arriba.
-      - name: Marcar la corrida en rojo si algo falló
-        if: steps.corrida.outcome == 'failure' || steps.hipotesis.outcome == 'failure' || steps.auditoria.outcome == 'failure'
+      # La auditoría de R2 AVISA y no apaga. Sale 1 cuando el bucket no cuadra
+      # con el manifiesto —un sha256 sin cuerpo recuperable—, y eso hay que
+      # verlo: sin este paso el fallo se quedaba dentro de `continue-on-error`
+      # y el día cerraba en verde con un cuerpo perdido. Pero tampoco puede
+      # frenar la publicación: un bucket descuadrado no invalida el archivo del
+      # día, y dejar la web sin salir por eso es el error que costó dos días en
+      # agosto de 2026.
+      - name: Avisar si la auditoría del bucket no cuadró
+        if: steps.auditoria.outcome == 'failure'
         run: |
-          echo "::error::La corrida (${{ steps.corrida.outcome }}), los tests de hipótesis (${{ steps.hipotesis.outcome }}) o la auditoría de R2 (${{ steps.auditoria.outcome }}) fallaron. El archivo del día SÍ se guardó; revisar el resumen de fuentes y data/auditoria_r2.json."
+          echo "::error::La auditoría de R2 falló (${{ steps.auditoria.outcome }}): hay cuerpos declarados en data/r2_manifest.json que el bucket no tiene, o al revés. El día SÍ se archiva y SÍ se publica; revisar data/auditoria_r2.json."
+
+      # Solo la CORRIDA apaga la publicación. Los tests de hipótesis y la
+      # auditoría de R2 siguen corriendo y siguen avisando, pero un supuesto
+      # roto es noticia (R11/R12), no motivo para dejar el día sin publicar:
+      # eso tuvo la web congelada dos días en agosto de 2026. Si la corrida
+      # falla, en cambio, puede no haber día que publicar.
+      - name: Marcar la corrida en rojo si el día no se pudo archivar
+        if: steps.corrida.outcome == 'failure'
+        run: |
+          echo "::error::La corrida diaria falló (${{ steps.corrida.outcome }}): el día puede haber quedado sin archivar, así que tampoco se publica. Revisar el resumen de fuentes."
           exit 1

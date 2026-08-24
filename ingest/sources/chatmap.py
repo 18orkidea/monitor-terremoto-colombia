@@ -124,6 +124,10 @@ def run(download_media: bool = True) -> dict:
             " estado, snapshot_date)"
             " VALUES ('chatmap',?,?,?,?,?,?,?,?,?,?,'recibido',?)"
             " ON CONFLICT(origen, id_externo) DO UPDATE SET"
+            "  lat=excluded.lat,"
+            "  lon=excluded.lon,"
+            "  lat_pub=excluded.lat_pub,"
+            "  lon_pub=excluded.lon_pub,"
             "  media_local=COALESCE(excluded.media_local, media_local),"
             "  media_sha256=COALESCE(excluded.media_sha256, media_sha256),"
             "  snapshot_date=excluded.snapshot_date",

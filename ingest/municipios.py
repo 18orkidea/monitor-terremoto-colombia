@@ -418,8 +418,11 @@ def _title_es(s: str) -> str:
 # filas del RUD —familias descendente—, así que «Argelia» era la del Valle
 # porque tenía más damnificados: un municipio homónimo nuevo con más familias
 # se llevaba el nombre corto y cambiaba una URL publicada sin que nadie lo
-# decidiera. 20 nombres del catálogo se repiten en la DIVIPOLA nacional; 12
-# estaban expuestos de verdad y a los otros 8 los anclaba `MUNICIPIOS`.
+# decidiera. El día del congelado eran 20 nombres del catálogo repetidos en la
+# DIVIPOLA nacional; 12 estaban expuestos de verdad y a los otros 8 los anclaba
+# `MUNICIPIOS`. La lista crece con el registro —cada alta puede estrenar
+# homonimia— y quien avisa es `TestSupuestoNombreASecas`, no una revisión
+# manual: por eso las tandas posteriores van fechadas más abajo.
 #
 # NO se aprovecha para corregir asignaciones discutibles: «Argelia» es hoy el
 # pueblo de 5.538 habitantes y «Argelia (Cauca)» el de 27.853, y es feo, pero
@@ -443,6 +446,19 @@ NOMBRE_A_SECAS_CONGELADO = {
     "Santa María": {"divipola": "41676", "departamento": "Huila"},
     "Sucre": {"divipola": "19785", "departamento": "Cauca"},
     "Suárez": {"divipola": "19780", "departamento": "Cauca"},
+    # estrenaron homonimia con el RUD del 23-ago-2026 (capturado el 24): el
+    # registro los dio de alta y ninguno tiene todavía a su homónimo dentro,
+    # así que hoy publican el nombre a secas. Se congela lo publicado —el
+    # DIVIPOLA que ya llevan en `data/public/municipios.json`—, no la
+    # asignación que uno elegiría de cero: «Florencia» es la de 2.000
+    # habitantes del Cauca y no la capital del Caquetá, y «Granada» y «San
+    # Francisco» son las de Antioquia, a cientos de kilómetros del epicentro,
+    # porque son las que el RUD registró y las que tienen URL viva.
+    "Florencia": {"divipola": "19290", "departamento": "Cauca"},
+    "Granada": {"divipola": "05313", "departamento": "Antioquia"},
+    "Páez": {"divipola": "19517", "departamento": "Cauca"},
+    "San Francisco": {"divipola": "05652", "departamento": "Antioquia"},
+    "Santa Rosa": {"divipola": "19701", "departamento": "Cauca"},
     # anclados por `MUNICIPIOS` (el reparto no los toca), anotados igual: si
     # algún día uno sale del catálogo curado, el nombre no puede quedar a subasta
     "Armenia": {"divipola": "63001", "departamento": "Quindío"},

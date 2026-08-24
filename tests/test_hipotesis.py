@@ -628,11 +628,18 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
         # las sondas de contrato (test_supuestos_api) son diagnóstico, no
         # evidencia publicada: quedan logueadas pero sin cuerpo archivado
         from common import NOTAS_SONDA
+        # IndexNow invierte la dirección: es una notificación que enviamos,
+        # no un cuerpo recibido del que salga una cifra. `notificar()` registra
+        # su petición por R4, pero no fabrica un snapshot de una respuesta que
+        # no contiene datos. La URL se toma de su módulo, no se duplica (M2).
+        from indexnow import ENDPOINT as INDEXNOW_ENDPOINT
         marcas = ",".join("?" * len(NOTAS_SONDA))
         filas = q("SELECT snapshot_path, sha256 FROM sources_log"
                   f" WHERE ts >= ? AND http_status=200 AND bytes > 0"
-                  f" AND (note IS NULL OR note NOT IN ({marcas}))",
-                  self.REGIMEN_FUERTE_DESDE, *NOTAS_SONDA)
+                  f" AND (note IS NULL OR note NOT IN ({marcas}))"
+                  f" AND url != ?",
+                  self.REGIMEN_FUERTE_DESDE, *NOTAS_SONDA,
+                  INDEXNOW_ENDPOINT)
         if not filas:
             self.skipTest("aún no hay corridas bajo el régimen fuerte")
         import hashlib
@@ -977,10 +984,10 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
     """
 
     # Municipios que NO pueden tener búsqueda propia, uno a uno y por su
-    # nombre: todos se llaman igual que un departamento colombiano, así que
-    # `"bolivar" "cauca"` casaría con los titulares del departamento y el feed,
-    # que declara su municipio, colaría esa atribución por la puerta de atrás.
-    # Su prensa solo puede venir de un feed del registro comunitario.
+    # nombre. Casi todos se llaman igual que un departamento colombiano, así
+    # que `"bolivar" "cauca"` casaría con los titulares del departamento y el
+    # feed, que declara su municipio, colaría esa atribución por la puerta de
+    # atrás. Su prensa solo puede venir de un feed del registro comunitario.
     # Las claves son las que reparte `municipios_dinamicos`: el nombre a secas
     # de los homónimos lo fija `NOMBRE_A_SECAS_CONGELADO`, así que «Bolívar» es
     # el del Valle del Cauca y el del Cauca lleva su departamento entre
@@ -991,6 +998,14 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
         "Córdoba",            # Quindío
         "Risaralda",          # Caldas
         "Sucre",              # Cauca
+        # el único que no es homónimo de departamento: el RUD lo escribe con el
+        # guion de la fusión municipal («PIENDAMÓ - TUNÍA», el nombre oficial
+        # desde 2019) y así no aparece en ningún titular — la prensa escribe
+        # «Piendamó» a secas. Buscar la frase literal daría cero para siempre.
+        # Hueco declarado, no resuelto: con 611 familias inscritas merece que
+        # alguien lo cure a mano en `MUNICIPIOS` con el topónimo que usa la
+        # prensa. Cuando se cure, esta línea sobra y el test de abajo lo dirá.
+        "Piendamó - Tunía",
     }
 
     def test_todo_municipio_del_rud_recibe_su_busqueda_de_prensa(self):

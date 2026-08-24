@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -195,15 +196,22 @@ def correr_con(items: list, expresion: str):
     construyen el dato mínimo que viola la propiedad que afirman, en vez de
     copiar el corpus observado (un fixture que fija el comportamiento no
     vigila nada)."""
+    # El corpus viaja por STDIN, no como argumento: Linux limita cada
+    # argumento de execve a 128 KiB (MAX_ARG_STRLEN) y `oficiales.json` lo
+    # cruzó el 23-ago-2026. macOS no tiene ese límite, así que incrustarlo en
+    # la línea de órdenes salía verde en local y reventaba en el runner —
+    # apagando en silencio los dos guardianes que más importan aquí. Mismo
+    # patrón que ingest/alerts.py::_consolidado_de_la_serie.
     script = (
         "global.window = {};"
         f"require({json.dumps(str(ROOT / 'site' / 'ui.js'))});"
         "const UI = window.UI;"
-        f"const items = {json.dumps(items, ensure_ascii=False)};"
+        "const items = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
         f"console.log(JSON.stringify({expresion}));"
     )
-    r = subprocess.run([NODE, "-e", script], capture_output=True, text=True,
-                       timeout=30)
+    r = subprocess.run([NODE, "-e", script],
+                       input=json.dumps(items, ensure_ascii=False),
+                       capture_output=True, text=True, timeout=30)
     if r.returncode != 0:
         raise AssertionError(f"node falló: {r.stderr[:500]}")
     return json.loads(r.stdout)
@@ -217,6 +225,55 @@ def captura(fecha, nombre, cifras, **extra):
           "reported_data_source": [{"id": "UNGRD"}], "cifras": cifras}
     it.update(extra)
     return it
+
+
+# límite de Linux por argumento de execve. macOS no lo tiene: por eso el bug
+# del 23-ago-2026 sólo se veía en el runner.
+MAX_ARG_STRLEN = 128 * 1024
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestElCorpusNoViajaEnLaLineaDeOrdenes(unittest.TestCase):
+    """El guardián que se rompe por su propio peso no guarda nada.
+
+    El 23-ago-2026 `oficiales.json` cruzó los 128 KiB y los dos tests que le
+    pasan el corpus entero a node empezaron a morir con `OSError: [Errno 7]
+    Argument list too long` — entre ellos el de paridad alertas↔web (R8/R16).
+    En el CI (Linux) llevaban dos días apagados; en macOS seguían en verde,
+    que es la peor forma de estar roto. Este test vigila la mecánica, no la
+    regla: que el tamaño del corpus no llegue nunca a `argv`."""
+
+    def corpus_pasado_del_limite(self):
+        """Un corpus deliberadamente mayor que MAX_ARG_STRLEN, con la forma
+        mínima que `UI.fechaCorte` sabe leer."""
+        items = [{"fecha": "2026-08-14", "relleno": "x" * 300}
+                 for _ in range(600)]
+        assert len(json.dumps(items).encode()) > MAX_ARG_STRLEN
+        return items
+
+    def test_un_corpus_mayor_que_el_limite_de_execve_no_revienta(self):
+        items = self.corpus_pasado_del_limite()
+        self.assertEqual(correr_con(items, "items.length"), len(items),
+                         "el corpus real ya no cabe en la línea de órdenes")
+
+    def test_ningun_argumento_crece_con_el_corpus(self):
+        """La comprobación que falla en cualquier sistema, no sólo en Linux:
+        si el corpus vuelve a incrustarse en el script, este argumento pasa
+        del límite y aquí se ve — en macOS también."""
+        medido = {}
+        real = subprocess.run
+
+        def espia(cmd, **kw):
+            medido["mayor"] = max(len(a.encode()) for a in cmd)
+            return real(cmd, **kw)
+
+        with unittest.mock.patch.object(subprocess, "run", espia):
+            correr_con(self.corpus_pasado_del_limite(), "items.length")
+        self.assertLess(
+            medido["mayor"], MAX_ARG_STRLEN,
+            "el corpus volvió a viajar como argumento de node: en el runner "
+            "de Linux esto es OSError [Errno 7] y el guardián se apaga solo. "
+            "Pasarlo por STDIN, como ingest/alerts.py")
 
 
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
