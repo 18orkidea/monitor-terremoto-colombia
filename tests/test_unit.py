@@ -3454,7 +3454,7 @@ class TestLasDosPreguntasSobreLaMirada(unittest.TestCase):
     """«Sin satélite» se pregunta de dos maneras y las dos cifras difieren.
 
     `municipios.py::sin_mirada_satelital` (la capa del mapa) exige damnificados
-    registrados; `site/municipios.js::miradoPorSatelite` (la tabla) no. Por eso
+    registrados; `render_html.py::_mirado_por_satelite` (la tabla) no. Por eso
     la portada publica 196 y municipios.html 197, y las dos tienen razón. Lo que
     no puede pasar —y pasó— es que un rótulo enuncie una y muestre la otra.
     """
@@ -3479,24 +3479,13 @@ class TestLasDosPreguntasSobreLaMirada(unittest.TestCase):
         self.assertIsNone(palmira["sertit_edificios"])
         self.assertFalse(palmira["en_aoi_copernicus"])
 
-    def test_las_dos_superficies_usan_el_mismo_criterio_de_mirada(self):
-        """Lo que sí debe coincidir es QUÉ cuenta como mirada satelital: las tres
-        fuentes y el `is not None`. Si una superficie añade o quita un servicio,
-        las dos cifras dejan de ser comparables y nadie se entera."""
-        js = (self.RAIZ / "site/municipios.js").read_text(encoding="utf-8")
-        py = (self.RAIZ / "ingest/municipios.py").read_text(encoding="utf-8")
-        for campo in ("en_aoi_copernicus", "unosat_edificios", "sertit_edificios"):
-            self.assertIn(campo, js, f"{campo} falta en la regla del navegador")
-            self.assertIn(campo, py, f"{campo} falta en la regla del build")
-        self.assertIn("!= null", js,
-                      "el JS debe distinguir cero de ausencia, no usar truthiness")
-
-    def test_cada_superficie_se_nombra_en_la_otra(self):
-        """R8/R10: una regla en dos idiomas se documenta cruzada, o se olvida."""
-        js = (self.RAIZ / "site/municipios.js").read_text(encoding="utf-8")
-        py = (self.RAIZ / "ingest/municipios.py").read_text(encoding="utf-8")
-        self.assertIn("sin_mirada_satelital", js)
-        self.assertIn("miradoPorSatelite", py)
+    # Aquí vivían dos guardianes que comparaban los NOMBRES de los campos en el
+    # texto de `site/municipios.js` y de `ingest/municipios.py`. Se retiran en la
+    # fase 4, cuando la regla de la tabla se mudó al build: repuntarlos a
+    # `render_html.py` los habría dejado igual de mudos, porque un `assertIn`
+    # sobre el código fuente pasa en verde con la condición invertida (M1). Lo
+    # que querían comprobar lo hace ahora, LLAMANDO a las dos funciones sobre 54
+    # combinaciones, `test_render_html::TestLaMiradaSatelitalEnLasDosSuperficies`.
 
     def test_el_rotulo_del_mapa_dice_su_condicion(self):
         """El rótulo de la capa tiene que enunciar el predicado que cuenta. Sin

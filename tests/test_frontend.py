@@ -1727,13 +1727,16 @@ class TestElChipDeclaraLoQueEsYNoLoDeduce(unittest.TestCase):
 
     CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
     MARCA = "SISTEMA DEL REDISEÑO 2026"
-    # Las tres superficies que pintan un chip activo en el sitio publicado, y
-    # el patrón con que cada una lo escribe. La del RUD se mudó al build en la
-    # fase 3 —la tira llega prerenderizada, no la construye `rud.js`—, así que
-    # su plantilla es de Python: sigue siendo la misma regla y sigue en la
-    # lista, con la forma que le toca.
+    # Las superficies que pintan un chip activo en el sitio publicado, y el
+    # patrón con que cada una lo escribe. Las tiras del RUD (fase 3) y de
+    # municipios (fase 4) se mudaron al build: ya no las construye su JS, así
+    # que la plantilla es de Python. Ojo con la cobertura que da esta lista: la
+    # entrada de `render_html.py` sobreviviría hoy aunque `chips_municipios`
+    # perdiera el `.activa`, porque `chips_rud` casa el mismo literal. Lo que de
+    # verdad guarda cada tira generada es su test POR EJECUCIÓN —
+    # `TestChipsDelRud` y `TestChipsDeMunicipios`—, sobre la salida de su
+    # generador y no sobre el fichero entero.
     TIRAS = {"site/app.js": r'class="chip\$\{[^`]*?\bactiva\b',
-             "site/municipios.js": r'class="chip\$\{[^`]*?\bactiva\b',
              "deploy/render_html.py": r'class="chip\{" activa" if\b'}
 
     @classmethod

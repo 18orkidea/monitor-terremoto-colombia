@@ -4332,6 +4332,20 @@ class TestPrerenderizadoDeMunicipios(unittest.TestCase):
                                          "noticias_generado": "2026-08-22"})
             escrito = (destino / "noticias.html").read_text(encoding="utf-8")
             self.assertIn('"dateModified":"2026-08-22"', escrito)
+
+
+class TestPrerenderizadoDeMunicipios(unittest.TestCase):
+    """El inyector de verdad sobre el `site/municipios.html` del repositorio.
+
+    Es lo que separa «el generador devuelve algo» de «el artefacto lo lleva»:
+    también cae si alguien quita una marca, le cambia la etiqueta al contenedor
+    o desconecta un generador del registro.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        cls.addClassCleanup(shutil.rmtree, cls.tmp, ignore_errors=True)
         shutil.copy(ROOT / "site" / "municipios.html", cls.tmp / "municipios.html")
         cls.hechas = R.inyectar_prerenderizado(cls.tmp, R.contexto())
         # los dos pasos del build, y en su orden: el nodo de identidad al que

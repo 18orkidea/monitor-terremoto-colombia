@@ -826,9 +826,10 @@ def sin_mirada_satelital(m: dict) -> bool:
     tiene damnificados que contrastar, y la capa habla de los que sí los tienen.
 
     «Sin mirada satelital» vive en DOS superficies —si tocas una, mira la otra—:
-    aquí y en `site/municipios.js::miradoPorSatelite`. **No son la misma
-    pregunta y no deben dar la misma cifra**: el JS cuenta todos los municipios
-    sin producto satelital (197) y esta función solo los que además tienen
+    aquí y en `deploy/render_html.py::_mirado_por_satelite`, que es donde la
+    regla de la tabla quedó al prerenderizarse en la fase 4. **No son la misma
+    pregunta y no deben dar la misma cifra**: la de la tabla cuenta todos los
+    municipios sin producto satelital (197) y esta función solo los que además tienen
     damnificados registrados (196). El que sobra es Palmira, con prensa y DYFI
     pero sin una fila en el RUD. La diferencia es legítima; lo que no se puede
     es rotular ninguna de las dos sin su condición, que fue como la portada
