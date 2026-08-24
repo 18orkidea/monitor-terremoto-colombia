@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import date, timedelta
 from pathlib import Path
@@ -207,23 +208,60 @@ class TestFicha(unittest.TestCase):
 
 
 class TestMapaEvidencias(unittest.TestCase):
-    """La segunda pestaña existe solo con puntos y no pesa hasta que se pide."""
+    """La segunda pestaña existe solo con puntos y no pesa hasta que se pide.
+
+    Los municipios NO se nombran a mano: se eligen del corpus del día. Hasta el
+    24-ago-2026 aquí estaba escrito «Cartago» como ejemplo de ficha sin
+    evidencia, y el 23 Cartago recibió sus siete primeros reportes ciudadanos:
+    cuatro tests en rojo desde entonces, sin que nadie hubiera roto nada. Un
+    caso citado por su nombre envejece con los datos —la misma familia de fallo
+    que las cifras escritas a mano en la prosa—, y aquí el envejecimiento es
+    silencioso porque el test sigue pareciendo correcto. Elegir del corpus
+    también hace que el test cuente algo cuando ya no queda candidato: que el
+    mapa cubre todo lo elegible, que sería una gran noticia (R12)."""
 
     @classmethod
     def setUpClass(cls):
         cls.ctx = R.contexto()
+        cls.sin_evidencia = cls._elegir(
+            lambda d: not d["hay_evidencia"],
+            "ya no queda ningún municipio elegible SIN evidencia: el mapa "
+            "cubre todas las fichas. Es una gran noticia y este test pierde "
+            "su caso — replantearlo, no buscarle un municipio a mano")
+        cls.solo_ciudadana = cls._elegir(
+            lambda d: (d["evidencia"]["conteos"]["ciudadanos"]
+                       and not d["evidencia"]["conteos"]["satelite"]),
+            "ningún municipio tiene solo evidencia ciudadana: o el satélite "
+            "llegó a todas partes, o la ingesta ciudadana dejó de entrar")
+        cls.solo_satelite = cls._elegir(
+            lambda d: (d["evidencia"]["conteos"]["satelite"]
+                       and not d["evidencia"]["conteos"]["ciudadanos"]),
+            "ningún municipio tiene solo evidencia satelital: revisar si el "
+            "cruce ciudadano se está aplicando donde no debe")
+
+    @classmethod
+    def _elegir(cls, criterio, queja):
+        """El primero por orden alfabético que cumple el criterio — alfabético
+        para que dos corridas del mismo corpus elijan el mismo, y el fallo sea
+        reproducible."""
+        for m in sorted(cls.ctx["municipios"], key=lambda x: x["municipio"]):
+            nombre = m["municipio"]
+            if not R.es_elegible(nombre, cls.ctx):
+                continue
+            d = R.datos_ficha(nombre, cls.ctx)
+            if criterio(d):
+                return d
+        raise AssertionError(queja)
 
     def test_visible_con_cualquiera_de_las_dos_clases_de_evidencia(self):
-        ciudadano = R.datos_ficha("Nóvita", self.ctx)
-        satelite = R.datos_ficha("Anserma", self.ctx)
-        ninguna = R.datos_ficha("Cartago", self.ctx)
+        ciudadano, satelite = self.solo_ciudadana, self.solo_satelite
         self.assertTrue(ciudadano["evidencia"]["conteos"]["ciudadanos"])
         self.assertEqual(ciudadano["evidencia"]["conteos"]["satelite"], 0)
         self.assertTrue(ciudadano["hay_evidencia"])
         self.assertTrue(satelite["evidencia"]["conteos"]["satelite"])
         self.assertEqual(satelite["evidencia"]["conteos"]["ciudadanos"], 0)
         self.assertTrue(satelite["hay_evidencia"])
-        self.assertFalse(ninguna["hay_evidencia"])
+        self.assertFalse(self.sin_evidencia["hay_evidencia"])
 
     def test_pestanas_accesibles_y_panel_diferido(self):
         html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
@@ -239,31 +277,39 @@ class TestMapaEvidencias(unittest.TestCase):
         self.assertNotIn("leaflet.js", html)
 
     def test_sin_puntos_no_hay_pestanas_ni_javascript(self):
-        html = R.render_ficha(R.datos_ficha("Cartago", self.ctx))
+        html = R.render_ficha(self.sin_evidencia)
         self.assertNotIn('role="tablist"', html)
         self.assertNotIn("municipio.js", html)
         scripts = re.findall(r"<script[^>]*>", html)
         self.assertTrue(all("application/ld+json" in s for s in scripts))
 
     def test_el_svg_solo_enlaza_a_portada_si_no_hay_mapa_de_evidencias(self):
+        nombre = self.sin_evidencia["muni"]["municipio"]
         con_evidencia = R.render_ficha(R.datos_ficha("Cali", self.ctx))
-        sin_evidencia = R.render_ficha(R.datos_ficha("Cartago", self.ctx))
+        sin_evidencia = R.render_ficha(self.sin_evidencia)
         self.assertNotIn('class="mapa-enlace"', con_evidencia)
+        # el href se escapa como URL y el rótulo como HTML: son dos escapes
+        # distintos sobre el mismo nombre, y el test usa los del generador
         self.assertRegex(
             sin_evidencia,
-            r'<a href="/\?municipio=Cartago#mapa" class="mapa-enlace"[^>]*>\s*<svg',
+            r'<a href="/\?municipio=%s#mapa" class="mapa-enlace"[^>]*>\s*<svg'
+            % re.escape(urllib.parse.quote(nombre)),
         )
         self.assertIn(
-            'aria-label="Abrir Cartago en el mapa interactivo"', sin_evidencia)
+            f'aria-label="Abrir {R.e(nombre)} en el mapa interactivo"',
+            sin_evidencia)
 
     def test_build_escribe_solo_paquetes_necesarios(self):
         with tempfile.TemporaryDirectory() as tmp:
             raiz = Path(tmp)
             R.run(raiz)
             cali = raiz / "data/public/municipios/cali/evidencia.json"
-            cartago = raiz / "data/public/municipios/cartago/evidencia.json"
+            vacio = (raiz / "data/public/municipios"
+                     / self.sin_evidencia["slug"] / "evidencia.json")
             self.assertTrue(cali.exists())
-            self.assertFalse(cartago.exists())
+            self.assertFalse(vacio.exists(),
+                             f"{self.sin_evidencia['muni']['municipio']} no tiene "
+                             f"evidencia y aun así se le escribió paquete")
             paquete = json.loads(cali.read_text(encoding="utf-8"))
             conteos = paquete["conteos"]
             self.assertEqual(conteos["total"], conteos["satelite"] + conteos["ciudadanos"])

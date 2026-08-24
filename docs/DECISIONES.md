@@ -1253,3 +1253,38 @@ Y se declararon explícitamente `OAI-SearchBot` y `ChatGPT-User` en `robots.txt`
 Ya estaban permitidos por el comodín, pero el fichero declara uno a uno a los
 rastreadores de IA para que un cambio futuro no los excluya sin querer, y esos
 dos —no GPTBot, que solo entrena— son los que deciden si ChatGPT cita el sitio.
+
+## 2026-08-24 — Un aviso no apaga la imprenta: la corrida manda, la hipótesis avisa
+
+Contexto: los días 23 y 24 de agosto el monitor archivó su día entero —ingesta, snapshots,
+`sources_log`, commit y avisos por push y Telegram— y no publicó nada. La web quedó
+congelada en el 22 sin que nadie lo decidiera. La cadena era esta: `site/og/portada.json`
+declaraba 542 reportes ciudadanos mientras `monitor.json` iba por 622, así que
+`test_la_portada_og_declara_las_cifras_publicadas` suspendía; ese test vive en el paso
+`hipotesis` de `daily.yml`, cuyo fallo hacía `exit 1`; y `pages.yml` solo despliega tras un
+`workflow_run` en verde. Un guardián que debía avisar tenía, sin que estuviera escrito en
+ninguna parte, la llave de la imprenta. El bucle además se alimentaba solo: `gen_og.py`
+únicamente corría en el deploy y su resultado no volvía al repositorio, de modo que la
+imagen envejecía cada día y el deploy —lo único que la regeneraba— era justo lo que el
+envejecimiento apagaba. El 22 se cerró el aviso regenerando la cifra a mano y duró un día.
+
+Decisión: tres cortes independientes. **Uno**, `daily.yml` distingue dos cosas que estaban
+en el mismo saco: si falla la CORRIDA no hay día que publicar y el rojo es correcto; si cae
+una HIPÓTESIS el archivo está entero, se anota con `::error` y en el resumen del run, y se
+publica igual. Es restaurar R11 y R12, no relajarlos: el propio comentario del bloque de
+verificaciones ya decía que una hipótesis caída es noticia y que el rojo vive en `pr.yml`,
+«que es donde duele sin coste de archivo» — el código llevaba tiempo contradiciendo a su
+comentario. **Dos**, las imágenes sociales se regeneran en la corrida diaria, antes de los
+tests que las juzgan, y `site/og/` entra en el commit del día: generar y commitear son las
+dos mitades, y con una sola el bucle se reabre mañana. **Tres**, `tests/test_frontend.py::correr_con`
+pasa el corpus por STDIN en vez de por `argv`, como ya hacía
+`ingest/alerts.py::_consolidado_de_la_serie` por este mismo motivo.
+
+Consecuencia: la publicación deja de depender de que ningún supuesto haya avisado. Lo
+tercero merece nota aparte porque es la clase de fallo que más cuesta ver: Linux limita cada
+argumento de `execve` a 128 KiB y `oficiales.json` cruzó ese umbral entre el 22 (141 KB) y el
+23 (161 KB), así que dos guardianes —entre ellos el de paridad alertas↔web, R8 y R16— llevaban
+dos días muertos con `OSError: [Errno 7]` en el runner **y en verde en macOS**, que no tiene
+ese límite. Un test que solo puede fallar en el sistema donde nadie lo mira no vigila nada:
+por eso el guardián nuevo no comprueba que el corpus quepa, sino que ningún argumento crezca
+con él, y así cae en cualquier sistema. Los tres arreglos llevan test validado por mutación.
