@@ -709,10 +709,57 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
     muni = ctx["idx"][nombre]
     clave = nombre.upper()
 
+    # El RUD nombra a los municipios a su manera y la clave del catálogo lleva
+    # el departamento entre paréntesis cuando hay homónimos, así que la
+    # igualdad exacta dejaba SIETE fichas con cifras del RUD y sin su serie:
+    # «Buga» no casa con «GUADALAJARA DE BUGA» ni «Riosucio (Caldas)» con
+    # «RIOSUCIO». Se empareja por el topónimo que lee una persona, y el
+    # departamento desempata a los homónimos.
+    #
+    # Con LÍMITE DE PALABRA (R10): «BUGA» casa dentro de «GUADALAJARA DE BUGA»
+    # y NO dentro de «BUGALAGRANDE», que es otro municipio y está en el mismo
+    # departamento. Es el mismo error que Cali/California, aquí.
+    nombre_legible = norm_busqueda(toponimo(nombre, muni.get("departamento") or ""))
+    depto_norm = norm_busqueda(muni.get("departamento") or "")
+    patron = re.compile(rf"\b{re.escape(nombre_legible)}\b")
+
+    def _elige(filas: list) -> dict | None:
+        """La fila del RUD que es este municipio, o None.
+
+        **La coincidencia exacta manda siempre.** Sin esa prioridad, «Atrato»
+        casaba dentro de «EL CARMEN DE ATRATO» —que existe, está en el mismo
+        departamento y es otro municipio— y la ficha publicaba 277 familias
+        donde su propio catálogo dice 266. El límite de palabra no basta cuando
+        el nombre corto es parte del nombre largo de un vecino.
+
+        Y el patrón solo vale si señala a UNA fila: con dos candidatas no se
+        elige, se deja sin serie. Adivinar aquí es publicar el municipio
+        equivocado, que es peor que no publicar la serie."""
+        # No hay paso previo de «igualdad con la clave»: se escribió y una
+        # mutación demostró que no guardaba nada —la comparación por topónimo
+        # normalizado de aquí abajo ya resuelve esos casos—, así que sobra.
+        # Un camino que ningún test ejerce es superficie que envejece sola.
+        #
+        # El departamento es OBLIGATORIO. Sin él, «Argelia
+        # (Cauca)» se quedaba con la primera «ARGELIA» de la lista —la del
+        # Valle, con 851 familias frente a 1— y la ficha publicaba la serie de
+        # otro municipio bajo el nombre de este. Un homónimo sin desempate no
+        # se adivina: se deja sin serie y la sección lo cuenta.
+        if not depto_norm:
+            return None
+        del_depto = [x for x in filas
+                     if norm_busqueda(x.get("departamento") or "") == depto_norm]
+        legible = next((x for x in del_depto
+                        if norm_busqueda(x["municipio"]) == nombre_legible), None)
+        if legible:
+            return legible
+        casan = [x for x in del_depto
+                 if patron.search(norm_busqueda(x["municipio"]))]
+        return casan[0] if len(casan) == 1 else None
+
     serie = []
     for fecha in sorted(ctx["rud"]["detalle_diario"]):
-        fila = next((x for x in ctx["rud"]["detalle_diario"][fecha]
-                     if x["municipio"].upper() == clave), None)
+        fila = _elige(ctx["rud"]["detalle_diario"][fecha])
         if fila:
             serie.append((fecha, fila))
 
@@ -994,14 +1041,16 @@ def resumen_ficha(d: dict) -> str:
     viv = sum(vivs) if vivs else None
     if n_sat and viv:
         prop = n_sat / viv * 100
-        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios: el "
+        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios "
+                 f"distintos: el "
                  f"<b>{fmt(prop, 1)} %</b> de las {fmt(viv)} viviendas que el "
                  "municipio declara dañadas. ")
     elif viv and not vistos:
         o.append(f"Ningún satélite ha clasificado un solo edificio de las "
                  f"{fmt(viv)} viviendas que el municipio declara dañadas. ")
     elif n_sat:
-        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios. ")
+        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios "
+                 f"distintos. ")
     mmi = m.get("mmi_usgs")
     if mmi is not None:
         o.append(f"Sacudida estimada de <b>{fmt(mmi, 1)}</b> en la "
@@ -1282,19 +1331,29 @@ def panel_fuentes(d: dict) -> str:
     divergen, la nota de los chips lo explica (G3), y el panel no elige."""
     m = d["muni"]
     capas = (d.get("evidencia") or {}).get("capas") or {}
+    # El corte del RUD va PEGADO a la cifra, no en un pie. La nota de arriba
+    # promete «cada cifra dice de quién es y de qué día» y el panel solo decía
+    # de quién: con un registro que pasó de 65.663 a 100.231 familias en 48 h,
+    # una tabla sin corte miente en dos días (M7). Y es la fecha del DATO —el
+    # último día de la serie—, no la de la corrida que lo empaquetó.
+    corte = (d["serie"][-1][0] if d.get("serie") else None) or d.get("generado")
+    rud = f"RUD · UNGRD · {fecha_corta(corte)}" if corte else "RUD · UNGRD"
     filas = [
-        _fila_fuente("Familias inscritas", m.get("rud_familias"), "RUD · UNGRD"),
-        _fila_fuente("Personas", m.get("rud_personas"), "RUD · UNGRD"),
-        _fila_fuente("Viviendas destruidas", m.get("rud_viv_destruidas"),
-                     "RUD · UNGRD"),
-        _fila_fuente("Viviendas averiadas", m.get("rud_viv_averiadas"),
-                     "RUD · UNGRD"),
+        _fila_fuente("Familias inscritas", m.get("rud_familias"), rud),
+        _fila_fuente("Personas", m.get("rud_personas"), rud),
+        _fila_fuente("Viviendas destruidas", m.get("rud_viv_destruidas"), rud),
+        _fila_fuente("Viviendas averiadas", m.get("rud_viv_averiadas"), rud),
     ]
     for sat in SATELITES:
         features = (capas.get(sat["clave"]) or {}).get("features") or []
         n = len(features)
-        etiqueta = ("Edificios clasificados" if sat["clave"] == "copernicus"
-                    else "Edificios evaluados")
+        # «Puntos dibujados», no «edificios clasificados»: esto es `len(features)`
+        # de la capa, que incluye lo que la fuente dejó sin grado de daño y NO
+        # está deduplicado entre servicios. El resumen de arriba publica otra
+        # cifra —`cruce.unidades`, edificios únicos con daño clasificado— y las
+        # dos son ciertas. Lo que no puede pasar es que las dos se llamen igual:
+        # la ficha de Cali decía 115, 124 y 94 sin que nada dijera cuál era cuál.
+        etiqueta = "Puntos dibujados en el mapa"
         # Los tres satélites comparten azul: son la misma clase de mirada.
         filas.append(_fila_fuente(etiqueta, n, sat["rotulo"],
                                   "var(--copernicus)", ocultar_cero=True)
@@ -1303,21 +1362,42 @@ def panel_fuentes(d: dict) -> str:
     filas.append(_fila_fuente("Fotos y avisos de vecinos", n_vecinos,
                               "ChatMap · OpenStreetMap Colombia",
                               "var(--ciudadano)", ocultar_cero=True))
+    # `n_noticias` y NO `len(d["titulares"])`, aunque los dos parezcan «el
+    # total». Miden universos distintos: `n_noticias` cuenta menciones reales
+    # del municipio en el titular (R10, con límite de palabra) y `titulares`
+    # añade los que llegaron por la búsqueda municipal aunque no lo nombren.
+    # Medido: con la segunda, Jamundí pasaría de 4 titulares a 303, de los que
+    # 299 hablan de Cali. Inflar la prensa de los municipios pequeños es
+    # justamente borrar la brecha que este monitor mide.
     filas.append(_fila_fuente("Titulares de prensa", m.get("n_noticias"),
-                              "corpus del monitor"))
+                              "medios, recogidos por el monitor"))
     cuerpo = "".join(x for x in filas if x)
     sin_sat = not any(len((capas.get(sat["clave"]) or {}).get("features") or [])
                       for sat in SATELITES)
     aviso = ""
     if sin_sat:
+        # Los vecinos solo se nombran si han hablado. Argelia recibía «viene del
+        # registro oficial y de sus vecinos» y en la misma página decía que no
+        # hay ni un reporte ciudadano: se atribuía conocimiento a una fuente
+        # muda (M10). Y cuando de verdad no ha hablado nadie más, eso ES el
+        # hallazgo del monitor y se dice con todas las letras.
+        otras = []
+        if n_vecinos:
+            otras.append("de sus vecinos")
+        if m.get("n_noticias"):
+            otras.append("de la prensa")
+        cola = (" Lo que se sabe de este municipio viene del registro oficial y "
+                + (" y ".join(otras) if len(otras) < 3 else ", ".join(otras)) + "."
+                if otras else
+                " Lo único que se sabe de aquí es lo que registró la alcaldía: "
+                "nadie más ha publicado nada.")
         aviso = ('<div class="aviso aviso--laguna"><p><strong>Ningún servicio '
-                 'satelital ha publicado producto de daño aquí.</strong> Lo que '
-                 'se sabe de este municipio viene del registro oficial y de '
-                 'sus vecinos.</p></div>')
+                 'satelital ha publicado producto de daño aquí.</strong>'
+                 + cola + '</p></div>')
     return (
         '<aside class="panel">'
         "<h2>Qué dice cada fuente</h2>"
-        '<p class="sub">Cada cifra, con quién la publica.</p>'
+        '<p class="sub">Cada cifra, con quién la publica y de qué día.</p>'
         f"{cuerpo}{aviso}</aside>"
     )
 
@@ -1371,8 +1451,9 @@ def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
         partes = []
         if conteos["satelite"]:
             partes.append(
-                f'{fmt(conteos["satelite"])} puntos publicados por los '
-                "servicios satelitales")
+                f'{fmt(conteos["satelite"])} puntos dibujados por los '
+                "servicios satelitales —cada uno en su capa, sin sumar entre "
+                "ellos—")
         if conteos["ciudadanos"]:
             partes.append(
                 f'{fmt(conteos["ciudadanos"])} '
@@ -1880,6 +1961,24 @@ def render_ficha(d: dict) -> str:
                  f'OpenStreetMap Colombia, UN Mappers y el Equipo Humanitario de '
                  f'OpenStreetMap).</p></div>')
     # ---- evolución del registro
+    if not d["serie"]:
+        # La sección NO desaparece. Un municipio sin registro es el hallazgo
+        # central de este monitor —prensa que habla de él y ni una familia
+        # inscrita—, y borrar el apartado lo convierte en un silencio que el
+        # lector no puede distinguir de un fallo nuestro. Es la misma doctrina
+        # que la tabla: «sin registro aún» no es «sin daño».
+        o.append('<section class="page-section" id="registro">')
+        o.append("<h2>Cómo avanza el registro oficial</h2>")
+        prensa = (f" Y eso que la prensa ya ha publicado "
+                  f'{fmt(m["n_noticias"])} '
+                  f'{concuerda(m["n_noticias"], "titular", "titulares")} sobre él.'
+                  if m.get("n_noticias") else "")
+        o.append(f'<div class="aviso aviso--laguna"><p><strong>{e(nombre)} no '
+                 f'tiene todavía ninguna familia inscrita en el RUD.</strong> '
+                 f'No significa que no haya daño: significa que el registro '
+                 f'—que cargan las alcaldías— aún no lo recoge, así que no hay '
+                 f'evolución que dibujar.{prensa}</p></div>')
+        o.append("</section>")
     if d["serie"]:
         o.append('<section class="page-section" id="registro">')
         o.append("<h2>Cómo avanza el registro oficial</h2>")
@@ -2005,12 +2104,14 @@ def render_ficha(d: dict) -> str:
              f'<td>DIVIPOLA (División Político-Administrativa) · DANE</td>'
              f'<td>código oficial {e(m["divipola"])}, catálogo nacional de '
              f'municipios</td></tr>'
-             # «Fecha de las cifras», no «de esta página»: el valor sale de
-             # `ctx["rud"]["generado"]`, que es cuándo se capturó el RUD. Mientras
-             # las dos corridas van juntas coinciden, pero el día que la página se
-             # genere sin RUD nuevo, «actualizada» afirmaría más de lo que sabemos.
+             # Las DOS fechas, porque no son la misma y publicar solo una es la
+             # confusión que el sello del sitio existe para deshacer: los datos
+             # llegan hasta el último día de la serie y la corrida es cuando se
+             # empaquetaron. Decía «datos del 22 de agosto» con la última
+             # captura del 21, y la tabla de capturas de esta misma página lo
+             # desmentía tres filas más arriba (M7).
              f'<tr><td>Fecha de las cifras</td><td>captura diaria del RUD</td>'
-             f'<td>datos del {e(fecha_larga(d["generado"]))}</td></tr>'
+             f'<td>{sello_fechas(d["serie"][-1][0] if d.get("serie") else None, d["generado"], "del RUD")}</td></tr>'
              "</tbody></table></div>")
     o.append('<p class="note">Cada petición queda registrada con su dirección, su código de '
              "respuesta, su huella digital (sha256) y su fecha; la copia original de lo que "

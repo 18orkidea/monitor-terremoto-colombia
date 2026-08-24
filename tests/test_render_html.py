@@ -3759,10 +3759,21 @@ class TestSubtituloRetirado(unittest.TestCase):
         tabla = self.html.split("Fuentes y trazabilidad")[1]
         self.assertIn(divipola, tabla, "DIVIPOLA no está en «Fuentes y trazabilidad»")
 
-    def test_la_fecha_de_la_corrida_sigue_publicada(self):
-        fecha = R.fecha_larga(self.datos["generado"])
+    def test_la_ficha_dice_las_DOS_fechas_y_no_las_confunde(self):
+        """Decía «datos del 22 de agosto» con la última captura del 21, y la
+        tabla de capturas de la misma página lo desmentía tres filas más
+        arriba. Ahora publica el corte del dato Y la corrida, como el resto del
+        sitio: no son lo mismo y confundirlas miente (M7)."""
         tabla = self.html.split("Fuentes y trazabilidad")[1]
-        self.assertIn(fecha, tabla, "la ficha dejó de decir de qué día son sus cifras")
+        corrida = self.datos["generado"]
+        corte = self.datos["serie"][-1][0] if self.datos.get("serie") else None
+        self.assertIn(f'datetime="{corrida}"', tabla,
+                      "la ficha dejó de decir cuándo se construyó")
+        if corte:
+            self.assertIn(f'datetime="{corte}"', tabla,
+                          "la ficha dejó de decir hasta cuándo llega el dato")
+            self.assertNotIn(f"datos del {R.fecha_larga(corrida)}", tabla,
+                             "vuelve a fechar el dato con la corrida")
 
 
 class TestMarcadoEstructurado(unittest.TestCase):
@@ -5293,8 +5304,10 @@ class TestLienzoMunicipal(unittest.TestCase):
         panel = self._panel(html)
         self.assertRegex(
             panel,
-            r'Viviendas destruidas</span><span class="f">RUD · UNGRD</span>'
+            r'Viviendas destruidas</span><span class="f">RUD · UNGRD[^<]*</span>'
             r'</span><span class="v">0</span>')
+        # y el corte viaja pegado a la cifra: la nota promete «de qué día» (M7)
+        self.assertRegex(panel, r'RUD · UNGRD · \d{1,2}-\w+-\d{4}')
 
     def test_el_panel_cuenta_lo_que_el_mapa_pinta_y_esconde_quien_no_miro(self):
         """R3: UNOSAT no miró Cali, así que no sale una fila a cero. El
@@ -5308,7 +5321,7 @@ class TestLienzoMunicipal(unittest.TestCase):
         self.assertIn("Dañados", panel)
         self.assertNotIn("UNITAR-UNOSAT", panel)
         self.assertIn("ICube-SERTIT", panel)
-        self.assertIn("Edificios evaluados", panel)
+        self.assertIn("Puntos dibujados en el mapa", panel)
 
     def test_sin_evidencia_el_panel_avisa_y_no_inventa_pestanas(self):
         """Cartago no tiene puntos: el lienzo sigue existiendo —el panel es
@@ -5772,3 +5785,67 @@ class TestR5NoPrometeLoQueYaNoHace(unittest.TestCase):
             with self.subTest(valor=valor):
                 self.assertEqual(_coordenada_publica(valor), valor,
                                  "el monitor volvió a reposicionar la coordenada")
+
+
+class TestLaSerieEsDeEsteMunicipioYNoDeSuVecino(unittest.TestCase):
+    """El RUD nombra los municipios a su manera y la ficha tiene que emparejar
+    sin equivocarse de pueblo.
+
+    Siete fichas con cifras del RUD se publicaban sin su serie porque la
+    igualdad exacta no casaba («Buga» ≠ «GUADALAJARA DE BUGA», «Riosucio
+    (Caldas)» ≠ «RIOSUCIO»). Al relajar el emparejado aparecieron los dos
+    errores contrarios, y son peores que la ausencia: «Atrato» se quedó con la
+    serie de «EL CARMEN DE ATRATO» (277 familias donde su catálogo dice 266), y
+    «Argelia (Cauca)» con la de la Argelia del Valle (851 frente a 1). Es R10
+    entero: límite de palabra, la exacta manda, y el departamento desempata.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def test_ninguna_serie_es_la_de_otro_municipio(self):
+        """La prueba que de verdad importa, sobre las 208: la última cifra de
+        la serie tiene que ser la que el catálogo publica para ESE municipio."""
+        malos = []
+        for m in self.ctx["municipios"]:
+            nombre = m["municipio"]
+            if not R.es_elegible(nombre, self.ctx):
+                continue
+            serie = R.datos_ficha(nombre, self.ctx).get("serie") or []
+            if not serie:
+                continue
+            fam, esperado = serie[-1][1].get("familias"), m.get("rud_familias")
+            if fam is not None and esperado is not None and abs(fam - esperado) > 0.5:
+                malos.append(f"{nombre}: serie {fam} vs catálogo {esperado}")
+        self.assertFalse(malos, "fichas con la serie de otro municipio: " + "; ".join(malos[:5]))
+
+    def test_ninguna_ficha_con_cifras_del_rud_se_queda_sin_serie(self):
+        """El silencio que motivó el arreglo: si el catálogo le da familias,
+        la ficha tiene que poder contar su evolución."""
+        mudas = [m["municipio"] for m in self.ctx["municipios"]
+                 if R.es_elegible(m["municipio"], self.ctx) and m.get("rud_familias")
+                 and not (R.datos_ficha(m["municipio"], self.ctx).get("serie"))]
+        self.assertFalse(mudas, f"fichas con familias y sin serie: {mudas[:6]}")
+
+    def test_el_nombre_corto_no_se_come_al_vecino_largo(self):
+        """«Atrato» y «El Carmen de Atrato» son dos municipios del Chocó, y el
+        segundo contiene al primero. La coincidencia exacta tiene que ganar."""
+        for nombre, esperado in (("Atrato", 266.0), ("El Carmen de Atrato", 277.0),
+                                 ("Buga", 206.0), ("Bugalagrande", 10.0)):
+            with self.subTest(municipio=nombre):
+                serie = R.datos_ficha(nombre, self.ctx).get("serie") or []
+                self.assertTrue(serie, f"{nombre} se quedó sin serie")
+                self.assertAlmostEqual(serie[-1][1]["familias"], esperado, places=1)
+
+    def test_un_homonimo_toma_el_de_su_departamento(self):
+        """«Argelia (Cauca)» tiene 1 familia y «Argelia» (Valle) 851. Sin el
+        desempate por departamento, la ficha del Cauca publicaba las 851."""
+        for nombre in ("Argelia (Cauca)", "Bolívar (Cauca)", "Riosucio (Chocó)",
+                       "Balboa (Cauca)"):
+            with self.subTest(municipio=nombre):
+                d = R.datos_ficha(nombre, self.ctx)
+                serie = d.get("serie") or []
+                self.assertTrue(serie, f"{nombre} se quedó sin serie")
+                self.assertAlmostEqual(serie[-1][1]["familias"],
+                                       d["muni"]["rud_familias"], places=1)

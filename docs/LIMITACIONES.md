@@ -5,6 +5,47 @@ conocidas del monitor para que nadie —periodista, investigador, historiador—
 tome la ausencia de un dato por la ausencia de un hecho. Complementa la
 metodología pública del sitio.
 
+## La prensa por municipio se cuenta de dos maneras, y una infla (24-ago-2026)
+
+**Medido, no estimado.** El sitio publica dos recuentos de titulares por
+municipio y **no miden lo mismo**:
+
+- `municipios.json::n_noticias` cuenta los titulares que **mencionan** el
+  municipio en su título o su medio, con el límite de palabra de R10. Es el que
+  usan la tabla de `municipios.html` y el panel de la ficha.
+- El campo `municipios` de cada titular en `noticias.json` añade, además, **los
+  que llegaron por la búsqueda municipal propia aunque no lo nombren**
+  (`ingest/publish.py:441`, atribución por origen del feed). Es el que usa el
+  filtro por zona de `noticias.html`.
+
+**El segundo infla, y mucho.** 59 de los 208 municipios tienen cifras distintas.
+Los peores casos, medidos sobre el corte del 22-ago:
+
+| municipio | por mención | por feed | |
+|---|---|---|---|
+| Jamundí | 4 | **303** | de los 303, **299 no lo nombran** |
+| Buenaventura | 185 | 482 | |
+| Palmira | 31 | 328 | |
+| La Tebaida | 8 | 221 | |
+
+Los 299 de Jamundí son titulares sobre Cali —«Escombros del terremoto en Cali»,
+«Homenaje en Cali a las víctimas»— que su búsqueda municipal devolvió.
+
+**Por qué importa más de lo que parece.** Este monitor existe para medir la
+**brecha de atención**: qué municipios salen en prensa y cuáles no. Un recuento
+que atribuye a Jamundí 303 titulares que hablan de Cali **borra justamente esa
+brecha**, y lo hace en la dirección más engañosa: inflando la cobertura de los
+municipios pequeños, que son los que el proyecto vigila.
+
+**Estado: conocido y no corregido.** La ficha y la tabla usan el recuento por
+mención, que es el prudente. Lo que sigue inflado es el **filtro por zona de
+`noticias.html`**. Se decidió no tocarlo hoy para no mezclarlo con el rediseño
+(JP, 24-ago). Al abordarlo hay que decidir si la atribución por origen del feed
+se retira, se marca aparte («titulares de su búsqueda municipal») o se queda con
+una advertencia — pero **las tres cosas que no puede seguir haciendo son
+mezclarse con el recuento por mención, publicarse sin decir qué cuenta y
+llamarse igual que la otra**.
+
 ## Los cinco primeros días no existen (10 → 15 de agosto de 2026)
 
 El sismo fue el 10-ago a las 12:34 UTC; la primera petición registrada del
