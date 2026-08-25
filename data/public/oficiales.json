@@ -1,8 +1,162 @@
 {
- "generated_at": "2026-08-24T04:02:15.964Z",
- "run_date": "2026-08-23",
- "total": 36,
+ "generated_at": "2026-08-25T04:02:04.475Z",
+ "run_date": "2026-08-24",
+ "total": 39,
  "items": [
+  {
+   "url": "https://www.elheraldo.co/colombia/2026/08/21/la-ungrd-eleva-a-321-las-personas-fallecidos-y-a-4595-las-heridas-por-terremoto-de-magnitud-74/",
+   "publication_url": "https://www.elheraldo.co/colombia/2026/08/21/la-ungrd-eleva-a-321-las-personas-fallecidos-y-a-4595-las-heridas-por-terremoto-de-magnitud-74/",
+   "title": "La Ungrd eleva a 321 las personas fallecidos y a 4.595 las heridas ...",
+   "snapshot_id": "2026-08-24:https://www.elheraldo.co/colombia/2026/08/21/la-ungrd-eleva-a-321-las-personas-fallecidos-y-a-4595-las-heridas-por-terremoto-de-magnitud-74/",
+   "search_date": "2026-08-24",
+   "search_query": "UNGRD SGC terremoto Colombia 24-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "ELHERALDO.CO",
+    "domain": "elheraldo.co",
+    "channel": "web",
+    "url": "https://www.elheraldo.co/colombia/2026/08/21/la-ungrd-eleva-a-321-las-personas-fallecidos-y-a-4595-las-heridas-por-terremoto-de-magnitud-74/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "d882a763eadf15aa0508da57ace87c07608680d22f103d5f4eeff332422058ec",
+   "captured_at": "2026-08-25T04:02:04.475Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a03714-1577-7459-8d6e-a2de6bfe1cc9",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# La Ungrd eleva a 321 las personas fallecidos y a 4.595 las heridas por terremoto de magnitud 7,4\n\nAún hay 257 personas desaparecidas tras el sismo, según el reporte de la entidad.\n\nagosto 21, 2026\n\n![Imágenes de Cali varios días después del terremoto.](https://www.elheraldo.co/resizer/v2/QD3ZG3WFANCRJOZ7CB532MU5VQ.jpg?auth=6c91f6f6055f0b181ab57211453d74157aaa091b9a1025481ffd6024ecc7e4c9&smart=true&width=1200&height=675&quality=70)  \nAgencia EFE\n\nLa Unidad Nacional para la Gestión del Riesgo de Desastres ( **Ungrd**) entregó en la mañana de este viernes un nuevo balance de las **afectaciones** que deja el fuerte **terremoto** de magnitud 7,4 que sacudió al país el pasado 10 de agosto.\n\n_**Lea:**_ [_**Terremoto en Colombia y Perú: ¿existe una conexión entre ambos sismos?**_](https://www.elheraldo.co/colombia/2026/08/21/terremoto-en-colombia-y-peru-existe-una-conexion-entre-ambos-sismos/)\n\n![Mario Baos/EFE](https://www.elheraldo.co/resizer/v2/TAOJNZZFIRDTDLGJQQVUTGTOQQ.jpg?auth=13db7c20322e648593bd886212deeda8adc491f884255b0a1e822081b1869ed1&smart=true&width=760&height=535&quality=70)\n\nDe acuerdo con el reporte de la entidad, hay 15 departamentos y 476 municipios afectados por el sismo, que tuvo como epicentro San José del Palmar, **Chocó**.\n\n## [Suben a 331 los muertos por el terremoto de magnitud 7,4 en Colombia](https://www.elheraldo.co/colombia/2026/08/25/suben-a-331-los-muertos-por-el-terremoto-de-magnitud-74-en-colombia/)\n\nEn dichos territorios se han contabilizado hasta la fecha un total de 146.188 familias y 284.185 **personas afectadas**.\n\n_**Lea:**_ [_**OIM alerta sobre comunidades a las que no se ha tenido acceso tras el terremoto en Colombia**_](https://www.elheraldo.co/colombia/2026/08/20/oim-alerta-sobre-comunidades-a-las-que-no-se-ha-tenido-acceso-tras-el-terremoto-en-colombia/)\n\nEn cuanto a las víctimas de la **tragedia**, la Ungrd señaló que ha aumentado a 321 la cifra de personas **fallecidas** por el movimiento telúrico, mientras que las **heridas** son 4.595, las **desaparecidas**, 257, y van 364 **rescatadas**.\n\nEl censo de viviendas afectadas indica que 163.884 se encuentran averiadas, 31.445 destruidas y 467 edificios colapsados.\n\n_**Lea:**_ [_**Procuraduría crea grupo especial para hacer seguimiento a la atención de la emergencia por terremoto**_](https://www.elheraldo.co/colombia/2026/08/20/procuraduria-crea-grupo-especial-para-hacer-seguimiento-a-la-atencion-de-la-emergencia-por-terremoto/)\n\nRespecto a la infraestructura y servicios, la Ungrd informó que 351 centros de salud, 3.579 centros educativos y 4.611 centros comunitarios están afectados, así como 435 vías, 111 acueductos, 69 puentes vehiculares, 14 puentes peatonales y cinco aeropuertos.\n\nPor último, cifró en 1.254 los animales rescatados y en 1.236 los afectados.\n\n_**Lea:**_ [_**“La salud se me va deteriorando”: Rossy Lemos revela difícil situación tras el terremoto**_](https://www.elheraldo.co/entretenimiento/famosos/2026/08/20/la-salud-se-me-va-deteriorando-rossy-lemos-revela-dificil-situacion-tras-el-terremoto/)\n\nEl terremoto es el más fuerte sufrido por Colombia en este cuarto de siglo y afectó principalmente a los departamentos de Chocó, Caldas, Quindío, Valle del Cauca, Risaralda y Antioquia.\n\n## Temas tratados\n\n- [terremoto](https://www.elheraldo.co/tags/terremoto/)\n- [Ungrd](https://www.elheraldo.co/tags/ungrd/)\n- [sismo](https://www.elheraldo.co/tags/sismo/)\n- [Colombia](https://www.elheraldo.co/tags/colombia/)\n- [víctimas](https://www.elheraldo.co/tags/victimas/)\n- [muertos](https://www.elheraldo.co/tags/muertos/)\n- [heridos](https://www.elheraldo.co/tags/heridos/)",
+   "publicado_en": "2026-08-21T13:40:36.559Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": 476,
+    "personas_afectadas": null,
+    "familias_afectadas": 146188,
+    "viviendas_averiadas": 163884,
+    "viviendas_destruidas": null,
+    "heridos": null,
+    "fallecidos": null,
+    "desaparecidos": 257,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# La Ungrd eleva a 321 las personas fallecidos y a 4.595 las heridas por terremoto de magnitud 7,4\n\nAún hay 257 personas desaparecidas tras el sismo, según el reporte de la entidad.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "title": "Balance oficial de la UNGRD tras terremoto de magnitud 7 ...",
+   "snapshot_id": "2026-08-24:https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "search_date": "2026-08-24",
+   "search_query": "UNGRD SGC terremoto Colombia 24-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "716cafd5bbd833531f18acc10f2bc3fb54e82f86dbe58eda5f220ebb85eaabeb",
+   "captured_at": "2026-08-25T04:02:04.475Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a03714-1577-7459-8d6e-a2de6bfe1cc9",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/13/6a7e0293687cb.r_d.600-268.png)\n\nEl Gobierno presentó el balance oficial de la emergencia este jueves 13 de agosto. Foto: UNGRD/EFE\n\n### Cifras oficiales de víctimas que deja el terremoto en Colombia\n\nEl consolidado presentado por la UNGRD, con corte de las 5 de la tarde, reporta las siguientes cifras de afectación a la población:\n\n- **Familias afectadas:** 44.936.\n- **Personas afectadas:** 102.105.\n- **Fallecidos:** 281.\n- **Heridos:** 3.971.\n- **Desaparecidos:** 379, según cifras de la Fiscalía General de la Nación.\n- **Departamentos afectados:** 15.\n- **Municipios afectados:** 426.\n- **Personas rescatadas:** 348.\n\nDe los fallecidos, **260 han ingresado a Medicina Legal**, **246 han sido reconocidos** y **222 cuerpos han sido entregados a sus familias.**\n\n### Daños en viviendas e infraestructura por el terremoto en Colombia\n\nEl balance presentado por la entidad también da cuenta de **daños en viviendas, edificaciones y servicios esenciales**:\n\n- **Viviendas destruidas:** 10.677.\n- **Viviendas averiadas:** 65.841.\n- **Edificios colapsados:** 127.\n- **Centros educativos afectados:** 2.136.\n- **Centros de salud afectados:** 236.\n- **Centros comunitarios afectados:** 825.\n- **Vías:** 198.\n- **Puentes vehiculares:** 34.\n- **Puentes peatonales:** 12.\n- **Acueductos afectados:** 71.\n- **Entidades bancarias afectadas:** 29.\n- **Aeropuertos afectados:** 5.\n\nEl reporte oficial también registra **243 animales afectados** y **169 rescatados**, que permanecen en **albergues con atención veterinaria**.\n\n### Imágenes satelitales y drones respaldan monitoreo de municipios afectados\n\nDurante una rueda de prensa este jueves, David Santiago Tamayo Roldán, **director de la UNGRD**, también se refirió a las herramientas tecnológicas utilizadas **para evaluar las zonas afectadas por el terremoto**. Explicó que, mediante alianzas con la **NASA** y otras entidades, **se han procesado 166 imágenes satelitales de alta definición.**\n\n### Gobierno mantiene monitoreo del volcán Puracé en alerta naranja\n\nAunque el terremoto **constituye la prioridad nacional**, Tamayo precisó que la UNGRD mantiene la **atención sobre otras situaciones críticas** que permanecen activas en el territorio.\n\nLa entidad trabaja de manera simultánea frente al sismo, la **actividad volcánica y los incendios forestales**. En el caso del **volcán Puracé**, que continúa en **alerta naranja**, una **comisión técnica de la UNGRD** permanece en la zona desde el pasado fin de semana **para evaluar su actividad.**",
+   "publicado_en": "2026-08-13T13:05:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-13",
+   "departamentos": [],
+   "municipios": [],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 426,
+    "personas_afectadas": 102105,
+    "familias_afectadas": 44936,
+    "viviendas_averiadas": 65841,
+    "viviendas_destruidas": 10677,
+    "heridos": 3971,
+    "fallecidos": 281,
+    "desaparecidos": 379,
+    "rescatados": 169
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance",
    "publication_url": "https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance",
@@ -406,6 +560,95 @@
    "requiere_revision_humana": true,
    "confianza": "media",
    "cita": "## Noticia\n\n# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500",
+   "title": "Terremoto en Colombia, últimas noticias de hoy 24 de agosto",
+   "snapshot_id": "2026-08-24:https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500",
+   "search_date": "2026-08-24",
+   "search_query": "Presidencia Colombia UNGRD SGC terremoto 24-08-2026 reporte oficial afectados",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "e4faa9ca4f65e681ea1a3e95ec5f38e4aa59e5da0a63610c7c31d10d2700c72b",
+   "captured_at": "2026-08-25T04:02:04.475Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a03714-4cde-771a-a015-9d47cc1dbc5a",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Presidencia reporte oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "En este portal utilizamos datos de navegación / cookies propias y de terceros para gestionar el portal, elaborar información estadística, optimizar la funcionalidad del sitio y mostrar publicidad relacionada con sus preferencias a través del análisis de la navegación. Si continúa navegando, usted estará aceptando esta utilización. Puede conocer cómo deshabilitarlas u obtener más información\n[aquí](https://www.eltiempo.com/politica-de-cookies)\n\nEntiendo\n\nLunes, 24.08.2026 / 11:31\n\nEMPLEOS\n\n[CLUB VIVAMOS](https://www.clubvivamos.com/)\n\n[SUSCRÍBETE](https://www.eltiempo.com/suscripcion-digital) [CLUB VIVAMOS](https://www.clubvivamos.com/)\n\n¡Hola !, Tu correo ha sido verficado. Ahora puedes elegir los [Boletines](https://www.eltiempo.com/zona-usuario/boletines) que quieras recibir con la mejor información.\n\n\nCerrar\n\nBienvenido , has creado tu cuenta en EL TIEMPO. Conoce y personaliza tu [perfil](https://www.eltiempo.com/zona-usuario/configurar-mis-datos).\n\n\nCerrar\n\nHola {nombre} Verifica tu email {email} para mantener activa tu cuenta y acceder a todos los beneficios. Verificar correo\n\nEnviamos un mensaje de verificación a tu correo {email} Ábrelo y selecciona el enlace de confirmación para activar tu cuenta.\n\nCerrar\n\nCerrar![icon_alerta_verificacion](https://www.eltiempo.com/images/icon/alerta-verificacion.svg)\n\nEl correo electrónico de verificación se enviará a\n\n\nclementine@ejemplo.com\n\n\nRevisa tu bandeja de entrada y si no, en tu carpeta de correo no deseado.\n\n\nSI, ENVIAR\n\n\nYa tienes una cuenta vinculada a EL TIEMPO, por favor inicia sesión con ella y no te pierdas de todos los beneficios que tenemos para tí. [Iniciar sesión](https://www.eltiempo.com/login)\n\nCerrar\n\n- [Colombia](https://www.eltiempo.com/colombia \"Colombia\")\n- [Otras Ciudades](https://www.eltiempo.com/colombia/otras-ciudades \"Otras Ciudades\")\n- [Medellín](https://www.eltiempo.com/colombia/medellin \"Medellín\")\n- [Barranquilla](https://www.eltiempo.com/colombia/barranquilla \"Barranquilla\")\n- [Cali](https://www.eltiempo.com/colombia/cali \"Cali\")\n- [Santander](https://www.eltiempo.com/colombia/santander \"Santander\")\n\nChat\n\n\nnoti IA\n\n¡Hazme tu primera pregunta y descubre todo lo que El Tiempo ofrece!\n\n\nTérminos y Condiciones Chat\n\nHola, bienvenido\n\n![Icono cerrar chat](https://www.eltiempo.com/images/icon/salir.svg)\n\nHazme un resumen de las noticias más relevantes.\n\n¿Qué está pasando en Colombia?\n\n¿Qué ocurre en el mundo hoy?\n\n¿Qué pasó en deportes hoy?\n\n¿Quién es James Rodriguez?\n\nJames Rodríguez, es un futbolista colombiano que juega como centrocampista en el São Paulo Futebol Clube de la Serie A de Brasil.\n\nTe recomiendo estos artículos para ampliar tu búsqueda.\n\n[ELIMINATORIAS\\\\\n\\\\\nJames alucinó con actuación de Gio Moreno en Kings League\\\\\n\\\\\n![](https://imagenes2.eltiempo.com/files/image_120_67/assets/editor/image_placeholder.jpg)](https://www.eltiempo.com/)\n\nCargar más resultados\n\n¡Hola! Parece que has alcanzado tu límite diario de 3 búsquedas en nuestro chat bot como usuario registrado.\n\n\n¿Quieres seguir disfrutando de este y otros beneficios exclusivos?\n\nAdquiere el plan de suscripción que se adapte a tus preferencias y accede a ¡contenido ilimitado! No te\npierdas la oportunidad de disfrutar todas las funcionalidades que ofrecemos. 🌟\n\n\n[VER PLANES](https://www.eltiempo.com/suscripcion-digital)\n\n¡Hola! Haz excedido el máximo de peticiones mensuales.\n\n\nPara más información continua navegando en [eltiempo.com](https://www.eltiempo.com/)\n\nError 505\n\nEstamos resolviendo el problema, inténtalo nuevamente más tarde.\n\n\nProcesando tu pregunta... ¡Un momento, por favor!\n\n\n¿Sabías que registrándote en nuestro portal podrás acceder al chatbot de El Tiempo y obtener información\nprecisa en tus búsquedas?\n\n\nRegístrate gratis y disfruta de todas las funciones que tenemos para ofrecerte\n\n\nRegistrarme\n\n\nCon el envío de tus consultas, aceptas los Términos y Condiciones del Chat disponibles en la parte superior. Recuerda que las respuestas generadas pueden presentar inexactitu",
+   "publicado_en": "2026-08-24T01:19:07-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-23",
+   "fecha_corte": "2026-08-24",
+   "departamentos": [
+    "Chocó",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Cali",
+    "Istmina",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": 16,
+    "municipios_afectados": 494,
+    "personas_afectadas": 324157,
+    "familias_afectadas": 159924,
+    "viviendas_averiadas": 178236,
+    "viviendas_destruidas": 31519,
+    "heridos": 4592,
+    "fallecidos": 329,
+    "desaparecidos": 234,
+    "rescatados": 364
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "De acuerdo con las políticas de la IA que usa EL TIEMPO, no es posible responder a las preguntas relacionadas con los siguientes temas: odio, sexual, violencia y autolesiones\n\n\nEn vivo\n\n# Terremoto en Colombia, últimas noticias de hoy 24 de agosto: Presidente hace presencia en Ch",
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
@@ -3146,8 +3389,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a031ed-91ca-743a-821f-6e298247743c",
-       "query": "UNGRD SGC terremoto Colombia 23-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a03714-1577-7459-8d6e-a2de6bfe1cc9",
+       "query": "UNGRD SGC terremoto Colombia 24-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -3155,8 +3398,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a031ed-a84b-72de-9514-90e25f7d12cb",
-       "query": "Gobernación Alcaldía terremoto Colombia 23-08-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a03714-33f6-738a-ac04-b7b49e1e4ee7",
+       "query": "Gobernación Alcaldía terremoto Colombia 24-08-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -3164,8 +3407,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a031ed-b60d-7135-94c4-8c3d59ff3244",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 23-08-2026 reporte oficial afectados",
+       "id": "01a03714-4cde-771a-a015-9d47cc1dbc5a",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 24-08-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -3338,6 +3581,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-08-24/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-08-25/oficiales_feed.json"
  }
 }
