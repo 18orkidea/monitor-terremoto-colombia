@@ -6,6 +6,69 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — Una cifra, un concepto: la portada deja de publicar dos totales del mismo registro
+
+**Contexto.** Una auditoría externa vio lo que nadie había mirado: la portada
+decía «el registro oficial de damnificados abarca **348**» y «el RUD ya cubre el
+evento — **348** municipios con **199.378** familias», mientras la tabla, el
+gráfico y las tarjetas de fuentes de esa misma página decían **347** y
+**199.376**. No eran capturas distintas del RUD. Eran **dos lecturas del mismo
+corte**: la prosa contaba sobre `official_events`, el acumulado del archivo, que
+guarda toda fila que el registro haya tenido alguna vez y jamás la retira; el
+resto contaba sobre `rud_daily`, el último corte capturado. La diferencia era un
+municipio y dos familias.
+
+**El municipio es Agua de Dios (Cundinamarca)**: 2 familias, 7 personas, 1
+vivienda averiada, presente en la captura del 22-ago-2026 y ausente en las del
+23 y el 24. No se perdió por desambiguación de topónimos —está en DIVIPOLA con
+su código 25001 y sus coordenadas, y el monitor lo habría situado—: **lo retiró
+la fuente**. Comprobado antes de tocar nada, porque si el monitor estuviera
+perdiendo un municipio que sí sabe situar, la cifra buena habría sido la otra y
+la decisión sería la contraria.
+
+**Decisión (JP): se unifica a la cifra del corte vigente, 347.** El sitio
+publica el registro tal como está hoy, no el máximo histórico; y lo declara
+fechado (`corte`). Se arregla **en origen** —`ingest/publish.py` cuenta sobre
+`rud_daily`— y no en la plantilla, porque `brechas_oficiales.ungrd_rud` lo leen
+tres superficies distintas del generador y parchear una habría dejado dos
+poblaciones vivas. Por la misma razón se cambia la alerta `rud_activo` de
+`ingest/alerts.py`, que comparaba el acumulado del archivo contra la captura de
+la víspera.
+
+**El dato retirado no se tira.** Sigue en `official_events`, sigue en su
+snapshot del 22-ago con su sha256, y se publica declarado y aparte en
+`monitor.json::brechas_oficiales.ungrd_rud.retirados`, con la última fecha en
+que se le vio. `docs/LIMITACIONES.md` cuenta el caso y avisa de lo que implica:
+**el total de municipios del RUD puede bajar**, y el sitio lo publicará si baja.
+
+### El guardián: `data-cifra`, la declaración que hace comprobable la coherencia
+
+El fallo de fondo no era la cifra: era que **nada impedía publicar dos totales
+del mismo concepto en la misma página**. Cada superficie leía su fuente y no
+existía ningún sitio donde se comparasen. Un test que dijera «la cifra es 347»
+caduca con la próxima corrida, así que el guardián compara **las cifras
+publicadas entre sí**.
+
+Para poder compararlas hay que saber de qué es cada número, y eso lo dice el
+propio artefacto: quien imprime una cifra vigilada la envuelve en un
+`data-cifra="<concepto>"`, y los conceptos viven en un solo sitio,
+`render_html.py::CIFRAS_DECLARADAS`. `tests/test_render_html.py::TestCifrasDeclaradas`
+construye las páginas con el inyector real y cae si un concepto sale con dos
+valores en una página, si sale con dos valores en el sitio entero, si una marca
+usa un concepto no declarado, o si un concepto deja de publicarse por dos
+caminos —porque entonces el vigilante no estaría comparando nada—.
+
+Se eligió la marca en el HTML, y no una expresión regular sobre la prosa,
+precisamente porque la prosa se reescribe: el día que alguien cambie la
+redacción de la banda, el guardián sigue en pie. Y por eso mismo la marca envuelve
+**solo el número** y nunca la palabra que lo acompaña: qué se resalta en negrita
+es una decisión de estilo, y este mecanismo no debe tocarla.
+
+Validado rompiendo el código (M1): con `entradilla_portada` devuelta a la cuenta
+acumulada —la forma literal del bug— el guardián reproduce `['347', '348']` en
+`index.html` y cae; con una errata en el nombre del concepto caen los otros dos
+guardianes, cada uno por su motivo.
+
 ## 2026-08-25 — La portada deja de comparar poblaciones que no se cuentan igual
 
 **Contexto.** El tercer párrafo de la banda de brechas decía: «unas 10.487.959

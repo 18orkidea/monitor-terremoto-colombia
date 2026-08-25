@@ -119,7 +119,16 @@ PROSA_MINIMA = {
     # crecimiento es condicional —hitos de GDACS y entregas de Copernicus— y se
     # queda fuera, igual que el margen de 241 de fase 6c, que no se toca: el
     # suelo sube por lo que no puede evaporarse, nunca por lo que sí.
-    "referencia.html": 5816,
+    #
+    # 25-ago-2026 (segunda subida del día): de 5.816 a 6.805. La página mide
+    # 7.138 palabras propias, 989 más, y **todas son hitos curados** que se
+    # habían añadido a `feeds/hitos_monitor.json` sin propagarse todavía a
+    # `data/public/`: los nueve topónimos revisados, el nombre del feed que
+    # dejó de contar como titular, el párrafo de cobertura que dejó de comparar
+    # poblaciones y el municipio que salió del registro oficial. El margen
+    # condicional se conserva intacto —333 palabras, las mismas que antes—:
+    # sube lo que no puede evaporarse y ni una palabra de lo que sí.
+    "referencia.html": 6805,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 

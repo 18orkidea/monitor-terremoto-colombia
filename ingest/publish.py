@@ -337,16 +337,42 @@ def run() -> dict:
             gaps["ungrd_arcgis"] = {"max_fecha": maxf, "total": at.get("n")}
             break
 
-    # RUD: la fuente oficial que SÍ cubre el evento (por municipio)
-    rud = conn.execute(
-        "SELECT COUNT(*), SUM(familias), SUM(personas), SUM(viv_destruidas),"
-        " SUM(viv_averiadas) FROM official_events WHERE source='ungrd_rud'"
-    ).fetchone()
-    if rud and rud[0]:
-        gaps["ungrd_rud"] = {
-            "municipios": rud[0], "familias": rud[1], "personas": rud[2],
-            "viv_destruidas": rud[3], "viv_averiadas": rud[4],
-            "fuente": "https://rud.gestiondelriesgo.gov.co/"}
+    # RUD: la fuente oficial que SÍ cubre el evento (por municipio).
+    #
+    # Se cuenta el ÚLTIMO CORTE capturado (`rud_daily`), no el acumulado
+    # histórico (`official_events`): el archivo guarda toda fila que el registro
+    # haya tenido alguna vez y jamás la retira —esa es su función—, así que
+    # contar ahí publica municipios que la fuente ya no reconoce. La portada
+    # acababa diciendo dos totales del mismo registro, 348 municipios en la
+    # prosa contra 347 en su propia tabla, porque cada superficie leía uno.
+    # Lo que el RUD retiró no se tira: sale aquí aparte, con la última fecha en
+    # que se le vio, y `docs/LIMITACIONES.md` lo cuenta.
+    fila = conn.execute("SELECT MAX(snapshot_date) FROM rud_daily").fetchone()
+    corte = fila[0] if fila else None
+    if corte:
+        rud = conn.execute(
+            "SELECT COUNT(*), SUM(familias), SUM(personas), SUM(viv_destruidas),"
+            " SUM(viv_averiadas) FROM rud_daily WHERE snapshot_date=?",
+            (corte,)).fetchone()
+        vigentes = {(dep, mun) for dep, mun in conn.execute(
+            "SELECT departamento, municipio FROM rud_daily"
+            " WHERE snapshot_date=?", (corte,))}
+        ultima_vez = {(dep, mun): visto for dep, mun, visto in conn.execute(
+            "SELECT departamento, municipio, MAX(snapshot_date) FROM rud_daily"
+            " GROUP BY departamento, municipio")}
+        retirados = [
+            {"departamento": dep, "municipio": mun, "familias": fam,
+             "visto_por_ultima_vez": ultima_vez.get((dep, mun))}
+            for dep, mun, fam in conn.execute(
+                "SELECT departamento, municipio, familias FROM official_events"
+                " WHERE source='ungrd_rud' ORDER BY departamento, municipio")
+            if (dep, mun) not in vigentes]
+        if rud and rud[0]:
+            gaps["ungrd_rud"] = {
+                "municipios": rud[0], "familias": rud[1], "personas": rud[2],
+                "viv_destruidas": rud[3], "viv_averiadas": rud[4],
+                "corte": corte, "retirados": retirados,
+                "fuente": "https://rud.gestiondelriesgo.gov.co/"}
 
     # Exposición no mapeada: población expuesta (PAGER, MMI>=6) vs población
     # dentro de AOIs Copernicus. El déficit son los asentamientos sin mirar.

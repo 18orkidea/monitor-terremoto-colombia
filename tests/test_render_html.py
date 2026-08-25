@@ -1870,6 +1870,131 @@ class TestCifrasEnAtributos(unittest.TestCase):
         self.assertIn("municipio/cali/index.html", hechas)
 
 
+_MARCA_CIFRA = re.compile(
+    r'<(b|span|strong)\b[^>]*\bdata-cifra="([^"]+)"[^>]*>(.*?)</\1>', re.S)
+
+
+def cifras_declaradas(html_texto: str) -> dict:
+    """{concepto: {texto publicado, …}} leído del artefacto, no del código.
+
+    Solo mira lo que la página DECLARA con `data-cifra`. Una cifra sin marcar
+    no se vigila: la marca es la promesa de que ese número es de ese concepto,
+    y sin promesa no hay nada que contrastar. Un concepto marcado cuyo
+    contenido no se deja leer entra con el conjunto vacío, para que el guardián
+    caiga en vez de darlo por bueno."""
+    fuera = {c: set() for c in re.findall(r'data-cifra="([^"]+)"', html_texto)}
+    for m in _MARCA_CIFRA.finditer(html_texto):
+        fuera.setdefault(m.group(2), set()).add(
+            re.sub(r"<[^>]+>", "", m.group(3)).strip())
+    return fuera
+
+
+class TestCifrasDeclaradas(unittest.TestCase):
+    """Una página no publica dos totales distintos del mismo concepto.
+
+    El fallo que da origen a este guardián no fue una cifra mal calculada: la
+    portada decía «348 municipios» en la prosa y «347» en su propia tabla
+    porque cada superficie leía una fuente distinta —el acumulado histórico del
+    archivo contra el último corte capturado del registro— y **nada comprobaba
+    que dijeran lo mismo**. La cifra concreta se arregla en un commit; lo que
+    faltaba era que volver a abrirla costara un test en rojo.
+
+    Por eso aquí no se comprueba ningún número: se comparan **entre sí** los
+    que la página publica. El día que el registro crezca, este test seguirá
+    diciendo lo mismo, que es la única forma de que no caduque.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.destino = Path(tempfile.mkdtemp())
+        for pagina in sorted((ROOT / "site").glob("*.html")):
+            shutil.copy(pagina, cls.destino / pagina.name)
+        R.inyectar_prerenderizado(cls.destino, cls.ctx)
+        cls.paginas = {f.name: f.read_text(encoding="utf-8")
+                       for f in sorted(cls.destino.glob("*.html"))}
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.destino, ignore_errors=True)
+
+    # -------------------------------------------------------- el guardián
+    def test_ninguna_pagina_publica_dos_valores_del_mismo_concepto(self):
+        for nombre, html_texto in self.paginas.items():
+            for concepto, valores in cifras_declaradas(html_texto).items():
+                with self.subTest(pagina=nombre, concepto=concepto):
+                    self.assertEqual(
+                        len(valores), 1,
+                        f"{nombre} publica {sorted(valores)} para "
+                        f"«{R.CIFRAS_DECLARADAS.get(concepto, concepto)}»: "
+                        "dos cifras del mismo concepto en la misma página")
+
+    def test_el_sitio_entero_dice_lo_mismo(self):
+        """Y tampoco entre páginas: el sitio se construye de un solo contexto
+        en una sola corrida, así que dos páginas con distinto total del mismo
+        registro serían la misma avería con un salto de página en medio."""
+        todos = {}
+        for nombre, html_texto in self.paginas.items():
+            for concepto, valores in cifras_declaradas(html_texto).items():
+                todos.setdefault(concepto, {})[nombre] = sorted(valores)
+        for concepto, por_pagina in sorted(todos.items()):
+            with self.subTest(concepto=concepto):
+                distintos = {v for vs in por_pagina.values() for v in vs}
+                self.assertEqual(
+                    len(distintos), 1,
+                    f"«{R.CIFRAS_DECLARADAS.get(concepto, concepto)}» sale "
+                    f"con varios valores por el sitio: {por_pagina}")
+
+    def test_el_guardian_tiene_algo_que_comparar(self):
+        """La lección de los guardianes que no guardan: un vigilante sobre una
+        página sin marcar estaría en verde eternamente. Cada concepto que el
+        generador dice vigilar tiene que salir publicado al menos DOS veces; con
+        una sola superficie no hay nada que contrastar."""
+        veces = {c: 0 for c in R.CIFRAS_DECLARADAS}
+        for html_texto in self.paginas.values():
+            for concepto in re.findall(r'data-cifra="([^"]+)"', html_texto):
+                veces[concepto] = veces.get(concepto, 0) + 1
+        for concepto, n in sorted(veces.items()):
+            with self.subTest(concepto=concepto):
+                self.assertGreaterEqual(
+                    n, 2, f"«{concepto}» se publica {n} vez en todo el sitio: "
+                          "el guardián no estaría comparando nada")
+
+    def test_toda_marca_del_artefacto_esta_declarada(self):
+        """Un `data-cifra` con el nombre mal escrito no compara con nadie y
+        pasaría el guardián sin hacer ruido."""
+        for nombre, html_texto in self.paginas.items():
+            for concepto in sorted(set(
+                    re.findall(r'data-cifra="([^"]+)"', html_texto))):
+                with self.subTest(pagina=nombre, concepto=concepto):
+                    self.assertIn(concepto, R.CIFRAS_DECLARADAS,
+                                  f"{nombre} marca «{concepto}», que no está "
+                                  "en CIFRAS_DECLARADAS")
+
+    def test_cae_si_una_superficie_se_queda_con_la_cifra_vieja(self):
+        """La comprobación de que el guardián muerde, con la forma REAL del bug:
+        una sola de las superficies de la portada se queda con el total de la
+        víspera mientras las demás ya publican el de hoy. Se prueba con todos
+        los conceptos que la portada publica por más de un camino, que son
+        exactamente los que pueden divergir."""
+        pagina = self.paginas["index.html"]
+        marcas = list(_MARCA_CIFRA.finditer(pagina))
+        repetidos = [c for c in R.CIFRAS_DECLARADAS
+                     if sum(1 for m in marcas if m.group(2) == c) >= 2]
+        self.assertTrue(repetidos, "la portada ya no publica ningún concepto "
+                        "por dos caminos: no queda avería que reproducir")
+        for concepto in repetidos:
+            marca = next(m for m in marcas if m.group(2) == concepto)
+            mutada = pagina.replace(
+                marca.group(0), marca.group(0).replace(marca.group(3), "999"), 1)
+            with self.subTest(concepto=concepto):
+                self.assertNotEqual(mutada, pagina, "la mutación no cambió nada")
+                self.assertEqual(
+                    len(cifras_declaradas(mutada)[concepto]), 2,
+                    "el lector no vio las dos cifras: el guardián no cazaría "
+                    "el fallo que existe para cazar")
+
+
 class TestSitioEnLaRaiz(unittest.TestCase):
     """El sitio vive en la raíz del dominio, no en /site/.
 

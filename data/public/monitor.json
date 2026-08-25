@@ -827,11 +827,20 @@
    "total": 85664
   },
   "ungrd_rud": {
-   "municipios": 348,
-   "familias": 199378.0,
-   "personas": 432237.0,
+   "municipios": 347,
+   "familias": 199376.0,
+   "personas": 432230.0,
    "viv_destruidas": 11480.0,
-   "viv_averiadas": 67607.0,
+   "viv_averiadas": 67606.0,
+   "corte": "2026-08-24",
+   "retirados": [
+    {
+     "departamento": "CUNDINAMARCA",
+     "municipio": "AGUA DE DIOS",
+     "familias": 2.0,
+     "visto_por_ultima_vez": "2026-08-22"
+    }
+   ],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
  },

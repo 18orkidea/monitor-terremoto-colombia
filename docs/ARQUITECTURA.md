@@ -124,6 +124,16 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   de ahí sale una regla al escribirla —**nada de texto pelado colgando de un
   `<td>`**, cada valor en su elemento (`valor_suelto()`)—, porque lo que queda
   debajo de esa capa deja de poder seleccionarse y pierde su `title`.
+  **Una cifra vigilada declara de qué concepto es**: quien la imprime la envuelve
+  en un `data-cifra="<concepto>"` y el concepto vive en un solo sitio,
+  `render_html.py::CIFRAS_DECLARADAS`. Existe porque la portada llegó a publicar
+  dos totales del mismo registro —348 municipios en la prosa contra 347 en su
+  propia tabla— sin que nada lo impidiera; con la marca puesta,
+  `test_render_html.py::TestCifrasDeclaradas` recorre el artefacto construido y
+  compara **entre sí** las cifras publicadas, que es lo único que no caduca con
+  la corrida del día siguiente. La marca envuelve solo el número, nunca la
+  palabra que lo acompaña: qué va en negrita es estilo, y no lo decide este
+  mecanismo.
 
 ## Cómo se lee `data/snapshots/<día>/`
 
@@ -173,12 +183,12 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `activation_index` | code | Catálogo completo EMSR673+ (vigilancia de nuevas activaciones) |
 | `products` | (code, aoi, ptype, …, snapshot_date) | Productos Copernicus por AOI: tipo, versión, estado, entrega |
 | `stats` | (code, aoi, …, category, snapshot_date) | Estadísticas de daño; `total_raw/affected_raw` conservan el literal («NA» no se pierde) |
-| `official_events` | (source, external_id) | EDAN histórico UNGRD (85k registros) + eventos oficiales |
+| `official_events` | (source, external_id) | EDAN histórico UNGRD (85k registros) + eventos oficiales. **Acumula y nunca retira**: es el archivo, no el estado de hoy — lo que el sitio publica del RUD sale de `rud_daily` |
 | `evidence` | id | Evidencia por AOI con tipo ∈ {oficial, institucional, prensa, ciudadano} — el corazón de R1 |
 | `media_volume` | (event_key, fecha, snapshot_date) | Series diarias: EMM, GDELT, feeds propios, ChatMap |
 | `citizen_reports` | (origen, id_externo) | Reportes ChatMap: coordenada exacta + `lat_pub/lon_pub`, sha256 del medio, score y checks |
 | `news_items` | url | Titulares de todos los feeds (registro abierto). `medio` guarda el FEED que trajo la pieza; `medio_canonico`/`medio_dominio`, la cabecera que la firma según el `<source>` del propio RSS |
-| `rud_daily` | (snapshot_date, departamento, municipio) | RUD por municipio y día de captura — la serie oficial |
+| `rud_daily` | (snapshot_date, departamento, municipio) | RUD por municipio y día de captura — la serie oficial, y **la única fuente de los totales que se publican** (su último corte) |
 | `unosat_products` | product_id | Productos UNITAR-UNOSAT del evento: título, enlaces a PDF/SHP/GDB y `shp_sha256`, que es la identidad real del paquete |
 | `unosat_damage` | (paquete_sha, capa, idx) | Edificios evaluados por UNOSAT. La clave es el **paquete**, no el producto: tres productos publican el mismo ZIP y el edificio es uno solo |
 | `sertit_productos` | producto_id | Los cinco mapas de ICube-SERTIT: escala, sensor, área analizada y el sha del paquete de vectores que les corresponde |

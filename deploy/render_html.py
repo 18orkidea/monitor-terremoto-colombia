@@ -47,6 +47,23 @@ AOI_ES = {
 }
 
 
+# ------------------------------------------- las cifras que la página declara
+# Una misma portada llegó a publicar dos totales del mismo registro —348
+# municipios en la prosa contra 347 en su propia tabla— y nada lo impedía: cada
+# superficie leía su fuente y nadie las comparaba. `data-cifra` es la
+# declaración que lo vuelve comprobable: quien imprime un número dice de qué
+# concepto es, y el guardián recorre el artefacto construido y cae si un
+# concepto sale con dos valores distintos en la misma página.
+#
+# Vigilar una cifra nueva es añadir aquí su concepto y marcar con él la
+# etiqueta que la imprime; no hay una segunda lista que mantener.
+# `tests/test_render_html.py::TestCifrasDeclaradas`
+CIFRAS_DECLARADAS = {
+    "rud-municipios": "municipios con damnificados en el registro oficial (RUD)",
+    "rud-familias": "familias registradas en el RUD",
+}
+
+
 # --------------------------------------------------------------- utilidades
 def redondea_como_se_lee(n, dec: int = 0) -> Decimal:
     """El número redondeado con la MISMA regla con que se va a imprimir.
@@ -3074,8 +3091,10 @@ def banda_brechas(ctx: dict) -> str:
             "<br><strong>La brecha empezó a cerrarse:</strong> el "
             '<a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" '
             'rel="noopener">RUD</a> (Registro Único de Damnificados) ya cubre el evento — '
-            f"<strong>{fmt(rud.get('municipios'))}</strong> municipios con "
-            f"<strong>{fmt(rud.get('familias'))}</strong> familias y "
+            f'<strong data-cifra="rud-municipios">'
+            f"{fmt(rud.get('municipios'))}</strong> municipios con "
+            f'<strong data-cifra="rud-familias">'
+            f"{fmt(rud.get('familias'))}</strong> familias y "
             f"{fmt(rud.get('viv_destruidas'))} viviendas destruidas registradas. " + cierre)
     # R3, y aquí duele especialmente: si falta la clave, «Copernicus entregó cero
     # productos» no es un dato que falta, es una acusación falsa a la fuente. Un
@@ -3248,7 +3267,7 @@ def entradilla_portada(ctx: dict) -> str:
             f'{concuerda(muns_sat, "municipio", "municipios")}.')
     if registrados:
         frases.append("El registro oficial de damnificados abarca "
-                      f"<b>{fmt(registrados)}</b>.")
+                      f'<b data-cifra="rud-municipios">{fmt(registrados)}</b>.')
     if sin:
         frases.append(f"A otros <b>{fmt(sin)}</b> no los ha mirado ningún "
                       "satélite.")
@@ -3553,7 +3572,8 @@ def tarjetas_portada(ctx: dict) -> str:
          f"{fmt(total)} fichas: qué fuente vio qué en cada una"
          if total else "Qué fuente vio qué en cada municipio"),
         ("/rud.html", "RUD",
-         f"{fmt(familias)} familias registradas, día a día"
+         f'<span data-cifra="rud-familias">{fmt(familias)}</span> familias '
+         "registradas, día a día"
          if familias else "El registro oficial de damnificados, día a día"),
         ("/balances.html", "Balances",
          "Qué cifra publica cada medio y a quién cita"),
@@ -3561,9 +3581,12 @@ def tarjetas_portada(ctx: dict) -> str:
          f"{fmt(noticias)} titulares emparejados por zona"
          if noticias else "Los titulares del evento, emparejados por zona"),
     ]
+    # El subtítulo va SIN escapar porque lo arma esta función con literales
+    # suyos y números de `fmt`: nada de aquí viene de una fuente. Lo necesita
+    # para poder marcar la cifra con `data-cifra` (ver `CIFRAS_DECLARADAS`).
     return "".join(
         f'<a class="tarjeta" href="{href}"><strong>{e(titulo)}</strong>'
-        f'<span>{e(sub)}</span></a>' for href, titulo, sub in tarjetas)
+        f'<span>{sub}</span></a>' for href, titulo, sub in tarjetas)
 
 
 # ------------------------------------------- la brecha, día a día (el gráfico)
@@ -3664,7 +3687,8 @@ def nota_grafico_brecha(ctx: dict) -> str:
     ultima_mirada = max(
         (d["fecha"] for d in serie if d.get("entradas")), default=None)
     frase = (f"La línea ocre son los municipios que han inscrito damnificados en "
-             f"el registro oficial: <b>{fmt(ult['rud'])}</b>. La azul, aquellos "
+             f'el registro oficial: <b data-cifra="rud-municipios">'
+             f"{fmt(ult['rud'])}</b>. La azul, aquellos "
              f"sobre los que algún satélite ha publicado un producto de daño: "
              f"<b>{fmt(ult['sat'])}</b>")
     if ultima_mirada:
@@ -3855,14 +3879,23 @@ def tarjetas_fuentes_portada(ctx: dict) -> str:
             f'style="--fc:{_COLOR_MIRADA.get(f.get("id"), "var(--muted)")}">',
             f'<h3>{e(nombre[0])}</h3>',
             f'<p class="fuente-sub">{e(nombre[-1])}</p>']
+        # Esta tarjeta y la prosa de la banda cuentan el MISMO registro por
+        # dos caminos distintos, y ahí nació el fallo que `CIFRAS_DECLARADAS`
+        # vigila: la marca dice qué concepto es cada número para que el
+        # guardián pueda compararlos entre sí.
+        marca_mun = ' data-cifra="rud-municipios"' if f.get("id") == "rud" else ""
+        marca_cif = (' data-cifra="rud-familias"'
+                     if f.get("id") == "rud" and principal
+                     and principal[1] == "familias" else "")
         # R3/M10: sin recuento por municipio se dice que no lo hay, no un cero
         cuerpo.append(
-            f'<p class="fuente-muns"><b>{fmt(muns)}</b> municipios</p>' if muns
+            f'<p class="fuente-muns"><b{marca_mun}>{fmt(muns)}</b> municipios</p>'
+            if muns
             else '<p class="fuente-muns fuente-nd">sin recuento por '
                  'municipio</p>')
         if principal:
-            cuerpo.append(f'<p class="fuente-cif">{fmt(principal[0])} '
-                          f'{e(principal[1])}</p>')
+            cuerpo.append(f'<p class="fuente-cif"><span{marca_cif}>'
+                          f'{fmt(principal[0])}</span> {e(principal[1])}</p>')
         if f.get("fecha"):
             cuerpo.append(f'<p class="fuente-fecha">al '
                           f'{fecha_larga(f["fecha"])}</p>')
@@ -4456,21 +4489,27 @@ def entradilla_rud(ctx: dict) -> str:
     ult = serie[-1]
     familias, personas = ult.get("familias"), ult.get("personas")
     if familias is not None and personas is not None:
-        sujeto = (f'<b>{fmt(familias)} familias</b> damnificadas '
+        sujeto = (f'<b><span data-cifra="rud-familias">{fmt(familias)}</span>'
+                  f' familias</b> damnificadas '
                   f'—<b>{fmt(personas)} personas</b>—')
     elif familias is not None:
-        sujeto = f'<b>{fmt(familias)} familias</b> damnificadas'
+        sujeto = (f'<b><span data-cifra="rud-familias">{fmt(familias)}</span>'
+                  f' familias</b> damnificadas')
     elif personas is not None:
         sujeto = f'<b>{fmt(personas)} personas</b> damnificadas'
     else:
         sujeto = None
     municipios = ult.get("municipios")
     if sujeto and municipios is not None:
-        cabeza = f'El registro oficial suma {sujeto} en <b>{fmt(municipios)} municipios</b>'
+        cabeza = (f'El registro oficial suma {sujeto} en <b>'
+                  f'<span data-cifra="rud-municipios">{fmt(municipios)}</span>'
+                  f' municipios</b>')
     elif sujeto:
         cabeza = f'El registro oficial suma {sujeto}'
     elif municipios is not None:
-        cabeza = f'El registro oficial cubre <b>{fmt(municipios)} municipios</b>'
+        cabeza = (f'El registro oficial cubre <b>'
+                  f'<span data-cifra="rud-municipios">{fmt(municipios)}</span>'
+                  f' municipios</b>')
     else:
         cabeza = None
 
