@@ -252,6 +252,11 @@ th { color: var(--muted); font-weight: 600; font-size: 11.5px; }
 /* La cabecera compartía filete con las filas y se leía como una fila más. */
 thead th { border-bottom-color: var(--baseline); }
 th[title], th[data-tip] { cursor: help; text-decoration: underline dotted color-mix(in srgb, var(--muted) 60%, transparent); text-underline-offset: 3px; }
+/* Quién va por delante en la comparativa: la cifra manda y el nombre de la
+   columna la acompaña en gris. La celda decía «53.188» a secas —un `abs()`
+   escondía el signo— y había que restar a ojo dos columnas de seis cifras
+   para saber de qué lado caía. */
+.quien { color: var(--muted); font-weight: 600; font-size: 11px; }
 .th-tip {
   position: fixed; z-index: 1200; line-height: 1.5; font-weight: 400;
   text-align: left; white-space: normal;
@@ -1215,7 +1220,10 @@ a.metric-card:hover { border-color: var(--s1); }
 .tarjeta{display:block;padding:13px;border:1px solid var(--border);border-radius:var(--radio);
   background:var(--surface);text-decoration:none}
 .tarjeta strong{display:block;font-size:14.5px;margin-bottom:3px}
-.tarjeta span{font-size:12.5px;color:var(--muted);line-height:1.35;display:block}
+/* hijo directo, no descendiente: el subtítulo lleva dentro la marca
+   `data-cifra` de la cifra vigilada, y con `display:block` heredado el
+   número se iba a su propia línea. */
+.tarjeta > span{font-size:12.5px;color:var(--muted);line-height:1.35;display:block}
 .descripcion-sitio{padding:18px var(--eje) 0;border-top:1px solid var(--border);
   margin-top:8px}
 .descripcion-sitio h2{font-size:15px;margin:0 0 6px}

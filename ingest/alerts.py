@@ -514,9 +514,15 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
         alerts.extend(avisos)
 
     # 6b) RUD: el registro oficial de damnificados crece — contar el delta
+    # Del último corte capturado, no del acumulado de `official_events`: el
+    # archivo conserva toda fila que el registro haya tenido alguna vez, y
+    # contarla aquí compararía el histórico contra la captura de la víspera
+    # —dos poblaciones distintas— y publicaría en la alerta un total que no
+    # cuadra con el del sitio. Es la misma avería que unificó la portada.
     hoy_rud = conn.execute(
-        "SELECT COUNT(*), COALESCE(SUM(familias),0) FROM official_events"
-        " WHERE source='ungrd_rud'").fetchone()
+        "SELECT COUNT(*), COALESCE(SUM(familias),0) FROM rud_daily"
+        " WHERE snapshot_date=(SELECT MAX(snapshot_date) FROM rud_daily)"
+    ).fetchone()
     prev_rud = None
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
         if d.name >= snap:

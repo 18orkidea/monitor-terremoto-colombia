@@ -5,6 +5,47 @@ conocidas del monitor para que nadie —periodista, investigador, historiador—
 tome la ausencia de un dato por la ausencia de un hecho. Complementa la
 metodología pública del sitio.
 
+## Un municipio salió del registro oficial, y la portada lo seguía contando (25-ago-2026)
+
+**Medido, no estimado.** Hasta el 25-ago la portada publicaba **dos totales del
+mismo registro en la misma página**: la entradilla y la banda de brechas decían
+«348 municipios» y «199.378 familias», mientras la tabla, el gráfico y las
+tarjetas de fuentes decían **347** y **199.376**. No eran capturas distintas ni
+un error de cuenta: eran **dos poblaciones que no se cuentan igual**.
+
+- El **acumulado del archivo** (`official_events`, con `source='ungrd_rud'`)
+  guarda toda fila que el RUD haya tenido alguna vez y **nunca la retira** —esa
+  es su función, y no se toca—. Son 348 municipios.
+- El **último corte capturado** (`rud_daily`, día 24-ago-2026) es el registro
+  tal como está hoy: 347 municipios y 199.376 familias.
+
+La diferencia es **un municipio y dos familias**: **Agua de Dios
+(Cundinamarca)** —2 familias, 7 personas, 1 vivienda averiada— aparece en la
+captura del **22-ago-2026** y **no vuelve a aparecer** en las del 23 ni en las
+del 24. El municipio no se perdió por desambiguación de nombres: está en el
+catálogo DIVIPOLA con su código (25001) y sus coordenadas, y el monitor lo
+habría situado sin problema. **Lo retiró la fuente.**
+
+**Qué se hizo.** Lo que el sitio publica es ahora el último corte —`publish.py`
+cuenta sobre `rud_daily`, no sobre el acumulado— y el sitio entero dice 347. La
+fila que el RUD retiró **no se tira**: sigue en el archivo, sigue en su snapshot
+del 22-ago y se publica aparte en
+`monitor.json::brechas_oficiales.ungrd_rud.retirados`, con la última fecha en
+que se le vio. El guardián que impide volver a publicar dos totales del mismo
+concepto en una página está en
+`tests/test_render_html.py::TestCifrasDeclaradas`.
+
+**Lo que no se sabe.** Por qué desapareció. El RUD publica su estado actual, no
+un histórico con motivos: no hay forma de distinguir desde fuera una baja
+administrativa (el municipio se dio de baja, la carga se anuló, la alcaldía
+corrigió) de un fallo de la propia fuente. Lo único comprobable es que estuvo
+un día y dejó de estar, y eso es lo que queda archivado.
+
+**Consecuencia para quien cite el monitor.** El total de municipios del RUD
+**puede bajar**, y el sitio lo publicará si baja: es un registro vivo, no un
+acumulado. Si se necesita el máximo histórico —cuántos municipios llegaron a
+estar inscritos alguna vez— ese número sale del archivo, no de la portada.
+
 ## La prensa por municipio se cuenta de dos maneras, y ahora se dice cuál (25-ago-2026)
 
 **Medido, no estimado.** El sitio publica dos recuentos de titulares por

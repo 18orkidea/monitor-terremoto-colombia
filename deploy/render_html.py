@@ -47,6 +47,23 @@ AOI_ES = {
 }
 
 
+# ------------------------------------------- las cifras que la página declara
+# Una misma portada llegó a publicar dos totales del mismo registro —348
+# municipios en la prosa contra 347 en su propia tabla— y nada lo impedía: cada
+# superficie leía su fuente y nadie las comparaba. `data-cifra` es la
+# declaración que lo vuelve comprobable: quien imprime un número dice de qué
+# concepto es, y el guardián recorre el artefacto construido y cae si un
+# concepto sale con dos valores distintos en la misma página.
+#
+# Vigilar una cifra nueva es añadir aquí su concepto y marcar con él la
+# etiqueta que la imprime; no hay una segunda lista que mantener.
+# `tests/test_render_html.py::TestCifrasDeclaradas`
+CIFRAS_DECLARADAS = {
+    "rud-municipios": "municipios con damnificados en el registro oficial (RUD)",
+    "rud-familias": "familias registradas en el RUD",
+}
+
+
 # --------------------------------------------------------------- utilidades
 def redondea_como_se_lee(n, dec: int = 0) -> Decimal:
     """El número redondeado con la MISMA regla con que se va a imprimir.
@@ -280,6 +297,18 @@ def concuerda(n, singular: str, plural: str) -> str:
     recuento que nadie ha publicado.
     """
     return singular if n == 1 else plural
+
+
+def enumera(cosas) -> str:
+    """Una lista dicha como se dice en voz alta: «a, b y c».
+
+    El `", ".join()` de toda la vida publica «familias, personas», que se lee
+    como una lista truncada. Sin parámetro para la conjunción: un camino que
+    nadie recorre envejece solo."""
+    cosas = list(cosas)
+    if len(cosas) < 2:
+        return cosas[0] if cosas else ""
+    return f"{', '.join(cosas[:-1])} y {cosas[-1]}"
 
 
 def norm_busqueda(s: str) -> str:
@@ -535,6 +564,13 @@ TELEGRAM_CANAL = "https://t.me/terremotoCO2026"
 # que contiene los 208 datasets municipales.
 ORGANIZACION = "https://datosdelterremoto.org/#organization"
 SITIO = "https://datosdelterremoto.org/#site"
+# La licencia con la que se publica todo lo que compila este monitor. Estaba
+# escrita cinco veces —una por cada `Dataset` del sitio— y el nodo del catálogo
+# necesitaba la sexta: una constante antes que un sexto literal, porque seis
+# copias de la misma URL acaban divergiendo en la que nadie mira (M2). No es la
+# licencia de las FUENTES: la de ICube-SERTIT prohíbe el uso comercial y viaja
+# pegada a su dato en `SATELITES`, que es donde tiene que estar.
+LICENCIA = "https://creativecommons.org/licenses/by/4.0/"
 IDENTIDAD = {
     "@context": "https://schema.org",
     "@graph": [
@@ -543,10 +579,29 @@ IDENTIDAD = {
          "url": "https://datosdelterremoto.org/",
          "logo": "https://datosdelterremoto.org/icons/icono-512.png",
          "sameAs": [REPO]},
+        # `description`, `license` y `creator` NO son adorno: Google valida este
+        # nodo con las reglas de `Dataset` —lo pide el `DataCatalog` del
+        # `@type`— y sin `description` lo declara no apto para resultados
+        # enriquecidos. Estuvo así en las 353 páginas a la vez, que es como se
+        # publican los fallos de este bloque. La salida cómoda habría sido
+        # quitar `DataCatalog` para que el aviso callara; el sitio ES un
+        # catálogo de datos, así que se arregla el nodo, no la declaración.
         {"@type": ["WebSite", "DataCatalog"], "@id": SITIO,
          "name": "Datos del terremoto de Colombia 2026",
+         "description":
+             "Catálogo abierto del terremoto M7.4 del 10 de agosto de 2026 en "
+             "Colombia: un conjunto de datos por municipio y uno por página, con "
+             "los damnificados del registro oficial (RUD de la UNGRD), la "
+             "población proyectada (DANE), la evaluación satelital de daño "
+             "(Copernicus EMS, UNITAR-UNOSAT, ICube-SERTIT), los reportes de la "
+             "comunidad, los titulares de prensa y los balances fechados. El "
+             "monitor no produce cifras: audita y cruza las que existen, y cada "
+             "una es rastreable hasta la petición que la trajo.",
          "url": "https://datosdelterremoto.org/",
          "inLanguage": "es",
+         "license": LICENCIA,
+         # R9: quien compila el catálogo, no quien produce la cifra oficial
+         "creator": {"@id": ORGANIZACION},
          "publisher": {"@id": ORGANIZACION}},
     ]}
 # Serializado una sola vez: así «idéntico en las 213» es un hecho del código y
@@ -576,6 +631,30 @@ MARCA = "Datos del terremoto"
 # veces necesita una fuente única aunque no la inyecte nadie: la ata a las
 # cinco páginas `tests/test_render_html.py::TestContextoDelSismo` (M2).
 CONTEXTO_SISMO = "M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)"
+
+# La tesis del proyecto, en una frase y en un solo sitio.
+#
+# Hasta el 25-ago-2026 decía «la distancia entre sus cifras es la brecha de
+# reporte», y eso solo es cierto en UN punto del monitor: el RUD contra los
+# balances de prensa, que sí se hacen la misma pregunta. En los otros tres
+# —satélite contra registro, prensa contra registro, comunidad contra
+# cualquiera— restar es comparar edificios con familias, y de ahí salió el
+# porcentaje que Viterbo llegó a publicar: «108 edificios, el 113,7 % de las 95
+# viviendas». La brecha del proyecto no es una resta: es lo que no ha contado
+# nadie.
+#
+# Vive en SEIS superficies —CLAUDE.md, el pie de las 353 páginas, el `Dataset`
+# de municipios.html y las bajadas de index/balances/referencia— y ninguna la
+# generaba: eran seis redacciones que podían separarse sin que nada avisara.
+# `tests/test_render_html.py::TestTesisDelMonitor` las ata (M2).
+TESIS = ("Ninguna fuente lo cuenta todo, y ninguna cuenta lo mismo que otra. "
+         "La brecha es lo que queda fuera de todas.")
+TESIS_LARGA = (
+    "Ninguna fuente lo cuenta todo, y ninguna cuenta lo mismo que otra: el "
+    "satélite cuenta edificios, el registro cuenta familias, la prensa repite "
+    "lo que le dictan y la comunidad cuenta lo que ve desde el suelo. Este "
+    "monitor no las suma ni las resta: las pone juntas para enseñar quién no "
+    "ha mirado, quién tarda y quién no cuadra.")
 
 
 def nav_estatico(activa: str = "municipios.html", botones_js: bool = False) -> str:
@@ -623,7 +702,7 @@ def pie_estatico() -> str:
         'San José del Palmar (Chocó). Cruza el registro oficial de damnificados (RUD de '
         'la UNGRD), las evaluaciones de daño por satélite (Copernicus EMS, UNITAR-UNOSAT '
         'e ICube-SERTIT), los reportes de la comunidad y los balances de la prensa. '
-        '<strong>La distancia entre sus cifras es la brecha de reporte.</strong> '
+        f'<strong>{TESIS}</strong> '
         'Cada dato dice de dónde sale, de qué día es y con qué huella quedó archivado.</div>'
         '<div><strong>Secciones</strong><br>'
         f'<a href="{BASE}/index.html">Mapa y cruce por zona</a><br>'
@@ -1028,12 +1107,84 @@ def parrafo_respuesta(d: dict) -> str:
     return " ".join(_partes_respuesta(d))
 
 
+def nota_ausencia_satelital(d: dict) -> str:
+    """Lo que la nota bajo el resumen añade cuando no hay edificios marcados.
+
+    Decía «nadie lo ha evaluado desde el aire» justo debajo de un resumen que
+    ya lo dice —la misma frase dos veces en dos renglones— y lo decía TAMBIÉN
+    donde sí habían mirado sin marcar nada, porque preguntaba por
+    `satelites_con_dato` («¿hay edificios?») mientras el resumen pregunta por
+    `_mirado_por_satelite` («¿miró alguien?»). Son las dos preguntas que este
+    proyecto lleva confundiendo, y confundirlas aquí hacía que la cabecera se
+    contradijera sola.
+
+    Ahora añade lo único que el resumen no dice —qué significa la ausencia— y
+    lo dice distinto según cuál de las dos ausencias sea. Lleva `data-mirada`
+    por el mismo motivo que la frase del resumen: para que un guardián pueda
+    comprobar que las dos hablan de la misma sin leer prosa
+    (`tests/test_render_html.py::TestResumenDeLaFicha`)."""
+    m = d["muni"]
+    if edificios_marcados(d):
+        return ""
+    if _mirado_por_satelite(m):
+        # «Ninguna de las TRES evaluaciones» decía tres donde puede haber una:
+        # si el municipio lo mira un solo servicio, la frase inventaba dos
+        # evaluaciones más. «Esas» dice exactamente las que hubo.
+        return ('<span data-mirada="mirado-sin-marcas"> Que los servicios que '
+                "lo miraron no marcaran ni un edificio no significa que no "
+                "haya daño: ninguna de esas evaluaciones está validada en "
+                "campo.</span>")
+    # «Que nadie LO haya mirado desde el aire»: el pronombre se apoyaba en un
+    # municipio nombrado dos párrafos antes, y el vecino más cercano dentro de
+    # este mismo párrafo era «cada cifra». Además repetía «desde el aire», que
+    # el resumen ya había dicho un renglón más arriba. El sujeto explícito
+    # arregla las dos cosas.
+    # Aquí no se repite el sujeto: el resumen, un renglón más arriba, acaba de
+    # decir que no lo ha evaluado ninguno de los tres servicios, y volver a
+    # nombrarlos era decir dos veces lo mismo en dos renglones. Lo que la nota
+    # añade es lo que el resumen no dice: qué significa esa ausencia.
+    return ('<span data-mirada="sin-mirar"> Un municipio sin evaluación '
+            "satelital no es un municipio sin daño: es un municipio sin "
+            "comprobar.</span>")
+
+
+def edificios_marcados(d: dict) -> int:
+    """Cuántos edificios distintos trae marcados esta ficha.
+
+    Vive aquí porque de este número dependen DOS frases de la misma cabecera
+    —el resumen y la nota que lleva debajo— y cada una lo calculaba a su
+    manera: la nota preguntaba «¿hay algún servicio con valor?»
+    (`satelites_con_dato`), que es verdad también cuando el valor es CERO. Con
+    un servicio que evalúa y no marca nada, el resumen decía «miraron y no
+    marcaron» y la nota se callaba."""
+    vistos = satelites_con_dato(d["muni"], d["satelite"])
+    return (d.get("cruce") or {}).get("unidades") or sum(n for _, n in vistos)
+
+
+def _rotulos(nombres) -> list:
+    """Los nombres cortos de unos servicios satelitales, en el orden de
+    `SATELITES`. `rotulo` y no `nombre` porque estos entran en una frase:
+    «Copernicus EMS», no «Copernicus EMS (EMSR916)»."""
+    nombres = set(nombres)
+    return [sat["rotulo"] for sat in SATELITES if sat["nombre"] in nombres]
+
+
 def resumen_ficha(d: dict) -> str:
     """Las dos líneas que el prototipo pone bajo el H1, derivadas del dato.
 
     No es un recorte del destacado: es el mismo recuento en otra escala, con
     las mismas columnas que las tarjetas (`pct`, no un redondeo a dos
-    decimales) para no publicar dos verdades (G3). Un NA no se escribe 0 (R3)."""
+    decimales) para no publicar dos verdades (G3). Un NA no se escribe 0 (R3).
+
+    **Aquí no se divide una fuente por otra.** Los edificios del satélite y las
+    viviendas del registro no son la misma unidad ni cubren el mismo terreno, y
+    su cociente no es un porcentaje de nada: se publican los dos recuentos y se
+    dice en qué se diferencian. Y el municipio que nadie ha mirado se distingue
+    del que sí miraron sin marcar nada, que es la diferencia que da sentido a
+    la mitad del monitor. El `data-mirada` de cada frase declara cuál de los
+    tres casos es, para que un guardián pueda contrastarlo con
+    `_mirado_por_satelite` en las 347 fichas
+    (`tests/test_render_html.py::TestResumenDeLaFicha`)."""
     m = d["muni"]
     o = []
     fam, per = m.get("rud_familias"), m.get("rud_personas")
@@ -1046,25 +1197,97 @@ def resumen_ficha(d: dict) -> str:
             o.append(f", el <b>{e(pct(m['tasa_rud_pct']))}</b> de sus habitantes")
         o.append(". ")
     vistos = satelites_con_dato(m, d["satelite"])
-    n_sat = (d.get("cruce") or {}).get("unidades") or sum(n for _, n in vistos)
+    n_sat = edificios_marcados(d)
     vivs = [n for n in (m.get("rud_viv_destruidas"), m.get("rud_viv_averiadas"))
             if n is not None]
     viv = sum(vivs) if vivs else None
+    # El adjetivo sale de las columnas que EXISTEN: con solo una de las dos,
+    # «viviendas dañadas» rotulaba un parcial como si fuera el total (R3/M10).
+    hay_d = m.get("rud_viv_destruidas") is not None
+    hay_a = m.get("rud_viv_averiadas") is not None
+    raiz = "dañada" if (hay_d and hay_a) else ("destruida" if hay_d else "averiada")
+    vivienda = concuerda(viv, "vivienda", "viviendas") if viv else "viviendas"
+    danada = concuerda(viv, raiz, raiz + "s") if viv else raiz + "s"
+    edificio = concuerda(n_sat, "edificio", "edificios")
+    # QUIÉN miró, por su nombre. «Los satélites han clasificado 108 edificios»
+    # atribuía a los tres servicios lo que había publicado uno —Viterbo lo mira
+    # solo UNITAR-UNOSAT—, y es el mismo error que `filas_fuentes_satelitales`
+    # documenta como inaceptable en su propio docstring (R9). Si el recuento
+    # viene del cruce y no de una fuente identificable, se cae al genérico.
+    # Solo quien MARCÓ algo: `satelites_con_dato` filtra por `is not None`, así
+    # que un servicio que evalúa y marca CERO entra en la lista, y el día que
+    # conviva con otro que marque N la frase le atribuiría un recuento que no
+    # hizo — exactamente lo que este bloque existe para no volver a hacer (R9).
+    quienes = _rotulos(nombre for nombre, n in vistos if n)
+    sujeto = enumera(quienes) if quienes else "Los satélites"
+    ha = "ha" if len(quienes) == 1 else "han"
+    miro = "llegó" if len(quienes) == 1 else "llegaron"
     if n_sat and viv:
-        prop = n_sat / viv * 100
-        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios "
-                 f"distintos: el "
-                 f"<b>{fmt(prop, 1)} %</b> de {concuerda(viv, 'la', 'las')} "
-                 f"{fmt(viv)} {concuerda(viv, 'vivienda', 'viviendas')} que el "
-                 "municipio declara dañadas. ")
-    elif viv and not vistos:
-        o.append(f"Ningún satélite ha clasificado un solo edificio de "
-                 f"{concuerda(viv, 'la', 'las')} {fmt(viv)} "
-                 f"{concuerda(viv, 'vivienda', 'viviendas')} que el municipio "
-                 "declara dañadas. ")
+        # Aquí se publicaba un PORCENTAJE: edificios entre viviendas. Cali
+        # salía «115 edificios, el 1,7 % de las 6.775 viviendas», que se lee
+        # como «el satélite se dejó el 98 % del daño»; Viterbo salía con el
+        # 113,7 %, un porcentaje imposible que estuvo semanas publicado con la
+        # suite en verde. Un edificio puede tener veinte viviendas y el
+        # satélite miró un recorte urbano, no el municipio: dividir uno entre
+        # otro no mide nada. Los dos recuentos se ponen uno al lado del otro,
+        # que es lo que el monitor hace con todo lo demás.
+        # «Nadie miró el municipio entero» no está medido en ninguna columna:
+        # lo que sí se sabe es de qué responde cada fuente. Y la coda del signo
+        # existe para que el hallazgo del proyecto no se pierda: cuando el
+        # satélite marca MÁS edificios de los que el registro declara —
+        # Buenaventura, 134 casas destruidas contra 42 en el registro— el
+        # cierre de arriba, que explica por qué el satélite cuenta menos,
+        # argumentaría contra su propio dato.
+        coda = (" Aquí el satélite marca más edificios de los que el registro "
+                "declara dañados." if n_sat > viv else "")
+        o.append(f'<span data-mirada="con-edificios">{sujeto} {ha} '
+                 f"clasificado <b>{fmt(n_sat)}</b> {edificio} dentro de la zona "
+                 f"que {miro} a mirar; el registro oficial declara "
+                 f"<b>{fmt(viv)}</b> {vivienda} {danada} en todo el municipio. "
+                 f"No es el mismo recuento: un edificio puede tener más de una "
+                 f"vivienda, y el satélite solo responde por la zona que "
+                 f"recortó.{coda}</span> ")
+    elif viv and not n_sat:
+        # La rama que acusaba al satélite de no encontrar nada entraba TAMBIÉN
+        # cuando nadie había mirado —hoy, los 276 municipios—, y el renglón
+        # siguiente («nadie lo ha evaluado desde el aire») la desmentía en la
+        # misma pantalla. Son dos hechos distintos y se dicen distinto: quién
+        # no miró no es lo mismo que quién miró y no marcó.
+        #
+        # La condición es `not n_sat` y no `not vistos`: un servicio que evalúa
+        # el municipio y marca CERO edificios entra en `vistos` con un cero, y
+        # con la condición vieja la ficha se quedaba sin decir nada del
+        # satélite. Callar no es la tercera opción.
+        if _mirado_por_satelite(m):
+            # Se nombra a quien miró, igual que arriba: «los satélites» donde
+            # miró uno solo atribuye a tres lo que hizo uno (R9).
+            miraron = _servicios_que_miraron(m)
+            uno = len(miraron) == 1
+            o.append(f'<span data-mirada="mirado-sin-marcas">{enumera(miraron)} '
+                     f"{'miró' if uno else 'miraron'} este municipio y no "
+                     f"{'marcó' if uno else 'marcaron'} ningún edificio; el "
+                     f"registro declara <b>{fmt(viv)}</b> {vivienda} "
+                     f"{danada}.</span> ")
+        else:
+            # «la <b>1</b> vivienda dañada» salía en 14 fichas: un artículo
+            # singular pegado a un guarismo no es español. Con el registro de
+            # sujeto la frase concuerda sola en los dos casos —«declara 1
+            # vivienda dañada que no ha mirado nadie», «declara 194 viviendas
+            # dañadas que no ha mirado nadie»—, porque el verbo de la relativa
+            # concuerda con «nadie», no con las viviendas.
+            # «Ningún servicio satelital» / «nadie» eran absolutos que este
+            # monitor no puede sostener: sigue TRES servicios y no sabe qué
+            # satélites pasaron por encima. El número sale de `SATELITES`,
+            # así que el día que entre el cuarto la frase lo dice sola.
+            o.append(f'<span data-mirada="sin-mirar">Ninguno de los '
+                     f"{fmt_prosa(len(SATELITES))} servicios satelitales que "
+                     f"sigue el monitor ha evaluado este municipio: el registro "
+                     f"declara <b>{fmt(viv)}</b> {vivienda} {danada} que "
+                     f"ninguno ha mirado desde el aire.</span> ")
     elif n_sat:
-        o.append(f"Los satélites han clasificado <b>{fmt(n_sat)}</b> edificios "
-                 f"distintos. ")
+        o.append(f'<span data-mirada="con-edificios">{sujeto} {ha} '
+                 f"clasificado <b>{fmt(n_sat)}</b> {edificio} dentro de la zona "
+                 f"que {miro} a mirar.</span> ")
     mmi = m.get("mmi_usgs")
     if mmi is not None:
         o.append(f"Sacudida estimada de <b>{fmt(mmi, 1)}</b> en la "
@@ -1765,7 +1988,7 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
         "description": descr, "inLanguage": "es",
         "temporalCoverage": f"2026-08-10/{fecha}" if fecha else "2026-08-10/..",
         **({"dateModified": fecha} if fecha else {}),
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         # La condición de una fuente viaja PEGADA AL DATO, también cuando el
         # lector es una máquina. `SATELITES` ya lo dice de ICube-SERTIT —«su
         # licencia obliga a citar y prohíbe el uso comercial»— y la ficha lo
@@ -1909,9 +2132,15 @@ def render_ficha(d: dict) -> str:
          # Y sin plegar: son menos de 120 palabras, el umbral que fija JP, y
          # una advertencia detrás de un clic es una advertencia que no se ha dado.
          '<p class="nota-leer">Cada cifra dice de quién es y de qué día.'
-         + ("" if satelites_con_dato(m, d["satelite"]) else
-            " Que ningún satélite haya mirado este municipio no significa que "
-            "no haya daño: significa que nadie lo ha evaluado desde el aire.")
+         # La advertencia decía «nadie lo ha evaluado desde el aire» justo
+         # debajo de un resumen que ya lo dice: la misma frase dos veces en dos
+         # renglones. Y lo decía también donde SÍ habían mirado sin marcar
+         # nada, porque preguntaba por `satelites_con_dato` (hay edificios) y
+         # no por `_mirado_por_satelite` (miró alguien) — las dos preguntas que
+         # este proyecto lleva confundiendo. Ahora la nota añade lo único que
+         # el resumen no dice, que es qué significa la ausencia, y lo dice
+         # distinto según cuál de las dos ausencias sea.
+         + nota_ausencia_satelital(d)
          + '</p>',
          '</div>']
 
@@ -2513,6 +2742,23 @@ def chips_municipios(ctx: dict) -> str:
     return "".join(botones)
 
 
+def _servicios_que_miraron(m: dict) -> list:
+    """QUIÉN miró este municipio desde el aire, por su rótulo publicable.
+
+    Se recorre `SATELITES` en vez de una lista de campos escrita a mano: el día
+    que entre el cuarto servicio, esta función lo cuenta sola —y con ella la
+    banda de la portada, que enumera el reparto—. Copernicus no tiene campo de
+    edificios porque su mirada es la zona analizada (`en_aoi_copernicus`); los
+    demás publican evaluación edificio a edificio, y un municipio evaluado con
+    cero edificios está mirado igual.
+
+    Es la lista de la que sale `_mirado_por_satelite`, para que «cuántos
+    miraron» y «quién miró» no puedan contradecirse (M2)."""
+    return [sat["rotulo"] for sat in SATELITES
+            if (m.get("en_aoi_copernicus") if sat["campo"] is None
+                else m.get(sat["campo"]) is not None)]
+
+
 def _mirado_por_satelite(m: dict) -> bool:
     """Si algún servicio satelital MIRÓ el municipio: cae en una zona analizada
     por Copernicus o tiene evaluación de UNOSAT o de SERTIT.
@@ -2523,9 +2769,7 @@ def _mirado_por_satelite(m: dict) -> bool:
     dato, esta si alguien miró — un municipio dentro de una zona Copernicus
     sin puntos dentro está mirado y sin dato, y las dos frases del sitio
     dicen cada una la suya."""
-    return (bool(m.get("en_aoi_copernicus"))
-            or m.get("unosat_edificios") is not None
-            or m.get("sertit_edificios") is not None)
+    return bool(_servicios_que_miraron(m))
 
 
 def entradilla_municipios(ctx: dict) -> str:
@@ -2832,12 +3076,11 @@ def dataset_municipios(ctx: dict) -> str:
                        "inscritos en el RUD (UNGRD), población proyectada 2026 "
                        "(DANE), intensidad percibida (DYFI/USGS), titulares de "
                        "prensa y evaluación satelital de daño (Copernicus EMS, "
-                       "UNITAR-UNOSAT, ICube-SERTIT). La distancia entre sus "
-                       "cifras es la brecha de reporte.",
+                       "UNITAR-UNOSAT, ICube-SERTIT). " + TESIS,
         "inLanguage": "es",
         "temporalCoverage": "2026-08-10/..",
         **({"dateModified": fecha} if fecha else {}),
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         "creator": {"@id": ORGANIZACION},
         "publisher": {"@id": ORGANIZACION},
         "includedInDataCatalog": {"@id": SITIO},
@@ -2916,6 +3159,75 @@ def _silencio(iso: str, referencia: str) -> str:
     return f' (hace <span data-dias-desde="{e(iso[:10])}">{fmt(dias)}</span> días)'
 
 
+# El umbral de sacudida a partir del cual un terremoto empieza a causar daños:
+# 6 en la escala de Mercalli modificada, que es lo que el ShakeMap del USGS
+# asigna a cada municipio. Es el mismo corte con el que `ingest/publish.py`
+# calcula la exposición de PAGER, y se escribe una sola vez para que la prosa
+# que lo publica no pueda desviarse del recuento que lo aplica.
+UMBRAL_SACUDIDA_CON_DANO = 6
+
+
+def cobertura_satelital_sacudidos(ctx: dict) -> dict:
+    """Cuántos municipios sacudidos ha mirado un satélite, y cuántos no.
+
+    Sustituye a la comparación con la exposición de PAGER que la banda publicó
+    hasta el 25-ago-2026. Aquella tenía dos fallos: ponía en la misma frase dos
+    poblaciones que no se cuentan igual —la rejilla del USGS contra los
+    polígonos de Copernicus— y medía la cobertura con un solo servicio de los
+    tres. Aquí todo sale del mismo catálogo municipal: la sacudida es la que el
+    ShakeMap asigna a cada municipio y la población, la proyección DANE 2026,
+    las dos ya trazadas hasta su petición de origen en `municipios.json`.
+
+    **Ni un porcentaje de población, y es una decisión, no un olvido.** Medido
+    el 25-ago-2026, los once municipios mirados reunían el 55,5 % de la
+    población sacudida; pero Cali sola era el 58 % de ese «cubierto» y sin ella
+    la cobertura caía al 23,3 %. Publicar «más de la mitad está cubierta» sería
+    tranquilizador y falso: dice que los satélites miraron las ciudades, no que
+    la gente esté vigilada. El recuento de municipios no lo maquilla ninguna
+    ciudad grande, porque cada municipio cuenta uno.
+
+    **M10/R3**: sin municipios sacudidos no hay párrafo; un servicio sin
+    municipios no se enumera —acusarlo de cero sería inventarle una omisión—; y
+    la población del grupo solo se publica si la tienen todos sus municipios,
+    porque una suma a la que le faltan miembros no es la población del grupo."""
+    sacudidos = [m for m in (ctx.get("municipios") or [])
+                 if (m.get("mmi_usgs") or 0) >= UMBRAL_SACUDIDA_CON_DANO]
+    if not sacudidos:
+        return {}
+    mirados = [m for m in sacudidos if _mirado_por_satelite(m)]
+    sin_mirar = [m for m in sacudidos if not _mirado_por_satelite(m)]
+    reparto = []
+    for sat in SATELITES:
+        n = sum(1 for m in mirados if sat["rotulo"] in _servicios_que_miraron(m))
+        if n:                                    # M10: el cero no se enumera
+            reparto.append((sat["rotulo"], n))
+    datos = {
+        "sacudidos": len(sacudidos),
+        "mirados": len(mirados),
+        "sin_mirar": len(sin_mirar),
+        "reparto": reparto,
+        # el que impide leer el reparto como una suma: 5 + 5 + 4 no son 14
+        "con_varias_miradas": sum(1 for m in mirados
+                                  if len(_servicios_que_miraron(m)) > 1),
+    }
+    if sin_mirar and all(m.get("poblacion_2026") is not None for m in sin_mirar):
+        datos["poblacion_sin_mirar"] = sum(m["poblacion_2026"] for m in sin_mirar)
+    # Qué CLASE de municipios son los mirados, derivado y no afirmado a mano:
+    # cuántos de los más poblados están mirados de corrido y cuál es el primero
+    # que se salta la lista. Es lo que explica que once no sean muchos.
+    orden = sorted((m for m in sacudidos if m.get("poblacion_2026") is not None),
+                   key=lambda m: -m["poblacion_2026"])
+    for i, m in enumerate(orden):
+        if not _mirado_por_satelite(m):
+            datos["cabeza_mirada"] = i
+            # solo lo que la frase publica: arrastrar el municipio entero
+            # metería sus ejemplos de prensa en un recuento de cobertura
+            datos["mayor_sin_mirar"] = {"municipio": m["municipio"],
+                                        "poblacion_2026": m["poblacion_2026"]}
+            break
+    return datos
+
+
 def banda_brechas(ctx: dict) -> str:
     """El resumen de las dos brechas centrales, escrito en el build.
 
@@ -2929,12 +3241,18 @@ def banda_brechas(ctx: dict) -> str:
 
     Nada se escribe a mano: si el registro oficial se pone al día, o si toda
     zona con daño satelital acaba registrada, las frases dejan de afirmarlo
-    solas (R11) — y romperse, aquí, sería una buena noticia."""
+    solas (R11) — y romperse, aquí, sería una buena noticia.
+
+    El tercer párrafo dejó de compararse con la exposición de PAGER el
+    25-ago-2026 (`docs/DECISIONES.md`): ahora cuenta municipios mirados y sin
+    mirar sobre el mismo catálogo, con los tres servicios satelitales y sin un
+    solo porcentaje de población. La cuenta vive en
+    `cobertura_satelital_sacudidos`, con su porqué."""
     mon = ctx["monitor"]
     hoy = mon.get("generado") or ""
     g = mon.get("brechas_oficiales") or {}
     soc, arc = g.get("ungrd_socrata") or {}, g.get("ungrd_arcgis") or {}
-    rud, exposicion = g.get("ungrd_rud"), mon.get("exposicion")
+    rud = g.get("ungrd_rud")
 
     partes = [
         "<strong>Brecha de reporte oficial:</strong> lo que la Unidad Nacional para la "
@@ -2958,8 +3276,10 @@ def banda_brechas(ctx: dict) -> str:
             "<br><strong>La brecha empezó a cerrarse:</strong> el "
             '<a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" '
             'rel="noopener">RUD</a> (Registro Único de Damnificados) ya cubre el evento — '
-            f"<strong>{fmt(rud.get('municipios'))}</strong> municipios con "
-            f"<strong>{fmt(rud.get('familias'))}</strong> familias y "
+            f'<strong data-cifra="rud-municipios">'
+            f"{fmt(rud.get('municipios'))}</strong> municipios con "
+            f'<strong data-cifra="rud-familias">'
+            f"{fmt(rud.get('familias'))}</strong> familias y "
             f"{fmt(rud.get('viv_destruidas'))} viviendas destruidas registradas. " + cierre)
     # R3, y aquí duele especialmente: si falta la clave, «Copernicus entregó cero
     # productos» no es un dato que falta, es una acusación falsa a la fuente. Un
@@ -2975,16 +3295,60 @@ def banda_brechas(ctx: dict) -> str:
     if medidas:
         frase = " y ".join(medidas)
         partes.append(frase[0].upper() + frase[1:] + ". ")
-    if exposicion:
+    cob = cobertura_satelital_sacudidos(ctx)
+    if cob:
         partes.append(
-            "<br><strong>Exposición sin mapeo:</strong> unas "
-            f"{fmt(exposicion.get('expuesta_mmi6plus'))} personas viven donde el sismo "
-            "alcanzó una intensidad de 6 o más en la escala de Mercalli modificada, según "
-            "la estimación rápida del Servicio Geológico de Estados Unidos (PAGER); las "
-            "zonas mapeadas por Copernicus cubren a unas "
-            f"{fmt(exposicion.get('en_aois_copernicus'))} "
-            f"({e(pct(exposicion.get('pct_cubierta')))}). "
-            "El resto es población que nadie ha mirado de cerca.")
+            "<br><strong>Municipios que nadie ha mirado desde el aire:</strong> el "
+            "modelo ShakeMap del Servicio Geológico de Estados Unidos —una estimación, "
+            "no una medición en el terreno— calcula que en "
+            f"<strong>{fmt(cob['sacudidos'])}</strong> municipios la sacudida llegó a "
+            f"{fmt_prosa(UMBRAL_SACUDIDA_CON_DANO)} o más en una escala de 12 grados, "
+            "el nivel en que un terremoto empieza a causar daños. ")
+        pob = cob.get("poblacion_sin_mirar")
+        if cob["sin_mirar"]:
+            partes.append(
+                f"A <strong>{fmt(cob['sin_mirar'])}</strong> de ellos"
+                + (f", donde viven <strong>{fmt(pob)}</strong> personas," if pob else "")
+                + " no los ha mirado ningún servicio satelital. ")
+        else:
+            # el día que no quede ninguno, la frase cambia de forma sola en vez
+            # de publicar «A 0 de ellos no los ha mirado nadie» (R11): que este
+            # párrafo se quede sin su cifra sería la mejor noticia del monitor
+            partes.append("A todos los ha mirado algún servicio satelital, "
+                          "que es la primera vez que este párrafo puede decirlo. ")
+        mayor = cob.get("mayor_sin_mirar")
+        if mayor and cob.get("cabeza_mirada"):
+            cabeza = cob["cabeza_mirada"]
+            partes.append(
+                f"Los <strong>{fmt(cob['mirados'])}</strong> analizados son sobre todo "
+                "los grandes: "
+                + ("el municipio más poblado está entre ellos" if cabeza == 1 else
+                   f"los {fmt_prosa(cabeza)} municipios más poblados están entre ellos")
+                + f", y al siguiente en tamaño, {e(mayor['municipio'])} "
+                f"({fmt(mayor['poblacion_2026'])} habitantes), no lo ha mirado nadie. ")
+        elif mayor:
+            partes.append(
+                "Ni siquiera el municipio más poblado de todos, "
+                f"{e(mayor['municipio'])} ({fmt(mayor['poblacion_2026'])} habitantes), "
+                "lo ha mirado nadie. ")
+        if cob["reparto"]:
+            # punto y coma, no «y»: la conjunción obligaría a decidir entre «y» y
+            # «e» según el servicio que cierre la lista, y el cuarto servicio que
+            # entre lo decidiría sin que nadie mirara la frase
+            # el sustantivo solo en el primero —«Copernicus EMS, cinco
+            # municipios; UNITAR-UNOSAT, cuatro»—, y «uno» en vez de «un»
+            # cuando la cifra va sola: «UNITAR-UNOSAT, un» no es español
+            trozos = [f"{e(rotulo)}, "
+                      + (f"{fmt_prosa(n)} {concuerda(n, 'municipio', 'municipios')}"
+                         if i == 0 else ("uno" if n == 1 else fmt_prosa(n)))
+                      for i, (rotulo, n) in enumerate(cob["reparto"])]
+            partes.append("El reparto: " + "; ".join(trozos) + ". ")
+            varias = cob["con_varias_miradas"]
+            if varias:
+                partes.append(
+                    "No se suman: a "
+                    f"{fmt_prosa(varias)} {concuerda(varias, 'municipio', 'municipios')} "
+                    f"{concuerda(varias, 'lo', 'los')} miró más de un servicio.")
     return "".join(partes)
 
 
@@ -3088,7 +3452,7 @@ def entradilla_portada(ctx: dict) -> str:
             f'{concuerda(muns_sat, "municipio", "municipios")}.')
     if registrados:
         frases.append("El registro oficial de damnificados abarca "
-                      f"<b>{fmt(registrados)}</b>.")
+                      f'<b data-cifra="rud-municipios">{fmt(registrados)}</b>.')
     if sin:
         frases.append(f"A otros <b>{fmt(sin)}</b> no los ha mirado ningún "
                       "satélite.")
@@ -3362,14 +3726,19 @@ def parrafo_brecha_portada(ctx: dict) -> str:
     sin = len(sin_mirada_satelital(ctx))
     if not sin:
         return ("Ya no queda ningún municipio con damnificados registrados sin "
-                "una imagen analizada: la brecha que este sitio existe para "
-                "medir se ha cerrado. "
+                "una imagen analizada: esta brecha se ha cerrado. "
                 '<a class="enlace" href="/municipios.html">Ver la tabla '
                 "completa →</a>")
+    # La séptima copia de la tesis vieja, y en la superficie más visible del
+    # sitio: decía «la distancia entre lo que se ve y lo que se cuenta no es un
+    # error del dato: es la brecha que este sitio existe para medir», o sea la
+    # resta, y aplicada justo al cruce —satélite contra registro— donde esa
+    # resta no significa nada. Lo que aquí se mide no es una diferencia entre
+    # cifras: es cobertura, municipios que no ha mirado nadie.
     return (f"<b>{fmt(sin)}</b> municipios tienen damnificados registrados y ni "
-            f"una imagen analizada. La distancia entre lo que se ve y lo que se "
-            f"cuenta no es un error del dato: es la brecha que este sitio "
-            f"existe para medir. "
+            f"una imagen analizada. No es un error del dato: es lo que queda "
+            f"fuera de todas las fuentes, y es lo que este sitio existe para "
+            f"enseñar. "
             '<a class="enlace" href="/municipios.html">Ver la tabla '
             "completa →</a>")
 
@@ -3393,7 +3762,8 @@ def tarjetas_portada(ctx: dict) -> str:
          f"{fmt(total)} fichas: qué fuente vio qué en cada una"
          if total else "Qué fuente vio qué en cada municipio"),
         ("/rud.html", "RUD",
-         f"{fmt(familias)} familias registradas, día a día"
+         f'<span data-cifra="rud-familias">{fmt(familias)}</span> familias '
+         "registradas, día a día"
          if familias else "El registro oficial de damnificados, día a día"),
         ("/balances.html", "Balances",
          "Qué cifra publica cada medio y a quién cita"),
@@ -3401,9 +3771,12 @@ def tarjetas_portada(ctx: dict) -> str:
          f"{fmt(noticias)} titulares emparejados por zona"
          if noticias else "Los titulares del evento, emparejados por zona"),
     ]
+    # El subtítulo va SIN escapar porque lo arma esta función con literales
+    # suyos y números de `fmt`: nada de aquí viene de una fuente. Lo necesita
+    # para poder marcar la cifra con `data-cifra` (ver `CIFRAS_DECLARADAS`).
     return "".join(
         f'<a class="tarjeta" href="{href}"><strong>{e(titulo)}</strong>'
-        f'<span>{e(sub)}</span></a>' for href, titulo, sub in tarjetas)
+        f'<span>{sub}</span></a>' for href, titulo, sub in tarjetas)
 
 
 # ------------------------------------------- la brecha, día a día (el gráfico)
@@ -3504,14 +3877,19 @@ def nota_grafico_brecha(ctx: dict) -> str:
     ultima_mirada = max(
         (d["fecha"] for d in serie if d.get("entradas")), default=None)
     frase = (f"La línea ocre son los municipios que han inscrito damnificados en "
-             f"el registro oficial: <b>{fmt(ult['rud'])}</b>. La azul, aquellos "
+             f'el registro oficial: <b data-cifra="rud-municipios">'
+             f"{fmt(ult['rud'])}</b>. La azul, aquellos "
              f"sobre los que algún satélite ha publicado un producto de daño: "
              f"<b>{fmt(ult['sat'])}</b>")
     if ultima_mirada:
         frase += f", y ninguno nuevo desde el {fecha_larga(ultima_mirada)}"
-    frase += (". <b>Lo que hay en medio es la brecha</b>, y se ensancha cada día "
-              "que el registro crece y nadie mira. La fecha del satélite es la "
-              "de adquisición de la imagen, que es cuando pasó por encima.")
+    # Decía «lo que hay en medio ES la brecha», dos renglones debajo del
+    # párrafo que ya define la brecha de otra manera. Dos definiciones a un
+    # centímetro se leen como un titubeo; el hecho concreto, no.
+    frase += (". <b>Lo que hay en medio son los municipios que el registro ya "
+              "cuenta y ningún satélite ha mirado</b>, y son más cada día que "
+              "el registro crece y nadie mira. La fecha del satélite es la de "
+              "adquisición de la imagen, que es cuando pasó por encima.")
     return frase
 
 
@@ -3695,14 +4073,23 @@ def tarjetas_fuentes_portada(ctx: dict) -> str:
             f'style="--fc:{_COLOR_MIRADA.get(f.get("id"), "var(--muted)")}">',
             f'<h3>{e(nombre[0])}</h3>',
             f'<p class="fuente-sub">{e(nombre[-1])}</p>']
+        # Esta tarjeta y la prosa de la banda cuentan el MISMO registro por
+        # dos caminos distintos, y ahí nació el fallo que `CIFRAS_DECLARADAS`
+        # vigila: la marca dice qué concepto es cada número para que el
+        # guardián pueda compararlos entre sí.
+        marca_mun = ' data-cifra="rud-municipios"' if f.get("id") == "rud" else ""
+        marca_cif = (' data-cifra="rud-familias"'
+                     if f.get("id") == "rud" and principal
+                     and principal[1] == "familias" else "")
         # R3/M10: sin recuento por municipio se dice que no lo hay, no un cero
         cuerpo.append(
-            f'<p class="fuente-muns"><b>{fmt(muns)}</b> municipios</p>' if muns
+            f'<p class="fuente-muns"><b{marca_mun}>{fmt(muns)}</b> municipios</p>'
+            if muns
             else '<p class="fuente-muns fuente-nd">sin recuento por '
                  'municipio</p>')
         if principal:
-            cuerpo.append(f'<p class="fuente-cif">{fmt(principal[0])} '
-                          f'{e(principal[1])}</p>')
+            cuerpo.append(f'<p class="fuente-cif"><span{marca_cif}>'
+                          f'{fmt(principal[0])}</span> {e(principal[1])}</p>')
         if f.get("fecha"):
             cuerpo.append(f'<p class="fuente-fecha">al '
                           f'{fecha_larga(f["fecha"])}</p>')
@@ -4296,21 +4683,27 @@ def entradilla_rud(ctx: dict) -> str:
     ult = serie[-1]
     familias, personas = ult.get("familias"), ult.get("personas")
     if familias is not None and personas is not None:
-        sujeto = (f'<b>{fmt(familias)} familias</b> damnificadas '
+        sujeto = (f'<b><span data-cifra="rud-familias">{fmt(familias)}</span>'
+                  f' familias</b> damnificadas '
                   f'—<b>{fmt(personas)} personas</b>—')
     elif familias is not None:
-        sujeto = f'<b>{fmt(familias)} familias</b> damnificadas'
+        sujeto = (f'<b><span data-cifra="rud-familias">{fmt(familias)}</span>'
+                  f' familias</b> damnificadas')
     elif personas is not None:
         sujeto = f'<b>{fmt(personas)} personas</b> damnificadas'
     else:
         sujeto = None
     municipios = ult.get("municipios")
     if sujeto and municipios is not None:
-        cabeza = f'El registro oficial suma {sujeto} en <b>{fmt(municipios)} municipios</b>'
+        cabeza = (f'El registro oficial suma {sujeto} en <b>'
+                  f'<span data-cifra="rud-municipios">{fmt(municipios)}</span>'
+                  f' municipios</b>')
     elif sujeto:
         cabeza = f'El registro oficial suma {sujeto}'
     elif municipios is not None:
-        cabeza = f'El registro oficial cubre <b>{fmt(municipios)} municipios</b>'
+        cabeza = (f'El registro oficial cubre <b>'
+                  f'<span data-cifra="rud-municipios">{fmt(municipios)}</span>'
+                  f' municipios</b>')
     else:
         cabeza = None
 
@@ -4522,7 +4915,7 @@ def dataset_rud(ctx: dict) -> str:
         # la corrida del build no pinta nada aquí (M7)
         **({"temporalCoverage": f"2026-08-10/{ult['fecha']}",
             "dateModified": ult["fecha"]} if ult.get("fecha") else {}),
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         # R9: quien compila el artefacto, no quien produce la cifra oficial
         "creator": {"@id": ORGANIZACION},
         "publisher": {"@id": ORGANIZACION},
@@ -4596,7 +4989,7 @@ def dataset_referencia(ctx: dict) -> str:
             "una es rastreable hasta la petición que la trajo.",
         "inLanguage": "es",
         "temporalCoverage": "2026-08-10/..",
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         "creator": {"@id": ORGANIZACION},
         "publisher": {"@id": ORGANIZACION},
         "includedInDataCatalog": {"@id": SITIO},
@@ -5660,39 +6053,150 @@ def tarjetas_comparativa(ctx: dict) -> str:
     return "".join(tarjetas)
 
 
+def _filas_comparativa(ctx: dict) -> list | None:
+    """Los indicadores que el RUD y los medios responden los dos, en orden.
+
+    Vive aparte porque de aquí salen DOS superficies —la tabla y la nota que la
+    explica— y hasta el 25-ago-2026 la nota se escribía a mano: decía que la
+    diferencia «mide cuánto falta por registrar formalmente», o sea que el RUD
+    va por detrás, mientras su propia tabla publicaba 199.376 familias en el
+    RUD contra 146.188 en los medios. Una nota que contradice a la tabla que
+    tiene debajo se arregla generándola del mismo dato, no reescribiéndola
+    mejor (M2)."""
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        return None
+    por = {f.get("id"): f for f in (datos.get("comparativa") or [])}
+    rud = (por.get("rud") or {}).get("cifras") or {}
+    med = (por.get("medios") or {}).get("cifras") or {}
+    return [("Municipios afectados", rud.get("municipios"), med.get("municipios")),
+            ("Familias", rud.get("familias"), med.get("familias")),
+            ("Personas", rud.get("personas"), med.get("personas")),
+            ("Viviendas destruidas", rud.get("viv_destruidas"), med.get("viv_destruidas")),
+            ("Viviendas averiadas", rud.get("viv_averiadas"), med.get("viv_averiadas")),
+            ("Fallecidos", None, med.get("fallecidos")),
+            ("Heridos", None, med.get("heridos")),
+            ("Desaparecidos", None, med.get("desaparecidos"))]
+
+
+# Cómo se nombra cada columna dentro de una frase. La tabla las encabeza con su
+# nombre largo; la nota las cita de corrido y necesita el corto.
+QUIEN_VA_DELANTE = {"rud": ("en el ", "RUD"), "medios": ("en ", "medios")}
+
+
+def quien_va_delante(r, m) -> tuple:
+    """(quién va por delante, por cuánto). `(None, None)` si no se puede decir.
+
+    El `abs()` que había aquí escondía justamente el dato: publicaba «53.188»
+    sin decir de qué lado. Y el lado importa, porque la nota de al lado afirmaba
+    el contrario."""
+    if r is None or m is None or r == m:
+        return None, None
+    return ("rud" if r > m else "medios"), abs(m - r)
+
+
 def filas_comparativa(ctx: dict) -> str:
     """La tabla RUD frente a medios, escrita en el build.
 
     R3 en la tabla: el RUD no registra víctimas y eso se dice con «no
     registra», no con un cero; la diferencia solo existe cuando existen las
-    dos cifras."""
-    datos = consolidado_balances(ctx)
-    if datos is None:
+    dos cifras. La celda dice además QUIÉN va por delante: una diferencia sin
+    signo obliga a restar a ojo dos columnas de cinco cifras."""
+    filas = _filas_comparativa(ctx)
+    if filas is None:
         return ('<tr><td colspan="4">El consolidado no se ha podido calcular '
                 "en esta construcción: la comparativa no se publica antes que "
                 "su regla.</td></tr>")
-    por = {f.get("id"): f for f in (datos.get("comparativa") or [])}
-    rud = (por.get("rud") or {}).get("cifras") or {}
-    med = (por.get("medios") or {}).get("cifras") or {}
-    filas = (("Municipios afectados", rud.get("municipios"), med.get("municipios")),
-             ("Familias", rud.get("familias"), med.get("familias")),
-             ("Personas", rud.get("personas"), med.get("personas")),
-             ("Viviendas destruidas", rud.get("viv_destruidas"), med.get("viv_destruidas")),
-             ("Viviendas averiadas", rud.get("viv_averiadas"), med.get("viv_averiadas")),
-             ("Fallecidos", None, med.get("fallecidos")),
-             ("Heridos", None, med.get("heridos")),
-             ("Desaparecidos", None, med.get("desaparecidos")))
     o = []
     for nombre, r, m in filas:
-        diff = abs(m - r) if (r is not None and m is not None) else None
+        quien, diff = quien_va_delante(r, m)
+        if diff is None:
+            celda_diff = ("0" if (r is not None and m is not None) else "—")
+        else:
+            preposicion, nombre_col = QUIEN_VA_DELANTE[quien]
+            celda_diff = (f"+{fmt(diff)} {preposicion}"
+                          f'<span class="quien">{nombre_col}</span>')
         celda_rud = ('<span style="color:var(--muted)" title="El RUD no '
                      'registra este indicador">no registra</span>'
                      if r is None else fmt(r))
         o.append(f"<tr><td>{nombre}</td>"
                  f'<td class="num">{celda_rud}</td>'
                  f'<td class="num">{fmt(m)}</td>'
-                 f'<td class="num">{"—" if diff is None else fmt(diff)}</td></tr>')
+                 f'<td class="num">{celda_diff}</td></tr>')
     return "\n".join(o)
+
+
+def _corte_comparativa(ctx: dict) -> str:
+    """De qué día habla la comparativa, dicho como se lee.
+
+    Las dos columnas tienen su propio corte y no tienen por qué coincidir. Si
+    coinciden, una fecha basta; si no, se nombran las dos, porque decir una
+    sola sería fechar la comparación por la mitad que convenga."""
+    datos = consolidado_balances(ctx)
+    por = {f.get("id"): f.get("fecha")
+           for f in ((datos or {}).get("comparativa") or [])}
+    rud, med = por.get("rud"), por.get("medios")
+    if rud and med and rud == med:
+        return f"en el corte del {fecha_larga(rud)}"
+    if rud and med:
+        return (f"con el RUD del {fecha_larga(rud)} y los medios del "
+                f"{fecha_larga(med)}")
+    # M10: sin fecha no se inventa ninguna, y la frase sigue siendo una frase.
+    return "en el último corte disponible"
+
+
+def nota_comparativa(ctx: dict) -> str:
+    """La nota que explica la tabla de arriba, con su dirección medida.
+
+    Decía que la diferencia «mide cuánto falta por registrar formalmente» —el
+    RUD por detrás— y hoy el RUD va por delante en familias y en personas. No
+    es que la frase envejeciera: es que nunca fue una regla, era el estado del
+    dato de un día escrito como si fuera una ley. Aquí se mide en cada corrida
+    y se dice de qué lado va cada indicador."""
+    filas = _filas_comparativa(ctx)
+    reparto = {"rud": [], "medios": []}
+    cuando = _corte_comparativa(ctx)
+    for nombre, r, m in (filas or []):
+        quien, _ = quien_va_delante(r, m)
+        if quien:
+            reparto[quien].append(nombre.lower())
+    # Solo hay dos lados, así que la enumeración no necesita más casos: el
+    # primero lleva el verbo y el segundo lo elide, como se dice en voz alta.
+    #
+    # La lista de indicadores va marcada con `data-adelanto`: es la MISMA
+    # afirmación que hace la columna «Diferencia» de la tabla, dos superficies
+    # más arriba, y una nota que contradice a su propia tabla es justo lo que
+    # había aquí. La marca deja que el guardián las contraste sin leer prosa
+    # (`tests/test_render_html.py::TestComparativaNoSeContradice`).
+    lados = [(("el RUD" if lado == "rud" else "los medios"),
+              f'<span data-adelanto="{lado}">{enumera(indicadores)}</span>')
+             for lado, indicadores in reparto.items() if indicadores]
+    # «Hoy» en una página que el archivo conserva fechada y que se relee
+    # dentro de años: el corte va pegado a la afirmación (M7). Y no se
+    # encadena con «por eso»: que los medios agreguen reportes departamentales
+    # explicaría que ellos vayan por delante, no que el RUD adelante en dos
+    # indicadores.
+    if len(lados) == 2:
+        direccion = (f" Ninguno de los dos va siempre por delante: {cuando} "
+                     f"{lados[0][0]} adelanta en {lados[0][1]}, y "
+                     f"{lados[1][0]} en {lados[1][1]}.")
+    elif lados:
+        direccion = f" {cuando.capitalize()} {lados[0][0]} adelanta en {lados[0][1]}."
+    else:
+        # M10: sin filas comparables no se inventa una dirección. Puede pasar
+        # el día que el consolidado no se calcule (R13) o que las dos columnas
+        # coincidan en todo, que sería la mejor noticia que este monitor puede
+        # dar.
+        direccion = ""
+    return (
+        "El RUD es un <strong>registro progresivo</strong>: crece a medida que "
+        "cada municipio carga sus damnificados. El consolidado que citan los "
+        "medios agrega reportes departamentales que todavía no están en el "
+        "RUD." + direccion + " <strong>La diferencia no dice quién acierta: "
+        "dice cuánto separa a dos procesos que sí miden lo mismo.</strong> El "
+        "RUD no publica víctimas —ni fallecidos, ni heridos, ni "
+        "desaparecidos—: esas cifras solo circulan por los medios. Detalle "
+        f'municipal en la <a href="{BASE}/rud.html">página del RUD</a>.')
 
 
 def capturas_balances(ctx: dict) -> str:
@@ -5805,7 +6309,7 @@ def marcado_balances(ctx: dict) -> str:
             "publica citándolo, y la distancia entre versiones es el dato.",
         "url": "https://datosdelterremoto.org/balances.html",
         "inLanguage": "es",
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         "isAccessibleForFree": True,
         # R9: quien compila el artefacto, no quien produce la cifra oficial
         "creator": {"@id": ORGANIZACION},
@@ -5909,7 +6413,7 @@ def escribir_piezas_compartidas(destino: Path) -> dict:
     """Escribe la identidad, la barra y el pie en las cinco páginas de `dist/`.
 
     Paso propio y no un generador de `data-gen`: aquel empareja un generador con
-    UNA página, lo llama sin argumentos y solo acepta `tbody|ul|span|section`.
+    UNA página, lo llama sin argumentos y solo acepta `tbody|ul|span|section|p`.
     Aquí hacen falta cinco páginas con `activa` distinto y la etiqueta `nav`. Y
     sobre todo, `data-gen` es el mecanismo de los datos del día —lo que caduca
     con la corrida—, y ni una barra de navegación ni el nodo de identidad lo son:
@@ -5960,7 +6464,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
     Ya no son solo tablas —de ahí el nombre—: una cifra escrita dentro de un
     párrafo envejece igual que una fila, y la banda de brechas de la portada es
     prosa entera, probablemente el texto más citable del sitio. El contenedor
-    puede ser un <tbody>, un <ul>, un <span> o un <section>.
+    puede ser un <tbody>, un <ul>, un <span>, un <section> o un <p>.
 
     Se hace sobre el artefacto, nunca sobre site/*.html: un HTML que cambiara
     entero cada día destruiría el blame, y el dato ya está versionado.
@@ -6023,7 +6527,8 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "balances-capturas": capturas_balances,
                    "balances-datos-ld": marcado_balances,
                    "comparativa-tarjetas": tarjetas_comparativa,
-                   "comparativa-filas": filas_comparativa}
+                   "comparativa-filas": filas_comparativa,
+                   "comparativa-nota": nota_comparativa}
     # explícito a propósito: un generador nuevo sin su página revienta aquí en
     # vez de no escribir nada y dejar el contenedor vacío en silencio
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
@@ -6057,16 +6562,17 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "balances-capturas": "balances",
                "balances-datos-ld": "balances",
                "comparativa-tarjetas": "balances",
-               "comparativa-filas": "balances"}
+               "comparativa-filas": "balances",
+               "comparativa-nota": "balances"}
     for nombre, generador in generadores.items():
         pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():
             continue
         html = pagina.read_text(encoding="utf-8")
         # el contenedor puede ser una tabla, una lista, un trozo de prosa dentro
-        # de un párrafo o una sección entera, y llevar otros atributos
+        # de un párrafo, un párrafo entero o una sección, y llevar otros atributos
         marca = re.compile(
-            rf'<(tbody|ul|span|section)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
+            rf'<(tbody|ul|span|section|p)([^>]*\bdata-gen="{re.escape(nombre)}"[^>]*)></\1>')
         # El contenedor con lo que lleve dentro, para separar las dos averías que
         # comparten síntoma, igual que en `escribir_piezas_compartidas`. No basta
         # con mirar si el contenedor está: en el fallo MÁS probable —un salto de
@@ -6075,7 +6581,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
         # que mirar es `site/`. Lo que distingue una avería de la otra es si
         # dentro hay algo escrito.
         contenedor = re.compile(
-            rf'<(tbody|ul|span|section)[^>]*\bdata-gen="{re.escape(nombre)}"[^>]*>'
+            rf'<(tbody|ul|span|section|p)[^>]*\bdata-gen="{re.escape(nombre)}"[^>]*>'
             rf'(.*?)</\1>', re.S)
         m = marca.search(html)
         if not m:
