@@ -6,6 +6,49 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — El nombre del feed sale del texto cruzado: quien busca no es quien informa
+
+**Contexto.** `municipios.py::build_municipios` decidía si un titular era de un
+municipio cruzando los topónimos contra **titular + `medio`**. Pero `medio`, en
+`news_items`, no siempre es la cabecera que firma la pieza: en las búsquedas
+municipales es la etiqueta del feed que la trajo — «Google News — Medio Atrato»,
+«Google News — Roldanillo». Medido sobre el corpus: **1.577 atribuciones en 69
+municipios entraban por el nombre del feed y no por el titular** (Cali 338,
+Pereira 207, Cartago 124). Y el nombre del feed se contagia entre topónimos
+anidados con toda la fuerza de R10: **«Atrato» recibía diez titulares de los
+feeds «Medio Atrato» y «El Carmen de Atrato», que son otros municipios**.
+`publish.py::noticia` tenía la mitad del problema resuelta —excluía la cabecera
+canónica y declaraba la atribución del feed explícitamente— pero seguía cruzando
+`medio`, así que arrastraba el mismo contagio a `noticias.json`.
+
+**Decisión (JP): el nombre del feed sale del texto cruzado, en las dos
+superficies.** Un municipio cuenta un titular solo si **el titular** lo nombra.
+Lo que el feed municipal sí sabe se conserva **declarado, no adivinado**: sigue
+en `feed["municipios"]` y ahora se publica con nombre propio en
+`municipios.json::n_prensa_recogida`.
+
+**Por qué no bastaba con quitarlo.** De las 1.577, **1.562 venían del feed del
+propio municipio y solo 15 eran contagio entre nombres**. Que la búsqueda de
+Roldanillo encuentre una pieza sí es prueba de que la prensa local publicó sobre
+Roldanillo, aunque el titular no repita el nombre. Quitar la vía sin sustituirla
+dejaba a **19 municipios en cero** —El Dovio con 21 piezas recogidas, La Victoria
+con 34— y los metía en el banner que AFIRMA «el monitor buscó prensa y no
+encontró ni un titular»: el error de Argelia del revés, multiplicado por
+diecinueve. Por eso `UI.silencioDePrensa` exige ahora las dos cifras en cero, la
+fila de la ficha se llama «titulares que lo nombran» —no «titulares de prensa»,
+que era el nombre de las dos— y el panel nombra a la prensa entre las fuentes si
+le ha llegado alguna pieza, aunque ninguna lo nombre.
+
+**Consecuencia.** La suma de `n_noticias` baja de 3.589 a 2.012; 69 municipios
+cambian de cifra; 19 pasan de `mencion_prensa` a `solo_rud`; ninguno sale de la
+capa (todos tienen RUD). El banner de silencio no cambia su afirmación —los
+cuatro «ciertos» siguen siendo Mistrató, Quinchía, Guática y Bagadó— y además
+deja de contar como mudos a cuatro municipios que ya lo eran por error (Obando,
+Andalucía, Alcalá, Ginebra). Queda pendiente una segunda copia que diverge (M2):
+`publish.py::noticia` cruza solo los 84 municipios curados, no los 347 del
+catálogo, así que Atrato tiene dos titulares que lo nombran y ninguna pieza en
+la lista de su ficha.
+
 ## 2026-08-25 — Ocho topónimos revisados a mano: la precaución que dejaba a Argelia con «ni un titular»
 
 **Contexto.** Los municipios que abre el registro oficial nacen con

@@ -710,6 +710,84 @@ class TestToponimoRevisadoSinDepto(unittest.TestCase):
         self.assertTrue(extras["Argelia (Cauca)"]["requiere_depto"])
 
 
+class TestElNombreDelFeedNoAtribuye(unittest.TestCase):
+    """El municipio del buscador no se le regala a los titulares que devuelve.
+
+    `medio`, en `news_items`, no siempre es la cabecera que firma: en las
+    búsquedas municipales es la etiqueta del feed —«Google News — Medio
+    Atrato»— y cruzarla con los topónimos atribuía a Atrato, que es OTRO
+    municipio, todo lo que trajera el feed de Medio Atrato. Medido sobre el
+    corpus: 1.577 atribuciones en 69 municipios entraban por el nombre del feed
+    y no por el titular.
+
+    Lo que la búsqueda municipal sí sabe —que preguntó por este municipio y
+    obtuvo respuesta— no se tira: se cuenta aparte en `n_prensa_recogida`, con
+    la atribución declarada de `noticias.json`, para que el cero de la cifra
+    estrecha no se pueda leer como «se preguntó y no hubo nada».
+    """
+
+    DIVIPOLA = {
+        "atrato|choco": {"municipio": "ATRATO", "departamento": "CHOCÓ",
+                         "divipola": "27050", "lat": 5.53, "lon": -76.63},
+        "medio atrato|choco": {
+            "municipio": "MEDIO ATRATO", "departamento": "CHOCÓ",
+            "divipola": "27425", "lat": 5.99, "lon": -76.78},
+    }
+    RUD = {
+        ("choco", "atrato"): {
+            "departamento": "CHOCÓ", "municipio": "ATRATO",
+            "familias": 100, "personas": 300,
+            "viv_destruidas": 1, "viv_averiadas": 20},
+        ("choco", "medio atrato"): {
+            "departamento": "CHOCÓ", "municipio": "MEDIO ATRATO",
+            "familias": 200, "personas": 600,
+            "viv_destruidas": 2, "viv_averiadas": 40},
+    }
+
+    # Dos titulares literales del archivo traídos por el MISMO feed, el de
+    # Medio Atrato. El primero no nombra a Atrato (solo al departamento, que es
+    # lo que su `requiere_depto` pedía); el segundo sí.
+    AJENO = ("Tras el terremoto, lanzan un fondo para reconstruir Chocó y "
+             "Buenaventura: estas serán las cuatro prioridades - Valora Analitik")
+    PROPIO = ("Sismos en o cerca de Atrato, del Choco, Colombia: Terremotos hoy "
+              "y últimos 30 días - Volcano Discovery")
+    FEED = "Google News — Medio Atrato"
+
+    def _rows(self, noticias):
+        from municipios import build_municipios
+        rows, _ = build_municipios(noticias, None, {}, None,
+                                   self.RUD, self.DIVIPOLA)
+        return {r["municipio"]: r for r in rows}
+
+    def test_el_titular_que_no_nombra_al_municipio_deja_de_contar(self):
+        rows = self._rows([{"titulo": self.AJENO, "medio": self.FEED}])
+        self.assertEqual(rows["Atrato"]["n_noticias"], 0,
+                         "un titular sobre el Chocó entero, recogido por el "
+                         "feed de Medio Atrato, no es prensa de Atrato")
+        self.assertEqual(rows["Medio Atrato"]["n_noticias"], 0,
+                         "tampoco del municipio que da nombre al feed: el "
+                         "titular no lo nombra")
+
+    def test_el_titular_que_sí_lo_nombra_sigue_contando(self):
+        rows = self._rows([{"titulo": self.PROPIO, "medio": self.FEED}])
+        self.assertEqual(rows["Atrato"]["n_noticias"], 1,
+                         "sacar el nombre del feed no puede llevarse por "
+                         "delante los titulares que nombran al municipio")
+        self.assertEqual(rows["Atrato"]["estado"], "mencion_prensa")
+
+    def test_la_busqueda_municipal_no_se_pierde_pero_se_cuenta_aparte(self):
+        """Lo que el feed municipal sabe viaja DECLARADO (`municipios`, que
+        publica `publish.py::noticia` desde `feed["municipios"]`), no adivinado
+        del texto: así el cero de El Dovio —0 titulares que lo nombren, 21
+        piezas recogidas— no se publica como silencio de la prensa."""
+        rows = self._rows([{"titulo": self.AJENO, "medio": self.FEED,
+                            "municipios": ["Medio Atrato"]}])
+        self.assertEqual(rows["Medio Atrato"]["n_noticias"], 0)
+        self.assertEqual(rows["Medio Atrato"]["n_prensa_recogida"], 1)
+        # y no se contagia al vecino cuyo nombre va dentro del suyo
+        self.assertEqual(rows["Atrato"]["n_prensa_recogida"], 0)
+
+
 class TestFeedsComunitarios(unittest.TestCase):
     RSS = b"""<?xml version="1.0"?><rss version="2.0"><channel>
       <item><title>Sismo en Quibd\xc3\xb3 deja da\xc3\xb1os</title>

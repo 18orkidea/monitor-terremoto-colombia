@@ -1383,7 +1383,12 @@ def panel_fuentes(d: dict) -> str:
     # Medido: con la segunda, Jamundí pasaría de 4 titulares a 303, de los que
     # 299 hablan de Cali. Inflar la prensa de los municipios pequeños es
     # justamente borrar la brecha que este monitor mide.
-    filas.append(_fila_fuente("Titulares de prensa", m.get("n_noticias"),
+    # Por eso la etiqueta dice CUÁL de las dos es. Las dos se ven en la misma
+    # página —abajo, «el monitor ha recogido N piezas»— y desde que el nombre
+    # del feed dejó de atribuir municipios la distancia entre ellas es grande:
+    # El Dovio tiene 0 titulares que lo nombren y 21 piezas recogidas. Con las
+    # dos llamadas «titulares de prensa», la ficha se contradecía sola.
+    filas.append(_fila_fuente("Titulares que lo nombran", m.get("n_noticias"),
                               "medios, recogidos por el monitor"))
     cuerpo = "".join(x for x in filas if x)
     sin_sat = not any(len((capas.get(sat["clave"]) or {}).get("features") or [])
@@ -1405,7 +1410,12 @@ def panel_fuentes(d: dict) -> str:
             fuentes.append("del registro oficial")
         if n_vecinos:
             fuentes.append("de sus vecinos")
-        if m.get("n_noticias"):
+        # `d["titulares"]` y no `n_noticias`: la prensa ha hablado de este
+        # municipio si el monitor le atribuye piezas, aunque ninguna lo nombre
+        # en el titular. En El Dovio, `n_noticias` es 0 y esta misma página
+        # lista veintiún titulares: callar aquí a la prensa sería el error de
+        # la fuente muda dado la vuelta.
+        if m.get("n_noticias") or d["titulares"]:
             fuentes.append("de la prensa")
         if len(fuentes) > 1:
             # enumeración española: «a, b y c», no «a y b y c» — con dos
@@ -2256,6 +2266,14 @@ def _celda_prensa(m: dict) -> str:
         # hace pulsable la fila entera se lo tragaría.
         return (f'<a href="noticias.html?municipio={urllib.parse.quote(m["municipio"])}"'
                 f' style="color:var(--s1)">{fmt(m["n_noticias"])}</a>')
+    # Cero titulares que lo nombren, pero su búsqueda municipal sí trajo
+    # piezas: el cero es cierto y la celda lo mantiene, pero a secas se leería
+    # como «nadie publicó», que aquí es falso.
+    if m.get("n_prensa_recogida"):
+        return (f'<span title="Ningún titular lo nombra, pero la búsqueda de prensa de '
+                f'este municipio trajo {fmt(m["n_prensa_recogida"])} '
+                f'{"piezas" if m["n_prensa_recogida"] != 1 else "pieza"}: están en su '
+                f'ficha. Esta columna solo cuenta los titulares que lo nombran.">0</span>')
     if m.get("requiere_depto"):
         return (f'<span title="Su nombre es palabra común, lugar extranjero o se repite '
                 f'en otro departamento: solo se le atribuyen titulares que nombren también '

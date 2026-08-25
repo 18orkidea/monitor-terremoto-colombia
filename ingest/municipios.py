@@ -765,6 +765,7 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      grid_mmi=None) -> tuple[list[dict], dict]:
     catalogo = catalogo_municipios(rud_municipios, divipola)
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
+               "n_prensa_recogida": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
                "dyfi_respuestas": 0, "dyfi_celdas": 0, "dyfi_min_dist_km": None}
            for m, meta in catalogo.items()}
@@ -785,7 +786,18 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
             row["poblacion_fuente"] = None
 
     for n in noticias:
-        text = f"{n.get('titulo') or ''} {n.get('medio') or ''}"
+        # SOLO el titular. `medio` no es la cabecera que firma la pieza: es la
+        # etiqueta del feed que la trajo («Google News — Medio Atrato»), y
+        # cruzarla atribuía el municipio del buscador a cualquier titular que
+        # devolviese. Medido sobre el corpus: 1.577 atribuciones en 69
+        # municipios entraban por ahí y no por el titular, y 15 de ellas se le
+        # regalaban a OTRO municipio cuyo nombre va dentro del suyo —«Atrato»
+        # recibía titulares del feed «Medio Atrato», que es otro pueblo—. Que
+        # la búsqueda municipal encontró la pieza no se pierde: viaja declarado
+        # en `noticias.json` (`publish.py::noticia`, vía `feed["municipios"]`)
+        # y de ahí salen los titulares de cada ficha. `n_noticias` cuenta otra
+        # cosa, más estrecha y comprobable: quién sale nombrado en el titular.
+        text = n.get("titulo") or ""
         for mun, meta in catalogo.items():
             if _menciona_municipio(text, meta):
                 row = out[mun]
@@ -794,6 +806,17 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                     row["noticias_ejemplo"].append({
                         "fecha": n.get("fecha"), "medio": n.get("medio"),
                         "titulo": n.get("titulo"), "url": n.get("url")})
+        # La otra cifra, la ancha: piezas que el monitor recogió PARA este
+        # municipio según la atribución declarada de `noticias.json` —las que
+        # lo nombran en el titular MÁS las que trajo su búsqueda municipal sin
+        # nombrarlo—. Es la que llena la lista de titulares de cada ficha, y
+        # existe para que el cero de `n_noticias` no se pueda leer como «el
+        # monitor preguntó y no hubo nada» cuando sí hubo: El Dovio tiene 0
+        # titulares que lo nombren y 21 piezas recogidas. Sin ella, sacar el
+        # nombre del feed del texto cruzado cambiaba un error por el contrario.
+        for mun in n.get("municipios") or []:
+            if mun in out:
+                out[mun]["n_prensa_recogida"] += 1
 
     for f in (dyfi or {}).get("features", []):
         p = f.get("properties") or {}
