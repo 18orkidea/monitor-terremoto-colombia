@@ -716,7 +716,6 @@ def evidencia_municipal(nombre: str, muni: dict, ctx: dict) -> dict:
 
 def datos_ficha(nombre: str, ctx: dict) -> dict:
     muni = ctx["idx"][nombre]
-    clave = nombre.upper()
 
     # El RUD nombra a los municipios a su manera y la clave del catálogo lleva
     # el departamento entre paréntesis cuando hay homónimos, así que la
@@ -2044,10 +2043,10 @@ def render_ficha(d: dict) -> str:
                     f'{e(pct(d["pct_delta"]))} en {fmt_prosa(dias)} '
                     f'{"día" if dias == 1 else "días"}. ')
             o.append(movimiento +
-                     f'El RUD no mide cuánto se rompió '
-                     f'el municipio: mide a qué velocidad las autoridades locales alcanzan a '
-                     f'registrarlo, y ese registro se verifica después. Por eso <strong>que un municipio '
-                     f'no aparezca no significa «sin daño», significa «sin registro aún»</strong>.</p>')
+                     'El RUD no mide cuánto se rompió '
+                     'el municipio: mide a qué velocidad las autoridades locales alcanzan a '
+                     'registrarlo, y ese registro se verifica después. Por eso <strong>que un municipio '
+                     'no aparezca no significa «sin daño», significa «sin registro aún»</strong>.</p>')
         o.append('<div class="tabla-scroll"><table>')
         o.append('<thead><tr><th>Captura</th><th class="num">Familias</th>'
                  '<th class="num">Personas</th><th class="num">Viv. destruidas</th>'

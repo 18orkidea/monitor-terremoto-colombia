@@ -1082,7 +1082,6 @@ class TestPeticionesCondicionales(unittest.TestCase):
         su validador: se descarga entero. Reutilizar un cuerpo corrupto sería
         publicar como archivo algo que el archivo no dice."""
         import tempfile
-        from unittest import mock
         import common
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
@@ -3777,9 +3776,7 @@ class TestActivosDelArchivo(unittest.TestCase):
     def test_la_contradiccion_del_archivo_se_canta(self):
         """M3: si merece explicarse, merece salir en las alertas."""
         import tempfile
-        from unittest import mock
         import alerts
-        import common
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
             conn, parches = self._mundo(tmp, objetos=[

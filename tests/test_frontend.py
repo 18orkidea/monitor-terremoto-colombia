@@ -2293,7 +2293,7 @@ class TestElMapaAbreConLaAusenciaSola(unittest.TestCase):
         self.assertEqual(
             len(sueltos), 5,
             "hay un `.addTo(map)` nuevo o de menos; el estado inicial del mapa "
-            f"se decide en un solo sitio:\n" + "\n".join(s.strip() for s in sueltos))
+            "se decide en un solo sitio:\n" + "\n".join(s.strip() for s in sueltos))
 
     def test_el_documento_servido_declara_los_chips_con_ese_mismo_estado(self):
         """Sin esto la tira llega con cinco chips encendidos y `app.js` los
