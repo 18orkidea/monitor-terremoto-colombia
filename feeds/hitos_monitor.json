@@ -193,6 +193,13 @@
       "resumen": "La cronología se lee sin JavaScript y la portada adelgaza un tercio.",
       "texto": "La portada deja de leerse como una ficha técnica. Se quita de encima la matrícula del siniestro —el código de la activación de Copernicus, el identificador global del desastre (GLIDE) y el color de la alerta del USGS—; los tres se explican ahora en el glosario, con lo que cada uno significa y lo que no. La página mide un tercio menos, porque la cronología completa del evento se muda a «Cómo se construye este monitor», junto con la vigilancia del catálogo de activaciones de Copernicus en Colombia. La mudanza arregla algo más grande que el tamaño: la cronología no estaba escrita en la página, la montaba el navegador al abrirla, de modo que quien leyera el sitio sin ejecutar JavaScript no encontraba ni un hito. En un proyecto que se define como archivo, su propia cronología tiene que estar en el documento. El porte trajo dos fallos —un filtro que vaciaba la lista y unos enlaces internos que no llevaban a ninguna parte— y los tests los atajaron antes de salir.  De las cinco descargas de la cabecera queda la del cruce; las otras cuatro bajan a un bloque de datos abiertos donde cada fichero dice qué contiene y con qué licencia — que en el caso del servicio francés ICube-SERTIT no es la misma que la del resto y en un botón no cabía decirlo.",
       "url": "/referencia.html#cronologia"
+    },
+    {
+      "fecha": "2026-08-25",
+      "tipo": "monitor",
+      "resumen": "El mapa descarga 26 veces menos al abrir: cada capa se pide cuando se enciende.",
+      "texto": "Abrir la portada costaba 4,2 MB en trece descargas para dibujar 163 KB: el mapa se bajaba entero —las doce capas, incluidos 2,2 MB de polígonos que ni siquiera se pintaban— y encendía una sola. Ahora se piden dos ficheros al abrir y cada capa baja el suyo cuando el lector la enciende, desde su botón o desde el control de capas; la que ya se pidió no se vuelve a pedir. Importa dónde se lee esto: sobre todo en teléfonos y en Colombia, donde ese megabyte de más se paga. El control de capas sigue ofreciéndolas todas, pero ya no promete una cifra que todavía no tiene: el número de edificios o de municipios aparece cuando la capa se ha descargado y dibujado. Mientras viaja se dice que viaja, y si no llega, se dice también en vez de dejar el botón encendido sobre un mapa vacío.",
+      "url": "/"
     }
   ]
 }

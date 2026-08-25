@@ -3522,10 +3522,15 @@ class TestLasDosPreguntasSobreLaMirada(unittest.TestCase):
         comentario que explica por qué hace falta. Un guardián que no guarda.
         """
         app = (self.RAIZ / "site/app.js").read_text(encoding="utf-8")
-        capa = [r for r in re.findall(r"layers\[((?:\s*`[^`]*`\s*\+?)+)\]", app)
-                if "conCoords.length" in r]
+        # La capa se localiza por su CHIP, no por un detalle de cómo se
+        # construye: antes se buscaba el rótulo que interpolaba
+        # `conCoords.length`, y con la carga diferida esa cifra ya no se
+        # escribe aquí —la pone `enciende` contando lo que ha dibujado—.
+        # `conChip("ausencia")` es lo que de verdad identifica a esta capa y
+        # sobrevive a cómo se construya.
+        capa = re.search(r'layers\[([^\]]+)\]\s*=\s*\n?\s*conChip\("ausencia"', app)
         self.assertTrue(capa, "no se encuentra el rótulo de la capa de la ausencia")
-        texto = " ".join(re.findall(r"`([^`]*)`", capa[0]))
+        texto = " ".join(re.findall(r'["`]([^"`]*)["`]', capa.group(1)))
         self.assertIn("damnificados", texto,
                       f"la etiqueta omite la condición del RUD: {texto!r}")
 

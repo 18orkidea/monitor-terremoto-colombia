@@ -6,6 +6,140 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — Cada capa del mapa se pide cuando el lector la enciende
+
+**Contexto.** La portada descargaba **4.219 KB en trece peticiones** para
+dibujar **163**: `monitor.json` (134 KB, epicentro y banda de brechas) y
+`municipios_mapa.json` (29 KB, la capa de la ausencia). Veintiséis veces de más.
+El peor solo era `not_analysed.geojson`, **2.174 KB** —la mitad del total— para
+una capa que no se dibuja al abrir. El desperdicio acababa de empeorar: desde
+que el mapa abre por la ausencia con una sola capa encendida, se descargaban las
+doce para pintar una. Este sitio se lee sobre todo en móvil y en Colombia.
+
+**Decisión.** Cada capa es una **ranura**: un `LayerGroup` vacío que existe
+desde el primer momento —para que el control de Leaflet y los chips puedan
+accionarla— y un fichero que solo se pide la primera vez que alguien la
+enciende. Se escucha el alta del grupo (`grupo.on("add")`), no el clic del chip:
+así los dos caminos que encienden una capa —el chip y el control— pasan por el
+mismo sitio y ninguno se queda sin descargar. La caché es la **promesa**, no el
+resultado, de modo que dos clics seguidos comparten una sola descarga en vuelo;
+apagar y volver a encender no vuelve a pedir nada. Al abrir viajan dos ficheros:
+el monitor y la capa que nace encendida, que se adelanta en paralelo por la
+misma caché para no costar un viaje de red por detrás del primero.
+
+**El grupo no cambia de identidad al llenarse**, y eso es lo que deja intacto el
+reflejo de los chips: `capas.some((c) => map.hasLayer(c))` sigue queriendo decir
+lo mismo —esta capa está puesta en el mapa—, tenga ya sus rasgos dentro o los
+esté esperando. Si la capa se construyera al llegar el fichero, `hasLayer` diría
+«no» durante toda la descarga y la resincronización de
+`overlayadd`/`overlayremove` apagaría el chip que el lector acaba de encender.
+
+### El control de capas de Leaflet: se queda, y no promete cifras que no tiene
+
+Se planteó retirarlo o listar solo lo ya descargado. Las dos cosas son peores:
+es la **única puerta** a las cuatro capas que ningún chip gobierna —el terreno
+sísmico, la intensidad percibida, los sismos históricos y el compuesto del
+cruce—, y esconderlas hasta que alguien las descargue es esconderlas para
+siempre, porque nadie descarga lo que no ve. Así que **lista las trece desde el
+primer momento y cada una responde**: al marcarla se pide su fichero y se
+dibuja.
+
+Lo que sí cambia es el rótulo. Antes decía «Edificios dañados — satélite (622)»
+porque los 622 se contaban del fichero ya descargado. Ahora **la cifra aparece
+cuando la capa se ha dibujado**, y antes el rótulo se queda en su nombre a
+secas. Es **R3 llevado al control de capas**: un «(…)» o un «(0)» de relleno
+serían el cero disfrazado justo donde más se parece a un dato. Y la capa que
+llega vacía **se retira** del control, del mapa y de su chip: un control que
+ofrece algo y no responde es peor que no ofrecerlo — la misma regla que ya
+gobernaba al chip huérfano, aplicada ahora cuando la capa muere después de
+pedirse, que es lo único que se puede saber sin descargarla.
+
+El control se **repinta entero y en el orden de declaración** cada vez que una
+capa estrena cifra o se retira: `addOverlay` añade al final, así que renombrar
+una sola entrada quitándola y poniéndola otra vez la mandaría al fondo y la
+lista bailaría bajo el ratón cada vez que llegara un fichero.
+
+Consecuencia menor y buscada: las cifras del control pasan por `UI.fmt`, que es
+la regla de la casa (`CLAUDE.md`, locale `es-CO`). «Sismos históricos UNGRD
+(1173)» pasa a «(1.173)»; el rótulo de la ausencia ya lo hacía y los demás no.
+
+### Que la espera se vea, y que un fallo no deje el chip mintiendo
+
+Pulsar un chip y quedarse dos segundos con la pantalla quieta se lee como una
+avería, y quien no sabe que está descargando vuelve a pulsar. La señal vive en
+dos sitios porque hay dos maneras de encender una capa: en el chip, `aria-busy`
+—que un lector de pantalla anuncia— más un pulso tenue de la hoja (`animation:
+none` y atenuado con `prefers-reduced-motion`); y en un **aviso sobre el mapa**
+(`.aviso-capas`, `role="status"`), que es lo único que ve quien la encendió
+desde el control. Va en posición absoluta y abajo a la izquierda: aparece y
+desaparece varias veces por sesión, y en el flujo empujaría el mapa hacia abajo
+cada vez; las otras tres esquinas están ocupadas por controles de Leaflet.
+
+Si el fichero no llega (R13), la capa **sale del mapa** —con lo que el chip se
+apaga solo al resincronizar y la casilla del control se desmarca—, el mismo
+aviso lo cuenta con su color de laguna, y la ranura se limpia entera (promesa y
+petición) para que el reintento vuelva a pedirlo de verdad y no reciba el mismo
+`null` para siempre. La capa **no** se retira del control: la fuente existe, lo
+que falló fue la red.
+
+### La única capa que se pide sin que nadie la encienda
+
+`/?municipio=X` —el enlace que traen las 252 fichas municipales— centra el mapa
+con `munLayerById`, que lo escribe el compuesto del cruce al dibujarse. Con la
+capa sin pedir, ese índice está vacío y el enlace no lleva a ninguna parte. Así
+que cuando la dirección lo reclama, y solo entonces, se enciende esa ranura. El
+mapa sigue abriendo por la ausencia y el compuesto sigue apagado: lo que se
+recupera es el encuadre, que es exactamente lo que hacía antes.
+
+### Medido
+
+| | peticiones | KB |
+|---|---|---|
+| Antes, al abrir | 13 | 4.219 |
+| Después, al abrir | **2** | **164** |
+| Después, con los cinco chips encendidos | 9 | 3.335 |
+
+`bash deploy/build_dist.sh` servido en local. El chip de Copernicus manda sobre
+cinco capas y cuatro ficheros: `damage_points.geojson` alimenta dos capas y se
+descarga una vez.
+
+### Guardianes (M1: doce mutaciones caen)
+
+- `test_frontend.py::TestElMotorDeCargaDiferida` **ejecuta** el motor
+  —`RANURAS`, `diferida`, `conChip`, el bautizo de rótulos, `avisa`, `retira` y
+  `enciende`, extraídos del fuente— en node contra dobles de Leaflet, del mapa y
+  del DOM. Un `assertIn` sobre el texto daría verde con la caché quitada.
+  El bautizo entró al doble **después** de que una mutación lo demostrara: con
+  el rótulo puesto a mano en el test, escribir «(0)» en el código pasaba en
+  verde.
+- `test_frontend.py::TestCadaCapaSePideAlEncenderse` cuenta lo mismo por dos
+  caminos: quién se pide por su nombre al abrir y quién no pasa por `diferida`.
+  Un fichero nuevo pedido a mano cae en el primero; uno colado en la apertura,
+  en el segundo.
+- La señal de carga es espejo de dos superficies (app.js escribe, styles.css
+  pinta) y se pide la **declaración**, no el selector: con el selector a secas,
+  el guardián pasaba con el pulso vivo solo dentro de `prefers-reduced-motion`.
+
+Dos guardianes existentes cambian de literal sin cambiar de contenido:
+`TestCadaCapaTieneChipOMotivo` ata ahora los huecos de cobertura a
+`diferida("not_analysed.geojson")` en vez de a `L.geoJSON(notAnalysed)`, y
+`test_unit.py::test_el_rotulo_del_mapa_dice_su_condicion` localiza la capa de la
+ausencia por `conChip("ausencia")` en vez de por el `conCoords.length` que ya no
+se interpola en su rótulo. Los dos siguen cayendo con su fallo puesto.
+
+### Lo que NO se toca aquí, y por qué pesa 2.174 KB ese fichero
+
+`not_analysed.geojson` son **48 polígonos con 79.755 vértices**: 27,9 bytes por
+vértice. Las propiedades son 6 KB de 2.226 —el 0,3 %—, así que el peso es
+geometría pura. **143.438 de sus 159.510 coordenadas llevan ocho decimales**, un
+milímetro de precisión para dibujar huecos de cobertura satelital: redondear a
+cinco (un metro) lo dejaría en 1.551 KB, un 29 % menos, sin mover un píxel en
+pantalla. Lo que queda —1,5 MB— es el número de vértices, que viene del trazado
+a resolución de píxel del producto de Copernicus y solo baja simplificando la
+geometría. Ninguna de las dos cosas se hace en este cambio: **tocar la geometría
+publicada es alterar el archivo**, y eso es otra decisión, con su snapshot y su
+sha256 detrás. Queda medido y escrito.
+
 ## 2026-08-25 — El mapa abre por la ausencia, y cada chip manda sobre toda su fuente
 
 Una auditoría independiente (`AUDITORIA-PROTOTIPO.md`) comparó la maqueta

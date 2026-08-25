@@ -62,22 +62,30 @@
     : `${t(s)} <span style="color:var(--muted)">(${s})</span>`;
   const j = window.UI.fetchJson;
   const base = "/data/public/";
-  // `alerts.json` ya no se pide: las alertas las escribe el build (fase 6), y
-  // pedirlo aquí era descargarlo para no usarlo. `oficiales.json` y
-  // `hitos_monitor.json` tampoco: solo alimentaban la cronología, que desde la
-  // fase 6c la escribe el build en referencia.html.
-  const [mon, aois, municipios, chat, dyfi, sismos, shake,
-         dmgPts, dmgLines, notAnalysed, unosat, sertit,
-         sinMirada] = await Promise.all([
-    j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
-    j(base + "chatmap.geojson"),
-    j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
-    j(base + "shakemap_mmi.geojson"),
-    j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
-    j(base + "not_analysed.geojson"), j(base + "unosat_damage.geojson"),
-    j(base + "sertit_damage.geojson"),
-    j(base + "municipios_mapa.json"),
-  ]);
+  /* AL ABRIR SE PIDEN DOS FICHEROS Y NI UNO MÁS.
+     La portada bajaba 4.219 KB en trece peticiones para dibujar 163: las doce
+     capas del mapa se descargaban enteras y solo una se encendía —desde que la
+     portada abre por la ausencia, el resto llega apagado—. `not_analysed.geojson`
+     pesa él solo 2.174 KB, la mitad del total, y no se dibuja al abrir. Este
+     sitio se lee sobre todo en móvil y en Colombia: descargarlo era cobrarle a
+     quien lee un mapa que nadie le ha pedido.
+     Desde aquí cada capa pide su fichero cuando el lector la enciende —da igual
+     si desde su chip o desde el control de Leaflet— y lo ya pedido no se vuelve
+     a pedir: la caché es la promesa, no el resultado, así que dos clics
+     seguidos comparten una sola descarga en vuelo.
+     `alerts.json` ya no se pide: las alertas las escribe el build (fase 6), y
+     pedirlo aquí era descargarlo para no usarlo. `oficiales.json` y
+     `hitos_monitor.json` tampoco: solo alimentaban la cronología, que desde la
+     fase 6c la escribe el build en referencia.html. */
+  const pedidos = {};
+  const pide = (fichero) => (pedidos[fichero] =
+    pedidos[fichero] || j(base + fichero));
+  /* La capa que abre encendida —la ausencia— se adelanta EN PARALELO con el
+     monitor y por la misma caché que todas las demás: cuando el bloque de
+     arranque la encienda, su fichero ya estará en el aire y no le costará un
+     viaje de red entero por detrás del primero. */
+  pide("municipios_mapa.json");
+  const mon = await pide("monitor.json");
   // ---- banda de brechas oficiales
   // La banda YA VIENE ESCRITA desde el build (deploy/render_html.py::banda_brechas).
   // Es el resumen más citable de la portada y llegaba vacía a quien no ejecuta
@@ -133,12 +141,149 @@
      miradas las enciende el lector cuando quiere compararlas. */
   const VISTA_NACIONAL = { centro: [4.6, -74.3], zoom: 6 };
 
+  /* ---- una capa se pide cuando el lector la enciende, no antes ------------
+     Cada capa del mapa es una RANURA: un grupo vacío de Leaflet que existe
+     desde el primer momento —para que el control y los chips puedan
+     accionarla— y un fichero que solo se pide la primera vez que alguien la
+     enciende.
+
+     El grupo NO cambia de identidad al llenarse, y eso es lo que deja intacto
+     el reflejo de los chips: `capas.some((c) => map.hasLayer(c))` sigue
+     queriendo decir lo mismo que antes —esta capa está puesta en el mapa—,
+     tenga ya sus rasgos dentro o los esté esperando. Si en su lugar la capa se
+     construyera al llegar el fichero, `hasLayer` diría «no» durante toda la
+     descarga y la resincronización de `overlayadd`/`overlayremove` apagaría el
+     chip que el lector acaba de encender.
+
+     Se escucha el alta DEL GRUPO y no el clic del chip: las dos maneras de
+     encender una capa —el chip y el control de Leaflet— pasan así por el mismo
+     sitio, y ninguna se queda sin descargar. */
+  const RANURAS = [];
+  const ranuraDe = new Map();          // capa del mapa → su ranura
+  let refrescaChips = () => {};        // lo enchufa `conectarChips`, más abajo
+  const diferida = (fichero, construye, opciones) => {
+    const o = opciones || {};
+    const grupo = L.layerGroup();
+    const r = {
+      grupo, fichero, construye, clave: null, base: null, rotulo: null,
+      promesa: null, viva: true,
+      // Tres rótulos no llevan cifra hoy y no van a estrenarla por la puerta
+      // de atrás: el número solo aparece donde ya estaba.
+      cifra: o.cifra !== false,
+      // La ausencia es el contexto sobre el que se lee la evidencia: al llegar
+      // se va al fondo para no taparla.
+      fondo: !!o.fondo,
+    };
+    RANURAS.push(r);
+    ranuraDe.set(grupo, r);
+    grupo.on("add", () => { enciende(r); });
+    return grupo;
+  };
+
+  /* Que una capa viene en camino tiene que VERSE. Pulsar un chip y quedarse dos
+     segundos con la pantalla quieta se lee como una avería, y quien no sabe que
+     está descargando vuelve a pulsar. Se dice en dos sitios porque hay dos
+     maneras de encenderla: en el chip, con `aria-busy` —que un lector de
+     pantalla anuncia— y el pulso que le pone la hoja de estilos; y en un aviso
+     sobre el mapa, que es lo único que ve quien la encendió desde el control de
+     Leaflet. El mismo aviso cuenta después el fallo de red, que es la otra cosa
+     que no puede pasar en silencio (R13). */
+  const enVuelo = new Set();
+  let fallo = "";
+  let cajaAviso = null;
+  const pintaAviso = () => {
+    if (!cajaAviso) {
+      const marco = document.querySelector(".marco-mapa");
+      if (!marco) return;
+      cajaAviso = document.createElement("p");
+      cajaAviso.className = "aviso-capas";
+      cajaAviso.setAttribute("role", "status");
+      cajaAviso.setAttribute("aria-live", "polite");
+      marco.appendChild(cajaAviso);
+    }
+    const viajando = [...enVuelo];
+    const texto = viajando.length === 1 ? `Cargando «${viajando[0]}»…`
+      : viajando.length ? `Cargando ${fmt(viajando.length)} capas…`
+      : fallo;
+    cajaAviso.textContent = texto;
+    cajaAviso.hidden = !texto;
+    cajaAviso.classList.toggle("aviso-capas--fallo", !viajando.length && !!fallo);
+  };
+  const avisa = (texto, esFallo) => { fallo = esFallo ? texto : ""; pintaAviso(); };
+  const marcarCarga = (r, si) => {
+    if (si) enVuelo.add(r.base); else enVuelo.delete(r.base);
+    // Un chip manda sobre VARIAS capas —«Copernicus» son seis—: sigue ocupado
+    // mientras alguna de las suyas viaje, no solo mientras viaje esta.
+    const chip = r.clave && document.querySelector(
+      `.chip[data-capa="${r.clave}"]`);
+    if (chip) {
+      const suyas = (porCapa[r.clave] || []).map((c) => ranuraDe.get(c));
+      chip.setAttribute("aria-busy", String(
+        suyas.some((x) => x && enVuelo.has(x.base))));
+    }
+    pintaAviso();
+  };
+
+  /* Una ranura que se retira no puede dejar rastro en ninguna de las tres
+     superficies que la accionaban: el control, el mapa y su chip. Es la misma
+     regla que ya gobernaba al chip huérfano —«un chip sin capa se retira antes
+     que quedarse como control muerto»—, aplicada ahora también cuando la capa
+     resulta estar vacía DESPUÉS de haberla pedido, que es lo único que se
+     puede saber sin descargarla. */
+  const retira = (r, motivo) => {
+    r.viva = false;
+    map.removeLayer(r.grupo);
+    for (const clave of Object.keys(porCapa)) {
+      const i = porCapa[clave].indexOf(r.grupo);
+      // `splice` y no un array nuevo: `conectarChips` se guardó ESTE array.
+      if (i >= 0) porCapa[clave].splice(i, 1);
+    }
+    pintarControl();
+    refrescaChips();
+    avisa(motivo, true);
+  };
+
+  /* Lo que pasa entre el clic y el dibujo, que es lo que antes no pasaba nunca.
+     `r.promesa` es la caché: dos clics seguidos sobre el mismo chip descargan
+     UNA vez, y encender, apagar y volver a encender no vuelve a pedir nada.
+     Cuando el fichero no llega, la ranura se limpia entera —promesa y
+     petición— para que el reintento vuelva a pedirlo de verdad, y la capa sale
+     del mapa: un chip en `aria-pressed="true"` sobre una capa que no existe es
+     el control mintiendo. */
+  async function enciende(r) {
+    if (!r.viva || r.promesa) return r.promesa;
+    r.promesa = (async () => {
+      marcarCarga(r, true);
+      const datos = await pide(r.fichero);
+      marcarCarga(r, false);
+      if (!datos) {
+        r.promesa = null;
+        delete pedidos[r.fichero];
+        map.removeLayer(r.grupo);
+        avisa(`No se ha podido cargar «${r.base}»: vuelve a encenderla en unos `
+              + "minutos. El resto del mapa no depende de ella.", true);
+        return;
+      }
+      const capa = r.construye(datos);
+      const n = capa && capa.getLayers ? capa.getLayers().length : 0;
+      if (!n) { retira(r, `«${r.base}» no trae ningún dato que dibujar.`); return; }
+      r.grupo.addLayer(capa);
+      if (r.fondo && capa.bringToBack) capa.bringToBack();
+      // La cifra del rótulo cuenta lo que se PINTA, no lo que trae el fichero:
+      // por eso no se puede escribir antes de haberlo dibujado.
+      if (r.cifra) { r.rotulo = `${r.base} (${fmt(n)})`; pintarControl(); }
+      avisa("", false);
+    })();
+    return r.promesa;
+  }
+
   const layers = {};
   /* Las mismas capas, indexadas por la CLAVE con que el build escribe cada chip
-     en `data-capa`. `layers` sigue existiendo porque es lo que entiende
-     `L.control.layers`, que aquí NO se retira —el mapa de la portada tiene doce
-     capas y los chips accionan cinco—: los chips son el atajo a las cinco que
-     cuentan la historia, y el control sigue guardando el resto.
+     en `data-capa`. `layers` sigue existiendo porque es la declaración del
+     control de capas —su orden y su rótulo sin cifra, que `pintarControl` lee—,
+     y ese control aquí NO se retira: el mapa de la portada tiene trece capas y
+     los chips accionan cinco. Los chips son el atajo a las cinco que cuentan la
+     historia, y el control sigue guardando el resto.
      Una clave apunta a VARIAS capas: «Copernicus» son sus edificios, sus
      interrupciones, sus vías, las zonas que recortó y los huecos que dejó sin
      analizar: seis capas de Leaflet y un solo servicio que mirar o dejar de
@@ -147,6 +292,10 @@
   const porCapa = {};
   const conChip = (clave, capa) => {
     (porCapa[clave] = porCapa[clave] || []).push(capa);
+    // La ranura recuerda a qué chip pertenece: mientras su fichero viaja, ese
+    // chip es el que tiene que decir que algo está pasando.
+    const r = ranuraDe.get(capa);
+    if (r) r.clave = clave;
     return capa;
   };
   /* Y la contraria: una capa que NO cuelga de ningún chip tiene que decir por
@@ -162,17 +311,15 @@
     fueraDeChip.push({ motivo, capa });
     return capa;
   };
-  if (shake) {
-    layers["Intensidad estimada por el USGS"] = sinChip(
-      "Modelo del USGS: no es una mirada al daño, es el terreno sísmico sobre "
-      + "el que se leen todas las demás. Ningún chip la reclama porque no "
-      + "documenta un municipio: lo contextualiza.",
-      L.geoJSON(shake, {
-        style: (f) => ({ color: "#8a5a00", weight: 1, opacity: 0.5, dashArray: "4 3" }),
-        onEachFeature: (f, l) => l.bindTooltip(
-          `Intensidad ${f.properties.value ?? "—"} en la escala de Mercalli modificada`),
-      }));
-  }
+  layers["Intensidad estimada por el USGS"] = sinChip(
+    "Modelo del USGS: no es una mirada al daño, es el terreno sísmico sobre "
+    + "el que se leen todas las demás. Ningún chip la reclama porque no "
+    + "documenta un municipio: lo contextualiza.",
+    diferida("shakemap_mmi.geojson", (shake) => L.geoJSON(shake, {
+      style: (f) => ({ color: "#8a5a00", weight: 1, opacity: 0.5, dashArray: "4 3" }),
+      onEachFeature: (f, l) => l.bindTooltip(
+        `Intensidad ${f.properties.value ?? "—"} en la escala de Mercalli modificada`),
+    }), { cifra: false }));
   /* La capa de la ausencia: municipios con damnificados registrados sobre los
      que ninguno de los tres servicios que sigue el monitor —Copernicus EMS,
      UNITAR-UNOSAT e ICube-SERTIT— ha publicado un producto de daño. NO dice
@@ -265,17 +412,18 @@
   // quedarían ahí.
   map.whenReady(reescalar);
   map.on("zoomend", reescalar);
-  if (sinMirada && sinMirada.items && sinMirada.items.length) {
-    // El rótulo cuenta lo que se PINTA, no lo que trae el fichero: si algún
-    // municipio llegara sin coordenadas, la etiqueta prometería más puntos de
-    // los que hay. Es la divergencia de los «36 en portada, 43 en la tabla».
-    const conCoords = sinMirada.items.filter((m) => m.lat != null && m.lon != null);
-    // «con damnificados» NO es adorno: sin esa condición el rótulo enuncia un
-    // predicado que da 197, y municipios.html publica justo ese —Palmira no
-    // tiene registro en el RUD y sí entra en su cuenta—. Dos páginas del mismo
-    // sitio con dos cifras del mismo hecho es el fallo de los «36 y 43».
-    layers[`Municipios con damnificados y sin producto de daño satelital `
-           + `(${fmt(conCoords.length)})`] = conChip("ausencia", conZoom(
+  /* «con damnificados» NO es adorno: sin esa condición el rótulo enuncia un
+     predicado que da 197, y municipios.html publica justo ese —Palmira no
+     tiene registro en el RUD y sí entra en su cuenta—. Dos páginas del mismo
+     sitio con dos cifras del mismo hecho es el fallo de los «36 y 43».
+     La cifra del rótulo la pone `enciende` contando los rasgos DIBUJADOS, que
+     es lo mismo que contaba aquí `conCoords.length`: si algún municipio llegara
+     sin coordenadas, la etiqueta no puede prometer más puntos de los que hay. */
+  layers["Municipios con damnificados y sin producto de daño satelital"] =
+    conChip("ausencia", diferida("municipios_mapa.json", (sinMirada) => {
+    const conCoords = (sinMirada.items || [])
+      .filter((m) => m.lat != null && m.lon != null);
+    return conZoom(
       (l) => radioAusencia(l.feature.properties.rud_familias), L.geoJSON({
       type: "FeatureCollection",
       features: conCoords
@@ -320,16 +468,16 @@
             + "ICube-SERTIT",
         }));
       },
-    })));
-  }
+    }));
+  }, { fondo: true }));
 
   const aoiLayerById = {};
   const munLayerById = {};
-  if (aois) {
-    // Las zonas que Copernicus recortó son Copernicus, así que cuelgan de su
-    // chip: apagarlo dejaba estos polígonos en pantalla y el control publicaba
-    // un estado que el mapa desmentía (B2 de la auditoría del 25-ago).
-    layers["Zonas que analizó Copernicus"] = conChip("copernicus", L.geoJSON(aois, {
+  // Las zonas que Copernicus recortó son Copernicus, así que cuelgan de su
+  // chip: apagarlo dejaba estos polígonos en pantalla y el control publicaba
+  // un estado que el mapa desmentía (B2 de la auditoría del 25-ago).
+  layers["Zonas que analizó Copernicus"] = conChip("copernicus",
+    diferida("aois.geojson", (aois) => L.geoJSON(aois, {
       style: (f) => ({
         color: ESTADO_COLOR[f.properties.estado] || css("--muted"),
         weight: 2, fillOpacity: 0.12,
@@ -354,8 +502,7 @@
           pie: "Copernicus EMS",
         }));
       },
-    }));
-  }
+    }), { cifra: false }));
 
   // ---- detecciones de daño de Copernicus (la faceta punto a punto)
   /* Vocabulario de daño compartido: Copernicus e ICube-SERTIT gradúan con las
@@ -367,13 +514,15 @@
   };
   const GRADO_ES = { "Destroyed": "Destruido", "Damaged": "Dañado",
                      "Possibly damaged": "Posiblemente dañado" };
-  if (dmgPts && dmgPts.features.length) {
+  /* Dos capas salen del MISMO fichero, y cada una es su propia ranura: la
+     caché de `pide` hace que compartan una sola descarga, así que separarlas
+     no cuesta una petición de más y sí permite encender los edificios sin las
+     interrupciones. */
+  layers["Edificios dañados — satélite"] = conChip("copernicus", diferida(
+    "damage_points.geojson", (dmgPts) => {
     const edificios = { type: "FeatureCollection",
       features: dmgPts.features.filter((f) => f.properties.layer === "builtUpP") };
-    const crisis = { type: "FeatureCollection",
-      features: dmgPts.features.filter((f) => f.properties.layer !== "builtUpP") };
-    layers[`Edificios dañados — satélite (${edificios.features.length})`] =
-      conChip("copernicus", conZoom(() => radioPunto(5.5), L.geoJSON(edificios, {
+    return conZoom(() => radioPunto(5.5), L.geoJSON(edificios, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: radioPunto(5.5), weight: 1.5, color: "#fff", fillOpacity: 0.9,
           fillColor: GRADO_COLOR[f.properties.damage_gra] || css("--muted"),
@@ -392,29 +541,30 @@
             pie: "Copernicus EMS",
           }));
         },
-      })));
-    if (crisis.features.length) {
-      layers[`Interrupciones / crisis (${crisis.features.length})`] =
-        conChip("copernicus", conZoom(() => radioPunto(6), L.geoJSON(crisis, {
-          pointToLayer: (f, ll) => L.circleMarker(ll, {
-            radius: radioPunto(6), weight: 2, color: css("--critical"),
-            fillColor: "#fff", fillOpacity: 0.9,
-          }),
-          onEachFeature: (f, l) => {
-            const p = f.properties;
-            const obj = p.obj_type || "Interrupción";
-            l.bindPopup(ficha({
-              titulo: conOriginal(obj),
-              filas: [["Zona", p.aoi ? aoiLabel(p.aoi) : null]],
-              pie: "Copernicus EMS",
-            }));
-          },
-        })));
-    }
-  }
-  if (dmgLines && dmgLines.features.length) {
-    layers[`Vías dañadas — satélite (${dmgLines.features.length})`] =
-      conChip("copernicus", L.geoJSON(dmgLines, {
+      }));
+  }));
+  layers["Interrupciones / crisis"] = conChip("copernicus", diferida(
+    "damage_points.geojson", (dmgPts) => {
+    const crisis = { type: "FeatureCollection",
+      features: dmgPts.features.filter((f) => f.properties.layer !== "builtUpP") };
+    return conZoom(() => radioPunto(6), L.geoJSON(crisis, {
+      pointToLayer: (f, ll) => L.circleMarker(ll, {
+        radius: radioPunto(6), weight: 2, color: css("--critical"),
+        fillColor: "#fff", fillOpacity: 0.9,
+      }),
+      onEachFeature: (f, l) => {
+        const p = f.properties;
+        const obj = p.obj_type || "Interrupción";
+        l.bindPopup(ficha({
+          titulo: conOriginal(obj),
+          filas: [["Zona", p.aoi ? aoiLabel(p.aoi) : null]],
+          pie: "Copernicus EMS",
+        }));
+      },
+    }));
+  }));
+  layers["Vías dañadas — satélite"] = conChip("copernicus",
+    diferida("damage_lines.geojson", (dmgLines) => L.geoJSON(dmgLines, {
         style: () => ({ color: css("--critical"), weight: 4, opacity: 0.85 }),
         onEachFeature: (f, l) => {
           const p = f.properties;
@@ -426,8 +576,7 @@
             pie: "Copernicus EMS",
           }));
         },
-      }));
-  }
+      })));
   // ---- UNITAR-UNOSAT: la segunda mirada satelital, en municipios que
   // Copernicus no cartografía. Vocabulario propio: UNOSAT gradúa entre daño
   // observado y daño posible, y declara aparte si el punto se ha validado en
@@ -450,13 +599,13 @@
   const uno = (s) => UNOSAT_ES[s] || s;
   const unoConOriginal = (s) => !s || uno(s) === s ? uno(s)
     : `${uno(s)} <span style="color:var(--muted)">(${s})</span>`;
-  if (unosat && unosat.features.length) {
+  layers["Edificios evaluados — satélite UNOSAT"] = conChip("unosat", diferida(
+    "unosat_damage.geojson", (unosat) => {
     const UNOSAT_COLOR = {
       "Damage": "#ec835a", "Damaged": "#ec835a",
       "Possible Damage": css("--warning"), "Destroyed": css("--critical"),
     };
-    layers[`Edificios evaluados — satélite UNOSAT (${unosat.features.length})`] =
-      conChip("unosat", conZoom(() => radioPunto(5.5), L.geoJSON(unosat, {
+    return conZoom(() => radioPunto(5.5), L.geoJSON(unosat, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: radioPunto(5.5), weight: 1.5, color: "#2b2b2b", fillOpacity: 0.9,
           fillColor: UNOSAT_COLOR[f.properties.dano] || css("--muted"),
@@ -489,8 +638,8 @@
               (p.productos ? ` · producto ${p.productos.split(",")[0]}` : ""),
           }));
         },
-      })));
-  }
+      }));
+  }));
 
   // ---- ICube-SERTIT: la tercera mirada satelital. Servicio de cartografía
   // rápida de la Universidad de Estrasburgo, que evalúa edificio a edificio
@@ -513,9 +662,9 @@
   const ser = (s) => SERTIT_ES[s] || DICT[s] || s;
   const serConOriginal = (s) => !s || ser(s) === s ? ser(s)
     : `${ser(s)} <span style="color:var(--muted)">(${s})</span>`;
-  if (sertit && sertit.features.length) {
-    layers[`Edificios evaluados — satélite ICube-SERTIT (${sertit.features.length})`] =
-      conChip("sertit", conZoom(() => radioPunto(5.5), L.geoJSON(sertit, {
+  layers["Edificios evaluados — satélite ICube-SERTIT"] = conChip("sertit",
+    diferida("sertit_damage.geojson", (sertit) =>
+      conZoom(() => radioPunto(5.5), L.geoJSON(sertit, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: radioPunto(5.5), weight: 1.5, color: "#fff", dashArray: "2 3",
           fillOpacity: 0.9,
@@ -539,20 +688,19 @@
               (p.producto_id ? ` · producto ${p.producto_id}` : ""),
           }));
         },
-      })));
-  }
+      }))));
 
-  if (notAnalysed && notAnalysed.features.length) {
-    // El hueco de cobertura es un producto de Copernicus tanto como el
-    // edificio que sí clasificó: dice dónde recortó y no miró. Bajo su chip.
-    layers[`Zonas sin analizar (${notAnalysed.features.length})`] =
-      conChip("copernicus", L.geoJSON(notAnalysed, {
-        style: () => ({ color: css("--muted"), weight: 1, dashArray: "3 4",
-                        fillColor: css("--muted"), fillOpacity: 0.18 }),
-        onEachFeature: (f, l) => l.bindTooltip(
-          `Sin analizar (${aoiEs(f.properties.aoi)}) — hueco de cobertura`),
-      }));
-  }
+  // El hueco de cobertura es un producto de Copernicus tanto como el edificio
+  // que sí clasificó: dice dónde recortó y no miró. Bajo su chip. Y es el
+  // fichero más pesado del mapa —2.174 KB para 48 polígonos—, así que es el
+  // que más se nota que ya no se baja hasta que alguien lo pide.
+  layers["Zonas sin analizar"] = conChip("copernicus", diferida("not_analysed.geojson",
+    (notAnalysed) => L.geoJSON(notAnalysed, {
+      style: () => ({ color: css("--muted"), weight: 1, dashArray: "3 4",
+                      fillColor: css("--muted"), fillOpacity: 0.18 }),
+      onEachFeature: (f, l) => l.bindTooltip(
+        `Sin analizar (${aoiEs(f.properties.aoi)}) — hueco de cobertura`),
+    })));
 
   /* La estrella del epicentro no es una capa temática y por eso no entra ni en
      los chips ni en el control: no es una FUENTE mirando el desastre, es el
@@ -574,9 +722,9 @@
       pie: "USGS",
     }));
   }
-  if (chat) {
-    layers[`Reportes ciudadanos ChatMap (${chat.features.length})`] =
-      conChip("ciudadanos", conZoom(() => radioPunto(5), L.geoJSON(chat, {
+  layers["Reportes ciudadanos ChatMap"] = conChip("ciudadanos",
+    diferida("chatmap.geojson", (chat) =>
+      conZoom(() => radioPunto(5), L.geoJSON(chat, {
       pointToLayer: (f, ll) => L.circleMarker(ll, {
         radius: radioPunto(5), color: css("--s7"), weight: 1.5,
         fillColor: css("--s7"), fillOpacity: 0.55,
@@ -599,14 +747,12 @@
             (p.score == null ? "" : ` · puntuación de la verificación automática: ${p.score}`),
         }));
       },
-    })));
-  }
-  if (dyfi) {
-    layers["Intensidad que sintió la población"] = sinChip(
-      "Cuestionario del USGS: mide lo que la gente SINTIÓ, no lo que se dañó. "
-      + "Es la otra cara de la sacudida estimada y comparte su motivo: "
-      + "contexto sísmico, no una mirada al daño de un municipio.",
-      L.geoJSON(dyfi, {
+    }))));
+  layers["Intensidad que sintió la población"] = sinChip(
+    "Cuestionario del USGS: mide lo que la gente SINTIÓ, no lo que se dañó. "
+    + "Es la otra cara de la sacudida estimada y comparte su motivo: "
+    + "contexto sísmico, no una mirada al daño de un municipio.",
+    diferida("dyfi_cells.geojson", (dyfi) => L.geoJSON(dyfi, {
       style: (f) => {
         const c = f.properties.cdi || 0;
         const op = Math.min(0.65, 0.08 + c * 0.07);
@@ -615,14 +761,12 @@
       onEachFeature: (f, l) => l.bindTooltip(
         `Intensidad percibida ${f.properties.cdi} · ` +
         `${f.properties.nresp} respuestas ciudadanas`),
-    }));
-  }
-  if (sismos) {
-    layers[`Sismos históricos UNGRD (${sismos.features.length})`] = sinChip(
-      "Registro histórico de sismicidad de la UNGRD: eventos anteriores al 10 "
-      + "de agosto. Ningún chip puede reclamarlos, porque los cinco cuentan "
-      + "quién ha mirado el daño de ESTE terremoto.",
-      L.geoJSON(sismos, {
+    }), { cifra: false }));
+  layers["Sismos históricos UNGRD"] = sinChip(
+    "Registro histórico de sismicidad de la UNGRD: eventos anteriores al 10 "
+    + "de agosto. Ningún chip puede reclamarlos, porque los cinco cuentan "
+    + "quién ha mirado el daño de ESTE terremoto.",
+    diferida("ungrd_sismos.geojson", (sismos) => L.geoJSON(sismos, {
       pointToLayer: (f, ll) => L.circleMarker(ll, {
         radius: 3, color: css("--muted"), weight: 1, fillOpacity: 0.4,
       }),
@@ -630,15 +774,9 @@
         const p = f.properties;
         l.bindTooltip(`${p.fecha ?? "?"} · ${p.municipio ?? ""} (${p.departamento ?? ""})`);
       },
-    }));
-  }
-  if (municipios && municipios.features.length) {
-    // colores desde la tabla única de ui.js (misma etiqueta que la tabla)
-    const MUN_COLOR = Object.fromEntries(
-      Object.entries(window.UI.ESTADO_MUNICIPIO)
-        .map(([k, [, v]]) => [k, css(v)]));
-    layers[`Municipios con señal: RUD, prensa o intensidad (${municipios.features.length})`] =
-      sinChip(
+    })));
+  layers["Municipios con señal: RUD, prensa o intensidad"] =
+    sinChip(
       "COMPUESTO de varias fuentes a la vez —RUD, prensa, intensidad "
       + "percibida y las tres miradas satelitales—, no la representación de "
       + "ninguna: su color es el ESTADO DEL CRUCE, que solo existe después de "
@@ -648,7 +786,12 @@
       + "sabe que está mirando el cruce, no una fuente. Y su radio se queda "
       + "fijo —solo distingue si el municipio cae dentro de una zona de "
       + "Copernicus—: aquí el tamaño ya significa otra cosa.",
-      L.geoJSON(municipios, {
+      diferida("municipios.geojson", (municipios) => {
+    // colores desde la tabla única de ui.js (misma etiqueta que la tabla)
+    const MUN_COLOR = Object.fromEntries(
+      Object.entries(window.UI.ESTADO_MUNICIPIO)
+        .map(([k, [, v]]) => [k, css(v)]));
+    return L.geoJSON(municipios, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: f.properties.en_aoi_copernicus ? 6 : 5,
           color: "#fff", weight: 1.5,
@@ -718,9 +861,45 @@
                 "una evaluación oficial de daños (EDAN).",
           }));
         },
-      }));
+      });
+  }));
+
+  /* Cada ranura aprende su rótulo del único sitio donde está escrito: la clave
+     con la que se declaró su capa. Copiarlo a mano en la llamada a `diferida`
+     serían dos versiones del mismo nombre a diez líneas de distancia, que es
+     como divergen (M2). La cifra se la añade `enciende` cuando la sepa. */
+  for (const [nombre, capa] of Object.entries(layers)) {
+    const r = ranuraDe.get(capa);
+    if (r) { r.base = nombre; r.rotulo = nombre; }
   }
-  L.control.layers(null, layers, { collapsed: true }).addTo(map);
+
+  /* EL CONTROL DE CAPAS DE LEAFLET SE QUEDA, y ahora tiene que ofrecer capas
+     que todavía no se han pedido. Es la única puerta a las cuatro que ningún
+     chip gobierna —el terreno sísmico, la intensidad percibida, los sismos
+     históricos y el compuesto del cruce—, y esconderlas hasta que alguien las
+     descargue sería esconderlas para siempre: nadie descarga lo que no ve. Así
+     que las lista todas desde el primer momento, y cada una RESPONDE: al
+     marcarla se pide su fichero y se dibuja.
+     Lo que no hace es prometer una cifra que aún no tiene. El rótulo de una
+     capa sin pedir se queda en su nombre, y su cifra aparece cuando el fichero
+     ha llegado y se ha dibujado; un «(…)» o un «(0)» de relleno serían
+     el cero disfrazado que prohíbe R3, justo en el sitio donde más se parece a
+     un dato. Y la capa que llega vacía se retira: un control que ofrece algo y
+     no responde es peor que no ofrecerlo.
+     Se repinta ENTERO y siempre en el orden de declaración, porque
+     `addOverlay` añade al final: renombrar una sola entrada quitándola y
+     poniéndola otra vez la mandaría al fondo de la lista, y la lista bailaría
+     bajo el ratón cada vez que llegara un fichero. */
+  const control = L.control.layers(null, null, { collapsed: true }).addTo(map);
+  const pintarControl = () => {
+    for (const capa of Object.values(layers)) control.removeLayer(capa);
+    for (const [nombre, capa] of Object.entries(layers)) {
+      const r = ranuraDe.get(capa);
+      if (r && !r.viva) continue;
+      control.addOverlay(capa, (r && r.rotulo) || nombre);
+    }
+  };
+  pintarControl();
 
   /* Un solo sitio decide QUÉ se ve al abrir, y decide lo mismo que el build
      escribe en los chips: Colombia entera y la ausencia sola. Repartido en
@@ -732,10 +911,12 @@
      con el radio del zoom real. */
   map.setView(VISTA_NACIONAL.centro, VISTA_NACIONAL.zoom);
   for (const capa of porCapa.ausencia || []) {
+    // Encender es pedir: el alta del grupo dispara la descarga de su fichero.
+    // Al fondo va la capa de dentro, cuando llegue —la ausencia es el contexto
+    // sobre el que se leerá la evidencia que el lector encienda después, y no
+    // puede taparla—: lo hace `enciende` con la marca `fondo`, porque un
+    // `LayerGroup` vacío no tiene nada que mandar al fondo todavía.
     capa.addTo(map);
-    // Al fondo: la ausencia es el contexto sobre el que se leerá la evidencia
-    // que el lector encienda después, y no puede taparla.
-    capa.bringToBack();
   }
 
   /* Los chips de capa, que el build ya dejó escritos con su rótulo y su
@@ -764,8 +945,20 @@
       // dos condiciones se separen, el lector no se queda pulsando en vano.
       if (!capas || !capas.length) { chip.remove(); continue; }
       suyas[chip.dataset.capa] = capas;
-      const refleja = () => chip.setAttribute(
-        "aria-pressed", String(capas.some((c) => map.hasLayer(c))));
+      /* El reflejo NO cambia de significado con la carga diferida: la capa que
+         se está descargando ya está puesta en el mapa —es su grupo, vacío
+         todavía—, así que un chip encendido sigue queriendo decir «esta fuente
+         está en el mapa». Lo que la descarga añade es el `aria-busy` que pone
+         `marcarCarga`, que dice otra cosa: «y además viene en camino».
+         Lo que sí es nuevo es la segunda muerte de un chip: una capa que se
+         pide y llega vacía se retira de `porCapa`, y entonces el chip se queda
+         sin nada que accionar. Es el mismo control muerto que se retira arriba
+         al engancharlo, un rato más tarde. */
+      const refleja = () => {
+        if (!capas.length) { chip.remove(); return; }
+        chip.setAttribute(
+          "aria-pressed", String(capas.some((c) => map.hasLayer(c))));
+      };
       refleja();
       chip.addEventListener("click", () => {
         const encendido = chip.getAttribute("aria-pressed") === "true";
@@ -783,6 +976,9 @@
       }
     };
     map.on("overlayadd overlayremove", resincronizar);
+    // Y `retira` también tiene que poder llamarlo: una capa que muere después
+    // de pedirse no pasa por `overlayremove` de nadie.
+    refrescaChips = resincronizar;
   })();
 
   /* El grid asienta su tamaño tarde: hay que avisar a Leaflet cuando el
@@ -832,6 +1028,14 @@
   // estática y el interactivo se carga solo cuando el lector lo pide.
   const pedido = new URLSearchParams(location.search).get("municipio");
   if (pedido) {
+    /* La única capa que se pide sin que nadie la encienda, y solo cuando la
+       dirección la reclama: `munLayerById` lo escribe el compuesto del cruce
+       al dibujarse, y sin su fichero este enlace no sabría dónde está el
+       municipio. Se enciende la ranura, no la capa: el mapa sigue abriendo por
+       la ausencia y el compuesto sigue apagado, igual que antes. */
+    for (const r of RANURAS) {
+      if (r.fichero === "municipios.geojson") await enciende(r);
+    }
     const capa = munLayerById[pedido];
     if (capa) {
       map.setView(capa.getLatLng ? capa.getLatLng() : capa.getBounds().getCenter(), 11);

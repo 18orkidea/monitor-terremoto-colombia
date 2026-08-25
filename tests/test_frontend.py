@@ -2364,7 +2364,14 @@ class TestCadaCapaTieneChipOMotivo(unittest.TestCase):
                 ('layers["Zonas que analizó Copernicus"] = conChip("copernicus"',
                  "los polígonos de zona vuelven a quedarse en pantalla con el "
                  "chip apagado"),
-                ('conChip("copernicus", L.geoJSON(notAnalysed',
+                # El literal de los huecos cambió con la carga diferida —la
+                # capa ya no se construye con los datos en la mano, sino con el
+                # fichero que los trae—, pero comprueba lo mismo: que
+                # `not_analysed.geojson` cuelga del chip de Copernicus y de
+                # ningún otro. Nombrar el fichero lo ata además a la capa más
+                # pesada del mapa (2.174 KB), la que más se notaría si volviera
+                # a colarse en la descarga de apertura.
+                ('conChip("copernicus", diferida("not_analysed.geojson"',
                  "los huecos de cobertura vuelven a quedar fuera del chip")):
             self.assertIn(capa, self.js, porque)
 
@@ -2387,6 +2394,361 @@ class TestCadaCapaTieneChipOMotivo(unittest.TestCase):
             claves, {"copernicus", "unosat", "sertit", "ciudadanos", "ausencia"},
             f"los chips del mapa ya no son los cinco de la maqueta: {sorted(claves)}")
 
+
+class TestCadaCapaSePideAlEncenderse(unittest.TestCase):
+    """6e · La portada bajaba 4.219 KB en trece peticiones para dibujar 163.
+
+    Doce capas descargadas enteras y una sola encendida —desde que el mapa abre
+    por la ausencia, el resto llega apagado—. `not_analysed.geojson` pesa él
+    solo 2.174 KB, la mitad del total, y no se dibuja al abrir. Este sitio se
+    lee sobre todo en móvil y en Colombia.
+
+    Este guardián es ESTÁTICO y por eso cuenta lo mismo por dos caminos: la
+    lista de ficheros que `app.js` nombra y la lista de los que pasan por
+    `diferida`. Si alguien vuelve a pedir uno al abrir, la resta deja de dar la
+    pareja de apertura; si alguien deja de entender cómo se escribe una
+    llamada, la otra cuenta no cuadra y también se sabe. El comportamiento
+    —dos clics, una descarga— lo comprueba `TestElMotorDeCargaDiferida`
+    ejecutando el motor.
+    """
+
+    # Lo único que se pide antes de que el lector toque nada: el monitor (la
+    # estrella del epicentro y el aviso de que el mapa no cargó) y la capa que
+    # abre encendida.
+    AL_ABRIR = {"monitor.json", "municipios_mapa.json"}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+
+    def test_al_abrir_solo_se_piden_el_monitor_y_la_capa_de_la_ausencia(self):
+        """Los dos únicos ficheros que se piden por su nombre son los de la
+        apertura; el resto solo llega por la puerta de la carga diferida."""
+        al_abrir = set(re.findall(r'pide\("([\w./-]+)"\)', self.js))
+        self.assertEqual(
+            al_abrir, self.AL_ABRIR,
+            "la portada pide al abrir ficheros que no son los dos de arranque, "
+            f"o alguno de los dos ha dejado de pedirse: {sorted(al_abrir)}")
+        # Y nadie llama a la red por su cuenta saltándose la caché: con dos
+        # caminos a `fetchJson`, dos clics podrían volver a descargar dos veces.
+        self.assertEqual(
+            self.js.count("j(base +"), 1,
+            "hay más de una llamada a `fetchJson` con la base de los datos "
+            "públicos: `pide` deja de ser el único camino a la red")
+
+    def test_ningun_fichero_del_mapa_se_queda_sin_ranura(self):
+        """La cuenta de arriba mira quién SE PIDE al abrir; esta mira quién no
+        pasa por `diferida`, que es la otra mitad del mismo hecho. Contadas por
+        separado, un fichero nuevo pedido a mano cae en la primera y un fichero
+        nuevo colado en la apertura cae en esta: el guardián que solo tuviera
+        una de las dos daría verde con la mitad del fallo puesto."""
+        nombrados = set(re.findall(r'"([\w./-]+\.(?:geo)?json)"', self.js))
+        diferidos = set(re.findall(r'diferida\(\s*\n?\s*"([\w./-]+)"', self.js))
+        self.assertGreaterEqual(
+            len(nombrados), 13,
+            f"solo se han leído {len(nombrados)} ficheros de datos en app.js: "
+            "este guardián ha dejado de entender cómo se nombran")
+        self.assertEqual(
+            nombrados - diferidos - self.AL_ABRIR, set(),
+            "hay ficheros de datos en app.js que no cuelgan de ninguna capa "
+            f"diferida: {sorted(nombrados - diferidos - self.AL_ABRIR)}")
+        # El ÚNICO que está en los dos lados es la capa que abre encendida: se
+        # adelanta para no costar un viaje de red por detrás del monitor, y su
+        # ranura lo recoge de la misma caché. Cualquier otro repetido sería un
+        # fichero descargándose al abrir sin que nadie lo mire.
+        self.assertEqual(
+            diferidos & self.AL_ABRIR, {"municipios_mapa.json"},
+            "un fichero se adelanta a la apertura sin ser la capa que el mapa "
+            f"enciende: {sorted(diferidos & self.AL_ABRIR)}")
+
+    def test_la_capa_mas_pesada_del_mapa_cuelga_de_una_ranura(self):
+        """2.174 KB para 48 polígonos, y no se dibuja al abrir: es la mitad de
+        lo que costaba la portada. Se nombra aparte porque es el fichero cuyo
+        regreso a la apertura más se notaría."""
+        self.assertIn('diferida("not_analysed.geojson"', self.js,
+                      "los huecos de cobertura vuelven a descargarse al abrir")
+
+    def test_la_senal_de_carga_vive_en_las_dos_superficies(self):
+        """La espera se cuenta en el navegador (app.js pone la clase y el
+        `aria-busy`) y se pinta en la hoja (styles.css). Son dos superficies
+        espejo: si una se mueve sin la otra, el lector pulsa un chip y no pasa
+        nada visible, que es el fallo que esta señal existe para evitar."""
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        # Se pide la DECLARACIÓN, no el selector: con solo el selector, este
+        # guardián daba verde cuando el pulso del chip se quedaba únicamente en
+        # el bloque de `prefers-reduced-motion` —quien no pide menos animación
+        # no veía ninguna señal— porque la cadena seguía apareciendo allí.
+        for patron, porque in (
+                (r"\.aviso-capas\s*\{[^}]*position:\s*absolute",
+                 "el aviso de las capas ya no se coloca sobre el mapa: en el "
+                 "flujo empujaría el mapa hacia abajo cada vez que aparece"),
+                (r"\.aviso-capas\[hidden\]\s*\{[^}]*display:\s*none",
+                 "el aviso no sabe esconderse y se queda en pantalla vacío"),
+                (r"\.aviso-capas--fallo\s*\{[^}]*border-color",
+                 "el fallo de red se pinta igual que el «cargando»"),
+                # el nombre del fotograma, no un `animation:` cualquiera: el
+                # bloque de movimiento reducido declara `animation: none` y
+                # hacía pasar a este guardián con la regla principal borrada
+                (r'\.chip\[aria-busy="true"\]\s*\{[^}]*animation:\s*chip-pulso',
+                 "el chip no enseña que su capa viene en camino"),
+                (r"@keyframes\s+chip-pulso",
+                 "el pulso del chip se quedó sin fotogramas"),
+                (r"prefers-reduced-motion[^{]*\{[^}]*"
+                 r'\.chip\[aria-busy="true"\]',
+                 "quien pide menos animación se queda sin ninguna señal de "
+                 "que la capa viene en camino")):
+            self.assertRegex(css, patron, porque)
+        # Y la contraria, con los literales exactos que escribe el navegador:
+        # `assertIn("aviso-capas")` pasaba con la clase renombrada, porque
+        # `aviso-capas--fallo` la contiene.
+        for patron, porque in (
+                (r'className\s*=\s*"aviso-capas"',
+                 "el aviso ya no nace con la clase que la hoja estila"),
+                (r'"aviso-capas--fallo"',
+                 "nadie marca el aviso como fallo"),
+                (r'setAttribute\("aria-busy"',
+                 "nadie pone el chip en «viene en camino»")):
+            self.assertRegex(self.js, patron,
+                             f"{porque}: la hoja estila una regla que ya no "
+                             "enciende nadie")
+
+    def test_el_enlace_desde_una_ficha_municipal_sigue_encontrando_su_punto(self):
+        """`/?municipio=X` centra el mapa con `munLayerById`, que lo escribe la
+        capa del cruce al dibujarse. Con la capa sin pedir, ese índice está
+        vacío y el enlace de las 252 fichas no hace nada: por eso esta —y solo
+        esta— se pide sin que nadie la encienda, cuando la dirección la
+        reclama."""
+        bloque = re.search(
+            r'const pedido = new URLSearchParams.*?const capa = munLayerById',
+            self.js, re.S)
+        self.assertIsNotNone(bloque, "el enlace `?municipio=` ya no está")
+        self.assertIn('r.fichero === "municipios.geojson"', bloque.group(0),
+                      "el enlace de las fichas municipales ya no pide la capa "
+                      "que sabe dónde está cada municipio: centraría en ningún "
+                      "sitio")
+        self.assertIn("await enciende(r)", bloque.group(0),
+                      "no se espera a la capa: `munLayerById` estaría vacío "
+                      "cuando se consulta")
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestElMotorDeCargaDiferida(unittest.TestCase):
+    """6e · Lo que pasa entre el clic y el dibujo, EJECUTADO.
+
+    Un guardián de `assertIn` sobre el fuente daría verde con la caché quitada:
+    el texto `r.promesa` seguiría estando y dos clics descargarían dos veces.
+    Así que el motor —`RANURAS`, `diferida`, `avisa`, `retira` y `enciende`— se
+    extrae de `site/app.js` y se corre en node contra dobles de Leaflet, del
+    mapa y del DOM. Lo que se comprueba es la conducta, no la redacción.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        ini = js.index("  const RANURAS = [];")
+        fin = js.index("\n  }\n", js.index("  async function enciende(r) {"))
+        cls.motor = js[ini:fin + len("\n  }\n")]
+        # El bloque tiene que traer las cuatro piezas: si el reparto cambia y
+        # una se queda fuera, este test estaría probando media regla.
+        for pieza in ("const diferida =", "const avisa =", "const retira =",
+                      "async function enciende"):
+            assert pieza in cls.motor, f"«{pieza}» ya no está dentro del motor"
+        # Y con él viajan sus dos vecinos, que no son adorno: `conChip` es quien
+        # ata una ranura a su chip, y el bautizo es quien le pone el rótulo con
+        # el que va a nacer. Sin ellos, el doble tendría que inventárselos —y un
+        # rótulo inventado en el test hace verde un rótulo mal puesto en el
+        # código: es exactamente el guardián que no guarda.
+        eng = js.index("  const porCapa = {};")
+        cls.enganche = js[eng:js.index("    return capa;\n  };\n", eng)
+                          + len("    return capa;\n  };\n")]
+        assert "const conChip =" in cls.enganche
+        bau = js.index("  for (const [nombre, capa] of Object.entries(layers)) {")
+        cls.bautizo = js[bau:js.index("\n  }\n", bau) + len("\n  }\n")]
+        assert "r.base = nombre" in cls.bautizo, "el bautizo de las ranuras ya no está"
+
+    DOBLES = r"""
+    const registro = { pedidas: [], pintados: 0, refrescos: 0, avisos: [] };
+    let respuesta = () => null;
+    const pedidos = {};
+    const pide = (f) => (pedidos[f] = pedidos[f] || (async () => {
+      registro.pedidas.push(f);
+      const v = respuesta(f);
+      if (v instanceof Error) throw v;
+      return v;
+    })());
+    const fmt = (n) => String(n);
+    const puestas = new Set();
+    const map = {
+      removeLayer: (c) => { puestas.delete(c); },
+      hasLayer: (c) => puestas.has(c),
+    };
+    const L = { layerGroup: () => ({
+      hijos: [], oyentes: {},
+      on(ev, f) { (this.oyentes[ev] = this.oyentes[ev] || []).push(f); return this; },
+      addLayer(c) { this.hijos.push(c); return this; },
+      addTo() { puestas.add(this); for (const f of this.oyentes.add || []) f(); return this; },
+    }) };
+    const pintarControl = () => { registro.pintados++; };
+    const chip = { attrs: {}, setAttribute(k, v) { this.attrs[k] = v; },
+                   remove() { this.quitado = true; } };
+    const caja = {
+      classList: { toggle(_c, v) { caja.fallo = v; } }, setAttribute() {},
+      set textContent(v) { registro.avisos.push(v); this._t = v; },
+      get textContent() { return this._t; },
+    };
+    const document = {
+      querySelector: (sel) => sel === ".marco-mapa" ? { appendChild() {} }
+        : /data-capa/.test(sel) ? chip : null,
+      createElement: () => caja,
+    };
+    // Una capa de mentira con la forma que `enciende` mira: `getLayers()`.
+    const capaDe = (datos) => ({
+      getLayers: () => datos.rasgos,
+      bringToBack() { this.alFondo = true; },
+    });
+    """
+
+    def _corre(self, guion):
+        script = self.DOBLES + self.motor + self.enganche + """
+        refrescaChips = () => { registro.refrescos++; };
+        const layers = {};
+        (async () => {
+        """ + guion + """
+        })().catch((e) => { console.log("ERROR " + e.message); process.exit(3); });
+        """
+        r = subprocess.run([NODE, "-e", script], capture_output=True, text=True,
+                           timeout=30)
+        if r.returncode != 0:
+            raise AssertionError(f"node falló: {r.stderr[:800]}{r.stdout[:400]}")
+        return json.loads(r.stdout)
+
+    # La capa se declara y se bautiza igual que en la portada: por `conChip` y
+    # por el bucle de bautizo, los dos extraídos del fuente. El doble no le pone
+    # a mano ni el rótulo ni el chip.
+    PREPARA = """
+    layers["Capa X"] = conChip("equis", diferida("x.geojson", capaDe%(opciones)s));
+    """ + "%(bautizo)s" + """
+    const grupo = layers["Capa X"];
+    const r = RANURAS[0];
+    """
+
+    def test_dos_clics_seguidos_descargan_una_sola_vez(self):
+        """El fallo que esto caza: pulsar el chip mientras la capa viaja y que
+        el segundo clic lance una segunda descarga del mismo fichero."""
+        d = self._corre(self.PREPARA % {"opciones": "", "bautizo": self.bautizo} + """
+        respuesta = () => ({ rasgos: [1, 2, 3] });
+        grupo.addTo(); grupo.addTo(); grupo.addTo();
+        await r.promesa;
+        console.log(JSON.stringify({ pedidas: registro.pedidas,
+          hijos: grupo.hijos.length, rotulo: r.rotulo }));
+        """)
+        self.assertEqual(d["pedidas"], ["x.geojson"],
+                         f"tres altas, {len(d['pedidas'])} descargas: la caché "
+                         "de la ranura no está frenando nada")
+        self.assertEqual(d["hijos"], 1, "la capa se ha dibujado más de una vez")
+
+    def test_apagar_y_volver_a_encender_no_vuelve_a_pedir_el_fichero(self):
+        d = self._corre(self.PREPARA % {"opciones": "", "bautizo": self.bautizo} + """
+        respuesta = () => ({ rasgos: [1, 2] });
+        grupo.addTo(); await r.promesa;
+        map.removeLayer(grupo);
+        grupo.addTo(); await r.promesa;
+        console.log(JSON.stringify({ pedidas: registro.pedidas }));
+        """)
+        self.assertEqual(d["pedidas"], ["x.geojson"],
+                         "encender, apagar y encender vuelve a descargar")
+
+    def test_la_cifra_del_rotulo_no_existe_antes_de_dibujar(self):
+        """R3 llevado al control de capas: mientras no se sabe cuántos rasgos
+        hay, no se escribe un número. Un «(0)» de relleno sería el cero
+        disfrazado en el sitio donde más se parece a un dato."""
+        d = self._corre(self.PREPARA % {"opciones": "", "bautizo": self.bautizo} + """
+        respuesta = () => ({ rasgos: [1, 2, 3, 4] });
+        const antes = r.rotulo;
+        grupo.addTo(); await r.promesa;
+        console.log(JSON.stringify({ antes, despues: r.rotulo,
+                                     pintados: registro.pintados }));
+        """)
+        self.assertEqual(d["antes"], "Capa X",
+                         "el rótulo promete una cifra antes de tener el fichero")
+        self.assertEqual(d["despues"], "Capa X (4)",
+                         "el rótulo no estrena su cifra al dibujarse")
+        self.assertGreater(d["pintados"], 0,
+                           "nadie repinta el control: la cifra nueva se queda "
+                           "en la variable y no llega a la pantalla")
+
+    def test_la_capa_que_declara_no_llevar_cifra_no_la_estrena(self):
+        """Tres rótulos del mapa nunca han llevado número —el terreno sísmico,
+        las zonas de Copernicus y la intensidad percibida—: la carga diferida no
+        puede colárselo por la puerta de atrás."""
+        d = self._corre(self.PREPARA % {"opciones": ", { cifra: false }", "bautizo": self.bautizo} + """
+        respuesta = () => ({ rasgos: [1, 2, 3, 4] });
+        grupo.addTo(); await r.promesa;
+        console.log(JSON.stringify({ rotulo: r.rotulo }));
+        """)
+        self.assertEqual(d["rotulo"], "Capa X",
+                         "una capa sin cifra ha estrenado paréntesis")
+
+    def test_un_fallo_de_red_no_deja_el_chip_ni_el_control_mintiendo(self):
+        """R13. La capa sale del mapa —así el chip se apaga solo al
+        resincronizar y la casilla del control se desmarca—, se avisa, y la
+        ranura queda limpia para poder reintentar de verdad."""
+        d = self._corre(self.PREPARA % {"opciones": "", "bautizo": self.bautizo} + """
+        respuesta = () => null;                       // fetchJson no revienta: da null
+        grupo.addTo();
+        const ocupado = chip.attrs["aria-busy"];
+        await r.promesa;
+        const tras = { enElMapa: map.hasLayer(grupo), promesa: r.promesa,
+                       enCache: "x.geojson" in pedidos, viva: r.viva,
+                       ocupado, ocupadoDespues: chip.attrs["aria-busy"],
+                       aviso: registro.avisos.slice(-1)[0], fallo: caja.fallo };
+        respuesta = () => ({ rasgos: [7] });          // vuelve la red
+        grupo.addTo(); await r.promesa;
+        console.log(JSON.stringify({ ...tras, pedidas: registro.pedidas,
+                                     hijos: grupo.hijos.length }));
+        """)
+        self.assertEqual(d["ocupado"], "true",
+                         "el chip no dice que la capa viene en camino: pulsar y "
+                         "esperar dos segundos con la pantalla quieta se lee "
+                         "como una avería")
+        self.assertEqual(d["ocupadoDespues"], "false",
+                         "el chip se queda ocupado para siempre tras el fallo")
+        self.assertFalse(d["enElMapa"],
+                         "la capa que no llegó sigue puesta en el mapa: el chip "
+                         "se queda en `aria-pressed=\"true\"` sobre nada")
+        self.assertIsNone(d["promesa"], "la ranura no se limpia tras el fallo")
+        self.assertFalse(d["enCache"],
+                         "la petición fallida se queda en la caché: el "
+                         "reintento devolvería el mismo `null` para siempre")
+        self.assertTrue(d["viva"], "una capa que falló por red se da por muerta")
+        self.assertTrue(d["fallo"], "el aviso no se pinta como fallo")
+        self.assertIn("No se ha podido cargar", d["aviso"] or "",
+                      f"el fallo no se cuenta: {d['aviso']!r}")
+        self.assertEqual(d["pedidas"], ["x.geojson", "x.geojson"],
+                         "el reintento no vuelve a pedir el fichero")
+        self.assertEqual(d["hijos"], 1, "el reintento no dibuja la capa")
+
+    def test_una_fuente_vacia_retira_la_capa_del_control_y_de_su_chip(self):
+        """Un control que ofrece algo y no responde es peor que no ofrecerlo, y
+        eso no se puede saber sin descargar: se sabe al llegar."""
+        d = self._corre(self.PREPARA % {"opciones": "", "bautizo": self.bautizo} + """
+        respuesta = () => ({ rasgos: [] });
+        grupo.addTo(); await r.promesa;
+        console.log(JSON.stringify({ viva: r.viva, enElMapa: map.hasLayer(grupo),
+          suyas: porCapa.equis.length, refrescos: registro.refrescos,
+          pintados: registro.pintados, aviso: registro.avisos.slice(-1)[0] }));
+        """)
+        self.assertFalse(d["viva"], "la capa vacía sigue viva")
+        self.assertFalse(d["enElMapa"], "la capa vacía se queda en el mapa")
+        self.assertEqual(d["suyas"], 0,
+                         "la capa vacía sigue colgando de su chip: el chip "
+                         "queda accionando nada")
+        self.assertGreater(d["refrescos"], 0,
+                           "los chips no se enteran de que su capa murió")
+        self.assertGreater(d["pintados"], 0,
+                           "el control sigue ofreciendo la capa vacía")
+        self.assertIn("no trae ningún dato", d["aviso"] or "",
+                      f"la retirada se hace en silencio: {d['aviso']!r}")
 
 class TestElZoomAgrandaTambienElEdificioYElReporte(unittest.TestCase):
     """B4 · Acercarse tiene que servir de algo en TODAS las marcas.

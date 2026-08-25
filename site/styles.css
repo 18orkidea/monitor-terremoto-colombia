@@ -179,6 +179,30 @@ main#mapa.lienzo {
   display: grid; gap: 0; padding: 0;
 }
 .marco-mapa { position: relative; }
+/* EL AVISO DE LAS CAPAS: qué se está descargando y qué no ha llegado.
+   Desde que cada capa se pide al encenderse, entre el clic y el dibujo pasa un
+   rato, y ese rato tiene que verse: sin señal, pulsar y esperar dos segundos
+   con la pantalla quieta se lee como una avería. Es también lo ÚNICO que ve
+   quien encendió la capa desde el control de Leaflet, que no tiene chip donde
+   ponerle un `aria-busy`.
+   Va encima del mapa y en posición absoluta a propósito: aparece y desaparece
+   varias veces por sesión, y en el flujo de la página empujaría el mapa hacia
+   abajo cada vez. Abajo a la izquierda porque las otras tres esquinas están
+   ocupadas —zoom, control de capas y atribución— y tapar un control es peor
+   que avisar tarde. El `z-index` queda por encima de los paneles de Leaflet
+   (400) y por debajo de sus controles (1000): informa, no estorba. */
+.aviso-capas {
+  position: absolute; left: 10px; bottom: 26px; z-index: 500; margin: 0;
+  max-width: min(320px, calc(100% - 20px));
+  padding: 6px 10px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface-1);
+  color: var(--ink-2); font-size: 12.5px; line-height: 1.35;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+}
+.aviso-capas[hidden] { display: none; }
+/* El fallo de red no se pinta como el «cargando»: el amarillo del aviso es el
+   mismo con el que la portada rotula sus lagunas. */
+.aviso-capas--fallo { border-color: var(--warning); color: var(--ink); }
 #map {
   min-height: 62vh; border-radius: 10px; border: 1px solid var(--border);
   background: var(--surface-1);
@@ -380,6 +404,17 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
    lector de pantalla anuncia. Se funden en un solo selector en vez de escribir
    el estilo dos veces: es la ÚNICA línea de la hoja vieja que toca la fase 2,
    y es un añadido de selector, no un cambio de declaración. */
+/* UNA CAPA QUE VIENE EN CAMINO. El chip NO se desactiva —hay que poder
+   arrepentirse a mitad de descarga, y un botón deshabilitado que vuelve solo
+   es peor que uno que responde—, pero deja de parecer que no ha pasado nada:
+   `aria-busy` lo anuncia a quien escucha la página y el pulso lo dice a quien
+   la mira. Con `prefers-reduced-motion` se queda quieto y atenuado, que sigue
+   siendo una señal. */
+.chip[aria-busy="true"] { animation: chip-pulso 1.1s ease-in-out infinite; }
+@keyframes chip-pulso { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+@media (prefers-reduced-motion: reduce) {
+  .chip[aria-busy="true"] { animation: none; opacity: .6; }
+}
 .chip.activa,
 .chip[aria-pressed="true"] {
   border-color: var(--s1); color: var(--ink);

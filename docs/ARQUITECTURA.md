@@ -99,6 +99,19 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   misma decisión en dos superficies; sus guardianes son
   `test_frontend.py::TestElMapaAbreConLaAusenciaSola` y
   `TestCadaCapaTieneChipOMotivo`.
+  **Y cada capa se pide cuando el lector la enciende, no antes**: al abrir solo
+  viajan `monitor.json` y `municipios_mapa.json` —163 KB en dos peticiones,
+  frente a los 4.219 KB en trece de antes—. Cada capa es una ranura
+  (`app.js::diferida`): un `LayerGroup` vacío que ya existe, para que el control
+  y los chips puedan accionarlo, y un fichero que baja al primer alta del grupo
+  (`grupo.on("add")`, el punto por el que pasan tanto el chip como el control).
+  La caché es la promesa, así que dos clics no descargan dos veces; un fallo de
+  red saca la capa del mapa y avisa (R13), y la que llega vacía se retira del
+  control. El rótulo del control estrena su cifra al dibujarse y no antes: R3
+  también ahí. Lo ejecuta y lo vigila
+  `test_frontend.py::TestElMotorDeCargaDiferida` y lo cuenta por dos caminos
+  `TestCadaCapaSePideAlEncenderse`; el porqué, en
+  `docs/DECISIONES.md` (25-ago).
   **La barra y el pie no los escribe el navegador**:
   los escribe el build en las 213 páginas (`render_html.py::nav_estatico` /
   `pie_estatico`, con el paso `escribir_piezas_compartidas` para las **seis**
