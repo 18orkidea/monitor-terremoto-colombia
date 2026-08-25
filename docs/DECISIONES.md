@@ -6,6 +6,65 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — La portada deja de comparar poblaciones que no se cuentan igual
+
+**Contexto.** El tercer párrafo de la banda de brechas decía: «unas 10.487.959
+personas viven donde el sismo alcanzó una intensidad de 6 o más (PAGER); las
+zonas mapeadas por Copernicus cubren a unas 1.040.000 (9,9 %)». Dos fallos en
+una frase. **Uno**: los 10,5 millones salen de la rejilla de población del USGS
+y el 9,9 % de los polígonos de Copernicus — puestas juntas parecen la misma
+medida y no lo son. **Dos**: mide la cobertura satelital con **un solo servicio
+de los tres**, cuando el monitor lleva meses diciendo que la evidencia es de
+varias fuentes.
+
+**Decisión (JP): fuera la estimación de PAGER del párrafo; en su lugar, solo lo
+que el monitor mide y puede rastrear** — municipios sacudidos mirados y sin
+mirar, con su población, todo sobre el mismo catálogo municipal. Se pierde el
+marco de «cuánta gente sintió el sismo fuerte» a cambio de que lo publicado sea
+verificable hasta su petición de origen. **La llamada a
+`usgs_pager_exposures.json` se mantiene**: lo que sale es el párrafo, no la
+fuente ni su archivo.
+
+**Y ni un porcentaje de población, que es la segunda decisión y la que costó
+más.** La primera versión del encargo iba a publicar «los municipios mirados
+reúnen el 55,5 % de la población sacudida». Medido antes de escribirlo: **Cali
+sola es el 58 % de ese “cubierto”** (2.269.983 de 3.909.742) y **sin Cali la
+cobertura cae al 23,3 %**. Publicar «más de la mitad está cubierta» habría sido
+tranquilizador y falso: describe que los satélites miraron las ciudades, no que
+la gente esté vigilada — justo la clase de cifra que este monitor existe para
+desmontar. **El recuento de municipios no lo maquilla ninguna ciudad grande**,
+porque cada municipio cuenta uno.
+
+**Las cifras, generadas en el build** (`deploy/render_html.py::cobertura_satelital_sacudidos`,
+medidas el 25-ago sobre `data/public/municipios.json`): 89 municipios con
+sacudida estimada de 6 o más; **78 sin mirar, con 3.134.759 habitantes**; 11
+analizados. El reparto —Copernicus 5, UNITAR-UNOSAT 4, ICube-SERTIT 5— **no se
+suma**: son 11 municipios distintos porque a tres los miró más de un servicio, y
+el párrafo lo dice en vez de dejar que el lector sume 14. Qué clase de
+municipios son los once **se deriva, no se afirma**: los tres más poblados están
+entre ellos y el siguiente en tamaño, Palmira (382.703 habitantes), no lo ha
+mirado nadie. M10/R3 en tres sitios: sin municipios sacudidos no hay párrafo, un
+servicio sin municipios no se enumera —acusarlo de cero sería inventarle una
+omisión— y la población solo se publica si la tienen todos los del grupo.
+
+**Consecuencia en el suelo de prosa.** La portada **no pierde texto: gana 64
+palabras** (55 el párrafo viejo, 111 el nuevo), así que
+`ingest/seo_check.py::PROSA_MINIMA["index.html"]` **sube de 1.653 a 1.752** —
+1.948 medidas menos 196 condicionales— y `MARGEN_CONDICIONAL["index.html"]` sube
+de 151 a 196: los 45 que estrena el párrafo son sus tres trozos cuya pérdida
+sería buena noticia (la población, la cabeza del ranking y el aviso de que el
+reparto no se suma). La suma con `referencia.html` pasa de 8.272 a 8.339.
+
+**Guardián**, en `tests/test_render_html.py::TestCoberturaSatelitalDeLosSacudidos`:
+la cuenta se repite **a mano sobre el JSON, sin pasar por el generador**, y las
+dos tienen que coincidir —es el guardián que habría cazado los «36 municipios»
+de la portada contra los 43 de su propia tabla—; y se le quita la mirada al
+municipio mirado más poblado para comprobar que la frase se mueve sola. Ocho
+mutaciones caen (M1), entre ellas la cifra congelada a mano —que el recuento por
+sí solo NO caza, porque hoy acierta— y el servicio enumerado con su cero.
+También cae `TestBandaDeBrechas::test_la_banda_no_publica_ningun_porcentaje_de_poblacion`,
+que vigila la decisión de JP con el dato de PAGER delante, en el fixture.
+
 ## 2026-08-25 — El nodo del catálogo se completa en vez de dejar de declararse catálogo
 
 **Contexto.** Search Console rechazaba un elemento en **las 353 páginas** —JP lo

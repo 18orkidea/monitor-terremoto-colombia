@@ -1146,10 +1146,10 @@ class TestTablaPortada(unittest.TestCase):
 class TestBandaDeBrechas(unittest.TestCase):
     """La banda amarilla de la portada, escrita en el build y no en el navegador.
 
-    Resume las dos brechas centrales del monitor —cuánto llevan calladas las
-    fuentes oficiales abiertas y cuánta población expuesta queda fuera de las
-    zonas mapeadas por satélite— y es, con diferencia, el texto más citable de
-    la portada. Llegaba vacía a quien no ejecuta JavaScript: exactamente la
+    Resume las brechas centrales del monitor —cuánto llevan calladas las
+    fuentes oficiales abiertas y a cuántos municipios sacudidos no los ha
+    mirado ningún satélite— y es, con diferencia, el texto más citable de la
+    portada. Llegaba vacía a quien no ejecuta JavaScript: exactamente la
     regresión que el prerenderizado de las tablas existe para evitar."""
 
     MONITOR = {
@@ -1172,13 +1172,38 @@ class TestBandaDeBrechas(unittest.TestCase):
         ],
         "entregas": [1, 2, 3],
         "citizen": {"chatmap_total": 542},
+        # sigue en monitor.json y se sigue archivando: lo que salió de la banda
+        # el 25-ago-2026 es el párrafo, no la fuente. Se deja en el fixture a
+        # propósito, para que el guardián de abajo compruebe que estando el dato
+        # delante la banda no lo publica.
         "exposicion": {"expuesta_mmi6plus": 10487959, "en_aois_copernicus": 1040000.0,
                        "pct_cubierta": 9.9},
     }
 
+    # Un catálogo municipal de laboratorio con las trampas dentro: un municipio
+    # mirado por dos servicios (el solape que impide sumar el reparto), otro
+    # evaluado con CERO edificios —mirado igual: la pregunta es si alguien miró,
+    # no si encontró—, uno sacudido y sin mirar, y dos que no deben contar
+    # (sacudida por debajo del umbral y sacudida sin dato).
+    MUNICIPIOS = [
+        {"municipio": "Ciudad Grande", "poblacion_2026": 900000, "mmi_usgs": 7.0,
+         "en_aoi_copernicus": True, "sertit_edificios": 40},
+        {"municipio": "Ciudad Media", "poblacion_2026": 500000, "mmi_usgs": 6.4,
+         "en_aoi_copernicus": False, "unosat_edificios": 0},
+        {"municipio": "Villa Sin Mirada", "poblacion_2026": 300000, "mmi_usgs": 6.0,
+         "en_aoi_copernicus": False},
+        {"municipio": "Pueblo Chico", "poblacion_2026": 12000, "mmi_usgs": 6.8,
+         "en_aoi_copernicus": True},
+        {"municipio": "Lejos", "poblacion_2026": 700000, "mmi_usgs": 4.2,
+         "en_aoi_copernicus": True, "sertit_edificios": 10},
+        {"municipio": "Sin Sacudida", "poblacion_2026": 50000, "mmi_usgs": None,
+         "en_aoi_copernicus": False},
+    ]
+
     @classmethod
     def setUpClass(cls):
-        cls.html = R.banda_brechas({"monitor": cls.MONITOR})
+        cls.html = R.banda_brechas({"monitor": cls.MONITOR,
+                                    "municipios": cls.MUNICIPIOS})
 
     # ------------------------------------------------ el guardián de la regresión
     def test_la_banda_llega_escrita_al_artefacto(self):
@@ -1230,6 +1255,7 @@ class TestBandaDeBrechas(unittest.TestCase):
         lenguajes divergen: es la lección de los topónimos y del liveblog."""
         js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
         for frase in ("Brecha de reporte oficial", "Exposición sin mapeo",
+                      "Municipios que nadie ha mirado",
                       "La brecha empezó a cerrarse", "brechaMunicipal"):
             self.assertNotIn(frase, js, f"«{frase}» sigue escrito en app.js")
         self.assertIn("banner-brechas", js, "el JS ya no refresca los días")
@@ -1243,16 +1269,25 @@ class TestBandaDeBrechas(unittest.TestCase):
         self.assertIn("data-dias-desde", js)
 
     # ------------------------------------------------------- lo que la banda dice
-    def test_dice_las_dos_brechas_centrales(self):
+    def test_dice_las_brechas_centrales(self):
         self.assertIn("Brecha de reporte oficial", self.html)
-        self.assertIn("Exposición sin mapeo", self.html)
+        self.assertIn("Municipios que nadie ha mirado desde el aire", self.html)
         self.assertIn("31 de diciembre de 2022", self.html)      # fecha en prosa, sin abreviar
         self.assertIn(">1.330<", self.html)                      # días de silencio, locale es-CO
 
-    def test_los_porcentajes_llevan_coma_decimal(self):
-        """`es-CO`: «9,9 %». El JavaScript imprimía el número crudo del JSON y
-        publicaba «9.9 %», con punto, en un sitio que escribe con coma."""
-        self.assertIn("(9,9 %)", self.html)
+    def test_la_banda_no_publica_ningun_porcentaje_de_poblacion(self):
+        """La decisión de JP del 25-ago-2026, con su guardián.
+
+        La banda publicaba «las zonas mapeadas por Copernicus cubren al 9,9 %»
+        de la población expuesta que estima PAGER. Dos cifras que no se cuentan
+        igual en la misma frase, y medidas con uno solo de los tres servicios.
+        Su sustituto tampoco lleva porcentaje: los once municipios mirados
+        reunían el 55,5 % de la población sacudida, pero Cali sola era el 58 %
+        de ese «cubierto» — un porcentaje que consuela describiendo que los
+        satélites miraron las ciudades. Aquí se cuentan municipios."""
+        self.assertNotIn("%", self.html)
+        self.assertNotIn(R.fmt(10487959), self.html)     # la exposición de PAGER
+        self.assertNotIn("PAGER", self.html)
 
     def test_las_zonas_sin_registro_no_se_escriben_a_mano(self):
         """R11: el día que una zona entre al registro, la frase deja de
@@ -1297,7 +1332,6 @@ class TestBandaDeBrechas(unittest.TestCase):
         js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
         self.assertIn("Math.floor((Date.now() - desde) / 864e5)", js)
         self.assertNotIn("Math.round((Date.now() - desde)", js)
-
     @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
     def test_el_navegador_y_el_build_dan_el_mismo_numero_de_dias(self):
         """Espejo ejecutado: la misma cuenta en los dos lenguajes, para el día
@@ -1327,6 +1361,199 @@ class TestBandaDeBrechas(unittest.TestCase):
                              R.zonas_sin_registro(datos))
             self.assertEqual(correr_ui("UI.ejemplosSinRegistro(mon)", datos),
                              R.ejemplos_sin_registro(datos))
+
+
+
+class TestCoberturaSatelitalDeLosSacudidos(unittest.TestCase):
+    """El párrafo que sustituyó a la exposición de PAGER (25-ago-2026).
+
+    Publicaba «10.487.959 personas viven donde el sismo alcanzó intensidad 6 o
+    más (PAGER); las zonas mapeadas por Copernicus cubren a unas 1.040.000
+    (9,9 %)». Dos fallos: comparaba dos poblaciones que no se cuentan igual —la
+    rejilla del USGS contra los polígonos de Copernicus— y medía la cobertura
+    con uno solo de los tres servicios satelitales.
+
+    Lo que vigila esta clase es COMPORTAMIENTO, no vocabulario: que la cifra
+    publicada sea la que sale de contar el catálogo —el guardián que habría
+    cazado los «36 municipios» de la portada contra los 43 de su propia tabla—,
+    que mover el dato mueva la frase, y que un servicio sin municipios no se
+    publique como cero (M10/R3): acusar a un satélite de no haber mirado es tan
+    falso como acusar a Copernicus de entregar «cero productos»."""
+
+    # el mismo catálogo de laboratorio que usa la banda, con sus trampas
+    MUNICIPIOS = TestBandaDeBrechas.MUNICIPIOS
+
+    def _parrafo(self, municipios) -> str:
+        """La banda entera, recortada al párrafo de la cobertura satelital."""
+        html = R.banda_brechas({"monitor": {}, "municipios": municipios})
+        marca = "Municipios que nadie ha mirado desde el aire:"
+        return html.split(marca)[1] if marca in html else ""
+
+    # ------------------------------------------- la cuenta es la del catálogo
+    @staticmethod
+    def _recuento_a_mano() -> dict:
+        """Contar el catálogo publicado SIN pasar por `render_html`.
+
+        Dos implementaciones de la misma cuenta que tienen que coincidir: si el
+        generador deja de contar lo que hay —o cuenta otra cosa—, aquí se ve."""
+        items = json.loads(
+            (ROOT / "data/public/municipios.json").read_text("utf-8"))["items"]
+        sacudidos = [m for m in items if (m.get("mmi_usgs") or 0) >= 6]
+
+        def miro(m):
+            return (bool(m.get("en_aoi_copernicus"))
+                    or m.get("unosat_edificios") is not None
+                    or m.get("sertit_edificios") is not None)
+
+        sin = [m for m in sacudidos if not miro(m)]
+        return {"sacudidos": len(sacudidos), "sin_mirar": len(sin),
+                "mirados": len(sacudidos) - len(sin),
+                "poblacion_sin_mirar": sum(m["poblacion_2026"] for m in sin)}
+
+    def test_lo_publicado_coincide_con_contar_el_catalogo(self):
+        """El guardián de «36 contra 43», sobre el catálogo real del día."""
+        ctx = R.contexto()
+        medido = R.cobertura_satelital_sacudidos(ctx)
+        a_mano = self._recuento_a_mano()
+        for clave, valor in a_mano.items():
+            self.assertEqual(medido[clave], valor,
+                             f"«{clave}»: el generador cuenta {medido[clave]} y el "
+                             f"catálogo tiene {valor}")
+        parrafo = self._parrafo(ctx["municipios"])
+        self.assertTrue(parrafo, "el párrafo no llegó a publicarse")
+        for clave, valor in a_mano.items():
+            self.assertIn(f"<strong>{R.fmt(valor)}</strong>", parrafo,
+                          f"«{clave}» ({valor}) se calcula pero no se publica")
+
+    def test_mover_una_mirada_mueve_la_frase(self):
+        """Si el párrafo se congelara en una cifra escrita a mano, esto lo caza:
+        se le quita la mirada al municipio mirado más poblado y las cuentas
+        tienen que moverse solas, en el dato y en el texto."""
+        ctx = R.contexto()
+        antes = R.cobertura_satelital_sacudidos(ctx)
+        victima = max((m for m in ctx["municipios"]
+                       if (m.get("mmi_usgs") or 0) >= 6 and R._mirado_por_satelite(m)),
+                      key=lambda m: m["poblacion_2026"])
+        ciegos = [{**m, "en_aoi_copernicus": False, "unosat_edificios": None,
+                   "sertit_edificios": None} if m is victima else m
+                  for m in ctx["municipios"]]
+        despues = R.cobertura_satelital_sacudidos({"municipios": ciegos})
+        self.assertEqual(despues["sacudidos"], antes["sacudidos"])
+        self.assertEqual(despues["mirados"], antes["mirados"] - 1)
+        self.assertEqual(despues["sin_mirar"], antes["sin_mirar"] + 1)
+        self.assertEqual(despues["poblacion_sin_mirar"],
+                         antes["poblacion_sin_mirar"] + victima["poblacion_2026"])
+        parrafo = self._parrafo(ciegos)
+        self.assertIn(f"<strong>{R.fmt(despues['sin_mirar'])}</strong>", parrafo)
+        self.assertNotIn(f"<strong>{R.fmt(antes['sin_mirar'])}</strong>", parrafo)
+
+    def test_las_cifras_del_catalogo_de_laboratorio_son_exactas(self):
+        """Con un catálogo cuyo resultado se conoce de memoria: cuatro
+        municipios sacudidos, tres mirados —uno de ellos con cero edificios
+        evaluados, que está mirado igual—, uno sin mirar, y los dos de fuera
+        (sacudida baja y sacudida sin dato) que no entran en ninguna cuenta."""
+        d = R.cobertura_satelital_sacudidos({"municipios": self.MUNICIPIOS})
+        self.assertEqual(d["sacudidos"], 4)
+        self.assertEqual(d["mirados"], 3)
+        self.assertEqual(d["sin_mirar"], 1)
+        self.assertEqual(d["poblacion_sin_mirar"], 300000)
+        self.assertEqual(d["reparto"], [("Copernicus EMS", 2), ("UNITAR-UNOSAT", 1),
+                                        ("ICube-SERTIT", 1)])
+        self.assertEqual(d["con_varias_miradas"], 1)
+        self.assertEqual(d["cabeza_mirada"], 2)
+        self.assertEqual(d["mayor_sin_mirar"]["municipio"], "Villa Sin Mirada")
+
+    def test_el_municipio_sacudido_por_debajo_del_umbral_no_cuenta(self):
+        """«Lejos» está mirado por dos servicios y tiene 700.000 habitantes: si
+        el umbral de sacudida se cayera, entraría a maquillar la cobertura."""
+        d = R.cobertura_satelital_sacudidos({"municipios": self.MUNICIPIOS})
+        self.assertEqual(d["sacudidos"], 4)
+        self.assertNotIn("Lejos", self._parrafo(self.MUNICIPIOS))
+
+    # ------------------------------------------------------- M10 / R3: el cero
+    def test_un_servicio_sin_municipios_no_se_publica_como_cero(self):
+        """Que UNOSAT no tenga ningún municipio aquí no es «UNOSAT miró cero»:
+        es que no le toca aparecer. El cero acusaría de una omisión inventada,
+        igual que «Copernicus entregó cero productos» cuando faltaba la clave."""
+        sin_unosat = [{**m, "unosat_edificios": None} for m in self.MUNICIPIOS]
+        d = R.cobertura_satelital_sacudidos({"municipios": sin_unosat})
+        self.assertEqual([r[0] for r in d["reparto"]],
+                         ["Copernicus EMS", "ICube-SERTIT"])
+        parrafo = self._parrafo(sin_unosat)
+        self.assertNotIn("UNOSAT", parrafo)
+        self.assertNotIn("cero", parrafo)
+        self.assertNotIn(", 0", parrafo)
+
+    def test_sin_municipios_sacudidos_no_hay_parrafo(self):
+        """M10: donde falta el dato se calla el párrafo entero. Publicar «0
+        municipios sin mirar» sin haber medido ninguno sería la buena noticia
+        que nadie ha comprobado."""
+        for catalogo in ([], [{"municipio": "X", "mmi_usgs": None}],
+                         [{"municipio": "X", "mmi_usgs": 4.0}]):
+            self.assertEqual(R.cobertura_satelital_sacudidos({"municipios": catalogo}), {})
+            self.assertEqual(self._parrafo(catalogo), "")
+        self.assertEqual(R.cobertura_satelital_sacudidos({}), {})
+
+    def test_la_poblacion_solo_se_publica_si_la_tienen_todos(self):
+        """Una suma a la que le faltan miembros no es la población del grupo:
+        se calla la cifra, no se publica la suma coja."""
+        cojo = [{**m, "poblacion_2026": None} if m["municipio"] == "Villa Sin Mirada"
+                else m for m in self.MUNICIPIOS]
+        d = R.cobertura_satelital_sacudidos({"municipios": cojo})
+        self.assertNotIn("poblacion_sin_mirar", d)
+        self.assertNotIn("personas", self._parrafo(cojo))
+
+    def test_el_dia_que_no_quede_ninguno_la_frase_cambia_de_forma(self):
+        """R11: los supuestos rotos avisan, y romperse puede ser buena noticia.
+        Con todos los sacudidos mirados, «A 0 de ellos no los ha mirado ningún
+        servicio» sería una cifra correcta y una frase absurda."""
+        todos = [{**m, "en_aoi_copernicus": True} for m in self.MUNICIPIOS]
+        d = R.cobertura_satelital_sacudidos({"municipios": todos})
+        self.assertEqual(d["sin_mirar"], 0)
+        self.assertNotIn("mayor_sin_mirar", d)
+        parrafo = self._parrafo(todos)
+        self.assertIn("A todos los ha mirado algún servicio satelital", parrafo)
+        self.assertNotIn("<strong>0</strong>", parrafo)
+
+    # ------------------------------------- el reparto no es una suma
+    def test_el_reparto_avisa_de_que_no_se_suma(self):
+        """5 + 5 + 4 no son 14 municipios: son 11, porque a tres los miró más de
+        un servicio. Publicar el desglose sin la advertencia invita a sumarlo."""
+        for catalogo in (self.MUNICIPIOS, R.contexto()["municipios"]):
+            d = R.cobertura_satelital_sacudidos({"municipios": catalogo})
+            suma = sum(n for _, n in d["reparto"])
+            self.assertGreater(suma, d["mirados"],
+                               "sin solape este test no comprueba nada")
+            parrafo = self._parrafo(catalogo)
+            self.assertIn("No se suman", parrafo)
+
+    def test_un_reparto_sin_solape_no_advierte_de_nada(self):
+        """La advertencia también es condicional: el día que cada municipio lo
+        mire un solo servicio, el desglose SÍ se puede sumar y la frase sobra."""
+        limpio = [{**m, "sertit_edificios": None} if m["municipio"] == "Ciudad Grande"
+                  else m for m in self.MUNICIPIOS]
+        d = R.cobertura_satelital_sacudidos({"municipios": limpio})
+        self.assertEqual(d["con_varias_miradas"], 0)
+        self.assertEqual(sum(n for _, n in d["reparto"]), d["mirados"])
+        self.assertNotIn("No se suman", self._parrafo(limpio))
+
+    # ------------------------------------- qué clase de municipios son los once
+    def test_la_cabeza_del_ranking_sale_del_dato_y_no_de_la_mano(self):
+        """«Son sobre todo los grandes» no se afirma: se deriva. Cuántos de los
+        más poblados están mirados de corrido, y cuál es el primero que se
+        salta la lista. Si el mayor de todos deja de estar mirado, la frase
+        cambia de forma sola en vez de mentir."""
+        d = R.cobertura_satelital_sacudidos({"municipios": self.MUNICIPIOS})
+        parrafo = self._parrafo(self.MUNICIPIOS)
+        self.assertIn("los dos municipios más poblados están entre ellos", parrafo)
+        self.assertIn("Villa Sin Mirada", parrafo)
+        self.assertIn("300.000 habitantes", parrafo)
+        ciego = [{**m, "en_aoi_copernicus": False, "sertit_edificios": None}
+                 if m["municipio"] == "Ciudad Grande" else m for m in self.MUNICIPIOS]
+        otro = self._parrafo(ciego)
+        self.assertIn("Ni siquiera el municipio más poblado", otro)
+        self.assertNotIn("son sobre todo los grandes", otro)
+        self.assertEqual(d["cabeza_mirada"], 2)
 
 class TestSelloDeFecha(unittest.TestCase):
     """La fecha del build no es la fecha del dato.
@@ -4362,7 +4589,6 @@ class TestMarcadoEstructurado(unittest.TestCase):
                         self.assertEqual(licencia, R.LICENCIA,
                                          f"{self._nombre(pagina)}: licencia distinta "
                                          f"en {nodo.get('@id') or nodo.get('name')}")
-
 
 
 class TestNoticiasReordenada(unittest.TestCase):

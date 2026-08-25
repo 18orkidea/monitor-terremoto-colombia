@@ -53,7 +53,7 @@ MINIMOS = {
 # fase deja la página mejor, y se anota aquí con su fecha; **no se baja para que
 # pase un build** sin entrada en `docs/DECISIONES.md`.
 MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200,
-                      "rud.html": 47, "index.html": 151, "referencia.html": 241}
+                      "rud.html": 47, "index.html": 196, "referencia.html": 241}
 PROSA_MINIMA = {
     # fase 6c (25-ago-2026, docs/DECISIONES.md): 1.804 medidas − 151 de prosa
     # condicional. La portada baja de 1.962 a 1.804 palabras propias porque se
@@ -73,7 +73,23 @@ PROSA_MINIMA = {
     # palabras: R11/R15, un día sin fuente callada publica menos, y eso es una
     # buena noticia). Las otras activaciones de Copernicus (46) ya no se
     # descuentan aquí: se descuentan en `referencia.html`, que es donde viven.
-    "index.html": 1653,
+    #
+    # 25-ago-2026 (`docs/DECISIONES.md`): 1.948 medidas − 196 condicionales. El
+    # tercer párrafo de la banda dejó de comparar la exposición de PAGER con las
+    # zonas de Copernicus —dos poblaciones que no se cuentan igual, y un solo
+    # servicio de los tres— y pasó a contar municipios sacudidos mirados y sin
+    # mirar. La portada NO perdió texto: gana 64 palabras (55 del párrafo viejo
+    # contra 111 del nuevo, más el reparto de los tres servicios), así que el
+    # suelo SUBE de 1.653 a 1.752 en vez de bajar.
+    #
+    # Los 45 condicionales que estrena el párrafo —de 151 a 196— son sus tres
+    # trozos que dependen del dato y cuya pérdida sería BUENA noticia: la
+    # población de los municipios sin mirar (se calla si a alguno le falta la
+    # proyección), la cabeza del ranking («son sobre todo los grandes» se cae el
+    # día que dejen de serlo) y el aviso de que el reparto no se suma (se cae el
+    # día que a cada municipio lo mire un solo servicio). Medidos: el párrafo
+    # completo son 111 palabras y su versión mínima, 66.
+    "index.html": 1752,
     "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
     # fase 3: 578 medidas − 47 del desglose del salto, que es condicional
     # (24-ago-2026, docs/DECISIONES.md). La oración «De las N familias…»

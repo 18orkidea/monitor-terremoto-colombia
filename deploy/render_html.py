@@ -2539,6 +2539,23 @@ def chips_municipios(ctx: dict) -> str:
     return "".join(botones)
 
 
+def _servicios_que_miraron(m: dict) -> list:
+    """QUIÉN miró este municipio desde el aire, por su rótulo publicable.
+
+    Se recorre `SATELITES` en vez de una lista de campos escrita a mano: el día
+    que entre el cuarto servicio, esta función lo cuenta sola —y con ella la
+    banda de la portada, que enumera el reparto—. Copernicus no tiene campo de
+    edificios porque su mirada es la zona analizada (`en_aoi_copernicus`); los
+    demás publican evaluación edificio a edificio, y un municipio evaluado con
+    cero edificios está mirado igual.
+
+    Es la lista de la que sale `_mirado_por_satelite`, para que «cuántos
+    miraron» y «quién miró» no puedan contradecirse (M2)."""
+    return [sat["rotulo"] for sat in SATELITES
+            if (m.get("en_aoi_copernicus") if sat["campo"] is None
+                else m.get(sat["campo"]) is not None)]
+
+
 def _mirado_por_satelite(m: dict) -> bool:
     """Si algún servicio satelital MIRÓ el municipio: cae en una zona analizada
     por Copernicus o tiene evaluación de UNOSAT o de SERTIT.
@@ -2549,9 +2566,7 @@ def _mirado_por_satelite(m: dict) -> bool:
     dato, esta si alguien miró — un municipio dentro de una zona Copernicus
     sin puntos dentro está mirado y sin dato, y las dos frases del sitio
     dicen cada una la suya."""
-    return (bool(m.get("en_aoi_copernicus"))
-            or m.get("unosat_edificios") is not None
-            or m.get("sertit_edificios") is not None)
+    return bool(_servicios_que_miraron(m))
 
 
 def entradilla_municipios(ctx: dict) -> str:
@@ -2942,6 +2957,75 @@ def _silencio(iso: str, referencia: str) -> str:
     return f' (hace <span data-dias-desde="{e(iso[:10])}">{fmt(dias)}</span> días)'
 
 
+# El umbral de sacudida a partir del cual un terremoto empieza a causar daños:
+# 6 en la escala de Mercalli modificada, que es lo que el ShakeMap del USGS
+# asigna a cada municipio. Es el mismo corte con el que `ingest/publish.py`
+# calcula la exposición de PAGER, y se escribe una sola vez para que la prosa
+# que lo publica no pueda desviarse del recuento que lo aplica.
+UMBRAL_SACUDIDA_CON_DANO = 6
+
+
+def cobertura_satelital_sacudidos(ctx: dict) -> dict:
+    """Cuántos municipios sacudidos ha mirado un satélite, y cuántos no.
+
+    Sustituye a la comparación con la exposición de PAGER que la banda publicó
+    hasta el 25-ago-2026. Aquella tenía dos fallos: ponía en la misma frase dos
+    poblaciones que no se cuentan igual —la rejilla del USGS contra los
+    polígonos de Copernicus— y medía la cobertura con un solo servicio de los
+    tres. Aquí todo sale del mismo catálogo municipal: la sacudida es la que el
+    ShakeMap asigna a cada municipio y la población, la proyección DANE 2026,
+    las dos ya trazadas hasta su petición de origen en `municipios.json`.
+
+    **Ni un porcentaje de población, y es una decisión, no un olvido.** Medido
+    el 25-ago-2026, los once municipios mirados reunían el 55,5 % de la
+    población sacudida; pero Cali sola era el 58 % de ese «cubierto» y sin ella
+    la cobertura caía al 23,3 %. Publicar «más de la mitad está cubierta» sería
+    tranquilizador y falso: dice que los satélites miraron las ciudades, no que
+    la gente esté vigilada. El recuento de municipios no lo maquilla ninguna
+    ciudad grande, porque cada municipio cuenta uno.
+
+    **M10/R3**: sin municipios sacudidos no hay párrafo; un servicio sin
+    municipios no se enumera —acusarlo de cero sería inventarle una omisión—; y
+    la población del grupo solo se publica si la tienen todos sus municipios,
+    porque una suma a la que le faltan miembros no es la población del grupo."""
+    sacudidos = [m for m in (ctx.get("municipios") or [])
+                 if (m.get("mmi_usgs") or 0) >= UMBRAL_SACUDIDA_CON_DANO]
+    if not sacudidos:
+        return {}
+    mirados = [m for m in sacudidos if _mirado_por_satelite(m)]
+    sin_mirar = [m for m in sacudidos if not _mirado_por_satelite(m)]
+    reparto = []
+    for sat in SATELITES:
+        n = sum(1 for m in mirados if sat["rotulo"] in _servicios_que_miraron(m))
+        if n:                                    # M10: el cero no se enumera
+            reparto.append((sat["rotulo"], n))
+    datos = {
+        "sacudidos": len(sacudidos),
+        "mirados": len(mirados),
+        "sin_mirar": len(sin_mirar),
+        "reparto": reparto,
+        # el que impide leer el reparto como una suma: 5 + 5 + 4 no son 14
+        "con_varias_miradas": sum(1 for m in mirados
+                                  if len(_servicios_que_miraron(m)) > 1),
+    }
+    if sin_mirar and all(m.get("poblacion_2026") is not None for m in sin_mirar):
+        datos["poblacion_sin_mirar"] = sum(m["poblacion_2026"] for m in sin_mirar)
+    # Qué CLASE de municipios son los mirados, derivado y no afirmado a mano:
+    # cuántos de los más poblados están mirados de corrido y cuál es el primero
+    # que se salta la lista. Es lo que explica que once no sean muchos.
+    orden = sorted((m for m in sacudidos if m.get("poblacion_2026") is not None),
+                   key=lambda m: -m["poblacion_2026"])
+    for i, m in enumerate(orden):
+        if not _mirado_por_satelite(m):
+            datos["cabeza_mirada"] = i
+            # solo lo que la frase publica: arrastrar el municipio entero
+            # metería sus ejemplos de prensa en un recuento de cobertura
+            datos["mayor_sin_mirar"] = {"municipio": m["municipio"],
+                                        "poblacion_2026": m["poblacion_2026"]}
+            break
+    return datos
+
+
 def banda_brechas(ctx: dict) -> str:
     """El resumen de las dos brechas centrales, escrito en el build.
 
@@ -2955,12 +3039,18 @@ def banda_brechas(ctx: dict) -> str:
 
     Nada se escribe a mano: si el registro oficial se pone al día, o si toda
     zona con daño satelital acaba registrada, las frases dejan de afirmarlo
-    solas (R11) — y romperse, aquí, sería una buena noticia."""
+    solas (R11) — y romperse, aquí, sería una buena noticia.
+
+    El tercer párrafo dejó de compararse con la exposición de PAGER el
+    25-ago-2026 (`docs/DECISIONES.md`): ahora cuenta municipios mirados y sin
+    mirar sobre el mismo catálogo, con los tres servicios satelitales y sin un
+    solo porcentaje de población. La cuenta vive en
+    `cobertura_satelital_sacudidos`, con su porqué."""
     mon = ctx["monitor"]
     hoy = mon.get("generado") or ""
     g = mon.get("brechas_oficiales") or {}
     soc, arc = g.get("ungrd_socrata") or {}, g.get("ungrd_arcgis") or {}
-    rud, exposicion = g.get("ungrd_rud"), mon.get("exposicion")
+    rud = g.get("ungrd_rud")
 
     partes = [
         "<strong>Brecha de reporte oficial:</strong> lo que la Unidad Nacional para la "
@@ -3001,16 +3091,60 @@ def banda_brechas(ctx: dict) -> str:
     if medidas:
         frase = " y ".join(medidas)
         partes.append(frase[0].upper() + frase[1:] + ". ")
-    if exposicion:
+    cob = cobertura_satelital_sacudidos(ctx)
+    if cob:
         partes.append(
-            "<br><strong>Exposición sin mapeo:</strong> unas "
-            f"{fmt(exposicion.get('expuesta_mmi6plus'))} personas viven donde el sismo "
-            "alcanzó una intensidad de 6 o más en la escala de Mercalli modificada, según "
-            "la estimación rápida del Servicio Geológico de Estados Unidos (PAGER); las "
-            "zonas mapeadas por Copernicus cubren a unas "
-            f"{fmt(exposicion.get('en_aois_copernicus'))} "
-            f"({e(pct(exposicion.get('pct_cubierta')))}). "
-            "El resto es población que nadie ha mirado de cerca.")
+            "<br><strong>Municipios que nadie ha mirado desde el aire:</strong> el "
+            "modelo ShakeMap del Servicio Geológico de Estados Unidos —una estimación, "
+            "no una medición en el terreno— calcula que en "
+            f"<strong>{fmt(cob['sacudidos'])}</strong> municipios la sacudida llegó a "
+            f"{fmt_prosa(UMBRAL_SACUDIDA_CON_DANO)} o más en una escala de 12 grados, "
+            "el nivel en que un terremoto empieza a causar daños. ")
+        pob = cob.get("poblacion_sin_mirar")
+        if cob["sin_mirar"]:
+            partes.append(
+                f"A <strong>{fmt(cob['sin_mirar'])}</strong> de ellos"
+                + (f", donde viven <strong>{fmt(pob)}</strong> personas," if pob else "")
+                + " no los ha mirado ningún servicio satelital. ")
+        else:
+            # el día que no quede ninguno, la frase cambia de forma sola en vez
+            # de publicar «A 0 de ellos no los ha mirado nadie» (R11): que este
+            # párrafo se quede sin su cifra sería la mejor noticia del monitor
+            partes.append("A todos los ha mirado algún servicio satelital, "
+                          "que es la primera vez que este párrafo puede decirlo. ")
+        mayor = cob.get("mayor_sin_mirar")
+        if mayor and cob.get("cabeza_mirada"):
+            cabeza = cob["cabeza_mirada"]
+            partes.append(
+                f"Los <strong>{fmt(cob['mirados'])}</strong> analizados son sobre todo "
+                "los grandes: "
+                + (f"el municipio más poblado está entre ellos" if cabeza == 1 else
+                   f"los {fmt_prosa(cabeza)} municipios más poblados están entre ellos")
+                + f", y al siguiente en tamaño, {e(mayor['municipio'])} "
+                f"({fmt(mayor['poblacion_2026'])} habitantes), no lo ha mirado nadie. ")
+        elif mayor:
+            partes.append(
+                "Ni siquiera el municipio más poblado de todos, "
+                f"{e(mayor['municipio'])} ({fmt(mayor['poblacion_2026'])} habitantes), "
+                "lo ha mirado nadie. ")
+        if cob["reparto"]:
+            # punto y coma, no «y»: la conjunción obligaría a decidir entre «y» y
+            # «e» según el servicio que cierre la lista, y el cuarto servicio que
+            # entre lo decidiría sin que nadie mirara la frase
+            # el sustantivo solo en el primero —«Copernicus EMS, cinco
+            # municipios; UNITAR-UNOSAT, cuatro»—, y «uno» en vez de «un»
+            # cuando la cifra va sola: «UNITAR-UNOSAT, un» no es español
+            trozos = [f"{e(rotulo)}, "
+                      + (f"{fmt_prosa(n)} {concuerda(n, 'municipio', 'municipios')}"
+                         if i == 0 else ("uno" if n == 1 else fmt_prosa(n)))
+                      for i, (rotulo, n) in enumerate(cob["reparto"])]
+            partes.append("El reparto: " + "; ".join(trozos) + ". ")
+            varias = cob["con_varias_miradas"]
+            if varias:
+                partes.append(
+                    "No se suman: a "
+                    f"{fmt_prosa(varias)} {concuerda(varias, 'municipio', 'municipios')} "
+                    f"{concuerda(varias, 'lo', 'los')} miró más de un servicio.")
     return "".join(partes)
 
 
