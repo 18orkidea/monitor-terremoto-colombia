@@ -178,6 +178,43 @@
     return `hsl(${Math.round(8 - 8 * t)},${Math.round(45 + 35 * t)}%,${
       Math.round(74 - 34 * t)}%)`;
   };
+  /* Y el TAMAÑO gradúa las familias inscritas en el RUD, que es la única
+     evidencia que tienen estos municipios: con radio fijo, el que registró
+     2.313 familias y el que registró una eran el mismo punto, y el mapa
+     escondía el orden de magnitud de lo que nadie miró desde el aire.
+     Raíz cuadrada, no proporción directa: el ojo compara áreas, y con el radio
+     proporcional el mayor saldría 2.313 veces más grande que el menor.
+     `Number.isFinite`, y no el `|| 9` con el que esto se prototipó: rellenar
+     con nueve familias al municipio que no trae cifra es inventarse el dato —el
+     cero disfrazado que prohíbe R3, hermano del rojo pálido que aquí arriba se
+     descartó para la sacudida—. Sin cifra, el anillo se va POR DEBAJO de la
+     escala en vez de a su primer peldaño: así no se lee como «pocas familias»
+     sino como fuera de la cuenta, y el globo lo dice además con palabras. Un
+     cero SÍ es una cifra y se queda en el suelo de la escala, no en el limbo.
+     Hoy no debería ocurrir nunca —la capa exige familias registradas:
+     `ingest/municipios.py::sin_mirada_satelital`—, y por eso mismo se escribe:
+     si la fuente cambia, tiene que verse, no rellenarse. */
+  const BASE_SIN_CIFRA = 1.8;
+  const baseAusencia = (familias) => {
+    if (!Number.isFinite(familias)) return BASE_SIN_CIFRA;
+    return Math.min(4 + Math.sqrt(Math.max(0, familias)) / 4, 16) / 1.6;
+  };
+  /* Los `circleMarker` de Leaflet miden en PÍXELES, no en metros: sin reescalar,
+     el mismo anillo se ve igual a zoom 6 que a zoom 15 y acercarse no aporta
+     nada. Crece con el zoom —suave, no exponencial— y con TOPE: sin él, a zoom
+     16 un municipio pasaba de 6 a 46 px y su círculo se comía la manzana
+     entera. El punto de un municipio señala un sitio; no dibuja su extensión.
+     El suelo (2) queda por debajo de `BASE_SIN_CIFRA` a propósito: si recortara
+     ahí, el anillo sin cifra volvería de puntillas a la escala de la que se le
+     acaba de sacar. */
+  const radioAusencia = (familias) => {
+    // Al construirse los anillos el mapa todavía no tiene vista —el encuadre va
+    // más abajo— y `getZoom()` no devuelve número: se pinta con el radio base y
+    // el reescalado lo ajusta en cuanto hay encuadre.
+    const z = map.getZoom();
+    const factor = 1 + Math.max(0, (Number.isFinite(z) ? z : 7) - 7) * 0.42;
+    return Math.min(18, Math.max(2, baseAusencia(familias) * factor));
+  };
   if (sinMirada && sinMirada.items && sinMirada.items.length) {
     // El rótulo cuenta lo que se PINTA, no lo que trae el fichero: si algún
     // municipio llegara sin coordenadas, la etiqueta prometería más puntos de
@@ -194,7 +231,8 @@
       // municipios que SÍ tienen evidencia y el mapa dejaba de distinguir
       // «mirado» de «no mirado», que es justo lo que viene a enseñar.
       pointToLayer: (f, latlng) => L.circleMarker(latlng, {
-        radius: 7, weight: 1.5, opacity: 0.75, fillOpacity: 0.12,
+        radius: radioAusencia(f.properties.rud_familias),
+        weight: 1.5, opacity: 0.75, fillOpacity: 0.12,
         dashArray: "2 2",
         color: colorAusencia(f.properties.mmi_usgs),
         fillColor: colorAusencia(f.properties.mmi_usgs),
@@ -228,6 +266,13 @@
       },
     })).addTo(map);
     capa.bringToBack();
+    // Reescalar al cambiar el zoom, y una vez al primer encuadre: los anillos
+    // se crean antes de que el mapa tenga vista, con lo que nacen a su radio
+    // base y sin este primer repaso se quedarían ahí.
+    const reescalar = () => capa.eachLayer((l) => l.setRadius
+      && l.setRadius(radioAusencia(l.feature.properties.rud_familias)));
+    map.whenReady(reescalar);
+    map.on("zoomend", reescalar);
     // «con damnificados» NO es adorno: sin esa condición el rótulo enuncia un
     // predicado que da 197, y municipios.html publica justo ese —Palmira no
     // tiene registro en el RUD y sí entra en su cuenta—. Dos páginas del mismo
