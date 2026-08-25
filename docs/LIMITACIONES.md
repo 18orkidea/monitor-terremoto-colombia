@@ -5,6 +5,47 @@ conocidas del monitor para que nadie —periodista, investigador, historiador—
 tome la ausencia de un dato por la ausencia de un hecho. Complementa la
 metodología pública del sitio.
 
+## La prensa por municipio se cuenta de dos maneras, y una infla (24-ago-2026)
+
+**Medido, no estimado.** El sitio publica dos recuentos de titulares por
+municipio y **no miden lo mismo**:
+
+- `municipios.json::n_noticias` cuenta los titulares que **mencionan** el
+  municipio en su título o su medio, con el límite de palabra de R10. Es el que
+  usan la tabla de `municipios.html` y el panel de la ficha.
+- El campo `municipios` de cada titular en `noticias.json` añade, además, **los
+  que llegaron por la búsqueda municipal propia aunque no lo nombren**
+  (`ingest/publish.py:441`, atribución por origen del feed). Es el que usa el
+  filtro por zona de `noticias.html`.
+
+**El segundo infla, y mucho.** 59 de los 208 municipios tienen cifras distintas.
+Los peores casos, medidos sobre el corte del 22-ago:
+
+| municipio | por mención | por feed | |
+|---|---|---|---|
+| Jamundí | 4 | **303** | de los 303, **299 no lo nombran** |
+| Buenaventura | 185 | 482 | |
+| Palmira | 31 | 328 | |
+| La Tebaida | 8 | 221 | |
+
+Los 299 de Jamundí son titulares sobre Cali —«Escombros del terremoto en Cali»,
+«Homenaje en Cali a las víctimas»— que su búsqueda municipal devolvió.
+
+**Por qué importa más de lo que parece.** Este monitor existe para medir la
+**brecha de atención**: qué municipios salen en prensa y cuáles no. Un recuento
+que atribuye a Jamundí 303 titulares que hablan de Cali **borra justamente esa
+brecha**, y lo hace en la dirección más engañosa: inflando la cobertura de los
+municipios pequeños, que son los que el proyecto vigila.
+
+**Estado: conocido y no corregido.** La ficha y la tabla usan el recuento por
+mención, que es el prudente. Lo que sigue inflado es el **filtro por zona de
+`noticias.html`**. Se decidió no tocarlo hoy para no mezclarlo con el rediseño
+(JP, 24-ago). Al abordarlo hay que decidir si la atribución por origen del feed
+se retira, se marca aparte («titulares de su búsqueda municipal») o se queda con
+una advertencia — pero **las tres cosas que no puede seguir haciendo son
+mezclarse con el recuento por mención, publicarse sin decir qué cuenta y
+llamarse igual que la otra**.
+
 ## Los cinco primeros días no existen (10 → 15 de agosto de 2026)
 
 El sismo fue el 10-ago a las 12:34 UTC; la primera petición registrada del
@@ -41,6 +82,68 @@ Se comprueba siempre, también donde los ficheros sí están: si solo se mirara
 cuando faltan, el manifiesto podría desfasarse durante meses en la máquina del
 mantenedor y saltar únicamente en CI. Un cuerpo fuera de git y fuera del
 manifiesto no es recuperable ni auditable, y el test lo trata como roto.
+
+## Un vídeo que cambie en origen no se detectaría el mismo día (24-ago-2026)
+
+Desde el 24-ago-2026 los vídeos ciudadanos **se archivan una vez**: si la base o
+el manifiesto de R2 dicen que ese cuerpo ya es nuestro, no se vuelve a pedir
+(ver `docs/DECISIONES.md`). Eso ahorra **630,2 MB al día** —dos tercios de todo
+el tráfico que el monitor había generado en su vida— y tiene un precio que hay
+que decir en voz alta: **si ChatMap sustituyera el contenido de una de esas
+direcciones sin cambiarla, el monitor no se enteraría**, porque ya no pregunta.
+
+No es una sospecha abstracta ni una probabilidad alta: las 372 descargas de esos
+77 objetos devolvieron siempre el mismo sha256, cero excepciones, y la dirección
+de cada medio es un UUID que la fuente acuña al subirlo. Pero es el supuesto
+sobre el que se apoya el ahorro, y conviene saber que es un supuesto.
+
+Lo que sí quedaría detectado el día que ocurra:
+
+- **si el cuerpo llega alguna vez** —porque el archivo perdió su copia, porque
+  la base y el manifiesto se contradicen, o porque el objeto es nuevo—, se
+  compara con el sha archivado y, si difiere, **se guarda al lado con la firma
+  de su contenido**: el viejo no se toca y el log no puede acabar declarando un
+  sha256 sobre un fichero con otro cuerpo dentro;
+- **si la base y el manifiesto dejan de decir lo mismo**, la corrida lo canta
+  (`alerts.divergencias_del_archivo_de_activos`) y vuelve a descargar ese objeto;
+- **si el bucket pierde un cuerpo que el manifiesto declara archivado**, la
+  auditoría de `daily.yml` lo pone en rojo — sin git y sin R2, ese vídeo es
+  irrecuperable.
+
+Y una consecuencia menor de la misma decisión: **el `aws s3 sync` compara por
+tamaño (`--size-only`)**, y la auditoría del bucket también, porque R2 no publica
+el sha256 de sus objetos y el `ETag` de una subida multiparte no es un md5 del
+cuerpo. Una sustitución del mismo peso no se vería desde fuera.
+
+Lo que NO existe es una revalidación periódica contra la fuente. Haría falta que
+ChatMap sirviera `ETag`/`Last-Modified` en sus medios —hoy no consta que lo
+haga: ninguna de las 372 descargas guardó validador alguno, porque son
+anteriores al mecanismo condicional— o una petición `HEAD` diaria por objeto.
+Ninguna de las dos se ha medido contra el servidor real. Es la vía si algún día
+el supuesto deja de dar confianza.
+
+## Deuda heredada que este cambio no causa pero sí hereda (24-ago-2026)
+
+Tres cosas que salieron al auditar el archivo de medios y que no arregla el
+cambio del guardián. Se anotan porque un archivo honesto documenta lo que no
+tiene, no porque haya prisa por tocarlas.
+
+1. **Hay cuatro fotos en `data/media/` que ningún reporte de la base referencia y
+   que no tienen fila en `sources_log`** (`3de65c0a…`, `6699d22c…`, `77ca9e47…`,
+   `84654d4f…`, entradas el 19-ago-2026). Están en los snapshots de ChatMap del 19
+   y el 20 y desaparecieron de la captura del 22. Viajan en git, así que el cuerpo
+   está a salvo; lo que falta es la constancia de quién las pidió.
+2. **No existe el recorrido inverso fichero → log para `data/media/`.** Sí existe
+   para `data/documentos/` (`test_hipotesis.py::TestPaquetesDeSertit`) y ahora
+   también manifiesto → log para los A/V. El hueco es el de las fotos: un fichero
+   en el repositorio sin petición que lo explique no salta en ningún test.
+3. **`data/dumps/citizen_reports.csv` versiona `lat`/`lon` exactas.** Lo publicado
+   solo lleva `lat_pub`/`lon_pub` —el punto que registró la fuente (R5)— y los tests de
+   privacidad lo comprueban sobre `data/public/`, pero el volcado que reconstruye
+   la base —y que está en el repositorio público— conserva la coordenada de
+   origen. Es una decisión que merece tomarse a la vista, no heredarse por
+   omisión: si se cambia, hay que decidir qué pasa con los volcados ya
+   commiteados, que son archivo y no se reescriben.
 
 ## La serie consolidada de balances no se puede descargar entera
 
@@ -127,12 +230,119 @@ corrida diaria guarda el feed completo en `feeds/balances/AAAA-MM-DD.json` —
 la serie es reconstruible desde el repo aunque el worker muera. La migración
 a una cuenta propia está anotada como deuda en DECISIONES.md.
 
+## El subdominio del worker de balances no tiene una sola fuente (23-ago-2026)
+
+`https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev` está
+escrito a mano en cinco ficheros, y el nombre del que sale ese subdominio, en cinco
+más. El 23-ago-2026 se borró la copia que vivía en `site/ui.js` —la única sin
+consumidor, y por eso la que había empezado a divergir—, pero eso no dejó «una sola
+fuente»: dejó una copia menos. El día que ese worker cambie de subdominio o se mude
+a una cuenta del proyecto (la migración está anotada como deuda en DECISIONES.md, y
+la sección anterior explica por qué), hay que mover a mano:
+
+La URL completa:
+
+- `deploy/render_html.py:402` — `OFICIALES_BASE`, el «RSS de balances» que el pie
+  publica en las 213 páginas.
+- `ingest/alerts.py:26` — `FEED_BALANCES`, lo que consulta la corrida diaria.
+- `site/balances.html:114-115` — los dos enlaces al feed vivo, JSON y RSS.
+- `.github/workflows/daily.yml:82` y `:105` — las dos llamadas del workflow.
+- `deploy/root/llms.txt:56` — el feed que se ofrece a los modelos.
+
+El nombre del worker, que es de donde el subdominio sale de verdad:
+
+- `workers/ai-view/wrangler.jsonc:3` — el despliegue.
+- `workers/ai-view/package.json:2` y `workers/ai-view/package-lock.json:2` y `:7`.
+- En prosa: `README.md:94` y esta misma página, en la sección anterior.
+
+El worker de avisos tiene exactamente la misma forma: `site/ui.js:511`,
+`.github/workflows/daily.yml:162`, `workers/push/wrangler.jsonc:4` y sus dos
+ficheros de paquete.
+
+No hay guardián que lo vigile, y unificarlo tampoco es gratis: la URL la necesitan
+Python, JavaScript, YAML y JSONC, y R14 deja el runtime en la stdlib. Queda
+anotado, que es lo que un archivo honesto puede hacer con lo que no ha resuelto:
+**si cambia el subdominio y algo deja de responder, empieza por esta lista.**
+
 ## Cobertura satelital parcial por diseño
 
 Las zonas mapeadas por Copernicus cubren ~8,7 % de la población expuesta a
 MMI≥6. Todo lo que el monitor dice del daño satelital aplica solo a esas
 zonas; el resto es población que ningún producto de daño ha mirado de cerca
 (extensión documentada en el README: HRSL, Open Buildings, NISAR).
+
+## La intensidad de la capa de la ausencia la estima un modelo, y nueve municipios no la tienen
+
+Los municipios con registro en el Registro Único de Damnificados (RUD) y sin
+evaluación satelital se pintan graduados por la intensidad que el ShakeMap del
+Servicio Geológico de Estados Unidos (USGS) **estima** para su cabecera. No es la
+intensidad percibida: esa es la del DYFI («Did You Feel It?», el cuestionario del
+USGS), la que reporta la gente, y **al 22-ago-2026** solo existe en 23 de los 196
+— demasiado poco para un mapa, y por eso se descartó pese a ser el dato preferible.
+
+En esos 23 las dos medidas no se contradicen ni se confirman: el DYFI queda por
+encima del modelo en 10 de los 23, la diferencia media es de +0,05 puntos y el
+rango va de −1,5 a +1,7. No hay sesgo sistemático, pero la dispersión es real, y
+conviene no leer la sacudida estimada como si fuera lo que la gente sintió.
+
+**Al 22-ago-2026**, nueve municipios caen fuera de la cuadrícula que calcula el
+ShakeMap: Acandí (Chocó) y ocho de Norte de Santander (Ábrego, Cáchira, El Tarra,
+Mutiscua, Ocaña, Pamplonita, Silos y Teorama). Se pintan grises, no con la
+intensidad más baja: no saber lo que se sintió no es lo mismo que saber que se
+sintió poco. Todas estas cifras cambian con cada corrida —el RUD crece, el DYFI
+acumula respuestas y que entre un satélite es buena noticia—, así que van fechadas
+y las vigentes se leen en `municipios_mapa.json`, en los campos `total` y
+`sin_mmi`.
+
+La rejilla del ShakeMap se revisa durante semanas y la corrida del día puede no
+traerla: cuando falta, se usa la del snapshot anterior. De cuál salió cada cifra
+se publica en `fuente_mmi_snapshot` (día y sha256), porque un producto fechado hoy
+puede llevar intensidades de días atrás.
+
+Y «lo miró Copernicus» significa que la **cabecera** del municipio cae dentro
+de una zona analizada, decidido por punto-en-polígono. Es un criterio
+conservador —subestima la ausencia— y no distingue las zonas que Copernicus
+recortó pero dejó sin analizar (`not_analysed.geojson`).
+
+Además, la intensidad se calcula en la **cabecera municipal**, no en el
+territorio: en municipios extensos —Chocó, sobre todo— un solo valor puede
+ocultar diferencias grandes dentro del mismo municipio.
+
+## Nueve municipios del RUD están fuera del terremoto que el monitor mapea (laguna abierta, 24-ago-2026)
+
+La sección anterior dice que esos nueve se pintan grises porque el ShakeMap no llega
+hasta ellos. Queda por decidir algo distinto, y **es editorial, no de cifra**: si un
+municipio al que el modelo del USGS no le asigna intensidad **debe publicarse como
+municipio de este terremoto**, con su ficha, su fila en la tabla y su punto en el mapa.
+
+Medido el 24-ago-2026 sobre `data/public/municipios.json` (generado el 22-ago), con la
+distancia en línea recta a la cabecera desde el epicentro de San José del Palmar:
+
+- Los **199 municipios con intensidad estimada** están entre **9 y 355 km** del
+  epicentro.
+- Los **nueve sin intensidad** están entre **424 y 541 km**: Acandí (Chocó, 424 km) y
+  ocho de Norte de Santander, al otro lado del país —Silos, Mutiscua, Cáchira, Ábrego,
+  Pamplonita, Ocaña, Teorama y El Tarra—. Entre 355 y 424 km no hay ni un municipio: el
+  borde de la cuadrícula del ShakeMap deja un hueco limpio, no una frontera discutible.
+- **Pesan 237 de las 100.231 familias del RUD: el 0,24 %.** En personas, 534 de 223.545,
+  la misma proporción. Ocaña (87 familias) y Acandí (102) son dos tercios de ese total;
+  Pamplonita aporta una familia.
+
+Las dos lecturas son defendibles y por eso la decisión no se toma sola. **Publicarlos**
+es lo que hace hoy el monitor y es coherente con su misión: el RUD los registró como
+damnificados de esta emergencia, y borrarlos sería el monitor enmendándole la cifra a la
+fuente, que es justo lo que no hace. **No publicarlos como municipios del terremoto**
+—o publicarlos apartados, con su explicación— evitaría que una ficha titulada «Terremoto
+en Ocaña (Norte de Santander) 2026» afirme, para el buscador y para quien la cite, una
+relación causal que ninguna medida de sacudida respalda.
+
+**Pendiente de decisión.** Mientras tanto se publican, grises y contados, y esta entrada
+existe para que nadie tome esa elección por un descuido.
+
+Y una premisa que conviene desmontar antes de que circule: **que el sitio publique 208
+fichas para 207 municipios con registro en el RUD no tiene nada que ver con estos
+nueve**, que sí están en el RUD. La ficha número 208 es **Palmira (Valle del Cauca)**,
+que entra por mención en prensa y no tiene ni una familia registrada.
 
 ## Los avisos push tienen límites de plataforma
 
@@ -279,6 +489,68 @@ Tampoco hay forma de saber qué versión del worker produjo un feed archivado: e
 deploy es manual, el KV vive fuera de git y el bloque `extraction` no registra
 commit ni versión. El sello `atribucion_lugares` cubre solo el criterio de
 atribución de lugares, no el resto del código.
+
+## El tramo del 16 de agosto del feed de balances no tiene cuerpo archivado (24-ago-2026)
+
+Medido el 24-ago-2026 sobre `sources_log`: las **tres capturas del 16 de agosto** del
+endpoint de balances (`…/oficiales.json`, nota «alerts balances»; 11:29, 13:32 y 16:56
+UTC) devolvieron **HTTP 200** y dejaron su **sha256** —el mismo las tres,
+`3d9ff3db1991…`— con el **`snapshot_path` vacío**. La primera fila con snapshot es del
+**17-ago a las 16:20 UTC**, y desde ahí el endpoint archiva cuerpo todos los días en que
+se le pregunta. Es un caso concreto de la laguna general de los dos primeros días de
+operación, descrita al principio de esta página; se detalla aparte porque este feed pasó
+después a sostener una página entera.
+
+El cuerpo de aquel día **no está perdido, pero no está donde el log dice buscarlo**:
+`feeds/balances/2026-08-16.json` tiene exactamente ese sha256, así que la equivalencia se
+puede verificar — hay que descubrirla a mano, porque ninguna fila la declara. Y ese
+fichero lo escribe el `curl` del workflow, que es justo la petición no trazada de la
+sección anterior. Dicho de otro modo: **del 16 de agosto, la única copia del feed es la
+que produjo el camino que R4 prohíbe.**
+
+Por qué importa más ahora que antes: la página de balances **se sirve prerenderizada**.
+Las tarjetas, el gráfico, la tabla, la comparativa de fuentes y el marcado de datos los
+escribe `deploy/render_html.py` en el build, no el navegador. Esas cifras ya no son un
+cálculo del cliente que cualquiera puede rehacer abriendo la consola: son texto
+publicado, y lo único que las sostiene es poder llegar desde ellas hasta la petición de
+origen.
+
+Dos huecos más de la misma serie, medidos el mismo día:
+
+- **Falta el día 21.** `feeds/balances/` tiene el 16, el 17, dos del 18, el 19, el 20 y
+  el 22: el 21 de agosto no llegó a existir, porque ese día el flujo diario no corrió su
+  paso que commitea. Del 21 sí quedan dos snapshots del endpoint en
+  `data/snapshots/2026-08-21/`, con cuerpos distintos, y solo uno tiene fila en
+  `sources_log`.
+- **Tres de los siete ficheros de `feeds/balances/` —el 17, el 19 y el 20— no tienen
+  ninguna fila en `sources_log` con su sha256.** Son los que dejó el `curl` del workflow
+  en días en que la corrida no pidió el feed por la cadena trazada.
+
+### Si el worker se apaga: ¿merece este feed un export dedicado como `rud.json`?
+
+**Sí, y por el mismo motivo.** `rud.json` nació para que el histórico del RUD
+sobreviviera a la muerte de su fuente; aquí la fuente es un worker en una cuenta
+Cloudflare ajena cuyo almacenamiento vivo (KV) no está en git, y su apagado dejaría el
+tramo del 16 sin más recuperación que un fichero al que el log no apunta.
+
+Lo que se midió antes de recomendarlo, el 24-ago-2026:
+
+- **La serie está muy repetida**: 152 apariciones de ítem para **32 ítems distintos** en
+  seis días de captura —un factor de 4,8—, y 624 KB en total. El KV acumula, así que cada
+  captura rearrastra todo lo anterior y el peso de la serie crece más deprisa que su
+  contenido.
+- **Los ítems archivados no se reescriben**: el worker los reutiliza tal cual (por eso
+  conviven dos criterios de atribución, ver más arriba). La serie es entonces una
+  **unión** de ítems fechados, no una sucesión de estados que haya que conservar entera.
+- Un `data/public/balances.json` con cada ítem **una sola vez** y la lista de días en que
+  se vio sería el análogo exacto de `rud.json`, y de paso daría la respuesta trazable a
+  «qué decía el feed el día X» que hoy exige abrir siete ficheros.
+
+No es la misma laguna que «la serie consolidada de balances no se puede descargar
+entera»: aquella pide **lo que el sitio calcula**; esta pide **lo que el worker dijo**.
+Son dos exports distintos, y el segundo es el que sobrevive al apagado. **No se hace
+aquí**: toca ingesta y estrena un artefacto público, así que necesita su alta de fuente
+con la disciplina completa.
 
 ## El 17 de agosto de 2026 casi no tiene archivo (HTTP 502 del DANE)
 
@@ -462,37 +734,49 @@ Lo que queda como limitación:
   «mención en prensa» a «solo registro municipal (RUD)». Los ceros no valen
   todos lo mismo: en **Guacarí y Quinchía** el nombre no admite duda y el
   monitor lanza una búsqueda propia, así que ahí el cero es el dato. En los
-  otros seis solo se atribuyen titulares que nombren también el departamento, y
-  **Argelia y Trujillo** ni siquiera tienen búsqueda propia (ver la sección
-  siguiente): su cero es en parte silencio del monitor.
+  otros seis solo se atribuyen titulares que nombren también el departamento,
+  así que el cero puede ser del filtro. **Argelia y Trujillo** tampoco tenían
+  búsqueda propia hasta el 23-ago-2026 (ver la sección siguiente): su cero fue,
+  hasta esa fecha, en parte silencio del monitor.
 
-## Los municipios que entran solos por el RUD no tienen búsqueda propia de prensa
+## Cinco municipios no pueden tener búsqueda propia de prensa
 
-`municipal_google_news_feeds()` genera una búsqueda de Google News por cada
-municipio del catálogo curado de `ingest/municipios.py`. Los que entran solos
-desde el RUD (`municipios_dinamicos`) **no la generan**: su prensa solo puede
-llegar si un titular de otro feed los nombra junto a su departamento, porque
-nacen con `requiere_depto`.
+Hasta el 23-ago-2026, `municipal_google_news_feeds()` recorría **solo el catálogo
+curado a mano** de `ingest/municipios.py`. Los municipios que entran solos desde
+el RUD (`municipios_dinamicos`) no generaban búsqueda: su prensa solo podía
+llegar si un titular de otro feed los nombraba junto a su departamento. Medido
+el 22-ago-2026 sobre `municipios.json`: de **207** municipios con damnificados
+registrados, **81** tenían búsqueda propia; de los **119** sin ni un titular,
+solo **10**. El monitor publicaba «ni un titular» de municipios a los que nunca
+había preguntado, y una celda vacía por «no hemos buscado» se veía igual que una
+por «no hay nada».
 
-Medido el 19-ago-2026: de los 33 municipios con damnificados registrados y cero
-titulares atribuidos, **23 no tienen búsqueda propia**. Su silencio es, en parte,
-silencio del monitor. Por eso el banner de la página de municipios separa tres
-niveles y solo afirma el cero de los municipios que cumplen las dos condiciones:
-topónimo sin ambigüedad **y** búsqueda propia de prensa.
+Desde entonces la lista **se deriva del catálogo completo en cada corrida** y
+crece sola: el municipio que el RUD estrene hoy tiene su búsqueda hoy. Pasa de
+82 a **203** búsquedas. **El dato publicado solo lo refleja después de una
+corrida real**: hasta que el flujo diario vuelva a pasar, `busqueda_propia`
+sigue diciendo lo que decía.
 
-De los 10 que sí tienen búsqueda propia, **tres no han devuelto ni un titular
-desde que la búsqueda existe** —Bagadó (Chocó), Guática y Mistrató (Risaralda)—.
-Conviene medir la afirmación: esas búsquedas nacieron el 18-ago-2026 y llevan
-cinco peticiones registradas en `sources_log`, no meses. Y desde el 19-ago ese
-cero histórico ya **no se puede comprobar desde `noticias.json`**, precisamente
-porque este cambio sacó del producto público lo anterior al sismo: consta en la
-base local y en los snapshots.
+Queda un hueco, y es deliberado: **cinco municipios no reciben búsqueda propia
+porque se llaman igual que un departamento** —Bolívar (Cauca), Bolívar (Valle
+del Cauca), Córdoba (Quindío), Risaralda (Caldas) y Sucre (Cauca)—. La consulta
+`"bolivar" "cauca"` casa con los titulares del departamento de Bolívar, y como
+el feed declara su municipio colaría por la puerta de atrás la atribución que el
+emparejador de topónimos rechaza (R10). Su prensa solo puede venir de un feed
+del registro comunitario, donde el municipio lo declara una persona. Lo mismo
+vale para un municipio que llegara sin topónimo utilizable o con el nombre
+escrito como lo escribe un catálogo administrativo («sotará - paispamba», que no
+aparece así en ningún titular): **no se construye ninguna consulta y se dice
+cuántos son**, en el resumen de la corrida y en
+`tests/test_hipotesis.py::TestSupuestoBusquedaMunicipal`, que avisa (R11) en
+cuanto aparezca uno nuevo sin cubrir.
 
 Laguna emparentada, ya descrita más arriba: la tabla de municipios cuenta solo
 las menciones que pasan el filtro de topónimo, mientras que la página de
 titulares atribuye además por el municipio que declara el feed. Un municipio con
 búsqueda propia puede mostrar «0» en la tabla y tener titulares en su página de
 prensa (Andalucía y Obando son los casos vivos).
+
 ## La URL original de la mitad de los titulares se perdió en el origen
 
 De las noticias que llegan por búsquedas de Google News —cerca de la mitad del
@@ -664,3 +948,48 @@ Los trece de diferencia no se han investigado: pueden ser puntos que su propio
 resumen no cuenta, o un desfase entre la estadística y la capa. Lo que no se
 hace es elegir una y callar la otra — desde el 21-ago-2026 la portada cita las
 dos, porque el lector que sume las tres fuentes tiene que poder llegar al total.
+
+## 72 de las 208 fichas tienen un título más largo de lo que Google enseña
+
+Medido el 23-ago-2026 sobre `dist/`, **después** de corregir el departamento
+duplicado: los `<title>` de las fichas municipales miden **59,5 caracteres de
+media, con un máximo de 75**, y **72 de 208 (35 %)** pasan de los 60 que el
+buscador enseña antes de cortar. El más largo es «Terremoto en San Sebastián de
+Mariquita (Tolima) 2026: damnificados y daños».
+
+La cifra se remidió a propósito: antes de la corrección eran 77 de 208 (37 %),
+y las cinco fichas arregladas perdieron entre seis y ocho caracteres al dejar de
+repetir el departamento, así que cruzaron el umbral. Citar la medición vieja en
+el mismo commit que la invalida es la trampa de las cifras a mano que envejecen.
+
+Esa misma métrica llevó, el 22 de agosto de 2026, a quitar la marca de los
+títulos de las cinco páginas grandes. Las fichas no entraron en aquella revisión.
+
+**Se deja como está, a sabiendas.** Se decidió el 23 de agosto de 2026 tocar
+solo el departamento duplicado y no reordenar el título. Reordenarlo mueve el
+encabezado de 208 páginas indexadas, y esa decisión pertenece a la revisión
+editorial de la identidad, no a la corrección de un error. Lo que se pierde al
+cortar es la cola —«damnificados y daños»—, no el nombre del municipio, que va
+delante: el título truncado sigue identificando la página, aunque pierda las
+palabras con las que se busca.
+
+Medidas las tres alternativas sobre las 208, por si sirven cuando se retome la
+revisión del título —y ninguna resuelve las dos cosas a la vez:
+
+| plantilla | media | máximo | pasan de 60 |
+|---|---|---|---|
+| «Terremoto en {municipio} ({depto}) 2026: damnificados y daños» (actual) | 59,5 | 75 | 72 |
+| «Terremoto en {municipio} 2026: damnificados y daños» | 48,2 | 66 | 4 |
+| «{municipio}: damnificados del terremoto de 2026» | 44,2 | 62 | 1 |
+| «{municipio} ({depto}): damnificados del terremoto de 2026» | 55,5 | 71 | 47 |
+
+Las dos plantillas que bajan de verdad **quitan el departamento, y eso produce
+títulos duplicados**: entre las 208 hay cuatro nombres repetidos —Argelia,
+Balboa, Bolívar y Riosucio—. La que lo conserva y antepone el municipio baja la
+media a 55,5 caracteres, pero todavía deja 47 títulos por encima de 60. No hay
+plantilla que desambigüe y quepa a la vez; hay que elegir cuál de las dos cosas
+importa más, y eso es una decisión editorial.
+
+El guardián de `seo_check.py` **no vigila esta longitud** a propósito: un
+guardián que falla desde el primer día contra una decisión ya tomada es ruido.
+Vigila solo el departamento duplicado, que sí era un error.

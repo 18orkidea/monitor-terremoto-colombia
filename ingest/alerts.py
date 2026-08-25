@@ -265,6 +265,146 @@ def codigos_de_evento_imposibles(conn, hoy: str, *, paquete: str | None = None) 
     return fuera
 
 
+def cambios_en_peticiones_condicionales(conn, hoy: str) -> list[dict]:
+    """¿Cambió alguna fuente su forma de contestar a `If-None-Match`?
+
+    Desde el 24-ago-2026 el monitor pregunta antes de descargar: si ya tiene
+    una copia utilizable de una URL, manda sus validadores y un 304 le ahorra
+    el cuerpo entero. Que una fuente empiece a soportarlo es BUENA noticia y
+    hay que verla; que deje de hacerlo cuesta megas y también.
+
+    R11 — avisa, no rompe. Y avisa AGREGADO: el día que Copernicus empiece a
+    contestar 304, serían 16 alertas idénticas, y una alerta que se repite
+    dieciséis veces la acaba silenciando quien la lee.
+    """
+    hoy_pfx = f"{hoy}%"
+    trescientos_cuatro = {r[0] for r in conn.execute(
+        "SELECT DISTINCT url FROM sources_log"
+        " WHERE http_status=304 AND ts LIKE ?", (hoy_pfx,))}
+    antes = {r[0] for r in conn.execute(
+        "SELECT DISTINCT url FROM sources_log"
+        " WHERE http_status=304 AND ts NOT LIKE ?", (hoy_pfx,))}
+    avisos = []
+
+    estrenan = sorted(trescientos_cuatro - antes)
+    if estrenan:
+        avisos.append({
+            "tipo": "fuentes_con_peticion_condicional", "nivel": "info",
+            "texto": (f"{len(estrenan)} URL(s) contestaron hoy por primera vez "
+                      f"«304 sin cambios»: preguntar sale gratis y el cuerpo no "
+                      f"se descarga. Ejemplo: {estrenan[0]}"),
+            "urls": estrenan[:10], "n": len(estrenan)})
+
+    # Dejó de honrarlos: ayer contestaba 304 y hoy manda 200 con lo mismo. Se
+    # detecta por el cuerpo, no por la cabecera: da igual qué diga el servidor
+    # si acaba mandando otra vez los mismos megas.
+    reincidentes = []
+    for url in sorted(antes - trescientos_cuatro):
+        fila = conn.execute(
+            "SELECT sha256, bytes FROM sources_log WHERE url=? AND ts LIKE ?"
+            " AND http_status=200 ORDER BY id DESC LIMIT 1",
+            (url, hoy_pfx)).fetchone()
+        if not fila or not fila[0]:
+            continue
+        previo = conn.execute(
+            "SELECT sha256 FROM sources_log WHERE url=? AND ts NOT LIKE ?"
+            " AND sha256 IS NOT NULL ORDER BY id DESC LIMIT 1",
+            (url, hoy_pfx)).fetchone()
+        if previo and previo[0] == fila[0]:
+            reincidentes.append((url, fila[1] or 0))
+    if reincidentes:
+        megas = sum(b for _, b in reincidentes) / 1e6
+        avisos.append({
+            "tipo": "fuente_deja_de_honrar_condicionales", "nivel": "media",
+            "texto": (f"{len(reincidentes)} URL(s) que antes contestaban 304 "
+                      f"volvieron a mandar el cuerpo entero sin haber cambiado "
+                      f"({megas:.1f} MB). Ejemplo: {reincidentes[0][0]}"),
+            "urls": [u for u, _ in reincidentes[:10]],
+            "n": len(reincidentes), "bytes": sum(b for _, b in reincidentes)})
+
+    # Un 304 sin sha es un 304 que llegó sin que preguntáramos: la fuente
+    # afirma «sin cambios» sobre algo que no le planteamos. No rompe nada
+    # (R13) y el llamante degrada, pero es un contrato roto y se canta.
+    sin_pedir = [r[0] for r in conn.execute(
+        "SELECT DISTINCT url FROM sources_log WHERE http_status=304"
+        " AND sha256 IS NULL AND ts LIKE ?", (hoy_pfx,))]
+    if sin_pedir:
+        avisos.append({
+            "tipo": "trescientos_cuatro_sin_preguntar", "nivel": "media",
+            "texto": (f"{len(sin_pedir)} URL(s) contestaron «304 sin cambios» a "
+                      f"una petición que no llevaba validadores: no dicen nada "
+                      f"sobre el cuerpo que tenemos archivado, así que ese día "
+                      f"queda sin captura. Ejemplo: {sin_pedir[0]}"),
+            "urls": sin_pedir[:10], "n": len(sin_pedir)})
+    return avisos
+
+
+def divergencias_del_archivo_de_activos(conn) -> list[dict]:
+    """¿Dicen lo mismo el manifiesto de R2 y la base sobre cada vídeo?
+
+    Desde el 24-ago-2026 el monitor NO vuelve a descargar un activo que el
+    archivo ya declara suyo. Ese ahorro se apoya entero en que las dos vías del
+    archivo —`citizen_reports.media_sha256` y `data/r2_manifest.json`— digan lo
+    mismo, así que la que las vigila no puede ser la misma que las usa (M2).
+
+    Dos cosas se cantan y una NO:
+    - un objeto con **sha256 distinto** en cada vía: el archivo se desmiente a
+      sí mismo y `activo_archivado` deja de fiarse de los dos (vuelve a
+      descargar); esto explica por qué.
+    - un objeto del manifiesto que **la base no conoce**: sobra en el bucket, o
+      la base perdió una fila.
+    - un vídeo de la base que **aún no está en el manifiesto** no se avisa: el
+      manifiesto lo escribe `publish`, que corre DESPUÉS de esta función, así
+      que el día que llega un vídeo nuevo esa diferencia es lo normal. Avisar
+      de lo normal es la forma más rápida de que dejen de leerse las alertas.
+    """
+    from common import manifiesto_r2
+    manifiesto = manifiesto_r2()
+    if not manifiesto:
+        return []           # sin manifiesto no hay nada que comparar (R13)
+    try:
+        base = {(u or "").rsplit("/", 1)[-1]: s for u, s in conn.execute(
+            "SELECT media_url, media_sha256 FROM citizen_reports"
+            " WHERE media_sha256 IS NOT NULL")}
+    except sqlite3.Error:
+        return []
+    if not base:
+        # El espejo del caso de arriba, y el que de verdad muerde: si
+        # `rebuild_db` o `chatmap` fallan, R13 se los traga y la base llega
+        # vacía. Sin esta guarda, los 77 objetos del manifiesto salen como
+        # huérfanos y la alerta acusa al bucket de un fallo de la base. Un
+        # aviso que suena en falso deja de leerse, y entonces no avisa de nada.
+        return [{"tipo": "base_sin_reportes_ciudadanos", "nivel": "media",
+                 "texto": ("La base no tiene ni un reporte ciudadano con sha256, "
+                           "así que hoy no se puede comparar con el manifiesto de "
+                           f"R2 ({len(manifiesto)} objetos). No es que sobren en "
+                           "el bucket: es que falta la base — revisar si "
+                           "`rebuild_db` o `chatmap` fallaron."),
+                 "objetos_en_manifiesto": len(manifiesto)}]
+    avisos = []
+    discrepan = sorted(k for k, o in manifiesto.items()
+                       if k in base and base[k] != o["sha256"])
+    if discrepan:
+        avisos.append({
+            "tipo": "manifiesto_r2_discrepa_de_la_base", "nivel": "alta",
+            "texto": (f"{len(discrepan)} vídeo(s) ciudadanos tienen un sha256 en "
+                      f"la base y otro en el manifiesto de R2. Mientras dure, "
+                      f"esos cuerpos se vuelven a descargar enteros: el archivo "
+                      f"no autoriza a saltarse lo que él mismo desmiente. "
+                      f"Ejemplo: {discrepan[0]}"),
+            "objetos": discrepan[:10], "n": len(discrepan)})
+    huerfanos = sorted(set(manifiesto) - set(base))
+    if huerfanos:
+        avisos.append({
+            "tipo": "manifiesto_r2_con_objetos_sin_reporte", "nivel": "media",
+            "texto": (f"{len(huerfanos)} objeto(s) del manifiesto de R2 no "
+                      f"corresponden a ningún reporte ciudadano de la base: o "
+                      f"sobran en el bucket o la base perdió su fila. "
+                      f"Ejemplo: {huerfanos[0]}"),
+            "objetos": huerfanos[:10], "n": len(huerfanos)})
+    return avisos
+
+
 def run(copernicus_summary: dict | None = None) -> list[dict]:
     conn = db()
     snap = today()
@@ -459,6 +599,21 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                       f"hizo el 20-ago-2026."),
             "municipio": muni, "producto": pid})
 
+    # 9) ¿cambió alguna fuente su forma de contestar a una petición
+    # condicional? Un supuesto del monitor sobre sus propias fuentes: avisa,
+    # no rompe (R11), y una consulta rota no puede tumbar la corrida (R13).
+    try:
+        alerts.extend(cambios_en_peticiones_condicionales(conn, snap))
+    except sqlite3.OperationalError:
+        pass
+
+    # 10) ¿siguen diciendo lo mismo el manifiesto de R2 y la base sobre los
+    # vídeos ciudadanos? El ahorro de no volver a descargarlos se apoya en que
+    # sí; el día que se separen hay que verlo (R11).
+    try:
+        alerts.extend(divergencias_del_archivo_de_activos(conn))
+    except sqlite3.Error:
+        pass
 
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}
     if balance_consolidado:

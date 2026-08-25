@@ -25,6 +25,9 @@ actualización diaria automática y cada cifra rastreable hasta su petición de 
   de feeds**
   ([`feeds/registry.json`](feeds/registry.json)) al que cualquiera puede sumar un medio
   con un PR. Los medios regionales cambian el cruce: Istmina solo existe en la prensa del Chocó.
+- **[Cómo se construye este monitor](https://datosdelterremoto.org/referencia.html)** —
+  la metodología, la trazabilidad de cada cifra hasta la petición que la trajo, las reglas
+  del cruce, las limitaciones conocidas, todas las fuentes y el glosario de acrónimos.
 - **[Balances en medios](https://datosdelterremoto.org/balances.html)** — un worker con IA
   (Firecrawl + Qwen, cron diario) rastrea los balances publicados en prensa que citan
   fuentes oficiales (UNGRD, SGC, gobernaciones), extrae las cifras con su evidencia y las
@@ -129,12 +132,14 @@ Detalles de operación en [workers/push/README.md](workers/push/README.md).
 - **`Coincide cualitativamente` exige evidencia oficial** (EDAN/entidad estatal). Prensa y
   reportes ciudadanos alimentan estados intermedios explícitos; nunca promueven solos.
 - Los `"NA"` de Copernicus se conservan como NULL + literal crudo — jamás se convierten en 0.
-- Coordenadas ciudadanas **en el mapa** redondeadas a ~110 m; el EXIF nunca se publica
-  (verificado: 0 de 355 fotos traen EXIF — WhatsApp lo elimina). Nota de transparencia:
-  la base `data/monitor.sqlite` y los snapshots crudos conservan la coordenada original
-  de ChatMap porque son el registro de trazabilidad — el mismo dato que la fuente
-  (chatmap.hotosm.org) ya publica en abierto; el redondeo es una capa de prudencia en la
-  presentación, no un secreto.
+- Los reportes ciudadanos se sitúan **en el punto que registró ChatMap**, sin reposicionar.
+  Hasta el 24-ago-2026 el punto publicado se redondeaba a ~110 m; esa capa se retiró porque
+  no protegía a nadie —la coordenada exacta seguía abierta en el endpoint de la fuente— y sí
+  movía la foto de un daño a la casa de enfrente. Lo que sí protege, y no ha cambiado, es que
+  **el EXIF no se publica jamás** (verificado: 0 de 355 fotos traen EXIF — WhatsApp lo elimina)
+  y que no sale ningún dato personal. Nota de transparencia: la base `data/monitor.sqlite` y
+  los snapshots crudos conservan la coordenada original de ChatMap porque son el registro de
+  trazabilidad — el mismo dato que la fuente (chatmap.hotosm.org) ya publica en abierto.
 - Toda cifra es rastreable: `sources_log` (URL, HTTP, sha256, timestamp) + snapshot inmutable
   en `data/snapshots/YYYY-MM-DD/`.
 

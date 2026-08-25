@@ -132,6 +132,20 @@ window.UI = (function () {
   const estadoMunicipio = (estado) =>
     ESTADO_MUNICIPIO[estado] || ["Sin clasificar", "--muted", ""];
 
+  /* El nombre que se lee, a partir de la clave que desambigua: «Bolívar
+     (Cauca)» es una clave —un diccionario no admite dos veces la misma—, no un
+     topónimo. Cuando el texto escribe además el departamento por su cuenta,
+     repetirlo produce «Bolívar (Cauca) (Cauca)», que estuvo publicado en cinco
+     fichas y volvió a estarlo en la intro de municipios: se arregló en Python
+     y esta copia no se enteró (M2). Espejo EXACTO de
+     `deploy/render_html.py::toponimo` —si tocas una, mira la otra—, con su
+     test de espejo en tests/test_render_html.py. */
+  function toponimo(clave, depto) {
+    const sufijo = ` (${depto})`;
+    return String(clave || "").endsWith(sufijo)
+      ? String(clave).slice(0, -sufijo.length) : String(clave || "");
+  }
+
   /* Salvedad de los homónimos de departamento para la intro de municipios.
      Función pura (no toca el DOM) para que el harness de node la pueda testear:
      incluye la puntuación, porque el punto pertenece a la rama —el HTML lo dejó
@@ -139,9 +153,9 @@ window.UI = (function () {
   function fraseHomonimos(items) {
     const homs = (items || [])
       .filter((m) => m.homonimo_de_departamento && m.estado === "solo_rud")
-      .map((m) => `${m.municipio} (${m.departamento})`);
+      .map((m) => `${toponimo(m.municipio, m.departamento)} (${m.departamento})`);
     return homs.length
-      ? `, salvo ${homs.join(" y ")}, que se llaman igual que un departamento y ` +
+      ? `, salvo ${enumeraEs(homs)}, que se llaman igual que un departamento y ` +
         `a los que el monitor no puede atribuir titulares.`
       : ".";
   }
@@ -495,17 +509,21 @@ window.UI = (function () {
     return tip;
   }
 
-  /* ---- feed de balances (worker externo): URL única del frontend.
-     El worker guarda la copia viva; el repo archiva un snapshot diario en
-     feeds/balances/. Cambiarla aquí y solo aquí. */
-  const OFICIALES_BASE = "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev";
+  /* El feed de balances y el canal de Telegram YA NO VIVEN AQUÍ. Sus URL solo
+     las gastaba el pie que inyectaba common.js, y desde que el pie se escribe
+     en el build (23-ago-2026) la única fuente es `deploy/render_html.py`
+     —`OFICIALES_BASE` y `TELEGRAM_CANAL`, junto a `pie_estatico()`—. Dejarlas
+     declaradas aquí no era inofensivo: eran una segunda copia sin consumidor,
+     y una segunda copia de una URL termina divergiendo de la buena.
+     El feed archivado que sí lee el navegador es `/data/public/oficiales.json`,
+     y lo pide `site/balances.js`: nunca el worker, que es de cuenta ajena y el
+     día que se apague la página tiene que seguir enseñando el dato. */
 
-  /* ---- worker de avisos (Web Push + Telegram). VAPID_PUBLIC_KEY vacía =
-     los avisos aún no están desplegados y el botón 🔔 no se muestra.
-     Al desplegar workers/push (ver su README), pegar aquí la clave pública. */
+  /* ---- worker de avisos (Web Push). VAPID_PUBLIC_KEY vacía = los avisos aún
+     no están desplegados y el botón 🔔 no se muestra. Al desplegar
+     workers/push (ver su README), pegar aquí la clave pública. */
   const PUSH_BASE = "https://monitor-terremoto-colombia-push.inforesidencias.workers.dev";
   const VAPID_PUBLIC_KEY = "BBrMEN-T86OTPOCsTn6CbJSnqaLJeOGWjaVnNbe8WB6RCwEXaDORqDVWxnD-6jhBr3g5XkD72fce-jEKQDycAwc";
-  const TELEGRAM_CANAL = "https://t.me/terremotoCO2026";
 
   /* ---- medio de una noticia (regla compartida: página de titulares, fichas
      municipales y cualquier recuento de pluralidad).
@@ -806,7 +824,9 @@ window.UI = (function () {
   }
 
   /* Enumeración española: «a, b y c», con «e» cuando la última pieza empieza
-     por sonido i (ICube-SERTIT). La necesitan ya dos listas distintas. */
+     por sonido i (ICube-SERTIT). La casa tiene UNA sola: los servicios
+     satelitales, los municipios de UNOSAT y la salvedad de los homónimos. Las
+     copias sueltas se quedaban en «a y b y c», que no es español. */
   function enumeraEs(xs) {
     const l = (xs || []).filter(Boolean).map(String);
     if (l.length < 2) return l.join("");
@@ -910,10 +930,9 @@ window.UI = (function () {
       const munsUnosat = unosat ? (uno.municipios || []) : [];
       const munUnosat = munsUnosat.length;
       // los municipios se nombran, no se cuentan: son tres y decir cuáles vale
-      // más que decir cuántos. Enumeración española: «a, b y c».
-      const listaUnosat = munsUnosat.length > 1
-        ? `${munsUnosat.slice(0, -1).join(", ")} y ${munsUnosat.at(-1)}`
-        : munsUnosat.join("");
+      // más que decir cuántos. La enumeración española es una sola función
+      // (`enumeraEs`): esta copia se había quedado sin la «e» de «e Ibagué».
+      const listaUnosat = enumeraEs(munsUnosat);
       out.push({
         id: "satelite",
         nombre: unosat ? "Satélite · Copernicus y UNOSAT" : "Satélite · Copernicus",
@@ -1004,6 +1023,7 @@ window.UI = (function () {
   return { fmt, fmtProsa, pct, fechaEs, fechaLarga, diaMes, serieDesde,
            AOI_ES, aoiEs, zonasSinRegistro, ejemplosSinRegistro,
            estadoMunicipio, ESTADO_MUNICIPIO,
+           toponimo, enumeraEs,
            fraseHomonimos, silencioDePrensa, comparador, norm, cssVar, esc,
            fetchJson, tablaBuscable, tablaHidratada, paginador, metricCards,
            fichaMapa,
@@ -1012,6 +1032,5 @@ window.UI = (function () {
            retrocede, sinAnclas, esCoherente, incoherencias, atribucionOficial,
            fechaCorte, retrasoDelBalance,
            esNacional, CIFRAS_BALANCE, TECHO_SALTO,
-           disputaDia, comparativaFuentes, OFICIALES_BASE, PUSH_BASE,
-           VAPID_PUBLIC_KEY, TELEGRAM_CANAL };
+           disputaDia, comparativaFuentes, PUSH_BASE, VAPID_PUBLIC_KEY };
 })();

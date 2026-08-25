@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo se construye este monitor: metodología y glosario</title>
+<meta name="description" content="Cómo se construyen las cifras del terremoto de Colombia 2026: los tres ciclos diarios, la trazabilidad de cada dato hasta su petición de origen, las reglas del cruce, las limitaciones conocidas, todas las fuentes y el glosario de acrónimos (RUD, EDAN, AOI, MMI, ShakeMap, DYFI, DIVIPOLA).">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://datosdelterremoto.org/referencia.html">
+<meta property="og:url" content="https://datosdelterremoto.org/referencia.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:site_name" content="Datos del terremoto de Colombia 2026">
+<meta property="og:title" content="Cómo se construye este monitor del terremoto de Colombia 2026">
+<meta property="og:description" content="Metodología, trazabilidad, reglas del cruce, limitaciones conocidas, fuentes y glosario de acrónimos.">
+<meta property="og:image" content="https://datosdelterremoto.org/og/portada.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://datosdelterremoto.org/og/portada.png">
+<meta name="twitter:title" content="Cómo se construye este monitor: metodología y glosario">
+<meta name="twitter:description" content="Los tres ciclos diarios, la trazabilidad de cada cifra, las reglas del cruce y el glosario.">
+<!-- El `Dataset` de esta página lo escribe el build
+     (deploy/render_html.py::dataset_referencia), no va a mano: sus `citation`
+     —la UNGRD, el DANE, el USGS, ChatMap y los tres servicios satelitales— se
+     derivan de `SATELITES`, la misma tabla que decide quién ha mirado cada
+     municipio, para que el cuarto servicio entre solo (M2). El contenedor es
+     una `<section hidden>` y el bloque entero viaja dentro: un
+     `application/ld+json` vacío a la espera de relleno es JSON inválido para
+     quien lea el documento antes de la inyección. -->
+<!--site-identity-->
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#101418">
+<link rel="stylesheet" href="styles.css?v=dev">
+</head>
+<body>
+<nav id="site-nav" aria-label="Navegación del sitio"></nav>
+
+<header class="encabezado">
+  <div>
+    <h1>Cómo se construye este monitor</h1>
+    <p class="sub">Qué mira cada fuente, cómo se cruza, qué queda fuera y qué
+    significa cada sigla. <strong>El monitor no produce cifras: audita y cruza
+    las que existen.</strong></p>
+  </div>
+  <div class="meta">
+    <span class="contexto-sismo">M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)</span>
+    <span id="generado" data-gen="referencia-sello"></span><!-- lo rellena deploy/render_html.py en el build -->
+    <a class="btn" href="/data/public/crosscheck.csv" download>CSV del cruce</a>
+  </div>
+</header>
+
+<div class="zona-datos">
+
+<section hidden data-gen="referencia-dataset"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<section class="page-section referencia" id="que-encontrara">
+  <h2>Qué encontrará en este sitio</h2>
+  <p>El <strong>terremoto del 10 de agosto de 2026 en Colombia</strong> (magnitud 7,4,
+  epicentro en San José del Palmar, Chocó) es el sismo más fuerte registrado en el país en
+  más de un siglo. Este observatorio reúne, en un solo lugar y con actualización diaria,
+  <strong>cuatro miradas independientes sobre el mismo desastre</strong>: los daños
+  vistos <strong>desde el satélite</strong> —1.578 edificios con daño clasificado uno a
+  uno en 11 municipios—, los <strong>reportes ciudadanos con
+  foto</strong> enviados por WhatsApp (ChatMap · OpenStreetMap Colombia), los
+  <strong>titulares de prensa</strong> de feeds internacionales y regionales abiertos, y los
+  <strong>balances oficiales citados en medios</strong>, recogidos a diario.
+  Ese total satelital no es una suma de fuentes. Son <strong>tres servicios</strong>: el programa
+  europeo Copernicus (635 edificios; su resumen por zonas declara 622, y esos trece de diferencia son suyos, no nuestros), el centro satelital de la ONU, UNITAR-UNOSAT (548, de
+  los que 443 son solo «daño posible»), y el servicio francés ICube-SERTIT (503, tras
+  apartar nueve puntos de Cali que la fuente señaló sin asignarles grado de daño). Dos de
+  ellos miran las mismas ciudades, así que sumarlos contaría dos veces el mismo tejado.
+  <strong>Cada edificio se cuenta una vez</strong>: cuando dos servicios marcan el mismo a
+  menos de 20 metros, es uno solo. Y ahí aparece lo que ninguna cifra agregada deja ver: en
+  Pereira, 108 edificios los vieron dos servicios y <strong>en 49 de ellos no coinciden
+  sobre la gravedad</strong>; en Cali y Manizales cartografiaron zonas distintas de la misma
+  ciudad y no comparten ni un edificio. El último municipio en tener evidencia satelital es
+  <strong>Zarzal (Valle del Cauca): 201 edificios que solo ha mirado UNOSAT</strong>. Estuvo
+  a punto de no aparecer: sus puntos traen un código de evento que la propia fuente
+  contradice, y el filtro que lo apartaba habría callado el municipio entero. En el mismo
+  paquete <strong>UNOSAT reeditó Viterbo a la baja, de 154 edificios a 108</strong>. No es una
+  enmienda del monitor: la fuente cambió su propia cifra, y registrarlo es justamente
+  para lo que existe este archivo. El punto
+  no es solo mostrar los datos, sino <strong>cruzarlos y medir sus brechas</strong>: qué ve
+  el satélite que nadie reporta, qué reporta la comunidad que nadie mira, y qué publican
+  —y qué no— las fuentes oficiales. Cada cifra es rastreable hasta su origen.</p>
+</section>
+
+<!-- `#como-leer-el-monitor` y no `#como-leer` a secas: ese id es, en
+     `styles.css`, uno de los cuatro ALIAS del plegable legado —vive en
+     una lista compartida con `.intro details` y `.aviso details`, y su
+     retirada está reservada a un commit propio (lote 3)—. Esta sección no
+     es un plegable, así que heredar sus reglas le daba una sangría de
+     34 px donde el resto de la página usa 22. Un id que estila por
+     herencia de otro sitio es un id equivocado. -->
+<section class="page-section referencia" id="como-leer-el-monitor">
+  <h2>Cómo leer cada sección</h2>
+  <p class="sub">Una guía rápida de las otras cinco páginas y de cada pieza de
+  la portada, por si es la primera vez.</p>
+  <ol>
+      <li><strong><a href="/index.html#banner-brechas">La banda amarilla</a></strong> (en lo alto de la portada) resume las dos brechas centrales: cuánto
+      tiempo llevan calladas las fuentes oficiales abiertas y cuánta población expuesta al
+      sismo queda fuera de las zonas mapeadas por satélite.</li>
+      <li><strong><a href="/index.html#mapa">El mapa</a></strong>: cada polígono es una zona que Copernicus analizó en detalle,
+      coloreada por su estado del cruce. Los puntos con borde blanco son
+      <em>edificios dañados vistos por satélite</em> (rojo = destruido, naranja = dañado,
+      amarillo = posiblemente dañado); los de borde oscuro son la evaluación de
+      <em>UNITAR-UNOSAT</em>, el centro satelital de la ONU, que mira municipios donde
+      Copernicus no ha cartografiado nada — ninguno de esos puntos está validado en campo,
+      y cuatro de cada cinco son solo «daño posible»; los puntos violeta son
+      <em>reportes ciudadanos</em> — haz clic para ver la foto. Los puntos con borde
+      punteado son la evaluación de <em>ICube-SERTIT</em>, el servicio de cartografía
+      rápida de la Universidad de Estrasburgo, que en algunos municipios es el único que
+      ha mirado. Y los anillos punteados, sin apenas relleno, son los municipios que
+      tienen damnificados inscritos en el registro oficial y <strong>ninguna imagen
+      analizada</strong>: su color es la sacudida que estima el modelo del USGS, no daño
+      observado — que no aparezcan significa que nadie los ha mirado, no que no tengan
+      daño. La ★ es el epicentro.
+      Los botones de encima del mapa encienden y apagan cada
+      fuente —y cuentan municipios, no puntos—. El control de capas de la esquina guarda
+      las demás, entre ellas las dos intensidades —la que estima el modelo del USGS y la
+      que reportó la población—, las vías dañadas, las interrupciones, las zonas que
+      Copernicus analizó, las que quedaron sin analizar y los sismos históricos desde 1914.
+      Cada globo enseña solo lo que su fuente midió en ese punto: si una fuente no
+      responde a algo ahí, esa línea no aparece.</li>
+      <li><strong><a href="/index.html#municipios-uno-a-uno">La tabla del cruce</a></strong>: una fila por zona. La columna «Estado del cruce»
+      es el corazón del monitor — <em>solo la evidencia oficial</em> (EDAN o balance de entidad
+      estatal) permite llegar a «Coincide»; la prensa y los reportes ciudadanos alcanzan estados
+      intermedios explícitos. Pasa el ratón por cualquier cabecera para ver qué mide exactamente,
+      y haz clic en el número de «Prensa» para desplegar los titulares que lo sustentan.</li>
+      <li><strong><a href="/index.html#fuentes-section">Comparativa de fuentes</a></strong>: cuatro
+      tarjetas — satélite, RUD oficial, medios y comunidad — con su cifra principal. La
+      distancia entre ellas es la brecha; la comparación completa vive en
+      <a href="/balances.html#comparativa">Balances</a>.</li>
+      <li><strong><a href="/index.html#brecha-section">La brecha, día a día</a></strong>: la línea
+      ocre son los municipios que han inscrito damnificados en el registro oficial y la
+      azul los que ha mirado algún satélite. Lo que queda en medio es la brecha, y se
+      ensancha cada día que el registro crece y nadie mira. <a href="#cronologia">La
+      cronología</a>, aquí abajo, cuenta qué pasó cada día: la respuesta internacional, la
+      local y los cambios del propio monitor. Se puede filtrar por tipo.</li>
+      <li><strong><a href="/municipios.html">Municipios</a></strong> (página aparte): los
+      municipios del área de influencia con damnificados registrados en el RUD, menciones
+      en prensa o intensidad percibida — la lista de «dónde más mirar», con buscador y qué
+      proporción de su población está registrada.</li>
+      <li><strong><a href="/rud.html">RUD oficial</a></strong> (página aparte): el registro
+      oficial de damnificados día a día y municipio a municipio, con buscador.</li>
+      <li><strong><a href="/balances.html">Balances</a></strong> (página aparte): las cifras de
+      fallecidos/heridos/viviendas que los medios publican citando a UNGRD o SGC — y la
+      comparativa contra el RUD. Ojo con la etiqueta: es <em>prensa que cita lo
+      oficial</em>, no el balance oficial.</li>
+      <li><strong><a href="/noticias.html">Titulares</a></strong> (página aparte): todos los
+      titulares del evento recogidos, filtrables por zona, medio y texto — la prensa anterior
+      al 10 de agosto queda en el archivo, no en la página. ¿Falta un medio regional? El registro de
+      feeds es abierto — se añade con una propuesta de cambio en GitHub.</li>
+      <li><strong><a href="#descargas">Descargas y verificación</a></strong>: cada página
+      lleva en su cabecera la descarga de los datos que enseña —CSV, JSON o GeoJSON, según
+      lo que publique—, y aquí abajo están reunidas, con lo que contiene cada fichero y
+      su licencia. El <a href="#glosario">glosario de acrónimos</a> y la metodología,
+      con enlaces a todas las fuentes, están aquí mismo. Si una cifra no cuadra,
+      cada respuesta original está archivada en el repositorio con su huella digital.</li>
+    </ol>
+</section>
+
+<section class="page-section referencia" id="metodologia">
+  <h2>Metodología</h2>
+
+    
+    <p>El monitor no produce cifras: <strong>audita y cruza las que existen</strong>. Cada día,
+    de forma automática, ocurren tres ciclos:</p>
+    <ol>
+      <li><strong>23:00 (Colombia)</strong> — un proceso automático busca en la prensa los
+      balances del día que citan fuentes oficiales (UNGRD, SGC, gobernaciones), descarga los
+      artículos y extrae las cifras con su cita textual. Las <em>coberturas en vivo</em> se marcan y
+      pesan menos. Alimenta la página de <a href="/balances.html">Balances</a>.</li>
+      <li><strong>05:30 (Colombia)</strong> — la corrida diaria consulta todas las
+      fuentes (Copernicus, USGS, GDACS, GDELT, UNGRD, ChatMap, EMSC y los feeds de prensa
+      del <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/feeds/registry.json" target="_blank" rel="noopener">registro abierto</a>),
+      guarda una <strong>copia inmutable</strong> de cada respuesta original, recalcula el
+      cruce y publica el sitio. Los videos ciudadanos se archivan en almacenamiento
+      permanente (ChatMap no garantiza retención — su feed de noticias global, de hecho, fue
+      purgado el 16-ago y esa serie ya solo existe en nuestras copias).</li>
+      <li><strong>En cada corrida</strong> — una batería de tests verifica el código, los
+      contratos de las APIs externas y las hipótesis del proyecto contra los datos frescos.
+      Si una fuente cambia o calla, salta una alerta en la portada.</li>
+    </ol>
+    <p><strong>Trazabilidad:</strong> toda petición HTTP queda registrada con URL, estado,
+    huella digital (sha256) y fecha; ninguna cifra publicada carece de fila en ese registro. Las
+    copias originales se archivan en el
+    <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">repositorio público</a>,
+    así que cualquier número puede reconstruirse y rebatirse.</p>
+    <p><strong>Medición de audiencia (declarada):</strong> el sitio usa Cloudflare Web
+    Analytics — sin cookies, sin identificadores personales, solo agregados de visitas.
+    Se declara aquí porque en un monitor que audita la transparencia de otros, la propia
+    debe ir por delante.</p>
+    <p><strong>Limitaciones conocidas:</strong> un archivo honesto documenta sus lagunas —
+    los cinco primeros días sin copias archivadas, los vídeos que solo viven en R2, el registro
+    progresivo del RUD. Están enumeradas en
+    <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md"
+    target="_blank" rel="noopener">docs/LIMITACIONES.md</a>.</p>
+    <p><strong>Reglas del cruce:</strong> «Coincide cualitativamente» exige evidencia
+    oficial (EDAN o balance de entidad estatal) — la prensa y los reportes ciudadanos solo
+    alcanzan estados intermedios explícitos, por muchos que sean. Los «NA» de las fuentes se
+    conservan como tales, jamás se convierten en ceros. Los reportes ciudadanos pasan una
+    verificación automática (intensidad plausible, dentro de zona mapeada, fecha posterior
+    al sismo, sin copias repetidas del mismo archivo) y se publican en el punto exacto que registró
+    ChatMap —el monitor no reposiciona nada—, sin los datos ocultos de la foto y sin datos personales.</p>
+    <p><strong>Fuentes:</strong>
+    <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">Copernicus EMS (EMSR916)</a> ·
+    <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2" target="_blank" rel="noopener">USGS</a>
+    (<a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap/intensity" target="_blank" rel="noopener">ShakeMap</a>,
+    <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/pager" target="_blank" rel="noopener">PAGER</a>,
+    <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/dyfi/intensity" target="_blank" rel="noopener">DYFI</a>) ·
+    <a href="https://www.gdacs.org/report.aspx?eventid=1557236&amp;episodeid=1724218&amp;eventtype=EQ" target="_blank" rel="noopener">GDACS</a> ·
+    <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a> ·
+    UNGRD (<a href="https://services2.arcgis.com/YVLx8xYoDXKccDfJ/arcgis/rest/services/REGISTRO_DE_EMERGENCIAS_EN_COLOMBIA/FeatureServer/0" target="_blank" rel="noopener">ArcGIS</a>,
+    <a href="https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Emergencias-UNGRD-/wwkg-r6te" target="_blank" rel="noopener">datos.gov.co</a>,
+    <a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">RUD</a>) ·
+    <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE</a>
+    (<a href="https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w" target="_blank" rel="noopener">DIVIPOLA</a>) ·
+    <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a> ·
+    <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC</a> ·
+    <a href="https://unosat.org/products/4253" target="_blank" rel="noopener">UNITAR-UNOSAT</a>.
+    Sin acceso programático (documentado):
+    <a href="https://sni.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">SNIGRD</a>,
+    <a href="https://sismosentido2.sgc.gov.co/" target="_blank" rel="noopener">SGC Sismo Sentido</a>.
+    Extensión documentada para asentamientos bajo dosel:
+    <a href="https://data.humdata.org/dataset/2f865527-b7bf-466c-b620-c12b8d07a053" target="_blank" rel="noopener">HRSL</a>,
+    <a href="https://sites.research.google/gr/open-buildings/" target="_blank" rel="noopener">Open Buildings v3</a>,
+    <a href="https://science.nasa.gov/mission/nisar/data/" target="_blank" rel="noopener">NISAR</a>.</p>
+
+    </section>
+
+<!-- Las descargas del monitor, reunidas (fase 6c). La cabecera de la portada
+     llevaba cinco botones y se queda con el CSV del cruce, que es el dato de
+     esa página; las otras cuatro bajan aquí, donde caben con lo que contiene
+     cada fichero y con su licencia — que en el caso de ICube-SERTIT no es la
+     misma que la del resto y en un botón no cabía decirlo. Ninguna se retira:
+     esconder datos abiertos iría contra la misión del monitor. De paso entran
+     las que solo se ofrecían en la cabecera de su propia página, para que este
+     bloque no prometa un inventario que no tiene. -->
+<section class="page-section referencia" id="descargas">
+  <h2>Datos abiertos: qué hay en cada fichero</h2>
+  <p class="sub">Lo principal que publica el monitor, en formatos abiertos.
+  <strong>Cada fichero declara dentro su propia fecha de corte</strong> —no todos
+  se rehacen en la misma corrida— y cada uno dice aquí bajo qué licencia se
+  reparte: los datos derivados del monitor van bajo licencia Creative Commons de
+  atribución (CC BY 4.0) y los crudos conservan la de su fuente, con las
+  excepciones que se señalan abajo. Las condiciones completas están en el
+  <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/LICENSE" target="_blank" rel="noopener">fichero
+  LICENSE</a> del repositorio.</p>
+  <ul>
+    <li><a href="/data/public/crosscheck.csv" download><strong>CSV del cruce</strong></a>
+    — una fila por zona analizada por Copernicus: qué dice cada fuente sobre ella,
+    el estado del cruce, las vías dañadas, las interrupciones y la fecha de entrega
+    de cada producto. Es la tabla que sostiene el mapa de zonas y sus estados del
+    cruce; la tabla municipal de la portada se arma aparte.</li>
+    <li><a href="/data/public/monitor.json" target="_blank" rel="noopener"><strong>JSON del monitor</strong></a>
+    — el estado completo de la corrida del día: totales satelitales, serie del
+    volumen de prensa, entregas de Copernicus, alertas, silencios de fuentes y el
+    índice de activaciones públicas del servicio europeo. Lleva dentro agregados
+    de ICube-SERTIT, así que le alcanza la excepción no comercial de esa fuente.</li>
+    <li><a href="/data/public/unosat_damage.geojson" download><strong>GeoJSON de UNITAR-UNOSAT</strong></a>
+    — los edificios que evaluó el centro satelital de la ONU, punto a punto y con su
+    grado de daño; buena parte se marca solo como «daño posible».
+    <strong>Licencia no declarada</strong> por la fuente: su producto remite a las
+    <a href="https://www.unitar.org/legal" target="_blank" rel="noopener">condiciones
+    legales del UNITAR</a>, así que no se redistribuye como CC BY.</li>
+    <li><a href="/data/public/sertit_damage.geojson" download><strong>GeoJSON de ICube-SERTIT</strong></a>
+    — los edificios cartografiados por el servicio francés de cartografía rápida.
+    <strong>Licencia propia, no CC BY</strong>: uso libre salvo con fines
+    comerciales, atribución obligatoria a «© ICube-SERTIT 2026» y, si se modifica
+    el producto, obligación de declarar qué se modificó sin sugerir que
+    ICube-SERTIT respalda ese uso. La fuente pidió además que su logotipo
+    acompañe a la publicación de sus productos.</li>
+    <li><a href="/data/public/municipios_mapa.json" download><strong>JSON de municipios sin satélite</strong></a>
+    — los municipios que tienen damnificados inscritos en el registro oficial y
+    <strong>ningún producto de daño satelital</strong>, con la sacudida que les
+    estima el modelo del USGS cuando la hay: nueve quedan fuera de su rejilla y su
+    casilla va vacía, que no es lo mismo que ir a cero. Es la brecha que este
+    monitor existe para medir, en una lista.</li>
+    <li><a href="/data/public/rud.json" target="_blank" rel="noopener"><strong>Histórico del RUD</strong></a>
+    — el registro oficial de damnificados día a día y municipio a municipio, tal
+    como lo fue publicando la UNGRD. Fichero dedicado: sobrevive aunque la fuente
+    deje de publicar.</li>
+    <li><a href="/data/public/municipios.json" target="_blank" rel="noopener"><strong>Municipios del área de influencia</strong></a>
+    y su <a href="/data/public/municipios.geojson" target="_blank" rel="noopener">GeoJSON</a>
+    — una fila por municipio con lo que cada fuente dice de él: registro oficial,
+    evaluaciones satelitales, reportes de la comunidad, prensa y población del DANE.
+    Sus campos <code>sertit_*</code> llevan la excepción no comercial de esa fuente.</li>
+    <li><a href="/data/public/oficiales.json" target="_blank" rel="noopener"><strong>Balances citados en medios</strong></a>
+    — las cifras de fallecidos, heridos y viviendas que publica la prensa citando a
+    la UNGRD o al Servicio Geológico Colombiano, con su cita textual y su enlace.
+    Ojo con la etiqueta: es <strong>prensa que cita lo oficial</strong>, no el
+    balance oficial.</li>
+    <li><a href="/data/public/noticias.json" target="_blank" rel="noopener"><strong>Titulares del evento</strong></a>
+    — el corpus de prensa recogido por el monitor, con su medio, su fecha y los
+    municipios que menciona cada titular. Una mención no es una validación.</li>
+    <li><a href="/data/public/hitos_monitor.json" target="_blank" rel="noopener"><strong>Hitos curados</strong></a>
+    — los hitos que ninguna fuente estructurada registra y que sostienen la
+    cronología de esta página: el evento raíz, las entregas fuera de banda y los
+    cambios del propio monitor. Los demás se derivan de los datos.</li>
+    <li><a href="/data/public/divipola_coords.json" target="_blank" rel="noopener"><strong>Catálogo de municipios (DIVIPOLA)</strong></a>
+    — los códigos oficiales del DANE con el centroide de cada municipio, que es lo
+    que permite empatar nombres entre fuentes que los escriben distinto.</li>
+  </ul>
+  <p class="note">Las tres miradas satelitales —Copernicus, UNITAR-UNOSAT e
+  ICube-SERTIT— son <strong>fotointerpretación sobre imagen, sin validación en
+  campo</strong>: ninguna de las tres equivale a una inspección ni alcanza por sí
+  sola la condición de evidencia oficial.</p>
+  <p class="note">Desde el 15 de agosto de 2026, cada respuesta original queda
+  archivada con su URL, su código HTTP y su huella digital (sha256) en el
+  <a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">repositorio
+  público</a>: si una cifra no cuadra, se puede reconstruir y rebatir. De los cinco
+  primeros días —del sismo al 15 de agosto— no hay copias propias, y esa laguna y
+  las demás están enumeradas en
+  <a href="https://github.com/18orkidea/monitor-terremoto-colombia/blob/main/docs/LIMITACIONES.md" target="_blank" rel="noopener">docs/LIMITACIONES.md</a>.</p>
+</section>
+
+<!-- Vigilancia de catálogo, mudada aquí desde la portada (fase 6c). No es
+     material de lectura para quien busca su municipio, pero tampoco es
+     material que se tire: el día que una de estas activaciones desaparezca del
+     portal de Copernicus, esta lista seguirá diciendo que existió. Vigilar
+     fuentes es parte de la misión, y su sitio es la página que explica qué
+     mira el monitor. -->
+<section class="page-section referencia" id="colombia-acts-section">
+  <h2>Otras activaciones de Copernicus en Colombia</h2>
+  <p class="sub">Vigilancia diaria del catálogo público de activaciones del
+  servicio de emergencias de Copernicus. No son de este terremoto: es lo que el
+  catálogo dice de Colombia desde julio de 2023, que es donde arranca la ventana
+  pública del índice y no donde arranca el programa. Quedan archivadas aquí
+  aunque el portal las retire.</p>
+  <section id="colombia-acts" data-gen="referencia-acts"></section><!-- lo rellena deploy/render_html.py en el build -->
+</section>
+
+<!-- La cronología completa, mudada desde la portada (fase 6c) con su banda,
+     su filtro y sus entradas. Ya no la pinta el navegador: la escribe el build
+     (deploy/render_html.py::cronologia_referencia), así que por primera vez la
+     leen también los rastreadores y quien no ejecuta JavaScript. El filtro es
+     lo único que queda en el navegador, en common.js, y se calla si no
+     encuentra sus chips. -->
+<section class="page-section referencia" id="cronologia">
+  <h2>Qué pasó cada día: la cronología del evento</h2>
+  <p class="sub">La banda reparte los hitos por carril:
+  respuesta internacional (▲ = entrega de datos de Copernicus),
+  <span style="color:var(--good)">respuesta local u oficial</span> (★ = el sismo) y
+  <span style="color:var(--warning)">cambios del propio monitor</span> — con el ratón
+  encima de una marca se lee su hito; en un celular, cada hito está entero en la lista
+  de abajo. Los hitos se derivan automáticamente de los datos (alta del RUD,
+  primer balance en medios, purga de la serie de noticias de GDACS); lo que no se puede
+  derivar se escribe a mano y queda guardado, con su historial de cambios, en el
+  repositorio público.</p>
+  <section id="crono-cuerpo" data-gen="referencia-cronologia"></section><!-- lo rellena deploy/render_html.py en el build -->
+</section>
+
+<section class="page-section referencia" id="glosario">
+    <h2>Glosario de acrónimos</h2>
+    <dl>
+    <dt>AOI</dt><dd><em>Area of Interest</em>: zona delimitada que Copernicus analiza en detalle (aquí: Cali norte y centro, Pereira, Quibdó, Istmina, Buenaventura y una regional).</dd>
+    <dt>UNITAR / UNOSAT</dt><dd>Centro Satelital de las Naciones Unidas (<em>UN Satellite Centre</em>), parte del UNITAR. Publica evaluaciones de daño por fotointerpretación de imagen de muy alta resolución. Sus puntos son <strong>hallazgos sin validar en campo</strong>: no equivalen a una inspección, y buena parte se marca solo como «daño posible».</dd>
+    <dt>EMS / EMSR916</dt><dd><em>Emergency Management Service</em> de Copernicus (UE); EMSR916 es el código de la activación de mapeo rápido para este terremoto.</dd>
+    <dt>GRA / GRM</dt><dd>Tipos de producto Copernicus: <em>Grading</em> (clasifica el daño edificio a edificio) y <em>Grading Monitoring</em> (seguimiento posterior de la misma zona).</dd>
+    <dt>USGS</dt><dd><em>United States Geological Survey</em>: servicio geológico de EE. UU.; fuente de los parámetros del sismo.</dd>
+    <dt>MMI</dt><dd>Intensidad Mercalli Modificada: cuánto se sintió y dañó el sismo en cada lugar (I–XII), no cuánta energía liberó (eso es la magnitud).</dd>
+    <dt>ShakeMap</dt><dd>Mapa de intensidad del USGS que estima el MMI en cada punto del territorio.</dd>
+    <dt>PAGER</dt><dd><em>Prompt Assessment of Global Earthquakes for Response</em>: sistema del USGS que estima la población expuesta y las pérdidas probables minutos después de un sismo (alerta verde, amarilla, naranja o roja). Para este terremoto el USGS mantenía <strong>alerta roja</strong>, su nivel máximo, en la captura del 24 de agosto de 2026 (<a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/pager" target="_blank" rel="noopener">ficha PAGER del evento</a>); el USGS puede revisarla. Es una estimación automática, no un recuento: no sustituye a ningún balance oficial.</dd>
+    <dt>DYFI / CDI</dt><dd><em>Did You Feel It?</em>: reportes ciudadanos de intensidad del USGS; el CDI es la intensidad calculada a partir de ellos.</dd>
+    <dt>DANE / PPED</dt><dd>Departamento Administrativo Nacional de Estadística; aquí se usan sus proyecciones municipales de población 2026 de la operación PPED.</dd>
+    <dt>DIVIPOLA</dt><dd>Codificación oficial de departamentos y municipios de Colombia; permite empatar nombres municipales con fuentes oficiales.</dd>
+    <dt>GDACS</dt><dd><em>Global Disaster Alert and Coordination System</em> (ONU/Comisión Europea): alertas y coordinación internacional de desastres.</dd>
+    <dt>EMM</dt><dd><em>Europe Media Monitor</em>: rastreador de noticias de la Comisión Europea; aquí, las noticias ligadas al evento por GDACS.</dd>
+    <dt>GDELT</dt><dd>Proyecto que monitoriza medios de todo el mundo; aquí mide el volumen de cobertura mediática por día.</dd>
+    <dt>Google News</dt><dd>Agregador de titulares; aquí se usa con una búsqueda general del evento y búsquedas por municipio para no perder cobertura local. Las búsquedas municipales devuelven histórico, así que el monitor descarta de todo recuento la prensa anterior al 10 de agosto de 2026: hablaba de otros sismos. Los titulares descartados siguen en el archivo, no en las páginas.</dd>
+    <dt>RSS / Atom</dt><dd>Formatos estándar de sindicación de noticias usados para leer medios locales y agregadores sin scraping manual.</dd>
+    <dt>GLIDE</dt><dd>Identificador global único de desastres (<em>GLobal IDEntifier</em>); el de este sismo es EQ-2026-000146-COL.</dd>
+    <dt>UNGRD</dt><dd>Unidad Nacional para la Gestión del Riesgo de Desastres de Colombia: la entidad oficial que consolida emergencias.</dd>
+    <dt>EDAN</dt><dd>Evaluación de Daños y Análisis de Necesidades: el balance oficial en terreno (viviendas, personas afectadas, servicios).</dd>
+    <dt>RUD</dt><dd>Registro Único de Damnificados (UNGRD): lo cargan las autoridades municipales, municipio a municipio. No es un EDAN ni una verificación de daño; que un municipio no aparezca significa «sin registro aún», no «sin daño».</dd>
+    <dt>SNIGRD</dt><dd>Sistema Nacional de Información para la Gestión del Riesgo de Desastres (UNGRD, 2026).</dd>
+    <dt>SGC</dt><dd>Servicio Geológico Colombiano: autoridad sismológica nacional (red de sismógrafos y formulario «Sismo Sentido»).</dd>
+    <dt>OSM / HOT</dt><dd>OpenStreetMap (mapa libre mundial) y <em>Humanitarian OpenStreetMap Team</em>, que coordina el mapeo humanitario; ChatMap es su herramienta de reporte por WhatsApp.</dd>
+    <dt>EMSC</dt><dd><em>European-Mediterranean Seismological Centre</em>: red sismológica que recoge testimonios ciudadanos en minutos (app LastQuake).</dd>
+    <dt>HRSL</dt><dd><em>High Resolution Settlement Layer</em> (Meta): mapa de densidad de población a ~30 m, útil para localizar asentamientos remotos.</dd>
+    <dt>SAR / NISAR</dt><dd>Radar de apertura sintética: «ve» a través de nubes y parcialmente del dosel forestal; NISAR es la misión NASA-ISRO de banda L con datos abiertos.</dd>
+    <dt>GeoJSON / CSV</dt><dd>Formatos abiertos de descarga: geometrías con datos (GeoJSON) y tabla simple (CSV).</dd>
+  </dl>
+</section>
+
+</div>
+
+<script src="common.js?v=dev"></script>
+<div id="site-footer"></div>
+</body>
+</html>

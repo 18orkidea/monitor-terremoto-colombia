@@ -134,12 +134,18 @@ class TestToponimos(unittest.TestCase):
 
 
 class TestPrivacidad(unittest.TestCase):
-    def test_redondeo_publico(self):
+    def test_el_reporte_se_publica_donde_la_fuente_lo_registro(self):
+        """R5 desde el 24-ago-2026. Antes esto exigía lo contrario.
+
+        Redondear a ~110 m no protegía —ChatMap publica la coordenada exacta en
+        su endpoint abierto— y movía la foto de daño a la casa de enfrente: la
+        mediana de los 542 reportes estaba a 43 m de donde se tomó, y 199 a más
+        de 50. Mover un punto es afirmar que el daño estaba donde no estaba."""
         sys.path.insert(0, str(Path(__file__).parent.parent / "ingest" / "sources"))
-        from chatmap import _round_pub
-        self.assertEqual(_round_pub(3.9099751234), 3.910)
-        # 3 decimales ≈ 110 m: la coordenada exacta no debe sobrevivir
-        self.assertNotEqual(_round_pub(3.9099751234), 3.9099751234)
+        from chatmap import _coordenada_publica
+        for v in (3.9099751234, -76.55279292639023, 0.0, -0.000001):
+            self.assertEqual(_coordenada_publica(v), v,
+                             "la coordenada se publicó movida de sitio")
 
 
 class TestSerieChatMap(unittest.TestCase):
@@ -521,6 +527,93 @@ class TestMunicipiosInfluencia(unittest.TestCase):
         self.assertEqual(len(gj["features"]), 0)
 
 
+class TestNombreASecasCongelado(unittest.TestCase):
+    """La identidad de una ficha no la decide quién tiene más damnificados.
+
+    El nombre a secas de dos homónimos se repartía al PRIMERO de las filas del
+    RUD, que llegan ordenadas por familias descendente: «Argelia» era la del
+    Valle porque tenía más damnificados. Bastaba con que entrara un homónimo
+    nuevo con más familias para que se llevara la URL ya publicada —y con ella
+    el identificador del feed que archiva sus titulares—. `municipios.py`
+    congela la asignación publicada; lo que la tabla no anota se reparte como
+    siempre, y el test de supuesto avisa.
+    """
+
+    DIVIPOLA = {
+        "argelia|cauca": {"municipio": "ARGELIA", "departamento": "CAUCA",
+                          "divipola": "19050", "lat": 2.25, "lon": -77.0},
+        "argelia|valle del cauca": {
+            "municipio": "ARGELIA", "departamento": "VALLE DEL CAUCA",
+            "divipola": "76054", "lat": 4.72, "lon": -76.11},
+        "guaduas|cundinamarca": {
+            "municipio": "GUADUAS", "departamento": "CUNDINAMARCA",
+            "divipola": "25320", "lat": 5.07, "lon": -74.59},
+        "guaduas|tolima": {"municipio": "GUADUAS", "departamento": "TOLIMA",
+                           "divipola": "73999", "lat": 4.0, "lon": -75.0},
+    }
+
+    @staticmethod
+    def _fila(dep, mun, familias):
+        return ((dep.lower(), mun.lower()),
+                {"departamento": dep, "municipio": mun, "familias": familias,
+                 "personas": familias * 3, "viv_destruidas": 0,
+                 "viv_averiadas": 1})
+
+    def _rud(self, *filas):
+        """Las filas en el orden en que las lee el RUD: familias descendente."""
+        return dict(sorted((self._fila(*f) for f in filas),
+                           key=lambda kv: -kv[1]["familias"]))
+
+    def test_el_homonimo_nuevo_no_le_quita_la_url_al_publicado(self):
+        from municipios import municipios_dinamicos
+        # la del Cauca duplica hoy a la del Valle en damnificados y encabeza
+        # las filas: con el reparto por orden se habría llevado /municipio/argelia/
+        extras = municipios_dinamicos(
+            self._rud(("CAUCA", "ARGELIA", 1800),
+                      ("VALLE DEL CAUCA", "ARGELIA", 851)),
+            self.DIVIPOLA)
+        self.assertEqual(extras["Argelia"]["divipola"], "76054",
+                         "«Argelia» a secas es la publicada (Valle del Cauca) "
+                         f"desde el 18-ago-2026, gane quien gane: {extras}")
+        self.assertEqual(extras["Argelia (Cauca)"]["divipola"], "19050")
+
+    def test_la_tabla_no_decide_quien_entra_sino_quien_lleva_parentesis(self):
+        """La degradación segura es «paréntesis», nunca «desaparece»."""
+        from municipios import municipios_dinamicos
+        extras = municipios_dinamicos(
+            self._rud(("CAUCA", "ARGELIA", 1800),
+                      ("VALLE DEL CAUCA", "ARGELIA", 851)),
+            self.DIVIPOLA)
+        self.assertEqual(sorted(extras), ["Argelia", "Argelia (Cauca)"])
+        for meta in extras.values():   # las dos fichas, con su punto en el mapa
+            self.assertIsNotNone(meta["lat"])
+
+    def test_el_nombre_sin_anotar_se_reparte_como_siempre(self):
+        """Sin entrada en la tabla no se rompe nada: gana el primero, como
+        antes, y el supuesto de `test_hipotesis` pide anotarlo."""
+        from municipios import municipios_dinamicos, NOMBRE_A_SECAS_CONGELADO
+        self.assertNotIn("Guaduas", NOMBRE_A_SECAS_CONGELADO)
+        extras = municipios_dinamicos(
+            self._rud(("TOLIMA", "GUADUAS", 90),
+                      ("CUNDINAMARCA", "GUADUAS", 10)),
+            self.DIVIPOLA)
+        self.assertEqual(extras["Guaduas"]["divipola"], "73999")
+        self.assertIn("Guaduas (Cundinamarca)", extras)
+
+    def test_sin_codigo_resuelto_desempata_el_departamento(self):
+        """Un municipio que el catálogo geográfico escribe de otra manera se
+        queda sin código. Su nombre no puede quedar a subasta por eso: el
+        departamento, que el RUD siempre trae, sigue distinguiéndolos."""
+        from municipios import municipios_dinamicos
+        extras = municipios_dinamicos(
+            self._rud(("CAUCA", "ARGELIA", 1800),
+                      ("VALLE DEL CAUCA", "ARGELIA", 851)),
+            None)                      # sin catálogo geográfico: cero códigos
+        self.assertEqual(extras["Argelia"]["departamento"], "Valle del Cauca",
+                         f"el desempate por departamento no actuó: {extras}")
+        self.assertIn("Argelia (Cauca)", extras)
+
+
 class TestFeedsComunitarios(unittest.TestCase):
     RSS = b"""<?xml version="1.0"?><rss version="2.0"><channel>
       <item><title>Sismo en Quibd\xc3\xb3 deja da\xc3\xb1os</title>
@@ -636,6 +729,97 @@ class TestFeedsComunitarios(unittest.TestCase):
                          f"feed automático que atribuye prensa a un homónimo de "
                          f"departamento: {homonimos & declarados}")
 
+    # Catálogo DIVIPOLA mínimo: municipios reales del RUD y los nombres de
+    # departamento con los que se detecta un homónimo.
+    DIVIPOLA_FIXTURE = {
+        "aguadas|caldas": {"municipio": "AGUADAS", "departamento": "CALDAS",
+                           "divipola": "17013", "lat": 5.61, "lon": -75.45},
+        "bolivar|cauca": {"municipio": "BOLÍVAR", "departamento": "CAUCA",
+                          "divipola": "19100", "lat": 1.84, "lon": -76.96},
+        # el homónimo se detecta contra los nombres de departamento que trae
+        # el propio catálogo geográfico: sin esta fila, «Bolívar» pasaría
+        "cartagena|bolivar": {"municipio": "CARTAGENA", "departamento": "BOLÍVAR",
+                              "divipola": "13001", "lat": 10.39, "lon": -75.51},
+    }
+
+    def _catalogo(self, *filas):
+        """El catálogo completo (curados + RUD) a partir de filas del RUD."""
+        from municipios import catalogo_municipios, _norm
+        rud = {(_norm(dep), _norm(mun)): {"departamento": dep, "municipio": mun}
+               for dep, mun in filas}
+        return catalogo_municipios(rud, self.DIVIPOLA_FIXTURE)
+
+    def test_la_busqueda_se_deriva_del_catalogo_completo_no_del_curado(self):
+        """El monitor publicaba «ni un titular» de 126 municipios a los que
+        nunca preguntó: los que abre el RUD no estaban en la lista de
+        búsquedas. Si esto vuelve a recorrer solo MUNICIPIOS, cae."""
+        from community_feeds import municipal_google_news_feeds
+        from municipios import MUNICIPIOS
+        self.assertNotIn("Aguadas", MUNICIPIOS, "el fixture perdió sentido: "
+                         "Aguadas ya está curado y no prueba la derivación")
+        feeds = municipal_google_news_feeds(self._catalogo(("CALDAS", "AGUADAS")))
+        aguadas = [f for f in feeds if f["municipio"] == "Aguadas"]
+        self.assertEqual(len(aguadas), 1,
+                         "un municipio que abre el RUD se queda sin búsqueda")
+        self.assertIn("%22aguadas%22", aguadas[0]["url"])
+        self.assertIn("%22caldas%22", aguadas[0]["url"])
+
+    def test_el_municipio_dinamico_sin_toponimo_no_genera_consulta(self):
+        """M10: si no se puede preguntar, no se pregunta. Una consulta sin
+        frase (`"" "caldas"`) traería los titulares del departamento entero y el
+        feed los atribuiría a un municipio, porque publish.py cree al feed."""
+        from community_feeds import municipal_google_news_feeds, motivo_sin_busqueda
+        catalogo = self._catalogo(("CALDAS", "AGUADAS"))
+        catalogo["Aguadas"]["toponimos"] = []
+        self.assertEqual(motivo_sin_busqueda(catalogo["Aguadas"]), "sin topónimo")
+        self.assertEqual([f for f in municipal_google_news_feeds(catalogo)
+                          if f["municipio"] == "Aguadas"], [])
+
+    def test_el_municipio_dinamico_homonimo_de_departamento_no_genera_consulta(self):
+        """Bolívar (Cauca) llega por el RUD sin que nadie lo cure: la marca de
+        homónimo tiene que nacer con él, o `"bolivar" "cauca"` traería los
+        titulares del departamento de Bolívar atribuidos a un municipio."""
+        from community_feeds import municipal_google_news_feeds
+        catalogo = self._catalogo(("CAUCA", "BOLÍVAR"))
+        # la clave lleva el departamento porque el nombre a secas está
+        # congelado para el Bolívar del Valle del Cauca, que es el publicado
+        self.assertTrue(catalogo["Bolívar (Cauca)"]["homonimo_de_departamento"])
+        declarados = {m for f in municipal_google_news_feeds(catalogo)
+                      for m in (f.get("municipios") or [])}
+        self.assertNotIn("Bolívar (Cauca)", declarados)
+        self.assertNotIn("Bolívar", declarados)
+
+    def test_el_toponimo_de_catalogo_administrativo_no_genera_consulta(self):
+        """«sotara - paispamba» es como lo escribe el registro, no como lo
+        escribe un titular: la búsqueda devolvería cero para siempre y nadie
+        sabría por qué. Es la misma trampa que las claves con paréntesis."""
+        from community_feeds import municipal_google_news_feeds, motivo_sin_busqueda
+        catalogo = self._catalogo(("CALDAS", "AGUADAS"))
+        catalogo["Aguadas"]["toponimos"] = ["sotara - paispamba"]
+        self.assertIn("no buscable", motivo_sin_busqueda(catalogo["Aguadas"]) or "")
+        self.assertEqual([f for f in municipal_google_news_feeds(catalogo)
+                          if f["municipio"] == "Aguadas"], [])
+        # la coma sí es contexto real de prensa («San José, Caldas»)
+        catalogo["Aguadas"]["toponimos"] = ["san jose, caldas"]
+        self.assertIsNone(motivo_sin_busqueda(catalogo["Aguadas"]))
+
+    def test_los_municipios_sin_busqueda_se_cuentan_con_su_motivo(self):
+        """Un hueco declarado no es un hueco callado: la corrida dice cuántos
+        municipios no pudo preguntar y por qué."""
+        from community_feeds import municipios_sin_busqueda
+        sin = municipios_sin_busqueda(self._catalogo(("CAUCA", "BOLÍVAR")))
+        self.assertEqual(sin.get("Bolívar (Cauca)"), "homónimo de departamento")
+        self.assertNotIn("Armenia", sin)
+
+    def test_el_catalogo_se_entrega_en_copia_y_no_reescribe_el_curado(self):
+        """`MUNICIPIOS` es un literal del módulo: si el catálogo devolviera
+        las mismas fichas, anotar una en el llamante reescribiría el catálogo
+        curado para el resto del proceso y el fallo saldría en otro sitio."""
+        from municipios import MUNICIPIOS, catalogo_municipios
+        antes = dict(MUNICIPIOS["Armenia"])
+        catalogo_municipios()["Armenia"]["toponimos"] = ["destrozado"]
+        self.assertEqual(MUNICIPIOS["Armenia"], antes)
+
     def test_feed_municipal_no_depende_del_filtro_general(self):
         from community_feeds import _relevante
         import re
@@ -705,6 +889,673 @@ class TestSnapshotsIntradia(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(cuerpo).hexdigest(), sha,
                                  "el snapshot no corresponde al sha del log")
             conn.close()
+
+
+class TestPeticionesCondicionales(unittest.TestCase):
+    """Preguntar sin descargar, y no archivar dos veces lo mismo.
+
+    Medido el 24-ago-2026 sobre las 4.277 filas del log: de 283 URLs pedidas
+    más de una vez, 164 devuelven SIEMPRE el mismo contenido. Las 16 capas de
+    Copernicus se habían descargado 128 veces para entregar 16 cuerpos
+    distintos. Lo que estos tests vigilan no es el ahorro —eso lo cuenta el
+    log— sino las tres cosas que el ahorro no puede costar: que una petición
+    deje de constar, que un cuerpo deje de ser recuperable, y que una URL que
+    SÍ cambia deje de archivarse.
+    """
+
+    class Cabeceras(dict):
+        """Las cabeceras de una respuesta, con el `.get` que usa urllib."""
+
+    class Resp:
+        def __init__(self, body, headers=None, status=200):
+            self.status, self._b = status, body
+            self.headers = headers if headers is not None else {}
+
+        def read(self):
+            return self._b
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def _no_modificado(self, headers=None):
+        import urllib.error
+        return urllib.error.HTTPError(
+            "https://x/f", 304, "Not Modified", headers or {}, None)
+
+    def _escenario(self, tmp, *, cuerpo=b'{"capa":1}', etag='"v1"',
+                   last_mod="Sat, 15 Aug 2026 16:21:23 GMT", dia="2026-08-15"):
+        """Archivo con una copia previa de https://x/f y su fila en el log.
+
+        Devuelve (conn, ruta_relativa, sha256).
+        """
+        import hashlib
+        import sqlite3
+        import common
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(common.SCHEMA)
+        d = tmp / "snapshots" / dia
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "capa.json").write_bytes(cuerpo)
+        rel = f"snapshots/{dia}/capa.json"
+        sha = hashlib.sha256(cuerpo).hexdigest()
+        conn.execute(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            " snapshot_path,note,etag,last_modified)"
+            " VALUES (?,?,?,?,?,?,?,?,?)",
+            (f"{dia}T10:30:00Z", "https://x/f", 200, sha, len(cuerpo), rel,
+             "capa", etag, last_mod))
+        return conn, rel, sha
+
+    def _parche(self, tmp):
+        from unittest import mock
+        import common
+        return (mock.patch.object(common, "ROOT", tmp),
+                mock.patch.object(common, "SNAPSHOTS", tmp / "snapshots"))
+
+    # --- lo que más preocupa: un 304 NO puede dejar de constar --------------
+
+    def test_un_304_deja_su_fila_en_sources_log(self):
+        """R4 no admite excepciones: preguntar es una petición aunque no venga
+        cuerpo. Si un 304 no dejara fila, el log diría que ese día no se
+        preguntó — y «no preguntamos» y «preguntamos y contestó que lo mismo»
+        son hechos distintos sobre la fuente."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            antes = conn.execute("SELECT COUNT(*) FROM sources_log").fetchone()[0]
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            filas = conn.execute(
+                "SELECT http_status, sha256, bytes, snapshot_path FROM"
+                " sources_log ORDER BY id").fetchall()
+            self.assertEqual(len(filas), antes + 1,
+                             "un 304 sin fila borra del archivo la prueba de "
+                             "que ese día se preguntó")
+            self.assertEqual(
+                filas[-1], (304, sha, 0, rel),
+                "la fila del 304 dice: cero bytes descargados y el cuerpo "
+                "vigente es el que ya teníamos")
+            conn.close()
+
+    def test_el_304_devuelve_el_cuerpo_vigente_al_que_lo_pidio(self):
+        """`copernicus_layers` reconstruye las capas públicas con el cuerpo de
+        cada respuesta y hace `if not gj: continue`. Si un 304 llegara vacío,
+        el día que la fuente dijera «sin cambios» el mapa perdería las 16
+        capas — un ahorro que borra datos publicados no es un ahorro."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            self.assertEqual((st, body), (200, b'{"capa":1}'))
+            conn.close()
+
+    def test_un_304_no_escribe_un_fichero_nuevo(self):
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            cuerpos = [f.name for f in hoy.iterdir()
+                       if f.name != common.REUTILIZADOS] if hoy.exists() else []
+            self.assertEqual(cuerpos, [], "un 304 no trae cuerpo que archivar")
+            conn.close()
+
+    def test_se_pregunta_con_el_validador_que_dijo_la_fuente(self):
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            vistas = {}
+
+            def espia(req, **kw):
+                vistas.update(req.headers)
+                raise self._no_modificado()
+
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen", side_effect=espia):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            # urllib capitaliza los nombres de cabecera al registrarlos
+            claves = {k.lower(): v for k, v in vistas.items()}
+            self.assertEqual(claves.get("if-none-match"), '"v1"')
+            self.assertEqual(claves.get("if-modified-since"),
+                             "Sat, 15 Aug 2026 16:21:23 GMT")
+            conn.close()
+
+    def test_no_se_pregunta_por_un_cuerpo_que_ya_no_esta(self):
+        """El invariante que sostiene todo: solo se pregunta condicionalmente
+        por lo que se puede devolver del archivo. Los vídeos ciudadanos viven
+        en R2 y no en el repo; si se preguntara por ellos, un 304 dejaría al
+        llamante sin cuerpo y al log con un sha sin nada detrás."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            (tmp / rel).unlink()            # el cuerpo ya no está en el repo
+            vistas = {}
+
+            def espia(req, **kw):
+                vistas.update(req.headers)
+                return self.Resp(b'{"capa":2}')
+
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen", side_effect=espia):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            claves = {k.lower() for k in vistas}
+            self.assertNotIn("if-none-match", claves)
+            self.assertNotIn("if-modified-since", claves)
+            self.assertEqual((st, body), (200, b'{"capa":2}'))
+            conn.close()
+
+    def test_un_cuerpo_alterado_en_disco_no_se_da_por_bueno(self):
+        """Si el fichero archivado ya no cuadra con su sha, no se pregunta con
+        su validador: se descarga entero. Reutilizar un cuerpo corrupto sería
+        publicar como archivo algo que el archivo no dice."""
+        import tempfile
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            (tmp / rel).write_bytes(b'{"capa":"manipulada"}')
+            p1, p2 = self._parche(tmp)
+            with p1, p2:
+                self.assertIsNone(common.copia_vigente("https://x/f", conn))
+            conn.close()
+
+    # --- un contenido idéntico no se archiva dos veces ----------------------
+
+    def test_un_cuerpo_identico_no_se_archiva_dos_veces(self):
+        """El caso de las capas de Copernicus si la fuente no soporta
+        condicionales: 200 con el mismo cuerpo. Se deja de escribir una copia
+        redundante; no se sobrescribe ni se migra nada."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":1}')]):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            cuerpos = [f.name for f in hoy.iterdir()
+                       if f.name != common.REUTILIZADOS] if hoy.exists() else []
+            self.assertEqual(cuerpos, [],
+                             "el mismo contenido archivado dos veces")
+            self.assertEqual(
+                conn.execute("SELECT http_status, snapshot_path FROM sources_log"
+                             " ORDER BY id DESC LIMIT 1").fetchone(),
+                (200, rel),
+                "la fila tiene que apuntar a la copia que sí existe")
+            self.assertEqual((st, body), (200, b'{"capa":1}'))
+            conn.close()
+
+    def test_una_url_que_cambia_sigue_archivandose(self):
+        """La mutación que puede morder: de las 283 URLs repetidas, 119 SÍ
+        cambian. Ni una puede dejar de archivarse por un fallo de comparación —
+        el índice de la activación de Copernicus, que se ha pedido 346 veces y
+        ha cambiado dos, es quien revela los productos nuevos."""
+        import hashlib
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            nuevo = b'{"capa":1,"producto":"AOI07"}'
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(nuevo)]):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            self.assertTrue((hoy / "capa.json").exists(),
+                            "un contenido nuevo TIENE que archivarse")
+            self.assertEqual((hoy / "capa.json").read_bytes(), nuevo)
+            fila = conn.execute(
+                "SELECT http_status, sha256, bytes, snapshot_path FROM"
+                " sources_log ORDER BY id DESC LIMIT 1").fetchone()
+            self.assertEqual(fila[0], 200)
+            self.assertEqual(fila[1], hashlib.sha256(nuevo).hexdigest())
+            self.assertEqual(fila[2], len(nuevo))
+            self.assertNotEqual(fila[3], rel,
+                                "la fila señalaría el cuerpo viejo: el "
+                                "producto nuevo se habría perdido")
+            self.assertEqual((st, body), (200, nuevo))
+            conn.close()
+
+    def test_dos_cuerpos_distintos_el_mismo_dia_siguen_conviviendo(self):
+        """La regla intradía no la deroga la reutilización: un cuerpo distinto
+        el mismo día se archiva aparte con su sufijo de contenido."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":2}'),
+                                 self.Resp(b'{"capa":3}')]):
+                for _ in range(2):
+                    common.fetch("https://x/f", snapshot_name="capa.json",
+                                 conn=conn)
+            hoy = tmp / "snapshots" / common.today()
+            cuerpos = sorted(f.name for f in hoy.iterdir()
+                             if f.name != common.REUTILIZADOS)
+            self.assertEqual(len(cuerpos), 2, cuerpos)
+            self.assertIn("capa.json", cuerpos)
+            conn.close()
+
+    # --- la carpeta del día se explica sola ---------------------------------
+
+    def test_la_carpeta_del_dia_dice_lo_que_no_contiene(self):
+        """Quien abra data/snapshots/2026-08-24/ y no encuentre la capa de
+        Copernicus no tiene por qué saber que existe un sqlite. Cada línea de
+        `reutilizados.txt` tiene que corresponder a una fila del log."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self._no_modificado(),
+                                 self._no_modificado()]):
+                for _ in range(2):
+                    common.fetch("https://x/f", snapshot_name="capa.json",
+                                 conn=conn)
+            f = tmp / "snapshots" / common.today() / common.REUTILIZADOS
+            lineas = [l for l in f.read_text(encoding="utf-8").splitlines()
+                      if l and not l.startswith("#")]
+            self.assertEqual(lineas, [f"capa.json\t{rel}\t{sha}"],
+                             "una línea por cuerpo, sin repetirse en la "
+                             "segunda pasada del mismo día")
+            del_log = conn.execute(
+                "SELECT DISTINCT snapshot_path, sha256 FROM sources_log"
+                " WHERE http_status=304").fetchall()
+            self.assertEqual(del_log, [(rel, sha)],
+                             "el índice de la carpeta y el log tienen que "
+                             "decir lo mismo")
+            conn.close()
+
+    def test_la_carpeta_del_dia_tambien_explica_el_cuerpo_identico(self):
+        """El 304 no es el único caso: cuando la fuente no soporta
+        condicionales y manda 200 con lo mismo, tampoco se escribe fichero, y
+        la carpeta tiene que explicarlo igual."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":1}')]):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            f = tmp / "snapshots" / common.today() / common.REUTILIZADOS
+            self.assertTrue(f.exists(),
+                            "la capa no está en la carpeta del día y nada lo "
+                            "explica: el historiador la daría por no pedida")
+            lineas = [l for l in f.read_text(encoding="utf-8").splitlines()
+                      if l and not l.startswith("#")]
+            self.assertEqual(lineas, [f"capa.json\t{rel}\t{sha}"])
+            conn.close()
+
+    # --- R13: una fuente que contesta raro no rompe la corrida --------------
+
+    def test_un_304_que_nadie_pidio_no_rompe_la_corrida(self):
+        """Si el servidor contesta «sin cambios» a una petición que no llevaba
+        validadores, no afirma nada sobre nuestro archivo: la fila consta, se
+        queda sin sha y sin ruta, y el llamante degrada."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=self._no_modificado()):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            self.assertEqual((st, body), (304, b""))
+            self.assertEqual(
+                conn.execute("SELECT http_status, sha256, snapshot_path FROM"
+                             " sources_log ORDER BY id DESC LIMIT 1").fetchone(),
+                (304, None, None),
+                "un 304 que no contestaba a nuestros validadores no puede "
+                "certificar que el cuerpo archivado siga vigente")
+            conn.close()
+
+    def test_una_respuesta_sin_cabeceras_no_tumba_la_descarga(self):
+        """R13: lo que importa es el cuerpo. Una respuesta que no declara
+        validadores —o cuyas cabeceras no se dejan leer— se archiva igual."""
+        import tempfile
+        from unittest import mock
+        import common
+
+        class Rota:
+            status = 200
+
+            @property
+            def headers(self):
+                raise RuntimeError("cabeceras ilegibles")
+
+            def read(self):
+                return b'{"capa":9}'
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen", side_effect=[Rota()]):
+                st, body = common.fetch("https://x/f", snapshot_name="capa.json",
+                                        conn=conn)
+            self.assertEqual((st, body), (200, b'{"capa":9}'))
+            self.assertTrue(
+                (tmp / "snapshots" / common.today() / "capa.json").exists())
+            conn.close()
+
+    def test_un_validador_desmesurado_no_viaja_de_vuelta(self):
+        """Un ETag de 8 KB es una fuente rara, no un motivo para mandar una
+        cabecera de 8 KB en cada petición."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, rel, sha = self._escenario(tmp, etag=None, last_mod=None)
+            p1, p2 = self._parche(tmp)
+            with p1, p2, mock.patch.object(
+                    common.urllib.request, "urlopen",
+                    side_effect=[self.Resp(b'{"capa":7}',
+                                           {"ETag": '"' + "x" * 9000 + '"'})]):
+                common.fetch("https://x/f", snapshot_name="capa.json", conn=conn)
+            guardado = conn.execute(
+                "SELECT etag FROM sources_log ORDER BY id DESC LIMIT 1"
+            ).fetchone()[0]
+            self.assertEqual(len(guardado), common.MAX_VALIDADOR)
+            conn.close()
+
+    def test_los_validadores_sobreviven_al_volcado(self):
+        """La base no se versiona: se reconstruye desde data/dumps/*.csv. Si
+        los validadores no viajaran en el volcado, el runner amanecería cada
+        día sin con qué preguntar y volvería a descargarlo todo."""
+        import sqlite3
+        import tempfile
+        import dump_db
+        from common import SCHEMA
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn = sqlite3.connect(tmp / "a.sqlite")
+            conn.executescript(SCHEMA)
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note,etag,last_modified) VALUES"
+                " ('2026-08-24T10:30:00Z','https://x/f',200,'abc',12,"
+                " 'data/snapshots/2026-08-24/capa.json','capa','\"v1\"',"
+                " 'Sat, 15 Aug 2026 16:21:23 GMT')")
+            conn.commit()
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
+            try:
+                dump_db.dump(conn)
+                conn.close()
+                dump_db.rebuild(tmp / "b.sqlite")
+                otra = sqlite3.connect(tmp / "b.sqlite")
+                self.assertEqual(
+                    otra.execute("SELECT etag, last_modified FROM sources_log"
+                                 ).fetchone(),
+                    ('"v1"', "Sat, 15 Aug 2026 16:21:23 GMT"))
+                otra.close()
+            finally:
+                dump_db.DUMPS = dumps_orig
+
+    def test_un_dump_viejo_sin_validadores_se_sigue_reconstruyendo(self):
+        """Los CSV versionados hasta hoy no tienen esas columnas. `rebuild`
+        inserta por nombre de columna: un volcado de ayer tiene que seguir
+        levantando la base sin tocar un byte del archivo."""
+        import sqlite3
+        import tempfile
+        import dump_db
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            dumps = tmp / "dumps"
+            dumps.mkdir()
+            (dumps / "sources_log.csv").write_text(
+                "ts,url,http_status,sha256,bytes,snapshot_path,note\n"
+                "2026-08-15T16:21:23Z,https://x/f,200,abc,12,"
+                "data/snapshots/2026-08-15/capa.json,capa\n",
+                encoding="utf-8")
+            dumps_orig, dump_db.DUMPS = dump_db.DUMPS, dumps
+            try:
+                dump_db.rebuild(tmp / "b.sqlite")
+                otra = sqlite3.connect(tmp / "b.sqlite")
+                self.assertEqual(
+                    otra.execute("SELECT sha256, etag, last_modified FROM"
+                                 " sources_log").fetchone(),
+                    ("abc", None, None))
+                otra.close()
+            finally:
+                dump_db.DUMPS = dumps_orig
+
+
+class TestElCuerpoVigenteNoEsElDeHoy(unittest.TestCase):
+    """Desde que un contenido idéntico deja de archivarse dos veces, «el
+    fichero de hoy» y «el cuerpo vigente» dejaron de ser lo mismo.
+
+    Quien lea `snapshot_dir() / x` se queda sin nada el primer día que la
+    fuente no cambie — y en silencio. `crosscheck` leía así los titulares de
+    GDACS: sin este arreglo, el día que el feed repitiera contenido los AOI que
+    solo tienen prensa habrían retrocedido a «pendiente» sin que nada avisara.
+    """
+
+    def test_el_vigente_se_encuentra_aunque_hoy_no_haya_fichero(self):
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            snaps = Path(tmp) / "snapshots"
+            (snaps / "2026-08-15").mkdir(parents=True)
+            (snaps / "2026-08-15" / "gdacs_emm.json").write_text('[{"a":1}]')
+            (snaps / "2026-08-16").mkdir()      # día sin ese cuerpo
+            with mock.patch.object(common, "SNAPSHOTS", snaps):
+                self.assertEqual(common.ultimo_snapshot("gdacs_emm.json"),
+                                 snaps / "2026-08-15" / "gdacs_emm.json")
+                self.assertIsNone(common.ultimo_snapshot("no_existe.json"))
+
+    def test_los_titulares_de_gdacs_no_desaparecen_el_dia_sin_cambios(self):
+        import tempfile
+        from unittest import mock
+        import common
+        from sources import gdacs
+        with tempfile.TemporaryDirectory() as tmp:
+            snaps = Path(tmp) / "snapshots"
+            (snaps / "2026-08-15").mkdir(parents=True)
+            (snaps / "2026-08-15" / "gdacs_emm.json").write_text(
+                '[{"title":"Istmina","source":"El Tiempo"}]')
+            (snaps / common.today()).mkdir(exist_ok=True)
+            with mock.patch.object(common, "SNAPSHOTS", snaps):
+                items = gdacs.emm_items()
+            self.assertEqual(len(items), 1,
+                             "sin titulares, crosscheck haría retroceder el "
+                             "estado de los AOI que solo tienen prensa")
+
+    def test_la_cronologia_institucional_no_se_repite_al_reutilizar(self):
+        """El reverso, y la trampa de arreglar esto sin pensar: si un día sin
+        fichero se resolviera con el cuerpo vigente, la comparación «hoy contra
+        la captura anterior» encontraría las MISMAS entradas nuevas cada día y
+        el aviso se repetiría para siempre. Sin fichero hoy significa que el
+        cuerpo no cambió, y eso es exactamente cero entradas nuevas."""
+        import tempfile
+        from unittest import mock
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            snaps = Path(tmp) / "snapshots"
+            (snaps / "2026-08-22").mkdir(parents=True)
+            (snaps / "2026-08-22" / "gdacs_news_institucional.json").write_text(
+                '[{"link":"https://a","pubdate":"2026-08-22"}]')
+            (snaps / "2026-08-23").mkdir()
+            (snaps / "2026-08-23" / "gdacs_news_institucional.json").write_text(
+                '[{"link":"https://a","pubdate":"2026-08-22"},'
+                ' {"link":"https://b","pubdate":"2026-08-23"}]')
+            (snaps / "2026-08-24").mkdir()      # cuerpo reutilizado: sin fichero
+            with mock.patch.object(alerts, "SNAPSHOTS", snaps):
+                self.assertEqual(len(alerts._institucionales_nuevos("2026-08-23")), 1,
+                                 "el día que sí cambió tiene que avisar")
+                self.assertEqual(alerts._institucionales_nuevos("2026-08-24"), [],
+                                 "el día reutilizado no trae nada nuevo: "
+                                 "repetir el aviso sería anunciar dos veces "
+                                 "la misma entrada")
+
+    def test_nadie_consume_un_cuerpo_de_la_carpeta_de_hoy(self):
+        """El guardián del patrón, no del caso: `snapshot_dir()` sirve para
+        ESCRIBIR el snapshot del día, y eso solo lo hace `common.fetch()`.
+        Cualquier otro módulo que lo use para leer un cuerpo está asumiendo que
+        hoy se archivó algo, y desde hoy eso puede ser falso."""
+        import re
+        raiz = Path(__file__).parent.parent / "ingest"
+        malos = []
+        for f in sorted(raiz.rglob("*.py")):
+            if f.name == "common.py":
+                continue        # es quien escribe la carpeta del día
+            for n, linea in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+                if re.search(r"snapshot_dir\(\)\s*/", linea):
+                    malos.append(f"{f.relative_to(raiz)}:{n}: {linea.strip()}")
+        self.assertEqual(
+            malos, [],
+            "leen el cuerpo de la carpeta de hoy en vez del vigente "
+            "(`common.ultimo_snapshot`): " + "; ".join(malos))
+
+
+class TestAvisoDePeticionesCondicionales(unittest.TestCase):
+    """R11: que una fuente empiece —o deje— de contestar 304 tiene que verse.
+
+    Si nadie lo canta, el día que Copernicus deje de honrar los validadores el
+    monitor volverá a descargar 57 MB diarios de capas que no han cambiado sin
+    que nada lo diga, y el día que empiece a honrarlos nadie se enterará de la
+    buena noticia.
+    """
+
+    def _conn(self):
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        return conn
+
+    def _pedir(self, conn, url, ts, status, sha, bytes_=0, spath=None):
+        conn.execute(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            " snapshot_path,note) VALUES (?,?,?,?,?,?,'capa')",
+            (ts, url, status, sha, bytes_, spath))
+
+    def test_una_fuente_que_estrena_el_304_se_canta_una_sola_vez(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        for i in range(16):
+            u = f"https://x/capa{i}.json"
+            self._pedir(conn, u, "2026-08-23T10:30:00Z", 200, "a", 2_380_000, "s/a")
+            self._pedir(conn, u, "2026-08-24T10:30:00Z", 304, "a", 0, "s/a")
+        avisos = cambios_en_peticiones_condicionales(conn, "2026-08-24")
+        tipos = [a["tipo"] for a in avisos]
+        self.assertEqual(tipos, ["fuentes_con_peticion_condicional"])
+        self.assertEqual(avisos[0]["n"], 16)
+        self.assertEqual(len(avisos[0]["urls"]), 10, "la alerta no lista 16")
+        conn.close()
+
+    def test_una_fuente_que_deja_de_honrarlos_se_canta_con_lo_que_cuesta(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/capa.json"
+        self._pedir(conn, u, "2026-08-22T10:30:00Z", 200, "a", 2_380_000, "s/a")
+        self._pedir(conn, u, "2026-08-23T10:30:00Z", 304, "a", 0, "s/a")
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 200, "a", 2_380_000, "s/a")
+        avisos = cambios_en_peticiones_condicionales(conn, "2026-08-24")
+        self.assertEqual([a["tipo"] for a in avisos],
+                         ["fuente_deja_de_honrar_condicionales"])
+        self.assertEqual(avisos[0]["bytes"], 2_380_000)
+        conn.close()
+
+    def test_una_url_que_cambia_de_verdad_no_es_una_regresion(self):
+        """El falso positivo que dejaría la alerta desactivada: la fuente
+        contestaba 304 porque no había cambiado; hoy manda 200 porque SÍ
+        cambió. Eso es la fuente funcionando, no una regresión."""
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/indice.json"
+        self._pedir(conn, u, "2026-08-22T10:30:00Z", 200, "a", 500, "s/a")
+        self._pedir(conn, u, "2026-08-23T10:30:00Z", 304, "a", 0, "s/a")
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 200, "b", 600, "s/b")
+        self.assertEqual(cambios_en_peticiones_condicionales(conn, "2026-08-24"),
+                         [])
+        conn.close()
+
+    def test_un_304_que_nadie_pidio_se_canta(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/rara.json"
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 304, None, 0, None)
+        tipos = [a["tipo"] for a in
+                 cambios_en_peticiones_condicionales(conn, "2026-08-24")]
+        self.assertIn("trescientos_cuatro_sin_preguntar", tipos)
+        conn.close()
+
+    def test_un_dia_sin_novedad_no_genera_ruido(self):
+        from alerts import cambios_en_peticiones_condicionales
+        conn = self._conn()
+        u = "https://x/capa.json"
+        self._pedir(conn, u, "2026-08-23T10:30:00Z", 304, "a", 0, "s/a")
+        self._pedir(conn, u, "2026-08-24T10:30:00Z", 304, "a", 0, "s/a")
+        self.assertEqual(cambios_en_peticiones_condicionales(conn, "2026-08-24"),
+                         [])
+        conn.close()
 
 
 class TestDumpSinRuidoDeRowid(unittest.TestCase):
@@ -1361,11 +2212,38 @@ class TestMigracionColumnas(unittest.TestCase):
           fecha TEXT, titulo TEXT, medio TEXT, snapshot_date TEXT NOT NULL);""")
         conn.execute("INSERT INTO news_items VALUES ('u','f','2026-08-15','t','m','2026-08-15')")
         self.assertEqual(migrar(conn), ["news_items.medio_canonico",
-                                        "news_items.medio_dominio"])
+                                        "news_items.medio_dominio"],
+                         "una tabla que no existe no se migra: la crea SCHEMA")
         self.assertEqual(migrar(conn), [], "segunda pasada no hace nada")
         fila = conn.execute(
             "SELECT medio, medio_canonico FROM news_items").fetchone()
         self.assertEqual(fila, ("m", None), "la fila vieja se conserva intacta")
+        conn.close()
+
+    def test_el_log_viejo_estrena_los_validadores_sin_perder_una_fila(self):
+        """La base del runner arrastra 4.277 peticiones sin ETag ni
+        Last-Modified: las columnas nuevas tienen que llegarle por ALTER, en
+        NULL, sin tocar lo que ya estaba."""
+        import sqlite3
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        from common import migrar
+        conn = sqlite3.connect(":memory:")
+        conn.executescript("""CREATE TABLE sources_log (
+          id INTEGER PRIMARY KEY, ts TEXT NOT NULL, url TEXT NOT NULL,
+          http_status INTEGER, sha256 TEXT, bytes INTEGER,
+          snapshot_path TEXT, note TEXT);""")
+        conn.execute(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            " snapshot_path,note) VALUES ('2026-08-15T16:21:23Z','https://x/f',"
+            " 200,'abc',12,'data/snapshots/2026-08-15/f.json','capa')")
+        self.assertEqual(migrar(conn),
+                         ["sources_log.etag", "sources_log.last_modified"])
+        self.assertEqual(
+            conn.execute("SELECT sha256, note, etag, last_modified"
+                         " FROM sources_log").fetchone(),
+            ("abc", "capa", None, None),
+            "la petición de antes del cambio se conserva íntegra y sin "
+            "validadores: NULL aquí significa «no se lo preguntamos»")
         conn.close()
 
 
@@ -1781,7 +2659,23 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
         # lados a la vez y el guardián no serviría de nada.
         cls.satelital = mon.get("satelital") or {}
         cls.total = int(cls.satelital.get("total_edificios") or 0)
-        cls.index = (cls.RAIZ / "site/index.html").read_text(encoding="utf-8")
+        # El tercer sumando. `monitor.json` no publica un agregado de SERTIT
+        # —solo el total unido y el reparto por municipio—, así que se suma el
+        # detalle municipal, que es exactamente de donde sale la cifra que la
+        # prosa escribe a mano.
+        cls.ser = int(sum(
+            m.get("sertit_edificios") or 0
+            for m in json.loads((cls.RAIZ / "data/public/municipios.json")
+                                .read_text(encoding="utf-8"))["items"]))
+        # Las DOS superficies de prosa del sitio, unidas. La fase 6b mudó a
+        # `referencia.html` el párrafo que desglosa el total satelital, y con
+        # `cls.index` a secas el guardián habría dado rojo por un cambio de
+        # sitio, no por una cifra caducada — que es justo lo contrario de lo
+        # que vigila. Lo que importa es que la cifra esté escrita en algún
+        # texto público y sea la de hoy, no en cuál de los dos ficheros.
+        cls.index = "\n".join(
+            (cls.RAIZ / f"site/{n}").read_text(encoding="utf-8")
+            for n in ("index.html", "referencia.html"))
         cls.readme = (cls.RAIZ / "README.md").read_text(encoding="utf-8")
         # llms.txt es la superficie que leen los sistemas de IA: se quedó con
         # 622 y con los 393 de la capa mientras el sitio ya publicaba otra cosa
@@ -1833,12 +2727,21 @@ class TestCifrasSatelitalesEnLosTextos(unittest.TestCase):
 
     def test_la_portada_desglosa_el_total_y_declara_el_dano_posible(self):
         """Un total compuesto sin desglose no es rastreable hasta su origen, y
-        el «daño posible» de UNOSAT no puede desaparecer dentro de la suma."""
+        el «daño posible» de UNOSAT no puede desaparecer dentro de la suma.
+
+        ICube-SERTIT entra aquí desde la fase 6b: es el tercer sumando del
+        total y su cifra estaba escrita a mano en la prosa sin que nada la
+        vigilara, igual que le pasó a Copernicus con los 622. Se deriva de
+        `municipios.json`, que es de donde sale la del sitio."""
         for cifra, que in ((self.cop, "los edificios de Copernicus"),
                            (self.uno, "los edificios de UNOSAT"),
+                           (self.ser, "los edificios de ICube-SERTIT"),
                            (self.posibles, "el «daño posible» de UNOSAT")):
+            if not cifra:
+                continue          # una fuente que aún no publica no se exige
             self.assertIn(self._es(cifra), self.index,
-                          f"la portada no declara {que} ({self._es(cifra)})")
+                          f"los textos públicos no declaran {que} "
+                          f"({self._es(cifra)})")
 
     def test_el_total_de_unosat_cuadra_con_sus_municipios(self):
         """El agregado de portada y el detalle municipal salen de dos caminos
@@ -2367,6 +3270,1076 @@ class TestLaImagenCompartidaNoSeQuedaAtras(unittest.TestCase):
             "build_dist.sh no regenera las imágenes compartidas: volverán a "
             "quedarse atrás en silencio la próxima vez que cambie una cifra")
 
+
+class TestCapaDeLaAusencia(unittest.TestCase):
+    """Los municipios con damnificados a los que no miró ningún satélite.
+
+    Es la tesis del proyecto dibujada: la distancia entre lo que se ve y lo que
+    se cuenta. Por eso la capa se calcula en el build y no en el navegador —la
+    cifra que el sitio enseña y la que pinta tienen que salir del mismo sitio—
+    y por eso «sin intensidad» no puede acabar siendo «intensidad baja».
+    """
+
+    REJILLA = {
+        # 3x3 grados alrededor del epicentro, MMI decreciente hacia el borde
+        "domain": {"axes": {"x": {"start": -77.0, "stop": -75.0, "num": 3},
+                            "y": {"start": 4.0, "stop": 6.0, "num": 3}}},
+        "ranges": {"mmi": {"values": [4.0, 4.5, 4.0,
+                                      5.0, 7.5, 5.0,
+                                      4.0, 4.5, 4.0]}},
+    }
+
+    def _municipios(self, **cambios):
+        base = {"municipio": "Sin Mirar", "departamento": "Chocó",
+                "lat": 5.0, "lon": -76.0, "rud_familias": 120,
+                "rud_personas": 400, "mmi_usgs": 7.5,
+                "unosat_edificios": None, "sertit_edificios": None,
+                "en_aoi_copernicus": False}
+        return [{**base, **cambios}]
+
+    def test_el_municipio_que_nadie_miro_entra_en_la_capa(self):
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(self._municipios(), "2026-08-22")
+        self.assertEqual(capa["total"], 1)
+        self.assertEqual(capa["items"][0]["municipio"], "Sin Mirar")
+        self.assertEqual(capa["items"][0]["rud_familias"], 120)
+
+    def test_la_cifra_publicada_es_la_de_la_lista_no_una_constante(self):
+        """El 196 del rótulo y los 196 puntos del mapa son el mismo recuento.
+
+        Es la lección de la portada que decía 36 con 43 en su propia tabla: en
+        cuanto la cifra se escribe aparte de la lista, las dos divergen.
+        """
+        from municipios import capa_sin_mirada
+        muchos = [dict(m, municipio=f"M{i}")
+                  for i in range(7) for m in self._municipios()]
+        capa = capa_sin_mirada(muchos, "2026-08-22")
+        self.assertEqual(capa["total"], len(capa["items"]))
+
+    def test_estrenar_mirada_satelital_saca_al_municipio_de_la_capa(self):
+        """R11: el día que un satélite lo mire, el municipio debe desaparecer
+        solo. Si hubiera que borrarlo a mano, la capa mentiría al día siguiente.
+        """
+        from municipios import capa_sin_mirada
+        for mirada in ("unosat_edificios", "sertit_edificios"):
+            with self.subTest(mirada=mirada):
+                capa = capa_sin_mirada(self._municipios(**{mirada: 30}),
+                                       "2026-08-22")
+                self.assertEqual(capa["total"], 0)
+        capa = capa_sin_mirada(self._municipios(en_aoi_copernicus=True),
+                               "2026-08-22")
+        self.assertEqual(capa["total"], 0)
+
+    def test_sin_damnificados_registrados_no_entra(self):
+        """La capa habla de municipios con damnificados a los que nadie miró.
+        Sin registro no hay nada que contrastar: sería ruido, no una brecha."""
+        from municipios import capa_sin_mirada
+        for vacio in (None, 0):
+            with self.subTest(rud_familias=vacio):
+                capa = capa_sin_mirada(self._municipios(rud_familias=vacio),
+                                       "2026-08-22")
+                self.assertEqual(capa["total"], 0)
+
+    # dos municipios del catálogo con registro RUD: uno dentro del cuadro de la
+    # rejilla de prueba (Roldanillo) y otro muy fuera (Acandí, en el Darién)
+    RUD = {("valle del cauca", "roldanillo"): {
+               "departamento": "VALLE DEL CAUCA", "municipio": "ROLDANILLO",
+               "familias": 40, "personas": 100,
+               "viv_destruidas": 0, "viv_averiadas": 0},
+           ("choco", "acandi"): {
+               "departamento": "CHOCÓ", "municipio": "ACANDÍ",
+               "familias": 12, "personas": 30,
+               "viv_destruidas": 0, "viv_averiadas": 0}}
+
+    def test_fuera_de_la_rejilla_no_hay_intensidad_baja_hay_ausencia(self):
+        """R3 en el mapa: un municipio que el ShakeMap no cubre se queda en
+        None y se pinta gris. Darle el escalón más bajo sería publicar un dato
+        que nadie ha medido, y encima el más tranquilizador."""
+        from geo import MMIGrid
+        from municipios import build_municipios
+        # Acandí (8.51, -77.28) cae fuera del cuadro de la rejilla
+        rows, _ = build_municipios([], None, {}, None, self.RUD,
+                                   grid_mmi=MMIGrid(self.REJILLA))
+        acandi = next(r for r in rows if r["municipio"] == "Acandí")
+        self.assertIsNone(acandi["mmi_usgs"])
+
+    def test_la_intensidad_sale_de_la_rejilla_del_usgs(self):
+        """Dentro de la rejilla sí hay dato, y es el que da el ShakeMap."""
+        from geo import MMIGrid
+        from municipios import build_municipios
+        # Roldanillo (4.41, -76.15) cae dentro del cuadro
+        rows, _ = build_municipios([], None, {}, None, self.RUD,
+                                   grid_mmi=MMIGrid(self.REJILLA))
+        rold = next(r for r in rows if r["municipio"] == "Roldanillo")
+        self.assertIsNotNone(rold["mmi_usgs"])
+        self.assertGreaterEqual(rold["mmi_usgs"], 4.0)
+
+    def test_sin_shakemap_la_capa_sigue_saliendo_sin_intensidad(self):
+        """R13: que falte el ShakeMap no puede tumbar la capa. Se publica sin
+        color graduado, no se deja de publicar."""
+        from municipios import build_municipios
+        rows, _ = build_municipios([], None, {}, None, self.RUD, grid_mmi=None)
+        self.assertTrue(rows)
+        self.assertTrue(all(r["mmi_usgs"] is None for r in rows))
+
+    def test_la_laguna_se_cuenta_no_se_descubre_mirando_el_mapa(self):
+        """Cuántos se quedaron sin intensidad se publica como cifra: un archivo
+        honesto documenta lo que no tiene."""
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(self._municipios(mmi_usgs=None), "2026-08-22")
+        self.assertEqual(capa["sin_mmi"], 1)
+
+    def test_el_json_dice_que_la_intensidad_es_estimada_no_percibida(self):
+        """R9: el rótulo viaja con el dato. Quien lea el JSON no tiene que
+        adivinar que es un modelo y no lo que la gente sintió."""
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(self._municipios(), "2026-08-22")
+        self.assertIn("estimada", capa["fuente_mmi"])
+        self.assertIn("USGS", capa["fuente_mmi"])
+
+    def test_la_capa_no_arrastra_los_titulares_que_el_mapa_no_usa(self):
+        """El fichero existe aparte justamente para no pesar: si vuelve a
+        llevar noticias_ejemplo, deja de tener sentido."""
+        from municipios import capa_sin_mirada
+        capa = capa_sin_mirada(
+            self._municipios(noticias_ejemplo=[{"titulo": "x"} for _ in range(9)],
+                             n_noticias=9),
+            "2026-08-22")
+        self.assertNotIn("noticias_ejemplo", capa["items"][0])
+        self.assertNotIn("n_noticias", capa["items"][0])
+
+
+class TestLaCapaNoAcusaEnFalso(unittest.TestCase):
+    """Haber mirado y no encontrar nada no es no haber mirado.
+
+    Los recuentos satelitales se comprobaban con `bool()`, así que un municipio
+    donde el servicio miró y marcó cero edificios con grado de daño figuraba
+    como no evaluado — y la capa de la ausencia llegaba a decirle al lector que
+    nadie lo había mirado. Es R3 leído al revés: el cero convertido en ausencia.
+    """
+
+    def test_cero_edificios_evaluados_no_es_ausencia_de_evaluacion(self):
+        from municipios import build_municipios
+        for fuente, campo in (("unosat", "unosat_edificios"),
+                              ("sertit", "sertit_edificios")):
+            with self.subTest(fuente=fuente):
+                paquete = {"Viterbo": {"edificios": 0}}
+                rows, _ = build_municipios(
+                    [], None, {}, None, None, None,
+                    paquete if fuente == "unosat" else None,
+                    sertit=paquete if fuente == "sertit" else None)
+                vit = next(r for r in rows if r["municipio"] == "Viterbo")
+                self.assertEqual(vit[campo], 0,
+                                 "cero evaluados es un resultado, no un hueco")
+                self.assertIn(fuente, vit["fuentes"])
+
+    def test_el_municipio_evaluado_a_cero_no_entra_en_la_capa(self):
+        """El caso completo: si SERTIT lo miró, la capa no puede afirmar que
+        nadie lo hizo, por mucho que el recuento con grado sea cero."""
+        from municipios import capa_sin_mirada
+        mirado = {"municipio": "Mirado", "departamento": "Chocó",
+                  "lat": 5.0, "lon": -76.0, "rud_familias": 120,
+                  "sertit_edificios": 0, "unosat_edificios": None,
+                  "en_aoi_copernicus": False}
+        self.assertEqual(capa_sin_mirada([mirado], "2026-08-22")["total"], 0)
+
+    def test_la_procedencia_de_la_rejilla_viaja_con_el_dato(self):
+        """R4: `grid_mmi_vigente` se cae a snapshots anteriores en silencio, así
+        que el producto tiene que decir de qué rejilla salieron sus cifras."""
+        from municipios import capa_sin_mirada
+
+        class GridFalso:
+            origen = {"snapshot": "2026-08-20", "sha256": "abc123"}
+
+        sin = {"municipio": "Sin Mirar", "departamento": "Chocó",
+               "lat": 5.0, "lon": -76.0, "rud_familias": 10,
+               "unosat_edificios": None, "sertit_edificios": None,
+               "en_aoi_copernicus": False}
+        capa = capa_sin_mirada([sin], "2026-08-22", GridFalso())
+        self.assertEqual(capa["fuente_mmi_snapshot"]["snapshot"], "2026-08-20")
+        self.assertIn("us6000tjl2", capa["fuente_mmi_url"])
+
+    def test_el_rotulo_cuenta_los_que_se_pueden_pintar(self):
+        """Un municipio sin coordenadas cuenta en el total y no en el mapa: si
+        el rótulo usa el total, promete puntos que no existen."""
+        from municipios import capa_sin_mirada
+        base = {"departamento": "Chocó", "rud_familias": 10,
+                "unosat_edificios": None, "sertit_edificios": None,
+                "en_aoi_copernicus": False}
+        capa = capa_sin_mirada(
+            [{**base, "municipio": "Con", "lat": 5.0, "lon": -76.0},
+             {**base, "municipio": "Sin", "lat": None, "lon": None}],
+            "2026-08-22")
+        self.assertEqual(capa["total"], 2)
+        self.assertEqual(capa["con_coordenadas"], 1)
+
+
+class TestLasDosPreguntasSobreLaMirada(unittest.TestCase):
+    """«Sin satélite» se pregunta de dos maneras y las dos cifras difieren.
+
+    `municipios.py::sin_mirada_satelital` (la capa del mapa) exige damnificados
+    registrados; `render_html.py::_mirado_por_satelite` (la tabla) no. Por eso
+    la portada publica 196 y municipios.html 197, y las dos tienen razón. Lo que
+    no puede pasar —y pasó— es que un rótulo enuncie una y muestre la otra.
+    """
+
+    RAIZ = Path(__file__).parent.parent
+
+    def _municipio(self, **cambios):
+        base = {"municipio": "X", "departamento": "Chocó", "lat": 5.0,
+                "lon": -76.0, "rud_familias": 10, "unosat_edificios": None,
+                "sertit_edificios": None, "en_aoi_copernicus": False}
+        return {**base, **cambios}
+
+    def test_sin_registro_en_el_rud_queda_fuera_de_la_capa_pero_sigue_sin_satelite(self):
+        """El caso Palmira: es la diferencia entre las dos cifras, y existe."""
+        from municipios import capa_sin_mirada, sin_mirada_satelital
+        palmira = self._municipio(municipio="Palmira", rud_familias=None,
+                                  n_noticias=31, dyfi_max_cdi=4.3)
+        self.assertFalse(sin_mirada_satelital(palmira))
+        self.assertEqual(capa_sin_mirada([palmira], "2026-08-22")["total"], 0)
+        # y sin embargo ningún satélite lo ha mirado: la otra pregunta da 1
+        self.assertIsNone(palmira["unosat_edificios"])
+        self.assertIsNone(palmira["sertit_edificios"])
+        self.assertFalse(palmira["en_aoi_copernicus"])
+
+    # Aquí vivían dos guardianes que comparaban los NOMBRES de los campos en el
+    # texto de `site/municipios.js` y de `ingest/municipios.py`. Se retiran en la
+    # fase 4, cuando la regla de la tabla se mudó al build: repuntarlos a
+    # `render_html.py` los habría dejado igual de mudos, porque un `assertIn`
+    # sobre el código fuente pasa en verde con la condición invertida (M1). Lo
+    # que querían comprobar lo hace ahora, LLAMANDO a las dos funciones sobre 54
+    # combinaciones, `test_render_html::TestLaMiradaSatelitalEnLasDosSuperficies`.
+
+    def test_el_rotulo_del_mapa_dice_su_condicion(self):
+        """El rótulo de la capa tiene que enunciar el predicado que cuenta. Sin
+        «damnificados», describe las 197 y enseña 196.
+
+        Se mira SOLO el literal del rótulo, nunca el comentario que lo precede:
+        la primera versión de este test leía los 400 caracteres anteriores y
+        pasaba en verde con el rótulo malo, porque la palabra estaba en el
+        comentario que explica por qué hace falta. Un guardián que no guarda.
+        """
+        app = (self.RAIZ / "site/app.js").read_text(encoding="utf-8")
+        # La capa se localiza por su CHIP, no por un detalle de cómo se
+        # construye: antes se buscaba el rótulo que interpolaba
+        # `conCoords.length`, y con la carga diferida esa cifra ya no se
+        # escribe aquí —la pone `enciende` contando lo que ha dibujado—.
+        # `conChip("ausencia")` es lo que de verdad identifica a esta capa y
+        # sobrevive a cómo se construya.
+        capa = re.search(r'layers\[([^\]]+)\]\s*=\s*\n?\s*conChip\("ausencia"', app)
+        self.assertTrue(capa, "no se encuentra el rótulo de la capa de la ausencia")
+        texto = " ".join(re.findall(r'["`]([^"`]*)["`]', capa.group(1)))
+        self.assertIn("damnificados", texto,
+                      f"la etiqueta omite la condición del RUD: {texto!r}")
+
+
+class TestProcedenciaDeLaRejilla(unittest.TestCase):
+    """`grid_mmi_vigente` se cae a snapshots anteriores; el salto debe dejar rastro."""
+
+    def _covjson(self):
+        return {"domain": {"axes": {"x": {"start": -77.0, "stop": -75.0, "num": 2},
+                                    "y": {"start": 4.0, "stop": 6.0, "num": 2}}},
+                "ranges": {"mmi": {"values": [4.0, 5.0, 6.0, 7.0]}}}
+
+    def test_usa_el_snapshot_de_hoy_y_sella_su_sha256(self):
+        import hashlib
+        import json
+        import tempfile
+        from pathlib import Path as P
+
+        import geo
+        with tempfile.TemporaryDirectory() as tmp:
+            hoy = P(tmp) / "2026-08-22"
+            hoy.mkdir()
+            crudo = json.dumps(self._covjson()).encode()
+            (hoy / "usgs_mmi_grid.covjson").write_bytes(crudo)
+            grid = geo.grid_mmi_vigente(hoy)
+        self.assertEqual(grid.origen["snapshot"], "2026-08-22")
+        self.assertEqual(grid.origen["sha256"], hashlib.sha256(crudo).hexdigest())
+
+    def test_si_hoy_no_trae_rejilla_cae_al_anterior_y_lo_dice(self):
+        """Es el caso que hace falta sellar: el dato se publica con fecha de hoy
+        y viene de días atrás. Sin el sello, nadie podría saberlo (R4)."""
+        import json
+        import tempfile
+        from pathlib import Path as P
+
+        import geo
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = P(tmp)
+            for dia in ("2026-08-20", "2026-08-21", "2026-08-22"):
+                (raiz / dia).mkdir()
+            (raiz / "2026-08-21" / "usgs_mmi_grid.covjson").write_text(
+                json.dumps(self._covjson()))
+            original = geo.SNAPSHOTS if hasattr(geo, "SNAPSHOTS") else None
+            import common
+            previo = common.SNAPSHOTS
+            common.SNAPSHOTS = raiz
+            try:
+                grid = geo.grid_mmi_vigente(raiz / "2026-08-22")
+            finally:
+                common.SNAPSHOTS = previo
+                del original
+        self.assertIsNotNone(grid, "R13: sin rejilla de hoy se usa la anterior")
+        self.assertEqual(grid.origen["snapshot"], "2026-08-21",
+                         "el sello tiene que delatar que el dato no es de hoy")
+
+    def test_sin_ninguna_rejilla_devuelve_none_sin_reventar(self):
+        import tempfile
+        from pathlib import Path as P
+
+        import common
+        import geo
+        with tempfile.TemporaryDirectory() as tmp:
+            previo = common.SNAPSHOTS
+            common.SNAPSHOTS = P(tmp) / "no-existe"
+            try:
+                self.assertIsNone(geo.grid_mmi_vigente(P(tmp)))
+            finally:
+                common.SNAPSHOTS = previo
+
+
+class TestActivosDelArchivo(unittest.TestCase):
+    # la trajo el merge con main, cuyo método de la imagen OG la usa
+    RAIZ = Path(__file__).parent.parent
+
+    """Un activo se archiva UNA vez.
+
+    Medido sobre `sources_log` el 24-ago-2026: de los 3.931 MB que el monitor
+    había descargado en su vida, **2.648 eran 77 vídeos ciudadanos bajados una
+    media de 4,8 veces cada uno**, siempre con el mismo sha256 — cero
+    excepciones en 372 descargas. Uno de 59,6 MB se bajó seis veces. La causa
+    no era la red: los vídeos están en `.gitignore`, la máquina de la corrida
+    arranca sin uno solo, y el guardián preguntaba al disco.
+
+    Lo que vigilan estos tests no es el ahorro —eso lo cuenta el log— sino las
+    cuatro cosas que el ahorro no puede costar: que un vídeo NUEVO deje de
+    bajarse, que uno CAMBIADO deje de archivarse, que un archivo ilegible tumbe
+    la corrida, y que el manifiesto —lo único que hace auditable el bucket—
+    pierda lo que ya sabía.
+    """
+
+    VIDEO = "https://chatmap.hotosm.org/api/v1/media/aaaa-1.mp4"
+    SHA_ARCHIVADO = "e" * 64
+
+    class SinCerrar:
+        """La conexión que le damos a `chatmap.run()`: hace todo menos
+        cerrarse, para que el test pueda mirar la base después."""
+
+        def __init__(self, conn):
+            self._c = conn
+
+        def __getattr__(self, nombre):
+            return getattr(self._c, nombre)
+
+        def close(self):
+            pass
+
+    # --- andamio -----------------------------------------------------------
+
+    def _mundo(self, tmp, *, objetos=None, manifiesto_crudo=None):
+        """Un repo de mentira: data/media vacía y un manifiesto a elegir.
+
+        Devuelve (conn, parches). `objetos` escribe un manifiesto normal;
+        `manifiesto_crudo` escribe el texto tal cual (para romperlo a mano).
+        """
+        import sqlite3
+        from unittest import mock
+        import common
+        (tmp / "data" / "media").mkdir(parents=True, exist_ok=True)
+        manifiesto = tmp / "data" / "r2_manifest.json"
+        if manifiesto_crudo is not None:
+            manifiesto.write_text(manifiesto_crudo, encoding="utf-8")
+        elif objetos is not None:
+            manifiesto.write_text(json.dumps(
+                {"generado": "2026-08-22", "bucket": "b", "objetos": objetos}))
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(common.SCHEMA)
+        parches = (mock.patch.object(common, "ROOT", tmp),
+                   mock.patch.object(common, "DATA", tmp / "data"),
+                   mock.patch.object(common, "MEDIA", tmp / "data" / "media"),
+                   mock.patch.object(common, "SNAPSHOTS", tmp / "data" / "snapshots"),
+                   mock.patch.object(common, "MANIFIESTO_R2", manifiesto))
+        return conn, parches
+
+    def _reporte_en_base(self, conn, url, sha):
+        conn.execute(
+            "INSERT INTO citizen_reports (origen, id_externo, ts, media_url,"
+            " media_local, media_sha256, estado, snapshot_date)"
+            " VALUES ('chatmap',?,'2026-08-14T10:00:00',?,?,?,'recibido',"
+            "'2026-08-22')",
+            (url.rsplit("/", 1)[-1], url,
+             "data/media/" + url.rsplit("/", 1)[-1], sha))
+
+    def _corre_chatmap(self, tmp, conn, parches, *, cuerpo=b"VIDEO-NUEVO"):
+        """Corre `chatmap.run()` contra una API falsa. Devuelve (salida, urls).
+
+        `urls` son las que de verdad salieron a la red: es lo que se mide.
+        """
+        from unittest import mock
+        import common
+        import sources.chatmap as chatmap
+        pedidas = []
+        geojson = json.dumps({"features": [{
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [-76.5, 3.4]},
+            "properties": {"id": "r1", "time": "2026-08-14T10:00:00",
+                           "message": "", "file": self.VIDEO}}]}).encode()
+
+        def falso(req, **kw):
+            pedidas.append(req.full_url)
+            return TestPeticionesCondicionales.Resp(
+                geojson if "/map/" in req.full_url else cuerpo)
+
+        with parches[0], parches[1], parches[2], parches[3], parches[4], \
+                mock.patch.object(chatmap, "MEDIA", tmp / "data" / "media"), \
+                mock.patch.object(chatmap, "db",
+                                  lambda: self.SinCerrar(conn)), \
+                mock.patch.object(common.urllib.request, "urlopen",
+                                  side_effect=falso):
+            salida = chatmap.run()
+        return salida, pedidas
+
+    # --- 1. un vídeo nuevo se sigue descargando ----------------------------
+
+    def test_un_video_nuevo_si_se_descarga(self):
+        """Lo primero que hay que probar de un atajo: que no atajó de más."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertIn(self.VIDEO, pedidas,
+                          "un vídeo que el archivo no conoce TIENE que pedirse")
+            self.assertEqual(salida["medios_nuevos"], 1)
+            self.assertTrue((tmp / "data" / "media" / "aaaa-1.mp4").exists(),
+                            "y su cuerpo tiene que quedar archivado")
+            import hashlib
+            self.assertEqual(
+                conn.execute("SELECT media_sha256 FROM citizen_reports").fetchone()[0],
+                hashlib.sha256(b"VIDEO-NUEVO").hexdigest())
+            conn.close()
+
+    # --- 2. lo ya archivado no se vuelve a pedir ---------------------------
+
+    def test_un_video_del_manifiesto_no_se_vuelve_a_pedir(self):
+        """El caso de los 2.648 MB: el cuerpo está en R2, no en el clon, y el
+        manifiesto versionado lo dice. Mirar el disco era decir «no lo tengo»
+        sobre algo archivado y verificado por sha256 hacía días."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertNotIn(self.VIDEO, pedidas,
+                             "el archivo ya tiene ese cuerpo: pedirlo otra vez "
+                             "son megas por nada")
+            self.assertEqual(salida["medios_ya_archivados"], 1)
+            self.assertEqual(salida["medios_nuevos"], 0)
+            self.assertEqual(
+                conn.execute("SELECT media_sha256 FROM citizen_reports").fetchone()[0],
+                self.SHA_ARCHIVADO,
+                "y el reporte conserva el sha que dice el archivo, no un hueco")
+            conn.close()
+
+    def test_la_base_basta_aunque_el_manifiesto_no_este(self):
+        """Las dos vías son independientes a propósito: la base se reconstruye
+        de los volcados al empezar la corrida, y el manifiesto viaja en el clon.
+        Perder una no puede costar el ahorro."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp)          # sin manifiesto siquiera
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertNotIn(self.VIDEO, pedidas)
+            self.assertEqual(salida["medios_ya_archivados"], 1)
+            conn.close()
+
+    def test_si_la_base_y_el_manifiesto_se_contradicen_se_descarga(self):
+        """Un archivo que se desmiente a sí mismo no autoriza a saltarse nada.
+        Se vuelve a pedir el cuerpo —que es lo que restablece la verdad— y la
+        contradicción se canta aparte (R11)."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": "f" * 64, "bytes": 4096}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            _, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertIn(self.VIDEO, pedidas)
+            conn.close()
+
+    def test_la_contradiccion_del_archivo_se_canta(self):
+        """M3: si merece explicarse, merece salir en las alertas."""
+        import tempfile
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": "f" * 64, "bytes": 4096}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            tipos = {a["tipo"] for a in avisos}
+            self.assertIn("manifiesto_r2_discrepa_de_la_base", tipos)
+            conn.close()
+
+    def test_un_video_de_la_base_que_falta_en_el_manifiesto_no_es_alerta(self):
+        """`publish` escribe el manifiesto DESPUÉS de `alerts`: el día que llega
+        un vídeo nuevo, que la base lo conozca y el manifiesto no es lo normal.
+        Avisar de lo normal es la forma más rápida de que dejen de leerse las
+        alertas.
+
+        Cierra el CONJUNTO de tipos, no la ausencia de uno: mirar solo si falta
+        `manifiesto_r2_discrepa_de_la_base` no guarda nada, porque en este
+        escenario ese tipo es estructuralmente imposible —base y manifiesto no
+        comparten ni una clave— y un aviso nuevo cualquiera pasaría entero.
+        """
+        import tempfile
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "otro.mp4", "sha256": "a" * 64, "bytes": 1}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            self.assertEqual(
+                {a["tipo"] for a in avisos},
+                {"manifiesto_r2_con_objetos_sin_reporte"},
+                "el único aviso legítimo aquí es el huérfano del manifiesto: "
+                "que la base conozca un vídeo que el manifiesto todavía no "
+                "tiene es el estado normal de un vídeo nuevo")
+            conn.close()
+
+    def test_el_huerfano_del_manifiesto_si_es_alerta(self):
+        """Lo que el test de arriba NO puede dejar de guardar: un objeto en el
+        bucket que ningún reporte respalda sí se canta."""
+        import tempfile
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "huerfano.mp4", "sha256": "a" * 64, "bytes": 1}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            aviso = [a for a in avisos
+                     if a["tipo"] == "manifiesto_r2_con_objetos_sin_reporte"]
+            self.assertEqual(len(aviso), 1)
+            self.assertEqual(aviso[0]["objetos"], ["huerfano.mp4"])
+            conn.close()
+
+    def test_una_base_vacia_no_acusa_al_bucket(self):
+        """El espejo del «sin manifiesto no hay nada que comparar», y el que de
+        verdad muerde: si `rebuild_db` o `chatmap` fallan, R13 se los traga y la
+        base llega vacía. Sin guarda, los 77 objetos salen como huérfanos y la
+        alerta acusa al bucket de un fallo de la base — 77 avisos falsos, que es
+        la forma más rápida de que nadie vuelva a leer una alerta."""
+        import tempfile
+        import alerts
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096},
+                {"objeto": "bbbb-2.mp4", "sha256": "b" * 64, "bytes": 8}])
+            with parches[0], parches[4]:          # base sin un solo reporte
+                avisos = alerts.divergencias_del_archivo_de_activos(conn)
+            self.assertEqual({a["tipo"] for a in avisos},
+                             {"base_sin_reportes_ciudadanos"},
+                             "sin base no se puede acusar al bucket de nada")
+            conn.close()
+
+    # --- 3. el reverso: un cuerpo que cambia se vuelve a archivar -----------
+
+    def test_un_cuerpo_distinto_bajo_el_mismo_nombre_no_se_pisa(self):
+        """Aquí es donde esta clase de optimización falla en silencio.
+
+        Antes, si el fichero ya estaba y llegaba OTRO cuerpo, `fetch` no
+        escribía nada y la fila del log declaraba el sha256 del cuerpo nuevo
+        apuntando a un fichero con el viejo dentro: la única forma de que este
+        archivo mienta sin que nadie lo note. Ahora se guarda al lado, con la
+        firma de su contenido, y el viejo no se toca (principio de archivo).
+        """
+        import hashlib
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            dest = tmp / "data" / "media" / "aaaa-1.mp4"
+            dest.write_bytes(b"VIEJO")
+            nuevo = b"REEDITADO EN ORIGEN"
+            sha_nuevo = hashlib.sha256(nuevo).hexdigest()
+            with parches[0], parches[1], parches[2], parches[3], parches[4], \
+                    mock.patch.object(
+                        common.urllib.request, "urlopen",
+                        side_effect=lambda req, **kw:
+                        TestPeticionesCondicionales.Resp(nuevo)):
+                common.fetch(self.VIDEO, note="chatmap media aaaa-1.mp4",
+                             conn=conn, save_to=dest)
+            self.assertEqual(dest.read_bytes(), b"VIEJO",
+                             "el cuerpo archivado no se sobrescribe jamás")
+            spath, sha = conn.execute(
+                "SELECT snapshot_path, sha256 FROM sources_log"
+                " ORDER BY id DESC LIMIT 1").fetchone()
+            self.assertEqual(sha, sha_nuevo)
+            cuerpo = (tmp / spath)
+            self.assertTrue(cuerpo.exists(),
+                            "un sha256 en el log sin cuerpo detrás no es evidencia")
+            self.assertEqual(hashlib.sha256(cuerpo.read_bytes()).hexdigest(), sha,
+                             "el cuerpo al que apunta la fila tiene que ser ESE")
+            self.assertNotEqual(cuerpo, dest)
+            conn.close()
+
+    # --- 4. R13: el archivo ilegible degrada, no rompe ---------------------
+
+    def test_un_manifiesto_corrupto_no_rompe_la_corrida(self):
+        """R13. Y degrada del lado seguro: si no se puede leer el manifiesto,
+        no se da por archivado nada — se descarga."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, manifiesto_crudo="{no es json")
+            salida, pedidas = self._corre_chatmap(tmp, conn, parches)
+            self.assertNotIn("error", salida)
+            self.assertIn(self.VIDEO, pedidas)
+            conn.close()
+
+    def test_sin_manifiesto_y_sin_base_no_se_da_nada_por_archivado(self):
+        import tempfile
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp)
+            with parches[0], parches[4]:
+                self.assertIsNone(common.activo_archivado(self.VIDEO, conn))
+                self.assertEqual(common.manifiesto_r2(), {})
+            conn.close()
+
+    def test_una_base_sin_la_tabla_no_tumba_al_guardian(self):
+        """La corrida reconstruye la base antes de empezar, pero si esa
+        reconstrucción fallara el guardián no puede llevarse la ingesta por
+        delante: se queda sin esa vía y sigue con el manifiesto (R13)."""
+        import sqlite3
+        import tempfile
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            _, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            vacia = sqlite3.connect(":memory:")      # sin una sola tabla
+            with parches[0], parches[4]:
+                ya = common.activo_archivado(self.VIDEO, vacia)
+            self.assertEqual(ya["sha256"], self.SHA_ARCHIVADO)
+            self.assertEqual(ya["origen"], "manifiesto")
+            vacia.close()
+
+    # --- 5. el manifiesto no puede perder lo que ya sabía -------------------
+
+    def test_el_manifiesto_no_pierde_los_bytes_sin_el_cuerpo_delante(self):
+        """La trampa de segundo orden de este cambio: como la máquina de la
+        corrida ya no descarga los vídeos, preguntarle solo al disco habría
+        escrito `bytes: null` en los 77 objetos y el manifiesto habría perdido
+        su columna entera en el primer commit automático."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos, [{"objeto": "aaaa-1.mp4",
+                                        "sha256": self.SHA_ARCHIVADO,
+                                        "bytes": 4096}])
+            conn.close()
+
+    def test_los_bytes_salen_del_log_antes_que_del_manifiesto_viejo(self):
+        """El registro de la descarga es archivo de primera mano; el manifiesto
+        anterior es una copia suya. Ante duda, manda el log."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 1}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note) VALUES"
+                " ('2026-08-15T10:00:00Z',?,200,?,4096,'data/media/aaaa-1.mp4',"
+                "'chatmap media aaaa-1.mp4')", (self.VIDEO, self.SHA_ARCHIVADO))
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos[0]["bytes"], 4096)
+            conn.close()
+
+    def test_sin_nadie_que_lo_sepa_los_bytes_se_omiten(self):
+        """M10: donde falta el dato se calla el campo, nunca se escribe 0."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertIsNone(objetos[0]["bytes"])
+            conn.close()
+
+    def test_los_bytes_nunca_son_los_de_otro_cuerpo(self):
+        """Las tres vías van atadas al sha256 que se está escribiendo.
+
+        `bytes` es el ÚNICO campo que la auditoría puede contrastar contra R2.
+        Una cifra que no sea de ese cuerpo o suena en falso todos los días —y un
+        aviso falso mata la lectura de las alertas— o enmascara una sustitución
+        de verdad. Aquí las tres vías tienen un tamaño a mano y las tres son de
+        OTRO contenido: el manifiesto tiene que salir sin cifra (M10).
+        """
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": "d" * 64, "bytes": 111}])
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            # el disco tiene un cuerpo que no es ese
+            (tmp / "data" / "media" / "aaaa-1.mp4").write_bytes(b"OTRA COSA")
+            # y el log guarda la descarga de un tercer contenido
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note) VALUES"
+                " ('2026-08-15T10:00:00Z',?,200,?,222,'data/media/aaaa-1.mp4','x')",
+                (self.VIDEO, "c" * 64))
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos[0]["sha256"], self.SHA_ARCHIVADO)
+            self.assertIsNone(
+                objetos[0]["bytes"],
+                "ningún tamaño a la vista es de ESE cuerpo: se omite el campo, "
+                "no se coge el que haya más a mano")
+            conn.close()
+
+    def test_el_manifiesto_no_encoge_si_la_base_llega_vacia(self):
+        """`rebuild_db` y `chatmap` son `step()`: R13 los deja fallar sin tumbar
+        la corrida. Si el manifiesto se regenerara de una base vacía escribiría
+        `objetos: []` y el bot lo commitearía — los cuerpos seguirían en R2 pero
+        dejarían de estar declarados, que es justo lo que hace auditable el
+        bucket."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[
+                {"objeto": "aaaa-1.mp4", "sha256": self.SHA_ARCHIVADO,
+                 "bytes": 4096}])
+            with parches[0], parches[4]:          # base sin un solo reporte
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos, [{"objeto": "aaaa-1.mp4",
+                                        "sha256": self.SHA_ARCHIVADO,
+                                        "bytes": 4096}],
+                             "lo que ya se declaró archivado sigue declarado")
+            conn.close()
+
+    def test_una_foto_que_falta_del_repo_se_vuelve_a_traer(self):
+        """Las vías de la base y del manifiesto valen para cuerpos que viven
+        FUERA de git. Una foto sí viaja en el clon: para ella el archivo ES el
+        disco, y fiarse de la base la declararía archivada para siempre — se
+        vería en rojo, pero solo se arreglaría a mano."""
+        import tempfile
+        import common
+        FOTO = "https://chatmap.hotosm.org/api/v1/media/bbbb-2.jpg"
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            self._reporte_en_base(conn, FOTO, "a" * 64)
+            self._reporte_en_base(conn, self.VIDEO, self.SHA_ARCHIVADO)
+            with parches[0], parches[4]:
+                self.assertIsNone(
+                    common.activo_archivado(
+                        FOTO, conn, destino=tmp / "data" / "media" / "bbbb-2.jpg"),
+                    "su cuerpo va en git: si no está, hay que traerlo otra vez")
+                # y el vídeo, cuyo cuerpo NO va en git, sigue resolviéndose
+                self.assertIsNotNone(
+                    common.activo_archivado(self.VIDEO, conn,
+                                            destino=tmp / "data" / "media" / "x"))
+            conn.close()
+
+    def test_un_destino_ilegible_no_tumba_la_descarga(self):
+        """R13. Si la ruta de destino existe y no se deja leer —un directorio,
+        un permiso—, el cuerpo que YA está en la mano se guarda al lado en vez
+        de reventar la corrida."""
+        import tempfile
+        from unittest import mock
+        import common
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            dest = tmp / "data" / "media" / "aaaa-1.mp4"
+            dest.mkdir(parents=True)              # un directorio, no un fichero
+            with parches[0], parches[1], parches[2], parches[3], parches[4], \
+                    mock.patch.object(
+                        common.urllib.request, "urlopen",
+                        side_effect=lambda req, **kw:
+                        TestPeticionesCondicionales.Resp(b"CUERPO")):
+                st, body = common.fetch(self.VIDEO, note="chatmap media",
+                                        conn=conn, save_to=dest)
+            self.assertEqual((st, body), (200, b"CUERPO"))
+            spath = conn.execute(
+                "SELECT snapshot_path FROM sources_log ORDER BY id DESC"
+                " LIMIT 1").fetchone()[0]
+            self.assertTrue((tmp / spath).is_file(),
+                            "el cuerpo tenía que acabar en algún sitio legible")
+            conn.close()
+
+    # --- 6. la red que este cambio quitó, repuesta -------------------------
+
+    def _auditar(self, tmp, *, disponible, bucket=None, manifiesto=None,
+                 locales=()):
+        """Corre `ingest/auditar_r2.py` sobre un repo de mentira.
+
+        Devuelve (codigo_de_salida, salida, informe_archivado).
+        """
+        import json as _json
+        import subprocess
+        import sys as _sys
+        raiz = Path(__file__).parent.parent
+        (tmp / "data" / "media").mkdir(parents=True, exist_ok=True)
+        for nombre in locales:
+            (tmp / "data" / "media" / nombre).write_bytes(b"cuerpo")
+        if manifiesto is not None:
+            (tmp / "data" / "r2_manifest.json").write_text(_json.dumps(
+                {"generado": "2026-08-22", "bucket": "b",
+                 "objetos": manifiesto}))
+        listado = tmp / "r2.tsv"
+        listado.write_text("\n".join(f"{k}\t{v}" for k, v in (bucket or {}).items()))
+        guion = (tmp / "ingest" / "auditar_r2.py")
+        guion.parent.mkdir(parents=True, exist_ok=True)
+        guion.write_bytes((raiz / "ingest" / "auditar_r2.py").read_bytes())
+        (tmp / "ingest" / "common.py").write_bytes(
+            (raiz / "ingest" / "common.py").read_bytes())
+        r = subprocess.run(
+            [_sys.executable, str(guion)], capture_output=True, text=True,
+            env={"R2_DISPONIBLE": "1" if disponible else "0",
+                 "R2_LISTADO": str(listado), "PATH": "/usr/bin:/bin"})
+        destino = tmp / "data" / "auditoria_r2.json"
+        informe = _json.loads(destino.read_text()) if destino.exists() else None
+        return r.returncode, r.stdout + r.stderr, informe
+
+    OBJ = {"objeto": "aaaa-1.mp4", "sha256": "e" * 64, "bytes": 6}
+
+    def test_un_dia_sin_credenciales_y_con_medios_nuevos_pone_la_corrida_en_rojo(self):
+        """**El agujero que abría este cambio.**
+
+        El `sync` a R2 se salta entero si falta el secreto —token rotado, un
+        fork—. Ese día un vídeo nuevo existe SOLO en el workspace del runner:
+        git lo ignora y el workspace se destruye al acabar. Mientras tanto
+        `publish` ya escribió su sha256 en el manifiesto y en la base, así que
+        desde mañana el guardián lo da por archivado y no vuelve a pedirlo
+        JAMÁS. Antes la redescarga diaria lo reofrecía; esa red la quitamos
+        nosotros. Si esto puede pasar en verde, no hemos arreglado nada.
+        """
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=False, manifiesto=[self.OBJ],
+                locales=["aaaa-1.mp4"])
+            self.assertEqual(codigo, 1,
+                             "un cuerpo que solo existe en el workspace tiene "
+                             "que poner la corrida en rojo, no dejar un aviso")
+            self.assertIn("::error::", salida)
+            self.assertEqual(informe["cuerpos_solo_en_el_workspace"],
+                             ["aaaa-1.mp4"])
+            self.assertFalse(informe["auditado"])
+
+    def test_un_dia_sin_credenciales_y_sin_medios_nuevos_no_rompe(self):
+        """El reverso: no hay nada que perder, así que no hay nada que romper.
+        Un rojo diario en un fork sin secrets tampoco se leería (R13)."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=False, manifiesto=[self.OBJ])
+            self.assertEqual(codigo, 0)
+            self.assertIn("::warning::", salida)
+            self.assertEqual(informe["cuerpos_solo_en_el_workspace"], [])
+
+    def test_un_cuerpo_que_el_manifiesto_declara_y_r2_no_tiene_pone_en_rojo(self):
+        """Sin git y sin bucket ese cuerpo es irrecuperable: es lo más grave
+        que le puede pasar a este archivo y no puede quedar en un aviso."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=True, bucket={}, manifiesto=[self.OBJ])
+            self.assertEqual(codigo, 1)
+            self.assertEqual(informe["faltan_en_r2"], ["aaaa-1.mp4"])
+            self.assertIn("irrecuperables", salida)
+
+    def test_un_bucket_que_cuadra_sale_en_verde(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, _, informe = self._auditar(
+                tmp, disponible=True, bucket={"aaaa-1.mp4": 6},
+                manifiesto=[self.OBJ], locales=["aaaa-1.mp4"])
+            self.assertEqual(codigo, 0)
+            self.assertEqual(informe["objetos_en_bucket"], 1)
+            self.assertEqual(informe["faltan_en_r2"], [])
+            self.assertEqual(informe["cuerpos_solo_en_el_workspace"], [])
+
+    def test_el_que_pesa_distinto_y_el_que_sobra_avisan_sin_romper(self):
+        """Un tamaño que no cuadra puede ser una sustitución o un desajuste
+        nuestro: se mira, no se para la corrida."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=True,
+                bucket={"aaaa-1.mp4": 99, "intruso.mp4": 7},
+                manifiesto=[self.OBJ])
+            self.assertEqual(codigo, 0)
+            self.assertEqual(informe["difieren_en_tamano"],
+                             [{"objeto": "aaaa-1.mp4", "manifiesto": 6, "r2": 99}])
+            self.assertEqual(informe["sobran_en_r2"], ["intruso.mp4"])
+            self.assertNotIn("::error::", salida)
+
+    def test_la_auditoria_se_archiva_tambien_cuando_no_se_pudo_auditar(self):
+        """Los `::error::` de Actions viven fuera del repositorio y caducan a
+        los 90 días: un aviso que no se archiva no cumple el principio de
+        archivo. «Ese día no pudimos mirar» también es información."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            _, _, informe = self._auditar(tmp, disponible=False,
+                                          manifiesto=[self.OBJ])
+            self.assertIsNotNone(informe, "la auditoría tiene que quedar en el "
+                                          "repositorio, no solo en el log de CI")
+            self.assertIn("motivo", informe)
+            self.assertIn("fecha", informe)
+            self.assertEqual(informe["objetos_en_bucket"], None,
+                             "M10: sin listado no se inventa un recuento")
+
+    def test_sin_manifiesto_la_auditoria_avisa_y_no_revienta(self):
+        """R13: si `publish` falló, este paso no puede escupir un traceback."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            codigo, salida, informe = self._auditar(
+                tmp, disponible=True, bucket={"x.mp4": 1})
+            self.assertEqual(codigo, 0)
+            self.assertNotIn("Traceback", salida)
+            self.assertIn("::warning::", salida)
+            self.assertEqual(informe["objetos_en_manifiesto"], 0)
+
+    def test_el_workflow_mira_el_resultado_de_la_auditoria(self):
+        """La auditoría corre con `continue-on-error`, así que su 1 se queda
+        dentro del paso: si nadie mira su `outcome`, el día cierra en verde con
+        un cuerpo perdido y nadie se entera.
+
+        Lo que NO puede hacer es apagar la publicación. Un bucket descuadrado no
+        invalida el archivo del día, y dejar la web sin salir por eso es el
+        error que tuvo la portada congelada dos días (R11: los supuestos
+        avisan). Así que se exige lo uno y se prohíbe lo otro."""
+        wf = (self.RAIZ / ".github/workflows/daily.yml").read_text(encoding="utf-8")
+        self.assertIn("steps.auditoria.outcome == 'failure'", wf,
+                      "nadie mira el resultado de la auditoría")
+        rojo = wf.split("Marcar la corrida en rojo")[1]
+        self.assertNotIn("auditoria", rojo.split("exit 1")[0],
+                         "la auditoría no puede apagar la publicación")
+        self.assertIn("::error::", wf.split("Avisar si la auditoría")[1][:400],
+                      "la auditoría falla sin dejar anotación visible")
+
+    def test_lo_que_git_ignora_y_se_descarga_esta_declarado(self):
+        """El barrido, convertido en guardián.
+
+        La firma del fallo es reconocible: **decidir si hay que traer algo
+        mirando el disco, cuando el disco arranca vacío**. Solo puede pasar con
+        contenido que git ignora. Hoy, bajo `data/`, eso es exactamente dos
+        cosas: los audiovisuales ciudadanos —que van a R2— y el sqlite, que no
+        se descarga de ninguna parte: se reconstruye de `data/dumps/*.csv`.
+
+        Se miran `data/` y `feeds/`, que son las dos carpetas donde aterriza lo
+        que entra de fuera. Si mañana alguien ignora otra ruta descargable, este
+        test lo para y le obliga a decidir dónde vive su archivo antes de que la
+        corrida empiece a bajarla entera cada día. Es el guardián que le habría
+        faltado a `data/indexnow_estado.json`, que decide si hay que avisar a
+        los buscadores mirando el disco y solo sobrevive porque nadie lo ignoró.
+        """
+        from common import ARCHIVO_EN_R2
+        raiz = Path(__file__).parent.parent
+        lineas = [l.strip() for l in
+                  (raiz / ".gitignore").read_text(encoding="utf-8").splitlines()
+                  if l.strip() and not l.strip().startswith("#")]
+        # Un patrón SIN barra interior lo aplica git a cualquier profundidad:
+        # un `*.mp4` suelto ignoraría `data/media/` sin nombrarlo, y el guardián
+        # que solo mirase las líneas `data/…` no lo vería pasar.
+        apuntan_al_archivo, sueltos = [], []
+        for l in lineas:
+            cuerpo = l.lstrip("!").rstrip("/")
+            if l.startswith(("data/", "feeds/")):
+                apuntan_al_archivo.append(l)
+            elif "/" not in cuerpo:
+                sueltos.append(l)
+        esperados = {f"data/media/*{ext}" for ext in ARCHIVO_EN_R2}
+        esperados |= {"data/monitor.sqlite", "data/monitor.sqlite-wal",
+                      "data/monitor.sqlite-shm"}
+        self.assertEqual(
+            set(apuntan_al_archivo), esperados,
+            "una ruta de data/ o feeds/ ignorada por git arranca VACÍA en la "
+            "máquina de la corrida: si su contenido se descarga, el guardián "
+            "que decide si hay que traerlo no puede mirar el disco (ver "
+            "docs/DECISIONES.md, 24-ago-2026)")
+        # Los patrones sueltos alcanzan al archivo aunque no lo nombren, así
+        # que cada uno tiene que ser algo que NUNCA es contenido descargable:
+        # cachés y artefactos de herramienta, credenciales, y el material
+        # temporal del rediseño. Ninguno lo trae una fuente.
+        self.assertEqual(
+            set(sueltos),
+            {"node_modules/", "__pycache__/", "*.pyc", ".DS_Store",
+             "dist/", ".pytest_cache/", ".benchmarks/",
+             ".env", ".env.*", "*.pem", "*.key", "*token*",
+             "!package-lock.json",
+             "prototipo/", "COORDINACION-REDISENO.md", "HANDOFF*.md",
+             "dist-antes-*/"},
+            "un patrón sin barra se aplica a cualquier profundidad, también "
+            "dentro de data/: un «*.mp4» suelto ignoraría los vídeos sin "
+            "nombrarlos y este guardián no lo vería pasar. Si lo que se añade "
+            "es contenido que se descarga, su guardián no puede mirar el disco")
+
+    def test_las_extensiones_de_r2_dicen_lo_mismo_en_las_cuatro_superficies(self):
+        """M2. `.avi` llevaba desde el principio en `.gitignore` y en ninguna de
+        las otras tres: un vídeo con esa extensión se habría descargado, no
+        habría entrado en git, no habría subido a R2 y no habría figurado en el
+        manifiesto — irrecuperable en cuanto el runner se apagara."""
+        from common import ARCHIVO_EN_R2
+        raiz = Path(__file__).parent.parent
+        gitignore = (raiz / ".gitignore").read_text(encoding="utf-8")
+        flujo = (raiz / ".github" / "workflows" / "daily.yml").read_text(
+            encoding="utf-8")
+        sync = flujo[flujo.index("aws s3 sync data/media/"):]
+        sync = sync[:sync.index("--size-only")]
+        for ext in ARCHIVO_EN_R2:
+            self.assertIn(f"data/media/*{ext}", gitignore,
+                          f"{ext} va a R2 pero git no lo ignora")
+            self.assertIn(f'--include "*{ext}"', sync,
+                          f"{ext} está fuera de git y el sync no lo sube: "
+                          f"su cuerpo se perdería con el runner")
+        self.assertEqual(
+            sync.count("--include"), len(ARCHIVO_EN_R2),
+            "el sync sube extensiones que nadie declara, o al revés")
     def test_la_corrida_diaria_regenera_la_imagen_antes_de_juzgarla(self):
         """El bucle que dejó la web dos días sin publicar (23 y 24-ago-2026).
 
@@ -2446,3 +4419,159 @@ class TestUnaHipotesisCaidaNoApagaLaPublicacion(unittest.TestCase):
             all("::error" in b or "::warning" in b for b in avisos),
             "el paso que atiende la hipótesis caída no la anuncia: se caería "
             "en silencio, que es justo lo que R11 prohíbe")
+
+
+class TestLaPrecisionDeLoQuePublicamos(unittest.TestCase):
+    """Los geojson que publicamos van a un metro, no a un milímetro.
+
+    Copernicus entrega ocho decimales. Un hueco de cobertura satelital de
+    kilómetros de lado no necesita precisión de milímetro para dibujarse, y
+    esos decimales engordaban `not_analysed.geojson` un 29 % sin mover un
+    píxel: 2.174 KB para 48 polígonos, la mitad de todo lo que la portada
+    descargaba.
+
+    **Lo que se recorta es NUESTRA derivación, no lo que dijo la fuente.** El
+    snapshot de Copernicus conserva sus ocho decimales y su sha256, y sigue
+    siendo la prueba de qué entregó. Este guardián vigila las dos mitades del
+    trato, porque cada una falla sola: que lo publicado se recorte de verdad, y
+    que el recorte no toque nada que no sea una coordenada.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "ingest"))
+        from sources import copernicus_layers as cl
+        cls.cl = cl
+
+    def test_las_coordenadas_publicadas_pierden_el_milimetro(self):
+        crudo = {"type": "Feature", "properties": {"aoi": "x"},
+                 "geometry": {"type": "Polygon", "coordinates": [[
+                     [-76.12345678, 3.87654321], [-76.11111111, 3.88888888],
+                     [-76.12345678, 3.87654321]]]}}
+        salida = self.cl._con_precision_de_metro(crudo)
+        planas = [v for anillo in salida["geometry"]["coordinates"]
+                  for par in anillo for v in par]
+        # Camino 1: ninguna coordenada conserva más decimales de los permitidos.
+        for v in planas:
+            self.assertLessEqual(
+                len(str(v).split(".")[-1]), self.cl.DECIMALES_PUBLICADOS,
+                f"{v} sigue publicándose con precisión de milímetro")
+        # Camino 2: y son EXACTAMENTE las que salen de redondear el original,
+        # no otras. Contar dos veces por vías distintas es lo que caza al
+        # guardián que se conforma con «alguna cosa cambió».
+        esperadas = [round(v, self.cl.DECIMALES_PUBLICADOS)
+                     for anillo in crudo["geometry"]["coordinates"]
+                     for par in anillo for v in par]
+        self.assertEqual(planas, esperadas)
+
+    def test_el_recorte_no_toca_nada_que_no_sea_geometria(self):
+        """Las propiedades viajan intactas: ahí hay identificadores y grados de
+        daño, y redondear un número que no es una coordenada sería inventarse
+        el dato de la fuente."""
+        crudo = {"type": "Feature",
+                 "properties": {"aoi": "EMSR916", "n": 3.14159265,
+                                "damage_gra": "Destroyed", "vacio": None},
+                 "geometry": {"type": "Point",
+                              "coordinates": [-76.12345678, 3.87654321]}}
+        salida = self.cl._con_precision_de_metro(crudo)
+        self.assertEqual(salida["properties"], crudo["properties"])
+        self.assertEqual(salida["geometry"]["coordinates"],
+                         [-76.12346, 3.87654])
+
+    def test_un_feature_sin_geometria_no_revienta(self):
+        """R13: un feature raro degrada, no rompe la corrida entera."""
+        for raro in ({"type": "Feature", "properties": {}},
+                     {"type": "Feature", "properties": {}, "geometry": None},
+                     {"type": "Feature", "properties": {}, "geometry": {}}):
+            self.assertEqual(self.cl._con_precision_de_metro(raro), raro)
+
+    def test_lo_que_se_escribe_al_disco_pasa_por_el_recorte(self):
+        """El guardián de arriba prueba la función; este prueba que alguien la
+        llama. Con la función perfecta y desenchufada, el fichero publicado
+        seguiría llevando los ocho decimales — que es el fallo real."""
+        fuente = (Path(__file__).resolve().parents[1]
+                  / "ingest" / "sources" / "copernicus_layers.py"
+                  ).read_text(encoding="utf-8")
+        escritura = re.search(r"for kind, fname in \(.*?ensure_ascii=False\)\)",
+                              fuente, re.S)
+        self.assertIsNotNone(escritura, "cambió la forma de escribir los "
+                             "geojson: revisa que el recorte siga aplicándose")
+        self.assertIn("_con_precision_de_metro", escritura.group(0),
+                      "los geojson se escriben sin pasar por el recorte: lo "
+                      "publicado volvería a los ocho decimales")
+
+
+class TestLosDatosNoViajanDentroDelGuionDeNode(unittest.TestCase):
+    """Los datos que crecen no pueden ir por la línea de comandos.
+
+    El 25-ago-2026 saltó `OSError [Errno 7] Argument list too long` en el CI:
+    un test interpolaba la serie dentro del guion y se lo pasaba a node por
+    `-e`, así que **el argumento crecía con el monitor**. En Linux el límite de
+    `execve` es mucho más bajo que en macOS, de modo que estaba verde en el
+    portátil y rojo en el CI — **y más rojo cuantos más datos hubiera**. Es la
+    peor forma de fallar: la que llega el día que el proyecto va bien.
+
+    El reparto correcto ya existía en `render_html.py` y `alerts.py`: **guion
+    fijo por argumento, datos por `input=`**, que no tiene tope. Lo que este
+    guardián exige es que nadie invoque a node sin pasarle nada por stdin,
+    porque eso significa que todo —datos incluidos— viaja en el argumento.
+
+    Vale también para el runtime: ahí no rompe un test, rompe la publicación
+    del día.
+    """
+
+    RAICES = ("tests", "ingest", "deploy")
+
+    def _llamadas(self):
+        """(fichero, línea, cola) de cada invocación de node por subproceso.
+
+        El docstring no escribe la llamada literal a propósito: este método se
+        lee a sí mismo, y un ejemplo en prosa contaría como una llamada de
+        verdad. Ya pasó al escribirlo.
+        """
+        raiz = Path(__file__).resolve().parents[1]
+        for r in self.RAICES:
+            for f in sorted((raiz / r).rglob("*.py")):
+                texto = f.read_text(encoding="utf-8")
+                for m in re.finditer(
+                        r"subprocess\.run\(\s*\[[^\]]*\bnode\b[^\]]*\]",
+                        texto, re.I):
+                    # Este guardián se acusaba a sí mismo: su propia expresión
+                    # regular es texto en un fichero de `tests/` y casa consigo
+                    # misma. Una llamada de verdad no lleva barras de escape;
+                    # el patrón escrito sí. Es la trampa del test que se lee a
+                    # sí mismo, hermana del que busca una palabra que está en
+                    # el comentario de su autor.
+                    if "\\" in m.group(0):
+                        continue
+                    yield (f.name, texto[:m.start()].count("\n") + 1,
+                           texto[m.end():m.end() + 300])
+
+    def test_toda_llamada_a_node_recibe_los_datos_por_la_entrada(self):
+        culpables = [f"{n}:{ln}" for n, ln, cola in self._llamadas()
+                     if "input=" not in cola]
+        self.assertEqual(
+            culpables, [],
+            f"estas llamadas a node no pasan nada por `input=`: {culpables}. "
+            "Si los datos van dentro del guion y el guion va por argumento, "
+            "el tamaño crece con el archivo hasta reventar el límite del "
+            "sistema —antes en Linux que en macOS—.")
+
+    def test_ninguna_llamada_pasa_los_datos_dos_veces(self):
+        """La otra mitad, que ya falló al arreglar lo anterior: dos `input=` en
+        la misma llamada no es un aviso, es un `SyntaxError` que tumba el
+        build entero."""
+        for n, ln, cola in self._llamadas():
+            self.assertLessEqual(
+                cola.count("input="), 1,
+                f"{n}:{ln} pasa `input=` dos veces: Python no acepta el "
+                "argumento repetido y el módulo deja de importarse")
+
+    def test_el_guardian_sigue_encontrando_las_llamadas(self):
+        """Un guardián que deja de ver lo que vigila se queda verde para
+        siempre. Si el proyecto cambia de forma de llamar a node, que lo diga
+        aquí en vez de callarse."""
+        self.assertGreater(
+            len(list(self._llamadas())), 5,
+            "este guardián ya no encuentra las llamadas a node: o han "
+            "desaparecido, o se escriben de otra forma y hay que enseñársela")

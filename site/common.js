@@ -1,66 +1,19 @@
-/* Componente compartido: barra de navegación y pie de sitio.
-   Se inyecta en <nav id="site-nav"> y <div id="site-footer"> de cada página —
-   un solo lugar que mantener para todo el sitio. */
-(function () {
-  const PAGES = [
-    { href: "index.html", label: "🗺️ Mapa" },
-    { href: "municipios.html", label: "🏘️ Municipios" },
-    { href: "rud.html", label: "🏛️ RUD" },
-    { href: "balances.html", label: "📊 Balances" },
-    { href: "noticias.html", label: "📰 Titulares" },
-  ];
-  const actual = (location.pathname.split("/").pop() || "index.html");
+/* Comportamiento compartido por todas las páginas del sitio.
 
-  const nav = document.getElementById("site-nav");
-  if (nav) {
-    nav.innerHTML =
-      `<a class="brand" href="index.html"><strong>Monitor de brechas</strong>` +
-      `<span>Terremoto de Colombia M7.4 · 10-ago-2026</span></a>` +
-      `<div class="nav-links">` +
-      PAGES.map((p) =>
-        `<a href="${p.href}"${p.href === actual ? ' class="activa"' : ""}>${p.label}</a>`
-      ).join("") +
-      `<a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener" class="nav-cta">📍 Reportar daño</a>` +
-      `<button id="btn-alertas" hidden title="Recibir las alertas del día como notificación">🔔 Alertas</button>` +
-      `<button id="btn-compartir" title="Compartir esta página">↗ Compartir</button>` +
-      `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener" title="Código y datos abiertos">GitHub</a>` +
-      `<a href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener" title="Apoya los servidores y la recolección de datos">☕</a>` +
-      `</div>`;
-  }
+   La barra y el pie YA NO se inyectan aquí: los escribe el build
+   (`deploy/render_html.py::nav_estatico` / `pie_estatico`, y el paso
+   `escribir_piezas_compartidas`), que es la fuente única de las 213 páginas. Vivían
+   dos veces —aquí y allí— y había que sincronizarlas a mano; además, inyectadas
+   por JavaScript llegaban vacías a quien lee el sitio sin ejecutarlo.
 
-  const foot = document.getElementById("site-footer");
-  if (foot) {
-    foot.innerHTML =
-      `<div class="sf-cols">` +
-      `<div><strong>Monitor de brechas de reporte</strong><br>` +
-      `Observatorio abierto del terremoto M7.4 de Colombia del 10 de agosto de 2026. ` +
-      `Cruza satélite, reporte ciudadano, prensa y fuentes oficiales — con cada cifra ` +
-      `rastreable a su origen.</div>` +
-      `<div><strong>Secciones</strong><br>` +
-      `<a href="index.html">Mapa y cruce por zona</a><br>` +
-      `<a href="municipios.html">Municipios del área de influencia</a><br>` +
-      `<a href="rud.html">RUD: registro oficial día a día</a><br>` +
-      `<a href="balances.html">Balances en medios y comparativa</a><br>` +
-      `<a href="noticias.html">Titulares por zona</a><br>` +
-      `<a href="index.html#glosario">Glosario</a> · <a href="index.html#metodologia">Metodología</a></div>` +
-      `<div><strong>Datos abiertos (CC BY 4.0)</strong><br>` +
-      `<a href="/data/public/crosscheck.csv" download>CSV del cruce</a><br>` +
-      `<a href="/data/public/monitor.json" target="_blank">JSON del monitor</a><br>` +
-      `<a href="/data/public/rud.json" target="_blank">Histórico del RUD</a> · ` +
-      `<a href="/data/public/divipola_coords.json" target="_blank">Catálogo de municipios (DIVIPOLA)</a><br>` +
-      `<a href="${window.UI.OFICIALES_BASE}/oficiales.rss" target="_blank" rel="noopener">RSS de balances</a> · ` +
-      `<a href="/data/public/alerts.rss" target="_blank" rel="noopener">RSS de alertas</a><br>` +
-      (window.UI.TELEGRAM_CANAL ? `<a href="${window.UI.TELEGRAM_CANAL}" target="_blank" rel="noopener">Canal de Telegram</a><br>` : "") +
-      `<a href="https://github.com/18orkidea/monitor-terremoto-colombia" target="_blank" rel="noopener">Repositorio y copias archivadas</a></div>` +
-      `</div>` +
-      `<p class="sf-line">🇨🇴 ❤️ Mantenido por <a href="https://col.social/@jp" target="_blank" rel="me noopener">@jp@col.social</a> ` +
-      `con apoyo de <a href="https://orkidea.eu" target="_blank" rel="noopener">Orkidea</a>. ` +
-      `Las <a href="https://www.buymeacoffee.com/orkidea" target="_blank" rel="noopener">donaciones ☕</a> ` +
-      `mantienen los servidores y la recolección diaria de datos. ` +
-      `Código MIT · datos derivados CC BY 4.0 · los datos crudos conservan la licencia de cada fuente.</p>`;
-  }
-})();
-
+   Lo que sigue aquí es lo que solo puede pasar en el navegador: abrir el
+   <details> de un ancla, las notificaciones del botón 🔔 y el menú de compartir
+   del botón ↗. Esos dos botones los emite `nav_estatico(botones_js=True)`, y
+   solo en las cinco páginas grandes. Los bloques que los manejan se callan si
+   no los encuentran, así que **un botón que se pierda no da error, desaparece
+   sin más**: por eso lo vigila un test —`TestBarraYPieUnaSolaVez`— y no la
+   consola.
+*/
 /* al navegar a un ancla que vive dentro de un <details> cerrado, abrirlo
    (Chrome/Firefox lo hacen solos; Safari no) */
 (function () {
@@ -202,5 +155,28 @@
       if (!menu || menu.contains(e.target) || e.target === btn) return;
       cerrarMenu(); document.removeEventListener("click", fuera);
     }), 0);
+  });
+})();
+
+/* Filtro de la cronología (referencia.html). Los hitos YA vienen escritos por
+   el build (deploy/render_html.py::cronologia_referencia): aquí solo se
+   muestran u ocultan, así que sin JavaScript se lee la cronología entera —el
+   filtro ordena la lectura, no la revela—. «Todos» no oculta nada, y el hito
+   del sismo se ve siempre: es el origen de la serie, no una categoría más.
+   Se calla si no encuentra sus chips, como el resto de bloques de este
+   fichero: una página sin cronología no da error, no hace nada. */
+(function () {
+  const chips = document.querySelectorAll("#crono-filtros .chip-crono");
+  const hitos = document.querySelectorAll("#timeline li");
+  if (!chips.length || !hitos.length) return;
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.setAttribute("aria-pressed", String(c === chip)));
+      const filtro = chip.dataset.filtro;
+      hitos.forEach((li) => {
+        li.hidden = !(filtro === "todos" || li.classList.contains(filtro)
+                      || li.classList.contains("evento"));
+      });
+    });
   });
 })();

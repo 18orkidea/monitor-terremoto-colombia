@@ -86,6 +86,21 @@ h2 + .sub { margin-bottom: 12px; }
 * + .metric-strip, * + .tabla-scroll { margin-top: 12px; }
 .sub a { color: var(--s1); }
 .meta { text-align: right; font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+/* Qué sismo es esto. Bajó de la barra —donde ocupaba una segunda línea en las
+   213 páginas— al encabezado de cada página, encima del sello de fecha: el
+   hecho y hasta cuándo llega el dato, uno debajo del otro.
+
+   En su propio renglón, y no pegado al sello con un punto medio como en el
+   prototipo, porque medido a 1.280 px la cabecera ya parte los dos en dos
+   líneas: el punto quedaba huérfano abriendo el renglón siguiente. Un
+   separador que solo funciona cuando no hay salto de línea no es un
+   separador. Así el reparto es el mismo a cualquier anchura.
+
+   Entera en un renglón mientras la cabecera va en dos columnas: en titulares,
+   donde el subtítulo es largo y la columna de la derecha lleva un solo botón,
+   se partía dejando «(Chocó)» solo en la línea siguiente. El `nowrap` obliga a
+   la columna a reservarle su anchura. */
+.meta > .contexto-sismo { flex: 1 0 100%; white-space: nowrap; }
 .support-line {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   color: var(--ink-2); font-size: 12px; line-height: 1.35;
@@ -117,7 +132,10 @@ h2 + .sub { margin-bottom: 12px; }
 .intro p + p { margin-top: 8px; }
 .intro p { font-size: 14.5px; line-height: 1.65; color: var(--ink-2); margin: 0; max-width: none; }
 html { scroll-behavior: smooth; }
-section[id], main[id], footer[id] { scroll-margin-top: 66px; }
+/* `#glosario` de la portada es un <p>, no una <section>: sobrevive como
+   ancla de las 220 páginas que lo enlazan desde antes de la mudanza a
+   `referencia.html`, y sin esto la barra pegada se come su primera línea. */
+section[id], main[id], footer[id], p#glosario { scroll-margin-top: 66px; }
 #indice {
   display: flex; flex-wrap: wrap; gap: 6px;
   margin: 12px var(--margen) 0;
@@ -150,19 +168,83 @@ section[id], main[id], footer[id] { scroll-margin-top: 66px; }
 #como-leer li, .intro details li, .aviso details li { margin-bottom: 8px; }
 #como-leer li strong, .intro details li strong, .aviso details li strong { color: var(--ink); }
 #como-leer a, .intro details a, .aviso details a { color: var(--s1); }
-main#mapa {
-  display: flex; flex-direction: column;
-  gap: 12px; padding: 0 var(--margen);
+/* EL LIENZO DE LA PORTADA (fase 6). `main#mapa` era una columna: el mapa
+   arriba y debajo un panel que contenía la tabla de 62 filas y medía varios
+   miles de píxeles. Con la tabla mudada a su plegable, el panel es una lista
+   corta y los dos pueden ser hermanos de una rejilla.
+   La doble marca `main#mapa` no es cosmética: un `.lienzo` a secas pierde por
+   especificidad contra el `#mapa` que ya existía, igual que le pasó al lienzo
+   municipal contra `.lienzo-mun`. */
+main#mapa.lienzo {
+  display: grid; gap: 0; padding: 0;
 }
+.marco-mapa { position: relative; }
+/* EL AVISO DE LAS CAPAS: qué se está descargando y qué no ha llegado.
+   Desde que cada capa se pide al encenderse, entre el clic y el dibujo pasa un
+   rato, y ese rato tiene que verse: sin señal, pulsar y esperar dos segundos
+   con la pantalla quieta se lee como una avería. Es también lo ÚNICO que ve
+   quien encendió la capa desde el control de Leaflet, que no tiene chip donde
+   ponerle un `aria-busy`.
+   Va encima del mapa y en posición absoluta a propósito: aparece y desaparece
+   varias veces por sesión, y en el flujo de la página empujaría el mapa hacia
+   abajo cada vez. Abajo a la izquierda porque las otras tres esquinas están
+   ocupadas —zoom, control de capas y atribución— y tapar un control es peor
+   que avisar tarde. El `z-index` queda por encima de los paneles de Leaflet
+   (400) y por debajo de sus controles (1000): informa, no estorba. */
+.aviso-capas {
+  position: absolute; left: 10px; bottom: 26px; z-index: 500; margin: 0;
+  max-width: min(320px, calc(100% - 20px));
+  padding: 6px 10px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface-1);
+  color: var(--ink-2); font-size: 12.5px; line-height: 1.35;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+}
+.aviso-capas[hidden] { display: none; }
+/* El fallo de red no se pinta como el «cargando»: el amarillo del aviso es el
+   mismo con el que la portada rotula sus lagunas. */
+.aviso-capas--fallo { border-color: var(--warning); color: var(--ink); }
 #map {
   min-height: 62vh; border-radius: 10px; border: 1px solid var(--border);
   background: var(--surface-1);
 }
-#panel {
+main#mapa.lienzo > .panel {
   background: var(--surface-1); border: 1px solid var(--border);
   border-radius: 10px; padding: 14px;
   /* el desplazamiento horizontal es de la tabla (`.tabla-scroll`), no del panel:
      antes el título, las notas y la leyenda se iban de lado con ella */
+}
+main#mapa.lienzo > .panel h2 { font-size: 16px; margin: 0 0 2px; }
+main#mapa.lienzo > .panel .sub { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; }
+/* El cuadro de honor: cada fila es un ENLACE a la ficha, no un botón que abra
+   nada aquí. Sin JavaScript sigue llevando a alguna parte, que es lo que un
+   botón prerenderizado no puede prometer. `.lista-mun button` ya existía en
+   esta hoja para el prototipo; se le suma el enlace en vez de duplicar la
+   regla. */
+.lista-mun a {
+  display: flex; width: 100%; gap: 10px; align-items: baseline;
+  padding: 9px 2px; text-decoration: none; color: var(--ink);
+}
+.lista-mun a:hover { color: var(--copernicus); }
+@media (min-width: 900px) {
+  /* El panel a la izquierda y el mapa a la derecha, LOS DOS A ALTO FIJO y el
+     panel con scroll propio. Es la solución de la maqueta, y corrige el
+     criterio del 23-ago —«el mapa a la altura del panel con todos sus datos,
+     sin scroll interno»—: con el panel listando 48 municipios de un tirón, la
+     lista arrastraba al mapa hasta 2.473 px y el mapa, que es el protagonista
+     de esta página, dejaba de caber en una pantalla. Ahora el que se desplaza
+     es el panel, que es una lista, y no el mapa, que es una vista.
+     El porqué de la vuelta atrás está en docs/DECISIONES.md (25-ago-2026).
+     Los dos altos son EL MISMO valor escrito dos veces, no dos medidas: si se
+     toca uno hay que tocar el otro, y `TestAltoDelLienzoDePortada` falla si
+     alguien toca solo uno. Es literal y no un token porque un token de maqueta
+     sin `:root` que lo respalde es justo lo que veta `TestNingunTokenSeUsaSinRespaldo`. */
+  main#mapa.lienzo {
+    grid-template-columns: 360px 1fr; gap: 18px; align-items: stretch;
+    padding: 0 var(--eje) 18px;
+  }
+  main#mapa.lienzo > .marco-mapa { order: 2; display: flex; min-height: 0; }
+  main#mapa.lienzo > .panel { order: 1; height: 70vh; overflow: auto; }
+  main#mapa.lienzo #map { flex: 1 1 auto; height: 70vh; min-height: 0; }
 }
 table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
 th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--grid); }
@@ -186,12 +268,43 @@ th.ord[aria-sort="descending"]::after { content: "▼"; opacity: 1; }
 th.ord[aria-sort="ascending"], th.ord[aria-sort="descending"] { color: var(--s1); }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 /* La mano solo donde la fila lleva de verdad a algún sitio: la tabla del cruce
-   de la portada. En las demás (municipios, RUD, balances, fichas) el enlace
-   está dentro de la celda y el cursor prometía un clic que no existe. El
+   de la portada, que la mueve con JavaScript, y la de municipios, que estira
+   su enlace (más abajo) y por tanto hereda el cursor del propio <a> sin que
+   nadie se lo declare. En las demás (RUD, balances, fichas) el enlace está
+   dentro de la celda y el cursor prometería un clic que no existe. El
    resaltado al pasar sí se queda en todas: en una tabla ancha ayuda a no
    perder el renglón. */
 #tabla tbody tr { cursor: pointer; }
 tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
+
+/* ---- la fila entera de municipios.html lleva a su ficha, sin JavaScript ----
+
+   Enlace estirado: el <a> del nombre extiende un pseudoelemento sobre toda la
+   fila. Sigue habiendo UN solo href de verdad —rastreable, enfocable con el
+   tabulador y con su destino visible en la barra de estado—; lo que crece es
+   la zona de clic, que en móvil pasa de una palabra a un renglón entero.
+
+   La capa se traga todo lo que hay debajo, y eso NO es aceptable en una tabla
+   de datos: medido en Chrome, arrastrar el ratón sobre «26.377» devolvía una
+   selección vacía, y los `title` que explican estado, población y satélites
+   dejaban de aparecer. Por eso el contenido de la fila vive por encima de la
+   capa: cada cifra suelta viaja envuelta en su <span> (`valor_suelto()` en
+   deploy/render_html.py) para que exista un elemento al que subir. Reparto
+   medido, no estimado: los renglones escritos ocupan el 14 % de la superficie
+   de la fila, y preguntando punto a punto quién recibe el clic, el **85 %** de
+   la fila sigue llevando a la ficha.
+
+   El <strong> del nombre se sube igual, y ahí no hay renuncia: está DENTRO del
+   ancla, así que se puede seleccionar y sigue navegando al pulsarlo. */
+#municipios-tabla tbody tr { position: relative; }
+#municipios-tabla .fila-enlace::after { content: ""; position: absolute; inset: 0; z-index: 0; }
+#municipios-tabla tbody td > *:not(.fila-enlace),
+#municipios-tabla .fila-enlace > strong { position: relative; z-index: 1; }
+/* El foco se ve en la fila, no solo en el nombre: el anillo del navegador
+   sigue dibujándose sobre el ancla —no se apaga nunca— y la fila entera se
+   tiñe, que es lo que hace legible dónde está el tabulador en una tabla de
+   diez columnas. */
+#municipios-tabla tbody tr:focus-within { background: color-mix(in srgb, var(--s1) 12%, transparent); }
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600;
@@ -216,6 +329,15 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 .prensa-detalle td { background: color-mix(in srgb, var(--s1) 5%, transparent); font-size: 12px; }
 .prensa-detalle ul { margin: 4px 0 2px; padding-left: 18px; }
 .prensa-detalle a { color: var(--s1); }
+/* La banda de hitos no se encoge hasta ser ilegible: se DESLIZA. Su lienzo
+   mide 980 px y sus rótulos de fecha, 9 px; metidos en los 311 px útiles de un
+   móvil, esos rótulos quedaban en 2,9 px y los marcadores del mismo día —que
+   se separan 11 px entre sí— se fundían en una mancha. Es la misma avería que
+   ya se corrigió en el gráfico de las fichas, y este monitor se lee sobre todo
+   en móvil. Deslizar conserva el tamaño de la letra y la distancia entre
+   marcas, que es justo lo que la banda existe para enseñar. */
+#crono-banda { overflow-x: auto; overscroll-behavior-x: contain; }
+#crono-banda svg { min-width: 980px; display: block; }
 #timeline {
   margin: 0; padding-left: 2px; list-style: none; font-size: 13px; line-height: 1.7;
   /* La regla editorial de las secciones limita los <ol> a 70ch. Esta lista es
@@ -245,22 +367,56 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 #timeline a { color: var(--s1); text-decoration: none; }
 /* chips de filtro reutilizables (cronología, y donde hagan falta) */
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; align-items: center; }
+/* `.chips { display:flex }` gana al `[hidden]` del navegador (misma
+   especificidad, hoja del autor): la tira de capas de la ficha nacía con
+   `hidden` y se veía igual, ocupando dos renglones sobre el mapa de Situación.
+   El atributo tiene que volver a esconder. */
+.chips[hidden] { display: none; }
 * + .chips { margin-top: 12px; }
-/* La misma pastilla hace dos oficios: dentro de `.chips` es un botón de filtro
-   y en la lista de titulares, una etiqueta de zona. `inline-block` porque el
-   marcado las pega sin espacio entre ellas y en `inline` la línea no tenía por
-   dónde partirse: en móvil una tira de municipios sacaba la página de cuadro. */
+/* UN CHIP ES UNA ACCIÓN. Antes esta misma pastilla hacía dos oficios —botón de
+   filtro y etiqueta de zona en los titulares— y solo se distinguían por el
+   cursor: en reposo eran idénticas, así que la lista de titulares enseñaba 316
+   pastillas con aspecto de control que no hacían nada. Quien aprende que un
+   chip se pulsa, se encuentra 316 que no. Lo pasivo vive ahora en `.etiqueta`.
+   `inline-block` porque el marcado las pega sin espacio entre ellas y en
+   `inline` la línea no tenía por dónde partirse: en móvil una tira de
+   municipios sacaba la página de cuadro. */
 .chip {
   display: inline-block; margin: 2px 4px 2px 0;
   border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px;
   font-size: 12px; line-height: 1.35; background: var(--surface-1); color: var(--ink-2);
-  font-family: inherit;
+  font-family: inherit; cursor: pointer;
 }
-/* El filtro se pulsa; la etiqueta, no. El cursor y el resalte son del botón. */
 .chips .chip { margin: 0; padding: 5px 12px; }
-button.chip { cursor: pointer; }
-button.chip:hover { border-color: var(--s1); }
-.chip.activa {
+.chip:hover { border-color: var(--s1); }
+
+/* Metadato, no control: sin pastilla ni borde, para que no prometa un clic que
+   no existe. Sigue agrupando visualmente —fondo tenue y esquinas suaves— pero
+   se lee como lo que es, la zona o el municipio que menciona el titular. */
+.etiqueta {
+  display: inline-block; margin: 2px 4px 2px 0; padding: 2px 7px;
+  border-radius: 4px; font-size: 11.5px; line-height: 1.35;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--muted); font-family: inherit;
+}
+/* Dos mecánicas para un mismo estado. El sitio marca el chip activo con una
+   clase; el sistema del rediseño lo marca con `aria-pressed`, que es lo que un
+   lector de pantalla anuncia. Se funden en un solo selector en vez de escribir
+   el estilo dos veces: es la ÚNICA línea de la hoja vieja que toca la fase 2,
+   y es un añadido de selector, no un cambio de declaración. */
+/* UNA CAPA QUE VIENE EN CAMINO. El chip NO se desactiva —hay que poder
+   arrepentirse a mitad de descarga, y un botón deshabilitado que vuelve solo
+   es peor que uno que responde—, pero deja de parecer que no ha pasado nada:
+   `aria-busy` lo anuncia a quien escucha la página y el pulso lo dice a quien
+   la mira. Con `prefers-reduced-motion` se queda quieto y atenuado, que sigue
+   siendo una señal. */
+.chip[aria-busy="true"] { animation: chip-pulso 1.1s ease-in-out infinite; }
+@keyframes chip-pulso { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+@media (prefers-reduced-motion: reduce) {
+  .chip[aria-busy="true"] { animation: none; opacity: .6; }
+}
+.chip.activa,
+.chip[aria-pressed="true"] {
   border-color: var(--s1); color: var(--ink);
   background: color-mix(in srgb, var(--s1) 12%, transparent);
 }
@@ -287,23 +443,27 @@ button.chip:hover { border-color: var(--s1); }
   color: var(--ink);
 }
 #alerts { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.6; }
-#metodologia-box summary { cursor: pointer; color: var(--ink); font-size: 14px; padding: 2px 0; }
-#metodologia-box summary:hover { color: var(--s1); }
-#metodologia-box h3 { font-size: 15px; margin: 20px 0 8px; }
-#metodologia-box p, #metodologia-box ol { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); max-width: none; }
-#metodologia-box ol { padding-left: 22px; }
-#metodologia-box li { margin-bottom: 6px; }
-#metodologia-box a { color: var(--s1); text-decoration: none; }
-#metodologia-box a:hover { text-decoration: underline; }
-#metodologia-box dl {
+/* La metodología y el glosario: eran `#metodologia-box`, el `<details>` de la
+   portada, y desde la fase 6b son las secciones de `referencia.html`. Las
+   reglas SIGUEN AL CONTENIDO en vez de quedarse mirando a un id que ya no
+   existe — que es lo que pasa cuando un bloque se muda y su hoja no: el
+   glosario habría perdido su rejilla de dos columnas sin que nada fallara.
+   `.referencia` marca las secciones de esa página, y no un id por sección,
+   porque son cuatro y todas piden la misma tipografía de lectura larga. */
+.referencia p, .referencia ol { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); max-width: none; }
+.referencia ol { padding-left: 22px; }
+.referencia li { margin-bottom: 6px; }
+.referencia a { color: var(--s1); text-decoration: none; }
+.referencia a:hover { text-decoration: underline; }
+.referencia dl {
   display: grid; grid-template-columns: max-content 1fr;
   gap: 6px 14px; margin: 0; font-size: 12.5px; line-height: 1.5;
 }
-#metodologia-box dt { font-weight: 600; color: var(--ink); }
-#metodologia-box dd { margin: 0; color: var(--ink-2); }
+.referencia dt { font-weight: 600; color: var(--ink); }
+.referencia dd { margin: 0; color: var(--ink-2); }
 @media (max-width: 700px) {
-  #metodologia-box dl { grid-template-columns: 1fr; gap: 2px; }
-  #metodologia-box dd { margin-bottom: 8px; }
+  .referencia dl { grid-template-columns: 1fr; gap: 2px; }
+  .referencia dd { margin-bottom: 8px; }
 }
 footer { padding: 10px var(--gutter) 24px; font-size: 12px; color: var(--muted); line-height: 1.5; max-width: var(--ancho-pagina); }
 footer a { color: var(--s1); text-decoration: none; }
@@ -349,6 +509,9 @@ a.metric-card:hover { border-color: var(--s1); }
   #map { min-height: 46vh; }
   header { flex-direction: column; }
   .meta, .support-line-header { justify-content: flex-start; text-align: left; }
+  /* En una sola columna ya no hay nada que reservar y el `nowrap` sacaría la
+     línea por el borde derecho de un móvil de 375 px. */
+  .meta > .contexto-sismo { white-space: normal; }
 }
 
 /* ---- barra de navegación y pie de sitio compartidos (common.js) ---- */
@@ -358,8 +521,11 @@ a.metric-card:hover { border-color: var(--s1); }
   background: var(--surface-1); border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 1100;
 }
-#site-nav .brand { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); line-height: 1.25; }
-#site-nav .brand span { font-size: 11px; color: var(--muted); }
+/* Una sola línea desde el 23-ago-2026: la marca dice el nombre público y el
+   dato del sismo se lee en el encabezado de la página. La regla que estilaba
+   la segunda línea (`.brand span`) se retira con ella; dejarla sería invitar
+   a devolver el subtítulo sin volver a decidirlo. */
+#site-nav .brand { display: flex; text-decoration: none; color: var(--ink); line-height: 1.25; }
 #site-nav .nav-links { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 #site-nav .nav-links a {
   padding: 5px 11px; border-radius: 999px; text-decoration: none;
@@ -576,6 +742,102 @@ a.metric-card:hover { border-color: var(--s1); }
   .mapa-estatico text { stroke-width: 5px; }
 }
 
+/* El gráfico del RUD tiene el MISMO problema que el mapa y se arregla igual.
+   Su `viewBox` mide 900 y en un móvil de 375 px se dibuja sobre 313: los
+   rótulos de 10 caían a 3,5 px efectivos, ilegibles. El tamaño base sigue
+   viniendo del atributo `font-size` del SVG —así el gráfico se lee aunque la
+   hoja no cargue— y aquí solo se sube en pantalla estrecha.
+
+   Los topes NO son estéticos, son geométricos y por eso van comentados:
+   · `.g-eje` no puede pasar de 15 porque su rótulo más largo («110.254») se
+     escribe hacia la izquierda dentro de los 58 unidades del margen; más
+     grande y el SVG lo recorta.
+   · `.g-alta`, `.g-dia` y `.g-total` están limitados por la separación entre
+     puntos: hoy son 153 unidades y la etiqueta más ancha mide 87 a 24 px.
+     Con la serie creciendo, ese margen se estrecha —lo vigila
+     `test_los_rotulos_del_grafico_caben_en_movil`—.
+   · La leyenda solo escala porque su segunda entrada se aparta a la derecha;
+     si no, las dos se solapan.
+
+   Y son DOS bandas, no una, porque el SVG no encoge de golpe: entre 481 y 760
+   px se dibuja sobre 400-680, y el salto de la banda estrecha lo dejaría
+   ilegible por el otro lado, más grande que en escritorio. Las dos van
+   vigiladas por `TestElGraficoSeLeeEnMovil`, que reconstruye la cascada. */
+@media (max-width: 760px) {
+  .grafico-rud .g-eje     { font-size: 13px; }
+  .grafico-rud .g-alta,
+  .grafico-rud .g-dia     { font-size: 14px; }
+  .grafico-rud .g-total   { font-size: 15px; }
+  .grafico-rud .g-leyenda { font-size: 14px; }
+  .grafico-rud .g-leyenda-2 { transform: translate(180px, 0); }
+  /* El «sin base» del primer día se va, en las dos bandas. Cuatro rótulos se
+     disputaban la esquina de abajo a la izquierda —el acumulado del primer
+     día, el «sin base», el cero del eje y la fecha— en un hueco que con `piso`
+     en 0 mide 16 unidades entre la línea del cero y el pie del lienzo; cada
+     captura nueva sube el techo del eje, la curva del primer día desciende a
+     ocuparlo y ya no caben los cuatro. Es la única de las cuatro que el
+     `<p class="sub">` de encima ya explica con todas sus letras («El primer
+     día no tiene una captura previa con la que compararse»), así que es la que
+     cede. Medido, no estimado: `test_ningun_rotulo_se_pisa_en_movil`. */
+  .grafico-rud .g-vacio { display: none; }
+  .grafico-rud .g-dia   { transform: translate(0, 8px); }
+  /* Y el rótulo del alta baja para no pegarse al del acumulado. Los dos
+     cuelgan del mismo día, y la distancia entre ellos NO es fija: vale
+     `(acumulado − alta) × alto_útil / techo`, así que se estrecha sola cada
+     vez que el registro sube el techo del eje. Bajar el rótulo del alta lo
+     mete en el cuerpo de su columna, que es donde se lee sin competir. */
+  .grafico-rud .g-alta  { transform: translate(0, 10px); }
+}
+/* El gráfico de balances tiene el mismo problema y NO la misma geometría, así
+   que no puede reusar los selectores del RUD: son tres paneles de doce bandas
+   de 68,7 unidades, frente a puntos separados 153. Medido en un móvil de 375
+   px: el lienzo de 900 se dibuja sobre 285 (escala 0,317) y un rótulo de 10
+   queda en 3,17 px efectivos.
+
+   La diferencia que obliga a un bloque propio: «21-ago» mide 33,9 unidades, y
+   68,7 / 33,9 × 10 = 20 es el tope del rótulo de fecha SIN esconder la mitad —
+   y ese tope baja cada día que entra en la serie. Por eso el generador emite
+   `g-dia` y `g-dia-alterna`: **se esconde una de cada dos fechas antes de
+   agrandar la otra mitad**, y entonces la banda útil es doble (137,4) y 24 px
+   caben (24 × 3,39 = 81,4). `.g-eje` no pasa de 15: su rótulo más largo
+   («123.789») se escribe hacia la izquierda dentro de las 58 unidades del
+   margen. */
+@media (max-width: 760px) {
+  .grafico-balances .g-eje         { font-size: 13px; }
+  .grafico-balances .g-leyenda     { font-size: 14px; }
+  .grafico-balances .g-alta        { font-size: 14px; }
+  .grafico-balances .g-dia         { font-size: 15px; }
+  .grafico-balances .g-dia-alterna { display: none; }
+}
+@media (max-width: 480px) {
+  .grafico-balances .g-eje     { font-size: 15px; }
+  .grafico-balances .g-leyenda { font-size: 18px; }
+  .grafico-balances .g-alta    { font-size: 20px; }
+  .grafico-balances .g-dia     { font-size: 24px; }
+}
+@media (max-width: 480px) {
+  .grafico-rud .g-eje     { font-size: 15px; }
+  .grafico-rud .g-alta,
+  .grafico-rud .g-dia     { font-size: 24px; }
+  .grafico-rud .g-total   { font-size: 26px; }
+  .grafico-rud .g-leyenda { font-size: 22px; }
+  /* Un día de cada dos se calla. Con nueve capturas —la del 24-ago-2026— y
+     estos cuerpos, «+15.819» mide 87 unidades y la banda de un día son 95: los
+     rótulos de las altas y de los acumulados empezaron a pisarse entre ellos y
+     con la curva, y cada captura nueva estrecha la banda otro poco. Agrandar
+     la letra en un móvil solo es posible escondiendo la mitad de los rótulos
+     —lo mismo que ya hace el eje del gráfico de balances—; el generador marca
+     con `g-alterna` los que sobran, contando desde el final para que el último
+     día, que es la cifra vigente, nunca sea el que desaparece. Lo que se
+     esconde son rótulos, no datos: la serie entera sigue en la tabla de debajo
+     y en el `<desc>` del propio SVG, que es lo que lee un lector de pantalla.
+     Medido, no estimado: `test_ningun_rotulo_se_pisa_en_movil`. */
+  .grafico-rud .g-alterna { display: none; }
+  .grafico-rud .g-dia   { transform: translate(0, 14px); }
+  /* Más que en la banda ancha: aquí los cuerpos son casi el doble. */
+  .grafico-rud .g-alta  { transform: translate(0, 16px); }
+}
+
 /* En móvil el margen lateral de 20 px se come una décima parte del ancho útil:
    un solo token y toda la página se estrecha a la vez. */
 @media (max-width: 560px) {
@@ -601,9 +863,10 @@ a.metric-card:hover { border-color: var(--s1); }
   #site-nav .nav-links > * { flex: 0 0 auto; }
   #site-nav .nav-links a { padding: 5px 9px; font-size: 12.5px; }
   /* la barra pegada mide dos renglones aquí: el ancla no puede quedar debajo */
-  section[id], main[id], footer[id] { scroll-margin-top: 96px; }
-  /* La cabecera de página: la fecha en su renglón y las descargas juntas en el
-     siguiente, en vez de un botón huérfano colgando de la fecha. */
+  section[id], main[id], footer[id], p#glosario { scroll-margin-top: 96px; }
+  /* La cabecera de página: la fecha en su renglón —el contexto del sismo ya
+     tiene el suyo a cualquier anchura— y las descargas juntas en el siguiente,
+     en vez de un botón huérfano colgando de la fecha. */
   .meta > #generado { flex: 1 0 100%; }
   /* Apilados y cada uno con el ancho de su opción más larga (311, 308, 196,
      176, 319 px en titulares), los filtros parecían un error de maqueta. En
@@ -674,3 +937,613 @@ a.metric-card:hover { border-color: var(--s1); }
    dice en la propia línea de firma en vez de dejar que el lector lo descubra
    al hacer clic. */
 .via { color: var(--muted); font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SISTEMA DEL REDISEÑO 2026
+   ═══════════════════════════════════════════════════════════════════════
+
+   De aquí abajo vive el sistema visual que ordena las cinco páginas y las 208
+   fichas: encabezado compacto, entradilla, plegable, zona de datos, chips y
+   eje único. Viene del prototipo aprobado con JP, que se borra al cerrar la
+   última fase — por eso su conocimiento se muda aquí y no se queda allí.
+
+   TRES REGLAS DEL PORTE, que no son estilo sino método:
+
+   1. NADA DE AQUÍ ABAJO TOCA UN SELECTOR DE ARRIBA. La hoja anterior es el
+      activo del sitio, no el lastre: cuando el prototipo se cargó sin ella,
+      734 apariciones de clase se quedaron sin estilo y el rediseño «parecía
+      peor». No lo era. Excepción única y anotada: la fusión de estados del
+      chip.
+
+   2. EL ORDEN RELATIVO ES INTOCABLE. El bloque del eje va SIEMPRE el último y
+      anula a propósito al `@media (min-width:900px)` que lo precede. Agrupar
+      los media queries «para que quede limpio» invierte la cascada y devuelve
+      los bordes múltiples.
+
+   3. ANTES DE INVENTAR UN NOMBRE, `grep` EN ESTE ARCHIVO. Ya mordió tres
+      veces: `.contenido` (columna de lectura de 760 px), `.fuentes` (los
+      puntos de la lista) y `.lienzo` (`display:grid`, que pisaba a
+      `.lienzo-mun`). Nombres genéricos ya ocupados o peligrosos: .panel
+      .lienzo .marca .fuente .fuentes .dato .brecha .pie .ley .linea .resumen
+      .v .f .n
+
+   CUATRO FALLOS YA CAZADOS. Están aquí porque cada uno costó una tarde y
+   porque ninguno se ve venir leyendo el CSS:
+
+   · UNA VARIABLE USADA EN DOS SITIOS HAY QUE DECLARARLA EN LOS DOS. `--eje`
+     existía solo en la portada; en las interiores `var(--eje)` no resolvía y
+     el panel se pegaba al borde. Corolario vivo: el prototipo usa
+     `var(--surface)`, que en esta hoja se llama `--surface-1`. Sin el alias,
+     19 superficies se vuelven transparentes.
+
+   · UN ID GANA A CUALQUIER CLASE. Esta hoja estiliza por id `#como-leer`,
+     `#balance-hero`, `#metodologia`, `#balance-chart-section`, `#resumen`,
+     `#balance-resumen`, `#panel`, `#map`, `#site-nav`, `#site-footer`. Un
+     componente nuevo con el mismo cometido NO se aplica encima: hay que
+     nombrar el id explícitamente o el bloque nuevo es papel mojado.
+
+   · ALINEAR UN CONTENEDOR NO ES VACIAR UNA CAJA. Un `padding: 0 !important`
+     sobre `.page-section` alineó los bordes y dejó sin aire por dentro a todas
+     las cajas del sitio. Una `.page-section` es una CAJA con fondo y borde, no
+     texto suelto: lo que estorba es su margen lateral, no su acolchado.
+
+   · EL TEMA OSCURO SE REDECLARA EN BLOQUE O NO SE TOCA. Las variantes oscuras
+     de esta hoja viven en un `@media (prefers-color-scheme: dark)` que va
+     ARRIBA. Un `:root` plano añadido aquí abajo gana también en oscuro: fondo
+     correcto y texto casi negro sobre casi negro, en las 5 páginas y en las
+     208 fichas. Tokens claros y oscuros viajan juntos, siempre.
+
+   Y UNA MEDIDA QUE ES EL CONTRATO DE TODA LA OBRA: si el CSS no toca el HTML,
+   no puede perderse una palabra. Línea base de `ingest/seo_check.py` el
+   23-ago-2026, en palabras / filas: index 3.259/62 · rud 2.603/208 ·
+   municipios 3.552/209 · balances 1.880/38 · noticias 6.277/206.
+   Cualquier variación delata que se coló algo que no era CSS.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── LOTE 1 · Tokens ────────────────────────────────────────────────────
+   Solo alias y tokens nuevos. NO se redeclara ni uno de los que ya existen
+   arriba: sus valores oscuros están razonados con ratios de contraste
+   anotados, y cambiarlos sería una decisión estética disfrazada de porte.
+
+   Por qué los alias son `var(...)` y no el color copiado: una propiedad
+   personalizada se sustituye en el momento de USARSE, no de declararse, así
+   que `--copernicus` recoge sola el valor que `--s1` tenga en el tema activo.
+   Un alias no puede desincronizarse; un color copiado sí. Y por eso este
+   bloque puede vivir al final de la hoja sin romper el tema oscuro. */
+:root {
+  /* Los cuatro colores tenían ya nombre en esta hoja, pero el nombre no dice
+     qué son. Fuente de verdad siguen siendo los --sN, que el marcado emite en
+     línea 21 veces desde render_html.py y otras tantas desde app.js: aquí solo
+     se les pone encima un nombre legible para escribir código nuevo. */
+  --copernicus: var(--s1);
+  --unosat:     var(--s9);
+  --sertit:     var(--s8);
+  --ciudadano:  var(--s7);
+
+  /* El gris de lo que nadie miró. Es el mismo tono de --muted, pero con su
+     propio nombre porque significa otra cosa: no es «texto secundario», es
+     «aquí no hay dato». Un municipio en gris NO es un municipio con cero
+     daño — R3 en forma de color. */
+  --ausencia: var(--muted);
+
+  /* El prototipo llama --surface a lo que esta hoja llama --surface-1.
+     Sin este alias, 19 reglas del sistema nuevo caerían a `unset` y barra,
+     chips, panel, tarjetas y cabeceras de tabla se quedarían transparentes
+     sobre el fondo de la página. */
+  --surface: var(--surface-1);
+
+  /* El radio del sistema. Ya se usaba a mano en seis sitios de esta hoja. */
+  --radio: 10px;
+
+  /* UN SOLO EJE para las 213 páginas. El prototipo traía el suyo a 1.240 px
+     sin saber que la hoja ya tenía --margen a 1.100: dos ejes dan dos bordes
+     izquierdos, que es el defecto que el propio prototipo midió y corrigió
+     dentro de su hoja. Aquí es alias, no valor: el eje del sitio manda.
+     Todavía no lo consume nadie — se aplica en el lote 5. */
+  --eje: var(--margen);
+}
+
+/* ── LOTE 2 · Componentes nuevos e inertes ──────────────────────────────
+   Ninguna de estas reglas tiene hoy una etiqueta que estilar: son las piezas
+   que montarán las fases 3-6. Se portan ANTES de usarlas para que cada fase
+   añada marcado y no CSS, y para que el sistema se lea entero en un sitio.
+   Los comentarios del prototipo viajan pegados a su regla: cada uno documenta
+   un fallo que costó una tarde y que no se ve venir leyendo el CSS.
+   Origen: `prototipo/estilo.py`, que se borra al cerrar la última fase. */
+
+/* Ficha municipal: panel y mapa conviven, sin pestañas. En móvil la TABLA va
+   primero —se llega directo a la información— y el mapa debajo; en pantalla
+   ancha, panel a la izquierda y mapa a la derecha, igual que la portada. El
+   DOM deja el panel antes para teclado y lector; el CSS ya no invierte. */
+/* La doble clase iguala a un `.lienzo{display:grid}` futuro (fase 6, portada):
+   una sola clase pierde por orden de aparición y el lienzo municipal deja de
+   ser flex — `order` y el lado a lado se caen en las 208 fichas. */
+/* El encabezado de la ficha sale del tubo de 760 px: si no, las tarjetas
+   quedan centradas y el lienzo (panel + mapa) empieza más a la izquierda,
+   dos ejes para la misma página. El destacado vive en zona-datos y se
+   queda en 70ch: es prosa, no el lienzo. */
+.contenido-ficha{max-width:none;margin-inline:0;padding-inline:var(--eje)}
+.contenido-ficha .fecha{font-size:13px;color:var(--muted);margin:0 0 8px}
+.contenido-ficha .resumen{font-size:15px;line-height:1.6;color:var(--ink-2);
+  margin:0 0 4px}
+.contenido-ficha details.pliegue{padding-inline:0;margin:0 0 12px}
+.zona-datos > .destacado{max-width:70ch;margin-bottom:12px}
+.zona-datos > details.pliegue{padding-inline:0;margin:0 0 12px}
+.zona-datos details.pliegue .destacado{max-width:70ch}
+.zona-datos > .metric-strip{margin:0 0 18px}
+.lienzo.lienzo-mun{display:flex;flex-direction:column;gap:0;margin:0 0 18px}
+.lienzo-mun .marco-mapa{order:2;position:relative}
+.lienzo.lienzo-mun .panel{order:1;padding:14px var(--eje);background:var(--surface);
+  border-bottom:1px solid var(--border)}
+.lienzo-mun #map-mun{height:48vh;min-height:280px;background:var(--grid);
+  display:block;z-index:1}
+.lienzo-mun .panel h2{font-size:16px;margin:0 0 2px}
+.lienzo-mun .panel .sub{font-size:12.5px;color:var(--muted);margin:0 0 10px}
+/* La fila de vistas: dos pestañas a la izquierda y, cuando el mapa está
+   activo, los chips de fuente a la derecha. Comparten renglón porque son la
+   misma decisión —qué estoy mirando— y separarlas obligaba a buscar el filtro
+   en otro sitio. El tablist es un hijo (los chips no son pestañas: no pueden
+   vivir dentro del tablist) y tiene que ser flex o los dos botones se apilan. */
+.vistas{display:flex;align-items:center;gap:4px;flex-wrap:wrap;
+  padding:8px var(--eje)}
+.vistas [role="tablist"]{display:flex;align-items:center;gap:4px}
+.vistas [role="tab"]{background:none;border:0;font:inherit;font-size:14px;
+  padding:6px 10px;border-radius:99px;color:var(--muted);cursor:pointer}
+.vistas [role="tab"][aria-selected="true"]{background:var(--ink);color:var(--page);
+  font-weight:600}
+/* El `margin-left:auto` es de la fila `.vistas` de la portada, no del
+   componente: `.chips-mapa` es la tira de chips de fuente de CUALQUIER mapa, y
+   la ficha municipal la usa fuera de esa fila. */
+.chips-mapa{padding:0;gap:6px;overflow:visible}
+.vistas > .chips-mapa{margin-left:auto}
+.chips-mapa .chip{padding:4px 10px;font-size:12.5px}
+.chips-mapa .chip .n{margin-left:2px}
+/* Los colores por capa los pone el bloque del sistema (`--copernicus`,
+   `--unosat`, `--sertit`, `--ciudadano`), que sigue al tema. Aquí ganaban por
+   especificidad dos hexes congelados —#5aa0e8 y #1b4f96— y en oscuro el chip de
+   SERTIT salía azul cuando su token es ocre: el color ES información en este
+   sitio, así que un chip que miente de color miente de fuente. */
+.chips-mapa .chip[aria-pressed="false"]{opacity:.45}
+/* El recuento corto del mapa: siempre visible, también en Situación. */
+.intro-mapa{padding:4px var(--eje) 10px}
+.intro-mapa .sub{margin:0 0 6px;color:var(--ink-2)}
+.intro-mapa .note{margin:0}
+.intro-mapa[hidden]{display:none}
+/* Las dos vistas ocupan lo que ocupa la ficha de al lado: el hueco de 151 px
+   bajo el mapa de Situación era el panel siendo más alto que su contenido.
+   El SVG se centra con `meet` en vez de estirarse: deformar un mapa para
+   rellenar cambiaría las distancias, que es lo único que ese mapa dice. */
+/* `.lienzo` (de la portada) declara `display:grid` y ganaba a `.lienzo-mun`,
+   así que la cadena de alturas se rompía y la vista se quedaba en su alto
+   natural dejando 478 px de hueco. Se nombra la doble clase para igualar
+   especificidad, y la altura baja por flex —no por `height:100%`, que no
+   resuelve contra una altura repartida por el contenedor—. */
+.lienzo.lienzo-mun .marco-mapa{display:flex;flex-direction:column;min-height:0}
+.lienzo.lienzo-mun .marco-mapa > .vista{margin:0;display:flex;
+  flex-direction:column;min-height:0}
+.lienzo.lienzo-mun .marco-mapa > .vista[hidden]{display:none}
+.lienzo.lienzo-mun .marco-mapa > .vista:not([hidden]){flex:1 1 auto}
+.lienzo.lienzo-mun .vista > svg{flex:1 1 auto;min-height:0;width:100%;height:auto}
+.lienzo.lienzo-mun #map-mun{flex:1 1 auto;min-height:280px;height:auto}
+.lienzo-mun .dato{display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+  border-bottom:1px solid var(--border);font-size:14px;align-items:baseline}
+.lienzo-mun .dato:last-child{border-bottom:0}
+.lienzo-mun .dato .v{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.lienzo-mun .dato .f{color:var(--muted);font-size:12px;display:block;font-weight:400}
+.lienzo-mun .dato.grado{padding:5px 0 5px 18px;font-size:13px;border-bottom:0}
+.lienzo-mun .dato.grado .v{font-weight:600}
+@media (min-width:900px){
+  /* El `:root{--eje:max(24px,(100% - 1240px)/2)}` con que el prototipo abría
+     este bloque NO se porta. El lote 1 ya decidió UN SOLO EJE —`--eje` es
+     alias de `--margen`— y el 1.240 del prototipo se inventó sin saber que
+     esta hoja ya tenía eje a 1.100. Redeclararlo aquí, al final de la hoja y
+     dentro de un media query, ganaría sobre el alias en toda pantalla ≥900 px
+     y devolvería los dos bordes izquierdos que el propio prototipo midió y
+     corrigió dentro de su hoja. El valor del eje se decide en el lote 5. */
+  /* El mapa mide lo que mide la ficha CON TODOS SUS DATOS: el panel deja de
+     tener alto fijo y scroll propio —esconder cifras tras un segundo scroll,
+     dentro de una página que ya se desplaza, es pedirle al lector que descubra
+     que hay más— y el mapa se estira hasta igualarlo. `stretch` es el
+     comportamiento por defecto del flex; lo que había que quitar era el
+     `align-items:flex-start` que lo impedía. */
+  .lienzo.lienzo-mun{flex-direction:row;gap:18px;padding:0 var(--eje);align-items:stretch}
+  .lienzo.lienzo-mun .panel{order:1;flex:0 0 360px;border:1px solid var(--border);
+    border-radius:var(--radio);height:auto;overflow:visible;padding:14px}
+  .lienzo-mun .marco-mapa{order:2;flex:1 1 auto;min-height:420px}
+  .lienzo-mun #map-mun{height:100%;min-height:420px;border-radius:var(--radio)}
+  /* El lienzo ya sangra con --eje: las pestañas no vuelven a meterse. */
+  .lienzo-mun .vistas{padding:0 0 8px}
+  .lienzo-mun .intro-mapa{padding:0 0 10px}
+  .contenido-ficha .resumen{font-size:17px}
+}
+
+/* el dato manda: las secciones de contenido pegadas arriba y sin adornos */
+/* Las reglas de tabla del prototipo (`.zona-datos table/thead th/td`) NO se
+   portan: el sitio ya las resuelve mejor —incluida la sombra de `.tabla-scroll`
+   que aparece solo mientras queda tabla a la derecha, sin JS— y `td.num`/
+   `th.num` está ya declarado idéntico al dígito más arriba en esta hoja. */
+.zona-datos{padding:0 14px 8px}
+.zona-datos section{margin:0 0 22px}
+.zona-datos h2{font-size:17px;margin:0 0 6px}
+.zona-datos .sub{font-size:13px;color:var(--muted);margin:0 0 10px}
+/* Ritmo vertical y respiración. El contenido copiado del sitio trae su propio
+   interlineado y sus márgenes, así que unas secciones venían apretadas y otras
+   sueltas. Aquí se fija UNA medida: el mismo aire entre secciones, la misma
+   altura de línea en la prosa y el mismo eje lateral que el resto de la página
+   —el de `--eje`, para que móvil y escritorio tengan el mismo borde—. */
+/* Las secciones copiadas traen el acolchado lateral de `.page-section` del
+   sitio (18 px) SUMADO al eje de su contenedor: el texto acababa 46 px dentro
+   mientras el titular estaba en 14. El eje lo pone el contenedor y solo él. */
+.zona-datos > .contenido{max-width:none;padding:0;margin:0}
+/* COMPONENTE «caja de sección» (.page-section del sistema): fondo, borde y
+   acolchado propio. Del contenedor solo se le quita el MARGEN lateral, porque
+   el eje ya lo pone la zona; su acolchado interno es suyo y no se toca.
+   La primera versión de esta regla llevaba `padding:0 !important` para alinear
+   el texto con el titular, y dejó sin aire por dentro a todas las cajas a
+   partir de «Cómo avanza el registro oficial». Alinear un contenedor no es lo
+   mismo que vaciar una caja. */
+.zona-datos section,.zona-datos .page-section{margin-left:0;margin-right:0}
+/* el aire ENTRE cajas, uno solo para todas: sin él, el gráfico quedaba pegado
+   al aviso de reportes ciudadanos que va justo debajo */
+/* A cualquier profundidad, no solo a las hijas directas: enumerando niveles
+   («> section», «.contenido > section») las cajas más anidadas se quedaban con
+   el margen de 16 px del sistema y el ritmo saltaba de 22 a 16 dentro de la
+   misma página. Un componente se comporta igual esté donde esté. */
+/* `!important` a propósito, y solo aquí: varias de estas cajas están
+   estilizadas POR ID en styles.css (#balance-hero, #balance-chart-section,
+   #metodologia…) y un id gana a cualquier clase, así que sin esto el ritmo
+   saltaba de 22 a 16 px dentro de la misma página según qué caja llevara id.
+   Perseguir los ids uno a uno sería una lista que caduca al añadir la próxima
+   sección; el ritmo del componente lo decide esta hoja. */
+.zona-datos section,.zona-datos .page-section{
+  margin-top:0 !important;margin-bottom:22px !important}
+.zona-datos section:last-child,.zona-datos .page-section:last-child{
+  margin-bottom:0 !important}
+.zona-datos > section:last-child{margin-bottom:0}
+.zona-datos p,.zona-datos li{line-height:1.65}
+.zona-datos h2{margin:0 0 8px;line-height:1.25}
+.zona-datos h3{margin:18px 0 6px;line-height:1.3}
+.zona-datos table{margin-top:10px}
+.zona-datos .note,.zona-datos .sub{line-height:1.55}
+
+.brecha{margin:0;padding:16px 14px;background:var(--surface);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  font-size:15.5px;line-height:1.55}
+.brecha b{font-variant-numeric:tabular-nums}
+.brecha .enlace{color:var(--copernicus);font-size:14px;text-decoration:none;font-weight:600}
+.tarjetas{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+.tarjeta{display:block;padding:13px;border:1px solid var(--border);border-radius:var(--radio);
+  background:var(--surface);text-decoration:none}
+.tarjeta strong{display:block;font-size:14.5px;margin-bottom:3px}
+.tarjeta span{font-size:12.5px;color:var(--muted);line-height:1.35;display:block}
+.descripcion-sitio{padding:18px var(--eje) 0;border-top:1px solid var(--border);
+  margin-top:8px}
+.descripcion-sitio h2{font-size:15px;margin:0 0 6px}
+.descripcion-sitio p{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 8px;
+  max-width:72ch}
+
+details.denso table{font-size:12.5px;width:100%;border-collapse:collapse;display:block;
+  overflow-x:auto;white-space:nowrap}
+details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--border)}
+/* Aquí vivían `.lienzo.con-ficha` y `.ampliar`: el modo móvil de la maqueta en
+   el que tocar un municipio encogía el mapa para dejar sitio a su ficha en el
+   panel. Ese modo no se portó —en este sitio el panel enlaza a la ficha
+   municipal, que es una página entera, y JP la prefiere al explorador de dos
+   estados—, así que las reglas se quedaron sin un solo elemento que las
+   activara: ni la portada ni la ficha municipal (`.lienzo.lienzo-mun`) escriben
+   nunca esas clases. CSS muerto no avisa de que lo está; se retira el
+   25-ago-2026 y el día que el modo vuelva, volverá con su marcado. */
+.lista-mun{list-style:none;margin:0;padding:0}
+.lista-mun li{border-bottom:1px solid var(--border)}
+.lista-mun button{display:flex;width:100%;gap:10px;align-items:baseline;
+  padding:9px 2px;background:none;border:0;font:inherit;text-align:left;
+  cursor:pointer;color:var(--ink)}
+.lista-mun button:hover{color:var(--copernicus)}
+.lista-mun .nom{flex:1;font-size:14px}
+.lista-mun .dep{color:var(--muted);font-size:11.5px;display:block;font-weight:400}
+.lista-mun .cifra{font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink-2);
+  white-space:nowrap}
+.lista-mun .fuentes{display:flex;gap:3px;flex:none;align-self:center}
+.lista-mun .marca{width:8px;height:8px;border-radius:50%;flex:none;align-self:center}
+.ficha-completa{display:block;text-align:center;padding:10px 14px;font-size:14px;
+  text-decoration:none}
+.comparativa{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;margin:12px 0 0}
+/* `--fc` es el color de la fuente y lo emite el marcado EN LÍNEA, tarjeta a
+   tarjeta, igual que `.badge` recibe `--bc` y `.aviso` recibe `--ac`. Aquí se
+   declara su valor por defecto en la regla base del componente —el patrón de
+   `--ac: var(--muted)` de esta misma hoja—, y el valor es el mismo `var(--muted)`
+   que el propio prototipo emite como respaldo cuando un id no está en su paleta
+   (`COLOR.get(id, "var(--muted)")`): una fuente sin color asignado se dibuja en
+   gris neutro, que es lo que ya se veía.
+   No es cosmética. Sin declaración, `border-top:3px solid var(--fc)` no da un
+   filete gris: el atajo entero es INVÁLIDO en tiempo de cómputo, `border-top-style`
+   vuelve a `none` y el filete no se degrada, DESAPARECE. Hoy no se nota porque
+   estas reglas casan con cero elementos; el día que una fase pinte una tarjeta
+   sin `--fc` en línea, sí.
+   `.fuente-muns b` va dentro de esta tarjeta y hereda el token; `.chip-crono`
+   es un componente independiente y declara el suyo. */
+.comparativa .fuente{--fc:var(--muted);
+  border:1px solid var(--border);border-top:3px solid var(--fc);
+  border-radius:var(--radio);padding:11px 13px;background:var(--surface)}
+.fuente h3{margin:0;font-size:14.5px;line-height:1.25}
+.fuente-sub{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.3}
+/* la cifra que se compara va grande y en la misma unidad en las cuatro */
+.fuente-muns{margin:0;font-size:13px;color:var(--ink-2)}
+.fuente-muns b{font-size:21px;color:var(--fc);font-variant-numeric:tabular-nums;
+  display:block;line-height:1.1}
+.fuente-nd{font-size:12px;color:var(--muted);font-style:italic}
+.fuente-cif{margin:6px 0 0;font-size:12.5px;color:var(--ink-2);
+  font-variant-numeric:tabular-nums}
+.fuente-fecha{margin:6px 0 0;font-size:11.5px;color:var(--muted)}
+.volver{display:inline-flex;align-items:center;gap:6px;margin:0 0 10px;padding:5px 0;
+  background:none;border:0;font:inherit;font-size:13px;color:var(--copernicus);
+  cursor:pointer}
+/* la marca de color y el nombre, en una línea; la explicación, debajo */
+.dato .etiq{display:block;min-width:0}
+.dato .linea{display:flex;align-items:center}
+
+/* Leyendas de gráficos y mapas. Vivía solo en el generador de la portada, así
+   que en las páginas interiores las viñetas salían una pegada a la otra:
+   «El municipioZona con producto satelitalReporte de un vecino…». */
+/* Chips de la cronología: llevan el color del carril que filtran, así que el
+   chip y el punto que va a quedar visible en la gráfica son reconociblemente
+   lo mismo. Apagado, el color se atenúa en vez de desaparecer: el filtro sigue
+   diciendo de qué habla aunque no esté activo. */
+/* El `--fc` por defecto, otra vez: el chip no está dentro de `.comparativa
+   .fuente`, así que no hereda nada y necesita el suyo propio. */
+.chip-crono{--fc:var(--muted);display:inline-flex;align-items:center;gap:7px;
+  color:var(--fc)}
+.chip-crono .punto{width:9px;height:9px;border-radius:50%;background:currentColor;
+  flex:none}
+.chip-crono[aria-pressed="true"]{border-color:currentColor;
+  background:color-mix(in srgb,currentColor 12%,transparent);font-weight:600}
+.chip-crono[aria-pressed="false"]{opacity:.62}
+.leyenda-graf{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 0;
+  font-size:12.5px;color:var(--ink-2)}
+.leyenda-graf--sec{margin-top:4px;font-size:12px;color:var(--muted)}
+.ley{display:inline-flex;align-items:center;gap:6px}
+.ley .pt{width:18px;height:3px;border-radius:2px;flex:none}
+.ley .pt-b{width:9px;height:9px;border-radius:50%}
+/* Clase propia a propósito: `.grafico-rud` de rud.html infla la letra en
+   móvil porque cada barra lleva etiqueta. Aquí las etiquetas van al eje
+   y esa tipografía reventaría el dibujo. No meter esta clase en un
+   @media cuyo cuerpo contenga el texto `.grafico-rud`: el guardián de
+   rud.html busca esa subcadena. */
+.grafico-rud-muni{display:block;width:100%;height:auto;margin:4px 0 2px}
+/* El gráfico de la ficha municipal tenía el MISMO problema que el del RUD y el
+   de balances —rótulos de 10 px sobre un lienzo de 880 que en un móvil de 375
+   se dibuja a 311: letra efectiva de 3,5 px— y no lo arreglaba nadie, porque la
+   cascada de arriba apunta a `.grafico-rud` y `.grafico-balances` y este se
+   llama `.grafico-rud-muni`. Es M2 con otro traje: la tercera copia del mismo
+   dibujo, divergida en la hoja. Doce días y un solo panel, así que las fechas
+   caben sin esconder ninguna. */
+@media (max-width: 760px) {
+  .grafico-rud-muni .g-eje { font-size: 13px; }
+  .grafico-rud-muni .g-dia { font-size: 15px; }
+}
+@media (max-width: 480px) {
+  .grafico-rud-muni .g-eje { font-size: 15px; }
+  .grafico-rud-muni .g-dia { font-size: 22px; }
+}
+
+.marca-f{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none;
+  margin-right:7px}
+
+/* La entradilla: la frase que resume la página bajo el titular. En el
+   prototipo se llamaba `.resumen`, pero ese nombre YA ESTÁ OCUPADO en esta
+   hoja —la línea de recuento de una tabla, 13 px y gris, y encima pisada por
+   `#resumen` y `#balance-resumen`—, así que una entradilla con ese nombre
+   habría salido en letra pequeña en balances y en titulares. Se llama
+   `.entradilla`, verificado libre. */
+.entradilla{padding:0 14px 10px;font-size:15px;color:var(--ink-2);
+  margin:0 0 4px;line-height:1.6}
+.entradilla b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* ── LOTE 3 · El plegable, componente y no lista de sitios ──────────────
+   Diagnóstico: arriba, esta hoja estiliza los plegables como
+   `#como-leer, .intro details, .aviso details, #alerts-section > details`.
+   Eso describe DÓNDE está el plegable, no QUÉ es, y por eso todo plegable
+   nuevo nace sin estilo: hoy mismo `#metodologia-box` no casa con ninguno de
+   los cuatro y sale sin caja, y el patrón que necesita la fase 3 —un
+   `<details>` que ENVUELVE a `.intro`— tampoco casaría.
+
+   La corrección convierte cuatro casos en una regla, sin ventana rota:
+   `.pliegue` es el componente y los cuatro selectores viejos quedan como
+   ALIAS del mismo bloque, de modo que nada de lo publicado cambia de aspecto
+   hoy. A medida que cada fase toque su página se pone `class="pliegue"` en su
+   `<details>`; CUANDO NO QUEDE NINGUNO QUE DEPENDA DE LOS ALIAS, LOS CUATRO
+   SELECTORES VIEJOS SE RETIRAN EN UN COMMIT PROPIO —de aquí y del bloque de
+   arriba—, que es un cambio verificable y no un efecto colateral. */
+.pliegue,
+#como-leer, .intro details, .aviso details, #alerts-section > details {
+  margin-top: 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface-1); font-size: 13px;
+}
+.pliegue > summary,
+#como-leer summary, .intro details summary, .aviso details summary,
+#alerts-section > details summary {
+  padding: 9px 14px; cursor: pointer; color: var(--ink); user-select: none;
+}
+.pliegue > summary:hover,
+#como-leer summary:hover, .intro details summary:hover,
+.aviso details summary:hover, #alerts-section > details summary:hover {
+  background: color-mix(in srgb, var(--s1) 6%, transparent); border-radius: 8px;
+}
+.pliegue[open] > summary,
+#como-leer[open] summary, .intro details[open] summary,
+.aviso details[open] summary, #alerts-section > details[open] summary {
+  border-bottom: 1px solid var(--grid);
+}
+.pliegue ol,
+#como-leer ol, .intro details ol, .aviso details ol { margin: 10px 0; padding: 0 18px 4px 34px; line-height: 1.6; color: var(--ink-2); }
+.pliegue li,
+#como-leer li, .intro details li, .aviso details li { margin-bottom: 8px; }
+.pliegue li strong,
+#como-leer li strong, .intro details li strong, .aviso details li strong { color: var(--ink); }
+.pliegue a,
+#como-leer a, .intro details a, .aviso details a { color: var(--s1); }
+
+/* Y aquí el plegable del rediseño, que es el MISMO componente afinado: se
+   apoya en el bloque de arriba —de ahí hereda el acolchado del summary, el
+   hover y el color de sus enlaces— y le quita la caja. Que las dos mitades se
+   contradigan en `background` y `border` es a propósito y en este orden: sin
+   la primera, un `<details class="pliegue">` nuevo nacería con el triángulo
+   desnudo del navegador; sin la segunda, saldría como caja rellena.
+   El `border-top` sobrevive a propósito —se anulan los otros tres y no él—:
+   es el filete que separa un plegable de lo que va encima, y es exactamente
+   lo que se veía en el prototipo, donde `#como-leer` sí recibía la caja de
+   esta hoja. Antes lo tenía un plegable y ahora lo tienen todos, que es el
+   sentido de llamarlo componente. */
+details.pliegue{padding:0 14px 12px}
+/* El plegable que viene del HTML publicado traía además el FONDO de
+   `.intro details` de styles.css, así que aun con la clase correcta se
+   veía como una caja rellena entre otras transparentes. Se declara el
+   fondo, no solo el borde: heredar a medias es peor que no heredar. */
+/* `styles.css` estiliza este plegable POR ID (`#como-leer`), y un id gana
+   a cualquier clase: `details.pliegue` no podía anularlo por mucho que se
+   declarara después. Se iguala la especificidad nombrando el id. */
+details.pliegue,#como-leer.pliegue{background:transparent;border-radius:0;
+  border-left:0;border-right:0;border-bottom:0}
+details.pliegue > summary,#como-leer.pliegue > summary{background:transparent;
+  padding-left:0;padding-right:0}
+details.pliegue[open] > summary,#como-leer.pliegue[open] > summary{border-bottom:0}
+details.pliegue>summary{cursor:pointer;font-size:14px;color:var(--copernicus);
+  font-weight:600;list-style:none;padding:6px 0}
+details.pliegue>summary::-webkit-details-marker{display:none}
+details.pliegue>summary::before{content:"▸ "}
+details.pliegue[open]>summary::before{content:"▾ "}
+/* SIN columna de lectura propia. El prototipo traía `max-width: 70ch` aquí y
+   es una regresión respecto al sitio publicado: la prosa del sitio ocupa el
+   ancho de su contenedor —1.100 px a 1.370 de pantalla— y el texto del
+   plegable de la portada mide hoy 1.046 px. Ceñirlo a 70ch lo dejaba en 639 y
+   abría un canal vacío de 400 px a la derecha, dentro de una caja que sí va a
+   ancho completo. La medida de lectura de esta hoja (`--ancho-lectura`) se
+   reserva a los contenedores que además SE CENTRAN —`.contenido` de las
+   fichas, `.aviso`—; aplicarla a un bloque alineado a la izquierda no produce
+   una columna de lectura, produce un hueco. */
+details.pliegue p{font-size:14.5px;color:var(--ink-2)}
+/* Una .intro dentro del plegable recibiría DOS ejes: el suyo más el de
+   details.pliegue. El eje lo pone el contenedor y solo él — es el mismo fallo
+   ya corregido en `.zona-datos > .contenido`. */
+details.pliegue > .intro { margin-left: 0; margin-right: 0; }
+details.denso{border-top:1px solid var(--border)}
+details.denso>summary{color:var(--ink)}
+
+/* ── LOTE 4 · Chips: lo aditivo ─────────────────────────────────────────
+   `.chips` y `.chip` NO se tocan: el sitio los envuelve (`flex-wrap`) y el
+   prototipo los desliza (`overflow-x`), y cambiar eso movería las tres tiras
+   de filtros publicadas el mismo día. La tira deslizable entra como variante
+   con nombre propio, para ponerla donde se quiera y no donde toque. */
+
+/* UN CHIP CON PUNTO ES UNA CLASE DE CHIP, NO UN CHIP QUE RESULTA CONTENER
+   ALGO. Por eso el modificador se declara en el marcado —`class="chip
+   chip--punto"`— y no se deduce de que dentro haya un `<span class="punto">`.
+   La primera versión de este bloque decía `.chip:has(.punto)`: casaba con cero
+   elementos, sí, pero le entregaba a un nombre tan genérico y apetecible como
+   `.punto` la llave del `display` de un componente vivo en tres páginas
+   publicadas. El día que alguien metiera un `.punto` dentro de un chip por
+   cualquier otro motivo, las tres tiras de filtros se habrían remaquetado
+   solas sin que nadie tocara el CSS, y el cambio de `display` es lo que más se
+   ve. Un componente declara lo que es; no lo adivina por sus hijos.
+
+   Aviso para quien porte el marcado del prototipo: allí `.chip` ya es
+   `inline-flex` para todos y los chips de capa no llevan modificador. Aquí no
+   se puede ensanchar `.chip` (regla 1 del cabezal), así que al traer ese
+   marcado hay que añadirle la clase. */
+.chip--punto { display: inline-flex; align-items: center; gap: 7px; }
+
+/* El punto va colgado del modificador y no de `.chip`, porque es la otra mitad
+   del mismo componente: fuera de él, un `.punto` suelto no se pinta ni se
+   coloca, que es exactamente lo que debe pasar. Dentro, hereda el color del
+   chip: un chip cambia de fuente cambiando una sola declaración y el punto le
+   sigue. */
+.chip--punto .punto { width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* La cifra del chip, en tinta plena y con dígitos de ancho fijo: al filtrar,
+   los números cambian pero el chip no cambia de anchura y la tira no baila.
+   Esta SÍ se estila por descendencia, y es una decisión, no un descuido: `.n`
+   no decide nada del chip que lo contiene —se pinta a sí mismo, y solo color y
+   tipografía—, así que un `.n` inesperado dentro de un chip saldría en negrita
+   y ahí acabaría todo. No remaqueta la tira ni mueve de sitio a nadie. */
+.chip .n { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--ink); }
+
+/* La clave de color por fuente. Los tres satélites conservan de momento su
+   color propio, porque unificarlos en azul —decidido por JP el 23-ago— cambia
+   el significado visual de las tablas de municipios y de las 208 fichas, y eso
+   va en su propia fase con su propia verificación. Cuando llegue, se cambia
+   aquí y en los --sN que el marcado emite en línea, no solo aquí.
+   `data-capa` no es una deducción como lo era `:has(.punto)`, sino lo
+   contrario: el marcado DECLARA de qué capa habla el chip, y la hoja se limita
+   a darle su color. Un atributo escrito a mano es una declaración explícita;
+   un hijo que aparece es un accidente. */
+.chip[data-capa="copernicus"] { color: var(--copernicus); }
+.chip[data-capa="unosat"]     { color: var(--unosat); }
+.chip[data-capa="sertit"]     { color: var(--sertit); }
+.chip[data-capa="ciudadanos"] { color: var(--ciudadano); }
+.chip[data-capa="ausencia"]   { color: var(--ausencia); }
+
+/* La tira que se apoya en la PÁGINA y no dentro de una caja. El eje se lo da
+   la lista única de abajo, como a cualquier otro bloque de página; aquí solo
+   queda su aire propio. */
+.chips--pagina { margin-bottom: 10px; }
+
+/* La tira deslizable, como variante y no como norma: una fila de chips que no
+   parte de línea y se arrastra en horizontal. Sin barra visible, porque en el
+   móvil la barra roba alto al mapa. */
+.chips--tira { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+/* Una tira deslizable que además se apoya en la página: el eje tiene que
+   viajar DENTRO del contenedor que se desplaza, o el último chip se pega al
+   borde derecho en cuanto se arrastra. */
+.chips--tira.chips--pagina { scroll-padding-inline: var(--eje); }
+/* El `nowrap` de la tira es del CONTENEDOR: sin esto, el texto seguía
+   partiéndose DENTRO de cada chip y en un móvil de 375 px la tira medía 165 px
+   —tres renglones robados al mapa, que en esta página es el protagonista—.
+   Con una línea por chip mide 33 y lo que se desplaza es la tira. */
+.chips--tira .chip { white-space: nowrap; }
+.chips--tira::-webkit-scrollbar { display: none; }
+
+/* ── LOTE 5 · El eje único ──────────────────────────────────────────────
+   Medido en el prototipo antes de existir esta regla: a 1.370 px el texto de
+   la página empezaba en CINCO sitios distintos (65, 75, 79, 94 y 154 px) y a
+   768 px en cuatro (0, 14, 28 y 39). No era un descuido de un componente: era
+   que cada uno traía su propio margen y ninguno sabía de los demás.
+
+   El eje es un sistema, no una regla de escritorio: se aplica en todos los
+   anchos y lo que cambia con la pantalla es el VALOR de --eje, que aquí es
+   alias de --margen (lote 1). Por eso no hay `@media` en este bloque.
+
+   `.chips` a secas queda FUERA de la lista a propósito, y es la única
+   exclusión: las tres tiras de filtros publicadas viven dentro de una
+   `.page-section`, que ya las sangra, y sumarles el eje las metería dos veces
+   hacia adentro hasta desalinearlas del H2 de su propia sección.
+   La fase 6b sacó por fin una tira de las `.page-section` —las capas del mapa
+   de la portada, hermanas del lienzo— y la respuesta NO fue meter `.chips` en
+   esta lista, porque eso habría desalineado a las otras tres: fue el
+   modificador `.chips--pagina`, que dice «esta se apoya en la página». Si
+   mañana aparece otra tira sin caja, lleva el modificador; `.chips` sigue
+   fuera. */
+.barra,
+.encabezado,
+.entradilla,
+details.pliegue,
+.brecha,
+.tarjetas,
+.canales,
+main#mapa.lienzo,
+.chips--pagina,
+.zona-datos { padding-left: var(--eje); padding-right: var(--eje); }
+/* Por encima de 900 px el lienzo declara su propio `padding` con el mismo
+   `--eje` más el hueco de abajo, así que no hace falta repetirlo aquí. */
+
+/* Los canales viven dentro de .zona-datos, que ya pone el eje: sumar el suyo
+   los empujaba más adentro que todo lo demás. */
+.zona-datos .canales { padding-left: 0; padding-right: 0; }
+
+/* Una .page-section es una CAJA con fondo y borde, no texto suelto: al eje va
+   su BORDE, y dentro conserva su acolchado. Quitárselo —como hizo la primera
+   versión de esta regla, para alinear su texto con el resto— dejaba las letras
+   pegadas al filo de la caja. Es el cuarto fallo del cabezal, y esta regla es
+   la forma correcta que quedó después. */
+.zona-datos > .page-section,
+.zona-datos > section { margin-left: 0; margin-right: 0; }

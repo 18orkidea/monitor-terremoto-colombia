@@ -41,7 +41,7 @@ def correr_worker(expresion: str):
         copia.write_bytes(WORKER.read_bytes())
         script = (f"const W = await import({json.dumps(copia.as_uri())});"
                   f"console.log(JSON.stringify({expresion}));")
-        r = subprocess.run([NODE, "--input-type=module", "-e", script],
+        r = subprocess.run([NODE, "--input-type=module", "-"], input=script,
                            capture_output=True, text=True, timeout=30)
     if r.returncode != 0:
         raise AssertionError(f"node falló: {r.stderr[:600]}")

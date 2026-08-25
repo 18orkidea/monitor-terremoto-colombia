@@ -66,10 +66,17 @@ def run() -> dict:
 
 
 def emm_items():
-    """Items EMM del último snapshot (para el emparejamiento por topónimo)."""
-    from common import snapshot_dir
-    p = snapshot_dir() / "gdacs_emm.json"
-    if not p.exists():
+    """Items EMM del cuerpo vigente (para el emparejamiento por topónimo).
+
+    Vigente, no «el de hoy»: si GDACS devuelve el mismo feed que ayer, hoy no
+    se archiva un fichero nuevo y aquí no habría nada que leer. Devolver []
+    dejaría a `crosscheck` sin una sola noticia y haría retroceder el estado de
+    los AOI que solo tienen prensa — una pérdida de datos silenciosa, que es la
+    clase de fallo que este proyecto no se puede permitir.
+    """
+    from common import ultimo_snapshot
+    p = ultimo_snapshot("gdacs_emm.json")
+    if p is None:
         return []
     return json.loads(p.read_text())
 

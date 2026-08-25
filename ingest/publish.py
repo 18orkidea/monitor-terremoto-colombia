@@ -1,15 +1,18 @@
 """Genera data/public/*: los artefactos que consume el mapa y las exportaciones.
 
-Privacidad: de citizen_reports sólo salen lat_pub/lon_pub (redondeadas) y la
-URL del medio; jamás la coordenada exacta.
+Privacidad: de citizen_reports sólo salen lat_pub/lon_pub —el punto que
+registró la fuente, sin reposicionar (R5)— y la URL del medio; jamás el EXIF ni
+ningún dato personal, que es la mitad de R5 que de verdad protege algo.
 """
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import json
 
-from common import db, today, anterior_al_sismo, DATA, FECHA_SISMO, PUBLIC
+from common import (db, today, anterior_al_sismo, ARCHIVO_EN_R2,
+                    DATA, FECHA_SISMO, PUBLIC)
 from geo import wkt_to_geojson
 from sources.community_feeds import dominio
 
@@ -86,6 +89,81 @@ def aoi_extents_from_snapshots(code="EMSR916") -> dict:
             for r in data.get("results", []):
                 return {a.get("name"): a.get("extent") for a in r.get("aois") or []}
     return {}
+
+
+def manifiesto_de_activos(conn) -> list[dict]:
+    """El manifiesto auditable del bucket: objeto + sha256 + bytes.
+
+    Los vídeos ciudadanos viven solo en R2 (no caben en git); este manifiesto
+    versionado es lo que hace el bucket auditable desde el repo — si un objeto
+    cambia o falta, se nota. Y desde que **autoriza a no descargar**, cada línea
+    suya tiene que poder defenderse sola.
+
+    **Los bytes de un activo son un dato del archivo, no del disco de quien
+    publica.** Desde que el guardián de `chatmap.py` deja de descargar lo que ya
+    está archivado, la máquina de la corrida NO tiene los vídeos: preguntarle
+    solo al disco habría puesto `bytes: null` en los 77 objetos y el manifiesto
+    habría perdido su columna entera en el primer commit automático. Por eso hay
+    tres vías, de más a menos fuerte: el cuerpo, el registro de su descarga en
+    `sources_log`, y lo que ya declaraba el manifiesto anterior.
+
+    **Las tres van atadas al sha256 que se está escribiendo.** Un tamaño que no
+    sea de ESE cuerpo es peor que no tenerlo: `bytes` es el único campo que la
+    auditoría de `daily.yml` puede contrastar contra R2, así que una cifra
+    desalineada o suena en falso todos los días —y un aviso falso mata la
+    lectura de las alertas— o enmascara una sustitución de verdad.
+
+    **Y el manifiesto no encoge.** Si la base llega vacía —`rebuild_db` o
+    `chatmap` fallaron y R13 se lo tragó—, esta función escribiría `objetos: []`
+    y el bot lo commitearía: los cuerpos seguirían en R2 pero dejarían de estar
+    declarados, que es justo lo que hace auditable el bucket. Lo que ya se
+    declaró archivado se arrastra, y que la base no lo reconozca lo canta
+    `alerts.divergencias_del_archivo_de_activos` como el huérfano que es.
+    """
+    from common import ROOT as _ROOT, manifiesto_r2
+    previo = manifiesto_r2()
+    manifiesto = []
+    for fname, msha, mlocal in conn.execute(
+            "SELECT media_url, media_sha256, media_local FROM citizen_reports"
+            " WHERE media_sha256 IS NOT NULL ORDER BY media_url"):
+        clave = (fname or "").rsplit("/", 1)[-1]
+        if not clave.lower().endswith(ARCHIVO_EN_R2):
+            continue
+        manifiesto.append({"objeto": clave, "sha256": msha,
+                           "bytes": _bytes_del_activo(conn, _ROOT, fname, clave,
+                                                      msha, mlocal, previo)})
+    # el manifiesto no encoge: lo ya declarado sigue declarado
+    declarados = {o["objeto"] for o in manifiesto}
+    for clave, o in previo.items():
+        if clave not in declarados:
+            manifiesto.append({"objeto": clave, "sha256": o["sha256"],
+                               "bytes": o.get("bytes")})
+    manifiesto.sort(key=lambda o: o["objeto"])
+    return manifiesto
+
+
+def _bytes_del_activo(conn, raiz, url, clave, sha, mlocal, previo) -> int | None:
+    """El tamaño de ESE cuerpo, o None. Nunca el de otro (M10: se omite)."""
+    f_local = raiz / mlocal if mlocal else None
+    if f_local is not None:
+        try:
+            cuerpo = f_local.read_bytes()
+            if hashlib.sha256(cuerpo).hexdigest() == sha:
+                return len(cuerpo)      # el cuerpo, que es la prueba
+        except OSError:
+            pass                        # no está en este clon: sigue el archivo
+    fila = conn.execute(                # el registro de SU descarga
+        "SELECT bytes FROM sources_log WHERE url=? AND sha256=?"
+        " AND http_status=200 AND bytes>0 ORDER BY id DESC LIMIT 1",
+        (url, sha)).fetchone()
+    if fila:
+        return fila[0]
+    # y, si el log tampoco lo sabe, lo que ya declaraba el manifiesto para este
+    # mismo contenido: una cifra que estuvo bien no se pierde por no remedirla
+    anterior = previo.get(clave) or {}
+    if anterior.get("sha256") == sha:
+        return anterior.get("bytes")
+    return None
 
 
 def run() -> dict:
@@ -189,7 +267,6 @@ def run() -> dict:
         # verificación de lo publicado: el fichero local debe coincidir con el
         # sha256 registrado en la BD; discrepancia = warning, nunca rotura
         if mlocal and msha:
-            import hashlib
             from common import ROOT as _ROOT
             f_local = _ROOT / mlocal
             if f_local.exists() and hashlib.sha256(
@@ -201,8 +278,7 @@ def run() -> dict:
         R2_BASE = "https://pub-ca7861342f67400d94b3cb8ae8300a58.r2.dev/"
         is_img = bool(mlocal) and mlocal.lower().endswith(
             (".jpg", ".jpeg", ".png", ".webp"))
-        is_av = (murl or "").lower().endswith((".mp4", ".mov", ".webm", ".opus",
-                                               ".ogg", ".m4a"))
+        is_av = (murl or "").lower().endswith(ARCHIVO_EN_R2)
         if is_img:
             media_ref = "../" + mlocal
         elif is_av:
@@ -219,25 +295,9 @@ def run() -> dict:
     (PUBLIC / "chatmap.geojson").write_text(json.dumps(
         {"type": "FeatureCollection", "features": cit_feats}, ensure_ascii=False))
 
-    # Manifest de R2: los videos ciudadanos viven solo en el bucket (no caben
-    # en git); este manifiesto versionado (clave + sha256 + bytes) hace el
-    # bucket auditable desde el repo — si un objeto cambia o falta, se nota.
-    from common import ROOT as _ROOT
-    manifest = []
-    for fname, msha, mlocal in conn.execute(
-            "SELECT media_url, media_sha256, media_local FROM citizen_reports"
-            " WHERE media_sha256 IS NOT NULL ORDER BY media_url"):
-        clave = (fname or "").rsplit("/", 1)[-1]
-        if not clave.lower().endswith((".mp4", ".mov", ".webm", ".opus",
-                                       ".ogg", ".m4a")):
-            continue
-        f_local = _ROOT / mlocal if mlocal else None
-        manifest.append({"objeto": clave, "sha256": msha,
-                         "bytes": f_local.stat().st_size
-                         if f_local and f_local.exists() else None})
     (DATA / "r2_manifest.json").write_text(json.dumps(
         {"generado": snap, "bucket": "monitor-terremoto-media",
-         "objetos": manifest}, ensure_ascii=False, indent=1))
+         "objetos": manifiesto_de_activos(conn)}, ensure_ascii=False, indent=1))
 
     sismos = []
     for r in conn.execute(
@@ -579,17 +639,30 @@ def run() -> dict:
             "imagen_literal": d.get("imagen"),
         }
 
+    # Las búsquedas de prensa se derivan del MISMO catálogo que verá
+    # `build_municipios` —curados + los que abre el RUD—, no de uno propio: si
+    # se derivaran por separado, `busqueda_propia` podría afirmar de un
+    # municipio lo contrario de lo que hizo la corrida (M2).
+    from municipios import catalogo_municipios
     from sources.community_feeds import municipal_google_news_feeds
-    con_busqueda = {f["municipio"] for f in municipal_google_news_feeds()}
+    catalogo = catalogo_municipios(rud_por_mun, divipola)
+    con_busqueda = {f["municipio"] for f in municipal_google_news_feeds(catalogo)}
+    from geo import grid_mmi_vigente
+    grid_mmi = grid_mmi_vigente()
     municipios, municipios_gj = build_municipios(noticias, dyfi, extents_detalle,
                                                  poblacion, rud_por_mun, divipola,
                                                  unosat_por_mun, con_busqueda,
-                                                 sertit=sertit_por_mun)
+                                                 sertit=sertit_por_mun,
+                                                 grid_mmi=grid_mmi)
     (PUBLIC / "municipios.json").write_text(json.dumps(
         {"generado": snap, "total": len(municipios), "items": municipios},
         ensure_ascii=False))
     (PUBLIC / "municipios.geojson").write_text(json.dumps(
         municipios_gj, ensure_ascii=False))
+
+    from municipios import capa_sin_mirada
+    (PUBLIC / "municipios_mapa.json").write_text(json.dumps(
+        capa_sin_mirada(municipios, snap, grid_mmi), ensure_ascii=False))
 
     # Hitos curados (respuesta local + cambios del monitor): el fichero fuente
     # vive en feeds/ y se publica tal cual junto al resto de datos.

@@ -16,6 +16,15 @@ sys.path.insert(0, str(ROOT / "ingest"))
 
 DB = ROOT / "data" / "monitor.sqlite"
 
+# Los vídeos y audios ciudadanos no caben en git (580+ MB): su cuerpo se archiva
+# en el bucket R2 y el repo versiona el manifiesto auditable
+# `data/r2_manifest.json`. Para ellos la evidencia es estar en el manifiesto con
+# el mismo sha256, no el fichero en disco: en un clon limpio nunca está, y
+# exigirlo hacía que el test pasara en la máquina del mantenedor y fallara en CI.
+# La lista de extensiones es la de `common`, una sola para las cuatro
+# superficies que la usan (M2).
+from common import ARCHIVO_EN_R2
+
 
 def q(sql, *args):
     conn = sqlite3.connect(DB)
@@ -25,15 +34,60 @@ def q(sql, *args):
         conn.close()
 
 
+# Cuántos guardianes se ha saltado la corrida por falta de datos, y de qué
+# tablas. No es contabilidad: es la diferencia entre «verde» y «verde que no
+# comprueba nada», y el contador de skips de unittest la esconde.
+SALTADOS_POR_FALTA_DE_DATOS: dict[str, int] = {}
+
+
 def skip_sin_datos(tabla):
+    """Motivo por el que este test no puede correr, o None si sí puede.
+
+    **El estado peligroso no es la base ausente: es la base A MEDIAS.** Sin
+    fichero, la suite salta y se nota; con el esquema creado y las tablas
+    vacías —que es como nace cualquier worktree, y como se queda si algo tocó
+    la base sin poblarla— la suite da verde con los guardianes de datos
+    apagados. Pasó de verdad: una fase entera se cerró con «813 tests en verde»
+    y seis de esos guardianes, los de R5 y los de prensa, no llegaron a
+    ejecutarse. El verde era cierto y no significaba lo que parecía.
+
+    Por eso cada salto se apunta, y `TestLaCorridaDiceQueSeSalto` lo cuenta en
+    voz alta al final. Se arregla en treinta segundos:
+    `rm -f data/monitor.sqlite && python3 ingest/dump_db.py rebuild`.
+    """
     if not DB.exists():
-        return "sin base de datos: ejecutar run_daily primero"
-    try:
-        if not q(f"SELECT COUNT(*) FROM {tabla}")[0][0]:
-            return f"tabla {tabla} vacía"
-    except sqlite3.OperationalError:
-        return f"tabla {tabla} no existe"
-    return None
+        motivo = "sin base de datos: `python3 ingest/dump_db.py rebuild`"
+    else:
+        try:
+            motivo = (None if q(f"SELECT COUNT(*) FROM {tabla}")[0][0]
+                      else f"tabla {tabla} vacía")
+        except sqlite3.OperationalError:
+            motivo = f"tabla {tabla} no existe"
+    if motivo:
+        SALTADOS_POR_FALTA_DE_DATOS[tabla] = \
+            SALTADOS_POR_FALTA_DE_DATOS.get(tabla, 0) + 1
+    return motivo
+
+
+class TestLaCorridaDiceQueSeSalto(unittest.TestCase):
+    """Un verde con guardianes apagados tiene que decirlo, no esconderlo.
+
+    Este test no falla nunca: **avisa** (R11 — los supuestos rotos avisan, no
+    rompen en silencio). Fallar sería peor, porque un clon limpio no tiene la
+    base y no hay nada malo en eso; lo malo es creer que se ha comprobado algo
+    que no se comprobó.
+    """
+
+    def test_avisa_de_los_guardianes_que_no_pudieron_correr(self):
+        if not SALTADOS_POR_FALTA_DE_DATOS:
+            return
+        detalle = " · ".join(f"{t}: {n}" for t, n in
+                             sorted(SALTADOS_POR_FALTA_DE_DATOS.items()))
+        total = sum(SALTADOS_POR_FALTA_DE_DATOS.values())
+        print(f"\nAVISO: {total} guardianes de datos no corrieron por tablas "
+              f"vacías o ausentes ({detalle}). Este verde NO dice nada sobre "
+              f"ellos. Para ejercerlos: rm -f data/monitor.sqlite && "
+              f"python3 ingest/dump_db.py rebuild")
 
 
 class TestHipotesisBrechaOficial(unittest.TestCase):
@@ -212,28 +266,66 @@ class TestHipotesisCiudadana(unittest.TestCase):
         self.assertGreater(n, 0, "ningún reporte ciudadano cae en un AOI: "
                            "el cruce satélite↔suelo no está funcionando")
 
-    def test_privacidad_coordenadas(self):
+    def test_privacidad_el_reporte_no_se_reposiciona(self):
+        """R5 desde el 24-ago-2026: se publica donde la fuente lo registró.
+
+        Antes esto exigía lo contrario —tres decimales, ~110 m— y era un
+        engaño por los dos lados: ChatMap publica la coordenada exacta en su
+        endpoint abierto, así que no protegía a nadie, y movía la foto de daño
+        a la casa de enfrente. Mover un punto es afirmar que el daño estaba
+        donde no estaba, y este monitor no reposiciona nada."""
         why = skip_sin_datos("citizen_reports")
         if why:
             self.skipTest(why)
-        rows = q("SELECT lat_pub, lon_pub FROM citizen_reports"
-                 " WHERE lat_pub IS NOT NULL LIMIT 200")
-        for lat, lon in rows:
-            self.assertEqual(round(lat, 3), lat, "lat_pub sin redondear")
-            self.assertEqual(round(lon, 3), lon, "lon_pub sin redondear")
+        rows = q("SELECT lat, lon, lat_pub, lon_pub FROM citizen_reports"
+                 " WHERE lat IS NOT NULL AND lat_pub IS NOT NULL LIMIT 500")
+        self.assertTrue(rows, "sin reportes con coordenada que comprobar")
+        for lat, lon, lat_pub, lon_pub in rows:
+            self.assertEqual(lat, lat_pub, "el reporte se publicó movido de sitio")
+            self.assertEqual(lon, lon_pub, "el reporte se publicó movido de sitio")
 
-    def test_publicado_no_contiene_coordenada_exacta(self):
+    def test_lo_publicado_es_lo_que_dijo_la_fuente(self):
+        """Espejo del anterior sobre el artefacto, no sobre la base."""
         pub = ROOT / "data" / "public" / "chatmap.geojson"
         if not pub.exists():
             self.skipTest("sin chatmap.geojson publicado")
         gj = json.loads(pub.read_text())
-        exactas = q("SELECT lat, lon FROM citizen_reports"
-                    " WHERE lat IS NOT NULL AND ABS(lat-ROUND(lat,3))>1e-9 LIMIT 50")
-        publicadas = {tuple(f["geometry"]["coordinates"][::-1])
-                      for f in gj["features"]}
-        for lat, lon in exactas:
-            self.assertNotIn((lat, lon), publicadas,
-                             "¡coordenada exacta filtrada al GeoJSON público!")
+        origen = {rid: (lat, lon) for rid, lat, lon in
+                  q("SELECT id_externo, lat, lon FROM citizen_reports"
+                    " WHERE lat IS NOT NULL")}
+        if not origen:
+            self.skipTest("sin reportes en la base")
+        visto = 0
+        for f in gj["features"]:
+            rid = f["properties"].get("id")
+            if rid not in origen:
+                continue
+            lon, lat = f["geometry"]["coordinates"]
+            self.assertEqual((lat, lon), origen[rid],
+                             f"el reporte {rid} se publicó en otro punto")
+            visto += 1
+        self.assertGreater(visto, 0, "ningún reporte publicado cuadra con la base")
+
+    def test_el_exif_jamas_se_publica(self):
+        """La mitad de R5 que NO cambió, y la que de verdad protegía algo.
+
+        El EXIF puede llevar el modelo del teléfono, su número de serie y la
+        coordenada del disparo con precisión de GPS. La columna existe en la
+        base y la ingesta nunca la rellena; esto vigila que siga así y que no
+        se cuele en ningún artefacto público."""
+        pub = ROOT / "data" / "public" / "chatmap.geojson"
+        if not pub.exists():
+            self.skipTest("sin chatmap.geojson publicado")
+        crudo = pub.read_text()
+        for prohibido in ("exif", "EXIF", "Make", "Model", "GPSLatitude",
+                          "SerialNumber", "telefono", "phone"):
+            self.assertNotIn(prohibido, crudo,
+                             f"«{prohibido}» apareció en el GeoJSON público")
+        why = skip_sin_datos("citizen_reports")
+        if why:
+            return
+        n = q("SELECT COUNT(*) FROM citizen_reports WHERE exif_ts IS NOT NULL")[0][0]
+        self.assertEqual(n, 0, "la ingesta empezó a guardar EXIF")
 
 
 class TestPublicacionBienFormada(unittest.TestCase):
@@ -441,6 +533,73 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                 hashlib.sha256(f.read_bytes()).hexdigest(), sha,
                 f"{ruta}: el cuerpo cambió desde que se registró")
 
+    def test_un_304_apunta_a_un_cuerpo_que_sigue_estando(self):
+        """Un 304 dice «lo mismo que ya tienes». Si eso que ya teníamos
+        desapareciera, la fila estaría afirmando la vigencia de un cuerpo que
+        nadie puede leer — y el ahorro habría costado el archivo.
+
+        El régimen fuerte mira las filas 200 con cuerpo; este es su reverso:
+        las filas SIN cuerpo que apuntan al de otro día.
+        """
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        filas = q("SELECT url, snapshot_path, sha256, bytes FROM sources_log"
+                  " WHERE http_status=304")
+        if not filas:
+            self.skipTest("ninguna fuente ha contestado 304 todavía")
+        import hashlib
+        rotos = []
+        for url, spath, sha, bytes_ in filas:
+            if bytes_:
+                rotos.append(f"{url}: un 304 no trae cuerpo, y declara "
+                             f"{bytes_} bytes")
+            if sha is None or spath is None:
+                # 304 a una petición sin validadores: R13, se registra como el
+                # hecho raro que es y no afirma nada del archivo
+                if sha is not None or spath is not None:
+                    rotos.append(f"{url}: 304 a medias — o certifica un cuerpo "
+                                 f"con su sha Y su ruta, o no certifica nada")
+                continue
+            f = ROOT / spath
+            if not f.exists():
+                rotos.append(f"{spath}: la fila del 304 lo declara vigente y "
+                             f"no está")
+            elif hashlib.sha256(f.read_bytes()).hexdigest() != sha:
+                rotos.append(f"{spath}: el cuerpo que el 304 declaró vigente "
+                             f"ya no es el que dice el log")
+        self.assertFalse(rotos, "304 sin cuerpo detrás: " + "; ".join(rotos[:5]))
+
+    def test_la_carpeta_del_dia_no_miente_sobre_lo_que_no_contiene(self):
+        """`reutilizados.txt` es la copia legible de lo que dice el log: sin un
+        guardián, las dos superficies divergen (M2). Cada línea tiene que
+        corresponder a una fila que apunte a ese mismo cuerpo."""
+        from common import REUTILIZADOS
+        indices = sorted((ROOT / "data" / "snapshots").glob(f"*/{REUTILIZADOS}"))
+        if not indices:
+            self.skipTest("ningún día ha reutilizado un cuerpo todavía")
+        why = skip_sin_datos("sources_log")
+        if why:
+            self.skipTest(why)
+        registradas = {(r[0], r[1]) for r in q(
+            "SELECT snapshot_path, sha256 FROM sources_log"
+            " WHERE snapshot_path IS NOT NULL AND sha256 IS NOT NULL")}
+        malas = []
+        for f in indices:
+            for linea in f.read_text(encoding="utf-8").splitlines():
+                if not linea or linea.startswith("#"):
+                    continue
+                partes = linea.split("\t")
+                if len(partes) != 3:
+                    malas.append(f"{f}: línea ilegible «{linea[:60]}»")
+                    continue
+                _, spath, sha = partes
+                if (spath, sha) not in registradas:
+                    malas.append(f"{f}: apunta a {spath} y el log no lo dice")
+                elif not (ROOT / spath).exists():
+                    malas.append(f"{f}: apunta a {spath}, que no está")
+        self.assertFalse(malas, "; ".join(malas[:5]))
+
     def test_snapshot_de_copernicus_existe(self):
         snaps = list((ROOT / "data" / "snapshots").glob("*/copernicus_EMSR916.json"))
         if not DB.exists():
@@ -454,14 +613,6 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
     # Las filas anteriores no se exigen: su hueco está documentado en
     # docs/LIMITACIONES.md (el log también es archivo y no se retoca).
     REGIMEN_FUERTE_DESDE = "2026-08-17"
-
-    # Los vídeos y audios ciudadanos no caben en git (580+ MB): su cuerpo se
-    # archiva en el bucket R2 y el repo versiona el manifiesto auditable
-    # `data/r2_manifest.json` — está en docs/LIMITACIONES.md y en .gitignore.
-    # Para ellos la evidencia es estar en el manifiesto con el mismo sha256, no
-    # el fichero en disco: en un clon limpio nunca está, y exigirlo hacía que el
-    # test pasara en la máquina del mantenedor y fallara en CI.
-    ARCHIVO_EN_R2 = (".mp4", ".mov", ".webm", ".opus", ".ogg", ".m4a")
 
     def _manifiesto_r2(self):
         f = ROOT / "data" / "r2_manifest.json"
@@ -477,11 +628,18 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
         # las sondas de contrato (test_supuestos_api) son diagnóstico, no
         # evidencia publicada: quedan logueadas pero sin cuerpo archivado
         from common import NOTAS_SONDA
+        # IndexNow invierte la dirección: es una notificación que enviamos,
+        # no un cuerpo recibido del que salga una cifra. `notificar()` registra
+        # su petición por R4, pero no fabrica un snapshot de una respuesta que
+        # no contiene datos. La URL se toma de su módulo, no se duplica (M2).
+        from indexnow import ENDPOINT as INDEXNOW_ENDPOINT
         marcas = ",".join("?" * len(NOTAS_SONDA))
         filas = q("SELECT snapshot_path, sha256 FROM sources_log"
                   f" WHERE ts >= ? AND http_status=200 AND bytes > 0"
-                  f" AND (note IS NULL OR note NOT IN ({marcas}))",
-                  self.REGIMEN_FUERTE_DESDE, *NOTAS_SONDA)
+                  f" AND (note IS NULL OR note NOT IN ({marcas}))"
+                  f" AND url != ?",
+                  self.REGIMEN_FUERTE_DESDE, *NOTAS_SONDA,
+                  INDEXNOW_ENDPOINT)
         if not filas:
             self.skipTest("aún no hay corridas bajo el régimen fuerte")
         import hashlib
@@ -492,7 +650,7 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                 sin_ruta += 1
                 continue
             f = ROOT / spath
-            if spath.lower().endswith(self.ARCHIVO_EN_R2):
+            if spath.lower().endswith(ARCHIVO_EN_R2):
                 # se comprueba SIEMPRE, exista o no en disco: si solo se mirara
                 # cuando falta, el manifiesto podría desfasarse durante meses en
                 # la máquina donde sí están los ficheros y saltar solo en CI
@@ -511,6 +669,70 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                          f"{sin_ruta} peticiones 200 sin snapshot_path desde "
                          f"{self.REGIMEN_FUERTE_DESDE} — un sha sin cuerpo no es evidencia")
         self.assertFalse(rotos, "snapshots rotos: " + "; ".join(rotos[:5]))
+
+
+class TestManifiestoDeR2(unittest.TestCase):
+    """El recorrido inverso: manifiesto ⇒ log.
+
+    `test_todo_cuerpo_publicado_tiene_snapshot_verificable` demuestra la ida —
+    toda petición A/V figura en el manifiesto con su sha—. La vuelta importa
+    desde que **el manifiesto autoriza a no descargar**: una fila mal generada
+    ahí deja al guardián dando por archivado un sha256 que nunca se pidió, y
+    entonces el manifiesto no sería una copia del archivo sino una afirmación
+    sobre él. Es el invariante gemelo del de las entregas de SERTIT.
+
+    Se comprueba **leyendo solo ficheros versionados** —el manifiesto y
+    `data/dumps/sources_log.csv`—, sin base de datos y sin bucket: es lo que
+    hace el manifiesto autoverificable desde un clon pelado.
+    """
+
+    def _manifiesto(self):
+        f = ROOT / "data" / "r2_manifest.json"
+        if not f.exists():
+            self.skipTest("sin manifiesto de R2")
+        return json.loads(f.read_text(encoding="utf-8")).get("objetos") or []
+
+    def _peticiones_del_csv(self):
+        import csv
+        f = ROOT / "data" / "dumps" / "sources_log.csv"
+        if not f.exists():
+            self.skipTest("sin volcado de sources_log")
+        vistas = set()
+        with open(f, newline="", encoding="utf-8") as fh:
+            for fila in csv.DictReader(fh):
+                spath = fila.get("snapshot_path") or ""
+                if spath and spath != r"\N":
+                    vistas.add((spath.rsplit("/", 1)[-1], fila.get("sha256")))
+        return vistas
+
+    def test_cada_objeto_del_manifiesto_tiene_su_peticion_en_el_log(self):
+        objetos = self._manifiesto()
+        self.assertTrue(objetos, "un manifiesto vacío no declara nada")
+        vistas = self._peticiones_del_csv()
+        huerfanos = [o["objeto"] for o in objetos
+                     if (o["objeto"], o["sha256"]) not in vistas]
+        self.assertFalse(
+            huerfanos,
+            "objeto(s) del manifiesto sin una petición que los explique en "
+            "data/dumps/sources_log.csv: " + ", ".join(huerfanos[:5]) +
+            " — el manifiesto autoriza a no descargar, así que una línea suya "
+            "sin cuerpo detrás deja un sha256 archivado que nadie pidió")
+
+    def test_ningun_objeto_del_manifiesto_se_declara_dos_veces(self):
+        """Dos líneas con la misma clave y distinto sha harían que el guardián
+        se fiara de la que saliera primero."""
+        objetos = self._manifiesto()
+        claves = [o["objeto"] for o in objetos]
+        self.assertEqual(len(claves), len(set(claves)),
+                         "el manifiesto declara un objeto más de una vez")
+
+    def test_el_manifiesto_solo_declara_lo_que_git_no_versiona(self):
+        """Un objeto en el manifiesto cuyo cuerpo SÍ viaja en git sería una
+        declaración de custodia en el sitio equivocado."""
+        from common import ARCHIVO_EN_R2
+        malos = [o["objeto"] for o in self._manifiesto()
+                 if not o["objeto"].lower().endswith(ARCHIVO_EN_R2)]
+        self.assertFalse(malos, "no son cuerpos de R2: " + ", ".join(malos[:5]))
 
 
 if __name__ == "__main__":
@@ -656,3 +878,199 @@ class TestVocabularioDeLasFuentes(unittest.TestCase):
             f"UNOSAT declara confianzas que el sitio no sabe traducir: "
             f"{huerfanos}. Se publicarían en inglés, y peor: nadie habría "
             f"decidido qué significan para el lector")
+
+
+class TestSupuestoNombreASecas(unittest.TestCase):
+    """R11: la tabla que congela los nombres a secas envejece sola.
+
+    `NOMBRE_A_SECAS_CONGELADO` dice qué código DIVIPOLA se queda con cada
+    nombre sin paréntesis. Mientras el RUD siga creciendo —49 municipios
+    entraron en un solo día—, cualquier alta puede estrenar homonimia con un
+    nombre que la DIVIPOLA nacional repite: si nadie lo anota, el nombre corto
+    vuelve a repartirse por familias registradas y una URL publicada cambia de
+    municipio.
+
+    Que este test falle es la señal de que hay trabajo, no de que algo va mal:
+    o ha nacido un homónimo que hay que congelar, o sobra una entrada porque su
+    municipio salió del catálogo. Una lista de excepciones que nadie poda acaba
+    tapando huecos de verdad.
+    """
+
+    def _nacional(self):
+        """Cuántas veces repite cada nombre la DIVIPOLA de todo el país: es la
+        lista de nombres en riesgo, y no la escribe nadie a mano."""
+        from municipios import _norm
+        div = json.loads((ROOT / "data" / "public" / "divipola_coords.json")
+                         .read_text(encoding="utf-8")).get("items") or {}
+        repetidos = {}
+        for fila in div.values():
+            n = _norm(fila.get("municipio"))
+            repetidos[n] = repetidos.get(n, 0) + 1
+        return div, {n for n, veces in repetidos.items() if veces > 1}
+
+    def test_todo_nombre_a_secas_en_riesgo_esta_congelado(self):
+        why = skip_sin_datos("rud_daily")
+        if why:
+            self.skipTest(why)
+        from municipios import (NOMBRE_A_SECAS_CONGELADO, catalogo_vigente,
+                                _norm)
+        div, repetidos = self._nacional()
+        if not div:
+            self.skipTest("sin catálogo DIVIPOLA")
+        # los nombres sin paréntesis que el país repite: los que pueden perder
+        # su URL en cuanto el RUD registre al homónimo
+        en_riesgo = {clave: meta for clave, meta in catalogo_vigente().items()
+                     if "(" not in clave and _norm(clave) in repetidos}
+        faltan = sorted(set(en_riesgo) - set(NOMBRE_A_SECAS_CONGELADO))
+        self.assertEqual(
+            faltan, [],
+            f"nombres a secas que el país repite y nadie ha congelado: "
+            f"{faltan}. El día que el RUD registre a su homónimo, quien tenga "
+            f"más familias se queda /municipio/<slug>/ — anotarlos en "
+            f"NOMBRE_A_SECAS_CONGELADO con su código DIVIPOLA")
+        sobran = sorted(set(NOMBRE_A_SECAS_CONGELADO) - set(en_riesgo))
+        self.assertEqual(
+            sobran, [],
+            f"entradas congeladas que ya no publican ese nombre: {sobran}. "
+            f"O el municipio salió del catálogo, o dejó de llevar el nombre a "
+            f"secas: mirar cuál de las dos y podar")
+
+    def test_el_dueno_congelado_es_el_que_esta_publicado(self):
+        """La tabla se compara con LO PUBLICADO, no con el catálogo que ella
+        misma decide.
+
+        Comprobarlo contra `catalogo_vigente()` no comprueba nada: cambiar el
+        dueño en la tabla cambia también el catálogo, y las dos mentiras
+        coinciden (M1 — el primer intento de este test pasaba con el fallo
+        puesto). El testigo independiente es `data/public/municipios.json`, que
+        lo escribió una corrida anterior y del que cuelgan las URL vivas.
+        """
+        from municipios import NOMBRE_A_SECAS_CONGELADO, _divipola_key
+        pub = ROOT / "data" / "public" / "municipios.json"
+        if not pub.exists():
+            self.skipTest("sin municipios.json publicado")
+        datos = json.loads(pub.read_text(encoding="utf-8"))
+        items = datos.get("items", datos) if isinstance(datos, dict) else datos
+        publicado = {m["municipio"]: m for m in items}
+        distintos = {}
+        for clave, dueno in NOMBRE_A_SECAS_CONGELADO.items():
+            m = publicado.get(clave)
+            if not m:
+                continue          # lo cuenta el test de arriba, con su motivo
+            if _divipola_key(m.get("divipola")) != _divipola_key(dueno["divipola"]):
+                distintos[clave] = {"publicado": m.get("divipola"),
+                                    "departamento": m.get("departamento"),
+                                    "congelado": dueno["divipola"]}
+        self.assertEqual(
+            distintos, {}, f"la tabla congela un municipio distinto del que "
+            f"publica hoy ese nombre: {distintos}. Cambiar la identidad de una "
+            f"ficha publicada es una decisión editorial con su migración y su "
+            f"redirección — no una línea que se toca de paso")
+
+
+class TestSupuestoBusquedaMunicipal(unittest.TestCase):
+    """R11: a todo municipio que el RUD registra hay que haberle preguntado.
+
+    El monitor publicaba «ni un titular» de 114 municipios y en 104 de ellos
+    nunca había llegado a preguntar: la lista de búsquedas recorría el
+    catálogo curado a mano, no el que abre el propio registro oficial. Una
+    celda vacía por «no hemos buscado» y otra por «no hay nada» se veían
+    exactamente igual.
+
+    Que este test falle es la señal de que hay trabajo, no de que algo va mal:
+    significa que el RUD estrenó un municipio al que el monitor no sabe
+    preguntar. Se mira, se decide y se anota aquí —nunca se amplía la lista de
+    excepciones sin mirar el municipio—.
+    """
+
+    # Municipios que NO pueden tener búsqueda propia, uno a uno y por su
+    # nombre. Casi todos se llaman igual que un departamento colombiano, así
+    # que `"bolivar" "cauca"` casaría con los titulares del departamento y el
+    # feed, que declara su municipio, colaría esa atribución por la puerta de
+    # atrás. Su prensa solo puede venir de un feed del registro comunitario.
+    # Las claves son las que reparte `municipios_dinamicos`: el nombre a secas
+    # de los homónimos lo fija `NOMBRE_A_SECAS_CONGELADO`, así que «Bolívar» es
+    # el del Valle del Cauca y el del Cauca lleva su departamento entre
+    # paréntesis.
+    SIN_BUSQUEDA_ESPERADOS = {
+        "Bolívar",            # Valle del Cauca
+        "Bolívar (Cauca)",
+        "Córdoba",            # Quindío
+        "Risaralda",          # Caldas
+        "Sucre",              # Cauca
+        # los trae el RUD del 24-ago-2026 (capturado el 25), en el salto de 251
+        # a 347 municipios. Son los dos casos más ruidosos de la lista: el
+        # departamento de Caldas está DENTRO del área del sismo —Manizales,
+        # Anserma, Viterbo— y el de Nariño es vecino del Cauca, así que
+        # `"caldas" "antioquia"` y `"nariño" "antioquia"` traerían titulares
+        # del departamento con la etiqueta del municipio antioqueño, que está a
+        # cientos de kilómetros y tiene 5 y 51 familias inscritas.
+        "Caldas",             # Antioquia
+        "Nariño",             # Antioquia
+        # el único que no es homónimo de departamento: el RUD lo escribe con el
+        # guion de la fusión municipal («PIENDAMÓ - TUNÍA», el nombre oficial
+        # desde 2019) y así no aparece en ningún titular — la prensa escribe
+        # «Piendamó» a secas. Buscar la frase literal daría cero para siempre.
+        # Hueco declarado, no resuelto: con 611 familias inscritas merece que
+        # alguien lo cure a mano en `MUNICIPIOS` con el topónimo que usa la
+        # prensa. Cuando se cure, esta línea sobra y el test de abajo lo dirá.
+        "Piendamó - Tunía",
+    }
+
+    def test_todo_municipio_del_rud_recibe_su_busqueda_de_prensa(self):
+        why = skip_sin_datos("rud_daily")
+        if why:
+            self.skipTest(why)
+        from municipios import catalogo_vigente
+        sys.path.insert(0, str(ROOT / "ingest" / "sources"))
+        from community_feeds import municipal_google_news_feeds, motivo_sin_busqueda
+        catalogo = catalogo_vigente()
+        con_busqueda = {f["municipio"] for f in municipal_google_news_feeds(catalogo)}
+        # el catálogo vigente ES el del RUD más los curados: lo que interesa
+        # aquí es que nadie se quede fuera de la pregunta
+        sin = {mun: motivo_sin_busqueda(meta) for mun, meta in catalogo.items()
+               if mun not in con_busqueda}
+        nuevos = {m: v for m, v in sin.items()
+                  if m not in self.SIN_BUSQUEDA_ESPERADOS}
+        self.assertEqual(
+            nuevos, {},
+            f"Municipios del catálogo sin búsqueda propia de prensa: {nuevos}. "
+            f"El sitio dirá de ellos «ni un titular» sin haber preguntado — "
+            f"mirar el motivo y, si es legítimo, anotarlo en "
+            f"SIN_BUSQUEDA_ESPERADOS con su porqué")
+        # y al revés: si un homónimo deja de serlo (o desaparece del RUD), la
+        # excepción sobra y hay que quitarla — una lista de excepciones que
+        # nadie poda acaba tapando huecos de verdad
+        sobran = self.SIN_BUSQUEDA_ESPERADOS - set(sin)
+        self.assertEqual(sobran, set(),
+                         f"excepciones que ya no hacen falta: {sobran}")
+
+    def test_el_catalogo_de_las_busquedas_es_el_que_se_publica(self):
+        """M2: `catalogo_vigente()` (de donde salen las búsquedas y los
+        identificadores de sus feeds) y el catálogo que arma `publish.py` para
+        las fichas tienen que dar las MISMAS claves.
+
+        No es una formalidad: de las claves cuelgan la URL de la ficha y el id
+        del feed. Los homónimos ya publicados los congela
+        `NOMBRE_A_SECAS_CONGELADO` —«Argelia» es la del Valle del Cauca y la
+        del Cauca lleva el paréntesis—, pero el que estrene homonimia todavía
+        se reparte por el orden de las filas del RUD, así que leerlas en otro
+        orden publicaría un municipio con el nombre del otro.
+        """
+        why = skip_sin_datos("rud_daily")
+        if why:
+            self.skipTest(why)
+        from municipios import catalogo_municipios, catalogo_vigente, _norm
+        div_path = ROOT / "data" / "public" / "divipola_coords.json"
+        divipola = (json.loads(div_path.read_text()).get("items")
+                    if div_path.exists() else {})
+        ult = q("SELECT MAX(snapshot_date) FROM rud_daily")[0][0]
+        # espejo literal de la consulta de ingest/publish.py::run
+        filas = q("SELECT departamento, municipio FROM rud_daily"
+                  " WHERE snapshot_date=? ORDER BY familias DESC", ult)
+        rud = {(_norm(dep), _norm(mun)): {"departamento": dep, "municipio": mun}
+               for dep, mun in filas}
+        self.assertEqual(
+            set(catalogo_municipios(rud, divipola)), set(catalogo_vigente()),
+            "el catálogo de las búsquedas y el de las fichas dan nombres "
+            "distintos: los feeds municipales dejarían de casar con las fichas")

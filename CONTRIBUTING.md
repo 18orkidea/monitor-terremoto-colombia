@@ -37,10 +37,18 @@ medio local o regional que cubra las zonas afectadas:
 Los medios pequeños de las zonas menos cubiertas (Chocó, San Juan) son los más valiosos:
 Istmina tiene hoy **cero** titulares en los feeds internacionales.
 
-Además del registro manual, el pipeline genera búsquedas Google News por cada municipio en
-`ingest/municipios.py`. Si falta una ciudad afectada, añádela allí con departamento,
-coordenada aproximada y topónimos; la siguiente corrida buscará titulares para ese
-municipio y lo cruzará con DYFI, DANE y Copernicus.
+Además del registro manual, el pipeline genera una búsqueda Google News por cada
+municipio del catálogo: los curados en `ingest/municipios.py` **y los que abre solo el
+registro oficial (RUD)**. Esa lista no se mantiene a mano — un municipio que entre hoy al
+RUD tiene su búsqueda en la siguiente corrida. Si falta una ciudad afectada que el RUD no
+registra, añádela en `ingest/municipios.py` con departamento, coordenada aproximada y
+topónimos; la siguiente corrida buscará titulares para ese municipio y lo cruzará con
+DYFI, DANE y Copernicus.
+
+Dos municipios no reciben búsqueda automática por diseño: los que se llaman igual que un
+departamento (Bolívar, Córdoba, Risaralda, Sucre) y aquellos cuyo nombre oficial no se
+escribe así en un titular. Para ellos, **un feed del registro manual es la única vía**,
+porque ahí el municipio lo declara una persona. Ver `docs/LIMITACIONES.md`.
 
 ### Con código
 
@@ -59,8 +67,10 @@ municipio y lo cruzará con DYFI, DANE y Copernicus.
    como NULL + literal crudo.
 3. **Trazabilidad**: toda petición HTTP pasa por `common.fetch()` (log + sha256 +
    snapshot). Ninguna cifra sin fila en `sources_log`.
-4. **Privacidad ciudadana**: coordenadas públicas redondeadas (~110 m), EXIF nunca
-   publicado, fotos de daño material y no de personas.
+4. **Privacidad ciudadana**: el reporte se publica en el punto que registró la
+   fuente —redondearlo a ~110 m no protegía nada, porque ChatMap ya publica la
+   coordenada exacta, y engañaba a quien reporta—; EXIF nunca publicado, fotos
+   de daño material y no de personas.
 
 ## Flujo
 

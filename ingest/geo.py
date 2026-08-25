@@ -78,3 +78,42 @@ class MMIGrid:
             return None
         # covjson recorre y como primer eje
         return self.values[iy * self.nx + ix]
+
+
+def grid_mmi_vigente(snapshot_hoy=None):
+    """El ShakeMap más reciente que exista en el archivo, o None.
+
+    La rejilla del USGS se revisa durante semanas, así que la corrida de hoy
+    puede no traerla; se cae al snapshot anterior en vez de quedarse sin dato.
+    Vive aquí, y no en cada consumidor, porque ya son dos los que la necesitan:
+    la verificación ciudadana y la capa de municipios sin mirada satelital.
+
+    Esa caída hacia atrás NO puede ser silenciosa: un producto fechado hoy
+    puede llevar intensidades de una rejilla de hace días, y quien lo lea dentro
+    de años tiene que poder saber de cuál (principio de archivo, R4). Por eso el
+    grid devuelto expone `origen`: día del snapshot y sha256 del fichero.
+    """
+    import hashlib
+    import json
+
+    from common import snapshot_dir, ultimo_snapshot
+
+    candidatos = []
+    if snapshot_hoy is None:
+        snapshot_hoy = snapshot_dir()
+    if snapshot_hoy is not None:
+        candidatos.append(snapshot_hoy)
+    # el resto del recorrido lo hace `ultimo_snapshot`: una sola
+    # implementación de «el cuerpo vigente, sea de qué día sea» (M2)
+    vigente = ultimo_snapshot("usgs_mmi_grid.covjson")
+    if vigente is not None:
+        candidatos.append(vigente.parent)
+    for d in candidatos:
+        f = d / "usgs_mmi_grid.covjson"
+        if f.exists():
+            crudo = f.read_bytes()
+            grid = MMIGrid(json.loads(crudo))
+            grid.origen = {"snapshot": d.name,
+                           "sha256": hashlib.sha256(crudo).hexdigest()}
+            return grid
+    return None

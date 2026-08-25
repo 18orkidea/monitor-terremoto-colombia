@@ -5,8 +5,10 @@ por prensa o con intensidad percibida, aunque no hayan sido mapeadas por satéli
 """
 from __future__ import annotations
 
+import json
 import math
 import re
+import sqlite3
 import unicodedata
 
 from geo import point_in_wkt_polygon
@@ -406,13 +408,130 @@ def _title_es(s: str) -> str:
                     for i, w in enumerate(words))
 
 
+# Quién se queda el nombre a secas cuando dos municipios se llaman igual.
+# Congelado el 24-ago-2026 sobre LO PUBLICADO el 18-ago-2026 (el día que las
+# claves dinámicas entraron a `data/public/municipios.json`), y verificado
+# contra ese fichero: la clave manda sobre la URL de la ficha y sobre el
+# identificador del feed de prensa que ya archivó titulares con ella.
+#
+# La razón de existir es que sin esta tabla el dueño lo decidía el ORDEN de las
+# filas del RUD —familias descendente—, así que «Argelia» era la del Valle
+# porque tenía más damnificados: un municipio homónimo nuevo con más familias
+# se llevaba el nombre corto y cambiaba una URL publicada sin que nadie lo
+# decidiera. El día del congelado eran 20 nombres del catálogo repetidos en la
+# DIVIPOLA nacional; 12 estaban expuestos de verdad y a los otros 8 los anclaba
+# `MUNICIPIOS`. La lista crece con el registro —cada alta puede estrenar
+# homonimia— y quien avisa es `TestSupuestoNombreASecas`, no una revisión
+# manual: por eso las tandas posteriores van fechadas más abajo.
+#
+# NO se aprovecha para corregir asignaciones discutibles: «Argelia» es hoy el
+# pueblo de 5.538 habitantes y «Argelia (Cauca)» el de 27.853, y es feo, pero
+# es lo publicado. Cambiarlo es una decisión editorial distinta, con su
+# migración y sus redirecciones (docs/DECISIONES.md).
+#
+# La identidad es el código DIVIPOLA; el departamento va al lado porque es lo
+# que un humano lee y la única vía de desempate si un día la fila no resuelve
+# su código.
+NOMBRE_A_SECAS_CONGELADO = {
+    # decididos por el orden del RUD hasta hoy (los expuestos de verdad)
+    "Argelia": {"divipola": "76054", "departamento": "Valle del Cauca"},
+    "Bolívar": {"divipola": "76100", "departamento": "Valle del Cauca"},
+    "Buenavista": {"divipola": "63111", "departamento": "Quindío"},
+    "El Tambo": {"divipola": "19256", "departamento": "Cauca"},
+    "La Unión": {"divipola": "76400", "departamento": "Valle del Cauca"},
+    "La Vega": {"divipola": "19397", "departamento": "Cauca"},
+    "Morales": {"divipola": "19473", "departamento": "Cauca"},
+    "Salamina": {"divipola": "17653", "departamento": "Caldas"},
+    "San Luis": {"divipola": "73678", "departamento": "Tolima"},
+    "Santa María": {"divipola": "41676", "departamento": "Huila"},
+    "Sucre": {"divipola": "19785", "departamento": "Cauca"},
+    "Suárez": {"divipola": "19780", "departamento": "Cauca"},
+    # estrenaron homonimia con el RUD del 23-ago-2026 (capturado el 24): el
+    # registro los dio de alta y ninguno tiene todavía a su homónimo dentro,
+    # así que hoy publican el nombre a secas. Se congela lo publicado —el
+    # DIVIPOLA que ya llevan en `data/public/municipios.json`—, no la
+    # asignación que uno elegiría de cero: «Florencia» es la de 2.000
+    # habitantes del Cauca y no la capital del Caquetá, y «Granada» y «San
+    # Francisco» son las de Antioquia, a cientos de kilómetros del epicentro,
+    # porque son las que el RUD registró y las que tienen URL viva.
+    "Florencia": {"divipola": "19290", "departamento": "Cauca"},
+    "Granada": {"divipola": "05313", "departamento": "Antioquia"},
+    "Páez": {"divipola": "19517", "departamento": "Cauca"},
+    "San Francisco": {"divipola": "05652", "departamento": "Antioquia"},
+    "Santa Rosa": {"divipola": "19701", "departamento": "Cauca"},
+    # estrenaron homonimia con el RUD del 24-ago-2026 (capturado el 25): el
+    # registro pasó de 251 a 347 municipios en una sola captura —el salto más
+    # grande de la serie— y con él entraron catorce nombres a secas que la
+    # DIVIPOLA nacional repite. Doce son de Antioquia, Cundinamarca o Norte de
+    # Santander, a cientos de kilómetros del epicentro: el RUD alcanza hoy a
+    # damnificados que estaban lejos del sismo, y son inscripciones de una o
+    # dos decenas de familias, no municipios devastados.
+    #
+    # Mismo criterio que la tanda anterior: se congela LO PUBLICADO —el
+    # DIVIPOLA que ya llevan en `data/public/municipios.json`, del que cuelga
+    # la URL viva de la ficha y el identificador de su feed de prensa—, no la
+    # asignación que uno elegiría de cero. «Caldas» es el municipio de
+    # Antioquia y no el de Boyacá; «Nariño», el de Antioquia y no el de
+    # Cundinamarca ni el de su propio departamento homónimo.
+    "Barbosa": {"divipola": "05079", "departamento": "Antioquia"},
+    "Betulia": {"divipola": "05093", "departamento": "Antioquia"},
+    "Cabrera": {"divipola": "25120", "departamento": "Cundinamarca"},
+    "Caldas": {"divipola": "05129", "departamento": "Antioquia"},
+    "Concordia": {"divipola": "05209", "departamento": "Antioquia"},
+    "Jericó": {"divipola": "05368", "departamento": "Antioquia"},
+    "Nariño": {"divipola": "05483", "departamento": "Antioquia"},
+    "Rionegro": {"divipola": "05615", "departamento": "Antioquia"},
+    "San Bernardo": {"divipola": "25649", "departamento": "Cundinamarca"},
+    "San Carlos": {"divipola": "05649", "departamento": "Antioquia"},
+    "San Cayetano": {"divipola": "54673", "departamento": "Norte de Santander"},
+    "Santa Bárbara": {"divipola": "05679", "departamento": "Antioquia"},
+    "Toledo": {"divipola": "54820", "departamento": "Norte de Santander"},
+    "Venecia": {"divipola": "05861", "departamento": "Antioquia"},
+    # anclados por `MUNICIPIOS` (el reparto no los toca), anotados igual: si
+    # algún día uno sale del catálogo curado, el nombre no puede quedar a subasta
+    "Armenia": {"divipola": "63001", "departamento": "Quindío"},
+    "Balboa": {"divipola": "66075", "departamento": "Risaralda"},
+    "Candelaria": {"divipola": "76130", "departamento": "Valle del Cauca"},
+    "Córdoba": {"divipola": "63212", "departamento": "Quindío"},
+    "La Victoria": {"divipola": "76403", "departamento": "Valle del Cauca"},
+    "Palestina": {"divipola": "17524", "departamento": "Caldas"},
+    "Restrepo": {"divipola": "76606", "departamento": "Valle del Cauca"},
+    "San Pedro": {"divipola": "76670", "departamento": "Valle del Cauca"},
+}
+
+
+def _dueno_del_nombre(dueno: dict, div: dict | None, departamento: str) -> bool:
+    """¿Es esta fila la que tiene congelado el nombre a secas?
+
+    Por código DIVIPOLA, que es la identidad estable. Si la fila no lo resuelve
+    —nombre que el catálogo geográfico escribe de otra manera—, desempata el
+    departamento; y sin ninguna de las dos vías el municipio se publica con el
+    paréntesis. La degradación segura es «paréntesis», nunca «desaparece».
+    """
+    code = _divipola_key((div or {}).get("divipola"))
+    if code:
+        return code == _divipola_key(dueno.get("divipola"))
+    return _admin_norm(departamento) == _admin_norm(dueno.get("departamento"))
+
+
 def municipios_dinamicos(rud_municipios: dict | None,
                          divipola: dict | None) -> dict[str, dict]:
     """Entradas para municipios que el RUD registra pero MUNICIPIOS no cura
     aún: el registro oficial manda — si un municipio entra al RUD mañana, no
     puede perderse por falta de mantenimiento manual. Coordenadas del catálogo
     DIVIPOLA estático; sin coordenadas la entrada sale igual (sin punto en el
-    mapa) y el test de supuesto avisa."""
+    mapa) y el test de supuesto avisa.
+
+    El nombre a secas de los homónimos lo decide `NOMBRE_A_SECAS_CONGELADO`, no
+    el orden de las filas. Objeción obvia: es mantenimiento manual, justo lo que
+    esta función existe para evitar. No lo es, porque **la tabla no decide quién
+    entra: solo quién se queda el nombre corto.** El municipio nuevo entra
+    igual, con su ficha, su búsqueda y su punto en el mapa; lo único que cambia
+    es que nace desambiguado —«X (Departamento)»— en vez de robarle la URL a
+    otro. Sin entrada en la tabla se cae al reparto de siempre (el primero se lo
+    lleva) y un test de supuesto avisa de que ha nacido un homónimo que hay que
+    anotar.
+    """
     if not rud_municipios:
         return {}
     cubiertos = set()
@@ -431,7 +550,11 @@ def municipios_dinamicos(rud_municipios: dict | None,
         municipio = fila.get("municipio") or mun_n
         div = _find_divipola(divipola, municipio, departamento)
         nombre = _title_es(fila.get("municipio") or mun_n)
-        key = nombre if nombre not in MUNICIPIOS and nombre not in extras \
+        libre = nombre not in MUNICIPIOS and nombre not in extras
+        dueno = NOMBRE_A_SECAS_CONGELADO.get(nombre)
+        if dueno:
+            libre = libre and _dueno_del_nombre(dueno, div, departamento)
+        key = nombre if libre \
             else f"{nombre} ({_title_es(fila.get('departamento') or dep_n)})"
         extras[key] = {
             "departamento": _title_es(departamento),
@@ -450,6 +573,78 @@ def municipios_dinamicos(rud_municipios: dict | None,
     return extras
 
 
+def catalogo_municipios(rud_municipios: dict | None = None,
+                        divipola: dict | None = None) -> dict[str, dict]:
+    """El catálogo que el monitor observa: los curados a mano MÁS los que abre
+    el registro oficial.
+
+    Una sola definición porque de ella cuelgan dos cosas que tienen que decir
+    lo mismo: la ficha que se publica de cada municipio y la búsqueda de prensa
+    que se le hace. Cuando se separaron, 126 de los 207 municipios con
+    damnificados se quedaron sin búsqueda y el sitio publicaba de ellos «ni un
+    titular» sin haber preguntado nunca (M2).
+    """
+    # Copia de cada ficha: el catálogo se entrega para leerlo y anotarlo, y
+    # `MUNICIPIOS` es un literal del módulo — un `catalogo[m]["toponimos"] = …`
+    # de cualquier llamante reescribiría el catálogo curado para el resto del
+    # proceso, y el fallo aparecería en otro sitio.
+    return {mun: dict(meta) for mun, meta in
+            {**MUNICIPIOS,
+             **municipios_dinamicos(rud_municipios, divipola)}.items()}
+
+
+def _rud_ultimo_dia(conn: sqlite3.Connection) -> dict[tuple[str, str], dict]:
+    """Municipios del último día capturado del RUD, con la misma clave
+    normalizada que usa `publish.py` para cruzarlos con el catálogo.
+
+    El `ORDER BY familias DESC` es el espejo literal de la consulta de
+    `publish.py`: las dos leen las mismas filas en el mismo orden porque de las
+    claves cuelgan la URL de la ficha y el identificador del feed de prensa.
+    De los nombres a secas ya no decide el orden —los homónimos publicados los
+    congela `NOMBRE_A_SECAS_CONGELADO`, y por eso «Argelia» es la del Valle del
+    Cauca y la del Cauca lleva su departamento entre paréntesis—, pero el que
+    estrene homonimia sin entrada en la tabla sí se reparte por aquí: leer en
+    otro orden le cambiaría el nombre.
+    """
+    fila = conn.execute("SELECT MAX(snapshot_date) FROM rud_daily").fetchone()
+    dia = fila[0] if fila else None
+    if not dia:
+        return {}
+    return {(_norm(dep), _norm(mun)): {"departamento": dep, "municipio": mun}
+            for dep, mun in conn.execute(
+                "SELECT departamento, municipio FROM rud_daily"
+                " WHERE snapshot_date=? ORDER BY familias DESC", (dia,))}
+
+
+def catalogo_vigente() -> dict[str, dict]:
+    """El catálogo de HOY, leído del archivo, para quien no tiene el RUD a mano.
+
+    Existe para que la lista de municipios observados no se mantenga a mano en
+    ningún sitio: el que entra hoy al registro oficial entra hoy al catálogo.
+    Si el archivo aún no está (clon nuevo, CI antes del `rebuild`), devuelve
+    los curados y sigue — un dato que falta degrada la cobertura, no la
+    corrida (R13).
+    """
+    from common import DB_PATH, PUBLIC        # local: esta capa es de dominio
+    rud: dict[tuple[str, str], dict] = {}
+    if DB_PATH.exists():
+        conn = sqlite3.connect(DB_PATH, timeout=60)
+        try:
+            rud = _rud_ultimo_dia(conn)
+        except sqlite3.Error:
+            rud = {}
+        finally:
+            conn.close()
+    div_path = PUBLIC / "divipola_coords.json"
+    divipola = None
+    if div_path.exists():
+        try:
+            divipola = json.loads(div_path.read_text()).get("items") or {}
+        except (OSError, json.JSONDecodeError):
+            divipola = None
+    return catalogo_municipios(rud, divipola)
+
+
 def build_municipios(noticias: list[dict], dyfi: dict | None,
                      aoi_extents: dict[str, str],
                      poblacion: dict | None = None,
@@ -457,8 +652,9 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      divipola: dict | None = None,
                      unosat: dict | None = None,
                      con_busqueda_propia: set[str] | None = None,
-                     *, sertit: dict | None = None) -> tuple[list[dict], dict]:
-    catalogo = {**MUNICIPIOS, **municipios_dinamicos(rud_municipios, divipola)}
+                     *, sertit: dict | None = None,
+                     grid_mmi=None) -> tuple[list[dict], dict]:
+    catalogo = catalogo_municipios(rud_municipios, divipola)
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
                "dyfi_respuestas": 0, "dyfi_celdas": 0, "dyfi_min_dist_km": None}
@@ -530,10 +726,16 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         tiene_prensa = row["n_noticias"] > 0
         rud = _find_rud(rud_municipios, mun, row)
         tiene_rud = rud is not None
+        # `is not None`, NO truthiness: haber mirado y no haber encontrado
+        # edificios con grado de daño es un resultado, no una ausencia de
+        # evaluación (R3 leído al revés). Con `bool()`, un municipio donde
+        # SERTIT solo marcó puntos sin grado —edificios = 0— figuraba como no
+        # evaluado, y la capa de la ausencia llegaba a decirle al lector que
+        # nadie lo había mirado. Publicar eso es peor que no publicar nada.
         uno = (unosat or {}).get(mun)
-        tiene_unosat = bool(uno and uno.get("edificios"))
+        tiene_unosat = uno is not None and uno.get("edificios") is not None
         ser = (sertit or {}).get(mun)
-        tiene_sertit = bool(ser and ser.get("edificios"))
+        tiene_sertit = ser is not None and ser.get("edificios") is not None
         # Una evaluación satelital basta para entrar en la capa aunque no haya
         # prensa, ni DYFI, ni registro oficial: es justo el caso de Viterbo, y
         # que nadie más lo mire no es motivo para que el monitor tampoco.
@@ -625,6 +827,14 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
         # 0 se leería como «nadie lo sintió»
         if not row["dyfi_celdas"]:
             row["dyfi_respuestas"] = None
+        # Intensidad que el modelo del USGS estima para la cabecera municipal.
+        # NO es la percibida: esa es dyfi_max_cdi, que solo cubre 23 de los 196
+        # municipios sin mirada satelital y no alcanza para pintar un mapa. La
+        # rejilla llega al 95%, y donde no llega el valor queda en None: fuera
+        # de la rejilla no hay «intensidad baja», hay ausencia de dato (R3).
+        mmi = (grid_mmi.mmi_at(lon, lat)
+               if grid_mmi and lon is not None and lat is not None else None)
+        row["mmi_usgs"] = round(mmi, 2) if mmi is not None else None
         per, pob = row["rud_personas"], row["poblacion_2026"]
         # 4 decimales: ver nota en publish.py — un 0,0003 % redondeado a
         # 0,0 se leería como «sin damnificados»
@@ -642,3 +852,75 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                              -(r["dyfi_max_cdi"] or 0),
                              -(r["n_noticias"] or 0), r["municipio"]))
     return rows, {"type": "FeatureCollection", "features": features}
+
+
+def sin_mirada_satelital(m: dict) -> bool:
+    """¿Municipio con damnificados registrados al que nadie miró desde el aire?
+
+    Los tres servicios que sigue el monitor son Copernicus EMS, UNITAR-UNOSAT e
+    ICube-SERTIT. Que falten los tres no significa «sin daño»: significa que la
+    evidencia de este municipio es que su alcaldía inscribió damnificados en
+    el RUD (el registro lo cargan las autoridades, no los damnificados).
+    Tampoco significa que ningún satélite pasara por encima: solo que ninguno
+    de los tres publicó un producto de daño.
+
+    `is not None` en las miradas, y NO truthiness: cero edificios con grado es
+    un resultado de haber mirado, no una ausencia de evaluación. En las familias
+    sí se exige que haya alguna: un municipio inscrito con cero familias no
+    tiene damnificados que contrastar, y la capa habla de los que sí los tienen.
+
+    «Sin mirada satelital» vive en DOS superficies —si tocas una, mira la otra—:
+    aquí y en `deploy/render_html.py::_mirado_por_satelite`, que es donde la
+    regla de la tabla quedó al prerenderizarse en la fase 4. **No son la misma
+    pregunta y no deben dar la misma cifra**: la de la tabla cuenta todos los
+    municipios sin producto satelital (197) y esta función solo los que además tienen
+    damnificados registrados (196). El que sobra es Palmira, con prensa y DYFI
+    pero sin una fila en el RUD. La diferencia es legítima; lo que no se puede
+    es rotular ninguna de las dos sin su condición, que fue como la portada
+    llegó a prometer 196 bajo un texto que describía las 197.
+    `tests/test_unit.py::TestLasDosPreguntasSobreLaMirada`
+    """
+    return bool(m.get("rud_familias")) and not (
+        m.get("unosat_edificios") is not None
+        or m.get("sertit_edificios") is not None
+        or m.get("en_aoi_copernicus"))
+
+
+def capa_sin_mirada(municipios: list[dict], generado: str, grid_mmi=None) -> dict:
+    """La capa de la ausencia, en su fichero propio y mínimo.
+
+    Aparte de municipios.json porque ese pesa 340 KB por los ejemplos de prensa
+    que el mapa no usa hasta que se abre un globo. Y calculada aquí, no en el
+    navegador: la cifra que el sitio enseña y la que pinta tienen que salir del
+    mismo sitio, o vuelven a divergir como divergieron los 36 de la portada con
+    los 43 de su propia tabla.
+    """
+    items = [m for m in municipios if sin_mirada_satelital(m)]
+    return {
+        "generado": generado,
+        # el rótulo viaja con el dato: quien lea el JSON no tiene que adivinar
+        # que la intensidad es modelada y no sentida
+        "fuente_mmi": "ShakeMap del USGS (sacudida estimada por un modelo, "
+                      "no medida en el terreno ni reportada por la gente)",
+        "fuente_mmi_url":
+            "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tjl2/shakemap",
+        # De QUÉ rejilla salieron estas intensidades. `grid_mmi_vigente` se cae
+        # al snapshot anterior cuando la corrida del día no trae ShakeMap, así
+        # que sin esto un producto fechado hoy podría llevar intensidades de
+        # hace días sin que nada lo dijera (R4).
+        "fuente_mmi_snapshot": getattr(grid_mmi, "origen", None),
+        "total": len(items),
+        # cuántos se pueden pintar: el mapa dibuja por coordenada, y un rótulo
+        # que prometa más puntos de los que hay es la divergencia de siempre
+        "con_coordenadas": sum(1 for m in items
+                               if m.get("lat") is not None and m.get("lon") is not None),
+        # se publica cuántos se quedaron sin intensidad, para que la laguna se
+        # pueda contar en vez de descubrirse mirando el mapa
+        "sin_mmi": sum(1 for m in items if m.get("mmi_usgs") is None),
+        "items": [{"municipio": m["municipio"], "departamento": m["departamento"],
+                   "lat": m.get("lat"), "lon": m.get("lon"),
+                   "rud_familias": m.get("rud_familias"),
+                   "rud_personas": m.get("rud_personas"),
+                   "mmi_usgs": m.get("mmi_usgs")}
+                  for m in items],
+    }

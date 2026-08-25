@@ -45,7 +45,7 @@ def correr_worker(expresion: str):
             "  .replace(/[\\u0300-\\u036f]/g, '').toLowerCase();"
             f"console.log(JSON.stringify({expresion}));"
         )
-        r = subprocess.run([NODE, "--input-type=module", "-e", script],
+        r = subprocess.run([NODE, "--input-type=module", "-"], input=script,
                            capture_output=True, text=True, timeout=30)
     if r.returncode != 0:
         raise AssertionError(f"node falló: {r.stderr[:600]}")

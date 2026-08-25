@@ -1,16 +1,22 @@
 /* Página de titulares: lista completa con filtros por zona, fuente y texto.
    Usa ui.js (fetchJson, fmt). */
 (async function () {
-  // Solo http(s) llega al atributo href: un `javascript:` en un canal ajeno se
-  // convertiría en código al pulsar el titular.
+  // Solo http(s) ABSOLUTA llega al atributo href: un `javascript:` en un canal
+  // ajeno se convertiría en código al pulsar el titular. Y la URL tiene que
+  // traer su host: resolviéndola contra `location.origin` —como hacía la
+  // primera versión— una ruta relativa se convertía en un enlace a nuestro
+  // propio dominio con aspecto de titular externo. Ninguno de los 6.304
+  // titulares del corpus es relativo, así que exigirlo no pierde ni uno.
+  // Espejo EXACTO de `render_html.py::enlace_seguro`, con test que ejecuta los
+  // dos —si tocas una, mira la otra—.
   const enlaceSeguro = (u) => {
     try {
-      const url = new URL(u, location.origin);
-      return /^https?:$/.test(url.protocol) ? url.href : "#";
+      const url = new URL(u);
+      return /^https?:$/.test(url.protocol) && url.host ? String(u) : "#";
     } catch (e) { return "#"; }
   };
 
-  const { fmt, fechaEs, fechaLarga, fetchJson, medioDe, viaGoogleNews, esc } = window.UI;
+  const { fmt, fechaEs, fetchJson, medioDe, viaGoogleNews, esc } = window.UI;
   const data = await fetchJson("/data/public/noticias.json");
   if (!data) {
     document.getElementById("resumen").textContent =
@@ -67,10 +73,12 @@
     const paginas = Math.max(1, Math.ceil(sel.length / POR_PAGINA));
     if (pagina > paginas) pagina = paginas;
     const desde = (pagina - 1) * POR_PAGINA;
+    // Solo el recuento vivo del filtro: la fecha del dato la sirve el build en
+    // el sello del encabezado. Repetirla aquí con la corrida del JSON volvería
+    // a vestir el empaquetado de fecha del dato (M2 y el bug que motivó el sello).
     resumen.textContent =
       `${fmt(sel.length)} de ${fmt(items.length)} titulares` +
-      (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "") +
-      ` · actualizado el ${fechaLarga(data.generado)}`;
+      (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "");
     // etiqueta de lista: forma corta (9.8), nunca la ISO cruda
     const fechaDe = (n) => {
       const iso = n.fecha || "";
@@ -82,9 +90,12 @@
       (viaGoogleNews(n)
         ? ` · <span class="via" title="Google News recopila titulares de otros medios. El enlace que publica su feed lleva ahí, no a la página del medio.">vía Google News</span>`
         : "") + `</span>` +
-      (n.aois || []).map((a) => `<span class="chip" title="${esc(a)}">${esc(aoiEs(a))}</span>`).join("") +
-      (n.departamentos || []).map((d) => `<span class="chip dep">${esc(d)}</span>`).join("") +
-      (n.municipios || []).map((m) => `<span class="chip mun">${esc(m)}</span>`).join("") +
+      // `.etiqueta`, no `.chip`: un chip es una acción y estas no lo son.
+      // Espejo de deploy/render_html.py, que pinta las mismas en el build —
+      // si tocas una, mira la otra (tests/test_frontend.py::TestChipsSonAcciones).
+      (n.aois || []).map((a) => `<span class="etiqueta" title="${esc(a)}">${esc(aoiEs(a))}</span>`).join("") +
+      (n.departamentos || []).map((d) => `<span class="etiqueta dep">${esc(d)}</span>`).join("") +
+      (n.municipios || []).map((m) => `<span class="etiqueta mun">${esc(m)}</span>`).join("") +
       // titular y enlace vienen de canales ajenos: sin escapar, un titular con
       // una etiqueta dentro ejecutaría lo que quisiera quien lo publicó
       `<br><a href="${esc(enlaceSeguro(n.url))}" target="_blank" rel="noopener nofollow">` +

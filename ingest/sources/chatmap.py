@@ -3,7 +3,12 @@
 Endpoint de ACTIVACIÓN, no archivo permanente: cuando cierre puede desaparecer.
 Por eso cada corrida guarda snapshot del GeoJSON y copia local de los medios
 (sha256 incluido). Fotos y videos van a data/media/; los videos quedan fuera
-de git (.gitignore) pero con hash y URL registrados.
+de git (.gitignore) pero con hash y URL registrados, y su cuerpo vive en R2.
+
+Un medio ya archivado NO se vuelve a pedir: es un activo, no un dato. Quien lo
+decide es `common.activo_archivado`, que pregunta al archivo —la base y el
+manifiesto de R2— y no al sistema de ficheros, que en la máquina de la corrida
+arranca sin un solo vídeo. Ver docs/DECISIONES.md (24-ago-2026).
 """
 from __future__ import annotations
 
@@ -12,7 +17,8 @@ import json
 from collections import Counter
 from datetime import date, timedelta
 
-from common import db, fetch, fetch_json, today, FECHA_SISMO, MEDIA
+from common import (db, fetch, fetch_json, today, activo_archivado,
+                    manifiesto_r2, FECHA_SISMO, MEDIA)
 
 MAP_ID = "89319bbb-a14a-4dfd-b9a1-c83b8b55785f"
 API = f"https://chatmap.hotosm.org/api/v1/map/{MAP_ID}"
@@ -21,9 +27,22 @@ MAX_MEDIA_BYTES = 300 * 1024 * 1024   # el archivo vive en R2 (10 GB gratis)
 IMG_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 
 
-def _round_pub(x: float) -> float:
-    """~110 m de precisión pública (3 decimales)."""
-    return round(x, 3)
+def _coordenada_publica(x: float) -> float:
+    """La coordenada que llega, sin reposicionar (R5, 24-ago-2026).
+
+    Hasta hoy esto redondeaba a 3 decimales, ~110 m. No protegía nada: ChatMap
+    publica la coordenada con seis decimales en su endpoint abierto, así que el
+    dato ya circulaba. Y sí engañaba, por partida doble — al lector, porque una
+    foto de daño a 110 m señala la casa de enfrente y en un mapa de evidencias
+    eso es peor que inútil; y a quien reporta, porque se le prometía una
+    protección que la fuente no le estaba dando.
+
+    La privacidad la gobierna ChatMap, que es quien recoge el reporte y fija sus
+    condiciones. El monitor publica lo que le llega y no reposiciona nada.
+
+    Lo que NO cambió: el EXIF sigue sin publicarse jamás y sigue sin haber PII.
+    Esa mitad de R5 es la que de verdad protegía algo."""
+    return x
 
 
 def conteos_por_dia(feats: list[dict], snapshot_date: str) -> Counter:
@@ -63,7 +82,10 @@ def run(download_media: bool = True) -> dict:
     feats = data.get("features", [])
     MEDIA.mkdir(parents=True, exist_ok=True)
     days = conteos_por_dia(feats, snap)
-    n_media = 0
+    # el manifiesto se lee UNA vez por corrida, no 542 veces: es un fichero
+    # versionado que no cambia mientras dura la ingesta
+    manifiesto = manifiesto_r2()
+    n_media = n_reutilizados = 0
     for f in feats:
         p = f.get("properties", {})
         coords = f.get("geometry", {}).get("coordinates") or [None, None]
@@ -76,9 +98,16 @@ def run(download_media: bool = True) -> dict:
         if murl and download_media:
             fname = murl.rsplit("/", 1)[-1]
             dest = MEDIA / fname
-            if dest.exists():
-                msha = hashlib.sha256(dest.read_bytes()).hexdigest()
-                mlocal = str(dest.relative_to(MEDIA.parent.parent))
+            # El guardián pregunta AL ARCHIVO, no al disco: los vídeos están en
+            # .gitignore y la máquina de la corrida arranca sin uno solo, así
+            # que mirar el disco era decir «no lo tengo» sobre cuerpos que
+            # llevaban días archivados en R2 con su sha256. Ver
+            # `common.activo_archivado` y docs/DECISIONES.md (24-ago-2026).
+            ya = activo_archivado(murl, conn, destino=dest,
+                                  manifiesto=manifiesto)
+            if ya:
+                msha, mlocal = ya["sha256"], ya["ruta"]
+                n_reutilizados += 1
             else:
                 # save_to: fetch persiste el medio y lo registra como
                 # snapshot_path — la fila del log siempre apunta a un cuerpo
@@ -95,12 +124,16 @@ def run(download_media: bool = True) -> dict:
             " estado, snapshot_date)"
             " VALUES ('chatmap',?,?,?,?,?,?,?,?,?,?,'recibido',?)"
             " ON CONFLICT(origen, id_externo) DO UPDATE SET"
+            "  lat=excluded.lat,"
+            "  lon=excluded.lon,"
+            "  lat_pub=excluded.lat_pub,"
+            "  lon_pub=excluded.lon_pub,"
             "  media_local=COALESCE(excluded.media_local, media_local),"
             "  media_sha256=COALESCE(excluded.media_sha256, media_sha256),"
             "  snapshot_date=excluded.snapshot_date",
             (str(rid), t, lat, lon,
-             _round_pub(lat) if lat is not None else None,
-             _round_pub(lon) if lon is not None else None,
+             _coordenada_publica(lat) if lat is not None else None,
+             _coordenada_publica(lon) if lon is not None else None,
              murl, mlocal, msha, p.get("message") or "", snap))
         conn.commit()   # commit por fila: no retener el lock durante descargas
     for d, n in days.items():
@@ -113,7 +146,7 @@ def run(download_media: bool = True) -> dict:
     conn.commit()
     conn.close()
     return {"reportes": len(feats), "por_dia": dict(sorted(days.items())),
-            "medios_nuevos": n_media}
+            "medios_nuevos": n_media, "medios_ya_archivados": n_reutilizados}
 
 
 if __name__ == "__main__":

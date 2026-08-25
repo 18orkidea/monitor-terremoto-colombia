@@ -9,14 +9,15 @@ sólo aplican al futuro canal Kobo):
   E. tiene medio adjunto verificable
 
 Score 0-5. Nada se marca 'validado' sin revisión humana: el score sólo ordena
-la cola. La coordenada publicada siempre es la redondeada.
+la cola. La coordenada publicada es la que registró la fuente (R5, 24-ago-2026):
+el monitor no reposiciona nada.
 """
 from __future__ import annotations
 
 import json
 
 from common import INSTANTE_SISMO, db, snapshot_dir
-from geo import MMIGrid, point_in_wkt_polygon
+from geo import grid_mmi_vigente, point_in_wkt_polygon
 
 # el instante vive en common.py: el monitor no puede tener dos fechas del
 # mismo terremoto (ver FECHA_SISMO)
@@ -35,17 +36,7 @@ def _bbox_area(wkt: str) -> float:
 
 def run() -> dict:
     conn = db()
-    grid = None
-    p = snapshot_dir() / "usgs_mmi_grid.covjson"
-    if not p.exists():
-        # buscar en snapshots anteriores
-        from common import SNAPSHOTS
-        for d in sorted(SNAPSHOTS.iterdir(), reverse=True):
-            if (d / "usgs_mmi_grid.covjson").exists():
-                p = d / "usgs_mmi_grid.covjson"
-                break
-    if p.exists():
-        grid = MMIGrid(json.loads(p.read_text()))
+    grid = grid_mmi_vigente(snapshot_dir())
 
     # extent por AOI: la activación guarda un extent global; los AOI extents
     # están en los snapshots crudos de Copernicus

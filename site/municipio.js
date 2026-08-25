@@ -61,12 +61,57 @@
     if (otros && otros.isValid()) bounds.extend(otros);
   }
 
+  /* Los chips que el build ya dejó escritos en la ficha, atados a sus capas.
+     No se construyen aquí: el HTML servido los trae con su rótulo y su recuento
+     —los cuenta el build sobre el mismo `evidencia.json` que este mapa dibuja—,
+     y este código se limita a conectarlos. Construirlos en el navegador sería
+     una segunda copia de los recuentos y volvería a dejar la tira vacía para
+     quien lee el documento sin ejecutarlo (M2).
+
+     Devuelve `true` si encontró chips: es lo que le dice a quien llama que NO
+     hace falta el control de capas de Leaflet. Un chip cuya capa no existe no
+     puede accionar nada, así que se retira en vez de quedarse como control
+     muerto — pero eso no debería pasar nunca: el build emite un chip por capa
+     con puntos, la misma condición con que aquí se crea. */
+  function conectarChips(contenedor, map, porCapa) {
+    // Los chips viven en la fila `.vistas`, hermana del tabpanel, no dentro
+    // del mapa: buscarlos en el tabpanel los perdía y Leaflet sacaba el
+    // control de capas colapsado que los chips venían a sustituir.
+    const raiz = contenedor.closest(".lienzo-mun")
+      || contenedor.closest('[role="tabpanel"]') || document;
+    const tira = raiz.querySelector(".chips-mapa");
+    if (!tira) return false;
+    let vivos = 0;
+    for (const chip of tira.querySelectorAll(".chip[data-capa]")) {
+      const capa = porCapa[chip.dataset.capa];
+      if (!capa) {
+        chip.remove();
+        continue;
+      }
+      vivos += 1;
+      chip.setAttribute("aria-pressed", String(map.hasLayer(capa)));
+      chip.addEventListener("click", () => {
+        const encendido = chip.getAttribute("aria-pressed") === "true";
+        if (encendido) map.removeLayer(capa);
+        else capa.addTo(map);
+        chip.setAttribute("aria-pressed", String(!encendido));
+      });
+    }
+    if (!vivos) tira.remove();
+    return vivos > 0;
+  }
+
   function construirMapa(contenedor, datos) {
     const L = window.L;
     const capas = datos.capas || {};
     const municipio = datos.municipio || {};
     const bounds = L.latLngBounds([]);
     const overlays = {};
+    // Las mismas capas, indexadas por la clave con que viajan en evidencia.json
+    // —que es la que el build escribe en `data-capa` de cada chip—. El objeto
+    // `overlays` sigue existiendo porque es el que entiende `L.control.layers`,
+    // el respaldo de cuando la ficha no trae chips.
+    const porCapa = {};
 
     contenedor.replaceChildren();
     const map = L.map(contenedor, { scrollWheelZoom: false });
@@ -101,6 +146,7 @@
         },
       }).addTo(map);
       overlays[`Zonas analizadas (${zonas.features.length})`] = capa;
+      porCapa.zonas = capa;
       sumarBounds(bounds, capa);
     }
 
@@ -123,6 +169,7 @@
         },
       }).addTo(map);
       overlays[`Copernicus (${copernicus.features.length})`] = capa;
+      porCapa.copernicus = capa;
       sumarBounds(bounds, capa);
     }
 
@@ -149,6 +196,7 @@
         },
       }).addTo(map);
       overlays[`UNOSAT (${unosat.features.length})`] = capa;
+      porCapa.unosat = capa;
       map.attributionControl.addAttribution("UNITAR-UNOSAT");
       sumarBounds(bounds, capa);
     }
@@ -174,6 +222,7 @@
         },
       }).addTo(map);
       overlays[`ICube-SERTIT (${sertit.features.length})`] = capa;
+      porCapa.sertit = capa;
       map.attributionControl.addAttribution("© ICube-SERTIT 2026");
       sumarBounds(bounds, capa);
     }
@@ -198,17 +247,23 @@
             filas: [["Intensidad estimada (Mercalli)", p.mmi],
               ["", esc(p.mensaje || "")]],
             html: medio,
-            pie: "ChatMap · coordenada redondeada a unos 110 metros" +
+            pie: "ChatMap · en el punto que registró la fuente" +
               (p.score == null ? "" : ` · verificación automática: ${esc(p.score)}`),
           }));
         },
       }).addTo(map);
       overlays[`Reportes ciudadanos (${ciudadanos.features.length})`] = capa;
+      porCapa.ciudadanos = capa;
       map.attributionControl.addAttribution("ChatMap · OSM Colombia");
       sumarBounds(bounds, capa);
     }
 
-    if (Object.keys(overlays).length > 1) {
+    if (!conectarChips(contenedor, map, porCapa)
+        && Object.keys(overlays).length > 1) {
+      // Respaldo, no norma: solo si la página no trajo chips. `L.control.layers`
+      // se colapsa en un icono de capas por debajo de 560 px, así que en el
+      // móvil —donde se lee la mitad de esto— las cinco fuentes quedaban
+      // escondidas detrás de un símbolo que hay que descubrir.
       L.control.layers(null, overlays, {
         collapsed: matchMedia("(max-width: 560px)").matches,
       }).addTo(map);
@@ -216,6 +271,14 @@
     if (bounds.isValid()) map.fitBounds(bounds.pad(0.12), { maxZoom: 16 });
     else map.setView([municipio.lat, municipio.lon], 13);
     setTimeout(() => map.invalidateSize(), 0);
+    // El mapa mide lo que mide el panel de al lado. Si el panel crece (grados
+    // de daño, aviso), el mapa tiene que estirarse con él: si no, queda un
+    // hueco o un mapa más bajo que sus datos. `invalidateSize` a mitad de una
+    // animación la corta, así que solo se llama cuando el panel ya cambió.
+    const panel = contenedor.closest(".lienzo-mun")?.querySelector(".panel");
+    if (panel && window.ResizeObserver) {
+      new ResizeObserver(() => map.invalidateSize()).observe(panel);
+    }
   }
 
   async function cargarMapa(contenedor) {
@@ -263,6 +326,8 @@
     const panel = document.getElementById(tab.getAttribute("aria-controls"));
     const mapa = panel.querySelector(".mapa-evidencias");
     if (mapa) cargarMapa(mapa);
+    const tira = caja.querySelector(".chips-mapa");
+    if (tira) tira.hidden = !mapa;
     caja.dataset.vista = mapa ? "evidencias" : "situacion";
   }
 

@@ -10,6 +10,7 @@
 <meta property="og:url" content="https://datosdelterremoto.org/rud.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
+<meta property="og:site_name" content="Datos del terremoto de Colombia 2026">
 <meta property="og:title" content="RUD: registro oficial de damnificados del terremoto de Colombia 2026">
 <meta property="og:description" content="La primera fuente oficial que cubre el evento: familias registradas por municipio, día a día, con buscador sobre los municipios registrados.">
 <meta property="og:image" content="https://datosdelterremoto.org/og/portada.png">
@@ -19,6 +20,7 @@
 <meta name="twitter:image" content="https://datosdelterremoto.org/og/portada.png">
 <meta name="twitter:title" content="RUD del terremoto de Colombia 2026, día a día">
 <meta name="twitter:description" content="Registro oficial de damnificados por municipio, con serie temporal y buscador.">
+<!--site-identity-->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -27,82 +29,103 @@
 </head>
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
-<header>
+<header class="encabezado">
   <div>
     <h1>Registro Único de Damnificados (RUD), día a día</h1>
     <p class="sub">Familias registradas por las autoridades municipales en el
     <a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">RUD de la UNGRD</a>
-    tras el sismo M7.4 del 10 de agosto de 2026.</p>
+    tras el sismo.</p>
   </div>
   <div class="meta">
-    <span id="generado">—</span>
+    <span class="contexto-sismo">M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)</span>
+    <span id="generado" data-gen="rud-sello"></span><!-- lo rellena deploy/render_html.py en el build -->
     <a class="btn" href="/data/public/rud.json" target="_blank">JSON</a>
   </div>
 </header>
 
-<section class="intro">
-  <p>El RUD es el registro con el que se focalizan las ayudas: <strong>lo cargan las
-  autoridades municipales</strong>, municipio a municipio, y la UNGRD lo consolida. No es
-  un EDAN ni una verificación independiente del daño: <strong>es lo que cada alcaldía ha
-  registrado hasta ahora</strong>.</p>
+<section class="entradilla" data-gen="rud-resumen"></section><!-- lo rellena deploy/render_html.py en el build -->
 
-  <p>Registrar a una familia y evaluar el daño de su vivienda son dos momentos distintos,
-  y el segundo llega después. Eso se ve en los propios datos: <strong>las cifras de
-  familias avanzan antes que las de viviendas</strong>. Por eso un municipio con muchas
-  familias registradas y pocas viviendas dañadas casi siempre está a mitad de proceso —no
-  es una contradicción— y por eso <strong>un cero en las columnas de viviendas puede
-  significar «todavía sin evaluar», no «sin daño»</strong>.</p>
+<details class="pliegue">
+  <summary>Cómo leer estas cifras</summary>
+  <section class="intro">
+    <p>Registrar a una familia y evaluar el daño de su vivienda son dos momentos distintos,
+    y el segundo llega después. Eso se ve en los propios datos: <strong>las cifras de
+    familias avanzan antes que las de viviendas</strong>. Por eso un municipio con muchas
+    familias registradas y pocas viviendas dañadas casi siempre está a mitad de proceso —no
+    es una contradicción— y por eso <strong>un cero en las columnas de viviendas puede
+    significar «todavía sin evaluar», no «sin daño»</strong>.</p>
 
-  <p>Las columnas miden cosas distintas: <strong>familias y personas indican el impacto
-  social</strong> —cuánta gente ha quedado registrada como damnificada—, mientras que
-  <strong>viviendas destruidas y averiadas son el daño que el municipio ya ha cargado</strong>,
-  que es lo que acaba sustentando la ayuda.</p>
+    <p>Las columnas miden cosas distintas: <strong>familias y personas indican el impacto
+    social</strong> —cuánta gente ha quedado registrada como damnificada—, mientras que
+    <strong>viviendas destruidas y averiadas son el daño que el municipio ya ha cargado</strong>,
+    que es lo que acaba sustentando la ayuda.</p>
+  </section>
+</details>
 
-  <p><strong>Que un municipio no aparezca no significa «sin daño»: significa «sin registro
-  aún»</strong>. Donde las autoridades locales todavía no registran, el satélite sigue
-  siendo la única evidencia (ver el <a href="index.html#mapa">mapa</a>). El % de población
-  es una medida indicativa de la magnitud relativa —un municipio pequeño con cientos de
-  damnificados carga mucho más que una capital con los mismos—, calculada sobre la <a
-  href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion"
-  target="_blank" rel="noopener">proyección municipal 2026 del DANE</a>. Para contrastar
-  estas cifras con lo que publican los medios citando fuentes oficiales, ver la
-  <a href="balances.html#comparativa">comparativa de fuentes</a>. Cada corrida diaria pide
-  además una copia a la Wayback Machine.</p>
-</section>
+<div class="zona-datos">
+  <section class="page-section">
+    <h2>Familias registradas: acumulado y nuevas por día</h2>
+    <p class="sub">La línea muestra el total acumulado. Las columnas muestran cuántas
+      familias se añadieron desde la captura anterior. El primer día no tiene una captura
+      previa con la que compararse.</p>
+    <section id="rud-chart" data-gen="rud-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
+  </section>
 
-<section class="page-section">
-  <h2>Familias registradas: acumulado y nuevas por día</h2>
-  <p class="sub">La línea muestra el total acumulado. Las columnas muestran cuántas
-    familias se añadieron desde la captura anterior. El primer día no tiene una captura
-    previa con la que compararse.</p>
-  <div id="rud-chart"></div>
-</section>
+  <section class="page-section">
+    <h2>Detalle municipal</h2>
+    <section class="chips" id="rud-chips" role="group" aria-label="Filtros de la tabla" data-gen="rud-chips"></section><!-- lo rellena deploy/render_html.py en el build -->
+    <div class="filtros">
+      <input id="rud-buscar" type="search"
+        placeholder="Buscar municipio o departamento…"
+        aria-label="Buscar municipio registrado en el RUD">
+      <select id="rud-depto" aria-label="Filtrar por departamento"></select>
+    </div>
+    <div class="tabla-scroll"><table id="rud-tabla">
+      <thead><tr>
+        <th scope="col" title="Municipio registrado en el RUD.">Municipio</th>
+        <th scope="col" class="num" title="Familias que la alcaldía ha registrado como damnificadas. Mide impacto social, no daño comprobado.">Familias</th>
+        <th scope="col" class="num" title="Personas de esas familias. En algunos municipios llega incompleto: a veces figura una sola persona por familia.">Personas</th>
+        <th scope="col" class="num" title="Población proyectada 2026 (DANE).">Población</th>
+        <th scope="col" class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
+        <th scope="col" class="num" title="Viviendas que el municipio ha cargado como destruidas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. destruidas</th>
+        <th scope="col" class="num" title="Viviendas que el municipio ha cargado como averiadas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. averiadas</th>
+        <th scope="col" class="num" title="Cambio de familias respecto a la captura anterior: indica si el municipio sigue registrando.">Δ día</th>
+      </tr></thead>
+      <tbody data-gen="rud"></tbody><!-- lo rellena deploy/render_html.py en el build -->
+    </table></div>
+    <nav id="paginado" class="paginado" aria-label="Paginación de municipios del RUD"></nav>
+    <p class="note" id="rud-nota"></p>
+    <p class="note" id="rud-pie-tabla"><span data-gen="rud-nota"></span></p><!-- lo rellena deploy/render_html.py en el build -->
+  </section>
+</div>
 
-<section class="page-section">
-  <h2>Detalle municipal</h2>
-  <div class="chips" id="rud-chips" role="group" aria-label="Filtros de la tabla"></div>
-  <div class="filtros">
-    <input id="rud-buscar" type="search"
-      placeholder="Buscar municipio o departamento…"
-      aria-label="Buscar municipio registrado en el RUD">
-    <select id="rud-depto" aria-label="Filtrar por departamento"></select>
-  </div>
-  <div class="tabla-scroll"><table id="rud-tabla">
-    <thead><tr>
-      <th scope="col" title="Municipio registrado en el RUD.">Municipio</th>
-      <th scope="col" class="num" title="Familias que la alcaldía ha registrado como damnificadas. Mide impacto social, no daño comprobado.">Familias</th>
-      <th scope="col" class="num" title="Personas de esas familias. En algunos municipios llega incompleto: a veces figura una sola persona por familia.">Personas</th>
-      <th scope="col" class="num" title="Población proyectada 2026 (DANE).">Población</th>
-      <th scope="col" class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
-      <th scope="col" class="num" title="Viviendas que el municipio ha cargado como destruidas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. destruidas</th>
-      <th scope="col" class="num" title="Viviendas que el municipio ha cargado como averiadas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. averiadas</th>
-      <th scope="col" class="num" title="Cambio de familias respecto a la captura anterior: indica si el municipio sigue registrando.">Δ día</th>
-    </tr></thead>
-    <tbody data-gen="rud"></tbody><!-- lo rellena deploy/render_html.py en el build -->
-  </table></div>
-  <nav id="paginado" class="paginado" aria-label="Paginación de municipios del RUD"></nav>
-  <p class="note" id="rud-nota"></p>
-</section>
+<details class="pliegue denso">
+  <summary>Qué es el RUD y qué no es</summary>
+  <section class="intro">
+    <p>El RUD es el registro con el que se focalizan las ayudas: <strong>lo cargan las
+    autoridades municipales</strong>, municipio a municipio, y la UNGRD lo consolida. No es
+    un EDAN ni una verificación independiente del daño: <strong>es lo que cada alcaldía ha
+    registrado hasta ahora</strong>.</p>
+
+    <p><strong>Que un municipio no aparezca no significa «sin daño»: significa «sin registro
+    aún»</strong>. Donde las autoridades locales todavía no registran, el satélite sigue
+    siendo la única evidencia (ver el <a href="index.html#mapa">mapa</a>). El % de población
+    es una medida indicativa de la magnitud relativa —un municipio pequeño con cientos de
+    damnificados carga mucho más que una capital con los mismos—, calculada sobre la <a
+    href="https://www.dane.gov.co/index.php/estadisticas-por-tema-2/demografia-y-poblacion/proyecciones-de-poblacion"
+    target="_blank" rel="noopener">proyección municipal 2026 del DANE</a>. Para contrastar
+    estas cifras con lo que publican los medios citando fuentes oficiales, ver la
+    <a href="balances.html#comparativa">comparativa de fuentes</a>. Cada corrida diaria pide
+    además una copia a la Wayback Machine.</p>
+  </section>
+</details>
+
+<!-- El Dataset JSON-LD de la página, que escribe el build
+     (deploy/render_html.py::dataset_rud). El contenedor es una sección y el
+     bloque entero viaja dentro: un contenedor «ld+json» vacío a la espera de
+     llenarse sería JSON inválido para quien lea el documento antes de la
+     inyección, y los guardianes G1/G2/G6 leen exactamente eso. -->
+<section hidden data-gen="rud-dataset"></section><!-- lo rellena deploy/render_html.py en el build -->
 
 <script src="ui.js?v=dev"></script>
 <script src="rud.js?v=dev"></script>

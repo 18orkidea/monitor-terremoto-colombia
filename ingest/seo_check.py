@@ -26,15 +26,156 @@ MINIMOS = {
     "rud.html": {"palabras": 600, "filas": 50},
     "balances.html": {"palabras": 600, "filas": 10},
     "noticias.html": {"palabras": 1000, "filas": 100},
+    # La referencia es prosa y un glosario: sus «filas» son los <li> de la guía
+    # y los <dd> no cuentan, así que el suelo lo pone la guía de secciones. No
+    # es una tabla que pueda romperse por un prerenderizado caído.
+    "referencia.html": {"palabras": 1500, "filas": 10},
+}
+
+# Suelo de prosa propia: lo que cada página aporta descontando su tabla, la
+# barra y el pie (ver `prosa_propia`). **Es el contrato «ninguna baja»**, y hace
+# el trabajo que los MINIMOS de arriba no pueden hacer: son absolutos y una
+# tabla de 208 filas los cuadruplica ella sola, así que `rud.html` podría perder
+# su introducción entera con el build en verde.
+#
+# **El suelo lleva margen a propósito, y no es holgura para descuidarse.** Buena
+# parte de esta prosa es CONDICIONAL: existe solo si el dato del día la trae —la
+# disputa entre medios (~55 palabras), lo descartado (~72), la captura elegida
+# (~29), el aviso de silencio de prensa de municipios (~170)—. Un día sin
+# disputa no ha perdido ni una palabra escrita, y un día en que la prensa cubre
+# por fin a los municipios mudos es una BUENA noticia: sin margen, el guardián
+# se dispararía precisamente ahí, y la salida cómoda sería bajar el suelo, que
+# es como muere un guardián. Lo que vigila es la regresión de código —una pieza
+# que deja de escribirse, una sección que se cae del build—, no el vaivén del
+# dato.
+#
+# Medido el 24-ago-2026 sobre `dist/` al cerrar la fase 4. Se sube cuando una
+# fase deja la página mejor, y se anota aquí con su fecha; **no se baja para que
+# pase un build** sin entrada en `docs/DECISIONES.md`.
+MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200,
+                      "rud.html": 47, "index.html": 151, "referencia.html": 241}
+PROSA_MINIMA = {
+    # fase 6c (25-ago-2026, docs/DECISIONES.md): 1.804 medidas − 151 de prosa
+    # condicional. La portada baja de 1.962 a 1.804 palabras propias porque se
+    # mudan a `referencia.html` la cronología del evento, la vigilancia del
+    # catálogo de activaciones de Copernicus y las cuatro descargas que
+    # colgaban de la cabecera; y la matrícula del siniestro (GLIDE, PAGER) sale
+    # de la cabecera y se explica en el glosario.
+    #
+    # **Los dos suelos se mueven a la vez y su SUMA es la que manda.** La
+    # referencia sube de 2.292 a 5.566 medidas —la cronología nunca había sido
+    # texto servido: sus hitos los montaba `app.js` en el navegador y no
+    # estaban en el documento—, así que la suma pasa de 4.254 a 7.370 palabras
+    # propias entre las dos. Si esa suma baja, se ha perdido texto por el
+    # camino y da igual dónde.
+    #
+    # Lo condicional que se descuenta a la portada son las alertas del día (151
+    # palabras: R11/R15, un día sin fuente callada publica menos, y eso es una
+    # buena noticia). Las otras activaciones de Copernicus (46) ya no se
+    # descuentan aquí: se descuentan en `referencia.html`, que es donde viven.
+    "index.html": 1653,
+    "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
+    # fase 3: 578 medidas − 47 del desglose del salto, que es condicional
+    # (24-ago-2026, docs/DECISIONES.md). La oración «De las N familias…»
+    # solo se publica si el reparto del último corte cuadra con la serie
+    # del RUD, y ese día dejó de cuadrar por la fuente: su detalle diario
+    # sumaba 15.435 familias donde su propia serie decía 15.433. El suelo
+    # no puede exigir prosa que depende de la aritmética de la fuente.
+    "rud.html": 531,
+    "balances.html": 1404,     # fase 4: 1.564 medidas − 160 condicionales
+    "noticias.html": 827,      # fase 4; su prosa no depende del dato del día
+    # fase 6c: 5.566 medidas − 241 condicionales. Ya no es toda prosa fija: con
+    # la cronología llegan hitos que dependen del dato del día —los del feed
+    # institucional de GDACS (85 palabras), las entregas de Copernicus (117) y
+    # el primer balance en medios (40)—. GDACS **ya purgó una vez** su serie
+    # global, así que un suelo sin margen convertiría el borrado de una fuente
+    # ajena en un build roto, cuando lo que corresponde es una alerta (R11,
+    # R15). Los hitos curados del monitor (2.009 palabras medidas) sí cuentan
+    # como prosa fija: viven versionados en `feeds/hitos_monitor.json` y no
+    # pueden desaparecer sin que alguien los borre a mano.
+    #
+    # 25-ago-2026: sube de 5.325 a 5.816. La página mide hoy 6.149 palabras
+    # propias, 583 más que al fijar el suelo, y **491 de ellas son prosa fija**:
+    # los tres hitos curados que el rediseño añadió a `feeds/hitos_monitor.json`
+    # (la explicación de cómo se construyen las cifras, la limpieza de la
+    # portada y su adelgazamiento). Esas 491 entran en el suelo porque viven
+    # versionadas y solo desaparecen si alguien las borra a mano. El resto del
+    # crecimiento es condicional —hitos de GDACS y entregas de Copernicus— y se
+    # queda fuera, igual que el margen de 241 de fase 6c, que no se toca: el
+    # suelo sube por lo que no puede evaporarse, nunca por lo que sí.
+    "referencia.html": 5816,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
+
+# «Riosucio (Caldas) (Caldas)»: el departamento escrito dos veces porque se
+# confundió la CLAVE del diccionario —que desambigua los homónimos metiendo el
+# departamento entre paréntesis— con el TOPÓNIMO que lee una persona. Estuvo
+# publicado en cinco fichas hasta el 23-ago-2026.
+#
+# Vigila SOLO esa duplicación. NO vigila la longitud del título: que 77 de 208
+# pasen de 60 caracteres es una laguna conocida, fechada y decidida
+# (docs/LIMITACIONES.md), y un guardián que falla desde el primer día contra
+# una decisión tomada es ruido, no vigilancia.
+DEPTO_DUPLICADO = re.compile(r"\(([^()]{2,40})\)(?: \(\1\)|, \1\b)")
 MIN_FICHAS = 50
 SCRIPTS_FICHA = {"/ui.js", "/municipio.js"}
+
+# La barra y el pie no llevan `data-gen` —no son datos del día, son la
+# navegación del sitio—, así que el chequeo de contenedores marcados no los ve.
+# Hasta el 23-ago-2026 llegaban vacíos a las cinco páginas grandes y los
+# rellenaba `site/common.js` en el navegador: quien no ejecuta JavaScript veía
+# una página sin un solo enlace interno y sin el pie que dice de qué va esto.
+# Es **fallo y no aviso**, por el mismo criterio que un contenedor `data-gen`
+# vacío: es determinista, no depende de ninguna fuente que pueda fallar (R13) y
+# deja la página sin la única red de enlaces que la conecta con las otras 212.
+CONTENEDORES_DEL_SITIO = (
+    ("la barra de navegación", "vacía",
+     re.compile(r'<nav id="site-nav"[^>]*>\s*</nav>'), "nav-links"),
+    ("el pie de página", "vacío",
+     re.compile(r'<div id="site-footer"[^>]*>\s*</div>'), "sf-cols"),
+)
+
+
+def _entre(patron: str, html: str) -> str | None:
+    """El primer grupo de `patron`, o None si no aparece."""
+    hallado = re.search(patron, html, re.S)
+    return hallado.group(1) if hallado else None
 
 
 def _texto(html: str) -> str:
     limpio = re.sub(r"<(script|style).*?</\1>", " ", html, flags=re.S)
     return re.sub(r"<[^>]+>", " ", limpio)
+
+
+def prosa_propia(html: str) -> int:
+    """Palabras que esta página aporta, sin lo que aportan la tabla y el marco.
+
+    El total de una página con 208 filas no vigila nada: la tabla sola cuadruplica
+    el mínimo, así que `rud.html` podía perder su introducción entera con el build
+    en verde. Y barra y pie son **216 palabras idénticas en las 213 páginas**:
+    contarlas le regala a cada una un colchón que oculta justo la pérdida que el
+    suelo vigila. Se descuentan los tres.
+
+    Nace de una cicatriz de método (M4): la línea base del rediseño se llevaba en
+    un documento, envejeció en una tarde y ninguna definición razonable
+    reproducía sus cifras. Un suelo se mide con un medidor que esté en el
+    repositorio, o no es verificable por nadie.
+    """
+    limpio = re.sub(r"<(script|style|svg).*?</\1>", " ", html, flags=re.S)
+    # El cromo se descuenta POR SU MARCA, no por su etiqueta: `pie_estatico()`
+    # emite `<div id="site-footer">`, así que un patrón `<footer>` no casaba
+    # nada y colaba las 193 palabras del pie en las cinco páginas — justo el
+    # colchón que este medidor existe para quitar, y encima uno que se mueve a
+    # la vez en las cinco cada vez que se edita el pie.
+    #
+    # Y `<header>` NO se descuenta: en este sitio no es cromo, es el encabezado
+    # propio de la página —su `<h1>`, su bajada y su sello, 51 palabras en
+    # balances—, o sea contenido publicado que el suelo tiene que vigilar.
+    for patron in (r"<tbody\b.*?</tbody>", r'<ul id="lista".*?</ul>',
+                   r'<nav id="site-nav".*?</nav>',
+                   r'<div id="site-footer".*?</div>\s*</div>'):
+        limpio = re.sub(patron, " ", limpio, flags=re.S | re.I)
+    return len(_texto(limpio).split())
 
 
 def _scripts_ficha_validos(html: str) -> bool:
@@ -73,12 +214,21 @@ def revisar(dist: Path) -> dict:
             continue
         html = f.read_text(encoding="utf-8")
         palabras = len(_texto(html).split())
+        propia = prosa_propia(html)
         filas = len(re.findall(r"<tr[ >]", html)) + len(re.findall(r"<li>", html))
         kb = len(html.encode()) / 1024
-        datos[pagina] = {"palabras": palabras, "filas": filas, "kb": round(kb)}
+        datos[pagina] = {"palabras": palabras, "prosa_propia": propia,
+                         "filas": filas, "kb": round(kb)}
 
         if palabras < minimo["palabras"]:
             fallos.append(f"{pagina}: {palabras} palabras servidas, mínimo {minimo['palabras']}")
+        suelo = PROSA_MINIMA.get(pagina)
+        if suelo is not None and propia < suelo:
+            fallos.append(
+                f"{pagina}: {propia} palabras de prosa propia, suelo {suelo} "
+                f"(faltan {suelo - propia}). Es contenido publicado que "
+                "desaparece: se recupera, o se baja el suelo a mano con su "
+                "porqué en docs/DECISIONES.md")
         if filas < minimo["filas"]:
             fallos.append(f"{pagina}: {filas} filas en el HTML, mínimo {minimo['filas']}"
                           " — ¿se ha roto el prerenderizado?")
@@ -93,6 +243,14 @@ def revisar(dist: Path) -> dict:
                 html, re.S):
             if not m.group(4).strip():
                 fallos.append(f"{pagina}: el contenedor «{m.group(3)}» quedó vacío")
+
+        # la barra y el pie, que no llevan data-gen y por eso se les mira aparte
+        for etiqueta, adjetivo, vacio, dentro in CONTENEDORES_DEL_SITIO:
+            if vacio.search(html):
+                fallos.append(f"{pagina}: {etiqueta} llegó {adjetivo} al HTML servido"
+                              " — ¿volvió a escribirlo el JavaScript?")
+            elif dentro not in html:
+                fallos.append(f"{pagina}: no se encuentra {etiqueta}")
 
         # un marcador {{clave}} sin sustituir es una cifra que se iba a publicar
         # cruda en el HTML servido; el build debería haber roto antes
@@ -117,6 +275,28 @@ def revisar(dist: Path) -> dict:
         if re.search(r"\(R\d+\)", _texto(html)):
             avisos.append(f"{ficha.parent.name}: cita códigos internos de reglas")
             break
+
+
+    # Bucle propio, y no dentro del anterior: aquel corta con `break` en cuanto
+    # ve un script inesperado o una cita de regla, para no repetir el mismo
+    # aviso 208 veces. Colgado de él, este chequeo dejaba de mirar las 207
+    # fichas restantes en cuanto otra cosa saltara primero.
+    for ficha in fichas:
+        html = ficha.read_text(encoding="utf-8")
+        # El documento entero, no solo los metadatos: el fallo vivía también en
+        # el JSON-LD, en las migas y en el párrafo destacado —el que citan los
+        # buscadores—, y una comprobación limitada al <title> los dejaba pasar.
+        for etiqueta, texto in (("título", _entre(r"<title>(.*?)</title>", html)),
+                                ("H1", _entre(r"<h1[^>]*>(.*?)</h1>", html)),
+                                ("description",
+                                 _entre(r'<meta name="description" content="([^"]*)"', html)),
+                                ("documento", html)):
+            hallado = DEPTO_DUPLICADO.search(texto or "")
+            if hallado:
+                fallos.append(f"{ficha.parent.name}: el {etiqueta} repite el departamento "
+                              f"«{hallado.group(0)}» — es la clave del diccionario "
+                              f"usada como topónimo")
+                break
 
     # el sitemap no puede prometer lo que no existe
     sm = dist / "sitemap.xml"
