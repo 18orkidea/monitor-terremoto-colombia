@@ -6,6 +6,57 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — Ocho topónimos revisados a mano: la precaución que dejaba a Argelia con «ni un titular»
+
+**Contexto.** Los municipios que abre el registro oficial nacen con
+`requiere_depto` puesto (R10, decisión del 16-ago): sin nadie que haya mirado si
+su nombre es palabra común o apellido, se les exige que el texto nombre además
+el departamento. La precaución evita que «el ministro Restrepo» cuente como
+prensa del municipio de Restrepo — y cuesta cara, porque la prensa colombiana
+escribe «el norte del Valle» o «la Gobernadora del Valle», casi nunca «Valle del
+Cauca». Medido sobre el corpus: **49 municipios dinámicos perdían titulares**.
+La ficha de Argelia publicaba «ni un titular» de un pueblo del que EL PAÍS de
+Cali había titulado «Sismo en Argelia, más del 90 % del municipio afectado», y
+la de El Cairo callaba trece titulares de un casco urbano «80 % en ruinas».
+
+**Decisión: curar a mano, municipio a municipio, en vez de relajar la regla.**
+`ingest/municipios.py::TOPONIMO_REVISADO_SIN_DEPTO` —hermana de
+`NOMBRE_A_SECAS_CONGELADO`— exime de la precaución a nueve municipios revisados
+uno a uno contra el archivo entero de titulares: Argelia, El Cairo, Calima y
+Yumbo (Valle), Puracé y Santander de Quilichao (Cauca), Filandia (Quindío),
+Planadas (Tolima) y Pitalito (Huila). Criterio: se exime el topónimo que no sea
+palabra común, apellido frecuente, lugar extranjero, nombre de departamento ni
+nombre compartido con otro municipio del área del sismo, **y** que al medirlo
+contra el corpus no traiga ni un solo titular ajeno. Ante la duda, la precaución
+se queda puesta. La clave es el **código DIVIPOLA**, no el nombre: se exime a un
+municipio, no a un topónimo, y por eso «Argelia» la del Valle cuenta sus
+titulares mientras las del Cauca y Antioquia —que se llaman igual y no son las
+que la prensa nombra— siguen sin recibirlos.
+
+**Lo que se quedó fuera, medido, vale tanto como lo que entró.** «Victoria»
+(Caldas) solo cazaba titulares de La Victoria (Valle); «Santa Rosa» (Cauca), de
+Santa Rosa de Cabal (Risaralda); «Balboa» (Cauca), de Balboa (Risaralda); «La
+Unión» (Antioquia), de La Unión (Valle); «Giraldo» (Antioquia), once titulares
+sobre un muerto apellidado Giraldo; «Florida» (Valle), la ayuda enviada desde
+Miami; «Une» (Cundinamarca), el verbo unir; «Colombia» (Huila), los titulares
+del país entero. Y por duda razonable, aunque hoy acierten: Aguadas y Salamina
+(Caldas), El Santuario (Antioquia), Quimbaya (Quindío) e Ibagué (Tolima).
+Argelia y El Cairo entran pese a ser homónimos de un país y de una capital
+extranjeros: el archivo completo —nueve y diecisiete titulares, incluidos los
+anteriores al sismo— es del municipio colombiano en los dos casos, y así queda
+anotado para revisarlo si algún día un sismo egipcio o argelino entra al corpus.
+
+**Consecuencia.** 38 titulares recuperados en nueve fichas —El Cairo pasa de 3
+a 16, Argelia de 0 a 6, Puracé de 0 a 7—; los otros 40 municipios siguen sin
+4.361 titulares a propósito, y 4.154 de ellos son del municipio del Huila
+llamado Colombia. No escala —cada municipio nuevo del RUD nacerá otra vez
+con la precaución puesta— y es deliberado (decisión del usuario): se prefiere la
+revisión manual a tocar la regla general. Cuatro tests nuevos vigilan el
+comportamiento, no la tabla: que un titular que nombra a Argelia sin decir
+«Valle del Cauca» cuente, que ese mismo titular no se lo quede ninguna de sus
+homónimas y que el municipio del Huila llamado Colombia siga sin quedarse los
+titulares del país.
+
 ## 2026-08-25 — El RUD cubre el catálogo entero: se congelan catorce homónimos y tres guardianes de R3 se quedan sin caso real
 
 **Contexto.** La captura del 24 de agosto llevó el registro de **251 a 347
