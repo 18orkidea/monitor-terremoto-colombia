@@ -2094,3 +2094,135 @@ class TestLaBandaDeHitosEnMovil(unittest.TestCase):
                       f"ancho: int = {self.ANCHO_LIENZO})", fuente,
                       "la banda ya no se dibuja sobre el lienzo que este test "
                       "mide: actualiza ANCHO_LIENZO y el mínimo de la hoja")
+class TestElAnilloDeLaAusenciaCuentaFamilias(unittest.TestCase):
+    """El tamaño del anillo gradúa las familias inscritas en el RUD.
+
+    Es la capa que sostiene la tesis del proyecto —196 municipios con
+    damnificados y sin una sola mirada satelital— y con `radius: 7` fijo daba el
+    mismo punto al que registró 2.313 familias y al que registró una: el mapa
+    enseñaba dónde, pero no cuánto.
+
+    La fórmula se EJECUTA extrayéndola de `site/app.js`, no se busca en el
+    fuente (M1/M3): un `assertIn` sobre el texto pasa en verde con la regla
+    invertida, y aquí la regla que importa —qué hace el municipio sin cifra de
+    familias— es justo la que un guardián de texto no mira.
+    """
+
+    # Del `const BASE_SIN_CIFRA` hasta el cierre de `radioAusencia`: las tres
+    # piezas viajan juntas porque juntas deciden un radio.
+    BLOQUE = re.compile(
+        r"const BASE_SIN_CIFRA = .*?\n  const radioAusencia = \(familias\)"
+        r" => \{.*?\n  \};", re.S)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+
+    def _radios(self, familias, zoom=None):
+        """Radios que da el navegador para esas familias, a ese zoom.
+
+        `zoom=None` es el mapa recién creado, antes de encuadrar. El doble
+        devuelve entonces `undefined`, que es LITERALMENTE lo que devuelve
+        `L.Map.getZoom()` sin vista (`this._zoom` sin asignar) — con `null` en
+        su lugar este guardián daba verde con la guarda quitada: `null - 7` es
+        -7 y `undefined - 7` es NaN, y solo el segundo apaga el anillo.
+        """
+        if not NODE:
+            self.skipTest("sin node no se puede ejecutar la fórmula del navegador")
+        bloque = self.BLOQUE.search(self.js)
+        self.assertIsNotNone(
+            bloque, "`BASE_SIN_CIFRA`/`baseAusencia`/`radioAusencia` ya no están "
+                    "en site/app.js con la forma que este guardián sabe leer")
+        devuelve = "undefined" if zoom is None else json.dumps(zoom)
+        guion = (f"const map = {{ getZoom: () => {devuelve} }};"
+                 + bloque.group(0)
+                 + f"console.log(JSON.stringify({json.dumps(familias)}"
+                   ".map(radioAusencia)));")
+        r = subprocess.run([NODE, "-e", guion], capture_output=True, text=True,
+                           timeout=30)
+        if r.returncode != 0:
+            raise AssertionError(f"node falló: {r.stderr[:500]}")
+        return json.loads(r.stdout)
+
+    def test_mas_familias_registradas_es_un_anillo_mas_grande(self):
+        """Estrictamente creciente en el rango real del RUD (1 a 2.313)."""
+        familias = [1, 10, 100, 500, 1000, 2313]
+        radios = self._radios(familias, zoom=9)
+        self.assertEqual(radios, sorted(radios),
+                         f"los radios {radios} no crecen con {familias}")
+        self.assertGreater(
+            radios[-1], radios[0] * 1.5,
+            f"el mayor ({radios[-1]}) apenas se distingue del menor "
+            f"({radios[0]}): con esa diferencia el mapa vuelve al punto fijo")
+
+    def test_sin_cifra_de_familias_el_anillo_no_finge_nueve(self):
+        """R3/M10: la ausencia de dato no es un dato pequeño ni un dato medio.
+
+        El prototipo escribía `Math.sqrt(m.f || 9)`, que dibuja al municipio sin
+        cifra exactamente como al que registró nueve familias. Aquí se exige lo
+        contrario: fuera de la escala y por debajo de su primer peldaño.
+        """
+        for zoom in (8, 9, 12):
+            sin, cero, una, nueve = self._radios([None, 0, 1, 9], zoom=zoom)
+            self.assertLess(
+                sin, una,
+                f"a zoom {zoom} el municipio sin cifra mide {sin} y el de una "
+                f"familia {una}: si no es menor, se lee como una cantidad")
+            self.assertNotAlmostEqual(
+                sin, nueve, places=6,
+                msg=f"a zoom {zoom} el anillo sin cifra mide lo mismo que el de "
+                    "nueve familias: es el `|| 9` del prototipo otra vez")
+            self.assertLess(sin, cero,
+                            f"a zoom {zoom} un cero registrado es una cifra y "
+                            "va en el suelo de la escala, no en el limbo")
+
+    def test_el_anillo_crece_al_acercarse_y_no_se_come_la_manzana(self):
+        """En píxeles: sin reescalar, zoom 6 y zoom 15 pintan lo mismo."""
+        lejos = self._radios([1, 2313], zoom=8)
+        cerca = self._radios([1, 2313], zoom=12)
+        for i, f in enumerate((1, 2313)):
+            self.assertGreater(
+                cerca[i], lejos[i],
+                f"con {f} familias el anillo mide {cerca[i]} px a zoom 12 y "
+                f"{lejos[i]} a zoom 8: acercarse no aporta nada")
+        pegado = self._radios([1, 100, 2313], zoom=16)
+        self.assertLessEqual(
+            max(pegado), 18,
+            f"a zoom 16 los anillos llegan a {max(pegado)} px: sin tope el "
+            "círculo del municipio se come la manzana entera")
+
+    def test_el_anillo_nace_con_radio_valido_antes_del_encuadre(self):
+        """El mapa de la portada se encuadra DESPUÉS de añadir esta capa."""
+        radios = self._radios([None, 1, 2313], zoom=None)
+        # `JSON.stringify(NaN)` es «null» y Python lo lee como None: un radio
+        # que no es número aquí es el anillo que Leaflet no llega a pintar.
+        for familias, r in zip((None, 1, 2313), radios):
+            self.assertIsInstance(
+                r, (int, float),
+                f"con {familias} familias el radio sale {r!r} antes del "
+                "encuadre: `getZoom()` todavía no da número y el anillo nace "
+                "sin radio dibujable")
+            self.assertGreater(r, 0, f"radio no dibujable antes de encuadrar: {radios}")
+
+    def test_la_capa_pinta_con_la_formula_y_se_reescala_al_zoom(self):
+        """La fórmula sin enchufar es código muerto: se comprueba el enchufe.
+
+        Dos puntos: que el `circleMarker` de la capa pida su radio a
+        `radioAusencia` con las familias del municipio, y que algo lo recalcule
+        al cambiar el zoom —los `circleMarker` miden en píxeles y no se
+        reescalan solos—.
+        """
+        # `assertIn` sobre el fichero entero escupiría las 900 líneas de
+        # `app.js` en el informe del fallo: se comprueba y se acusa a mano.
+        for trozo, porque in (
+                ("radius: radioAusencia(f.properties.rud_familias)",
+                 "la capa de la ausencia volvió a un radio que no mira las "
+                 "familias registradas"),
+                ('map.on("zoomend", reescalar)',
+                 "nada recalcula el radio al hacer zoom: el anillo se queda con "
+                 "el tamaño del encuadre inicial"),
+                ("map.whenReady(reescalar)",
+                 "sin el primer repaso los anillos se quedan en el radio base "
+                 "con el que nacieron, antes de haber encuadre")):
+            self.assertTrue(trozo in self.js,
+                            f"«{trozo}» ya no está en site/app.js: {porque}")
