@@ -50,6 +50,13 @@ jobs:
       # manda el dato del día, que no se le puede exigir a nadie.
       - name: El artefacto se construye y se mide (aquí el suelo de prosa sí bloquea)
         run: |
+          # Pillow, como en `pages.yml` y `daily.yml`: `build_dist.sh` genera
+          # las imágenes de portada y sin ella se cae con ModuleNotFoundError.
+          # No contradice R14 —el runtime sigue sin dependencias—: esto es una
+          # dev-tool de CI, igual que ruff. Faltaba solo aquí, así que el PR
+          # construía distinto de lo que se publica, y esa diferencia es
+          # exactamente la clase de cosa que este paso viene a cazar.
+          pip install --quiet pillow
           bash deploy/build_dist.sh
           python3 ingest/seo_check.py dist
 
