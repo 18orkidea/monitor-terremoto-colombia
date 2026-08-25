@@ -3758,12 +3758,297 @@ def activaciones_colombia(ctx: dict) -> str:
         parrafos.append(
             f'<p><a href="{enlace_seguro(a.get("visor"))}" target="_blank" '
             f'rel="noopener"><strong>{e(a.get("code") or "—")}</strong></a> — '
-            f'{e(a.get("name") or "")} · {e(a.get("category") or "")} · '
+            f'{e(a.get("name") or "")} · '
+            f'{e(CATEGORIA_ES.get(a.get("category"), a.get("category") or ""))} · '
             f'{fecha_larga(_solo_fecha(a.get("event_time")))}'
             + (f' · {fmt(zonas)} {concuerda(zonas, "zona analizada", "zonas analizadas")}'
                if zonas else "")
             + f"{abierta}</p>")
     return "".join(parrafos) + nota
+
+
+# ------------------------------------------------- la cronología, servida
+# Porte de `site/app.js::pintaCronologia` y `drawCronoBanda` (fase 6c). Era la
+# última pieza del sitio que solo existía en el navegador: el `<ol>` viajaba
+# VACÍO y los hitos se montaban al abrir la portada, así que la cronología de un
+# proyecto que se define como archivo no estaba en el documento servido —ni para
+# un rastreador, ni para un sistema de IA, ni para quien lee sin JavaScript—. Al escribirla
+# el build, se lee en el documento; y al vivir en `referencia.html`, tiene
+# dirección propia a la que enlazar.
+#
+# Con el porte, `app.js` deja de dibujarla: dos superficies pintando lo mismo
+# divergen (M2), y eso lo vigila
+# `test_render_html.py::test_app_js_ya_no_dibuja_lo_que_escribe_el_build`.
+ETIQUETA_HITO = {"institucional": "internacional", "entrega": "internacional",
+                 "internacional": "internacional", "evento": "evento",
+                 "local": "local", "monitor": "monitor"}
+
+# Tipos de producto de Copernicus, en español. Espejo del subconjunto
+# correspondiente de `DICT` en site/app.js —que sigue traduciendo los globos
+# del mapa— y comparado con él por
+# `tests/test_render_html.py::TestCronologiaServida`.
+PRODUCTO_ES = {"GRA": "Evaluación de daños", "GRM": "Seguimiento de daños",
+               "DEL": "Delineación", "REF": "Referencia",
+               "FEP": "Primera estimación"}
+
+# Categorías del índice de activaciones de Copernicus, en español. Se portan con
+# el catálogo (fase 6c): la lista se publicaba en la portada con `app.js`
+# traduciendo la categoría, y al escribirla el build salía cruda —«Flood in
+# Cordoba, Colombia · Flood»—, o sea inglés en un sitio que se escribe en
+# español. Mismo espejo que `PRODUCTO_ES`, con el mismo test.
+CATEGORIA_ES = {"Earthquake": "Terremoto", "Flood": "Inundación",
+                "Wildfire": "Incendio forestal", "Storm": "Tormenta",
+                "Landslide": "Deslizamiento",
+                "Volcanic eruption": "Erupción volcánica"}
+
+# Los títulos del feed institucional de GDACS llegan en inglés y en cuatro
+# formas conocidas. Lo que no reconoce se publica tal cual: traducir a ciegas
+# un titular ajeno sería reescribir la fuente.
+_HITO_EN_ES = ((re.compile(r"UNITAR-UNOSAT Activation", re.I),
+                "Activación UNITAR-UNOSAT"),
+               (re.compile(r"EC/ECHO daily map", re.I), "Mapa diario EC/ECHO"),
+               (re.compile(r"Copernicus EMS activation", re.I),
+                "Activación Copernicus EMS"),
+               (re.compile(r"^M7\.4 in Colombia", re.I), "M7.4 en Colombia"))
+
+# Los tres carriles de la banda, con el color que los identifica también en los
+# chips del filtro: el chip y el punto que va a resaltar son lo mismo.
+_CARRILES = (("internacional", "🌍", "Respuesta internacional", "var(--s1)"),
+             ("local", "🇨🇴", "Respuesta local u oficial", "var(--good)"),
+             ("monitor", "🔧", "Cambios del monitor", "var(--warning)"))
+
+
+def _hito_es(titulo) -> str:
+    texto = str(titulo or "")
+    for patron, castellano in _HITO_EN_ES:
+        texto = patron.sub(castellano, texto)
+    return texto
+
+
+def hitos_cronologia(ctx: dict) -> list:
+    """Los hitos del evento, de las cuatro procedencias que los alimentan.
+
+    Feed institucional de GDACS, entregas de Copernicus, el fichero curado
+    (`feeds/hitos_monitor.json`) y tres derivados de los propios datos: el
+    primer balance en medios que cita fuentes oficiales, el día en que el RUD
+    cubrió el evento y el día en que GDACS purgó su serie global de noticias.
+
+    Los derivados NO se curan a mano a propósito: son fechas que el dato ya
+    sabe, y escribirlas a mano las condenaría a envejecer. El de GDACS, además,
+    solo existe porque la fuente borró algo — es la clase de hito que un
+    archivo tiene que poder contar sin que nadie se acuerde de anotarlo.
+    """
+    mon = ctx["monitor"]
+    hitos = []
+    for h in (mon.get("institucional") or []):
+        if h.get("fecha"):
+            hitos.append({"fecha": h["fecha"], "texto": _hito_es(h.get("titulo")),
+                          "url": h.get("url"), "tipo": "institucional"})
+    for entrega in (mon.get("entregas") or []):
+        if not entrega.get("fecha"):
+            continue
+        producto = entrega.get("producto") or ""
+        hitos.append({
+            "fecha": entrega["fecha"], "tipo": "entrega",
+            "texto": (f"Copernicus entrega datos de daño: "
+                      f"{aoi_es(entrega.get('aoi'))} "
+                      f"({PRODUCTO_ES.get(producto, producto)} / {producto} "
+                      f"v{entrega.get('version')})")})
+    curados = (_leer("hitos_monitor.json").get("hitos") or []
+               if (PUBLIC / "hitos_monitor.json").exists() else [])
+    for h in curados:
+        if h.get("fecha"):
+            hitos.append({"fecha": h["fecha"], "texto": h.get("texto"),
+                          "resumen": h.get("resumen"), "url": h.get("url"),
+                          "tipo": h.get("tipo")})
+
+    fechas = sorted(x["search_date"]
+                    for x in ((ctx.get("oficiales") or {}).get("items") or [])
+                    if x.get("search_date"))
+    if fechas:
+        hitos.append({
+            "fecha": fechas[0], "tipo": "local", "url": "/balances.html",
+            "texto": "Primer balance en medios que cita fuentes oficiales —la "
+                     "UNGRD y el Servicio Geológico Colombiano— rastreado por "
+                     "el monitor"})
+    serie_rud = (mon.get("rud") or {}).get("serie") or []
+    if serie_rud:
+        primero = serie_rud[0]
+        hitos.append({
+            "fecha": primero.get("fecha"), "tipo": "local", "url": "/rud.html",
+            "texto": (f"El RUD de la UNGRD cubre el evento: primera fuente "
+                      f"oficial abierta ({fmt(primero.get('municipios'))} "
+                      f"municipios, {fmt(primero.get('familias'))} familias "
+                      f"registradas)")})
+    volumen = mon.get("media_volume") or []
+    con_emm = [i for i, d in enumerate(volumen) if d.get("emm") is not None]
+    if con_emm and con_emm[-1] < len(volumen) - 1:
+        ultimo = con_emm[-1]
+        hitos.append({
+            "fecha": volumen[ultimo + 1].get("fecha"), "tipo": "monitor",
+            "resumen": "GDACS purga su serie global de noticias; el monitor "
+                       "conserva la copia.",
+            "texto": (f"El sistema europeo de alertas GDACS borra su serie "
+                      f"global de noticias (último dato: "
+                      f"{fecha_larga(volumen[ultimo].get('fecha'))}); solo "
+                      f"sobrevive en las copias que archiva el monitor, que "
+                      f"sigue midiendo con sus canales abiertos")})
+    hitos = [h for h in hitos if h.get("fecha") and (h.get("texto") or h.get("resumen"))]
+    hitos.sort(key=lambda h: h["fecha"], reverse=True)
+    return hitos
+
+
+def banda_cronologia(hitos: list, serie: list, ancho: int = 980) -> str:
+    """Los hitos repartidos por carril y por día, sobre el eje del evento.
+
+    Tres carriles —respuesta internacional, respuesta local u oficial y cambios
+    del propio monitor—, ▲ para cada entrega de Copernicus y ★ para el sismo.
+    Cada marca lleva su `<title>`: el globo del navegador lo pinta solo, lo lee
+    un lector de pantalla y no depende de JavaScript, que es justo lo que se
+    ha venido a arreglar.
+    """
+    if not serie:
+        return ""
+    izq, der, alto_carril = 48, 16, 26
+    alto = 6 + len(_CARRILES) * alto_carril + 18
+
+    def x(i):
+        return izq + (i + 0.5) * (ancho - izq - der) / len(serie)
+
+    dia_a_indice = {d.get("fecha"): i for i, d in enumerate(serie)}
+
+    def carril_de(h):
+        if h.get("tipo") in ("institucional", "entrega", "internacional"):
+            return 0
+        return 1 if h.get("tipo") in ("local", "evento") else 2
+
+    grupos = {}
+    for h in hitos:
+        i = dia_a_indice.get((h.get("fecha") or "")[:10])
+        if i is not None:
+            grupos.setdefault((carril_de(h), i), []).append(h)
+
+    partes = [f'<svg viewBox="0 0 {ancho} {alto}" width="100%" '
+              f'xmlns="http://www.w3.org/2000/svg" role="img" '
+              f'style="width:100%;height:auto" '
+              f'aria-label="Hitos de la respuesta al terremoto, por día y por '
+              f'tipo: respuesta internacional, respuesta local u oficial y '
+              f'cambios del propio monitor">']
+    for i, d in enumerate(serie):
+        partes.append(
+            f'<line x1="{x(i):.1f}" x2="{x(i):.1f}" y1="4" y2="{alto - 16}" '
+            f'stroke="var(--grid)" stroke-width="1" stroke-dasharray="2 3"/>'
+            f'<text x="{x(i):.1f}" y="{alto - 4}" text-anchor="middle" '
+            f'font-size="9" fill="var(--muted)">{e(dia_mes(d.get("fecha")))}</text>')
+    for li, (_clave, emoji, nombre, _color) in enumerate(_CARRILES):
+        y = 6 + li * alto_carril + alto_carril / 2
+        partes.append(f'<text x="{izq - 8}" y="{y + 4:.1f}" text-anchor="end" '
+                      f'font-size="12">{emoji}<title>{e(nombre)}</title></text>')
+        if li:
+            partes.append(
+                f'<line x1="{izq}" x2="{ancho - der}" y1="{6 + li * alto_carril}" '
+                f'y2="{6 + li * alto_carril}" stroke="var(--grid)" stroke-width="0.5"/>')
+    for (li, i), del_dia in sorted(grupos.items()):
+        y = 6 + li * alto_carril + alto_carril / 2
+        for k, h in enumerate(del_dia):
+            xx = x(i) + (k - (len(del_dia) - 1) / 2) * 11
+            rotulo = e(f"{fecha_larga(h['fecha'])} · "
+                       f"{ETIQUETA_HITO.get(h.get('tipo'), h.get('tipo') or '')} · "
+                       f"{h.get('resumen') or h.get('texto')}")
+            color = ("var(--critical)" if h.get("tipo") == "evento"
+                     else _CARRILES[li][3])
+            if h.get("tipo") == "entrega":
+                partes.append(
+                    f'<path d="M {xx - 5:.1f} {y - 4:.1f} l 10 0 l -5 9 z" '
+                    f'fill="var(--critical)"><title>{rotulo}</title></path>')
+            elif h.get("tipo") == "evento":
+                partes.append(
+                    f'<text x="{xx:.1f}" y="{y + 5:.1f}" text-anchor="middle" '
+                    f'font-size="13" fill="{color}">★<title>{rotulo}</title></text>')
+            else:
+                partes.append(
+                    f'<circle cx="{xx:.1f}" cy="{y:.1f}" r="5" fill="{color}" '
+                    f'stroke="var(--surface-1)" stroke-width="1.5">'
+                    f'<title>{rotulo}</title></circle>')
+    partes.append("</svg>")
+    return "".join(partes)
+
+
+def cronologia_referencia(ctx: dict) -> str:
+    """La cronología completa: banda, filtro y lista, escritas en el build.
+
+    El filtro es lo único que sigue siendo del navegador (`site/common.js`), y
+    se calla si no encuentra sus chips: sin JavaScript se leen los hitos
+    enteros, que es el estado correcto para un archivo — el filtro ordena, no
+    revela.
+    """
+    hitos = hitos_cronologia(ctx)
+    if not hitos:
+        # M10: sin hitos no se publica un armazón vacío, se dice que no los hay
+        return '<p class="note">Todavía no hay hitos registrados de este evento.</p>'
+    fecha_evento = next((h["fecha"] for h in reversed(hitos)
+                         if h.get("tipo") == "evento"), None)
+    volumen = ctx["monitor"].get("media_volume") or []
+    # el mismo recorte que `UI.serieDesde`: la lectura temporal de la respuesta
+    # empieza el día del sismo, aunque el archivo guarde los días previos
+    serie = [d for d in volumen
+             if not fecha_evento or (d.get("fecha") or "") >= fecha_evento[:10]]
+
+    ROTULO_FILTRO = {"internacional": "Internacional", "local": "Local u oficial",
+                     "monitor": "Monitor"}
+    filtros = [("todos", "Todos", "var(--ink-2)")]
+    filtros += [(clave, ROTULO_FILTRO[clave], color)
+                for clave, _emoji, _nombre, color in _CARRILES]
+    chips = "".join(
+        f'<button type="button" class="chip chip-crono" data-filtro="{clave}" '
+        f'style="--fc:{color}" aria-pressed="{"true" if clave == "todos" else "false"}">'
+        f'<span class="punto" aria-hidden="true"></span>{e(rotulo)}</button>'
+        for clave, rotulo, color in filtros)
+
+    filas = []
+    for h in hitos:
+        # Para los cambios del propio monitor se enseña el texto largo: un
+        # resumen de seis palabras sobre un cambio técnico no dice nada. Para
+        # el resto, el resumen — el texto entero va en el `title`.
+        visible = (h.get("texto") if h.get("tipo") == "monitor"
+                   else (h.get("resumen") or h.get("texto")))
+        completo = e(h.get("texto") or visible)
+        # Los hitos apuntan a dos sitios distintos: fuera (GDACS, UNOSAT, el
+        # USGS) y a páginas de este mismo sitio (`/rud.html`). `enlace_seguro`
+        # solo admite http(s) —para eso existe: una URL de un canal ajeno no
+        # puede colarse como `javascript:`— y convertía en «#» los enlaces
+        # internos, que son la mitad larga de los curados. Se separan los dos
+        # casos: lo interno se queda en la misma pestaña, y lo ajeno se abre
+        # fuera y pasa por el filtro.
+        destino = str(h.get("url") or "")
+        interno = destino.startswith("/") and not destino.startswith("//")
+        if not destino:
+            cuerpo = f'<span title="{completo}">{e(visible)}</span>'
+        elif interno:
+            cuerpo = f'<a href="{e(destino)}" title="{completo}">{e(visible)}</a>'
+        else:
+            cuerpo = (f'<a href="{enlace_seguro(destino)}" target="_blank" '
+                      f'rel="noopener" title="{completo}">{e(visible)}</a>')
+        hora = f", {h['fecha'][11:16]}" if len(h["fecha"]) >= 16 else ""
+        # DOS clases y no una: el CSS colorea por el tipo crudo —`entrega` es
+        # rojo y `institucional` azul— pero el filtro trabaja con la etiqueta
+        # agrupada, y los hitos institucionales y las entregas son los dos
+        # «internacional». Con una sola clase, el filtro «Internacional» dejaba
+        # la lista vacía justo en la categoría con más hitos.
+        clases = " ".join(dict.fromkeys(
+            x for x in (h.get("tipo"), ETIQUETA_HITO.get(h.get("tipo"))) if x))
+        filas.append(
+            f'<li class="{e(clases)}">'
+            f'<span class="t-fecha">{e(fecha_corta(h["fecha"]))}{hora}</span> '
+            f'<span class="t-tipo">'
+            f'{e(ETIQUETA_HITO.get(h.get("tipo"), h.get("tipo") or ""))}</span>'
+            f'<span class="t-texto">{cuerpo}</span></li>')
+
+    return (f'<div id="crono-banda">{banda_cronologia(hitos, serie)}</div>'
+            f'<div class="chips" id="crono-filtros" role="group" '
+            f'aria-label="Filtrar cronología">{chips}</div>'
+            f'<ol id="timeline">{"".join(filas)}</ol>')
+
 
 
 # ------------------------------------------------- la leyenda del mapa, servida
@@ -5655,7 +5940,10 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "portada-fuentes": tarjetas_fuentes_portada,
                    "portada-alertas": alertas_portada,
                    "portada-alertas-fecha": fecha_alertas_portada,
-                   "portada-acts": activaciones_colombia,
+                   # fase 6c: la vigilancia del catálogo de Copernicus y la
+                   # cronología dejaron la portada y viven en referencia.html
+                   "referencia-acts": activaciones_colombia,
+                   "referencia-cronologia": cronologia_referencia,
                    "portada-leyenda": leyenda_portada,
                    "portada-nota-rud": nota_rud_desde,
                    "portada-nota-sin": nota_sin_registro,
@@ -5699,7 +5987,9 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "portada-panel": "index", "portada-brecha": "index",
                "portada-grafico": "index", "portada-grafico-sub": "index",
                "portada-fuentes": "index", "portada-alertas": "index",
-               "portada-alertas-fecha": "index", "portada-acts": "index",
+               "portada-alertas-fecha": "index",
+               "referencia-acts": "referencia",
+               "referencia-cronologia": "referencia",
                "portada-leyenda": "index", "portada-nota-rud": "index",
                "portada-nota-sin": "index", "portada-tarjetas": "index",
                "portada-sello": "index", "referencia-sello": "referencia",

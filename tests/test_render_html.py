@@ -6273,9 +6273,12 @@ class TestElMarcadoDeLaPortada(unittest.TestCase):
         """M2: dos superficies pintando lo mismo divergen. Al portar una pieza
         al build, la del navegador no se deja «por si acaso» — se borra."""
         js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        # `timeline` y `crono-banda` entran en la fase 6c, con la mudanza de la
+        # cronología a referencia.html: eran lo último que este fichero
+        # dibujaba aparte del mapa.
         for id_contenedor in ("leyenda", "fuentes-cards", "colombia-acts",
                               "alerts", "nota-rud-desde", "nota-sin-registro",
-                              "chart"):
+                              "chart", "timeline", "crono-banda"):
             self.assertNotIn(f'getElementById("{id_contenedor}")', js,
                              f"el navegador vuelve a rellenar #{id_contenedor}")
 
@@ -6675,3 +6678,253 @@ class TestLaPaginaDeReferencia(unittest.TestCase):
             suelo, propias * 0.9,
             f"el suelo ({suelo}) va muy por debajo de las {propias} palabras "
             "que la página publica: dejaría pasar una mudanza a medias")
+
+
+class TestLaMudanzaDeLaCronologia(unittest.TestCase):
+    """La cronología dejó la portada (fase 6c, 25-ago-2026).
+
+    Ocupaba 2.402 px —su sección más alta— delante de quien llega buscando su
+    municipio, y **no era texto servido**: el `<ol id="timeline">` viajaba vacío
+    y `app.js` lo montaba en el navegador, así que ningún rastreador leyó jamás
+    la cronología de un proyecto que se define como archivo.
+
+    Este guardián vigila las tres mitades del trato: que la portada la haya
+    soltado, que el ancla publicada siga respondiendo Y llevando al texto, y
+    que el texto exista de verdad —escrito, no prometido— en la página nueva.
+    Cualquiera de las tres sola es una promesa a medias.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.index = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+        cls.ref = (ROOT / "site" / "referencia.html").read_text(encoding="utf-8")
+        cls.ctx = R.contexto()
+        cls.cuerpo = R.cronologia_referencia(cls.ctx)
+
+    def test_la_portada_ya_no_monta_la_cronologia(self):
+        for contenedor in ('<ol id="timeline">', 'id="crono-banda"',
+                           'id="crono-filtros"'):
+            self.assertNotIn(
+                contenedor, self.index,
+                f"la portada conserva {contenedor}: la cronología no se ha "
+                "mudado, se ha copiado, y ahora hay dos que envejecen aparte")
+
+    def test_la_portada_conserva_el_ancla_publicada_y_lleva_al_texto(self):
+        """`index.html#cronologia` está publicado. Un ancla que aterriza en un
+        párrafo mudo es peor que un 404: parece que funciona."""
+        bloque = re.search(r'<[a-z]+[^>]*\bid="cronologia"[^>]*>.*?</[a-z]+>',
+                           self.index, re.S)
+        self.assertIsNotNone(bloque, "la portada perdió el ancla #cronologia")
+        self.assertIn("/referencia.html#cronologia", bloque.group(0),
+                      "el ancla que se queda no lleva a donde vive la cronología")
+
+    def test_la_pagina_nueva_declara_su_seccion_y_su_contenedor(self):
+        self.assertIn('id="cronologia"', self.ref)
+        self.assertIn('data-gen="referencia-cronologia"', self.ref)
+
+    def test_los_hitos_llegan_escritos_y_no_prometidos(self):
+        """Lo que se ha venido a arreglar: los hitos EN el documento."""
+        self.assertIn('<ol id="timeline">', self.cuerpo)
+        self.assertGreaterEqual(
+            self.cuerpo.count("<li "), 20,
+            "la cronología servida trae menos hitos de los curados: se está "
+            "quedando algo por el camino")
+        self.assertIn("<svg", self.cuerpo, "la banda no se ha venido con ella")
+        for filtro in ("todos", "internacional", "local", "monitor"):
+            self.assertIn(f'data-filtro="{filtro}"', self.cuerpo,
+                          f"falta el chip del filtro «{filtro}»")
+
+    def test_cada_hito_lleva_la_clase_con_la_que_su_filtro_lo_busca(self):
+        """El filtro trabaja con la etiqueta agrupada y el CSS colorea con el
+        tipo crudo: los hitos institucionales y las entregas de Copernicus son
+        los dos «internacional». Con una sola clase, el filtro que más hitos
+        agrupa dejaba la lista vacía."""
+        clases = re.findall(r'<li class="([^"]*)"', self.cuerpo)
+        self.assertTrue(clases, "no se ha escrito ningún hito")
+        for cadena in clases:
+            partes = cadena.split()
+            self.assertTrue(partes, "un hito sin clase no lo alcanza el filtro")
+            etiqueta = R.ETIQUETA_HITO.get(partes[0])
+            self.assertIsNotNone(etiqueta, f"tipo de hito desconocido: {partes[0]}")
+            self.assertIn(
+                etiqueta, partes,
+                f"el hito «{partes[0]}» no lleva la clase «{etiqueta}» con la "
+                "que su chip lo filtra: ese filtro deja la lista vacía")
+
+    def test_los_cambios_del_monitor_se_leen_enteros_y_el_resto_por_su_resumen(self):
+        """Criterio portado de `app.js::pintaCronologia`: un resumen de seis
+        palabras sobre un cambio técnico no dice nada, así que los hitos del
+        monitor enseñan su texto largo; los demás, el resumen."""
+        curados = json.loads(
+            (ROOT / "feeds" / "hitos_monitor.json").read_text(encoding="utf-8"))
+        largos = [h for h in curados["hitos"] if h.get("tipo") == "monitor"
+                  and h.get("resumen") and h.get("texto")
+                  and h["texto"] != h["resumen"]]
+        self.assertTrue(largos, "no hay hito del monitor con las dos versiones")
+        visible = re.sub(r"<[^>]+>", " ", self.cuerpo)
+        muestra = largos[0]["texto"][:60]
+        self.assertIn(muestra.split("<")[0][:40], visible,
+                      "el hito del monitor se publica resumido: se pierde el "
+                      "contexto que un cambio técnico necesita")
+
+    def test_ningun_enlace_de_la_cronologia_acaba_en_almohadilla(self):
+        """19 de los 27 hitos curados apuntan a páginas de este mismo sitio.
+        `enlace_seguro` solo admite http(s) —para eso existe— y los convertía
+        a «#»: un enlace que no lleva a ninguna parte, en cada uno de ellos."""
+        self.assertNotIn(
+            'href="#"', self.cuerpo,
+            "hay hitos con un enlace muerto: el filtro de esquemas se está "
+            "comiendo los enlaces internos del propio sitio")
+
+    def test_los_codigos_de_producto_se_dicen_igual_en_las_dos_superficies(self):
+        """`PRODUCTO_ES`/`CATEGORIA_ES` (build) y `DICT` (app.js, que sigue
+        traduciendo los globos del mapa) nombran los mismos productos y las
+        mismas categorías de Copernicus. Si divergen, la cronología llama a un
+        producto de una manera y el globo del mapa de otra, en el mismo sitio
+        (M2). Y ninguna de las dos puede quedarse en inglés: el catálogo de
+        activaciones se publicó un rato diciendo «Flood in Cordoba, Colombia ·
+        Flood» porque el build escribía la categoría cruda."""
+        js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        for tabla in (R.PRODUCTO_ES, R.CATEGORIA_ES):
+            for codigo, castellano in tabla.items():
+                self.assertIn(
+                    f'"{codigo}": "{castellano}"', js,
+                    f"el build llama «{castellano}» a «{codigo}» y app.js lo "
+                    "llama de otra manera")
+
+
+class TestLaCabeceraSinMatricula(unittest.TestCase):
+    """La cabecera de la portada dice qué pasó, dónde y cuándo (fase 6c).
+
+    Llevaba encima el GLIDE del desastre, el código de la activación de
+    Copernicus y el color de la alerta PAGER: matrícula de siniestro delante de
+    quien llega buscando su municipio. Se va, pero **no del sitio**: cada pieza
+    tiene que seguir explicada donde significa algo.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.index = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+        cls.ref = (ROOT / "site" / "referencia.html").read_text(encoding="utf-8")
+        cls.cabecera = re.search(r"<header class=\"encabezado\">.*?</header>",
+                                 cls.index, re.S).group(0)
+
+    def test_la_cabecera_no_lleva_la_matricula_del_siniestro(self):
+        for jerga in ("GLIDE", "PAGER", "EMSR916"):
+            self.assertNotIn(
+                jerga, self.cabecera,
+                f"«{jerga}» ha vuelto a la cabecera de la portada: es lo "
+                "primero que lee quien llega buscando su municipio")
+
+    def test_la_cabecera_sigue_diciendo_que_pasó_donde_y_cuando(self):
+        self.assertIn("M7.4", self.cabecera)
+        self.assertIn("San José del Palmar", self.cabecera)
+        self.assertIn('data-gen="portada-sello"', self.cabecera,
+                      "la cabecera perdió la fecha del dato")
+
+    def test_lo_que_sale_de_la_cabecera_sigue_explicado_en_la_referencia(self):
+        """Nada se evapora: el código de la activación y el del desastre viven
+        en el glosario, y la alerta roja del PAGER —que solo se decía en la
+        cabecera— se explica ahí con lo que significa y lo que no."""
+        for pieza in ("EMSR916", "EQ-2026-000146-COL"):
+            self.assertIn(pieza, self.ref,
+                          f"«{pieza}» salió de la portada y no está en ninguna "
+                          "otra parte: se ha perdido un dato")
+        pager = re.search(r"<dt>PAGER</dt><dd>(.*?)</dd>", self.ref, re.S)
+        self.assertIsNotNone(pager, "el glosario perdió la entrada de PAGER")
+        self.assertIn("alerta roja", pager.group(1),
+                      "el nivel de alerta que emitió el USGS para ESTE sismo "
+                      "solo vivía en la cabecera de la portada y no se ha "
+                      "recogido en ninguna parte")
+
+    def test_la_cabecera_deja_una_sola_descarga_y_es_la_del_cruce(self):
+        botones = re.findall(r'<a class="btn" href="([^"]+)"', self.cabecera)
+        self.assertEqual(
+            botones, ["/data/public/crosscheck.csv"],
+            "la cabecera vuelve a ser una fila de descargas: el CSV es el dato "
+            "de esta página y las demás tienen su sitio en /referencia.html")
+
+    def test_las_otras_cuatro_descargas_tienen_sitio_propio_y_no_papelera(self):
+        """Esconder datos abiertos iría contra la misión. Bajan, no se van."""
+        bloque = re.search(r'<section[^>]*id="descargas".*?</section>',
+                           self.ref, re.S)
+        self.assertIsNotNone(bloque, "no hay bloque de datos abiertos")
+        for fichero in ("monitor.json", "unosat_damage.geojson",
+                        "sertit_damage.geojson", "municipios_mapa.json"):
+            self.assertIn(
+                fichero, bloque.group(0),
+                f"«{fichero}» salió de la cabecera de la portada y no aparece "
+                "en el bloque de datos abiertos: se ha escondido un dato")
+        self.assertIn(
+            "ICube-SERTIT 2026", bloque.group(0),
+            "el GeoJSON de SERTIT no lleva CC BY como el resto y su licencia "
+            "no cabía en un botón: por eso baja aquí, con ella escrita")
+
+    def test_cada_descarga_ofrecida_existe_de_verdad(self):
+        """Una lista de descargas escrita a mano se descuelga sola del
+        directorio que describe: basta con que un producto cambie de nombre
+        para que el bloque ofrezca un 404 con aspecto de dato abierto. Se
+        comprueba contra `data/public/`, que es lo que se publica."""
+        bloque = re.search(r'<section[^>]*id="descargas".*?</section>',
+                           self.ref, re.S).group(0)
+        rutas = re.findall(r'href="/data/public/([^"]+)"', bloque)
+        self.assertGreaterEqual(len(rutas), 10,
+                                "el bloque de datos abiertos se ha quedado en "
+                                "nada, o este test ha dejado de leerlo")
+        faltan = [r for r in rutas if not (ROOT / "data" / "public" / r).exists()]
+        self.assertEqual(faltan, [],
+                         f"el bloque ofrece ficheros que no se publican: {faltan}")
+
+
+class TestLaVigilanciaDelCatalogoCopernicus(unittest.TestCase):
+    """«Otras activaciones de Copernicus en Colombia» se muda (fase 6c).
+
+    JP la tachó de la portada, y no es material de lectura para quien busca su
+    municipio. Pero **no es material que se tire**: el día que una de esas
+    activaciones desaparezca del portal, esta lista seguirá diciendo que
+    existió. Vigilar fuentes es parte de la misión, así que su sitio es la
+    página que explica qué mira el monitor, no la papelera.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.index = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+        cls.ref = (ROOT / "site" / "referencia.html").read_text(encoding="utf-8")
+
+    def test_la_portada_ya_no_la_lleva(self):
+        self.assertNotIn("colombia-acts", self.index)
+
+    def test_pero_sigue_publicandose_en_la_referencia(self):
+        self.assertIn('id="colombia-acts-section"', self.ref)
+        self.assertIn('data-gen="referencia-acts"', self.ref)
+        cuerpo = R.activaciones_colombia(R.contexto())
+        self.assertTrue(cuerpo.strip(),
+                        "el generador se ha quedado sin escribir nada")
+
+    def test_el_generador_esta_declarado_para_la_pagina_nueva(self):
+        """Un generador apuntando a la página vieja no falla: escribe en un
+        contenedor que ya no existe y revienta el build con `LookupError`. Se
+        comprueba aquí para que el fallo llegue con nombre."""
+        fuente = (ROOT / "deploy" / "render_html.py").read_text(encoding="utf-8")
+        self.assertIn('"referencia-acts": "referencia"', fuente)
+        self.assertNotIn('"portada-acts"', fuente,
+                         "queda una declaración de la pieza vieja")
+
+
+class TestElCatalogoDeActivacionesSeLeeEnEspanol(unittest.TestCase):
+    """Idioma: los textos del sitio van en español (CLAUDE.md).
+
+    El catálogo se publicaba con `app.js`, que traducía la categoría de la
+    activación. Al escribirlo el build (fase 6) la traducción se quedó por el
+    camino y la línea salía «Flood in Cordoba, Colombia · Flood». El nombre de
+    la activación SÍ se deja en inglés a propósito: es el rótulo con que
+    Copernicus la publica y con el que se busca en su portal.
+    """
+
+    def test_la_categoria_de_cada_activacion_va_traducida(self):
+        cuerpo = R.activaciones_colombia(R.contexto())
+        crudas = [c for c in R.CATEGORIA_ES
+                  if re.search(rf"·\s*{re.escape(c)}\s*·", cuerpo)]
+        self.assertEqual(
+            crudas, [],
+            f"el catálogo publica la categoría en inglés: {crudas}")

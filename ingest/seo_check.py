@@ -53,17 +53,27 @@ MINIMOS = {
 # fase deja la página mejor, y se anota aquí con su fecha; **no se baja para que
 # pase un build** sin entrada en `docs/DECISIONES.md`.
 MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200,
-                      "rud.html": 47}
+                      "rud.html": 47, "index.html": 151, "referencia.html": 241}
 PROSA_MINIMA = {
-    # fase 6b (25-ago-2026, docs/DECISIONES.md): 1.962 medidas − 197 de prosa
-    # condicional. La portada bajó de 3.766 a 1.962 palabras propias porque la
-    # metodología, el glosario y la guía de secciones se MUDARON a
-    # `referencia.html`, que estrena aquí su propio suelo con 2.292: la suma de
-    # las dos pasó de 3.766 a 4.254, así que no se ha perdido texto —se ha
-    # ganado—. Lo condicional que se descuenta son las alertas del día (151
+    # fase 6c (25-ago-2026, docs/DECISIONES.md): 1.804 medidas − 151 de prosa
+    # condicional. La portada baja de 1.962 a 1.804 palabras propias porque se
+    # mudan a `referencia.html` la cronología del evento, la vigilancia del
+    # catálogo de activaciones de Copernicus y las cuatro descargas que
+    # colgaban de la cabecera; y la matrícula del siniestro (GLIDE, PAGER) sale
+    # de la cabecera y se explica en el glosario.
+    #
+    # **Los dos suelos se mueven a la vez y su SUMA es la que manda.** La
+    # referencia sube de 2.292 a 5.566 medidas —la cronología nunca había sido
+    # texto servido: sus hitos los montaba `app.js` en el navegador y no
+    # estaban en el documento—, así que la suma pasa de 4.254 a 7.370 palabras
+    # propias entre las dos. Si esa suma baja, se ha perdido texto por el
+    # camino y da igual dónde.
+    #
+    # Lo condicional que se descuenta a la portada son las alertas del día (151
     # palabras: R11/R15, un día sin fuente callada publica menos, y eso es una
-    # buena noticia) y las otras activaciones de Copernicus en Colombia (46).
-    "index.html": 1765,
+    # buena noticia). Las otras activaciones de Copernicus (46) ya no se
+    # descuentan aquí: se descuentan en `referencia.html`, que es donde viven.
+    "index.html": 1653,
     "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
     # fase 3: 578 medidas − 47 del desglose del salto, que es condicional
     # (24-ago-2026, docs/DECISIONES.md). La oración «De las N familias…»
@@ -74,10 +84,16 @@ PROSA_MINIMA = {
     "rud.html": 531,
     "balances.html": 1404,     # fase 4: 1.564 medidas − 160 condicionales
     "noticias.html": 827,      # fase 4; su prosa no depende del dato del día
-    # fase 6b: 2.292 medidas, sin margen. Toda su prosa es fija —metodología,
-    # guía de secciones y glosario—: no hay una sola frase que dependa del dato
-    # del día, así que el suelo puede ser la medida exacta.
-    "referencia.html": 2292,
+    # fase 6c: 5.566 medidas − 241 condicionales. Ya no es toda prosa fija: con
+    # la cronología llegan hitos que dependen del dato del día —los del feed
+    # institucional de GDACS (85 palabras), las entregas de Copernicus (117) y
+    # el primer balance en medios (40)—. GDACS **ya purgó una vez** su serie
+    # global, así que un suelo sin margen convertiría el borrado de una fuente
+    # ajena en un build roto, cuando lo que corresponde es una alerta (R11,
+    # R15). Los hitos curados del monitor (2.009 palabras medidas) sí cuentan
+    # como prosa fija: viven versionados en `feeds/hitos_monitor.json` y no
+    # pueden desaparecer sin que alguien los borre a mano.
+    "referencia.html": 5325,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 

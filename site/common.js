@@ -157,3 +157,26 @@
     }), 0);
   });
 })();
+
+/* Filtro de la cronología (referencia.html). Los hitos YA vienen escritos por
+   el build (deploy/render_html.py::cronologia_referencia): aquí solo se
+   muestran u ocultan, así que sin JavaScript se lee la cronología entera —el
+   filtro ordena la lectura, no la revela—. «Todos» no oculta nada, y el hito
+   del sismo se ve siempre: es el origen de la serie, no una categoría más.
+   Se calla si no encuentra sus chips, como el resto de bloques de este
+   fichero: una página sin cronología no da error, no hace nada. */
+(function () {
+  const chips = document.querySelectorAll("#crono-filtros .chip-crono");
+  const hitos = document.querySelectorAll("#timeline li");
+  if (!chips.length || !hitos.length) return;
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.setAttribute("aria-pressed", String(c === chip)));
+      const filtro = chip.dataset.filtro;
+      hitos.forEach((li) => {
+        li.hidden = !(filtro === "todos" || li.classList.contains(filtro)
+                      || li.classList.contains("evento"));
+      });
+    });
+  });
+})();

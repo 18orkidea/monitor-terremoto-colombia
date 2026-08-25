@@ -305,6 +305,15 @@ tbody tr:hover { background: color-mix(in srgb, var(--s1) 7%, transparent); }
 .prensa-detalle td { background: color-mix(in srgb, var(--s1) 5%, transparent); font-size: 12px; }
 .prensa-detalle ul { margin: 4px 0 2px; padding-left: 18px; }
 .prensa-detalle a { color: var(--s1); }
+/* La banda de hitos no se encoge hasta ser ilegible: se DESLIZA. Su lienzo
+   mide 980 px y sus rótulos de fecha, 9 px; metidos en los 311 px útiles de un
+   móvil, esos rótulos quedaban en 2,9 px y los marcadores del mismo día —que
+   se separan 11 px entre sí— se fundían en una mancha. Es la misma avería que
+   ya se corrigió en el gráfico de las fichas, y este monitor se lee sobre todo
+   en móvil. Deslizar conserva el tamaño de la letra y la distancia entre
+   marcas, que es justo lo que la banda existe para enseñar. */
+#crono-banda { overflow-x: auto; overscroll-behavior-x: contain; }
+#crono-banda svg { min-width: 980px; display: block; }
 #timeline {
   margin: 0; padding-left: 2px; list-style: none; font-size: 13px; line-height: 1.7;
   /* La regla editorial de las secciones limita los <ol> a 70ch. Esta lista es

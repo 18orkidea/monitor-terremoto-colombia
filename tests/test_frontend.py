@@ -86,7 +86,13 @@ class TestSerieGraficoPortada(unittest.TestCase):
         self.assertEqual(serie, ["2026-08-10", "2026-08-11"])
 
 
-class TestCronologiaPortada(unittest.TestCase):
+class TestCronologiaDelEvento(unittest.TestCase):
+    """El fichero curado de hitos y el CSS de la lista.
+
+    La cronología dejó la portada en la fase 6c y vive en `referencia.html`,
+    escrita por el build; lo que se mira aquí es lo que sigue siendo de este
+    lado: el contenido versionado de `feeds/hitos_monitor.json` y la hoja."""
+
     def setUp(self):
         self.hitos = json.loads(
             (ROOT / "feeds" / "hitos_monitor.json").read_text(encoding="utf-8"))
@@ -107,10 +113,13 @@ class TestCronologiaPortada(unittest.TestCase):
         self.assertEqual(largos, [],
                          "los resúmenes deben seguir siendo breves para la banda gráfica")
 
-    def test_cronologia_muestra_el_texto_completo_del_monitor_en_cuatro_lineas(self):
-        app = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+    def test_el_texto_largo_del_monitor_cabe_en_cuatro_lineas(self):
+        """La regla de QUÉ se enseña se mudó al build en la fase 6c —la
+        comprueba `test_render_html.py::TestLaMudanzaDeLaCronologia`— y aquí
+        queda la mitad que sigue siendo del CSS: que ese texto largo se recorte
+        a cuatro líneas en vez de estirar la lista. Vigilar aquí el literal de
+        `app.js` habría dado verde sobre código muerto."""
         css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
-        self.assertIn('h.tipo === "monitor" ? h.texto', app)
         self.assertIn("-webkit-line-clamp: 4", css)
         self.assertIn("#timeline {", css)
         self.assertIn("max-width: none; width: 100%", css)
@@ -1796,8 +1805,15 @@ class TestElChipDeclaraLoQueEsYNoLoDeduce(unittest.TestCase):
     # verdad guarda cada tira generada es su test POR EJECUCIÓN —
     # `TestChipsDelRud` y `TestChipsDeMunicipios`—, sobre la salida de su
     # generador y no sobre el fichero entero.
-    TIRAS = {"site/app.js": r'class="chip\$\{[^`]*?\bactiva\b',
-             "deploy/render_html.py": r'class="chip\{" activa" if\b'}
+    #
+    # `site/app.js` SALIÓ de esta lista en la fase 6c: su único chip con
+    # `.activa` era el filtro de la cronología, que se mudó a `referencia.html`
+    # y lo escribe ahora el build con `aria-pressed` (`chip-crono`). La regla
+    # fundida del CSS sigue vigilada porque `render_html.py` continúa emitiendo
+    # `.activa` en las tiras del RUD y de municipios; el día que también esas
+    # se pasen a `aria-pressed`, esta lista se queda vacía y hay que retirar la
+    # mitad `.activa` de la hoja en el mismo commit.
+    TIRAS = {"deploy/render_html.py": r'class="chip\{" activa" if\b'}
 
     @classmethod
     def setUpClass(cls):
@@ -2030,3 +2046,51 @@ class TestAltoDelLienzoDePortada(unittest.TestCase):
             "overflow: auto", panel,
             "sin `overflow: auto` el panel a alto fijo RECORTA la lista: los "
             "municipios que no caben dejan de existir para quien lee")
+
+
+class TestLaBandaDeHitosEnMovil(unittest.TestCase):
+    """La banda de la cronología se desliza en vez de encogerse.
+
+    Su lienzo mide 980 px y sus rótulos de fecha 9 px. Metidos en los 311 px
+    útiles de un móvil, esos rótulos quedan en 2,9 px y los marcadores del mismo
+    día —separados 11 px entre sí— se funden en una mancha: el gráfico sigue
+    ahí, y no dice nada. Es la avería que ya se corrigió una vez en el gráfico
+    de las fichas, y este monitor se lee sobre todo en móvil.
+
+    Se comprueban las dos mitades, porque cada una sola no sirve: el contenedor
+    que deja deslizar y el ancho mínimo que impide el encogimiento.
+    """
+
+    CSS = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+    ANCHO_LIENZO = 980          # el viewBox que escribe `banda_cronologia`
+
+    def _declaraciones(self, selector):
+        m = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", self.CSS)
+        return m.group(1) if m else ""
+
+    def test_el_contenedor_deja_deslizar(self):
+        decls = self._declaraciones("#crono-banda")
+        self.assertIn("overflow-x: auto", decls,
+                      "sin desbordamiento horizontal la banda se encoge y sus "
+                      "rótulos se vuelven ilegibles en un móvil")
+
+    def test_el_lienzo_no_baja_de_su_ancho_de_diseño(self):
+        decls = self._declaraciones("#crono-banda svg")
+        m = re.search(r"min-width:\s*(\d+)px", decls)
+        self.assertIsNotNone(
+            m, "el SVG de la banda no declara ancho mínimo: `width:100%` lo "
+               "encoge hasta donde quepa, que en móvil es un tercio")
+        self.assertGreaterEqual(
+            int(m.group(1)), self.ANCHO_LIENZO,
+            f"con {m.group(1)}px, los rótulos de 9px del lienzo de "
+            f"{self.ANCHO_LIENZO}px se dibujan a "
+            f"{9 * int(m.group(1)) / self.ANCHO_LIENZO:.1f}px")
+
+    def test_el_ancho_del_lienzo_es_el_que_escribe_el_build(self):
+        """Guardián de sí mismo: si `banda_cronologia` cambia de lienzo, el
+        mínimo de arriba deja de significar lo que este test cree."""
+        fuente = (ROOT / "deploy" / "render_html.py").read_text(encoding="utf-8")
+        self.assertIn(f"def banda_cronologia(hitos: list, serie: list, "
+                      f"ancho: int = {self.ANCHO_LIENZO})", fuente,
+                      "la banda ya no se dibuja sobre el lienzo que este test "
+                      "mide: actualiza ANCHO_LIENZO y el mínimo de la hoja")

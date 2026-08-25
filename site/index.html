@@ -68,20 +68,23 @@
 <body>
 <nav id="site-nav" aria-label="Navegación del sitio"></nav>
 
+<!-- La cabecera dice qué pasó, dónde y cuándo — y nada más. La matrícula
+     del siniestro (el GLIDE del desastre, el código de la activación de
+     Copernicus, el color de la alerta PAGER) vive donde significa algo: en el
+     glosario y en las fuentes de /referencia.html. En lo alto de la portada
+     solo era jerga delante de quien llega buscando su municipio.
+     Y de las cinco descargas queda la del cruce, que es el dato de esta
+     página; las otras cuatro no desaparecen —esconder datos abiertos va contra
+     la misión— sino que bajan a «Datos abiertos» de /referencia.html, cada una
+     con lo que contiene y su licencia. -->
 <header class="encabezado">
   <div>
     <h1>Datos del terremoto de Colombia 2026</h1>
-    <p class="sub">Copernicus <a href="https://rapidmapping.emergency.copernicus.eu/EMSR916/" target="_blank" rel="noopener">EMSR916</a> ·
-      GLIDE EQ-2026-000146-COL · alerta PAGER <span class="badge critical">roja</span></p>
   </div>
   <div class="meta">
     <span class="contexto-sismo">M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)</span>
     <span id="generado" data-gen="portada-sello"></span><!-- lo rellena deploy/render_html.py en el build -->
     <a class="btn" href="/data/public/crosscheck.csv" download>CSV del cruce</a>
-    <a class="btn" href="/data/public/monitor.json" target="_blank">JSON</a>
-    <a class="btn" href="/data/public/unosat_damage.geojson" download>GeoJSON UNOSAT</a>
-    <a class="btn" href="/data/public/sertit_damage.geojson" download>GeoJSON SERTIT</a>
-    <a class="btn" href="/data/public/municipios_mapa.json" download>JSON sin satélite</a>
   </div>
 </header>
 
@@ -138,19 +141,17 @@
   <section id="fuentes-cards" data-gen="portada-fuentes"></section><!-- lo rellena deploy/render_html.py en el build -->
 </section>
 
-<section id="cronologia" class="page-section">
-  <h2>Qué pasó cada día: la cronología del evento</h2>
-  <p class="sub">La banda reparte los hitos por carril:
-  respuesta internacional (▲ = entrega de datos Copernicus),
-  <span style="color:var(--good)">respuesta local u oficial</span> (★ = el sismo) y
-  <span style="color:var(--warning)">cambios del propio monitor</span> — pasa el ratón
-  para leer cada hito. Los hitos se derivan automáticamente de los datos (alta del RUD,
-  primer balance en medios, purga de la serie EMM por GDACS); solo lo no derivable se
-  cura a mano y queda versionado.</p>
-  <div id="crono-banda"></div>
-  <div class="chips" id="crono-filtros" role="group" aria-label="Filtrar cronología"></div>
-  <ol id="timeline"></ol>
-</section>
+<!-- La cronología completa —su banda de hitos, su filtro y sus entradas—
+     vive desde la fase 6c en /referencia.html, que es donde el material
+     citable tiene dirección propia. Aquí era la sección más alta de la
+     página, delante de quien viene a mirar un municipio; la medición está
+     fechada una sola vez, en docs/DECISIONES.md.
+     El `id` se queda: `index.html#cronologia` está publicado y una URL
+     publicada es un compromiso. Aterriza en la frase que lleva al texto — un
+     ancla que cae en un párrafo mudo es peor que un 404, porque parece que
+     funciona. -->
+<p class="note" id="cronologia"><a class="enlace" href="/referencia.html#cronologia">Ver
+la cronología completa del evento, la metodología y el glosario →</a></p>
 
 </div>
 
@@ -167,17 +168,6 @@
     <ul id="alerts" data-gen="portada-alertas"></ul><!-- lo rellena deploy/render_html.py en el build -->
   </section>
 </details>
-
-<!-- Hermano y no hijo del plegable de arriba: ningún plegable dentro de otro. -->
-<!-- Sin plegar a propósito: son 57 palabras, muy por debajo del umbral de 120
-     de JP para que un plegable valga la pena. Un `<details>` que esconde menos
-     de lo que cuesta abrirlo solo añade un clic. -->
-<section class="page-section" id="colombia-acts-section">
-  <h2>Otras activaciones de Copernicus en Colombia</h2>
-  <p class="sub">Vigilancia diaria del catálogo público de activaciones del
-  servicio de emergencias de Copernicus, desde julio de 2023.</p>
-  <section id="colombia-acts" data-gen="portada-acts"></section><!-- lo rellena deploy/render_html.py en el build -->
-</section>
 
 <details class="pliegue denso" id="municipios-uno-a-uno">
   <summary>Municipios con evidencia, uno a uno</summary>
@@ -239,8 +229,10 @@
   el <strong>EDAN</strong> es la Evaluación de Daños y Análisis de Necesidades,
   el balance oficial hecho en el terreno. No son lo mismo, y solo el segundo
   verifica daño. El resto del glosario —AOI, MMI, ShakeMap, DIVIPOLA—, las
-  reglas del cruce, la trazabilidad, las limitaciones conocidas y la lista
-  completa de fuentes viven en su propia página, que es donde caben enteros.
+  reglas del cruce, la trazabilidad, las limitaciones conocidas, la cronología
+  completa, <a class="enlace" href="/referencia.html#descargas">todas las
+  descargas</a> y la lista completa de fuentes viven en su propia página, que
+  es donde caben por entero.
   <a class="enlace" href="/referencia.html">Cómo se construye este monitor:
   metodología y glosario →</a></p>
 </section>

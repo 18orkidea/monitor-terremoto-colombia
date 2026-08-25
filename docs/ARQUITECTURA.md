@@ -81,8 +81,13 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
 - **`site/`** es frontend estático sin build: `ui.js` (componentes compartidos:
   `fmt`, `norm`, `tablaBuscable`, `metricCards`, `attachTooltip`,
   `comparativaFuentes`, `isLiveblog`/`bestSnapshot`), `common.js` (lo que solo
-  puede hacer el navegador: compartir, alertas push y abrir el `<details>` de un
-  ancla) y un JS por página. **La barra y el pie no los escribe el navegador**:
+  puede hacer el navegador: compartir, alertas push, abrir el `<details>` de un
+  ancla y filtrar la cronología de `referencia.html`) y un JS por página.
+  **En la portada, `app.js` ya solo dibuja el mapa**: desde la fase 6c la
+  cronología también la escribe el build
+  (`render_html.py::cronologia_referencia`), y lo vigila
+  `test_render_html.py::test_app_js_ya_no_dibuja_lo_que_escribe_el_build`.
+  **La barra y el pie no los escribe el navegador**:
   los escribe el build en las 213 páginas (`render_html.py::nav_estatico` /
   `pie_estatico`, con el paso `escribir_piezas_compartidas` para las **seis**
   grandes — la sexta, `referencia.html`, entró el 25-ago con la mudanza de la

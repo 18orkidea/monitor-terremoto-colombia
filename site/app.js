@@ -60,26 +60,15 @@
      localizar allí lo que el mapa está enseñando. */
   const conOriginal = (s) => t(s) === s ? t(s)
     : `${t(s)} <span style="color:var(--muted)">(${s})</span>`;
-  // hitos del feed institucional GDACS (patrones)
-  const tHito = (s) => (s || "")
-    .replace(/UNITAR-UNOSAT Activation/i, "Activación UNITAR-UNOSAT")
-    .replace(/EC\/ECHO daily map/i, "Mapa diario EC/ECHO")
-    .replace(/Copernicus EMS activation/i, "Activación Copernicus EMS")
-    .replace(/^M7\.4 in Colombia/i, "M7.4 en Colombia");
-
   const j = window.UI.fetchJson;
   const base = "/data/public/";
-  // La MISMA fuente que balances.html: el producto propio, no el worker en
-  // vivo. Leyendo cada página de un sitio distinto, la portada enseñaba el
-  // corte del worker y balances.html el archivado, y las dos podían dar
-  // cifras y fechas distintas del mismo día. Además el sitio deja de depender
-  // de que un worker en cuenta ajena siga en pie.
-  const OFFICIAL_FEED = `${base}oficiales.json`;
   // `alerts.json` ya no se pide: las alertas las escribe el build (fase 6), y
-  // pedirlo aquí era descargarlo para no usarlo.
+  // pedirlo aquí era descargarlo para no usarlo. `oficiales.json` y
+  // `hitos_monitor.json` tampoco: solo alimentaban la cronología, que desde la
+  // fase 6c la escribe el build en referencia.html.
   const [mon, aois, municipios, chat, dyfi, sismos, shake,
-         dmgPts, dmgLines, notAnalysed, unosat, sertit, oficiales,
-         hitosCurados, sinMirada] = await Promise.all([
+         dmgPts, dmgLines, notAnalysed, unosat, sertit,
+         sinMirada] = await Promise.all([
     j(base + "monitor.json"), j(base + "aois.geojson"), j(base + "municipios.geojson"),
     j(base + "chatmap.geojson"),
     j(base + "dyfi_cells.geojson"), j(base + "ungrd_sismos.geojson"),
@@ -87,8 +76,6 @@
     j(base + "damage_points.geojson"), j(base + "damage_lines.geojson"),
     j(base + "not_analysed.geojson"), j(base + "unosat_damage.geojson"),
     j(base + "sertit_damage.geojson"),
-    j(OFFICIAL_FEED),
-    j(base + "hitos_monitor.json"),
     j(base + "municipios_mapa.json"),
   ]);
   // ---- banda de brechas oficiales
@@ -735,159 +722,14 @@
     window.addEventListener("scroll", ocultar, { passive: true });
   })();
 
-  // ---- cronología unificada: respuesta internacional + local + hitos del monitor
-  //      (feed institucional GDACS + entregas Copernicus + fichero curado + derivados)
-  const ETIQUETA_TIPO = { institucional: "internacional", entrega: "internacional",
-                          internacional: "internacional", evento: "evento",
-                          local: "local", monitor: "monitor" };
-  const hitos = [
-    ...(mon.institucional || []).map((h) => ({
-      fecha: h.fecha, texto: tHito(h.titulo), url: h.url, tipo: "institucional" })),
-    ...(mon.entregas || []).map((e) => ({
-      fecha: e.fecha, tipo: "entrega",
-      texto: `Copernicus entrega datos de daño: ${aoiEs(e.aoi)} (${t(e.producto)} / ${e.producto} v${e.version})` })),
-    ...((hitosCurados && hitosCurados.hitos) || []).map((h) => ({
-      fecha: h.fecha, texto: h.texto, resumen: h.resumen,
-      url: h.url, tipo: h.tipo })),
-  ].filter((h) => h.fecha).sort((x, y) => y.fecha.localeCompare(x.fecha));
-  // hitos automáticos, derivados de los propios datos (sin curación manual):
-  // primer balance en medios, alta del RUD y purga de la serie EMM.
-  {
-    const fechas = ((oficiales && oficiales.items) || [])
-      .map((x) => x.search_date).filter(Boolean).sort();
-    if (fechas.length) hitos.push({
-      fecha: fechas[0], tipo: "local", url: "balances.html",
-      texto: "Primer balance en medios que cita fuentes oficiales —la UNGRD y el Servicio " +
-        "Geológico Colombiano— rastreado por el monitor" });
-    const rudSerie = (mon.rud && mon.rud.serie) || [];
-    if (rudSerie.length) hitos.push({
-      fecha: rudSerie[0].fecha, tipo: "local", url: "rud.html",
-      texto: `El RUD de la UNGRD cubre el evento: primera fuente oficial abierta ` +
-        `(${fmt(rudSerie[0].municipios)} municipios, ${fmt(rudSerie[0].familias)} familias registradas)` });
-    const mv = mon.media_volume || [];
-    const ultEmm = mv.map((d, i) => d.emm != null ? i : -1).filter((i) => i >= 0).at(-1);
-    if (ultEmm != null && ultEmm < mv.length - 1) hitos.push({
-      fecha: mv[ultEmm + 1].fecha, tipo: "monitor",
-      resumen: "GDACS purga su serie global de noticias; el monitor conserva la copia.",
-      texto: `El sistema europeo de alertas GDACS borra su serie global de noticias ` +
-        `(último dato: ${window.UI.fechaLarga(mv[ultEmm].fecha)}); solo sobrevive en las ` +
-        `copias que archiva el monitor, que sigue midiendo con sus canales abiertos` });
-    hitos.sort((x, y) => y.fecha.localeCompare(x.fecha));
-  }
-  const timelineEl = document.getElementById("timeline");
-  const chipsEl = document.getElementById("crono-filtros");
-  const FILTROS = [["todos", "Todos"], ["internacional", "🌍 Internacional"],
-                   ["local", "🇨🇴 Local/oficial"], ["monitor", "🔧 Monitor"]];
-  function pintaCronologia(filtro) {
-    const vista = hitos.filter((h) => filtro === "todos" ||
-      ETIQUETA_TIPO[h.tipo] === filtro || h.tipo === "evento");
-    timelineEl.innerHTML = vista.map((h) => {
-      // El resumen sirve en la banda gráfica; en la cronología los cambios del
-      // monitor necesitan contexto y el CSS ya limita su lectura a cuatro líneas.
-      const visible = h.tipo === "monitor" ? h.texto : (h.resumen || h.texto);
-      const contenido = h.url
-        ? `<a href="${window.UI.esc(h.url)}" target="_blank" rel="noopener" ` +
-          `title="${window.UI.esc(h.texto)}">${window.UI.esc(visible)}</a>`
-        : `<span title="${window.UI.esc(h.texto)}">${window.UI.esc(visible)}</span>`;
-      return `<li class="${h.tipo}"><span class="t-fecha">${window.UI.fechaEs(h.fecha)}` +
-        `${h.fecha.length >= 16 ? `, ${h.fecha.slice(11, 16)}` : ""}</span> ` +
-        `<span class="t-tipo">${ETIQUETA_TIPO[h.tipo] || h.tipo}</span>` +
-        `<span class="t-texto">${contenido}</span></li>`;
-    }).join("") || "<li>Sin hitos registrados aún.</li>";
-  }
-  if (chipsEl) {
-    chipsEl.innerHTML = FILTROS.map(([k, label], i) =>
-      `<button class="chip${i ? "" : " activa"}" data-filtro="${k}">${label}</button>`).join("");
-    chipsEl.addEventListener("click", (ev) => {
-      const b = ev.target.closest(".chip");
-      if (!b) return;
-      chipsEl.querySelectorAll(".chip").forEach((c) => c.classList.toggle("activa", c === b));
-      pintaCronologia(b.dataset.filtro);
-    });
-  }
-  pintaCronologia("todos");
-
-  // Las activaciones de Colombia, las dos notas del cruce y la leyenda del
-  // mapa las escribe el build desde la fase 6 (render_html.py::
-  // activaciones_colombia, nota_rud_desde, nota_sin_registro y
-  // leyenda_portada). La rampa de color de la ausencia sigue aquí porque el
-  // mapa pinta con ella 196 anillos; su espejo en Python está declarado en
-  // render_html.py::_color_ausencia.
-
-  // ---- banda de hitos: la única serie que sigue dibujando el navegador
-  const fechaEvento = (hitos.find((h) => h.tipo === "evento") || {}).fecha;
-  const mediaGrafico = window.UI.serieDesde(mon.media_volume || [], fechaEvento);
-  drawCronoBanda(mediaGrafico, hitos);
-
-  // eje X de la banda de hitos. Lo compartía con la gráfica de volumen, que
-  // ya no existe: el gráfico de la portada es la brecha y lo escribe el build.
-  function ejeX(el, media) {
-    const W = Math.max(680, Math.min(el.clientWidth || 900, 1100));
-    const M = { t: 28, r: 16, b: 40, l: 48 };
-    const x = (i) => M.l + (i + 0.5) * (W - M.l - M.r) / media.length;
-    return { W, M, x };
-  }
-
-  /* Banda de cronología: los hitos separados del volumen, misma escala de fechas.
-     Tres carriles (internacional / local-oficial / monitor); ▲ = entrega Copernicus. */
-  function drawCronoBanda(media, hitosCrono) {
-    const el = document.getElementById("crono-banda");
-    if (!el || !media.length) return;
-    const { W, M, x } = ejeX(el, media);
-    const LANES = [
-      { key: "internacional", emoji: "🌍", nombre: "Respuesta internacional", color: css("--s1") },
-      { key: "local", emoji: "🇨🇴", nombre: "Respuesta local/oficial", color: css("--good") },
-      { key: "monitor", emoji: "🔧", nombre: "Cambios del monitor", color: css("--warning") },
-    ];
-    const laneDe = (h) => h.tipo === "institucional" || h.tipo === "entrega" ||
-      h.tipo === "internacional" ? 0 :
-      (h.tipo === "local" || h.tipo === "evento" ? 1 : 2);
-    const LH = 26, H = 6 + LANES.length * LH + 18;
-    const dayIdx = Object.fromEntries(media.map((d, i) => [d.fecha, i]));
-    // agrupar por carril+día para repartir los marcadores del mismo día
-    const grupos = {};
-    for (const h of (hitosCrono || [])) {
-      const i = dayIdx[(h.fecha || "").slice(0, 10)];
-      if (i != null) (grupos[`${laneDe(h)}|${i}`] ||= []).push(h);
-    }
-    let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Hitos de la respuesta por día y por tipo">`;
-    // rejilla vertical por día (misma posición que las barras de arriba)
-    media.forEach((d, i) => {
-      s += `<line x1="${x(i)}" x2="${x(i)}" y1="4" y2="${H - 16}" stroke="${css("--grid")}" stroke-width="1" stroke-dasharray="2 3"/>` +
-        `<text x="${x(i)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="${css("--muted")}">${window.UI.diaMes(d.fecha)}</text>`;
-    });
-    LANES.forEach((lane, li) => {
-      const yy = 6 + li * LH + LH / 2;
-      s += `<text x="${M.l - 8}" y="${yy + 4}" text-anchor="end" font-size="12">${lane.emoji}<title>${lane.nombre}</title></text>`;
-      if (li) s += `<line x1="${M.l}" x2="${W - M.r}" y1="${6 + li * LH}" y2="${6 + li * LH}" stroke="${css("--grid")}" stroke-width="0.5"/>`;
-    });
-    for (const [clave, dia] of Object.entries(grupos)) {
-      const [li, i] = clave.split("|").map(Number);
-      const yy = 6 + li * LH + LH / 2;
-      dia.forEach((h, k) => {
-        const xx = x(i) + (k - (dia.length - 1) / 2) * 11;
-        const texto = `${window.UI.fechaLarga(h.fecha)} · ${(ETIQUETA_TIPO[h.tipo] || h.tipo)} · ` +
-          (h.resumen || h.texto).replaceAll('"', "&quot;");
-        const color = h.tipo === "evento" ? css("--critical") : LANES[li].color;
-        s += h.tipo === "entrega"
-          ? `<path data-hito="${texto}" d="M ${xx - 5} ${yy - 4} l 10 0 l -5 9 z" fill="${css("--critical")}"/>`
-          : h.tipo === "evento"
-            ? `<text data-hito="${texto}" x="${xx}" y="${yy + 5}" text-anchor="middle" font-size="13" fill="${color}">★</text>`
-            : `<circle data-hito="${texto}" cx="${xx}" cy="${yy}" r="5" fill="${color}" stroke="${css("--surface-1")}" stroke-width="1.5"/>`;
-      });
-    }
-    s += `</svg>`;
-    el.innerHTML = s;
-    window.UI.attachTooltip(el, (t) =>
-      t.dataset.hito ? `<strong>Hito</strong><br>${t.dataset.hito}` : null);
-  }
 
   /* La comparativa de fuentes, el gráfico de la brecha, la leyenda, las
      alertas, el catálogo de activaciones y las dos notas del cruce los
      escribe ahora el build (deploy/render_html.py, fase 6): eran seis
      contenedores que viajaban VACÍOS en el HTML y solo existían para quien
      ejecuta JavaScript. Dibujarlos aquí otra vez sería una segunda copia
-     de la misma regla, que es como divergen (M2). Lo único que sigue
-     dibujando el navegador en esta página es el mapa y la banda de
-     cronología, que son exploración y no archivo. */
+     de la misma regla, que es como divergen (M2). Con la cronología —que se
+     mudó a referencia.html en la fase 6c y que ahora escribe
+     render_html.py::cronologia_referencia— lo ÚNICO que sigue dibujando el
+     navegador en esta página es el mapa, que es exploración y no archivo. */
 })();

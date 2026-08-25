@@ -6,6 +6,168 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — La portada deja de ser una ficha técnica: se van la matrícula, la cronología, la vigilancia de catálogo y cuatro descargas
+
+Fase 6c, con el prototipo (`prototipo/gen_prototipo.py`) otra vez como regla y
+el feedback de JP de la noche del 24: «simplificar la visión de esta página para
+que no sea tan técnica, sea mucho más digerible». Cuatro mudanzas. Ninguna
+borra nada: **todo lo que sale de la portada aterriza en un sitio donde
+significa algo**, y cada aterrizaje tiene su guardián.
+
+### 1 · La cabecera pierde la matrícula del siniestro
+
+Decía `Copernicus EMSR916 · GLIDE EQ-2026-000146-COL · alerta PAGER roja`. En la
+maqueta, «GLIDE» aparece **0 veces** y «PAGER», **0**. Es matrícula de
+expediente delante de quien llega buscando su municipio.
+
+Sale de la cabecera y **no del sitio**: el código de la activación y el del
+desastre ya vivían en el glosario de `referencia.html`, y ahí siguen. Lo único
+que solo se decía arriba era **el nivel de alerta del PAGER**, así que se
+recoge en la entrada del glosario, con lo que esa alerta significa y lo que no
+(«es una estimación automática de pérdidas probables, no un recuento»). Un dato
+que solo vive en un rótulo no se tira: se explica mejor en otra parte.
+
+Guardián: `TestLaCabeceraSinMatricula`, que vigila las dos mitades — que la
+jerga no vuelva y que la alerta roja siga escrita en la referencia.
+
+### 2 · La cronología se muda entera, y de paso deja de ser JavaScript
+
+La entrada de la fase 6b dejó esto pendiente por escrito: mudarla «es un porte
+de JavaScript con su propia verificación, no una parte de esta». Esta es esa
+verificación. Medida en la portada publicada a 1.400 px de ancho, `#cronologia`
+ocupaba **2.402 px de los 5.774 del documento**: su sección más alta, por
+delante del mapa.
+
+Se hace el porte completo a `deploy/render_html.py::cronologia_referencia` —la
+lista de hitos, la banda por carriles y los cuatro chips del filtro— y se borra el
+bloque de `site/app.js`. **El motivo no es solo el tamaño de la portada**: el
+`<ol id="timeline">` viajaba VACÍO y se montaba en el navegador, así que ningún
+rastreador —ni ningún sistema de IA, ni nadie sin JavaScript— llegó a leer jamás
+la cronología de un proyecto que se define como archivo. Ahora son 2.284
+palabras servidas donde antes había cero.
+
+Lo único que queda en el navegador es el filtro (`site/common.js`), y se calla
+si no encuentra sus chips: **sin JavaScript se leen los hitos enteros**, que es
+el estado correcto para un archivo — el filtro ordena la lectura, no la revela.
+
+Dos fallos que **introdujo el porte** y que sus guardianes cazaron antes de
+publicarse. Se anotan aquí porque el trabajo de escribirlos fue real, pero
+**el código anterior no los tenía**: el filtro viejo comparaba por etiqueta
+agrupada (`ETIQUETA_TIPO[h.tipo] === filtro`), no por la clase del `<li>`, y
+los enlaces salían con `esc()` sin filtro de esquema, así que los internos
+funcionaban. Atribuirlos al original sería reescribir la historia del monitor
+en el archivo, que es justo lo que este proyecto existe para no hacer:
+
+- **El filtro «Internacional» dejaba la lista vacía.** El `<li>` llevaba una
+  sola clase, la del tipo crudo (`institucional`, `entrega`), y el filtro busca
+  la etiqueta agrupada (`internacional`). Ahora lleva las dos: el CSS colorea
+  con la primera y el filtro busca la segunda.
+- **Más de la mitad de los hitos curados apuntan a páginas de este mismo
+  sitio** (`/rud.html`, `/balances.html`) y `enlace_seguro` —que solo admite `http(s)`,
+  para eso existe— los convertía en `href="#"`. Se separan los dos casos: lo
+  interno se queda en la misma pestaña, lo ajeno se abre fuera y pasa por el
+  filtro.
+
+`index.html#cronologia` está publicado, así que **el `id` se queda en la
+portada**, sobre la frase que lleva al texto: mismo contrato que `#metodologia`
+en la fase 6b. Un ancla que aterriza en un párrafo mudo es peor que un 404,
+porque parece que funciona.
+
+Guardianes: `TestLaMudanzaDeLaCronologia` (siete tests: la portada la suelta, el
+ancla responde y lleva, los hitos llegan escritos, cada uno con la clase de su
+filtro, el texto largo de los hitos del monitor, ningún enlace muerto y el
+espejo de `PRODUCTO_ES` con el `DICT` de `app.js`) y la lista de
+`test_app_js_ya_no_dibuja_lo_que_escribe_el_build`, que estrena `timeline` y
+`crono-banda`.
+
+### 2 bis · Por qué `#cronologia` deja nota-puente y `#colombia-acts-section` no
+
+La regla es «una URL publicada es un compromiso», y aplicarla a una y no a la
+otra parece incoherente hasta que se mira quién enlazaba qué. `#cronologia`
+estaba enlazado —desde la guía de secciones de `referencia.html`— y por tanto
+rastreado y compartible. `#colombia-acts-section` **no lo enlazaba nadie**:
+medido sobre el artefacto, cero de las 258 páginas de `dist/` apuntan ahí, ni el
+pie, ni la guía, ni ninguna ficha. Un id que nunca fue destino de un enlace no
+es una URL publicada: es un nombre interno. Se muda sin nota-puente, y ese id
+sigue existiendo —en `referencia.html`, que es donde ahora está la sección—, así
+que un enlace externo que alguien hubiera guardado a mano encuentra el mismo
+contenido cambiando de página.
+
+### 3 · «Otras activaciones de Copernicus» se muda, no se tira
+
+JP la tachó con una X y en la maqueta aparece 0 veces. Pero **no es material que
+se tire**: es vigilancia diaria de un catálogo ajeno, y el día que una de esas
+activaciones desaparezca del portal, esta lista seguirá diciendo que existió.
+Vigilar fuentes es la misión, no un adorno de la portada. Su sitio es
+`referencia.html`, la página que explica qué mira el monitor. La pieza pasa de
+`portada-acts` a `referencia-acts`.
+
+### 4 · La cabecera se queda con el CSV; las otras cuatro descargas bajan
+
+Decisión de JP del 25-ago. La cabecera llevaba cinco botones; la maqueta, solo
+el CSV del cruce, que es el dato de esa página. Las otras cuatro (JSON del
+monitor, GeoJSON de UNOSAT, GeoJSON de SERTIT, JSON de municipios sin satélite)
+**no desaparecen —esconder datos abiertos va contra la misión—**: bajan a
+`referencia.html#descargas`, un bloque nuevo donde cada fichero dice qué
+contiene y con qué licencia. Ese sitio y no un bloque suelto en la portada
+porque ahí cabe lo que en un botón no cabía: que el GeoJSON de ICube-SERTIT
+**no es CC BY**, sino licencia propia, no comercial y con atribución obligatoria
+a «© ICube-SERTIT 2026». Un botón que no puede decir su licencia publica peor
+que un párrafo que sí.
+
+### Los dos suelos de prosa se mueven a la vez, y manda la suma
+
+`ingest/seo_check.py::PROSA_MINIMA` rompe el build si una página baja de su
+suelo, así que una mudanza entre páginas obliga a mover los dos números.
+Medido sobre `dist/`:
+
+| | antes (fase 6b) | ahora (fase 6c) |
+|---|---|---|
+| `index.html` | 1.962 | **1.804** |
+| `referencia.html` | 2.292 | **5.566** |
+| **suma** | **4.254** | **7.370** |
+
+La suma sube en 3.116 palabras: **no se ha perdido texto, se ha ganado** — y se
+gana justo porque la cronología nunca había sido texto servido. Los suelos
+quedan en 1.653 (index: 1.804 − 151 de alertas condicionales) y 5.325
+(referencia: 5.566 − 241). Ese margen de la referencia es nuevo y tiene motivo:
+con la cronología llegan hitos que dependen del dato del día —el feed
+institucional de GDACS (85 palabras), las entregas de Copernicus (117) y el
+primer balance en medios (40)—, y **GDACS ya purgó una vez su serie global**. Un
+suelo sin margen convertiría el borrado de una fuente ajena en un build roto,
+cuando lo que corresponde es una alerta (R11, R15). Los hitos curados del
+monitor (2.009 palabras medidas) sí cuentan como prosa fija: viven versionados
+en `feeds/hitos_monitor.json`.
+
+### Lo que queda pendiente
+
+**El nivel de alerta del PAGER se escribe a mano.** `ingest/sources/usgs.py` ya
+captura `alertlevel` en cada corrida, pero no viaja a `monitor.json`, así que la
+frase del glosario lo dice con una fecha de corte («en la captura del 24 de
+agosto de 2026») y un enlace a la ficha del USGS, en vez de escribirlo el build
+como el resto de las cifras del día. Es el patrón «cifras a mano que envejecen»
+a medio corregir: si el USGS revisa el nivel, el sitio tarda en enterarse. Lo
+correcto es publicar `alertlevel` en `monitor.json` y escribirlo desde ahí; se
+deja fuera de esta fase porque toca la ingesta y el contrato del JSON, y esta
+fase es de portada.
+
+### Lo que NO se hace, y por qué
+
+**La portada sigue en 2.874 palabras y la maqueta pesa 1.427.** La diferencia no
+es material que sobre: son la tabla «Municipios con evidencia, uno a uno» (948
+palabras, dentro de un `<details>` cerrado), el resumen de metodología que
+sostiene las anclas `#metodologia` y `#glosario` de 258 páginas (163) y la banda
+de brechas (170). La maqueta no las trae por un motivo que se puede leer en su
+propio generador: `gen_prototipo.py` busca la tabla por `<h2>Municipios con
+evidencia` y luego corta hasta `</main>`, pero el `</main>` quedó ANTES de ese
+`<h2>` cuando la fase 6b sacó la tabla del lienzo, así que el bloque sale vacío
+y el prototipo la pierde **en silencio**. El comentario del propio generador
+dice lo contrario de lo que su código hace: «la tabla de evidencia por municipio
+BAJA, no desaparece… sostiene 48 de las 62 filas indexables de la portada».
+Manda el comentario. Y lo que el recuento de palabras no ve es el resultado
+medido en pantalla, que es lo que JP miraba: a 1.400 px de ancho la portada pasa
+de **5.774 a 3.153 px, un 45 % menos**; a 661 px, de 9.629 a 6.197 (36 %).
+
 ## 2026-08-25 — La metodología y el glosario se van a página propia; el mapa vuelve a caber en una pantalla
 
 Fase 6b: alinear la portada con la maqueta del prototipo, con el feedback que JP
