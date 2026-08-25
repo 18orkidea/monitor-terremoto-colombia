@@ -471,7 +471,6 @@
     }));
   }, { fondo: true }));
 
-  const aoiLayerById = {};
   const munLayerById = {};
   // Las zonas que Copernicus recortó son Copernicus, así que cuelgan de su
   // chip: apagarlo dejaba estos polígonos en pantalla y el control publicaba
@@ -484,7 +483,6 @@
       }),
       onEachFeature: (f, l) => {
         const p = f.properties;
-        aoiLayerById[p.aoi] = l;
         // «Western Colombia» es el área de referencia y no trae ninguna cifra:
         // su globo se queda en el título y la etiqueta, sin cuatro renglones
         // de guiones que parecerían ceros.
