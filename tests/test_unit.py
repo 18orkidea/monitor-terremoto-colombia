@@ -4422,3 +4422,83 @@ class TestUnaHipotesisCaidaNoApagaLaPublicacion(unittest.TestCase):
             all("::error" in b or "::warning" in b for b in avisos),
             "el paso que atiende la hipótesis caída no la anuncia: se caería "
             "en silencio, que es justo lo que R11 prohíbe")
+
+
+class TestLaPrecisionDeLoQuePublicamos(unittest.TestCase):
+    """Los geojson que publicamos van a un metro, no a un milímetro.
+
+    Copernicus entrega ocho decimales. Un hueco de cobertura satelital de
+    kilómetros de lado no necesita precisión de milímetro para dibujarse, y
+    esos decimales engordaban `not_analysed.geojson` un 29 % sin mover un
+    píxel: 2.174 KB para 48 polígonos, la mitad de todo lo que la portada
+    descargaba.
+
+    **Lo que se recorta es NUESTRA derivación, no lo que dijo la fuente.** El
+    snapshot de Copernicus conserva sus ocho decimales y su sha256, y sigue
+    siendo la prueba de qué entregó. Este guardián vigila las dos mitades del
+    trato, porque cada una falla sola: que lo publicado se recorte de verdad, y
+    que el recorte no toque nada que no sea una coordenada.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "ingest"))
+        from sources import copernicus_layers as cl
+        cls.cl = cl
+
+    def test_las_coordenadas_publicadas_pierden_el_milimetro(self):
+        crudo = {"type": "Feature", "properties": {"aoi": "x"},
+                 "geometry": {"type": "Polygon", "coordinates": [[
+                     [-76.12345678, 3.87654321], [-76.11111111, 3.88888888],
+                     [-76.12345678, 3.87654321]]]}}
+        salida = self.cl._con_precision_de_metro(crudo)
+        planas = [v for anillo in salida["geometry"]["coordinates"]
+                  for par in anillo for v in par]
+        # Camino 1: ninguna coordenada conserva más decimales de los permitidos.
+        for v in planas:
+            self.assertLessEqual(
+                len(str(v).split(".")[-1]), self.cl.DECIMALES_PUBLICADOS,
+                f"{v} sigue publicándose con precisión de milímetro")
+        # Camino 2: y son EXACTAMENTE las que salen de redondear el original,
+        # no otras. Contar dos veces por vías distintas es lo que caza al
+        # guardián que se conforma con «alguna cosa cambió».
+        esperadas = [round(v, self.cl.DECIMALES_PUBLICADOS)
+                     for anillo in crudo["geometry"]["coordinates"]
+                     for par in anillo for v in par]
+        self.assertEqual(planas, esperadas)
+
+    def test_el_recorte_no_toca_nada_que_no_sea_geometria(self):
+        """Las propiedades viajan intactas: ahí hay identificadores y grados de
+        daño, y redondear un número que no es una coordenada sería inventarse
+        el dato de la fuente."""
+        crudo = {"type": "Feature",
+                 "properties": {"aoi": "EMSR916", "n": 3.14159265,
+                                "damage_gra": "Destroyed", "vacio": None},
+                 "geometry": {"type": "Point",
+                              "coordinates": [-76.12345678, 3.87654321]}}
+        salida = self.cl._con_precision_de_metro(crudo)
+        self.assertEqual(salida["properties"], crudo["properties"])
+        self.assertEqual(salida["geometry"]["coordinates"],
+                         [-76.12346, 3.87654])
+
+    def test_un_feature_sin_geometria_no_revienta(self):
+        """R13: un feature raro degrada, no rompe la corrida entera."""
+        for raro in ({"type": "Feature", "properties": {}},
+                     {"type": "Feature", "properties": {}, "geometry": None},
+                     {"type": "Feature", "properties": {}, "geometry": {}}):
+            self.assertEqual(self.cl._con_precision_de_metro(raro), raro)
+
+    def test_lo_que_se_escribe_al_disco_pasa_por_el_recorte(self):
+        """El guardián de arriba prueba la función; este prueba que alguien la
+        llama. Con la función perfecta y desenchufada, el fichero publicado
+        seguiría llevando los ocho decimales — que es el fallo real."""
+        fuente = (Path(__file__).resolve().parents[1]
+                  / "ingest" / "sources" / "copernicus_layers.py"
+                  ).read_text(encoding="utf-8")
+        escritura = re.search(r"for kind, fname in \(.*?ensure_ascii=False\)\)",
+                              fuente, re.S)
+        self.assertIsNotNone(escritura, "cambió la forma de escribir los "
+                             "geojson: revisa que el recorte siga aplicándose")
+        self.assertIn("_con_precision_de_metro", escritura.group(0),
+                      "los geojson se escriben sin pasar por el recorte: lo "
+                      "publicado volvería a los ocho decimales")

@@ -95,12 +95,48 @@ def run() -> dict:
                         ("lines", "damage_lines.geojson"),
                         ("areas", "not_analysed.geojson")):
         (PUBLIC / fname).write_text(json.dumps(
-            {"type": "FeatureCollection", "features": buckets[kind]},
+            {"type": "FeatureCollection",
+             "features": [_con_precision_de_metro(f) for f in buckets[kind]]},
             ensure_ascii=False))
         out["features"][kind] = len(buckets[kind])
     conn.commit()
     conn.close()
     return out
+
+
+# Copernicus entrega las coordenadas con ocho decimales, que son milímetros.
+# Un hueco de cobertura satelital de kilómetros de lado no se dibuja con
+# precisión de milímetro: 143.438 de las 159.510 coordenadas de
+# `not_analysed.geojson` la traían, y eso engorda el fichero un 29 % sin mover
+# un píxel en pantalla. Cinco decimales son ~1,1 m en el ecuador, más fino que
+# el píxel del producto del que salen estos trazados.
+#
+# Esto toca LO QUE PUBLICAMOS NOSOTROS, no lo que dijo la fuente: el snapshot
+# de Copernicus sigue intacto con sus ocho decimales y su sha256, y es el que
+# demuestra qué entregó. Aquí se corrige nuestra derivación, que es la capa
+# que el contrato del proyecto sí permite arreglar.
+DECIMALES_PUBLICADOS = 5
+
+
+def _con_precision_de_metro(feature: dict) -> dict:
+    """El mismo feature con las coordenadas redondeadas a `DECIMALES_PUBLICADOS`.
+
+    Recorre la geometría sea cual sea su anidamiento (Point, LineString,
+    Polygon, MultiPolygon…) sin tener que conocer su tipo: lo que no es una
+    pareja de números se deja como está.
+    """
+    def recorta(x):
+        if isinstance(x, (int, float)) and not isinstance(x, bool):
+            return round(x, DECIMALES_PUBLICADOS)
+        if isinstance(x, list):
+            return [recorta(v) for v in x]
+        return x
+
+    geom = feature.get("geometry")
+    if not isinstance(geom, dict) or "coordinates" not in geom:
+        return feature
+    return {**feature,
+            "geometry": {**geom, "coordinates": recorta(geom["coordinates"])}}
 
 
 def counts_by_aoi() -> dict:

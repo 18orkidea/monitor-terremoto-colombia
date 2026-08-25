@@ -3436,3 +3436,26 @@ seguirá diciendo lo de hoy hasta que el flujo diario vuelva a ejecutarse. Los t
 niveles del banner de silencio (`site/ui.js::silencioDePrensa`) no se tocan aquí:
 cuando la corrida limpia pase, el segundo nivel se quedará casi vacío por sí solo
 y ese texto es otra decisión.
+
+### Las coordenadas que publicamos van a un metro, no a un milímetro
+
+Copernicus entrega ocho decimales. `not_analysed.geojson` traía 143.438 de sus
+159.510 coordenadas con esa precisión: un milímetro para dibujar huecos de
+cobertura satelital de kilómetros de lado. **Medido: 2.174 KB → 1.707 KB, un
+21 % menos (467 KB), sin mover un píxel** — cinco decimales son ~1,1 m en el
+ecuador, más fino que el píxel del producto del que salen estos trazados.
+
+Lo que se recorta es **nuestra derivación, no lo que dijo la fuente**: el
+snapshot de Copernicus conserva sus ocho decimales y su sha256, y sigue siendo
+la prueba de qué entregó. Es la distinción de las dos capas del contrato — lo
+que la fuente dijo es intocable; cómo lo publicamos nosotros se corrige.
+
+Lo que **no** se hace es simplificar la geometría. Los 79.755 vértices son el
+trazado a resolución de píxel del producto de Copernicus, y bajarlos sí movería
+el dibujo: sería retocar lo que la fuente publicó, que es justo lo que este
+monitor existe para no hacer.
+
+`ingest/sources/copernicus_layers.py::_con_precision_de_metro` ·
+`tests/test_unit.py::TestLaPrecisionDeLoQuePublicamos` (validado con cuatro
+mutaciones, entre ellas la función perfecta pero desenchufada, que es el fallo
+real: un recorte que nadie llama deja el fichero igual de gordo).
