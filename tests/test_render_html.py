@@ -4305,6 +4305,65 @@ class TestMarcadoEstructurado(unittest.TestCase):
             self.assertIn(R.ORGANIZACION, definidos)
             self.assertIn(R.SITIO, definidos)
 
+    def test_el_catalogo_del_sitio_cumple_las_reglas_de_dataset(self):
+        """El nodo `#site` se declara `DataCatalog`, y Google lo valida con las
+        reglas de `Dataset`: le exige `description` —sin ella lo descarta de los
+        resultados enriquecidos—, `license` y `creator`. Los tres faltaban, en
+        las 353 páginas a la vez, y así lo enseñaba Search Console en la ficha
+        de Dagua sin que el fallo tuviera nada que ver con Dagua.
+
+        Sobre el artefacto construido, no sobre la plantilla: es el HTML que
+        lee el rastreador. Y no vale «la clave está»: una `description` puesta
+        a cadena vacía es exactamente lo que Google rechaza, así que se le
+        exige contenido de verdad y que el `creator` apunte a una entidad
+        definida en ese mismo documento."""
+        vistos = 0
+        for pagina in self.paginas:
+            html = pagina.read_text(encoding="utf-8")
+            nombre = self._nombre(pagina)
+            catalogos = [n for bloque in bloques_ld(html) for n in nodos_ld(bloque)
+                         if "DataCatalog" in tipos_ld(n)]
+            self.assertEqual(len(catalogos), 1,
+                             f"{nombre}: {len(catalogos)} nodos DataCatalog, se "
+                             "esperaba 1")
+            nodo = catalogos[0]
+            vistos += 1
+            for campo, minimo in (("name", 1), ("description", 60)):
+                valor = nodo.get(campo)
+                self.assertIsInstance(valor, str, f"{nombre}: catálogo sin «{campo}»")
+                # el mínimo no es capricho: la trampa de este repositorio es el
+                # test que se conforma con que la clave exista, y una
+                # `description` a cadena vacía —o de tres palabras— es
+                # exactamente lo que Google rechaza
+                self.assertGreaterEqual(
+                    len(valor.strip()), minimo,
+                    f"{nombre}: «{campo}» del catálogo no dice nada → {valor!r}")
+            self.assertEqual(nodo.get("license"), R.LICENCIA,
+                             f"{nombre}: el catálogo no publica su licencia")
+            for campo in ("creator", "publisher"):
+                self.assertEqual(nodo.get(campo), {"@id": R.ORGANIZACION},
+                                 f"{nombre}: «{campo}» del catálogo no referencia "
+                                 "a la organización que ya define esta página")
+        self.assertEqual(vistos, len(self.paginas), "el guardián no recorrió las 353")
+
+    def test_la_licencia_del_sitio_se_escribe_una_sola_vez(self):
+        """Seis nodos publican la misma licencia. Escrita seis veces, la que
+        nadie mira es la que se queda atrás; y una licencia equivocada en el
+        marcado autoriza usos que el proyecto no autoriza."""
+        fuente = (ROOT / "deploy" / "render_html.py").read_text(encoding="utf-8")
+        self.assertEqual(
+            fuente.count('"https://creativecommons.org/licenses/by/4.0/"'), 1,
+            "la URL de la licencia volvió a escribirse a mano: usa R.LICENCIA")
+        for pagina in self.paginas:
+            for bloque in bloques_ld(pagina.read_text(encoding="utf-8")):
+                for nodo in nodos_ld(bloque):
+                    licencia = nodo.get("license")
+                    if licencia is not None:
+                        self.assertEqual(licencia, R.LICENCIA,
+                                         f"{self._nombre(pagina)}: licencia distinta "
+                                         f"en {nodo.get('@id') or nodo.get('name')}")
+
+
 
 class TestNoticiasReordenada(unittest.TestCase):
     """La página de titulares: el dato arriba y la explicación plegada (fase 4).

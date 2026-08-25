@@ -6,6 +6,38 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — El nodo del catálogo se completa en vez de dejar de declararse catálogo
+
+**Contexto.** Search Console rechazaba un elemento en **las 353 páginas** —JP lo
+vio en la ficha de Dagua, y con Dagua no tenía nada que ver—. El culpable es
+`BLOQUE_IDENTIDAD`: el nodo `#site` se declara `{"@type": ["WebSite",
+"DataCatalog"]}` y **Google lo valida con las reglas de `Dataset`**, que le
+exigen `description` (crítico: sin ella el elemento no puede aparecer en
+resultados enriquecidos), `license` y `creator`. El nodo llevaba `name`, `url`,
+`inLanguage` y `publisher`, y nada más.
+
+**Decisión: se completa el nodo, no se apaga el aviso.** Quitar `DataCatalog`
+del `@type` habría callado a Google y habría sido mentira: el sitio **es** un
+catálogo de datos, con un `Dataset` por municipio y otro por página. `license` y
+`creator` **se reutilizan**, no se reescriben: la URL de la licencia estaba
+copiada cinco veces en `render_html.py` —una por `Dataset`— y el catálogo
+necesitaba la sexta, así que pasa a la constante `LICENCIA` y las seis la leen
+de ahí (M2). No es la licencia de las fuentes: la de ICube-SERTIT prohíbe el uso
+comercial y sigue viajando pegada a su dato en `SATELITES`.
+
+**Guardián** sobre el **artefacto construido**, no sobre la plantilla
+(`tests/test_render_html.py::TestMarcadoEstructurado`): el nodo `DataCatalog` de
+cada una de las 353 páginas lleva los tres campos, la `description` tiene
+contenido de verdad —60 caracteres mínimo: la trampa de este repositorio es el
+test que se conforma con que la clave exista, y una cadena vacía es exactamente
+lo que Google rechaza— y `creator`/`publisher` referencian a una entidad
+definida en ese mismo documento. Un segundo test prohíbe que la URL de la
+licencia vuelva a escribirse a mano. Siete mutaciones caen (M1): sin
+`description`, con `description` vacía, con `description` de tres palabras, sin
+`license`, sin `creator`, con un literal de licencia nuevo y **quitando
+`DataCatalog` del `@type`**, que es la salida cómoda que este guardián existe
+para impedir.
+
 ## 2026-08-25 — El nombre del feed sale del texto cruzado: quien busca no es quien informa
 
 **Contexto.** `municipios.py::build_municipios` decidía si un titular era de un

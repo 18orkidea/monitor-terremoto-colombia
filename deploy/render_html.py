@@ -535,6 +535,13 @@ TELEGRAM_CANAL = "https://t.me/terremotoCO2026"
 # que contiene los 208 datasets municipales.
 ORGANIZACION = "https://datosdelterremoto.org/#organization"
 SITIO = "https://datosdelterremoto.org/#site"
+# La licencia con la que se publica todo lo que compila este monitor. Estaba
+# escrita cinco veces —una por cada `Dataset` del sitio— y el nodo del catálogo
+# necesitaba la sexta: una constante antes que un sexto literal, porque seis
+# copias de la misma URL acaban divergiendo en la que nadie mira (M2). No es la
+# licencia de las FUENTES: la de ICube-SERTIT prohíbe el uso comercial y viaja
+# pegada a su dato en `SATELITES`, que es donde tiene que estar.
+LICENCIA = "https://creativecommons.org/licenses/by/4.0/"
 IDENTIDAD = {
     "@context": "https://schema.org",
     "@graph": [
@@ -543,10 +550,29 @@ IDENTIDAD = {
          "url": "https://datosdelterremoto.org/",
          "logo": "https://datosdelterremoto.org/icons/icono-512.png",
          "sameAs": [REPO]},
+        # `description`, `license` y `creator` NO son adorno: Google valida este
+        # nodo con las reglas de `Dataset` —lo pide el `DataCatalog` del
+        # `@type`— y sin `description` lo declara no apto para resultados
+        # enriquecidos. Estuvo así en las 353 páginas a la vez, que es como se
+        # publican los fallos de este bloque. La salida cómoda habría sido
+        # quitar `DataCatalog` para que el aviso callara; el sitio ES un
+        # catálogo de datos, así que se arregla el nodo, no la declaración.
         {"@type": ["WebSite", "DataCatalog"], "@id": SITIO,
          "name": "Datos del terremoto de Colombia 2026",
+         "description":
+             "Catálogo abierto del terremoto M7.4 del 10 de agosto de 2026 en "
+             "Colombia: un conjunto de datos por municipio y uno por página, con "
+             "los damnificados del registro oficial (RUD de la UNGRD), la "
+             "población proyectada (DANE), la evaluación satelital de daño "
+             "(Copernicus EMS, UNITAR-UNOSAT, ICube-SERTIT), los reportes de la "
+             "comunidad, los titulares de prensa y los balances fechados. El "
+             "monitor no produce cifras: audita y cruza las que existen, y cada "
+             "una es rastreable hasta la petición que la trajo.",
          "url": "https://datosdelterremoto.org/",
          "inLanguage": "es",
+         "license": LICENCIA,
+         # R9: quien compila el catálogo, no quien produce la cifra oficial
+         "creator": {"@id": ORGANIZACION},
          "publisher": {"@id": ORGANIZACION}},
     ]}
 # Serializado una sola vez: así «idéntico en las 213» es un hecho del código y
@@ -1765,7 +1791,7 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
         "description": descr, "inLanguage": "es",
         "temporalCoverage": f"2026-08-10/{fecha}" if fecha else "2026-08-10/..",
         **({"dateModified": fecha} if fecha else {}),
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         # La condición de una fuente viaja PEGADA AL DATO, también cuando el
         # lector es una máquina. `SATELITES` ya lo dice de ICube-SERTIT —«su
         # licencia obliga a citar y prohíbe el uso comercial»— y la ficha lo
@@ -2837,7 +2863,7 @@ def dataset_municipios(ctx: dict) -> str:
         "inLanguage": "es",
         "temporalCoverage": "2026-08-10/..",
         **({"dateModified": fecha} if fecha else {}),
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         "creator": {"@id": ORGANIZACION},
         "publisher": {"@id": ORGANIZACION},
         "includedInDataCatalog": {"@id": SITIO},
@@ -4522,7 +4548,7 @@ def dataset_rud(ctx: dict) -> str:
         # la corrida del build no pinta nada aquí (M7)
         **({"temporalCoverage": f"2026-08-10/{ult['fecha']}",
             "dateModified": ult["fecha"]} if ult.get("fecha") else {}),
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         # R9: quien compila el artefacto, no quien produce la cifra oficial
         "creator": {"@id": ORGANIZACION},
         "publisher": {"@id": ORGANIZACION},
@@ -4596,7 +4622,7 @@ def dataset_referencia(ctx: dict) -> str:
             "una es rastreable hasta la petición que la trajo.",
         "inLanguage": "es",
         "temporalCoverage": "2026-08-10/..",
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         "creator": {"@id": ORGANIZACION},
         "publisher": {"@id": ORGANIZACION},
         "includedInDataCatalog": {"@id": SITIO},
@@ -5805,7 +5831,7 @@ def marcado_balances(ctx: dict) -> str:
             "publica citándolo, y la distancia entre versiones es el dato.",
         "url": "https://datosdelterremoto.org/balances.html",
         "inLanguage": "es",
-        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "license": LICENCIA,
         "isAccessibleForFree": True,
         # R9: quien compila el artefacto, no quien produce la cifra oficial
         "creator": {"@id": ORGANIZACION},
