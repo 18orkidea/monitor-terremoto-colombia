@@ -4749,3 +4749,58 @@ class TestLosDatosNoViajanDentroDelGuionDeNode(unittest.TestCase):
             len(list(self._llamadas())), 5,
             "este guardián ya no encuentra las llamadas a node: o han "
             "desaparecido, o se escriben de otra forma y hay que enseñársela")
+
+
+class TestElFaviconConvencionalResponde(unittest.TestCase):
+    """`/favicon.ico` existe, aunque el `<head>` declare el PNG.
+
+    El sitio declara su icono en el `<head>` como PNG y los navegadores lo
+    respetan. Pero **muchos rastreadores piden `/favicon.ico` a pelo, sin leer
+    el `<head>`**: reciben un 404 y concluyen que el dominio no tiene identidad
+    visual. Pasó de verdad — una auditoría externa del 25-ago-2026 informó de
+    que el sitio «no asocia una identidad visual al dominio» teniendo el icono
+    y la imagen social puestos y sirviéndose bien.
+
+    Es un fichero en `deploy/root/`, que el build copia a la raíz: no hay que
+    tocar el `<head>` ni quitar el PNG. Las dos vías conviven.
+    """
+
+    def test_el_fichero_existe_y_es_un_ico_de_verdad(self):
+        p = Path(__file__).resolve().parents[1] / "deploy" / "root" / "favicon.ico"
+        self.assertTrue(p.exists(), "falta deploy/root/favicon.ico: los "
+                        "rastreadores que lo piden a pelo verán un 404")
+        cab = p.read_bytes()[:4]
+        # cabecera ICO: reservado 0, tipo 1. Comprobar la firma y no solo la
+        # extensión: un PNG renombrado a .ico pasa el `exists()` y falla en
+        # los clientes viejos, que es justo a quien sirve este fichero.
+        self.assertEqual(cab[:2], b"\x00\x00", "no empieza por la cabecera ICO")
+        self.assertEqual(cab[2:4], b"\x01\x00",
+                         "la cabecera no declara tipo icono: ¿es un PNG "
+                         "renombrado?")
+
+    def test_lleva_los_tamanos_pequenos_que_son_su_razon_de_ser(self):
+        """Un .ico que solo trae 256×256 no sirve para lo que se pide: la
+        pestaña del navegador y los listados usan 16 y 32."""
+        p = Path(__file__).resolve().parents[1] / "deploy" / "root" / "favicon.ico"
+        n = int.from_bytes(p.read_bytes()[4:6], "little")
+        self.assertGreaterEqual(n, 3, f"el .ico solo trae {n} tamaño(s)")
+        anchos = {p.read_bytes()[6 + i * 16] or 256 for i in range(n)}
+        for necesario in (16, 32):
+            self.assertIn(necesario, anchos,
+                          f"falta el tamaño {necesario}×{necesario}, que es el "
+                          f"que usa la pestaña del navegador. Trae: {sorted(anchos)}")
+
+    def test_el_build_lo_copia_a_la_raiz(self):
+        """El fichero perfecto en `deploy/root/` no sirve de nada si el build
+        deja de copiar esa carpeta. Es la mitad que falla sola."""
+        sh = (Path(__file__).resolve().parents[1] / "deploy" / "build_dist.sh"
+              ).read_text(encoding="utf-8")
+        # La línea tiene que estar VIVA, no dentro de un comentario: buscar la
+        # cadena a secas daba verde con el `cp` comentado, porque la cadena
+        # seguía ahí — comentada. Es el guardián que se conforma con encontrar
+        # su propia palabra, la avería que más veces ha aparecido aquí.
+        viva = [l for l in sh.splitlines()
+                if l.strip().startswith("cp ") and "deploy/root" in l]
+        self.assertTrue(
+            viva, "el build ya no copia deploy/root a la raíz (¿la línea está "
+            "comentada?): /favicon.ico volvería a dar 404")
