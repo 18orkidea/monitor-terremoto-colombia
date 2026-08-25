@@ -36,7 +36,7 @@ VECTOR = {
 
 def correr(script: str) -> dict:
     r = subprocess.run(
-        [NODE, "--input-type=module", "-e", script],
+        [NODE, "--input-type=module", "-"], input=script,
         capture_output=True, text=True, timeout=60)
     if r.returncode != 0:
         raise AssertionError(f"node falló: {r.stderr[:800]}")

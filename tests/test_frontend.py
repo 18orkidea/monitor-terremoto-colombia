@@ -69,7 +69,7 @@ def correr_ui(expresion: str) -> dict:
         f"const items = {json.dumps(FIXTURE, ensure_ascii=False)};"
         f"console.log(JSON.stringify({expresion}));"
     )
-    r = subprocess.run([NODE, "-e", script], capture_output=True, text=True,
+    r = subprocess.run([NODE, "-"], input=script, capture_output=True, text=True,
                        timeout=30)
     if r.returncode != 0:
         raise AssertionError(f"node falló: {r.stderr[:500]}")
@@ -221,6 +221,8 @@ def correr_con(items: list, expresion: str):
         "const items = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
         f"console.log(JSON.stringify({expresion}));"
     )
+    # Aquí los datos ya viajaban por stdin y el guion, que es fijo, por `-e`:
+    # es la forma correcta y se conserva.
     r = subprocess.run([NODE, "-e", script],
                        input=json.dumps(items, ensure_ascii=False),
                        capture_output=True, text=True, timeout=30)
@@ -1255,7 +1257,7 @@ class TestEspejoDeCoherencia(unittest.TestCase):
                       f"const casos = {casos};"
                       "console.log(JSON.stringify(casos.map((c) => "
                       "W.incoherenciasDeCifras(c).length > 0)));")
-            r = subprocess.run([NODE, "--input-type=module", "-e", script],
+            r = subprocess.run([NODE, "--input-type=module", "-"], input=script,
                                capture_output=True, text=True, timeout=30)
         if r.returncode != 0:
             raise AssertionError(f"node falló: {r.stderr[:400]}")
@@ -2138,7 +2140,7 @@ class TestElAnilloDeLaAusenciaCuentaFamilias(unittest.TestCase):
                  + bloque.group(0)
                  + f"console.log(JSON.stringify({json.dumps(familias)}"
                    ".map(radioAusencia)));")
-        r = subprocess.run([NODE, "-e", guion], capture_output=True, text=True,
+        r = subprocess.run([NODE, "-"], input=guion, capture_output=True, text=True,
                            timeout=30)
         if r.returncode != 0:
             raise AssertionError(f"node falló: {r.stderr[:500]}")
@@ -2616,7 +2618,7 @@ class TestElMotorDeCargaDiferida(unittest.TestCase):
         """ + guion + """
         })().catch((e) => { console.log("ERROR " + e.message); process.exit(3); });
         """
-        r = subprocess.run([NODE, "-e", script], capture_output=True, text=True,
+        r = subprocess.run([NODE, "-"], input=script, capture_output=True, text=True,
                            timeout=30)
         if r.returncode != 0:
             raise AssertionError(f"node falló: {r.stderr[:800]}{r.stdout[:400]}")
@@ -2788,7 +2790,7 @@ class TestElZoomAgrandaTambienElEdificioYElReporte(unittest.TestCase):
             guion = (f"const map = {{ getZoom: () => {json.dumps(z)} }};"
                      + bloque.group(0)
                      + f"console.log(radioPunto({json.dumps(base)}));")
-            r = subprocess.run([NODE, "-e", guion], capture_output=True,
+            r = subprocess.run([NODE, "-"], input=guion, capture_output=True,
                                text=True, timeout=30)
             if r.returncode != 0:
                 raise AssertionError(f"node falló: {r.stderr[:500]}")

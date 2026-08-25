@@ -35,13 +35,25 @@ def correr_ui(expresion: str, datos="null"):
 
     Testear una copia de la regla en Python sería testear nada: cuando este
     módulo replica algo que vive en JavaScript, la comparación se hace contra
-    el original ejecutándolo."""
+    el original ejecutándolo.
+
+    **Los datos viajan por la entrada estándar, no dentro del guion.** Hasta el
+    25-ago-2026 se interpolaban en el script y este iba por `-e`, así que el
+    argumento crecía con el monitor: el día que la serie pasó del límite de
+    `execve` saltó `OSError [Errno 7] Argument list too long`. En Linux, que lo
+    tiene mucho más bajo que macOS — verde en el portátil y rojo en el CI, y
+    más rojo cuantos más datos hubiera. Es el mismo reparto que ya usaban
+    `render_html.py` y `alerts.py`, con su comentario: **guion fijo por
+    argumento, datos por stdin.**
+    """
     script = ("global.window = {};"
               f"require({json.dumps(str(ROOT / 'site' / 'ui.js'))});"
               "const UI = window.UI;"
-              f"const mon = {json.dumps(datos, ensure_ascii=False)};"
+              "const mon = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
               f"console.log(JSON.stringify({expresion}));")
-    r = subprocess.run([NODE, "-e", script], capture_output=True, text=True, timeout=30)
+    r = subprocess.run([NODE, "-e", script],
+                       input=json.dumps(datos, ensure_ascii=False),
+                       capture_output=True, text=True, timeout=30)
     if r.returncode != 0:
         raise AssertionError(f"node falló: {r.stderr[:500]}")
     return json.loads(r.stdout)
@@ -1295,7 +1307,7 @@ class TestBandaDeBrechas(unittest.TestCase):
             script = ("const desde = new Date(%r);"
                       "const hoy = new Date('2026-08-22T18:00:00Z');"
                       "console.log(Math.floor((hoy - desde) / 864e5));" % desde)
-            salida = subprocess.run([NODE, "-e", script], capture_output=True,
+            salida = subprocess.run([NODE, "-"], input=script, capture_output=True,
                                     text=True, timeout=30)
             self.assertEqual(int(salida.stdout), R._dias_entre(desde, "2026-08-22"),
                              f"el navegador y el build no cuentan igual desde {desde}")
@@ -4988,8 +5000,9 @@ class TestEnlaceSeguroEsEspejo(unittest.TestCase):
                   "const salida = %s.map((x) => "
                   "  enlaceSeguro(x) === '#' ? 'BLOQUEA' : 'PASA');\n"
                   "console.log(JSON.stringify(salida));" % json.dumps(list(casos)))
-        r = subprocess.run(["node", "-e", "global.location={origin:"
-                            "'https://datosdelterremoto.org'};" + script],
+        r = subprocess.run(["node", "-"],
+                           input="global.location={origin:"
+                                 "'https://datosdelterremoto.org'};" + script,
                            capture_output=True, text=True)
         if r.returncode:
             raise AssertionError(f"node falló: {r.stderr[:400]}")
@@ -6412,7 +6425,7 @@ class TestPiezasDeLaPortada(unittest.TestCase):
                  "console.log(JSON.stringify([null,3,4,5,6,7,8]"
                  ".map(colorAusencia)));")
         del_navegador = json.loads(subprocess.run(
-            [NODE, "-e", guion], capture_output=True, text=True,
+            [NODE, "-"], input=guion, capture_output=True, text=True,
             timeout=30, check=True).stdout)
         del_build = [R._color_ausencia(m) for m in (None, 3, 4, 5, 6, 7, 8)]
         self.assertEqual(del_build, del_navegador)

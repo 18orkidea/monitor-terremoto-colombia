@@ -4502,3 +4502,79 @@ class TestLaPrecisionDeLoQuePublicamos(unittest.TestCase):
         self.assertIn("_con_precision_de_metro", escritura.group(0),
                       "los geojson se escriben sin pasar por el recorte: lo "
                       "publicado volvería a los ocho decimales")
+
+
+class TestLosDatosNoViajanDentroDelGuionDeNode(unittest.TestCase):
+    """Los datos que crecen no pueden ir por la línea de comandos.
+
+    El 25-ago-2026 saltó `OSError [Errno 7] Argument list too long` en el CI:
+    un test interpolaba la serie dentro del guion y se lo pasaba a node por
+    `-e`, así que **el argumento crecía con el monitor**. En Linux el límite de
+    `execve` es mucho más bajo que en macOS, de modo que estaba verde en el
+    portátil y rojo en el CI — **y más rojo cuantos más datos hubiera**. Es la
+    peor forma de fallar: la que llega el día que el proyecto va bien.
+
+    El reparto correcto ya existía en `render_html.py` y `alerts.py`: **guion
+    fijo por argumento, datos por `input=`**, que no tiene tope. Lo que este
+    guardián exige es que nadie invoque a node sin pasarle nada por stdin,
+    porque eso significa que todo —datos incluidos— viaja en el argumento.
+
+    Vale también para el runtime: ahí no rompe un test, rompe la publicación
+    del día.
+    """
+
+    RAICES = ("tests", "ingest", "deploy")
+
+    def _llamadas(self):
+        """(fichero, línea, cola) de cada invocación de node por subproceso.
+
+        El docstring no escribe la llamada literal a propósito: este método se
+        lee a sí mismo, y un ejemplo en prosa contaría como una llamada de
+        verdad. Ya pasó al escribirlo.
+        """
+        raiz = Path(__file__).resolve().parents[1]
+        for r in self.RAICES:
+            for f in sorted((raiz / r).rglob("*.py")):
+                texto = f.read_text(encoding="utf-8")
+                for m in re.finditer(
+                        r"subprocess\.run\(\s*\[[^\]]*\bnode\b[^\]]*\]",
+                        texto, re.I):
+                    # Este guardián se acusaba a sí mismo: su propia expresión
+                    # regular es texto en un fichero de `tests/` y casa consigo
+                    # misma. Una llamada de verdad no lleva barras de escape;
+                    # el patrón escrito sí. Es la trampa del test que se lee a
+                    # sí mismo, hermana del que busca una palabra que está en
+                    # el comentario de su autor.
+                    if "\\" in m.group(0):
+                        continue
+                    yield (f.name, texto[:m.start()].count("\n") + 1,
+                           texto[m.end():m.end() + 300])
+
+    def test_toda_llamada_a_node_recibe_los_datos_por_la_entrada(self):
+        culpables = [f"{n}:{ln}" for n, ln, cola in self._llamadas()
+                     if "input=" not in cola]
+        self.assertEqual(
+            culpables, [],
+            f"estas llamadas a node no pasan nada por `input=`: {culpables}. "
+            "Si los datos van dentro del guion y el guion va por argumento, "
+            "el tamaño crece con el archivo hasta reventar el límite del "
+            "sistema —antes en Linux que en macOS—.")
+
+    def test_ninguna_llamada_pasa_los_datos_dos_veces(self):
+        """La otra mitad, que ya falló al arreglar lo anterior: dos `input=` en
+        la misma llamada no es un aviso, es un `SyntaxError` que tumba el
+        build entero."""
+        for n, ln, cola in self._llamadas():
+            self.assertLessEqual(
+                cola.count("input="), 1,
+                f"{n}:{ln} pasa `input=` dos veces: Python no acepta el "
+                "argumento repetido y el módulo deja de importarse")
+
+    def test_el_guardian_sigue_encontrando_las_llamadas(self):
+        """Un guardián que deja de ver lo que vigila se queda verde para
+        siempre. Si el proyecto cambia de forma de llamar a node, que lo diga
+        aquí en vez de callarse."""
+        self.assertGreater(
+            len(list(self._llamadas())), 5,
+            "este guardián ya no encuentra las llamadas a node: o han "
+            "desaparecido, o se escriben de otra forma y hay que enseñársela")
