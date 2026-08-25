@@ -252,6 +252,11 @@ th { color: var(--muted); font-weight: 600; font-size: 11.5px; }
 /* La cabecera compartía filete con las filas y se leía como una fila más. */
 thead th { border-bottom-color: var(--baseline); }
 th[title], th[data-tip] { cursor: help; text-decoration: underline dotted color-mix(in srgb, var(--muted) 60%, transparent); text-underline-offset: 3px; }
+/* Quién va por delante en la comparativa: la cifra manda y el nombre de la
+   columna la acompaña en gris. La celda decía «53.188» a secas —un `abs()`
+   escondía el signo— y había que restar a ojo dos columnas de seis cifras
+   para saber de qué lado caía. */
+.quien { color: var(--muted); font-weight: 600; font-size: 11px; }
 .th-tip {
   position: fixed; z-index: 1200; line-height: 1.5; font-weight: 400;
   text-align: left; white-space: normal;

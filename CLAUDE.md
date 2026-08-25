@@ -9,8 +9,8 @@ primero (y esa decisión se anota en `docs/DECISIONES.md`).
 Observatorio abierto del terremoto M7.4 de Colombia (10-ago-2026) y del ecosistema
 de datos que lo rodea. **No produce cifras: audita y cruza las que existen** — quién
 publica, quién calla, cuándo llega cada dato y qué queda subestimado. **Cada cifra es
-rastreable hasta su petición de origen.** Que los números de las fuentes no coincidan
-no es un error: **la distancia entre ellos ES la brecha de reporte**. El proyecto es un
+rastreable hasta su petición de origen.** Ninguna fuente lo cuenta todo, y ninguna
+cuenta lo mismo que otra. **La brecha es lo que queda fuera de todas.** El proyecto es un
 **archivo vivo**: dentro de años, un historiador debe poder reconstruir minuto a minuto
 lo que sucedió, con todas las fuentes. El día que lo oficial publique todo en abierto,
 este monitor quedará **felizmente obsoleto** — ese es el éxito.

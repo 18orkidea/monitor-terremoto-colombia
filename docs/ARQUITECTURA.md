@@ -134,6 +134,19 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   la corrida del día siguiente. La marca envuelve solo el número, nunca la
   palabra que lo acompaña: qué va en negrita es estilo, y no lo decide este
   mecanismo.
+  **Una frase que afirma algo comprobable lo declara igual.** El resumen de cada
+  ficha marca con `data-mirada` cuál de los tres casos publica —`con-edificios`,
+  `mirado-sin-marcas` o `sin-mirar`— y la nota de la comparativa marca con
+  `data-adelanto` qué indicadores adelanta cada columna. Son la misma idea que
+  `data-cifra` un paso más allá: sin la marca, el guardián tendría que leer
+  prosa —y un test que busca palabras en un texto se queda en verde en cuanto la
+  frase se reescribe—. Con ella, `TestResumenDeLaFicha` contrasta las 347 fichas
+  contra `_mirado_por_satelite` y `TestComparativaNoSeContradice` contrasta la
+  nota contra su propia tabla, sin fijar ninguna cifra.
+  **Y la tesis del proyecto vive en `render_html.py::TESIS`**, no en las seis
+  superficies que la publican (`CLAUDE.md`, el pie, el `Dataset` de
+  `municipios.html` y las bajadas de portada, balances y referencia):
+  `TestTesisDelMonitor` es su espejo.
 
 ## Cómo se lee `data/snapshots/<día>/`
 

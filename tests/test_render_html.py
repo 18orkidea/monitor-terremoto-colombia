@@ -2978,7 +2978,7 @@ class TestPiezasDelRudLleganEscritas(unittest.TestCase):
         shutil.rmtree(cls.tmp, ignore_errors=True)
 
     def cuerpo(self, clave: str) -> str:
-        m = re.search(rf'<(tbody|ul|span|section)[^>]*\bdata-gen="{clave}"[^>]*>'
+        m = re.search(rf'<(tbody|ul|span|section|p)[^>]*\bdata-gen="{clave}"[^>]*>'
                       rf'(.*?)</\1>', self.html, re.S)
         self.assertTrue(m, f"«{clave}» ya no está en site/rud.html")
         return m.group(2)
@@ -3185,8 +3185,141 @@ class TestLosDosPlegablesDeBalances(unittest.TestCase):
                 f"el título «{titulo.strip()}» lleva un emoticono")
 
 
+class TestComparativaNoSeContradice(unittest.TestCase):
+    """La tabla RUD contra medios y la nota que la explica dicen lo mismo.
+
+    La nota estaba escrita a mano y afirmaba que la diferencia «mide cuánto
+    falta por registrar formalmente» —o sea, que el RUD va por detrás—
+    mientras la tabla que tiene justo encima publicaba 199.376 familias en el
+    RUD contra 146.188 en los medios. **El RUD va por delante en familias y en
+    personas desde hace días**, y la nota seguía contando el estado de otro
+    día como si fuera una ley. Encima, la columna «Diferencia» escondía la
+    dirección con un `abs()`: el lector no tenía ni siquiera cómo desmentir la
+    nota sin restar a ojo dos columnas de seis cifras.
+
+    Ahora las dos superficies salen del mismo `_filas_comparativa` y este
+    guardián las contrasta **entre sí**, sobre el artefacto: no comprueba qué
+    indicador va por delante —eso cambia cada día y un test que lo fijara
+    caducaría mañana—, comprueba que la nota y la tabla no puedan decir cosas
+    distintas.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        shutil.copy(ROOT / "site" / "balances.html", cls.tmp / "balances.html")
+        R.inyectar_prerenderizado(cls.tmp, R.contexto())
+        html = (cls.tmp / "balances.html").read_text(encoding="utf-8")
+        cuerpo = re.search(r'<tbody[^>]*data-gen="comparativa-filas"[^>]*>'
+                           r"(.*?)</tbody>", html, re.S)
+        assert cuerpo, "la tabla de la comparativa ya no está en balances.html"
+        cls.filas = re.findall(r"<tr>(.*?)</tr>", cuerpo.group(1), re.S)
+        nota = re.search(r'<p[^>]*data-gen="comparativa-nota"[^>]*>(.*?)</p>',
+                         html, re.S)
+        assert nota, "la nota de la comparativa ya no está en balances.html"
+        cls.nota = nota.group(1)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    @staticmethod
+    def _num(celda: str):
+        """El número de una celda, o None si dice «no registra» o «—»."""
+        texto = re.sub(r"<[^>]+>", "", celda).strip()
+        crudo = texto.replace(".", "").replace(",", ".")
+        try:
+            return float(crudo)
+        except ValueError:
+            return None
+
+    def tabla(self) -> dict:
+        """{indicador en minúscula: (rud, medios, lado que dice la celda)}."""
+        fuera = {}
+        for fila in self.filas:
+            celdas = re.findall(r"<td[^>]*>(.*?)</td>", fila, re.S)
+            self.assertEqual(len(celdas), 4, "la fila no tiene cuatro celdas")
+            nombre = re.sub(r"<[^>]+>", "", celdas[0]).strip().lower()
+            dicho = re.search(r'<span class="quien">([^<]+)</span>', celdas[3])
+            fuera[nombre] = (self._num(celdas[1]), self._num(celdas[2]),
+                             dicho.group(1) if dicho else None)
+        return fuera
+
+    def test_la_celda_de_diferencia_dice_de_que_lado_cae(self):
+        """El `abs()` publicaba «53.188» sin decir de quién. La celda nombra
+        ahora la columna que va por delante, y tiene que ser la mayor."""
+        for nombre, (rud, med, dicho) in self.tabla().items():
+            with self.subTest(indicador=nombre):
+                if rud is None or med is None or rud == med:
+                    self.assertIsNone(dicho, f"{nombre}: la celda nombra un "
+                                             "lado sin dos cifras que comparar")
+                    continue
+                self.assertEqual(dicho, "RUD" if rud > med else "medios",
+                                 f"{nombre}: la celda dice que va por delante "
+                                 f"«{dicho}» con {rud} en el RUD y {med} en "
+                                 "los medios")
+
+    def test_la_celda_publica_la_distancia_completa(self):
+        """Quitar el `abs()` no puede quitar la magnitud: sigue estando la
+        resta, con su signo delante."""
+        for nombre, (rud, med, dicho) in self.tabla().items():
+            if rud is None or med is None or rud == med:
+                continue
+            celda = [re.findall(r"<td[^>]*>(.*?)</td>", f, re.S)[3]
+                     for f in self.filas
+                     if re.sub(r"<[^>]+>", "", re.findall(
+                         r"<td[^>]*>(.*?)</td>", f, re.S)[0]).strip().lower()
+                     == nombre][0]
+            with self.subTest(indicador=nombre):
+                self.assertIn(f"+{R.fmt(abs(rud - med))}", celda)
+
+    def test_la_nota_reparte_los_mismos_indicadores_que_la_tabla(self):
+        """El guardián de verdad: lo que la nota dice que va por delante en
+        cada lado tiene que ser EXACTAMENTE lo que dice la tabla. Ni uno de
+        más —afirmar un adelanto que la tabla no sostiene— ni uno de menos."""
+        de_la_tabla = {"rud": set(), "medios": set()}
+        for nombre, (rud, med, _) in self.tabla().items():
+            if rud is None or med is None or rud == med:
+                continue
+            de_la_tabla["rud" if rud > med else "medios"].add(nombre)
+        de_la_nota = {lado: set(re.split(r", | y ", lista))
+                      for lado, lista in re.findall(
+                          r'<span data-adelanto="([^"]+)">([^<]+)</span>',
+                          self.nota)}
+        for lado in ("rud", "medios"):
+            with self.subTest(lado=lado):
+                self.assertEqual(de_la_nota.get(lado, set()),
+                                 de_la_tabla[lado],
+                                 f"la nota y la tabla no reparten igual los "
+                                 f"indicadores que adelanta {lado}")
+
+    def test_el_guardian_cae_si_la_nota_se_queda_con_el_reparto_de_ayer(self):
+        """Con la forma REAL de la avería: la tabla se recalcula cada día y la
+        nota conserva el reparto de la víspera. Se intercambian los dos lados
+        de la nota y las dos listas dejan de casar."""
+        cambiada = self.nota.replace('data-adelanto="rud"', "data-adelanto=\"X\"")
+        cambiada = cambiada.replace('data-adelanto="medios"',
+                                    'data-adelanto="rud"')
+        cambiada = cambiada.replace('data-adelanto="X"',
+                                    'data-adelanto="medios"')
+        self.assertNotEqual(cambiada, self.nota, "la mutación no cambió nada")
+        reparto = {lado: set(re.split(r", | y ", lista))
+                   for lado, lista in re.findall(
+                       r'<span data-adelanto="([^"]+)">([^<]+)</span>',
+                       cambiada)}
+        de_la_tabla = {"rud": set(), "medios": set()}
+        for nombre, (rud, med, _) in self.tabla().items():
+            if rud is None or med is None or rud == med:
+                continue
+            de_la_tabla["rud" if rud > med else "medios"].add(nombre)
+        self.assertNotEqual(reparto, de_la_tabla,
+                            "la nota mutada seguiría cuadrando con la tabla: "
+                            "el guardián no cazaría el fallo que existe para "
+                            "cazar")
+
+
 class TestPiezasDeBalancesLleganEscritas(unittest.TestCase):
-    """Los ocho contenedores de `balances.html` llegan llenos al artefacto.
+    """Los nueve contenedores de `balances.html` llegan llenos al artefacto.
 
     Se ejecuta el inyector de verdad sobre el HTML del repositorio, que es como
     se construye `dist/`: así cae también si alguien quita la marca, mete un
@@ -3195,7 +3328,8 @@ class TestPiezasDeBalancesLleganEscritas(unittest.TestCase):
 
     CLAVES = ("balances-sello", "balances-resumen", "balances-tarjetas",
               "balances-grafico", "balances-capturas", "balances-datos-ld",
-              "comparativa-tarjetas", "comparativa-filas")
+              "comparativa-tarjetas", "comparativa-filas",
+              "comparativa-nota")
 
     @classmethod
     def setUpClass(cls):
@@ -3209,12 +3343,12 @@ class TestPiezasDeBalancesLleganEscritas(unittest.TestCase):
         shutil.rmtree(cls.tmp, ignore_errors=True)
 
     def cuerpo(self, clave: str) -> str:
-        m = re.search(rf'<(tbody|ul|span|section)[^>]*\bdata-gen="{clave}"[^>]*>'
+        m = re.search(rf'<(tbody|ul|span|section|p)[^>]*\bdata-gen="{clave}"[^>]*>'
                       rf'(.*?)</\1>', self.html, re.S)
         self.assertTrue(m, f"«{clave}» ya no está en site/balances.html")
         return m.group(2)
 
-    def test_los_ocho_contenedores_llegan_no_vacios(self):
+    def test_los_nueve_contenedores_llegan_no_vacios(self):
         for clave in self.CLAVES:
             with self.subTest(clave=clave):
                 self.assertIn(clave, self.hechas,
@@ -3230,7 +3364,7 @@ class TestPiezasDeBalancesLleganEscritas(unittest.TestCase):
             with self.subTest(clave=clave):
                 self.assertRegex(
                     fuente,
-                    rf'<(tbody|span|section)[^>]*\bdata-gen="{clave}"[^>]*></\1>')
+                    rf'<(tbody|span|section|p)[^>]*\bdata-gen="{clave}"[^>]*></\1>')
 
     def test_el_grafico_es_un_svg_servido_con_su_descripcion(self):
         """Tres paneles con escala propia, cada uno con su `<desc>`: la prosa
@@ -3670,6 +3804,22 @@ class TestSeoCheck(unittest.TestCase):
         res = self.seo.revisar(self.tmp)
         self.assertTrue(any("quedó vacío" in f for f in res["fallos"]))
 
+    def test_caza_un_parrafo_marcado_que_llega_vacio(self):
+        """El contenedor no siempre es una tabla: la nota de la comparativa es
+        un `<p data-gen>`. El verificador enumera etiquetas, así que una que no
+        esté en su lista pasa de largo — y el guardián nuevo se quedaría sin
+        guardián: quitar el `p` del patrón no rompería nada y la nota podría
+        publicarse vacía."""
+        (self.tmp / "balances.html").write_text(
+            '<link rel="canonical" href="/x">'
+            '<p data-gen="comparativa-nota"></p>' + "palabra " * 900,
+            encoding="utf-8")
+        res = self.seo.revisar(self.tmp)
+        self.assertTrue(
+            any("comparativa-nota" in f and "quedó vacío" in f
+                for f in res["fallos"]),
+            "un párrafo marcado que llega vacío no lo ve nadie")
+
     def test_caza_la_barra_y_el_pie_vacios(self):
         """La regresión que motivó la fase: `#site-nav` y `#site-footer` no
         llevan `data-gen`, así que el chequeo de contenedores marcados no los
@@ -3746,6 +3896,206 @@ class TestSeoCheck(unittest.TestCase):
                            "de un bucle que corta con break")
 
 
+_MIRADA = re.compile(r'<span data-mirada="([^"]+)">(.*?)</span>', re.S)
+
+
+class TestResumenDeLaFicha(unittest.TestCase):
+    """Las dos líneas bajo el H1: dos recuentos puestos al lado, nunca una
+    división de uno entre otro.
+
+    **A1 estuvo semanas publicado con la suite entera en verde.** El resumen
+    dividía los edificios que clasifica un satélite entre las viviendas que
+    declara el registro y llamaba porcentaje al resultado: Cali salía «115
+    edificios distintos: el 1,7 % de las 6.775 viviendas que el municipio
+    declara dañadas» —que se lee como «el satélite se dejó el 98 % del daño»,
+    justo lo contrario del mejor hallazgo del proyecto, que en Buenaventura vio
+    134 casas destruidas donde el registro declaraba 42— y Viterbo salía con el
+    113,7 %, un porcentaje imposible. Nada lo impedía porque ninguna regla lo
+    prohibía: esta es la regla.
+
+    El otro fallo que vigila es de la misma familia y también nace de no
+    distinguir dos cosas: la frase «ningún satélite ha clasificado un solo
+    edificio» entraba también cuando NADIE había mirado —los 276 municipios de
+    hoy—, y sonaba a que alguien miró y no encontró nada. Cada frase declara en
+    `data-mirada` cuál de los tres casos es, y aquí se contrasta con
+    `_mirado_por_satelite`, que es quien lo sabe.
+    """
+
+    MIRADAS = {"con-edificios", "mirado-sin-marcas", "sin-mirar"}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.resumenes, cls.cifras = {}, {}
+        for m in cls.ctx["municipios"]:
+            nombre = m["municipio"]
+            d = R.datos_ficha(nombre, cls.ctx)
+            vistos = R.satelites_con_dato(d["muni"], d["satelite"])
+            n_sat = ((d.get("cruce") or {}).get("unidades")
+                     or sum(n for _, n in vistos))
+            vivs = [n for n in (d["muni"].get("rud_viv_destruidas"),
+                                d["muni"].get("rud_viv_averiadas"))
+                    if n is not None]
+            cls.resumenes[nombre] = R.resumen_ficha(d)
+            cls.cifras[nombre] = (n_sat, sum(vivs) if vivs else None)
+
+    def miradas(self, nombre: str) -> list:
+        return _MIRADA.findall(self.resumenes[nombre])
+
+    # ------------------------------------------------- el cociente prohibido
+    def test_ninguna_ficha_publica_el_cociente_de_edificios_entre_viviendas(self):
+        """No se busca la palabra «porcentaje»: se calcula el número que salía
+        de dividir y se comprueba que NO está publicado. Así cae aunque vuelva
+        con otra redacción, con otro símbolo o con otro número de decimales."""
+        for nombre, (n_sat, viv) in self.cifras.items():
+            if not (n_sat and viv):
+                continue
+            frase = " ".join(t for _, t in self.miradas(nombre))
+            for dec in (0, 1, 2):
+                cociente = R.fmt(n_sat / viv * 100, dec)
+                # Los dos recuentos SÍ se publican: si el cociente coincide con
+                # uno de ellos, el número que se ve es ese y no la división.
+                if cociente in (R.fmt(n_sat), R.fmt(viv)):
+                    continue
+                # Con fronteras de cifra: «6» vive dentro de «76» y de «1.369»,
+                # y sin ellas el guardián acusaba a Quibdó de publicar un
+                # cociente que no publica. Un guardián con falsos positivos se
+                # acaba silenciando, que es como muere un guardián.
+                suelto = re.compile(rf"(?<![\d.,]){re.escape(cociente)}(?![\d.,])")
+                with self.subTest(municipio=nombre, decimales=dec):
+                    self.assertIsNone(
+                        suelto.search(frase),
+                        f"{nombre}: la ficha publica «{cociente}», que es "
+                        f"{n_sat} edificios entre {viv} viviendas. No son la "
+                        "misma unidad ni cubren el mismo terreno: su cociente "
+                        "no es un porcentaje de nada")
+
+    def test_la_frase_del_satelite_no_lleva_ningun_porcentaje(self):
+        """La misma regla por su forma, no por su valor: en esa frase se
+        comparan dos fuentes distintas y ahí no hay proporción que publicar.
+        El cociente de arriba caza el número; este caza la operación."""
+        for nombre in self.cifras:
+            for clase, frase in self.miradas(nombre):
+                with self.subTest(municipio=nombre, mirada=clase):
+                    self.assertNotIn("%", frase,
+                                     f"{nombre}: la frase que cruza satélite y "
+                                     f"registro vuelve a publicar un porcentaje")
+
+    def test_los_dos_recuentos_se_publican_enteros(self):
+        """Quitar el cociente no es quitar el dato: los dos números siguen
+        publicados, cada uno con su fuente, que es lo que el monitor hace con
+        todo lo demás."""
+        for nombre, (n_sat, viv) in self.cifras.items():
+            if not (n_sat and viv):
+                continue
+            frase = " ".join(t for _, t in self.miradas(nombre))
+            with self.subTest(municipio=nombre):
+                self.assertIn(R.fmt(n_sat), frase)
+                self.assertIn(R.fmt(viv), frase)
+
+    # ------------------------------------------------ quién miró y quién no
+    def test_toda_mirada_declarada_es_una_de_las_tres(self):
+        for nombre in self.cifras:
+            for clase, _ in self.miradas(nombre):
+                with self.subTest(municipio=nombre):
+                    self.assertIn(clase, self.MIRADAS)
+
+    def test_la_mirada_declarada_es_la_que_dice_el_dato(self):
+        """«Nadie ha mirado» solo se publica donde de verdad no miró nadie.
+
+        `_mirado_por_satelite` es quien lo sabe —incluye la zona de Copernicus
+        sin un punto dentro—, y el resumen tiene que decir lo mismo que él."""
+        por_nombre = {m["municipio"]: m for m in self.ctx["municipios"]}
+        for nombre in self.cifras:
+            for clase, _ in self.miradas(nombre):
+                miro_alguien = R._mirado_por_satelite(por_nombre[nombre])
+                with self.subTest(municipio=nombre):
+                    self.assertEqual(
+                        clase == "sin-mirar", not miro_alguien,
+                        f"{nombre}: el resumen declara «{clase}» y los "
+                        f"servicios que miraron son "
+                        f"{R._servicios_que_miraron(por_nombre[nombre]) or 'ninguno'}")
+
+    def test_el_sitio_publica_de_verdad_alguna_de_las_dos_ramas(self):
+        """La lección de los guardianes que no guardan: si ningún municipio
+        entrara por estas ramas, todo lo de arriba estaría en verde sin mirar
+        nada."""
+        clases = {c for n in self.cifras for c, _ in self.miradas(n)}
+        self.assertTrue(clases & {"sin-mirar", "mirado-sin-marcas"},
+                        "ninguna ficha declara su mirada satelital")
+        self.assertIn("con-edificios", clases)
+
+    # ---------------------------------- la rama que el dato de hoy no ejerce
+    def _sintetica(self, **muni) -> dict:
+        base = {"municipio": "Prueba", "rud_familias": None,
+                "rud_personas": None, "tasa_rud_pct": None, "mmi_usgs": None,
+                "rud_viv_destruidas": 16, "rud_viv_averiadas": None}
+        base.update(muni)
+        return {"muni": base, "satelite": 0, "cruce": {}}
+
+    def test_mirar_y_no_marcar_no_es_lo_mismo_que_no_mirar(self):
+        """Los dos municipios se diferencian en UNA cosa —si alguien miró— y
+        el resumen tiene que decirlo distinto. Con el código de antes las dos
+        fichas publicaban la misma frase, la que acusa al satélite de no
+        encontrar nada.
+
+        Hoy ningún municipio real entra por «miraron y no marcaron», así que la
+        rama se ejerce aquí: un guardián que espera a que el dato produzca el
+        caso es un guardián que no vigila."""
+        nadie = self._sintetica()
+        miraron = self._sintetica(en_aoi_copernicus=True)
+        self.assertFalse(R._mirado_por_satelite(nadie["muni"]))
+        self.assertTrue(R._mirado_por_satelite(miraron["muni"]))
+        clase_nadie = _MIRADA.findall(R.resumen_ficha(nadie))
+        clase_miraron = _MIRADA.findall(R.resumen_ficha(miraron))
+        self.assertEqual(clase_nadie[0][0], "sin-mirar")
+        self.assertEqual(clase_miraron[0][0], "mirado-sin-marcas")
+        self.assertNotEqual(clase_nadie[0][1], clase_miraron[0][1],
+                            "el municipio que nadie miró y el que miraron sin "
+                            "marcar nada publican la misma frase")
+
+    def test_el_resumen_y_su_nota_hablan_de_la_misma_ausencia(self):
+        """Las dos frases de la cabecera declaran la MISMA mirada.
+
+        La nota preguntaba por `satelites_con_dato` —«¿hay edificios?»— y el
+        resumen por `_mirado_por_satelite` —«¿miró alguien?»—, así que un
+        municipio dentro de una zona de Copernicus sin un punto dentro leía
+        arriba «los satélites que miraron no marcaron ningún edificio» y dos
+        renglones más abajo «nadie lo ha evaluado desde el aire».
+
+        Hoy ningún municipio real está en ese caso, así que sobre el dato del
+        día el guardián estaría en verde sin comprobar nada: se ejerce con los
+        dos municipios sintéticos, que es donde la avería existe."""
+        for d in (self._sintetica(), self._sintetica(en_aoi_copernicus=True),
+                  # el servicio que evalúa y marca CERO: la nota preguntaba
+                  # «¿hay algún servicio con valor?» y se callaba justo aquí
+                  self._sintetica(unosat_edificios=0)):
+            resumen = _MIRADA.findall(R.resumen_ficha(d))
+            nota = _MIRADA.findall(R.nota_ausencia_satelital(d))
+            with self.subTest(mirado=R._mirado_por_satelite(d["muni"])):
+                self.assertTrue(nota, "la nota no declara ninguna mirada")
+                self.assertEqual(resumen[0][0], nota[0][0],
+                                 "el resumen y la nota de la misma cabecera "
+                                 "cuentan dos ausencias distintas")
+
+    def test_la_nota_se_calla_donde_el_satelite_si_marco_edificios(self):
+        """La advertencia de la ausencia solo donde hay ausencia: emitida en
+        todas por igual, Pereira afirmaba la mirada satelital arriba y la
+        negaba abajo."""
+        con_datos = self._sintetica(unosat_edificios=7)
+        self.assertEqual(R.nota_ausencia_satelital(con_datos), "")
+
+    def test_un_servicio_que_evalua_y_marca_cero_no_deja_la_ficha_muda(self):
+        """UNOSAT puede evaluar un municipio y marcar cero edificios: entra en
+        `satelites_con_dato` con un cero, y con la condición vieja —«no hay
+        ningún servicio con dato»— la ficha se quedaba sin decir nada del
+        satélite. Callar no es la tercera opción."""
+        d = self._sintetica(unosat_edificios=0)
+        clases = _MIRADA.findall(R.resumen_ficha(d))
+        self.assertTrue(clases, "la ficha no dice nada del satélite")
+        self.assertEqual(clases[0][0], "mirado-sin-marcas")
+
+
 class TestCoherenciaDeLaFicha(unittest.TestCase):
     """Una ficha no puede afirmar y negar lo mismo en la misma pantalla.
 
@@ -3792,6 +4142,34 @@ class TestCoherenciaDeLaFicha(unittest.TestCase):
             self.assertFalse(niegan,
                              f"{m['municipio']}: la ficha afirma la mirada satelital "
                              f"y la niega en la misma página → {niegan}")
+
+    def test_las_dos_frases_de_la_cabecera_hablan_de_la_misma_mirada(self):
+        """El resumen y la nota que tiene debajo no pueden contar dos ausencias
+        distintas.
+
+        La nota preguntaba por `satelites_con_dato` —«¿hay edificios?»— y el
+        resumen por `_mirado_por_satelite` —«¿miró alguien?»—, que son las dos
+        preguntas que este proyecto lleva confundiendo. Con ellas, un municipio
+        dentro de una zona de Copernicus sin un punto dentro leía arriba «los
+        satélites que miraron no marcaron ningún edificio» y dos renglones más
+        abajo «nadie lo ha evaluado desde el aire».
+
+        Las dos frases declaran su `data-mirada` y aquí se comprueba que sea la
+        misma. No se leen las palabras: se comparan las marcas."""
+        for m in self.ctx["municipios"]:
+            nombre = m["municipio"]
+            if not R.es_elegible(nombre, self.ctx):
+                continue
+            html = R.render_ficha(R.datos_ficha(nombre, self.ctx))
+            cabecera = "".join(
+                re.search(rf'<p class="{c}">(.*?)</p>', html, re.S).group(1)
+                for c in ("resumen", "nota-leer"))
+            marcas = set(re.findall(r'data-mirada="([^"]+)"', cabecera))
+            with self.subTest(municipio=nombre):
+                self.assertLessEqual(
+                    len(marcas), 1,
+                    f"{nombre}: la cabecera declara {sorted(marcas)} — el "
+                    "resumen y la nota hablan de dos ausencias distintas")
 
     def test_un_municipio_visto_solo_por_unosat_no_se_declara_sin_mirar(self):
         solo_unosat = [m for m in self.ctx["municipios"]
@@ -4019,6 +4397,17 @@ class TestConcordanciaDeLaFicha(unittest.TestCase):
         self.assertEqual(R.concuerda(2, "familia", "familias"), "familias")
         self.assertEqual(R.concuerda(0, "familia", "familias"), "familias")
 
+    def test_una_lista_se_dice_como_se_lee_en_voz_alta(self):
+        """`enumera` publica «a, b y c». Los extremos —ninguno y uno— existen:
+        la nota de la comparativa los produce el día que solo un indicador
+        adelante, o ninguno."""
+        self.assertEqual(R.enumera([]), "")
+        self.assertEqual(R.enumera(["familias"]), "familias")
+        self.assertEqual(R.enumera(["familias", "personas"]),
+                         "familias y personas")
+        self.assertEqual(R.enumera(["familias", "personas", "viviendas"]),
+                         "familias, personas y viviendas")
+
     def test_una_ausencia_no_es_una_unidad(self):
         """R3: el «—» conserva el plural. «— familia inscrita» afirmaría un
         recuento que nadie ha publicado."""
@@ -4107,7 +4496,7 @@ class TestIdentidadDelSitio(unittest.TestCase):
     def test_la_descripcion_del_pie_sigue_completa(self):
         pie = re.sub(r"\s+", " ", R.pie_estatico())
         self.assertIn("Damnificados, viviendas destruidas y daños", pie)
-        self.assertIn("La distancia entre sus cifras es la brecha de reporte.", pie)
+        self.assertIn(R.TESIS, pie)
         self.assertIn("quedó archivado.", pie)
 
     def test_la_barra_se_presenta_por_el_nombre_publico(self):
@@ -4131,6 +4520,108 @@ class TestIdentidadDelSitio(unittest.TestCase):
         self.assertEqual(hallado.group(1).strip(), "Datos del terremoto")
         self.assertEqual(hallado.group(1).strip(), R.MARCA,
                          "el rótulo y la constante MARCA se han separado")
+
+
+def _sin_marcas(texto: str) -> str:
+    """El texto como lo lee una persona: sin etiquetas, sin asteriscos de
+    Markdown y con los espacios colapsados.
+
+    Las seis copias de la tesis viven en soportes distintos —Markdown, HTML con
+    un `<strong>` en medio, una cadena de Python dentro de un JSON-LD— y ninguna
+    de esas envolturas es la frase. Comparar los soportes en crudo sería atar
+    la redacción al formato."""
+    return " ".join(re.sub(r"<[^>]+>", " ", texto).replace("**", "").split())
+
+
+class TestTesisDelMonitor(unittest.TestCase):
+    """La frase que dice de qué va esto, escrita una vez y repetida seis.
+
+    Hasta el 25-ago-2026 decía «la distancia entre sus cifras es la brecha de
+    reporte» y estaba escrita SEIS veces a mano, sin nada que las atara: el
+    contrato del repositorio, el pie de las 353 páginas, el `Dataset` de
+    municipios.html y las bajadas de la portada, de balances y de la
+    referencia. Seis redacciones que podían separarse una a una sin que el
+    build se enterara — que es exactamente el fallo M2 que este proyecto ya ha
+    pagado con los topónimos y con los liveblogs.
+
+    Ahora la frase vive en `R.TESIS` (y su versión larga, la de la portada, en
+    `R.TESIS_LARGA`) y este guardián comprueba que las seis superficies la
+    dicen **con las mismas palabras**. No comprueba QUÉ dice: eso es una
+    decisión editorial y cambiarla es cambiar la constante. Comprueba que
+    cambiarla en un sitio no deje a los otros cinco diciendo lo de ayer.
+
+    La tesis vieja se retira además de las seis: se cambió porque solo era
+    cierta en UNA de las cuatro comparaciones del monitor —el RUD contra los
+    balances de prensa, que sí se hacen la misma pregunta—, y donde no lo era
+    invitaba a restar edificios menos familias.
+    """
+
+    # La AFIRMACIÓN vieja, no el término: «brecha de reporte» sigue siendo el
+    # nombre del proyecto y una palabra clave del marcado, y prohibirlo sería
+    # prohibir cómo se llama esto. Lo que se retira es la tesis: que la
+    # distancia ENTRE dos cifras SEA la brecha.
+    VIEJA = "es la brecha de reporte"
+
+    @classmethod
+    def setUpClass(cls):
+        ctx = R.contexto()
+        cls.superficies = {
+            "CLAUDE.md": (ROOT / "CLAUDE.md").read_text(encoding="utf-8"),
+            "el pie de las 353 páginas": R.pie_estatico(),
+            "el Dataset de municipios.html": R.dataset_municipios(ctx),
+            "site/balances.html":
+                (ROOT / "site" / "balances.html").read_text(encoding="utf-8"),
+            "site/referencia.html":
+                (ROOT / "site" / "referencia.html").read_text(encoding="utf-8"),
+        }
+        cls.portada = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+
+    def test_las_cinco_superficies_cortas_dicen_la_misma_frase(self):
+        for donde, texto in self.superficies.items():
+            with self.subTest(superficie=donde):
+                # `assertTrue` y no `assertIn`: el fallo volcaba la página
+                # entera y el mensaje se perdía al final de 20.000 caracteres.
+                self.assertTrue(R.TESIS in _sin_marcas(texto),
+                                f"{donde} no dice la tesis, o la dice con "
+                                f"otras palabras que las demás: «{R.TESIS}»")
+
+    def test_la_portada_lleva_la_version_larga_y_entera(self):
+        """La portada es la única que la desarrolla: nombra qué cuenta cada
+        fuente y qué hace el monitor con ellas. Es otra frase, no otra tesis, y
+        por eso tiene su propia constante y su propio guardián."""
+        self.assertTrue(R.TESIS_LARGA in _sin_marcas(self.portada),
+                        "la portada no dice la versión larga de la tesis, o la "
+                        f"dice con otras palabras: «{R.TESIS_LARGA}»")
+
+    def test_la_version_larga_empieza_por_la_corta(self):
+        """El desarrollo no puede decir algo distinto del titular: la larga
+        abre por la misma oración —con dos puntos en vez de punto, porque
+        continúa— y de ahí en adelante explica."""
+        cabeza = R.TESIS.split(".")[0]
+        self.assertTrue(R.TESIS_LARGA.startswith(cabeza + ":"),
+                        "la versión larga ya no abre por la tesis corta")
+
+    def test_la_tesis_vieja_no_sobrevive_en_ninguna_superficie(self):
+        """Se cambió una frase, no se añadió otra. Una superficie que conserve
+        la vieja publica las dos tesis a la vez, que es peor que publicar la
+        equivocada."""
+        for donde, texto in {**self.superficies,
+                             "site/index.html": self.portada}.items():
+            with self.subTest(superficie=donde):
+                self.assertFalse(self.VIEJA in _sin_marcas(texto),
+                                 f"{donde} conserva «{self.VIEJA}»")
+
+    def test_el_guardian_cae_si_una_sola_copia_se_desvia(self):
+        """La comprobación de que muerde, con la forma REAL de la avería: se
+        reescribe UNA de las seis —como haría quien mejora la frase donde la
+        está leyendo— y las otras cinco se quedan como estaban."""
+        for donde, texto in self.superficies.items():
+            desviada = _sin_marcas(texto).replace(
+                R.TESIS, "Cada fuente cuenta una parte y el monitor las junta.", 1)
+            with self.subTest(superficie=donde):
+                self.assertFalse(R.TESIS in desviada,
+                                 f"la mutación de {donde} no cambió nada: el "
+                                 f"guardián no estaría mirando esa superficie")
 
 
 class TestContextoDelSismo(unittest.TestCase):
@@ -5286,7 +5777,7 @@ class TestPrerenderizadoDeMunicipios(unittest.TestCase):
             with self.subTest(contenedor=clave):
                 self.assertIn(clave, self.hechas)
                 dentro = re.search(
-                    rf'<(tbody|span|section)[^>]*\bdata-gen="{clave}"[^>]*>(.*?)</\1>',
+                    rf'<(tbody|span|section|p)[^>]*\bdata-gen="{clave}"[^>]*>(.*?)</\1>',
                     self.html, re.S)
                 self.assertTrue(dentro, f"«{clave}» ya no está en site/")
                 self.assertTrue(dentro.group(2).strip(),
@@ -6782,7 +7273,12 @@ class TestPiezasDeLaPortada(unittest.TestCase):
         no quede ningún municipio sin mirar, la frase dice lo contrario."""
         cerrado = dict(self.ctx, municipios=[])
         self.assertIn("se ha cerrado", R.parrafo_brecha_portada(cerrado))
-        self.assertIn("es la brecha", R.parrafo_brecha_portada(self.ctx))
+        # La rama abierta no se comprueba ya por una frase —decía «es la
+        # brecha», la fórmula que se retiró el 25-ago-2026— sino por lo que la
+        # distingue: no anuncia el cierre y publica cuántos municipios faltan.
+        abierta = R.parrafo_brecha_portada(self.ctx)
+        self.assertNotIn("se ha cerrado", abierta)
+        self.assertIn(R.fmt(len(R.sin_mirada_satelital(self.ctx))), abierta)
 
     def test_el_panel_es_un_cuadro_de_honor_y_enlaza_a_las_fichas(self):
         """Criterio de JP: la lista son los municipios mejor documentados, no

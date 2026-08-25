@@ -6,6 +6,130 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — La tesis cambia: la brecha no es una resta, es lo que no ha contado nadie
+
+**Contexto.** Dos auditorías externas señalaron tres frases publicadas que no se
+podían defender, y las tres salían del mismo sitio: de dar por hecho que las
+fuentes del monitor miden lo mismo y que su diferencia es una resta.
+
+1. **El porcentaje imposible (11 fichas).** El resumen bajo el H1 dividía los
+   edificios que clasifica un satélite entre las viviendas que declara el
+   registro: Cali publicaba «115 edificios distintos: el 1,7 % de las 6.775
+   viviendas que el municipio declara dañadas» y Viterbo, «108 edificios: el
+   **113,7 %** de las 95 viviendas». Un edificio puede tener veinte viviendas y
+   el satélite miró un recorte urbano, no el municipio: el cociente no es un
+   porcentaje de nada. Y lo que el lector concluía —que el satélite se dejó el
+   98 % del daño— es **lo contrario del mejor hallazgo del proyecto**: en
+   Buenaventura, Copernicus vio 134 casas destruidas donde el registro oficial
+   declaraba 42.
+2. **La acusación al satélite que no miró (276 fichas).** «Ningún satélite ha
+   clasificado un solo edificio de las N viviendas…» entraba también cuando
+   nadie había mirado, que es el caso de los 276. Suena a que alguien miró y no
+   encontró nada —la cicatriz de M10— y, peor, el renglón siguiente la
+   desmentía: «nadie lo ha evaluado desde el aire». La ficha se contradecía
+   sola en dos líneas.
+3. **La nota de balances que la tabla desmentía.** Decía que la diferencia
+   «mide cuánto falta por registrar formalmente», es decir, que el RUD va por
+   detrás. Hoy va por delante: 199.376 familias contra 146.188, y 432.230
+   personas contra 324.157. La columna «Diferencia» escondía además la
+   dirección con un `abs()`, así que el lector no tenía ni cómo desmentirla.
+
+**Decisión (JP): la tesis del proyecto cambia.** Donde decía «la distancia entre
+sus cifras es la brecha de reporte» dice ahora:
+
+> **Ninguna fuente lo cuenta todo, y ninguna cuenta lo mismo que otra. La brecha
+> es lo que queda fuera de todas.**
+
+La vieja solo era cierta en **uno** de los cuatro cruces del monitor —el RUD
+contra los balances de prensa, que sí se hacen la misma pregunta— y en los otros
+tres invitaba a restar edificios menos familias. La nueva no anula el hallazgo
+de Buenaventura: 134 contra 42 sigue siendo una brecha, lo que cambia es que se
+dice **de qué clase** es. La versión larga, para la portada, nombra qué cuenta
+cada fuente y qué hace el monitor con ellas: «el satélite cuenta edificios, el
+registro cuenta familias, la prensa repite lo que le dictan. Este monitor no las
+suma ni las resta: las pone juntas para enseñar quién no ha mirado, quién tarda
+y quién no cuadra».
+
+**Vivía en seis superficies y ninguna las ataba** (M2): `CLAUDE.md`, el pie de
+las 353 páginas, el `Dataset` de `municipios.html` y las bajadas de
+`index.html`, `balances.html` y `referencia.html`. Ahora sale de `R.TESIS` (y
+`R.TESIS_LARGA`) y `tests/test_render_html.py::TestTesisDelMonitor` comprueba
+que las seis la digan con las mismas palabras y que ninguna conserve la vieja.
+El guardián **no comprueba qué dice**: cambiar la tesis es cambiar la constante.
+
+**Consecuencias en el código.**
+
+- `resumen_ficha` publica los **dos recuentos** en vez de su cociente, y nombra
+  a quien miró: «Copernicus EMS ha clasificado 335 edificios dentro de la zona
+  que llegó a mirar; el registro oficial declara 8.863 viviendas dañadas en todo
+  el municipio. No es el mismo recuento: un edificio puede tener más de una
+  vivienda, y el satélite solo responde por la zona que recortó». Donde el
+  satélite marca **más** edificios de los que el registro declara —Viterbo, 108
+  contra 95— se añade una coda que lo dice, para que el cierre, que explica por
+  qué el satélite cuenta menos, no argumente contra su propio dato.
+- La rama del satélite se parte en dos según `_mirado_por_satelite`: «Ninguno de
+  los tres servicios satelitales que sigue el monitor ha evaluado este
+  municipio…» (276 fichas hoy) frente a «UNITAR-UNOSAT miró este municipio y no
+  marcó ningún edificio…» (ninguna hoy; el dato de mañana puede producirla). Su
+  condición pasa de `not vistos` a `not n_sat`, porque un servicio que evalúa y
+  marca **cero** entraba en `satelites_con_dato` con un cero y dejaba la ficha
+  muda; y de ahí sale `edificios_marcados`, del que ahora tiran las dos frases
+  de la cabecera, que preguntaban cosas distintas.
+- **Ni «ningún satélite» ni «nadie».** El monitor sigue tres servicios y no sabe
+  qué satélites pasaron por encima: es el estándar que `site/app.js` y
+  `referencia.html` ya fijaban para la misma capa y que la ficha rompía en 276
+  páginas. El número sale de `SATELITES`, así que el día que entre el cuarto la
+  frase lo dice sola.
+- El adjetivo de las viviendas sale de las columnas que **existen**: con solo
+  una de las dos, «viviendas dañadas» rotulaba un parcial como total (R3/M10).
+- Cada frase declara `data-mirada` —`con-edificios`, `mirado-sin-marcas` o
+  `sin-mirar`—, que es lo que permite contrastarla con `_mirado_por_satelite`
+  en las 347 fichas sin leer prosa.
+- El párrafo de la brecha de la portada era una **séptima** copia de la tesis
+  vieja, y en la superficie más visible del sitio: «la distancia entre lo que se
+  ve y lo que se cuenta … es la brecha que este sitio existe para medir», o sea
+  la resta, aplicada justo al cruce donde no significa nada. Dice ahora «es lo
+  que queda fuera de todas las fuentes».
+- La celda «Diferencia» de la comparativa pierde el `abs()` y dice el lado:
+  «+53.188 en el RUD», «+20.039 en medios». La nota que la explica se **genera** en el
+  build (`nota_comparativa`, `data-gen="comparativa-nota"`) del mismo
+  `_filas_comparativa` que la tabla, y marca con `data-adelanto` qué indicadores
+  adelanta cada lado. Escribirla a mano fue el error: no envejeció, es que nunca
+  fue una regla — era el estado del dato de un día contado como si fuera una ley.
+  Y va **fechada**, no con un «hoy»: estas páginas se releen dentro de años
+  (`_corte_comparativa`, que nombra los dos cortes cuando no coinciden).
+
+**Guardianes nuevos, los tres validados rompiendo el código (M1).**
+`TestResumenDeLaFicha` calcula el cociente prohibido y comprueba que **no está
+publicado** —con fronteras de cifra, para no acusar a Quibdó de publicar el «6»
+que vive dentro de «76»—, así que cae aunque el porcentaje vuelva sin el signo
+`%`; contrasta `data-mirada` con `_mirado_por_satelite` en las 347 fichas; y
+ejerce con datos sintéticos la rama que el dato de hoy no produce, porque un
+guardián que espera a que el dato produzca el caso no vigila.
+`TestComparativaNoSeContradice` compara **la nota contra su propia tabla** sobre
+el artefacto construido, sin fijar ningún indicador: qué lado adelanta cambia
+cada día y un test que lo fijara caducaría mañana.
+
+**De la revisión** (auditor-editorial y revisor-estilo, en paralelo). Salieron
+de ahí la séptima copia de la tesis, la atribución en plural donde había mirado
+un solo servicio, los dos absolutos («ningún satélite», «nadie»), la coda del
+signo que devuelve el hallazgo de Buenaventura a la superficie, el fechado de la
+nota y una concordancia publicada en 14 fichas: «la **1** vivienda dañada», un
+artículo singular pegado a un guarismo. Y del QA, dos más: el recuento se
+atribuye solo a quien MARCÓ algo (`satelites_con_dato` deja entrar al servicio
+que evalúa y marca cero), y `test_caza_un_parrafo_marcado_que_llega_vacio`, que
+faltaba: ampliar el patrón de `seo_check` a `p` sin fijarlo con un test dejaba
+al guardián nuevo sin guardián. La versión larga de la tesis suma
+además la cuarta mirada —la comunidad—, porque el titular del párrafo promete
+cuatro y la frase caracterizaba tres.
+
+**Suelos de prosa** (`ingest/seo_check.py`): `index.html` 1.752 → **1.789**
+(1.985 medidas − 196 condicionales), `balances.html` 1.404 → **1.450** (1.643
+medidas − 193 condicionales; el margen sube de 160 a 193 porque las 33 palabras
+que reparten la dirección desaparecen el día que las dos columnas coincidan, y
+ese día sería una buena noticia) y `referencia.html` 6.805 → **6.819**. Sube
+solo lo que no puede evaporarse.
+
 ## 2026-08-25 — Una cifra, un concepto: la portada deja de publicar dos totales del mismo registro
 
 **Contexto.** Una auditoría externa vio lo que nadie había mirado: la portada

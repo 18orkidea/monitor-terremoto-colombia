@@ -78,24 +78,21 @@
   <p class="sub">Las mismas preguntas, respuestas distintas: lo que las autoridades
   municipales han registrado en el Registro Único de Damnificados (RUD), lo que los medios
   publican citando el consolidado
-  oficial, lo que ve el satélite y lo que reporta la comunidad. La distancia entre
-  columnas <em>es</em> la brecha de reporte.</p>
+  oficial, lo que ve el satélite y lo que reporta la comunidad. <strong>Ninguna fuente lo
+  cuenta todo, y ninguna cuenta lo mismo que otra. La brecha es lo que queda fuera de
+  todas.</strong> Esta tabla compara las dos que sí responden a la misma pregunta: el registro
+  oficial y lo que publican los medios.</p>
   <section id="comparativa-cards" class="metric-strip" data-gen="comparativa-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
   <div class="tabla-scroll"><table id="comparativa-tabla">
     <thead><tr>
       <th>Indicador</th>
       <th class="num" title="Registro Único de Damnificados (UNGRD): lo registrado municipio a municipio por las autoridades locales. Registro progresivo — crece a medida que los municipios cargan datos.">RUD (registro oficial)</th>
       <th class="num" title="Máximo informado hasta el último día por medios que citan el consolidado oficial (UNGRD y SGC).">Medios citando oficiales</th>
-      <th class="num" title="Diferencia absoluta entre ambas columnas. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
+      <th class="num" title="Cuánto separan las dos columnas y cuál va por delante. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
     </tr></thead>
     <tbody data-gen="comparativa-filas"></tbody><!-- lo rellena deploy/render_html.py en el build -->
   </table></div>
-  <p class="note">El RUD es un <strong>registro progresivo</strong> (municipio a municipio,
-  familia a familia); el consolidado citado en medios agrega reportes departamentales aún no
-  registrados en el RUD. Que difieran no es un error: <strong>la diferencia mide cuánto
-  falta por registrar formalmente</strong>. El RUD no publica víctimas (fallecidos/heridos) —
-  esas cifras solo circulan vía medios. Detalle municipal en la
-  <a href="rud.html">página del RUD</a>.</p>
+  <p class="note" data-gen="comparativa-nota"></p><!-- lo rellena deploy/render_html.py en el build: qué indicador va por delante cambia cada día -->
 </section>
 
 <section id="balance-chart-section">

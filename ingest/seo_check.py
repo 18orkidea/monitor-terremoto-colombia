@@ -52,7 +52,7 @@ MINIMOS = {
 # Medido el 24-ago-2026 sobre `dist/` al cerrar la fase 4. Se sube cuando una
 # fase deja la página mejor, y se anota aquí con su fecha; **no se baja para que
 # pase un build** sin entrada en `docs/DECISIONES.md`.
-MARGEN_CONDICIONAL = {"balances.html": 160, "municipios.html": 200,
+MARGEN_CONDICIONAL = {"balances.html": 193, "municipios.html": 200,
                       "rud.html": 47, "index.html": 196, "referencia.html": 241}
 PROSA_MINIMA = {
     # fase 6c (25-ago-2026, docs/DECISIONES.md): 1.804 medidas − 151 de prosa
@@ -89,7 +89,13 @@ PROSA_MINIMA = {
     # día que dejen de serlo) y el aviso de que el reparto no se suma (se cae el
     # día que a cada municipio lo mire un solo servicio). Medidos: el párrafo
     # completo son 111 palabras y su versión mínima, 66.
-    "index.html": 1752,
+    # 25-ago-2026 (`docs/DECISIONES.md`): 2.003 medidas − 196 condicionales.
+    # La bajada de la comparativa de fuentes cambia la tesis del proyecto por
+    # la versión larga —«ninguna fuente lo cuenta todo, y ninguna cuenta lo
+    # mismo que otra»— y deja de afirmar que las cuatro fuentes «miden igual»
+    # el municipio, que es justo lo que desmienten las cuatro tarjetas de
+    # debajo. Son 55 palabras más de PROSA FIJA: el suelo sube de 1.752 a 1.807.
+    "index.html": 1807,
     "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
     # fase 3: 578 medidas − 47 del desglose del salto, que es condicional
     # (24-ago-2026, docs/DECISIONES.md). La oración «De las N familias…»
@@ -98,7 +104,18 @@ PROSA_MINIMA = {
     # sumaba 15.435 familias donde su propia serie decía 15.433. El suelo
     # no puede exigir prosa que depende de la aritmética de la fuente.
     "rud.html": 531,
-    "balances.html": 1404,     # fase 4: 1.564 medidas − 160 condicionales
+    # fase 4: 1.564 medidas − 160 condicionales.
+    #
+    # 25-ago-2026 (`docs/DECISIONES.md`): 1.647 medidas − 193 condicionales. La
+    # nota de la comparativa deja de estar escrita a mano —afirmaba que el RUD
+    # va por detrás cuando hoy va por delante en familias y en personas— y se
+    # genera del mismo dato que la tabla. De las 83 palabras nuevas, 50 son
+    # prosa fija (la tesis en la bajada y la explicación del registro
+    # progresivo) y **33 son condicionales**: la oración que dice qué indicador
+    # adelanta cada lado desaparece el día que las dos columnas coincidan en
+    # todo, que sería la mejor noticia que este monitor puede dar. El suelo
+    # sube por las 50 que no pueden evaporarse: de 1.404 a 1.454.
+    "balances.html": 1454,
     "noticias.html": 827,      # fase 4; su prosa no depende del dato del día
     # fase 6c: 5.566 medidas − 241 condicionales. Ya no es toda prosa fija: con
     # la cronología llegan hitos que dependen del dato del día —los del feed
@@ -128,7 +145,14 @@ PROSA_MINIMA = {
     # poblaciones y el municipio que salió del registro oficial. El margen
     # condicional se conserva intacto —333 palabras, las mismas que antes—:
     # sube lo que no puede evaporarse y ni una palabra de lo que sí.
-    "referencia.html": 6805,
+    #
+    # 25-ago-2026 (tercera del día): de 6.805 a 7.124. La guía de secciones dice
+    # la tesis nueva donde decía la vieja (25 palabras de prosa fija) y entra el
+    # hito curado que cuenta el porcentaje imposible, la acusación al satélite
+    # que no miró y el cambio de tesis (294 más). Las 319 son prosa fija: viven
+    # versionadas en `feeds/hitos_monitor.json` y solo desaparecen si alguien
+    # las borra a mano. El margen condicional no se toca.
+    "referencia.html": 7124,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 
@@ -264,7 +288,7 @@ def revisar(dist: Path) -> dict:
         # una tabla, una lista, la cifra escrita dentro de un párrafo o la banda
         # de brechas de la portada, que es una <section> de prosa entera
         for m in re.finditer(
-                r'<(tbody|ul|span|section)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
+                r'<(tbody|ul|span|section|p)([^>]*\bdata-gen="([^"]+)")[^>]*>(.*?)</\1>',
                 html, re.S):
             if not m.group(4).strip():
                 fallos.append(f"{pagina}: el contenedor «{m.group(3)}» quedó vacío")
