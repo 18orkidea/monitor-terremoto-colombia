@@ -430,12 +430,17 @@ def run() -> dict:
 
     def noticia(fecha, titulo, medio, url, origen, extra_text="", feed=None,
                 medio_canonico=None, medio_dominio=None):
-        # El medio canónico NO entra en el texto que se cruza con topónimos: un
-        # medio llamado «El País Cali» o «Diario del Cauca» atribuiría a un
-        # municipio noticias que no lo mencionan (R10 vigila lo contrario, las
-        # coincidencias parciales, pero esto sería una atribución de pleno
-        # derecho por el nombre de la cabecera).
-        text = f"{titulo} {medio or ''} {extra_text or ''}"
+        # Ningún nombre de medio entra en el texto que se cruza con topónimos.
+        # Ni la cabecera canónica —«El País Cali», «Diario del Cauca»
+        # atribuirían a un municipio noticias que no lo mencionan— ni `medio`,
+        # que además de cabecera puede ser la etiqueta del feed que trajo la
+        # pieza («Google News — Medio Atrato»): cruzarla le regalaba a Atrato
+        # los titulares de Medio Atrato, que es otro municipio. R10 vigila las
+        # coincidencias parciales; esto sería una atribución de pleno derecho
+        # por el nombre de quien publica o de quien buscó.
+        # Que la búsqueda municipal encontró la pieza sí se conserva, pero
+        # DECLARADO abajo (`feed["municipios"]`), no adivinado del texto.
+        text = f"{titulo} {extra_text or ''}"
         municipios = set(match_municipios_text(text))
         departamentos = set(match_departamentos_text(text, sorted(municipios)))
         if feed:

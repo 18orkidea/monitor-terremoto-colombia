@@ -614,6 +614,180 @@ class TestNombreASecasCongelado(unittest.TestCase):
         self.assertIn("Argelia (Cauca)", extras)
 
 
+class TestToponimoRevisadoSinDepto(unittest.TestCase):
+    """Un topónimo revisado a mano cuenta sin que el texto nombre el
+    departamento — y solo él.
+
+    Los municipios que abre el registro oficial nacen exigiendo el nombre
+    completo del departamento, pero la prensa colombiana escribe «el norte del
+    Valle» y «la Gobernadora del Valle», nunca «Valle del Cauca»: la ficha de
+    Argelia publicaba «ni un titular» de un pueblo con el 90 % del casco
+    afectado. `TOPONIMO_REVISADO_SIN_DEPTO` levanta la precaución uno a uno,
+    por código DIVIPOLA, después de mirar los titulares que cada municipio
+    perdía. Lo que no está revisado no se mueve: «Colombia», el municipio del
+    Huila, sigue sin quedarse los titulares del país entero.
+    """
+
+    DIVIPOLA = {
+        "argelia|valle del cauca": {
+            "municipio": "ARGELIA", "departamento": "VALLE DEL CAUCA",
+            "divipola": "76054", "lat": 4.72, "lon": -76.11},
+        "argelia|cauca": {"municipio": "ARGELIA", "departamento": "CAUCA",
+                          "divipola": "19050", "lat": 2.25, "lon": -77.0},
+        "argelia|antioquia": {
+            "municipio": "ARGELIA", "departamento": "ANTIOQUIA",
+            "divipola": "05055", "lat": 5.73, "lon": -75.14},
+        "colombia|huila": {"municipio": "COLOMBIA", "departamento": "HUILA",
+                           "divipola": "41206", "lat": 3.38, "lon": -74.80},
+    }
+
+    RUD = {
+        ("valle del cauca", "argelia"): {
+            "departamento": "VALLE DEL CAUCA", "municipio": "ARGELIA",
+            "familias": 851, "personas": 2553,
+            "viv_destruidas": 12, "viv_averiadas": 300},
+        ("cauca", "argelia"): {
+            "departamento": "CAUCA", "municipio": "ARGELIA",
+            "familias": 40, "personas": 120,
+            "viv_destruidas": 0, "viv_averiadas": 8},
+        ("antioquia", "argelia"): {
+            "departamento": "ANTIOQUIA", "municipio": "ARGELIA",
+            "familias": 3, "personas": 9,
+            "viv_destruidas": 0, "viv_averiadas": 1},
+        ("huila", "colombia"): {
+            "departamento": "HUILA", "municipio": "COLOMBIA",
+            "familias": 5, "personas": 14,
+            "viv_destruidas": 0, "viv_averiadas": 2},
+    }
+
+    # titulares literales del archivo, con su medio tal como se cruza
+    NOTICIAS = [
+        {"titulo": "En video: Sismo en Argelia, más del 90% del municipio "
+                   "afectado", "medio": "Google News — El País Cali"},
+        {"titulo": "Gobernadora del Valle recorre Argelia y anuncia acciones "
+                   "para familias afectadas por el terremoto", "medio":
+                   "Google News — Toro"},
+        {"titulo": "Colombia supera las 220 toneladas de ayuda internacional "
+                   "tras el terremoto", "medio": "Revista Semana"},
+    ]
+
+    def _rows(self):
+        from municipios import build_municipios
+        rows, _ = build_municipios(self.NOTICIAS, None, {}, None,
+                                   self.RUD, self.DIVIPOLA)
+        return {r["municipio"]: r for r in rows}
+
+    def test_el_titular_sin_departamento_cuenta_para_el_municipio_revisado(self):
+        rows = self._rows()
+        self.assertEqual(rows["Argelia"]["n_noticias"], 2,
+                         "los dos titulares de Argelia (Valle) no dicen «Valle "
+                         "del Cauca» y son suyos: sin la tabla, la ficha "
+                         "publicaba «ni un titular»")
+        self.assertEqual(rows["Argelia"]["estado"], "mencion_prensa")
+
+    def test_la_tabla_exime_a_un_municipio_y_no_a_su_nombre(self):
+        """La prensa habla de la Argelia del Valle; las otras dos se llaman
+        igual y no son suyas. La clave es el DIVIPOLA por esto."""
+        rows = self._rows()
+        for otra in ("Argelia (Cauca)", "Argelia (Antioquia)"):
+            self.assertEqual(rows[otra]["n_noticias"], 0,
+                             f"{otra} se quedó prensa que no es suya")
+            self.assertTrue(rows[otra]["requiere_depto"])
+
+    def test_el_municipio_llamado_colombia_sigue_con_la_precaucion(self):
+        """1.910 titulares del país entero para un pueblo de 12.000
+        habitantes del Huila: ahí el filtro acierta de pleno y no se toca."""
+        rows = self._rows()
+        self.assertEqual(rows["Colombia"]["n_noticias"], 0)
+        self.assertTrue(rows["Colombia"]["requiere_depto"])
+
+    def test_sin_codigo_resuelto_desempata_el_par_nombre_departamento(self):
+        """Un municipio que el catálogo geográfico escribe de otra manera se
+        queda sin código; el par nombre+departamento sigue distinguiéndolo."""
+        from municipios import municipios_dinamicos
+        extras = municipios_dinamicos(self.RUD, None)   # sin catálogo: sin códigos
+        self.assertFalse(extras["Argelia"]["requiere_depto"])
+        self.assertTrue(extras["Argelia (Cauca)"]["requiere_depto"])
+
+
+class TestElNombreDelFeedNoAtribuye(unittest.TestCase):
+    """El municipio del buscador no se le regala a los titulares que devuelve.
+
+    `medio`, en `news_items`, no siempre es la cabecera que firma: en las
+    búsquedas municipales es la etiqueta del feed —«Google News — Medio
+    Atrato»— y cruzarla con los topónimos atribuía a Atrato, que es OTRO
+    municipio, todo lo que trajera el feed de Medio Atrato. Medido sobre el
+    corpus: 1.577 atribuciones en 69 municipios entraban por el nombre del feed
+    y no por el titular.
+
+    Lo que la búsqueda municipal sí sabe —que preguntó por este municipio y
+    obtuvo respuesta— no se tira: se cuenta aparte en `n_prensa_recogida`, con
+    la atribución declarada de `noticias.json`, para que el cero de la cifra
+    estrecha no se pueda leer como «se preguntó y no hubo nada».
+    """
+
+    DIVIPOLA = {
+        "atrato|choco": {"municipio": "ATRATO", "departamento": "CHOCÓ",
+                         "divipola": "27050", "lat": 5.53, "lon": -76.63},
+        "medio atrato|choco": {
+            "municipio": "MEDIO ATRATO", "departamento": "CHOCÓ",
+            "divipola": "27425", "lat": 5.99, "lon": -76.78},
+    }
+    RUD = {
+        ("choco", "atrato"): {
+            "departamento": "CHOCÓ", "municipio": "ATRATO",
+            "familias": 100, "personas": 300,
+            "viv_destruidas": 1, "viv_averiadas": 20},
+        ("choco", "medio atrato"): {
+            "departamento": "CHOCÓ", "municipio": "MEDIO ATRATO",
+            "familias": 200, "personas": 600,
+            "viv_destruidas": 2, "viv_averiadas": 40},
+    }
+
+    # Dos titulares literales del archivo traídos por el MISMO feed, el de
+    # Medio Atrato. El primero no nombra a Atrato (solo al departamento, que es
+    # lo que su `requiere_depto` pedía); el segundo sí.
+    AJENO = ("Tras el terremoto, lanzan un fondo para reconstruir Chocó y "
+             "Buenaventura: estas serán las cuatro prioridades - Valora Analitik")
+    PROPIO = ("Sismos en o cerca de Atrato, del Choco, Colombia: Terremotos hoy "
+              "y últimos 30 días - Volcano Discovery")
+    FEED = "Google News — Medio Atrato"
+
+    def _rows(self, noticias):
+        from municipios import build_municipios
+        rows, _ = build_municipios(noticias, None, {}, None,
+                                   self.RUD, self.DIVIPOLA)
+        return {r["municipio"]: r for r in rows}
+
+    def test_el_titular_que_no_nombra_al_municipio_deja_de_contar(self):
+        rows = self._rows([{"titulo": self.AJENO, "medio": self.FEED}])
+        self.assertEqual(rows["Atrato"]["n_noticias"], 0,
+                         "un titular sobre el Chocó entero, recogido por el "
+                         "feed de Medio Atrato, no es prensa de Atrato")
+        self.assertEqual(rows["Medio Atrato"]["n_noticias"], 0,
+                         "tampoco del municipio que da nombre al feed: el "
+                         "titular no lo nombra")
+
+    def test_el_titular_que_sí_lo_nombra_sigue_contando(self):
+        rows = self._rows([{"titulo": self.PROPIO, "medio": self.FEED}])
+        self.assertEqual(rows["Atrato"]["n_noticias"], 1,
+                         "sacar el nombre del feed no puede llevarse por "
+                         "delante los titulares que nombran al municipio")
+        self.assertEqual(rows["Atrato"]["estado"], "mencion_prensa")
+
+    def test_la_busqueda_municipal_no_se_pierde_pero_se_cuenta_aparte(self):
+        """Lo que el feed municipal sabe viaja DECLARADO (`municipios`, que
+        publica `publish.py::noticia` desde `feed["municipios"]`), no adivinado
+        del texto: así el cero de El Dovio —0 titulares que lo nombren, 21
+        piezas recogidas— no se publica como silencio de la prensa."""
+        rows = self._rows([{"titulo": self.AJENO, "medio": self.FEED,
+                            "municipios": ["Medio Atrato"]}])
+        self.assertEqual(rows["Medio Atrato"]["n_noticias"], 0)
+        self.assertEqual(rows["Medio Atrato"]["n_prensa_recogida"], 1)
+        # y no se contagia al vecino cuyo nombre va dentro del suyo
+        self.assertEqual(rows["Atrato"]["n_prensa_recogida"], 0)
+
+
 class TestFeedsComunitarios(unittest.TestCase):
     RSS = b"""<?xml version="1.0"?><rss version="2.0"><channel>
       <item><title>Sismo en Quibd\xc3\xb3 deja da\xc3\xb1os</title>

@@ -6,6 +6,100 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — El nombre del feed sale del texto cruzado: quien busca no es quien informa
+
+**Contexto.** `municipios.py::build_municipios` decidía si un titular era de un
+municipio cruzando los topónimos contra **titular + `medio`**. Pero `medio`, en
+`news_items`, no siempre es la cabecera que firma la pieza: en las búsquedas
+municipales es la etiqueta del feed que la trajo — «Google News — Medio Atrato»,
+«Google News — Roldanillo». Medido sobre el corpus: **1.577 atribuciones en 69
+municipios entraban por el nombre del feed y no por el titular** (Cali 338,
+Pereira 207, Cartago 124). Y el nombre del feed se contagia entre topónimos
+anidados con toda la fuerza de R10: **«Atrato» recibía diez titulares de los
+feeds «Medio Atrato» y «El Carmen de Atrato», que son otros municipios**.
+`publish.py::noticia` tenía la mitad del problema resuelta —excluía la cabecera
+canónica y declaraba la atribución del feed explícitamente— pero seguía cruzando
+`medio`, así que arrastraba el mismo contagio a `noticias.json`.
+
+**Decisión (JP): el nombre del feed sale del texto cruzado, en las dos
+superficies.** Un municipio cuenta un titular solo si **el titular** lo nombra.
+Lo que el feed municipal sí sabe se conserva **declarado, no adivinado**: sigue
+en `feed["municipios"]` y ahora se publica con nombre propio en
+`municipios.json::n_prensa_recogida`.
+
+**Por qué no bastaba con quitarlo.** De las 1.577, **1.562 venían del feed del
+propio municipio y solo 15 eran contagio entre nombres**. Que la búsqueda de
+Roldanillo encuentre una pieza sí es prueba de que la prensa local publicó sobre
+Roldanillo, aunque el titular no repita el nombre. Quitar la vía sin sustituirla
+dejaba a **19 municipios en cero** —El Dovio con 21 piezas recogidas, La Victoria
+con 34— y los metía en el banner que AFIRMA «el monitor buscó prensa y no
+encontró ni un titular»: el error de Argelia del revés, multiplicado por
+diecinueve. Por eso `UI.silencioDePrensa` exige ahora las dos cifras en cero, la
+fila de la ficha se llama «titulares que lo nombran» —no «titulares de prensa»,
+que era el nombre de las dos— y el panel nombra a la prensa entre las fuentes si
+le ha llegado alguna pieza, aunque ninguna lo nombre.
+
+**Consecuencia.** La suma de `n_noticias` baja de 3.589 a 2.012; 69 municipios
+cambian de cifra; 19 pasan de `mencion_prensa` a `solo_rud`; ninguno sale de la
+capa (todos tienen RUD). El banner de silencio no cambia su afirmación —los
+cuatro «ciertos» siguen siendo Mistrató, Quinchía, Guática y Bagadó— y además
+deja de contar como mudos a cuatro municipios que ya lo eran por error (Obando,
+Andalucía, Alcalá, Ginebra). Queda pendiente una segunda copia que diverge (M2):
+`publish.py::noticia` cruza solo los 84 municipios curados, no los 347 del
+catálogo, así que Atrato tiene dos titulares que lo nombran y ninguna pieza en
+la lista de su ficha.
+
+## 2026-08-25 — Ocho topónimos revisados a mano: la precaución que dejaba a Argelia con «ni un titular»
+
+**Contexto.** Los municipios que abre el registro oficial nacen con
+`requiere_depto` puesto (R10, decisión del 16-ago): sin nadie que haya mirado si
+su nombre es palabra común o apellido, se les exige que el texto nombre además
+el departamento. La precaución evita que «el ministro Restrepo» cuente como
+prensa del municipio de Restrepo — y cuesta cara, porque la prensa colombiana
+escribe «el norte del Valle» o «la Gobernadora del Valle», casi nunca «Valle del
+Cauca». Medido sobre el corpus: **49 municipios dinámicos perdían titulares**.
+La ficha de Argelia publicaba «ni un titular» de un pueblo del que EL PAÍS de
+Cali había titulado «Sismo en Argelia, más del 90 % del municipio afectado», y
+la de El Cairo callaba trece titulares de un casco urbano «80 % en ruinas».
+
+**Decisión: curar a mano, municipio a municipio, en vez de relajar la regla.**
+`ingest/municipios.py::TOPONIMO_REVISADO_SIN_DEPTO` —hermana de
+`NOMBRE_A_SECAS_CONGELADO`— exime de la precaución a nueve municipios revisados
+uno a uno contra el archivo entero de titulares: Argelia, El Cairo, Calima y
+Yumbo (Valle), Puracé y Santander de Quilichao (Cauca), Filandia (Quindío),
+Planadas (Tolima) y Pitalito (Huila). Criterio: se exime el topónimo que no sea
+palabra común, apellido frecuente, lugar extranjero, nombre de departamento ni
+nombre compartido con otro municipio del área del sismo, **y** que al medirlo
+contra el corpus no traiga ni un solo titular ajeno. Ante la duda, la precaución
+se queda puesta. La clave es el **código DIVIPOLA**, no el nombre: se exime a un
+municipio, no a un topónimo, y por eso «Argelia» la del Valle cuenta sus
+titulares mientras las del Cauca y Antioquia —que se llaman igual y no son las
+que la prensa nombra— siguen sin recibirlos.
+
+**Lo que se quedó fuera, medido, vale tanto como lo que entró.** «Victoria»
+(Caldas) solo cazaba titulares de La Victoria (Valle); «Santa Rosa» (Cauca), de
+Santa Rosa de Cabal (Risaralda); «Balboa» (Cauca), de Balboa (Risaralda); «La
+Unión» (Antioquia), de La Unión (Valle); «Giraldo» (Antioquia), once titulares
+sobre un muerto apellidado Giraldo; «Florida» (Valle), la ayuda enviada desde
+Miami; «Une» (Cundinamarca), el verbo unir; «Colombia» (Huila), los titulares
+del país entero. Y por duda razonable, aunque hoy acierten: Aguadas y Salamina
+(Caldas), El Santuario (Antioquia), Quimbaya (Quindío) e Ibagué (Tolima).
+Argelia y El Cairo entran pese a ser homónimos de un país y de una capital
+extranjeros: el archivo completo —nueve y diecisiete titulares, incluidos los
+anteriores al sismo— es del municipio colombiano en los dos casos, y así queda
+anotado para revisarlo si algún día un sismo egipcio o argelino entra al corpus.
+
+**Consecuencia.** 38 titulares recuperados en nueve fichas —El Cairo pasa de 3
+a 16, Argelia de 0 a 6, Puracé de 0 a 7—; los otros 40 municipios siguen sin
+4.361 titulares a propósito, y 4.154 de ellos son del municipio del Huila
+llamado Colombia. No escala —cada municipio nuevo del RUD nacerá otra vez
+con la precaución puesta— y es deliberado (decisión del usuario): se prefiere la
+revisión manual a tocar la regla general. Cuatro tests nuevos vigilan el
+comportamiento, no la tabla: que un titular que nombra a Argelia sin decir
+«Valle del Cauca» cuente, que ese mismo titular no se lo quede ninguna de sus
+homónimas y que el municipio del Huila llamado Colombia siga sin quedarse los
+titulares del país.
+
 ## 2026-08-25 — El RUD cubre el catálogo entero: se congelan catorce homónimos y tres guardianes de R3 se quedan sin caso real
 
 **Contexto.** La captura del 24 de agosto llevó el registro de **251 a 347

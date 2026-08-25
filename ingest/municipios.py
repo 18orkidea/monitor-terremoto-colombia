@@ -514,6 +514,111 @@ def _dueno_del_nombre(dueno: dict, div: dict | None, departamento: str) -> bool:
     return _admin_norm(departamento) == _admin_norm(dueno.get("departamento"))
 
 
+# Topónimos ya revisados a mano: municipios a los que NO se les exige el
+# departamento al lado para contarles un titular.
+#
+# Todo municipio que abre el registro oficial nace con `requiere_depto` puesto,
+# porque nadie ha mirado aún si su nombre es además palabra común, apellido o
+# lugar extranjero. La precaución es sensata y sale cara: la prensa colombiana
+# escribe «el norte del Valle» o «la Gobernadora del Valle», casi nunca «Valle
+# del Cauca», así que el municipio se queda sin sus titulares. La ficha de
+# Argelia publicaba «ni un titular» de un pueblo del que EL PAÍS de Cali había
+# titulado «Sismo en Argelia, más del 90 % del municipio afectado».
+#
+# Estar en esta tabla significa que alguien miró UNO A UNO los titulares que
+# ese municipio perdía y comprobó que todos eran suyos. El criterio: se exime
+# el topónimo que no sea palabra común, ni apellido frecuente, ni nombre de
+# departamento, ni nombre compartido con otro municipio del área del sismo, y
+# que además, medido contra el archivo entero de titulares —7.928 textos, con
+# los anteriores al sismo que el corpus descarta—, no traiga ni un solo titular
+# ajeno. Ante la duda, la precaución se queda puesta: publicar de menos es un
+# fallo, atribuirle a un municipio prensa que no es suya es una mentira.
+#
+# La tabla exime a UN municipio, no a un nombre, y por eso la clave es el
+# código DIVIPOLA: «Argelia» la del Valle sí —los titulares hablan de ella— y
+# sus homónimas del Cauca y de Antioquia siguen con la precaución puesta.
+#
+# Lo que se dejó fuera importa tanto como lo que entró. Con razón: «Victoria»
+# (Caldas) solo cazaba titulares de La Victoria (Valle); «Santa Rosa» (Cauca),
+# de Santa Rosa de Cabal (Risaralda); «Balboa» (Cauca), de Balboa (Risaralda);
+# «La Unión» (Antioquia), de La Unión (Valle); «Giraldo» (Antioquia), once
+# titulares sobre un muerto apellidado Giraldo; «Florida» (Valle), la ayuda que
+# salía de Miami; «Une» (Cundinamarca), el verbo unir; «Colombia» (Huila),
+# 4.154 titulares del país entero. Y por duda razonable, aunque hoy acierten:
+# «Aguadas» y «Salamina» (Caldas) ganaban un titular cada una, pero «aguadas»
+# es adjetivo corriente y Salamina es también municipio del Magdalena; «El
+# Santuario» (Antioquia) acierta dos veces y aun así «el santuario» nombra
+# cualquier templo; «Quimbaya» (Quindío) arrastra la cultura arqueológica del
+# mismo nombre; «Ibagué» (Tolima) cazaba un titular sobre Planadas por el
+# nombre de la emisora que lo firma.
+#
+# No escala —cada municipio nuevo del RUD nacerá otra vez con la precaución
+# puesta— y es a propósito: se prefiere revisar a mano antes que relajar la
+# regla general (R10, docs/DECISIONES.md).
+TOPONIMO_REVISADO_SIN_DEPTO = {
+    # revisados el 25-ago-2026 contra el corpus de titulares
+    "76054": {"municipio": "Argelia", "departamento": "Valle del Cauca",
+              "porque": "«Argelia» es también el país, y por eso nació con la "
+                        "precaución. Los nueve titulares del archivo que la "
+                        "nombran son del municipio del norte del Valle —el "
+                        "S.O.S. junto a El Cairo, los recorridos de la "
+                        "gobernadora, el 90 % del casco afectado—, ninguno de "
+                        "Argel. Las Argelias del Cauca y de Antioquia no están "
+                        "en esta tabla: los mismos titulares no son suyos."},
+    "76246": {"municipio": "El Cairo", "departamento": "Valle del Cauca",
+              "porque": "«El Cairo» es la capital de Egipto en español, pero "
+                        "los diecisiete titulares del archivo son del municipio "
+                        "vallecaucano que el sismo dejó «80 % en ruinas». Si un "
+                        "terremoto egipcio entra algún día al corpus, esta "
+                        "línea se revisa."},
+    "19585": {"municipio": "Puracé", "departamento": "Cauca",
+              "porque": "Nombre único en el país. Los siete titulares hablan "
+                        "del volcán Puracé, que está dentro del municipio: el "
+                        "SGC descartando que el sismo lo activara y la alerta "
+                        "naranja del cráter."},
+    "63272": {"municipio": "Filandia", "departamento": "Quindío",
+              "porque": "Nombre único —no es Finlandia—. Los siete titulares "
+                        "son del pueblo: las fiestas del Canasto suspendidas, "
+                        "el agua cortada, los pueblos turísticos golpeados."},
+    "76126": {"municipio": "Calima", "departamento": "Valle del Cauca",
+              "porque": "El municipio es Calima El Darién y así lo escribe la "
+                        "prensa. Los cinco titulares son suyos, entre ellos el "
+                        "de los niños muertos por el colapso de una pared."},
+    "73555": {"municipio": "Planadas", "departamento": "Tolima",
+              "porque": "Nombre único. Los cuatro titulares cuentan lo mismo: "
+                        "las 18 toneladas de ayuda que Planadas mandó a "
+                        "Istmina y Sipí."},
+    "19698": {"municipio": "Santander de Quilichao", "departamento": "Cauca",
+              "porque": "Nombre compuesto e inequívoco: «Santander» a secas no "
+                        "lo activa. Los dos titulares son del municipio."},
+    "41551": {"municipio": "Pitalito", "departamento": "Huila",
+              "porque": "Nombre único y lejos del sismo: el único titular del "
+                        "archivo es «Pitalito se solidariza con Istmina, "
+                        "Chocó», que es exactamente lo que cuenta de él."},
+    "76892": {"municipio": "Yumbo", "departamento": "Valle del Cauca",
+              "porque": "Nombre único. El único titular es el de los daños en "
+                        "Dapa, corregimiento de Yumbo."},
+}
+
+
+def _toponimo_revisado(municipio: str, div: dict | None,
+                       departamento: str) -> bool:
+    """¿Está este municipio en la tabla de topónimos revisados a mano?
+
+    Por código DIVIPOLA, que es la identidad estable y lo único que distingue a
+    la Argelia del Valle de las otras dos. Si la fila no resuelve su código
+    —nombre que el catálogo geográfico escribe de otra manera—, desempata el
+    par nombre+departamento; y sin ninguna de las dos vías el municipio se
+    queda con la precaución puesta, que es la degradación segura.
+    """
+    code = _divipola_key((div or {}).get("divipola"))
+    if code:
+        return code in TOPONIMO_REVISADO_SIN_DEPTO
+    return any(_admin_norm(municipio) == _admin_norm(f["municipio"])
+               and _admin_norm(departamento) == _admin_norm(f["departamento"])
+               for f in TOPONIMO_REVISADO_SIN_DEPTO.values())
+
+
 def municipios_dinamicos(rud_municipios: dict | None,
                          divipola: dict | None) -> dict[str, dict]:
     """Entradas para municipios que el RUD registra pero MUNICIPIOS no cura
@@ -564,8 +669,12 @@ def municipios_dinamicos(rud_municipios: dict | None,
             "toponimos": [mun_n],
             # nadie ha revisado este topónimo todavía: si resulta ser palabra
             # común o apellido, exigir contexto evita atribuirle prensa ajena.
-            # Al curarlo a mano se puede relajar.
-            "requiere_depto": True,
+            # Los que sí se han revisado a mano —uno a uno, contra el corpus—
+            # viven en `TOPONIMO_REVISADO_SIN_DEPTO` y entran aquí sin la
+            # precaución: sin eso, la ficha de Argelia publicaba «ni un
+            # titular» de un municipio con el 90 % del casco afectado.
+            "requiere_depto": not _toponimo_revisado(municipio, div,
+                                                     departamento),
             # y si además se llama como un departamento, el texto libre no
             # puede distinguirlos: no recibe prensa por texto en absoluto
             "homonimo_de_departamento": mun_n in deptos,
@@ -656,6 +765,7 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                      grid_mmi=None) -> tuple[list[dict], dict]:
     catalogo = catalogo_municipios(rud_municipios, divipola)
     out = {m: {"municipio": m, **meta, "n_noticias": 0,
+               "n_prensa_recogida": 0,
                "noticias_ejemplo": [], "dyfi_max_cdi": None,
                "dyfi_respuestas": 0, "dyfi_celdas": 0, "dyfi_min_dist_km": None}
            for m, meta in catalogo.items()}
@@ -676,7 +786,18 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
             row["poblacion_fuente"] = None
 
     for n in noticias:
-        text = f"{n.get('titulo') or ''} {n.get('medio') or ''}"
+        # SOLO el titular. `medio` no es la cabecera que firma la pieza: es la
+        # etiqueta del feed que la trajo («Google News — Medio Atrato»), y
+        # cruzarla atribuía el municipio del buscador a cualquier titular que
+        # devolviese. Medido sobre el corpus: 1.577 atribuciones en 69
+        # municipios entraban por ahí y no por el titular, y 15 de ellas se le
+        # regalaban a OTRO municipio cuyo nombre va dentro del suyo —«Atrato»
+        # recibía titulares del feed «Medio Atrato», que es otro pueblo—. Que
+        # la búsqueda municipal encontró la pieza no se pierde: viaja declarado
+        # en `noticias.json` (`publish.py::noticia`, vía `feed["municipios"]`)
+        # y de ahí salen los titulares de cada ficha. `n_noticias` cuenta otra
+        # cosa, más estrecha y comprobable: quién sale nombrado en el titular.
+        text = n.get("titulo") or ""
         for mun, meta in catalogo.items():
             if _menciona_municipio(text, meta):
                 row = out[mun]
@@ -685,6 +806,17 @@ def build_municipios(noticias: list[dict], dyfi: dict | None,
                     row["noticias_ejemplo"].append({
                         "fecha": n.get("fecha"), "medio": n.get("medio"),
                         "titulo": n.get("titulo"), "url": n.get("url")})
+        # La otra cifra, la ancha: piezas que el monitor recogió PARA este
+        # municipio según la atribución declarada de `noticias.json` —las que
+        # lo nombran en el titular MÁS las que trajo su búsqueda municipal sin
+        # nombrarlo—. Es la que llena la lista de titulares de cada ficha, y
+        # existe para que el cero de `n_noticias` no se pueda leer como «el
+        # monitor preguntó y no hubo nada» cuando sí hubo: El Dovio tiene 0
+        # titulares que lo nombren y 21 piezas recogidas. Sin ella, sacar el
+        # nombre del feed del texto cruzado cambiaba un error por el contrario.
+        for mun in n.get("municipios") or []:
+            if mun in out:
+                out[mun]["n_prensa_recogida"] += 1
 
     for f in (dyfi or {}).get("features", []):
         p = f.get("properties") or {}

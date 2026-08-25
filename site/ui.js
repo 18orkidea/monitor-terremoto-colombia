@@ -175,7 +175,13 @@ window.UI = (function () {
   function silencioDePrensa(items) {
     const suma = (xs) => xs.reduce((t, m) => t + (m.rud_personas || 0), 0);
     const conRud = (items || []).filter((m) => m.rud_personas);
-    const mudos = conRud.filter((m) => m.n_noticias === 0)
+    // Mudo es no tener NINGUNA de las dos cifras de prensa. `n_noticias` cuenta
+    // los titulares que nombran al municipio; `n_prensa_recogida`, todas las
+    // piezas que el monitor le atribuye —incluidas las que trajo su búsqueda
+    // municipal sin nombrarlo en el titular—. Con solo la primera, El Dovio
+    // (21 piezas recogidas, ninguna que lo nombre) entraba en el nivel que
+    // AFIRMA «se preguntó y no hubo nada»: se preguntó y hubo veintiuna.
+    const mudos = conRud.filter((m) => m.n_noticias === 0 && !m.n_prensa_recogida)
       .sort((a, b) => b.rud_personas - a.rud_personas);
     if (!mudos.length) return null;
     // `=== true`, no `!== false`: si el campo faltara —porque alguien llame a

@@ -5,46 +5,52 @@ conocidas del monitor para que nadie —periodista, investigador, historiador—
 tome la ausencia de un dato por la ausencia de un hecho. Complementa la
 metodología pública del sitio.
 
-## La prensa por municipio se cuenta de dos maneras, y una infla (24-ago-2026)
+## La prensa por municipio se cuenta de dos maneras, y ahora se dice cuál (25-ago-2026)
 
 **Medido, no estimado.** El sitio publica dos recuentos de titulares por
-municipio y **no miden lo mismo**:
+municipio y **no miden lo mismo**. Desde el 25-ago cada uno lleva su nombre y
+ninguno de los dos deduce el municipio del nombre del feed:
 
-- `municipios.json::n_noticias` cuenta los titulares que **mencionan** el
-  municipio en su título o su medio, con el límite de palabra de R10. Es el que
-  usan la tabla de `municipios.html` y el panel de la ficha.
-- El campo `municipios` de cada titular en `noticias.json` añade, además, **los
-  que llegaron por la búsqueda municipal propia aunque no lo nombren**
-  (`ingest/publish.py:441`, atribución por origen del feed). Es el que usa el
-  filtro por zona de `noticias.html`.
+- `municipios.json::n_noticias` cuenta **solo los titulares que nombran al
+  municipio**, con el límite de palabra de R10. Es el de la columna «Prensa» de
+  `municipios.html` y el de la fila «Titulares que lo nombran» de la ficha.
+- `municipios.json::n_prensa_recogida` cuenta **todas las piezas que el monitor
+  le atribuye**: las anteriores más las que trajo su búsqueda municipal sin
+  nombrarlo en el titular, según la atribución **declarada** de `noticias.json`
+  (`ingest/publish.py::noticia`, vía `feed["municipios"]`). Es la que llena la
+  lista de titulares de cada ficha y el filtro por zona de `noticias.html`.
 
-**El segundo infla, y mucho.** 59 de los 208 municipios tienen cifras distintas.
-Los peores casos, medidos sobre el corte del 22-ago:
+Las dos difieren en 103 de los 347 municipios de la capa, y la distancia entre
+ellas no es ruido: es lo que la búsqueda municipal encuentra y el titular no
+dice. Cali: 575 nombrado, 930 recogidas. El Dovio: **0 nombrado, 21 recogidas**.
 
-| municipio | por mención | por feed | |
-|---|---|---|---|
-| Jamundí | 4 | **303** | de los 303, **299 no lo nombran** |
-| Buenaventura | 185 | 482 | |
-| Palmira | 31 | 328 | |
-| La Tebaida | 8 | 221 | |
+**Lo que se corrigió.** Hasta el 24-ago, `n_noticias` cruzaba los topónimos
+contra el titular **y el campo `medio`**, que en las búsquedas municipales no es
+la cabecera que firma sino la etiqueta del feed («Google News — Medio Atrato»).
+Medido sobre el corpus: **1.577 atribuciones en 69 municipios entraban por el
+nombre del feed y no por el titular** (Cali 338, Pereira 207, Cartago 124), y
+**15 de ellas se le regalaban a otro municipio** cuyo nombre va dentro del
+suyo — «Atrato» recibía diez titulares del feed de «Medio Atrato», que es otro
+pueblo del Chocó. La cifra estrecha bajó de 3.589 a 2.012 atribuciones y
+diecinueve municipios pasaron de `mención de prensa` a `solo RUD`.
 
-Los 299 de Jamundí son titulares sobre Cali —«Escombros del terremoto en Cali»,
-«Homenaje en Cali a las víctimas»— que su búsqueda municipal devolvió.
+**Lo que NO se perdió, y por qué importa.** De esas 1.577, **1.562 venían del
+feed del propio municipio**: que su búsqueda encontrara la pieza sí es prueba de
+que la prensa publicó sobre él, aunque el titular no repita el nombre. Esa
+prueba sigue publicada, pero **declarada y aparte**, en `n_prensa_recogida`.
+Sin ella, sacar el nombre del feed del texto cruzado habría cambiado un error
+por el contrario: El Dovio, con veintiún titulares recogidos, habría entrado en
+el banner que afirma «el monitor buscó prensa y no encontró ni un titular».
+Por eso `UI.silencioDePrensa` exige las dos cifras en cero para llamar mudo a un
+municipio (el guardián está en
+`tests/test_frontend.py::test_la_busqueda_que_trajo_piezas_no_es_silencio`).
 
-**Por qué importa más de lo que parece.** Este monitor existe para medir la
-**brecha de atención**: qué municipios salen en prensa y cuáles no. Un recuento
-que atribuye a Jamundí 303 titulares que hablan de Cali **borra justamente esa
-brecha**, y lo hace en la dirección más engañosa: inflando la cobertura de los
-municipios pequeños, que son los que el proyecto vigila.
-
-**Estado: conocido y no corregido.** La ficha y la tabla usan el recuento por
-mención, que es el prudente. Lo que sigue inflado es el **filtro por zona de
-`noticias.html`**. Se decidió no tocarlo hoy para no mezclarlo con el rediseño
-(JP, 24-ago). Al abordarlo hay que decidir si la atribución por origen del feed
-se retira, se marca aparte («titulares de su búsqueda municipal») o se queda con
-una advertencia — pero **las tres cosas que no puede seguir haciendo son
-mezclarse con el recuento por mención, publicarse sin decir qué cuenta y
-llamarse igual que la otra**.
+**Lo que sigue sin resolverse.** La atribución declarada de `noticias.json` se
+calcula sobre los **84 municipios curados**, no sobre los 347 del catálogo: para
+los que entraron solos desde el RUD, `n_prensa_recogida` solo recoge lo que
+declare un feed. Consecuencia visible: Atrato tiene dos titulares que lo nombran
+y ninguna pieza en la lista de su ficha. Es una segunda copia del cruce que
+diverge (M2) y está pendiente.
 
 ## Los cinco primeros días no existen (10 → 15 de agosto de 2026)
 
@@ -405,9 +411,11 @@ Tampoco se les genera búsqueda automática de Google News, porque esa búsqueda
 (`"risaralda" "caldas"`) devolvería justo los titulares del departamento y el
 feed los atribuiría al municipio saltándose el filtro. La única vía para su
 prensa sería un feed del registro comunitario, donde una persona declara a qué
-municipio pertenece el medio en lugar de deducirlo del titular — vía prevista y
-todavía no implementada: hoy `n_noticias` se calcula solo por texto, así que su
-celda seguirá vacía aunque alguien añada ese feed.
+municipio pertenece el medio en lugar de deducirlo del titular. Esa vía ya
+existe, pero **no rellena la columna**: `n_noticias` se calcula solo por texto y
+su celda seguirá vacía aunque alguien añada el feed. Lo que sí recogería es
+`n_prensa_recogida`, que cuenta la atribución declarada — hoy, ninguno de los
+siete homónimos con damnificados inscritos tiene un feed que los declare.
 
 Veinticuatro de los municipios del RUD tienen nombres que son además palabra común
 (Toro), lugar extranjero conocido (Versalles, Palestina, Ginebra, Filadelfia),

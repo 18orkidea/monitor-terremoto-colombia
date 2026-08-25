@@ -47,7 +47,9 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
 - **R10** Topónimos con límite de palabra (`\b`): Cali ≠ California. Vive en TRES
   superficies —si tocas una, mira las otras—: `crosscheck.py:47` (AOIs),
   `municipios.py::_mentioned` (+ dos niveles: `requiere_depto` y
-  `homonimo_de_departamento`) y `workers/ai-view::mentionsPlace` (+ `sinEnlaces`,
+  `homonimo_de_departamento`, y la exención revisada a mano
+  `TOPONIMO_REVISADO_SIN_DEPTO`, por DIVIPOLA) y `workers/ai-view::mentionsPlace`
+  (+ `sinEnlaces`,
   porque el worker lee documentos con URLs dentro).
   `test_unit.py::test_cali_no_es_california` · `test_worker_toponimos.py`
 - **R11** Los supuestos rotos AVISAN, no rompen en silencio — y romperse puede ser buena

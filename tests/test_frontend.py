@@ -698,6 +698,24 @@ class TestSilencioDePrensa(unittest.TestCase):
     def test_si_nadie_queda_mudo_no_hay_afirmacion(self):
         # R11: el día que todos tengan prensa, el banner desaparece
         self.assertIsNone(self._sil([self.MUNS[5]]))
+
+    def test_la_busqueda_que_trajo_piezas_no_es_silencio(self):
+        """El monitor buscó prensa de El Dovio y le llegaron 21 piezas; lo que
+        no hay es un titular que lo NOMBRE. Contarlo entre los «ciertos» —el
+        nivel que afirma «se preguntó y no hubo nada»— sería publicar como
+        silencio de la prensa lo que es un límite del cruce por topónimo, que
+        es exactamente el error que se acaba de corregir en Argelia.
+        `n_prensa_recogida` es lo que lo distingue del silencio de verdad."""
+        el_dovio = {"municipio": "El Dovio", "departamento": "Valle del Cauca",
+                    "rud_personas": 3500, "n_noticias": 0,
+                    "n_prensa_recogida": 21, "tasa_rud_pct": 30.0,
+                    "busqueda_propia": True}
+        sil = self._sil([*self.MUNS, el_dovio])
+        self.assertNotIn("El Dovio", sil["ciertos"])
+        self.assertEqual(sil["mudos"], 4, "El Dovio no está mudo: le llegaron "
+                                          "21 piezas de prensa")
+        # y su tasa, la mayor de la lista, no puede acabar en el «hasta el X %»
+        self.assertEqual(sil["techo"]["municipio"], "Bagadó")
         self.assertIsNone(self._sil([]))
 
 
