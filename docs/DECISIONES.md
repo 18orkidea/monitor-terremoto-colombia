@@ -6,6 +6,115 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — El mapa abre por la ausencia, y cada chip manda sobre toda su fuente
+
+Una auditoría independiente (`AUDITORIA-PROTOTIPO.md`) comparó la maqueta
+—`prototipo/gen_prototipo.py`— con la portada construida sin saber qué se
+pretendía en cada punto. De sus hallazgos, JP decidió cerrar seis. Los cuatro
+que cambian conducta se anotan aquí; los otros dos (A1 y A2, el explorador de
+dos estados del panel) **no se cierran a propósito**: el panel lleva a la ficha
+municipal, que es una página entera, y esa es una decisión expresa que la
+auditoría no podía conocer.
+
+### 1 · La primera pregunta del mapa cambia (hallazgo B1)
+
+La portada encuadraba sobre las zonas que analizó Copernicus y abría con las
+cinco capas de los chips puestas, más otras tres que ningún chip gobernaba: ocho
+capas y un recorte occidental. Eso contesta **«dónde han mirado los
+satélites»**.
+
+Ahora abre con Colombia entera (zoom 6, `app.js::VISTA_NACIONAL`) y una sola
+capa encendida, «Solo en el RUD». Contesta **«a cuánta gente no ha mirado
+nadie»**, que es la tesis del monitor: la ausencia se lee antes que la
+evidencia. Las otras cuatro miradas las enciende el lector, y encenderlas una a
+una es justamente el gesto que enseña la brecha.
+
+El estado inicial deja de estar repartido en doce `.addTo` sueltos y se decide
+en un solo sitio; el build escribe los chips con ese mismo estado
+(`ENCENDIDAS_AL_ABRIR`), de modo que quien lee sin ejecutar JavaScript ve la
+tira que el mapa tendrá, y quien lo ejecuta no ve cinco chips apagarse solos.
+
+Consecuencia que **queda abierta**: la portada sigue pidiendo trece recursos en
+paralelo antes de pintar (4.219 KB) cuando lo que dibuja al abrir necesita 163
+(`monitor.json` + `municipios_mapa.json`). La carga progresiva de la maqueta —
+cada capa se pide al encenderla — cambia la arquitectura y se decide aparte;
+esta entrada la vuelve más urgente, no la resuelve.
+
+### 2 · Un chip manda sobre TODA su fuente (hallazgo B2)
+
+Apagar «Copernicus» dejaba en el mapa sus polígonos de zona, y la capa general
+de municipios no colgaba de ningún chip. El control publicaba un estado que el
+mapa desmentía.
+
+Las zonas que Copernicus recortó y los huecos que dejó sin analizar son producto
+suyo tanto como el edificio que clasificó —dicen dónde miró y dónde no—, así que
+cuelgan de su chip: son cinco capas de Leaflet y un solo servicio que mirar o
+dejar de mirar.
+
+Cuatro capas se quedan fuera de los chips **con su motivo escrito en el
+código**: la sacudida estimada y la intensidad percibida (las dos del USGS: son
+terreno sísmico, no una mirada al daño), los sismos históricos de la UNGRD (son
+otros eventos) y «Municipios con señal», que es un COMPUESTO de varias fuentes
+cuyo color es el estado del cruce: ningún chip puede reclamarla sin mentir,
+porque apagar «Copernicus» no borra el municipio que además tiene RUD y prensa.
+Las cuatro llegan apagadas y viven en el control de capas de Leaflet, que por
+esto mismo no se retira. `conChip(clave, capa)` y `sinChip(motivo, capa)` son
+las dos únicas puertas de entrada, y su guardián no deja pasar una tercera.
+
+Límite conocido, heredado y no tocado: el chip refleja `some(hasLayer)`, así que
+apagar UNA de las cinco capas de Copernicus desde el control de Leaflet lo deja
+encendido. Con `every` mentiría al revés. La respuesta honesta sería un tercer
+estado y no cabe en este cambio.
+
+### 3 · El orden de la portada (hallazgos A3, B5 y C1)
+
+Primero las puertas del sitio, después la explicación opcional. La comparativa
+de fuentes vuelve a estar plegada y detrás de las tarjetas; «Qué encontrará en
+este sitio» vuelve a ser bloque propio; y «Cómo se construye» recupera la
+cabecera de la tira de tarjetas, porque la primera puerta es la que explica de
+dónde sale todo lo demás.
+
+**No se sigue a la maqueta en un punto, y se dice**: la maqueta conserva además
+un plegable «Cómo leer estas cifras» antes del mapa cuyo texto es una
+condensación —con la cifra de edificios escrita a mano— de los mismos tres
+párrafos que ahora viven en «Qué encontrará en este sitio». Escribir dos veces
+la misma prosa con la misma cifra es exactamente lo que este sitio no hace, así
+que el bloque de arriba desaparece y su contenido se muda entero. Es un
+movimiento, no una redacción: `prosa_propia` de `index.html` no baja (1.829
+palabras, suelo 1.653), y por eso `PROSA_MINIMA` no se toca.
+
+### 4 · El zoom agranda también el edificio y el reporte (hallazgo B4)
+
+El reescalado por zoom se había escrito una vez, para el anillo de la ausencia;
+los edificios y los reportes de la comunidad se quedaron con radio fijo en
+píxeles, así que acercarse no aportaba detalle. La fórmula se generaliza en
+`radioZoom(base, tope)` en vez de copiarse (M2), con dos topes que dicen cosas
+distintas: **18** para el anillo de un municipio, que señala un sitio y no
+dibuja su extensión, y **11** para el punto de un edificio, que sí tiene que
+ganar detalle sin salirse del tejado que retrata.
+
+**Se conserva la base de cada capa** (5,5 px los edificios, 6 las
+interrupciones, 5 los reportes) en vez de la de la maqueta (3,2): lo que la
+auditoría señala como divergencia es que la marca no crezca, no su tamaño de
+partida, y bajar la base encogería las marcas en la vista nacional sin que nadie
+lo haya pedido. El efecto de esa elección es que con base 5,5 el tope muerde
+hacia el zoom 9,4 y de ahí en adelante la marca ya no crece; con 3,2 seguiría
+creciendo hasta el 11,8. Es una línea si se quiere lo otro.
+
+«Municipios con señal» se queda con radio fijo a propósito: ahí el tamaño ya
+significa otra cosa —si el municipio cae dentro de una zona de Copernicus—.
+
+### 5 · Y una limpieza: `.lienzo.con-ficha` y `.ampliar`
+
+Cinco reglas de `styles.css` estilaban el modo móvil de la maqueta —tocar un
+municipio encogía el mapa para dejar sitio a su ficha, con un tirador para
+devolverlo a su alto— que no se portó, porque el panel lleva a la ficha
+municipal. Ningún HTML ni JavaScript escribía esas clases: ni la portada ni la
+propia ficha, cuyo lienzo es `.lienzo.lienzo-mun`. CSS muerto se lee como una
+función que existe y nadie encuentra. Se retiran, con la nota de por qué en su
+lugar y un guardián que mira las dos mitades: que las reglas no vuelvan y que
+nadie escriba la clase sin ellas.
+
 ## 2026-08-25 — La portada deja de ser una ficha técnica: se van la matrícula, la cronología, la vigilancia de catálogo y cuatro descargas
 
 Fase 6c, con el prototipo (`prototipo/gen_prototipo.py`) otra vez como regla y

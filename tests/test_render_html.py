@@ -6928,3 +6928,92 @@ class TestElCatalogoDeActivacionesSeLeeEnEspanol(unittest.TestCase):
         self.assertEqual(
             crudas, [],
             f"el catálogo publica la categoría en inglés: {crudas}")
+
+
+class TestElOrdenDeLaPortadaEsElDeLaMaqueta(unittest.TestCase):
+    """A3, B5 y C1 · Primero las puertas del sitio, después la explicación.
+
+    La portada construida había invertido esa jerarquía: la comparativa de
+    fuentes estaba abierta y por delante de las tarjetas, «Qué encontrará en
+    este sitio» se había fundido dentro de «Cómo leer estas cifras» arriba del
+    todo, y «Cómo se construye» —la puerta que explica de dónde sale todo lo
+    demás— había caído al final de la tira.
+
+    El orden de una página es un argumento, no una maquetación: quien llega
+    buscando su municipio no tiene que atravesar tres bloques de explicación, y
+    quien quiere entender los encuentra donde ya sabe qué está mirando.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+
+    def _pos(self, aguja):
+        i = self.html.find(aguja)
+        self.assertNotEqual(i, -1, f"«{aguja}» ya no está en la portada")
+        return i
+
+    def test_que_encontrara_es_un_bloque_propio_y_no_vive_dentro_de_otro(self):
+        """A3 · Estaba fusionado dentro de «Cómo leer estas cifras», arriba del
+        todo. La prosa es la misma —se mueve, no se reescribe—: la escribe
+        `nota_como_leer_portada` y sigue siendo su único inquilino."""
+        bloque = re.search(
+            r"<details[^>]*>\s*<summary>Qué encontrará en este sitio</summary>"
+            r"(.*?)</details>", self.html, re.S)
+        self.assertIsNotNone(
+            bloque, "«Qué encontrará en este sitio» ha dejado de ser un plegable "
+                    "propio")
+        self.assertIn('data-gen="portada-comoleer"', bloque.group(1),
+                      "el bloque se quedó sin su prosa: es un movimiento, no "
+                      "una redacción nueva")
+        self.assertNotIn("Cómo leer estas cifras", self.html,
+                         "vuelve a haber dos bloques con la misma prosa: la "
+                         "versión corta de la maqueta es una condensación de "
+                         "estos mismos párrafos, y este sitio no escribe dos "
+                         "veces las mismas cifras")
+
+    def test_la_comparativa_de_fuentes_va_plegada_y_despues_de_las_tarjetas(self):
+        """B5 · Abierta y por delante de las puertas, la comparativa obligaba a
+        pasar por una explicación de cuatro tarjetas para llegar a ellas."""
+        pliegue = re.search(
+            r"<details[^>]*>\s*<summary>Qué mira cada fuente</summary>"
+            r"(.*?)</details>", self.html, re.S)
+        self.assertIsNotNone(
+            pliegue, "la comparativa de fuentes vuelve a estar abierta: la "
+                     "maqueta la pliega bajo «Qué mira cada fuente»")
+        self.assertIn('id="fuentes-section"', pliegue.group(1))
+        self.assertIn('data-gen="portada-fuentes"', pliegue.group(1))
+        self.assertNotIn(
+            "open", re.search(r"<details[^>]*>\s*<summary>Qué mira cada fuente",
+                              self.html).group(0),
+            "el plegable de la comparativa nace abierto")
+        self.assertLess(
+            self._pos('data-gen="portada-tarjetas"'),
+            self._pos("<summary>Qué mira cada fuente</summary>"),
+            "la comparativa volvió a colarse por delante de las tarjetas")
+
+    def test_las_tres_explicaciones_van_seguidas_y_detras_de_las_puertas(self):
+        """El orden de la maqueta: tarjetas, qué encontrará, qué mira cada
+        fuente, alertas."""
+        orden = ['data-gen="portada-tarjetas"',
+                 "<summary>Qué encontrará en este sitio</summary>",
+                 "<summary>Qué mira cada fuente</summary>",
+                 "<summary>Alertas y silencios</summary>"]
+        posiciones = [self._pos(a) for a in orden]
+        self.assertEqual(posiciones, sorted(posiciones),
+                         f"el orden de la portada ya no es el de la maqueta: "
+                         f"{orden}")
+
+    def test_la_primera_puerta_es_la_que_explica_de_donde_sale_todo(self):
+        """C1 · «Cómo se construye» abría la tira en la maqueta y había caído al
+        final. Las cifras las escribe el build; el orden, no."""
+        tira = R.tarjetas_portada(R.contexto())
+        titulos = re.findall(r"<strong>(.*?)</strong>", tira)
+        self.assertEqual(
+            titulos[0], "Cómo se construye",
+            f"la tira empieza por «{titulos[0]}»: la primera puerta es la "
+            "trazabilidad, no una cifra")
+        self.assertEqual(
+            titulos,
+            ["Cómo se construye", "Municipios", "RUD", "Balances", "Titulares"],
+            "el orden de las cinco puertas ya no es el de la maqueta")

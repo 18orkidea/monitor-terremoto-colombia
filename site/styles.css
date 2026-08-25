@@ -1173,26 +1173,14 @@ a.metric-card:hover { border-color: var(--s1); }
 details.denso table{font-size:12.5px;width:100%;border-collapse:collapse;display:block;
   overflow-x:auto;white-space:nowrap}
 details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--border)}
-/* Al tocar un municipio en móvil el mapa cede la mitad de su alto para que la
-   ficha se lea SIN hacer scroll: el dato es lo que se ha ido a buscar, y
-   obligar a desplazarse después de tocar es pedir dos gestos para una
-   respuesta. El mapa no desaparece —sigue viéndose dónde está el municipio— y
-   el botón «Ampliar el mapa» lo devuelve a su alto completo. */
-.lienzo.con-ficha #map{height:34vh;min-height:200px}
-/* El tirador de ampliar no es un botón más: es una banda al ancho del mapa,
-   pegada a su borde inferior y semitransparente, de modo que el mapa se ve por
-   debajo. Así se lee como «hay más mapa aquí abajo» y no como un control que
-   compite con el resto de la interfaz. Solo existe con la ficha abierta. */
-.ampliar{display:none}
-.lienzo.con-ficha .ampliar{display:none;align-items:center;justify-content:center;
-  gap:8px;position:absolute;left:0;right:0;bottom:0;z-index:600;
-  padding:9px 0 11px;border:0;border-top:1px solid rgba(255,255,255,.35);
-  background:linear-gradient(to bottom,rgba(252,252,251,0),rgba(252,252,251,.82) 45%);
-  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
-  color:var(--ink-2);font:inherit;font-size:12.5px;letter-spacing:.01em;
-  cursor:pointer;text-shadow:0 1px 0 rgba(255,255,255,.5)}
-.lienzo.con-ficha .ampliar:hover{color:var(--ink)}
-.ampliar .flecha{font-size:14px;line-height:1}
+/* Aquí vivían `.lienzo.con-ficha` y `.ampliar`: el modo móvil de la maqueta en
+   el que tocar un municipio encogía el mapa para dejar sitio a su ficha en el
+   panel. Ese modo no se portó —en este sitio el panel enlaza a la ficha
+   municipal, que es una página entera, y JP la prefiere al explorador de dos
+   estados—, así que las reglas se quedaron sin un solo elemento que las
+   activara: ni la portada ni la ficha municipal (`.lienzo.lienzo-mun`) escriben
+   nunca esas clases. CSS muerto no avisa de que lo está; se retira el
+   25-ago-2026 y el día que el modo vuelva, volverá con su marcado. */
 .lista-mun{list-style:none;margin:0;padding:0}
 .lista-mun li{border-bottom:1px solid var(--border)}
 .lista-mun button{display:flex;width:100%;gap:10px;align-items:baseline;

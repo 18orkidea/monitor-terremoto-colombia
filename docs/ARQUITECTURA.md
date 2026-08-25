@@ -87,6 +87,18 @@ worker aparte: workers/push (Cloudflare) ──► Web Push cifrado + canal Tele
   cronología también la escribe el build
   (`render_html.py::cronologia_referencia`), y lo vigila
   `test_render_html.py::test_app_js_ya_no_dibuja_lo_que_escribe_el_build`.
+  Ese mapa **abre con Colombia entera y una sola capa encendida**, la de la
+  ausencia (`app.js::VISTA_NACIONAL`), porque la ausencia se lee antes que la
+  evidencia. Sus trece capas entran por una de dos puertas: `conChip(clave,
+  capa)`, que las pone bajo uno de los cinco chips —y un chip manda sobre TODA
+  su fuente: los polígonos de zona de Copernicus y sus huecos sin analizar son
+  suyos—, o `sinChip(motivo, capa)`, que obliga a escribir por qué una capa no
+  tiene chip y la deja en el control de capas de Leaflet, que por eso no se
+  retira. El estado que el build escribe en los chips
+  (`render_html.py::ENCENDIDAS_AL_ABRIR`) y el que `app.js` enciende son la
+  misma decisión en dos superficies; sus guardianes son
+  `test_frontend.py::TestElMapaAbreConLaAusenciaSola` y
+  `TestCadaCapaTieneChipOMotivo`.
   **La barra y el pie no los escribe el navegador**:
   los escribe el build en las 213 páginas (`render_html.py::nav_estatico` /
   `pie_estatico`, con el paso `escribir_piezas_compartidas` para las **seis**

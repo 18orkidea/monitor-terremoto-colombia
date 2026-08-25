@@ -2226,3 +2226,312 @@ class TestElAnilloDeLaAusenciaCuentaFamilias(unittest.TestCase):
                  "con el que nacieron, antes de haber encuadre")):
             self.assertTrue(trozo in self.js,
                             f"«{trozo}» ya no está en site/app.js: {porque}")
+
+
+class TestElMapaAbreConLaAusenciaSola(unittest.TestCase):
+    """B1 · La primera pregunta del mapa es «a quién no ha mirado nadie».
+
+    La portada abría ajustada a las zonas que analizó Copernicus y con las cinco
+    capas de los chips puestas, más otras tres que ningún chip gobernaba. Eso
+    contesta «dónde han mirado los satélites». La maqueta abre con Colombia
+    entera y solo «Solo en el RUD»: **la ausencia se lee antes que la
+    evidencia**, que es la tesis del monitor.
+
+    Es una decisión editorial, así que se vigila como tal. Vive en DOS
+    superficies —si tocas una, mira la otra—: `site/app.js`, que enciende las
+    capas, y `deploy/render_html.py::chips_portada`, que escribe el estado de
+    los chips en el documento servido.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+
+    def test_el_encuadre_de_partida_es_nacional_y_no_el_recorte_de_copernicus(self):
+        vista = re.search(
+            r"const VISTA_NACIONAL = \{ centro: \[([\d.-]+), ([\d.-]+)\],"
+            r" zoom: (\d+) \};", self.js)
+        self.assertIsNotNone(
+            vista, "`VISTA_NACIONAL` ya no está en site/app.js con la forma que "
+                   "este guardián sabe leer")
+        lat, lon, zoom = float(vista.group(1)), float(vista.group(2)), int(vista.group(3))
+        self.assertEqual(zoom, 6, f"el mapa abre a zoom {zoom}: con más, "
+                                  "Colombia ya no cabe entera")
+        # el centro del país, no el del occidente donde Copernicus recortó
+        self.assertTrue(2 < lat < 8 and -76 < lon < -72,
+                        f"el centro de partida ({lat}, {lon}) no es el del país")
+        self.assertIn("map.setView(VISTA_NACIONAL.centro, VISTA_NACIONAL.zoom)",
+                      self.js, "nadie aplica la vista nacional")
+
+    def test_ya_no_se_encuadra_sobre_las_zonas_de_copernicus(self):
+        """El fallo tenía dos cabezas: el encuadre inicial y el reencuadre del
+        `ResizeObserver`. Con solo la primera corregida, girar el teléfono
+        devolvía al lector al recorte occidental."""
+        self.assertNotIn("fitBounds", self.js,
+                         "algo vuelve a encuadrar sobre unos límites de capa: "
+                         "el encuadre de esta portada es el país")
+
+    def test_solo_la_ausencia_se_enciende_al_abrir(self):
+        """Un solo sitio decide el estado inicial. Repartido en doce `.addTo`
+        sueltos no se podía ni leer ni comprobar, y así se coló el mapa que
+        abría con ocho capas."""
+        encendido = re.search(
+            r"for \(const capa of porCapa\.(\w+) \|\| \[\]\) \{", self.js)
+        self.assertIsNotNone(
+            encendido, "no hay un bloque único que decida qué se enciende al abrir")
+        self.assertEqual(encendido.group(1), "ausencia",
+                         "el mapa abre encendiendo una capa que no es la ausencia")
+        # ninguna capa se cuela por su cuenta: fuera del mapa base, de la
+        # estrella del epicentro, del control de Leaflet y del propio bloque de
+        # arriba, nadie más se añade solo.
+        sueltos = [l for l in re.findall(r"^.*\baddTo\(map\).*$", self.js, re.M)
+                   # los comentarios de esta misma regla la nombran: contarlos
+                   # acusaría al código de un `addTo` que está en la prosa
+                   if not l.strip().startswith(("//", "*", "/*"))]
+        self.assertEqual(
+            len(sueltos), 5,
+            "hay un `.addTo(map)` nuevo o de menos; el estado inicial del mapa "
+            f"se decide en un solo sitio:\n" + "\n".join(s.strip() for s in sueltos))
+
+    def test_el_documento_servido_declara_los_chips_con_ese_mismo_estado(self):
+        """Sin esto la tira llega con cinco chips encendidos y `app.js` los
+        apaga al engancharlos: parpadeo para quien ejecuta JavaScript y, para
+        quien no, un documento que afirma un mapa que no existe."""
+        html = R_chips()
+        pulsados = re.findall(r'data-capa="([^"]+)"[^>]*aria-pressed="true"', html)
+        self.assertEqual(pulsados, ["ausencia"],
+                         f"el build enciende {pulsados}: solo «ausencia» abre")
+        self.assertGreater(html.count('aria-pressed="false"'), 0,
+                           "ningún chip nace apagado: se ha perdido el contraste "
+                           "de encender cada fuente a voluntad")
+
+
+def R_chips():
+    """La tira de chips de la portada, tal y como la escribe el build."""
+    import importlib
+    render = importlib.import_module("deploy.render_html")
+    return render.chips_portada(render.contexto())
+
+
+class TestCadaCapaTieneChipOMotivo(unittest.TestCase):
+    """B2 · Un chip manda sobre TODA su fuente, y lo que no cuelga de un chip
+    dice por qué.
+
+    Apagar «Copernicus» dejaba sus polígonos de zona en el mapa, y la capa
+    general de municipios no colgaba de ningún chip: el control publicaba un
+    estado que el mapa desmentía. El control de capas de Leaflet se queda —hay
+    capas que los chips no cubren—, pero ninguna puede quedar fuera por
+    descuido.
+
+    `conChip(clave, capa)` y `sinChip(motivo, capa)` son las dos únicas puertas
+    de entrada a `layers`, y este guardián comprueba que nadie use una tercera.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+        # El índice `layers[...]` puede llevar corchetes dentro (`${a[0]}`), y
+        # lo que se captura es la EXPRESIÓN LLAMADA, no un identificador: con
+        # `(\w+)` una alta escrita `= L.geoJSON(...)` no casaba con nada y
+        # desaparecía de la lista en silencio — el guardián daba verde
+        # precisamente con el fallo que existe para cazar.
+        cls.altas = re.findall(
+            r"layers\[(?:[^\[\]]|\[[^\]]*\])*\]\s*=\s*([^(;\n]*)\(", cls.js)
+
+    def test_ninguna_capa_entra_sin_pasar_por_una_de_las_dos_puertas(self):
+        # Cuántas altas hay de verdad, contadas de otra manera: si el lector de
+        # arriba deja de entender una forma, la cuenta no cuadra y se sabe.
+        declaradas = len(re.findall(r"^\s*layers\[", self.js, re.M))
+        self.assertEqual(
+            len(self.altas), declaradas,
+            f"se han leído {len(self.altas)} altas de capa y la portada declara "
+            f"{declaradas}: este guardián ha dejado de entender alguna forma de "
+            "escribirlas, y una capa sin dueño le pasaría por delante")
+        self.assertGreaterEqual(declaradas, 12,
+                                "se han leído menos capas de las que tiene la "
+                                "portada: este guardián ha dejado de mirar")
+        coladas = [a.strip() for a in self.altas
+                   if a.strip() not in ("conChip", "sinChip")]
+        self.assertEqual(
+            coladas, [],
+            f"hay capas que entran por su cuenta ({coladas}): o cuelgan de un "
+            "chip, o dicen por escrito por qué no")
+
+    def test_el_chip_de_copernicus_manda_sobre_todo_lo_de_copernicus(self):
+        """Sus zonas y los huecos que dejó sin analizar son producto suyo tanto
+        como el edificio que clasificó: dicen dónde recortó y dónde no miró."""
+        for capa, porque in (
+                ('layers["Zonas que analizó Copernicus"] = conChip("copernicus"',
+                 "los polígonos de zona vuelven a quedarse en pantalla con el "
+                 "chip apagado"),
+                ('conChip("copernicus", L.geoJSON(notAnalysed',
+                 "los huecos de cobertura vuelven a quedar fuera del chip")):
+            self.assertIn(capa, self.js, porque)
+
+    def test_cada_capa_fuera_de_los_chips_trae_un_motivo_escrito(self):
+        """Un `sinChip("", capa)` pasaría el guardián de arriba sin explicar
+        nada: el motivo es el contenido de la regla, no su envoltorio."""
+        motivos = re.findall(r'sinChip\(\s*"(.*?)",\s*\n', self.js, re.S)
+        self.assertEqual(
+            len(motivos), [a.strip() for a in self.altas].count("sinChip"),
+            "alguna llamada a `sinChip` no empieza por un motivo entre comillas")
+        for m in motivos:
+            self.assertGreaterEqual(
+                len(m), 40,
+                f"«{m}» no es un motivo, es una etiqueta: quien lea esto dentro "
+                "de un año tiene que entender por qué la capa no tiene chip")
+
+    def test_los_cinco_chips_de_la_maqueta_siguen_teniendo_capa(self):
+        claves = set(re.findall(r'conChip\("(\w+)"', self.js))
+        self.assertEqual(
+            claves, {"copernicus", "unosat", "sertit", "ciudadanos", "ausencia"},
+            f"los chips del mapa ya no son los cinco de la maqueta: {sorted(claves)}")
+
+
+class TestElZoomAgrandaTambienElEdificioYElReporte(unittest.TestCase):
+    """B4 · Acercarse tiene que servir de algo en TODAS las marcas.
+
+    El reescalado por zoom se escribió una vez para el anillo de la ausencia y
+    los edificios y los reportes se quedaron con radio fijo en píxeles: a zoom
+    15 un edificio de Pereira se veía igual que a zoom 6, y el detalle no
+    aparecía nunca. La maqueta reescala las cuatro capas de puntos. La fórmula
+    es ahora UNA (`radioZoom`) con el tope como parámetro; la segunda copia es
+    justo lo que M2 prohíbe.
+
+    Dos topes distintos y no por capricho: el anillo de un MUNICIPIO señala un
+    sitio (18) y el punto de un EDIFICIO tiene que caber en el tejado que
+    retrata (11).
+
+    Se EJECUTA la fórmula, no se busca en el fuente: un `assertIn` sobre el
+    texto da verde con la regla invertida (M1).
+    """
+
+    BLOQUE = re.compile(
+        r"const BASE_SIN_CIFRA = .*?\n  const radioAusencia = \(familias\)"
+        r" => \{.*?\n  \};", re.S)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
+
+    def _radios(self, base, zooms):
+        if not NODE:
+            self.skipTest("sin node no se puede ejecutar la fórmula del navegador")
+        bloque = self.BLOQUE.search(self.js)
+        self.assertIsNotNone(
+            bloque, "`radioZoom`/`radioPunto` ya no están en site/app.js con la "
+                    "forma que este guardián sabe leer")
+        salida = []
+        for z in zooms:
+            guion = (f"const map = {{ getZoom: () => {json.dumps(z)} }};"
+                     + bloque.group(0)
+                     + f"console.log(radioPunto({json.dumps(base)}));")
+            r = subprocess.run([NODE, "-e", guion], capture_output=True,
+                               text=True, timeout=30)
+            if r.returncode != 0:
+                raise AssertionError(f"node falló: {r.stderr[:500]}")
+            salida.append(float(r.stdout.strip()))
+        return salida
+
+    def test_el_punto_crece_al_acercarse(self):
+        lejos, medio, cerca = self._radios(5.5, [7, 8, 9])
+        self.assertLess(lejos, medio)
+        self.assertLess(medio, cerca,
+                        f"el punto mide {lejos}, {medio} y {cerca} px a zoom 7, "
+                        "8 y 9: acercarse no lo agranda")
+
+    def test_el_punto_no_pasa_de_once_y_cabe_en_el_tejado(self):
+        """El tope de la ausencia (18) sobre un edificio lo convertiría en una
+        mancha que tapa la manzana que dice haber evaluado."""
+        for base in (5, 5.5, 6):
+            radios = self._radios(base, [12, 14, 16, 18])
+            self.assertLessEqual(
+                max(radios), 11,
+                f"con base {base} el punto llega a {max(radios)} px: el tope de "
+                "un edificio es 11, no el de un municipio")
+
+    def test_las_cuatro_capas_de_puntos_piden_su_radio_a_la_formula(self):
+        """La fórmula sin enchufar es código muerto. Dos cosas por capa: que el
+        `circleMarker` nazca con ella y que la capa se registre para que algo la
+        recalcule al hacer zoom —los `circleMarker` miden en píxeles y no se
+        reescalan solos—."""
+        for trozo, porque in (
+                ("radius: radioPunto(5.5), weight: 1.5, color: \"#fff\"",
+                 "los edificios de Copernicus vuelven al radio fijo"),
+                ("radius: radioPunto(6), weight: 2",
+                 "las interrupciones de Copernicus vuelven al radio fijo"),
+                ("radius: radioPunto(5.5), weight: 1.5, color: \"#2b2b2b\"",
+                 "los edificios de UNOSAT vuelven al radio fijo"),
+                ("radius: radioPunto(5.5), weight: 1.5, color: \"#fff\", "
+                 "dashArray: \"2 3\"",
+                 "los edificios de ICube-SERTIT vuelven al radio fijo"),
+                ("radius: radioPunto(5), color: css(\"--s7\")",
+                 "los reportes de la comunidad vuelven al radio fijo")):
+            self.assertIn(trozo, self.js,
+                          f"«{trozo}» ya no está en site/app.js: {porque}")
+        registradas = self.js.count("conZoom(")
+        self.assertGreaterEqual(
+            registradas, 6,
+            f"solo {registradas} capas se registran para reescalarse: hacen "
+            "falta las cuatro de puntos, las interrupciones y la ausencia")
+
+    def test_el_reescalado_recorre_todas_las_capas_registradas(self):
+        """Con `reescalar` mirando una sola capa —como cuando solo existía la
+        ausencia— el resto nace con el radio del encuadre y ahí se queda."""
+        self.assertIn("for (const { capa, radio } of conRadio)", self.js,
+                      "`reescalar` ha dejado de recorrer las capas registradas")
+        for enganche in ('map.on("zoomend", reescalar)',
+                         "map.whenReady(reescalar)"):
+            self.assertIn(enganche, self.js,
+                          f"«{enganche}» ya no está: nada recalcula los radios")
+
+
+class TestLaHojaNoEstilaLoQueNadieEscribe(unittest.TestCase):
+    """`.lienzo.con-ficha` y `.ampliar` estilaban un modo que no se portó.
+
+    Eran el modo móvil de la maqueta: tocar un municipio encogía el mapa para
+    dejarle sitio a su ficha dentro del panel, con un tirador para devolverlo a
+    su alto. En este sitio el panel enlaza a la ficha municipal, que es una
+    página entera —decisión expresa de JP—, así que ningún HTML ni JavaScript
+    escribe nunca esas clases: ni la portada ni la propia ficha, cuyo lienzo es
+    `.lienzo.lienzo-mun`.
+
+    CSS muerto no avisa de que lo está: se lee como una función que existe y
+    nadie encuentra. El guardián no vigila estas dos clases, sino la regla:
+    **ninguna clase del sistema del rediseño puede estar solo en la hoja**.
+    """
+
+    HTML = ("index.html", "municipios.html", "rud.html", "balances.html",
+            "noticias.html", "referencia.html")
+    JS = ("app.js", "ui.js", "common.js", "municipio.js", "municipios.js",
+          "balances.js", "noticias.js", "rud.js")
+
+    @classmethod
+    def setUpClass(cls):
+        # Sin comentarios: la hoja explica en su lugar por qué estas reglas se
+        # retiraron, y contar esa explicación como regla acusaría al CSS de un
+        # cadáver que es justamente su acta de defunción.
+        cls.css = _css_sin_comentarios(
+            (ROOT / "site" / "styles.css").read_text(encoding="utf-8"))
+        cls.marcado = "\n".join(
+            (ROOT / "site" / n).read_text(encoding="utf-8")
+            for n in cls.HTML + cls.JS)
+        cls.marcado += (ROOT / "deploy" / "render_html.py").read_text(
+            encoding="utf-8")
+
+    def test_las_reglas_del_modo_movil_que_no_se_porto_ya_no_estan(self):
+        for muerta in (".lienzo.con-ficha", ".ampliar"):
+            self.assertNotIn(
+                muerta, self.css,
+                f"«{muerta}» ha vuelto a la hoja: nadie escribe esa clase, así "
+                "que la regla no se puede activar desde ninguna página")
+
+    def test_y_nadie_las_escribe_tampoco(self):
+        """Si algún día vuelven, tienen que volver con su marcado: este par de
+        aserciones es el que separa «se retiró CSS muerto» de «se rompió una
+        función»."""
+        for clase in ("con-ficha", "ampliar\"", "ampliar'"):
+            self.assertNotIn(
+                clase, self.marcado,
+                f"algo escribe «{clase}» y la hoja ya no lo estila: se ha "
+                "quedado a medias entre el marcado y el CSS")

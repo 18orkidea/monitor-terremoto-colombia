@@ -124,6 +124,15 @@
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     { attribution: "© OpenStreetMap", maxZoom: 18 }).addTo(map);
 
+  /* Colombia entera al abrir, y una sola capa encendida: la ausencia.
+     Es una decisión EDITORIAL, no un encuadre cómodo. Abrir ajustado a las
+     zonas que analizó Copernicus, con las cinco capas puestas, contesta «dónde
+     han mirado los satélites»; abrir con el país entero y solo «Solo en el
+     RUD» contesta «a cuánta gente no ha mirado nadie», que es la tesis de este
+     monitor. **La ausencia se lee antes que la evidencia**, y las otras cuatro
+     miradas las enciende el lector cuando quiere compararlas. */
+  const VISTA_NACIONAL = { centro: [4.6, -74.3], zoom: 6 };
+
   const layers = {};
   /* Las mismas capas, indexadas por la CLAVE con que el build escribe cada chip
      en `data-capa`. `layers` sigue existiendo porque es lo que entiende
@@ -131,19 +140,38 @@
      capas y los chips accionan cinco—: los chips son el atajo a las cinco que
      cuentan la historia, y el control sigue guardando el resto.
      Una clave apunta a VARIAS capas: «Copernicus» son sus edificios, sus
-     interrupciones y sus vías, tres capas de Leaflet y un solo servicio que
-     mirar o dejar de mirar. */
+     interrupciones, sus vías, las zonas que recortó y los huecos que dejó sin
+     analizar: seis capas de Leaflet y un solo servicio que mirar o dejar de
+     mirar. **Un chip manda sobre TODA su fuente**: si apagar «Copernicus»
+     dejara sus polígonos en pantalla, el control estaría mintiendo. */
   const porCapa = {};
   const conChip = (clave, capa) => {
     (porCapa[clave] = porCapa[clave] || []).push(capa);
     return capa;
   };
+  /* Y la contraria: una capa que NO cuelga de ningún chip tiene que decir por
+     qué, aquí y por escrito. Los cinco chips son las cinco miradas al DAÑO de
+     este terremoto; lo que queda fuera es contexto (el terreno sísmico), otro
+     evento (los sismos históricos) o un compuesto de varias fuentes que ningún
+     chip puede reclamar como suyo. Todo eso sigue accionable desde el control
+     de capas de Leaflet, que por esto mismo no se retira. Lo que no vale es que
+     una capa quede fuera por descuido: `sinChip` obliga a escribir el motivo y
+     su guardián lo comprueba (`tests/test_frontend.py::TestCadaCapaTieneChipOMotivo`). */
+  const fueraDeChip = [];
+  const sinChip = (motivo, capa) => {
+    fueraDeChip.push({ motivo, capa });
+    return capa;
+  };
   if (shake) {
-    layers["Intensidad estimada por el USGS"] = L.geoJSON(shake, {
-      style: (f) => ({ color: "#8a5a00", weight: 1, opacity: 0.5, dashArray: "4 3" }),
-      onEachFeature: (f, l) => l.bindTooltip(
-        `Intensidad ${f.properties.value ?? "—"} en la escala de Mercalli modificada`),
-    }).addTo(map);
+    layers["Intensidad estimada por el USGS"] = sinChip(
+      "Modelo del USGS: no es una mirada al daño, es el terreno sísmico sobre "
+      + "el que se leen todas las demás. Ningún chip la reclama porque no "
+      + "documenta un municipio: lo contextualiza.",
+      L.geoJSON(shake, {
+        style: (f) => ({ color: "#8a5a00", weight: 1, opacity: 0.5, dashArray: "4 3" }),
+        onEachFeature: (f, l) => l.bindTooltip(
+          `Intensidad ${f.properties.value ?? "—"} en la escala de Mercalli modificada`),
+      }));
   }
   /* La capa de la ausencia: municipios con damnificados registrados sobre los
      que ninguno de los tres servicios que sigue el monitor —Copernicus EMS,
@@ -187,27 +215,68 @@
     return Math.min(4 + Math.sqrt(Math.max(0, familias)) / 4, 16) / 1.6;
   };
   /* Los `circleMarker` de Leaflet miden en PÍXELES, no en metros: sin reescalar,
-     el mismo anillo se ve igual a zoom 6 que a zoom 15 y acercarse no aporta
-     nada. Crece con el zoom —suave, no exponencial— y con TOPE: sin él, a zoom
-     16 un municipio pasaba de 6 a 46 px y su círculo se comía la manzana
-     entera. El punto de un municipio señala un sitio; no dibuja su extensión.
+     la misma marca se ve igual a zoom 6 que a zoom 15 y acercarse no aporta
+     nada. Crece con el zoom —suave, no exponencial— y con TOPE.
+     Una sola fórmula para TODAS las marcas del mapa, con el tope como
+     parámetro: la primera copia de esto vivió solo en el anillo de la ausencia
+     y los edificios se quedaron con radio fijo, que es exactamente cómo
+     divergen dos versiones de la misma regla (M2).
+     Dos topes, porque las dos marcas dicen cosas distintas: el anillo de un
+     MUNICIPIO señala un sitio y no dibuja su extensión —sin tope, a zoom 16
+     pasaba de 6 a 46 px y se comía la manzana entera—, mientras que el punto de
+     un EDIFICIO sí tiene que ganar detalle al acercarse, pero cabiendo en el
+     tejado que retrata: por eso se queda en 11.
      El suelo (2) queda por debajo de `BASE_SIN_CIFRA` a propósito: si recortara
      ahí, el anillo sin cifra volvería de puntillas a la escala de la que se le
      acaba de sacar. */
-  const radioAusencia = (familias) => {
-    // Al construirse los anillos el mapa todavía no tiene vista —el encuadre va
-    // más abajo— y `getZoom()` no devuelve número: se pinta con el radio base y
-    // el reescalado lo ajusta en cuanto hay encuadre.
+  const TOPE_AUSENCIA = 18;
+  const TOPE_PUNTO = 11;
+  const radioZoom = (base, tope) => {
+    // Al construirse las marcas el mapa todavía no tiene vista —el encuadre va
+    // más abajo— y `getZoom()` no devuelve número: se pintan con el radio base y
+    // el reescalado las ajusta en cuanto hay encuadre.
     const z = map.getZoom();
     const factor = 1 + Math.max(0, (Number.isFinite(z) ? z : 7) - 7) * 0.42;
-    return Math.min(18, Math.max(2, baseAusencia(familias) * factor));
+    return Math.min(tope, Math.max(2, base * factor));
   };
+  // El radio de un edificio o de un reporte de la comunidad: base fija —lo que
+  // cambia entre capas es el peso visual de la marca, no su significado— y el
+  // tope corto.
+  const radioPunto = (base) => radioZoom(base, TOPE_PUNTO);
+  const radioAusencia = (familias) => {
+    return radioZoom(baseAusencia(familias), TOPE_AUSENCIA);
+  };
+  /* Qué capas se reescalan y CÓMO: cada una registra la función que da el radio
+     de cada uno de sus círculos. Con esto el zoom deja de agrandar solo la
+     ausencia. Una capa que no se registra aquí conserva radio fijo, y eso es
+     una decisión que se escribe donde se toma. */
+  const conRadio = [];
+  const conZoom = (radio, capa) => {
+    conRadio.push({ capa, radio });
+    return capa;
+  };
+  const reescalar = () => {
+    for (const { capa, radio } of conRadio) {
+      capa.eachLayer((l) => l.setRadius && l.setRadius(radio(l)));
+    }
+  };
+  // Al primer encuadre y en cada zoom: las marcas nacen antes de que el mapa
+  // tenga vista, con lo que llegan a su radio base y sin este primer repaso se
+  // quedarían ahí.
+  map.whenReady(reescalar);
+  map.on("zoomend", reescalar);
   if (sinMirada && sinMirada.items && sinMirada.items.length) {
     // El rótulo cuenta lo que se PINTA, no lo que trae el fichero: si algún
     // municipio llegara sin coordenadas, la etiqueta prometería más puntos de
     // los que hay. Es la divergencia de los «36 en portada, 43 en la tabla».
     const conCoords = sinMirada.items.filter((m) => m.lat != null && m.lon != null);
-    const capa = conChip("ausencia", L.geoJSON({
+    // «con damnificados» NO es adorno: sin esa condición el rótulo enuncia un
+    // predicado que da 197, y municipios.html publica justo ese —Palmira no
+    // tiene registro en el RUD y sí entra en su cuenta—. Dos páginas del mismo
+    // sitio con dos cifras del mismo hecho es el fallo de los «36 y 43».
+    layers[`Municipios con damnificados y sin producto de daño satelital `
+           + `(${fmt(conCoords.length)})`] = conChip("ausencia", conZoom(
+      (l) => radioAusencia(l.feature.properties.rud_familias), L.geoJSON({
       type: "FeatureCollection",
       features: conCoords
         .map((m) => ({ type: "Feature", properties: m,
@@ -251,27 +320,16 @@
             + "ICube-SERTIT",
         }));
       },
-    })).addTo(map);
-    capa.bringToBack();
-    // Reescalar al cambiar el zoom, y una vez al primer encuadre: los anillos
-    // se crean antes de que el mapa tenga vista, con lo que nacen a su radio
-    // base y sin este primer repaso se quedarían ahí.
-    const reescalar = () => capa.eachLayer((l) => l.setRadius
-      && l.setRadius(radioAusencia(l.feature.properties.rud_familias)));
-    map.whenReady(reescalar);
-    map.on("zoomend", reescalar);
-    // «con damnificados» NO es adorno: sin esa condición el rótulo enuncia un
-    // predicado que da 197, y municipios.html publica justo ese —Palmira no
-    // tiene registro en el RUD y sí entra en su cuenta—. Dos páginas del mismo
-    // sitio con dos cifras del mismo hecho es el fallo de los «36 y 43».
-    layers[`Municipios con damnificados y sin producto de daño satelital `
-           + `(${fmt(conCoords.length)})`] = capa;
+    })));
   }
 
   const aoiLayerById = {};
   const munLayerById = {};
   if (aois) {
-    layers["Zonas que analizó Copernicus"] = L.geoJSON(aois, {
+    // Las zonas que Copernicus recortó son Copernicus, así que cuelgan de su
+    // chip: apagarlo dejaba estos polígonos en pantalla y el control publicaba
+    // un estado que el mapa desmentía (B2 de la auditoría del 25-ago).
+    layers["Zonas que analizó Copernicus"] = conChip("copernicus", L.geoJSON(aois, {
       style: (f) => ({
         color: ESTADO_COLOR[f.properties.estado] || css("--muted"),
         weight: 2, fillOpacity: 0.12,
@@ -296,9 +354,8 @@
           pie: "Copernicus EMS",
         }));
       },
-    }).addTo(map);
-    map.fitBounds(layers["Zonas que analizó Copernicus"].getBounds().pad(0.15));
-  } else { map.setView([4.5, -76.3], 8); }
+    }));
+  }
 
   // ---- detecciones de daño de Copernicus (la faceta punto a punto)
   /* Vocabulario de daño compartido: Copernicus e ICube-SERTIT gradúan con las
@@ -316,9 +373,9 @@
     const crisis = { type: "FeatureCollection",
       features: dmgPts.features.filter((f) => f.properties.layer !== "builtUpP") };
     layers[`Edificios dañados — satélite (${edificios.features.length})`] =
-      conChip("copernicus", L.geoJSON(edificios, {
+      conChip("copernicus", conZoom(() => radioPunto(5.5), L.geoJSON(edificios, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
-          radius: 5.5, weight: 1.5, color: "#fff", fillOpacity: 0.9,
+          radius: radioPunto(5.5), weight: 1.5, color: "#fff", fillOpacity: 0.9,
           fillColor: GRADO_COLOR[f.properties.damage_gra] || css("--muted"),
         }),
         onEachFeature: (f, l) => {
@@ -335,12 +392,12 @@
             pie: "Copernicus EMS",
           }));
         },
-      })).addTo(map);
+      })));
     if (crisis.features.length) {
       layers[`Interrupciones / crisis (${crisis.features.length})`] =
-        conChip("copernicus", L.geoJSON(crisis, {
+        conChip("copernicus", conZoom(() => radioPunto(6), L.geoJSON(crisis, {
           pointToLayer: (f, ll) => L.circleMarker(ll, {
-            radius: 6, weight: 2, color: css("--critical"),
+            radius: radioPunto(6), weight: 2, color: css("--critical"),
             fillColor: "#fff", fillOpacity: 0.9,
           }),
           onEachFeature: (f, l) => {
@@ -352,7 +409,7 @@
               pie: "Copernicus EMS",
             }));
           },
-        })).addTo(map);
+        })));
     }
   }
   if (dmgLines && dmgLines.features.length) {
@@ -369,7 +426,7 @@
             pie: "Copernicus EMS",
           }));
         },
-      })).addTo(map);
+      }));
   }
   // ---- UNITAR-UNOSAT: la segunda mirada satelital, en municipios que
   // Copernicus no cartografía. Vocabulario propio: UNOSAT gradúa entre daño
@@ -399,9 +456,9 @@
       "Possible Damage": css("--warning"), "Destroyed": css("--critical"),
     };
     layers[`Edificios evaluados — satélite UNOSAT (${unosat.features.length})`] =
-      conChip("unosat", L.geoJSON(unosat, {
+      conChip("unosat", conZoom(() => radioPunto(5.5), L.geoJSON(unosat, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
-          radius: 5.5, weight: 1.5, color: "#2b2b2b", fillOpacity: 0.9,
+          radius: radioPunto(5.5), weight: 1.5, color: "#2b2b2b", fillOpacity: 0.9,
           fillColor: UNOSAT_COLOR[f.properties.dano] || css("--muted"),
         }),
         onEachFeature: (f, l) => {
@@ -432,7 +489,7 @@
               (p.productos ? ` · producto ${p.productos.split(",")[0]}` : ""),
           }));
         },
-      })).addTo(map);
+      })));
   }
 
   // ---- ICube-SERTIT: la tercera mirada satelital. Servicio de cartografía
@@ -458,9 +515,9 @@
     : `${ser(s)} <span style="color:var(--muted)">(${s})</span>`;
   if (sertit && sertit.features.length) {
     layers[`Edificios evaluados — satélite ICube-SERTIT (${sertit.features.length})`] =
-      conChip("sertit", L.geoJSON(sertit, {
+      conChip("sertit", conZoom(() => radioPunto(5.5), L.geoJSON(sertit, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
-          radius: 5.5, weight: 1.5, color: "#fff", dashArray: "2 3",
+          radius: radioPunto(5.5), weight: 1.5, color: "#fff", dashArray: "2 3",
           fillOpacity: 0.9,
           fillColor: GRADO_COLOR[f.properties.dano] || css("--muted"),
         }),
@@ -482,19 +539,26 @@
               (p.producto_id ? ` · producto ${p.producto_id}` : ""),
           }));
         },
-      })).addTo(map);
+      })));
   }
 
   if (notAnalysed && notAnalysed.features.length) {
+    // El hueco de cobertura es un producto de Copernicus tanto como el
+    // edificio que sí clasificó: dice dónde recortó y no miró. Bajo su chip.
     layers[`Zonas sin analizar (${notAnalysed.features.length})`] =
-      L.geoJSON(notAnalysed, {
+      conChip("copernicus", L.geoJSON(notAnalysed, {
         style: () => ({ color: css("--muted"), weight: 1, dashArray: "3 4",
                         fillColor: css("--muted"), fillOpacity: 0.18 }),
         onEachFeature: (f, l) => l.bindTooltip(
           `Sin analizar (${aoiEs(f.properties.aoi)}) — hueco de cobertura`),
-      });
+      }));
   }
 
+  /* La estrella del epicentro no es una capa temática y por eso no entra ni en
+     los chips ni en el control: no es una FUENTE mirando el desastre, es el
+     desastre. Se queda siempre encendida porque es el ancla de la vista
+     nacional con la que abre el mapa —sin ella, un país entero de anillos no
+     dice dónde empezó todo—. */
   if (mon.evento && mon.evento.coordinates) {
     const [elon, elat] = mon.evento.coordinates;
     L.marker([elat, elon], {
@@ -512,9 +576,9 @@
   }
   if (chat) {
     layers[`Reportes ciudadanos ChatMap (${chat.features.length})`] =
-      conChip("ciudadanos", L.geoJSON(chat, {
+      conChip("ciudadanos", conZoom(() => radioPunto(5), L.geoJSON(chat, {
       pointToLayer: (f, ll) => L.circleMarker(ll, {
-        radius: 5, color: css("--s7"), weight: 1.5,
+        radius: radioPunto(5), color: css("--s7"), weight: 1.5,
         fillColor: css("--s7"), fillOpacity: 0.55,
       }),
       onEachFeature: (f, l) => {
@@ -535,10 +599,14 @@
             (p.score == null ? "" : ` · puntuación de la verificación automática: ${p.score}`),
         }));
       },
-    })).addTo(map);
+    })));
   }
   if (dyfi) {
-    layers["Intensidad que sintió la población"] = L.geoJSON(dyfi, {
+    layers["Intensidad que sintió la población"] = sinChip(
+      "Cuestionario del USGS: mide lo que la gente SINTIÓ, no lo que se dañó. "
+      + "Es la otra cara de la sacudida estimada y comparte su motivo: "
+      + "contexto sísmico, no una mirada al daño de un municipio.",
+      L.geoJSON(dyfi, {
       style: (f) => {
         const c = f.properties.cdi || 0;
         const op = Math.min(0.65, 0.08 + c * 0.07);
@@ -547,10 +615,14 @@
       onEachFeature: (f, l) => l.bindTooltip(
         `Intensidad percibida ${f.properties.cdi} · ` +
         `${f.properties.nresp} respuestas ciudadanas`),
-    });
+    }));
   }
   if (sismos) {
-    layers[`Sismos históricos UNGRD (${sismos.features.length})`] = L.geoJSON(sismos, {
+    layers[`Sismos históricos UNGRD (${sismos.features.length})`] = sinChip(
+      "Registro histórico de sismicidad de la UNGRD: eventos anteriores al 10 "
+      + "de agosto. Ningún chip puede reclamarlos, porque los cinco cuentan "
+      + "quién ha mirado el daño de ESTE terremoto.",
+      L.geoJSON(sismos, {
       pointToLayer: (f, ll) => L.circleMarker(ll, {
         radius: 3, color: css("--muted"), weight: 1, fillOpacity: 0.4,
       }),
@@ -558,7 +630,7 @@
         const p = f.properties;
         l.bindTooltip(`${p.fecha ?? "?"} · ${p.municipio ?? ""} (${p.departamento ?? ""})`);
       },
-    });
+    }));
   }
   if (municipios && municipios.features.length) {
     // colores desde la tabla única de ui.js (misma etiqueta que la tabla)
@@ -566,6 +638,16 @@
       Object.entries(window.UI.ESTADO_MUNICIPIO)
         .map(([k, [, v]]) => [k, css(v)]));
     layers[`Municipios con señal: RUD, prensa o intensidad (${municipios.features.length})`] =
+      sinChip(
+      "COMPUESTO de varias fuentes a la vez —RUD, prensa, intensidad "
+      + "percibida y las tres miradas satelitales—, no la representación de "
+      + "ninguna: su color es el ESTADO DEL CRUCE, que solo existe después de "
+      + "juntarlas. Ningún chip puede reclamarla sin mentir, porque apagar "
+      + "«Copernicus» no borra el municipio que además tiene RUD y prensa. Por "
+      + "eso llega apagada y vive en el control de capas: quien la enciende "
+      + "sabe que está mirando el cruce, no una fuente. Y su radio se queda "
+      + "fijo —solo distingue si el municipio cae dentro de una zona de "
+      + "Copernicus—: aquí el tamaño ya significa otra cosa.",
       L.geoJSON(municipios, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: f.properties.en_aoi_copernicus ? 6 : 5,
@@ -636,9 +718,25 @@
                 "una evaluación oficial de daños (EDAN).",
           }));
         },
-      }).addTo(map);
+      }));
   }
   L.control.layers(null, layers, { collapsed: true }).addTo(map);
+
+  /* Un solo sitio decide QUÉ se ve al abrir, y decide lo mismo que el build
+     escribe en los chips: Colombia entera y la ausencia sola. Repartido en
+     doce altas sueltas, el estado inicial no se podía leer ni comprobar, y por
+     eso llegó a abrir con cinco capas puestas más otras tres que ningún chip
+     gobernaba.
+     El encuadre va DESPUÉS de construir las capas, no antes: así el primer
+     `reescalar` de `whenReady` encuentra ya todo registrado y las marcas nacen
+     con el radio del zoom real. */
+  map.setView(VISTA_NACIONAL.centro, VISTA_NACIONAL.zoom);
+  for (const capa of porCapa.ausencia || []) {
+    capa.addTo(map);
+    // Al fondo: la ausencia es el contexto sobre el que se leerá la evidencia
+    // que el lector encienda después, y no puede taparla.
+    capa.bringToBack();
+  }
 
   /* Los chips de capa, que el build ya dejó escritos con su rótulo y su
      recuento. No se construyen aquí: los cuenta `render_html.py::chips_portada`
@@ -687,16 +785,23 @@
     map.on("overlayadd overlayremove", resincronizar);
   })();
 
-  // el grid asienta su tamaño tarde: reencuadrar cuando el contenedor cambie
-  const aoiBounds = layers["Zonas que analizó Copernicus"] &&
-    layers["Zonas que analizó Copernicus"].getBounds();
+  /* El grid asienta su tamaño tarde: hay que avisar a Leaflet cuando el
+     contenedor cambie de ancho. Se reencuadra a la vista nacional, que es la de
+     partida — pero SOLO mientras el lector no haya movido el mapa: reencuadrar
+     a quien acaba de acercarse a su municipio, porque el navegador cambió de
+     tamaño o se giró el teléfono, es arrebatarle lo que estaba mirando. */
+  let sinTocar = true;
+  map.on("zoomstart movestart", () => { sinTocar = false; });
   let lastW = map.getSize().x;
   new ResizeObserver(() => {
     const w = document.getElementById("map").clientWidth;
     if (Math.abs(w - lastW) > 4) {
       lastW = w;
       map.invalidateSize();
-      if (aoiBounds && aoiBounds.isValid()) map.fitBounds(aoiBounds.pad(0.15));
+      if (sinTocar) {
+        map.setView(VISTA_NACIONAL.centro, VISTA_NACIONAL.zoom);
+        sinTocar = true;      // el reencuadre propio no cuenta como toque
+      }
     }
   }).observe(document.getElementById("map"));
 

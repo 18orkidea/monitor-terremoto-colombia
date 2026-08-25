@@ -3224,6 +3224,12 @@ def _municipios_por_capa(ctx: dict) -> dict:
 # «menos daño» cuando lo que dice es «nadie lo ha mirado» (R3). La explicación
 # larga vive en la leyenda, dentro de un plegable; esta va al alcance del cursor
 # y del lector de pantalla, pegada al control que la necesita.
+# Las capas que el mapa de la portada trae encendidas al abrir. Es UNA sola
+# —la ausencia— y vive aquí porque el documento tiene que decirlo sin ejecutar
+# JavaScript. Su gemela es `site/app.js`, que enciende `porCapa.ausencia` y
+# nada más; si tocas una, mira la otra.
+ENCENDIDAS_AL_ABRIR = ("ausencia",)
+
 QUE_ENCIENDE = {
     "copernicus": "Edificios, vías e interrupciones que el servicio de "
                   "emergencias de Copernicus (EMSR916) clasificó por imagen "
@@ -3252,10 +3258,17 @@ def chips_portada(ctx: dict) -> str:
     `/municipios.html`—.
 
     Sin capa no hay chip: la condición es la misma que usa `app.js` para crear
-    la capa, de modo que no puede quedar un chip huérfano accionando nada. El
-    build los emite todos encendidos porque `app.js` añade las cinco capas al
-    mapa de entrada; si eso cambiara, el propio `app.js` corrige el
-    `aria-pressed` al engancharlos, que es lo que ya hace `municipio.js`."""
+    la capa, de modo que no puede quedar un chip huérfano accionando nada.
+
+    **Solo «Solo en el RUD» nace encendido**, igual que en la maqueta y por el
+    mismo motivo editorial que `app.js::VISTA_NACIONAL`: abrir con las cinco
+    capas puestas enseña dónde han mirado los satélites; abrir con la ausencia
+    sola enseña a cuánta gente no ha mirado nadie, que es la tesis del monitor.
+    El estado va escrito en el documento y no lo pone el navegador: quien lee
+    sin ejecutar JavaScript ve la misma tira que quien lo ejecuta, y no hay
+    parpadeo de cinco chips encendidos que se apagan solos. `app.js` lo
+    corrobora al engancharlos (`refleja()` relee `map.hasLayer`), así que si
+    las dos superficies divergen, manda el mapa."""
     cuentas = _municipios_por_capa(ctx)
     botones = []
     for clave, rotulo in capas_portada():
@@ -3264,7 +3277,8 @@ def chips_portada(ctx: dict) -> str:
             continue                       # sin capa no hay chip que la accione
         botones.append(
             f'<button type="button" class="chip chip--punto" data-capa="{clave}"'
-            f' title="{e(QUE_ENCIENDE[clave])}" aria-pressed="true">'
+            f' title="{e(QUE_ENCIENDE[clave])}"'
+            f' aria-pressed="{"true" if clave in ENCENDIDAS_AL_ABRIR else "false"}">'
             f'<span class="punto" aria-hidden="true"></span>{e(rotulo)} '
             f'<span class="n">{fmt(n)}</span> '
             f'{e(concuerda(n, "municipio", "municipios"))}</button>')
@@ -3352,7 +3366,12 @@ def tarjetas_portada(ctx: dict) -> str:
     rud = ((ctx["monitor"].get("brechas_oficiales") or {}).get("ungrd_rud") or {})
     familias = rud.get("familias")
     noticias = len(ctx["noticias"] or [])
+    # El orden es el de la maqueta y dice algo: la primera puerta es la que
+    # explica de dónde sale todo lo demás. Con «Cómo se construye» al final, la
+    # tira empezaba por las cifras y dejaba la trazabilidad de última.
     tarjetas = [
+        ("/referencia.html", "Cómo se construye",
+         "Metodología, glosario y trazabilidad de cada cifra"),
         ("/municipios.html", "Municipios",
          f"{fmt(total)} fichas: qué fuente vio qué en cada una"
          if total else "Qué fuente vio qué en cada municipio"),
@@ -3364,8 +3383,6 @@ def tarjetas_portada(ctx: dict) -> str:
         ("/noticias.html", "Titulares",
          f"{fmt(noticias)} titulares emparejados por zona"
          if noticias else "Los titulares del evento, emparejados por zona"),
-        ("/referencia.html", "Cómo se construye",
-         "Metodología, glosario y trazabilidad de cada cifra"),
     ]
     return "".join(
         f'<a class="tarjeta" href="{href}"><strong>{e(titulo)}</strong>'

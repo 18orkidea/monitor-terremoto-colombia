@@ -93,11 +93,6 @@
      propia tabla tres párrafos más abajo. -->
 <section class="entradilla" data-gen="portada-entradilla"></section><!-- lo rellena deploy/render_html.py en el build -->
 
-<details class="pliegue">
-  <summary>Cómo leer estas cifras</summary>
-  <section class="intro" data-gen="portada-comoleer"></section><!-- lo rellena deploy/render_html.py en el build -->
-</details>
-
 <section class="aviso aviso--laguna" id="banner-brechas" data-gen="brechas"></section><!-- lo rellena deploy/render_html.py en el build -->
 
 <!-- Los chips filtran el MAPA; la lista del panel NO cambia. El panel es un
@@ -130,17 +125,6 @@
   <section id="chart" data-gen="portada-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
 </section>
 
-<section id="fuentes-section" class="page-section">
-  <h2>Cuatro miradas, cuatro cifras: la comparativa de fuentes</h2>
-  <p class="sub">El mismo desastre medido por el satélite, el registro oficial, la prensa
-  que cita a las autoridades y la comunidad. Que los números no coincidan no es un error:
-  <strong>la distancia entre ellos es la brecha de reporte</strong>. La unidad que se
-  compara es el municipio, porque es lo único que las cuatro miden igual. Cada tarjeta
-  lleva a su detalle; la comparación completa está en
-  <a href="balances.html#comparativa">Balances → comparativa</a>.</p>
-  <section id="fuentes-cards" data-gen="portada-fuentes"></section><!-- lo rellena deploy/render_html.py en el build -->
-</section>
-
 <!-- La cronología completa —su banda de hitos, su filtro y sus entradas—
      vive desde la fase 6c en /referencia.html, que es donde el material
      citable tiene dirección propia. Aquí era la sección más alta de la
@@ -159,6 +143,31 @@ la cronología completa del evento, la metodología y el glosario →</a></p>
      Sustituyen al índice de anclas que había aquí: un índice de la propia
      página no lleva a ninguna parte nueva, y estas sí. -->
 <section class="tarjetas" data-gen="portada-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
+
+<!-- Primero las puertas del sitio, después la explicación opcional. Estos dos
+     plegables estaban uno arriba del todo —delante de quien viene a mirar su
+     municipio— y el otro abierto y por delante de las tarjetas. Los dos son
+     lectura de después: quien ya sabe qué busca no tiene que atravesarlos, y
+     quien quiere entender los abre. Un <details> cerrado sigue viajando entero
+     en el HTML servido, así que no se esconde nada a quien lee sin ejecutar. -->
+<details class="pliegue denso">
+  <summary>Qué encontrará en este sitio</summary>
+  <section class="intro" data-gen="portada-comoleer"></section><!-- lo rellena deploy/render_html.py en el build -->
+</details>
+
+<details class="pliegue denso">
+  <summary>Qué mira cada fuente</summary>
+  <section id="fuentes-section" class="page-section">
+    <h2>Cuatro miradas, cuatro cifras: la comparativa de fuentes</h2>
+    <p class="sub">El mismo desastre medido por el satélite, el registro oficial, la prensa
+    que cita a las autoridades y la comunidad. Que los números no coincidan no es un error:
+    <strong>la distancia entre ellos es la brecha de reporte</strong>. La unidad que se
+    compara es el municipio, porque es lo único que las cuatro miden igual. Cada tarjeta
+    lleva a su detalle; la comparación completa está en
+    <a href="balances.html#comparativa">Balances → comparativa</a>.</p>
+    <section id="fuentes-cards" data-gen="portada-fuentes"></section><!-- lo rellena deploy/render_html.py en el build -->
+  </section>
+</details>
 
 <details class="pliegue denso">
   <summary>Alertas y silencios</summary>
