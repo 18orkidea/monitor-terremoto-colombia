@@ -459,6 +459,34 @@ NOMBRE_A_SECAS_CONGELADO = {
     "Páez": {"divipola": "19517", "departamento": "Cauca"},
     "San Francisco": {"divipola": "05652", "departamento": "Antioquia"},
     "Santa Rosa": {"divipola": "19701", "departamento": "Cauca"},
+    # estrenaron homonimia con el RUD del 24-ago-2026 (capturado el 25): el
+    # registro pasó de 251 a 347 municipios en una sola captura —el salto más
+    # grande de la serie— y con él entraron catorce nombres a secas que la
+    # DIVIPOLA nacional repite. Doce son de Antioquia, Cundinamarca o Norte de
+    # Santander, a cientos de kilómetros del epicentro: el RUD alcanza hoy a
+    # damnificados que estaban lejos del sismo, y son inscripciones de una o
+    # dos decenas de familias, no municipios devastados.
+    #
+    # Mismo criterio que la tanda anterior: se congela LO PUBLICADO —el
+    # DIVIPOLA que ya llevan en `data/public/municipios.json`, del que cuelga
+    # la URL viva de la ficha y el identificador de su feed de prensa—, no la
+    # asignación que uno elegiría de cero. «Caldas» es el municipio de
+    # Antioquia y no el de Boyacá; «Nariño», el de Antioquia y no el de
+    # Cundinamarca ni el de su propio departamento homónimo.
+    "Barbosa": {"divipola": "05079", "departamento": "Antioquia"},
+    "Betulia": {"divipola": "05093", "departamento": "Antioquia"},
+    "Cabrera": {"divipola": "25120", "departamento": "Cundinamarca"},
+    "Caldas": {"divipola": "05129", "departamento": "Antioquia"},
+    "Concordia": {"divipola": "05209", "departamento": "Antioquia"},
+    "Jericó": {"divipola": "05368", "departamento": "Antioquia"},
+    "Nariño": {"divipola": "05483", "departamento": "Antioquia"},
+    "Rionegro": {"divipola": "05615", "departamento": "Antioquia"},
+    "San Bernardo": {"divipola": "25649", "departamento": "Cundinamarca"},
+    "San Carlos": {"divipola": "05649", "departamento": "Antioquia"},
+    "San Cayetano": {"divipola": "54673", "departamento": "Norte de Santander"},
+    "Santa Bárbara": {"divipola": "05679", "departamento": "Antioquia"},
+    "Toledo": {"divipola": "54820", "departamento": "Norte de Santander"},
+    "Venecia": {"divipola": "05861", "departamento": "Antioquia"},
     # anclados por `MUNICIPIOS` (el reparto no los toca), anotados igual: si
     # algún día uno sale del catálogo curado, el nombre no puede quedar a subasta
     "Armenia": {"divipola": "63001", "departamento": "Quindío"},

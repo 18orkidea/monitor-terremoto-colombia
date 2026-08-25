@@ -6,6 +6,80 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-25 — El RUD cubre el catálogo entero: se congelan catorce homónimos y tres guardianes de R3 se quedan sin caso real
+
+**Contexto.** La captura del 24 de agosto llevó el registro de **251 a 347
+municipios**, el mayor salto de la serie. Con ella la suite se puso en rojo por
+ocho sitios, y casi todos estaban haciendo su trabajo.
+
+**Decisión (1): catorce nombres a secas más, congelados por lo publicado.**
+`NOMBRE_A_SECAS_CONGELADO` gana Barbosa, Betulia, Cabrera, Caldas, Concordia,
+Jericó, Nariño, Rionegro, San Bernardo, San Carlos, San Cayetano, Santa Bárbara,
+Toledo y Venecia. Doce de ellos están en Antioquia, Cundinamarca o Norte de
+Santander —a cientos de kilómetros del epicentro, con entre 3 y 99 familias
+inscritas—, y son un dato en sí mismo: el registro alcanza ya a damnificados que
+estaban lejos del sismo. Mismo criterio que la tanda del 24: se congela **el
+DIVIPOLA que la ficha ya publica**, no el que uno elegiría de cero, porque de la
+clave cuelgan la URL viva y el identificador del feed de prensa.
+
+**Decisión (2): «Caldas» y «Nariño» no reciben búsqueda propia de prensa.** Son
+homónimos de departamento como Bolívar, Córdoba, Risaralda y Sucre, y los dos
+más ruidosos de la lista: el departamento de Caldas está DENTRO del área del
+sismo y el de Nariño es vecino del Cauca, así que la búsqueda traería titulares
+del departamento con la etiqueta del municipio antioqueño. Hueco declarado.
+
+**Decisión (3): el guardián de R3 que se quedó sin municipio se fabrica uno.**
+Con 347 de 347 municipios registrados, **ningún dato recorre ya la rama «la
+fuente calla»**: tres tests —el panel sin ceros inventados, la cita a la UNGRD
+sin cifras y el G1 del JSON-LD— apuntaban a Palmira, que hoy tiene 171 familias.
+Es una buena noticia y a la vez la peor forma de perder un guardián: sigue verde
+y no comprueba nada. `municipio_sin_rud()` devuelve el caso real mientras quede
+alguno y, cuando no queda, fabrica una copia con las cuatro cifras del RUD en
+blanco. El día que el registro vuelva a dejar a alguien fuera, vuelven a medir
+sobre el dato.
+
+**Consecuencia.** La lista de homónimos crece con el registro y quien avisa es
+`TestSupuestoNombreASecas`, no una revisión manual. Y queda anotado que el RUD
+cubre hoy el catálogo entero: si mañana un municipio nuevo entra por prensa o
+por satélite sin estar en el registro, el caso real vuelve solo.
+
+## 2026-08-25 — El gráfico del RUD adelgaza sus rótulos en móvil: uno de cada dos, y el «sin base» se va
+
+**Contexto.** El mismo día, el gráfico de `rud.html` pasó de caber a pisarse
+**de una captura para otra**. Su lienzo mide 900 unidades fijas y la serie crece
+sola: con el noveno punto, la banda de un día bajó a 95 unidades y «+15.819»
+mide 87 con los cuerpos que la @media de 480 px necesita para ser legible
+—en un teléfono de 375 px el SVG se dibuja sobre 311, escala 0,345—. Además, el
+acumulado del primer día descendió a la esquina de abajo a la izquierda, donde
+ya se disputaban el sitio el «sin base», el cero del eje y la fecha.
+
+**Decisión.** Tres reglas, todas en las @media, ninguna en la geometría
+—que es compartida con el escritorio, donde el gráfico cabe—:
+
+1. **Uno de cada dos rótulos se calla** por debajo de 480 px. El generador marca
+   con `g-alterna` los que sobran, **contando desde el final** para que el
+   último día —la cifra vigente— no sea nunca el que desaparece; contándolo
+   desde el principio, una serie de longitud par lo apagaba justo a él. Es el
+   mismo mecanismo que el eje del gráfico de balances ya usaba.
+2. **El «sin base» se va** en las dos bandas: es el único de los cuatro rótulos
+   de esa esquina que el `<p class="sub">` de encima ya explica con todas sus
+   letras.
+3. **El rótulo del alta baja** dentro de su columna (10 px en la banda ancha, 16
+   en la estrecha). La distancia entre el alta y el acumulado del mismo día no
+   es fija: vale `(acumulado − alta) × alto_útil / techo`, y se estrecha sola
+   cada vez que el registro sube el techo del eje.
+
+**Lo que se esconde son rótulos, no datos**: la serie entera sigue en la tabla
+de debajo y en el `<desc>` del SVG, que es lo que lee un lector de pantalla.
+
+**Consecuencia.** Se añade `test_el_grafico_todavia_cabe_con_cinco_capturas_mas`,
+que prolonga la serie cinco capturas con el crecimiento de la última y exige que
+siga sin solapes. No predice el registro: **compra margen**. El rojo de hoy
+llegó con la publicación encima, que es el peor momento para decidir cómo se
+dibuja un gráfico; a partir de ahora el aviso llega días antes. Sigue pendiente
+la decisión de fondo: **un lienzo fijo con una serie que crece para siempre
+acaba sin sitio**, y adelgazar solo aplaza el problema.
+
 ## 2026-08-25 — Cada capa del mapa se pide cuando el lector la enciende
 
 **Contexto.** La portada descargaba **4.219 KB en trece peticiones** para

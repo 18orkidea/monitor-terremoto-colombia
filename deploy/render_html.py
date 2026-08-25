@@ -4787,6 +4787,19 @@ def grafico_rud(ctx: dict) -> str:
     y0 = y(0)
     paso = (W - m_l - m_r) / max(1, len(serie) - 1)
     ancho_barra = min(44, paso * 0.44)
+
+    def alterna(i: int) -> str:
+        """La segunda clase de los rótulos que el móvil esconde.
+
+        El mismo asidero que el eje de `grafico_balances`, y aquí no es
+        prevención: con la captura del 24-ago-2026 el lienzo de 900 unidades
+        pasó a nueve puntos, y a los cuerpos que la @media de 480 px necesita
+        para ser legible —«+15.819» mide 87 unidades y la banda de un día son
+        95— los rótulos empezaron a pisarse. Se cuenta DESDE EL FINAL para que
+        el último día, que es la cifra vigente, no sea nunca el que se esconde:
+        contando desde el principio, una serie de longitud par lo apagaba.
+        """
+        return " g-alterna" if (len(serie) - 1 - i) % 2 else ""
     descripcion = ". ".join(
         f'{fecha_larga(d.get("fecha"))}: sin captura anterior para calcular '
         f'nuevas inscripciones' if altas[i] is None else
@@ -4832,7 +4845,7 @@ def grafico_rud(ctx: dict) -> str:
             f'{concuerda(valor, "familia", "familias")} '
             f'desde la captura anterior</title></rect>'
             f'<text x="{_n(x(i))}" y="{_n(yy + 13 if valor < 0 else yy - 6)}" '
-            f'text-anchor="middle" class="g-alta" font-size="10" '
+            f'text-anchor="middle" class="g-alta{alterna(i)}" font-size="10" '
             f'font-weight="600" fill="{color}">{etiqueta}</text>')
 
     linea = " ".join(f'{"L" if i else "M"} {_n(x(i))} {_n(y(d.get("familias") or 0))}'
@@ -4855,10 +4868,10 @@ def grafico_rud(ctx: dict) -> str:
             f'{fmt(d.get("municipios"))} municipios'
             f'{origen}</title></circle>'
             f'<text x="{_n(x(i))}" y="{_n(cy - 10)}" text-anchor="middle" '
-            f'class="g-total" font-size="11" font-weight="600" fill="var(--good)">'
-            f'{fmt(d.get("familias"))}</text>'
+            f'class="g-total{alterna(i)}" font-size="11" font-weight="600" '
+            f'fill="var(--good)">{fmt(d.get("familias"))}</text>'
             f'<text x="{_n(x(i))}" y="{_n(H - m_b + 16)}" text-anchor="middle" '
-            f'class="g-dia" font-size="10" fill="var(--muted)">'
+            f'class="g-dia{alterna(i)}" font-size="10" fill="var(--muted)">'
             f'{dia_mes(d.get("fecha"))}</text>')
 
     lx = m_l

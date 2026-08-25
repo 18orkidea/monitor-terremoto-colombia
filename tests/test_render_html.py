@@ -111,6 +111,47 @@ SIN_EVIDENCIA_AGOTADA = (
     "replantearlo, no buscarle un municipio a mano")
 
 
+SIN_RUD_FABRICADO = "Municipio sin registro (caso fabricado)"
+
+
+def municipio_sin_rud(ctx: dict) -> tuple[str, dict]:
+    """Un municipio elegible al que el RUD todavía NO ha llegado, y el contexto
+    en el que leerlo.
+
+    Devuelve el caso real mientras quede alguno —alfabético, como
+    `ficha_del_corpus`—. **El 25-ago-2026 dejó de quedar**: la captura del 24
+    llevó el registro de 251 a 347 municipios y cubrió el catálogo entero, así
+    que ningún dato recorre ya la rama «la fuente calla» de R3. Es una buena
+    noticia y a la vez la peor forma de perder tres guardianes: siguen verdes
+    y no comprueban nada (hasta el 24 el caso era Palmira, que hoy tiene 171
+    familias inscritas).
+
+    Por eso, cuando el corpus se queda sin caso, se fabrica uno: una copia del
+    primer municipio elegible por otra señal —prensa, satélite o vecinos— con
+    sus cifras del RUD en blanco. Lleva «caso fabricado» en el nombre para que
+    nadie lo confunda con un municipio de verdad, y en cuanto el registro
+    vuelva a dejar a alguien fuera estos tests vuelven a medir sobre el dato.
+    """
+    reales = sorted(m["municipio"] for m in ctx["municipios"]
+                    if m.get("rud_familias") is None
+                    and R.es_elegible(m["municipio"], ctx))
+    if reales:
+        return reales[0], ctx
+    for modelo in sorted(ctx["municipios"], key=lambda x: x["municipio"]):
+        fabricado = {**modelo, "municipio": SIN_RUD_FABRICADO,
+                     "rud_familias": None, "rud_personas": None,
+                     "rud_viv_destruidas": None, "rud_viv_averiadas": None,
+                     "tasa_rud_pct": None, "delta_familias": None}
+        nuevo = {**ctx, "municipios": [*ctx["municipios"], fabricado],
+                 "idx": {**ctx["idx"], SIN_RUD_FABRICADO: fabricado}}
+        if R.es_elegible(SIN_RUD_FABRICADO, nuevo):
+            return SIN_RUD_FABRICADO, nuevo
+    raise AssertionError(
+        "ningún municipio del corpus sigue siendo elegible sin su RUD: la "
+        "ficha ya solo existe porque el registro oficial la nombra, y estos "
+        "tres guardianes de R3 no tienen dónde apoyarse")
+
+
 def _dias_entre(desde: str, hasta: str) -> list:
     """Todos los días, uno a uno, entre dos fechas ISO (extremos incluidos)."""
     a, b = date.fromisoformat(desde), date.fromisoformat(hasta)
@@ -2030,6 +2071,13 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                 cpo = re.search(r"font-size:\s*([\d.]+)px", decls)
                 mueve = re.search(r"translate\(\s*([-\d.]+)(?:px)?\s*,"
                                   r"\s*([-\d.]+)(?:px)?\s*\)", decls)
+                # `display: none` es la tercera herramienta de la cascada, y
+                # sin leerla estos guardianes miden cajas que el navegador no
+                # dibuja: darían por superpuestos dos rótulos de los que solo
+                # se ve uno. Se lee en los dos sentidos —`none` esconde y
+                # cualquier otro valor devuelve a la vista— porque la banda de
+                # 480 hereda de la de 760.
+                muestra = re.search(r"display:\s*([\w-]+)", decls)
                 for s in sels.split(","):
                     clase = re.search(r"\.(g-[\w-]+)", s)
                     if not clase:
@@ -2040,21 +2088,44 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                     if mueve:
                         v["dx"] = float(mueve.group(1))
                         v["dy"] = float(mueve.group(2))
+                    if muestra:
+                        v["oculto"] = muestra.group(1) == "none"
             cls.bandas[ancho] = acumulado
 
-    def _rotulos(self, clase):
-        return re.findall(rf'<text[^>]*class="{clase}"[^>]*>(.*?)</text>', self.svg)
+    @staticmethod
+    def _clases(atrs: str) -> list:
+        """TODAS las clases `g-` del rótulo, no solo la primera.
 
-    def _cajas(self, banda):
-        """Cada `<text>` con su caja aproximada, ya desplazada."""
-        aparte = re.search(r'<g class="g-leyenda-2">(.*?)</g>', self.svg, re.S)
+        Los rótulos adelgazados llevan dos —`class="g-total g-alterna"`—, y la
+        segunda es justo la que decide si se dibujan."""
+        marca = re.search(r'class="([^"]*)"', atrs)
+        return [c for c in (marca.group(1).split() if marca else [])
+                if c.startswith("g-")]
+
+    def _rotulos(self, clase, banda=None, svg=None):
+        """Los textos de esa clase; si se pasa una banda, solo los que en ella
+        se dibujan de verdad."""
+        return [t for atrs, t in re.findall(r"<text ([^>]*)>(.*?)</text>",
+                                            self.svg if svg is None else svg)
+                if clase in self._clases(atrs)
+                and (banda is None or not self._oculto(banda, self._clases(atrs)))]
+
+    @staticmethod
+    def _oculto(banda, clases) -> bool:
+        return any(banda.get(c, {}).get("oculto") for c in clases)
+
+    def _cajas(self, banda, svg=None):
+        """Cada `<text>` que esa banda dibuja, con su caja aproximada."""
+        svg = self.svg if svg is None else svg
+        aparte = re.search(r'<g class="g-leyenda-2">(.*?)</g>', svg, re.S)
         dx_grupo = banda.get("g-leyenda-2", {}).get("dx", 0.0)
         cajas = []
-        for atrs, texto in re.findall(r"<text ([^>]*)>(.*?)</text>", self.svg):
-            clase = re.search(r'class="(g-[\w-]+)"', atrs)
-            if not clase or clase.group(1) not in banda:
+        for atrs, texto in re.findall(r"<text ([^>]*)>(.*?)</text>", svg):
+            clases = self._clases(atrs)
+            conocidas = [c for c in clases if "tam" in banda.get(c, {})]
+            if not conocidas or self._oculto(banda, clases):
                 continue
-            estilo = banda[clase.group(1)]
+            estilo = banda[conocidas[0]]
             cuerpo = estilo["tam"]
             x = float(re.search(r'x="([-\d.]+)"', atrs).group(1))
             y = float(re.search(r'y="([-\d.]+)"', atrs).group(1)) + estilo.get("dy", 0)
@@ -2064,7 +2135,7 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                 ancla.group(1) if ancla else "start", x) + estilo.get("dx", 0)
             if aparte and f"<text {atrs}>" in aparte.group(1):
                 x0 += dx_grupo
-            cajas.append((f"{clase.group(1)}:{texto}", x0, x0 + ancho,
+            cajas.append((f"{conocidas[0]}:{texto}", x0, x0 + ancho,
                           y - self.ALTO_ARRIBA * cuerpo, y + self.ALTO_ABAJO * cuerpo))
         return cajas
 
@@ -2080,8 +2151,70 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                                   f"`.{clase}` no crece por debajo de {ancho}px")
                     self.assertGreater(banda[clase]["tam"], 11,
                                        f"`.{clase}` no gana nada respecto al SVG")
-                    self.assertTrue(self._rotulos(clase),
-                                    f"el gráfico ya no emite ningún `.{clase}`")
+                    # VISIBLES en esa banda: desde que el móvil esconde uno de
+                    # cada dos rótulos, «existe en el SVG» ya no basta. Un
+                    # `display: none` sobre la clase entera dejaría el gráfico
+                    # mudo y todo lo que estos tests miden —anchos, solapes—
+                    # pasaría en verde sobre una lista vacía.
+                    self.assertTrue(self._rotulos(clase, banda),
+                                    f"`.{clase}` no se dibuja por debajo de "
+                                    f"{ancho}px: el gráfico se quedó mudo")
+
+    def test_el_movil_esconde_como_mucho_uno_de_cada_dos_y_nunca_el_ultimo(self):
+        """El adelgazado es un peaje, no una barra libre.
+
+        Esconder rótulos es lo único que deja agrandar la letra en un móvil,
+        pero también es la forma más fácil de apagar a los guardianes de
+        arriba: sin nadie que dibuje, nada se pisa. Se fija el trato —la mitad
+        como mucho— y se protege el rótulo que de verdad importa, el del último
+        día, que es la cifra vigente del registro. Contando la alternancia
+        desde el principio, una serie de longitud par lo apagaba justo a él."""
+        for largo, svg in self._las_dos_paridades():
+            puntos = len(re.findall(r'<circle cx="[\d.]+" cy="[\d.]+" r="5"', svg))
+            ultimo = {}
+            for atrs, _t in re.findall(r"<text ([^>]*)>(.*?)</text>", svg):
+                for c in self._clases(atrs):
+                    if c in ("g-alta", "g-dia", "g-total"):
+                        ultimo[c] = self._clases(atrs)
+            for ancho, banda in self.bandas.items():
+                for clase in ("g-alta", "g-dia", "g-total"):
+                    with self.subTest(serie=largo, ancho=ancho, clase=clase):
+                        visibles = len(self._rotulos(clase, banda, svg))
+                        self.assertGreaterEqual(
+                            visibles, puntos // 2,
+                            f"por debajo de {ancho}px se esconden más de la "
+                            f"mitad de los rótulos `.{clase}`: {visibles} de "
+                            f"{puntos}")
+                        self.assertFalse(
+                            self._oculto(banda, ultimo.get(clase, [])),
+                            f"con {largo} capturas y por debajo de {ancho}px se "
+                            f"esconde el `.{clase}` del último día, que es la "
+                            "cifra vigente del registro")
+
+    def _las_dos_paridades(self):
+        """El SVG de hoy y el de mañana, para que la serie tenga las dos
+        longitudes posibles.
+
+        No es celo: la alternancia se cuenta desde el final PORQUE contándola
+        desde el principio el último día desaparecía en las series de longitud
+        par —y hoy la serie es impar, así que un test que solo mirase la de hoy
+        daría verde con ese fallo puesto (M1)."""
+        serie = R.contexto()["rud"]["serie"]
+        manana = [*serie, {**serie[-1], "fecha": (date.fromisoformat(
+            serie[-1]["fecha"]) + timedelta(days=1)).isoformat(),
+            "familias": (serie[-1].get("familias") or 0) + 1}]
+        return [(len(serie), self.svg),
+                (len(manana), R.grafico_rud({"rud": {"serie": manana}}))]
+
+    def test_el_desc_narra_tambien_lo_que_el_movil_esconde(self):
+        """El trato del adelgazado solo se sostiene si el dato no se pierde:
+        lo que el móvil deja de rotular sigue en el `<desc>`, que es lo que lee
+        un lector de pantalla, y en la tabla de debajo. Un día por punto,
+        siempre, se esconda o no su rótulo."""
+        puntos = len(re.findall(r'<circle cx="[\d.]+" cy="[\d.]+" r="5"', self.svg))
+        desc = re.search(r'<desc id="rud-chart-desc">(.*?)</desc>', self.svg, re.S)
+        self.assertEqual(len(re.findall(r"\d+ de \w+ de \d{4}", desc.group(1))),
+                         puntos, "el `<desc>` dejó de narrar algún día")
 
     def test_el_rotulo_del_eje_no_se_sale_del_lienzo(self):
         """Va anclado por la derecha en `x = m_l - 6`, así que todo su ancho
@@ -2097,32 +2230,46 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                                     f"{hueco:.0f} hasta el borde: se recorta")
 
     def test_los_rotulos_del_grafico_caben_en_movil(self):
-        """Los tres rótulos que cuelgan de un punto no pueden ser más anchos
-        que la distancia entre puntos, o se pisan unos a otros."""
-        xs = sorted(float(v) for v in re.findall(
-            r'<circle cx="([\d.]+)" cy="[\d.]+" r="5"', self.svg))
-        if len(xs) < 2:
-            self.skipTest("con un solo punto no hay separación que respetar")
-        paso = min(b - a for a, b in zip(xs, xs[1:]))
+        """Ningún rótulo puede ser más ancho que la banda que ocupa.
+
+        La banda es la distancia entre los rótulos de su clase QUE SE DIBUJAN,
+        no la que hay entre puntos: desde que el móvil esconde uno de cada dos,
+        cada rótulo visible dispone de dos bandas de día. Medirlo contra la
+        separación de los puntos acusaría de solaparse a dos rótulos que no
+        coinciden en pantalla. Es el aviso adelantado del test de solapes de
+        abajo: este cae con el rótulo MÁS LARGO de la clase aunque hoy esté en
+        un hueco ancho, así que canta el día antes de que se pisen de verdad."""
         for ancho, banda in self.bandas.items():
             for clase in ("g-alta", "g-dia", "g-total"):
                 with self.subTest(ancho=ancho, clase=clase):
-                    largo = max((len(t) for t in self._rotulos(clase)), default=0)
+                    centros = sorted((x0 + x1) / 2 for n, x0, x1, _, _
+                                     in self._cajas(banda)
+                                     if n.startswith(clase + ":"))
+                    if len(centros) < 2:
+                        self.skipTest("un solo rótulo no tiene con quién chocar")
+                    paso = min(b - a for a, b in zip(centros, centros[1:]))
+                    largo = max((len(t) for t in self._rotulos(clase, banda)),
+                                default=0)
                     medida = largo * self.ANCHO * banda[clase]["tam"]
                     self.assertLess(
                         medida, paso,
                         f"a {banda[clase]['tam']:.0f}px los rótulos `.{clase}` "
-                        f"miden {medida:.0f} y los puntos están a {paso:.0f}: "
+                        f"miden {medida:.0f} y su banda es de {paso:.0f}: "
                         "con la serie más larga se solapan. Baja el tamaño de "
                         f"la @media de {ancho}px o cambia la geometría de "
                         "`grafico_rud`.")
 
     def test_ningun_rotulo_se_pisa_en_movil(self):
-        """Al crecer la letra, cuatro rótulos se disputan la esquina de abajo a
-        la izquierda: el acumulado del primer día, el «sin base», el cero del
-        eje y la fecha. Las @media los separan; sin este test, subir un tamaño
-        los vuelve a juntar y nadie se entera hasta que alguien abre la página
-        en un móvil."""
+        """La geometría exacta, caja por caja: es el guardián de verdad de
+        esta clase, y el que se puso rojo el 25-ago-2026.
+
+        Al crecer la letra se disputan la esquina de abajo a la izquierda el
+        acumulado del primer día, el «sin base», el cero del eje y la fecha; y
+        al crecer la serie se pisan también el alta y el acumulado del mismo
+        día. Las @media los separan —escondiendo el «sin base», bajando el
+        alta, callando uno de cada dos—; sin este test, subir un tamaño o
+        deshacer un desplazamiento los vuelve a juntar y nadie se entera hasta
+        que alguien abre la página en un móvil."""
         for ancho, banda in self.bandas.items():
             cajas = self._cajas(banda)
             pisados = [(a[0], b[0]) for i, a in enumerate(cajas)
@@ -2134,6 +2281,44 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                     f"rótulos superpuestos por debajo de {ancho}px: {pisados}. "
                     f"Baja el tamaño en esa @media o separa las cajas con un "
                     "`transform`.")
+
+    def test_el_grafico_todavia_cabe_con_cinco_capturas_mas(self):
+        """Avisa DÍAS antes de romperse, no el día que se rompe.
+
+        El 25-ago-2026 la captura del RUD añadió su noveno punto y el gráfico
+        pasó de caber a pisarse de un día para otro: el rojo llegó con la
+        publicación encima, que es el peor momento para decidir cómo se dibuja
+        un gráfico. La geometría se estrecha sola —el ancho útil es fijo y la
+        serie crece— así que la pregunta no es «¿cabe hoy?» sino «¿cuánto le
+        queda?».
+
+        Se prolonga la serie cinco capturas con el crecimiento de la última y
+        se exige que siga sin solapes. **No es una predicción del registro**:
+        el RUD puede crecer más o menos, y da igual. Es margen: si esto cae,
+        quedan días para decidir con calma —adelgazar más, cambiar la
+        geometría, recortar la ventana— en vez de con la imprenta parada."""
+        serie = R.contexto()["rud"]["serie"]
+        if len(serie) < 2:
+            self.skipTest("con un punto no hay crecimiento que prolongar")
+        ultimo = (serie[-1].get("familias") or 0) - (serie[-2].get("familias") or 0)
+        futura = [dict(d) for d in serie]
+        for _ in range(5):
+            dia = date.fromisoformat(futura[-1]["fecha"]) + timedelta(days=1)
+            futura.append({"fecha": dia.isoformat(),
+                           "familias": (futura[-1].get("familias") or 0) + ultimo,
+                           "municipios": futura[-1].get("municipios")})
+        svg = R.grafico_rud({"rud": {"serie": futura}})
+        for ancho, banda in self.bandas.items():
+            cajas = self._cajas(banda, svg)
+            pisados = [(a[0], b[0]) for i, a in enumerate(cajas)
+                       for b in cajas[i + 1:]
+                       if a[1] < b[2] and b[1] < a[2] and a[3] < b[4] and b[3] < a[4]]
+            with self.subTest(ancho=ancho):
+                self.assertEqual(
+                    pisados, [],
+                    f"con cinco capturas más el gráfico se pisa por debajo de "
+                    f"{ancho}px: {pisados}. Quedan días, no horas: decidir "
+                    "ahora cómo se adelgaza antes de que lo decida la prisa.")
 
     def test_ningun_rotulo_se_sale_por_abajo(self):
         """Los desplazamientos que separan la esquina empujan hacia el pie del
@@ -5472,16 +5657,26 @@ class TestLienzoMunicipal(unittest.TestCase):
         self.assertNotIn("debajo del mapa", panel)
 
     def test_sin_rud_el_panel_no_inventa_ceros(self):
-        """Palmira aún no tiene registro: omitir la fila, no publicar 0 (R3)."""
-        html = R.render_ficha(R.datos_ficha("Palmira", self.ctx))
+        """Un municipio al que el registro no ha llegado omite la fila, no
+        publica 0 (R3). El caso se elige del corpus —hasta el 24-ago era
+        Palmira, que hoy ya tiene registro—: ver `municipio_sin_rud`."""
+        nombre, ctx = municipio_sin_rud(self.ctx)
+        html = R.render_ficha(R.datos_ficha(nombre, ctx))
         panel = self._panel(html)
         self.assertNotIn("Familias inscritas", panel)
         self.assertNotIn("RUD · UNGRD", panel)
 
     def test_un_cero_medido_del_rud_si_se_publica(self):
-        """Pereira declara 0 viviendas destruidas: ese cero es dato, no
-        ausencia. Esconderlo sería tratar un 0 medido como un NA (R3)."""
-        html = R.render_ficha(R.datos_ficha("Pereira", self.ctx))
+        """Un 0 que el RUD declara es dato, no ausencia: esconderlo sería
+        tratar un 0 medido como un NA (R3). El municipio sale del corpus
+        —Pereira lo fue hasta que el registro le contó 1.988 viviendas
+        destruidas—: el primero, alfabético, que hoy declara ese cero."""
+        d = ficha_del_corpus(
+            self.ctx, lambda f: f["muni"].get("rud_viv_destruidas") == 0,
+            "ningún municipio declara ya 0 viviendas destruidas en el RUD: "
+            "sin un cero medido, este guardián no distingue el 0 del NA — "
+            "replantearlo, no buscarle un municipio a mano")
+        html = R.render_ficha(d)
         panel = self._panel(html)
         self.assertRegex(
             panel,
@@ -5666,7 +5861,9 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.ctx = R.contexto()
+        # el contexto trae, si hace falta, el municipio sin registro sobre el
+        # que se apoyan los dos guardianes de R3 de aquí abajo
+        cls.sin_rud, cls.ctx = municipio_sin_rud(R.contexto())
 
     def _ld(self, nombre: str) -> dict:
         """El nodo `Dataset` tal como sale al HTML de esa ficha."""
@@ -5681,8 +5878,9 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
     def test_g1_lo_que_la_fuente_calla_no_se_publica_como_cero(self):
         """G1 · R3 · M10, sobre las 208. La mutación que debe morir es
         `"value": m.get(campo) or 0`: el JSON seguiría siendo válido, Google no
-        se quejaría y Palmira publicaría que tiene cero familias damnificadas
-        cuando lo que pasa es que el registro aún no ha llegado.
+        se quejaría y un municipio sin registro publicaría que tiene cero
+        familias damnificadas cuando lo que pasa es que el RUD aún no ha
+        llegado.
 
         No se comprueba «ninguna vale cero» —un cero medido de verdad sí se
         publica—: se comprueba que la variable EXISTE si y solo si su campo de
@@ -5715,9 +5913,12 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
     def test_la_ungrd_se_cita_aunque_el_municipio_no_tenga_registro(self):
         """Consultar el RUD y no encontrar al municipio es un hecho de esa
         fuente, y es justo el hallazgo que el proyecto existe para contar. La
-        cita se queda; lo que desaparece son las cifras."""
-        ld = self._ld("Palmira")
-        self.assertIsNone(self.ctx["idx"]["Palmira"].get("rud_familias"))
+        cita se queda; lo que desaparece son las cifras.
+
+        El municipio lo elige `municipio_sin_rud`: hasta el 24-ago-2026 estaba
+        escrito «Palmira» aquí, y el 25 Palmira entró en el registro."""
+        ld = self._ld(self.sin_rud)
+        self.assertIsNone(self.ctx["idx"][self.sin_rud].get("rud_familias"))
         self.assertNotIn("Familias inscritas en el RUD", self._medidas(ld))
         citas = [c["name"] for c in ld["citation"]]
         self.assertIn("Registro Único de Damnificados (RUD)", citas)

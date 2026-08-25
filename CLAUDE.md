@@ -229,6 +229,26 @@ revisiones**, igual que las R.
   «Copernicus entregó cero productos» acusaba a la fuente de no haber entregado
   nada cuando lo que faltaba era la clave.* Es la R3 fuera de la base de datos.
 
+- **M11 · Si el cambio toma una dirección nueva, el vigilante cambia con él —
+  y lo ya derivado, también.** Un guardián se escribió para defender la
+  dirección anterior: cuando la decisión cambia, verlo en rojo **no es la
+  prueba de que el cambio esté mal**, es la señal de que se quedó atrás. Y los
+  datos que el código viejo ya generó siguen ahí, defendidos por él.
+  *Cicatriz: R5 dejó de redondear las coordenadas de los reportes ciudadanos;
+  al fusionar `main`, sus 719 reportes traían `lat_pub` redondeado por la
+  corrida vieja y el guardián de trazabilidad —con toda la razón— gritaba que
+  lo publicado no era lo que dijo la fuente. La salida no era quedarse con los
+  datos viejos ni rebajar el test: era **recalcular lo derivado con el código
+  nuevo** (1.437 coordenadas) y republicar.* Ante un guardián en rojo después
+  de una decisión, la pregunta es **cuál de los dos se ha quedado viejo** — y
+  hay una tercera respuesta que casi siempre falta: **el dato ya derivado**.
+
+  **Lo que nunca vale es relajar el test para que pase**: subir un umbral,
+  ampliar una tolerancia, quitar una comprobación, cambiar un `assertEqual` por
+  un `assertIn`. Cambiar un guardián es reescribirlo para que defienda la
+  dirección nueva **con la misma fuerza**, y volver a validarlo por M1. Si al
+  terminar ya no caza nada, se dice en voz alta.
+
 ### Cómo crece esta lista (el autoaprendizaje)
 
 1. **Un error que aparece por segunda vez deja de ser un error: es un patrón**, y

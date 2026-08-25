@@ -998,6 +998,15 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
         "Córdoba",            # Quindío
         "Risaralda",          # Caldas
         "Sucre",              # Cauca
+        # los trae el RUD del 24-ago-2026 (capturado el 25), en el salto de 251
+        # a 347 municipios. Son los dos casos más ruidosos de la lista: el
+        # departamento de Caldas está DENTRO del área del sismo —Manizales,
+        # Anserma, Viterbo— y el de Nariño es vecino del Cauca, así que
+        # `"caldas" "antioquia"` y `"nariño" "antioquia"` traerían titulares
+        # del departamento con la etiqueta del municipio antioqueño, que está a
+        # cientos de kilómetros y tiene 5 y 51 familias inscritas.
+        "Caldas",             # Antioquia
+        "Nariño",             # Antioquia
         # el único que no es homónimo de departamento: el RUD lo escribe con el
         # guion de la fusión municipal («PIENDAMÓ - TUNÍA», el nombre oficial
         # desde 2019) y así no aparece en ningún titular — la prensa escribe

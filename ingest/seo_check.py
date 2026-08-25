@@ -93,7 +93,17 @@ PROSA_MINIMA = {
     # R15). Los hitos curados del monitor (2.009 palabras medidas) sí cuentan
     # como prosa fija: viven versionados en `feeds/hitos_monitor.json` y no
     # pueden desaparecer sin que alguien los borre a mano.
-    "referencia.html": 5325,
+    #
+    # 25-ago-2026: sube de 5.325 a 5.816. La página mide hoy 6.149 palabras
+    # propias, 583 más que al fijar el suelo, y **491 de ellas son prosa fija**:
+    # los tres hitos curados que el rediseño añadió a `feeds/hitos_monitor.json`
+    # (la explicación de cómo se construyen las cifras, la limpieza de la
+    # portada y su adelgazamiento). Esas 491 entran en el suelo porque viven
+    # versionadas y solo desaparecen si alguien las borra a mano. El resto del
+    # crecimiento es condicional —hitos de GDACS y entregas de Copernicus— y se
+    # queda fuera, igual que el margen de 241 de fase 6c, que no se toca: el
+    # suelo sube por lo que no puede evaporarse, nunca por lo que sí.
+    "referencia.html": 5816,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 

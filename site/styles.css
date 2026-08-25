@@ -765,14 +765,28 @@ a.metric-card:hover { border-color: var(--s1); }
    vigiladas por `TestElGraficoSeLeeEnMovil`, que reconstruye la cascada. */
 @media (max-width: 760px) {
   .grafico-rud .g-eje     { font-size: 13px; }
-  .grafico-rud .g-vacio   { font-size: 12px; }
   .grafico-rud .g-alta,
   .grafico-rud .g-dia     { font-size: 14px; }
   .grafico-rud .g-total   { font-size: 15px; }
   .grafico-rud .g-leyenda { font-size: 14px; }
   .grafico-rud .g-leyenda-2 { transform: translate(180px, 0); }
-  .grafico-rud .g-vacio { transform: translate(0, -5px); }
+  /* El «sin base» del primer día se va, en las dos bandas. Cuatro rótulos se
+     disputaban la esquina de abajo a la izquierda —el acumulado del primer
+     día, el «sin base», el cero del eje y la fecha— en un hueco que con `piso`
+     en 0 mide 16 unidades entre la línea del cero y el pie del lienzo; cada
+     captura nueva sube el techo del eje, la curva del primer día desciende a
+     ocuparlo y ya no caben los cuatro. Es la única de las cuatro que el
+     `<p class="sub">` de encima ya explica con todas sus letras («El primer
+     día no tiene una captura previa con la que compararse»), así que es la que
+     cede. Medido, no estimado: `test_ningun_rotulo_se_pisa_en_movil`. */
+  .grafico-rud .g-vacio { display: none; }
   .grafico-rud .g-dia   { transform: translate(0, 8px); }
+  /* Y el rótulo del alta baja para no pegarse al del acumulado. Los dos
+     cuelgan del mismo día, y la distancia entre ellos NO es fija: vale
+     `(acumulado − alta) × alto_útil / techo`, así que se estrecha sola cada
+     vez que el registro sube el techo del eje. Bajar el rótulo del alta lo
+     mete en el cuerpo de su columna, que es donde se lee sin competir. */
+  .grafico-rud .g-alta  { transform: translate(0, 10px); }
 }
 /* El gráfico de balances tiene el mismo problema y NO la misma geometría, así
    que no puede reusar los selectores del RUD: son tres paneles de doce bandas
@@ -807,18 +821,21 @@ a.metric-card:hover { border-color: var(--s1); }
   .grafico-rud .g-dia     { font-size: 24px; }
   .grafico-rud .g-total   { font-size: 26px; }
   .grafico-rud .g-leyenda { font-size: 22px; }
-  /* Al crecer la letra, cuatro rótulos se disputan la esquina de abajo a la
-     izquierda: el acumulado del primer día, el «sin base», el cero del eje y
-     la fecha. Es una esquina estrecha por construcción —con `piso` en 0, la
-     línea del cero y el pie del lienzo distan 16 unidades—, así que la fecha
-     baja y el «sin base» se queda pequeño: es la única de las cuatro que el
-     `<p class="sub">` de encima ya explica con todas sus letras («El primer
-     día no tiene una captura previa con la que compararse»). Se separan aquí,
-     donde nació el problema, y no moviendo la geometría, que cambiaría
-     también el gráfico de escritorio.
+  /* Un día de cada dos se calla. Con nueve capturas —la del 24-ago-2026— y
+     estos cuerpos, «+15.819» mide 87 unidades y la banda de un día son 95: los
+     rótulos de las altas y de los acumulados empezaron a pisarse entre ellos y
+     con la curva, y cada captura nueva estrecha la banda otro poco. Agrandar
+     la letra en un móvil solo es posible escondiendo la mitad de los rótulos
+     —lo mismo que ya hace el eje del gráfico de balances—; el generador marca
+     con `g-alterna` los que sobran, contando desde el final para que el último
+     día, que es la cifra vigente, nunca sea el que desaparece. Lo que se
+     esconde son rótulos, no datos: la serie entera sigue en la tabla de debajo
+     y en el `<desc>` del propio SVG, que es lo que lee un lector de pantalla.
      Medido, no estimado: `test_ningun_rotulo_se_pisa_en_movil`. */
-  .grafico-rud .g-vacio { font-size: 14px; transform: translate(0, -6px); }
+  .grafico-rud .g-alterna { display: none; }
   .grafico-rud .g-dia   { transform: translate(0, 14px); }
+  /* Más que en la banda ancha: aquí los cuerpos son casi el doble. */
+  .grafico-rud .g-alta  { transform: translate(0, 16px); }
 }
 
 /* En móvil el margen lateral de 20 px se come una décima parte del ancho útil:
