@@ -4478,8 +4478,10 @@ class TestActivosDelArchivo(unittest.TestCase):
             "docs/DECISIONES.md, 24-ago-2026)")
         # Los patrones sueltos alcanzan al archivo aunque no lo nombren, así
         # que cada uno tiene que ser algo que NUNCA es contenido descargable:
-        # cachés y artefactos de herramienta, credenciales, y el material
-        # temporal del rediseño. Ninguno lo trae una fuente.
+        # cachés y artefactos de herramienta, credenciales, el material temporal
+        # del rediseño y los documentos de trabajo (planes y auditorías que se
+        # leen junto al código y no son del repositorio público, M9). Ninguno lo
+        # trae una fuente.
         self.assertEqual(
             set(sueltos),
             {"node_modules/", "__pycache__/", "*.pyc", ".DS_Store",
@@ -4487,7 +4489,7 @@ class TestActivosDelArchivo(unittest.TestCase):
              ".env", ".env.*", "*.pem", "*.key", "*token*",
              "!package-lock.json",
              "prototipo/", "COORDINACION-REDISENO.md", "HANDOFF*.md",
-             "dist-antes-*/"},
+             "dist-antes-*/", "documentos/"},
             "un patrón sin barra se aplica a cualquier profundidad, también "
             "dentro de data/: un «*.mp4» suelto ignoraría los vídeos sin "
             "nombrarlos y este guardián no lo vería pasar. Si lo que se añade "
