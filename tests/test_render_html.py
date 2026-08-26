@@ -324,9 +324,19 @@ class TestFicha(unittest.TestCase):
         esperadas = _dias_entre(serie[0], serie[-1])
         self.assertEqual(serie, esperadas,
                          f"faltan capturas: {sorted(set(esperadas) - set(serie))}")
+        # La tabla da una fila por CAMBIO desde el 27-ago-2026, así que ya no
+        # lleva escrita cada fecha; lo que no puede es perder capturas por el
+        # camino. Se comprueba lo mismo con la misma fuerza: lo que la tabla
+        # declara haber capturado tiene que sumar la serie entera.
         html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
-        for fecha in serie:                       # cada captura, también en la tabla
-            self.assertIn(R.fecha_corta(fecha), html)
+        registro = html[html.find('id="registro"'):]
+        registro = registro[:registro.find("</section>")]
+        declaradas = [int(n) for n in re.findall(r'<tr data-capturas="(\d+)"', registro)]
+        self.assertEqual(sum(declaradas), len(serie),
+                         f"la tabla declara {sum(declaradas)} capturas y la "
+                         f"serie tiene {len(serie)}: alguna se perdió al agrupar")
+        self.assertIn(R.fecha_corta(serie[0]), html, "falta la primera captura")
+        self.assertIn(R.fecha_corta(serie[-1]), html, "falta la última captura")
 
     def test_duracion_municipal_se_calcula_entre_fechas(self):
         """Una captura ausente no debe acortar artificialmente el periodo.
@@ -8137,3 +8147,137 @@ class TestElOrdenDeLaPortadaEsElDeLaMaqueta(unittest.TestCase):
             titulos,
             ["Cómo se construye", "Municipios", "RUD", "Balances", "Titulares"],
             "el orden de las cinco puertas ya no es el de la maqueta")
+
+
+class TestElRegistroQueSeDetiene(unittest.TestCase):
+    """La tabla contesta «¿cuándo cambió el registro?», no «¿qué decía cada
+    día?». El RUD lo cargan las alcaldías y cuando terminan cada corrida diaria
+    añadía una fila idéntica a la anterior: Jamundí publicaba diez filas para
+    contar dos hechos —ocho capturas clavado en 23 familias y el salto a 1.539—.
+
+    El primer intento (JP, 26-ago) recortaba la cola plana a partir de la
+    tercera captura repetida. Se descartó al medirlo (27-ago): dejaba fuera los
+    153 municipios cuyo tramo plano NO está al final, hacía oscilar la tabla
+    —las filas desaparecían al tercer día quieto y volvían si la fuente
+    despertaba— y escondía la fecha de la última captura, que era justo el
+    síntoma del que salió todo esto.
+    """
+
+    @staticmethod
+    def _serie(*familias):
+        return [(f"2026-08-{16 + i:02d}",
+                 {"familias": f, "personas": f * 2,
+                  "viv_destruidas": 1, "viv_averiadas": 2})
+                for i, f in enumerate(familias)]
+
+    def test_las_capturas_que_repiten_una_cifra_son_un_solo_tramo(self):
+        tramos = R.tramos_del_registro(self._serie(23, 23, 23, 1539, 1539))
+        self.assertEqual([len(f) for f, _ in tramos], [3, 2])
+        self.assertEqual([fila["familias"] for _, fila in tramos], [23, 1539])
+
+    def test_un_tramo_plano_al_PRINCIPIO_tambien_se_agrupa(self):
+        """El caso Jamundí, que es el que tiró el criterio anterior: sus ocho
+        filas repetidas están al principio, así que recortar la cola no le
+        quitaba ni una."""
+        tramos = R.tramos_del_registro(self._serie(23, 23, 23, 23, 23, 23, 23, 23,
+                                                  1539, 1539))
+        self.assertEqual(len(tramos), 2)
+        self.assertEqual(len(tramos[0][0]), 8)
+
+    def test_ninguna_captura_se_pierde_por_el_camino(self):
+        """Agrupar no es borrar: la cuenta de fechas de todos los tramos tiene
+        que dar la serie entera, o la ficha estaría publicando menos días de los
+        que el monitor pidió."""
+        serie = self._serie(10, 10, 20, 20, 20, 30, 30)
+        fechas = [f for grupo, _ in R.tramos_del_registro(serie) for f in grupo]
+        self.assertEqual(fechas, [f for f, _ in serie])
+
+    def test_una_columna_que_se_mueve_sin_familias_abre_tramo(self):
+        """La ficha publica cuatro columnas. Si el registro corrige viviendas
+        averiadas sin tocar las familias, ese día trae información nueva y no
+        puede fundirse con el anterior."""
+        serie = self._serie(200, 200, 200)
+        serie[-1][1]["viv_averiadas"] = 99
+        self.assertEqual(len(R.tramos_del_registro(serie)), 2)
+
+    def test_el_rotulo_no_repite_el_mes_ni_esconde_el_cambio_de_mes(self):
+        """La celda es estrecha: «16-ago-2026 al 23-ago-2026» la desborda sin
+        decir nada más. Pero un registro puede pasarse semanas quieto, y ahí
+        cada extremo necesita su mes."""
+        self.assertEqual(R.rotulo_de_tramo(["2026-08-18"]), "18-ago-2026")
+        self.assertEqual(R.rotulo_de_tramo(["2026-08-16", "2026-08-20",
+                                            "2026-08-23"]), "16 al 23-ago-2026")
+        self.assertEqual(R.rotulo_de_tramo(["2026-08-28", "2026-09-03"]),
+                         "28-ago-2026 al 3-sep-2026")
+
+    def test_la_ficha_agrupa_y_dice_cuantas_capturas_cubre_cada_fila(self):
+        """Sobre la ficha real, con su serie estancada a propósito: la tabla no
+        repite la fila y la cuenta de capturas —que es el dato— sale escrita."""
+        d = copy.deepcopy(R.datos_ficha("Cali", R.contexto()))
+        ultimo = d["serie"][-1][1]
+        d["serie"] = d["serie"] + [
+            (f"2026-09-{n:02d}", dict(ultimo)) for n in (1, 2, 3)]
+        seccion = R.render_ficha(d)
+        seccion = seccion[seccion.find('id="registro"'):]
+        seccion = seccion[:seccion.find("</section>")]
+        filas = re.findall(r"<tr[^>]*><td>(.*?)</td>", seccion)
+        self.assertEqual(filas[-1].split("<")[0], "24-ago-2026 al 3-sep-2026",
+                         f"la última fila debería agrupar el tramo: {filas[-1]}")
+        self.assertIn("cinco capturas, sin cambios", filas[-1])
+        self.assertNotIn("01-sep-2026", seccion,
+                         "las capturas repetidas no van fila a fila")
+
+    def test_la_ficha_dice_en_voz_alta_que_el_registro_esta_parado(self):
+        """La última fila lleva la fecha de la última captura, pero de un rango
+        nadie deduce que seguimos preguntando cada día. Sin esta línea, un
+        registro detenido y un monitor abandonado se leen igual."""
+        d = copy.deepcopy(R.datos_ficha("Cali", R.contexto()))
+        ultimo = d["serie"][-1][1]
+        d["serie"] = d["serie"] + [
+            (f"2026-09-{n:02d}", dict(ultimo)) for n in (1, 2, 3)]
+        html = R.render_ficha(d)
+        self.assertIn("no cambia desde el 24 de agosto de 2026", html)
+        self.assertIn("capturado cuatro veces más —la última, el 3 de "
+                      "septiembre de 2026— y ninguna traía una cifra nueva", html)
+
+    def test_la_cuenta_de_capturas_concuerda_en_femenino(self):
+        """«lo ha capturado un vez más»: `fmt_prosa` da el masculino por
+        defecto y la apócope se coló en la primera versión publicada. Una
+        captura es femenina, y esta línea sale en cientos de fichas."""
+        d = copy.deepcopy(R.datos_ficha("Cali", R.contexto()))
+        html = R.render_ficha(d)
+        self.assertIn("capturado una vez más", html)
+        self.assertNotIn("capturado un vez", html)
+
+    def test_un_registro_vivo_no_dice_que_esta_parado(self):
+        """El reverso: si la última captura trajo cifra nueva, esa línea sería
+        falsa. Es la mitad que se olvida y publica una acusación al revés."""
+        d = copy.deepcopy(R.datos_ficha("Cali", R.contexto()))
+        d["serie"] = d["serie"][:-1]        # la última captura trajo cifra nueva
+        self.assertNotIn("no cambia desde", R.render_ficha(d))
+
+    def test_la_grafica_recibe_la_serie_entera_y_no_los_tramos(self):
+        """Su eje es el tiempo. Agrupada, los ocho días quietos de Jamundí
+        ocuparían lo mismo que el salto que vino después y la forma —lo único
+        que aporta el dibujo— mentiría."""
+        html = R.render_ficha(copy.deepcopy(R.datos_ficha("Jamundí",
+                                                          R.contexto())))
+        svg = html[html.find('class="grafico-rud-muni"'):]
+        svg = svg[:svg.find("</svg>")]
+        dias = re.findall(r'class="g-dia"[^>]*>([^<]+)<', svg)
+        self.assertEqual(len(dias), 10,
+                         f"el eje tiene que llevar los diez días: {dias}")
+        self.assertEqual(len(re.findall(r"<circle", svg)), 10)
+
+    def test_un_dia_de_cero_altas_se_dibuja_y_no_se_confunde_con_un_hueco(self):
+        """R3 dentro del SVG. El primer día no tiene barra porque no hay
+        captura anterior con la que comparar —«eso no lo sabemos»—; un día de
+        cero altas es lo contrario, «ese día no entró nadie», y con el hueco
+        idéntico la gráfica de Cali parecía terminar el 24 de agosto teniendo
+        el 25 dibujado. Es el fallo que JP encontró el 26-ago-2026."""
+        svg = R.grafico_rud_municipal(self._serie(100, 200, 300, 400, 400), "cero")
+        self.assertIn('data-altas="0"', svg)
+        self.assertIn("ni una familia nueva ese día", svg)
+        self.assertEqual(len(re.findall(r"<rect", svg)), 4,
+                         "cuatro barras: tres altas y la marca del cero. El "
+                         "primer día sigue sin barra, que es lo correcto")

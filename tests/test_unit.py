@@ -4478,8 +4478,10 @@ class TestActivosDelArchivo(unittest.TestCase):
             "docs/DECISIONES.md, 24-ago-2026)")
         # Los patrones sueltos alcanzan al archivo aunque no lo nombren, así
         # que cada uno tiene que ser algo que NUNCA es contenido descargable:
-        # cachés y artefactos de herramienta, credenciales, y el material
-        # temporal del rediseño. Ninguno lo trae una fuente.
+        # cachés y artefactos de herramienta, credenciales, el material temporal
+        # del rediseño y los documentos de trabajo (planes y auditorías que se
+        # leen junto al código y no son del repositorio público, M9). Ninguno lo
+        # trae una fuente.
         self.assertEqual(
             set(sueltos),
             {"node_modules/", "__pycache__/", "*.pyc", ".DS_Store",
@@ -4487,7 +4489,7 @@ class TestActivosDelArchivo(unittest.TestCase):
              ".env", ".env.*", "*.pem", "*.key", "*token*",
              "!package-lock.json",
              "prototipo/", "COORDINACION-REDISENO.md", "HANDOFF*.md",
-             "dist-antes-*/"},
+             "dist-antes-*/", "documentos/"},
             "un patrón sin barra se aplica a cualquier profundidad, también "
             "dentro de data/: un «*.mp4» suelto ignoraría los vídeos sin "
             "nombrarlos y este guardián no lo vería pasar. Si lo que se añade "
@@ -4804,3 +4806,86 @@ class TestElFaviconConvencionalResponde(unittest.TestCase):
         self.assertTrue(
             viva, "el build ya no copia deploy/root a la raíz (¿la línea está "
             "comentada?): /favicon.ico volvería a dar 404")
+
+
+class TestRudDetenido(unittest.TestCase):
+    """El RUD no muere: cuando las alcaldías terminan de cargar, la fuente
+    sigue contestando 200 con las mismas cifras. Ese estancamiento es el que
+    decide cuándo las fichas dejan de dibujar filas planas, así que tiene que
+    llegar como una alerta y no como la ausencia de otra."""
+
+    @staticmethod
+    def _capturas(*dias):
+        """(fecha, {municipio: cifras}) a partir de listas de familias."""
+        return [(f"2026-08-{20 + i:02d}",
+                 {("VALLE DEL CAUCA", "CALI"): (fam, fam * 2, 1, 2)})
+                for i, fam in enumerate(dias)]
+
+    def test_una_captura_que_repite_las_cifras_es_una_captura_plana(self):
+        from alerts import capturas_sin_movimiento
+        self.assertEqual(
+            capturas_sin_movimiento(self._capturas(100, 200, 200, 200)),
+            ["2026-08-22", "2026-08-23"],
+            "las planas son las que repiten a la anterior, y la primera vez "
+            "que se ve la cifra 200 NO es plana: ese día sí se movió")
+
+    def test_un_registro_que_avanza_no_tiene_ninguna_captura_plana(self):
+        from alerts import capturas_sin_movimiento
+        self.assertEqual(capturas_sin_movimiento(self._capturas(100, 200, 300)), [])
+
+    def test_solo_cuenta_la_racha_del_final(self):
+        """Un día quieto en mitad de la serie no detiene nada: el registro
+        volvió a moverse después. Contarlo haría declarar detenido un RUD
+        vivo."""
+        from alerts import capturas_sin_movimiento
+        self.assertEqual(
+            capturas_sin_movimiento(self._capturas(100, 100, 300)), [],
+            "hubo un día plano, pero luego el registro se movió")
+
+    def test_un_municipio_nuevo_es_movimiento_aunque_los_demas_no_cambien(self):
+        """Que el registro se abra a un sitio donde no había nadie inscrito es
+        exactamente lo que este monitor mira: no puede leerse como quietud."""
+        from alerts import capturas_sin_movimiento
+        base = {("VALLE DEL CAUCA", "CALI"): (100, 200, 1, 2)}
+        con_nuevo = dict(base)
+        con_nuevo[("CHOCÓ", "SIPÍ")] = (3, 9, 0, 1)
+        self.assertEqual(
+            capturas_sin_movimiento([("2026-08-24", base),
+                                     ("2026-08-25", dict(base)),
+                                     ("2026-08-26", con_nuevo)]), [])
+
+    def test_el_aviso_fuerte_suena_una_sola_vez(self):
+        """El push se dispara con el nivel alta y se deduplica por el texto,
+        que crece cada día («lleva 4 capturas», «lleva 5»). Sin esto, un
+        registro parado mandaría una notificación diaria para decir que no ha
+        pasado nada — el ruido que quema el canal."""
+        from alerts import aviso_de_estancamiento, CAPTURAS_PLANAS_PARA_DETENIDO
+        dias = [f"2026-09-{n:02d}" for n in range(1, 8)]
+        niveles = [aviso_de_estancamiento(dias[:n])["nivel"]
+                   for n in range(1, 7)]
+        self.assertEqual(niveles.count("alta"), 1,
+                         f"el aviso alta se repite: {niveles}")
+        self.assertEqual(niveles[CAPTURAS_PLANAS_PARA_DETENIDO - 1], "alta",
+                         "el aviso fuerte va el día que se cruza el umbral")
+        self.assertIsNone(aviso_de_estancamiento([]),
+                          "sin capturas planas no hay nada que avisar")
+
+    def test_solo_el_umbral_declara_detenido_el_registro(self):
+        """Un día quieto no es un registro parado: el tipo de la alerta —que es
+        lo que leen el push y el sitio— tiene que distinguirlos."""
+        from alerts import aviso_de_estancamiento
+        self.assertEqual(aviso_de_estancamiento(["2026-09-01"])["tipo"],
+                         "rud_sin_movimiento")
+        self.assertEqual(
+            aviso_de_estancamiento(["2026-09-01", "2026-09-02",
+                                    "2026-09-03"])["tipo"], "rud_detenido")
+
+    def test_las_columnas_que_deciden_el_movimiento_son_las_mismas_en_las_dos_superficies(self):
+        """M2: «se movió el registro» se decide en dos sitios —la alerta y la
+        tabla de la ficha— porque la corrida diaria no importa el módulo de
+        render. Si una mirase una columna que la otra ignora, el sitio agruparía
+        como quietas capturas que la alerta cuenta como movimiento."""
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "deploy"))
+        import alerts
+        import render_html
+        self.assertEqual(alerts.COLUMNAS_DEL_RUD, render_html.COLUMNAS_DEL_RUD)

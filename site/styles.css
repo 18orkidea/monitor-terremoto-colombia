@@ -707,6 +707,11 @@ a.metric-card:hover { border-color: var(--s1); }
 }
 .tabla-scroll table { min-width: 30rem; }
 
+/* Cuántas capturas repitieron una misma cifra, bajo la fecha del tramo. Es
+   dato, no adorno: la tabla de las fichas da una fila por CAMBIO del registro,
+   y sin esta línea no se sabría cuántos días lleva la fuente sin moverse. */
+.capturas { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
 /* Nota suelta al pie del contenido, alineada con el resto de la página. */
 .nota-pie { margin: 10px var(--margen) 22px; }
 
