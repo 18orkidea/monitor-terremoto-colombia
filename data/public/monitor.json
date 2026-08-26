@@ -1,6 +1,6 @@
 {
- "generado": "2026-08-25",
- "fecha": "2026-08-25",
+ "generado": "2026-08-26",
+ "fecha": "2026-08-26",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -13,7 +13,7 @@
   ],
   "mag": 7.4,
   "place": "5 km S of San José del Palmar, Colombia",
-  "felt": 1191
+  "felt": 1192
  },
  "aois": [
   {
@@ -63,9 +63,9 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 675,
-    "n_oficial": 8,
-    "n_ciudadano": 363,
+    "n_prensa": 739,
+    "n_oficial": 9,
+    "n_ciudadano": 373,
     "etiqueta": "No comparable 1:1"
    },
    "n_productos": 1
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 578,
-    "n_oficial": 8,
+    "n_prensa": 634,
+    "n_oficial": 9,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,9 +253,9 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 365,
-    "n_oficial": 5,
-    "n_ciudadano": 223,
+    "n_prensa": 394,
+    "n_oficial": 6,
+    "n_ciudadano": 225,
     "etiqueta": "Coincide cualitativamente"
    },
    "n_productos": 1
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 578,
-    "n_oficial": 8,
+    "n_prensa": 634,
+    "n_oficial": 9,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 60,
-    "n_oficial": 8,
+    "n_prensa": 63,
+    "n_oficial": 9,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -512,8 +512,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 38,
-    "n_oficial": 8,
+    "n_prensa": 41,
+    "n_oficial": 9,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 158,
-    "n_oficial": 7,
+    "n_prensa": 178,
+    "n_oficial": 8,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 320
+   "feeds": 542
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 307
+   "feeds": 489
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 292
+   "feeds": 406
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 357
+   "feeds": 444
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 362
+   "feeds": 442
   },
   {
    "fecha": "2026-08-15",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 403
+   "feeds": 453
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 224
+   "feeds": 255
   },
   {
    "fecha": "2026-08-17",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 203
+   "feeds": 244
   },
   {
    "fecha": "2026-08-18",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 247
+   "feeds": 306
   },
   {
    "fecha": "2026-08-19",
@@ -715,7 +715,7 @@
    "gdelt": 0.5095,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 199
+   "feeds": 259
   },
   {
    "fecha": "2026-08-20",
@@ -723,7 +723,7 @@
    "gdelt": 0.3937,
    "fuentes": null,
    "chatmap": 55,
-   "feeds": 261
+   "feeds": 303
   },
   {
    "fecha": "2026-08-21",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 263
+   "feeds": 302
   },
   {
    "fecha": "2026-08-22",
@@ -739,7 +739,7 @@
    "gdelt": 0.2718,
    "fuentes": null,
    "chatmap": 80,
-   "feeds": 180
+   "feeds": 200
   },
   {
    "fecha": "2026-08-23",
@@ -747,7 +747,7 @@
    "gdelt": 0.2353,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 118
+   "feeds": 143
   },
   {
    "fecha": "2026-08-24",
@@ -755,15 +755,23 @@
    "gdelt": 0.2422,
    "fuentes": null,
    "chatmap": 97,
-   "feeds": 234
+   "feeds": 283
   },
   {
    "fecha": "2026-08-25",
    "emm": null,
    "gdelt": 0.2535,
    "fuentes": null,
+   "chatmap": 12,
+   "feeds": 239
+  },
+  {
+   "fecha": "2026-08-26",
+   "emm": null,
+   "gdelt": 0.1783,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 66
+   "feeds": 54
   }
  ],
  "entregas": [
@@ -827,12 +835,12 @@
    "total": 85664
   },
   "ungrd_rud": {
-   "municipios": 347,
-   "familias": 199376.0,
-   "personas": 432230.0,
-   "viv_destruidas": 11480.0,
-   "viv_averiadas": 67606.0,
-   "corte": "2026-08-24",
+   "municipios": 348,
+   "familias": 219924.0,
+   "personas": 476714.0,
+   "viv_destruidas": 12567.0,
+   "viv_averiadas": 67676.0,
+   "corte": "2026-08-25",
    "retirados": [
     {
      "departamento": "CUNDINAMARCA",
@@ -925,6 +933,14 @@
     "personas": 432230.0,
     "viv_destruidas": 11480.0,
     "viv_averiadas": 67606.0
+   },
+   {
+    "fecha": "2026-08-25",
+    "municipios": 348,
+    "familias": 219924.0,
+    "personas": 476714.0,
+    "viv_destruidas": 12567.0,
+    "viv_averiadas": 67676.0
    }
   ],
   "municipios": [
@@ -937,67 +953,103 @@
     "viv_averiadas": 6288.0,
     "poblacion_2026": 2269983,
     "tasa_pct": 2.019,
-    "delta_familias": 3240.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "PEREIRA",
-    "familias": 20770.0,
-    "personas": 47021.0,
+    "familias": 20796.0,
+    "personas": 47089.0,
     "viv_destruidas": 1988.0,
     "viv_averiadas": 0.0,
     "poblacion_2026": 487820,
-    "tasa_pct": 9.639,
-    "delta_familias": 20769.0,
+    "tasa_pct": 9.6529,
+    "delta_familias": 26.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "BUENAVENTURA",
-    "familias": 14086.0,
-    "personas": 31807.0,
-    "viv_destruidas": 1244.0,
+    "familias": 14087.0,
+    "personas": 31813.0,
+    "viv_destruidas": 1245.0,
     "viv_averiadas": 7619.0,
     "poblacion_2026": 335217,
-    "tasa_pct": 9.4885,
-    "delta_familias": 3672.0,
+    "tasa_pct": 9.4903,
+    "delta_familias": 1.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "ARMENIA",
+    "familias": 12095.0,
+    "personas": 25436.0,
+    "viv_destruidas": 832.0,
+    "viv_averiadas": 345.0,
+    "poblacion_2026": 307103,
+    "tasa_pct": 8.2826,
+    "delta_familias": 10807.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
     "municipio": "CALARCÁ",
-    "familias": 5154.0,
-    "personas": 7667.0,
-    "viv_destruidas": 10.0,
+    "familias": 5661.0,
+    "personas": 8636.0,
+    "viv_destruidas": 15.0,
     "viv_averiadas": 3072.0,
     "poblacion_2026": 74399,
-    "tasa_pct": 10.3052,
-    "delta_familias": 982.0,
+    "tasa_pct": 11.6077,
+    "delta_familias": 507.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "QUIMBAYA",
+    "familias": 4987.0,
+    "personas": 11492.0,
+    "viv_destruidas": 262.0,
+    "viv_averiadas": 423.0,
+    "poblacion_2026": 31350,
+    "tasa_pct": 36.6571,
+    "delta_familias": 3001.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ROLDANILLO",
-    "familias": 4515.0,
-    "personas": 6017.0,
+    "familias": 4516.0,
+    "personas": 6018.0,
     "viv_destruidas": 310.0,
     "viv_averiadas": 1475.0,
     "poblacion_2026": 38639,
-    "tasa_pct": 15.5723,
-    "delta_familias": 722.0,
+    "tasa_pct": 15.5749,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
     "municipio": "QUIBDÓ",
-    "familias": 4454.0,
-    "personas": 12933.0,
-    "viv_destruidas": 743.0,
-    "viv_averiadas": 626.0,
+    "familias": 4464.0,
+    "personas": 12956.0,
+    "viv_destruidas": 745.0,
+    "viv_averiadas": 628.0,
     "poblacion_2026": 143332,
-    "tasa_pct": 9.0231,
-    "delta_familias": 974.0,
+    "tasa_pct": 9.0392,
+    "delta_familias": 10.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "MONTENEGRO",
+    "familias": 4106.0,
+    "personas": 9573.0,
+    "viv_destruidas": 209.0,
+    "viv_averiadas": 179.0,
+    "poblacion_2026": 37483,
+    "tasa_pct": 25.5396,
+    "delta_familias": 3750.0,
     "nuevo": false
    },
    {
@@ -1009,31 +1061,31 @@
     "viv_averiadas": 1730.0,
     "poblacion_2026": 44172,
     "tasa_pct": 18.7291,
-    "delta_familias": 847.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "DOSQUEBRADAS",
-    "familias": 3655.0,
-    "personas": 8409.0,
-    "viv_destruidas": 297.0,
+    "familias": 3806.0,
+    "personas": 8762.0,
+    "viv_destruidas": 309.0,
     "viv_averiadas": 30.0,
     "poblacion_2026": 246388,
-    "tasa_pct": 3.4129,
-    "delta_familias": 1182.0,
+    "tasa_pct": 3.5562,
+    "delta_familias": 151.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "DAGUA",
-    "familias": 3475.0,
-    "personas": 7680.0,
-    "viv_destruidas": 415.0,
-    "viv_averiadas": 1309.0,
+    "familias": 3644.0,
+    "personas": 8061.0,
+    "viv_destruidas": 426.0,
+    "viv_averiadas": 1374.0,
     "poblacion_2026": 60038,
-    "tasa_pct": 12.7919,
-    "delta_familias": 776.0,
+    "tasa_pct": 13.4265,
+    "delta_familias": 169.0,
     "nuevo": false
    },
    {
@@ -1045,7 +1097,7 @@
     "viv_averiadas": 1434.0,
     "poblacion_2026": 34699,
     "tasa_pct": 17.4789,
-    "delta_familias": 830.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1057,7 +1109,7 @@
     "viv_averiadas": 1726.0,
     "poblacion_2026": 17617,
     "tasa_pct": 43.1401,
-    "delta_familias": 471.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1069,19 +1121,19 @@
     "viv_averiadas": 114.0,
     "poblacion_2026": 475690,
     "tasa_pct": 1.2956,
-    "delta_familias": 611.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "SANTA ROSA DE CABAL",
-    "familias": 2563.0,
-    "personas": 6295.0,
-    "viv_destruidas": 21.0,
+    "familias": 2597.0,
+    "personas": 6359.0,
+    "viv_destruidas": 22.0,
     "viv_averiadas": 258.0,
     "poblacion_2026": 84054,
-    "tasa_pct": 7.4892,
-    "delta_familias": 135.0,
+    "tasa_pct": 7.5654,
+    "delta_familias": 34.0,
     "nuevo": false
    },
    {
@@ -1093,19 +1145,19 @@
     "viv_averiadas": 1046.0,
     "poblacion_2026": 30248,
     "tasa_pct": 15.2605,
-    "delta_familias": 199.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "TRUJILLO",
-    "familias": 2337.0,
-    "personas": 5909.0,
+    "familias": 2354.0,
+    "personas": 5927.0,
     "viv_destruidas": 165.0,
     "viv_averiadas": 841.0,
     "poblacion_2026": 20058,
-    "tasa_pct": 29.4596,
-    "delta_familias": 774.0,
+    "tasa_pct": 29.5493,
+    "delta_familias": 17.0,
     "nuevo": false
    },
    {
@@ -1117,7 +1169,7 @@
     "viv_averiadas": 607.0,
     "poblacion_2026": 16843,
     "tasa_pct": 32.0549,
-    "delta_familias": 636.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1129,7 +1181,7 @@
     "viv_averiadas": 843.0,
     "poblacion_2026": 43993,
     "tasa_pct": 9.8334,
-    "delta_familias": 195.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1141,7 +1193,7 @@
     "viv_averiadas": 446.0,
     "poblacion_2026": 14922,
     "tasa_pct": 30.827,
-    "delta_familias": 198.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1153,19 +1205,7 @@
     "viv_averiadas": 975.0,
     "poblacion_2026": 15958,
     "tasa_pct": 24.4266,
-    "delta_familias": 119.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "QUIMBAYA",
-    "familias": 1986.0,
-    "personas": 4544.0,
-    "viv_destruidas": 106.0,
-    "viv_averiadas": 423.0,
-    "poblacion_2026": 31350,
-    "tasa_pct": 14.4944,
-    "delta_familias": 587.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1177,7 +1217,19 @@
     "viv_averiadas": 675.0,
     "poblacion_2026": 17825,
     "tasa_pct": 21.9916,
-    "delta_familias": 232.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "CIRCASIA",
+    "familias": 1909.0,
+    "personas": 3471.0,
+    "viv_destruidas": 107.0,
+    "viv_averiadas": 241.0,
+    "poblacion_2026": 28971,
+    "tasa_pct": 11.9809,
+    "delta_familias": 617.0,
     "nuevo": false
    },
    {
@@ -1189,7 +1241,7 @@
     "viv_averiadas": 1478.0,
     "poblacion_2026": 10016,
     "tasa_pct": 40.4952,
-    "delta_familias": 58.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1201,7 +1253,7 @@
     "viv_averiadas": 71.0,
     "poblacion_2026": 25527,
     "tasa_pct": 11.4585,
-    "delta_familias": 371.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1213,7 +1265,7 @@
     "viv_averiadas": 1067.0,
     "poblacion_2026": 33342,
     "tasa_pct": 11.8469,
-    "delta_familias": 829.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1225,7 +1277,7 @@
     "viv_averiadas": 407.0,
     "poblacion_2026": 16207,
     "tasa_pct": 23.5022,
-    "delta_familias": 100.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1237,7 +1289,7 @@
     "viv_averiadas": 582.0,
     "poblacion_2026": 16021,
     "tasa_pct": 25.0047,
-    "delta_familias": 303.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1249,7 +1301,19 @@
     "viv_averiadas": 517.0,
     "poblacion_2026": 18765,
     "tasa_pct": 15.6408,
-    "delta_familias": 27.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "MARSELLA",
+    "familias": 1547.0,
+    "personas": 3733.0,
+    "viv_destruidas": 54.0,
+    "viv_averiadas": 374.0,
+    "poblacion_2026": 17320,
+    "tasa_pct": 21.5531,
+    "delta_familias": 16.0,
     "nuevo": false
    },
    {
@@ -1261,18 +1325,6 @@
     "viv_averiadas": 1196.0,
     "poblacion_2026": 196875,
     "tasa_pct": 1.6173,
-    "delta_familias": 1516.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "MARSELLA",
-    "familias": 1531.0,
-    "personas": 3711.0,
-    "viv_destruidas": 54.0,
-    "viv_averiadas": 374.0,
-    "poblacion_2026": 17320,
-    "tasa_pct": 21.4261,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -1285,7 +1337,7 @@
     "viv_averiadas": 434.0,
     "poblacion_2026": 7694,
     "tasa_pct": 41.7598,
-    "delta_familias": 360.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1297,7 +1349,7 @@
     "viv_averiadas": 346.0,
     "poblacion_2026": 19402,
     "tasa_pct": 17.2766,
-    "delta_familias": 66.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1309,7 +1361,7 @@
     "viv_averiadas": 42.0,
     "poblacion_2026": 19486,
     "tasa_pct": 7.6619,
-    "delta_familias": 71.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1321,43 +1373,43 @@
     "viv_averiadas": 535.0,
     "poblacion_2026": 52118,
     "tasa_pct": 7.8572,
-    "delta_familias": 29.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ARGELIA",
-    "familias": 1370.0,
-    "personas": 3433.0,
+    "familias": 1384.0,
+    "personas": 3459.0,
     "viv_destruidas": 78.0,
     "viv_averiadas": 169.0,
     "poblacion_2026": 5538,
-    "tasa_pct": 61.9899,
-    "delta_familias": 171.0,
+    "tasa_pct": 62.4594,
+    "delta_familias": 14.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
-    "municipio": "CIRCASIA",
-    "familias": 1292.0,
-    "personas": 2215.0,
-    "viv_destruidas": 95.0,
-    "viv_averiadas": 241.0,
-    "poblacion_2026": 28971,
-    "tasa_pct": 7.6456,
-    "delta_familias": 674.0,
+    "municipio": "FILANDIA",
+    "familias": 1307.0,
+    "personas": 3089.0,
+    "viv_destruidas": 27.0,
+    "viv_averiadas": 84.0,
+    "poblacion_2026": 12345,
+    "tasa_pct": 25.0223,
+    "delta_familias": 759.0,
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "ARMENIA",
-    "familias": 1288.0,
-    "personas": 2661.0,
-    "viv_destruidas": 161.0,
-    "viv_averiadas": 345.0,
-    "poblacion_2026": 307103,
-    "tasa_pct": 0.8665,
-    "delta_familias": 202.0,
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "EL ÁGUILA",
+    "familias": 1289.0,
+    "personas": 2658.0,
+    "viv_destruidas": 82.0,
+    "viv_averiadas": 417.0,
+    "poblacion_2026": 9164,
+    "tasa_pct": 29.0048,
+    "delta_familias": 13.0,
     "nuevo": false
    },
    {
@@ -1369,19 +1421,7 @@
     "viv_averiadas": 956.0,
     "poblacion_2026": 29935,
     "tasa_pct": 5.0509,
-    "delta_familias": 100.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "EL ÁGUILA",
-    "familias": 1276.0,
-    "personas": 2619.0,
-    "viv_destruidas": 82.0,
-    "viv_averiadas": 417.0,
-    "poblacion_2026": 9164,
-    "tasa_pct": 28.5792,
-    "delta_familias": 250.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1393,19 +1433,19 @@
     "viv_averiadas": 400.0,
     "poblacion_2026": 36717,
     "tasa_pct": 5.014,
-    "delta_familias": 203.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ALCALÁ",
-    "familias": 1273.0,
-    "personas": 2301.0,
+    "familias": 1274.0,
+    "personas": 2302.0,
     "viv_destruidas": 54.0,
     "viv_averiadas": 446.0,
     "poblacion_2026": 14335,
-    "tasa_pct": 16.0516,
-    "delta_familias": 249.0,
+    "tasa_pct": 16.0586,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
@@ -1417,7 +1457,7 @@
     "viv_averiadas": 342.0,
     "poblacion_2026": 7441,
     "tasa_pct": 37.589,
-    "delta_familias": 169.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1429,7 +1469,19 @@
     "viv_averiadas": 455.0,
     "poblacion_2026": 9312,
     "tasa_pct": 31.9802,
-    "delta_familias": 82.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "BELÉN DE UMBRÍA",
+    "familias": 1203.0,
+    "personas": 2949.0,
+    "viv_destruidas": 60.0,
+    "viv_averiadas": 659.0,
+    "poblacion_2026": 25277,
+    "tasa_pct": 11.6667,
+    "delta_familias": 91.0,
     "nuevo": false
    },
    {
@@ -1441,7 +1493,7 @@
     "viv_averiadas": 686.0,
     "poblacion_2026": 27635,
     "tasa_pct": 13.5191,
-    "delta_familias": 20.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1453,19 +1505,19 @@
     "viv_averiadas": 325.0,
     "poblacion_2026": 28386,
     "tasa_pct": 9.9556,
-    "delta_familias": 39.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
-    "departamento": "RISARALDA",
-    "municipio": "BELÉN DE UMBRÍA",
-    "familias": 1112.0,
-    "personas": 2784.0,
-    "viv_destruidas": 58.0,
-    "viv_averiadas": 659.0,
-    "poblacion_2026": 25277,
-    "tasa_pct": 11.014,
-    "delta_familias": 0.0,
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "EL CAIRO",
+    "familias": 1122.0,
+    "personas": 2743.0,
+    "viv_destruidas": 52.0,
+    "viv_averiadas": 284.0,
+    "poblacion_2026": 7010,
+    "tasa_pct": 39.1298,
+    "delta_familias": 24.0,
     "nuevo": false
    },
    {
@@ -1477,19 +1529,7 @@
     "viv_averiadas": 234.0,
     "poblacion_2026": 11296,
     "tasa_pct": 9.7645,
-    "delta_familias": 209.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "EL CAIRO",
-    "familias": 1098.0,
-    "personas": 2683.0,
-    "viv_destruidas": 52.0,
-    "viv_averiadas": 284.0,
-    "poblacion_2026": 7010,
-    "tasa_pct": 38.2739,
-    "delta_familias": 283.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1501,7 +1541,7 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 35053,
     "tasa_pct": 5.4831,
-    "delta_familias": -41.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1517,6 +1557,30 @@
     "nuevo": false
    },
    {
+    "departamento": "QUINDÍO",
+    "municipio": "LA TEBAIDA",
+    "familias": 1057.0,
+    "personas": 2234.0,
+    "viv_destruidas": 12.0,
+    "viv_averiadas": 445.0,
+    "poblacion_2026": 33758,
+    "tasa_pct": 6.6177,
+    "delta_familias": 81.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "CÓRDOBA",
+    "familias": 1005.0,
+    "personas": 1899.0,
+    "viv_destruidas": 19.0,
+    "viv_averiadas": 336.0,
+    "poblacion_2026": 5863,
+    "tasa_pct": 32.3896,
+    "delta_familias": 30.0,
+    "nuevo": false
+   },
+   {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "ANDALUCÍA",
     "familias": 1000.0,
@@ -1525,7 +1589,7 @@
     "viv_averiadas": 482.0,
     "poblacion_2026": 25109,
     "tasa_pct": 8.8255,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1537,31 +1601,7 @@
     "viv_averiadas": 320.0,
     "poblacion_2026": 18544,
     "tasa_pct": 17.5852,
-    "delta_familias": 80.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "LA TEBAIDA",
-    "familias": 976.0,
-    "personas": 2111.0,
-    "viv_destruidas": 10.0,
-    "viv_averiadas": 445.0,
-    "poblacion_2026": 33758,
-    "tasa_pct": 6.2533,
-    "delta_familias": 224.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "CÓRDOBA",
-    "familias": 975.0,
-    "personas": 1869.0,
-    "viv_destruidas": 19.0,
-    "viv_averiadas": 336.0,
-    "poblacion_2026": 5863,
-    "tasa_pct": 31.8779,
-    "delta_familias": 233.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1573,19 +1613,19 @@
     "viv_averiadas": 577.0,
     "poblacion_2026": 130768,
     "tasa_pct": 1.2503,
-    "delta_familias": 678.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "MISTRATÓ",
-    "familias": 927.0,
-    "personas": 3492.0,
+    "familias": 935.0,
+    "personas": 3506.0,
     "viv_destruidas": 9.0,
     "viv_averiadas": 783.0,
     "poblacion_2026": 18515,
-    "tasa_pct": 18.8604,
-    "delta_familias": 180.0,
+    "tasa_pct": 18.936,
+    "delta_familias": 8.0,
     "nuevo": false
    },
    {
@@ -1597,7 +1637,7 @@
     "viv_averiadas": 565.0,
     "poblacion_2026": 28053,
     "tasa_pct": 9.6924,
-    "delta_familias": 20.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1609,7 +1649,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6532,
     "tasa_pct": 13.9161,
-    "delta_familias": 643.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1621,7 +1661,7 @@
     "viv_averiadas": 298.0,
     "poblacion_2026": 144206,
     "tasa_pct": 0.6726,
-    "delta_familias": 405.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1633,19 +1673,19 @@
     "viv_averiadas": 356.0,
     "poblacion_2026": 37352,
     "tasa_pct": 6.6984,
-    "delta_familias": 519.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "LA VICTORIA",
-    "familias": 891.0,
-    "personas": 1967.0,
+    "familias": 893.0,
+    "personas": 1969.0,
     "viv_destruidas": 17.0,
     "viv_averiadas": 378.0,
     "poblacion_2026": 12765,
-    "tasa_pct": 15.4093,
-    "delta_familias": 143.0,
+    "tasa_pct": 15.425,
+    "delta_familias": 2.0,
     "nuevo": false
    },
    {
@@ -1657,7 +1697,7 @@
     "viv_averiadas": 34.0,
     "poblacion_2026": 225868,
     "tasa_pct": 0.657,
-    "delta_familias": 264.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1669,7 +1709,7 @@
     "viv_averiadas": 182.0,
     "poblacion_2026": 10327,
     "tasa_pct": 18.0498,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1681,7 +1721,7 @@
     "viv_averiadas": 281.0,
     "poblacion_2026": 5136,
     "tasa_pct": 37.4416,
-    "delta_familias": 51.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1693,7 +1733,31 @@
     "viv_averiadas": 54.0,
     "poblacion_2026": 45131,
     "tasa_pct": 3.7757,
-    "delta_familias": 91.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "SALENTO",
+    "familias": 773.0,
+    "personas": 1703.0,
+    "viv_destruidas": 14.0,
+    "viv_averiadas": 125.0,
+    "poblacion_2026": 10372,
+    "tasa_pct": 16.4192,
+    "delta_familias": 226.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "PIJAO",
+    "familias": 760.0,
+    "personas": 1845.0,
+    "viv_destruidas": 4.0,
+    "viv_averiadas": 407.0,
+    "poblacion_2026": 5347,
+    "tasa_pct": 34.5053,
+    "delta_familias": 101.0,
     "nuevo": false
    },
    {
@@ -1705,7 +1769,7 @@
     "viv_averiadas": 103.0,
     "poblacion_2026": 17244,
     "tasa_pct": 9.6207,
-    "delta_familias": 89.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1717,19 +1781,19 @@
     "viv_averiadas": 575.0,
     "poblacion_2026": 42986,
     "tasa_pct": 2.1053,
-    "delta_familias": 125.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "SANTUARIO",
-    "familias": 728.0,
-    "personas": 1991.0,
+    "familias": 736.0,
+    "personas": 2004.0,
     "viv_destruidas": 13.0,
     "viv_averiadas": 243.0,
     "poblacion_2026": 12968,
-    "tasa_pct": 15.3532,
-    "delta_familias": 1.0,
+    "tasa_pct": 15.4534,
+    "delta_familias": 8.0,
     "nuevo": false
    },
    {
@@ -1741,19 +1805,19 @@
     "viv_averiadas": 397.0,
     "poblacion_2026": 12461,
     "tasa_pct": 14.429,
-    "delta_familias": 74.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "OBANDO",
-    "familias": 693.0,
-    "personas": 1525.0,
+    "familias": 694.0,
+    "personas": 1527.0,
     "viv_destruidas": 18.0,
     "viv_averiadas": 373.0,
     "poblacion_2026": 12558,
-    "tasa_pct": 12.1437,
-    "delta_familias": 94.0,
+    "tasa_pct": 12.1596,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
@@ -1765,7 +1829,7 @@
     "viv_averiadas": 634.0,
     "poblacion_2026": 3378,
     "tasa_pct": 48.7863,
-    "delta_familias": 49.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1789,31 +1853,19 @@
     "viv_averiadas": 120.0,
     "poblacion_2026": 19757,
     "tasa_pct": 6.3218,
-    "delta_familias": 176.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "PIJAO",
-    "familias": 659.0,
-    "personas": 1721.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 407.0,
-    "poblacion_2026": 5347,
-    "tasa_pct": 32.1863,
-    "delta_familias": 275.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "APÍA",
-    "familias": 655.0,
-    "personas": 1753.0,
+    "familias": 663.0,
+    "personas": 1767.0,
     "viv_destruidas": 35.0,
     "viv_averiadas": 343.0,
     "poblacion_2026": 12698,
-    "tasa_pct": 13.8053,
-    "delta_familias": 0.0,
+    "tasa_pct": 13.9156,
+    "delta_familias": 8.0,
     "nuevo": false
    },
    {
@@ -1825,7 +1877,7 @@
     "viv_averiadas": 211.0,
     "poblacion_2026": 5601,
     "tasa_pct": 22.4246,
-    "delta_familias": 275.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1837,7 +1889,7 @@
     "viv_averiadas": 21.0,
     "poblacion_2026": 29358,
     "tasa_pct": 5.0037,
-    "delta_familias": 48.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1849,7 +1901,7 @@
     "viv_averiadas": 426.0,
     "poblacion_2026": 5848,
     "tasa_pct": 32.4384,
-    "delta_familias": 37.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1861,7 +1913,7 @@
     "viv_averiadas": 486.0,
     "poblacion_2026": 12936,
     "tasa_pct": 10.0108,
-    "delta_familias": 68.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1877,30 +1929,6 @@
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "FILANDIA",
-    "familias": 548.0,
-    "personas": 1249.0,
-    "viv_destruidas": 14.0,
-    "viv_averiadas": 83.0,
-    "poblacion_2026": 12345,
-    "tasa_pct": 10.1175,
-    "delta_familias": 75.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "SALENTO",
-    "familias": 547.0,
-    "personas": 1387.0,
-    "viv_destruidas": 11.0,
-    "viv_averiadas": 125.0,
-    "poblacion_2026": 10372,
-    "tasa_pct": 13.3725,
-    "delta_familias": 142.0,
-    "nuevo": false
-   },
-   {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "GUADALAJARA DE BUGA",
     "familias": 502.0,
@@ -1909,7 +1937,19 @@
     "viv_averiadas": 226.0,
     "poblacion_2026": 132250,
     "tasa_pct": 0.8121,
-    "delta_familias": 135.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "BUENAVISTA",
+    "familias": 497.0,
+    "personas": 573.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 75.0,
+    "poblacion_2026": 3165,
+    "tasa_pct": 18.1043,
+    "delta_familias": 28.0,
     "nuevo": false
    },
    {
@@ -1921,19 +1961,7 @@
     "viv_averiadas": 198.0,
     "poblacion_2026": 15966,
     "tasa_pct": 6.9773,
-    "delta_familias": 55.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "BUENAVISTA",
-    "familias": 469.0,
-    "personas": 539.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 75.0,
-    "poblacion_2026": 3165,
-    "tasa_pct": 17.03,
-    "delta_familias": 255.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1945,7 +1973,7 @@
     "viv_averiadas": 112.0,
     "poblacion_2026": 38524,
     "tasa_pct": 3.0033,
-    "delta_familias": 109.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1957,7 +1985,7 @@
     "viv_averiadas": 19.0,
     "poblacion_2026": 74463,
     "tasa_pct": 1.5726,
-    "delta_familias": 74.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1969,7 +1997,7 @@
     "viv_averiadas": 432.0,
     "poblacion_2026": 36604,
     "tasa_pct": 2.8795,
-    "delta_familias": 69.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1981,7 +2009,7 @@
     "viv_averiadas": 151.0,
     "poblacion_2026": 4960,
     "tasa_pct": 21.25,
-    "delta_familias": 12.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1993,7 +2021,7 @@
     "viv_averiadas": 98.0,
     "poblacion_2026": 10781,
     "tasa_pct": 8.2274,
-    "delta_familias": 129.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2005,19 +2033,19 @@
     "viv_averiadas": 240.0,
     "poblacion_2026": 14126,
     "tasa_pct": 6.173,
-    "delta_familias": 226.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "LA CELIA",
-    "familias": 440.0,
-    "personas": 1141.0,
+    "familias": 443.0,
+    "personas": 1145.0,
     "viv_destruidas": 19.0,
     "viv_averiadas": 222.0,
     "poblacion_2026": 7700,
-    "tasa_pct": 14.8182,
-    "delta_familias": 2.0,
+    "tasa_pct": 14.8701,
+    "delta_familias": 3.0,
     "nuevo": false
    },
    {
@@ -2029,7 +2057,7 @@
     "viv_averiadas": 73.0,
     "poblacion_2026": 115667,
     "tasa_pct": 0.9813,
-    "delta_familias": 56.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2041,7 +2069,7 @@
     "viv_averiadas": 228.0,
     "poblacion_2026": 46986,
     "tasa_pct": 1.9367,
-    "delta_familias": 108.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2053,7 +2081,7 @@
     "viv_averiadas": 396.0,
     "poblacion_2026": 40488,
     "tasa_pct": 2.9713,
-    "delta_familias": 101.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2065,7 +2093,7 @@
     "viv_averiadas": 209.0,
     "poblacion_2026": 53336,
     "tasa_pct": 0.8212,
-    "delta_familias": 220.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2077,8 +2105,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 40504,
     "tasa_pct": 1.5085,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -2089,7 +2117,7 @@
     "viv_averiadas": 238.0,
     "poblacion_2026": 19254,
     "tasa_pct": 4.4458,
-    "delta_familias": 15.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2101,7 +2129,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 50452,
     "tasa_pct": 1.992,
-    "delta_familias": 60.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2113,7 +2141,7 @@
     "viv_averiadas": 193.0,
     "poblacion_2026": 11079,
     "tasa_pct": 9.4413,
-    "delta_familias": 4.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2125,7 +2153,7 @@
     "viv_averiadas": 161.0,
     "poblacion_2026": 31774,
     "tasa_pct": 2.7601,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2137,7 +2165,7 @@
     "viv_averiadas": 92.0,
     "poblacion_2026": 21492,
     "tasa_pct": 3.7177,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2149,19 +2177,7 @@
     "viv_averiadas": 261.0,
     "poblacion_2026": 20589,
     "tasa_pct": 2.9967,
-    "delta_familias": 16.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "MONTENEGRO",
-    "familias": 356.0,
-    "personas": 832.0,
-    "viv_destruidas": 15.0,
-    "viv_averiadas": 179.0,
-    "poblacion_2026": 37483,
-    "tasa_pct": 2.2197,
-    "delta_familias": 149.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2173,7 +2189,7 @@
     "viv_averiadas": 107.0,
     "poblacion_2026": 5652,
     "tasa_pct": 5.9448,
-    "delta_familias": 6.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2185,7 +2201,19 @@
     "viv_averiadas": 22.0,
     "poblacion_2026": 8768,
     "tasa_pct": 4.2655,
-    "delta_familias": 28.0,
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "AGUADAS",
+    "familias": 325.0,
+    "personas": 556.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 1.0,
+    "poblacion_2026": 22301,
+    "tasa_pct": 2.4932,
+    "delta_familias": 33.0,
     "nuevo": false
    },
    {
@@ -2197,7 +2225,7 @@
     "viv_averiadas": 116.0,
     "poblacion_2026": 14054,
     "tasa_pct": 4.5112,
-    "delta_familias": 246.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2209,7 +2237,7 @@
     "viv_averiadas": 291.0,
     "poblacion_2026": 8477,
     "tasa_pct": 10.9827,
-    "delta_familias": 87.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2221,7 +2249,7 @@
     "viv_averiadas": 57.0,
     "poblacion_2026": 22556,
     "tasa_pct": 3.6753,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2233,19 +2261,7 @@
     "viv_averiadas": 169.0,
     "poblacion_2026": 21126,
     "tasa_pct": 1.5621,
-    "delta_familias": 5.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "AGUADAS",
-    "familias": 292.0,
-    "personas": 519.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 1.0,
-    "poblacion_2026": 22301,
-    "tasa_pct": 2.3272,
-    "delta_familias": 108.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2257,7 +2273,7 @@
     "viv_averiadas": 292.0,
     "poblacion_2026": 29766,
     "tasa_pct": 1.8309,
-    "delta_familias": 137.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2269,7 +2285,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 9826,
     "tasa_pct": 3.1752,
-    "delta_familias": 67.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2281,7 +2297,7 @@
     "viv_averiadas": 266.0,
     "poblacion_2026": 20437,
     "tasa_pct": 2.0698,
-    "delta_familias": 51.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2293,8 +2309,8 @@
     "viv_averiadas": 85.0,
     "poblacion_2026": 45436,
     "tasa_pct": 1.5164,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2305,7 +2321,7 @@
     "viv_averiadas": 193.0,
     "poblacion_2026": 39534,
     "tasa_pct": 1.5126,
-    "delta_familias": 56.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2317,7 +2333,7 @@
     "viv_averiadas": 279.0,
     "poblacion_2026": 10485,
     "tasa_pct": 5.484,
-    "delta_familias": 130.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2329,7 +2345,7 @@
     "viv_averiadas": 221.0,
     "poblacion_2026": 21004,
     "tasa_pct": 3.3565,
-    "delta_familias": 40.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2341,7 +2357,7 @@
     "viv_averiadas": 252.0,
     "poblacion_2026": 12211,
     "tasa_pct": 2.2603,
-    "delta_familias": 217.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2365,7 +2381,7 @@
     "viv_averiadas": 173.0,
     "poblacion_2026": 115933,
     "tasa_pct": 0.3545,
-    "delta_familias": 123.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2377,7 +2393,7 @@
     "viv_averiadas": 255.0,
     "poblacion_2026": 24376,
     "tasa_pct": 1.3169,
-    "delta_familias": 6.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2389,7 +2405,7 @@
     "viv_averiadas": 143.0,
     "poblacion_2026": 13351,
     "tasa_pct": 5.0109,
-    "delta_familias": 18.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2401,7 +2417,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6063,
     "tasa_pct": 5.3274,
-    "delta_familias": 22.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2413,7 +2429,7 @@
     "viv_averiadas": 57.0,
     "poblacion_2026": 46001,
     "tasa_pct": 1.1239,
-    "delta_familias": 38.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2425,7 +2441,7 @@
     "viv_averiadas": 216.0,
     "poblacion_2026": 19492,
     "tasa_pct": 4.3095,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2437,7 +2453,7 @@
     "viv_averiadas": 58.0,
     "poblacion_2026": 11341,
     "tasa_pct": 4.9114,
-    "delta_familias": 35.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2449,7 +2465,7 @@
     "viv_averiadas": 104.0,
     "poblacion_2026": 23909,
     "tasa_pct": 1.9491,
-    "delta_familias": 132.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2461,7 +2477,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 6585,
     "tasa_pct": 10.038,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2473,7 +2489,7 @@
     "viv_averiadas": 197.0,
     "poblacion_2026": 43709,
     "tasa_pct": 0.7641,
-    "delta_familias": 30.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2497,7 +2513,7 @@
     "viv_averiadas": 192.0,
     "poblacion_2026": 20404,
     "tasa_pct": 2.774,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2509,8 +2525,8 @@
     "viv_averiadas": 135.0,
     "poblacion_2026": 15531,
     "tasa_pct": 1.4423,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
@@ -2521,7 +2537,7 @@
     "viv_averiadas": 88.0,
     "poblacion_2026": 57017,
     "tasa_pct": 0.8313,
-    "delta_familias": 56.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2545,7 +2561,7 @@
     "viv_averiadas": 171.0,
     "poblacion_2026": 58555,
     "tasa_pct": 0.719,
-    "delta_familias": 95.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2557,8 +2573,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 8593,
     "tasa_pct": 2.4904,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2569,7 +2585,7 @@
     "viv_averiadas": 163.0,
     "poblacion_2026": 27500,
     "tasa_pct": 1.9527,
-    "delta_familias": 49.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2581,8 +2597,8 @@
     "viv_averiadas": 89.0,
     "poblacion_2026": 35750,
     "tasa_pct": 0.6098,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -2605,7 +2621,7 @@
     "viv_averiadas": 148.0,
     "poblacion_2026": 50067,
     "tasa_pct": 0.9008,
-    "delta_familias": 74.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2617,7 +2633,7 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 24545,
     "tasa_pct": 1.4341,
-    "delta_familias": 42.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2629,7 +2645,7 @@
     "viv_averiadas": 162.0,
     "poblacion_2026": 24152,
     "tasa_pct": 1.6355,
-    "delta_familias": 58.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2641,8 +2657,8 @@
     "viv_averiadas": 98.0,
     "poblacion_2026": 382703,
     "tasa_pct": 0.1322,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2653,7 +2669,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 32700,
     "tasa_pct": 0.5229,
-    "delta_familias": 129.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2665,7 +2681,7 @@
     "viv_averiadas": 67.0,
     "poblacion_2026": 16455,
     "tasa_pct": 2.1817,
-    "delta_familias": 53.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2677,7 +2693,7 @@
     "viv_averiadas": 66.0,
     "poblacion_2026": 56397,
     "tasa_pct": 0.516,
-    "delta_familias": 74.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2689,7 +2705,7 @@
     "viv_averiadas": 71.0,
     "poblacion_2026": 18927,
     "tasa_pct": 2.0922,
-    "delta_familias": 26.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2701,7 +2717,7 @@
     "viv_averiadas": 40.0,
     "poblacion_2026": 27710,
     "tasa_pct": 0.8842,
-    "delta_familias": 56.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2713,7 +2729,7 @@
     "viv_averiadas": 119.0,
     "poblacion_2026": 33934,
     "tasa_pct": 0.6955,
-    "delta_familias": 39.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2725,7 +2741,7 @@
     "viv_averiadas": 40.0,
     "poblacion_2026": 34739,
     "tasa_pct": 0.9039,
-    "delta_familias": 21.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2749,7 +2765,7 @@
     "viv_averiadas": 35.0,
     "poblacion_2026": 7565,
     "tasa_pct": 3.4369,
-    "delta_familias": 16.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2757,12 +2773,12 @@
     "municipio": "UNE",
     "familias": 124.0,
     "personas": 313.0,
-    "viv_destruidas": 1.0,
-    "viv_averiadas": 106.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 107.0,
     "poblacion_2026": 6630,
     "tasa_pct": 4.721,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -2773,7 +2789,7 @@
     "viv_averiadas": 58.0,
     "poblacion_2026": 12481,
     "tasa_pct": 2.4117,
-    "delta_familias": 46.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2785,7 +2801,7 @@
     "viv_averiadas": 32.0,
     "poblacion_2026": 8242,
     "tasa_pct": 1.4438,
-    "delta_familias": 50.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2797,7 +2813,7 @@
     "viv_averiadas": 77.0,
     "poblacion_2026": 14806,
     "tasa_pct": 1.1482,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2809,7 +2825,7 @@
     "viv_averiadas": 88.0,
     "poblacion_2026": 8137,
     "tasa_pct": 1.7943,
-    "delta_familias": 13.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2821,7 +2837,7 @@
     "viv_averiadas": 40.0,
     "poblacion_2026": 10622,
     "tasa_pct": 1.3745,
-    "delta_familias": 35.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2833,7 +2849,7 @@
     "viv_averiadas": 66.0,
     "poblacion_2026": 12653,
     "tasa_pct": 2.2366,
-    "delta_familias": 4.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2845,7 +2861,7 @@
     "viv_averiadas": 97.0,
     "poblacion_2026": 13558,
     "tasa_pct": 1.5637,
-    "delta_familias": 98.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2857,7 +2873,7 @@
     "viv_averiadas": 13.0,
     "poblacion_2026": 2676,
     "tasa_pct": 7.0628,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2869,8 +2885,8 @@
     "viv_averiadas": 31.0,
     "poblacion_2026": 27720,
     "tasa_pct": 1.0678,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -2881,8 +2897,8 @@
     "viv_averiadas": 83.0,
     "poblacion_2026": 29737,
     "tasa_pct": 0.528,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -2893,7 +2909,7 @@
     "viv_averiadas": 98.0,
     "poblacion_2026": 5181,
     "tasa_pct": 5.6167,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2905,8 +2921,8 @@
     "viv_averiadas": 79.0,
     "poblacion_2026": 20322,
     "tasa_pct": 1.1613,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -2917,7 +2933,7 @@
     "viv_averiadas": 87.0,
     "poblacion_2026": 9363,
     "tasa_pct": 3.0973,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2941,7 +2957,7 @@
     "viv_averiadas": 79.0,
     "poblacion_2026": 9603,
     "tasa_pct": 0.958,
-    "delta_familias": 6.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2953,7 +2969,7 @@
     "viv_averiadas": 85.0,
     "poblacion_2026": 26766,
     "tasa_pct": 0.6837,
-    "delta_familias": 13.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2965,7 +2981,7 @@
     "viv_averiadas": 37.0,
     "poblacion_2026": 15989,
     "tasa_pct": 1.157,
-    "delta_familias": 32.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2977,7 +2993,7 @@
     "viv_averiadas": 58.0,
     "poblacion_2026": 11466,
     "tasa_pct": 1.4042,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2989,7 +3005,7 @@
     "viv_averiadas": 15.0,
     "poblacion_2026": 557317,
     "tasa_pct": 0.0339,
-    "delta_familias": 58.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3001,7 +3017,7 @@
     "viv_averiadas": 54.0,
     "poblacion_2026": 8625,
     "tasa_pct": 2.2725,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3013,7 +3029,7 @@
     "viv_averiadas": 78.0,
     "poblacion_2026": 30386,
     "tasa_pct": 0.5529,
-    "delta_familias": 26.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3025,7 +3041,7 @@
     "viv_averiadas": 85.0,
     "poblacion_2026": 10784,
     "tasa_pct": 1.9844,
-    "delta_familias": 83.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3037,7 +3053,7 @@
     "viv_averiadas": 63.0,
     "poblacion_2026": 24149,
     "tasa_pct": 0.9027,
-    "delta_familias": 31.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3049,7 +3065,7 @@
     "viv_averiadas": 12.0,
     "poblacion_2026": 5679,
     "tasa_pct": 1.9017,
-    "delta_familias": 6.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3061,7 +3077,7 @@
     "viv_averiadas": 47.0,
     "poblacion_2026": 39457,
     "tasa_pct": 0.5297,
-    "delta_familias": 41.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3073,8 +3089,8 @@
     "viv_averiadas": 39.0,
     "poblacion_2026": 6477,
     "tasa_pct": 2.4394,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3085,8 +3101,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 5966,
     "tasa_pct": 2.5813,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3097,7 +3113,7 @@
     "viv_averiadas": 48.0,
     "poblacion_2026": 22750,
     "tasa_pct": 0.7253,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3109,8 +3125,8 @@
     "viv_averiadas": 67.0,
     "poblacion_2026": 14826,
     "tasa_pct": 1.2815,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CALDAS",
@@ -3121,7 +3137,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 11015,
     "tasa_pct": 1.3799,
-    "delta_familias": 20.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3133,8 +3149,8 @@
     "viv_averiadas": 30.0,
     "poblacion_2026": 6597,
     "tasa_pct": 2.486,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3157,7 +3173,7 @@
     "viv_averiadas": 55.0,
     "poblacion_2026": 7761,
     "tasa_pct": 1.8554,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3169,7 +3185,7 @@
     "viv_averiadas": 29.0,
     "poblacion_2026": 24984,
     "tasa_pct": 0.2642,
-    "delta_familias": 59.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3205,7 +3221,7 @@
     "viv_averiadas": 43.0,
     "poblacion_2026": 18310,
     "tasa_pct": 0.5461,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3217,7 +3233,7 @@
     "viv_averiadas": 10.0,
     "poblacion_2026": 408218,
     "tasa_pct": 0.0277,
-    "delta_familias": 24.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3229,7 +3245,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 17572,
     "tasa_pct": 0.8422,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3241,8 +3257,8 @@
     "viv_averiadas": 21.0,
     "poblacion_2026": 7527,
     "tasa_pct": 2.2054,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3253,8 +3269,8 @@
     "viv_averiadas": 57.0,
     "poblacion_2026": 8722,
     "tasa_pct": 0.6421,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3265,7 +3281,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 13092,
     "tasa_pct": 0.8555,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3277,7 +3293,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6763,
     "tasa_pct": 0.8872,
-    "delta_familias": 48.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3301,7 +3317,7 @@
     "viv_averiadas": 20.0,
     "poblacion_2026": 37626,
     "tasa_pct": 0.2339,
-    "delta_familias": 27.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3313,7 +3329,7 @@
     "viv_averiadas": 26.0,
     "poblacion_2026": 71480,
     "tasa_pct": 0.1469,
-    "delta_familias": 14.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3325,7 +3341,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 8074,
     "tasa_pct": 1.8083,
-    "delta_familias": 13.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3337,8 +3353,8 @@
     "viv_averiadas": 50.0,
     "poblacion_2026": 11059,
     "tasa_pct": 0.4612,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3349,7 +3365,7 @@
     "viv_averiadas": 47.0,
     "poblacion_2026": 8175,
     "tasa_pct": 1.8716,
-    "delta_familias": 29.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3361,8 +3377,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 16961,
     "tasa_pct": 0.3773,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -3373,8 +3389,8 @@
     "viv_averiadas": 59.0,
     "poblacion_2026": 18221,
     "tasa_pct": 0.7958,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3397,7 +3413,7 @@
     "viv_averiadas": 17.0,
     "poblacion_2026": 30508,
     "tasa_pct": 0.3442,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3433,7 +3449,7 @@
     "viv_averiadas": 42.0,
     "poblacion_2026": 18376,
     "tasa_pct": 0.2231,
-    "delta_familias": 29.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3445,7 +3461,7 @@
     "viv_averiadas": 42.0,
     "poblacion_2026": 23765,
     "tasa_pct": 0.2693,
-    "delta_familias": 17.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3457,8 +3473,20 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 15796,
     "tasa_pct": 0.5951,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "ANTIOQUIA",
+    "municipio": "SAN LUIS",
+    "familias": 37.0,
+    "personas": 59.0,
+    "viv_destruidas": 3.0,
+    "viv_averiadas": 3.0,
+    "poblacion_2026": 14593,
+    "tasa_pct": 0.4043,
+    "delta_familias": 2.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3469,8 +3497,8 @@
     "viv_averiadas": 29.0,
     "poblacion_2026": 609168,
     "tasa_pct": 0.02,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3493,20 +3521,8 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 6023,
     "tasa_pct": 1.1954,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "ANTIOQUIA",
-    "municipio": "SAN LUIS",
-    "familias": 35.0,
-    "personas": 56.0,
-    "viv_destruidas": 3.0,
-    "viv_averiadas": 2.0,
-    "poblacion_2026": 14593,
-    "tasa_pct": 0.3837,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3517,8 +3533,8 @@
     "viv_averiadas": 8.0,
     "poblacion_2026": 28673,
     "tasa_pct": 0.1709,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3529,8 +3545,8 @@
     "viv_averiadas": 12.0,
     "poblacion_2026": 32148,
     "tasa_pct": 0.3328,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3541,7 +3557,7 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 17510,
     "tasa_pct": 0.3826,
-    "delta_familias": 21.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3553,7 +3569,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 7856,
     "tasa_pct": 1.1202,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3565,7 +3581,7 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 29544,
     "tasa_pct": 0.3012,
-    "delta_familias": 31.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3577,8 +3593,8 @@
     "viv_averiadas": 29.0,
     "poblacion_2026": 16099,
     "tasa_pct": 0.1926,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3589,7 +3605,7 @@
     "viv_averiadas": 13.0,
     "poblacion_2026": 26662,
     "tasa_pct": 0.2738,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3601,7 +3617,7 @@
     "viv_averiadas": 25.0,
     "poblacion_2026": 10502,
     "tasa_pct": 0.2761,
-    "delta_familias": 16.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3613,8 +3629,8 @@
     "viv_averiadas": 23.0,
     "poblacion_2026": 9073,
     "tasa_pct": 0.7495,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CHOCÓ",
@@ -3625,7 +3641,7 @@
     "viv_averiadas": 24.0,
     "poblacion_2026": 10943,
     "tasa_pct": 0.5848,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3637,7 +3653,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 9401,
     "tasa_pct": 0.3085,
-    "delta_familias": 12.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3649,8 +3665,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 31970,
     "tasa_pct": 0.2471,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -3661,7 +3677,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 8842,
     "tasa_pct": 0.6447,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3673,7 +3689,7 @@
     "viv_averiadas": 25.0,
     "poblacion_2026": 6089,
     "tasa_pct": 0.4598,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3685,7 +3701,7 @@
     "viv_averiadas": 17.0,
     "poblacion_2026": 29058,
     "tasa_pct": 0.2375,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3709,8 +3725,8 @@
     "viv_averiadas": 19.0,
     "poblacion_2026": 21808,
     "tasa_pct": 0.1101,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3721,8 +3737,8 @@
     "viv_averiadas": 18.0,
     "poblacion_2026": 10063,
     "tasa_pct": 0.5664,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3733,7 +3749,7 @@
     "viv_averiadas": 21.0,
     "poblacion_2026": 12183,
     "tasa_pct": 0.4679,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3745,8 +3761,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 104819,
     "tasa_pct": 0.0649,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -3769,7 +3785,7 @@
     "viv_averiadas": 13.0,
     "poblacion_2026": 6140,
     "tasa_pct": 1.0912,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3793,7 +3809,7 @@
     "viv_averiadas": 21.0,
     "poblacion_2026": 54283,
     "tasa_pct": 0.1363,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3805,8 +3821,8 @@
     "viv_averiadas": 19.0,
     "poblacion_2026": 145949,
     "tasa_pct": 0.0418,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -3817,7 +3833,7 @@
     "viv_averiadas": 21.0,
     "poblacion_2026": 8277,
     "tasa_pct": 0.5437,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3829,7 +3845,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 9857,
     "tasa_pct": 0.7,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3841,7 +3857,7 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 18411,
     "tasa_pct": 0.3205,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3853,7 +3869,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 4821,
     "tasa_pct": 1.0371,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3877,7 +3893,7 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 76970,
     "tasa_pct": 0.052,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3889,7 +3905,7 @@
     "viv_averiadas": 16.0,
     "poblacion_2026": 12795,
     "tasa_pct": 0.3283,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3913,8 +3929,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 29650,
     "tasa_pct": 0.0641,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3925,8 +3941,8 @@
     "viv_averiadas": 19.0,
     "poblacion_2026": 27622,
     "tasa_pct": 0.1665,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3937,8 +3953,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 156303,
     "tasa_pct": 0.0275,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3949,8 +3965,20 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 16646,
     "tasa_pct": 0.1622,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "TOLIMA",
+    "municipio": "ESPINAL",
+    "familias": 17.0,
+    "personas": 17.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 71952,
+    "tasa_pct": 0.0236,
+    "delta_familias": 4.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -3961,7 +3989,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 4444,
     "tasa_pct": 0.9226,
-    "delta_familias": 15.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3985,7 +4013,7 @@
     "viv_averiadas": 9.0,
     "poblacion_2026": 331045,
     "tasa_pct": 0.0193,
-    "delta_familias": -306.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4009,8 +4037,8 @@
     "viv_averiadas": 12.0,
     "poblacion_2026": 12571,
     "tasa_pct": 0.175,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4021,8 +4049,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 14414,
     "tasa_pct": 0.1943,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4033,8 +4061,8 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 11686,
     "tasa_pct": 0.2653,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -4057,8 +4085,8 @@
     "viv_averiadas": 15.0,
     "poblacion_2026": 12523,
     "tasa_pct": 0.2795,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4069,8 +4097,8 @@
     "viv_averiadas": 11.0,
     "poblacion_2026": 17068,
     "tasa_pct": 0.1582,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4081,19 +4109,7 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 8732,
     "tasa_pct": 0.2519,
-    "delta_familias": null,
-    "nuevo": true
-   },
-   {
-    "departamento": "TOLIMA",
-    "municipio": "ESPINAL",
-    "familias": 13.0,
-    "personas": 13.0,
-    "viv_destruidas": 0.0,
-    "viv_averiadas": 0.0,
-    "poblacion_2026": 71952,
-    "tasa_pct": 0.0181,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4105,7 +4121,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 40644,
     "tasa_pct": 0.0517,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4117,8 +4133,8 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 9417,
     "tasa_pct": 0.3292,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4129,8 +4145,8 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 26522,
     "tasa_pct": 0.1169,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -4141,8 +4157,8 @@
     "viv_averiadas": 9.0,
     "poblacion_2026": 23619,
     "tasa_pct": 0.0635,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -4165,7 +4181,7 @@
     "viv_averiadas": 11.0,
     "poblacion_2026": 7565,
     "tasa_pct": 0.3173,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4177,7 +4193,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 31197,
     "tasa_pct": 0.1475,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4201,8 +4217,8 @@
     "viv_averiadas": 10.0,
     "poblacion_2026": 30669,
     "tasa_pct": 0.0522,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4225,8 +4241,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 10779,
     "tasa_pct": 0.3154,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -4237,8 +4253,8 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 23353,
     "tasa_pct": 0.0814,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -4249,8 +4265,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 8565,
     "tasa_pct": 0.1985,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4261,8 +4277,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 22145,
     "tasa_pct": 0.0903,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4273,8 +4289,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 12494,
     "tasa_pct": 0.2081,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -4285,7 +4301,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 10212,
     "tasa_pct": 0.2056,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4297,8 +4313,8 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 6491,
     "tasa_pct": 0.2773,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4309,8 +4325,8 @@
     "viv_averiadas": 6.0,
     "poblacion_2026": 14735,
     "tasa_pct": 0.1425,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -4321,7 +4337,7 @@
     "viv_averiadas": 8.0,
     "poblacion_2026": 36622,
     "tasa_pct": 0.0437,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4333,7 +4349,7 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 19906,
     "tasa_pct": 0.0603,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4345,8 +4361,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 7689,
     "tasa_pct": 0.2731,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4357,8 +4373,8 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 3195,
     "tasa_pct": 0.8451,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4369,7 +4385,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 146635,
     "tasa_pct": 0.0082,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4393,8 +4409,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 18910,
     "tasa_pct": 0.0635,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4405,8 +4421,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 7380,
     "tasa_pct": 0.2981,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4417,8 +4433,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 40697,
     "tasa_pct": 0.1401,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4429,8 +4445,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 11069,
     "tasa_pct": 0.1174,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4465,8 +4481,8 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 792180,
     "tasa_pct": 0.0021,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -4489,8 +4505,8 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 89671,
     "tasa_pct": 0.0156,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4501,8 +4517,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 306397,
     "tasa_pct": 0.0052,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -4513,8 +4529,8 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 20633,
     "tasa_pct": 0.0533,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -4566,6 +4582,18 @@
    },
    {
     "departamento": "ANTIOQUIA",
+    "municipio": "ARMENIA",
+    "familias": 4.0,
+    "personas": 8.0,
+    "viv_destruidas": 0.0,
+    "viv_averiadas": 0.0,
+    "poblacion_2026": 5292,
+    "tasa_pct": 0.1512,
+    "delta_familias": null,
+    "nuevo": true
+   },
+   {
+    "departamento": "ANTIOQUIA",
     "municipio": "BARBOSA",
     "familias": 4.0,
     "personas": 15.0,
@@ -4573,8 +4601,8 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 64314,
     "tasa_pct": 0.0233,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4585,8 +4613,8 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 56664,
     "tasa_pct": 0.0176,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4597,8 +4625,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 40538,
     "tasa_pct": 0.0099,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4609,8 +4637,8 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 7724,
     "tasa_pct": 0.0518,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4621,8 +4649,8 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 4931,
     "tasa_pct": 0.2028,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4633,8 +4661,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 2115,
     "tasa_pct": 0.4728,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4645,8 +4673,8 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 38076,
     "tasa_pct": 0.021,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4681,7 +4709,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 139932,
     "tasa_pct": 0.0071,
-    "delta_familias": -83.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4705,8 +4733,8 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 17799,
     "tasa_pct": 0.0674,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4717,8 +4745,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 92069,
     "tasa_pct": 0.0065,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4729,8 +4757,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 26996,
     "tasa_pct": 0.0148,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4753,8 +4781,8 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 11019,
     "tasa_pct": 0.0817,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4765,8 +4793,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 162844,
     "tasa_pct": 0.0055,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4777,8 +4805,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 13130,
     "tasa_pct": 0.099,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4789,8 +4817,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 11493,
     "tasa_pct": 0.0261,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4801,8 +4829,8 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 4565,
     "tasa_pct": 0.1314,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4813,8 +4841,8 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 29687,
     "tasa_pct": 0.0269,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -4825,8 +4853,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 26820,
     "tasa_pct": 0.0149,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -4861,8 +4889,8 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 8946,
     "tasa_pct": 0.1341,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -4873,8 +4901,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 5412,
     "tasa_pct": 0.1109,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4885,8 +4913,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 74386,
     "tasa_pct": 0.0094,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4897,8 +4925,8 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 4070,
     "tasa_pct": 0.0491,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4909,8 +4937,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 16647,
     "tasa_pct": 0.036,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4945,8 +4973,8 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 13496,
     "tasa_pct": 0.0519,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -4957,8 +4985,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 36348,
     "tasa_pct": 0.0083,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -4969,8 +4997,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 3926,
     "tasa_pct": 0.1019,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4981,8 +5009,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 12894,
     "tasa_pct": 0.0155,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4993,8 +5021,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 66158,
     "tasa_pct": 0.0045,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -5005,8 +5033,8 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 24374,
     "tasa_pct": 0.1477,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -5017,8 +5045,8 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 24121,
     "tasa_pct": 0.0166,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -5029,8 +5057,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 15675,
     "tasa_pct": 0.185,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -5041,8 +5069,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 9967,
     "tasa_pct": 0.0401,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -5053,8 +5081,8 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 4402,
     "tasa_pct": 0.0454,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -5065,8 +5093,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 26282,
     "tasa_pct": 0.0038,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "HUILA",
@@ -5201,7 +5229,7 @@
      "sertit": 144
     },
     "coincidencias": 108,
-    "discrepan_de_grado": 49,
+    "discrepan_de_grado": 48,
     "umbral_m": 20,
     "azar_pct": 1.4
    },
@@ -5255,15 +5283,15 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-08-25"
+  "generado": "2026-08-26"
  },
  "citizen": {
-  "chatmap_total": 719,
-  "en_aoi": 645
+  "chatmap_total": 731,
+  "en_aoi": 657
  },
  "municipios": {
-  "total": 347,
-  "fuera_de_aoi_copernicus": 342
+  "total": 348,
+  "fuera_de_aoi_copernicus": 343
  },
  "activation_index": [
   {
@@ -6966,6 +6994,13 @@
    "category": "Flood",
    "countries": "Latvia,Lithuania",
    "event_time": "2026-08-21T21:00:00"
+  },
+  {
+   "code": "EMSR927",
+   "name": "Flood in Nepal",
+   "category": "Flood",
+   "countries": "Nepal",
+   "event_time": "2026-08-25T22:00:00"
   }
  ],
  "institucional": [

@@ -1,0 +1,10 @@
+{
+ "fecha": "2026-08-26",
+ "auditado": true,
+ "objetos_en_bucket": 79,
+ "objetos_en_manifiesto": 79,
+ "faltan_en_r2": [],
+ "difieren_en_tamano": [],
+ "sobran_en_r2": [],
+ "cuerpos_solo_en_el_workspace": []
+}
