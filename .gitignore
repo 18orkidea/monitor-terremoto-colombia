@@ -48,3 +48,9 @@ prototipo/
 COORDINACION-REDISENO.md
 HANDOFF*.md
 dist-antes-*/
+
+# Documentos de trabajo: planes, auditorías y borradores para evaluación. Se
+# guardan aquí para poder leerlos junto al código, pero NO son del repositorio:
+# este monitor es público y un `git add -A` ya estuvo a punto de publicar un
+# documento interno con rutas locales dentro (M9).
+documentos/
