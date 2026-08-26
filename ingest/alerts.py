@@ -27,6 +27,80 @@ FEED_BALANCES = ("https://monitor-terremoto-colombia-oficiales-ai"
                  ".inforesidencias.workers.dev/oficiales.json")
 UNGRD_ESTANCADO = "2024-02-17"   # si supera esto, la fuente oficial despertó
 
+# Tres capturas seguidas repitiendo las mismas cifras: el registro no está
+# lento, está parado. Es un umbral de AVISO y no toca lo que se publica — la
+# tabla de las fichas agrupa los días quietos vaya el registro parado o no.
+CAPTURAS_PLANAS_PARA_DETENIDO = 3
+
+# Las columnas que se comparan para decidir si un municipio se movió: las
+# mismas que publica la ficha. Espejo de `COLUMNAS_DEL_RUD` en
+# deploy/render_html.py —la corrida diaria no importa el módulo de render—; si
+# tocas una, mira la otra: `tests/test_unit.py::TestRudDetenido` las compara.
+COLUMNAS_DEL_RUD = ("familias", "personas", "viv_destruidas", "viv_averiadas")
+
+
+def capturas_sin_movimiento(capturas: list[tuple[str, dict]]) -> list[str]:
+    """Las capturas del final en que NINGÚN municipio se movió.
+
+    El RUD lo cargan las alcaldías y un día dejarán de cargarlo. Cuando eso
+    pase, `rud_actualizado` simplemente dejará de aparecer — y un silencio no
+    se distingue de una corrida rota. Esto lo dice en voz alta: es el detector
+    de silencio de R15 aplicado al contenido, no a la disponibilidad de la
+    fuente, que sigue respondiendo 200 mientras repite lo mismo.
+
+    `capturas` va ordenada por fecha; cada una es (fecha, {municipio: cifras}).
+    Un municipio nuevo cuenta como movimiento: el registro se abrió a un sitio
+    donde antes no había nadie inscrito, que es justo lo que este monitor mira.
+    """
+    planas = []
+    for i in range(len(capturas) - 1, 0, -1):
+        if capturas[i][1] != capturas[i - 1][1]:
+            break
+        planas.append(capturas[i][0])
+    planas.reverse()
+    return planas
+
+
+def aviso_de_estancamiento(planas: list[str]) -> dict | None:
+    """La alerta que corresponde a una racha de capturas planas, o None.
+
+    El nivel «alta» suena UNA vez: el día que se cruza el umbral. Después el
+    aviso sigue publicándose en `info` para que el estado conste, pero sin
+    volver a disparar el push — que se dispara con el nivel alta y se deduplica
+    por el sha del texto, y este texto crece cada día («lleva 4 capturas»,
+    «lleva 5»). Mantenerlo en alta sería una notificación diaria para avisar de
+    que no ha pasado nada. Ver `workers/push/src/webpush.js::filtrarNotificables`.
+    """
+    if not planas:
+        return None
+    detenido = len(planas) >= CAPTURAS_PLANAS_PARA_DETENIDO
+    return {
+        "tipo": "rud_detenido" if detenido else "rud_sin_movimiento",
+        "nivel": "alta" if len(planas) == CAPTURAS_PLANAS_PARA_DETENIDO else "info",
+        "capturas_planas": len(planas), "desde": planas[0],
+        "texto": (f"El RUD lleva {len(planas)} captura(s) sin mover un solo "
+                  f"municipio (desde {planas[0]}). La fuente responde y repite "
+                  f"las mismas cifras: no es un fallo de la corrida, es un "
+                  f"registro que dejó de crecer.")}
+
+
+def _capturas_del_rud(conn, cuantas: int = 6) -> list[tuple[str, dict]]:
+    """Las últimas capturas del RUD, tal como quedaron archivadas."""
+    dias = [r[0] for r in conn.execute(
+        "SELECT DISTINCT snapshot_date FROM rud_daily"
+        " ORDER BY snapshot_date DESC LIMIT ?", (cuantas,))]
+    capturas = []
+    for dia in sorted(dias):
+        filas = {}
+        for r in conn.execute(
+                "SELECT departamento, municipio, familias, personas,"
+                " viv_destruidas, viv_averiadas FROM rud_daily"
+                " WHERE snapshot_date=?", (dia,)):
+            filas[(r[0], r[1])] = tuple(r[2:])
+        capturas.append((dia, filas))
+    return capturas
+
+
 
 def _sha_de_la_regla() -> str | None:
     """sha256 de site/ui.js: la regla que produjo el consolidado cambia con el
@@ -548,6 +622,16 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                 "texto": f"RUD actualizado: {'+' if d_mun >= 0 else ''}{d_mun} "
                          f"municipios, {'+' if d_fam >= 0 else ''}{d_fam:,.0f} "
                          f"familias desde la captura anterior".replace(",", ".")})
+
+    # 6c) ¿se detuvo el registro? El RUD no muere: sigue contestando 200 con
+    # las mismas cifras cuando las alcaldías terminan de cargar. Sin esto, el
+    # final del registro llegaría como la simple ausencia de `rud_actualizado`
+    # —un silencio idéntico al de una corrida rota—, y es la señal que decide
+    # cuándo las fichas dejan de dibujar filas planas.
+    aviso = aviso_de_estancamiento(
+        capturas_sin_movimiento(_capturas_del_rud(conn)))
+    if aviso:
+        alerts.append(aviso)
 
     # 6) ¿despertó la fuente oficial? (nivel alta: cambia el cruce entero)
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):

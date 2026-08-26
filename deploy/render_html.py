@@ -793,6 +793,63 @@ def evidencia_municipal(nombre: str, muni: dict, ctx: dict) -> dict:
     }
 
 
+# Las columnas que la ficha publica de cada captura. Si ninguna se mueve, esa
+# captura no añade información al lector: es la fuente reafirmando lo mismo.
+COLUMNAS_DEL_RUD = ("familias", "personas", "viv_destruidas", "viv_averiadas")
+
+
+def tramos_del_registro(serie: list) -> list[tuple[list, dict]]:
+    """La serie agrupada por CAMBIOS: una entrada por cifra nueva.
+
+    La tabla de la ficha contestaba «¿qué decía el registro cada día?» y por eso
+    crecía sin freno: el RUD lo cargan las alcaldías, y cuando terminan cada
+    corrida diaria añadía una fila idéntica a la anterior. Ahora contesta
+    «¿cuándo cambió el registro?», que es la pregunta que este monitor hace.
+
+    Jamundí lo enseña entero: ocho capturas clavado en 23 familias y un salto a
+    1.539 el 24 de agosto. Diez filas para contar dos hechos, y las ocho
+    repetidas estaban al PRINCIPIO — por eso no vale con recortar la cola, que
+    fue el primer intento (decisión de JP, 26-ago-2026, corregida el 27 al ver
+    que dejaba fuera 153 municipios y hacía oscilar la tabla: las filas
+    desaparecían al tercer día quieto y volvían si la fuente despertaba).
+
+    **No se borra nada**: cada tramo viaja con TODAS las fechas de captura que
+    lo repitieron, y la ficha las cuenta. Esa cuenta es el dato —«ocho capturas
+    sin un cambio» acusa; una fila menos, calla— y además es lo que distingue un
+    registro detenido de un monitor abandonado. La serie cruda día a día sigue
+    entera en `rud.json`, enlazado desde la propia ficha.
+
+    La GRÁFICA no usa esto: su eje es el tiempo, y agrupar convertiría los ocho
+    días planos de Jamundí en un paso igual de ancho que el salto. La forma es
+    lo único que aporta el dibujo.
+    """
+    def cifras(fila):
+        return tuple((fila or {}).get(c) for c in COLUMNAS_DEL_RUD)
+
+    tramos: list[tuple[list, dict]] = []
+    for fecha, fila in serie:
+        if tramos and cifras(tramos[-1][1]) == cifras(fila):
+            tramos[-1][0].append(fecha)
+        else:
+            tramos.append(([fecha], fila))
+    return tramos
+
+
+def rotulo_de_tramo(fechas: list) -> str:
+    """«18-ago-2026» o «16 al 23-ago-2026», según cubra uno o varios días.
+
+    El mes y el año no se repiten cuando son el mismo: la celda es estrecha y
+    «16-ago-2026 al 23-ago-2026» la desborda sin decir nada más. Cuando el tramo
+    cruza de mes —y llegará, un registro puede pasarse semanas quieto— cada
+    extremo lleva el suyo."""
+    if len(fechas) == 1:
+        return fecha_corta(fechas[0])
+    a, b = fecha_corta(fechas[0]), fecha_corta(fechas[-1])
+    if a.split("-", 1)[1] == b.split("-", 1)[1]:
+        a = a.split("-", 1)[0]
+    return f"{a} al {b}"
+
+
 def datos_ficha(nombre: str, ctx: dict) -> dict:
     muni = ctx["idx"][nombre]
 
@@ -885,6 +942,12 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
         pct_delta = delta / primero["familias"] * 100
 
     evidencia = evidencia_municipal(nombre, muni, ctx)
+    # `serie` viaja ENTERA: es lo que la fuente publicó, y de ella sale el corte
+    # que acompaña a cada cifra del panel («RUD · UNGRD · 25-ago») — la fecha en
+    # que la fuente reafirmó el dato, no la del último cambio. El recorte de la
+    # evolución lo hace la sección que la dibuja, con
+    # `serie_hasta_el_ultimo_movimiento`, para que no haya dos series guardadas
+    # que puedan separarse (M2).
     return {
         "muni": muni, "serie": serie, "zonas": zonas, "ciudadanos": ciudadanos,
         "con_medio": sum(1 for *_, p in ciudadanos if p.get("media")),
@@ -2251,6 +2314,10 @@ def render_ficha(d: dict) -> str:
         # se queda —es el dato citable—; seis filas no enseñan que el
         # registro se multiplicó. Sin 5 capturas no hay gráfica (la nota
         # de más abajo lo dice); con ellas, el SVG entra aquí.
+        #
+        # El gráfico recibe la serie ENTERA, día a día: su eje es el tiempo, y
+        # agrupar los días quietos como hace la tabla convertiría los ocho días
+        # planos de Jamundí en un paso tan ancho como el salto que vino después.
         graf = grafico_rud_municipal(d["serie"], d["slug"])
         if graf:
             o.append(graf)
@@ -2286,17 +2353,45 @@ def render_ficha(d: dict) -> str:
                      'el municipio: mide a qué velocidad las autoridades locales alcanzan a '
                      'registrarlo, y ese registro se verifica después. Por eso <strong>que un municipio '
                      'no aparezca no significa «sin daño», significa «sin registro aún»</strong>.</p>')
+        # Una fila por CAMBIO, no por captura: ver `tramos_del_registro`. Las
+        # capturas que repitieron una cifra no se borran — se cuentan en su
+        # propia celda, y esa cuenta es el dato.
+        tramos = tramos_del_registro(d["serie"])
         o.append('<div class="tabla-scroll"><table>')
         o.append('<thead><tr><th>Captura</th><th class="num">Familias</th>'
                  '<th class="num">Personas</th><th class="num">Viv. destruidas</th>'
                  '<th class="num">Viv. averiadas</th></tr></thead><tbody>')
-        for fecha, fila in d["serie"]:
-            o.append(f'<tr><td>{e(fecha_corta(fecha))}</td>'
+        for fechas, fila in tramos:
+            repetido = (f'<span class="capturas">{fmt_prosa(len(fechas), femenino=True)} '
+                        f'capturas, sin cambios</span>' if len(fechas) > 1 else "")
+            # `data-capturas` es el recuento en crudo, para quien lee la tabla
+            # con una máquina y para el guardián que comprueba que ninguna
+            # captura se cae por el camino al agrupar.
+            o.append(f'<tr data-capturas="{len(fechas)}">'
+                     f'<td>{e(rotulo_de_tramo(fechas))}{repetido}</td>'
                      f'<td class="num">{fmt(fila["familias"])}</td>'
                      f'<td class="num">{fmt(fila["personas"])}</td>'
                      f'<td class="num">{fmt(fila["viv_destruidas"])}</td>'
                      f'<td class="num">{fmt(fila["viv_averiadas"])}</td></tr>')
         o.append("</tbody></table></div>")
+        # Que el registro esté parado HOY se dice con todas las letras: la
+        # última fila ya lleva la fecha de la última captura, pero quien mira
+        # una tabla no deduce de un rango que seguimos preguntando cada día. Sin
+        # esta línea, un registro detenido y un monitor abandonado se leen igual
+        # — y distinguirlos es lo que este proyecto viene a hacer.
+        cola = tramos[-1][0]
+        if len(cola) > 1:
+            # Se cuenta lo que se hizo, sin sentenciar. «Lo que se detuvo es el
+            # registro» es verdad a los diez días y suena alarmista al segundo,
+            # y meter un umbral para decidir cuándo cabe sería inventarse otro
+            # número que defender: la cifra de capturas ya dice de qué tamaño es
+            # el parón, y el lector la lee mejor que un adjetivo nuestro.
+            o.append(f'<p class="note">El registro de {e(nombre)} no cambia '
+                     f'desde el {e(fecha_larga(cola[0]))}: el monitor lo ha '
+                     f'capturado {fmt_prosa(len(cola) - 1, femenino=True)} '
+                     f'{"vez" if len(cola) == 2 else "veces"} más —la última, el '
+                     f'{e(fecha_larga(cola[-1]))}— y ninguna traía una cifra '
+                     f'nueva.</p>')
         if len(d["serie"]) < MIN_CAPTURAS_GRAFICA:
             o.append(f'<p class="note">La gráfica de evolución aparece a partir de la '
                      f'{MIN_CAPTURAS_GRAFICA}.ª captura diaria: con '
@@ -5115,17 +5210,27 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
         if valor is None or puntos[i]["familias"] is None:
             continue
         color = "var(--critical)" if valor < 0 else "var(--s2)"
-        h = max(1, abs(y_al(0) - y_al(valor))) if valor else 0
-        if not h:
-            continue
-        yy = y_al(max(valor, 0)) if valor >= 0 else y_al(0)
+        # Un día de cero altas SE DIBUJA. Antes se descartaba por medir 0 px y
+        # el hueco quedaba idéntico al del primer día —que no tiene barra
+        # porque no hay captura anterior con la que comparar—: dos cosas
+        # opuestas, «ese día no entró nadie» y «eso no lo sabemos», con el
+        # mismo dibujo. Es la R3 dentro del SVG. El cero lleva su propia marca
+        # a ras de la base, de 2 px, que se ve y se puede señalar con el ratón.
+        marca_cero = not valor
+        h = 2 if marca_cero else max(1, abs(y_al(0) - y_al(valor)))
+        yy = y_al(0) - h if marca_cero else (
+            y_al(max(valor, 0)) if valor >= 0 else y_al(0))
+        titulo = (f'{e(fecha_larga(puntos[i]["fecha"]))}: ni una familia nueva '
+                  f'ese día' if marca_cero else
+                  f'{e(fecha_larga(puntos[i]["fecha"]))}:'
+                  f' {fmt(valor)} {concuerda(valor, "familia", "familias")} '
+                  f'ese día')
         o.append(
             f'<rect x="{_n(x(i) - bw / 2)}" y="{_n(yy)}" width="{_n(bw)}" '
-            f'height="{_n(h)}" fill="{color}" fill-opacity=".55" rx="2" '
+            f'height="{_n(h)}" fill="{color}" '
+            f'fill-opacity="{".9" if marca_cero else ".55"}" rx="2" '
             f'data-altas="{_n(valor)}">'
-            f'<title>{e(fecha_larga(puntos[i]["fecha"]))}:'
-            f' {fmt(valor)} {concuerda(valor, "familia", "familias")} '
-            f'ese día</title></rect>')
+            f'<title>{titulo}</title></rect>')
     linea = " ".join(
         f'{_n(x(i))},{_n(y_ac(p["familias"]))}'
         for i, p in enumerate(puntos) if p["familias"] is not None)

@@ -6,6 +6,88 @@ consecuencia. La historia pública del monitor (hitos visibles) vive en
 
 Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
+## 2026-08-26 — El registro que se detiene: una fila por cambio, no por captura
+
+**Contexto.** JP abrió la ficha de Cali y vio una gráfica que parecía terminar el
+24 de agosto teniendo el 25 dibujado. No era un desfase entre la tabla y el
+gráfico —los dos salen de la misma serie del build—: era que el 25 el RUD no
+movió ni una familia en Cali, y una barra de altas a cero medía 0 px, así que
+`grafico_rud_municipal` la descartaba. El hueco resultante era idéntico al del
+primer día, que no tiene barra por un motivo opuesto: no hay captura anterior con
+la que comparar. **«Ese día no entró nadie» y «eso no lo sabemos» compartían
+dibujo**, que es la R3 incumplida dentro del SVG (M10 fuera de la base de datos).
+
+Tirando del hilo apareció el problema de fondo: la tabla de la ficha daba **una
+fila por captura**, así que el RUD —que lo cargan las alcaldías y un día dejarán
+de cargarlo— la hacía crecer sin freno repitiendo la misma cifra.
+
+De paso quedó comprobado que el fechado NO tiene desfase: el snapshot capturado
+el 26 se publica como día 25 porque `dia_colombiano_consolidado()` fecha el día
+colombiano que acaba de cerrar, y la comparación fila a fila lo confirma.
+
+**Decisión (JP), en dos partes:**
+
+1. **El cero se dibuja.** Un día sin altas lleva su propia marca a ras de la
+   base, con su título («ni una familia nueva ese día»); el día sin captura
+   anterior sigue sin barra. Dos significados, dos dibujos.
+2. **La tabla contesta otra pregunta.** Donde daba una fila por captura
+   —«¿qué decía el registro cada día?»— ahora da **una fila por cambio**
+   —«¿cuándo cambió el registro?»—. Las capturas que repitieron una cifra no se
+   borran: se cuentan en su propia celda («ocho capturas, sin cambios»), y esa
+   cuenta es el dato.
+
+**El primer intento se descartó al medirlo, y merece quedar escrito.** La versión
+del 26 recortaba la **cola** plana a partir de la tercera captura repetida. Al
+día siguiente, con las cifras delante, JP pidió un criterio mejor y salieron tres
+fallos:
+
+- **Solo miraba el final.** Jamundí lleva ocho capturas clavado en 23 familias y
+  salta a 1.539 el 24: sus filas repetidas están al PRINCIPIO, así que el corte
+  no le quitaba ninguna. **153 municipios** tienen su tramo plano fuera de la
+  cola. En filas de tabla de todo el sitio: 1.939 hoy → 1.819 con el corte
+  (−6 %) → **1.299 agrupando** (−33 %).
+- **Oscilaba.** Las filas desaparecían al tercer día quieto y volvían si la
+  fuente despertaba: la tabla cambiaba de tamaño hacia atrás.
+- **Agravaba el síntoma del que salió todo.** Cortar dejaba a El Tarra con «18 de
+  agosto» como última fecha visible y un párrafo debajo explicando que seguíamos
+  mirando. Agrupando, la propia fila dice «18 al 25-ago · ocho capturas».
+
+Y se lleva por delante un número que había que defender: el umbral de tres
+capturas ya no existe en lo que se publica. Un tramo plano se agrupa siempre,
+sea de dos días o de noventa.
+
+**Lo que NO se hace: parar de capturar.** El monitor sigue pidiendo, archivando y
+fechando el RUD todos los días —si el registro despierta en noviembre hay que
+verlo, y ese despertar es noticia—.
+
+**La GRÁFICA no agrupa**: su eje es el tiempo, y meter los ocho días quietos de
+Jamundí en un paso tan ancho como el salto que vino después falsearía la forma,
+que es lo único que aporta el dibujo. Con la marca del cero puesta, una cola
+plana larga se ve como lo que es.
+
+**Consecuencia.** Hacía falta saber cuándo el registro se detuvo, y eso no lo
+decía nadie: `rud_actualizado` solo avisa cuando el total cambia, así que el
+final del RUD habría llegado como la simple ausencia de una alerta —un silencio
+idéntico al de una corrida rota—. Se añade `rud_sin_movimiento` / `rud_detenido`
+(nivel alta a las tres capturas planas), que es el detector de silencio de R15
+aplicado al **contenido** de una fuente que sigue contestando 200. Ese umbral es
+solo de aviso: no toca lo que se publica. Y el nivel alta suena **una sola vez**,
+el día que se cruza —el push se dispara con ese nivel y se deduplica por el
+texto, que crece cada día («lleva 4 capturas», «lleva 5»)—.
+
+`test_render_html.py::TestFicha::test_historial_de_cali_conserva_cada_captura_diaria`
+defendía la dirección anterior comprobando que cada fecha estuviera escrita en el
+HTML. Se reescribió, no se relajó (M11): ahora suma los `data-capturas` que
+declara la tabla y exige que den la serie entera — ninguna captura se cae al
+agrupar.
+
+`deploy/render_html.py::tramos_del_registro` · `::rotulo_de_tramo` ·
+`ingest/alerts.py::capturas_sin_movimiento` · `::aviso_de_estancamiento` ·
+`tests/test_render_html.py::TestElRegistroQueSeDetiene` ·
+`tests/test_unit.py::TestRudDetenido` (ocho y tres mutaciones, todas en rojo con
+el bug puesto; entre ellas «agrupar solo la cola», que es el criterio descartado,
+y «un vez más», la apócope que se coló en la primera versión construida).
+
 ## 2026-08-25 — La tesis cambia: la brecha no es una resta, es lo que no ha contado nadie
 
 **Contexto.** Dos auditorías externas señalaron tres frases publicadas que no se
