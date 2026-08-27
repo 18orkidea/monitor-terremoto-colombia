@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Wed, 26 Aug 26 08:51:02 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;VENTA LOTES&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&amp;gt;Mié, 22/04/2026 - 08:27&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+  &amp;lt;div class="field field--name-field-lp-price field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Precio&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;4.500.000.000&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=81819&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3363" hreflang="es"&amp;gt;Inmuebles&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Subtítulo&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;3122612255&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA CASA</title>
+  <link>https://www.lapatria.com/clasificados/venta-casa-66</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;VENTA CASA&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-26T08:51:02-05:00" title="Miércoles, Agosto 26, 2026 - 08:51" class="datetime"&amp;gt;Mié, 26/08/2026 - 08:51&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=91589&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="sJHFIoTV1_FSyCZu2cLs8GJZ5BMV27qiRV_hfuizH_M"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3363" hreflang="es"&amp;gt;Inmuebles&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;310-3826919&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Wed, 26 Aug 2026 13:51:02 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">91589 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>EMPLEO </title>
+  <link>https://www.lapatria.com/clasificados/empleo-85</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;EMPLEO &amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-26T08:50:06-05:00" title="Miércoles, Agosto 26, 2026 - 08:50" class="datetime"&amp;gt;Mié, 26/08/2026 - 08:50&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=91588&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="R4FQ5wbuEYbIDM3V8J6WpzZjtH4I2N9X1o_UgdeH63U"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3366" hreflang="es"&amp;gt;Empleos&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;321-8163664&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Wed, 26 Aug 2026 13:50:06 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">91588 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>EMPLEO </title>
+  <link>https://www.lapatria.com/clasificados/empleo-84</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;EMPLEO &amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-26T08:05:16-05:00" title="Miércoles, Agosto 26, 2026 - 08:05" class="datetime"&amp;gt;Mié, 26/08/2026 - 08:05&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=91587&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="rFJlCBOSNAIaQCh2DoWKkcSo4gXTZAok5fycjkj1-C4"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3366" hreflang="es"&amp;gt;Empleos&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;administracion@apleton.co&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Wed, 26 Aug 2026 13:05:16 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">91587 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 26 de agosto del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-26-de-agosto-del-2026</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Portada 26 de agosto del 2026&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/65" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Luis David Patiño&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-26T00:44:04-05:00" title="Miércoles, Agosto 26, 2026 - 00:44" class="datetime"&amp;gt;Mié, 26/08/2026 - 00:44&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=91582&amp;amp;amp;1=rss&amp;amp;amp;2=es&amp;amp;amp;3=&amp;amp;amp;4" token="ZbQS7XWbNqQMLlmp3DQAQRkAJi8rZMQrOPJyAoH1qWQ"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+            &amp;lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&amp;gt;  &amp;lt;img loading="lazy" src="/sites/default/files/portadas/2026-08/LP-01A-26-08-26%20%281%29.jpg" width="700" height="913" alt="Portada 26 de agosto del 2026" typeof="foaf:Image" class="img-fluid" /&amp;gt;
+
+&amp;lt;/div&amp;gt;
+      
+  &amp;lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Metadescripción&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;p&amp;gt;Portada 26 de agosto del 2026&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Wed, 26 Aug 2026 05:44:04 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">91582 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Milán se mueve desde la Torre de Niza</title>
+  <link>https://www.lapatria.com/galerias/milan-se-mueve-desde-la-torre-de-niza</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;Milán se mueve desde la Torre de Niza&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/59" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;Alejandro Calderin&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-26T00:00:00-05:00" title="Miércoles, Agosto 26, 2026 - 00:00" class="datetime"&amp;gt;Mié, 26/08/2026 - 00:00&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+
+            &amp;lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&amp;gt;&amp;lt;p&amp;gt;22 empresarios se unieron en la iniciativa Milán nos mueve el alma, que durante agosto ofrece gastronomía y entretenimiento en la Torre de Niza. La actividad busca apoyar a los comerciantes y contribuir a la reactivación económica de la zona, afectada por el terremoto.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/milan-se-mueve-desde-la-torre-de-niza" data-a2a-title="Milán se mueve desde la Torre de Niza"&amp;gt;&amp;lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fmilan-se-mueve-desde-la-torre-de-niza&amp;amp;amp;title=Mil%C3%A1n%20se%20mueve%20desde%20la%20Torre%20de%20Niza"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_facebook"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_whatsapp"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_x"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_linkedin"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a class="a2a_button_email"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt;
+</description>
+  <pubDate>Wed, 26 Aug 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">91552 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA APARTAESTUDIO</title>
+  <link>https://www.lapatria.com/clasificados/venta-apartaestudio-12</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;VENTA APARTAESTUDIO&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-25T08:16:03-05:00" title="Martes, Agosto 25, 2026 - 08:16" class="datetime"&amp;gt;Mar, 25/08/2026 - 08:16&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=91499&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="maQe5x7aCW6AvQBEUR2QiFcqnmZXi9ewhAr_5L6n3AM"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3363" hreflang="es"&amp;gt;Inmuebles&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt; 8850038, 304-3618424&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Tue, 25 Aug 2026 13:16:03 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">91499 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA CASA</title>
+  <link>https://www.lapatria.com/clasificados/venta-casa-65</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;VENTA CASA&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-25T08:14:40-05:00" title="Martes, Agosto 25, 2026 - 08:14" class="datetime"&amp;gt;Mar, 25/08/2026 - 08:14&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=91498&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="wiM_FLSc5KG9_8oD4RCbuPnTvcB2U8L9vVuaLiCM_Yc"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3363" hreflang="es"&amp;gt;Inmuebles&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt; 8850038, 304-3618424.&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Tue, 25 Aug 2026 13:14:40 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">91498 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA FINCAS</title>
+  <link>https://www.lapatria.com/clasificados/venta-fincas-1</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;VENTA FINCAS&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-25T08:12:07-05:00" title="Martes, Agosto 25, 2026 - 08:12" class="datetime"&amp;gt;Mar, 25/08/2026 - 08:12&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=91497&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="0EpYRtrKlAw3GmwEg9zFYoCnudvDkcvhPaUYo26x_UE"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3363" hreflang="es"&amp;gt;Inmuebles&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;310-4156925&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Tue, 25 Aug 2026 13:12:07 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">91497 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>NEGOCIO COMPRA- VENTA</title>
+  <link>https://www.lapatria.com/clasificados/negocio-compra-venta-20</link>
+  <description>&amp;lt;span class="field field--name-title field--type-string field--label-hidden"&amp;gt;NEGOCIO COMPRA- VENTA&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&amp;gt;&amp;lt;span lang="" about="/user/64" typeof="schema:Person" property="schema:name" datatype=""&amp;gt;clasificadoslp&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;span class="field field--name-created field--type-created field--label-hidden"&amp;gt;&amp;lt;time datetime="2026-08-25T08:09:47-05:00" title="Martes, Agosto 25, 2026 - 08:09" class="datetime"&amp;gt;Mar, 25/08/2026 - 08:09&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+&amp;lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;amp;1=91496&amp;amp;amp;2=bookmark&amp;amp;amp;3=rss" token="yGyix_56rPaTzECykfgP9B_Woem7gYKvzRHAG6CoNeU"&amp;gt;&amp;lt;/drupal-render-placeholder&amp;gt;
+  &amp;lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Categoría de clasificados&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;&amp;lt;a href="/taxonomy/term/3371" hreflang="es"&amp;gt;COMPRA - VENTA NEGOCIOS&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Celular de contacto&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;310-4799869&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+  &amp;lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&amp;gt;
+    &amp;lt;div class="field__label"&amp;gt;Activar Whatsapp&amp;lt;/div&amp;gt;
+              &amp;lt;div class="field__item"&amp;gt;Off&amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+</description>
+  <pubDate>Tue, 25 Aug 2026 13:09:47 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">91496 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>

@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-08-26T04:02:29.481Z",
- "run_date": "2026-08-25",
- "total": 42,
+ "generated_at": "2026-08-27T04:04:00.519Z",
+ "run_date": "2026-08-26",
+ "total": 45,
  "items": [
   {
    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
@@ -340,6 +340,82 @@
    "requiere_revision_humana": true,
    "confianza": "media",
    "cita": "# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088",
+   "title": "Terremoto en Colombia, últimas noticias del 26 de agosto",
+   "snapshot_id": "2026-08-26:https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088",
+   "search_date": "2026-08-26",
+   "search_query": "UNGRD SGC terremoto Colombia 26-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "00189745761b0628f6b63e69ad1b3d2c564cb8f9ad388e5a061b30320f87d788",
+   "captured_at": "2026-08-27T04:03:55.399Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04160-e075-7096-a83d-70d1bab67b46",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Terremoto en Colombia hoy miércoles 26 de agosto: últimas noticias, balance de la emergencia y nuevos temblores en el país\n\n## Siga acá las actualizaciones constantes de la situación en el Chocó, el Eje Cafetero y el Valle del Cauca.\n\n![Terremoto en Colombia](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/15/6a80e96b75af4.r_d.752-129.jpeg)\n\n**El martes 26 de agosto**, **la emergencia continúa en Chocó, el Eje Cafetero y el Valle del Cauca**, donde las autoridades mantienen desplegados los operativos de atención y evaluación de daños.\n\n### Siga el minuto a minuto con las últimas noticias\n\n#### El ministro de Vivienda asegura que el terremoto modificó las previsiones económicas del país\n\nEl **ministro de Vivienda** advirtió sobre la compleja situación financiera que atraviesa el país y señaló que el gobierno del presidente **Abelardo de la Espriella** recibió unas finanzas públicas en números rojos. El funcionario indicó que, tras una reunión con el **Ministerio de Hacienda**, se estableció que el **terremoto** registrado recientemente modificó las proyecciones presupuestales de la Nación. Ante este escenario, el ministro señaló que será necesario **optimizar cada peso disponible** y priorizar los recursos para atender a las personas damnificadas y avanzar en la reconstrucción de las zonas afectadas.\n\n## Balance nacional de la UNGRD sobre los daños del fuerte terremoto de magnitud 7,4\n\nLa Unidad Nacional para la Gestión del Riesgo de Desastres entregó **un balance con corte al 25 de agosto de 2026, a las 6:30 p. m.**\n\n- 331 personas fallecidas.\n- 4.449 personas heridas.\n- 240 personas desaparecidas.\n- 364 personas rescatadas.\n- 16 departamentos afectados.\n- 494 municipios afectados.\n- 188.034 familias afectadas.\n- 406.273 personas afectadas.\n- 185.889 viviendas averiadas.\n- 33.275 viviendas destruidas.\n- 6.310 edificios averiados.\n- 655 edificios colapsados.\n- 376 centros de salud afectados.\n- 3.819 centros educativos afectados.\n- 4.337 centros comunitarios afectados.\n- 440 vías afectadas.\n- 5 aeropuertos afectados.\n- 119 acueductos afectados.\n- 74 puentes vehiculares afectados.\n- 17 puentes peatonales afectados.\n\n**Nuevo balance oficial de Medicina Legal sobre cuerpos recibidos, identificados y entregados**\n\nEn un nuevo reporte de víctimas del terremoto con corte del 24 de agosto a las 8:30 a. m., **Medicina Legal afirmó que ya son 331 cuerpos recibidos, 330 cuerpos identificados y 326 cuerpos entregados** tras su rescate bajo los escombros de las edificaciones colapsadas en las principales ciudades del país.\n\n![Balance.](https://imagenes2.eltiempo.com/files/image_600_455/uploads/2026/08/26/6a8e9c2146643.png)\n\n## Beyoncé dona un millón de dólares para enfrentar la emergencia en Colombia\n\nLa cantante Beyoncé anunció que realizará **una donación de un millón de dólares para organizaciones en Colombia** que apoyen a las familias más damnificadas tras el fuerte terremoto de magnitud 7,4.",
+   "publicado_en": "2026-08-26T01:01:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-25",
+   "fecha_corte": "2026-08-26",
+   "departamentos": [
+    "Chocó",
+    "Valle del Cauca"
+   ],
+   "municipios": [],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": 16,
+    "municipios_afectados": 494,
+    "personas_afectadas": 406273,
+    "familias_afectadas": 188034,
+    "viviendas_averiadas": 185889,
+    "viviendas_destruidas": 33275,
+    "heridos": 4449,
+    "fallecidos": 331,
+    "desaparecidos": 240,
+    "rescatados": 364
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Terremoto en Colombia hoy miércoles 26 de agosto: últimas noticias, balance de la emergencia y nuevos temblores en el país\n\n## Siga acá las actualizaciones constantes de la situación en el Chocó, el Eje Cafetero y el Valle del Cauca.",
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
@@ -3015,6 +3091,126 @@
    "extraccion_version": 2
   },
   {
+   "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/",
+   "publication_url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/",
+   "title": "Gobierno de Colombia alista declaratoria de emergencia ...",
+   "snapshot_id": "2026-08-26:https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/",
+   "search_date": "2026-08-26",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 26-08-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "Primicias",
+    "domain": "primicias.ec",
+    "channel": "web",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "presidencia",
+     "name": "Presidencia de Colombia",
+     "type": "oficial_nacional",
+     "url": "https://www.presidencia.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "536a5dda67414f3064c98bf8ccfad8bcb35f8b355f4a5c59d805f076b4facee1",
+   "captured_at": "2026-08-27T04:03:55.399Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04161-3085-722e-9fdc-d772e189c47b",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Gobierno de Colombia alista declaratoria de emergencia económica ante terremoto y recibirá ayuda internacional\n\n### El Gobierno de Colombia prepara declaratoria de emergencia económica y activará crédito internacional tras terremoto. El presidente Abelardo de la Espriella agradece solidaridad de Ecuador y otros países.\n\n![Socorristas y voluntarios buscan sobrevivientes entre los escombros de una edificación, tras el terremoto de magnitud 7,4, en Cali, Colombia.](https://imagenes.primicias.ec/files/image_480_270/uploads/2026/08/11/6a7b5e84b76da.jpeg)\n\nEl Gobierno reporta **181 muertos y 668 heridos** [por el terremoto de magnitud 7,4 que sacudió gran parte de Colombia](https://www.primicias.ec/internacional/video-colombia-terremoto-muertos-cali-rescate-escombros-129981/ \"Video: Así se encuentra Cali tras el mortal terremoto en Colombia\") el lunes 10 de agosto, mientras **autoridades regionales contabilizan al menos 240 fallecidos.** Decenas de **edificios colapsaron, hospitales quedaron desbordados** y varios aeropuertos suspendieron sus operaciones, mientras continúan las **labores de búsqueda y rescate.**\n\n- [Tres sismos en menos de 45 minutos se registraron en Perú este martes 11 de agosto de 2026](https://www.primicias.ec/internacional/temblor-sismos-peru-piura-terremoto-colombia-sudamerica-129987/ \"Tres sismos en menos de 45 minutos se registraron en Perú este martes 11 de agosto de 2026\")\n\n**Pereira**, capital del departamento de Risaralda y una de las ciudades más cercanas a San José del Palmar (Chocó), epicentro del terremoto, **[concentra la mayor cantidad de víctimas mortales, con 90 fallecidos](https://www.primicias.ec/internacional/terremoto-colombia-primeras-imagenes-afectaciones-ciudades-edificios-escombros-129945/ \"Terremoto en Colombia: las primeras imágenes muestran las afectaciones en varias ciudades\")**, según un balance parcial de la Asociación Colombiana de Ciudades Capitales ( **Asocapitales**).\n\nLa cifra recoge únicamente el balance de las capitales del país, por lo que **no incluye los muertos y heridos registrados en municipios y localidades aledañas**, donde también se reportaron [colapsos de edificios y daños en hospitales](https://www.primicias.ec/internacional/terremoto-colombia-abelardo-espriella-gobierno-viaje-pereira-129946/ \"\"No están solos\", dice presidente de Colombia, Abelardo De La Espriella, quien viajará a Pereira ante terremoto\"), aeropuertos, servicios públicos y sistemas de transporte.\n\n**Pereira, Cali, Quibdó, Manizales y Armenia están entre las ciudades más golpeada** s por el terremoto, que obligó al Gobierno del presidente Abelardo de la Espriella a declarar la [situación de \"desastre nacional\".](https://www.primicias.ec/internacional/terremoto-colombia-desastre-nacional-gobierno-espriella-129952/ \"Colombia declara \\\"desastre nacional\\\" tras reportar al menos 111 fallecidos por el terremoto de 7,4\")\n\nEl movimiento telúrico se sintió en **Bogotá, Cali, Popayán, Manizales, Armenia, Pereira, Medellín** y otras ciudades del centro y oeste del país, así como en **[Ecuador](https://www.primicias.ec/sucesos/colombia-terremoto-sismo-temblor-aeropuerto-quito-ecuador-129942/ \"Aeropuerto de Quito no reporta daños tras fuerte terremoto con epicentro en Colombia que sacudió la región\"), Panamá y Venezuela.**\n\n## Colombia recibirá ayuda internacional para responder a la emergencia por el terremoto\n\nColombia se prepara para recibir ayuda internacional d **e países como Estados Unidos, México, Ecuador, El Salvador y Perú** para atender la emergencia provocada por el terremoto que sacudió el lunes varias zonas del país y que deja al menos 240 muertos según el balance de autoridades departamentales.\n\n\"Ya recibimos de **organismos multilaterales propuestas de USD 1.300 millones** de cooperación de distinto tipo en medio de esta tragedia\", dijo este martes el vicepresidente colombiano, José Manuel Restrepo, quien destacó que varios países han ofrecido equipos de rescate, ayuda humanitaria y recursos",
+   "publicado_en": "2026-08-11T01:45:08-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-11",
+   "fecha_corte": "2026-08-10",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Cali",
+    "Manizales",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": null,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 8357,
+    "viviendas_destruidas": 1136,
+    "heridos": 885,
+    "fallecidos": 80,
+    "desaparecidos": 195,
+    "rescatados": 86
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": [
+      "personas_afectadas < heridos"
+     ]
+    },
+    {
+     "intento": 2,
+     "sobre": "texto_crudo",
+     "incoherencias": [
+      "personas_afectadas < heridos"
+     ]
+    }
+   ],
+   "extraccion_descartada": {
+    "cifras": [
+     "personas_afectadas"
+    ],
+    "motivo": [
+     "personas_afectadas < heridos"
+    ]
+   },
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "## Gobierno de Colombia alista declaratoria de emergencia económica ante terremoto y recibirá ayuda internacional\n\n### El Gobierno de Colombia prepara declaratoria de emergencia económica y activará crédito internacional tras terremoto.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
    "url": "https://www.elcolombiano.com/colombia/muertos-terremoto-en-colombia-heridos-replicas-choco-hoy-GC39809690",
    "publication_url": "https://www.elcolombiano.com/colombia/muertos-terremoto-en-colombia-heridos-replicas-choco-hoy-GC39809690",
    "title": "Sube a 239 la cifra de muertos por el terremoto en Colombia",
@@ -3513,6 +3709,84 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-subio-cifra-fallecidos-ungrd-408831",
+   "publication_url": "https://www.lafm.com.co/sociedad/terremoto-colombia-subio-cifra-fallecidos-ungrd-408831",
+   "title": "Sube a 321 la cifra de fallecidos por sismo en Colombia",
+   "snapshot_id": "2026-08-26:https://www.lafm.com.co/sociedad/terremoto-colombia-subio-cifra-fallecidos-ungrd-408831",
+   "search_date": "2026-08-26",
+   "search_query": "UNGRD SGC terremoto Colombia 26-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "La FM",
+    "domain": "lafm.com.co",
+    "channel": "web",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-subio-cifra-fallecidos-ungrd-408831"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "5f3b6bff2c53b7e84ebf5cc2eabfae364a2c40dcbd66648b6963b0a2ae4af116",
+   "captured_at": "2026-08-27T04:03:55.399Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04160-e075-7096-a83d-70d1bab67b46",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Subió balance de fallecidos por sismo de 7.4 grados en Colombia\n\nGestión del Riesgo informó que continuará realizando actualizaciones sobre la cantidad de afectados en el país tras el movimiento sísmico.\n\nagosto 24, 2026 - 9:43 pm\n\n![En Colombia aún hay 240 desaparecidos tras el sismo del 10 de agosto de 2026.](https://files.lafm.com.co/media/news-images/2026/08/25/015504/terremoto-en-colombia-1200x675.jpg?w=1200)En Colombia aún hay 240 desaparecidos tras el sismo del 10 de agosto de 2026. **Crédito: Colprensa**\n\nLa emergencia humanitaria más compleja de los últimos años en el país continúa en desarrollo. Con corte a las 6:30 p.m. del **24 de agosto de 2026**, la Unidad Nacional para la Gestión del Riesgo de Desastres ( **UNGRD**) emitió un nuevo balance oficial sobre el potente sismo de **magnitud 7,4** que tuvo como epicentro la región de **San José del Palmar, en el departamento del Chocó**.\n\nLas autoridades gubernamentales y los organismos de socorro redoblan los esfuerzos en las zonas más golpeadas del occidente colombiano, mientras el Gobierno nacional implementa medidas económicas excepcionales para iniciar la fase formal de reconstrucción.\n\n## Balance nacional de daños: Cifras oficiales de la UNGRD\n\nEl reporte consolidado por la entidad de gestión del riesgo detalla una afectación estructural y humana sin precedentes que cobija de manera directa a **16 departamentos y 494 municipios** del territorio nacional. Las estadísticas globales dan cuenta de **185.226 familias y 361.353 personas damnificadas** por el movimiento telúrico.\n\n### En cuanto a la pérdida de vidas humanas y la atención a los heridos, el panorama es desolador:\n\n- **Fallecidos:** 331 personas confirmadas sin vida.\n- **Heridos:** 4.439 ciudadanos reciben atención médica.\n- **Desaparecidos:** 240 personas continúan siendo buscadas intensamente por los rescatistas.\n- **Rescatados:** 364 personas han logrado ser salvadas con vida de entre los escombros.\n\nEl impacto en materia habitacional e infraestructura pública refleja la magnitud destructiva del temblor. La UNGRD reporta **178.555 viviendas averiadas y 31.540 completamente destruidas**, además de 5.884 edificaciones con daños severos y 603 colapsadas en su totalidad. Del mismo modo, redes esenciales como **378 centros de salud, 3.731 instituciones educativas, 441 vías terrestres, 5 aeropuertos, 118 acueductos y 89 puentes** (entre vehiculares y peatonales) registran deterioros considerables que dificultan la conectividad con las zonas más apartadas.\n\nLa fauna doméstica y silvestre tampoco ha sido ajena a la tragedia: un total de 2.153 animales resultaron afectados y 2.942 han sido rescatados mediante operativos conjuntos de protección animal.\n\n## Acciones del Gobierno: Anuncios del presidente Abelardo de la Espriella\n\nAnte la gravedad de la crisis provocada por el sismo, el **presidente de la República, Abelardo de la Espriella**, ha tomado el liderazgo directo de la estrategia de respuesta institucional. Tras declarar la emergencia económica, social y ecológica, el primer mandatario se desplazó al departamento del Chocó para anunciar el inicio formal de las obras de recuperación.\n\nEn su momento, desde la ciudad de Quibdó, el jefe de Estado declaró: _\"Hoy inicia la reconstrucción de Colombia, sin dejar de lado la entrega de ayudas humanitarias\". Como parte central de la estrategia de reactivación social financiada a través del denominado 'Fondo Milagro', el Gobierno nacional confirmó la entrega de un [apoyo económico directo de 875.452 pesos mensuales](https://www.lafm.com.co/politica/abelardo-de-la-espriella-subsidio-buenaventura-millon-cincuenta-mil-pesos-terremoto-colombia-damnificados-408796) durante un periodo de tres meses para cada una de las familias damnificadas.\n\nPor su parte, los ministerios y carteras ministeriales coordinan de manera simultánea la habilitación de corredores viales prioritarios, el restablecimiento de los servicios de acueducto y la instalación de puestos de salud temporale",
+   "publicado_en": "2026-08-25T01:43:59.9360000+00:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": "2026-08-24",
+   "departamentos": [
+    "Chocó"
+   ],
+   "municipios": [
+    "Quibdó",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 361353,
+    "familias_afectadas": 185226,
+    "viviendas_averiadas": 178555,
+    "viviendas_destruidas": null,
+    "heridos": null,
+    "fallecidos": null,
+    "desaparecidos": 240,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Subió balance de fallecidos por sismo de 7.4 grados en Colombia\n\nGestión del Riesgo informó que continuará realizando actualizaciones sobre la cantidad de afectados en el país tras el movimiento sísmico.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -3692,8 +3966,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a03c3a-4794-728f-9173-0763b276f14f",
-       "query": "UNGRD SGC terremoto Colombia 25-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a04160-e075-7096-a83d-70d1bab67b46",
+       "query": "UNGRD SGC terremoto Colombia 26-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -3701,8 +3975,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a03c3a-8e0c-73bb-a8db-9e5b230a38a3",
-       "query": "Gobernación Alcaldía terremoto Colombia 25-08-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a04161-3085-722e-9fdc-d772e189c47b",
+       "query": "Gobernación Alcaldía terremoto Colombia 26-08-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -3710,8 +3984,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a03c3a-9fc1-73c9-9204-b4ec1b8e7846",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 25-08-2026 reporte oficial afectados",
+       "id": "01a04161-40fb-715e-847b-b46ee4d95e73",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 26-08-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -3730,11 +4004,9 @@
      "type": "html",
      "url": "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/",
      "note": "Listado SharePoint de noticias; los datos útiles están en /Paginas/Noticias/2026/*.aspx.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 187,
-     "candidates": 0,
-     "result": "no_event_specific_links"
+     "ok": false,
+     "result": "error",
+     "error": "The operation was aborted due to timeout"
     },
     {
      "role": "vista_sharepoint",
@@ -3742,10 +4014,9 @@
      "url": "https://portal.gestiondelriesgo.gov.co/paginas/forms/allitems.aspx?rootfolder=/paginas/noticias&folderctid=0x0120000d115b77361a2449a3a8cae36d6f2767",
      "note": "Vista de biblioteca SharePoint; puede exponer enlaces aunque el RSS de lista falle.",
      "http_status": 200,
-     "ok": true,
-     "links_found": 187,
-     "candidates": 0,
-     "result": "no_event_specific_links"
+     "ok": false,
+     "result": "error",
+     "error": "The operation was aborted due to timeout"
     }
    ]
   },
@@ -3847,9 +4118,11 @@
      "type": "html",
      "url": "https://www.risaralda.gov.co/publicaciones/noticias/",
      "note": "Portal oficial de noticias; puede bloquear 403 a tráfico automatizado.",
-     "http_status": 403,
-     "ok": false,
-     "result": "no_usable"
+     "http_status": 200,
+     "ok": true,
+     "links_found": 119,
+     "candidates": 4,
+     "result": "candidate_links"
     }
    ]
   },
@@ -3884,6 +4157,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-08-26/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-08-27/oficiales_feed.json"
  }
 }

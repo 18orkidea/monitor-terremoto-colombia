@@ -1,23 +1,46 @@
 {
- "generado": "2026-08-26",
- "fecha": "2026-08-26",
+ "generado": "2026-08-27",
+ "fecha": "2026-08-27",
  "alertas": [
+  {
+   "tipo": "institucional_nuevo",
+   "nivel": "alta",
+   "texto": "EC/ECHO publicó un producto nuevo del terremoto: M7.4 in Colombia - EC/ECHO daily map — https://erccportal.jrc.ec.europa.eu/ECHOProducts//Maps#/maps/5765",
+   "emisor": "EC/ECHO",
+   "titulo": "M7.4 in Colombia - EC/ECHO daily map",
+   "url": "https://erccportal.jrc.ec.europa.eu/ECHOProducts//Maps#/maps/5765",
+   "pubdate": "2026-08-26T16:53:40.103"
+  },
   {
    "tipo": "reportes_ciudadanos",
    "nivel": "info",
-   "texto": "12 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 12
+   "texto": "21 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 21
   },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "2434 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 2434
+   "texto": "512 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 512
+  },
+  {
+   "tipo": "balance_en_medios",
+   "nivel": "info",
+   "texto": "Máximo informado en medios que citan fuentes oficiales (26 de agosto de 2026): 331 fallecidos (+2 desde el balance anterior), 4.611 heridos, 496 desaparecidos",
+   "fecha_balance": "2026-08-26",
+   "cifras": {
+    "fallecidos": 331,
+    "heridos": 4611,
+    "desaparecidos": 496,
+    "familias_afectadas": 188034,
+    "personas_afectadas": 406273
+   },
+   "regla": "serie_consolidada_ui_js"
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +1 municipios. +20.548 familias desde la captura anterior"
+   "texto": "RUD actualizado: +17 municipios. +8.675 familias desde la captura anterior"
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -34,20 +57,38 @@
    "event_code": "EQ20260822COL",
    "capa": "Pleiades_20260813_BuildingDamageAsessment_Zarzal",
    "puntos": 201
+  },
+  {
+   "tipo": "fuentes_con_peticion_condicional",
+   "nivel": "info",
+   "texto": "25 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/losspager/us6000tjl2/us/1787357796161/json/exposures.json",
+   "urls": [
+    "https://earthquake.usgs.gov/product/losspager/us6000tjl2/us/1787357796161/json/exposures.json",
+    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1787357651244/download/cont_mmi.json",
+    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1787357651244/download/coverage_mmi_low_res.covjson",
+    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI01/GRA_PRODUCT/EMSR916_AOI01_GRA_PRODUCT_builtUpP_v1.json",
+    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI01/GRA_PRODUCT/EMSR916_AOI01_GRA_PRODUCT_transportationL_v1.json",
+    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI02/GRA_PRODUCT/EMSR916_AOI02_GRA_PRODUCT_ancillaryCrisisInfoP_v1.json",
+    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI02/GRA_PRODUCT/EMSR916_AOI02_GRA_PRODUCT_builtUpP_v1.json",
+    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI02/GRA_PRODUCT/EMSR916_AOI02_GRA_PRODUCT_transportationL_v1.json",
+    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI03/GRA_PRODUCT/EMSR916_AOI03_GRA_PRODUCT_builtUpP_v1.json",
+    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI03/GRA_PRODUCT/EMSR916_AOI03_GRA_PRODUCT_transportationL_v1.json"
+   ],
+   "n": 25
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-25",
+  "fecha": "2026-08-26",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
-   "municipios_afectados": 476,
-   "personas_afectadas": 324157,
-   "familias_afectadas": 146188,
-   "viviendas_averiadas": 163884,
-   "viviendas_destruidas": 31519,
+   "municipios_afectados": 494,
+   "personas_afectadas": 406273,
+   "familias_afectadas": 188034,
+   "viviendas_averiadas": 185889,
+   "viviendas_destruidas": 33275,
    "heridos": 4611,
-   "fallecidos": 329,
+   "fallecidos": 331,
    "desaparecidos": 496,
    "rescatados": 364
   },
@@ -58,29 +99,29 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
    },
    "municipios_afectados": {
-    "fecha": "2026-08-24",
-    "medio": "ELHERALDO.CO",
-    "url": "https://www.elheraldo.co/colombia/2026/08/21/la-ungrd-eleva-a-321-las-personas-fallecidos-y-a-4595-las-heridas-por-terremoto-de-magnitud-74/"
+    "fecha": "2026-08-26",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "personas_afectadas": {
-    "fecha": "2026-08-24",
+    "fecha": "2026-08-26",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "familias_afectadas": {
-    "fecha": "2026-08-24",
-    "medio": "ELHERALDO.CO",
-    "url": "https://www.elheraldo.co/colombia/2026/08/21/la-ungrd-eleva-a-321-las-personas-fallecidos-y-a-4595-las-heridas-por-terremoto-de-magnitud-74/"
+    "fecha": "2026-08-26",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "viviendas_averiadas": {
-    "fecha": "2026-08-24",
-    "medio": "ELHERALDO.CO",
-    "url": "https://www.elheraldo.co/colombia/2026/08/21/la-ungrd-eleva-a-321-las-personas-fallecidos-y-a-4595-las-heridas-por-terremoto-de-magnitud-74/"
+    "fecha": "2026-08-26",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "viviendas_destruidas": {
-    "fecha": "2026-08-24",
+    "fecha": "2026-08-26",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "heridos": {
     "fecha": "2026-08-23",
@@ -88,9 +129,9 @@
     "url": "https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance"
    },
    "fallecidos": {
-    "fecha": "2026-08-24",
+    "fecha": "2026-08-26",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "desaparecidos": {
     "fecha": "2026-08-13",
@@ -105,186 +146,53 @@
   },
   "ignoradas": [
    {
-    "cifra": "departamentos_afectados",
-    "valor": 15,
+    "cifra": "heridos",
+    "valor": 4449,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "municipios_afectados",
-    "valor": 426,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "municipios_afectados",
-    "valor": 357,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
-   },
-   {
-    "cifra": "personas_afectadas",
-    "valor": 102105,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "personas_afectadas",
-    "valor": 292043,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 44936,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 123789,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 65841,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 800,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 8357,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 10677,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 107,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 715,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    {
     "cifra": "heridos",
-    "valor": 3971,
+    "valor": 885,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "heridos",
-    "valor": 4548,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
-   },
-   {
-    "cifra": "heridos",
-    "valor": 224,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 281,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 304,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 181,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 379,
+    "valor": 240,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 426,
+    "valor": 240,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
+    "medio": "La FM",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-subio-cifra-fallecidos-ungrd-408831"
    },
    {
     "cifra": "desaparecidos",
     "valor": 195,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "rescatados",
-    "valor": 169,
+    "valor": 86,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 260,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 35,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Yahoo Noticias",
-    "url": "https://es-us.noticias.yahoo.com/departamentos-golpeados-terremoto-colombia-balance-231500004.html"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-08-26/oficiales_feed.json",
-   "items": 42,
-   "regla_sha256": "03c2a62d6bc77017ffccfe12cb20807c3be3216be7eeaea6a6e752ff3f4c4553"
+   "snapshot": "data/snapshots/2026-08-27/oficiales_feed.json",
+   "items": 45,
+   "regla_sha256": "8c63eb30daf5604d8682e387ede6a671e1836957c221648999d699149c155f18"
   }
  }
 }
