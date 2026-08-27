@@ -4960,18 +4960,46 @@ class TestElMetodoNoSePublica(unittest.TestCase):
             "Va a documentos/METODO.md, que no se versiona; desde CLAUDE.md se "
             "puede enlazar, no copiar:\n  " + "\n  ".join(hallazgos[:12]))
 
-    def test_el_metodo_privado_existe_y_sigue_fuera_del_repositorio(self):
-        """La otra mitad: si el documento se pierde o alguien lo versiona, el
-        conocimiento se va —o se publica—, y las dos son la misma avería."""
+    def test_el_metodo_sigue_fuera_del_repositorio(self):
+        """La otra mitad: que el documento no entre nunca.
+
+        Lo que se comprueba SIEMPRE, aquí y en CI, es la regla —que la ruta
+        siga ignorada— y el hecho —que git no tenga versionado nada ahí—. La
+        regla sola no bastaría: un `git add -f` mete el fichero al índice y el
+        `.gitignore` deja de opinar sobre él.
+
+        Lo que NO se puede comprobar en CI es que el documento exista: el
+        runner clona el repositorio y el documento, por definición, no viaja en
+        él. Exigirlo fue el primer intento y dejó el CI en rojo — un guardián
+        no puede pedir justo lo que él garantiza que falte.
+        """
         import subprocess
         raiz = Path(__file__).parent.parent
+        versionado = subprocess.run(["git", "ls-files", "documentos/"],
+                                    capture_output=True, text=True, cwd=raiz)
+        if versionado.returncode:
+            self.skipTest("sin git")
+        self.assertEqual(
+            versionado.stdout.split(), [],
+            "hay ficheros de documentos/ en el índice de git: ahí vive el "
+            "material de trabajo y el repositorio es público")
+        ignorado = subprocess.run(["git", "check-ignore", "documentos/METODO.md"],
+                                  capture_output=True, text=True, cwd=raiz)
+        self.assertEqual(ignorado.returncode, 0,
+                         "documentos/ ha dejado de estar ignorado: el siguiente "
+                         "`git add -A` publica el método")
+
+    def test_en_esta_maquina_el_metodo_esta_donde_dice_el_contrato(self):
+        """La mitad que solo se puede comprobar donde se trabaja: que el
+        documento no se haya perdido. Perderlo y publicarlo son la misma
+        avería —el conocimiento deja de estar donde el contrato promete— y
+        esta es la única red que queda, porque git no lo respalda."""
+        raiz = Path(__file__).parent.parent
+        if not (raiz / "documentos").exists():
+            self.skipTest("clon sin la carpeta de trabajo (CI): nada que mirar")
         self.assertTrue((raiz / "documentos" / "METODO.md").exists(),
-                        "documentos/METODO.md no está: ahí vive el método")
-        r = subprocess.run(["git", "check-ignore", "documentos/METODO.md"],
-                           capture_output=True, text=True, cwd=raiz)
-        self.assertEqual(r.returncode, 0,
-                         "documentos/METODO.md ha dejado de estar ignorado: el "
-                         "siguiente `git add -A` lo publica")
+                        "documentos/METODO.md no está y git no lo respalda: "
+                        "ahí vive el método y CLAUDE.md lo da por presente")
 
     def test_claude_md_conserva_las_reglas_de_los_datos(self):
         """Limpiar no es vaciar. Las R son públicas a propósito: son la razón
