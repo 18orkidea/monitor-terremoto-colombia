@@ -22,7 +22,7 @@ DB = ROOT / "data" / "monitor.sqlite"
 # el mismo sha256, no el fichero en disco: en un clon limpio nunca está, y
 # exigirlo hacía que el test pasara en la máquina del mantenedor y fallara en CI.
 # La lista de extensiones es la de `common`, una sola para las cuatro
-# superficies que la usan (M2).
+# superficies que la usan.
 from common import ARCHIVO_EN_R2
 
 
@@ -572,7 +572,7 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
 
     def test_la_carpeta_del_dia_no_miente_sobre_lo_que_no_contiene(self):
         """`reutilizados.txt` es la copia legible de lo que dice el log: sin un
-        guardián, las dos superficies divergen (M2). Cada línea tiene que
+        guardián, las dos superficies divergen. Cada línea tiene que
         corresponder a una fila que apunte a ese mismo cuerpo."""
         from common import REUTILIZADOS
         indices = sorted((ROOT / "data" / "snapshots").glob(f"*/{REUTILIZADOS}"))
@@ -631,7 +631,7 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
         # IndexNow invierte la dirección: es una notificación que enviamos,
         # no un cuerpo recibido del que salga una cifra. `notificar()` registra
         # su petición por R4, pero no fabrica un snapshot de una respuesta que
-        # no contiene datos. La URL se toma de su módulo, no se duplica (M2).
+        # no contiene datos. La URL se toma de su módulo, no se duplica.
         from indexnow import ENDPOINT as INDEXNOW_ENDPOINT
         marcas = ",".join("?" * len(NOTAS_SONDA))
         filas = q("SELECT snapshot_path, sha256 FROM sources_log"
@@ -941,7 +941,7 @@ class TestSupuestoNombreASecas(unittest.TestCase):
 
         Comprobarlo contra `catalogo_vigente()` no comprueba nada: cambiar el
         dueño en la tabla cambia también el catálogo, y las dos mentiras
-        coinciden (M1 — el primer intento de este test pasaba con el fallo
+        coinciden (el primer intento de este test pasaba con el fallo
         puesto). El testigo independiente es `data/public/municipios.json`, que
         lo escribió una corrida anterior y del que cuelgan las URL vivas.
         """
@@ -1046,7 +1046,7 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
                          f"excepciones que ya no hacen falta: {sobran}")
 
     def test_el_catalogo_de_las_busquedas_es_el_que_se_publica(self):
-        """M2: `catalogo_vigente()` (de donde salen las búsquedas y los
+        """`catalogo_vigente()` (de donde salen las búsquedas y los
         identificadores de sus feeds) y el catálogo que arma `publish.py` para
         las fichas tienen que dar las MISMAS claves.
 

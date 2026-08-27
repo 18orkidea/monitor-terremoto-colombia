@@ -367,7 +367,7 @@
      Una sola fórmula para TODAS las marcas del mapa, con el tope como
      parámetro: la primera copia de esto vivió solo en el anillo de la ausencia
      y los edificios se quedaron con radio fijo, que es exactamente cómo
-     divergen dos versiones de la misma regla (M2).
+     divergen dos versiones de la misma regla.
      Dos topes, porque las dos marcas dicen cosas distintas: el anillo de un
      MUNICIPIO señala un sitio y no dibuja su extensión —sin tope, a zoom 16
      pasaba de 6 a 46 px y se comía la manzana entera—, mientras que el punto de
@@ -865,7 +865,7 @@
   /* Cada ranura aprende su rótulo del único sitio donde está escrito: la clave
      con la que se declaró su capa. Copiarlo a mano en la llamada a `diferida`
      serían dos versiones del mismo nombre a diez líneas de distancia, que es
-     como divergen (M2). La cifra se la añade `enciende` cuando la sepa. */
+     como divergen. La cifra se la añade `enciende` cuando la sepa. */
   for (const [nombre, capa] of Object.entries(layers)) {
     const r = ranuraDe.get(capa);
     if (r) { r.base = nombre; r.rotulo = nombre; }
@@ -921,7 +921,7 @@
      recuento. No se construyen aquí: los cuenta `render_html.py::chips_portada`
      sobre los mismos datos que este mapa dibuja, y construirlos en el navegador
      sería una segunda copia de esos recuentos y dejaría la tira vacía para
-     quien lee el documento sin ejecutarlo (M2).
+     quien lee el documento sin ejecutarlo.
 
      Filtran el MAPA. La lista del panel NO se toca: es un cuadro de honor y una
      puerta de entrada, no un índice — el índice filtrable es /municipios.html.
@@ -1080,7 +1080,7 @@
      escribe ahora el build (deploy/render_html.py, fase 6): eran seis
      contenedores que viajaban VACÍOS en el HTML y solo existían para quien
      ejecuta JavaScript. Dibujarlos aquí otra vez sería una segunda copia
-     de la misma regla, que es como divergen (M2). Con la cronología —que se
+     de la misma regla, que es como divergen. Con la cronología —que se
      mudó a referencia.html en la fase 6c y que ahora escribe
      render_html.py::cronologia_referencia— lo ÚNICO que sigue dibujando el
      navegador en esta página es el mapa, que es exploración y no archivo. */

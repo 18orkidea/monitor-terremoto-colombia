@@ -137,7 +137,7 @@ window.UI = (function () {
      topónimo. Cuando el texto escribe además el departamento por su cuenta,
      repetirlo produce «Bolívar (Cauca) (Cauca)», que estuvo publicado en cinco
      fichas y volvió a estarlo en la intro de municipios: se arregló en Python
-     y esta copia no se enteró (M2). Espejo EXACTO de
+     y esta copia no se enteró. Espejo EXACTO de
      `deploy/render_html.py::toponimo` —si tocas una, mira la otra—, con su
      test de espejo en tests/test_render_html.py. */
   function toponimo(clave, depto) {

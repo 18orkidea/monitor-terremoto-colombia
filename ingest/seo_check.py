@@ -205,10 +205,10 @@ def prosa_propia(html: str) -> int:
     contarlas le regala a cada una un colchón que oculta justo la pérdida que el
     suelo vigila. Se descuentan los tres.
 
-    Nace de una cicatriz de método (M4): la línea base del rediseño se llevaba en
-    un documento, envejeció en una tarde y ninguna definición razonable
-    reproducía sus cifras. Un suelo se mide con un medidor que esté en el
-    repositorio, o no es verificable por nadie.
+    Existe porque una línea base anotada en un documento envejeció en una
+    tarde y ninguna definición razonable reproducía sus cifras. Un suelo se
+    mide con un medidor que esté en el repositorio, o no es verificable por
+    nadie.
     """
     limpio = re.sub(r"<(script|style|svg).*?</\1>", " ", html, flags=re.S)
     # El cromo se descuenta POR SU MARCA, no por su etiqueta: `pie_estatico()`

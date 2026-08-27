@@ -6,7 +6,7 @@ marcado pasaba por el inyector cuando no lo hacía, porque no modelaba las
 clases y fusionaba los cuarenta `setUpClass` del fichero de tests en un nodo.
 Estos tests fijan lo que hace bien y, sobre todo, **lo que no puede hacer**:
 una herramienta con límites escritos se usa bien; una que promete de más se
-cree en el momento malo (M1, M4).
+cree en el momento malo (al validar por mutación y al fiarse de un documento).
 """
 import sys
 import unittest
@@ -51,7 +51,7 @@ class TestGrafoDeLlamadas(unittest.TestCase):
             self.assertEqual(r[-1], "render_html.pct")
 
     def test_el_docstring_declara_los_tres_limites_conocidos(self):
-        """M3 al revés: aquí el comentario SÍ es la barrera, porque el riesgo de
+        """Al revés: aquí el comentario SÍ es la barrera, porque el riesgo de
         esta herramienta es que se le crea de más. Si alguien retira una
         advertencia, este test lo para."""
         doc = G.__doc__ or ""

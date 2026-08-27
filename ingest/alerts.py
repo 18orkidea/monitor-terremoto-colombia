@@ -419,7 +419,7 @@ def divergencias_del_archivo_de_activos(conn) -> list[dict]:
     Desde el 24-ago-2026 el monitor NO vuelve a descargar un activo que el
     archivo ya declara suyo. Ese ahorro se apoya entero en que las dos vías del
     archivo —`citizen_reports.media_sha256` y `data/r2_manifest.json`— digan lo
-    mismo, así que la que las vigila no puede ser la misma que las usa (M2).
+    mismo, así que la que las vigila no puede ser la misma que las usa.
 
     Dos cosas se cantan y una NO:
     - un objeto con **sha256 distinto** en cada vía: el archivo se desmiente a

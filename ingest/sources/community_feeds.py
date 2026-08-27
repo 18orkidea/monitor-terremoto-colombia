@@ -117,7 +117,7 @@ def motivo_sin_busqueda(meta: dict) -> str | None:
     """Por qué NO se puede preguntar por este municipio; None si sí se puede.
 
     Mejor un hueco declarado que un feed que trae titulares de otro sitio o que
-    devuelve cero para siempre sin que nadie sepa por qué (M10).
+    devuelve cero para siempre sin que nadie sepa por qué.
     """
     from municipios import _norm
     if meta.get("homonimo_de_departamento"):
@@ -220,7 +220,7 @@ def run() -> dict:
     snap = today()
     # El catálogo se deriva UNA vez por corrida y de él salen las dos listas:
     # a quién se pregunta y a quién no se ha podido preguntar. Derivarlas por
-    # separado sería volver a tener dos copias que pueden discrepar (M2).
+    # separado sería volver a tener dos copias que pueden discrepar.
     catalogo = catalogo_vigente()
     feeds = iter_feeds(reg, catalogo)
     # Primero el recuento, para que el resumen de la corrida diga a cuántos

@@ -104,7 +104,7 @@ def grid_mmi_vigente(snapshot_hoy=None):
     if snapshot_hoy is not None:
         candidatos.append(snapshot_hoy)
     # el resto del recorrido lo hace `ultimo_snapshot`: una sola
-    # implementación de «el cuerpo vigente, sea de qué día sea» (M2)
+    # implementación de «el cuerpo vigente, sea de qué día sea»
     vigente = ultimo_snapshot("usgs_mmi_grid.covjson")
     if vigente is not None:
         candidatos.append(vigente.parent)

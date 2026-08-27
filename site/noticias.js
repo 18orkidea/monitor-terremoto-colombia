@@ -75,7 +75,7 @@
     const desde = (pagina - 1) * POR_PAGINA;
     // Solo el recuento vivo del filtro: la fecha del dato la sirve el build en
     // el sello del encabezado. Repetirla aquí con la corrida del JSON volvería
-    // a vestir el empaquetado de fecha del dato (M2 y el bug que motivó el sello).
+    // a vestir el empaquetado de fecha del dato (la copia que diverge, y el bug que motivó el sello).
     resumen.textContent =
       `${fmt(sel.length)} de ${fmt(items.length)} titulares` +
       (paginas > 1 ? ` · página ${pagina} de ${paginas}` : "");

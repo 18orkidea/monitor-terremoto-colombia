@@ -143,7 +143,7 @@ def manifiesto_de_activos(conn) -> list[dict]:
 
 
 def _bytes_del_activo(conn, raiz, url, clave, sha, mlocal, previo) -> int | None:
-    """El tamaño de ESE cuerpo, o None. Nunca el de otro (M10: se omite)."""
+    """El tamaño de ESE cuerpo, o None. Nunca el de otro (se omite)."""
     f_local = raiz / mlocal if mlocal else None
     if f_local is not None:
         try:
@@ -673,7 +673,7 @@ def run() -> dict:
     # Las búsquedas de prensa se derivan del MISMO catálogo que verá
     # `build_municipios` —curados + los que abre el RUD—, no de uno propio: si
     # se derivaran por separado, `busqueda_propia` podría afirmar de un
-    # municipio lo contrario de lo que hizo la corrida (M2).
+    # municipio lo contrario de lo que hizo la corrida.
     from municipios import catalogo_municipios
     from sources.community_feeds import municipal_google_news_feeds
     catalogo = catalogo_municipios(rud_por_mun, divipola)

@@ -29,7 +29,7 @@
   // definición: se lee `data-chip` del botón y `data-chips` de la fila, que es
   // lo que el generador ya escribió. Duplicarla en JavaScript era tener el
   // número del chip y el filtro contando cosas distintas el día que una de las
-  // dos cambiara (M2).
+  // dos cambiara.
   const enChip = (tr, id) => (tr.dataset.chips || "").split(" ").includes(id);
   const filasTabla = Array.from(
     document.querySelectorAll("#rud-tabla tbody tr[data-buscar]"));
@@ -100,7 +100,7 @@
     // navegador sabe. La prosa invariante —el criterio de la columna del
     // cambio diario, el inicio de la serie y la advertencia sobre los ceros de
     // las columnas de viviendas— la escribe render_html.py::nota_rud en
-    // `#rud-pie-tabla`, y vive allí y en ningún otro sitio (M2).
+    // `#rud-pie-tabla`, y vive allí y en ningún otro sitio.
     notaTexto: (q, visibles, total, orden) => {
       // el criterio lo manda la cabecera pulsada, si hay alguna: la nota no
       // puede seguir anunciando el orden inicial cuando ya no rige

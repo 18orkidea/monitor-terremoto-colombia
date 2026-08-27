@@ -219,7 +219,7 @@ def sello_fechas(hasta, corrida, que: str) -> str:
     añade nada. En cuanto cambian, se escribe entera; ahí «corrida del 1» sería
     un acertijo.
 
-    **M10**: donde falta una fecha se calla ESE trozo, nunca se inventa la otra.
+    Donde falta una fecha se calla ESE trozo, nunca se inventa la otra.
     Y si faltan las dos, lo dice con todas las letras: devolver una cadena vacía
     dejaría el contenedor `data-gen` vacío y rompería el build."""
     hasta, corrida = _solo_fecha(hasta), _solo_fecha(corrida)
@@ -247,7 +247,7 @@ def enlace_seguro(u) -> str:
     `e()` impide salirse del atributo, pero no impide que el atributo entero sea
     `javascript:…`: escapar y validar el esquema son dos cosas distintas. El
     navegador ya filtraba; la lista servida nació sin el filtro, y las URL de
-    los titulares vienen de canales ajenos. Es M2 al revés —la copia nueva era
+    los titulares vienen de canales ajenos. Es la copia que diverge, al revés —la copia nueva era
     la más pobre—, así que la regla se escribe una vez en cada lenguaje con su
     test de espejo.
     """
@@ -529,7 +529,7 @@ def barra_escala(escala: float, ancho: int, alto: int) -> str:
 # Ahora las cinco páginas también se escriben en el build: se leen con el
 # JavaScript apagado y hay un solo texto que mantener.
 #
-# Los enlaces van SIN emoticono (decisión de JP, 23-ago-2026): los llevaban tanto
+# Los enlaces van SIN emoticono (decidido el 23-ago-2026): los llevaban tanto
 # la barra del navegador como estas fichas, y el prototipo aprobado no. El 📍 del
 # botón «Reportar daño» se queda, porque ahí el icono señala una acción.
 PAGINAS = [("index.html", "Mapa"), ("municipios.html", "Municipios"),
@@ -556,7 +556,7 @@ TELEGRAM_CANAL = "https://t.me/terremotoCO2026"
 # distintas, no —cada URL se procesa aislada—, así que un `{"@id": "…#organization"}`
 # en la ficha de Cali no va a buscar su definición a la portada. Lo que hace que
 # las 213 hablen de la misma entidad no es la sintaxis: es que el valor sea el
-# mismo en las 213. De ahí una constante y un solo camino para escribirla (M2),
+# mismo en las 213. De ahí una constante y un solo camino para escribirla,
 # con `TestMarcadoEstructurado` comprobando que llega igual a las 213.
 #
 # `WebSite` y `DataCatalog` en un solo nodo —JSON-LD admite `@type` como lista—
@@ -567,7 +567,7 @@ SITIO = "https://datosdelterremoto.org/#site"
 # La licencia con la que se publica todo lo que compila este monitor. Estaba
 # escrita cinco veces —una por cada `Dataset` del sitio— y el nodo del catálogo
 # necesitaba la sexta: una constante antes que un sexto literal, porque seis
-# copias de la misma URL acaban divergiendo en la que nadie mira (M2). No es la
+# copias de la misma URL acaban divergiendo en la que nadie mira. No es la
 # licencia de las FUENTES: la de ICube-SERTIT prohíbe el uso comercial y viaja
 # pegada a su dato en `SATELITES`, que es donde tiene que estar.
 LICENCIA = "https://creativecommons.org/licenses/by/4.0/"
@@ -629,7 +629,7 @@ MARCA = "Datos del terremoto"
 # se escribe en el HTML de cada página y NO se genera: `data-gen` es el
 # mecanismo de lo que cambia cada día. Vive aquí porque una frase escrita cinco
 # veces necesita una fuente única aunque no la inyecte nadie: la ata a las
-# cinco páginas `tests/test_render_html.py::TestContextoDelSismo` (M2).
+# cinco páginas `tests/test_render_html.py::TestContextoDelSismo`.
 CONTEXTO_SISMO = "M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)"
 
 # La tesis del proyecto, en una frase y en un solo sitio.
@@ -646,7 +646,7 @@ CONTEXTO_SISMO = "M7.4 · 10 de agosto de 2026 · San José del Palmar (Chocó)"
 # Vive en SEIS superficies —CLAUDE.md, el pie de las 353 páginas, el `Dataset`
 # de municipios.html y las bajadas de index/balances/referencia— y ninguna la
 # generaba: eran seis redacciones que podían separarse sin que nada avisara.
-# `tests/test_render_html.py::TestTesisDelMonitor` las ata (M2).
+# `tests/test_render_html.py::TestTesisDelMonitor` las ata.
 TESIS = ("Ninguna fuente lo cuenta todo, y ninguna cuenta lo mismo que otra. "
          "La brecha es lo que queda fuera de todas.")
 TESIS_LARGA = (
@@ -809,7 +809,7 @@ def tramos_del_registro(serie: list) -> list[tuple[list, dict]]:
     Jamundí lo enseña entero: ocho capturas clavado en 23 familias y un salto a
     1.539 el 24 de agosto. Diez filas para contar dos hechos, y las ocho
     repetidas estaban al PRINCIPIO — por eso no vale con recortar la cola, que
-    fue el primer intento (decisión de JP, 26-ago-2026, corregida el 27 al ver
+    fue el primer intento (26-ago-2026, corregido el 27 al ver
     que dejaba fuera 153 municipios y hacía oscilar la tabla: las filas
     desaparecían al tercer día quieto y volvían si la fuente despertaba).
 
@@ -947,7 +947,7 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
     # que la fuente reafirmó el dato, no la del último cambio. El recorte de la
     # evolución lo hace la sección que la dibuja, con
     # `serie_hasta_el_ultimo_movimiento`, para que no haya dos series guardadas
-    # que puedan separarse (M2).
+    # que puedan separarse.
     return {
         "muni": muni, "serie": serie, "zonas": zonas, "ciudadanos": ciudadanos,
         "con_medio": sum(1 for *_, p in ciudadanos if p.get("media")),
@@ -973,7 +973,7 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
 # `publicador` es el nombre completo de la organización que lo firma, para el
 # `citation` del marcado estructurado: vive AQUÍ y no en una tabla aparte del
 # generador de JSON-LD porque una segunda lista de los mismos tres servicios
-# diverge en cuanto entre el cuarto (M2). `rotulo` es el nombre corto, el que
+# diverge en cuanto entre el cuarto. `rotulo` es el nombre corto, el que
 # cabe dentro de un chip de capa del mapa de evidencias; `clave` es además la
 # capa con que ese servicio viaja en `evidencia.json` y el `data-capa` que
 # `styles.css` tiñe.
@@ -1265,7 +1265,7 @@ def resumen_ficha(d: dict) -> str:
             if n is not None]
     viv = sum(vivs) if vivs else None
     # El adjetivo sale de las columnas que EXISTEN: con solo una de las dos,
-    # «viviendas dañadas» rotulaba un parcial como si fuera el total (R3/M10).
+    # «viviendas dañadas» rotulaba un parcial como si fuera el total (R3).
     hay_d = m.get("rud_viv_destruidas") is not None
     hay_a = m.get("rud_viv_averiadas") is not None
     raiz = "dañada" if (hay_d and hay_a) else ("destruida" if hay_d else "averiada")
@@ -1362,7 +1362,7 @@ def destacado_con_pliegue(d: dict) -> str:
     """Lead visible; satélites, vecinos y prensa en el plegable amarillo.
 
     El prototipo corta el destacado tras la salvedad del RUD. La nota de
-    los chips no se genera: JP la retiró el 24-ago."""
+    los chips no se genera: se retiró el 24-ago."""
     partes = _partes_respuesta(d)
     lead = partes[0] if partes else ""
     resto = " ".join(partes[1:])
@@ -1496,7 +1496,7 @@ def chips_evidencia(d: dict) -> str:
     `TestChipsDeLaFicha`.
 
     Cuenta PUNTOS y lo dice —«21 edificios», «3 reportes»—, porque en una ficha
-    no hay municipios que contar: el criterio de JP («los chips cuentan
+    no hay municipios que contar: el criterio del proyecto («los chips cuentan
     municipios, no puntos») nació en la tabla de municipios, donde la misma
     pastilla podía prometer las dos cosas. Aquí solo cabe una, y el rótulo la
     nombra en vez de dejar un número suelto."""
@@ -1560,14 +1560,14 @@ def desajustes_de_capas(d: dict) -> list:
             tipos.discard(None)
             # el literal crudo de la fuente, sin traducir: es lo que hay que
             # buscar en su producto para encontrar estos elementos, y el
-            # diccionario de traducción vive en app.js — copiarlo aquí sería M2
+            # diccionario de traducción vive en app.js — copiarlo aquí sería una segunda copia condenada a divergir
             fuera.append((sat["rotulo"], puntos, con_grado, sorted(tipos)))
     return fuera
 
 
 # ------------------------------------------------ lienzo: panel de fuentes + mapa
 # El prototipo lo resolvió y la fase 5 no lo portó: las fichas seguían eligiendo
-# entre ver el dato (una pestaña) y ver dónde está (la otra). JP lo señaló el
+# entre ver el dato (una pestaña) y ver dónde está (la otra). se señaló el
 # 24-ago: la organización panel + mapa, en móvil y escritorio, ES la ficha.
 # Las tarjetas de métricas se conservan; este panel no las duplica — empieza en
 # satélites y vecinos, que es lo que aporta.
@@ -1626,7 +1626,7 @@ def panel_fuentes(d: dict) -> str:
     El RUD va desglosado (familias, personas, viviendas destruidas y
     averiadas): es el registro oficial y, con la tabla primero, es lo que
     se viene a leer. Las tarjetas debajo repiten las mismas columnas —un
-    test se rompe si se separan (M2)—. El recuento satelital es el de la
+    test se rompe si se separan—. El recuento satelital es el de la
     capa que el mapa dibuja, no el de los edificios clasificados: si
     divergen, la nota de los chips lo explica (G3), y el panel no elige."""
     m = d["muni"]
@@ -1634,7 +1634,7 @@ def panel_fuentes(d: dict) -> str:
     # El corte del RUD va PEGADO a la cifra, no en un pie. La nota de arriba
     # promete «cada cifra dice de quién es y de qué día» y el panel solo decía
     # de quién: con un registro que pasó de 65.663 a 100.231 familias en 48 h,
-    # una tabla sin corte miente en dos días (M7). Y es la fecha del DATO —el
+    # una tabla sin corte miente en dos días. Y es la fecha del DATO —el
     # último día de la serie—, no la de la corrida que lo empaquetó.
     corte = (d["serie"][-1][0] if d.get("serie") else None) or d.get("generado")
     rud = f"RUD · UNGRD · {fecha_corta(corte)}" if corte else "RUD · UNGRD"
@@ -1684,7 +1684,7 @@ def panel_fuentes(d: dict) -> str:
         # Los vecinos solo se nombran si han hablado. Argelia recibía «viene del
         # registro oficial y de sus vecinos» y en la misma página decía que no
         # hay ni un reporte ciudadano: se atribuía conocimiento a una fuente
-        # muda (M10). Y cuando de verdad no ha hablado nadie más, eso ES el
+        # muda. Y cuando de verdad no ha hablado nadie más, eso ES el
         # hallazgo del monitor y se dice con todas las letras.
         # Se nombra SOLO a quien ha hablado, y el registro oficial es uno más:
         # Palmira recibía «viene del registro oficial» y en la misma página
@@ -1788,7 +1788,7 @@ def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
             'class="chips chips-mapa"',
             'class="chips chips-mapa" hidden', 1) if chips else ""
         # El recuento corto va SIEMPRE encima de las pestañas, también en
-        # Situación: JP (24-ago) lo midió así. La nota de los chips no se
+        # Situación: así se midió el 24-ago. La nota de los chips no se
         # genera.
         intro = (
             f'<p class="sub intro-mapa mapa-evidencias__resumen">Este mapa reúne {resumen} '
@@ -1836,7 +1836,7 @@ def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
 def _cita(nombre: str, organizacion: str, url: str | None = None) -> dict:
     """Una entrada de `citation`: la obra, y quién la publica.
 
-    **M10**: la fuente sin URL se cita igual, solo que sin `url`. Inventarle una
+    La fuente sin URL se cita igual, solo que sin `url`. Inventarle una
     sería peor que no tenerla."""
     publisher = {"@type": "Organization", "name": organizacion}
     if _url_absoluta(url):
@@ -1846,7 +1846,7 @@ def _cita(nombre: str, organizacion: str, url: str | None = None) -> dict:
 
 # Las dos fuentes que cita CUALQUIER página con cifras del RUD. Estaban escritas
 # tres veces —ficha, municipios y rud—, byte a byte iguales, que es exactamente
-# el estado en que M2 dice que el daño todavía no está: ninguna estaba mal el
+# el estado en que el daño todavía no está: ninguna estaba mal el
 # día que se escribió, y nada vigilaba que siguieran diciendo lo mismo. El
 # nombre de la obra se pasa aparte porque sí cambia (la ficha cita además el
 # catálogo DIVIPOLA); lo que no puede cambiar es QUIÉN publica y con qué URL.
@@ -1870,7 +1870,7 @@ def cita_dane(nombre: str = "Proyección de población municipal 2026") -> dict:
 def _medida(nombre: str, valor, unidad: str, descripcion: str | None = None):
     """Un `PropertyValue` con su valor y su unidad, o `None` si no hay dato.
 
-    **G1 / R3 / M10**: la mutación que este helper existe para impedir es
+    **G1 / R3**: la mutación que este helper existe para impedir es
     `"value": m.get(campo) or 0`. Publicaría un cero donde la fuente no dijo
     nada, el JSON seguiría siendo válido y Google no se quejaría: **mentiría en
     silencio**, que es la peor clase de error que puede tener un archivo."""
@@ -1909,7 +1909,7 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
     inscripciones tramitadas; el satélite fotointerpreta tejados. Decirlo en el
     marcado es la misma advertencia que la prosa da tres veces en esta página.
 
-    **R3 / M10 en todos los campos**: lo que no hay se OMITE. Un municipio sin
+    **R3 en todos los campos**: lo que no hay se OMITE. Un municipio sin
     registro en el RUD no publica «0 familias» —publicaría que el registro dice
     que no hay damnificados, cuando lo que dice es que aún no ha llegado—, pero
     **sí sigue citando a la UNGRD**: consultar una fuente y no encontrar
@@ -2118,7 +2118,7 @@ def render_ficha(d: dict) -> str:
     # `Dataset`, o sea que la lee una máquina que no ve la página. Ahí una raya
     # NO significa «no lo sabemos»: significa nada, y un normalizador que la
     # limpie deja «Palmira: familias inscritas en el RUD», que es peor que
-    # callar. Cuando falta el dato **se dice con palabras** (M10 en prosa).
+    # callar. Cuando falta el dato **se dice con palabras** (lo mismo, en prosa).
     sat = "con" if satelites_con_dato(m, d["satelite"]) else "sin"
     trozos = []
     if m.get("rud_familias") is not None:
@@ -2192,7 +2192,7 @@ def render_ficha(d: dict) -> str:
          # 208 por igual, así que Pereira —mirada por Copernicus y por
          # ICube-SERTIT— afirmaba la mirada satelital arriba y la negaba aquí,
          # en la misma página. Lo cazó `test_ninguna_ficha_afirma_y_niega_el_satelite`.
-         # Y sin plegar: son menos de 120 palabras, el umbral que fija JP, y
+         # Y sin plegar: son menos de 120 palabras, el umbral fijado, y
          # una advertencia detrás de un clic es una advertencia que no se ha dado.
          '<p class="nota-leer">Cada cifra dice de quién es y de qué día.'
          # La advertencia decía «nadie lo ha evaluado desde el aire» justo
@@ -2210,7 +2210,7 @@ def render_ficha(d: dict) -> str:
     # El lienzo sale FUERA de `.contenido` (max-width 760 px): si vive dentro,
     # el panel y el mapa no caben lado a lado. El prototipo lo midió así.
     # Destacado y tarjetas VAN DEBAJO: el mapa y la tabla de fuentes primero,
-    # el lead y las cifras del RUD después (JP, 24-ago, frente al prototipo).
+    # el lead y las cifras del RUD después (24-ago, frente al prototipo).
     destino = f"/?municipio={urllib.parse.quote(clave)}#mapa"
     svg = mapa_svg(m, [(z, c) for z, c, _ in d["zonas"]], d["ciudadanos"])
     o.append(lienzo_municipal(d, svg, destino))
@@ -2484,7 +2484,7 @@ def render_ficha(d: dict) -> str:
              # llegan hasta el último día de la serie y la corrida es cuando se
              # empaquetaron. Decía «datos del 22 de agosto» con la última
              # captura del 21, y la tabla de capturas de esta misma página lo
-             # desmentía tres filas más arriba (M7).
+             # desmentía tres filas más arriba.
              f'<tr><td>Fecha de las cifras</td><td>captura diaria del RUD</td>'
              f'<td>{sello_fechas(d["serie"][-1][0] if d.get("serie") else None, d["generado"], "del RUD")}</td></tr>'
              "</tbody></table></div>")
@@ -2731,13 +2731,13 @@ def filas_municipios(ctx: dict) -> str:
         # `fila-enlace` es la mitad de un pareado: la otra vive en
         # `site/styles.css` y estira este ancla sobre la fila entera. Si se
         # renombra aquí, la fila deja de ser pulsable sin que se vea nada roto;
-        # por eso el nombre de la clase tiene su test espejo (M2).
+        # por eso el nombre de la clase tiene su test espejo.
         celda = (f'<a class="fila-enlace" href="{enlace}" style="color:inherit">{nombre}</a>'
                  if enlace else nombre)
         buscar = norm_busqueda(f'{m["municipio"]} {m["departamento"]}')
         n_cop = ctx["conteo_satelite"].get(m["municipio"], 0)
         # el MISMO predicado que cuenta el chip de arriba: si la etiqueta de la
-        # fila y el número del chip salieran de dos sitios, divergirían (M2)
+        # fila y el número del chip salieran de dos sitios, divergirían
         etiquetas = _chips_de_municipio(m, ctx)
         # clave de orden de la columna satelital: los edificios únicos del
         # municipio, cada uno contado una vez aunque lo hayan visto dos
@@ -2775,7 +2775,7 @@ def filas_municipios(ctx: dict) -> str:
 # Los cinco chips, con su rótulo, su explicación y su clave, en UN solo sitio.
 # Antes vivían partidos: `site/municipios.js` traía el array `CHIPS` con las
 # condiciones para contar las filas ya escritas, y `filas_municipios` traía su
-# propia copia para etiquetar cada fila (M2). Ahora el recuento del chip y la
+# propia copia para etiquetar cada fila. Ahora el recuento del chip y la
 # etiqueta de la fila salen del mismo predicado (`_chips_de_municipio`), y
 # `tests/test_render_html.py::TestChipsDeMunicipios` los compara.
 CHIPS_MUNICIPIOS = (
@@ -2848,7 +2848,7 @@ def _servicios_que_miraron(m: dict) -> list:
     cero edificios está mirado igual.
 
     Es la lista de la que sale `_mirado_por_satelite`, para que «cuántos
-    miraron» y «quién miró» no puedan contradecirse (M2)."""
+    miraron» y «quién miró» no puedan contradecirse."""
     return [sat["rotulo"] for sat in SATELITES
             if (m.get("en_aoi_copernicus") if sat["campo"] is None
                 else m.get(sat["campo"]) is not None)]
@@ -2874,9 +2874,9 @@ def entradilla_municipios(ctx: dict) -> str:
     sigue el archivo, cuántos tienen damnificados, a cuántos los ha mirado un
     satélite— y la explicación, plegada al final. Ni una cifra se escribe a
     mano; todas salen de `municipios.json`, y la corrida va DENTRO de la frase
-    porque es el párrafo que se cita suelto, lejos del sello (M7).
+    porque es el párrafo que se cita suelto, lejos del sello.
 
-    **M10**: donde falta el dato se calla ese trozo, nunca se escribe 0."""
+    Donde falta el dato se calla ese trozo, nunca se escribe 0."""
     items = ctx["municipios"]
     if not items:
         return ("<p>Todavía no hay ningún municipio con señal registrada. La "
@@ -2914,7 +2914,7 @@ def _reglas_ui_municipios(ctx: dict) -> dict:
 
     `fraseHomonimos` y `silencioDePrensa` son afirmaciones públicas cuya única
     definición vive en el frontend: replicarlas aquí sería la segunda copia que
-    diverge (M2). El build las invoca una sola vez —el resultado se guarda en
+    diverge. El build las invoca una sola vez —el resultado se guarda en
     el propio ctx— y la redacción del aviso sí vive en Python, porque el
     JavaScript que la escribía se retiró al prerenderizarla.
 
@@ -3027,7 +3027,7 @@ def nota_municipios(ctx: dict) -> str:
     activos»— se queda en el navegador, que es el único que sabe qué hay
     filtrado; aquí vive lo que vale igual con la página recién abierta, y vive
     SOLO aquí: el literal del guion estaba además dentro de `municipios.js` y
-    las dos copias ya podían divergir (M2).
+    las dos copias ya podían divergir.
 
     La frase de la columna de prensa se apaga sola el día que ningún municipio
     se llame igual que un departamento (R11): es una leyenda de lo que hay, no
@@ -3056,11 +3056,11 @@ def dataset_municipios(ctx: dict) -> str:
 
     `variableMeasured` es el DICCIONARIO DE COLUMNAS de la tabla —qué mide
     cada una y en qué unidad—, no un ItemList con las 208 filas: 208 ítems
-    serían una segunda copia de la tabla (M2), y el índice para sistemas de IA
+    serían una segunda copia de la tabla, y el índice para sistemas de IA
     ya lo hace llms-full.txt. Es el mismo patrón que la especificación fija
     para las páginas-tabla.
 
-    R3/M10 en el marcado: una fuente sin dato en la corrida no aparece con
+    R3 en el marcado: una fuente sin dato en la corrida no aparece con
     cero — sus columnas y su cita se OMITEN enteras. `dateModified` es la
     corrida de los datos (`municipios.json.generado`), no la del build, y sin
     ella el campo se calla. Ningún Dataset anidado en otro: `creator`,
@@ -3136,7 +3136,7 @@ def dataset_municipios(ctx: dict) -> str:
     # los tres servicios satelitales salen de SATELITES, no de literales: el
     # día que entre el cuarto, la cita aparece sola en cuanto tenga dato
     # el publicador sale de SATELITES, no de una tabla paralela: el día que entre
-    # el cuarto servicio, su cita aparece sola en cuanto tenga dato (M2)
+    # el cuarto servicio, su cita aparece sola en cuanto tenga dato
     for sat in SATELITES:
         if hay.get(sat["clave"]):
             citas.append(_cita(sat["nombre"], sat["publicador"], sat["url"]))
@@ -3182,7 +3182,7 @@ def dataset_municipios(ctx: dict) -> str:
         # los servicios salen de SATELITES y no de literales: aquí ponía
         # «UNOSAT» donde la tabla —y por tanto las 208 fichas— dicen
         # «UNITAR-UNOSAT». Dos vocabularios para el mismo servicio, justo en el
-        # campo que existe para que una máquina los agrupe (M2).
+        # campo que existe para que una máquina los agrupe.
         "keywords": ["terremoto Colombia 2026", "municipios", "RUD",
                      "damnificados", "UNGRD", "DANE", "DYFI",
                      *(sat["rotulo"] for sat in SATELITES)],
@@ -3281,7 +3281,7 @@ def cobertura_satelital_sacudidos(ctx: dict) -> dict:
     la gente esté vigilada. El recuento de municipios no lo maquilla ninguna
     ciudad grande, porque cada municipio cuenta uno.
 
-    **M10/R3**: sin municipios sacudidos no hay párrafo; un servicio sin
+    **R3**: sin municipios sacudidos no hay párrafo; un servicio sin
     municipios no se enumera —acusarlo de cero sería inventarle una omisión—; y
     la población del grupo solo se publica si la tienen todos sus municipios,
     porque una suma a la que le faltan miembros no es la población del grupo."""
@@ -3294,7 +3294,7 @@ def cobertura_satelital_sacudidos(ctx: dict) -> dict:
     reparto = []
     for sat in SATELITES:
         n = sum(1 for m in mirados if sat["rotulo"] in _servicios_que_miraron(m))
-        if n:                                    # M10: el cero no se enumera
+        if n:                                    # El cero no se enumera
             reparto.append((sat["rotulo"], n))
     datos = {
         "sacudidos": len(sacudidos),
@@ -3512,7 +3512,7 @@ def nota_mirada_portada(ctx: dict) -> str:
 # un lector de pantalla o un modelo que cite leía la promesa y no el dato.
 #
 # Cada pieza que se escribe aquí se BORRA de `site/app.js` en el mismo cambio:
-# dos superficies dibujando lo mismo divergen (M2), y la del navegador ya no
+# dos superficies dibujando lo mismo divergen, y la del navegador ya no
 # tiene nada que aportar sobre la del build.
 # ----------------------------------------------------------------------------
 
@@ -3522,7 +3522,7 @@ def sin_mirada_satelital(ctx: dict) -> list:
     Es la tesis del monitor contada como lista. Se pregunta por `mirado`, no
     por `con dato`: un municipio dentro de una zona de Copernicus sin edificios
     marcados SÍ fue mirado, y meterlo aquí sería acusar a la fuente de no haber
-    mirado cuando lo que pasó es que no encontró (M10)."""
+    mirado cuando lo que pasó es que no encontró."""
     return [m for m in ctx["municipios"]
             if m.get("rud_familias") and not _mirado_por_satelite(m)]
 
@@ -3590,8 +3590,8 @@ def nota_como_leer_portada(ctx: dict) -> str:
 
 
 # --------------------------------------------------- el panel: cuadro de honor
-# JP, sobre la maqueta: «la lista es un cuadro de honor —los municipios mejor
-# documentados—, no un índice». Por eso no están los 208: están los que tienen
+# El criterio de la maqueta: la lista es un cuadro de honor —los municipios
+# mejor documentados—, no un índice. Por eso no están los 208: están los que tienen
 # más de una fuente, que son los únicos que se pueden contrastar. El índice
 # completo es `municipios.html`, y la lista enlaza allí.
 _FAMILIAS_DE_FUENTE = (
@@ -3633,7 +3633,7 @@ def _contrastables(ctx: dict) -> list:
 #
 # Diferencia deliberada con los chips de la ficha (`chips_evidencia`): allí el
 # número cuenta PUNTOS —«21 edificios»— porque dentro de un municipio no hay
-# municipios que contar. Aquí cuenta MUNICIPIOS, que es el criterio de JP y la
+# municipios que contar. Aquí cuenta MUNICIPIOS, que es el criterio del proyecto y la
 # única unidad en la que las cinco cifras se pueden comparar entre sí: contadas
 # en edificios, Copernicus parecía cubrir más que el registro oficial cuando es
 # justo al revés.
@@ -3642,7 +3642,7 @@ def capas_portada() -> tuple:
     return (*((sat["clave"], sat["rotulo"]) for sat in SATELITES),
             # el MISMO rótulo que la tira de la ficha (`capas_evidencia`): dos
             # vocabularios para la misma capa en dos superficies hermanas es
-            # justo lo que M2 prohíbe
+            # justo la copia que diverge
             ("ciudadanos", "Reportes de la comunidad"),
             ("ausencia", "Solo en el RUD"))
 
@@ -3900,7 +3900,7 @@ def serie_de_la_brecha(ctx: dict) -> list:
 
     Los reportes de los vecinos se atribuyen con `asigna_a_municipios`, la misma
     función que usa el resto del build: un segundo criterio de cercanía daría
-    otro reparto y las dos superficies dirían cifras distintas (M2)."""
+    otro reparto y las dos superficies dirían cifras distintas."""
     mon, items = ctx["monitor"], ctx["municipios"]
     primera, entradas = {}, {k: {} for k, _n, _c in _SERVICIOS_BRECHA}
 
@@ -3998,7 +3998,7 @@ def grafico_brecha(ctx: dict, ancho: int = 980, alto: int = 310) -> str:
     congelados, para que siga el tema oscuro."""
     serie = serie_de_la_brecha(ctx)
     if not serie:
-        # M10: sin serie no se dibuja un lienzo vacío, se dice que no la hay
+        # Sin serie no se dibuja un lienzo vacío, se dice que no la hay
         return ('<p class="note">Todavía no hay serie diaria del registro '
                 "oficial con la que dibujar la brecha.</p>")
     izq, der, arr, aba, carril = 44, 14, 16, 30, 74
@@ -4176,7 +4176,7 @@ def tarjetas_fuentes_portada(ctx: dict) -> str:
         marca_cif = (' data-cifra="rud-familias"'
                      if f.get("id") == "rud" and principal
                      and principal[1] == "familias" else "")
-        # R3/M10: sin recuento por municipio se dice que no lo hay, no un cero
+        # R3: sin recuento por municipio se dice que no lo hay, no un cero
         cuerpo.append(
             f'<p class="fuente-muns"><b{marca_mun}>{fmt(muns)}</b> municipios</p>'
             if muns
@@ -4209,7 +4209,7 @@ def fecha_alertas_portada(ctx: dict) -> str:
     """De cuándo es la revisión que produjo estas alertas.
 
     Fecha absoluta y nunca «hoy»: esta página se releerá dentro de años, y una
-    alerta sin su corte miente en cuarenta y ocho horas (M7)."""
+    alerta sin su corte miente en cuarenta y ocho horas."""
     fecha = _solo_fecha(_alertas(ctx).get("fecha") or _alertas(ctx).get("generado"))
     if not fecha:
         return "El monitor no ha registrado la fecha de la última revisión."
@@ -4293,7 +4293,7 @@ def activaciones_colombia(ctx: dict) -> str:
 # dirección propia a la que enlazar.
 #
 # Con el porte, `app.js` deja de dibujarla: dos superficies pintando lo mismo
-# divergen (M2), y eso lo vigila
+# divergen, y eso lo vigila
 # `test_render_html.py::test_app_js_ya_no_dibuja_lo_que_escribe_el_build`.
 ETIQUETA_HITO = {"institucional": "internacional", "entrega": "internacional",
                  "internacional": "internacional", "evento": "evento",
@@ -4500,7 +4500,7 @@ def cronologia_referencia(ctx: dict) -> str:
     """
     hitos = hitos_cronologia(ctx)
     if not hitos:
-        # M10: sin hitos no se publica un armazón vacío, se dice que no los hay
+        # Sin hitos no se publica un armazón vacío, se dice que no los hay
         return '<p class="note">Todavía no hay hitos registrados de este evento.</p>'
     fecha_evento = next((h["fecha"] for h in reversed(hitos)
                          if h.get("tipo") == "evento"), None)
@@ -4654,7 +4654,7 @@ def nota_sin_registro(ctx: dict) -> str:
 # sitio. Antes vivían partidos: `site/rud.js` traía el array `CHIPS` con las
 # condiciones para contar las filas ya escritas, y `filas_rud` traía aquí su
 # propia copia de esas mismas condiciones para etiquetar cada fila. Dos
-# definiciones de lo mismo en dos lenguajes (M2): el día que una cambiara, el
+# definiciones de lo mismo en dos lenguajes: el día que una cambiara, el
 # chip diría «Nuevos (49)» y filtraría otra cosa, y nada lo habría avisado.
 # Ahora el recuento del chip y la etiqueta de la fila salen del mismo
 # predicado, y `tests/test_render_html.py::TestChipsDelRud` los compara.
@@ -4716,11 +4716,11 @@ def _salto_del_rud(rud: dict):
     (R16). Se calcula recorriendo `detalle_diario` municipio a municipio, con
     la clave `(departamento, municipio)` y nunca por nombre normalizado: unir
     por nombre es el error de 206 familias que ya se cazó con «Guadalajara de
-    Buga» (R10, M8).
+    Buga» (R10).
 
     Devuelve None —y la frase desaparece entera— si no hay con qué compararse o
     si el reparto no cuadra con el salto de la serie. Un desglose que no suma
-    su propio total no se publica (M7): es aritmética, y si falla es que el
+    su propio total no se publica: es aritmética, y si falla es que el
     detalle diario y la serie ya no hablan del mismo corte."""
     serie = rud.get("serie") or []
     detalle = rud.get("detalle_diario") or {}
@@ -4752,7 +4752,7 @@ def _salto_del_rud(rud: dict):
         # La oración que se construye con esto termina afirmando que lo que
         # crece son los municipios ya contados. Si al salto le falta una de sus
         # dos mitades, esa conclusión deja de ser cierta: la frase no se
-        # corrige con un cero, se retira entera (M10).
+        # corrige con un cero, se retira entera.
         return None
     return {"salto": salto, "nuevos": nuevos, "revision": revision,
             "municipios_nuevos": municipios_nuevos}
@@ -4765,7 +4765,7 @@ def entradilla_rud(ctx: dict) -> str:
     mano. Va en `fmt` y no en `fmt_prosa` a propósito: la oración existe para
     el contraste entre 16.155 y 3.179, y las letras lo disuelven.
 
-    **M10**: donde falta el dato se calla ese trozo. Si no hay ni una captura,
+    Donde falta el dato se calla ese trozo. Si no hay ni una captura,
     lo dice con palabras — devolver cadena vacía rompería el build, y era
     además el mensaje que `rud.js` escribía en el navegador cuando el JSON no
     llegaba: quien no ejecuta JavaScript no lo leía nunca."""
@@ -4817,7 +4817,7 @@ def entradilla_rud(ctx: dict) -> str:
     if cabeza:
         # La fecha del corte viaja DENTRO de la frase: es el párrafo que se cita
         # suelto, lejos del sello del encabezado, y una cifra del RUD sin su
-        # corte miente en 48 horas (M7).
+        # corte miente en 48 horas.
         corte = (f', en la captura del {fecha_larga(ult["fecha"])}'
                  if ult.get("fecha") else "")
         frases.append(cabeza + (f', con {viviendas}' if viviendas else "") + corte + ".")
@@ -4845,7 +4845,7 @@ def nota_rud(ctx: dict) -> str:
     en el navegador, que es el único que sabe qué hay filtrado. Aquí vive lo
     que vale igual con la página recién abierta o con tres filtros puestos, y
     vive SOLO aquí: si el literal siguiera además en `rud.js`, el día que uno
-    cambiara la página diría dos cosas (M2)."""
+    cambiara la página diría dos cosas."""
     rud = ctx["rud"] or {}
     serie = rud.get("serie") or []
     partes = ["La columna Δ compara con la captura anterior"]
@@ -4870,7 +4870,7 @@ def nota_rud(ctx: dict) -> str:
 # ------------------------------------------------ el Dataset JSON-LD del RUD
 # Las columnas de la tabla, en el orden en que se leen, con su unidad y con el
 # campo del que sale su total nacional. UN solo sitio: el día que la tabla gane
-# una columna, la que se añada aquí es la misma que se describe (M2).
+# una columna, la que se añada aquí es la misma que se describe.
 #   (campo, rótulo, unidad, total_nacional)
 # `total_nacional=False` marca la columna que solo existe municipio a municipio
 # —la población y su proporción no se suman en la serie— y por eso se describe
@@ -4895,7 +4895,7 @@ def _cifra_ld(v):
     100231.0` en el marcado es ruido: quien lo cite lee un decimal que la
     fuente no publicó. **`None` se propaga como `None`**, nunca como 0 — es la
     R3 dentro del marcado, y el guardián G1 existe porque un `or 0` aquí
-    produce JSON perfectamente válido del que nadie se queja (M10)."""
+    produce JSON perfectamente válido del que nadie se queja."""
     if v is None or isinstance(v, bool):
         return None
     f = float(v)
@@ -4907,18 +4907,18 @@ def dataset_rud(ctx: dict) -> str:
 
     `variableMeasured` es el DICCIONARIO DE COLUMNAS de la tabla —qué mide
     cada una y en qué unidad—, no un `ItemList` con las 207 filas: eso sería
-    una segunda copia de la tabla mantenida aparte (M2), y 207 ítems no
+    una segunda copia de la tabla mantenida aparte, y 207 ítems no
     disparan ningún resultado enriquecido. Es el patrón de `dataset_municipios`
     y el que la especificación fija para las páginas-tabla.
 
     A las columnas que la serie sí agrega se les escribe además su **total
     nacional con su fecha**, igual que hace `marcado_balances`: es la cifra por
     la que se cita esta página, y publicarla sin fecha la haría mentir en 48
-    horas (M7). Las que solo existen municipio a municipio —la población y su
+    horas. Las que solo existen municipio a municipio —la población y su
     proporción— se describen sin valor: describir una columna no obliga a
     inventarle un agregado.
 
-    **R3/M10 en el marcado**: la columna sin un solo dato se omite entera y la
+    **R3 en el marcado**: la columna sin un solo dato se omite entera y la
     que lo tiene en el detalle pero no en la serie se describe sin `value`.
     Jamás un 0: un `"value": 0` en «viviendas destruidas» afirmaría que el
     registro evaluó y no encontró ninguna, que es justo lo contrario de lo que
@@ -4950,7 +4950,7 @@ def dataset_rud(ctx: dict) -> str:
     for campo, rotulo, unidad, agrega in COLUMNAS_RUD:
         total = _cifra_ld(ult.get(campo)) if agrega else None
         # la columna existe si alguna de las dos capas la trae; una fuente que
-        # no publicó nada no aparece con cero, no aparece (R3/M10)
+        # no publicó nada no aparece con cero, no aparece (R3)
         if total is None and not any(m.get(campo) is not None for m in munis):
             continue
         presentes.add(campo)
@@ -5007,7 +5007,7 @@ def dataset_rud(ctx: dict) -> str:
             "del daño.",
         "inLanguage": "es",
         # la cobertura arranca el día del sismo y CIERRA en la última captura;
-        # la corrida del build no pinta nada aquí (M7)
+        # la corrida del build no pinta nada aquí
         **({"temporalCoverage": f"2026-08-10/{ult['fecha']}",
             "dateModified": ult["fecha"]} if ult.get("fecha") else {}),
         "license": LICENCIA,
@@ -5044,7 +5044,7 @@ def dataset_referencia(ctx: dict) -> str:
 
     Las citas de los satélites salen de `SATELITES` (`nombre` + `publicador` +
     `url`) y no de una lista nueva: una segunda copia de los mismos tres
-    servicios diverge en cuanto entre el cuarto (M2), y ya pasó con `citation`
+    servicios diverge en cuanto entre el cuarto, y ya pasó con `citation`
     en las fichas.
 
     Comparte `@id` con el nodo de la portada a propósito: **es el mismo
@@ -5280,7 +5280,7 @@ def grafico_rud(ctx: dict) -> str:
     a partir de ahora esa ambigüedad queda escrita en el artefacto."""
     serie = (ctx["rud"] or {}).get("serie") or []
     if not serie:
-        # M10: sin serie no hay gráfico que dibujar, y un lienzo vacío sería
+        # Sin serie no hay gráfico que dibujar, y un lienzo vacío sería
         # peor que decirlo. La entradilla ya cuenta lo mismo con más detalle.
         return ("<p class=\"note\">Sin ninguna captura del RUD todavía no hay "
                 "serie que dibujar.</p>")
@@ -5422,7 +5422,7 @@ def filas_rud(ctx: dict) -> str:
     for m in sorted(rud["municipios"], key=lambda x: x.get("personas") or 0, reverse=True):
         nombre, depto = m["municipio"], m["departamento"]
         # el MISMO predicado que cuenta el chip de arriba: si la etiqueta de la
-        # fila y el número del chip salieran de dos sitios, divergirían (M2)
+        # fila y el número del chip salieran de dos sitios, divergirían
         etiquetas = _chips_de(m)
         # valor por columna, en el mismo orden que el <thead>: permite ordenar
         # sobre el DOM sin volver a leer el JSON
@@ -5501,7 +5501,7 @@ def filas_balances(ctx: dict) -> str:
         # «averiadas / destruidas», y el hueco SE MARCA en su sitio en vez de
         # colapsar la posición: filtrar los None dejaba una sola cifra suelta
         # bajo el título de las dos, sin manera de saber cuál era. Un dato que
-        # falta se enseña como «—» (R3/M10), no se hace desaparecer moviendo el
+        # falta se enseña como «—» (R3), no se hace desaparecer moviendo el
         # que sí está al hueco del que no.
         par = (c.get("viviendas_averiadas"), c.get("viviendas_destruidas"))
         viviendas = ("—" if all(v is None for v in par)
@@ -5597,7 +5597,7 @@ def entradilla_noticias(ctx: dict) -> str:
 
     Las cifras salen del corpus en cada build; ninguna se escribe a mano — la
     portada ya publicó «36 municipios ciudadanos» con 43 en su propia tabla, y
-    esa clase de prosa envejece igual aquí. **M10**: donde falta el dato se
+    esa clase de prosa envejece igual aquí. Donde falta el dato se
     calla ese trozo, y sin corpus se dice con palabras, porque una cadena
     vacía rompería el build.
 
@@ -5628,7 +5628,7 @@ def nota_noticias(ctx: dict) -> str:
     Aquí vive lo que un lector sin JavaScript necesita saber de la lista de
     arriba: que es un recorte, de cuánto, y por dónde sigue. Y vive SOLO aquí:
     si el literal siguiera además en `noticias.js`, el día que uno cambiara la
-    página diría dos cosas (M2)."""
+    página diría dos cosas."""
     total = len(ctx["noticias"] or [])
     if not total:
         return "Sin titulares archivados todavía, la lista de arriba va vacía."
@@ -5643,7 +5643,7 @@ def nota_noticias(ctx: dict) -> str:
 
 
 # ------------------------------------------------- el sello de fecha, por página
-# Un componente y cuatro fuentes, no cuatro redacciones (M2). Lo escribía el
+# Un componente y cuatro fuentes, no cuatro redacciones. Lo escribía el
 # navegador en las cuatro páginas —`getElementById("generado").textContent`, sin
 # guarda ninguna—, así que quien no ejecuta JavaScript leía una raya y una
 # excepción en una sola de las cuatro llamadas se llevaba por delante el resto
@@ -5651,7 +5651,7 @@ def nota_noticias(ctx: dict) -> str:
 # motivo y desaparecen.
 def sello_portada(ctx: dict) -> str:
     """Portada: solo corrida. `monitor.json` no publica hasta dónde llega la
-    serie —son muchas fuentes con cortes distintos—, y M10 prohíbe inventarla."""
+    serie —son muchas fuentes con cortes distintos—, y no se inventa."""
     return sello_fechas(None, (ctx["monitor"] or {}).get("generado"), "del monitor")
 
 
@@ -5777,7 +5777,7 @@ def _items_balances(ctx: dict) -> list:
 
 def _metric_card(label, value, sub=None, title=None, href=None) -> str:
     """Una tarjeta del `metric-strip`, con el mismo markup que `UI.metricCards`:
-    si el navegador y el build escribieran tarjetas distintas, divergirían (M2)."""
+    si el navegador y el build escribieran tarjetas distintas, divergirían."""
     inner = f"<span>{e(label)}</span><strong>{e(value)}</strong>"
     if sub:
         inner += f"<small>{e(sub)}</small>"
@@ -5791,7 +5791,7 @@ def resumen_balances(ctx: dict) -> str:
     """La entradilla: cuántas capturas hay y cuál es el máximo informado.
 
     El recuento de capturas y publicadores es aritmética de archivo y se hace
-    aquí; las cifras consolidadas salen SOLO de ui.js (R16). **M10**: la pieza
+    aquí; las cifras consolidadas salen SOLO de ui.js (R16). La pieza
     cuyo dato falta se calla; si no hay ni una captura, se dice con palabras
     — devolver vacío rompería el build."""
     items = _items_balances(ctx)
@@ -5818,7 +5818,7 @@ def resumen_balances(ctx: dict) -> str:
     lista = piezas[0] if len(piezas) == 1 else ", ".join(piezas[:-1]) + " y " + piezas[-1]
     # «máximo informado» y no «cifra actual»: R16 también en la entradilla, y
     # la fecha viaja dentro de la frase porque es el párrafo que se cita suelto
-    # (M7: una cifra sin su corte miente en 48 horas).
+    # (una cifra sin su corte miente en 48 horas).
     return (f"<p>{cabeza} Máximo informado hasta el "
             f"{fecha_larga(ult.get('fecha'))}: {lista}. No es el balance "
             f"oficial: es lo que publican los medios citándolo.</p>")
@@ -5941,7 +5941,7 @@ def tarjetas_balances(ctx: dict) -> str:
         # ordena pero no filtra, así que un medio sin citas puede ganar el día.
         # Hoy acertaba por casualidad —el único ítem sin citas del corpus resulta
         # ser oficial—, que es la clase de acierto que deja de serlo sin avisar.
-        # M10: cuando no se sabe, se describe lo que hay, no se asciende a
+        # Cuando no se sabe, se describe lo que hay, no se asciende a
         # oficial.
         oficial = bool(item.get("official"))
         if oficial:
@@ -6109,7 +6109,7 @@ def grafico_balances(ctx: dict) -> str:
 
 def _narra_dia_balances(d: dict, metricas) -> str | None:
     """Una frase del `<desc>`: el consolidado del día para las métricas del
-    panel. **M10**: la cifra que falta se calla; el día sin ninguna, entero."""
+    panel. La cifra que falta se calla; el día sin ninguna, entero."""
     cons = d.get("consolidado") or {}
     piezas = [f"{fmt(cv['valor'])} {CIFRAS_BALANCE_ES.get(k, k)}"
               for k, _, _ in metricas
@@ -6167,7 +6167,7 @@ def _filas_comparativa(ctx: dict) -> list | None:
     va por detrás, mientras su propia tabla publicaba 199.376 familias en el
     RUD contra 146.188 en los medios. Una nota que contradice a la tabla que
     tiene debajo se arregla generándola del mismo dato, no reescribiéndola
-    mejor (M2)."""
+    mejor."""
     datos = consolidado_balances(ctx)
     if datos is None:
         return None
@@ -6246,7 +6246,7 @@ def _corte_comparativa(ctx: dict) -> str:
     if rud and med:
         return (f"con el RUD del {fecha_larga(rud)} y los medios del "
                 f"{fecha_larga(med)}")
-    # M10: sin fecha no se inventa ninguna, y la frase sigue siendo una frase.
+    # Sin fecha no se inventa ninguna, y la frase sigue siendo una frase.
     return "en el último corte disponible"
 
 
@@ -6277,7 +6277,7 @@ def nota_comparativa(ctx: dict) -> str:
               f'<span data-adelanto="{lado}">{enumera(indicadores)}</span>')
              for lado, indicadores in reparto.items() if indicadores]
     # «Hoy» en una página que el archivo conserva fechada y que se relee
-    # dentro de años: el corte va pegado a la afirmación (M7). Y no se
+    # dentro de años: el corte va pegado a la afirmación. Y no se
     # encadena con «por eso»: que los medios agreguen reportes departamentales
     # explicaría que ellos vayan por delante, no que el RUD adelante en dos
     # indicadores.
@@ -6288,7 +6288,7 @@ def nota_comparativa(ctx: dict) -> str:
     elif lados:
         direccion = f" {cuando.capitalize()} {lados[0][0]} adelanta en {lados[0][1]}."
     else:
-        # M10: sin filas comparables no se inventa una dirección. Puede pasar
+        # Sin filas comparables no se inventa una dirección. Puede pasar
         # el día que el consolidado no se calcule (R13) o que las dos columnas
         # coincidan en todo, que sería la mejor noticia que este monitor puede
         # dar.
@@ -6314,7 +6314,7 @@ def capturas_balances(ctx: dict) -> str:
     archivo: cuántas capturas hay y cuántas alimentan la serie, que es lo que
     explica la marca «✓ usada en la serie» de la tabla de abajo.
 
-    No es la misma frase que la del navegador y por eso no es una copia (M2):
+    No es la misma frase que la del navegador y por eso no es una copia:
     `balances.js` guarda esta al arrancar y la devuelve en cuanto se quitan los
     filtros, en vez de pisarla con un recuento que no dice nada más."""
     items = _items_balances(ctx)
@@ -6324,7 +6324,7 @@ def capturas_balances(ctx: dict) -> str:
     total = f"{fmt(len(items))} capturas archivadas"
     datos = consolidado_balances(ctx)
     if datos is None:
-        # M10: sin la regla no se dice cuántas alimentan la serie. El recuento
+        # Sin la regla no se dice cuántas alimentan la serie. El recuento
         # de capturas es aritmética de archivo y ese sí se publica.
         return total + "."
     elegidas = len([d for d in (datos.get("porDia") or []) if d.get("item")])
@@ -6365,7 +6365,7 @@ def _fuentes_citadas(items: list) -> list:
     """Las fuentes oficiales que citan las capturas, sin repetir.
 
     Ordenadas por cuántas capturas las citan: la que sostiene la serie va
-    primero. **M10**: la que no trae URL se cita igual, solo que sin `url` —
+    primero. La que no trae URL se cita igual, solo que sin `url` —
     omitir el campo es lo que significa «no la sabemos»; inventarla, no."""
     vistas = {}
     for i in items:
@@ -6396,7 +6396,7 @@ def marcado_balances(ctx: dict) -> str:
     valida como un dataset independiente al que le faltan sus campos— y aquí se
     respeta desde el primer día en vez de repetir el error.
 
-    **R3/M10 en el marcado**: la cifra que el consolidado no tiene no sale como
+    **R3 en el marcado**: la cifra que el consolidado no tiene no sale como
     cero, sale como nada. Y el `Dataset` se publica aunque falte node: lo que se
     calla entonces son las cifras, no la existencia del conjunto de datos."""
     items = _items_balances(ctx)
@@ -6455,7 +6455,7 @@ def marcado_balances(ctx: dict) -> str:
     for clave, nombre in CIFRAS_BALANCE_UI.items():
         v = cons.get(clave) or {}
         if v.get("valor") is None:
-            continue                      # R3/M10: el hueco se calla, no vale 0
+            continue                      # R3: el hueco se calla, no vale 0
         medida = {"@type": "PropertyValue", "name": nombre, "value": v["valor"],
                   "unitText": UNIDAD_BALANCE[clave],
                   "description":
@@ -6494,7 +6494,7 @@ _CONTENEDOR_NAV = re.compile(r'<nav id="site-nav"[^>]*>')
 _CONTENEDOR_PIE = re.compile(r'<div id="site-footer"[^>]*>')
 # El nodo de identidad va en el <head>, y se escribe desde la misma constante
 # que usan las 208 fichas: repetir el literal en las cinco páginas habría sido
-# la sexta copia de algo cuya única virtud es ser idéntico (M2).
+# la sexta copia de algo cuya única virtud es ser idéntico.
 #
 # El marcador es un <div hidden>, NO un <script ld+json> vacío, y esa es la
 # regla: **un contenedor a la espera de su relleno no puede ser un formato que
@@ -6731,7 +6731,7 @@ def cifras_del_dia(ctx: dict) -> dict:
     # el <head> de noticias.html: va por marcador porque un <span data-gen> no
     # cabe dentro de un bloque JSON-LD. Si la corrida falta o no es una fecha,
     # la clave NO se emite y el build revienta con «marcador sin valor»:
-    # escribir "None" fecharía el corpus en la nada (M10).
+    # escribir "None" fecharía el corpus en la nada.
     corte = _solo_fecha(ctx.get("noticias_generado"))
     if corte:
         cifras["noticias_corte"] = corte

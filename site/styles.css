@@ -954,7 +954,7 @@ a.metric-card:hover { border-color: var(--s1); }
 
    De aquí abajo vive el sistema visual que ordena las cinco páginas y las 208
    fichas: encabezado compacto, entradilla, plegable, zona de datos, chips y
-   eje único. Viene del prototipo aprobado con JP, que se borra al cerrar la
+   eje único. Viene del prototipo aprobado con, que se borra al cerrar la
    última fase — por eso su conocimiento se muda aquí y no se queda allí.
 
    TRES REGLAS DEL PORTE, que no son estilo sino método:
@@ -1241,7 +1241,7 @@ details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--
 /* Aquí vivían `.lienzo.con-ficha` y `.ampliar`: el modo móvil de la maqueta en
    el que tocar un municipio encogía el mapa para dejar sitio a su ficha en el
    panel. Ese modo no se portó —en este sitio el panel enlaza a la ficha
-   municipal, que es una página entera, y JP la prefiere al explorador de dos
+   municipal, que es una página entera, y se prefiere al explorador de dos
    estados—, así que las reglas se quedaron sin un solo elemento que las
    activara: ni la portada ni la ficha municipal (`.lienzo.lienzo-mun`) escriben
    nunca esas clases. CSS muerto no avisa de que lo está; se retira el
@@ -1328,7 +1328,7 @@ details.denso td,details.denso th{padding:4px 8px;border-bottom:1px solid var(--
    de balances —rótulos de 10 px sobre un lienzo de 880 que en un móvil de 375
    se dibuja a 311: letra efectiva de 3,5 px— y no lo arreglaba nadie, porque la
    cascada de arriba apunta a `.grafico-rud` y `.grafico-balances` y este se
-   llama `.grafico-rud-muni`. Es M2 con otro traje: la tercera copia del mismo
+   llama `.grafico-rud-muni`. Es la copia que diverge, con otro traje: la tercera copia del mismo
    dibujo, divergida en la hoja. Doce días y un solo panel, así que las fechas
    caben sin esconder ninguna. */
 @media (max-width: 760px) {
@@ -1482,7 +1482,7 @@ details.denso>summary{color:var(--ink)}
 .chip .n { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--ink); }
 
 /* La clave de color por fuente. Los tres satélites conservan de momento su
-   color propio, porque unificarlos en azul —decidido por JP el 23-ago— cambia
+   color propio, porque unificarlos en azul —decidido el 23-ago— cambia
    el significado visual de las tablas de municipios y de las 208 fichas, y eso
    va en su propia fase con su propia verificación. Cuando llegue, se cambia
    aquí y en los --sN que el marcado emite en línea, no solo aquí.

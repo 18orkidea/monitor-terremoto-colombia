@@ -66,7 +66,7 @@
      —los cuenta el build sobre el mismo `evidencia.json` que este mapa dibuja—,
      y este código se limita a conectarlos. Construirlos en el navegador sería
      una segunda copia de los recuentos y volvería a dejar la tira vacía para
-     quien lee el documento sin ejecutarlo (M2).
+     quien lee el documento sin ejecutarlo.
 
      Devuelve `true` si encontró chips: es lo que le dice a quien llama que NO
      hace falta el control de capas de Leaflet. Un chip cuya capa no existe no

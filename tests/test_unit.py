@@ -939,7 +939,7 @@ class TestFeedsComunitarios(unittest.TestCase):
         self.assertIn("%22caldas%22", aguadas[0]["url"])
 
     def test_el_municipio_dinamico_sin_toponimo_no_genera_consulta(self):
-        """M10: si no se puede preguntar, no se pregunta. Una consulta sin
+        """Si no se puede preguntar, no se pregunta. Una consulta sin
         frase (`"" "caldas"`) traería los titulares del departamento entero y el
         feed los atribuiría a un municipio, porque publish.py cree al feed."""
         from community_feeds import municipal_google_news_feeds, motivo_sin_busqueda
@@ -3681,7 +3681,7 @@ class TestLasDosPreguntasSobreLaMirada(unittest.TestCase):
     # texto de `site/municipios.js` y de `ingest/municipios.py`. Se retiran en la
     # fase 4, cuando la regla de la tabla se mudó al build: repuntarlos a
     # `render_html.py` los habría dejado igual de mudos, porque un `assertIn`
-    # sobre el código fuente pasa en verde con la condición invertida (M1). Lo
+    # sobre el código fuente pasa en verde con la condición invertida. Lo
     # que querían comprobar lo hace ahora, LLAMANDO a las dos funciones sobre 54
     # combinaciones, `test_render_html::TestLaMiradaSatelitalEnLasDosSuperficies`.
 
@@ -3948,7 +3948,7 @@ class TestActivosDelArchivo(unittest.TestCase):
             conn.close()
 
     def test_la_contradiccion_del_archivo_se_canta(self):
-        """M3: si merece explicarse, merece salir en las alertas."""
+        """si merece explicarse, merece salir en las alertas."""
         import tempfile
         import alerts
         with tempfile.TemporaryDirectory() as tmp:
@@ -4160,7 +4160,7 @@ class TestActivosDelArchivo(unittest.TestCase):
             conn.close()
 
     def test_sin_nadie_que_lo_sepa_los_bytes_se_omiten(self):
-        """M10: donde falta el dato se calla el campo, nunca se escribe 0."""
+        """Donde falta el dato se calla el campo, nunca se escribe 0."""
         import tempfile
         import publish
         with tempfile.TemporaryDirectory() as tmp:
@@ -4179,7 +4179,7 @@ class TestActivosDelArchivo(unittest.TestCase):
         Una cifra que no sea de ese cuerpo o suena en falso todos los días —y un
         aviso falso mata la lectura de las alertas— o enmascara una sustitución
         de verdad. Aquí las tres vías tienen un tamaño a mano y las tres son de
-        OTRO contenido: el manifiesto tiene que salir sin cifra (M10).
+        OTRO contenido: el manifiesto tiene que salir sin cifra.
         """
         import tempfile
         import publish
@@ -4404,7 +4404,7 @@ class TestActivosDelArchivo(unittest.TestCase):
             self.assertIn("motivo", informe)
             self.assertIn("fecha", informe)
             self.assertEqual(informe["objetos_en_bucket"], None,
-                             "M10: sin listado no se inventa un recuento")
+                             "sin listado no se inventa un recuento")
 
     def test_sin_manifiesto_la_auditoria_avisa_y_no_revienta(self):
         """R13: si `publish` falló, este paso no puede escupir un traceback."""
@@ -4480,7 +4480,7 @@ class TestActivosDelArchivo(unittest.TestCase):
         # que cada uno tiene que ser algo que NUNCA es contenido descargable:
         # cachés y artefactos de herramienta, credenciales, el material temporal
         # del rediseño y los documentos de trabajo (planes y auditorías que se
-        # leen junto al código y no son del repositorio público, M9). Ninguno lo
+        # leen junto al código y no son del repositorio público). Ninguno lo
         # trae una fuente.
         self.assertEqual(
             set(sueltos),
@@ -4496,7 +4496,7 @@ class TestActivosDelArchivo(unittest.TestCase):
             "es contenido que se descarga, su guardián no puede mirar el disco")
 
     def test_las_extensiones_de_r2_dicen_lo_mismo_en_las_cuatro_superficies(self):
-        """M2. `.avi` llevaba desde el principio en `.gitignore` y en ninguna de
+        """`.avi` llevaba desde el principio en `.gitignore` y en ninguna de
         las otras tres: un vídeo con esa extensión se habría descargado, no
         habría entrado en git, no habría subido a R2 y no habría figurado en el
         manifiesto — irrecuperable en cuanto el runner se apagara."""
@@ -4881,7 +4881,7 @@ class TestRudDetenido(unittest.TestCase):
                                     "2026-09-03"])["tipo"], "rud_detenido")
 
     def test_las_columnas_que_deciden_el_movimiento_son_las_mismas_en_las_dos_superficies(self):
-        """M2: «se movió el registro» se decide en dos sitios —la alerta y la
+        """«se movió el registro» se decide en dos sitios —la alerta y la
         tabla de la ficha— porque la corrida diaria no importa el módulo de
         render. Si una mirase una columna que la otra ignora, el sitio agruparía
         como quietas capturas que la alerta cuenta como movimiento."""
@@ -4889,3 +4889,96 @@ class TestRudDetenido(unittest.TestCase):
         import alerts
         import render_html
         self.assertEqual(alerts.COLUMNAS_DEL_RUD, render_html.COLUMNAS_DEL_RUD)
+
+
+class TestElMetodoNoSePublica(unittest.TestCase):
+    """El repositorio es público; cómo trabajamos, no.
+
+    Las reglas de rigor de los datos (R1–R16) son el argumento de por qué se
+    puede confiar en estas cifras y viven en `CLAUDE.md` a la vista de
+    cualquiera. Las de método —cómo se valida un test, cómo se reparte un
+    sprint, qué revisiones pasa un cambio, con qué incidente se aprendió cada
+    una— viven en `documentos/METODO.md`, que no se versiona.
+
+    Esto vigila que el segundo grupo no vuelva a colarse en el primero. Se
+    coló entero hasta el 27-ago-2026: comentarios que citaban reglas internas
+    por su número, entradas del ADR que narraban conversaciones de trabajo y
+    las iniciales de una persona en 9 sitios.
+
+    Los patrones se arman por concatenación a propósito, para que este fichero
+    pueda vigilarse a sí mismo: escritos enteros, el guardián se cazaría solo y
+    habría que excluirlo — y un fichero excluido es por donde vuelve a entrar.
+    """
+
+    # `.claude/` guarda configuración de herramienta, no prosa de método, y
+    # `data/` son cuerpos de fuentes que se archivan tal cual: lo que digan no
+    # lo escribimos nosotros.
+    FUERA = ("documentos/", ".claude/", "data/")
+    BINARIOS = (".png", ".jpg", ".webp", ".ico", ".woff", ".woff2", ".pdf",
+                ".zip", ".gz", ".sqlite")
+
+    @staticmethod
+    def _patrones():
+        iniciales = r"\b" + "J" + "P" + r"\b"
+        # `M7.4` es la magnitud del sismo, y `M7\.4` la misma dentro de una
+        # expresión regular: ni una ni otra son citas.
+        regla = r"\b" + "M" + r"(?:1[01]|[1-9])\b(?![.,\\]{0,2}\d)"
+        marca = "cica" + "triz"
+        agentes = "|".join(("revi" + "sor-qa", "audi" + "tor-editorial",
+                            "revi" + "sor-estilo"))
+        return {"iniciales de una persona": re.compile(iniciales),
+                "cita a una regla de método": re.compile(regla),
+                "el relato del incidente": re.compile(marca, re.I),
+                "los agentes de revisión": re.compile(agentes)}
+
+    def _versionados(self):
+        import subprocess
+        r = subprocess.run(["git", "ls-files"], capture_output=True, text=True,
+                           cwd=Path(__file__).parent.parent)
+        if r.returncode:
+            self.skipTest("sin git: no se puede saber qué está versionado")
+        return [f for f in r.stdout.split()
+                if not f.startswith(self.FUERA)
+                and not f.endswith(self.BINARIOS)]
+
+    def test_ningun_fichero_publicado_cuenta_como_trabajamos(self):
+        raiz = Path(__file__).parent.parent
+        patrones = self._patrones()
+        hallazgos = []
+        for f in self._versionados():
+            try:
+                texto = (raiz / f).read_text(encoding="utf-8")
+            except (UnicodeDecodeError, FileNotFoundError):
+                continue
+            for n, linea in enumerate(texto.splitlines(), 1):
+                for que, patron in patrones.items():
+                    if patron.search(linea):
+                        hallazgos.append(f"{f}:{n} ({que}) {linea.strip()[:90]}")
+        self.assertEqual(
+            hallazgos, [],
+            "esto es material de trabajo interno y el repositorio es público. "
+            "Va a documentos/METODO.md, que no se versiona; desde CLAUDE.md se "
+            "puede enlazar, no copiar:\n  " + "\n  ".join(hallazgos[:12]))
+
+    def test_el_metodo_privado_existe_y_sigue_fuera_del_repositorio(self):
+        """La otra mitad: si el documento se pierde o alguien lo versiona, el
+        conocimiento se va —o se publica—, y las dos son la misma avería."""
+        import subprocess
+        raiz = Path(__file__).parent.parent
+        self.assertTrue((raiz / "documentos" / "METODO.md").exists(),
+                        "documentos/METODO.md no está: ahí vive el método")
+        r = subprocess.run(["git", "check-ignore", "documentos/METODO.md"],
+                           capture_output=True, text=True, cwd=raiz)
+        self.assertEqual(r.returncode, 0,
+                         "documentos/METODO.md ha dejado de estar ignorado: el "
+                         "siguiente `git add -A` lo publica")
+
+    def test_claude_md_conserva_las_reglas_de_los_datos(self):
+        """Limpiar no es vaciar. Las R son públicas a propósito: son la razón
+        por la que un tercero puede auditar estas cifras."""
+        texto = (Path(__file__).parent.parent / "CLAUDE.md").read_text(encoding="utf-8")
+        for regla in ("R1", "R3", "R10", "R16"):
+            self.assertIn(f"**{regla}**", texto,
+                          f"{regla} ha desaparecido del contrato público")
+        self.assertIn("documentos/METODO.md", texto,
+                      "el contrato tiene que decir dónde vive el método")
