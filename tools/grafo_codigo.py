@@ -8,8 +8,8 @@ nueve líneas sueltas a tres cadenas concretas.
 
 **No se versiona el grafo, se construye al vuelo** (medio segundo sobre el repo
 entero). Un índice guardado caduca en silencio, y un índice caducado que
-responde con seguridad es peor que no tenerlo: es la cicatriz M4 del proyecto
-—el documento que contradice al repo— con otro traje.
+responde con seguridad es peor que no tenerlo: es un documento que contradice
+al repositorio, con otro traje.
 
 ## Lo que este grafo NO ve, y hay que saberlo antes de creerle
 

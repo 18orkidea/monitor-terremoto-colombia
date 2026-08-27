@@ -95,7 +95,7 @@ es criterio de ranking.
 
 ### B5 · La medición existe, pero está fuera de alcance de este análisis
 
-**Corrección (18-ago-2026, tras aviso de JP):** Google Search Console **sí está configurado**
+**Corrección (18-ago-2026):** Google Search Console **sí está configurado**
 para el dominio — pero en una cuenta de Google distinta de `gestion@inforesidencias.com`, que
 es la conectada a esta sesión. El conector de OpenSEO tampoco sirvió de puente: primero falló
 por incompatibilidad de esquema y después el servidor devolvió `Server openseo unavailable`.
@@ -236,7 +236,7 @@ Orden por dependencia, no por apetito. **Nada de la fase 1+ es evaluable sin la 
     firma del proyecto: sin registro ≠ sin daño; sin producto satelital no hay cruce (R2).
   - Enlace a la fuente y al snapshot con su `sha256`.
   - Schema: `Dataset` + `Place` + `FAQPage` con 3 preguntas reales.
-  - **Guardarraíl editorial**: pasar por el agente `auditor-editorial` antes de publicar. Un
+  - **Guardarraíl editorial**: pasa por la revisión editorial antes de publicar. Un
     generador que escriba «0 damnificados» donde el dato es «sin registro» rompería R3 a escala de 95 páginas.
 - **2.2** Página por AOI Copernicus (~6-8 URLs) con la misma lógica.
 - **2.3** Sitemap generado desde los datos, con `lastmod` real por página.
@@ -451,7 +451,7 @@ lo que se seguirá preguntando en 2027 y en 2036.
 
 **Cuatro movimientos, por orden:**
 
-**M1 · Ocupar la cola larga que ellos no cubren — antes de noviembre.**
+**Movimiento 1 · Ocupar la cola larga que ellos no cubren — antes de noviembre.**
 Las fichas municipales de la fase 2 se priorizan **al revés de la intuición**: primero los
 municipios donde ellos son delgados y nosotros somos fuertes. Nuqui, Bagadó, Medio Atrato,
 Condoto, Litoral del San Juan, Istmina, San José del Palmar — donde ellos ponen 500 palabras
@@ -459,14 +459,14 @@ de prensa, nosotros ponemos el RUD oficial con su serie diaria, la población DA
 cobertura satelital y qué no se ha mirado. **No competir por Cali ni por Pereira**: ahí pierden
 ellos también, contra Infobae.
 
-**M2 · Archivar al competidor antes de que se congele.**
+**Movimiento 2 · Archivar al competidor antes de que se congele.**
 Naboo es una fuente que ha anunciado su muerte con fecha. El principio de archivo del proyecto
 exige plan de sucesión para toda fuente; **esta lo pide a gritos**. Concretamente: snapshot
 diario de su sitemap y de sus fichas, con `sha256` y fila en `sources_log`, más envío a Wayback,
 desde ya hasta el 30-nov. Coste bajo, valor archivístico alto, y perfectamente legítimo —es
 material público, se cita y se enlaza, no se copia.
 
-**M3 · Ofrecerles ser el custodio de sus datos abiertos.**
+**Movimiento 3 · Ofrecerles ser el custodio de sus datos abiertos.**
 Han dicho que los datos quedarán «en formato abierto» pero no han dicho dónde ni con qué
 licencia, y no tienen infraestructura de datos. El monitor sí: CC BY 4.0, CSV/JSON/GeoJSON,
 repositorio público, snapshots con hash. Proponer a Naboo Intelligence espejar y mantener su
@@ -474,7 +474,7 @@ dataset con atribución explícita es bueno para los dos y encaja con la misión
 no, la conversación abre la puerta a un enlace mutuo — y un enlace suyo vale más que cien
 ajustes de metadatos.
 
-**M4 · Contar el cierre cuando ocurra.**
+**Movimiento 4 · Contar el cierre cuando ocurra.**
 El 30 de noviembre, publicar el hito: *qué se pierde cuando se apaga el mejor mapa de la
 emergencia, y qué queda conservado*. Es noticia real, es enlazable, es exactamente la tesis
 del proyecto —los datos de un desastre desaparecen cuando la atención se va— y llega con la
@@ -501,12 +501,12 @@ prueba en la mano. Registrar el hito en `feeds/hitos_monitor.json`.
 
 | Plazo | Hito |
 |---|---|
-| **Semana 1** (hasta 25-ago) | Acceso a GSC · empezar el archivado de Naboo (M2) |
+| **Semana 1** (hasta 25-ago) | Acceso a GSC · empezar el archivado de Naboo |
 | **Semanas 1-3** | Fase 1: prerender de las tablas |
-| **Semanas 3-8** (hasta ~15-oct) | Fase 2 invertida: fichas municipales, **empezando por la cola larga del Chocó** (M1) |
-| **Semanas 8-12** (hasta ~15-nov) | Fase 3 (GEO, Wikipedia, Zenodo) · contacto con Naboo (M3) |
+| **Semanas 3-8** (hasta ~15-oct) | Fase 2 invertida: fichas municipales, **empezando por la cola larga del Chocó** |
+| **Semanas 8-12** (hasta ~15-nov) | Fase 3 (GEO, Wikipedia, Zenodo) · contacto con Naboo |
 | **30-nov-2026** | Naboo se congela. El monitor debe llevar ya ≥ 6 semanas indexado y actualizándose a diario |
-| **1-dic-2026** | Publicar el hito del cierre (M4) |
+| **1-dic-2026** | Publicar el hito del cierre |
 
 **El riesgo real no es Naboo: es llegar a diciembre sin las fichas indexadas.** Si el prerender
 y las fichas municipales están vivos en octubre, el cierre del competidor es una oportunidad.
@@ -642,7 +642,7 @@ notas cortas que aún pinta el JavaScript (`nota-rud-desde`, `nota-sin-registro`
 `tablaHidratada` (filtra las ya escritas). Es una migración incremental: `tablaBuscable`
 desaparece cuando `rud.html`, `balances.html` y `noticias.html` pasen por la fase D.
 
-Cada fase cierra con su test, y las que tocan texto visible pasan por `auditor-editorial` antes
+Cada fase cierra con su test, y las que tocan texto visible pasan por la revisión editorial antes
 de commitear.
 
 ---

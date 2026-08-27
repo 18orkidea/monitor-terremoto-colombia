@@ -11,7 +11,7 @@
   // repite la definición: se lee `data-chip` del botón y `data-chips` de la
   // fila, que es lo que el generador ya escribió. Duplicarla en JavaScript era
   // tener el número del chip y el filtro contando cosas distintas el día que
-  // una de las dos cambiara (M2).
+  // una de las dos cambiara.
   const enChip = (tr, id) => (tr.dataset.chips || "").split(" ").includes(id);
   const filasTabla = Array.from(
     document.querySelectorAll("#municipios-tabla tbody tr[data-buscar]"));
@@ -83,7 +83,7 @@
     // SOLO el recuento vivo: lo que cambia con cada filtro y que solo el
     // navegador sabe. La prosa invariante —el guion de la columna satelital,
     // la celda de prensa de los homónimos, la ausencia que jamás es cero—
-    // vive escrita en `#mun-pie-tabla`, y solo ahí (M2).
+    // vive escrita en `#mun-pie-tabla`, y solo ahí.
     notaTexto: (q, visibles, total, orden) => {
       const criterio = orden
         ? `ordenados por ${COLUMNAS[orden.i].nombre} en orden ` +

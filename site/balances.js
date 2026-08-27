@@ -87,7 +87,7 @@
     // separar tres centímetros más arriba, en esta misma página. Dos frases
     // sobre la misma fecha diciendo cosas distintas. El sello dice las dos
     // —hasta dónde llega el rastreo y cuándo se construyó— y las dice una sola
-    // vez (M2); este contador cuenta capturas, que es lo suyo. Y sin filtros no
+    // vez; este contador cuenta capturas, que es lo suyo. Y sin filtros no
     // cuenta nada: devuelve la frase que sirvió el build.
     if (resumen) {
       resumen.textContent = (q || fd || fl)

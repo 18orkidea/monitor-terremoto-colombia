@@ -8,14 +8,14 @@ Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
 ## 2026-08-26 — El registro que se detiene: una fila por cambio, no por captura
 
-**Contexto.** JP abrió la ficha de Cali y vio una gráfica que parecía terminar el
+**Contexto.** Se abrió la ficha de Cali y vio una gráfica que parecía terminar el
 24 de agosto teniendo el 25 dibujado. No era un desfase entre la tabla y el
 gráfico —los dos salen de la misma serie del build—: era que el 25 el RUD no
 movió ni una familia en Cali, y una barra de altas a cero medía 0 px, así que
 `grafico_rud_municipal` la descartaba. El hueco resultante era idéntico al del
 primer día, que no tiene barra por un motivo opuesto: no hay captura anterior con
 la que comparar. **«Ese día no entró nadie» y «eso no lo sabemos» compartían
-dibujo**, que es la R3 incumplida dentro del SVG (M10 fuera de la base de datos).
+dibujo**, que es la R3 incumplida dentro del SVG.
 
 Tirando del hilo apareció el problema de fondo: la tabla de la ficha daba **una
 fila por captura**, así que el RUD —que lo cargan las alcaldías y un día dejarán
@@ -25,7 +25,7 @@ De paso quedó comprobado que el fechado NO tiene desfase: el snapshot capturado
 el 26 se publica como día 25 porque `dia_colombiano_consolidado()` fecha el día
 colombiano que acaba de cerrar, y la comparación fila a fila lo confirma.
 
-**Decisión (JP), en dos partes:**
+**Decisión, en dos partes:**
 
 1. **El cero se dibuja.** Un día sin altas lleva su propia marca a ras de la
    base, con su título («ni una familia nueva ese día»); el día sin captura
@@ -38,7 +38,7 @@ colombiano que acaba de cerrar, y la comparación fila a fila lo confirma.
 
 **El primer intento se descartó al medirlo, y merece quedar escrito.** La versión
 del 26 recortaba la **cola** plana a partir de la tercera captura repetida. Al
-día siguiente, con las cifras delante, JP pidió un criterio mejor y salieron tres
+día siguiente, con las cifras delante, se pidió un criterio mejor y salieron tres
 fallos:
 
 - **Solo miraba el final.** Jamundí lleva ocho capturas clavado en 23 familias y
@@ -77,7 +77,7 @@ texto, que crece cada día («lleva 4 capturas», «lleva 5»)—.
 
 `test_render_html.py::TestFicha::test_historial_de_cali_conserva_cada_captura_diaria`
 defendía la dirección anterior comprobando que cada fecha estuviera escrita en el
-HTML. Se reescribió, no se relajó (M11): ahora suma los `data-capturas` que
+HTML. Se reescribió, no se relajó: ahora suma los `data-capturas` que
 declara la tabla y exige que den la serie entera — ninguna captura se cae al
 agrupar.
 
@@ -107,7 +107,7 @@ fuentes del monitor miden lo mismo y que su diferencia es una resta.
 2. **La acusación al satélite que no miró (276 fichas).** «Ningún satélite ha
    clasificado un solo edificio de las N viviendas…» entraba también cuando
    nadie había mirado, que es el caso de los 276. Suena a que alguien miró y no
-   encontró nada —la cicatriz de M10— y, peor, el renglón siguiente la
+   encontró nada —el cero que acusa a quien no miró— y, peor, el renglón siguiente la
    desmentía: «nadie lo ha evaluado desde el aire». La ficha se contradecía
    sola en dos líneas.
 3. **La nota de balances que la tabla desmentía.** Decía que la diferencia
@@ -116,7 +116,7 @@ fuentes del monitor miden lo mismo y que su diferencia es una resta.
    personas contra 324.157. La columna «Diferencia» escondía además la
    dirección con un `abs()`, así que el lector no tenía ni cómo desmentirla.
 
-**Decisión (JP): la tesis del proyecto cambia.** Donde decía «la distancia entre
+**Decisión: la tesis del proyecto cambia.** Donde decía «la distancia entre
 sus cifras es la brecha de reporte» dice ahora:
 
 > **Ninguna fuente lo cuenta todo, y ninguna cuenta lo mismo que otra. La brecha
@@ -132,7 +132,7 @@ registro cuenta familias, la prensa repite lo que le dictan. Este monitor no las
 suma ni las resta: las pone juntas para enseñar quién no ha mirado, quién tarda
 y quién no cuadra».
 
-**Vivía en seis superficies y ninguna las ataba** (M2): `CLAUDE.md`, el pie de
+**Vivía en seis superficies y ninguna las ataba**: `CLAUDE.md`, el pie de
 las 353 páginas, el `Dataset` de `municipios.html` y las bajadas de
 `index.html`, `balances.html` y `referencia.html`. Ahora sale de `R.TESIS` (y
 `R.TESIS_LARGA`) y `tests/test_render_html.py::TestTesisDelMonitor` comprueba
@@ -163,7 +163,7 @@ El guardián **no comprueba qué dice**: cambiar la tesis es cambiar la constant
   páginas. El número sale de `SATELITES`, así que el día que entre el cuarto la
   frase lo dice sola.
 - El adjetivo de las viviendas sale de las columnas que **existen**: con solo
-  una de las dos, «viviendas dañadas» rotulaba un parcial como total (R3/M10).
+  una de las dos, «viviendas dañadas» rotulaba un parcial como total (R3).
 - Cada frase declara `data-mirada` —`con-edificios`, `mirado-sin-marcas` o
   `sin-mirar`—, que es lo que permite contrastarla con `_mirado_por_satelite`
   en las 347 fichas sin leer prosa.
@@ -181,7 +181,7 @@ El guardián **no comprueba qué dice**: cambiar la tesis es cambiar la constant
   Y va **fechada**, no con un «hoy»: estas páginas se releen dentro de años
   (`_corte_comparativa`, que nombra los dos cortes cuando no coinciden).
 
-**Guardianes nuevos, los tres validados rompiendo el código (M1).**
+**Guardianes nuevos, los tres validados rompiendo el código.**
 `TestResumenDeLaFicha` calcula el cociente prohibido y comprueba que **no está
 publicado** —con fronteras de cifra, para no acusar a Quibdó de publicar el «6»
 que vive dentro de «76»—, así que cae aunque el porcentaje vuelva sin el signo
@@ -192,7 +192,7 @@ guardián que espera a que el dato produzca el caso no vigila.
 el artefacto construido, sin fijar ningún indicador: qué lado adelanta cambia
 cada día y un test que lo fijara caducaría mañana.
 
-**De la revisión** (auditor-editorial y revisor-estilo, en paralelo). Salieron
+**De la revisión** editorial y de estilo. Salieron
 de ahí la séptima copia de la tesis, la atribución en plural donde había mirado
 un solo servicio, los dos absolutos («ningún satélite», «nadie»), la coda del
 signo que devuelve el hallazgo de Buenaventura a la superficie, el fechado de la
@@ -232,7 +232,7 @@ la fuente**. Comprobado antes de tocar nada, porque si el monitor estuviera
 perdiendo un municipio que sí sabe situar, la cifra buena habría sido la otra y
 la decisión sería la contraria.
 
-**Decisión (JP): se unifica a la cifra del corte vigente, 347.** El sitio
+**Decisión: se unifica a la cifra del corte vigente, 347.** El sitio
 publica el registro tal como está hoy, no el máximo histórico; y lo declara
 fechado (`corte`). Se arregla **en origen** —`ingest/publish.py` cuenta sobre
 `rud_daily`— y no en la plantilla, porque `brechas_oficiales.ungrd_rud` lo leen
@@ -270,7 +270,7 @@ redacción de la banda, el guardián sigue en pie. Y por eso mismo la marca envu
 **solo el número** y nunca la palabra que lo acompaña: qué se resalta en negrita
 es una decisión de estilo, y este mecanismo no debe tocarla.
 
-Validado rompiendo el código (M1): con `entradilla_portada` devuelta a la cuenta
+Validado rompiendo el código: con `entradilla_portada` devuelta a la cuenta
 acumulada —la forma literal del bug— el guardián reproduce `['347', '348']` en
 `index.html` y cae; con una errata en el nombre del concepto caen los otros dos
 guardianes, cada uno por su motivo.
@@ -286,7 +286,7 @@ medida y no lo son. **Dos**: mide la cobertura satelital con **un solo servicio
 de los tres**, cuando el monitor lleva meses diciendo que la evidencia es de
 varias fuentes.
 
-**Decisión (JP): fuera la estimación de PAGER del párrafo; en su lugar, solo lo
+**Decisión: fuera la estimación de PAGER del párrafo; en su lugar, solo lo
 que el monitor mide y puede rastrear** — municipios sacudidos mirados y sin
 mirar, con su población, todo sobre el mismo catálogo municipal. Se pierde el
 marco de «cuánta gente sintió el sismo fuerte» a cambio de que lo publicado sea
@@ -312,7 +312,7 @@ suma**: son 11 municipios distintos porque a tres los miró más de un servicio,
 el párrafo lo dice en vez de dejar que el lector sume 14. Qué clase de
 municipios son los once **se deriva, no se afirma**: los tres más poblados están
 entre ellos y el siguiente en tamaño, Palmira (382.703 habitantes), no lo ha
-mirado nadie. M10/R3 en tres sitios: sin municipios sacudidos no hay párrafo, un
+mirado nadie. R3 en tres sitios: sin municipios sacudidos no hay párrafo, un
 servicio sin municipios no se enumera —acusarlo de cero sería inventarle una
 omisión— y la población solo se publica si la tienen todos los del grupo.
 
@@ -329,14 +329,14 @@ la cuenta se repite **a mano sobre el JSON, sin pasar por el generador**, y las
 dos tienen que coincidir —es el guardián que habría cazado los «36 municipios»
 de la portada contra los 43 de su propia tabla—; y se le quita la mirada al
 municipio mirado más poblado para comprobar que la frase se mueve sola. Ocho
-mutaciones caen (M1), entre ellas la cifra congelada a mano —que el recuento por
+mutaciones caen, entre ellas la cifra congelada a mano —que el recuento por
 sí solo NO caza, porque hoy acierta— y el servicio enumerado con su cero.
 También cae `TestBandaDeBrechas::test_la_banda_no_publica_ningun_porcentaje_de_poblacion`,
-que vigila la decisión de JP con el dato de PAGER delante, en el fixture.
+que vigila la decisión con el dato de PAGER delante, en el fixture.
 
 ## 2026-08-25 — El nodo del catálogo se completa en vez de dejar de declararse catálogo
 
-**Contexto.** Search Console rechazaba un elemento en **las 353 páginas** —JP lo
+**Contexto.** Search Console rechazaba un elemento en **las 353 páginas** —se lo
 vio en la ficha de Dagua, y con Dagua no tenía nada que ver—. El culpable es
 `BLOQUE_IDENTIDAD`: el nodo `#site` se declara `{"@type": ["WebSite",
 "DataCatalog"]}` y **Google lo valida con las reglas de `Dataset`**, que le
@@ -350,7 +350,7 @@ catálogo de datos, con un `Dataset` por municipio y otro por página. `license`
 `creator` **se reutilizan**, no se reescriben: la URL de la licencia estaba
 copiada cinco veces en `render_html.py` —una por `Dataset`— y el catálogo
 necesitaba la sexta, así que pasa a la constante `LICENCIA` y las seis la leen
-de ahí (M2). No es la licencia de las fuentes: la de ICube-SERTIT prohíbe el uso
+de ahí. No es la licencia de las fuentes: la de ICube-SERTIT prohíbe el uso
 comercial y sigue viajando pegada a su dato en `SATELITES`.
 
 **Guardián** sobre el **artefacto construido**, no sobre la plantilla
@@ -360,7 +360,7 @@ contenido de verdad —60 caracteres mínimo: la trampa de este repositorio es e
 test que se conforma con que la clave exista, y una cadena vacía es exactamente
 lo que Google rechaza— y `creator`/`publisher` referencian a una entidad
 definida en ese mismo documento. Un segundo test prohíbe que la URL de la
-licencia vuelva a escribirse a mano. Siete mutaciones caen (M1): sin
+licencia vuelva a escribirse a mano. Siete mutaciones caen: sin
 `description`, con `description` vacía, con `description` de tres palabras, sin
 `license`, sin `creator`, con un literal de licencia nuevo y **quitando
 `DataCatalog` del `@type`**, que es la salida cómoda que este guardián existe
@@ -381,7 +381,7 @@ feeds «Medio Atrato» y «El Carmen de Atrato», que son otros municipios**.
 canónica y declaraba la atribución del feed explícitamente— pero seguía cruzando
 `medio`, así que arrastraba el mismo contagio a `noticias.json`.
 
-**Decisión (JP): el nombre del feed sale del texto cruzado, en las dos
+**Decisión: el nombre del feed sale del texto cruzado, en las dos
 superficies.** Un municipio cuenta un titular solo si **el titular** lo nombra.
 Lo que el feed municipal sí sabe se conserva **declarado, no adivinado**: sigue
 en `feed["municipios"]` y ahora se publica con nombre propio en
@@ -404,7 +404,7 @@ cambian de cifra; 19 pasan de `mencion_prensa` a `solo_rud`; ninguno sale de la
 capa (todos tienen RUD). El banner de silencio no cambia su afirmación —los
 cuatro «ciertos» siguen siendo Mistrató, Quinchía, Guática y Bagadó— y además
 deja de contar como mudos a cuatro municipios que ya lo eran por error (Obando,
-Andalucía, Alcalá, Ginebra). Queda pendiente una segunda copia que diverge (M2):
+Andalucía, Alcalá, Ginebra). Queda pendiente una segunda copia que diverge:
 `publish.py::noticia` cruza solo los 84 municipios curados, no los 347 del
 catálogo, así que Atrato tiene dos titulares que lo nombran y ninguna pieza en
 la lista de su ficha.
@@ -631,7 +631,7 @@ recupera es el encuadre, que es exactamente lo que hacía antes.
 cinco capas y cuatro ficheros: `damage_points.geojson` alimenta dos capas y se
 descarga una vez.
 
-### Guardianes (M1: doce mutaciones caen)
+### Guardianes (doce mutaciones caen)
 
 - `test_frontend.py::TestElMotorDeCargaDiferida` **ejecuta** el motor
   —`RANURAS`, `diferida`, `conChip`, el bautizo de rótulos, `avisa`, `retira` y
@@ -672,7 +672,7 @@ sha256 detrás. Queda medido y escrito.
 
 Una auditoría independiente (`AUDITORIA-PROTOTIPO.md`) comparó la maqueta
 —`prototipo/gen_prototipo.py`— con la portada construida sin saber qué se
-pretendía en cada punto. De sus hallazgos, JP decidió cerrar seis. Los cuatro
+pretendía en cada punto. De sus hallazgos, se decidió cerrar seis. Los cuatro
 que cambian conducta se anotan aquí; los otros dos (A1 y A2, el explorador de
 dos estados del panel) **no se cierran a propósito**: el panel lleva a la ficha
 municipal, que es una página entera, y esa es una decisión expresa que la
@@ -750,7 +750,7 @@ palabras, suelo 1.653), y por eso `PROSA_MINIMA` no se toca.
 El reescalado por zoom se había escrito una vez, para el anillo de la ausencia;
 los edificios y los reportes de la comunidad se quedaron con radio fijo en
 píxeles, así que acercarse no aportaba detalle. La fórmula se generaliza en
-`radioZoom(base, tope)` en vez de copiarse (M2), con dos topes que dicen cosas
+`radioZoom(base, tope)` en vez de copiarse, con dos topes que dicen cosas
 distintas: **18** para el anillo de un municipio, que señala un sitio y no
 dibuja su extensión, y **11** para el punto de un edificio, que sí tiene que
 ganar detalle sin salirse del tejado que retrata.
@@ -780,7 +780,7 @@ nadie escriba la clase sin ellas.
 ## 2026-08-25 — La portada deja de ser una ficha técnica: se van la matrícula, la cronología, la vigilancia de catálogo y cuatro descargas
 
 Fase 6c, con el prototipo (`prototipo/gen_prototipo.py`) otra vez como regla y
-el feedback de JP de la noche del 24: «simplificar la visión de esta página para
+el feedback de la noche del 24: «simplificar la visión de esta página para
 que no sea tan técnica, sea mucho más digerible». Cuatro mudanzas. Ninguna
 borra nada: **todo lo que sale de la portada aterriza en un sitio donde
 significa algo**, y cada aterrizaje tiene su guardián.
@@ -866,7 +866,7 @@ contenido cambiando de página.
 
 ### 3 · «Otras activaciones de Copernicus» se muda, no se tira
 
-JP la tachó con una X y en la maqueta aparece 0 veces. Pero **no es material que
+Se tachó con una X y en la maqueta aparece 0 veces. Pero **no es material que
 se tire**: es vigilancia diaria de un catálogo ajeno, y el día que una de esas
 activaciones desaparezca del portal, esta lista seguirá diciendo que existió.
 Vigilar fuentes es la misión, no un adorno de la portada. Su sitio es
@@ -875,7 +875,7 @@ Vigilar fuentes es la misión, no un adorno de la portada. Su sitio es
 
 ### 4 · La cabecera se queda con el CSV; las otras cuatro descargas bajan
 
-Decisión de JP del 25-ago. La cabecera llevaba cinco botones; la maqueta, solo
+Decisión del 25-ago. La cabecera llevaba cinco botones; la maqueta, solo
 el CSV del cruce, que es el dato de esa página. Las otras cuatro (JSON del
 monitor, GeoJSON de UNOSAT, GeoJSON de SERTIT, JSON de municipios sin satélite)
 **no desaparecen —esconder datos abiertos va contra la misión—**: bajan a
@@ -936,14 +936,14 @@ y el prototipo la pierde **en silencio**. El comentario del propio generador
 dice lo contrario de lo que su código hace: «la tabla de evidencia por municipio
 BAJA, no desaparece… sostiene 48 de las 62 filas indexables de la portada».
 Manda el comentario. Y lo que el recuento de palabras no ve es el resultado
-medido en pantalla, que es lo que JP miraba: a 1.400 px de ancho la portada pasa
+medido en pantalla, que es lo que se miraba: a 1.400 px de ancho la portada pasa
 de **5.774 a 3.153 px, un 45 % menos**; a 661 px, de 9.629 a 6.197 (36 %).
 
 ## 2026-08-25 — La metodología y el glosario se van a página propia; el mapa vuelve a caber en una pantalla
 
-Fase 6b: alinear la portada con la maqueta del prototipo, con el feedback que JP
+Fase 6b: alinear la portada con la maqueta del prototipo, con el feedback que
 dio la noche del 24 viendo la home construida. Cuatro decisiones, y dos de ellas
-corrigen criterios anteriores del propio JP. Se anotan aquí precisamente por
+corrigen criterios anteriores del propio proyecto. Se anotan aquí precisamente por
 eso: para que nadie las «arregle» al revés mañana leyendo la entrada vieja.
 
 ### 1 · El mapa y el panel, a alto fijo (corrige el criterio del 23-ago)
@@ -962,7 +962,7 @@ maqueta sin `:root` que lo respalde es lo que veta
 
 Guardián: `tests/test_frontend.py::TestAltoDelLienzoDePortada`, que mide las dos
 declaraciones —el alto compartido y el `overflow`— en vez de fiarse del
-comentario. Cuatro mutaciones caen (M1): devolver el mapa a `height: auto`,
+comentario. Cuatro mutaciones caen: devolver el mapa a `height: auto`,
 quitarle el alto al panel, quitarle el `overflow`, y poner dos altos distintos.
 
 ### 2 · Los chips de capa de la portada
@@ -971,11 +971,11 @@ No existían. La portada tenía doce capas detrás de un `L.control.layers` que 
 un móvil se colapsa en un icono. Se añaden cinco chips —Copernicus EMS,
 UNITAR-UNOSAT, ICube-SERTIT, reportes ciudadanos y «Solo en el RUD»— con el
 mismo mecanismo que ya usan las 252 fichas: **los escribe el build y el
-navegador solo los conecta** (M2 — construirlos en el navegador sería una
+navegador solo los conecta** (una segunda copia — construirlos en el navegador sería una
 segunda copia de los recuentos y dejaría la tira vacía para quien lee el
 documento sin ejecutarlo).
 
-Tres criterios de JP que aquí no se reinterpretan, y cada uno con su guardián:
+Tres criterios del proyecto que aquí no se reinterpretan, y cada uno con su guardián:
 **cuentan municipios, no puntos** (en edificios, Copernicus parecía cubrir más
 que el registro oficial cuando es al revés); **un chip es una acción** —
 `<button>` con `aria-pressed`, no una `.badge`, que solo rotula—; y **filtran el
@@ -1027,7 +1027,7 @@ Guardián: `tests/test_render_html.py::TestChipsDeLaPortada`. El test de los
 recuentos mide contra las DOS cifras —que salga la de municipios y que NO salga
 la de puntos—, porque uno que solo comprobara la primera pasaría igual el día
 que alguien vuelva a contar edificios en un municipio con un solo punto. Cinco
-mutaciones caen (M1).
+mutaciones caen.
 
 ### 3 · `referencia.html`, y el suelo de prosa de la portada
 
@@ -1077,7 +1077,7 @@ Guardianes: `TestLaMudanzaDeLaMetodologia` (los dos anclajes siguen en la
 portada, el muñón remite, el texto llegó entero y no se ha quedado una copia en
 la portada, y el pie manda a la página nueva) y `TestLaPaginaDeReferencia` (las
 superficies que un olvido deja rotas **en silencio** — las demás revientan el
-build y se ven solas). Diez mutaciones caen (M1).
+build y se ven solas). Diez mutaciones caen.
 
 ### Lo que cambió al pasar los revisores
 
@@ -1090,12 +1090,12 @@ Cuatro decisiones, no cuatro erratas:
   necesita pegada, al alcance del cursor y del lector de pantalla.
 - **La misma capa se llama igual en las dos tiras.** La de la portada decía
   «Reportes ciudadanos» y la de las 252 fichas «Reportes de la comunidad»: el
-  mismo dato con dos nombres en dos superficies hermanas es lo que M2 prohíbe.
+  mismo dato con dos nombres en dos superficies hermanas es la copia que diverge.
   Manda el de la ficha, que está publicado en 252 páginas. Lo vigila un test que
   compara las claves COMPARTIDAS, no una lista escrita a mano — la portada tiene
   una capa que la ficha no y viceversa.
 - **El `Dataset` de la página nueva cita a sus siete fuentes**, y las de los
-  satélites salen de `SATELITES` (M2). Nació sin `citation`, con `creator` = el
+  satélites salen de `SATELITES`. Nació sin `citation`, con `creator` = el
   monitor: para una máquina, el monitor firmaba las cifras. Que faltara **justo
   en la página cuyo oficio es documentar la procedencia** es lo que lo hacía
   grave, no el campo en sí. `creator` sigue siendo el monitor —compila el
@@ -1127,7 +1127,7 @@ mano sin que nada la mirara, exactamente como le pasó a Copernicus con los 622.
 ### 4 · Los plegables
 
 «Otras activaciones Copernicus en Colombia» eran 57 palabras: por debajo del
-umbral de 120 de JP, un `<details>` esconde menos de lo que cuesta abrirlo. Se
+umbral de 120, un `<details>` esconde menos de lo que cuesta abrirlo. Se
 despliega. La portada queda con tres plegables —«Cómo leer estas cifras» (162),
 «Alertas y silencios» (166) y «Municipios con evidencia, uno a uno» (573)—,
 todos por encima del umbral.
@@ -1139,7 +1139,7 @@ dibuja `site/app.js` a partir de datos que solo esa página carga (`monitor.json
 es mover marcado: es partir `app.js` en dos o cargar todo ese contexto en una
 página de texto. **No aportan una sola palabra al documento servido** —son JS
 puro—, de modo que no tocan ninguna de las cifras de arriba ni el conflicto del
-suelo de prosa. Queda como decisión de JP: mudarlas es un porte de JavaScript
+suelo de prosa. Queda decidido así: mudarlas es un porte de JavaScript
 con su propia verificación, no una parte de esta.
 
 ## 2026-08-24 — El desglose del salto del RUD es prosa condicional: sale del suelo de `rud.html`
@@ -1148,7 +1148,7 @@ Al fusionar el snapshot del 24-ago, `seo_check` cantó que `rud.html` perdía 47
 palabras de prosa propia (531 frente al suelo de 578). No había regresión de
 código: la oración que faltaba es «De las N familias que entraron en la última
 captura, X son revisión al alza…», y `_salto_del_rud` la retira entera cuando el
-reparto no cuadra con la serie (M7). **Ese día dejó de cuadrar por la fuente**:
+reparto no cuadra con la serie. **Ese día dejó de cuadrar por la fuente**:
 el detalle diario del RUD sumaba 15.435 familias donde su propia serie decía
 15.433 — dos de diferencia que el monitor no inventó y que ya se avisan por
 consola (R11).
@@ -1164,7 +1164,7 @@ se caigan del build—, y no la aritmética que publique la fuente.
 
 Lo que NO se hace: escribir una frase sustituta que explique el descuadre. La
 regla del párrafo es que donde falta el dato se calla ese trozo, y ya está
-decidido que esta oración «no se corrige, se retira» (M10) — su conclusión
+decidido que esta oración «no se corrige, se retira» — su conclusión
 afirma que lo que crece son los municipios ya contados, y sin reparto esa
 conclusión no se sostiene. Que la fuente no cuadre consigo misma es material del
 monitor, pero contarlo es otra decisión, con su sitio y su redacción.
@@ -1180,22 +1180,22 @@ cuadra ninguno, lo cuenta como noticia (R12).
 
 ## 2026-08-24 — Encabezado del prototipo; sin nota autoescrita de los chips
 
-JP lo marcó al comparar ficha y prototipo. Bajo el H1 vuelven la línea del
+se marcó al comparar ficha y prototipo. Bajo el H1 vuelven la línea del
 sismo (`CONTEXTO_SISMO`), el resumen corto de cifras y «Cómo leer esta
 ficha». El recuento «Este mapa reúne…» se ve siempre, encima de Situación
 y Mapa, sin esperar a que se pida el mapa. La nota «Cada chip retira…»
-(y el desajuste de SERTIT) no se genera: JP la retiró.
+(y el desajuste de SERTIT) no se genera: se retiró.
 
 ## 2026-08-24 — El panel desglosa el RUD; en móvil la tabla va antes que el mapa
 
-JP lo pidió sobre la tabla «Qué dice cada fuente»: hacen falta las cuatro
+se pidió sobre la tabla «Qué dice cada fuente»: hacen falta las cuatro
 cifras del registro (familias inscritas, personas, viviendas destruidas,
 viviendas averiadas), no solo satélites y vecinos. El prototipo ya las
 traía; se habían dejado fuera para no duplicar las tarjetas. Con la tabla
 primero, esconderlas ahí era esconder el dato oficial detrás del mapa.
 
 Las tarjetas siguen debajo (resumen visual + población DANE). La cifra es
-la misma columna: un test se rompe si panel y tarjetas se separan (M2).
+la misma columna: un test se rompe si panel y tarjetas se separan.
 Un municipio sin RUD (Palmira) no publica ceros; un cero medido (Pereira,
 0 viviendas destruidas) sí.
 
@@ -1205,7 +1205,7 @@ siguen encima del lienzo, no debajo de los chips.
 
 ## 2026-08-24 — En la ficha, el mapa va primero; el destacado y las tarjetas, debajo
 
-JP lo marcó sobre el móvil frente al prototipo: los dos párrafos del mapa
+se marcó sobre el móvil frente al prototipo: los dos párrafos del mapa
 («Este mapa reúne…», «Cada chip…») tienen que ir **encima del lienzo**, no
 debajo de los chips —en pantalla estrecha la tira envuelve y esos textos
 quedaban entre los filtros y el mapa—. El recuadro amarillo (destacado) y
@@ -1236,7 +1236,7 @@ qué no sabemos → fuentes, sin saltar niveles.
 La fase 5 dejó las 208 fichas a medias: chips y marcado estructurado, pero el
 dato en una pestaña y el mapa en otra. El prototipo ya había resuelto lo
 contrario —panel de fuentes a un lado, mapa al otro, mapa primero en móvil—
-y JP lo rechazó al verlo: «falta la tabla de datos y la organización entre
+y se rechazó al verlo: «falta la tabla de datos y la organización entre
 el mapa y la tabla».
 
 **Se porta el lienzo del prototipo.** Las tarjetas de métricas se conservan
@@ -1256,7 +1256,7 @@ ahorro es cero. Lo que aportaba era cualitativo —decir a qué decisión perten
 cada línea—, y eso no paga un fichero más, seis tests más y la tentación de
 creerle.
 
-**La condición era explícita** (JP, 24-ago): «solo si le ves una utilidad de
+**La condición era explícita** (24-ago): «solo si le ves una utilidad de
 ahorro de tokens y tiempo». No la hay, así que se va. Queda su hermano
 `tools/grafo_codigo.py`, que sí la tiene y medida: 3.782 → 138 tokens en «¿qué
 depende de `fmt`?», y contesta en 0,04 s la pregunta que costó una revisión
@@ -1295,8 +1295,8 @@ cada cosa y qué ficheros toca. La pregunta que costó una revisión entera —s
 stdlib**. Vive en `tools/` y no en `ingest/`: R14 protege el runtime y esto es
 análisis, no producción. **El grafo NO se versiona: se construye al vuelo**,
 medio segundo sobre el repo entero. Un índice guardado caduca en silencio, y un
-índice caducado que responde con seguridad es la cicatriz M4 —el documento que
-contradice al repo— con otro traje.
+índice caducado que responde con seguridad es un documento que contradice al
+repositorio, con otro traje.
 
 **Lo que se decide que NO haga, y es la mitad del valor.** No ofrece cobertura
 de tests: el build despacha sus generadores por diccionario, así que el grafo
@@ -1321,7 +1321,7 @@ declaraban «espejo exacto» de su gemela de `site/ui.js` y los vigilaba un
 `assertIn` sobre el **texto** del fichero. Un `assertIn` sobre el código fuente
 pasa en verde con la condición invertida y no mira si las dos funciones
 devuelven lo mismo: es el mismo argumento con el que este sprint se retiraron
-otros dos guardianes (M1). Pasan a compararse **llamando a ambas** con el
+otros dos guardianes. Pasan a compararse **llamando a ambas** con el
 `ui.js` real.
 
 **El cambio destapó lo que el guardián viejo no podía ver:** `%f` redondea al
@@ -1352,7 +1352,7 @@ descubrir guardianes mudos puede volverse muda ella misma.
 sigue el patrón de página-tabla ya fijado en `municipios.html`:
 **`variableMeasured` es el diccionario de columnas, nunca un `ItemList`** — 207
 filas no disparan ningún resultado enriquecido y serían una segunda copia de la
-tabla mantenida aparte (M2).
+tabla mantenida aparte.
 
 **Se decide, además, que las columnas que la serie agrega lleven su total
 nacional con su fecha**, siguiendo el precedente de `marcado_balances` y no la
@@ -1361,7 +1361,7 @@ que la cifra por la que se cita esta página **es** el total del RUD, y publicar
 en el marcado es lo que hace exigible el resto: `temporalCoverage` cerrado y
 `dateModified` en la fecha del dato, no en la de la corrida. Fecharlo con el
 build publicaría «100.231 familias a 22 de agosto», que es la confusión que el
-sello ya corrige en la prosa de al lado (M7). Las columnas que solo existen
+sello ya corrige en la prosa de al lado. Las columnas que solo existen
 municipio a municipio —la población del DANE y la proporción— se describen **sin
 valor**: describir una columna no obliga a inventarle un agregado.
 
@@ -1403,7 +1403,7 @@ como prosa en español con los miles separados por punto. Ahora cada una es un
 par (nombre, valor, unidad) en `variableMeasured`; `citation` dice de quién es
 cada una —la tesis del proyecto en formato de máquina—; `dateModified` la fecha
 con la fecha del dato; y `measurementTechnique` impide leer «11.826 familias
-inscritas» como «verificadas». **R3/M10 con un matiz que importa**: un municipio
+inscritas» como «verificadas». **R3 con un matiz que importa**: un municipio
 sin registro no publica «0 familias» —publicaría que el RUD dice que no hay
 damnificados, cuando lo que dice es que aún no ha llegado—, pero **sí sigue
 citando a la UNGRD**: consultar una fuente y no encontrarse en ella es un hecho
@@ -1422,7 +1422,7 @@ metros».**
 
 **Decisión.** Las dos superficies dicen ahora «en el punto que registró la
 fuente», y se mueven **a la vez**, que es la única manera de mover una pareja
-M2. Queda pendiente revisar los mismos literales en `verify_citizen.py`,
+Es una segunda copia. Queda pendiente revisar los mismos literales en `verify_citizen.py`,
 `publish.py` y `LIMITACIONES.md`, que describen el mecanismo interno y no lo que
 se publica.
 
@@ -1444,7 +1444,7 @@ El guardián no lo vio por dos motivos, y el segundo es el que enseña: el
 tampoco habría casado**. Las tres alternativas se escribieron mirando las
 redacciones que ya se conocían —«coordenada redondeada», «redondeada a ~110»,
 «lat_pub/lon_pub (redondeadas)»— y esta decía lo mismo con otras palabras. Es
-**M1 a escala pequeña: un guardián validado contra el bug que ya se tenía
+**Validación por mutación a escala pequeña: un guardián validado contra el bug que ya se tenía
 delante mide la memoria de quien lo escribe, no el riesgo.**
 
 **Decisión.** El bloque del `README` se reescribe en pasado y pone delante la
@@ -1513,7 +1513,7 @@ y la salida cómoda sería bajar el suelo, que es como muere un guardián. Vigil
 la regresión de código, no el vaivén del dato.
 
 **Consecuencia.** El contrato deja de ser una promesa entre dos y pasa a ser
-verificable por cualquiera. Es **M4** aplicado: una línea base se toma midiendo
+verificable por cualquiera. Una línea base se toma midiendo
 en el momento, con un medidor que esté en el repositorio — y el propio medidor
 lo demostró al nacer, porque descontaba `<footer>` cuando el pie se emite como
 `<div id="site-footer">` y en cambio se comía el `<header>`, que aquí no es
@@ -1540,14 +1540,14 @@ marcado o comentario, nunca un formato que alguien tenga que parsear.** Se
 aplica también al defecto preexistente, no solo al caso que lo destapó.
 Corolario para `variableMeasured` de las páginas-tabla: es el **diccionario de
 columnas**, no un `ItemList` con las 208 filas, que sería una segunda copia de
-la tabla (M2) — el índice para sistemas de IA ya lo hace `llms-full.txt`.
+la tabla — el índice para sistemas de IA ya lo hace `llms-full.txt`.
 
 **Un `<div>` no servía, y el porqué merece quedarse escrito**: dentro de
 `<head>`, un `<div>` lo cierra implícitamente por el algoritmo de construcción
 del árbol, y el `manifest`, los iconos y **`styles.css`** —que iban detrás—
 pasan a `<body>`. `dist/` no llegó a verse afectado porque allí el marcador ya
-está sustituido, pero `site/*.html` sí, y es la cicatriz **M6** rondando otra
-vez («los prototipos daban un paso atrás» era que no cargaban `styles.css`). Un
+está sustituido, pero `site/*.html` sí, y es el mismo fallo de otras veces: lo
+que parecía un retroceso de diseño era una hoja de estilos que no cargaba. Un
 comentario es válido en `<head>` y no toca el árbol: permutar una invalidez por
 otra no es arreglar.
 
@@ -1609,14 +1609,14 @@ la vez, y volver aquí.
 `dateModified` viaja como marcador `{{noticias_corte}}` y lo escribe el build:
 un `<span data-gen>` no cabe dentro de un bloque JSON-LD. Si la corrida falta o
 no es una fecha, la clave no se emite y el build revienta con «marcador sin
-valor» — publicar `"None"` fecharía el corpus en la nada (M10).
+valor» — publicar `"None"` fecharía el corpus en la nada.
 
 **El paginador no se prerenderiza.** `noticias.html?p=2` no existe como URL: sus
 botones son estado del navegador, y servirlos publicaría enlaces muertos. Lo que
 un lector sin JavaScript necesita saber de la lista —que es un recorte, de
 cuánto y por dónde sigue— vive en un pie servido, `nota_noticias()`, y **solo
 ahí**: si el literal siguiera además en `noticias.js`, el día que uno cambiara
-la página diría dos cosas (M2).
+la página diría dos cosas.
 
 ## 2026-08-24 — Un guardián que se muda de superficie se repunta o se retira, nunca se relaja
 
@@ -1633,7 +1633,7 @@ condición invertida. **Se retiran**, y lo que querían decir lo dice ahora
 del RUD. El tercero pierde la entrada de `municipios.js` del diccionario `TIRAS`,
 con su cobertura real anotada: la vigilan los tests por ejecución.
 
-**Consecuencia.** Es **M1** como criterio de mantenimiento, no solo de escritura:
+**Consecuencia.** Es la validación por mutación como criterio de mantenimiento, no solo de escritura:
 cuando un guardián deja de alcanzar lo que vigilaba, la pregunta no es «¿a dónde
 lo repunto?» sino «¿esto guardaba algo?». Se corrigen de paso los dos punteros
 que mandaban a leer una función que ya no existe.
@@ -1641,13 +1641,13 @@ que mandaban a leer una función que ya no existe.
 ## 2026-08-24 — La revisión se cobra por sprint; el trabajo se paraleliza por superficies disjuntas
 
 **Contexto.** Hasta hoy cada cambio pagaba su Definition of Done completa al
-momento: mutaciones M1, tres revisores y navegador por encargo. Con el
+momento: mutaciones, tres revisiones y navegador por encargo. Con el
 andamiaje del rediseño puesto (sistema CSS, prerenderizado probado en
 `rud.html` y las 208 fichas), las fases 4–6 son aplicar un patrón conocido a
 varias páginas independientes, y la puerta por-cambio consumía más trabajo que
 el cambio mismo.
 
-**Decisión (JP).** El test se sigue escribiendo junto al código y la suite
+**Decisión.** El test se sigue escribiendo junto al código y la suite
 rápida se pasa a menudo (20 s: es gratis). La validación por mutación, la
 verificación en navegador y los tres revisores pasan a cobrarse **por lote al
 cierre de página o sprint**, con los hallazgos aplicados en una sola pasada. El
@@ -1695,7 +1695,7 @@ viene de contrabando dentro de un arreglo de estabilidad.
 
 **Consecuencia.** Ninguna URL de `dist/municipio/` cambió (208 idénticas,
 verificado antes/después del build). Los guardianes se validaron por mutación
-(M1): entrada que falta, entrada que sobra y reparto que ignora la tabla — los
+: entrada que falta, entrada que sobra y reparto que ignora la tabla — los
 tres caen. Se corrigieron además dos docstrings que afirmaban lo contrario de lo
 publicado («Argelia» del Cauca), justo donde alguien iría a leer la regla.
 
@@ -1704,14 +1704,14 @@ publicado («Argelia» del Cauca), justo donde alguien iría a leer la regla.
 **Contexto.** `municipios.html` publicaba «…salvo Bolívar (Valle del Cauca) y
 **Bolívar (Cauca) (Cauca)** y Córdoba (Quindío)…». Dos defectos en la misma
 frase: el departamento duplicado —el mismo bug que `179edef` arregló en las 208
-fichas con `toponimo()` en Python, y del que `ui.js` **nunca se enteró** (M2)— y
+fichas con `toponimo()` en Python, y del que `ui.js` **nunca se enteró**— y
 la enumeración «A y B y C», que no es español, cuando diez líneas más abajo el
 mismo fichero ya tenía `enumeraEs` bien hecha.
 
 **Decisión.** `toponimo(clave, depto)` se escribe en `site/ui.js` como **espejo
 exacto** de `deploy/render_html.py::toponimo`, con test de espejo
 (`test_el_toponimo_de_ui_js_es_espejo_del_de_python`) que cae si divergen — la
-lección de M2 completa: al fundir, un test que se rompa si vuelven a separarse.
+lección completa: al fundir, un test que se rompa si vuelven a separarse.
 Las enumeraciones sueltas (`fraseHomonimos`, lista de UNOSAT en
 `comparativaFuentes`) pasan por `enumeraEs`, que queda como la única de la casa.
 Los dos globos del mapa que titulan con la clave del catálogo (`app.js`: la capa
@@ -1754,7 +1754,7 @@ estaba subido. La fuga era de una sola dirección: tráfico y tiempo de bajada.
 es un **dato**: preguntar cada día es la única forma de saberlo, y eso lo
 resuelven las condicionales. Un vídeo ciudadano no: nace con una dirección
 propia —un UUID que ChatMap acuña al subirlo— y su contenido es el que es. Es un
-**activo**, y un activo se archiva una vez. En palabras de JP: «nada que sea
+**activo**, y un activo se archiva una vez. El criterio, literal: «nada que sea
 contenido que no cambia se archiva más de una vez: es un activo, no un dato
 archivable».
 
@@ -1780,14 +1780,14 @@ archivable».
    distinto bajo un nombre ya archivado, `fetch(save_to=…)` lo guarda **al
    lado**, con la firma de su contenido (`_sha8`), y no toca el viejo — la misma
    política que los snapshots intradía, ahora con una sola implementación
-   (`_nombre_con_contenido`, M2). Antes no escribía nada y la fila del log
+   (`_nombre_con_contenido`). Antes no escribía nada y la fila del log
    declaraba el sha256 del cuerpo nuevo apuntando a un fichero con el viejo
    dentro: **la única forma de que este archivo mienta sin que nadie lo note**.
    El camino era inalcanzable desde ChatMap por el propio `dest.exists()`; al
    quitarlo dejaba de serlo.
 5. **El manifiesto no puede perder lo que ya sabía.** Los bytes de un activo
    salen del cuerpo si está, del registro de su descarga en `sources_log` si no,
-   y de lo que ya declaraba el manifiesto anterior en último término (M10: si
+   y de lo que ya declaraba el manifiesto anterior en último término (si
    nadie lo sabe, se omite el campo; jamás un 0). Sin esto, la primera corrida
    con el guardián nuevo habría escrito `bytes: null` en los 77 objetos —
    comprobado sobre un clon limpio— y el commit automático se habría llevado por
@@ -1821,7 +1821,7 @@ archivable».
    si declaraba ESE contenido—. `bytes` es el único campo que la auditoría puede
    contrastar contra R2: una cifra desalineada o suena en falso todos los días
    —y un aviso falso mata la lectura de las alertas— o enmascara una sustitución
-   real. Si ninguna vía sabe el tamaño de ese cuerpo, se omite (M10).
+   real. Si ninguna vía sabe el tamaño de ese cuerpo, se omite.
 9. **El manifiesto no encoge.** `rebuild_db` y `chatmap` son `step()`: R13 los
    deja fallar. Con la base vacía, el manifiesto se habría regenerado como
    `objetos: []` y el bot lo habría commiteado — los cuerpos seguirían en R2
@@ -1852,7 +1852,7 @@ trazabilidad. Un vídeo con esa extensión se habría descargado, no habría ent
 en git, no habría subido a R2 y no habría figurado en el manifiesto —
 irrecuperable en cuanto se apagara el runner, y sin una sola línea roja. Nunca
 llegó ninguno. Ahora la lista es una (`common.ARCHIVO_EN_R2`, con `.avi`
-dentro) y hay un guardián que compara las cuatro superficies (M2).
+dentro) y hay un guardián que compara las cuatro superficies.
 
 **Consecuencia, medida sobre un clon limpio con la base reconstruida de los
 volcados:** de 536 medios, **536 se resuelven del archivo y 0 se piden** — 459
@@ -1881,13 +1881,13 @@ directa de tratarlo como activo, no un descuido — y está en
 revalidar con un `HEAD` diario por objeto; se descarta por ahora porque añade un
 método nuevo a `fetch()` y es otra decisión.
 
-**Revisión.** El archivista y el revisor-qa lo rechazaron en su primera pasada, y
-los dos encontraron cosas que esta sesión no podía verse sola: **el camino por el
-que un cuerpo se pierde en verde** (el archivista) y **un test que pasaba con el
+**Revisión.** Las revisiones de archivo y de calidad lo rechazaron en su primera
+pasada, y las dos encontraron cosas que no se veían desde dentro: **el camino por
+el que un cuerpo se pierde en verde** y **un test que pasaba con el
 fallo puesto** — `test_un_video_de_la_base_que_falta_en_el_manifiesto_no_es_alerta`
 comprobaba la ausencia de un tipo de aviso que en su escenario era imposible, así
 que un aviso nuevo cualquiera pasaba entero. Se tiró y se escribió otro que cierra
-el conjunto (M1: si pasa con el fallo puesto, no se retoca). **Treinta y dos
+el conjunto (si pasa con el fallo puesto, no se retoca). **Treinta y dos
 mutaciones; ninguna sobrevivió.**
 
 ## 2026-08-24 — Se pregunta antes de descargar, y un contenido idéntico no se archiva dos veces
@@ -1937,7 +1937,7 @@ Dejar de descargar dos veces una capa ya archivada no puede costar un producto.
 **Dónde viven los validadores: dos columnas en `sources_log`, no una tabla
 aparte.** El ETag es *lo que dijo esa respuesta*, igual que `sha256` o `bytes`:
 pertenece a la fila. Una tabla de estado por URL sería una segunda copia de algo
-que el log ya sabe, y toda segunda copia diverge (M2). Se añaden por
+que el log ya sabe, y toda segunda copia diverge. Se añaden por
 `MIGRACIONES` (nacen en NULL sobre las 4.277 filas viejas: un NULL ahí significa
 exactamente «ese día no se lo preguntamos»), viajan solas en el volcado —`dump`
 vuelca lo que declara `PRAGMA table_info`— y **no entran en la clave de
@@ -1954,7 +1954,7 @@ cambia es un activo, no un dato archivable*.
 
 **Consecuencia visible, y cómo se lee.** Quien abra `data/snapshots/2026-08-24/`
 ya no encontrará ahí la capa de Copernicus: la copia viva es la del 15. Lo
-explican dos superficies, con un test que impide que se separen (M2):
+explican dos superficies, con un test que impide que se separen:
 `sources_log` (índice completo, versionado en `data/dumps/sources_log.csv`) y un
 **`reutilizados.txt` en la propia carpeta del día** —nombre que habría tenido,
 ruta de la copia vigente, sha256—, porque el índice no puede exigir que el
@@ -1967,7 +1967,7 @@ primer día que GDACS repitiera su feed se habría quedado sin un solo titular y
 **los AOI que solo tienen prensa habrían retrocedido a «pendiente» en silencio**.
 Se añade `common.ultimo_snapshot(nombre)` —una sola implementación de «el cuerpo
 vigente, sea de qué día sea», que `geo.grid_mmi_vigente` ya hacía por su cuenta
-(M2)— y un test estructural que recorre todo `ingest/` buscando el patrón, no el
+— y un test estructural que recorre todo `ingest/` buscando el patrón, no el
 caso. El reverso también está pinchado: la cronología institucional NO puede
 resolver un día reutilizado con el cuerpo vigente, o repetiría el mismo aviso
 cada día.
@@ -2008,7 +2008,7 @@ día) dejó escrito que el nombre interno **se quedaba** en la barra y en la met
 Dos hechos la desbordan. El primero: en la metodología no estaba —`grep` de «Monitor de
 brechas» en `site/*.html` da manifest, un comentario de `app.js` y el título por defecto
 de las notificaciones, y ninguna de las tres es la metodología—, así que la marca doble
-se sostenía sobre una sola pata. El segundo: JP decide que la barra diga el nombre
+se sostenía sobre una sola pata. El segundo: se decide que la barra diga el nombre
 público corto.
 
 Decisión: la marca de la barra pasa a **«Datos del terremoto»** (`render_html.MARCA`) y
@@ -2017,7 +2017,7 @@ aquí dicho para que nadie la lea como una regresión. «Monitor de brechas» si
 el nombre interno del proyecto en la documentación, y sigue publicado en las migas de
 las 208 fichas, en el `manifest.json` de la aplicación instalable y en el título de las
 notificaciones. **Que las migas digan un nombre y la barra otro, en la misma página, es
-una decisión editorial pendiente de JP** — no se ha tocado aquí porque cambiar la
+una decisión editorial pendiente** — no se ha tocado aquí porque cambiar la
 primera miga cambia también el `BreadcrumbList` de 208 páginas.
 
 El dato del sismo no se pierde: se muda al encabezado de cada una de las cinco páginas
@@ -2070,9 +2070,9 @@ sigue navegando.
 Consecuencia: `municipios.html` pasa de 273 a 293 KB (unos 1.450 `<span>`), lejos del
 aviso de 400 KB de `seo_check`; ninguna fila se pierde. El foco se percibe en la fila
 —`tr:focus-within` la tiñe— sin apagar nunca el anillo del navegador sobre el enlace.
-Fuera de alcance por decisión de JP: la tabla de `rud.html`, cuyas filas no tienen
+Fuera de alcance, por decisión: la tabla de `rud.html`, cuyas filas no tienen
 ningún enlace y cuyo cruce con el catálogo curado es el que ya falló con «Guadalajara de
-Buga» (R10, M8); eso lo escribe la ingesta en la fase 4.
+Buga» (R10); eso lo escribe la ingesta en la fase 4.
 
 ## 2026-08-24 — Un error en cómo mostramos el dato se corrige; el cambio lo documenta git
 
@@ -2082,7 +2082,7 @@ redondeada a ~110 m. Al discutir cómo arreglarlo se invocó la inmutabilidad de
 snapshots como argumento para no tocar lo ya publicado — y ahí se vio que estábamos
 mezclando dos capas distintas.
 
-Decisión de JP: **si encontramos un error en la manera en que mostramos los datos, se
+Decisión: **si encontramos un error en la manera en que mostramos los datos, se
 corrige, y eso manda sobre conservar la versión equivocada.** Los cambios no se archivan:
 se documentan en git, que es su sitio, y los datos se arreglan para que correspondan.
 
@@ -2096,43 +2096,6 @@ snapshot demuestra qué dijo la fuente, el commit demuestra qué corregimos y cu
 Consecuencia: las correcciones retroactivas de lo publicado dejan de necesitar
 justificación caso a caso. Lo que sigue necesitándola es tocar un snapshot, que no se
 hace nunca.
-
-## 2026-08-23 — Reglas de método (M1–M10): las cicatrices se escriben en el contrato
-
-Contexto: en una sola jornada de rediseño aparecieron cuatro errores del mismo tipo, y
-ninguno era un error el día que se escribió. Dos URL declaradas dos veces con la copia
-muerta envejeciendo. Un pie que vivía en Python y en JavaScript y llevaba meses siendo
-más pobre en 208 páginas sin que nadie lo viera. Un plegable estilado por sus cuatro
-ubicaciones en vez de por lo que es, con una víctima ya publicada. Una identidad de autor
-con el nombre interno en un sitio y el público en otro. Se estropearon solos, después,
-porque nada vigilaba que las copias siguieran diciendo lo mismo.
-
-En la misma jornada, cuatro tests escritos para cazar un bug **pasaron en verde con el
-bug puesto**: uno buscaba una palabra que estaba en el comentario de su propio autor,
-otro comparaba conjuntos sobre el fichero entero y sobrevivía si el defecto quedaba en
-uno de los dos sitios, y dos guardianes «de sí mismos» comprobaban «la lista no está
-vacía». Y una pregunta al mantenedor se hizo sobre una premisa falsa —«sin emoticonos,
-como las fichas», cuando las fichas los tenían—, así que hubo que volver a preguntar.
-
-Decisión: `CLAUDE.md` gana una sección de **reglas de método M1–M10**, hermana de las
-reglas de rigor R1–R16. Las R son sobre los datos; las M, sobre cómo se trabaja. Cada M
-lleva **la cicatriz que la causó**: una regla sin el incidente que la originó no se
-recuerda y acaba siendo decoración. Se citan por su número en las revisiones —«esto
-incumple M2»— igual que las R.
-
-Y un mecanismo para que la lista crezca sola: un error que aparece por **segunda** vez
-deja de ser un error y pasa a ser un patrón; se escribe con su cicatriz y, si es
-automatizable, llega acompañado de su test, validado por M1.
-
-Consecuencia: las revisiones tienen vocabulario para nombrar fallos de método, no solo de
-datos. M1 (validar rompiendo) y M2 (toda segunda copia diverge) ya han cambiado tres
-commits de este rediseño: el chip que deducía su maqueta de sus hijos, el inventario del
-pie fijado por destino, y el marcado estructurado, donde se descubrió que `@id` **no
-resuelve entre documentos** y que por tanto una identidad repetida en 213 páginas solo la
-sostiene un test, nunca la sintaxis.
-
-Una regla que estorbe se discute y se retira, con su entrada aquí. Lo que no se hace es
-ignorarla en silencio.
 
 ## 2026-08-22 — Un chip es una acción; lo que no se pulsa, no es un chip
 
@@ -2694,8 +2657,8 @@ replicarse noventa y cinco veces. Hacía falta una referencia externa y comproba
 en lugar del criterio de quien escriba ese día.
 
 Decisión: se adopta el **Libro de estilo de EL PAÍS** (11.ª edición) como
-referencia de redacción, gramática, números y siglas, y se crea el agente
-`revisor-estilo` que lo aplica citando la norma por su número. El manual **no se
+referencia de redacción, gramática, números y siglas, y se aplica citando la
+norma por su número. El manual **no se
 commitea** —es material con derechos—: en el repositorio solo viven las reglas
 destiladas, que son normas de uso, no texto ajeno.
 
@@ -2725,9 +2688,9 @@ porque tocan el rigor y no solo la forma:
   el sitio más incumplía: RUD, UNGRD, DIVIPOLA, EDAN, AOI, DYFI y MMI aparecían sin
   desarrollar en páginas que un lector puede abrir directamente desde un buscador.
 
-Reparto de competencias entre agentes: `revisor-estilo` se ocupa de cómo está
-escrito; `auditor-editorial` sigue siendo el único que juzga si una cifra puede
-publicarse y con qué atribución. Cuando una norma de estilo choque con una regla
+Dos revisiones distintas y separadas: una se ocupa de cómo está escrito; la otra,
+la editorial, sigue siendo la única que juzga si una cifra puede publicarse y con
+qué atribución. Cuando una norma de estilo choque con una regla
 del proyecto (R1–R15), manda el proyecto.
 ## 2026-08-18 — La página del RUD explica qué es el registro, no solo la cifra
 
@@ -2822,7 +2785,7 @@ Contexto: con la fuente ya ingerida quedaban dos decisiones abiertas. La capa de
 municipios clasificaba a Anserma, Manizales y Viterbo como si nadie los hubiera
 mirado desde fuera, y eso había dejado de ser verdad.
 
-Decisión (JP, 19-ago): **UNOSAT habilita verificación satelital, sin fundirse con
+Decisión (19-ago): **UNOSAT habilita verificación satelital, sin fundirse con
 Copernicus.** Estado nuevo `evaluado_unosat` en la cascada de
 `ingest/municipios.py`, por debajo de `en_aoi` y por encima de todo lo demás, con
 color y explicación propios en `UI.ESTADO_MUNICIPIO`. La razón de no fundirlos:
@@ -2870,7 +2833,7 @@ hito público es la segunda. En el cruce por AOI baja `n_prensa` en los siete, p
 **ningún AOI cambia de estado**. En la gráfica de volumen mediático el efecto es
 de dos puntos: la serie ya cortaba por su cuenta en 2026-08-08.
 
-Decisión (de JP, sobre tres opciones medidas): **los titulares anteriores al
+Decisión (sobre tres opciones medidas): **los titulares anteriores al
 sismo se excluyen de todo producto público** —páginas, JSON descargables,
 conteos y ejemplos—, no solo se marcan. Siguen íntegros en `news_items`, en los
 snapshots y en `sources_log`: el principio de archivo se cumple en la capa que
@@ -2906,7 +2869,7 @@ Con el corpus ya limpio de prensa anterior al sismo, el silencio informativo se
 puede por fin medir sin confundirlo con titulares de otros sismos: **33 de los
 116 municipios vigilados tienen personas registradas en el RUD y cero titulares
 atribuidos** —12.129 personas—. Es exactamente la brecha que el monitor existe
-para medir, y JP decidió publicarlo como hallazgo.
+para medir, y se decidió publicarlo como hallazgo.
 
 Decisión sobre CÓMO: la afirmación se publica **en tres niveles**, no como un
 número redondo, porque no todos los ceros valen lo mismo. Publicar «33 municipios
@@ -3108,7 +3071,7 @@ terremoto». Se dice lo que consta: *código de evento inconsistente, fechado
 después de la imagen que los retrata*. Convertir un fallo de la fuente en un
 hecho propio es exactamente lo que este monitor existe para no hacer.
 
-**Lo que queda abierto, para decisión de JP:**
+**Lo que queda abierto:**
 
 - *Contarlos (393).* Salen de la misma capa, la misma imagen y el mismo producto
   que los 385, y el código que los separa no puede ser cierto. Excluirlos deja
@@ -3304,7 +3267,7 @@ Lo cazó la revisión de archivo, no un test. De ahí sale un test nuevo.
 
 ### El código de evento lo decide el producto, no el punto (21-ago-2026)
 
-**Decisión de JP**: un punto de UNOSAT pertenece a este terremoto si el
+**Decisión**: un punto de UNOSAT pertenece a este terremoto si el
 **producto que lo publica** declara su GLIDE, no si lo declara el campo
 `event_code` de la geometría.
 
@@ -3632,7 +3595,7 @@ profundidad que esté. Ese nodo anidado no es un enlace: es un dataset
 independiente al que se le exigen sus propios campos, y no tenía `description`.
 Un dataset inválido en las 208 fichas, en producción. El test que debía cazarlo
 —`test_json_ld_parseable_con_divipola`— **miraba solo el nodo raíz** y llevaba
-meses en verde: otro guardián que no guarda (M1).
+meses en verde: otro guardián que no guarda.
 
 Decisión, en tres partes:
 
@@ -3651,7 +3614,7 @@ Decisión, en tres partes:
    y escribe una tercera pieza en el `<head>` de las cinco, con el mismo
    mecanismo de marcador vacío que la barra y el pie. Repetir el literal en
    `site/*.html` habría creado seis copias de algo **cuya única virtud es ser
-   idéntico**: la definición de M2.
+   idéntico**: la definición de una copia condenada a divergir.
 
 El porqué del punto 3 no es de estilo. **`@id` NO resuelve entre documentos**:
 dentro de una página un parser fusiona los bloques y resuelve las referencias,
@@ -3681,7 +3644,7 @@ enteras. **G2**: ningún `Dataset`, a cualquier profundidad, sin `name` y
 `contentUrl`/`url`/`logo`/`@id` es absoluta, comprobado **sobre el JSON
 parseado y no sobre el texto crudo**, para no dar falsos positivos con URLs
 externas legítimas. Los nueve bugs que se le metieron a propósito mueren, el
-de hoy incluido (M1). El HTML visible no cambia: las cinco páginas conservan
+de hoy incluido. El HTML visible no cambia: las cinco páginas conservan
 sus palabras exactas (3.475 · 3.768 · 2.819 · 2.096 · 6.493), porque
 `seo_check` descarta los `<script>`.
 
@@ -3697,7 +3660,7 @@ Contexto: las cuatro páginas con encabezado escribían «Actualizado el 22 de a
 2026» desde el navegador, con `getElementById("generado").textContent`. En `rud.html` esa
 frase era falsa: `rud.json` se genera el 22 con una serie que **termina el 21**, así que
 la página fechaba en el 22 unas cifras del 21 — y lo hacía en HTML indexable y con
-permanencia de archivo, que es donde una confusión se queda a vivir (M7: toda cifra de
+permanencia de archivo, que es donde una confusión se queda a vivir (toda cifra de
 una fuente viva lleva su corte).
 
 Las cuatro llamadas iban además **sin guarda**. Quien no ejecuta JavaScript —los
@@ -3716,7 +3679,7 @@ mano (R4) y las dos viajan en un `<time datetime>` legible por máquina.
   del fichero. Cuando las dos fechas caen en el mismo mes, la corrida se dice solo con su
   día; en cuanto cambia el mes se escribe entera, porque «corrida del 1» sería un acertijo.
 - **La portada y los municipios dicen solo la corrida**: sus fuentes no publican hasta
-  dónde llega la serie, y **M10 prohíbe inventar la otra** — donde falta el dato se calla
+  dónde llega la serie, y **la otra no se inventa** — donde falta el dato se calla
   ese trozo. Si faltasen las dos, el sello lo dice con todas las letras: devolver una
   cadena vacía dejaría el contenedor `data-gen` vacío y eso rompe el build.
 - **A las cuatro llamadas del navegador no se les pone un `if`: se les quita el motivo.**
@@ -3728,7 +3691,7 @@ vigila el marcador en `site/` y que ningún JS vuelva a redactarlo. Las once mut
 —las dos fechas salidas del mismo campo, la cadena vacía, la fecha inventada, la
 abreviatura cruzando de mes, la primera búsqueda en vez de la última, el generador
 desconectado, el marcador con un carácter de menos, el marcador partido, el JS
-reinstalado— caen todas (M1). Palabras servidas: index 3.475 → 3.481 · municipios
+reinstalado— caen todas. Palabras servidas: index 3.475 → 3.481 · municipios
 3.768 → 3.774 · rud 2.819 → 2.832 · balances 2.096 → 2.110 · noticias sin sello, 6.493.
 
 ## 2026-08-23 — `inyectar_prerenderizado` deja de callarse: `continue` → `raise`
@@ -3744,7 +3707,7 @@ falla: la degradación elegante de R13 no aplica.
 Decisión: rompe el build, con los **dos mensajes distinguidos** que ya usaba
 `escribir_piezas_compartidas` — marcador perdido frente a marcador ya gastado.
 
-Y una corrección que solo apareció al validar por mutación (M1): **mirar si el contenedor
+Y una corrección que solo apareció al validar por mutación: **mirar si el contenedor
 está presente no separa las dos averías**. En el fallo más probable —el salto de línea—
 el contenedor está y sigue vacío, y el mensaje acusaba al artefacto, mandando a
 reconstruir `dist/` cuando lo que hay que mirar es `site/`. Lo que las separa es **si
@@ -3772,14 +3735,14 @@ reorden de la página es un paso aparte—.
   solo 3.179 vienen de los 49 nuevos**: el RUD no crece por la cola, crecen los ya
   contados. Se calcula recorriendo `detalle_diario` con la clave `(departamento,
   municipio)` —nunca por nombre normalizado, que es el error de 206 familias de
-  «Guadalajara de Buga» (R10, M8)— y el total se rotula **«mínimo provisional»** (R16).
-  El desglose **no se publica si no suma su propio salto** (M7) ni si le falta una de sus
+  «Guadalajara de Buga» (R10)— y el total se rotula **«mínimo provisional»** (R16).
+  El desglose **no se publica si no suma su propio salto** ni si le falta una de sus
   dos mitades: la oración termina afirmando que lo que crece son los municipios ya
-  contados, y con el salto entero en municipios nuevos esa conclusión sería falsa (M10).
+  contados, y con el salto entero en municipios nuevos esa conclusión sería falsa.
 - **Los predicados de los chips salen a `CHIPS_RUD` + `_chips_de(m)`, compartidos con
   `filas_rud`.** Vivían partidos —el array `CHIPS` de `rud.js` contaba filas, `filas_rud`
   las etiquetaba con su propia copia—, así que nada impedía que «Nuevos (49)» filtrase
-  otra cosa (M2). La definición **desaparece de `rud.js`**: dejar las dos era M2 el día uno.
+  otra cosa. La definición **desaparece de `rud.js`**: dejar las dos era una copia condenada a divergir el día uno.
 - **La nota del pie se parte por lo que es invariante, no por lo que es cómodo.** La
   prosa —qué compara la columna Δ, cuándo empezó la serie, que un cero puede ser
   «todavía sin evaluar»— la escribe el build; **el recuento vivo se queda en el
@@ -3794,14 +3757,14 @@ reorden de la página es un paso aparte—.
 - **El contador de balances deja de fechar el dato.** `#balance-resumen` decía «30 de 30
   capturas · actualizado el 22 de agosto de 2026» desde `generated_at` —la corrida, no el
   corte del rastreo—: la misma confusión que el sello acababa de separar tres centímetros
-  más arriba, en la misma página. La fecha vive en el sello y solo ahí (M2).
+  más arriba, en la misma página. La fecha vive en el sello y solo ahí.
 
 Consecuencia: los tres tests de `TestGraficoRud` **se portan a Python sin perder una
 aserción** —incluido el de la corrección a la baja (`data-altas="-10"`, `--critical`),
 que distingue «bajó» de «no hay dato»— y de paso dejan de estar bajo `@skipUnless(NODE)`.
 Se suman `TestChipsDelRud`, `TestEntradillaRud`, `TestNotaRud`,
 `TestPiezasDelRudLleganEscritas` y `TestEspejoDeDiaMes` (`dia_mes` es el cuarto helper de
-formato que vive en dos lenguajes). 555 → 588 tests. Las catorce mutaciones caen (M1);
+formato que vive en dos lenguajes). 555 → 588 tests. Las catorce mutaciones caen;
 **una decimoquinta sobrevivió y su test se tiró y se rehizo**: el desglose que no cuadra
 se rechazaba antes por el otro guardián, así que el de la aritmética estaba sin vigilar.
 `rud.html` pasa de **0 a 1 `<svg>`** servido y de 2.832 a **3.210 palabras**; las otras
@@ -3821,7 +3784,7 @@ entera** antes de ver una cifra, y la página entera medía **4,71 pantallas**. 
 primera de las cinco que se reordena y **la única parte de la fase que se ve**.
 
 Decisión: **mover, no reescribir.** Los cuatro párrafos se reparten literales entre dos
-plegables, con el reparto que dio JP:
+plegables, con el reparto acordado:
 
 - Arriba, entre la entradilla y la tabla, `<details class="pliegue">` **«Cómo leer estas
   cifras»** con los dos párrafos que enseñan a leerla (80 + 43 = **123 palabras**). Van
@@ -3878,7 +3841,7 @@ de encabezado, 289 de entradilla, 1.658 de datos y **691 de pie** — el pie sol
 pantallas. Bajar de ahí es paginar la tabla de otra manera o adelgazar el pie, y las dos
 cosas son otra decisión. `seo_check` da **+12 palabras exactas** en `rud.html` (3.210 →
 3.222) y **cero** en las otras cuatro: las 12 son los dos `<summary>` nuevos, lo único
-que se escribe en todo el paso. 588 → **597 tests**; **doce mutaciones caen** (M1) —
+que se escribe en todo el paso. 588 → **597 tests**; **doce mutaciones caen** —
 quitar un párrafo del plegable, romper la línea del doble eje, anidar un plegable en otro,
 retirar cada @media, cada `transform` y cada clase del SVG—. **Una decimotercera
 sobrevive y se deja escrito por qué**: subir `.g-total` a 26 px en la banda de 760 no
@@ -3901,7 +3864,7 @@ para no hacer.
 Decisión: la lista **se deriva del catálogo completo en cada corrida y no se
 mantiene a mano en ningún sitio**. `catalogo_municipios()` es la definición
 única —de ella cuelgan la ficha municipal y la búsqueda de prensa, que tienen
-que decir lo mismo (M2)— y `catalogo_vigente()` la deriva del archivo (último
+que decir lo mismo— y `catalogo_vigente()` la deriva del archivo (último
 día del RUD + DIVIPOLA) para quien no tiene el registro a mano. Un municipio que
 el RUD estrene hoy tiene su búsqueda hoy, sin que nadie toque un fichero. De
 **82 a 203** búsquedas.
@@ -3920,7 +3883,7 @@ persona: llegan del registro oficial tal como el registro los escriba.
    `_menciona_municipio` rechaza (publish.py cree lo que el feed declara).
 
 Cuando no se puede construir una consulta segura **no se construye ninguna y se
-dice cuántos son** (M10): el resumen de la corrida lleva
+dice cuántos son**: el resumen de la corrida lleva
 `_busquedas_municipales` con el recuento y el motivo de cada exclusión. Hoy son
 **cinco**, los cinco homónimos de departamento: Bolívar (Valle del Cauca),
 Bolívar (Cauca), Córdoba (Quindío), Risaralda (Caldas) y Sucre (Cauca).
@@ -3954,7 +3917,7 @@ Guardián (R11): `tests/test_hipotesis.py::TestSupuestoBusquedaMunicipal` compar
 los municipios del catálogo con los que tienen búsqueda y **falla en cuanto
 aparece uno sin cubrir que no esté en la lista de excepciones escrita a mano** —
 y también si sobra una excepción. Que se rompa es la señal de que hay trabajo,
-no de que algo va mal. Siete mutaciones caen (M1): volver a recorrer solo el
+no de que algo va mal. Siete mutaciones caen: volver a recorrer solo el
 catálogo curado, quitar cada uno de los tres guardianes de consulta segura,
 buscar la clave en vez del topónimo, devolver el catálogo sin copiar y leer las
 filas del RUD sin ordenar.

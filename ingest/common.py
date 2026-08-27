@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS sources_log (
   -- Validadores de caché que declaró la RESPUESTA de ese día. Viven aquí, y no
   -- en una tabla de estado aparte, porque son parte de lo que dijo el servidor
   -- —igual que `sha256` o `bytes`— y una segunda tabla sería una segunda copia
-  -- que diverge (M2). De ellos sale el `If-None-Match` / `If-Modified-Since`
+  -- que diverge. De ellos sale el `If-None-Match` / `If-Modified-Since`
   -- de la petición siguiente; leerlos es una consulta por URL, no un estado.
   etag TEXT,
   last_modified TEXT
@@ -643,7 +643,7 @@ def _ocupado_por_otro_cuerpo(ruta: Path, sha: str) -> bool:
 
 
 def _nombre_con_contenido(nombre: str, sha: str) -> str:
-    """`capa.json` + sha → `capa_1a2b3c4d.json`. Una sola implementación (M2).
+    """`capa.json` + sha → `capa_1a2b3c4d.json`. Una sola implementación.
 
     El archivo no se sobrescribe nunca: cuando llega un cuerpo distinto bajo un
     nombre que ya está ocupado, se guarda al lado con la firma de su contenido.

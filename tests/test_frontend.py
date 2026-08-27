@@ -566,7 +566,7 @@ class TestFraseHomonimos(unittest.TestCase):
         """La frase publicada decía «Bolívar (Cauca) (Cauca)»: es la clave del
         diccionario usada como topónimo, el mismo fallo que `toponimo()` ya
         había corregido en las 208 fichas y del que esta copia no se enteró
-        (M2). El patrón es el de `ingest/seo_check.py::DEPTO_DUPLICADO`, que
+       . El patrón es el de `ingest/seo_check.py::DEPTO_DUPLICADO`, que
         casa con este texto pero no lo ve: solo recorre las fichas del build, y
         esta frase la escribe el navegador."""
         frase = self._frase(self.CON_PARENTESIS)
@@ -586,7 +586,7 @@ class TestFraseHomonimos(unittest.TestCase):
         """«A y B y C y D y E» no es español, y es lo que se publicó el
         23-ago-2026 con cinco homónimos: la lista lleva comas y UNA sola
         conjunción. La regla ya vivía en `UI.enumeraEs`, en este mismo fichero;
-        esta copia no la usaba (M2)."""
+        esta copia no la usaba."""
         self.assertEqual(
             self._enumerados(self.MUNS + self.CON_PARENTESIS),
             "Risaralda (Caldas), Córdoba (Quindío), Bolívar (Cauca) "
@@ -2022,7 +2022,7 @@ class TestAltoDelLienzoDePortada(unittest.TestCase):
     El 23-ago el criterio era el contrario —«el mapa a la altura del panel con
     todos sus datos, sin scroll interno»— y produjo un lienzo de 2.473 px: el
     panel lista 48 municipios de un tirón y arrastraba al mapa. El 24, viendo el
-    resultado, JP prefirió la solución de la maqueta (docs/DECISIONES.md).
+    resultado, se prefirió la solución de la maqueta (docs/DECISIONES.md).
 
     Este guardián existe para que nadie lo «arregle» al revés mañana: mide las
     dos declaraciones que sostienen la decisión —el alto compartido y el
@@ -2123,7 +2123,7 @@ class TestElAnilloDeLaAusenciaCuentaFamilias(unittest.TestCase):
     enseñaba dónde, pero no cuánto.
 
     La fórmula se EJECUTA extrayéndola de `site/app.js`, no se busca en el
-    fuente (M1/M3): un `assertIn` sobre el texto pasa en verde con la regla
+    fuente (un guardián que no guarda): un `assertIn` sobre el texto pasa en verde con la regla
     invertida, y aquí la regla que importa —qué hace el municipio sin cifra de
     familias— es justo la que un guardián de texto no mira.
     """
@@ -2176,7 +2176,7 @@ class TestElAnilloDeLaAusenciaCuentaFamilias(unittest.TestCase):
             f"({radios[0]}): con esa diferencia el mapa vuelve al punto fijo")
 
     def test_sin_cifra_de_familias_el_anillo_no_finge_nueve(self):
-        """R3/M10: la ausencia de dato no es un dato pequeño ni un dato medio.
+        """R3: la ausencia de dato no es un dato pequeño ni un dato medio.
 
         El prototipo escribía `Math.sqrt(m.f || 9)`, que dibuja al municipio sin
         cifra exactamente como al que registró nueve familias. Aquí se exige lo
@@ -2778,14 +2778,14 @@ class TestElZoomAgrandaTambienElEdificioYElReporte(unittest.TestCase):
     15 un edificio de Pereira se veía igual que a zoom 6, y el detalle no
     aparecía nunca. La maqueta reescala las cuatro capas de puntos. La fórmula
     es ahora UNA (`radioZoom`) con el tope como parámetro; la segunda copia es
-    justo lo que M2 prohíbe.
+    justo la copia que diverge.
 
     Dos topes distintos y no por capricho: el anillo de un MUNICIPIO señala un
     sitio (18) y el punto de un EDIFICIO tiene que caber en el tejado que
     retrata (11).
 
     Se EJECUTA la fórmula, no se busca en el fuente: un `assertIn` sobre el
-    texto da verde con la regla invertida (M1).
+    texto da verde con la regla invertida.
     """
 
     BLOQUE = re.compile(
@@ -2874,7 +2874,7 @@ class TestLaHojaNoEstilaLoQueNadieEscribe(unittest.TestCase):
     Eran el modo móvil de la maqueta: tocar un municipio encogía el mapa para
     dejarle sitio a su ficha dentro del panel, con un tirador para devolverlo a
     su alto. En este sitio el panel enlaza a la ficha municipal, que es una
-    página entera —decisión expresa de JP—, así que ningún HTML ni JavaScript
+    página entera —decisión expresa—, así que ningún HTML ni JavaScript
     escribe nunca esas clases: ni la portada ni la propia ficha, cuyo lienzo es
     `.lienzo.lienzo-mun`.
 

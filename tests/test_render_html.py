@@ -954,12 +954,12 @@ class TestEspejosDeFormatoEjecutados(unittest.TestCase):
     Un `assertIn` sobre el código fuente pasa en verde con la condición
     invertida —la cadena sigue estando ahí— y no mira siquiera si las dos
     funciones devuelven lo mismo. Es el argumento con el que este sprint se
-    retiraron otros dos guardianes (M1), así que se aplica también aquí.
+    retiraron otros dos guardianes, así que se aplica también aquí.
 
     Lo que se compara es la salida, caso por caso, con el `ui.js` real. Y no es
     teórico: al escribirlo apareció El Cerrito, con una tasa de 0,25 %, que la
     tabla estática publicaba como «0,2 %» y el mapa como «0,3 %» — `%f`
-    redondea al par y `Intl` se aleja del cero (M2: toda segunda copia
+    redondea al par y `Intl` se aleja del cero (toda segunda copia
     diverge)."""
 
     def _comparar(self, expresiones, esperados, que):
@@ -1286,7 +1286,7 @@ class TestBandaDeBrechas(unittest.TestCase):
         self.assertIn(">1.330<", self.html)                      # días de silencio, locale es-CO
 
     def test_la_banda_no_publica_ningun_porcentaje_de_poblacion(self):
-        """La decisión de JP del 25-ago-2026, con su guardián.
+        """La decisión del 25-ago-2026, con su guardián.
 
         La banda publicaba «las zonas mapeadas por Copernicus cubren al 9,9 %»
         de la población expuesta que estima PAGER. Dos cifras que no se cuentan
@@ -1387,7 +1387,7 @@ class TestCoberturaSatelitalDeLosSacudidos(unittest.TestCase):
     publicada sea la que sale de contar el catálogo —el guardián que habría
     cazado los «36 municipios» de la portada contra los 43 de su propia tabla—,
     que mover el dato mueva la frase, y que un servicio sin municipios no se
-    publique como cero (M10/R3): acusar a un satélite de no haber mirado es tan
+    publique como cero (R3): acusar a un satélite de no haber mirado es tan
     falso como acusar a Copernicus de entregar «cero productos»."""
 
     # el mismo catálogo de laboratorio que usa la banda, con sus trampas
@@ -1480,7 +1480,7 @@ class TestCoberturaSatelitalDeLosSacudidos(unittest.TestCase):
         self.assertEqual(d["sacudidos"], 4)
         self.assertNotIn("Lejos", self._parrafo(self.MUNICIPIOS))
 
-    # ------------------------------------------------------- M10 / R3: el cero
+    # ------------------------------------------------------- R3: el cero
     def test_un_servicio_sin_municipios_no_se_publica_como_cero(self):
         """Que UNOSAT no tenga ningún municipio aquí no es «UNOSAT miró cero»:
         es que no le toca aparecer. El cero acusaría de una omisión inventada,
@@ -1495,7 +1495,7 @@ class TestCoberturaSatelitalDeLosSacudidos(unittest.TestCase):
         self.assertNotIn(", 0", parrafo)
 
     def test_sin_municipios_sacudidos_no_hay_parrafo(self):
-        """M10: donde falta el dato se calla el párrafo entero. Publicar «0
+        """Donde falta el dato se calla el párrafo entero. Publicar «0
         municipios sin mirar» sin haber medido ninguno sería la buena noticia
         que nadie ha comprobado."""
         for catalogo in ([], [{"municipio": "X", "mmi_usgs": None}],
@@ -1639,7 +1639,7 @@ class TestSelloDeFecha(unittest.TestCase):
                       ' de 2026</time>',
                       R.sello_fechas("2026-08-31", "2026-09-01", "del RUD"))
 
-    # ------------------------------------------- M10: lo que falta se calla
+    # ------------------------------------- lo que falta se calla, no se inventa
     def test_sin_fecha_del_dato_no_se_inventa_una(self):
         """La portada y los municipios están en este caso: `monitor.json` y
         `municipios.json` no publican hasta dónde llega su serie."""
@@ -1688,7 +1688,7 @@ class TestSelloDeFecha(unittest.TestCase):
                 self.assertIn("corrida del", cuerpo)
 
     def test_la_portada_y_los_municipios_no_inventan_la_fecha_del_dato(self):
-        """M10: sus fuentes no la publican, así que ese trozo se calla."""
+        """Sus fuentes no la publican, así que ese trozo se calla."""
         for pagina, clave in (("index.html", "portada-sello"),
                               ("municipios.html", "municipios-sello")):
             with self.subTest(pagina=pagina):
@@ -1715,7 +1715,7 @@ class TestElSelloYaNoLoEscribeElNavegador(unittest.TestCase):
 
     def test_ningun_javascript_vuelve_a_escribir_el_sello(self):
         """No se le pone un `if` a la llamada sin guarda: se le quita el motivo.
-        Y la redacción vive en un solo sitio (M2), que ahora es Python."""
+        Y la redacción vive en un solo sitio, que ahora es Python."""
         for js in ("app.js", "municipios.js", "rud.js", "balances.js",
                    "common.js", "ui.js"):
             with self.subTest(js=js):
@@ -1733,7 +1733,7 @@ class TestElSelloYaNoLoEscribeElNavegador(unittest.TestCase):
         escribía «30 de 30 capturas · actualizado el 22 de agosto de 2026» con
         `generated_at`, que es la corrida y no el corte del rastreo. Dos frases
         sobre la misma fecha diciendo cosas distintas. La fecha vive en el
-        sello y solo ahí (M2); el contador cuenta capturas."""
+        sello y solo ahí; el contador cuenta capturas."""
         js = (ROOT / "site" / "balances.js").read_text(encoding="utf-8")
         cuerpo = re.search(r'resumen\.textContent\s*=(.*?);', js, re.S)
         self.assertTrue(cuerpo, "el contador de capturas cambió de forma")
@@ -2317,7 +2317,7 @@ class TestGraficoRud(unittest.TestCase):
         self.assertEqual(len(re.findall(r"\d+ de \w+ de \d{4}", desc)), len(serie))
 
     def test_sin_serie_no_se_dibuja_un_lienzo_vacio_ni_se_devuelve_nada(self):
-        """M10: una cadena vacía dejaría el contenedor `data-gen` vacío y el
+        """Una cadena vacía dejaría el contenedor `data-gen` vacío y el
         build lo daría por bueno; un SVG sin puntos sería peor todavía."""
         for rud in ({"serie": []}, {}, None):
             with self.subTest(rud=rud):
@@ -2340,7 +2340,7 @@ class TestLosDosPlegablesDelRud(unittest.TestCase):
     La página servía cuatro párrafos —268 palabras— entre la entradilla y el
     primer dato. Se pliegan en dos: arriba, antes de la tabla, los dos que
     enseñan a LEERLA (123 palabras); al final, los dos que dicen QUÉ ES el RUD
-    y qué no es (145). El reparto lo decidió JP el 23-ago y los dos superan su
+    y qué no es (145). El reparto lo decidió el 23-ago y los dos superan su
     umbral de 120 palabras.
 
     Es un movimiento, no una reescritura, y este test es lo único que lo
@@ -2348,7 +2348,7 @@ class TestLosDosPlegablesDelRud(unittest.TestCase):
     verde y se lleva por delante prosa que ya estaba publicada."""
 
     PALABRAS = {"Cómo leer estas cifras": 123, "Qué es el RUD y qué no es": 145}
-    UMBRAL = 120        # nada se pliega por debajo (criterio de JP)
+    UMBRAL = 120        # nada se pliega por debajo (criterio del proyecto)
 
     @classmethod
     def setUpClass(cls):
@@ -2572,7 +2572,7 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
         No es celo: la alternancia se cuenta desde el final PORQUE contándola
         desde el principio el último día desaparecía en las series de longitud
         par —y hoy la serie es impar, así que un test que solo mirase la de hoy
-        daría verde con ese fallo puesto (M1)."""
+        daría verde con ese fallo puesto."""
         serie = R.contexto()["rud"]["serie"]
         manana = [*serie, {**serie[-1], "fecha": (date.fromisoformat(
             serie[-1]["fecha"]) + timedelta(days=1)).isoformat(),
@@ -2711,7 +2711,7 @@ class TestChipsDelRud(unittest.TestCase):
     Vivían separados —el array `CHIPS` de `site/rud.js` contaba las filas ya
     escritas, y `filas_rud` las etiquetaba con su propia copia de las
     condiciones—, así que nada impedía que «Nuevos (49)» filtrase otra cosa
-    (M2). `CHIPS_RUD` es ahora la única definición."""
+   . `CHIPS_RUD` es ahora la única definición."""
 
     @classmethod
     def setUpClass(cls):
@@ -2756,7 +2756,7 @@ class TestChipsDelRud(unittest.TestCase):
         self.assertIn('classList.toggle("activa"', js)
 
     def test_el_javascript_ya_no_define_los_chips(self):
-        """Dejar las dos definiciones es M2 el día uno."""
+        """Dejar las dos definiciones es una copia condenada a divergir el día uno."""
         js = (ROOT / "site" / "rud.js").read_text(encoding="utf-8")
         self.assertNotIn("const CHIPS", js)
         # el atributo lo ESCRIBE el build; el navegador solo lee `dataset.chip`
@@ -2801,7 +2801,7 @@ class TestEntradillaRud(unittest.TestCase):
         for n in ("1.300", "2.600", "12", "8", "9"):
             self.assertIn(n, texto)
         self.assertIn("21 de agosto de 2026", texto,
-                      "una cifra del RUD sin su corte miente en 48 horas (M7)")
+                      "una cifra del RUD sin su corte miente en 48 horas")
 
     def test_el_desglose_del_salto_se_calcula_y_suma_el_salto(self):
         """230 de revisión (180 de Quibdó + 50 de Cali) y 70 de un municipio
@@ -2829,7 +2829,7 @@ class TestEntradillaRud(unittest.TestCase):
         self.assertIn("1.300", texto)
 
     def test_un_desglose_que_no_cuadra_no_se_publica(self):
-        """M7: aritmética que no cierra no se imprime.
+        """aritmética que no cierra no se imprime.
 
         El detalle justifica 170 (100 de revisión en Quibdó y 70 de un
         municipio nuevo) y la serie dice +300: el detalle diario y la serie ya
@@ -2852,7 +2852,7 @@ class TestEntradillaRud(unittest.TestCase):
     def test_si_el_salto_no_tiene_las_dos_mitades_no_hay_frase_que_contar(self):
         """La oración termina afirmando que lo que crece son los municipios ya
         contados. Si el salto entero viene de municipios nuevos, esa conclusión
-        es falsa: la frase no se corrige, se retira (M10)."""
+        es falsa: la frase no se corrige, se retira."""
         detalle = {"2026-08-20": self.DETALLE["2026-08-20"],
                    "2026-08-21": self.DETALLE["2026-08-20"] +
                    [{"departamento": "CALDAS", "municipio": "ANSERMA",
@@ -2873,7 +2873,7 @@ class TestEntradillaRud(unittest.TestCase):
                 self.assertIn("Todavía no hay ninguna captura", texto)
 
     def test_una_cifra_ausente_se_calla_y_no_se_convierte_en_cero(self):
-        """M10/R3: sin viviendas cargadas no hay «0 viviendas destruidas»."""
+        """R3: sin viviendas cargadas no hay «0 viviendas destruidas»."""
         serie = [dict(self.SERIE[-1], viv_destruidas=None, viv_averiadas=None)]
         texto = R.entradilla_rud({"rud": {"serie": serie}})
         self.assertNotIn("viviendas", texto)
@@ -2881,7 +2881,7 @@ class TestEntradillaRud(unittest.TestCase):
         self.assertIn("1.300", texto)
 
     def test_el_dato_real_cuadra_con_la_serie_publicada(self):
-        """Segunda vía sobre lo que se va a publicar de verdad (M8).
+        """Segunda vía sobre lo que se va a publicar de verdad.
 
         El par de capturas NO se fija a mano —ni siquiera «el último»—: se
         recorre la serie real hacia atrás y se toma el más reciente cuyo
@@ -2889,7 +2889,7 @@ class TestEntradillaRud(unittest.TestCase):
         mano con otro nombre, y quien decide si cuadra es la fuente: el
         23-ago-2026 su detalle diario sumaba 15.435 familias donde su propia
         serie decía 15.433, dos de diferencia que el monitor no inventó y que
-        hacen desaparecer la frase, que es exactamente lo que debe pasar (M7).
+        hacen desaparecer la frase, que es exactamente lo que debe pasar.
 
         Lo que se comprueba es invariante: que la prosa publica las mismas
         cifras que calculó el reparto, y que cuando el cálculo se calla la
@@ -3133,7 +3133,7 @@ class TestLosDosPlegablesDeBalances(unittest.TestCase):
 
     PALABRAS = {"Por qué las cifras no coinciden": 168,
                 "Cómo se recogen y se validan estos balances": 641}
-    UMBRAL = 120        # nada se pliega por debajo (criterio de JP)
+    UMBRAL = 120        # nada se pliega por debajo (criterio del proyecto)
 
     @classmethod
     def setUpClass(cls):
@@ -3394,7 +3394,7 @@ class TestPiezasDeBalancesLleganEscritas(unittest.TestCase):
                          "el gráfico congela un color literal en vez de la variable")
 
     def test_las_cifras_del_navegador_ya_no_las_escribe_el_navegador(self):
-        """M2 · La prosa de las tarjetas, del gráfico y de la comparativa vive
+        """La prosa de las tarjetas, del gráfico y de la comparativa vive
         ahora en Python. Si volviera además a `balances.js`, el día que una de
         las dos cambiara la página diría dos cosas — y solo una se leería sin
         JavaScript."""
@@ -3578,7 +3578,7 @@ class TestBalancesConSerieSintetica(unittest.TestCase):
                            "la línea arranca en un día sin dato")
 
     def test_la_descripcion_calla_el_dia_entero_que_no_tiene_cifras(self):
-        """M10 · El primer día no tiene ninguna de las dos cifras del panel:
+        """El primer día no tiene ninguna de las dos cifras del panel:
         se omite de la narración, no se cuenta como una serie de ceros."""
         desc = re.search(r"<desc[^>]*>(.*?)</desc>", R.grafico_balances(self.ctx),
                          re.S).group(1)
@@ -3587,7 +3587,7 @@ class TestBalancesConSerieSintetica(unittest.TestCase):
         self.assertIn("cifras en disputa", desc)
 
     def test_el_eje_deja_el_asidero_para_agrandarse_en_movil(self):
-        """M3 · Esto no puede quedarse en un comentario.
+        """Esto no puede quedarse en un comentario.
 
         Medido en el navegador: en un teléfono de 375 px el lienzo de 900 se
         dibuja sobre 285 —escala 0,317— y un rótulo de 10 queda en 3,17 px
@@ -3622,17 +3622,17 @@ class TestBalancesConSerieSintetica(unittest.TestCase):
         self.assertIn("https://ejemplo.co/tarde", cuerpo)
 
     def test_la_entradilla_fecha_la_cifra_que_publica(self):
-        """M7 · Una cifra de una fuente viva sin su corte miente en 48 horas."""
+        """Una cifra de una fuente viva sin su corte miente en 48 horas."""
         self.assertIn("Máximo informado hasta el 12 de agosto de 2026",
                       R.resumen_balances(self.ctx))
 
-    # ---- R3/M10 en el marcado
+    # ---- R3 en el marcado
     def _nodo(self, ctx=None):
         crudo = R.marcado_balances(ctx or self.ctx)
         return json.loads(re.search(r"<script[^>]*>(.+?)</script>", crudo, re.S).group(1))
 
     def test_la_cifra_ausente_se_omite_del_marcado_jamas_vale_cero(self):
-        """M10 es la R3 fuera de la base de datos: heridos y desaparecidos no
+        """Fuera de la base de datos rige la R3 igual: heridos y desaparecidos no
         tienen valor en esta serie, así que no aparecen. Un cero ahí sería el
         monitor afirmando que no hubo ninguno."""
         medidas = {m["name"]: m for m in self._nodo()["variableMeasured"]}
@@ -3673,7 +3673,7 @@ class TestBalancesConSerieSintetica(unittest.TestCase):
             [nodo["creator"], nodo["publisher"]], ensure_ascii=False))
 
     def test_la_fuente_citada_sin_url_se_cita_sin_url_no_con_una_inventada(self):
-        """M10 · Omitir es lo que significa «no la sabemos»."""
+        """Omitir es lo que significa «no la sabemos»."""
         por_nombre = {c["name"]: c for c in self._nodo()["citation"]}
         self.assertNotIn("url", por_nombre["Alcaldía citada en el texto"])
         self.assertEqual(por_nombre["UNGRD"]["url"],
@@ -4323,7 +4323,7 @@ class TestClaveYToponimo(unittest.TestCase):
 
     @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
     def test_el_toponimo_de_ui_js_es_espejo_del_de_python(self):
-        """M2: el recorte vive en DOS lenguajes y ya divergió una vez.
+        """el recorte vive en DOS lenguajes y ya divergió una vez.
 
         El commit que lo arregló solo tocó Python, así que las 208 fichas
         dejaron de repetir el departamento y la intro de municipios —que la
@@ -4510,7 +4510,7 @@ class TestIdentidadDelSitio(unittest.TestCase):
         self.assertIn("quedó archivado.", pie)
 
     def test_la_barra_se_presenta_por_el_nombre_publico(self):
-        """Decisión de JP del 23-ago-2026: la barra dice «Datos del terremoto».
+        """Decisión del 23-ago-2026: la barra dice «Datos del terremoto».
 
         Sustituye a `test_la_barra_conserva_el_nombre_interno`, que fijaba
         «Monitor de brechas» ahí. No es que aquel guardián estuviera mal: es que
@@ -4551,7 +4551,7 @@ class TestTesisDelMonitor(unittest.TestCase):
     contrato del repositorio, el pie de las 353 páginas, el `Dataset` de
     municipios.html y las bajadas de la portada, de balances y de la
     referencia. Seis redacciones que podían separarse una a una sin que el
-    build se enterara — que es exactamente el fallo M2 que este proyecto ya ha
+    build se enterara — que es exactamente el fallo de la copia divergente que este proyecto ya ha
     pagado con los topónimos y con los liveblogs.
 
     Ahora la frase vive en `R.TESIS` (y su versión larga, la de la portada, en
@@ -4644,12 +4644,12 @@ class TestContextoDelSismo(unittest.TestCase):
 
     Es texto fijo escrito cinco veces —no se genera: `data-gen` es el mecanismo
     de lo que caduca con la corrida—, así que necesita un guardián que impida
-    que las cinco copias se separen (M2) y que la frase se diga dos veces en la
+    que las cinco copias se separen y que la frase se diga dos veces en la
     misma cabecera, que es lo que pasaba en la portada mientras el subtítulo
     también la llevaba.
 
     Las 208 fichas también la reciben, en `.fecha` bajo el H1: el prototipo
-    lo midió así (JP, 24-ago). Sigue siendo `CONTEXTO_SISMO`, no una tercera
+    lo midió así (24-ago). Sigue siendo `CONTEXTO_SISMO`, no una tercera
     copia. El H1 nombra el municipio; esta línea nombra el sismo."""
 
     PAGINAS = tuple(sorted(R.PAGINAS_GRANDES))
@@ -4984,7 +4984,7 @@ class TestSubtituloRetirado(unittest.TestCase):
         """Decía «datos del 22 de agosto» con la última captura del 21, y la
         tabla de capturas de la misma página lo desmentía tres filas más
         arriba. Ahora publica el corte del dato Y la corrida, como el resto del
-        sitio: no son lo mismo y confundirlas miente (M7)."""
+        sitio: no son lo mismo y confundirlas miente."""
         tabla = self.html.split("Fuentes y trazabilidad")[1]
         corrida = self.datos["generado"]
         corte = self.datos["serie"][-1][0] if self.datos.get("serie") else None
@@ -5047,7 +5047,7 @@ class TestMarcadoEstructurado(unittest.TestCase):
 
     def test_la_cobertura_es_de_verdad_las_213(self):
         """Sin esto, los guardianes de abajo podrían estar recorriendo tres
-        páginas y dando verde: «la lista no está vacía» es la trampa de M1 con
+        páginas y dando verde: «la lista no está vacía» es la misma trampa con
         otro traje. El número de fichas no se escribe a mano —crece con los
         datos—: se compara con el que declara el propio build."""
         fichas = [p for p in self.paginas if p.parent.parent.name == "municipio"]
@@ -5230,7 +5230,7 @@ class TestNoticiasReordenada(unittest.TestCase):
     # el reparto: la introducción entera (140) arriba, la FAQ (462) al final
     PALABRAS = {"Qué es este corpus": 140,
                 "Cómo funciona y preguntas frecuentes": 462}
-    UMBRAL = 120        # nada se pliega por debajo (criterio de JP, 23-ago)
+    UMBRAL = 120        # nada se pliega por debajo (criterio del proyecto, 23-ago)
 
     @classmethod
     def setUpClass(cls):
@@ -5312,7 +5312,7 @@ class TestSelloDeNoticias(unittest.TestCase):
         self.assertNotIn("09:09", sello, "la hora se cuela en la prosa")
 
     def test_sin_corrida_o_sin_titulares_no_se_inventa_nada(self):
-        """M10: donde falta una fecha se calla ese trozo."""
+        """Donde falta una fecha se calla ese trozo."""
         solo_dato = R.sello_noticias({
             "noticias": [{"fecha": "2026-08-21"}], "noticias_generado": None})
         self.assertNotIn("corrida", solo_dato)
@@ -5339,7 +5339,7 @@ class TestSelloDeNoticias(unittest.TestCase):
 
     def test_noticias_js_ya_no_fecha_el_dato(self):
         """No se le pone un `if` a la fecha del navegador: se le quita el
-        motivo. La redacción vive en un solo sitio (M2), que es Python."""
+        motivo. La redacción vive en un solo sitio, que es Python."""
         js = (ROOT / "site" / "noticias.js").read_text(encoding="utf-8")
         self.assertNotIn("fechaLarga", js,
                          "noticias.js vuelve a fechar el dato por su cuenta")
@@ -5447,7 +5447,7 @@ class TestChipsDeMunicipios(unittest.TestCase):
     condición vivía partida entre `site/municipios.js` —que contaba las filas
     ya escritas— y `filas_municipios` —que las etiquetaba—, así que el día que
     una de las dos cambiara el chip diría «Sin mirar por satélite (197)» y
-    filtraría otra cosa, sin que nada avisara (M2).
+    filtraría otra cosa, sin que nada avisara.
     """
 
     # El quinto caso es el que hace de verdad el trabajo: un municipio DENTRO
@@ -5455,7 +5455,7 @@ class TestChipsDeMunicipios(unittest.TestCase):
     # mirado y sigue sin dato, así que el chip —que promete «nadie ha evaluado
     # sus edificios»— tiene que contarlo. Sin él, cambiar el predicado del chip
     # por `_mirado_por_satelite` dejaba la suite entera en verde: la primera
-    # versión de este fixture no lo tenía y la mutación sobrevivió (M1).
+    # versión de este fixture no lo tenía y la mutación sobrevivió.
     ITEMS = [
         _municipio("Con satélite", en_aoi_copernicus=True),
         _municipio("Sin satélite"),
@@ -5514,7 +5514,7 @@ class TestChipsDeMunicipios(unittest.TestCase):
         pantalla; styles.css las funde en un solo selector. Se comprueba sobre
         la tira de ESTA página, no sobre el fichero entero: un guardián que
         busca el literal en todo `render_html.py` sobrevive si el defecto queda
-        en una de las dos tiras (M1)."""
+        en una de las dos tiras."""
         activos = re.findall(r'<button class="chip activa"[^>]*aria-pressed="true"',
                              self.html)
         self.assertEqual(len(activos), 1,
@@ -5536,7 +5536,7 @@ class TestChipsDeMunicipios(unittest.TestCase):
 
 
 class TestEntradillaDeMunicipios(unittest.TestCase):
-    """La frase que resume la página, con la brecha dentro y su corte (M7)."""
+    """La frase que resume la página, con la brecha dentro y su corte."""
 
     def test_dice_las_tres_cifras_y_la_brecha(self):
         items = [_municipio(f"M{i}") for i in range(9)]
@@ -5550,10 +5550,10 @@ class TestEntradillaDeMunicipios(unittest.TestCase):
         self.assertIn("<b>2</b>", texto)              # mirados por satélite
         self.assertIn("<b>6</b>", texto)              # con RUD y sin mirada
         self.assertIn("22 de agosto de 2026", texto,
-                      "la cifra se cita suelta y viaja sin su corte (M7)")
+                      "la cifra se cita suelta y viaja sin su corte")
 
     def test_sin_ningun_satelite_no_se_inventa_un_cero(self):
-        """M10: donde falta el dato se calla el trozo. «solo 0 han sido
+        """Donde falta el dato se calla el trozo. «solo 0 han sido
         mirados» sería un recuento publicado donde no hay ninguno."""
         texto = R.entradilla_municipios(_ctx_municipios([_municipio()]))
         self.assertIn("ningún satélite ha evaluado todavía a ninguno", texto)
@@ -5593,7 +5593,7 @@ class TestNotaDeMunicipios(unittest.TestCase):
 
     def test_el_literal_no_vuelve_a_vivir_en_el_navegador(self):
         """Vivía en `municipios.js` y en el HTML a la vez: dos copias de la
-        misma frase que ya podían divergir (M2)."""
+        misma frase que ya podían divergir."""
         js = (ROOT / "site/municipios.js").read_text(encoding="utf-8")
         self.assertNotIn("no que no haya daño", js)
 
@@ -5637,7 +5637,7 @@ class TestDatasetDeMunicipios(unittest.TestCase):
         self.assertEqual(ld["includedInDataCatalog"], {"@id": R.SITIO})
 
     def test_una_fuente_sin_dato_se_omite_entera_y_jamas_sale_en_cero(self):
-        """R3/M10 dentro del marcado. Con solo el RUD cargado, ni el satélite
+        """R3 dentro del marcado. Con solo el RUD cargado, ni el satélite
         ni el DYFI ni la prensa tienen columna ni cita: no las hay, y un cero
         afirmaría que las fuentes miraron y no vieron nada."""
         ld = self._ld(_ctx_municipios([_municipio()]))
@@ -5663,7 +5663,7 @@ class TestDatasetDeMunicipios(unittest.TestCase):
                          if "UNOSAT" in c["publisher"]["name"]])
 
     def test_variablemeasured_es_el_diccionario_de_columnas_y_no_las_filas(self):
-        """208 ítems serían una segunda copia de la tabla (M2); el índice para
+        """208 ítems serían una segunda copia de la tabla; el índice para
         sistemas de IA ya lo hace llms-full.txt."""
         items = [_municipio(f"M{i}") for i in range(40)]
         ld = self._ld(_ctx_municipios(items))
@@ -5729,7 +5729,7 @@ class TestMarcadoDeNoticias(unittest.TestCase):
 
     def test_sin_licencia_sobre_prensa_ajena(self):
         """A diferencia de las fichas, este Dataset no declara `license`: el
-        monitor no puede licenciar titulares de terceros. Si JP decide otra
+        monitor no puede licenciar titulares de terceros. Si se decide otra
         cosa, se cambia aquí y en el HTML a la vez, con su entrada en
         DECISIONES."""
         self.assertNotIn("license", self.dataset)
@@ -5743,7 +5743,7 @@ class TestMarcadoDeNoticias(unittest.TestCase):
         """`dateModified` viaja como marcador {{noticias_corte}} porque un
         <span data-gen> no cabe en un bloque JSON-LD. Con corrida válida el
         build lo escribe; sin ella la clave no se emite y `sustituir_cifras`
-        rompe el build — publicar "None" fecharía el corpus en la nada (M10)."""
+        rompe el build — publicar "None" fecharía el corpus en la nada."""
         self.assertEqual(self.dataset["dateModified"], "{{noticias_corte}}")
         con = R.cifras_del_dia({"chatmap": [], "noticias_generado": "2026-08-22"})
         self.assertEqual(con["noticias_corte"], "2026-08-22")
@@ -5863,7 +5863,7 @@ class TestLaMiradaSatelitalEnLasDosSuperficies(unittest.TestCase):
     def test_cero_edificios_evaluados_es_mirada_y_no_ausencia(self):
         """`is not None`, no truthiness: un servicio que evaluó el municipio y
         no encontró ni un edificio dañado SÍ lo miró, y contarlo como ausencia
-        acusaría a la fuente de no haber entregado nada (M10)."""
+        acusaría a la fuente de no haber entregado nada."""
         mirados = {"municipio": "X", "departamento": "Chocó",
                    "en_aoi_copernicus": False, "unosat_edificios": 0,
                    "sertit_edificios": None, "rud_familias": 12}
@@ -5888,7 +5888,7 @@ class TestEnlaceSeguroEsEspejo(unittest.TestCase):
     `e()` impide salirse del atributo, pero no impide que el atributo entero
     sea `javascript:…`: escapar y validar el esquema son cosas distintas. El
     navegador filtraba desde el principio y la lista servida nació sin filtro
-    —M2 al revés: la copia nueva era la más pobre—, así que la regla se escribe
+    —la copia que diverge, al revés: la copia nueva era la más pobre—, así que la regla se escribe
     una vez en cada lenguaje y este guardián EJECUTA las dos: el JavaScript se
     extrae de `site/noticias.js`, no se copia aquí, porque una tercera copia
     volvería a divergir en silencio.
@@ -5978,7 +5978,7 @@ class TestDatasetDelRud(unittest.TestCase):
 
     # ------------------------------------------------------------------ G1
     def test_g1_una_cifra_ausente_se_omite_entera_y_jamas_sale_en_cero(self):
-        """R3/M10 dentro del marcado.
+        """R3 dentro del marcado.
 
         Sin viviendas destruidas en ninguna de las dos capas, la columna **no
         existe**: un `"value": 0` afirmaría que el registro evaluó y no
@@ -6110,7 +6110,7 @@ class TestDatasetDelRud(unittest.TestCase):
                          "la fecha de la corrida se coló en el marcado")
         self.assertIn("21 de agosto de 2026",
                       self._variables(ld)["Familias inscritas"]["description"],
-                      "una cifra del RUD sin su corte miente en 48 horas (M7)")
+                      "una cifra del RUD sin su corte miente en 48 horas")
 
     def test_sin_ninguna_captura_no_se_inventa_ni_una_fecha_ni_una_cifra(self):
         """El día que el RUD no haya publicado nada, el conjunto de datos
@@ -6126,7 +6126,7 @@ class TestDatasetDelRud(unittest.TestCase):
     # --------------------------------------------------- diccionario, no filas
     def test_variablemeasured_es_el_diccionario_de_columnas_y_no_las_filas(self):
         """207 filas en un `ItemList` no disparan ningún resultado enriquecido
-        y serían una segunda copia de la tabla mantenida aparte (M2)."""
+        y serían una segunda copia de la tabla mantenida aparte."""
         munis = [dict(self.MUNICIPIOS[0], municipio=f"M{i}") for i in range(40)]
         ld = self._ld(municipios=munis)
         self.assertNotIn("ItemList", json.dumps(ld, ensure_ascii=False))
@@ -6140,7 +6140,7 @@ class TestDatasetDelRud(unittest.TestCase):
     def test_las_columnas_declaradas_son_las_de_la_tabla_servida(self):
         """El diccionario describe la tabla que se lee debajo: si una columna
         se fuera del HTML y siguiera aquí, el marcado prometería un dato que la
-        página ya no publica (M2). Se compara contra `COLUMNAS_RUD`, que es de
+        página ya no publica. Se compara contra `COLUMNAS_RUD`, que es de
         donde salen las dos cosas.
 
         Se cuentan solo las columnas de cifra (`th.num`): la primera columna es
@@ -6288,7 +6288,7 @@ class TestChipsDeLaFicha(unittest.TestCase):
     icono: en el móvil, las cinco fuentes quedaban escondidas detrás de un
     símbolo que hay que descubrir. La tira la escribe el BUILD, con su rótulo y
     su recuento; el navegador solo la conecta. Construirla en el navegador sería
-    una segunda copia de los recuentos (M2) y dejaría la tira vacía para quien
+    una segunda copia de los recuentos y dejaría la tira vacía para quien
     lee el documento sin ejecutarlo.
     """
 
@@ -6311,7 +6311,7 @@ class TestChipsDeLaFicha(unittest.TestCase):
     def test_hay_un_chip_por_capa_con_puntos_y_ninguno_mas(self):
         """La condición del chip es la MISMA con que `municipio.js` crea la
         capa: `features.length`. Si divergieran, la ficha publicaría un chip que
-        no acciona nada —el control muerto que JP prohíbe— o una capa sin quien
+        no acciona nada —el control muerto que el criterio prohíbe— o una capa sin quien
         la apague. Se comprueba sobre las 208, no sobre una."""
         vistas = 0
         for m in self.ctx["municipios"]:
@@ -6349,8 +6349,8 @@ class TestChipsDeLaFicha(unittest.TestCase):
         self.assertNotIn("chips-mapa", R.render_ficha(d))
 
     def test_un_chip_es_una_accion_y_lo_pasivo_no_lo_parece(self):
-        """Criterio de JP, y la cicatriz de las 316 pastillas que no hacían
-        nada: todo `.chip` de una ficha es un `<button>` de verdad. Lo que solo
+        """Las 316 pastillas que no hacían nada: todo `.chip` de una ficha
+        es un `<button>` de verdad. Lo que solo
         rotula —la leyenda del mapa, el distintivo de verificación— sigue siendo
         `.badge`, que ni es pulsable ni lo aparenta."""
         html = R.render_ficha(R.datos_ficha("Cali", self.ctx))
@@ -6393,7 +6393,7 @@ class TestChipsDeLaFicha(unittest.TestCase):
 
     def test_el_desajuste_entre_la_capa_y_el_recuento_existe_en_el_dato(self):
         """En Cali, ICube-SERTIT dibuja 103 puntos y solo 94 llevan grado de
-        daño. El chip cuenta puntos; la prosa, edificios. JP retiró la frase
+        daño. El chip cuenta puntos; la prosa, edificios. se retiró la frase
         que explicaba la distancia: no se autoescribe."""
         d = R.datos_ficha("Cali", self.ctx)
         desajustes = R.desajustes_de_capas(d)
@@ -6422,7 +6422,7 @@ class TestChipsDeLaFicha(unittest.TestCase):
             "un desajuste en negativo no se publica")
 
     def test_sin_desajuste_no_se_cuenta_uno(self):
-        """M10 al revés: una salvedad que no se cumple aquí no se escribe aquí.
+        """Al revés: una salvedad que no se cumple aquí no se escribe aquí.
         207 de las 208 fichas no tienen desajuste y no deben leer una frase que
         insinúe que sí."""
         d = R.datos_ficha("Roldanillo", self.ctx)
@@ -6444,7 +6444,7 @@ class TestChipsDeLaFicha(unittest.TestCase):
 
     def test_el_navegador_conecta_los_chips_pero_no_los_construye(self):
         """Si `municipio.js` volviera a fabricarlos, el recuento viviría en dos
-        sitios y la ficha servida perdería la tira (M2). Y el control de capas
+        sitios y la ficha servida perdería la tira. Y el control de capas
         de Leaflet queda como respaldo, nunca como norma."""
         self.assertIn("conectarChips", self.js)
         self.assertIn("querySelectorAll(\".chip[data-capa]\")", self.js)
@@ -6463,7 +6463,7 @@ class TestLienzoMunicipal(unittest.TestCase):
     """Panel de fuentes y mapa conviven, como en el prototipo.
 
     La fase 5 dejó la ficha a medias: chips y marcado, pero el dato en una
-    pestaña y el mapa en otra. JP lo rechazó el 24-ago: la organización del
+    pestaña y el mapa en otra. se rechazó el 24-ago: la organización del
     prototipo —tabla de datos a un lado, mapa al otro, en móvil y escritorio—
     ES la ficha. El panel desglosa el RUD; las tarjetas lo resumen debajo.
     """
@@ -6484,7 +6484,7 @@ class TestLienzoMunicipal(unittest.TestCase):
 
     def test_el_lienzo_pone_el_panel_y_el_mapa_como_hermanos(self):
         """Panel y marco en el mismo lienzo, el panel ANTES en el DOM (teclado,
-        lector) y también en móvil: JP lo volvió a mirar y llega primero a la
+        lector) y también en móvil: se volvió a mirar y llega primero a la
         tabla. El CSS ya no invierte con `order`."""
         html = self.cali
         self.assertIn('class="lienzo lienzo-mun"', html)
@@ -6512,8 +6512,7 @@ class TestLienzoMunicipal(unittest.TestCase):
         """El prototipo lo midió: bajo el H1 van el sismo, las dos líneas de
         cifras y la nota de «cómo leer», antes del lienzo.
 
-        La nota NO se pliega —son menos de 120 palabras, el umbral que fija
-        JP— y su advertencia sobre el satélite es CONDICIONAL: se emitía en
+        La nota NO se pliega —son menos de 120 palabras, el umbral que fija— y su advertencia sobre el satélite es CONDICIONAL: se emitía en
         las 208 por igual y Pereira, mirada por Copernicus y por ICube-SERTIT,
         afirmaba la mirada arriba y la negaba aquí. Lo vigila también
         `TestCoherenciaDeLaFicha::test_ninguna_ficha_afirma_y_niega_el_satelite`.
@@ -6554,10 +6553,10 @@ class TestLienzoMunicipal(unittest.TestCase):
         self.assertNotIn("documentado por satélite", lead)
 
     def test_el_panel_desglosa_el_rud_con_las_mismas_cifras_que_las_tarjetas(self):
-        """JP (24-ago): en la tabla de fuentes hacen falta las cuatro cifras
+        """ (24-ago): en la tabla de fuentes hacen falta las cuatro cifras
         del registro, no un resumen. Las tarjetas siguen debajo (población
         DANE y el mismo número); si una cifra del panel no es la de la
-        tarjeta, hay dos verdades (M2)."""
+        tarjeta, hay dos verdades."""
         d = R.datos_ficha("Cali", self.ctx)
         m = d["muni"]
         panel = self._panel(self.cali)
@@ -6606,7 +6605,7 @@ class TestLienzoMunicipal(unittest.TestCase):
             panel,
             r'Viviendas destruidas</span><span class="f">RUD · UNGRD[^<]*</span>'
             r'</span><span class="v">0</span>')
-        # y el corte viaja pegado a la cifra: la nota promete «de qué día» (M7)
+        # y el corte viaja pegado a la cifra: la nota promete «de qué día»
         self.assertRegex(panel, r'RUD · UNGRD · \d{1,2}-\w+-\d{4}')
 
     def test_el_panel_cuenta_lo_que_el_mapa_pinta_y_esconde_quien_no_miro(self):
@@ -6673,7 +6672,7 @@ class TestLienzoMunicipal(unittest.TestCase):
         self.assertIn('.vistas [role="tablist"]{display:flex', vivo)
 
     def test_en_movil_la_tabla_va_antes_que_el_mapa(self):
-        """JP (24-ago): se llega directo a la información. El prototipo ponía
+        """ (24-ago): se llega directo a la información. El prototipo ponía
         el mapa primero con `.marco-mapa{order:1}`; producción no invierte
         el DOM. Si esa regla vuelve, este test es el que avisa."""
         css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
@@ -6746,7 +6745,7 @@ class TestLienzoMunicipal(unittest.TestCase):
 
     def test_el_esquema_de_titulos_es_el_del_prototipo_sin_saltar_niveles(self):
         """H1 → panel → registro → prensa → lagunas → trazabilidad.
-        Destacado y tarjetas van DEBAJO del lienzo (JP, 24-ago, frente al
+        Destacado y tarjetas van DEBAJO del lienzo (24-ago, frente al
         prototipo). Ningún H3 sin H2, y el H2 del panel va antes de los de
         zona-datos."""
         html = self.cali
@@ -6800,7 +6799,7 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
         return {v["name"]: v for v in ld.get("variableMeasured") or []}
 
     def test_g1_lo_que_la_fuente_calla_no_se_publica_como_cero(self):
-        """G1 · R3 · M10, sobre las 208. La mutación que debe morir es
+        """G1 · R3, sobre las 208. La mutación que debe morir es
         `"value": m.get(campo) or 0`: el JSON seguiría siendo válido, Google no
         se quejaría y un municipio sin registro publicaría que tiene cero
         familias damnificadas cuando lo que pasa es que el RUD aún no ha
@@ -6957,7 +6956,7 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
     def test_la_fecha_es_la_del_dato_y_la_cobertura_se_cierra_en_ella(self):
         """Una cobertura abierta con `dateModified` de la corrida invita a leer
         «100.231 familias a día de hoy» — literalmente la confusión que el sello
-        corrige en la prosa de esta misma página (M7)."""
+        corrige en la prosa de esta misma página."""
         d = R.datos_ficha("Cali", self.ctx)
         fecha = R._solo_fecha(d["generado"])
         ld = self._ld("Cali")
@@ -6995,7 +6994,7 @@ class TestMarcadoDeLaFicha(unittest.TestCase):
                                         f"{campo} relativo: {valor}")
 
     def test_el_evidencia_json_se_ofrece_solo_donde_existe(self):
-        """M10: anunciar una descarga que devuelve 404 es peor que no
+        """Anunciar una descarga que devuelve 404 es peor que no
         anunciarla. El build solo escribe `evidencia.json` donde hay puntos."""
         con = self._ld("Cali")
         sin_evidencia = ficha_del_corpus(
@@ -7052,7 +7051,7 @@ class TestR5NoPrometeLoQueYaNoHace(unittest.TestCase):
         # el patrón busca la PROMESA, no la palabra: los comentarios que
         # explican por qué se retiró el redondeo tienen que poder existir.
         #
-        # La cuarta alternativa se añadió después, y enseña M1 a escala
+        # La cuarta alternativa se añadió después, y enseña la validación por mutación a escala
         # pequeña: las tres primeras se validaron contra las redacciones que ya
         # se conocían, y el `README.md` decía lo mismo de otra forma —«el
         # redondeo ES una capa de prudencia en la presentación»— tres líneas
@@ -7254,7 +7253,7 @@ class TestLaBrechaDiaADia(unittest.TestCase):
                                  f"captura: «{dia}»")
 
     def test_sin_serie_del_registro_no_se_dibuja_un_lienzo_vacio(self):
-        """M10: donde falta el dato se calla, y se dice por qué."""
+        """Donde falta el dato se calla, y se dice por qué."""
         salida = R.grafico_brecha(self.ctx_con(serie_rud=[]))
         self.assertNotIn("<svg", salida)
         self.assertIn("serie", salida)
@@ -7291,7 +7290,7 @@ class TestPiezasDeLaPortada(unittest.TestCase):
         self.assertIn(R.fmt(len(R.sin_mirada_satelital(self.ctx))), abierta)
 
     def test_el_panel_es_un_cuadro_de_honor_y_enlaza_a_las_fichas(self):
-        """Criterio de JP: la lista son los municipios mejor documentados, no
+        """Criterio de: la lista son los municipios mejor documentados, no
         un índice de los 208. Y cada fila es un ENLACE, no un botón: sin
         JavaScript, un botón prerenderizado no lleva a ninguna parte."""
         salida = R.panel_portada(self.ctx)
@@ -7319,7 +7318,7 @@ class TestPiezasDeLaPortada(unittest.TestCase):
         self.assertRegex(salida, r'<span class="badge"[^>]*>(alta|media|info)</span>')
 
     def test_la_fecha_de_las_alertas_es_absoluta(self):
-        """M7: esta página se releerá dentro de años; «hoy» no dice nada."""
+        """esta página se releerá dentro de años; «hoy» no dice nada."""
         salida = R.fecha_alertas_portada(self.ctx)
         self.assertNotIn("hoy", salida.lower())
         self.assertRegex(salida, r"de \d{4}\.$")
@@ -7348,9 +7347,9 @@ class TestPiezasDeLaPortada(unittest.TestCase):
 
 
 class TestElMarcadoDeLaPortada(unittest.TestCase):
-    """Los criterios de diseño que dio JP sobre la portada, con su guardián.
+    """Los criterios de diseño que dio sobre la portada, con su guardián.
 
-    M3: un comentario en mayúsculas no es un guardián. Estas tres decisiones
+    Un comentario en mayúsculas no es un guardián. Estas tres decisiones
     —ningún plegable dentro de otro, sin emoticonos en los títulos y el mapa a
     la altura del panel— se podían deshacer sin que nada se quejara."""
 
@@ -7400,7 +7399,7 @@ class TestElMarcadoDeLaPortada(unittest.TestCase):
                          "la tabla ha vuelto al panel y el mapa no cabe a su lado")
 
     def test_app_js_ya_no_dibuja_lo_que_escribe_el_build(self):
-        """M2: dos superficies pintando lo mismo divergen. Al portar una pieza
+        """dos superficies pintando lo mismo divergen. Al portar una pieza
         al build, la del navegador no se deja «por si acaso» — se borra."""
         js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
         # `timeline` y `crono-banda` entran en la fase 6c, con la mudanza de la
@@ -7416,7 +7415,7 @@ class TestElMarcadoDeLaPortada(unittest.TestCase):
 class TestChipsDeLaPortada(unittest.TestCase):
     """Los chips que encienden y apagan las cinco capas del mapa de la portada.
 
-    Tres criterios de JP, y cada uno con su guardián porque cada uno ya se ha
+    Tres criterios del proyecto, y cada uno con su guardián porque cada uno ya se ha
     entendido al revés alguna vez:
 
     1. **Cuentan MUNICIPIOS, no puntos.** En edificios, Copernicus parecía
@@ -7443,7 +7442,7 @@ class TestChipsDeLaPortada(unittest.TestCase):
         """La tira y `app.js` son superficies espejo: el build emite un chip por
         capa con municipios y `app.js` registra esa capa con la misma clave. Si
         divergen, la portada publica un chip que no acciona nada —el control
-        muerto que JP prohíbe— o una capa que ningún chip apaga."""
+        muerto que el criterio prohíbe— o una capa que ningún chip apaga."""
         declaradas = {c for c, _ in R.capas_portada()}
         registradas = set(re.findall(r'conChip\("([^"]+)"', self.js))
         self.assertEqual(
@@ -7457,7 +7456,7 @@ class TestChipsDeLaPortada(unittest.TestCase):
                          "hay chip donde no hay municipios, o al revés")
 
     def test_el_numero_del_chip_cuenta_municipios_y_no_puntos(self):
-        """Criterio de JP. Se mide contra las DOS cifras: la de municipios tiene
+        """Criterio de. Se mide contra las DOS cifras: la de municipios tiene
         que salir y la de puntos tiene que NO salir, porque un test que solo
         comprobara la primera pasaría igual el día que alguien vuelva a contar
         edificios en un municipio con un solo punto."""
@@ -7482,7 +7481,7 @@ class TestChipsDeLaPortada(unittest.TestCase):
                     "las cinco cifras se pueden comparar entre sí")
 
     def test_la_misma_capa_se_llama_igual_en_la_portada_y_en_la_ficha(self):
-        """M2. Las dos tiras son superficies hermanas: la de la portada y la de
+        """Las dos tiras son superficies hermanas: la de la portada y la de
         las 252 fichas. Llegaron a decir «Reportes ciudadanos» y «Reportes de la
         comunidad» de la MISMA capa, y un lector que pasa de una a otra tiene
         que reconocerla. Se comprueba sobre las claves compartidas, no sobre una
@@ -7497,7 +7496,7 @@ class TestChipsDeLaPortada(unittest.TestCase):
                 portada[clave], ficha[clave],
                 f"la capa «{clave}» se llama «{portada[clave]}» en la portada y "
                 f"«{ficha[clave]}» en la ficha: el mismo dato con dos nombres "
-                "en dos superficies hermanas es lo que M2 prohíbe")
+                "en dos superficies hermanas es la copia que diverge")
 
     def test_cada_chip_dice_con_todas_sus_palabras_lo_que_enciende(self):
         """El rótulo de una pastilla de 12 px no cabe con la salvedad, y sin
@@ -7550,7 +7549,7 @@ class TestChipsDeLaPortada(unittest.TestCase):
                 f"{pintados} puntos que su capa dibuja")
 
     def test_un_chip_es_una_accion(self):
-        """Criterio de JP: `<button>` con `aria-pressed`. Una pastilla que
+        """Criterio de: `<button>` con `aria-pressed`. Una pastilla que
         rotula y no acciona es una `.badge`."""
         self.assertTrue(self.html, "la portada se ha quedado sin chips")
         for pastilla in re.findall(r'<[a-z]+[^>]*class="chip[\s"][^>]*>', self.html):
@@ -7560,7 +7559,7 @@ class TestChipsDeLaPortada(unittest.TestCase):
                           f"un chip sin estado anunciado: {pastilla}")
 
     def test_los_chips_filtran_el_mapa_y_no_tocan_la_lista(self):
-        """Criterio de JP, y se entendió al revés una vez. El manejador del clic
+        """Criterio de, y se entendió al revés una vez. El manejador del clic
         solo puede hablarle al mapa: si toca `#panel`, `.lista-mun` o `#tabla`,
         el cuadro de honor deja de ser un cuadro de honor."""
         manejador = re.search(
@@ -7594,7 +7593,7 @@ class TestChipsDeLaPortada(unittest.TestCase):
         siete—, así que hay dos mandos sobre las mismas capas. Si el chip solo
         se entera de sus propios clics, apagar la capa desde el control deja la
         tira publicando un estado que el mapa desmiente: el chip dice
-        «encendido» sobre un mapa que ya no dibuja nada. Es la trampa de M2 con
+        «encendido» sobre un mapa que ya no dibuja nada. Es la misma trampa con
         otro traje —dos mandos que divergen— y el día que alguien retire la
         línea la suite seguía en verde.
 
@@ -7911,7 +7910,7 @@ class TestLaMudanzaDeLaCronologia(unittest.TestCase):
         traduciendo los globos del mapa) nombran los mismos productos y las
         mismas categorías de Copernicus. Si divergen, la cronología llama a un
         producto de una manera y el globo del mapa de otra, en el mismo sitio
-        (M2). Y ninguna de las dos puede quedarse en inglés: el catálogo de
+       . Y ninguna de las dos puede quedarse en inglés: el catálogo de
         activaciones se publicó un rato diciendo «Flood in Cordoba, Colombia ·
         Flood» porque el build escribía la categoría cruda."""
         js = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
@@ -8009,7 +8008,7 @@ class TestLaCabeceraSinMatricula(unittest.TestCase):
 class TestLaVigilanciaDelCatalogoCopernicus(unittest.TestCase):
     """«Otras activaciones de Copernicus en Colombia» se muda (fase 6c).
 
-    JP la tachó de la portada, y no es material de lectura para quien busca su
+    se tachó de la portada, y no es material de lectura para quien busca su
     municipio. Pero **no es material que se tire**: el día que una de esas
     activaciones desaparezca del portal, esta lista seguirá diciendo que
     existió. Vigilar fuentes es parte de la misión, así que su sitio es la
@@ -8155,7 +8154,7 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
     añadía una fila idéntica a la anterior: Jamundí publicaba diez filas para
     contar dos hechos —ocho capturas clavado en 23 familias y el salto a 1.539—.
 
-    El primer intento (JP, 26-ago) recortaba la cola plana a partir de la
+    El primer intento (26-ago) recortaba la cola plana a partir de la
     tercera captura repetida. Se descartó al medirlo (27-ago): dejaba fuera los
     153 municipios cuyo tramo plano NO está al final, hacía oscilar la tabla
     —las filas desaparecían al tercer día quieto y volvían si la fuente
@@ -8274,7 +8273,7 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         captura anterior con la que comparar —«eso no lo sabemos»—; un día de
         cero altas es lo contrario, «ese día no entró nadie», y con el hueco
         idéntico la gráfica de Cali parecía terminar el 24 de agosto teniendo
-        el 25 dibujado. Es el fallo que JP encontró el 26-ago-2026."""
+        el 25 dibujado. Es el fallo que encontró el 26-ago-2026."""
         svg = R.grafico_rud_municipal(self._serie(100, 200, 300, 400, 400), "cero")
         self.assertIn('data-altas="0"', svg)
         self.assertIn("ni una familia nueva ese día", svg)

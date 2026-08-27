@@ -691,7 +691,7 @@ def catalogo_municipios(rud_municipios: dict | None = None,
     lo mismo: la ficha que se publica de cada municipio y la búsqueda de prensa
     que se le hace. Cuando se separaron, 126 de los 207 municipios con
     damnificados se quedaron sin búsqueda y el sitio publicaba de ellos «ni un
-    titular» sin haber preguntado nunca (M2).
+    titular» sin haber preguntado nunca.
     """
     # Copia de cada ficha: el catálogo se entrega para leerlo y anotarlo, y
     # `MUNICIPIOS` es un literal del módulo — un `catalogo[m]["toponimos"] = …`

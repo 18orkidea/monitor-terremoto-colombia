@@ -91,7 +91,7 @@ calcula sobre los **84 municipios curados**, no sobre los 347 del catálogo: par
 los que entraron solos desde el RUD, `n_prensa_recogida` solo recoge lo que
 declare un feed. Consecuencia visible: Atrato tiene dos titulares que lo nombran
 y ninguna pieza en la lista de su ficha. Es una segunda copia del cruce que
-diverge (M2) y está pendiente.
+diverge y está pendiente.
 
 ## Los cinco primeros días no existen (10 → 15 de agosto de 2026)
 

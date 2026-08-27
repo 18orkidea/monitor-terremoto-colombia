@@ -38,7 +38,7 @@ MEDIA = ROOT / "data" / "media"
 DESTINO = ROOT / "data" / "auditoria_r2.json"
 
 # La misma lista que el resto del monitor; se importa para no abrir una quinta
-# superficie que se separe de las otras cuatro (M2).
+# superficie que se separe de las otras cuatro.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ARCHIVO_EN_R2, today            # noqa: E402
 
@@ -80,7 +80,7 @@ def auditar(manifiesto: list[dict], real: dict[str, int], locales: list[str],
         difieren = []
         for k in sorted(declarados):
             declarado = declarados[k].get("bytes")
-            # M10 al revés: si no consta el tamaño, no se acusa a nadie
+            # Al revés: si no consta el tamaño, no se acusa a nadie
             if k in real and declarado is not None and real[k] != declarado:
                 difieren.append({"objeto": k, "manifiesto": declarado,
                                  "r2": real[k]})

@@ -155,7 +155,7 @@ todo lo que ese día se pidió. Desde el 24-ago-2026, un cuerpo que la fuente
 devuelve idéntico al que ya teníamos no se vuelve a escribir: la copia viva es
 la del día en que apareció.
 
-Eso lo dicen dos superficies, y un test vigila que no se separen (M2):
+Eso lo dicen dos superficies, y un test vigila que no se separen:
 
 1. **`sources_log` es el índice completo** — toda petición tiene su fila, con
    `snapshot_path` apuntando al cuerpo vigente aunque sea de otro día. Es lo que
