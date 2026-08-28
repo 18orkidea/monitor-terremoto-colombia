@@ -8,7 +8,7 @@ Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
 ## 2026-08-26 — El registro que se detiene: una fila por cambio, no por captura
 
-**Contexto.** Se abrió la ficha de Cali y vio una gráfica que parecía terminar el
+**Contexto.** Se abrió la ficha de Cali y se vio una gráfica que parecía terminar el
 24 de agosto teniendo el 25 dibujado. No era un desfase entre la tabla y el
 gráfico —los dos salen de la misma serie del build—: era que el 25 el RUD no
 movió ni una familia en Cali, y una barra de altas a cero medía 0 px, así que
@@ -3967,3 +3967,112 @@ distinto y más bajo que el registro que cruza.
 `deploy/render_html.py` y su copia estática en `site/index.html`, que
 `tests/test_render_html.py::TestTesisDelMonitor` compara palabra por
 palabra— y las dos se cambiaron a la vez.
+
+### El hueco del 26-ago-2026: un cron tardío se comió un día entero del RUD
+
+El 26-ago-2026 no hay ninguna fila con `snapshot_date='2026-08-26'` en
+`rud_daily`, y la serie publicada salta de 25-ago a 27-ago. **No es un fallo de
+archivo**: el snapshot de esa mañana existe (`data/snapshots/2026-08-26/rud_2026T.json`)
+con su fila completa en `sources_log` (sha256, HTTP 200, timestamp). El corte
+está en la ETIQUETA, no en la captura.
+
+`dia_colombiano_consolidado()` (`ingest/common.py`) decide si una captura
+pertenece al día que empieza o al que acaba de cerrar mirando solo la hora de
+reloj en Bogotá (corte a las 06:00). La corrida del 25-ago disparó a su hora
+(~05:44 Bogotá) y etiquetó bien el 24. La del 26-ago también, y etiquetó bien
+el 25. La del **27-ago disparó con 3,5 h de retraso** — GitHub Actions creó el
+run a las 14:10:58 UTC en vez de los ~10:40 UTC habituales (`gh run list`
+verificado, un solo run ese día, `event: schedule`) — así que para cuando
+corrió ya eran las 09:11 de Bogotá, pasado el corte: la función no restó un
+día y etiquetó su captura como '27-ago' en vez de '26-ago'. Nadie capturó
+nunca el cierre del 26; lo que trajo la corrida tardía ya era un día 27 en
+curso, mezclado con lo que las alcaldías habían cargado desde la medianoche.
+
+**El hueco es real e irrecuperable con lo que tenemos.** No hay snapshot que
+reetiquetar: la captura tardía no refleja un cierre limpio del 26. Decisión
+editorial (28-ago-2026): **dejarlo implícito en la serie** — no se reconstruye
+sin evidencia externa verificada (R11/R16: un punto reconstruido exige una
+fuente propia, no un relleno), y no se toca `render_html.py` ni el sitio para
+señalarlo aparte.
+El comportamiento de hoy ya es honesto: `_altas_diarias()` no dibuja un cero
+falso (R3), la entradilla cita la fecha real de la captura («…en la captura
+del 27 de agosto»), y el salto es reconstruible por quien mire las etiquetas
+de fecha del gráfico.
+
+**Corrección aplicada — evitar que se repita, no reparar lo ya perdido:**
+
+- `dia_colombiano_consolidado(conn)` ahora compara el día que saldría por
+  reloj contra `MAX(snapshot_date)` en `rud_daily`; si el reloj produciría
+  saltarse más de un día, avanza uno solo desde el último capturado. Un cron
+  tardío ya no se come un día — como mucho, etiqueta tarde el que le toca.
+- `HUECOS_RUD_CONOCIDOS` (`ingest/common.py`) documenta a mano los días sin
+  captura ya investigados, con su porqué — mismo patrón que
+  `municipios.py::NOMBRE_A_SECAS_CONGELADO`. Hoy solo tiene el 26-ago-2026.
+- `ingest/alerts.py::huecos_de_captura` avisa en **alta** de un hueco nuevo sin
+  explicar (el síntoma que debería haber sonado esta vez) y en **info** de uno
+  ya documentado. Escrito para `rud_daily` — es la única tabla del monitor con
+  este patrón de "un día, una fila consolidada"; generalizar de verdad a otra
+  tabla se deja para cuando aparezca una segunda candidata.
+- `ingest/alerts.py::colision_de_etiquetado_rud` avisa (info) del reverso que
+  abre el propio blindaje: si un cron tardío consolida 'D' y al día siguiente
+  el cron a su hora también calcula 'D' (porque resta uno desde 'D+1'), dos
+  corridas escriben bajo el mismo `snapshot_date`. `INSERT OR REPLACE` ya hace
+  que la más reciente pise a la anterior — el default es dejar que gane, y
+  esto solo lo deja dicho (R11+R13: avisa, no rompe la corrida).
+- `.github/workflows/daily.yml`: el cron se mueve de `:30` a un minuto impar.
+  Mitigación, no arreglo — GitHub degrada más los disparos en punto/media hora
+  por congestión; el blindaje de arriba es la defensa real.
+
+**Tests actualizados — el supuesto que fijaban cambió legítimamente y el
+vigilante cambia con él:** `tests/test_unit.py::TestDiaColombianoDelRud` (casos del
+blindaje), `tests/test_unit.py::TestHuecosYColisionesDelRud` (nuevo, cubre las
+dos alertas), `tests/test_unit.py::TestSerieRudReconstruida::test_no_hay_dias_perdidos_entre_capturas`
+(resta `HUECOS_RUD_CONOCIDOS` antes de exigir continuidad),
+`tests/test_render_html.py::TestFicha::test_historial_de_cali_conserva_cada_captura_diaria`
+(misma resta), y en `TestElRegistroQueSeDetiene`: las fechas y cuentas
+literales del tramo plano de Cali (el tramo real ahora empieza el 27-ago, no
+el 24 — entre el 25 y el 27 el registro sí se movió) y el eje de Jamundí (once
+capturas, no diez). Dos de esos tests dependían de que el tramo final de Cali
+fuera plano o vivo por casualidad del día en que se escribieron; se
+reescribieron para forzar el escenario con una captura sintética, para no
+volver a romperse con el próximo día que cambie el patrón real.
+
+**El margen del gráfico, resuelto aparte — el lienzo crece con la serie en
+vez de encogerse.**
+`test_el_grafico_todavia_cabe_con_cinco_capturas_mas` proyectaba el
+crecimiento futuro con el delta CRUDO entre las dos últimas capturas
+(`serie[-1] - serie[-2]`); con el hueco, ese delta cubre dos días calendario
+en un solo paso y duplicaba de más el crecimiento proyectado — se corrigió
+para repartir el delta entre los días realmente transcurridos. Ya sin ese
+artefacto, el margen seguía rompiéndose en las dos bandas (480 y 760 px): la
+serie real ya tiene un punto más de los que tenía cuando se calibró el test.
+
+Se evaluaron tres formas de resolverlo y se descartó una cuarta sin
+costearla: comprimir el eje temporal (espaciado no lineal, agrupar puntos
+antiguos) contradice el mismo principio que ya llevó a descartar agrupar los
+tramos planos de la tabla — la forma es lo único que aporta el dibujo, y no
+puede mentir (ver `TestElRegistroQueSeDetiene` arriba). De las tres que sí se
+costearon —scroll horizontal con ancho mínimo por captura, un tercer nivel de
+adelgazado de rótulos, o simplemente recalibrar el margen del test— se
+implementó la primera: es la única que no vuelve a plantear la misma
+pregunta dentro de unas semanas.
+
+`grafico_rud()` (`deploy/render_html.py`) deja de fijar el lienzo en 900
+unidades: con trece capturas o menos no cambia nada (el lienzo se queda en
+900, igual que siempre), pero pasada esa cuenta el ancho crece con la serie
+—62 unidades por punto, el paso mínimo que un rótulo necesita para no
+pisar al de al lado— y el sobrante se ve con scroll horizontal
+(`.grafico-rud-scroll` en `styles.css`) en vez de comprimirse. De paso, el
+mismo cálculo del delta por día expuso un segundo problema, menor: con un
+alta pequeña —cerca de cero, apenas una barra— su rótulo nacía pegado a la
+línea de cero, que ya está cerca del eje de días, y las dos etiquetas se
+pisaban en la banda de 480px. Ajustado el desplazamiento vertical de esa
+banda (dos unidades menos) para dejarles hueco.
+
+Pendiente, sin resolver aquí porque no es lo que falló: `grafico_rud_municipal`
+(la gráfica de cada ficha) reparte sus puntos con el mismo esquema de ancho
+fijo. Ningún test lo ha cazado todavía, pero es cuestión de que algún
+municipio acumule suficientes capturas — Cali va por delante de todos.
+
+Guardianes: `tests/test_unit.py::TestDiaColombianoDelRud`,
+`tests/test_unit.py::TestHuecosYColisionesDelRud`.
