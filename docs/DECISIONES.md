@@ -3951,6 +3951,23 @@ monitor existe para no hacer.
 mutaciones, entre ellas la función perfecta pero desenchufada, que es el fallo
 real: un recorte que nadie llama deja el fichero igual de gordo).
 
+## 2026-08-28 — «La prensa repite lo que le dictan» deja de ser un juicio de valor
+
+La versión larga de la tesis (`R.TESIS_LARGA`), la de la portada, decía «la
+prensa repite lo que le dictan»: no dice qué mide la prensa como fuente, opina
+sobre ella. Es un juicio de valor donde el resto de la frase describe.
+
+Pasa a **«la prensa cuenta lo que le cuentan las autoridades»**: describe la
+misma asimetría que ya explica R9 (prensa/web nunca se promueven a EDAN) sin
+acusar de nada — la prensa no inventa balances, los repite de la fuente
+oficial que cita, y por eso este monitor la trata como un nivel de atribución
+distinto y más bajo que el registro que cruza.
+
+`R.TESIS_LARGA` vive en dos superficies —la constante en
+`deploy/render_html.py` y su copia estática en `site/index.html`, que
+`tests/test_render_html.py::TestTesisDelMonitor` compara palabra por
+palabra— y las dos se cambiaron a la vez.
+
 ### El hueco del 26-ago-2026: un cron tardío se comió un día entero del RUD
 
 El 26-ago-2026 no hay ninguna fila con `snapshot_date='2026-08-26'` en

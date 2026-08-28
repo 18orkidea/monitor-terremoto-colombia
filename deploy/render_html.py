@@ -652,10 +652,10 @@ TESIS = ("Ninguna fuente lo cuenta todo, y ninguna cuenta lo mismo que otra. "
          "La brecha es lo que queda fuera de todas.")
 TESIS_LARGA = (
     "Ninguna fuente lo cuenta todo, y ninguna cuenta lo mismo que otra: el "
-    "satélite cuenta edificios, el registro cuenta familias, la prensa repite "
-    "lo que le dictan y la comunidad cuenta lo que ve desde el suelo. Este "
-    "monitor no las suma ni las resta: las pone juntas para enseñar quién no "
-    "ha mirado, quién tarda y quién no cuadra.")
+    "satélite cuenta edificios, el registro cuenta familias, la prensa cuenta "
+    "lo que le cuentan las autoridades y la comunidad cuenta lo que ve desde "
+    "el suelo. Este monitor no las suma ni las resta: las pone juntas para "
+    "enseñar quién no ha mirado, quién tarda y quién no cuadra.")
 
 
 def nav_estatico(activa: str = "municipios.html", botones_js: bool = False) -> str:

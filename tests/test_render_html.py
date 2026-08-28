@@ -4643,6 +4643,10 @@ class TestTesisDelMonitor(unittest.TestCase):
     # distancia ENTRE dos cifras SEA la brecha.
     VIEJA = "es la brecha de reporte"
 
+    # La versión larga tenía su propia retirada (28-ago-2026): «la prensa
+    # repite lo que le dictan» opinaba sobre la fuente en vez de describirla.
+    VIEJA_LARGA = "repite lo que le dictan"
+
     @classmethod
     def setUpClass(cls):
         ctx = R.contexto()
@@ -4688,9 +4692,11 @@ class TestTesisDelMonitor(unittest.TestCase):
         equivocada."""
         for donde, texto in {**self.superficies,
                              "site/index.html": self.portada}.items():
-            with self.subTest(superficie=donde):
-                self.assertFalse(self.VIEJA in _sin_marcas(texto),
-                                 f"{donde} conserva «{self.VIEJA}»")
+            limpio = _sin_marcas(texto)
+            for vieja in (self.VIEJA, self.VIEJA_LARGA):
+                with self.subTest(superficie=donde, frase=vieja):
+                    self.assertFalse(vieja in limpio,
+                                     f"{donde} conserva «{vieja}»")
 
     def test_el_guardian_cae_si_una_sola_copia_se_desvia(self):
         """La comprobación de que muerde, con la forma REAL de la avería: se
