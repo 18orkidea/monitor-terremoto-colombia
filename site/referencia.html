@@ -224,7 +224,9 @@
     (<a href="https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w" target="_blank" rel="noopener">DIVIPOLA</a>) ·
     <a href="https://chatmap.hotosm.org/colombia.html" target="_blank" rel="noopener">ChatMap OSM Colombia</a> ·
     <a href="https://www.seismicportal.eu/" target="_blank" rel="noopener">EMSC</a> ·
-    <a href="https://unosat.org/products/4253" target="_blank" rel="noopener">UNITAR-UNOSAT</a>.
+    <a href="https://unosat.org/products/4253" target="_blank" rel="noopener">UNITAR-UNOSAT</a> ·
+    MEN (<a href="https://mineducacion.maps.arcgis.com/apps/dashboards/5e47f09f3b374396a5b3be15e8e96192" target="_blank" rel="noopener">dashboard</a>,
+    <a href="https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0" target="_blank" rel="noopener">ArcGIS</a>).
     Sin acceso programático (documentado):
     <a href="https://sni.gestiondelriesgo.gov.co/" target="_blank" rel="noopener">SNIGRD</a>,
     <a href="https://sismosentido2.sgc.gov.co/" target="_blank" rel="noopener">SGC Sismo Sentido</a>.
@@ -283,6 +285,16 @@
     estima el modelo del USGS cuando la hay: nueve quedan fuera de su rejilla y su
     casilla va vacía, que no es lo mismo que ir a cero. Es la brecha que este
     monitor existe para medir, en una lista.</li>
+    <li><a href="/data/public/men_sedes.geojson" download><strong>GeoJSON de sedes educativas (MEN)</strong></a>
+    — todas las sedes educativas del seguimiento del Ministerio de Educación
+    (SISE), con el estado físico que reporta cada secretaría de educación.
+    Incluye las sedes marcadas «No aporta información», que el mapa no pinta:
+    significan <strong>sin verificar</strong>, no sin daño. Dato crudo del MEN:
+    conserva la licencia de su fuente, no se redistribuye como CC BY.</li>
+    <li><a href="/data/public/men_sedes_mapa.geojson" download><strong>GeoJSON de sedes con afectación (MEN)</strong></a>
+    — el recorte que dibujan el mapa de la portada y las fichas: solo las sedes
+    que declaran afectación, del colapso total a la afectación sin definir el
+    impacto. Mismo dato crudo del MEN, con su misma licencia.</li>
     <li><a href="/data/public/rud.json" target="_blank" rel="noopener"><strong>Histórico del RUD</strong></a>
     — el registro oficial de damnificados día a día y municipio a municipio, tal
     como lo fue publicando la UNGRD. Fichero dedicado: sobrevive aunque la fuente

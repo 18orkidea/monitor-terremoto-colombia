@@ -8417,3 +8417,82 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         self.assertEqual(len(re.findall(r"<rect", svg)), 4,
                          "cuatro barras: tres altas y la marca del cero. El "
                          "primer día sigue sin barra, que es lo correcto")
+
+
+class TestEstadosDelMen(unittest.TestCase):
+    """El vocabulario del MEN vive en cuatro superficies y tiene que ser UNO.
+
+    La lista canónica es `ingest/sources/men_sedes.py::ESTADOS_CON_DANO` (el
+    contrato con la ingesta); la presentación la repite en tres sitios —
+    `site/app.js::ESTADO_FISICO_COLOR`, la tabla de `site/municipio.js` y
+    `render_html._ESTADOS_MEN`— porque cada superficie pinta por su cuenta.
+    Si una categoría cambia en una sola, esa superficie pinta gris (color de
+    reserva) lo que las demás clasifican: el mapa y el panel dirían cosas
+    distintas de la misma sede. Este guardián compara literal a literal Y
+    color a color, ejecutando la extracción sobre los ficheros reales.
+    """
+
+    @staticmethod
+    def _dict_js(fichero: str, cabecera: str) -> dict:
+        """El diccionario {literal: color} escrito en un fichero JS.
+
+        Extracción por regex sobre el fuente real, no una copia: las claves
+        son literales entre comillas y los valores o un literal de color o
+        `css("--token")`, que se normaliza a `var(--token)` — la forma en que
+        el mismo color se escribe en Python."""
+        crudo = (ROOT / "site" / fichero).read_text(encoding="utf-8")
+        # `[^{]*` se salta la cabecera de la función flecha de municipio.js;
+        # el `.*?` no cruza el cierre porque ninguno de los dos objetos
+        # anida llaves
+        m = re.search(cabecera + r"[^{]*\{(.*?)\}", crudo, re.S)
+        if not m:
+            raise AssertionError(
+                f"no encuentro el bloque «{cabecera}» en site/{fichero}: si se "
+                f"renombró, este guardián tiene que renombrarse con él")
+        pares = re.findall(
+            r'"([^"]+)"\s*:\s*(?:css\("(--[a-z-]+)"\)|"(#[0-9a-fA-F]+)")',
+            m.group(1))
+        return {clave: (f"var({token})" if token else color)
+                for clave, token, color in pares}
+
+    def _en_app_js(self) -> dict:
+        return self._dict_js("app.js", r"const ESTADO_FISICO_COLOR")
+
+    def _en_municipio_js(self) -> dict:
+        return self._dict_js("municipio.js", r"const colorEstadoMen")
+
+    def test_las_tres_superficies_de_presentacion_coinciden(self):
+        esperado = dict(R._ESTADOS_MEN)
+        self.assertEqual(len(esperado), 6,
+                         "el MEN publica seis estados con afectación")
+        self.assertEqual(self._en_app_js(), esperado,
+                         "app.js y render_html divergen en el vocabulario o "
+                         "los colores del MEN")
+        self.assertEqual(self._en_municipio_js(), esperado,
+                         "municipio.js y render_html divergen en el "
+                         "vocabulario o los colores del MEN")
+
+    def test_el_orden_de_gravedad_es_el_mismo_en_app_js(self):
+        """El orden no es decorativo: es la leyenda de la ficha y la rampa de
+        gravedad. Los objetos de JS conservan el orden de inserción, así que
+        también se compara."""
+        self.assertEqual(list(self._en_app_js()),
+                         [estado for estado, _ in R._ESTADOS_MEN])
+
+    def test_la_presentacion_es_espejo_del_contrato_de_ingesta(self):
+        """La lista canónica manda. Salta cuando el módulo de ingesta aún no
+        está en esta rama (se integra por otra); al fusionarse, el test se
+        activa solo y compara de verdad."""
+        sys.path.insert(0, str(ROOT))
+        try:
+            from ingest.sources.men_sedes import ESTADOS_CON_DANO
+        except ImportError:
+            self.skipTest(
+                "ingest/sources/men_sedes.py aún no está en esta rama: el "
+                "espejo contra ESTADOS_CON_DANO se activa al integrarla")
+        finally:
+            sys.path.pop(0)
+        self.assertEqual(set(ESTADOS_CON_DANO),
+                         {estado for estado, _ in R._ESTADOS_MEN},
+                         "la presentación y el contrato de ingesta no "
+                         "clasifican los mismos estados del MEN")

@@ -227,6 +227,46 @@
       sumarBounds(bounds, capa);
     }
 
+    const sedes = capas.sedes_men;
+    if (sedes && sedes.features.length) {
+      /* La rampa de gravedad del MEN, espejo de `app.js::ESTADO_FISICO_COLOR`
+         y de `deploy/render_html.py::_ESTADOS_MEN` (las tres superficies las
+         compara `tests/test_render_html.py::TestEstadosDelMen`). El literal
+         del MEN ya viene en español: se enseña crudo, sin diccionario. */
+      const colorEstadoMen = (valor) => ({
+        "Colapso total": css("--critical"),
+        "Riesgo inminente de colapso": "#e0552d",
+        "Colapso parcial": "#ec835a",
+        "Afectación parcial": css("--warning"),
+        "Afectación menor": "#f7d46b",
+        "Reporta afectación sin definir el impacto": css("--muted"),
+      })[valor] || css("--muted");
+      const capa = L.geoJSON(sedes, {
+        pointToLayer: (f, latlng) => L.circleMarker(latlng, {
+          radius: 5.5, weight: 1.5, color: css("--surface-1"), fillOpacity: 0.9,
+          fillColor: colorEstadoMen((f.properties || {}).estado_fisico),
+        }),
+        onEachFeature: (f, layer) => {
+          const p = f.properties || {};
+          layer.bindPopup(ficha({
+            titulo: esc(p.estado_fisico || "Sede educativa evaluada"),
+            subtitulo: esc(p.nombre_sede || ""),
+            filas: [["Establecimiento", esc(p.nombre_establecimiento || "")],
+              ["Sector y zona", esc([p.sector, p.zona]
+                .filter(Boolean).join(" · "))],
+              ["Matrícula total", p.total_matricula],
+              ["Confianza de la geolocalización", esc(p.confianza_geo || "")]],
+            pie: "Ministerio de Educación Nacional (SISE) · reporte " +
+              "administrativo, no una evaluación estructural en campo",
+          }));
+        },
+      }).addTo(map);
+      overlays[`Sedes educativas MEN (${sedes.features.length})`] = capa;
+      porCapa.sedes_men = capa;
+      map.attributionControl.addAttribution("MEN · SISE");
+      sumarBounds(bounds, capa);
+    }
+
     const ciudadanos = capas.ciudadanos;
     if (ciudadanos && ciudadanos.features.length) {
       const capa = L.geoJSON(ciudadanos, {

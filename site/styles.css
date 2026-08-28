@@ -1041,6 +1041,10 @@ a.metric-card:hover { border-color: var(--s1); }
   --unosat:     var(--s9);
   --sertit:     var(--s8);
   --ciudadano:  var(--s7);
+  /* La fuente del MEN (sedes educativas). --s3 era la única serie con tema
+     oscuro razonado que ninguna fuente del mapa usaba; el verde identifica a
+     la fuente, no un estado del cruce —el «coincide» es --good, otro tono—. */
+  --men:        var(--s3);
 
   /* El gris de lo que nadie miró. Es el mismo tono de --muted, pero con su
      propio nombre porque significa otra cosa: no es «texto secundario», es
@@ -1505,6 +1509,7 @@ details.denso>summary{color:var(--ink)}
 .chip[data-capa="copernicus"] { color: var(--copernicus); }
 .chip[data-capa="unosat"]     { color: var(--unosat); }
 .chip[data-capa="sertit"]     { color: var(--sertit); }
+.chip[data-capa="sedes_men"]  { color: var(--men); }
 .chip[data-capa="ciudadanos"] { color: var(--ciudadano); }
 .chip[data-capa="ausencia"]   { color: var(--ausencia); }
 
