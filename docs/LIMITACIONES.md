@@ -1060,9 +1060,42 @@ La capa ArcGIS del MEN (SISE) que alimenta `men_sedes` no es un registro
 estable: **el 28-ago-2026, entre las 20:07 y las 23:15, pasó de ~50.000 filas y
 7 categorías de estado físico a 9.273 filas y 8 categorías**. No publica
 versión ni changelog: el mismo URL sirve hoy un contenido y mañana otro, y
-nada en la respuesta dice que cambió. El snapshot diario paginado
-(`men_sedes_offset*.json`) es la única memoria de qué decía cada día — es
-exactamente el caso para el que existe el principio de archivo del monitor.
+nada en la respuesta dice que cambió. La comprobación diaria del monitor es
+la única memoria de qué decía cada día — es exactamente el caso para el que
+existe el principio de archivo.
+
+**Se comprueba a diario, pero se archiva solo lo que cambia.** La descarga
+completa pesa ~6 MB y el 87 % de las filas repite 'No aporta información':
+acumularla entera serían ~180 MB/mes de copias casi idénticas, que es justo
+lo que el principio de archivo prohíbe. El reparto: si una página llega
+idéntica (mismo sha256), su fila diaria de `sources_log` apunta al snapshot
+ya archivado — la fila es la prueba de que ese día se comprobó, y de ella se
+alimenta el detector de silencio—; si cambió, se archiva entera. La tabla
+`men_sedes` sigue el mismo criterio campo a campo: línea base completa el
+primer día y después una fila solo por sede que cambió (precedente: la tabla
+del RUD en las fichas, una fila por cambio). El corte vigente es la última
+fila de cada sede.
+
+Lo que ese diseño no registra: **una sede que desaparezca de la capa conserva
+su última fila como vigente y no deja fila propia de desaparición**. No es
+hipotético — la capa perdió ~40.000 filas de un día para otro antes de
+nuestra línea base—; si vuelve a pasar, el corte vigente arrastrará sedes que
+la fuente ya no publica hasta que se decida cómo contarlo.
+
+Dos salvedades de archivo sobre esa misma medición:
+
+- **La medición fundacional es anterior al archivo y no tiene cuerpo**: las
+  cifras de ~50.000 filas y 7 categorías vienen de sondas de la sesión de
+  trabajo del 28-ago, hechas antes de que la fuente existiera en el monitor,
+  sin snapshot ni fila en `sources_log`. El archivo de esta fuente empieza con
+  su primera corrida real; lo de antes es testimonio del proceso de alta, no
+  registro reconstruible. Un archivo honesto documenta lo que no tiene.
+- **Una republicación a mitad de corrida no deja señal**: la descarga es
+  paginada por OBJECTID, y si la capa se republica entre la primera página y
+  la última, los OBJECTID se resetean y la foto del día puede duplicar sedes
+  (el upsert por `cod_dane` lo absorbe) o perderlas, sin que nada avise.
+  Riesgo bajo —la corrida tarda segundos— pero real con una fuente que ya
+  mutó dos veces en tres horas.
 
 Dos consecuencias que el lector del mapa debe conocer:
 
@@ -1071,9 +1104,11 @@ Dos consecuencias que el lector del mapa debe conocer:
   principio que los ceros del RUD — la ausencia de dato es dato, y convertirla
   en «bien» fabricaría una afirmación que la fuente no hizo (R3).
 - **El mapa solo pinta lo que reporta afectación** (987 sedes el 28-ago, los
-  6 literales de `men_sedes.ESTADOS_CON_DANO`); 'Sin afectación' y 'No aporta
-  información' no van al mapa, pero SÍ están completas en el registro
-  auditable (`data/public/men_sedes.geojson`, la tabla `men_sedes` y su dump).
+  6 literales de `men_sedes.ESTADOS_CON_DANO`), y ese es además el único
+  geojson que se publica (`men_sedes_mapa.geojson`): republicar a diario los
+  ~6 MB del registro completo no tenía lector. 'Sin afectación' y 'No aporta
+  información' siguen completas y auditables en los snapshots, la tabla
+  `men_sedes` y su CSV de dumps.
 
 El vocabulario de 8 estados es un contrato vigilado, no una lista abierta: si
 la fuente publica un literal nuevo, `tests/test_hipotesis.py::

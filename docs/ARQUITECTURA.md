@@ -202,7 +202,7 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `citizen_reports` | (origen, id_externo) | Reportes ChatMap: coordenada exacta + `lat_pub/lon_pub`, sha256 del medio, score y checks |
 | `news_items` | url | Titulares de todos los feeds (registro abierto). `medio` guarda el FEED que trajo la pieza; `medio_canonico`/`medio_dominio`, la cabecera que la firma según el `<source>` del propio RSS |
 | `rud_daily` | (snapshot_date, departamento, municipio) | RUD por municipio y día de captura — la serie oficial, y **la única fuente de los totales que se publican** (su último corte) |
-| `men_sedes` | (cod_dane, snapshot_date) | Sedes educativas MEN (SISE) con estado físico, matrícula y coordenada. **Una tabla y no dos** (precedente `rud_daily`, no UNOSAT/SERTIT): la capa se republica entera y sin versión, así que la serie es la foto diaria por sede |
+| `men_sedes` | (cod_dane, snapshot_date) | Sedes educativas MEN (SISE) con estado físico, matrícula y coordenada. **Una tabla y no dos** (precedente `rud_daily`) y **serie por cambios, no por días**: línea base completa el primer día y después una fila solo cuando la sede cambió — el corte vigente es la última fila por sede; la comprobación diaria sin cambios queda en `sources_log` |
 | `unosat_products` | product_id | Productos UNITAR-UNOSAT del evento: título, enlaces a PDF/SHP/GDB y `shp_sha256`, que es la identidad real del paquete |
 | `unosat_damage` | (paquete_sha, capa, idx) | Edificios evaluados por UNOSAT. La clave es el **paquete**, no el producto: tres productos publican el mismo ZIP y el edificio es uno solo |
 | `sertit_productos` | producto_id | Los cinco mapas de ICube-SERTIT: escala, sensor, área analizada y el sha del paquete de vectores que les corresponde |

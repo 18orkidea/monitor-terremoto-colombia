@@ -334,9 +334,13 @@ CREATE TABLE IF NOT EXISTS rud_daily (
 -- Sedes educativas MEN (SISE): estado físico sede a sede tras el sismo.
 -- UNA tabla y no dos (precedente rud_daily, no UNOSAT/SERTIT): aquí no hay
 -- «producto» con identidad propia que publique paquetes — hay un registro que
--- se republica entero y sin versión, así que la serie es la foto diaria por
--- sede: (cod_dane, snapshot_date). Los literales de la fuente
--- (estado_fisico, sede_principal, confianza_geo) se guardan tal cual.
+-- se republica entero y sin versión. La serie es POR CAMBIOS, no por días:
+-- línea base completa en la primera corrida y después una fila solo cuando
+-- algún campo de la sede cambió (el 87 % repite 'No aporta información' a
+-- diario y acumular la foto entera serían ~180 MB/mes de copias). El corte
+-- vigente de una sede es su última fila; la comprobación diaria sin cambios
+-- queda en sources_log. Los literales de la fuente (estado_fisico,
+-- sede_principal, confianza_geo) se guardan tal cual.
 CREATE TABLE IF NOT EXISTS men_sedes (
   cod_dane TEXT NOT NULL,            -- identificador DANE de la sede (único hoy)
   snapshot_date TEXT NOT NULL,

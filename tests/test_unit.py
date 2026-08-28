@@ -5230,3 +5230,177 @@ class TestElMetodoNoSePublica(unittest.TestCase):
                           f"{regla} ha desaparecido del contrato público")
         self.assertIn("documentos/METODO.md", texto,
                       "el contrato tiene que decir dónde vive el método")
+
+
+class TestMenSedesPaginacion(unittest.TestCase):
+    """La capa SISE se republica sin aviso y su maxRecordCount es un ajuste de
+    publicación: si baja, un bucle que avanza de PAGE en PAGE y corta con
+    «página incompleta» trunca la foto del día EN SILENCIO — y en una tabla
+    acumulativa por snapshot eso parece una desaparición masiva de sedes.
+    Estos tests simulan la fuente (sin red): páginas más cortas que PAGE,
+    error a mitad de serie y el contrato de exceededTransferLimit."""
+
+    def _modulo(self, respuestas):
+        """men_sedes con fetch_json simulado y export a un directorio efímero.
+
+        `respuestas` es la lista de (status, page) que la «fuente» devolverá
+        en orden; el módulo se restaura siempre, pase lo que pase.
+        """
+        import sqlite3
+        import tempfile
+        from common import SCHEMA
+        from sources import men_sedes
+
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        llamadas = []
+
+        def fake_fetch_json(url, params=None, **kw):
+            llamadas.append(dict(params or {}))
+            return respuestas.pop(0)
+
+        originales = (men_sedes.fetch_json, men_sedes.PUBLIC)
+        men_sedes.fetch_json = fake_fetch_json
+        men_sedes.PUBLIC = Path(tempfile.mkdtemp()) / "public"
+        self.addCleanup(lambda: (setattr(men_sedes, "fetch_json", originales[0]),
+                                 setattr(men_sedes, "PUBLIC", originales[1])))
+        return men_sedes, conn, llamadas
+
+    @staticmethod
+    def _pagina(desde, n, mas):
+        return (200, {
+            "features": [{"attributes": {"COD_DANE": f"S{i:05d}",
+                                         "ESTADO_FISICO": "Sin afectación"},
+                          "geometry": {"x": -75.0, "y": 5.0}}
+                         for i in range(desde, desde + n)],
+            "exceededTransferLimit": mas})
+
+    def test_una_pagina_mas_corta_que_page_no_trunca(self):
+        """La fuente sirve páginas de 3 (PAGE dice 2000): las 7 sedes entran
+        igual, y el offset avanza por lo RECIBIDO, no por PAGE."""
+        men_sedes, conn, llamadas = self._modulo([
+            self._pagina(0, 3, True), self._pagina(3, 3, True),
+            self._pagina(6, 1, False), (200, {"features": []}),
+        ])
+        out = men_sedes.run(conn, snapshot_date="2026-08-28")
+        self.assertNotIn("error", out)
+        self.assertEqual(out["sedes_comprobadas"], 7)
+        self.assertEqual(out["nuevas"], 7, "primera corrida = línea base")
+        self.assertEqual([c.get("resultOffset") for c in llamadas],
+                         [0, 3, 6, 7],
+                         "el offset debe avanzar por filas recibidas")
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 7)
+
+    def test_un_error_a_mitad_de_serie_es_error_no_fin(self):
+        """ArcGIS devuelve errores con HTTP 200 y {"error": …} en el cuerpo
+        (throttling): tratarlo como fin normal publica media foto como si
+        fuera entera. La corrida debe contarlo como ERROR (R13: el paso
+        degrada, run_daily lo marca, nada revienta)."""
+        men_sedes, conn, _ = self._modulo([
+            self._pagina(0, 3, True),
+            (200, {"error": {"code": 503, "message": "throttled"}}),
+        ])
+        out = men_sedes.run(conn, snapshot_date="2026-08-28")
+        self.assertIn("error", out)
+        self.assertIn("offset=3", out["error"])
+        # lo ya traído se conserva (commit por página), pero rotulado de error
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 3)
+
+    def test_vacio_con_exceeded_transfer_limit_es_contrato_roto(self):
+        """«No hay filas pero hay más por traer» no es un final: cortar ahí
+        truncaría en silencio."""
+        men_sedes, conn, _ = self._modulo([
+            self._pagina(0, 3, True),
+            (200, {"features": [], "exceededTransferLimit": True}),
+        ])
+        out = men_sedes.run(conn, snapshot_date="2026-08-28")
+        self.assertIn("error", out)
+        self.assertIn("exceededTransferLimit", out["error"])
+
+    def test_http_no_200_es_error(self):
+        men_sedes, conn, _ = self._modulo([(500, None)])
+        out = men_sedes.run(conn, snapshot_date="2026-08-28")
+        self.assertIn("error", out)
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 0)
+
+
+class TestMenSedesSoloCambios(unittest.TestCase):
+    """El archivo de tabla es POR CAMBIOS: línea base completa el primer día
+    y después solo filas de sedes cuyo contenido difiera de su corte vigente.
+    «Idéntico» tiene que significar idéntico de verdad: estos tests mutan el
+    dato y comprueban que lo igual no escribe y que un solo campo distinto
+    escribe exactamente una fila. (La capa de snapshots —byte a byte, dedupe
+    por sha256 apuntando al cuerpo ya archivado— es de `common.fetch` y tiene
+    sus propios guardianes; aquí la red está simulada y no se ejercita.)"""
+
+    _armar = TestMenSedesPaginacion._modulo
+
+    @staticmethod
+    def _sede(cod, estado="Sin afectación", matricula=100):
+        return {"attributes": {"COD_DANE": cod, "ESTADO_FISICO": estado,
+                               "NOM_MUN": "MANIZALES",
+                               "TOTAL_MATRICULA": matricula},
+                "geometry": {"x": -75.5, "y": 5.06}}
+
+    def _corrida(self, men_sedes, conn, sedes, dia):
+        respuestas = [(200, {"features": sedes, "exceededTransferLimit": False}),
+                      (200, {"features": []})]
+        men_sedes.fetch_json = lambda *a, **k: respuestas.pop(0)
+        return men_sedes.run(conn, snapshot_date=dia)
+
+    def test_una_segunda_corrida_identica_no_escribe_filas(self):
+        men_sedes, conn, _ = self._armar([])
+        sedes = [self._sede("S1"), self._sede("S2", "Colapso total")]
+        self._corrida(men_sedes, conn, sedes, "2026-08-28")
+        out = self._corrida(men_sedes, conn, sedes, "2026-08-29")
+        self.assertTrue(out["sin_cambios"])
+        self.assertEqual((out["nuevas"], out["cambiadas"]), (0, 0))
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 2,
+            "contenido idéntico no puede dejar filas nuevas")
+
+    def test_un_campo_distinto_escribe_solo_esa_sede(self):
+        men_sedes, conn, _ = self._armar([])
+        self._corrida(men_sedes, conn,
+                      [self._sede("S1"), self._sede("S2")], "2026-08-28")
+        out = self._corrida(men_sedes, conn,
+                            [self._sede("S1"),
+                             self._sede("S2", "Colapso parcial")],
+                            "2026-08-29")
+        self.assertFalse(out["sin_cambios"])
+        self.assertEqual(out["cambiadas"], 1)
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 3,
+            "solo la sede que cambió gana fila")
+        # y el corte vigente de S2 es el estado nuevo, sin perder el previo
+        self.assertEqual(conn.execute(
+            "SELECT estado_fisico FROM men_sedes WHERE cod_dane='S2'"
+            " ORDER BY snapshot_date DESC LIMIT 1").fetchone()[0],
+            "Colapso parcial")
+        self.assertEqual(men_sedes.resumen(conn),
+                         {"Sin afectación": 1, "Colapso parcial": 1})
+
+    def test_reordenar_las_features_no_es_cambio_de_tabla(self):
+        """El caso perverso: mismo contenido, otro orden. El snapshot cambia
+        (eso es de fetch y aquí no se ejercita); la tabla compara sede a
+        sede y no puede fabricar 9.273 «cambios» de un reordenamiento."""
+        men_sedes, conn, _ = self._armar([])
+        a, b = self._sede("S1"), self._sede("S2", "Colapso total")
+        self._corrida(men_sedes, conn, [a, b], "2026-08-28")
+        out = self._corrida(men_sedes, conn, [b, a], "2026-08-29")
+        self.assertTrue(out["sin_cambios"])
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 2)
+
+    def test_una_sede_duplicada_en_la_misma_corrida_no_duplica(self):
+        """Republicación entre página y página: la misma sede puede llegar
+        dos veces. El diff contra el corte en memoria la absorbe."""
+        men_sedes, conn, _ = self._armar([])
+        out = self._corrida(men_sedes, conn,
+                            [self._sede("S1"), self._sede("S1")], "2026-08-28")
+        self.assertEqual(out["nuevas"], 1)
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 1)

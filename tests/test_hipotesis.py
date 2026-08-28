@@ -157,16 +157,18 @@ class TestHipotesisSedesEducativas(unittest.TestCase):
         if why:
             self.skipTest(why)
         from municipios import _find_divipola
-        from sources.men_sedes import ESTADOS_CRITICOS
+        from sources.men_sedes import ESTADOS_CRITICOS, SQL_VIGENTE
         div_path = ROOT / "data" / "public" / "divipola_coords.json"
         divipola = (json.loads(div_path.read_text()).get("items")
                     if div_path.exists() else {})
         marks = ",".join("?" * len(ESTADOS_CRITICOS))
         perdidas = []
+        # sobre el corte VIGENTE (última fila por sede): la tabla archiva por
+        # cambios, así que el último snapshot_date global solo tiene lo que
+        # cambió ese día, no la foto completa
         for cod, sede, mun, dep, lat, lon in q(
                 "SELECT cod_dane, nombre_sede, nom_mun, nom_dep, lat, lon"
-                " FROM men_sedes WHERE snapshot_date="
-                " (SELECT MAX(snapshot_date) FROM men_sedes)"
+                f" FROM men_sedes m WHERE {SQL_VIGENTE}"
                 f" AND estado_fisico IN ({marks})", *ESTADOS_CRITICOS):
             if lat is not None and lon is not None:
                 continue
@@ -185,10 +187,11 @@ class TestHipotesisSedesEducativas(unittest.TestCase):
         if why:
             self.skipTest(why)
         from sources.men_sedes import ESTADOS_CONOCIDOS
+        # sobre TODA la serie, no solo el corte vigente: un literal raro que
+        # entró y desapareció también tiene que haber sido decidido
         observados = {e for (e,) in q(
             "SELECT DISTINCT estado_fisico FROM men_sedes"
-            " WHERE snapshot_date=(SELECT MAX(snapshot_date) FROM men_sedes)"
-            " AND estado_fisico IS NOT NULL")}
+            " WHERE estado_fisico IS NOT NULL")}
         nuevos = observados - set(ESTADOS_CONOCIDOS)
         self.assertEqual(nuevos, set(),
                          f"ESTADO_FISICO desconocido en la capa SISE: {nuevos} "
