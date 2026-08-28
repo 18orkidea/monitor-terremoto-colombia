@@ -8237,12 +8237,12 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         seccion = seccion[seccion.find('id="registro"'):]
         seccion = seccion[:seccion.find("</section>")]
         filas = re.findall(r"<tr[^>]*><td>(.*?)</td>", seccion)
-        # El tramo real de Cali arranca el 27-ago-2026, no el 24: entre el 25 y
-        # el 27 el registro SÍ se movió (el hueco del 26-ago-2026 fusiona dos
-        # días en un salto — docs/DECISIONES.md), así que el tramo plano previo
-        # se corta ahí y solo quedan cuatro capturas (27-ago + los tres días
-        # sintéticos de septiembre), no cinco.
-        self.assertEqual(filas[-1].split("<")[0], "27-ago-2026 al 3-sep-2026",
+        # El tramo real de Cali arranca el 28-ago-2026: cada captura desde el
+        # 25-ago trajo una cifra nueva (el hueco del 26-ago-2026 fusiona dos
+        # días en un salto — docs/DECISIONES.md), así que el tramo plano
+        # anterior se corta en la última captura real y solo quedan cuatro
+        # capturas (28-ago + los tres días sintéticos de septiembre).
+        self.assertEqual(filas[-1].split("<")[0], "28-ago-2026 al 3-sep-2026",
                          f"la última fila debería agrupar el tramo: {filas[-1]}")
         self.assertIn("cuatro capturas, sin cambios", filas[-1])
         self.assertNotIn("01-sep-2026", seccion,
@@ -8257,10 +8257,10 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         d["serie"] = d["serie"] + [
             (f"2026-09-{n:02d}", dict(ultimo)) for n in (1, 2, 3)]
         html = R.render_ficha(d)
-        # Mismo motivo que arriba: el tramo plano real empieza el 27-ago, y
+        # Mismo motivo que arriba: el tramo plano real empieza el 28-ago, y
         # con él solo tres capturas más (no cuatro) antes de la sintética
         # del 3 de septiembre.
-        self.assertIn("no cambia desde el 27 de agosto de 2026", html)
+        self.assertIn("no cambia desde el 28 de agosto de 2026", html)
         self.assertIn("capturado tres veces más —la última, el 3 de "
                       "septiembre de 2026— y ninguna traía una cifra nueva", html)
 
@@ -8305,14 +8305,13 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         svg = html[html.find('class="grafico-rud-muni"'):]
         svg = svg[:svg.find("</svg>")]
         dias = re.findall(r'class="g-dia"[^>]*>([^<]+)<', svg)
-        # Once capturas, no diez: 16 al 25-ago (diez días) más el 27-ago — el
-        # 26 falta (hueco documentado, docs/DECISIONES.md) así que la serie
+        # Doce capturas: 16 al 25-ago (diez días) más 27 y 28-ago — el 26
+        # falta (hueco documentado, docs/DECISIONES.md), así que la serie
         # real tiene un día menos de los que habría con captura diaria
-        # continua, pero uno más de los que tenía cuando se escribió este
-        # test (que solo llegaba al 25-ago).
-        self.assertEqual(len(dias), 11,
-                         f"el eje tiene que llevar los once días: {dias}")
-        self.assertEqual(len(re.findall(r"<circle", svg)), 11)
+        # continua desde el 16 hasta hoy.
+        self.assertEqual(len(dias), 12,
+                         f"el eje tiene que llevar los doce días: {dias}")
+        self.assertEqual(len(re.findall(r"<circle", svg)), 12)
 
     def test_un_dia_de_cero_altas_se_dibuja_y_no_se_confunde_con_un_hueco(self):
         """R3 dentro del SVG. El primer día no tiene barra porque no hay
