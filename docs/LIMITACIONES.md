@@ -962,6 +962,17 @@ los datos— y por eso ahora hay uno
 (`test_toda_confianza_de_unosat_tiene_traduccion`) que falla en cuanto la
 fuente estrena una palabra. Sigue sin haber ni un punto con confianza alta.
 
+**Estas mismas cifras están escritas a mano una segunda vez, sin guardián.**
+`site/referencia.html:76-83` repite en prosa «108 edificios... 49 de ellos no
+coinciden sobre la gravedad», «Zarzal (Valle del Cauca): 201 edificios» y
+«UNOSAT reeditó Viterbo a la baja, de 154 edificios a 108» — el mismo relato
+de este apartado, pero como texto estático del sitio, no generado por
+`deploy/render_html.py`. Nada compara esa prosa contra el dato vivo: la
+reedición de Viterbo la vio una persona leyendo los datos, no un test, igual
+que pasó con el vocabulario de confianza de arriba. Si UNOSAT vuelve a
+reeditar cualquiera de las dos cifras, `referencia.html` envejecerá en
+silencio hasta la próxima lectura humana.
+
 ## Los identificadores de producto se perdían al reconstruir la base
 
 Hasta el 21-ago-2026, los volcados CSV omitían la columna `product_id` de

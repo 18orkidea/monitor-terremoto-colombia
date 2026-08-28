@@ -7311,6 +7311,23 @@ class TestPiezasDeLaPortada(unittest.TestCase):
                          + salida.count("fuente-nd"),
                          "hay una mirada sin su cifra en la unidad común")
 
+    def test_la_tarjeta_ciudadana_no_cuenta_al_huerfano(self):
+        """`conteo_ciudadanos` (`asigna_a_municipios`) siempre puede traer la
+        clave sintética `__huerfanos__` con los reportes sin cabecera cercana.
+        Sin filtrarla, la tarjeta «Reporte ciudadano» contaba un municipio de
+        más en cuanto hubiera un solo huérfano — el mismo fallo que
+        `sin_sinteticos` y el filtro de `nombres` ya evitan en otras dos
+        superficies de este mismo fichero."""
+        real = {k: v for k, v in self.ctx["conteo_ciudadanos"].items()
+                if not k.startswith("__")}
+        con_huerfanos = dict(real, __huerfanos__=7)
+        ctx = dict(self.ctx, conteo_ciudadanos=con_huerfanos)
+        salida = R.tarjetas_fuentes_portada(ctx)
+        self.assertIn(
+            f'<b data-cifra="ciudadano-municipios">{R.fmt(len(real))}</b>',
+            salida, f"la tarjeta cuenta {len(real) + 1} en vez de "
+            f"{len(real)}: el huérfano se coló como municipio")
+
     def test_las_alertas_dicen_su_nivel_con_palabras_y_no_solo_con_color(self):
         salida = R.alertas_portada(self.ctx)
         self.assertIn("<li>", salida)

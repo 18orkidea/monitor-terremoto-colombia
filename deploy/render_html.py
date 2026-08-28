@@ -3929,9 +3929,15 @@ def serie_de_la_brecha(ctx: dict) -> list:
     reportes = [f for f in ctx["chatmap"]
                 if ((f.get("properties") or {}).get("time") or "")[:10]]
     dias_ciudadanos = sorted({f["properties"]["time"][:10] for f in reportes})
+    # `asigna_a_municipios` siempre puede devolver la clave sintética
+    # `__huerfanos__` (línea 394): sin filtrarla aquí, esta serie y la
+    # tarjeta ciudadana de `tarjetas_fuentes_portada` podían publicar dos
+    # totales distintos del mismo concepto el mismo día — el 47/48 real que
+    # cazó `TestCifrasDeclaradas` al declarar "ciudadano-municipios".
     ciudadanos_por_dia = {
-        dia: len(asigna_a_municipios(
-            [f for f in reportes if f["properties"]["time"][:10] <= dia], items))
+        dia: sum(1 for k in asigna_a_municipios(
+            [f for f in reportes if f["properties"]["time"][:10] <= dia], items)
+            if not k.startswith("__"))
         for dia in dias_ciudadanos}
 
     serie_rud = [d for d in ((ctx["rud"] or {}).get("serie") or []) if d.get("fecha")]
@@ -4156,7 +4162,12 @@ def tarjetas_fuentes_portada(ctx: dict) -> str:
     # Los municipios con reporte ciudadano se cuentan UNA vez y se reparten:
     # `comparativaFuentes` mide el alcance ciudadano en reportes, y la tarjeta
     # decía «sin recuento por municipio» teniendo el dato al lado.
-    municipios_ciudadanos = len(ctx["conteo_ciudadanos"])
+    # `conteo_ciudadanos` trae siempre la clave sintética `__huerfanos__`
+    # (`asigna_a_municipios`, línea 394): sin filtrarla, la tarjeta contaba un
+    # municipio de más en cuanto había un solo reporte sin cabecera cercana.
+    # Mismo filtro que `nombres` (arriba) y `sin_sinteticos` (abajo).
+    municipios_ciudadanos = sum(1 for k in ctx["conteo_ciudadanos"]
+                                if not k.startswith("__"))
     tarjetas = ['<div class="comparativa">']
     for f in fuentes:
         cifras = f.get("cifras") or {}
