@@ -1,8 +1,197 @@
 {
- "generated_at": "2026-08-27T04:04:00.519Z",
- "run_date": "2026-08-26",
- "total": 45,
+ "generated_at": "2026-08-28T04:05:47.981Z",
+ "run_date": "2026-08-27",
+ "total": 48,
  "items": [
+  {
+   "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/",
+   "publication_url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/",
+   "title": "Terremoto en Colombia causa 304 fallecidos y deja 426 ...",
+   "snapshot_id": "2026-08-27:https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/",
+   "search_date": "2026-08-27",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 27-08-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "teleSUR",
+    "domain": "telesurtv.net",
+    "channel": "web",
+    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "50f2fefaa15d938f2d75f92dfdd8aa31075786c9c534223062c4ee4068457bb1",
+   "captured_at": "2026-08-28T04:05:39.524Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04689-2258-77d9-99c8-49bbaf50e621",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Terremoto en Colombia causa 304 fallecidos y deja 426 desaparecidos\n\nEl sismo de magnitud 7,4 registrado en el Chocó deja severos daños en la infraestructura de 15 departamentos e intensas labores de rescate.\n\n![terremoto cifras muertos colombia](https://ikona.telesurtv.net/content/uploads/2026/08/terremoto-cifras-muertos-colombia-768x512.webp)\n\nEn cuanto al impacto en el fondo habitacional, las autoridades contabilizan 134.342 viviendas averiadas y 29.554 destruidas, además de 5.808 edificios con daños y 267 colapsados. Foto: EFE.\n\n---\n\n**Al menos 304 personas murieron, 4.548 resultaron heridas y 426 permanecen desaparecidas a causa del terremoto de magnitud 7,4** que sacudió el oeste de Colombia el pasado 10 de agosto, según el balance de la Unidad Nacional para la Gestión del Riesgo de Desastres **(UNGRD)** emitido este martes 18 de agosto.\n\nLa emergencia registra hasta la fecha **356 personas rescatadas** y **afecta a 123.789 familias**, equivalentes a 292.043 personas damnificadas **distribuidas en 472 municipios de 15 departamentos** del país. El organismo precisó que el sismo tuvo su epicentro en el municipio de San José del Palmar, departamento del Chocó.\n\nEn cuanto al impacto en el fondo habitacional, las autoridades contabilizan **134.342 viviendas averiadas y 29.554 destruidas**, además de 5.808 edificios con daños y 267 colapsados. Asimismo, se reportan afectaciones en **1.323 animales, de los cuales 496 lograron ser rescatados** por los cuerpos de socorro.\n\nRespecto a la infraestructura pública, comunitaria y vial, el reporte preliminar registra daños en **303 centros de salud, 3.443 instituciones educativas, 3.905 centros comunitarios, 413 vías, cinco aeropuertos y 86 acueductos**, sumado a **fallas en 49 puentes vehiculares y 13 peatonales.**\n\nParalelamente, **la actividad telúrica ha generado 332 réplicas registradas hasta el lunes 17 de agosto,** con magnitudes entre 0,6 y 4,8 y profundidades de hasta 118,4 kilómetros, de las cuales 21 superaron los 3,0 grados y dos excedieron la magnitud 4,0.\n\nEn paralelo, **integrantes de movimientos sociales y voluntarios activaron un campamento autogestionado en el parque Olaya Herrera de Pereira,** capital del departamento de Risaralda, para brindar asistencia humanitaria a la población afectada por el terremoto registrado en Colombia.\n\nA siete días del sismo, **la iniciativa comunitaria suple la falta de respuesta rápida por parte de la Alcaldía y la Gobernación**, garantizando diariamente **más de dos mil raciones de alimentos y distribuyendo insumos básicos a familias damnificadas**, personas en situación de calle, trabajadores informales y comunidades indígenas y afrodescendientes desplazadas.\n\n**El despliegue de ayuda solidaria afronta severas dificultades logísticas** debido a intensas precipitaciones que anegan las carpas improvisadas.\n\nFrente a la insuficiencia de los albergues institucionales cuyo dispositivo municipal colapsó y fue retirado, **la juventud voluntaria mantiene operativas ollas comunitarias las 24 horas y recibe donaciones** de plástico, estibas y carpas enviadas por la ciudadanía desde ciudades como Bogotá y Medellín.\n\nSin embargo, los organizadores advierten que la falta de un censo oficial y el hostigamiento de las autoridades locales complican la permanencia del refugio. **La precariedad en la atención a las víctimas desató cuestionamientos a nivel nacional sobre la respuesta gubernamental.**\n\nEn el Congreso de la República de Colombia se citó a un debate de control político al ministro de Vivienda, tras difundirse imágenes del funcionario en actividades de descanso durante la emergencia, un hecho que **incrementó las críticas ciudadanas ante la desprotección que atraviesan los departamentos afectados por el evento telúrico y las contingencias climáticas.**\n\n---\n\nAutor: teleSUR: lf - RR\n\nFuente: Agencias\n\n**EN ESTA NOTA:**\n- **10 de agosto**\n- **Colombia**\n- **Estamos con Colombia**\n- **terremoto 7.4**",
+   "publicado_en": "2026-08-18T10:57:00-04:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-10",
+   "departamentos": [
+    "Chocó",
+    "Risaralda"
+   ],
+   "municipios": [
+    "Pereira",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 292043,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 134342,
+    "viviendas_destruidas": 29554,
+    "heridos": null,
+    "fallecidos": 304,
+    "desaparecidos": 426,
+    "rescatados": 356
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Terremoto en Colombia causa 304 fallecidos y deja 426 desaparecidos\n\nEl sismo de magnitud 7,4 registrado en el Chocó deja severos daños en la infraestructura de 15 departamentos e intensas labores de rescate.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395",
+   "title": "Terremoto en Colombia, últimas noticias de hoy jueves 27 ...",
+   "snapshot_id": "2026-08-27:https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395",
+   "search_date": "2026-08-27",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 27-08-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "937851c093d0e32ffdafc6cb0b518e3fce9c98476174baa2b46f46a206018162",
+   "captured_at": "2026-08-28T04:05:39.524Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04689-2258-77d9-99c8-49bbaf50e621",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Terremoto en Colombia, últimas noticias de hoy jueves 27 de agosto: reportan nuevo temblor en Santander tras fuerte sismo de 5,1 este miércoles\n\n## Siga acá las actualizaciones constantes de la situación en el Chocó, el Eje Cafetero y el Valle del Cauca.\n\n![Edificio se derrumbó por el terremoto en Chocó.](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/11/6a7b5d8f905c1.r_d.360-640.jpeg)\n\n**Edificio se derrumbó por el terremoto en Chocó.** Foto: Archivo Particular\n\n**Raúl Andrés García Suárez**  \n27.08.2026 01:01 Actualizado: 27.08.2026 07:43\n\n## Nuevo temblor en Santander\n\nEl Servicio Geológico Colombiano informó un nuevo sismo de magnitud 3.1, reportado sobre las 7:46 de la mañana de este jueves.\n\nDe acuerdo con el registro, tuvo una profundidad de 104 kilómetros y el epicentro ocurrió en Simacota, Santander.\n\n## **UNRGD entregó balance de las afectaciones, muertos, heridos y desaparecidos**\n\nEl balance más reciente sobre el sismo de **7,4 Mw con epicentro en San José del Palmar, Chocó**, registra afectaciones en 16 departamentos y 496 municipios del país. De acuerdo con el corte de información de las 6:30 a. m. del 27 de agosto de 2026, **193.011 familias** resultaron afectadas, para un total de **406.113 personas**.\n\nEn cuanto a la población, el reporte señala que **331 personas han fallecido** como consecuencia de la emergencia, mientras que **4.449 personas resultaron heridas**. Además, permanecen **219 personas desaparecidas** y los organismos de atención han logrado rescatar a **364 personas** durante las labores desplegadas en las zonas afectadas.\n\nLa emergencia también dejó un número importante de daños en viviendas. Según la actualización, **187.839 viviendas presentan averías**, mientras que **33.395 quedaron destruidas**. A esto se suma la afectación de **6.372 edificios**, de los cuales **655 colapsaron**, de acuerdo con el balance consolidado con corte a la mañana del 27 de agosto.\n\nEn materia de infraestructura y servicios, el informe reporta afectaciones en **377 centros de salud, 3.833 centros educativos y 4.358 centros comunitarios**. También se contabilizan **473 vías afectadas**, además de daños en **cinco aeropuertos**, lo que refleja el impacto de la emergencia sobre distintos servicios e instalaciones utilizadas por las comunidades.\n\nEl balance incluye igualmente afectaciones en sistemas de suministro de agua y estructuras de movilidad. En total, **121 acueductos** presentan daños, mientras que fueron reportados **76 puentes vehiculares afectados y nueve puentes peatonales afectados**, según las cifras entregadas en la actualización nacional.\n\nLa emergencia también ha tenido impacto sobre los animales. El reporte contabiliza **2.159 animales afectados** y **2.949 rescatados** durante las labores de atención. De acuerdo con la nota incluida en la actualización, **las cifras se mantienen igual al reporte anterior**.\n\n## Gobierno avanza en reconstrucción de zonas afectadas en Caldas\n\nEl vicepresidente **José Manuel Restrepo** y el ministro de Vivienda, **Jaime Andrés Beltrán**, recorrieron **Viterbo, Belalcázar y San José**, en Caldas, para avanzar en el **Plan de Reconstrucción de la Patria Milagro** tras el terremoto del 10 de agosto. Durante la jornada se anunciaron **subsidios temporales, un banco de materiales y un plan para construir nuevas viviendas**. Además, la maquinaria amarilla ya trabaja en la remoción de escombros.\n\n## **La** UNGRD entrega el balance de daños en el país con corte al 26 de agosto tras terremoto\n\n- Balance nacional: **16 departamentos y 496 municipios afectados; 193.011 familias** y 406.113 personas afectadas.\n- Población: 331 personas fallecidas, **4.449 heridas, 219 desaparecidas y 364 rescatadas. Vivienda: 187.839 viviendas averiadas,** 33.395 destruidas, 6.372 edificios averiados y 655 colapsados.\n- Infraestructura y servicios: 377 centros de salud, 3.833 educativos, **4.358 comunitarios, 473 vías, 5 aeropuertos, 121 acueductos, 76 puentes vehi",
+   "publicado_en": "2026-08-27T01:01:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-27",
+   "fecha_corte": "2026-08-27",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Cali",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": 496,
+    "personas_afectadas": 406113,
+    "familias_afectadas": 10,
+    "viviendas_averiadas": 187839,
+    "viviendas_destruidas": 33395,
+    "heridos": 4449,
+    "fallecidos": 331,
+    "desaparecidos": 219,
+    "rescatados": 2949
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Terremoto en Colombia, últimas noticias de hoy jueves 27 de agosto: reportan nuevo temblor en Santander tras fuerte sismo de 5,1 este miércoles\n\n## Siga acá las actualizaciones constantes de la situación en el Chocó, el Eje Cafetero y el Valle del Cauca.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
    "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
@@ -3787,6 +3976,111 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/",
+   "publication_url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/",
+   "title": "Lista de ciudades que fueron afectadas por el terremoto en ...",
+   "snapshot_id": "2026-08-27:https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/",
+   "search_date": "2026-08-27",
+   "search_query": "Presidencia Colombia UNGRD SGC terremoto 27-08-2026 reporte oficial afectados",
+   "publisher": {
+    "name": "Caracol Radio",
+    "domain": "caracol.com.co",
+    "channel": "web",
+    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "d162ded30285bafb4898a5b104a9beeac9c5c40912995f9208da83a349713b90",
+   "captured_at": "2026-08-28T04:05:39.524Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04689-cded-71f8-ad54-2207128bde58",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Presidencia reporte oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "![](https://caracol.com.co/resizer/v2/7LOKVHIPPJHK3DKIZT653VZLYE.jpeg?auth=9a95df5d0e76ddf0f32104a87f1c349bb9d62c93ba6a9c4d9310abe15b832d82&quality=70&width=650&height=365&smart=true)Ampliar\n\nEl **terremoto de magnitud 7,4 registrado el lunes 10 de agosto de 2026** dejó afectaciones en diferentes regiones de Colombia, principalmente en el occidente y suroccidente del país.\n\nEl **epicentro fue localizado en inmediaciones de San José del Palmar, en el departamento del Chocó**, según el Servicio Geológico Colombiano (SGC).\n\nDe acuerdo con los reportes conocidos de la UNGRD, **388 municipios habían sido reportados como afectados** en los primeros balances de la emergencia. La cifra podía continuar modificándose a medida que avanzaban los censos y las evaluaciones en territorio.\n\n## Chocó, una de las zonas más afectadas\n\nEl **departamento de Chocó estuvo en el centro de la emergencia debido a la ubicación del epicentro.**\n\nEntre los territorios del departamento incluidos en los reportes de afectaciones se encuentran:\n\n- San José del Palmar\n- Nóvita\n- Sipí\n- Condoto\n- Tadó\n- Istmina\n- Quibdó\n\n## Valle del Cauca: Cali y otros municipios\n\nEl Valle del Cauca también estuvo entre los departamentos con reportes de afectaciones. **Cali**, **como una de las principales ciudades del suroccidente**, registró daños que fueron incluidos dentro de los balances de la emergencia.\n\nOtros municipios del departamento con afectaciones:\n\n- Cali\n- Palmira\n- Buga\n- Tuluá\n- Cartago\n- Buenaventura\n- Dagua\n\n## Risaralda\n\nEn el Eje Cafetero, **Risaralda** también registró afectaciones. **Pereira** fue una de las ciudades donde el terremoto generó daños y movilizó a los organismos de socorro.\n\nEntre los municipios del departamento incluidos en los reportes se encuentran:\n\n- Pereira\n- Dosquebradas\n- Santa Rosa de Cabal\n- La Virginia\n- La Celia\n\n## Caldas y Quindío también reportaron afectaciones\n\nLos efectos del terremoto alcanzaron otros departamentos del Eje Cafetero. En **Caldas**, uno de los principales puntos de atención fue **Manizales**, mientras que en **Quindío** se reportaron afectaciones en municipios como **Armenia** y **Calarcá**.\n\nEntre los territorios bajo evaluación estuvieron:\n\n**Caldas**\n\n- Manizales\n- Chinchiná\n- Villamaría\n- Palestina\n\n**Quindío**\n\n- Armenia\n- Calarcá\n- Montenegro\n- La Tebaida\n\n## Antioquia y Cauca\n\nLa emergencia también alcanzó sectores de **Antioquia y Cauca**, departamentos que fueron incluidos dentro de los reportes.\n\nEn Antioquia aparecen entre los territorios bajo seguimiento:\n\n- Medellín\n- Urrao\n- Andes\n- Ciudad Bolívar\n- Jardín\n\n## **Último reporte**\n\nEste domingo 16 de agosto, **el presidente Abelardo de la Espriella** entregó desde **Buenaventura** el reporte situacional **número 30** sobre el terremoto ocurrido.\n\nSegún el balance, hasta el momento hay **120.328 familias afectadas, 186.016 personas afectadas, 289 fallecidos, 4.187 heridos y 143 desaparecidos**. El mandatario señaló que la prioridad sigue siendo la búsqueda de los desaparecidos, **“porque lo más importante aquí es salvar vidas”.**\n\nEn materia de infraestructura, **el reporte da cuenta de 26.945 viviendas destruidas, 127.557 viviendas averiadas y 66 edificios colapsados.** La emergencia también golpeó al sector educativo, con **2.838 centros educativos averiados**; el presidente adelantó que las clases se retomarán de **manera virtual** mientras se resuelve esa situación. Además, se reportan **3.771 centros comunitarios y 285 centros de salud afectados.**\n\n## Una emergencia que sigue en evaluación\n\nEs de destacar que la UNGRD **ha advertido que los balances de una emergencia de esta magnitud** pueden cambiar conforme avanzan las labores de verificación y los censos en los territorios.\n\nEl SGC, por su parte, **mantiene el monitoreo de la actividad sísmica y es la entidad encargada de suministrar la información oficial** sobre las características del terremoto y los movimientos posteriores.",
+   "publicado_en": "2026-08-17T20:12:21.624Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": "2026-08-16",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Buenaventura",
+    "Buga",
+    "Calarcá",
+    "Cali",
+    "Cartago",
+    "Dagua",
+    "Dosquebradas",
+    "Istmina",
+    "La Tebaida",
+    "Manizales",
+    "Montenegro",
+    "Palmira",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar",
+    "Santa Rosa de Cabal",
+    "Tuluá",
+    "Villamaría"
+   ],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 186016,
+    "familias_afectadas": 120328,
+    "viviendas_averiadas": 127557,
+    "viviendas_destruidas": 26945,
+    "heridos": 4187,
+    "fallecidos": 289,
+    "desaparecidos": 143,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "![](https://caracol.com.co/resizer/v2/7LOKVHIPPJHK3DKIZT653VZLYE.jpeg?auth=9a95df5d0e76ddf0f32104a87f1c349bb9d62c93ba6a9c4d9310abe15b832d82&quality=70&width=650&height=365&smart=true)Ampliar\n\nEl **terremoto de magnitud 7,4 registrado el lunes 10 de agosto de 2026** dejó afectacio",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -3958,25 +4252,25 @@
      "note": "Search por fecha variable orientado a UNGRD, SGC, Gobernación, Presidencia y Alcaldía; scrapea las 3 primeras URLs priorizadas.",
      "ok": true,
      "http_status": 200,
-     "links_found": 30,
+     "links_found": 20,
      "candidates": 3,
-     "credits_used": 6,
+     "credits_used": 4,
      "jobs": [
       {
        "label": "UNGRD SGC balance oficial por fecha",
-       "ok": true,
-       "http_status": 200,
-       "id": "01a04160-e075-7096-a83d-70d1bab67b46",
-       "query": "UNGRD SGC terremoto Colombia 26-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
-       "results": 10,
+       "ok": false,
+       "http_status": 524,
+       "id": null,
+       "query": "UNGRD SGC terremoto Colombia 27-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "results": 0,
        "warning": null
       },
       {
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a04161-3085-722e-9fdc-d772e189c47b",
-       "query": "Gobernación Alcaldía terremoto Colombia 26-08-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a04689-2258-77d9-99c8-49bbaf50e621",
+       "query": "Gobernación Alcaldía terremoto Colombia 27-08-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -3984,8 +4278,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a04161-40fb-715e-847b-b46ee4d95e73",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 26-08-2026 reporte oficial afectados",
+       "id": "01a04689-cded-71f8-ad54-2207128bde58",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 27-08-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -4014,9 +4308,10 @@
      "url": "https://portal.gestiondelriesgo.gov.co/paginas/forms/allitems.aspx?rootfolder=/paginas/noticias&folderctid=0x0120000d115b77361a2449a3a8cae36d6f2767",
      "note": "Vista de biblioteca SharePoint; puede exponer enlaces aunque el RSS de lista falle.",
      "http_status": 200,
-     "ok": false,
-     "result": "error",
-     "error": "The operation was aborted due to timeout"
+     "ok": true,
+     "links_found": 187,
+     "candidates": 0,
+     "result": "no_event_specific_links"
     }
    ]
   },
@@ -4121,7 +4416,7 @@
      "http_status": 200,
      "ok": true,
      "links_found": 119,
-     "candidates": 4,
+     "candidates": 5,
      "result": "candidate_links"
     }
    ]
@@ -4157,6 +4452,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-08-27/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-08-28/oficiales_feed.json"
  }
 }
