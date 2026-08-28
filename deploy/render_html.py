@@ -1048,7 +1048,7 @@ def evaluados_unicos(m: dict, ctx: dict) -> int:
     Cuando dos servicios miran el mismo sitio, la cifra del municipio no es la
     suma de las suyas: en Pereira, 108 de los edificios que ve Copernicus son los mismos
     que ve SERTIT. Quién es el mismo edificio lo decide `ingest/satelites.py`
-    —dos puntos de servicios distintos a menos de 20 m— y llega ya resuelto en
+    —dos puntos de servicios distintos a menos de `UMBRAL_M`— y llega ya resuelto en
     monitor.json. Donde no hay cruce publicado porque solo ha mirado un
     servicio, vale la mayor de las cifras, que es justamente la de ese servicio.
 

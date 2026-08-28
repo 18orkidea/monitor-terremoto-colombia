@@ -104,13 +104,14 @@ def main():
     # -- portada: el cruce
     # Aquí NO se calcula nada: se lee. Cuántos edificios ha visto el satélite
     # cuando tres servicios miran las mismas ciudades lo resuelve
-    # `ingest/satelites.py` —dos puntos de servicios distintos a menos de 20 m
-    # son el mismo edificio, dos del mismo servicio nunca— y viaja ya hecho en
-    # monitor.json. Mientras esta imagen sumó por su cuenta, el día que dos
-    # servicios se pisaran habría anunciado un total que el propio monitor
-    # no sostiene: en Pereira, 108 edificios los vieron Copernicus y SERTIT a la
-    # vez. Es la superficie más compartida del monitor y la única sin sitio
-    # para el matiz, así que se comparte con la cifra que el monitor sostiene.
+    # `ingest/satelites.py` —dos puntos de servicios distintos a menos de
+    # `UMBRAL_M` son el mismo edificio, dos del mismo servicio nunca— y viaja
+    # ya hecho en monitor.json. Mientras esta imagen sumó por su cuenta, el
+    # día que dos servicios se pisaran habría anunciado un total que el
+    # propio monitor no sostiene: en Pereira, 108 edificios los vieron
+    # Copernicus y SERTIT a la vez. Es la superficie más compartida del
+    # monitor y la única sin sitio para el matiz, así que se comparte con la
+    # cifra que el monitor sostiene.
     sat = mon.get("satelital") or {}
     edif = sat.get("total_edificios")
     pie = [f"{servicios(sat)}.",
