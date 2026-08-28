@@ -143,6 +143,59 @@ class TestHipotesisBrechaOficial(unittest.TestCase):
                          f"DIVIPOLA): {sin_coords} — ampliar divipola_coords.json")
 
 
+class TestHipotesisSedesEducativas(unittest.TestCase):
+    """Sedes MEN (SISE): ninguna sede en estado crítico puede perderse del
+    mapa, y el vocabulario de estados es un contrato vigilado, no una lista
+    abierta."""
+
+    def test_toda_sede_critica_resuelve_coordenadas(self):
+        """Una sede en colapso (total, parcial o riesgo inminente) sin
+        coordenada propia ni municipio resoluble es un punto que el mapa
+        pierde en silencio. Si esto AVISA, hay que ampliar
+        divipola_coords.json o revisar la geometría de la capa (no romper)."""
+        why = skip_sin_datos("men_sedes")
+        if why:
+            self.skipTest(why)
+        from municipios import _find_divipola
+        from sources.men_sedes import ESTADOS_CRITICOS
+        div_path = ROOT / "data" / "public" / "divipola_coords.json"
+        divipola = (json.loads(div_path.read_text()).get("items")
+                    if div_path.exists() else {})
+        marks = ",".join("?" * len(ESTADOS_CRITICOS))
+        perdidas = []
+        for cod, sede, mun, dep, lat, lon in q(
+                "SELECT cod_dane, nombre_sede, nom_mun, nom_dep, lat, lon"
+                " FROM men_sedes WHERE snapshot_date="
+                " (SELECT MAX(snapshot_date) FROM men_sedes)"
+                f" AND estado_fisico IN ({marks})", *ESTADOS_CRITICOS):
+            if lat is not None and lon is not None:
+                continue
+            if not _find_divipola(divipola, mun or "", dep or ""):
+                perdidas.append(f"{cod} {sede} ({mun}/{dep})")
+        self.assertEqual(perdidas, [],
+                         f"Sedes críticas sin coordenada propia ni municipio "
+                         f"resoluble: {perdidas} — ampliar divipola_coords.json")
+
+    def test_el_vocabulario_de_estados_es_el_conocido(self):
+        """La capa ya mutó una vez de 7 a 8 categorías en tres horas. Un
+        literal nuevo NO se ignora (R11): obliga a decidir si reporta daño
+        —y por tanto si entra en ESTADOS_CON_DANO y en el mapa— o no. Si
+        esto falla, revisar men_sedes.ESTADOS_CON_DANO y contarlo."""
+        why = skip_sin_datos("men_sedes")
+        if why:
+            self.skipTest(why)
+        from sources.men_sedes import ESTADOS_CONOCIDOS
+        observados = {e for (e,) in q(
+            "SELECT DISTINCT estado_fisico FROM men_sedes"
+            " WHERE snapshot_date=(SELECT MAX(snapshot_date) FROM men_sedes)"
+            " AND estado_fisico IS NOT NULL")}
+        nuevos = observados - set(ESTADOS_CONOCIDOS)
+        self.assertEqual(nuevos, set(),
+                         f"ESTADO_FISICO desconocido en la capa SISE: {nuevos} "
+                         "— la fuente cambió su vocabulario: decidir si reporta "
+                         "afectación (men_sedes.ESTADOS_CON_DANO) y documentarlo")
+
+
 class TestReferenciasEstaticas(unittest.TestCase):
     """Datos de referencia que ya NO se piden a diario (población DANE,
     catálogo DIVIPOLA): al salir de la corrida, nada volvería a avisar si el

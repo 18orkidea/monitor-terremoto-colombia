@@ -124,6 +124,7 @@ jobs:
             "https://chatmap.hotosm.org/api/v1/map/89319bbb-a14a-4dfd-b9a1-c83b8b55785f" \
             "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" \
             "https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/" \
+            "https://mineducacion.maps.arcgis.com/apps/dashboards/5e47f09f3b374396a5b3be15e8e96192" \
             $UNOSAT $SERTIT; do
             curl -sS -m 90 -o /dev/null "https://web.archive.org/save/${url}" \
               || echo "::warning::Wayback save falló hoy para ${url}"

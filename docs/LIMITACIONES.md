@@ -1053,3 +1053,29 @@ importa más, y eso es una decisión editorial.
 El guardián de `seo_check.py` **no vigila esta longitud** a propósito: un
 guardián que falla desde el primer día contra una decisión ya tomada es ruido.
 Vigila solo el departamento duplicado, que sí era un error.
+
+## La capa de sedes educativas se republica sin aviso, y casi todo está sin verificar (28-ago-2026)
+
+La capa ArcGIS del MEN (SISE) que alimenta `men_sedes` no es un registro
+estable: **el 28-ago-2026, entre las 20:07 y las 23:15, pasó de ~50.000 filas y
+7 categorías de estado físico a 9.273 filas y 8 categorías**. No publica
+versión ni changelog: el mismo URL sirve hoy un contenido y mañana otro, y
+nada en la respuesta dice que cambió. El snapshot diario paginado
+(`men_sedes_offset*.json`) es la única memoria de qué decía cada día — es
+exactamente el caso para el que existe el principio de archivo del monitor.
+
+Dos consecuencias que el lector del mapa debe conocer:
+
+- **'No aporta información' no significa «sin daño»**: significa que nadie ha
+  verificado esa sede. El 28-ago eran 8.089 de 9.273 (el 87 %). Es el mismo
+  principio que los ceros del RUD — la ausencia de dato es dato, y convertirla
+  en «bien» fabricaría una afirmación que la fuente no hizo (R3).
+- **El mapa solo pinta lo que reporta afectación** (987 sedes el 28-ago, los
+  6 literales de `men_sedes.ESTADOS_CON_DANO`); 'Sin afectación' y 'No aporta
+  información' no van al mapa, pero SÍ están completas en el registro
+  auditable (`data/public/men_sedes.geojson`, la tabla `men_sedes` y su dump).
+
+El vocabulario de 8 estados es un contrato vigilado, no una lista abierta: si
+la fuente publica un literal nuevo, `tests/test_hipotesis.py::
+TestHipotesisSedesEducativas` avisa (R11) y obliga a decidir si reporta daño
+antes de que el mapa lo ignore en silencio.
