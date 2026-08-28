@@ -61,6 +61,7 @@ AOI_ES = {
 CIFRAS_DECLARADAS = {
     "rud-municipios": "municipios con damnificados en el registro oficial (RUD)",
     "rud-familias": "familias registradas en el RUD",
+    "ciudadano-municipios": "municipios con reportes ciudadanos (ChatMap)",
 }
 
 
@@ -1047,7 +1048,7 @@ def evaluados_unicos(m: dict, ctx: dict) -> int:
     Cuando dos servicios miran el mismo sitio, la cifra del municipio no es la
     suma de las suyas: en Pereira, 108 de los edificios que ve Copernicus son los mismos
     que ve SERTIT. Quién es el mismo edificio lo decide `ingest/satelites.py`
-    —dos puntos de servicios distintos a menos de 20 m— y llega ya resuelto en
+    —dos puntos de servicios distintos a menos de `UMBRAL_M`— y llega ya resuelto en
     monitor.json. Donde no hay cruce publicado porque solo ha mirado un
     servicio, vale la mayor de las cifras, que es justamente la de ese servicio.
 
@@ -3928,9 +3929,15 @@ def serie_de_la_brecha(ctx: dict) -> list:
     reportes = [f for f in ctx["chatmap"]
                 if ((f.get("properties") or {}).get("time") or "")[:10]]
     dias_ciudadanos = sorted({f["properties"]["time"][:10] for f in reportes})
+    # `asigna_a_municipios` siempre puede devolver la clave sintética
+    # `__huerfanos__` (línea 394): sin filtrarla aquí, esta serie y la
+    # tarjeta ciudadana de `tarjetas_fuentes_portada` podían publicar dos
+    # totales distintos del mismo concepto el mismo día — el 47/48 real que
+    # cazó `TestCifrasDeclaradas` al declarar "ciudadano-municipios".
     ciudadanos_por_dia = {
-        dia: len(asigna_a_municipios(
-            [f for f in reportes if f["properties"]["time"][:10] <= dia], items))
+        dia: sum(1 for k in asigna_a_municipios(
+            [f for f in reportes if f["properties"]["time"][:10] <= dia], items)
+            if not k.startswith("__"))
         for dia in dias_ciudadanos}
 
     serie_rud = [d for d in ((ctx["rud"] or {}).get("serie") or []) if d.get("fecha")]
@@ -3984,7 +3991,10 @@ def nota_grafico_brecha(ctx: dict) -> str:
     frase += (". <b>Lo que hay en medio son los municipios que el registro ya "
               "cuenta y ningún satélite ha mirado</b>, y son más cada día que "
               "el registro crece y nadie mira. La fecha del satélite es la de "
-              "adquisición de la imagen, que es cuando pasó por encima.")
+              "adquisición de la imagen, que es cuando pasó por encima. La "
+              "violeta son los municipios que ha documentado la propia "
+              f'comunidad con sus reportes: <b data-cifra="ciudadano-municipios">'
+              f"{fmt(ult['ciu'])}</b>.")
     return frase
 
 
@@ -4152,7 +4162,12 @@ def tarjetas_fuentes_portada(ctx: dict) -> str:
     # Los municipios con reporte ciudadano se cuentan UNA vez y se reparten:
     # `comparativaFuentes` mide el alcance ciudadano en reportes, y la tarjeta
     # decía «sin recuento por municipio» teniendo el dato al lado.
-    municipios_ciudadanos = len(ctx["conteo_ciudadanos"])
+    # `conteo_ciudadanos` trae siempre la clave sintética `__huerfanos__`
+    # (`asigna_a_municipios`, línea 394): sin filtrarla, la tarjeta contaba un
+    # municipio de más en cuanto había un solo reporte sin cabecera cercana.
+    # Mismo filtro que `nombres` (arriba) y `sin_sinteticos` (abajo).
+    municipios_ciudadanos = sum(1 for k in ctx["conteo_ciudadanos"]
+                                if not k.startswith("__"))
     tarjetas = ['<div class="comparativa">']
     for f in fuentes:
         cifras = f.get("cifras") or {}
@@ -4172,7 +4187,9 @@ def tarjetas_fuentes_portada(ctx: dict) -> str:
         # dos caminos distintos, y ahí nació el fallo que `CIFRAS_DECLARADAS`
         # vigila: la marca dice qué concepto es cada número para que el
         # guardián pueda compararlos entre sí.
-        marca_mun = ' data-cifra="rud-municipios"' if f.get("id") == "rud" else ""
+        marca_mun = (' data-cifra="rud-municipios"' if f.get("id") == "rud"
+                     else ' data-cifra="ciudadano-municipios"'
+                     if f.get("id") == "ciudadano" else "")
         marca_cif = (' data-cifra="rud-familias"'
                      if f.get("id") == "rud" and principal
                      and principal[1] == "familias" else "")
