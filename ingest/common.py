@@ -72,6 +72,22 @@ FECHA_SISMO = "2026-08-10"
 # ciudadano cae en esos cuatro minutos, así que corregirlo no reclasifica nada.
 INSTANTE_SISMO = f"{FECHA_SISMO}T12:34:28"
 
+# Días en que `rud_daily` no tiene fila propia, con su porqué — mismo patrón
+# que `municipios.py::NOMBRE_A_SECAS_CONGELADO`: una lista mantenida a mano
+# porque decide un hecho, no una regla derivable del dato. El 26-ago-2026 el
+# cron de GitHub disparó con 3.5 h de retraso y `dia_colombiano_consolidado()`
+# etiquetó esa captura como 27-ago (ver su docstring y docs/DECISIONES.md); la
+# decisión editorial fue dejar el hueco implícito en la serie, no reconstruirlo
+# sin evidencia (R11/R16). `tests/test_unit.py::test_no_hay_dias_perdidos_entre_capturas`
+# y `ingest/alerts.py` leen esto para no tratar un hueco ya explicado como uno
+# nuevo por descubrir.
+HUECOS_RUD_CONOCIDOS = {
+    "2026-08-26": "cron de GitHub retrasado 3.5 h el 27-ago; la captura de "
+                  "ese día se etiquetó '27-ago' en vez de '26-ago' — blindado "
+                  "en dia_colombiano_consolidado(), hueco dejado implícito "
+                  "por decisión editorial (docs/DECISIONES.md, 28-ago-2026)",
+}
+
 
 def anterior_al_sismo(fecha: str | None) -> bool:
     """¿Consta que el titular es anterior al terremoto?
@@ -120,7 +136,7 @@ def today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
-def dia_colombiano_consolidado() -> str:
+def dia_colombiano_consolidado(conn: sqlite3.Connection | None = None) -> str:
     """Día colombiano cuyo estado refleja una captura hecha AHORA.
 
     El RUD es un registro acumulativo que cargan las alcaldías durante su
@@ -130,13 +146,35 @@ def dia_colombiano_consolidado() -> str:
     siguiente y la serie atribuía a un día lo que se registró en el anterior.
 
     Corte a las 06:00 de Bogotá: antes, consolida el día previo; después, el día
-    en curso. La corrida diaria (10:30 UTC = 05:30 de Bogotá) cae dentro de esa
-    ventana, así que fecha el día que acaba de cerrarse sin tocar el cron.
+    en curso. La corrida diaria (10:17 UTC ≈ 05:17 de Bogotá, `daily.yml`) cae
+    dentro de esa ventana, así que fecha el día que acaba de cerrarse sin
+    tocar el cron.
+
+    Blindaje (28-ago-2026): esto asume que la corrida siempre se ejecuta
+    dentro de esa ventana. El 27-ago GitHub disparó el cron con 3.5 h de
+    retraso (14:11 UTC = 09:11 Bogotá, ya pasado el corte); la hora de reloj
+    ya no restaba un día y la captura que debía consolidar el 26-ago se
+    etiquetó como 27-ago — el 26 quedó sin fila en `rud_daily`, un hueco
+    documentado en docs/DECISIONES.md y HUECOS_RUD_CONOCIDOS (ver
+    `test_no_hay_dias_perdidos_entre_capturas`). Con `conn`, esto compara el
+    día que saldría por reloj contra `MAX(snapshot_date)` ya capturado: si el
+    reloj produciría saltarse más de un día, avanza uno solo desde el último
+    conocido en vez de fiarse de la hora. No repara el hueco ya ocurrido —eso
+    es historia, y el proyecto decidió dejarlo implícito—, evita que se repita.
     """
     bogota = datetime.now(timezone.utc) - timedelta(hours=5)
     if bogota.hour < 6:
         bogota -= timedelta(days=1)
-    return bogota.strftime("%Y-%m-%d")
+    dia = bogota.strftime("%Y-%m-%d")
+    if conn is not None:
+        fila = conn.execute("SELECT MAX(snapshot_date) FROM rud_daily").fetchone()
+        ultimo = fila[0] if fila else None
+        if ultimo:
+            ultimo_d = datetime.strptime(ultimo, "%Y-%m-%d").date()
+            propuesto_d = datetime.strptime(dia, "%Y-%m-%d").date()
+            if (propuesto_d - ultimo_d).days > 1:
+                dia = (ultimo_d + timedelta(days=1)).strftime("%Y-%m-%d")
+    return dia
 
 
 def snapshot_dir(day: str | None = None) -> Path:
