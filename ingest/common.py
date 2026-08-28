@@ -156,24 +156,41 @@ def dia_colombiano_consolidado(conn: sqlite3.Connection | None = None) -> str:
     ya no restaba un día y la captura que debía consolidar el 26-ago se
     etiquetó como 27-ago — el 26 quedó sin fila en `rud_daily`, un hueco
     documentado en docs/DECISIONES.md y HUECOS_RUD_CONOCIDOS (ver
-    `test_no_hay_dias_perdidos_entre_capturas`). Con `conn`, esto compara el
-    día que saldría por reloj contra `MAX(snapshot_date)` ya capturado: si el
-    reloj produciría saltarse más de un día, avanza uno solo desde el último
-    conocido en vez de fiarse de la hora. No repara el hueco ya ocurrido —eso
-    es historia, y el proyecto decidió dejarlo implícito—, evita que se repita.
-    """
+    `test_no_hay_dias_perdidos_entre_capturas`).
+
+    Segunda vuelta (28-ago-2026, revisión de archivista): la primera versión
+    de este blindaje corregía CUALQUIER salto de más de un día saltando
+    directo a "último capturado + 1", sin mirar si la corrida de hoy llegó
+    tarde o a su hora. Eso rompía el caso de una corrida enteramente
+    perdida (GitHub caído un día completo, no solo tarde): la corrida
+    SIGUIENTE, a su hora, calcula bien "ayer" por sí sola —lleva la hora
+    correcta, no la firma del cron tardío— y no hace falta tocarla. Forzarla
+    a "último+1" le habría robado la fecha real a una captura verdadera y
+    dejado un hueco MUDO que ni `huecos_de_captura` ni
+    `colision_de_etiquetado_rud` (`ingest/alerts.py`) detectan, porque la
+    serie queda contigua — solo que mintiendo sobre qué día es cada fila.
+
+    La corrección ahora exige DOS condiciones: que la corrida lleve la firma
+    del cron tardío (hora de Bogotá ≥ 6, la que causó el hueco del 26-ago) Y
+    que el salto contra `MAX(snapshot_date)` sea de más de un día. Cuando
+    las dos se cumplen, retrocede COMO MUCHO un día desde lo que propuso el
+    reloj —nunca varios de golpe—: si detrás de ese único día sigue
+    faltando más (una corrida perdida antes de esta), lo que queda es un
+    hueco real, y se deja que `huecos_de_captura` lo avise en alta en vez
+    de rellenarlo en silencio."""
     bogota = datetime.now(timezone.utc) - timedelta(hours=5)
-    if bogota.hour < 6:
+    tarde = bogota.hour >= 6
+    if not tarde:
         bogota -= timedelta(days=1)
     dia = bogota.strftime("%Y-%m-%d")
-    if conn is not None:
+    if conn is not None and tarde:
         fila = conn.execute("SELECT MAX(snapshot_date) FROM rud_daily").fetchone()
         ultimo = fila[0] if fila else None
         if ultimo:
             ultimo_d = datetime.strptime(ultimo, "%Y-%m-%d").date()
             propuesto_d = datetime.strptime(dia, "%Y-%m-%d").date()
             if (propuesto_d - ultimo_d).days > 1:
-                dia = (ultimo_d + timedelta(days=1)).strftime("%Y-%m-%d")
+                dia = (propuesto_d - timedelta(days=1)).strftime("%Y-%m-%d")
     return dia
 
 

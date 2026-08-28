@@ -8,7 +8,7 @@ Formato: `## AAAA-MM-DD — título` · contexto → decisión → consecuencia.
 
 ## 2026-08-26 — El registro que se detiene: una fila por cambio, no por captura
 
-**Contexto.** Se abrió la ficha de Cali y vio una gráfica que parecía terminar el
+**Contexto.** Se abrió la ficha de Cali y se vio una gráfica que parecía terminar el
 24 de agosto teniendo el 25 dibujado. No era un desfase entre la tabla y el
 gráfico —los dos salen de la misma serie del build—: era que el 25 el RUD no
 movió ni una familia en Cali, y una barra de altas a cero medía 0 px, así que

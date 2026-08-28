@@ -2236,7 +2236,7 @@ class TestTablaRud(unittest.TestCase):
 
     def test_el_grafico_explica_las_dos_series_y_la_primera_captura(self):
         html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
-        self.assertIn("acumulado y nuevas por día", html)
+        self.assertIn("acumulado y nuevas por captura", html)
         self.assertIn("desde la captura anterior", html)
         self.assertIn("El primer día no tiene una captura", html)
 
@@ -2720,6 +2720,60 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                 with self.subTest(ancho=ancho, rotulo=nombre):
                     self.assertLessEqual(abajo, alto,
                                          f"«{nombre}» cae fuera del lienzo")
+
+
+class TestElLienzoCreceEnVezDeEncogerse(unittest.TestCase):
+    """El umbral exacto del blindaje de ancho (docs/DECISIONES.md, hueco del
+    26-ago-2026): por debajo, ni una unidad cambia; en cuanto se cruza, el
+    lienzo crece y aparece el `min-width` que activa el scroll horizontal.
+    Ver también `TestElGraficoSeLeeEnMovil`, que mide que los rótulos no se
+    pisen — esto mide el mecanismo que lo hace posible."""
+
+    @staticmethod
+    def _serie_rud(n):
+        return [{"fecha": f"2026-{1 + i // 28:02d}-{1 + i % 28:02d}",
+                 "familias": 100.0 * (i + 1), "municipios": 1}
+                for i in range(n)]
+
+    def test_grafico_rud_no_cambia_hasta_las_catorce_capturas(self):
+        svg_13 = R.grafico_rud({"rud": {"serie": self._serie_rud(13)}})
+        self.assertIn('viewBox="0 0 900 230"', svg_13)
+        self.assertNotIn("min-width", svg_13)
+        svg_14 = R.grafico_rud({"rud": {"serie": self._serie_rud(14)}})
+        self.assertNotIn('viewBox="0 0 900 230"', svg_14,
+                         "con 14 capturas el lienzo ya tiene que haber crecido")
+        m = re.search(r'viewBox="0 0 (\d+) 230"[^>]*min-width:(\d+)px', svg_14)
+        self.assertIsNotNone(m, "falta el min-width que activa el scroll")
+        self.assertEqual(m.group(1), m.group(2),
+                         "el min-width tiene que igualar el ancho del viewBox: "
+                         "es lo que impide que el navegador lo encoja")
+
+    @staticmethod
+    def _serie_muni(n):
+        return [(f"2026-{1 + i // 28:02d}-{1 + i % 28:02d}", {"familias": 100.0 * (i + 1)})
+                for i in range(n)]
+
+    def test_grafico_rud_municipal_no_cambia_hasta_las_trece_capturas(self):
+        svg_12 = R.grafico_rud_municipal(self._serie_muni(12), "prueba")
+        self.assertIn('viewBox="0 0 880 230"', svg_12)
+        self.assertNotIn("min-width", svg_12)
+        svg_13 = R.grafico_rud_municipal(self._serie_muni(13), "prueba")
+        self.assertNotIn('viewBox="0 0 880 230"', svg_13,
+                         "con 13 capturas el lienzo ya tiene que haber crecido")
+        m = re.search(r'viewBox="0 0 (\d+) 230"[^>]*min-width:(\d+)px', svg_13)
+        self.assertIsNotNone(m, "falta el min-width que activa el scroll")
+        self.assertEqual(m.group(1), m.group(2))
+
+    def test_los_dos_graficos_comparten_la_clase_de_scroll(self):
+        """Una sola regla de CSS (`.grafico-rud-scroll`) sirve a los dos: no
+        hay motivo para dos copias del mismo `overflow-x:auto`."""
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        self.assertEqual(css.count(".grafico-rud-scroll {"), 1,
+                         "la regla del wrapper debería declararse una sola vez")
+        svg_rud = R.grafico_rud({"rud": {"serie": self._serie_rud(14)}})
+        svg_muni = R.grafico_rud_municipal(self._serie_muni(13), "prueba")
+        self.assertIn('<div class="grafico-rud-scroll">', svg_rud)
+        self.assertIn('<div class="grafico-rud-scroll">', svg_muni)
 
 
 class TestChipsDelRud(unittest.TestCase):
@@ -6753,12 +6807,27 @@ class TestLienzoMunicipal(unittest.TestCase):
     def test_una_baja_del_registro_se_pinta_y_no_se_esconde(self):
         """El prototipo hacía max(0, …) y recortaba las correcciones a la
         baja. R16 las enseña: el consolidado no retrocede, el gráfico sí
-        cuenta lo que la fuente publicó ese día."""
+        cuenta lo que la fuente publicó desde la captura anterior."""
         serie = [(f"2026-08-{d:02d}", {"familias": n})
                  for d, n in zip(range(16, 21), (100, 200, 180, 220, 250))]
         svg = R.grafico_rud_municipal(serie, "baja")
         self.assertIn('data-altas="-20"', svg)
         self.assertIn("var(--critical)", svg)
+        # «−20 familias ese día» ni concordaba (concuerda() solo mira si n
+        # es exactamente 1, y -20 no lo es) ni nombraba la baja como tal.
+        self.assertIn("20 familias menos desde la captura anterior", svg)
+        self.assertNotIn("ese día", svg)
+
+    def test_una_baja_de_una_sola_familia_concuerda_en_singular(self):
+        """El caso que -20 no cubre: -1 tiene que decir «familia», no
+        «familias» — `concuerda()` compara con el valor, no con su
+        magnitud, y una baja pasa el número en negativo."""
+        serie = [(f"2026-08-{d:02d}", {"familias": n})
+                 for d, n in zip(range(16, 21), (100, 200, 201, 200, 300))]
+        svg = R.grafico_rud_municipal(serie, "baja-una")
+        self.assertIn('data-altas="-1"', svg)
+        self.assertIn("1 familia menos desde la captura anterior", svg)
+        self.assertNotIn("1 familias menos", svg)
 
     def test_el_esquema_de_titulos_es_el_del_prototipo_sin_saltar_niveles(self):
         """H1 → panel → registro → prensa → lagunas → trazabilidad.
@@ -8321,7 +8390,7 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         el 25 dibujado. Es el fallo que encontró el 26-ago-2026."""
         svg = R.grafico_rud_municipal(self._serie(100, 200, 300, 400, 400), "cero")
         self.assertIn('data-altas="0"', svg)
-        self.assertIn("ni una familia nueva ese día", svg)
+        self.assertIn("ni una familia nueva desde la captura anterior", svg)
         self.assertEqual(len(re.findall(r"<rect", svg)), 4,
                          "cuatro barras: tres altas y la marca del cero. El "
                          "primer día sigue sin barra, que es lo correcto")

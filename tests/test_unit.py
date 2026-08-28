@@ -2113,6 +2113,40 @@ class TestDiaColombianoDelRud(unittest.TestCase):
         with mock.patch.object(common, "datetime", DT):
             self.assertEqual(common.dia_colombiano_consolidado(), "2026-08-27")
 
+    def test_una_corrida_perdida_no_se_reetiqueta_si_la_siguiente_llega_puntual(self):
+        """El caso que rompía la primera versión del blindaje: dos días
+        enteros sin corrida (GitHub caído, no solo tarde), y la corrida
+        siguiente llega A SU HORA. Esa corrida calcula bien 'ayer' por sí
+        sola —no lleva la firma del cron tardío— y no hay que tocarla:
+        forzarla a 'último+1' le robaría la fecha real a una captura
+        verdadera y dejaría un hueco mudo, el propio bug que el blindaje
+        existe para evitar, aplicado al revés."""
+        # último capturado: 15-ago. El 16 y el 17-ago no corrieron (apagón
+        # completo). La corrida del 18-ago llega puntual (05:30 Bogotá) y
+        # calcula '17-ago' por sí sola.
+        conn = self._conn_con_ultimo("2026-08-15")
+        self.assertEqual(
+            self._consolidado_con_bd(conn, 10, 30, dia=18), "2026-08-17",
+            "una corrida puntual no se corrige aunque deje un hueco: el "
+            "hueco es real y lo avisa huecos_de_captura, no se rellena en "
+            "silencio")
+        conn.close()
+
+    def test_un_cron_tardio_retrocede_como_mucho_un_dia_no_hasta_el_ultimo(self):
+        """Detrás de un apagón largo, un cron tardío solo corrige SU PROPIO
+        salto de un día — no intenta rellenar de una vez todo lo que se
+        perdió antes de él. Lo que queda sin cubrir es un hueco real."""
+        # último capturado: 10-ago. Faltan el 11, 12, 13 y 14 enteros. El
+        # 15-ago dispara tarde (14:11 UTC = 09:11 Bogotá): sin blindaje
+        # propondría '15-ago', saltándose CUATRO días de un salto.
+        conn = self._conn_con_ultimo("2026-08-10")
+        self.assertEqual(
+            self._consolidado_con_bd(conn, 14, 11, dia=15), "2026-08-14",
+            "retrocede un día desde lo propuesto (15→14), no hasta el "
+            "último capturado (10→11): el resto del apagón se queda como "
+            "hueco real, no se rellena en silencio")
+        conn.close()
+
 
 class TestSerieRudReconstruida(unittest.TestCase):
     """Un punto reconstruido rellena un hueco (una corrida perdida, y el RUD
