@@ -1007,6 +1007,11 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
         # cientos de kilómetros y tiene 5 y 51 familias inscritas.
         "Caldas",             # Antioquia
         "Nariño",             # Antioquia
+        # el RUD del 27-ago-2026 (salto a 365 municipios). No es homónimo de
+        # un departamento cualquiera: es la capital, el topónimo más citado
+        # del país. El corpus de titulares del sismo la menciona 218 veces —
+        # ninguna buscable, ninguna de ellas del municipio como afectado.
+        "Bogotá, D.c.",
         # el único que no es homónimo de departamento: el RUD lo escribe con el
         # guion de la fusión municipal («PIENDAMÓ - TUNÍA», el nombre oficial
         # desde 2019) y así no aparece en ningún titular — la prensa escribe
