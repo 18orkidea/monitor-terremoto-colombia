@@ -61,6 +61,7 @@ AOI_ES = {
 CIFRAS_DECLARADAS = {
     "rud-municipios": "municipios con damnificados en el registro oficial (RUD)",
     "rud-familias": "familias registradas en el RUD",
+    "ciudadano-municipios": "municipios con reportes ciudadanos (ChatMap)",
 }
 
 
@@ -3984,7 +3985,10 @@ def nota_grafico_brecha(ctx: dict) -> str:
     frase += (". <b>Lo que hay en medio son los municipios que el registro ya "
               "cuenta y ningún satélite ha mirado</b>, y son más cada día que "
               "el registro crece y nadie mira. La fecha del satélite es la de "
-              "adquisición de la imagen, que es cuando pasó por encima.")
+              "adquisición de la imagen, que es cuando pasó por encima. La "
+              "violeta son los municipios que ha documentado la propia "
+              f'comunidad con sus reportes: <b data-cifra="ciudadano-municipios">'
+              f"{fmt(ult['ciu'])}</b>.")
     return frase
 
 
@@ -4172,7 +4176,9 @@ def tarjetas_fuentes_portada(ctx: dict) -> str:
         # dos caminos distintos, y ahí nació el fallo que `CIFRAS_DECLARADAS`
         # vigila: la marca dice qué concepto es cada número para que el
         # guardián pueda compararlos entre sí.
-        marca_mun = ' data-cifra="rud-municipios"' if f.get("id") == "rud" else ""
+        marca_mun = (' data-cifra="rud-municipios"' if f.get("id") == "rud"
+                     else ' data-cifra="ciudadano-municipios"'
+                     if f.get("id") == "ciudadano" else "")
         marca_cif = (' data-cifra="rud-familias"'
                      if f.get("id") == "rud" and principal
                      and principal[1] == "familias" else "")
