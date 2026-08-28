@@ -2,7 +2,13 @@ name: Monitor diario
 
 on:
   schedule:
-    - cron: "30 10 * * *"   # 10:30 UTC ≈ 05:30 Colombia
+    # Minuto impar (28-ago-2026, no en :00/:30): GitHub degrada más los
+    # cron en punto/media hora por congestión — el 27-ago disparó con 3,5 h
+    # de retraso (ver docs/DECISIONES.md, hueco del 26-ago-2026) y
+    # dia_colombiano_consolidado() etiquetó mal la captura de ese día. Esto
+    # reduce la probabilidad, no la elimina: el blindaje contra un cron
+    # tardío es la defensa real.
+    - cron: "17 10 * * *"   # 10:17 UTC ≈ 05:17 Colombia
   workflow_dispatch: {}
 
 permissions:

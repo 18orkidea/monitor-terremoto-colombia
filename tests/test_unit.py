@@ -2048,6 +2048,105 @@ class TestDiaColombianoDelRud(unittest.TestCase):
                             "la captura de medianoche no pertenece al día que empieza")
         self.assertIsInstance(today(), str)
 
+    @staticmethod
+    def _conn_con_ultimo(ultimo):
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        conn.execute(
+            "INSERT INTO rud_daily (snapshot_date, departamento, municipio,"
+            " familias) VALUES (?,'CHOCÓ','ISTMINA',1.0)", (ultimo,))
+        return conn
+
+    def _consolidado_con_bd(self, conn, utc_hour, utc_min=0, dia=28):
+        from datetime import datetime, timezone
+        from unittest import mock
+        import common
+        falso = datetime(2026, 8, dia, utc_hour, utc_min, tzinfo=timezone.utc)
+
+        class DT(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return falso
+
+        with mock.patch.object(common, "datetime", DT):
+            return common.dia_colombiano_consolidado(conn)
+
+    def test_un_cron_tardio_no_se_come_un_dia(self):
+        """El caso real del 27-ago-2026: el cron disparó a las 14:11 UTC
+        (09:11 Bogotá, ya pasado el corte), la hora de reloj sola habría
+        consolidado '27-ago' saltándose el '26' entero. Con `conn`, el
+        cálculo ve que el último capturado es '25-ago' y un salto de dos días
+        es sospechoso: avanza uno solo."""
+        conn = self._conn_con_ultimo("2026-08-25")
+        # 14:11 UTC = 09:11 Bogotá del 27-ago: pasado el corte, sin blindaje
+        # devolvería '2026-08-27' (dos días después del último capturado)
+        self.assertEqual(self._consolidado_con_bd(conn, 14, 11, dia=27),
+                         "2026-08-26",
+                         "un cron tardío no puede saltarse un día calendario")
+        conn.close()
+
+    def test_un_cron_a_su_hora_no_se_blinda_de_mas(self):
+        """El blindaje no debe tocar el caso normal: un salto de un solo día
+        es exactamente lo esperado y no se corrige."""
+        conn = self._conn_con_ultimo("2026-08-26")
+        # 10:30 UTC = 05:30 Bogotá: dentro de la ventana, resta un día -> '27'
+        self.assertEqual(self._consolidado_con_bd(conn, 10, 30, dia=28),
+                         "2026-08-27")
+        conn.close()
+
+    def test_sin_bd_el_blindaje_no_se_activa(self):
+        """Sin `conn` (el caso de siempre, y el de los tests de arriba) el
+        cálculo se queda solo con la hora de reloj — no puede compararse
+        contra nada."""
+        import common
+        from datetime import datetime, timezone
+        from unittest import mock
+        falso = datetime(2026, 8, 27, 14, 11, tzinfo=timezone.utc)
+
+        class DT(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return falso
+
+        with mock.patch.object(common, "datetime", DT):
+            self.assertEqual(common.dia_colombiano_consolidado(), "2026-08-27")
+
+    def test_una_corrida_perdida_no_se_reetiqueta_si_la_siguiente_llega_puntual(self):
+        """El caso que rompía la primera versión del blindaje: dos días
+        enteros sin corrida (GitHub caído, no solo tarde), y la corrida
+        siguiente llega A SU HORA. Esa corrida calcula bien 'ayer' por sí
+        sola —no lleva la firma del cron tardío— y no hay que tocarla:
+        forzarla a 'último+1' le robaría la fecha real a una captura
+        verdadera y dejaría un hueco mudo, el propio bug que el blindaje
+        existe para evitar, aplicado al revés."""
+        # último capturado: 15-ago. El 16 y el 17-ago no corrieron (apagón
+        # completo). La corrida del 18-ago llega puntual (05:30 Bogotá) y
+        # calcula '17-ago' por sí sola.
+        conn = self._conn_con_ultimo("2026-08-15")
+        self.assertEqual(
+            self._consolidado_con_bd(conn, 10, 30, dia=18), "2026-08-17",
+            "una corrida puntual no se corrige aunque deje un hueco: el "
+            "hueco es real y lo avisa huecos_de_captura, no se rellena en "
+            "silencio")
+        conn.close()
+
+    def test_un_cron_tardio_retrocede_como_mucho_un_dia_no_hasta_el_ultimo(self):
+        """Detrás de un apagón largo, un cron tardío solo corrige SU PROPIO
+        salto de un día — no intenta rellenar de una vez todo lo que se
+        perdió antes de él. Lo que queda sin cubrir es un hueco real."""
+        # último capturado: 10-ago. Faltan el 11, 12, 13 y 14 enteros. El
+        # 15-ago dispara tarde (14:11 UTC = 09:11 Bogotá): sin blindaje
+        # propondría '15-ago', saltándose CUATRO días de un salto.
+        conn = self._conn_con_ultimo("2026-08-10")
+        self.assertEqual(
+            self._consolidado_con_bd(conn, 14, 11, dia=15), "2026-08-14",
+            "retrocede un día desde lo propuesto (15→14), no hasta el "
+            "último capturado (10→11): el resto del apagón se queda como "
+            "hueco real, no se rellena en silencio")
+        conn.close()
+
 
 class TestSerieRudReconstruida(unittest.TestCase):
     """Un punto reconstruido rellena un hueco (una corrida perdida, y el RUD
@@ -2088,6 +2187,7 @@ class TestSerieRudReconstruida(unittest.TestCase):
     def test_no_hay_dias_perdidos_entre_capturas(self):
         import csv
         from datetime import date, timedelta
+        from common import HUECOS_RUD_CONOCIDOS
         p = self.ROOT / "data" / "public" / "rud.json"
         serie = json.loads(p.read_text())["serie"]
         fechas = {date.fromisoformat(d["fecha"]) for d in serie}
@@ -2095,9 +2195,18 @@ class TestSerieRudReconstruida(unittest.TestCase):
             min(fechas) + timedelta(days=i)
             for i in range((max(fechas) - min(fechas)).days + 1)
         }
+        # HUECOS_RUD_CONOCIDOS documenta los días sin captura que ya se
+        # investigaron y tienen porqué (municipios.py::NOMBRE_A_SECAS_CONGELADO
+        # es el mismo patrón para topónimos): el hueco sigue siendo un hueco,
+        # pero deja de ser un supuesto roto por descubrir cada vez que corre
+        # este test. Uno nuevo, sin anotar, sigue haciendo fallar la
+        # comparación — que es la señal que se busca.
+        conocidos = {date.fromisoformat(d) for d in HUECOS_RUD_CONOCIDOS}
         self.assertEqual(
-            fechas, esperadas,
-            "la serie RUD perdió días entre capturas; restaurar desde snapshots")
+            fechas, esperadas - conocidos,
+            "la serie RUD perdió días entre capturas sin anotar en "
+            "HUECOS_RUD_CONOCIDOS; restaurar desde snapshots o documentar el "
+            "porqué")
         with open(self.ROOT / "data" / "dumps" / "rud_daily.csv",
                   newline="", encoding="utf-8") as f:
             fechas_dump = {
@@ -4889,6 +4998,117 @@ class TestRudDetenido(unittest.TestCase):
         import alerts
         import render_html
         self.assertEqual(alerts.COLUMNAS_DEL_RUD, render_html.COLUMNAS_DEL_RUD)
+
+
+class TestHuecosYColisionesDelRud(unittest.TestCase):
+    """El hueco del 26-ago-2026: un cron tardío se comió un día entero de
+    `rud_daily` (docs/DECISIONES.md). Estas pruebas cubren la alerta que lo
+    hubiera avisado el mismo día, y su reverso — dos corridas que etiquetan
+    la misma captura porque el blindaje de `dia_colombiano_consolidado`
+    (arriba, en TestDiaColombianoDelRud) evita el salto hacia adelante pero
+    abre uno hacia atrás."""
+
+    @staticmethod
+    def _bd():
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        return conn
+
+    def _capturas(self, conn, *dias):
+        for d in dias:
+            conn.execute(
+                "INSERT INTO rud_daily (snapshot_date, departamento,"
+                " municipio, familias) VALUES (?,'CHOCÓ','ISTMINA',1.0)", (d,))
+        conn.commit()
+
+    def test_una_serie_continua_no_avisa_de_nada(self):
+        from alerts import huecos_de_captura
+        conn = self._bd()
+        self._capturas(conn, "2026-08-16", "2026-08-17", "2026-08-18")
+        self.assertEqual(huecos_de_captura(conn), [])
+        conn.close()
+
+    def test_un_hueco_nuevo_avisa_en_alta(self):
+        from alerts import huecos_de_captura
+        conn = self._bd()
+        self._capturas(conn, "2026-08-16", "2026-08-17", "2026-08-19")
+        avisos = huecos_de_captura(conn, conocidos={})
+        self.assertEqual(len(avisos), 1)
+        self.assertEqual(avisos[0]["tipo"], "hueco_de_captura")
+        self.assertEqual(avisos[0]["nivel"], "alta")
+        self.assertEqual(avisos[0]["dias"], ["2026-08-18"])
+        conn.close()
+
+    def test_un_hueco_ya_documentado_avisa_en_info_y_no_en_alta(self):
+        from alerts import huecos_de_captura
+        conn = self._bd()
+        self._capturas(conn, "2026-08-16", "2026-08-17", "2026-08-19")
+        avisos = huecos_de_captura(
+            conn, conocidos={"2026-08-18": "corrida perdida, motivo de prueba"})
+        tipos = {a["tipo"]: a for a in avisos}
+        self.assertNotIn("hueco_de_captura", tipos,
+                         "un hueco ya anotado no debe pedir otra vez que se "
+                         "investigue")
+        self.assertEqual(tipos["hueco_de_captura_documentado"]["nivel"], "info")
+        self.assertEqual(tipos["hueco_de_captura_documentado"]["dias"],
+                         ["2026-08-18"])
+        conn.close()
+
+    def test_el_hueco_real_del_26_ago_esta_documentado(self):
+        """El caso concreto que motivó todo esto, con la lista real del
+        proyecto — no una de prueba."""
+        from alerts import huecos_de_captura
+        conn = self._bd()
+        self._capturas(conn, "2026-08-25", "2026-08-27")
+        avisos = huecos_de_captura(conn)
+        tipos = {a["tipo"] for a in avisos}
+        self.assertNotIn("hueco_de_captura", tipos,
+                         "el 26-ago-2026 ya está en HUECOS_RUD_CONOCIDOS: no "
+                         "puede salir como hueco sin explicar")
+        conn.close()
+
+    def test_sin_colision_no_avisa(self):
+        from alerts import colision_de_etiquetado_rud
+        conn = self._bd()
+        self._capturas(conn, "2026-08-16", "2026-08-17")
+        conn.executemany(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            "snapshot_path,note) VALUES (?,'https://rud.example/',200,'x',1,"
+            "'x','rud 2026T')",
+            [("2026-08-16T10:45:00Z",), ("2026-08-17T10:45:00Z",)])
+        conn.commit()
+        self.assertEqual(colision_de_etiquetado_rud(conn), [])
+        conn.close()
+
+    def test_dos_corridas_que_etiquetan_el_mismo_dia_avisan_en_info(self):
+        """El caso hipotético que pidió el PM: hoy el cron dispara tarde y
+        consolida 'D' (blindado, no se come el día); mañana dispara a su hora
+        y también calcula 'D', porque resta uno desde 'D+1'. Dos fetches,
+        una sola fila en rud_daily — la segunda pisó a la primera vía
+        INSERT OR REPLACE (el default: la más reciente gana, y esto lo avisa
+        sin romper la corrida, R11+R13)."""
+        from alerts import colision_de_etiquetado_rud
+        conn = self._bd()
+        self._capturas(conn, "2026-08-27", "2026-08-28")   # una sola fila para "D"
+        conn.executemany(
+            "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+            "snapshot_path,note) VALUES (?,'https://rud.example/',200,?,1,"
+            "'x','rud 2026T')",
+            [("2026-08-27T10:45:00Z", "sha-27"),
+             ("2026-08-28T14:11:00Z", "sha-28-tarde"),
+             ("2026-08-29T10:40:00Z", "sha-29-que-etiqueta-28-otra-vez")])
+        conn.commit()
+        avisos = colision_de_etiquetado_rud(conn)
+        self.assertEqual(len(avisos), 1)
+        self.assertEqual(avisos[0]["tipo"], "colision_etiquetado_rud")
+        self.assertEqual(avisos[0]["nivel"], "info",
+                         "la colisión avisa, no rompe la corrida (R13); nivel "
+                         "info porque la regla ya decidió: la más reciente gana")
+        self.assertEqual(avisos[0]["dias_de_fetch"], 3)
+        self.assertEqual(avisos[0]["dias_en_rud_daily"], 2)
+        conn.close()
 
 
 class TestElMetodoNoSePublica(unittest.TestCase):

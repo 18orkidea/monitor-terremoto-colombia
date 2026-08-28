@@ -83,7 +83,7 @@
       { nombre: "% de población" },
       { nombre: "viviendas destruidas" },
       { nombre: "viviendas averiadas" },
-      { nombre: "cambio del día" },
+      { nombre: "cambio de la captura" },
     ].map((c, i) => ({ ...c, th: th[i], desempate: i ? porNombre : undefined }));
   })();
 

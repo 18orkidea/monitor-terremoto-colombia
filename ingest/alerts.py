@@ -16,10 +16,10 @@ import json
 import re
 import shutil
 import subprocess
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
-from common import db, fetch_json, today, PUBLIC, SNAPSHOTS
+from common import db, fetch_json, today, PUBLIC, SNAPSHOTS, HUECOS_RUD_CONOCIDOS
 
 UI_JS = Path(__file__).parent.parent / "site" / "ui.js"
 
@@ -100,6 +100,94 @@ def _capturas_del_rud(conn, cuantas: int = 6) -> list[tuple[str, dict]]:
         capturas.append((dia, filas))
     return capturas
 
+
+
+def huecos_de_captura(conn, *, tabla: str = "rud_daily",
+                      col_fecha: str = "snapshot_date",
+                      conocidos: dict[str, str] | None = None) -> list[dict]:
+    """Días que faltan en una serie diaria consolidada, ya explicados o no.
+
+    Escrito para `rud_daily` — la única tabla cuya fecha sale de un cálculo
+    (`dia_colombiano_consolidado`) que puede desincronizarse del reloj si el
+    cron se retrasa (ver su docstring y el hueco del 26-ago-2026 en
+    docs/DECISIONES.md). `tabla`/`col_fecha` generalizan la comprobación a
+    cualquier tabla con una columna de fecha diaria por si hiciera falta
+    después, pero HOY solo se llama con `rud_daily`: no hay otra tabla en el
+    monitor con este mismo patrón de "un día, una fila consolidada", así que
+    generalizar de verdad (más allá de estos dos parámetros) se deja para
+    cuando aparezca una segunda candidata.
+
+    Un hueco NUEVO (no en `conocidos`) sale en nivel alta: es justo el
+    síntoma que destapó esto. Uno ya anotado en HUECOS_RUD_CONOCIDOS sale en
+    info — sigue siendo verdad todos los días, pero ya no hay nada que
+    decidir (R11: el supuesto roto avisa; uno ya explicado no vuelve a pedir
+    que alguien lo investigue)."""
+    conocidos = HUECOS_RUD_CONOCIDOS if conocidos is None else conocidos
+    dias = sorted(r[0] for r in conn.execute(
+        f"SELECT DISTINCT {col_fecha} FROM {tabla} WHERE {col_fecha} IS NOT NULL"))
+    if len(dias) < 2:
+        return []
+    ini, fin = date.fromisoformat(dias[0]), date.fromisoformat(dias[-1])
+    esperados = {(ini + timedelta(days=i)).isoformat()
+                 for i in range((fin - ini).days + 1)}
+    faltan = sorted(esperados - set(dias))
+    avisos = []
+    nuevos = [d for d in faltan if d not in conocidos]
+    if nuevos:
+        avisos.append({
+            "tipo": "hueco_de_captura", "nivel": "alta",
+            "texto": f"{tabla} tiene {len(nuevos)} día(s) sin captura sin "
+                     f"explicar: {', '.join(nuevos)}. Si es legítimo (corrida "
+                     f"perdida, cron retrasado), anotarlo en "
+                     f"HUECOS_RUD_CONOCIDOS (common.py) con su porqué.",
+            "tabla": tabla, "dias": nuevos})
+    documentados = [d for d in faltan if d in conocidos]
+    if documentados:
+        avisos.append({
+            "tipo": "hueco_de_captura_documentado", "nivel": "info",
+            "texto": f"{tabla}: {len(documentados)} día(s) sin captura, ya "
+                     f"explicados — " + "; ".join(
+                         f"{d}: {conocidos[d]}" for d in documentados),
+            "tabla": tabla, "dias": documentados})
+    return avisos
+
+
+def colision_de_etiquetado_rud(conn) -> list[dict]:
+    """¿Dos corridas de días distintos etiquetaron la MISMA captura del RUD?
+
+    `dia_colombiano_consolidado()` ya se blinda contra el salto hacia
+    adelante (cron tardío que se come un día), pero el blindaje abre una
+    colisión hacia atrás: si HOY el cron dispara tarde y consolida 'D' (en
+    vez de 'D-1', porque ya pasó el corte), y MAÑANA dispara a su hora y
+    también calcula 'D' (porque resta un día desde 'D+1'), las dos corridas
+    escriben `rud_daily` bajo el mismo `snapshot_date`. `INSERT OR REPLACE`
+    hace que la segunda pise a la primera —es la captura más reciente, y ya
+    es como se comporta hoy `ungrd_rud.py`—; nada se rompe (R13). Pero la
+    pisada es muda: sin esto, nadie se entera de que una captura entera
+    desapareció sin dejar rastro de que existió. Esto solo lo dice en voz
+    alta (R11), en info porque no hay nada que decidir en caliente — la regla
+    ya es "la segunda gana".
+
+    La señal: `sources_log` registra un fetch por corrida (con su propio
+    `ts`), así que contar los DÍAS DE FETCH distintos y compararlos contra
+    los `snapshot_date` distintos de `rud_daily` descubre la colisión sin
+    necesitar un vínculo explícito entre una fila de `sources_log` y la fila
+    de `rud_daily` que produjo — que hoy no existe."""
+    fetch_dias = {r[0][:10] for r in conn.execute(
+        "SELECT ts FROM sources_log WHERE note='rud 2026T' AND http_status=200")}
+    rud_dias = {r[0] for r in conn.execute(
+        "SELECT DISTINCT snapshot_date FROM rud_daily")}
+    if len(fetch_dias) <= len(rud_dias):
+        return []
+    return [{
+        "tipo": "colision_etiquetado_rud", "nivel": "info",
+        "texto": (f"sources_log registra capturas del RUD en {len(fetch_dias)} "
+                  f"días distintos, pero rud_daily solo tiene "
+                  f"{len(rud_dias)} snapshot_date: al menos una etiqueta se "
+                  f"repitió (dos corridas calcularon el mismo día "
+                  f"consolidado). La más reciente pisó a la anterior "
+                  f"(INSERT OR REPLACE) — esto solo lo deja dicho."),
+        "dias_de_fetch": len(fetch_dias), "dias_en_rud_daily": len(rud_dias)}]
 
 
 def _sha_de_la_regla() -> str | None:
@@ -632,6 +720,12 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
         capturas_sin_movimiento(_capturas_del_rud(conn)))
     if aviso:
         alerts.append(aviso)
+
+    # 6d) ¿se perdió algún día entre capturas, o dos corridas etiquetaron la
+    # misma? Ver docs/DECISIONES.md (hueco del 26-ago-2026) y el docstring de
+    # `dia_colombiano_consolidado`.
+    alerts.extend(huecos_de_captura(conn))
+    alerts.extend(colision_de_etiquetado_rud(conn))
 
     # 6) ¿despertó la fuente oficial? (nivel alta: cambia el cruce entero)
     for d in sorted(SNAPSHOTS.iterdir(), reverse=True):

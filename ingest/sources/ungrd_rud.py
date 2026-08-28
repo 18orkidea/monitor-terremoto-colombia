@@ -43,8 +43,10 @@ def run() -> dict:
                          "puede haber cambiado — ver snapshots previos)"}
     rows = data if isinstance(data, list) else data.get("data") or []
     # la serie va por día colombiano cerrado, no por día UTC: lo que cargan las
-    # alcaldías el día D se ve completo justo después de su medianoche
-    dia = dia_colombiano_consolidado()
+    # alcaldías el día D se ve completo justo después de su medianoche.
+    # `conn` deja que el cálculo se blinde contra un cron retrasado (ver
+    # docs/DECISIONES.md, hueco del 26-ago-2026).
+    dia = dia_colombiano_consolidado(conn)
     n = 0
     for r in rows:
         dep = (r.get("departamento") or "").strip()
