@@ -4020,18 +4020,42 @@ fuera plano o vivo por casualidad del día en que se escribieron; se
 reescribieron para forzar el escenario con una captura sintética, para no
 volver a romperse con el próximo día que cambie el patrón real.
 
-**Hallazgo aparte, sin resolver aquí:**
-`tests/test_render_html.py::TestElGraficoSeLeeEnMovil::test_el_grafico_todavia_cabe_con_cinco_capturas_mas`
-proyectaba el crecimiento futuro con el delta CRUDO entre las dos últimas
-capturas (`serie[-1] - serie[-2]`); con el hueco, ese delta cubre dos días
-calendario en un solo paso y duplicaba de más el crecimiento proyectado. Se
-corrigió para repartir el delta entre los días realmente transcurridos — pero
-incluso ya sin ese artefacto, el margen sigue rompiéndose en las DOS bandas
-(480 y 760 px) al proyectar cinco capturas más: la serie real ya tiene un
-punto más de los que tenía cuando se calibró este test. Es una alerta
-legítima de que el gráfico se acerca a su límite de ancho, y decidir cómo
-adelgazarlo (la geometría, la ventana visible) es una decisión de diseño que
-queda pendiente — no se fuerza en verde aquí.
+**El margen del gráfico, resuelto aparte — el lienzo crece con la serie en
+vez de encogerse.**
+`test_el_grafico_todavia_cabe_con_cinco_capturas_mas` proyectaba el
+crecimiento futuro con el delta CRUDO entre las dos últimas capturas
+(`serie[-1] - serie[-2]`); con el hueco, ese delta cubre dos días calendario
+en un solo paso y duplicaba de más el crecimiento proyectado — se corrigió
+para repartir el delta entre los días realmente transcurridos. Ya sin ese
+artefacto, el margen seguía rompiéndose en las dos bandas (480 y 760 px): la
+serie real ya tiene un punto más de los que tenía cuando se calibró el test.
+
+Se evaluaron tres formas de resolverlo y se descartó una cuarta sin
+costearla: comprimir el eje temporal (espaciado no lineal, agrupar puntos
+antiguos) contradice el mismo principio que ya llevó a descartar agrupar los
+tramos planos de la tabla — la forma es lo único que aporta el dibujo, y no
+puede mentir (ver `TestElRegistroQueSeDetiene` arriba). De las tres que sí se
+costearon —scroll horizontal con ancho mínimo por captura, un tercer nivel de
+adelgazado de rótulos, o simplemente recalibrar el margen del test— se
+implementó la primera: es la única que no vuelve a plantear la misma
+pregunta dentro de unas semanas.
+
+`grafico_rud()` (`deploy/render_html.py`) deja de fijar el lienzo en 900
+unidades: con trece capturas o menos no cambia nada (el lienzo se queda en
+900, igual que siempre), pero pasada esa cuenta el ancho crece con la serie
+—62 unidades por punto, el paso mínimo que un rótulo necesita para no
+pisar al de al lado— y el sobrante se ve con scroll horizontal
+(`.grafico-rud-scroll` en `styles.css`) en vez de comprimirse. De paso, el
+mismo cálculo del delta por día expuso un segundo problema, menor: con un
+alta pequeña —cerca de cero, apenas una barra— su rótulo nacía pegado a la
+línea de cero, que ya está cerca del eje de días, y las dos etiquetas se
+pisaban en la banda de 480px. Ajustado el desplazamiento vertical de esa
+banda (dos unidades menos) para dejarles hueco.
+
+Pendiente, sin resolver aquí porque no es lo que falló: `grafico_rud_municipal`
+(la gráfica de cada ficha) reparte sus puntos con el mismo esquema de ancho
+fijo. Ningún test lo ha cazado todavía, pero es cuestión de que algún
+municipio acumule suficientes capturas — Cali va por delante de todos.
 
 Guardianes: `tests/test_unit.py::TestDiaColombianoDelRud`,
 `tests/test_unit.py::TestHuecosYColisionesDelRud`.

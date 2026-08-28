@@ -5273,19 +5273,34 @@ def grafico_rud(ctx: dict) -> str:
       estuviera puesto al dibujarlo. Aquí se emite `var(--…)`, que es lo que la
       hoja de estilos espera, y el gráfico sigue el tema oscuro como el resto.
     · `clientWidth` medía la caja para elegir el ancho; el `viewBox` ya hace el
-      SVG fluido, así que el lienzo es 900 fijo y el ancho lo pone el CSS.
+      SVG fluido, así que el ancho lo pone el CSS.
 
     **No se tocan los colores**: `--s8` significa hoy dos cosas —SERTIT y RUD—
     y unificar la clave de color va en su propia fase. Lo que sí cambia es que
-    a partir de ahora esa ambigüedad queda escrita en el artefacto."""
+    a partir de ahora esa ambigüedad queda escrita en el artefacto.
+
+    **El lienzo ya no es 900 fijo (28-ago-2026).** Con más de trece capturas el
+    paso entre puntos bajaba de los ~62 px que necesita un rótulo para no
+    pisar al de al lado — lo midió `TestElGraficoSeLeeEnMovil` al proyectar
+    cinco capturas más sobre el hueco del 26-ago-2026 (docs/DECISIONES.md).
+    La alternativa que ya se descartó para los tramos agrupados sirve aquí
+    igual: comprimir el eje para que quepa mentiría sobre la forma, que es lo
+    único que aporta el dibujo (ver `TestElRegistroQueSeDetiene`). En vez de
+    eso, el lienzo CRECE con la serie y el sobrante se ve con scroll
+    horizontal — `PASO_MIN` por punto, nunca menos — en lugar de encogerse
+    hasta pisarse. Con trece capturas o menos no cambia nada: el lienzo se
+    queda en 900 y el `min-width` ni se escribe, así que el caso de hoy se
+    ve exactamente igual que ayer."""
     serie = (ctx["rud"] or {}).get("serie") or []
     if not serie:
         # Sin serie no hay gráfico que dibujar, y un lienzo vacío sería
         # peor que decirlo. La entradilla ya cuenta lo mismo con más detalle.
         return ("<p class=\"note\">Sin ninguna captura del RUD todavía no hay "
                 "serie que dibujar.</p>")
-    W, H = 900, 230
+    H = 230
     m_t, m_r, m_b, m_l = 38, 70, 38, 64
+    PASO_MIN = 62
+    W = max(900, m_l + m_r + PASO_MIN * max(1, len(serie) - 1))
     altas = _altas_diarias(serie)
     cambios = [v for v in altas if v is not None]
     max_total = max([1] + [d.get("familias") or 0 for d in serie] + cambios)
@@ -5323,8 +5338,16 @@ def grafico_rud(ctx: dict) -> str:
         f'captura anterior; {fmt(d.get("familias"))} acumuladas'
         for i, d in enumerate(serie))
     ticks = [piso, 0, techo] if piso < 0 else [0, techo / 2, techo]
+    # Con trece capturas o menos W se queda en 900 y esto no escribe nada: el
+    # caso de hoy se ve idéntico a como se veía ayer. Pasado ese punto, el
+    # `min-width` impide que el navegador encoja el lienzo por debajo de su
+    # ancho natural — el envoltorio de abajo es el que absorbe el sobrante
+    # con scroll, no el gráfico comprimiéndose.
+    estilo_ancho = f' style="min-width:{_n(W)}px"' if W > 900 else ""
 
-    o = [f'<svg viewBox="0 0 {W} {H}" width="100%" xmlns="http://www.w3.org/2000/svg"'
+    o = [f'<div class="grafico-rud-scroll">'
+         f'<svg viewBox="0 0 {W} {H}" width="100%"{estilo_ancho} '
+         f'xmlns="http://www.w3.org/2000/svg"'
          f' role="img" class="grafico-rud"'
          f' aria-labelledby="rud-chart-title rud-chart-desc">',
          '<title id="rud-chart-title">Familias registradas en el RUD: total '
@@ -5404,7 +5427,7 @@ def grafico_rud(ctx: dict) -> str:
         f'stroke="var(--good)" stroke-width="2.5"/>'
         f'<circle cx="{_n(lx + 217)}" cy="12" r="3.5" fill="var(--good)"/>'
         f'<text x="{_n(lx + 234)}" y="15" class="g-leyenda" font-size="10" '
-        f'fill="var(--ink-2)">Total acumulado</text></g></svg>')
+        f'fill="var(--ink-2)">Total acumulado</text></g></svg></div>')
     return "".join(o)
 
 
