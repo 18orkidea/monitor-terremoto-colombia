@@ -477,7 +477,10 @@ class TestMapaEvidencias(unittest.TestCase):
                              f"evidencia y aun así se le escribió paquete")
             paquete = json.loads(cali.read_text(encoding="utf-8"))
             conteos = paquete["conteos"]
-            self.assertEqual(conteos["total"], conteos["satelite"] + conteos["ciudadanos"])
+            # el total del paquete son las tres clases de evidencia puntual:
+            # satelital, sedes del MEN (28-ago-2026) y ciudadana
+            self.assertEqual(conteos["total"], conteos["satelite"]
+                             + conteos["sedes_men"] + conteos["ciudadanos"])
             self.assertGreater(conteos["copernicus"], 0)
             self.assertGreater(conteos["sertit"], 0)
             self.assertEqual(conteos["unosat"], 0)
@@ -7363,7 +7366,9 @@ class TestPiezasDeLaPortada(unittest.TestCase):
         cls.ctx = R.contexto()
 
     def test_la_entradilla_sin_ninguna_cifra_sigue_siendo_una_frase(self):
-        vacio = dict(self.ctx, monitor={}, municipios=[])
+        # `men_sedes` también se vacía: el escenario es «ninguna fuente con
+        # cifras», y el geojson del MEN puede existir en data/public
+        vacio = dict(self.ctx, monitor={}, municipios=[], men_sedes=[])
         salida = R.entradilla_portada(vacio)
         self.assertTrue(salida.startswith("<p>") and salida.endswith("</p>"))
         self.assertNotIn("<b>", salida, "publica un hueco donde iba la cifra")
@@ -8483,9 +8488,11 @@ class TestEstadosDelMen(unittest.TestCase):
         """La lista canónica manda. Salta cuando el módulo de ingesta aún no
         está en esta rama (se integra por otra); al fusionarse, el test se
         activa solo y compara de verdad."""
-        sys.path.insert(0, str(ROOT))
+        # la misma ruta de import que usa test_hipotesis: ingest/ en el path
+        # y el módulo por su nombre de paquete corto
+        sys.path.insert(0, str(ROOT / "ingest"))
         try:
-            from ingest.sources.men_sedes import ESTADOS_CON_DANO
+            from sources.men_sedes import ESTADOS_CON_DANO
         except ImportError:
             self.skipTest(
                 "ingest/sources/men_sedes.py aún no está en esta rama: el "
@@ -8496,3 +8503,49 @@ class TestEstadosDelMen(unittest.TestCase):
                          {estado for estado, _ in R._ESTADOS_MEN},
                          "la presentación y el contrato de ingesta no "
                          "clasifican los mismos estados del MEN")
+
+
+class TestSedesDelMenPorMunicipio(unittest.TestCase):
+    """La asignación sede→municipio, contra los dos filos conocidos.
+
+    El MEN escribe «SANTIAGO DE CALI» donde el catálogo dice «Cali» (el filo
+    de Buga), y «EL CARMEN DE ATRATO» contiene «Atrato», que es OTRO municipio
+    del mismo departamento (el filo de Atrato). El primero exige contención
+    con límite de palabra; el segundo exige que la igualdad exacta mande y que
+    con dos candidatos no se adivine."""
+
+    @staticmethod
+    def _sede(mun, dep):
+        return {"type": "Feature", "geometry": {"type": "Point",
+                                                "coordinates": [0, 0]},
+                "properties": {"nom_mun": mun, "nom_dep": dep,
+                               "estado_fisico": "Colapso total"}}
+
+    def _ctx(self, sedes):
+        idx = {"Cali": {"departamento": "Valle del Cauca"},
+               "Atrato": {"departamento": "Chocó"},
+               "El Carmen de Atrato": {"departamento": "Chocó"},
+               "Argelia (Cauca)": {"departamento": "Cauca"}}
+        return {"idx": idx, "men_sedes": sedes}
+
+    def test_el_nombre_largo_casa_con_su_municipio(self):
+        ctx = self._ctx([self._sede("SANTIAGO DE CALI", "VALLE DEL CAUCA")])
+        self.assertEqual(list(R._sedes_por_municipio(ctx)), ["Cali"])
+
+    def test_la_igualdad_exacta_no_se_la_roba_el_vecino_contenido(self):
+        ctx = self._ctx([self._sede("EL CARMEN DE ATRATO", "CHOCÓ")])
+        self.assertEqual(list(R._sedes_por_municipio(ctx)),
+                         ["El Carmen de Atrato"],
+                         "el nombre largo es SU municipio: dárselo a Atrato "
+                         "publicaría la sede en la ficha equivocada")
+
+    def test_el_homonimo_desempata_por_departamento(self):
+        # la clave del catálogo lleva paréntesis; el MEN no
+        ctx = self._ctx([self._sede("ARGELIA", "CAUCA")])
+        self.assertEqual(list(R._sedes_por_municipio(ctx)), ["Argelia (Cauca)"])
+
+    def test_sin_candidato_unico_no_se_adivina(self):
+        ctx = self._ctx([self._sede("BOJAYÁ", "CHOCÓ")])
+        self.assertEqual(R._sedes_por_municipio(ctx), {},
+                         "un municipio fuera del catálogo no se cuelga de "
+                         "ninguna ficha")

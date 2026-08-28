@@ -740,6 +740,44 @@ def pie_estatico() -> str:
         'de cada fuente.</p></div>')
 
 
+def _sedes_por_municipio(ctx: dict) -> dict:
+    """Las sedes del MEN asignadas a su municipio del catálogo, UNA sola vez.
+
+    El MEN nombra a su manera (mayúsculas y nombre largo: «SANTIAGO DE CALI»)
+    y la clave del catálogo lleva el departamento entre paréntesis cuando hay
+    homónimos. Es la misma lección que `datos_ficha` aprendió con el RUD, con
+    sus dos filos: la igualdad exacta manda —«EL CARMEN DE ATRATO» es su
+    propio municipio y el límite de palabra se lo daría también a Atrato— y
+    la contención con `\\b` entra solo cuando nadie casa exacto y hay UN único
+    candidato del mismo departamento. Con dos candidatos no se adivina: la
+    sede queda sin ficha, que es peor rótulo pero mejor que la ficha
+    equivocada. Se calcula una vez por corrida (recorre el catálogo entero) y
+    se cachea en el propio ctx."""
+    cache = ctx.get("_men_sedes_por_municipio")
+    if cache is not None:
+        return cache
+    exactos, por_depto = {}, {}
+    for clave, m in ctx["idx"].items():
+        dep = norm_busqueda(m.get("departamento") or "")
+        top = norm_busqueda(toponimo(clave, m.get("departamento") or ""))
+        exactos[(top, dep)] = clave
+        por_depto.setdefault(dep, []).append((top, clave))
+    asignadas: dict = {}
+    for f in ctx["men_sedes"]:
+        p = f.get("properties") or {}
+        mun = norm_busqueda(p.get("nom_mun") or "")
+        dep = norm_busqueda(p.get("nom_dep") or "")
+        clave = exactos.get((mun, dep))
+        if clave is None:
+            candidatos = [c for top, c in por_depto.get(dep, ())
+                          if re.search(rf"\b{re.escape(top)}\b", mun)]
+            clave = candidatos[0] if len(candidatos) == 1 else None
+        if clave is not None:
+            asignadas.setdefault(clave, []).append(f)
+    ctx["_men_sedes_por_municipio"] = asignadas
+    return asignadas
+
+
 # ------------------------------------------------------- datos de una ficha
 def evidencia_municipal(nombre: str, muni: dict, ctx: dict) -> dict:
     """Paquete pequeño que carga el mapa interactivo de una sola ficha.
@@ -760,18 +798,7 @@ def evidencia_municipal(nombre: str, muni: dict, ctx: dict) -> dict:
     sertit = [f for f in ctx["sertit"]
               if (f.get("properties") or {}).get("municipio") == nombre]
 
-    # El MEN nombra municipio y departamento a su manera (mayúsculas, sin
-    # tildes), y la clave del catálogo lleva el departamento entre paréntesis
-    # cuando hay homónimos: se empareja por el topónimo normalizado Y el
-    # departamento —igualdad exacta, no contención—, que es la misma lección
-    # de `datos_ficha` con el RUD. Un homónimo sin desempate no se adivina.
-    mun_norm = norm_busqueda(toponimo(nombre, muni.get("departamento") or ""))
-    dep_norm = norm_busqueda(muni.get("departamento") or "")
-    sedes_men = [f for f in ctx["men_sedes"]
-                 if norm_busqueda((f.get("properties") or {}).get("nom_mun")
-                                  or "") == mun_norm
-                 and norm_busqueda((f.get("properties") or {}).get("nom_dep")
-                                   or "") == dep_norm]
+    sedes_men = _sedes_por_municipio(ctx).get(nombre, [])
 
     ciudadanos = []
     if muni.get("lat") is not None and muni.get("lon") is not None:

@@ -2408,11 +2408,16 @@ class TestCadaCapaTieneChipOMotivo(unittest.TestCase):
                 f"«{m}» no es un motivo, es una etiqueta: quien lea esto dentro "
                 "de un año tiene que entender por qué la capa no tiene chip")
 
-    def test_los_cinco_chips_de_la_maqueta_siguen_teniendo_capa(self):
+    def test_los_chips_del_mapa_siguen_teniendo_capa(self):
+        # Los cinco de la maqueta más el del MEN (28-ago-2026): la primera
+        # fuente oficial sede a sede entró con chip propio, como las
+        # satelitales. Si aparece o desaparece una clave, este guardián
+        # obliga a decidirlo aquí y no por descuido.
         claves = set(re.findall(r'conChip\("(\w+)"', self.js))
         self.assertEqual(
-            claves, {"copernicus", "unosat", "sertit", "ciudadanos", "ausencia"},
-            f"los chips del mapa ya no son los cinco de la maqueta: {sorted(claves)}")
+            claves, {"copernicus", "unosat", "sertit", "sedes_men",
+                     "ciudadanos", "ausencia"},
+            f"los chips del mapa ya no son los seis acordados: {sorted(claves)}")
 
 
 class TestCadaCapaSePideAlEncenderse(unittest.TestCase):

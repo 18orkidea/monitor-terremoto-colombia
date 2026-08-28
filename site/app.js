@@ -695,9 +695,9 @@
   // diccionario ESTADO_FISICO_ES a propósito: un diccionario identidad sería
   // una segunda copia sin información, y una superficie más que vigilar.
   // El fichero solo trae las sedes CON afectación declarada: «Sin afectación»
-  // y «No aporta información» quedan en el export completo (men_sedes.geojson),
-  // que se archiva y no se pinta — 8.089 sedes sin verificar no son 8.089
-  // sedes sanas (R3), y pintarlas ahogaría a las 987 que sí reportan daño.
+  // y «No aporta información» quedan en el archivo del monitor (snapshots y
+  // volcados), no en un geojson público — miles de sedes sin verificar no son
+  // sedes sanas (R3), y pintarlas ahogaría a las ~987 que sí reportan daño.
   /* Colores en la rampa de gravedad que ya usan las capas de daño: colapso
      total lleva el rojo de «Destruido» y el resto baja hacia el ámbar; la
      afectación sin definir va en gris —sin definir no es leve (R3)—. Espejo
