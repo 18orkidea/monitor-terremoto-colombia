@@ -317,13 +317,20 @@ class TestFicha(unittest.TestCase):
         fechas a mano solo aguantaba hasta la corrida siguiente —este test se
         cayó al llegar la captura del 21-ago— y una lista caduca no es un
         guardián, es una alarma que hay que apagar cada mañana (R12)."""
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        from common import HUECOS_RUD_CONOCIDOS
         serie = [fecha for fecha, _ in R.datos_ficha("Cali", self.ctx)["serie"]]
         self.assertGreaterEqual(len(serie), 5, "el histórico de Cali se ha encogido")
         self.assertEqual(serie[0], "2026-08-16", "la primera captura del RUD")
         self.assertEqual(serie, sorted(serie), "las capturas van en orden")
-        esperadas = _dias_entre(serie[0], serie[-1])
+        # HUECOS_RUD_CONOCIDOS documenta los días sin captura ya investigados
+        # (el 26-ago-2026, cron tardío — docs/DECISIONES.md); uno nuevo, sin
+        # anotar, sigue haciendo fallar esto.
+        esperadas = [d for d in _dias_entre(serie[0], serie[-1])
+                    if d not in HUECOS_RUD_CONOCIDOS]
         self.assertEqual(serie, esperadas,
-                         f"faltan capturas: {sorted(set(esperadas) - set(serie))}")
+                         f"faltan capturas sin documentar: "
+                         f"{sorted(set(esperadas) - set(serie))}")
         # La tabla da una fila por CAMBIO desde el 27-ago-2026, así que ya no
         # lleva escrita cada fecha; lo que no puede es perder capturas por el
         # camino. Se comprueba lo mismo con la misma fuerza: lo que la tabla
@@ -2229,7 +2236,7 @@ class TestTablaRud(unittest.TestCase):
 
     def test_el_grafico_explica_las_dos_series_y_la_primera_captura(self):
         html = (Path(__file__).parent.parent / "site/rud.html").read_text(encoding="utf-8")
-        self.assertIn("acumulado y nuevas por día", html)
+        self.assertIn("acumulado y nuevas por captura", html)
         self.assertIn("desde la captura anterior", html)
         self.assertIn("El primer día no tiene una captura", html)
 
@@ -2674,7 +2681,17 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
         serie = R.contexto()["rud"]["serie"]
         if len(serie) < 2:
             self.skipTest("con un punto no hay crecimiento que prolongar")
-        ultimo = (serie[-1].get("familias") or 0) - (serie[-2].get("familias") or 0)
+        # Por DÍA transcurrido, no por captura: el hueco del 26-ago-2026
+        # (docs/DECISIONES.md) hace que el último salto real (25→27-ago) cubra
+        # dos días calendario en un solo paso de la serie. Prolongar cinco
+        # capturas MÁS con ese delta sin repartir duplica de más el
+        # crecimiento proyectado y el margen se ve peor de lo que es — la
+        # advertencia de esta prueba debe reflejar el crecimiento diario real,
+        # no el artefacto de una captura perdida.
+        dias = max(1, (date.fromisoformat(serie[-1]["fecha"])
+                       - date.fromisoformat(serie[-2]["fecha"])).days)
+        ultimo = ((serie[-1].get("familias") or 0)
+                 - (serie[-2].get("familias") or 0)) / dias
         futura = [dict(d) for d in serie]
         for _ in range(5):
             dia = date.fromisoformat(futura[-1]["fecha"]) + timedelta(days=1)
@@ -2703,6 +2720,60 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                 with self.subTest(ancho=ancho, rotulo=nombre):
                     self.assertLessEqual(abajo, alto,
                                          f"«{nombre}» cae fuera del lienzo")
+
+
+class TestElLienzoCreceEnVezDeEncogerse(unittest.TestCase):
+    """El umbral exacto del blindaje de ancho (docs/DECISIONES.md, hueco del
+    26-ago-2026): por debajo, ni una unidad cambia; en cuanto se cruza, el
+    lienzo crece y aparece el `min-width` que activa el scroll horizontal.
+    Ver también `TestElGraficoSeLeeEnMovil`, que mide que los rótulos no se
+    pisen — esto mide el mecanismo que lo hace posible."""
+
+    @staticmethod
+    def _serie_rud(n):
+        return [{"fecha": f"2026-{1 + i // 28:02d}-{1 + i % 28:02d}",
+                 "familias": 100.0 * (i + 1), "municipios": 1}
+                for i in range(n)]
+
+    def test_grafico_rud_no_cambia_hasta_las_catorce_capturas(self):
+        svg_13 = R.grafico_rud({"rud": {"serie": self._serie_rud(13)}})
+        self.assertIn('viewBox="0 0 900 230"', svg_13)
+        self.assertNotIn("min-width", svg_13)
+        svg_14 = R.grafico_rud({"rud": {"serie": self._serie_rud(14)}})
+        self.assertNotIn('viewBox="0 0 900 230"', svg_14,
+                         "con 14 capturas el lienzo ya tiene que haber crecido")
+        m = re.search(r'viewBox="0 0 (\d+) 230"[^>]*min-width:(\d+)px', svg_14)
+        self.assertIsNotNone(m, "falta el min-width que activa el scroll")
+        self.assertEqual(m.group(1), m.group(2),
+                         "el min-width tiene que igualar el ancho del viewBox: "
+                         "es lo que impide que el navegador lo encoja")
+
+    @staticmethod
+    def _serie_muni(n):
+        return [(f"2026-{1 + i // 28:02d}-{1 + i % 28:02d}", {"familias": 100.0 * (i + 1)})
+                for i in range(n)]
+
+    def test_grafico_rud_municipal_no_cambia_hasta_las_trece_capturas(self):
+        svg_12 = R.grafico_rud_municipal(self._serie_muni(12), "prueba")
+        self.assertIn('viewBox="0 0 880 230"', svg_12)
+        self.assertNotIn("min-width", svg_12)
+        svg_13 = R.grafico_rud_municipal(self._serie_muni(13), "prueba")
+        self.assertNotIn('viewBox="0 0 880 230"', svg_13,
+                         "con 13 capturas el lienzo ya tiene que haber crecido")
+        m = re.search(r'viewBox="0 0 (\d+) 230"[^>]*min-width:(\d+)px', svg_13)
+        self.assertIsNotNone(m, "falta el min-width que activa el scroll")
+        self.assertEqual(m.group(1), m.group(2))
+
+    def test_los_dos_graficos_comparten_la_clase_de_scroll(self):
+        """Una sola regla de CSS (`.grafico-rud-scroll`) sirve a los dos: no
+        hay motivo para dos copias del mismo `overflow-x:auto`."""
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        self.assertEqual(css.count(".grafico-rud-scroll {"), 1,
+                         "la regla del wrapper debería declararse una sola vez")
+        svg_rud = R.grafico_rud({"rud": {"serie": self._serie_rud(14)}})
+        svg_muni = R.grafico_rud_municipal(self._serie_muni(13), "prueba")
+        self.assertIn('<div class="grafico-rud-scroll">', svg_rud)
+        self.assertIn('<div class="grafico-rud-scroll">', svg_muni)
 
 
 class TestChipsDelRud(unittest.TestCase):
@@ -6736,12 +6807,27 @@ class TestLienzoMunicipal(unittest.TestCase):
     def test_una_baja_del_registro_se_pinta_y_no_se_esconde(self):
         """El prototipo hacía max(0, …) y recortaba las correcciones a la
         baja. R16 las enseña: el consolidado no retrocede, el gráfico sí
-        cuenta lo que la fuente publicó ese día."""
+        cuenta lo que la fuente publicó desde la captura anterior."""
         serie = [(f"2026-08-{d:02d}", {"familias": n})
                  for d, n in zip(range(16, 21), (100, 200, 180, 220, 250))]
         svg = R.grafico_rud_municipal(serie, "baja")
         self.assertIn('data-altas="-20"', svg)
         self.assertIn("var(--critical)", svg)
+        # «−20 familias ese día» ni concordaba (concuerda() solo mira si n
+        # es exactamente 1, y -20 no lo es) ni nombraba la baja como tal.
+        self.assertIn("20 familias menos desde la captura anterior", svg)
+        self.assertNotIn("ese día", svg)
+
+    def test_una_baja_de_una_sola_familia_concuerda_en_singular(self):
+        """El caso que -20 no cubre: -1 tiene que decir «familia», no
+        «familias» — `concuerda()` compara con el valor, no con su
+        magnitud, y una baja pasa el número en negativo."""
+        serie = [(f"2026-08-{d:02d}", {"familias": n})
+                 for d, n in zip(range(16, 21), (100, 200, 201, 200, 300))]
+        svg = R.grafico_rud_municipal(serie, "baja-una")
+        self.assertIn('data-altas="-1"', svg)
+        self.assertIn("1 familia menos desde la captura anterior", svg)
+        self.assertNotIn("1 familias menos", svg)
 
     def test_el_esquema_de_titulos_es_el_del_prototipo_sin_saltar_niveles(self):
         """H1 → panel → registro → prensa → lagunas → trazabilidad.
@@ -8237,9 +8323,14 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         seccion = seccion[seccion.find('id="registro"'):]
         seccion = seccion[:seccion.find("</section>")]
         filas = re.findall(r"<tr[^>]*><td>(.*?)</td>", seccion)
-        self.assertEqual(filas[-1].split("<")[0], "24-ago-2026 al 3-sep-2026",
+        # El tramo real de Cali arranca el 28-ago-2026: cada captura desde el
+        # 25-ago trajo una cifra nueva (el hueco del 26-ago-2026 fusiona dos
+        # días en un salto — docs/DECISIONES.md), así que el tramo plano
+        # anterior se corta en la última captura real y solo quedan cuatro
+        # capturas (28-ago + los tres días sintéticos de septiembre).
+        self.assertEqual(filas[-1].split("<")[0], "28-ago-2026 al 3-sep-2026",
                          f"la última fila debería agrupar el tramo: {filas[-1]}")
-        self.assertIn("cinco capturas, sin cambios", filas[-1])
+        self.assertIn("cuatro capturas, sin cambios", filas[-1])
         self.assertNotIn("01-sep-2026", seccion,
                          "las capturas repetidas no van fila a fila")
 
@@ -8252,24 +8343,43 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         d["serie"] = d["serie"] + [
             (f"2026-09-{n:02d}", dict(ultimo)) for n in (1, 2, 3)]
         html = R.render_ficha(d)
-        self.assertIn("no cambia desde el 24 de agosto de 2026", html)
-        self.assertIn("capturado cuatro veces más —la última, el 3 de "
+        # Mismo motivo que arriba: el tramo plano real empieza el 28-ago, y
+        # con él solo tres capturas más (no cuatro) antes de la sintética
+        # del 3 de septiembre.
+        self.assertIn("no cambia desde el 28 de agosto de 2026", html)
+        self.assertIn("capturado tres veces más —la última, el 3 de "
                       "septiembre de 2026— y ninguna traía una cifra nueva", html)
 
     def test_la_cuenta_de_capturas_concuerda_en_femenino(self):
         """«lo ha capturado un vez más»: `fmt_prosa` da el masculino por
         defecto y la apócope se coló en la primera versión publicada. Una
-        captura es femenina, y esta línea sale en cientos de fichas."""
+        captura es femenina, y esta línea sale en cientos de fichas.
+
+        El tramo plano se fuerza con una captura sintética idéntica a la
+        última real: dejarlo a la suerte de si el tramo real de Cali termina
+        plano o no es justo lo que rompió este test con el hueco del
+        26-ago-2026 (docs/DECISIONES.md) — la concordancia gramatical no
+        depende de qué día sea hoy."""
         d = copy.deepcopy(R.datos_ficha("Cali", R.contexto()))
+        ultimo = d["serie"][-1][1]
+        d["serie"] = d["serie"] + [("2026-09-01", dict(ultimo))]
         html = R.render_ficha(d)
         self.assertIn("capturado una vez más", html)
         self.assertNotIn("capturado un vez", html)
 
     def test_un_registro_vivo_no_dice_que_esta_parado(self):
         """El reverso: si la última captura trajo cifra nueva, esa línea sería
-        falsa. Es la mitad que se olvida y publica una acusación al revés."""
+        falsa. Es la mitad que se olvida y publica una acusación al revés.
+
+        Se fuerza con una captura sintética de cifra distinta, en vez de
+        recortar la última real: recortar asumía que lo que quedaba detrás
+        era un tramo vivo, y con el hueco del 26-ago-2026 (docs/DECISIONES.md)
+        Cali quedó con 24 y 25-ago planos justo antes del 27 — recortar el 27
+        dejaba un tramo plano donde el test esperaba uno vivo."""
         d = copy.deepcopy(R.datos_ficha("Cali", R.contexto()))
-        d["serie"] = d["serie"][:-1]        # la última captura trajo cifra nueva
+        ultimo = dict(d["serie"][-1][1])
+        ultimo["familias"] = (ultimo.get("familias") or 0) + 1  # cifra nueva
+        d["serie"] = d["serie"] + [("2026-09-01", ultimo)]
         self.assertNotIn("no cambia desde", R.render_ficha(d))
 
     def test_la_grafica_recibe_la_serie_entera_y_no_los_tramos(self):
@@ -8281,9 +8391,13 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         svg = html[html.find('class="grafico-rud-muni"'):]
         svg = svg[:svg.find("</svg>")]
         dias = re.findall(r'class="g-dia"[^>]*>([^<]+)<', svg)
-        self.assertEqual(len(dias), 10,
-                         f"el eje tiene que llevar los diez días: {dias}")
-        self.assertEqual(len(re.findall(r"<circle", svg)), 10)
+        # Doce capturas: 16 al 25-ago (diez días) más 27 y 28-ago — el 26
+        # falta (hueco documentado, docs/DECISIONES.md), así que la serie
+        # real tiene un día menos de los que habría con captura diaria
+        # continua desde el 16 hasta hoy.
+        self.assertEqual(len(dias), 12,
+                         f"el eje tiene que llevar los doce días: {dias}")
+        self.assertEqual(len(re.findall(r"<circle", svg)), 12)
 
     def test_un_dia_de_cero_altas_se_dibuja_y_no_se_confunde_con_un_hueco(self):
         """R3 dentro del SVG. El primer día no tiene barra porque no hay
@@ -8293,7 +8407,7 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         el 25 dibujado. Es el fallo que encontró el 26-ago-2026."""
         svg = R.grafico_rud_municipal(self._serie(100, 200, 300, 400, 400), "cero")
         self.assertIn('data-altas="0"', svg)
-        self.assertIn("ni una familia nueva ese día", svg)
+        self.assertIn("ni una familia nueva desde la captura anterior", svg)
         self.assertEqual(len(re.findall(r"<rect", svg)), 4,
                          "cuatro barras: tres altas y la marca del cero. El "
                          "primer día sigue sin barra, que es lo correcto")

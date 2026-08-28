@@ -5182,8 +5182,15 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
     cambios = [v for v in altas if v is not None]
     tope_ac = max([1] + acums)
     tope_al = max([1] + [abs(v) for v in cambios])
-    W, H = 880, 230
+    H = 230
     izq, der, arr, aba = 46, 46, 14, 26
+    # Mismo blindaje que `grafico_rud` (docs/DECISIONES.md, hueco del
+    # 26-ago-2026) y el mismo PASO_MIN: por debajo de 14 puntos no cambia
+    # nada (W se queda en 880, igual que siempre); pasada esa cuenta el
+    # lienzo crece con la serie y el sobrante se ve con scroll horizontal,
+    # no comprimido. Cali es la que primero lo va a cruzar.
+    PASO_MIN = 62
+    W = max(880, izq + der + PASO_MIN * len(puntos))
     au, al = W - izq - der, H - arr - aba
 
     def x(i):
@@ -5204,12 +5211,16 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
         f'{concuerda(altas[i], "familia", "familias")} desde la '
         f'captura anterior; {fmt(p["familias"])} acumuladas'
         for i, p in enumerate(puntos) if p["familias"] is not None)
+    # Con doce puntos o menos no escribe nada: el lienzo se queda en su
+    # ancho de 880 de siempre.
+    estilo_ancho = f' style="min-width:{_n(W)}px"' if W > 880 else ""
     o = [
+        f'<div class="grafico-rud-scroll">'
         f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" class="grafico-rud-muni" width="100%" '
+        f'role="img" class="grafico-rud-muni" width="100%"{estilo_ancho} '
         f'aria-labelledby="{tid} {did}">',
         f'<title id="{tid}">Familias inscritas en el RUD: barras de altas '
-        f'por día y línea de acumulado</title>',
+        f'por captura y línea de acumulado</title>',
         f'<desc id="{did}">{e(descripcion)}</desc>']
     for k in range(4):
         yy = arr + al * k / 3
@@ -5237,11 +5248,22 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
         h = 2 if marca_cero else max(1, abs(y_al(0) - y_al(valor)))
         yy = y_al(0) - h if marca_cero else (
             y_al(max(valor, 0)) if valor >= 0 else y_al(0))
-        titulo = (f'{e(fecha_larga(puntos[i]["fecha"]))}: ni una familia nueva '
-                  f'ese día' if marca_cero else
-                  f'{e(fecha_larga(puntos[i]["fecha"]))}:'
-                  f' {fmt(valor)} {concuerda(valor, "familia", "familias")} '
-                  f'ese día')
+        # «ese día» afirmaba una captura diaria que el hueco del 26-ago-2026
+        # (docs/DECISIONES.md) ya desmiente; «desde la captura anterior» es
+        # cierto pase el tiempo que pase entre dos capturas. Una baja no es
+        # un negativo con «familias» mal concordado (R3: se cuenta, no se
+        # esconde) — se nombra «menos», como ya hace `grafico_rud`.
+        if marca_cero:
+            titulo = (f'{e(fecha_larga(puntos[i]["fecha"]))}: ni una familia '
+                      f'nueva desde la captura anterior')
+        elif valor > 0:
+            titulo = (f'{e(fecha_larga(puntos[i]["fecha"]))}: {fmt(valor)} '
+                      f'{concuerda(valor, "familia", "familias")} desde la '
+                      f'captura anterior')
+        else:
+            titulo = (f'{e(fecha_larga(puntos[i]["fecha"]))}: {fmt(-valor)} '
+                      f'{concuerda(-valor, "familia", "familias")} menos '
+                      f'desde la captura anterior')
         o.append(
             f'<rect x="{_n(x(i) - bw / 2)}" y="{_n(yy)}" width="{_n(bw)}" '
             f'height="{_n(h)}" fill="{color}" '
@@ -5264,13 +5286,13 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
             f'<text x="{_n(x(i))}" y="{_n(H - 8)}" class="g-dia" font-size="10" '
             f'fill="var(--muted)" text-anchor="middle">'
             f'{e(dia_mes(p["fecha"]))}</text>')
-    o.append("</svg>")
+    o.append("</svg></div>")
     o.append(
         '<p class="leyenda-graf">'
         '<span class="ley"><span class="pt" style="background:var(--s8)"></span>'
         'Acumulado de familias inscritas</span>'
         '<span class="ley"><span class="pt pt-b" style="background:var(--s2)">'
-        '</span>Altas de cada día</span></p>')
+        '</span>Nuevas desde captura anterior</span></p>')
     return "".join(o)
 
 
@@ -5290,19 +5312,34 @@ def grafico_rud(ctx: dict) -> str:
       estuviera puesto al dibujarlo. Aquí se emite `var(--…)`, que es lo que la
       hoja de estilos espera, y el gráfico sigue el tema oscuro como el resto.
     · `clientWidth` medía la caja para elegir el ancho; el `viewBox` ya hace el
-      SVG fluido, así que el lienzo es 900 fijo y el ancho lo pone el CSS.
+      SVG fluido, así que el ancho lo pone el CSS.
 
     **No se tocan los colores**: `--s8` significa hoy dos cosas —SERTIT y RUD—
     y unificar la clave de color va en su propia fase. Lo que sí cambia es que
-    a partir de ahora esa ambigüedad queda escrita en el artefacto."""
+    a partir de ahora esa ambigüedad queda escrita en el artefacto.
+
+    **El lienzo ya no es 900 fijo (28-ago-2026).** Con más de trece capturas el
+    paso entre puntos bajaba de los ~62 px que necesita un rótulo para no
+    pisar al de al lado — lo midió `TestElGraficoSeLeeEnMovil` al proyectar
+    cinco capturas más sobre el hueco del 26-ago-2026 (docs/DECISIONES.md).
+    La alternativa que ya se descartó para los tramos agrupados sirve aquí
+    igual: comprimir el eje para que quepa mentiría sobre la forma, que es lo
+    único que aporta el dibujo (ver `TestElRegistroQueSeDetiene`). En vez de
+    eso, el lienzo CRECE con la serie y el sobrante se ve con scroll
+    horizontal — `PASO_MIN` por punto, nunca menos — en lugar de encogerse
+    hasta pisarse. Con trece capturas o menos no cambia nada: el lienzo se
+    queda en 900 y el `min-width` ni se escribe, así que el caso de hoy se
+    ve exactamente igual que ayer."""
     serie = (ctx["rud"] or {}).get("serie") or []
     if not serie:
         # Sin serie no hay gráfico que dibujar, y un lienzo vacío sería
         # peor que decirlo. La entradilla ya cuenta lo mismo con más detalle.
         return ("<p class=\"note\">Sin ninguna captura del RUD todavía no hay "
                 "serie que dibujar.</p>")
-    W, H = 900, 230
+    H = 230
     m_t, m_r, m_b, m_l = 38, 70, 38, 64
+    PASO_MIN = 62
+    W = max(900, m_l + m_r + PASO_MIN * max(1, len(serie) - 1))
     altas = _altas_diarias(serie)
     cambios = [v for v in altas if v is not None]
     max_total = max([1] + [d.get("familias") or 0 for d in serie] + cambios)
@@ -5340,8 +5377,16 @@ def grafico_rud(ctx: dict) -> str:
         f'captura anterior; {fmt(d.get("familias"))} acumuladas'
         for i, d in enumerate(serie))
     ticks = [piso, 0, techo] if piso < 0 else [0, techo / 2, techo]
+    # Con trece capturas o menos W se queda en 900 y esto no escribe nada: el
+    # caso de hoy se ve idéntico a como se veía ayer. Pasado ese punto, el
+    # `min-width` impide que el navegador encoja el lienzo por debajo de su
+    # ancho natural — el envoltorio de abajo es el que absorbe el sobrante
+    # con scroll, no el gráfico comprimiéndose.
+    estilo_ancho = f' style="min-width:{_n(W)}px"' if W > 900 else ""
 
-    o = [f'<svg viewBox="0 0 {W} {H}" width="100%" xmlns="http://www.w3.org/2000/svg"'
+    o = [f'<div class="grafico-rud-scroll">'
+         f'<svg viewBox="0 0 {W} {H}" width="100%"{estilo_ancho} '
+         f'xmlns="http://www.w3.org/2000/svg"'
          f' role="img" class="grafico-rud"'
          f' aria-labelledby="rud-chart-title rud-chart-desc">',
          '<title id="rud-chart-title">Familias registradas en el RUD: total '
@@ -5421,7 +5466,7 @@ def grafico_rud(ctx: dict) -> str:
         f'stroke="var(--good)" stroke-width="2.5"/>'
         f'<circle cx="{_n(lx + 217)}" cy="12" r="3.5" fill="var(--good)"/>'
         f'<text x="{_n(lx + 234)}" y="15" class="g-leyenda" font-size="10" '
-        f'fill="var(--ink-2)">Total acumulado</text></g></svg>')
+        f'fill="var(--ink-2)">Total acumulado</text></g></svg></div>')
     return "".join(o)
 
 

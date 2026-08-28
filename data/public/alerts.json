@@ -1,46 +1,23 @@
 {
- "generado": "2026-08-27",
- "fecha": "2026-08-27",
+ "generado": "2026-08-28",
+ "fecha": "2026-08-28",
  "alertas": [
-  {
-   "tipo": "institucional_nuevo",
-   "nivel": "alta",
-   "texto": "EC/ECHO publicó un producto nuevo del terremoto: M7.4 in Colombia - EC/ECHO daily map — https://erccportal.jrc.ec.europa.eu/ECHOProducts//Maps#/maps/5765",
-   "emisor": "EC/ECHO",
-   "titulo": "M7.4 in Colombia - EC/ECHO daily map",
-   "url": "https://erccportal.jrc.ec.europa.eu/ECHOProducts//Maps#/maps/5765",
-   "pubdate": "2026-08-26T16:53:40.103"
-  },
   {
    "tipo": "reportes_ciudadanos",
    "nivel": "info",
-   "texto": "21 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 21
+   "texto": "18 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 18
   },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "512 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 512
-  },
-  {
-   "tipo": "balance_en_medios",
-   "nivel": "info",
-   "texto": "Máximo informado en medios que citan fuentes oficiales (26 de agosto de 2026): 331 fallecidos (+2 desde el balance anterior), 4.611 heridos, 496 desaparecidos",
-   "fecha_balance": "2026-08-26",
-   "cifras": {
-    "fallecidos": 331,
-    "heridos": 4611,
-    "desaparecidos": 496,
-    "familias_afectadas": 188034,
-    "personas_afectadas": 406273
-   },
-   "regla": "serie_consolidada_ui_js"
+   "texto": "432 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 432
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +17 municipios. +8.675 familias desde la captura anterior"
+   "texto": "RUD actualizado: +8 municipios. +11.918 familias desde la captura anterior"
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -57,36 +34,18 @@
    "event_code": "EQ20260822COL",
    "capa": "Pleiades_20260813_BuildingDamageAsessment_Zarzal",
    "puntos": 201
-  },
-  {
-   "tipo": "fuentes_con_peticion_condicional",
-   "nivel": "info",
-   "texto": "25 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/losspager/us6000tjl2/us/1787357796161/json/exposures.json",
-   "urls": [
-    "https://earthquake.usgs.gov/product/losspager/us6000tjl2/us/1787357796161/json/exposures.json",
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1787357651244/download/cont_mmi.json",
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1787357651244/download/coverage_mmi_low_res.covjson",
-    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI01/GRA_PRODUCT/EMSR916_AOI01_GRA_PRODUCT_builtUpP_v1.json",
-    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI01/GRA_PRODUCT/EMSR916_AOI01_GRA_PRODUCT_transportationL_v1.json",
-    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI02/GRA_PRODUCT/EMSR916_AOI02_GRA_PRODUCT_ancillaryCrisisInfoP_v1.json",
-    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI02/GRA_PRODUCT/EMSR916_AOI02_GRA_PRODUCT_builtUpP_v1.json",
-    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI02/GRA_PRODUCT/EMSR916_AOI02_GRA_PRODUCT_transportationL_v1.json",
-    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI03/GRA_PRODUCT/EMSR916_AOI03_GRA_PRODUCT_builtUpP_v1.json",
-    "https://rapidmapping-viewer.s3.eu-west-1.amazonaws.com/EMSR916/AOI03/GRA_PRODUCT/EMSR916_AOI03_GRA_PRODUCT_transportationL_v1.json"
-   ],
-   "n": 25
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-26",
+  "fecha": "2026-08-27",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
-   "municipios_afectados": 494,
+   "municipios_afectados": 496,
    "personas_afectadas": 406273,
    "familias_afectadas": 188034,
-   "viviendas_averiadas": 185889,
-   "viviendas_destruidas": 33275,
+   "viviendas_averiadas": 187839,
+   "viviendas_destruidas": 33395,
    "heridos": 4611,
    "fallecidos": 331,
    "desaparecidos": 496,
@@ -99,9 +58,9 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
    },
    "municipios_afectados": {
-    "fecha": "2026-08-26",
+    "fecha": "2026-08-27",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    "personas_afectadas": {
     "fecha": "2026-08-26",
@@ -114,14 +73,14 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "viviendas_averiadas": {
-    "fecha": "2026-08-26",
+    "fecha": "2026-08-27",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    "viviendas_destruidas": {
-    "fecha": "2026-08-26",
+    "fecha": "2026-08-27",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    "heridos": {
     "fecha": "2026-08-23",
@@ -146,52 +105,122 @@
   },
   "ignoradas": [
    {
+    "cifra": "personas_afectadas",
+    "valor": 292043,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "teleSUR",
+    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 406113,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 186016,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 10,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 120328,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+   },
+   {
+    "cifra": "viviendas_averiadas",
+    "valor": 134342,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "teleSUR",
+    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+   },
+   {
+    "cifra": "viviendas_destruidas",
+    "valor": 29554,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "teleSUR",
+    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+   },
+   {
     "cifra": "heridos",
     "valor": 4449,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    {
     "cifra": "heridos",
-    "valor": 885,
+    "valor": 4187,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 304,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "teleSUR",
+    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 289,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 240,
+    "valor": 426,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "teleSUR",
+    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 219,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 240,
+    "valor": 143,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "La FM",
-    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-subio-cifra-fallecidos-ungrd-408831"
-   },
-   {
-    "cifra": "desaparecidos",
-    "valor": 195,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
    },
    {
     "cifra": "rescatados",
-    "valor": 86,
+    "valor": 356,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "teleSUR",
+    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 2949,
+    "motivo": "salto de más de 5 veces el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-08-27/oficiales_feed.json",
-   "items": 45,
+   "snapshot": "data/snapshots/2026-08-28/oficiales_feed.json",
+   "items": 48,
    "regla_sha256": "8c63eb30daf5604d8682e387ede6a671e1836957c221648999d699149c155f18"
   }
  }

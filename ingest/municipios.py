@@ -487,6 +487,21 @@ NOMBRE_A_SECAS_CONGELADO = {
     "Santa Bárbara": {"divipola": "05679", "departamento": "Antioquia"},
     "Toledo": {"divipola": "54820", "departamento": "Norte de Santander"},
     "Venecia": {"divipola": "05861", "departamento": "Antioquia"},
+    # estrenaron homonimia con el RUD del 27-ago-2026, cuando el registro llegó
+    # a 365 municipios. Mismo criterio: se congela LO PUBLICADO. Medido contra
+    # el corpus de titulares antes de anotar (sin misatribución posible: los
+    # tres homónimos de cada nombre están en departamentos ajenos al sismo, y
+    # `requiere_depto` —puesto por defecto en todo municipio dinámico sin
+    # revisar— ya exige que el titular nombre el departamento):
+    # «Sabanalarga» tiene 3 titulares reales, los tres del sismo cerca de
+    # Sabanalarga, Antioquia — coincide con lo publicado. «Belén» tiene 11
+    # menciones en el corpus y ninguna es del municipio: son «Belén de Umbría»
+    # (otro municipio, Risaralda) y el barrio Belén de Manizales — la
+    # homonimia interna, no con Belén (Boyacá). «Valparaíso» no tiene ninguna
+    # mención. Ningún caso silencia ni infla una brecha visible.
+    "Belén": {"divipola": "52083", "departamento": "Nariño"},
+    "Sabanalarga": {"divipola": "05628", "departamento": "Antioquia"},
+    "Valparaíso": {"divipola": "05856", "departamento": "Antioquia"},
     # anclados por `MUNICIPIOS` (el reparto no los toca), anotados igual: si
     # algún día uno sale del catálogo curado, el nombre no puede quedar a subasta
     "Armenia": {"divipola": "63001", "departamento": "Quindío"},

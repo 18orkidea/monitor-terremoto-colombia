@@ -752,6 +752,14 @@ a.metric-card:hover { border-color: var(--s1); }
   .mapa-estatico text { stroke-width: 5px; }
 }
 
+/* Pasadas las trece capturas, `grafico_rud()` deja de encoger el paso entre
+   puntos y hace crecer el lienzo en su lugar (docs/DECISIONES.md, hueco del
+   26-ago-2026): comprimir para que quepa mentiría sobre la forma, que es lo
+   único que aporta el dibujo. El sobrante se ve con scroll horizontal, no
+   apretado — `min-width` en el SVG marca dónde empieza. Con trece capturas o
+   menos no se dispara: el lienzo se queda en su ancho de siempre. */
+.grafico-rud-scroll { overflow-x: auto; }
+
 /* El gráfico del RUD tiene el MISMO problema que el mapa y se arregla igual.
    Su `viewBox` mide 900 y en un móvil de 375 px se dibuja sobre 313: los
    rótulos de 10 caían a 3,5 px efectivos, ilegibles. El tamaño base sigue
@@ -844,8 +852,12 @@ a.metric-card:hover { border-color: var(--s1); }
      Medido, no estimado: `test_ningun_rotulo_se_pisa_en_movil`. */
   .grafico-rud .g-alterna { display: none; }
   .grafico-rud .g-dia   { transform: translate(0, 14px); }
-  /* Más que en la banda ancha: aquí los cuerpos son casi el doble. */
-  .grafico-rud .g-alta  { transform: translate(0, 16px); }
+  /* Más que en la banda ancha: aquí los cuerpos son casi el doble.
+     14, no 16 (28-ago-2026): con un alta pequeña —cerca de cero, la barra
+     apenas se levanta— su rótulo nace pegado a la línea de cero, que ya
+     está cerca del eje de días. Dos unidades menos de bajada bastan para
+     no pisarse; `test_ningun_rotulo_se_pisa_en_movil` es quien lo mide. */
+  .grafico-rud .g-alta  { transform: translate(0, 14px); }
 }
 
 /* En móvil el margen lateral de 20 px se come una décima parte del ancho útil:
