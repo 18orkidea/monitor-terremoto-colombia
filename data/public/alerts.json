@@ -1,23 +1,33 @@
 {
- "generado": "2026-08-28",
- "fecha": "2026-08-28",
+ "generado": "2026-08-29",
+ "fecha": "2026-08-29",
  "alertas": [
-  {
-   "tipo": "reportes_ciudadanos",
-   "nivel": "info",
-   "texto": "18 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 18
-  },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "432 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 432
+   "texto": "351 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 351
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +8 municipios. +11.918 familias desde la captura anterior"
+   "texto": "RUD actualizado: +4 municipios. +9.583 familias desde la captura anterior"
+  },
+  {
+   "tipo": "hueco_de_captura_documentado",
+   "nivel": "info",
+   "texto": "rud_daily: 1 día(s) sin captura, ya explicados — 2026-08-26: cron de GitHub retrasado 3.5 h el 27-ago; la captura de ese día se etiquetó '27-ago' en vez de '26-ago' — blindado en dia_colombiano_consolidado(), hueco dejado implícito por decisión editorial (docs/DECISIONES.md, 28-ago-2026)",
+   "tabla": "rud_daily",
+   "dias": [
+    "2026-08-26"
+   ]
+  },
+  {
+   "tipo": "colision_etiquetado_rud",
+   "nivel": "info",
+   "texto": "sources_log registra capturas del RUD en 13 días distintos, pero rud_daily solo tiene 12 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 13,
+   "dias_en_rud_daily": 12
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -34,10 +44,25 @@
    "event_code": "EQ20260822COL",
    "capa": "Pleiades_20260813_BuildingDamageAsessment_Zarzal",
    "puntos": 201
+  },
+  {
+   "tipo": "fuentes_con_peticion_condicional",
+   "nivel": "info",
+   "texto": "7 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
+   "urls": [
+    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
+    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=2000&resultRecordCount=2000&orderByFields=OBJECTID",
+    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=4000&resultRecordCount=2000&orderByFields=OBJECTID",
+    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=6000&resultRecordCount=2000&orderByFields=OBJECTID",
+    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=8000&resultRecordCount=2000&orderByFields=OBJECTID",
+    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=9273&resultRecordCount=2000&orderByFields=OBJECTID",
+    "https://www.qhubocali.com/feed/"
+   ],
+   "n": 7
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-27",
+  "fecha": "2026-08-28",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -105,122 +130,129 @@
   },
   "ignoradas": [
    {
-    "cifra": "personas_afectadas",
-    "valor": 292043,
+    "cifra": "departamentos_afectados",
+    "valor": 8,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "teleSUR",
-    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 406113,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
-   },
-   {
-    "cifra": "personas_afectadas",
-    "valor": 186016,
+    "valor": 53000,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
    },
    {
     "cifra": "familias_afectadas",
-    "valor": 10,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 120328,
+    "valor": 11132,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 134342,
+    "valor": 8357,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "teleSUR",
-    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+   },
+   {
+    "cifra": "viviendas_averiadas",
+    "valor": 20557,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 29554,
+    "valor": 1136,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "teleSUR",
-    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+   },
+   {
+    "cifra": "viviendas_destruidas",
+    "valor": 3715,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
    },
    {
     "cifra": "heridos",
-    "valor": 4449,
+    "valor": 885,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "heridos",
-    "valor": 4187,
+    "valor": 2774,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 1401,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
    },
    {
     "cifra": "fallecidos",
-    "valor": 304,
+    "valor": 80,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "teleSUR",
-    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "fallecidos",
-    "valor": 289,
+    "valor": 18,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 105,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 426,
+    "valor": 195,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "teleSUR",
-    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 219,
+    "valor": 400,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
-   },
-   {
-    "cifra": "desaparecidos",
-    "valor": 143,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/17/lista-de-ciudades-que-fueron-afectadas-por-el-terremoto-en-colombia-departamentos-mas-golpeados/"
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
    },
    {
     "cifra": "rescatados",
-    "valor": 356,
+    "valor": 86,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "teleSUR",
-    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/"
+    "medio": "Primicias",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
    },
    {
     "cifra": "rescatados",
-    "valor": 2949,
-    "motivo": "salto de más de 5 veces el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
+    "valor": 320,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Caracol Radio",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-08-28/oficiales_feed.json",
-   "items": 48,
+   "snapshot": "data/snapshots/2026-08-29/oficiales_feed.json",
+   "items": 51,
    "regla_sha256": "8c63eb30daf5604d8682e387ede6a671e1836957c221648999d699149c155f18"
   }
  }

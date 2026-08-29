@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-08-28T04:05:47.981Z",
- "run_date": "2026-08-27",
- "total": 48,
+ "generated_at": "2026-08-29T04:05:18.876Z",
+ "run_date": "2026-08-28",
+ "total": 51,
  "items": [
   {
    "url": "https://www.telesurtv.net/terremoto-colombia-304-fallecidos-balance/",
@@ -3400,6 +3400,218 @@
    "extraccion_version": 2
   },
   {
+   "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/",
+   "publication_url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/",
+   "title": "🔴 Terremoto EN VIVO HOY 13 de agosto: reporte de ...",
+   "snapshot_id": "2026-08-28:https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/",
+   "search_date": "2026-08-28",
+   "search_query": "Presidencia Colombia UNGRD SGC terremoto 28-08-2026 reporte oficial afectados",
+   "publisher": {
+    "name": "Caracol Radio",
+    "domain": "caracol.com.co",
+    "channel": "web",
+    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "af760283b1589417585e5ed61aa5461645105a77f7718abddded09afe01611cc",
+   "captured_at": "2026-08-29T04:05:14.573Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04baf-9f6d-753d-a0a0-bcd3074913e2",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Presidencia reporte oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "Este lunes 10 de agosto, se presentó un fuerte terremoto que sacudió varias ciudades de Colombia. De acuerdo con el [Servicio Geológico Colombiano, la magnitud fue de 7.4 con epicentro en San José de Palmar en Chocó.](https://caracol.com.co/2026/08/10/se-reporta-un-muerto-y-dos-puentes-colapsados-en-buenaventura-alcaldesa-ligia-del-carmen-cordoba/ \"https://caracol.com.co/2026/08/10/se-reporta-un-muerto-y-dos-puentes-colapsados-en-buenaventura-alcaldesa-ligia-del-carmen-cordoba/\")\n\nLa Unidad Nacional para la Gestión del Riesgo descartó que exista alerta de tsunami.\n\n**Lea también:** [**ATENCIÓN: Fuerte temblor en Colombia HOY 10 de agosto 2026: magnitud de 7.4 según SGC**](https://caracol.com.co/2026/08/10/atencion-fuerte-temblor-en-bogota-hoy-10-de-agosto-2026-epicentro-y-magnitud/ \"https://caracol.com.co/2026/08/10/atencion-fuerte-temblor-en-bogota-hoy-10-de-agosto-2026-epicentro-y-magnitud/\")\n\nDe acuerdo con la información del Servicio Geológico Colombiano (SGC), **este sismo ha sido el de mayor magnitud registrado en Colombia durante los últimos 10 años.**\n\nSegún la entidad, también se sintió en países vecinos como Venezuela, Ecuador y Panamá. Se han recibido reportes de afectaciones en algunos sectores, entre ellos Manizales y Armenia.\n\nLa información sobre estas posibles afectaciones continúa siendo verificada por las autoridades competentes.\n\n**Le puede interesar:** [**Alcalde de Pereira confirmó que hay hasta el momento 18 personas muertas tras terremoto de 7.4**](https://caracol.com.co/2026/08/10/alcalde-de-pereira-confirmo-que-hay-hasta-el-momento-18-personas-muertas-tras-terremoto-de-74/ \"https://caracol.com.co/2026/08/10/alcalde-de-pereira-confirmo-que-hay-hasta-el-momento-18-personas-muertas-tras-terremoto-de-74/\")\n\n## **¿Por qué ocurrió el sismo?**\n\nSegún la información suministrada por el Servicio Geológico Colombiano, la actividad sísmica registrada en esta zona responde a la dinámica tectónica natural del occidente colombiano.\n\nEntre los procesos asociados se encuentra la subducción de la **placa de Nazca bajo la placa Suramericana, una dinámica que hace que esta región** haya registrado sismos de magnitud considerable a lo largo de su historia.\n\nComo antecedente histórico se encuentra el sismo ocurrido el **23 de noviembre de 1979, que tuvo una magnitud de 7,2.**\n\n## **Terremoto en Colombia HOY 10 de agosto:**\n\nHay nuevas medidas del Gobierno para atender a los damnificados y las afectaciones en el departamento del Chocó\n\nAsciende a 273 la cifra de muertos por el terremoto de 7,4 en Colombia, según nuevo reporte UNGRD.\n\nSoacha habilitó centro de acopio para apoyar a familias afectadas por el terremoto. Además, el municipio apadrinará al municipio de Vijes, Valle del Cauca.\n\nEn Chiminangos, norte de Cali, más de 500 personas permanecen en cambuches improvisados.\n\nEcopetrol destinó $5.000 millones para atender las necesidades de las familias damnificadas por el terremoto.\n\nMás de 60 personas, entre médicos, especialistas, personal auxiliar y de apoyo, salen desde Cali rumbo a Buenaventura como parte de una misión médica para atender a los afectados por el terremoto.\n\nAlcalde de Cali confirmó que ya fueron recibidas las primeras 50 toneladas de ayudas humanitarias internacionales que fueron enviadas desde El Salvador por el Presidente Nayid Bukele.\n\n![5:41 P.M. | Presidente confirmó declaratoria de emergencia económica y anunció “Fondo Milagro”](https://caracol.com.co/resizer/v2/IQDCV7FIXVHH3G3POIQEF5TTH4.jfif?auth=bd36e34c595ae37854d8942e6f91138049273c7418ef3cbb7cb2053e41377101)\n\n[5:41 P.M. \\| Presidente confirmó declaratoria de emergencia económica y anunció “Fondo Milagro”](https://caracol.com.co/2026/08/12/presidente-confirma-declaratoria-de-emergencia-economica-y-anuncia-fondo-milagro/)  \nEl presidente Abelardo de la Espriella confirmó el uso de la declaratoria de emergencia económica por el terremoto de 7.4 que sacudió el lunes pasado al país. La Espriella expresó que se implementarán medidas de reactivació",
+   "publicado_en": "2026-08-10T14:27:56.439Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-11",
+   "fecha_corte": "2026-08-11",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Buenaventura",
+    "Cali",
+    "Manizales",
+    "Pereira",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 53000,
+    "familias_afectadas": 11132,
+    "viviendas_averiadas": 20557,
+    "viviendas_destruidas": 3715,
+    "heridos": 2774,
+    "fallecidos": 18,
+    "desaparecidos": 496,
+    "rescatados": 320
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "Este lunes 10 de agosto, se presentó un fuerte terremoto que sacudió varias ciudades de Colombia.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/",
+   "publication_url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/",
+   "title": "Gobierno de Colombia alista declaratoria de emergencia ...",
+   "snapshot_id": "2026-08-28:https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/",
+   "search_date": "2026-08-28",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 28-08-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "Primicias",
+    "domain": "primicias.ec",
+    "channel": "web",
+    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "presidencia",
+     "name": "Presidencia de Colombia",
+     "type": "oficial_nacional",
+     "url": "https://www.presidencia.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "41d50f5a03a538ef853debf7e9556e5bdf825ed26fcfacd8c53eb733b8801876",
+   "captured_at": "2026-08-29T04:05:14.573Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04baf-6e0d-743e-af86-ceca4707d23a",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Gobierno de Colombia alista declaratoria de emergencia económica ante terremoto y recibirá ayuda internacional\n\n## El Gobierno de Colombia prepara declaratoria de emergencia económica y activará crédito internacional tras terremoto. El presidente Abelardo de la Espriella agradece solidaridad de Ecuador y otros países.\n\n![Socorristas y voluntarios buscan sobrevivientes entre los escombros de una edificación, tras el terremoto de magnitud 7,4, en Cali, Colombia.](https://imagenes.primicias.ec/files/image_480_270/uploads/2026/08/11/6a7b5e84b76da.jpeg)\n\nSocorristas y voluntarios buscan sobrevivientes entre los escombros de una edificación, tras el terremoto de magnitud 7,4, en Cali, Colombia.  \n- Foto  \nEFE  \nAutor:  \n[Redacción Primicias](https://www.primicias.ec/autor/redaccion-primicias/) / Agencias  \nActualizada: 11 ago 2026 - 23:02\n\nEl Gobierno reporta **181 muertos y 668 heridos** [por el terremoto de magnitud 7,4 que sacudió gran parte de Colombia](https://www.primicias.ec/internacional/video-colombia-terremoto-muertos-cali-rescate-escombros-129981/ \"Video: Así se encuentra Cali tras el mortal terremoto en Colombia\") el lunes 10 de agosto, mientras **autoridades regionales contabilizan al menos 240 fallecidos.** Decenas de **edificios colapsaron, hospitales quedaron desbordados** y varios aeropuertos suspendieron sus operaciones, mientras continúan las **labores de búsqueda y rescate.**\n\n- [Tres sismos en menos de 45 minutos se registraron en Perú este martes 11 de agosto de 2026](https://www.primicias.ec/internacional/temblor-sismos-peru-piura-terremoto-colombia-sudamerica-129987/ \"Tres sismos en menos de 45 minutos se registraron en Perú este martes 11 de agosto de 2026\")\n\n**Pereira**, capital del departamento de Risaralda y una de las ciudades más cercanas a San José del Palmar (Chocó), epicentro del terremoto, **[concentra la mayor cantidad de víctimas mortales, con 90 fallecidos](https://www.primicias.ec/internacional/terremoto-colombia-primeras-imagenes-afectaciones-ciudades-edificios-escombros-129945/ \"Terremoto en Colombia: las primeras imágenes muestran las afectaciones en varias ciudades\")**, según un balance parcial de la Asociación Colombiana de Ciudades Capitales (**Asocapitales**).\n\nLa cifra recoge únicamente el balance de las capitales del país, por lo que **no incluye los muertos y heridos registrados en municipios y localidades aledañas**, donde también se reportaron [colapsos de edificios y daños en hospitales](https://www.primicias.ec/internacional/terremoto-colombia-abelardo-espriella-gobierno-viaje-pereira-129946/ \"\"No están solos\", dice presidente de Colombia, Abelardo De La Espriella, quien viajará a Pereira ante terremoto\"), aeropuertos, servicios públicos y sistemas de transporte.\n\n# Así Amanece Colombia Tras Un Fuerte Terremoto\n\nEl terremoto de magnitud 7,4 dejó al menos 169 muertos y graves daños en Cali y otros municipios del Valle del Cauca, mientras continúan las labores de rescate entre los escombros.\n\n**Pereira, Cali, Quibdó, Manizales y Armenia están entre las ciudades más golpeadas** por el terremoto, que obligó al Gobierno del presidente Abelardo de la Espriella a declarar la [situación de \"desastre nacional.\"](https://www.primicias.ec/internacional/terremoto-colombia-desastre-nacional-gobierno-espriella-129952/ \"Colombia declara \"desastre nacional\" tras reportar al menos 111 fallecidos por el terremoto de 7,4\")\n\nEl movimiento telúrico se sintió en **Bogotá, Cali, Popayán, Manizales, Armenia, Pereira, Medellín** y otras ciudades del centro y oeste del país, así como en **[Ecuador](https://www.primicias.ec/sucesos/colombia-terremoto-sismo-temblor-aeropuerto-quito-ecuador-129942/ \"Aeropuerto de Quito no reporta daños tras fuerte terremoto con epicentro en Colombia que sacudió la región\"), Panamá y Venezuela.**\n\n## Colombia recibirá ayuda internacional para responder a la emergencia por el terremoto\n\nColombia se prepara para recibir ayuda internacional de **países como Estados Unidos, Méxic",
+   "publicado_en": "2026-08-11T01:45:08-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-11",
+   "fecha_corte": "2026-08-10",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Cali",
+    "Manizales",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": null,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 8357,
+    "viviendas_destruidas": 1136,
+    "heridos": 885,
+    "fallecidos": 80,
+    "desaparecidos": 195,
+    "rescatados": 86
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": [
+      "personas_afectadas < heridos"
+     ]
+    },
+    {
+     "intento": 2,
+     "sobre": "texto_crudo",
+     "incoherencias": [
+      "personas_afectadas < heridos"
+     ]
+    }
+   ],
+   "extraccion_descartada": {
+    "cifras": [
+     "personas_afectadas"
+    ],
+    "motivo": [
+     "personas_afectadas < heridos"
+    ]
+   },
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Gobierno de Colombia alista declaratoria de emergencia económica ante terremoto y recibirá ayuda internacional\n\n## El Gobierno de Colombia prepara declaratoria de emergencia económica y activará crédito internacional tras terremoto.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
    "url": "https://www.elcolombiano.com/colombia/muertos-terremoto-en-colombia-heridos-replicas-choco-hoy-GC39809690",
    "publication_url": "https://www.elcolombiano.com/colombia/muertos-terremoto-en-colombia-heridos-replicas-choco-hoy-GC39809690",
    "title": "Sube a 239 la cifra de muertos por el terremoto en Colombia",
@@ -4081,6 +4293,106 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/",
+   "publication_url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/",
+   "title": "Fuerte temblor de 7,4 se sintió en Colombia el 10 de agosto",
+   "snapshot_id": "2026-08-28:https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/",
+   "search_date": "2026-08-28",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 28-08-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "infobae",
+    "domain": "infobae.com",
+    "channel": "web",
+    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "30531bfb9f1a79df69c56c45962f742e57ada485a2fa2866797b83f301a6e902",
+   "captured_at": "2026-08-29T04:05:14.573Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a04baf-6e0d-743e-af86-ceca4707d23a",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Fuerte temblor de 7,4 se sintió en Colombia el 10 de agosto: volvió a temblar en el Chocó y la Ungrd reporta 285 fallecidos en todo el país\n\n## A las 7:34 a. m. del lunes, un sismo prolongado se sintió en gran parte del país. Las autoridades desplegaron equipos para evaluar los daños y los organismos de emergencia siguen entregando malas noticias sobre el número de fallecidos\n\n![Jenny Alejandra Bustos Granados](https://www.infobae.com/resizer/v2/https%3A%2F%2Fauthor-service-images-prod-us-east-1.publishing.aws.arc.pub%2Finfobae%2FNWX5XG3I7JAK3EYXSOKJX5ZCTQ.jpg?auth=57ebb8a1b9fd7a4a4ce5464300a861ba7bb5f43720b6f36af4ebe2447777d492&smart=true&width=40&height=40&quality=85)\n\n![Jhoan Pardo](https://www.infobae.com/resizer/v2/https%3A%2F%2Fauthor-service-images-prod-us-east-1.publishing.aws.arc.pub%2Finfobae%2F80e6f541-268a-49bc-bda7-80cce258a440.jpg?auth=113f52406c96995d4be0d7675e71a7ba604bd94a3aac2b58420e4df468efd676&smart=true&width=40&height=40&quality=85)\n\n![Johan Manuel Largo](https://www.infobae.com/resizer/v2/https%3A%2F%2Fauthor-service-images-prod-us-east-1.publishing.aws.arc.pub%2Finfobae%2F68eb1e58-fd8d-43ff-8797-0a7d66ac2960.png?auth=82b3d4cb11a35cdc40e00db6ee97fd9b2644bb15e89e26a13e091ca430743d4a&smart=true&width=40&height=40&quality=85)\n\n![Carol Salazar](https://www.infobae.com/resizer/v2/https%3A%2F%2Fauthor-service-images-prod-us-east-1.publishing.aws.arc.pub%2Finfobae%2Fb3715b5b-c2d1-425c-a5aa-d3fac7f73491.png?auth=838ecfd45afe6b54a15a8db995fd4b93940b47cce56cdfa2a08981958311643a&smart=true&width=40&height=40&quality=85)\n\n![Camilo Zabaleta](https://www.infobae.com/resizer/v2/https%3A%2F%2Fauthor-service-images-prod-us-east-1.publishing.aws.arc.pub%2Finfobae%2F2NA6J65GZZFAXMZYSO5X24LAIU.jpg?auth=04be12436a074d48aedd47a7c70b2a92c9f3812643c6ab84a9ec2e4eb87e8f5a&smart=true&width=40&height=40&quality=85)\n\n![Francy Agudelo](https://www.infobae.com/resizer/v2/https%3A%2F%2Fauthor-service-images-prod-us-east-1.publishing.aws.arc.pub%2Finfobae%2F2a37e103-eedd-4110-9d68-a17b3927bab2.jpg?auth=b6c9d04b486ac4f315ada98d00e66b41fa40971c3923b51c3352f59ae09bb26d&smart=true&width=40&height=40&quality=85)\n\n![Luciano Niño](https://www.infobae.com/resizer/v2/https%3A%2F%2Fauthor-service-images-prod-us-east-1.publishing.aws.arc.pub%2Finfobae%2F5b28a0dc-f9be-4e06-b620-6d154c3fede1.jpg?auth=fd7163e92bdd3e963e47eb37e88bfd2632e105a31291287e4d7e633c23637817&smart=true&width=40&height=40&quality=85)\n\nPor [Jenny Alejandra Bustos Granados](https://www.infobae.com/autor/jenny-alejandra-bustos-granados/), [Jhoan Pardo](https://www.infobae.com/autor/jhoan-pardo/), [Johan Manuel Largo](https://www.infobae.com/autor/johan-largo/), [Mauricio Villamil](https://www.infobae.com/autor/mauricio-villamil/), [Carol Salazar](https://www.infobae.com/autor/carol-salazar/), [Camilo Zabaleta](https://www.infobae.com/autor/camilo-zabaleta/), [Francy Agudelo](https://www.infobae.com/autor/francy-agudelo/) y [Luciano Niño](https://www.infobae.com/autor/luciano-nino/)\n\n![Hay alrededor de 400 personas desaparecidas en las zonas afectadas por el terremoto - crédito Juan David Duque/REUTERS](https://www.infobae.com/resizer/v2/JNLXAGOLOBCEJJM4XZAC6ZWIXY.JPG?auth=49f27651b34363cff77bfc739337a8e4c8e40da09930d24dd48f2406beb589eb&smart=true&width=350&height=233&quality=85)Hay alrededor de 400 personas desaparecidas en las zonas afectadas por el terremoto - crédito Juan David Duque/REUTERS\n\nUn terremoto de magnitud 7,4 sacudió Colombia durante la mañana del lunes 10 de agosto de 2026, dejando una emergencia de grandes proporciones en diferentes zonas del centro y occidente del país. El movimiento telúrico tuvo su epicentro en San José del Palmar, Chocó, y fue sentido con fuerza en varias capitales.\n\nEl balance continúa cambiando durante las operaciones de búsqueda y rescate. **Cientos de personas fallecieron y miles de ciudadanos resultaron heridos y damnificados**.\n\nPereira registra algunas de las consecuencias más graves de la emergencia, con edificaciones colapsadas y op",
+   "publicado_en": "2026-08-10T13:18:22.253Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": "2026-08-13",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Cali",
+    "Dosquebradas",
+    "Manizales",
+    "Palmira",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": 8,
+    "municipios_afectados": null,
+    "personas_afectadas": null,
+    "familias_afectadas": null,
+    "viviendas_averiadas": null,
+    "viviendas_destruidas": null,
+    "heridos": 1401,
+    "fallecidos": 105,
+    "desaparecidos": 400,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Fuerte temblor de 7,4 se sintió en Colombia el 10 de agosto: volvió a temblar en el Chocó y la Ungrd reporta 285 fallecidos en todo el país\n\n## A las 7:34 a.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -4261,7 +4573,7 @@
        "ok": false,
        "http_status": 524,
        "id": null,
-       "query": "UNGRD SGC terremoto Colombia 27-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "query": "UNGRD SGC terremoto Colombia 28-08-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 0,
        "warning": null
       },
@@ -4269,8 +4581,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a04689-2258-77d9-99c8-49bbaf50e621",
-       "query": "Gobernación Alcaldía terremoto Colombia 27-08-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a04baf-6e0d-743e-af86-ceca4707d23a",
+       "query": "Gobernación Alcaldía terremoto Colombia 28-08-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -4278,8 +4590,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a04689-cded-71f8-ad54-2207128bde58",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 27-08-2026 reporte oficial afectados",
+       "id": "01a04baf-9f6d-753d-a0a0-bcd3074913e2",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 28-08-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -4298,9 +4610,11 @@
      "type": "html",
      "url": "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/",
      "note": "Listado SharePoint de noticias; los datos útiles están en /Paginas/Noticias/2026/*.aspx.",
-     "ok": false,
-     "result": "error",
-     "error": "The operation was aborted due to timeout"
+     "http_status": 200,
+     "ok": true,
+     "links_found": 187,
+     "candidates": 0,
+     "result": "no_event_specific_links"
     },
     {
      "role": "vista_sharepoint",
@@ -4416,7 +4730,7 @@
      "http_status": 200,
      "ok": true,
      "links_found": 119,
-     "candidates": 5,
+     "candidates": 3,
      "result": "candidate_links"
     }
    ]
@@ -4452,6 +4766,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-08-28/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-08-29/oficiales_feed.json"
  }
 }
