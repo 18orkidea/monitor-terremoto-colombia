@@ -1292,8 +1292,14 @@ def _partes_respuesta(d: dict) -> list[str]:
             f"educación, sede a sede: no es una evaluación estructural en campo "
             f"ni un producto satelital.")
     if d["ciudadanos"]:
+        # El «sí» contrasta con la negativa satelital inmediatamente anterior;
+        # si otra evidencia se interpuso (las sedes del MEN, p. ej.), el
+        # contraste correcto es «también» — un «sí» sin antecedente negativo
+        # afirma una polémica que el lector no ha visto.
+        contraste = ("sí" if partes and partes[-1].startswith(
+            "<strong>Ningún producto satelital") else "también")
         partes.append(
-            f"La comunidad sí lo ha documentado: <strong>{fmt_prosa(len(d['ciudadanos']))} reportes "
+            f"La comunidad {contraste} lo ha documentado: <strong>{fmt_prosa(len(d['ciudadanos']))} reportes "
             f"ciudadanos</strong> georreferenciados en el entorno, {fmt_prosa(d['con_medio'])} con foto o vídeo.")
     medios = {medio_de_titular(t) for t in d["titulares"]} - {None}
     if d["titulares"]:
@@ -3843,7 +3849,8 @@ def entradilla_portada(ctx: dict) -> str:
         # tiene o la frase esconde sedes que existen.
         pintables = ("" if men["georef"] == men["total"] else
                      f', <b>{fmt(men["georef"])}</b> de ellas '
-                     "georreferenciadas en el mapa")
+                     f'{concuerda(men["georef"], "georreferenciada", "georreferenciadas")} '
+                     "en el mapa")
         frases.append(
             f"El Ministerio de Educación reporta <b>{fmt(men['total'])}</b> "
             f"{concuerda(men['total'], 'sede educativa', 'sedes educativas')} con "
@@ -4020,8 +4027,11 @@ QUE_ENCIENDE = {
               "Carta Internacional del Espacio, sin validar en el terreno",
     "sedes_men": "Sedes educativas cuyo estado físico reportan las "
                  "secretarías de educación al Ministerio de Educación "
-                 "Nacional (SISE); solo las que declaran afectación — «no "
-                 "aporta información» significa sin verificar, no sin daño",
+                 "Nacional (SISE); solo las que declaran afectación — «No "
+                 "aporta información» significa sin verificar, no sin daño—, "
+                 "y cuenta solo municipios con al menos una sede "
+                 "georreferenciada: las sedes sin coordenada resuelta cuentan "
+                 "en las cifras, no en el mapa",
     "ciudadanos": "Reportes que los vecinos enviaron por WhatsApp con su "
                   "ubicación y su foto (ChatMap, de OpenStreetMap Colombia), "
                   "en el punto exacto que registró la fuente",
@@ -5457,7 +5467,7 @@ def dataset_referencia(ctx: dict) -> str:
                "administrativo de las secretarías de educación consolidado "
                "por el Ministerio de Educación Nacional (SISE), sede a sede: "
                "no es interpretación satelital ni una evaluación estructural "
-               "en campo, y «no aporta información» se conserva como sin "
+               "en campo, y «No aporta información» se conserva como sin "
                "verificar, nunca como sin daño."] if men["total"] else []),
         ],
         **({"variableMeasured": variables} if variables else {}),

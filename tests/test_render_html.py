@@ -8595,7 +8595,7 @@ class TestSedesSinCoordenada(unittest.TestCase):
                              self._sede("CALI", "VALLE DEL CAUCA", True)]}
         salida = R.entradilla_portada(ctx)
         self.assertIn("<b>2</b> sedes educativas con afectación", salida)
-        self.assertIn("<b>1</b> de ellas georreferenciadas en el mapa", salida)
+        self.assertIn("<b>1</b> de ellas georreferenciada en el mapa", salida)
 
     def test_con_todas_pintables_no_hay_segunda_cifra(self):
         ctx = {"monitor": {}, "municipios": [],

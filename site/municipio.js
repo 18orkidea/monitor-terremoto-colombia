@@ -249,12 +249,13 @@
         onEachFeature: (f, layer) => {
           const p = f.properties || {};
           layer.bindPopup(ficha({
-            titulo: esc(p.estado_fisico || "Sede educativa evaluada"),
+            titulo: esc(p.estado_fisico || "Sede educativa reportada"),
             subtitulo: esc(p.nombre_sede || ""),
             filas: [["Establecimiento", esc(p.nombre_establecimiento || "")],
               ["Sector y zona", esc([p.sector, p.zona]
                 .filter(Boolean).join(" · "))],
-              ["Matrícula total", p.total_matricula],
+              ["Matrícula total", p.total_matricula == null ? null
+                : window.UI.fmt(p.total_matricula)],
               ["Confianza de la geolocalización", esc(p.confianza_geo || "")]],
             pie: "Ministerio de Educación Nacional (SISE) · reporte " +
               "administrativo, no una evaluación estructural en campo",

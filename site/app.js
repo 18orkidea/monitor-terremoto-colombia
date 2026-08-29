@@ -732,7 +732,7 @@
           l.bindPopup(ficha({
             // el literal crudo del MEN es el título: ya está en español y es
             // lo que hay que buscar en su tablero para encontrar esta sede
-            titulo: window.UI.esc(p.estado_fisico) || "Sede educativa evaluada",
+            titulo: window.UI.esc(p.estado_fisico) || "Sede educativa reportada",
             subtitulo: window.UI.esc(p.nombre_sede) || null,
             filas: [
               ["Establecimiento", p.nombre_establecimiento

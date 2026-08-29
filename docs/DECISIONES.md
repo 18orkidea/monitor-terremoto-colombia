@@ -4079,7 +4079,7 @@ Guardianes: `tests/test_unit.py::TestDiaColombianoDelRud`,
 
 ## 2026-08-29 — Alta del MEN (SISE): sedes educativas sede a sede, vigiladas por cambios
 
-**Contexto.** El Ministerio de Educación publica un dashboard de seguimiento a
+**Contexto.** El Ministerio de Educación publica un tablero de seguimiento a
 establecimientos educativos afectados por el sismo sobre un FeatureServer de
 ArcGIS público y sin autenticación (`SISE202608_Priorizadas_Final`): cada sede
 con punto, matrícula y un `ESTADO_FISICO` categórico. El monitor no tenía nada
@@ -4099,7 +4099,7 @@ LIMITACIONES); el archivo de la fuente empieza con la corrida del 29-ago.
    (una fila por entidad y captura), no UNOSAT/SERTIT (dos tablas porque allí
    hay dos entidades: producto y paquete). Aquí cada fila del servicio ya es la
    sede completa.
-2. **Vigilancia diaria con archivo solo de cambios** (JP, tras costear:
+2. **Vigilancia diaria con archivo solo de cambios** (decisión editorial, tras costear:
    6 MB/corrida, ~180 MB/mes si se acumulara a diario con el 87 % de filas
    repitiendo «No aporta información»). La corrida comprueba cada día (5
    peticiones; la fila de `sources_log` alimenta el detector de silencio R15) y
@@ -4118,12 +4118,12 @@ LIMITACIONES); el archivo de la fuente empieza con la corrida del 29-ago.
    geometría nula: cuentan en su municipio y en la prosa, no prometen un punto
    («987 con afectación, 694 georreferenciadas»). No se reposicionan a un
    centroide: el monitor no reposiciona nada (R5).
-5. **La desaparición se registra** (JP): una sede vigente que deja de venir en
+5. **La desaparición se registra** (decisión editorial): una sede vigente que deja de venir en
    la capa recibe fila con `ausente_desde` —columna propia, jamás un literal
    inventado en el vocabulario de la fuente— y sale del mapa y de los conteos.
    Solo se marca tras descarga completa: una corrida trunca no declara ausente
    a nadie. No es hipotético: la capa perdió ~40.000 filas de golpe el 28-ago.
-6. **El hito entra como fuente local u oficial** (JP), no como cambio del
+6. **El hito entra como fuente local u oficial**, no como cambio del
    monitor: lo noticiable es que el MEN publica, no que el monitor lo lee.
 7. **El vocabulario vive en una sola superficie.** `ESTADOS_CON_DANO` en
    `ingest/sources/men_sedes.py` es la lista canónica; `app.js`,

@@ -76,8 +76,8 @@ Responder por escrito en el docstring del módulo:
   `data/public/hitos_monitor.json`** (el build lee la segunda). El tipo depende
   de qué se narra: `monitor` si el suceso es un cambio del monitor, pero si lo
   noticiable es que la fuente publicó, va al carril de la fuente — `local` para
-  una entidad colombiana, `internacional` para las de fuera (criterio JP,
-  29-ago-2026, caso MEN).
+  una entidad colombiana, `internacional` para las de fuera (criterio
+  editorial del 29-ago-2026, caso MEN — ver docs/DECISIONES.md).
 
 ## 6. Prosa indexable y su gemela en el marcado
 

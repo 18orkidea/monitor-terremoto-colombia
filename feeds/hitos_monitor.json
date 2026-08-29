@@ -246,8 +246,8 @@
     {
       "fecha": "2026-08-28",
       "tipo": "local",
-      "resumen": "El Ministerio de Educación publica el seguimiento sede a sede de los colegios afectados: 17 en colapso total, 113 en riesgo inminente.",
-      "texto": "El Ministerio de Educación Nacional publica en su tablero SISE el seguimiento del estado físico de las sedes educativas, sede a sede: 17 en colapso total, 113 en riesgo inminente de colapso y 104 en colapso parcial, entre 987 con afectación declarada por las secretarías de educación. Es la primera fuente oficial que publica daño georreferenciado punto a punto; el monitor la incorpora y archiva a diario desde el 28 de agosto.",
+      "resumen": "El Ministerio de Educación tiene publicado el seguimiento sede a sede de los colegios afectados: 17 en colapso total, 113 en riesgo inminente.",
+      "texto": "El Ministerio de Educación Nacional tiene publicado en su tablero SISE el seguimiento del estado físico de las sedes educativas, sede a sede: 17 en colapso total, 113 en riesgo inminente de colapso y 104 en colapso parcial, entre 987 con afectación declarada por las secretarías de educación. Es la primera fuente oficial que publica el daño sede a sede, con coordenada en la mayoría de los casos; el monitor lo documenta desde el 28 de agosto de 2026 (el tablero es anterior) y lo archiva a diario desde el 29.",
       "url": "https://mineducacion.maps.arcgis.com/apps/dashboards/5e47f09f3b374396a5b3be15e8e96192"
     }
   ]
