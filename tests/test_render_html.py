@@ -6388,11 +6388,22 @@ class TestChipsDeLaFicha(unittest.TestCase):
                     r'<span class="n">([\d.,]+)</span>.*?</button>',
                     tira.group(0), re.S)]
 
+    @staticmethod
+    def _pintables(clave: str, cap: dict) -> list:
+        """Lo que `municipio.js` DIBUJA de una capa, que es lo que el chip
+        promete. Para el MEN son solo las sedes con coordenada: la que llega
+        con `geometry` null cuenta en el panel y en la prosa, pero Leaflet la
+        salta y un chip que la contara accionaría más de lo que se ve."""
+        features = cap["features"]
+        if clave == R.MEN_SEDES["clave"]:
+            return R._sedes_georreferenciadas(features)
+        return features
+
     def test_hay_un_chip_por_capa_con_puntos_y_ninguno_mas(self):
         """La condición del chip es la MISMA con que `municipio.js` crea la
-        capa: `features.length`. Si divergieran, la ficha publicaría un chip que
-        no acciona nada —el control muerto que el criterio prohíbe— o una capa sin quien
-        la apague. Se comprueba sobre las 208, no sobre una."""
+        capa: lo que llega a dibujarse. Si divergieran, la ficha publicaría un
+        chip que no acciona nada —el control muerto que el criterio prohíbe— o
+        una capa sin quien la apague. Se comprueba sobre las 208, no sobre una."""
         vistas = 0
         for m in self.ctx["municipios"]:
             nombre = m["municipio"]
@@ -6400,7 +6411,8 @@ class TestChipsDeLaFicha(unittest.TestCase):
                 continue
             d = R.datos_ficha(nombre, self.ctx)
             capas = d["evidencia"]["capas"]
-            con_puntos = {clave for clave, cap in capas.items() if cap["features"]}
+            con_puntos = {clave for clave, cap in capas.items()
+                          if self._pintables(clave, cap)}
             chips = {clave for clave, _, _ in self._chips(R.chips_evidencia(d))}
             self.assertEqual(chips, con_puntos,
                              f"{nombre}: chips y capas con puntos no coinciden")
@@ -6413,7 +6425,8 @@ class TestChipsDeLaFicha(unittest.TestCase):
         for nombre in ("Cali", "Pereira", "Nóvita", "Roldanillo"):
             d = R.datos_ficha(nombre, self.ctx)
             for clave, numero, _ in self._chips(R.chips_evidencia(d)):
-                esperado = R.fmt(len(d["evidencia"]["capas"][clave]["features"]))
+                esperado = R.fmt(len(self._pintables(
+                    clave, d["evidencia"]["capas"][clave])))
                 self.assertEqual(numero, esperado,
                                  f"{nombre}/{clave}: el chip promete {numero}")
 
