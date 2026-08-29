@@ -72,10 +72,35 @@ Responder por escrito en el docstring del módulo:
 - Si es un feed de prensa: alta en `feeds/registry.json` (ver CONTRIBUTING).
 - `docs/ARQUITECTURA.md` si añade tabla al sqlite (y la tabla al `SCHEMA` de
   `ingest/common.py` — nunca renombrar columnas existentes sin migración).
-- Si el público la ve: hito tipo `monitor` en `feeds/hitos_monitor.json` («Alta de
-  <fuente>: …») — la cronología documenta cómo evoluciona el monitor.
+- Si el público la ve: hito en `feeds/hitos_monitor.json` **y en su copia
+  `data/public/hitos_monitor.json`** (el build lee la segunda). El tipo depende
+  de qué se narra: `monitor` si el suceso es un cambio del monitor, pero si lo
+  noticiable es que la fuente publicó, va al carril de la fuente — `local` para
+  una entidad colombiana, `internacional` para las de fuera (criterio JP,
+  29-ago-2026, caso MEN).
 
-## 6. Revisión y cierre
+## 6. Prosa indexable y su gemela en el marcado
+
+Un mapa Leaflet no lo lee ningún indexador. Si la fuente aporta cifras que el
+público debe poder encontrar, necesitan oración completa generada en el build
+(nunca a mano: la lección «cifras-a-mano-envejecen»):
+
+- **Ficha de municipio**: bloque en `_partes_respuesta()` de
+  `deploy/render_html.py`, nombrando la fuente, con `fmt()`/`concuerda()`.
+- **Portada**: `if cifra: frases.append(...)` en `entradilla_portada()` (el
+  marcador `data-gen="portada-entradilla"` ya existe).
+- **Regla G3**: ninguna cifra en prosa sin su gemela en el JSON-LD —
+  `_medida()` en `variables`, su `measurementTechnique` (cómo mide ESTA
+  fuente) y su `citation` en `dataset_ficha()`; análogo en
+  `dataset_referencia()` para la frase de portada.
+- **Metodología**: la fuente entra en el párrafo «Fuentes:» de
+  `site/referencia.html`, en la enumeración del ciclo diario, y sus ficheros
+  públicos en `#descargas` (ese bloque promete inventario completo).
+- Si una cifra distingue «reportado» de «pintable en el mapa» (sedes sin
+  coordenada, p. ej.), la prosa lleva la doble cifra honesta — nunca prometer
+  un punto que no se dibuja.
+
+## 7. Revisión y cierre
 
 - Lanzar el agente **archivista** (checklist de archivo) y corregir lo que señale.
 - Lanzar el agente **revisor-qa** (suite + sitio si cambió).
