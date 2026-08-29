@@ -8605,3 +8605,61 @@ class TestSedesSinCoordenada(unittest.TestCase):
         self.assertNotIn("georreferenciada", salida,
                          "dos cifras iguales con dos nombres invitan a restar "
                          "un cero que no significa nada")
+
+
+class TestElLeadCuentaElDiagnosticoDelMen(unittest.TestCase):
+    """El diagnóstico del MEN acompaña a las cifras oficiales visibles.
+
+    El lead de la ficha narraba solo el RUD y el reporte del MEN quedaba
+    dentro del plegable: dos registros oficiales del mismo municipio no
+    pueden leerse uno con la página cerrada y el otro no (pedido editorial
+    del 29-ago-2026). El desglose completo, con la doble cifra de
+    georreferenciación, sigue en su párrafo del plegable."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.por_mun = R._sedes_por_municipio(cls.ctx)
+
+    def _d_con_sedes(self, con_rud):
+        candidatos = [m for m in self.ctx["municipios"]
+                      if bool(m.get("rud_familias")) == con_rud
+                      and self.por_mun.get(m["municipio"])]
+        if not candidatos:
+            return None
+        return R.datos_ficha(candidatos[0]["municipio"], self.ctx)
+
+    def test_con_rud_y_sedes_el_lead_nombra_al_men(self):
+        d = self._d_con_sedes(con_rud=True)
+        if d is None:
+            self.skipTest("ningún municipio con RUD y sedes MEN en los datos")
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("Ministerio de Educación Nacional (MEN) reporta además",
+                      lead)
+        self.assertIn("con afectación", lead)
+
+    def test_sin_rud_pero_con_sedes_el_lead_tambien_lo_dice(self):
+        d = self._d_con_sedes(con_rud=False)
+        if d is None:
+            # se fuerza el escenario: el RUD puede cubrir hoy a todos los
+            # municipios con sedes, y el lead sin RUD no puede quedar sin
+            # vigilante por esa casualidad del día
+            d = self._d_con_sedes(con_rud=True)
+            if d is None:
+                self.skipTest("ningún municipio con sedes MEN en los datos")
+            d = dict(d, muni=dict(d["muni"], rud_familias=0))
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("no tiene inscripciones", lead)
+        self.assertIn("Ministerio de Educación Nacional (MEN) sí reporta",
+                      lead)
+
+    def test_sin_sedes_el_lead_no_nombra_al_men(self):
+        sin_sedes = [m for m in self.ctx["municipios"]
+                     if not self.por_mun.get(m["municipio"])]
+        if not sin_sedes:
+            self.skipTest("todos los municipios tienen sedes MEN")
+        d = R.datos_ficha(sin_sedes[0]["municipio"], self.ctx)
+        self.assertNotIn("Ministerio de Educación Nacional (MEN)",
+                         R._partes_respuesta(d)[0],
+                         "un municipio sin sedes afectadas no puede estrenar "
+                         "una frase del MEN en el lead")
