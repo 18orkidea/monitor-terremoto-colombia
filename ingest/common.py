@@ -356,7 +356,13 @@ CREATE TABLE IF NOT EXISTS men_sedes (
   total_matricula REAL, matricula_prel REAL,
   estado_fisico TEXT,                -- literal: 'No aporta información' ≠ sin daño
   confianza_geo TEXT,                -- literal: '2 - MEDIA', etc.
-  lat REAL, lon REAL,                -- pedidos en outSR=4326 (nativa: 102100)
+  lat REAL, lon REAL,                -- pedidos en outSR=4326 (nativa: 102100);
+                                     -- el (0,0) de la fuente entra como NULL
+  ausente_desde TEXT,                -- fecha en que la sede DEJÓ de venir en la
+                                     -- capa. Columna propia y no un literal en
+                                     -- estado_fisico, que es vocabulario de la
+                                     -- fuente; la fila repite el último
+                                     -- contenido visto y los conteos la excluyen
   first_seen TEXT,
   PRIMARY KEY (cod_dane, snapshot_date)
 );
@@ -458,6 +464,11 @@ MIGRACIONES = [
     # «ese día no se lo preguntamos, o no lo dijo», que es dato, no hueco.
     ("sources_log", "etag", "TEXT"),
     ("sources_log", "last_modified", "TEXT"),
+    # Registro de desaparición de sedes MEN (29-ago-2026). La tabla nació el
+    # 28-ago sin la columna: ninguna base desplegada la tiene aún, pero las
+    # bases de desarrollo creadas desde la rama del alta sí existen y esta
+    # entrada les evita el ALTER a mano.
+    ("men_sedes", "ausente_desde", "TEXT"),
 ]
 
 

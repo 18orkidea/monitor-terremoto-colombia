@@ -5404,3 +5404,73 @@ class TestMenSedesSoloCambios(unittest.TestCase):
         self.assertEqual(out["nuevas"], 1)
         self.assertEqual(conn.execute(
             "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 1)
+
+    def test_la_desaparicion_se_registra_y_deja_de_contarse(self):
+        """Una sede vigente que no viene en la descarga completa gana fila
+        con `ausente_desde` (columna nuestra, jamás un literal inventado en
+        estado_fisico) y sale de resumen() y del export; si reaparece, fila
+        normal nueva y vuelve a contar."""
+        men_sedes, conn, _ = self._armar([])
+        a = self._sede("S1", "Colapso total")
+        b = self._sede("S2", "Colapso parcial")
+        self._corrida(men_sedes, conn, [a, b], "2026-08-28")
+        # desaparece S2
+        out = self._corrida(men_sedes, conn, [a], "2026-08-29")
+        self.assertEqual(out["desaparecidas"], 1)
+        self.assertFalse(out["sin_cambios"])
+        self.assertEqual(conn.execute(
+            "SELECT ausente_desde FROM men_sedes WHERE cod_dane='S2'"
+            " ORDER BY snapshot_date DESC LIMIT 1").fetchone()[0],
+            "2026-08-29")
+        self.assertEqual(conn.execute(
+            "SELECT estado_fisico FROM men_sedes WHERE cod_dane='S2'"
+            " AND ausente_desde IS NOT NULL").fetchone()[0], "Colapso parcial",
+            "la fila de ausencia repite lo último que dijo la fuente")
+        self.assertEqual(men_sedes.resumen(conn), {"Colapso total": 1},
+                         "la ausente no puede seguir contándose")
+        # sigue ausente: no se re-marca cada día
+        out = self._corrida(men_sedes, conn, [a], "2026-08-30")
+        self.assertEqual(out["desaparecidas"], 0)
+        self.assertTrue(out["sin_cambios"])
+        # reaparece: fila normal y vuelve al conteo
+        out = self._corrida(men_sedes, conn, [a, b], "2026-08-31")
+        self.assertEqual(out["reaparecidas"], 1)
+        self.assertEqual(men_sedes.resumen(conn),
+                         {"Colapso total": 1, "Colapso parcial": 1})
+
+    def test_una_descarga_trunca_no_declara_ausencias(self):
+        """El reverso imprescindible: si la corrida falla a mitad, las sedes
+        que no llegaron a verse NO pueden marcarse desaparecidas — una
+        avería de red no es un hecho sobre la fuente."""
+        men_sedes, conn, _ = self._armar([])
+        self._corrida(men_sedes, conn,
+                      [self._sede("S1"), self._sede("S2")], "2026-08-28")
+        respuestas = [(200, {"error": {"code": 503, "message": "throttled"}})]
+        men_sedes.fetch_json = lambda *a, **k: respuestas.pop(0)
+        out = men_sedes.run(conn, snapshot_date="2026-08-29")
+        self.assertIn("error", out)
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM men_sedes WHERE ausente_desde IS NOT NULL"
+        ).fetchone()[0], 0)
+
+    def test_la_isla_nula_entra_como_null_y_el_export_lleva_geometry_null(self):
+        """La fuente publica (0,0) cuando su geocodificación es de baja
+        confianza: es un cero disfrazado de coordenada (R3 en la geometría).
+        En la tabla entra como NULL y en el geojson del mapa la sede va
+        entera con "geometry": null — presente para contar, invisible para
+        pintar."""
+        import json as _json
+        men_sedes, conn, _ = self._armar([])
+        sin_geo = self._sede("S1", "Colapso total")
+        sin_geo["geometry"] = {"x": 0, "y": 0}
+        self._corrida(men_sedes, conn, [sin_geo, self._sede("S2",
+                      "Colapso parcial")], "2026-08-28")
+        self.assertEqual(conn.execute(
+            "SELECT lat, lon FROM men_sedes WHERE cod_dane='S1'").fetchone(),
+            (None, None))
+        gj = _json.loads((men_sedes.PUBLIC / "men_sedes_mapa.geojson")
+                         .read_text(encoding="utf-8"))
+        por_cod = {f["properties"]["cod_dane"]: f for f in gj["features"]}
+        self.assertEqual(len(por_cod), 2, "las 2 afectadas van al geojson")
+        self.assertIsNone(por_cod["S1"]["geometry"])
+        self.assertEqual(por_cod["S2"]["geometry"]["type"], "Point")
