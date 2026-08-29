@@ -4076,3 +4076,64 @@ municipio acumule suficientes capturas — Cali va por delante de todos.
 
 Guardianes: `tests/test_unit.py::TestDiaColombianoDelRud`,
 `tests/test_unit.py::TestHuecosYColisionesDelRud`.
+
+## 2026-08-29 — Alta del MEN (SISE): sedes educativas sede a sede, vigiladas por cambios
+
+**Contexto.** El Ministerio de Educación publica un tablero de seguimiento a
+establecimientos educativos afectados por el sismo sobre un FeatureServer de
+ArcGIS público y sin autenticación (`SISE202608_Priorizadas_Final`): cada sede
+con punto, matrícula y un `ESTADO_FISICO` categórico. El monitor no tenía nada
+sede a sede: `official_events.centros_educativos` (UNGRD) es un conteo agregado.
+Es una fuente oficial per se, como el RUD: no necesita satélite para valer
+(R1/R2 solo exigen esa combinación para el estado «coincide»).
+
+**La fuente se movió mientras se planificaba — y eso decidió el diseño.** El
+plan aprobado vio ~50.000 filas y 7 categorías a las 20:07 del 28-ago; la sonda
+del PM a las 23:15 encontró 9.273 filas y 8 literales distintos. Esa medición
+fundacional es anterior al archivo y no tiene snapshot (consta en
+LIMITACIONES); el archivo de la fuente empieza con la corrida del 29-ago.
+
+**Decisiones, numeradas:**
+
+1. **Una tabla (`men_sedes`), no dos.** El precedente correcto es `rud_daily`
+   (una fila por entidad y captura), no UNOSAT/SERTIT (dos tablas porque allí
+   hay dos entidades: producto y paquete). Aquí cada fila del servicio ya es la
+   sede completa.
+2. **Vigilancia diaria con archivo solo de cambios** (decisión editorial, tras costear:
+   6 MB/corrida, ~180 MB/mes si se acumulara a diario con el 87 % de filas
+   repitiendo «No aporta información»). La corrida comprueba cada día (5
+   peticiones; la fila de `sources_log` alimenta el detector de silencio R15) y
+   solo escribe snapshot y filas cuando el contenido cambió — el principio de
+   archivo aplicado: nada que no cambia se archiva dos veces. Línea base
+   completa el primer día; después, una fila por cambio (precedente: la tabla
+   del RUD en las fichas).
+3. **Se publica solo lo que reporta afectación.** El geojson de mapa lleva las
+   6 categorías con daño (987 sedes el 29-ago); quedan fuera «Sin afectación» y
+   «No aporta información» — que significa «sin verificar», no «sin daño»
+   (mismo principio que los ceros del RUD). No hay export completo público: el
+   registro íntegro es auditable por snapshots + tabla + su CSV de dumps.
+4. **El (0,0) de la fuente es un NULL, no una posición** (R3 sobre
+   coordenadas). 2.190 de 9.273 sedes traen la isla nula, todas con
+   geocodificación «3 - BAJA»; 293 de las 987 afectadas. Van al geojson con
+   geometría nula: cuentan en su municipio y en la prosa, no prometen un punto
+   («987 con afectación, 694 georreferenciadas»). No se reposicionan a un
+   centroide: el monitor no reposiciona nada (R5).
+5. **La desaparición se registra** (decisión editorial): una sede vigente que deja de venir en
+   la capa recibe fila con `ausente_desde` —columna propia, jamás un literal
+   inventado en el vocabulario de la fuente— y sale del mapa y de los conteos.
+   Solo se marca tras descarga completa: una corrida trunca no declara ausente
+   a nadie. No es hipotético: la capa perdió ~40.000 filas de golpe el 28-ago.
+6. **El hito entra como fuente local u oficial**, no como cambio del
+   monitor: lo noticiable es que el MEN publica, no que el monitor lo lee.
+7. **El vocabulario vive en una sola superficie.** `ESTADOS_CON_DANO` en
+   `ingest/sources/men_sedes.py` es la lista canónica; `app.js`,
+   `render_html.py` y la leyenda se comparan contra ella por guardián espejo
+   (`TestEstadosDelMen`), validado por mutación en cada superficie.
+
+**Qué NO se tocó:** `crosscheck.py` (el cruce educación-satélite queda como
+extensión posible, no pedida) y `CIFRAS_BALANCE`.
+
+**Pendiente vigilado por guardianes, no por memoria:** la unicidad de
+`COD_DANE` (PK), el enum de 8 literales (si aparece uno nuevo, avisa — R11) y
+la paginación (una página corta o un error de ArcGIS con HTTP 200 es error de
+corrida, no fin de datos).

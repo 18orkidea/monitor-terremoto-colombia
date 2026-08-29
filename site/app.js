@@ -688,6 +688,72 @@
         },
       }))));
 
+  // ---- Sedes educativas del MEN: la primera mirada OFICIAL sede a sede.
+  // No es un satélite: es el seguimiento administrativo del Ministerio de
+  // Educación Nacional (SISE), cargado por las secretarías de educación. Su
+  // vocabulario ya viene en español y es el que se enseña tal cual — no hay
+  // diccionario ESTADO_FISICO_ES a propósito: un diccionario identidad sería
+  // una segunda copia sin información, y una superficie más que vigilar.
+  // El fichero solo trae las sedes CON afectación declarada: «Sin afectación»
+  // y «No aporta información» quedan en el archivo del monitor (snapshots y
+  // volcados), no en un geojson público — miles de sedes sin verificar no son
+  // sedes sanas (R3), y pintarlas ahogaría a las ~987 que sí reportan daño.
+  /* Colores en la rampa de gravedad que ya usan las capas de daño: colapso
+     total lleva el rojo de «Destruido» y el resto baja hacia el ámbar; la
+     afectación sin definir va en gris —sin definir no es leve (R3)—. Espejo
+     de `deploy/render_html.py::_ESTADOS_MEN` y de la tabla de
+     `site/municipio.js`; las tres superficies las compara
+     `tests/test_render_html.py::TestEstadosDelMen`. */
+  layers["Sedes educativas afectadas — MEN"] = conChip("sedes_men", diferida(
+    "men_sedes_mapa.geojson", (sedes) => {
+    const ESTADO_FISICO_COLOR = {
+      "Colapso total": css("--critical"),
+      "Riesgo inminente de colapso": "#e0552d",
+      "Colapso parcial": "#ec835a",
+      "Afectación parcial": css("--warning"),
+      "Afectación menor": "#f7d46b",
+      "Reporta afectación sin definir el impacto": css("--muted"),
+    };
+    /* Las sedes sin geolocalización resuelta viajan con `geometry` null:
+       Leaflet las salta al construir la capa y el rótulo del control cuenta
+       lo DIBUJADO (`enciende`), así que la cifra del mapa es la de los
+       puntos que se ven. El total con las no pintables lo da la prosa de la
+       portada, con las dos cifras y sus nombres. */
+    return conZoom(() => radioPunto(5.5), L.geoJSON(sedes, {
+        pointToLayer: (f, ll) => L.circleMarker(ll, {
+          radius: radioPunto(5.5), weight: 1.5, color: "#fff", fillOpacity: 0.9,
+          // categoría desconocida → color de reserva, nunca romper: si el MEN
+          // estrena un estado, el punto se pinta gris y el supuesto avisa
+          fillColor: ESTADO_FISICO_COLOR[f.properties.estado_fisico]
+            || css("--muted"),
+        }),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          l.bindPopup(ficha({
+            // el literal crudo del MEN es el título: ya está en español y es
+            // lo que hay que buscar en su tablero para encontrar esta sede
+            titulo: window.UI.esc(p.estado_fisico) || "Sede educativa reportada",
+            subtitulo: window.UI.esc(p.nombre_sede) || null,
+            filas: [
+              ["Establecimiento", p.nombre_establecimiento
+                ? window.UI.esc(p.nombre_establecimiento) : null],
+              ["Municipio", [p.nom_mun, p.nom_dep].filter(Boolean)
+                .map(window.UI.esc).join(", ") || null],
+              ["Sector y zona", [p.sector, p.zona].filter(Boolean)
+                .map(window.UI.esc).join(" · ") || null],
+              ["Matrícula total", p.total_matricula == null ? null
+                : fmt(p.total_matricula)],
+              ["Confianza de la geolocalización", p.confianza_geo
+                ? window.UI.esc(p.confianza_geo) : null],
+            ],
+            pie: "Ministerio de Educación Nacional (SISE) · reporte "
+              + "administrativo de las secretarías de educación, no una "
+              + "evaluación estructural en campo",
+          }));
+        },
+      }));
+  }));
+
   // El hueco de cobertura es un producto de Copernicus tanto como el edificio
   // que sí clasificó: dice dónde recortó y no miró. Bajo su chip. Y es el
   // fichero más pesado del mapa —2.174 KB para 48 polígonos—, así que es el

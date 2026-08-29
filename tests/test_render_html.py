@@ -477,7 +477,10 @@ class TestMapaEvidencias(unittest.TestCase):
                              f"evidencia y aun así se le escribió paquete")
             paquete = json.loads(cali.read_text(encoding="utf-8"))
             conteos = paquete["conteos"]
-            self.assertEqual(conteos["total"], conteos["satelite"] + conteos["ciudadanos"])
+            # el total del paquete son las tres clases de evidencia puntual:
+            # satelital, sedes del MEN (28-ago-2026) y ciudadana
+            self.assertEqual(conteos["total"], conteos["satelite"]
+                             + conteos["sedes_men"] + conteos["ciudadanos"])
             self.assertGreater(conteos["copernicus"], 0)
             self.assertGreater(conteos["sertit"], 0)
             self.assertEqual(conteos["unosat"], 0)
@@ -6385,11 +6388,22 @@ class TestChipsDeLaFicha(unittest.TestCase):
                     r'<span class="n">([\d.,]+)</span>.*?</button>',
                     tira.group(0), re.S)]
 
+    @staticmethod
+    def _pintables(clave: str, cap: dict) -> list:
+        """Lo que `municipio.js` DIBUJA de una capa, que es lo que el chip
+        promete. Para el MEN son solo las sedes con coordenada: la que llega
+        con `geometry` null cuenta en el panel y en la prosa, pero Leaflet la
+        salta y un chip que la contara accionaría más de lo que se ve."""
+        features = cap["features"]
+        if clave == R.MEN_SEDES["clave"]:
+            return R._sedes_georreferenciadas(features)
+        return features
+
     def test_hay_un_chip_por_capa_con_puntos_y_ninguno_mas(self):
         """La condición del chip es la MISMA con que `municipio.js` crea la
-        capa: `features.length`. Si divergieran, la ficha publicaría un chip que
-        no acciona nada —el control muerto que el criterio prohíbe— o una capa sin quien
-        la apague. Se comprueba sobre las 208, no sobre una."""
+        capa: lo que llega a dibujarse. Si divergieran, la ficha publicaría un
+        chip que no acciona nada —el control muerto que el criterio prohíbe— o
+        una capa sin quien la apague. Se comprueba sobre las 208, no sobre una."""
         vistas = 0
         for m in self.ctx["municipios"]:
             nombre = m["municipio"]
@@ -6397,7 +6411,8 @@ class TestChipsDeLaFicha(unittest.TestCase):
                 continue
             d = R.datos_ficha(nombre, self.ctx)
             capas = d["evidencia"]["capas"]
-            con_puntos = {clave for clave, cap in capas.items() if cap["features"]}
+            con_puntos = {clave for clave, cap in capas.items()
+                          if self._pintables(clave, cap)}
             chips = {clave for clave, _, _ in self._chips(R.chips_evidencia(d))}
             self.assertEqual(chips, con_puntos,
                              f"{nombre}: chips y capas con puntos no coinciden")
@@ -6410,7 +6425,8 @@ class TestChipsDeLaFicha(unittest.TestCase):
         for nombre in ("Cali", "Pereira", "Nóvita", "Roldanillo"):
             d = R.datos_ficha(nombre, self.ctx)
             for clave, numero, _ in self._chips(R.chips_evidencia(d)):
-                esperado = R.fmt(len(d["evidencia"]["capas"][clave]["features"]))
+                esperado = R.fmt(len(self._pintables(
+                    clave, d["evidencia"]["capas"][clave])))
                 self.assertEqual(numero, esperado,
                                  f"{nombre}/{clave}: el chip promete {numero}")
 
@@ -7363,7 +7379,9 @@ class TestPiezasDeLaPortada(unittest.TestCase):
         cls.ctx = R.contexto()
 
     def test_la_entradilla_sin_ninguna_cifra_sigue_siendo_una_frase(self):
-        vacio = dict(self.ctx, monitor={}, municipios=[])
+        # `men_sedes` también se vacía: el escenario es «ninguna fuente con
+        # cifras», y el geojson del MEN puede existir en data/public
+        vacio = dict(self.ctx, monitor={}, municipios=[], men_sedes=[])
         salida = R.entradilla_portada(vacio)
         self.assertTrue(salida.startswith("<p>") and salida.endswith("</p>"))
         self.assertNotIn("<b>", salida, "publica un hueco donde iba la cifra")
@@ -8417,3 +8435,173 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         self.assertEqual(len(re.findall(r"<rect", svg)), 4,
                          "cuatro barras: tres altas y la marca del cero. El "
                          "primer día sigue sin barra, que es lo correcto")
+
+
+class TestEstadosDelMen(unittest.TestCase):
+    """El vocabulario del MEN vive en cuatro superficies y tiene que ser UNO.
+
+    La lista canónica es `ingest/sources/men_sedes.py::ESTADOS_CON_DANO` (el
+    contrato con la ingesta); la presentación la repite en tres sitios —
+    `site/app.js::ESTADO_FISICO_COLOR`, la tabla de `site/municipio.js` y
+    `render_html._ESTADOS_MEN`— porque cada superficie pinta por su cuenta.
+    Si una categoría cambia en una sola, esa superficie pinta gris (color de
+    reserva) lo que las demás clasifican: el mapa y el panel dirían cosas
+    distintas de la misma sede. Este guardián compara literal a literal Y
+    color a color, ejecutando la extracción sobre los ficheros reales.
+    """
+
+    @staticmethod
+    def _dict_js(fichero: str, cabecera: str) -> dict:
+        """El diccionario {literal: color} escrito en un fichero JS.
+
+        Extracción por regex sobre el fuente real, no una copia: las claves
+        son literales entre comillas y los valores o un literal de color o
+        `css("--token")`, que se normaliza a `var(--token)` — la forma en que
+        el mismo color se escribe en Python."""
+        crudo = (ROOT / "site" / fichero).read_text(encoding="utf-8")
+        # `[^{]*` se salta la cabecera de la función flecha de municipio.js;
+        # el `.*?` no cruza el cierre porque ninguno de los dos objetos
+        # anida llaves
+        m = re.search(cabecera + r"[^{]*\{(.*?)\}", crudo, re.S)
+        if not m:
+            raise AssertionError(
+                f"no encuentro el bloque «{cabecera}» en site/{fichero}: si se "
+                f"renombró, este guardián tiene que renombrarse con él")
+        pares = re.findall(
+            r'"([^"]+)"\s*:\s*(?:css\("(--[a-z-]+)"\)|"(#[0-9a-fA-F]+)")',
+            m.group(1))
+        return {clave: (f"var({token})" if token else color)
+                for clave, token, color in pares}
+
+    def _en_app_js(self) -> dict:
+        return self._dict_js("app.js", r"const ESTADO_FISICO_COLOR")
+
+    def _en_municipio_js(self) -> dict:
+        return self._dict_js("municipio.js", r"const colorEstadoMen")
+
+    def test_las_tres_superficies_de_presentacion_coinciden(self):
+        esperado = dict(R._ESTADOS_MEN)
+        self.assertEqual(len(esperado), 6,
+                         "el MEN publica seis estados con afectación")
+        self.assertEqual(self._en_app_js(), esperado,
+                         "app.js y render_html divergen en el vocabulario o "
+                         "los colores del MEN")
+        self.assertEqual(self._en_municipio_js(), esperado,
+                         "municipio.js y render_html divergen en el "
+                         "vocabulario o los colores del MEN")
+
+    def test_el_orden_de_gravedad_es_el_mismo_en_app_js(self):
+        """El orden no es decorativo: es la leyenda de la ficha y la rampa de
+        gravedad. Los objetos de JS conservan el orden de inserción, así que
+        también se compara."""
+        self.assertEqual(list(self._en_app_js()),
+                         [estado for estado, _ in R._ESTADOS_MEN])
+
+    def test_la_presentacion_es_espejo_del_contrato_de_ingesta(self):
+        """La lista canónica manda. Salta cuando el módulo de ingesta aún no
+        está en esta rama (se integra por otra); al fusionarse, el test se
+        activa solo y compara de verdad."""
+        # la misma ruta de import que usa test_hipotesis: ingest/ en el path
+        # y el módulo por su nombre de paquete corto
+        sys.path.insert(0, str(ROOT / "ingest"))
+        try:
+            from sources.men_sedes import ESTADOS_CON_DANO
+        except ImportError:
+            self.skipTest(
+                "ingest/sources/men_sedes.py aún no está en esta rama: el "
+                "espejo contra ESTADOS_CON_DANO se activa al integrarla")
+        finally:
+            sys.path.pop(0)
+        self.assertEqual(set(ESTADOS_CON_DANO),
+                         {estado for estado, _ in R._ESTADOS_MEN},
+                         "la presentación y el contrato de ingesta no "
+                         "clasifican los mismos estados del MEN")
+
+
+class TestSedesDelMenPorMunicipio(unittest.TestCase):
+    """La asignación sede→municipio, contra los dos filos conocidos.
+
+    El MEN escribe «SANTIAGO DE CALI» donde el catálogo dice «Cali» (el filo
+    de Buga), y «EL CARMEN DE ATRATO» contiene «Atrato», que es OTRO municipio
+    del mismo departamento (el filo de Atrato). El primero exige contención
+    con límite de palabra; el segundo exige que la igualdad exacta mande y que
+    con dos candidatos no se adivine."""
+
+    @staticmethod
+    def _sede(mun, dep):
+        return {"type": "Feature", "geometry": {"type": "Point",
+                                                "coordinates": [0, 0]},
+                "properties": {"nom_mun": mun, "nom_dep": dep,
+                               "estado_fisico": "Colapso total"}}
+
+    def _ctx(self, sedes):
+        idx = {"Cali": {"departamento": "Valle del Cauca"},
+               "Atrato": {"departamento": "Chocó"},
+               "El Carmen de Atrato": {"departamento": "Chocó"},
+               "Argelia (Cauca)": {"departamento": "Cauca"}}
+        return {"idx": idx, "men_sedes": sedes}
+
+    def test_el_nombre_largo_casa_con_su_municipio(self):
+        ctx = self._ctx([self._sede("SANTIAGO DE CALI", "VALLE DEL CAUCA")])
+        self.assertEqual(list(R._sedes_por_municipio(ctx)), ["Cali"])
+
+    def test_la_igualdad_exacta_no_se_la_roba_el_vecino_contenido(self):
+        ctx = self._ctx([self._sede("EL CARMEN DE ATRATO", "CHOCÓ")])
+        self.assertEqual(list(R._sedes_por_municipio(ctx)),
+                         ["El Carmen de Atrato"],
+                         "el nombre largo es SU municipio: dárselo a Atrato "
+                         "publicaría la sede en la ficha equivocada")
+
+    def test_el_homonimo_desempata_por_departamento(self):
+        # la clave del catálogo lleva paréntesis; el MEN no
+        ctx = self._ctx([self._sede("ARGELIA", "CAUCA")])
+        self.assertEqual(list(R._sedes_por_municipio(ctx)), ["Argelia (Cauca)"])
+
+    def test_sin_candidato_unico_no_se_adivina(self):
+        ctx = self._ctx([self._sede("BOJAYÁ", "CHOCÓ")])
+        self.assertEqual(R._sedes_por_municipio(ctx), {},
+                         "un municipio fuera del catálogo no se cuelga de "
+                         "ninguna ficha")
+
+
+class TestSedesSinCoordenada(unittest.TestCase):
+    """La sede con `geometry` null cuenta en las cifras y no en lo pintable.
+
+    El export del MEN trae con geometría nula la sede cuya geolocalización no
+    resuelve (antes venía en (0,0): un cero disfrazado de posición que pintaba
+    colegios en el golfo de Guinea). La regla de presentación: existe y
+    reporta daño —cuenta en su municipio, en la prosa y en el panel—, pero
+    ninguna cifra que prometa puntos dibujados puede incluirla."""
+
+    @staticmethod
+    def _sede(mun, dep, con_punto=True):
+        return {"type": "Feature",
+                "geometry": ({"type": "Point", "coordinates": [-76.5, 3.4]}
+                             if con_punto else None),
+                "properties": {"nom_mun": mun, "nom_dep": dep,
+                               "estado_fisico": "Colapso total"}}
+
+    def test_cuenta_en_su_municipio_aunque_no_tenga_punto(self):
+        ctx = {"idx": {"Cali": {"departamento": "Valle del Cauca"}},
+               "men_sedes": [self._sede("CALI", "VALLE DEL CAUCA", False),
+                             self._sede("CALI", "VALLE DEL CAUCA", True)]}
+        self.assertEqual(len(R._sedes_por_municipio(ctx)["Cali"]), 2)
+        self.assertEqual(
+            len(R._sedes_georreferenciadas(ctx["men_sedes"])), 1)
+
+    def test_la_entradilla_dice_las_dos_cifras_cuando_difieren(self):
+        ctx = {"monitor": {}, "municipios": [],
+               "men_sedes": [self._sede("CALI", "VALLE DEL CAUCA", False),
+                             self._sede("CALI", "VALLE DEL CAUCA", True)]}
+        salida = R.entradilla_portada(ctx)
+        self.assertIn("<b>2</b> sedes educativas con afectación", salida)
+        self.assertIn("<b>1</b> de ellas georreferenciada en el mapa", salida)
+
+    def test_con_todas_pintables_no_hay_segunda_cifra(self):
+        ctx = {"monitor": {}, "municipios": [],
+               "men_sedes": [self._sede("CALI", "VALLE DEL CAUCA", True)]}
+        salida = R.entradilla_portada(ctx)
+        self.assertIn("sede educativa con afectación", salida)
+        self.assertNotIn("georreferenciada", salida,
+                         "dos cifras iguales con dos nombres invitan a restar "
+                         "un cero que no significa nada")

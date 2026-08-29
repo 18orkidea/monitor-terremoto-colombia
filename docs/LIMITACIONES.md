@@ -1059,13 +1059,13 @@ Vigila solo el departamento duplicado, que sí era un error.
 La capa ArcGIS del MEN (SISE) que alimenta `men_sedes` no es un registro
 estable: **el 28-ago-2026, entre las 20:07 y las 23:15, pasó de ~50.000 filas y
 7 categorías de estado físico a 9.273 filas y 8 categorías**. No publica
-versión ni changelog: el mismo URL sirve hoy un contenido y mañana otro, y
+versión ni registro de cambios: el mismo URL sirve hoy un contenido y mañana otro, y
 nada en la respuesta dice que cambió. La comprobación diaria del monitor es
 la única memoria de qué decía cada día — es exactamente el caso para el que
 existe el principio de archivo.
 
 **Se comprueba a diario, pero se archiva solo lo que cambia.** La descarga
-completa pesa ~6 MB y el 87 % de las filas repite 'No aporta información':
+completa pesa ~6 MB y el 87 % de las filas repite «No aporta información»:
 acumularla entera serían ~180 MB/mes de copias casi idénticas, que es justo
 lo que el principio de archivo prohíbe. El reparto: si una página llega
 idéntica (mismo sha256), su fila diaria de `sources_log` apunta al snapshot
@@ -1089,7 +1089,7 @@ antes de nuestra línea base.
 
 **El (0,0) de la fuente se trata como «sin coordenada»**: la capa publica
 lat/lon (0,0) —la isla nula— cuando su geocodificación es de baja confianza
-(293 de las 987 afectadas el 28-ago, todas con `confianza_geo` '3 - BAJA',
+(293 de las 987 afectadas el 28-ago, todas con `confianza_geo` «3 - BAJA»,
 12 de ellas en colapso total). Un (0,0) es un cero disfrazado de posición:
 en la tabla entra como NULL, el literal queda en el snapshot, y el monitor
 no reposiciona nada (R5). En el geojson del mapa esas sedes van enteras con
@@ -1113,7 +1113,7 @@ Dos salvedades de archivo sobre esa misma medición:
 
 Dos consecuencias que el lector del mapa debe conocer:
 
-- **'No aporta información' no significa «sin daño»**: significa que nadie ha
+- **«No aporta información» no significa «sin daño»**: significa que nadie ha
   verificado esa sede. El 28-ago eran 8.089 de 9.273 (el 87 %). Es el mismo
   principio que los ceros del RUD — la ausencia de dato es dato, y convertirla
   en «bien» fabricaría una afirmación que la fuente no hizo (R3).
@@ -1121,11 +1121,17 @@ Dos consecuencias que el lector del mapa debe conocer:
   6 literales de `men_sedes.ESTADOS_CON_DANO`; 694 de ellas con coordenada —
   las otras 293 van al geojson con `geometry: null`, ver el punto del (0,0)),
   y ese es además el único geojson que se publica (`men_sedes_mapa.geojson`):
-  republicar a diario los ~6 MB del registro completo no tenía lector. 'Sin
-  afectación' y 'No aporta información' siguen completas y auditables en los
+  republicar a diario los ~6 MB del registro completo no tenía lector. «Sin
+  afectación» y «No aporta información» siguen completas y auditables en los
   snapshots, la tabla `men_sedes` y su CSV de dumps.
 
 El vocabulario de 8 estados es un contrato vigilado, no una lista abierta: si
 la fuente publica un literal nuevo, `tests/test_hipotesis.py::
 TestHipotesisSedesEducativas` avisa (R11) y obliga a decidir si reporta daño
 antes de que el mapa lo ignore en silencio.
+
+Dos de los 88 municipios con afectación declarada por el MEN (corte del
+29-ago-2026) caen fuera del universo de 373 fichas del monitor, así que su
+cifra cuenta en la entradilla y en el mapa pero no tiene ficha municipal —
+el mismo patrón ya documentado con Ocaña en el RUD: el registro oficial no
+se recorta a nuestra área de fichas, y recortarlo callaría afectación real.
