@@ -144,15 +144,18 @@ class TestHipotesisBrechaOficial(unittest.TestCase):
 
 
 class TestHipotesisSedesEducativas(unittest.TestCase):
-    """Sedes MEN (SISE): ninguna sede en estado crítico puede perderse del
-    mapa, y el vocabulario de estados es un contrato vigilado, no una lista
-    abierta."""
+    """Sedes MEN (SISE): ninguna sede en estado crítico puede perderse de
+    las fichas municipales, y el vocabulario de estados es un contrato
+    vigilado, no una lista abierta."""
 
-    def test_toda_sede_critica_resuelve_coordenadas(self):
-        """Una sede en colapso (total, parcial o riesgo inminente) sin
-        coordenada propia ni municipio resoluble es un punto que el mapa
-        pierde en silencio. Si esto AVISA, hay que ampliar
-        divipola_coords.json o revisar la geometría de la capa (no romper)."""
+    def test_toda_sede_critica_resuelve_municipio(self):
+        """Lo que se exige a una sede en colapso (total, parcial o riesgo
+        inminente) es MUNICIPIO resoluble — su ficha municipal—, no punto: la
+        fuente publica (0,0) cuando su geocodificación es de baja confianza y
+        eso entra como coordenada NULL, que es legítimo. Pero una crítica
+        cuyo municipio no resuelve ni el catálogo ni DIVIPOLA se pierde de
+        toda ficha en silencio. Si esto AVISA, ampliar divipola_coords.json
+        (no romper)."""
         why = skip_sin_datos("men_sedes")
         if why:
             self.skipTest(why)
@@ -163,20 +166,20 @@ class TestHipotesisSedesEducativas(unittest.TestCase):
                     if div_path.exists() else {})
         marks = ",".join("?" * len(ESTADOS_CRITICOS))
         perdidas = []
-        # sobre el corte VIGENTE (última fila por sede): la tabla archiva por
-        # cambios, así que el último snapshot_date global solo tiene lo que
-        # cambió ese día, no la foto completa
-        for cod, sede, mun, dep, lat, lon in q(
-                "SELECT cod_dane, nombre_sede, nom_mun, nom_dep, lat, lon"
+        # sobre el corte VIGENTE (última fila por sede, sin ausentes): la
+        # tabla archiva por cambios, así que el último snapshot_date global
+        # solo tiene lo que cambió ese día, no la foto completa
+        for cod, sede, mun, dep in q(
+                "SELECT cod_dane, nombre_sede, nom_mun, nom_dep"
                 f" FROM men_sedes m WHERE {SQL_VIGENTE}"
+                " AND ausente_desde IS NULL"
                 f" AND estado_fisico IN ({marks})", *ESTADOS_CRITICOS):
-            if lat is not None and lon is not None:
-                continue
             if not _find_divipola(divipola, mun or "", dep or ""):
                 perdidas.append(f"{cod} {sede} ({mun}/{dep})")
         self.assertEqual(perdidas, [],
-                         f"Sedes críticas sin coordenada propia ni municipio "
-                         f"resoluble: {perdidas} — ampliar divipola_coords.json")
+                         f"Sedes críticas con municipio irresoluble (ni "
+                         f"catálogo ni DIVIPOLA): {perdidas} — ampliar "
+                         "divipola_coords.json")
 
     def test_el_vocabulario_de_estados_es_el_conocido(self):
         """La capa ya mutó una vez de 7 a 8 categorías en tres horas. Un
@@ -342,6 +345,11 @@ class TestHipotesisCiudadana(unittest.TestCase):
 
     def test_lo_publicado_es_lo_que_dijo_la_fuente(self):
         """Espejo del anterior sobre el artefacto, no sobre la base."""
+        # el guard que ya llevan sus vecinos: sin él, una base vacía o sin la
+        # tabla reventaba la suite a mitad en vez de saltar contándose
+        why = skip_sin_datos("citizen_reports")
+        if why:
+            self.skipTest(why)
         pub = ROOT / "data" / "public" / "chatmap.geojson"
         if not pub.exists():
             self.skipTest("sin chatmap.geojson publicado")

@@ -1076,11 +1076,25 @@ primer día y después una fila solo por sede que cambió (precedente: la tabla
 del RUD en las fichas, una fila por cambio). El corte vigente es la última
 fila de cada sede.
 
-Lo que ese diseño no registra: **una sede que desaparezca de la capa conserva
-su última fila como vigente y no deja fila propia de desaparición**. No es
-hipotético — la capa perdió ~40.000 filas de un día para otro antes de
-nuestra línea base—; si vuelve a pasar, el corte vigente arrastrará sedes que
-la fuente ya no publica hasta que se decida cómo contarlo.
+**La desaparición se registra** (decidido el 29-ago-2026; la primera versión
+del diseño la dejaba como laguna documentada): una sede vigente que no viene
+en la descarga completa de hoy gana una fila con `ausente_desde` = fecha —
+columna propia del monitor, nunca un literal inventado en `estado_fisico`,
+que es vocabulario de la fuente—. Esa fila repite lo último que la fuente
+dijo y queda fuera de todos los conteos y del geojson; si la sede reaparece,
+fila normal y vuelve a contar. Las ausencias solo se marcan tras una
+descarga completa: una corrida que falla a mitad no declara desaparecido a
+nadie. No es hipotético — la capa perdió ~40.000 filas de un día para otro
+antes de nuestra línea base.
+
+**El (0,0) de la fuente se trata como «sin coordenada»**: la capa publica
+lat/lon (0,0) —la isla nula— cuando su geocodificación es de baja confianza
+(293 de las 987 afectadas el 28-ago, todas con `confianza_geo` '3 - BAJA',
+12 de ellas en colapso total). Un (0,0) es un cero disfrazado de posición:
+en la tabla entra como NULL, el literal queda en el snapshot, y el monitor
+no reposiciona nada (R5). En el geojson del mapa esas sedes van enteras con
+`"geometry": null` — cuentan en los totales y no se pintan, en vez de
+desaparecer o de flotar frente a la costa de África.
 
 Dos salvedades de archivo sobre esa misma medición:
 
@@ -1104,11 +1118,12 @@ Dos consecuencias que el lector del mapa debe conocer:
   principio que los ceros del RUD — la ausencia de dato es dato, y convertirla
   en «bien» fabricaría una afirmación que la fuente no hizo (R3).
 - **El mapa solo pinta lo que reporta afectación** (987 sedes el 28-ago, los
-  6 literales de `men_sedes.ESTADOS_CON_DANO`), y ese es además el único
-  geojson que se publica (`men_sedes_mapa.geojson`): republicar a diario los
-  ~6 MB del registro completo no tenía lector. 'Sin afectación' y 'No aporta
-  información' siguen completas y auditables en los snapshots, la tabla
-  `men_sedes` y su CSV de dumps.
+  6 literales de `men_sedes.ESTADOS_CON_DANO`; 694 de ellas con coordenada —
+  las otras 293 van al geojson con `geometry: null`, ver el punto del (0,0)),
+  y ese es además el único geojson que se publica (`men_sedes_mapa.geojson`):
+  republicar a diario los ~6 MB del registro completo no tenía lector. 'Sin
+  afectación' y 'No aporta información' siguen completas y auditables en los
+  snapshots, la tabla `men_sedes` y su CSV de dumps.
 
 El vocabulario de 8 estados es un contrato vigilado, no una lista abierta: si
 la fuente publica un literal nuevo, `tests/test_hipotesis.py::
