@@ -331,6 +331,41 @@ CREATE TABLE IF NOT EXISTS rud_daily (
   habitables REAL, nohabitables REAL,
   PRIMARY KEY (snapshot_date, departamento, municipio)
 );
+-- Sedes educativas MEN (SISE): estado físico sede a sede tras el sismo.
+-- UNA tabla y no dos (precedente rud_daily, no UNOSAT/SERTIT): aquí no hay
+-- «producto» con identidad propia que publique paquetes — hay un registro que
+-- se republica entero y sin versión. La serie es POR CAMBIOS, no por días:
+-- línea base completa en la primera corrida y después una fila solo cuando
+-- algún campo de la sede cambió (el 87 % repite 'No aporta información' a
+-- diario y acumular la foto entera serían ~180 MB/mes de copias). El corte
+-- vigente de una sede es su última fila; la comprobación diaria sin cambios
+-- queda en sources_log. Los literales de la fuente (estado_fisico,
+-- sede_principal, confianza_geo) se guardan tal cual.
+CREATE TABLE IF NOT EXISTS men_sedes (
+  cod_dane TEXT NOT NULL,            -- identificador DANE de la sede (único hoy)
+  snapshot_date TEXT NOT NULL,
+  cod_establecimiento TEXT,
+  nombre_establecimiento TEXT, nombre_sede TEXT,
+  sede_principal TEXT,               -- literal 'S'/'N': traducir es presentación
+  sector TEXT,                       -- OFICIAL / NO OFICIAL
+  correo_institucional TEXT, direccion TEXT, telefono TEXT,
+  niveles TEXT, zona TEXT,
+  cod_dep TEXT, nom_dep TEXT, cod_mun TEXT, nom_mun TEXT, cat_mun TEXT,
+  mun_pdet TEXT, mun_zomac TEXT, nom_reg TEXT,
+  cod_etc TEXT, nom_etc TEXT,        -- entidad territorial certificada
+  total_matricula REAL, matricula_prel REAL,
+  estado_fisico TEXT,                -- literal: 'No aporta información' ≠ sin daño
+  confianza_geo TEXT,                -- literal: '2 - MEDIA', etc.
+  lat REAL, lon REAL,                -- pedidos en outSR=4326 (nativa: 102100);
+                                     -- el (0,0) de la fuente entra como NULL
+  ausente_desde TEXT,                -- fecha en que la sede DEJÓ de venir en la
+                                     -- capa. Columna propia y no un literal en
+                                     -- estado_fisico, que es vocabulario de la
+                                     -- fuente; la fila repite el último
+                                     -- contenido visto y los conteos la excluyen
+  first_seen TEXT,
+  PRIMARY KEY (cod_dane, snapshot_date)
+);
 -- UNITAR-UNOSAT: la segunda mirada satelital. Los productos y sus paquetes
 -- de shapefiles; el dato se indexa por sha del paquete y NO por producto,
 -- porque varios productos publican el mismo ZIP y el edificio es uno solo.
@@ -429,6 +464,11 @@ MIGRACIONES = [
     # «ese día no se lo preguntamos, o no lo dijo», que es dato, no hueco.
     ("sources_log", "etag", "TEXT"),
     ("sources_log", "last_modified", "TEXT"),
+    # Registro de desaparición de sedes MEN (29-ago-2026). La tabla nació el
+    # 28-ago sin la columna: ninguna base desplegada la tiene aún, pero las
+    # bases de desarrollo creadas desde la rama del alta sí existen y esta
+    # entrada les evita el ALTER a mano.
+    ("men_sedes", "ausente_desde", "TEXT"),
 ]
 
 

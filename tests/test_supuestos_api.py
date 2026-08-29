@@ -85,6 +85,25 @@ class TestSupuestosOficiales(unittest.TestCase):
 
 
 @unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosMEN(unittest.TestCase):
+    """La capa SISE del MEN se republica sin aviso y muta de tamaño y
+    vocabulario en horas (el 28-ago-2026 pasó de ~50.000 filas a 9.273 entre
+    dos sondas). Este supuesto vigila que siga viva y con sus campos clave."""
+
+    def test_arcgis_men_responde_con_estado_fisico(self):
+        L = ("https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/"
+             "SISE202608_Priorizadas_Final/FeatureServer/0/query")
+        st, d = fetch_json(L, {"where": "1=1", "f": "json", "resultRecordCount": 1,
+                               "outFields": "COD_DANE,ESTADO_FISICO,NOM_MUN"},
+                          note=NOTA_SONDA)
+        self.assertEqual(st, 200)
+        at = d["features"][0]["attributes"]
+        for campo in ("COD_DANE", "ESTADO_FISICO", "NOM_MUN"):
+            self.assertIn(campo, at, f"campo {campo} desapareció de la capa "
+                                     "SISE: revisar ingest/sources/men_sedes.py")
+
+
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
 class TestSupuestosRUD(unittest.TestCase):
     """El RUD es un endpoint interno no documentado: si cambia, avisar."""
 
