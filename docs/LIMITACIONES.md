@@ -1129,3 +1129,9 @@ El vocabulario de 8 estados es un contrato vigilado, no una lista abierta: si
 la fuente publica un literal nuevo, `tests/test_hipotesis.py::
 TestHipotesisSedesEducativas` avisa (R11) y obliga a decidir si reporta daño
 antes de que el mapa lo ignore en silencio.
+
+Dos de los 88 municipios con afectación declarada por el MEN (corte del
+29-ago-2026) caen fuera del universo de 373 fichas del monitor, así que su
+cifra cuenta en la entradilla y en el mapa pero no tiene ficha municipal —
+el mismo patrón ya documentado con Ocaña en el RUD: el registro oficial no
+se recorta a nuestra área de fichas, y recortarlo callaría afectación real.
