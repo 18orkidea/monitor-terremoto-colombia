@@ -1174,6 +1174,33 @@ def _partes_respuesta(d: dict) -> list[str]:
     depto = m["departamento"]
     nombre = toponimo(m["municipio"], depto)
     partes = []
+    # El diagnóstico del MEN acompaña a las cifras oficiales del lead: RUD y
+    # MEN son los dos registros oficiales del municipio y se leen juntos, sin
+    # desplegar nada. Aquí va compacto (total + estados críticos); el desglose
+    # completo, con la doble cifra de georreferenciación y la advertencia
+    # metodológica, sigue en su propio párrafo del plegable.
+    sedes = (((d.get("evidencia") or {}).get("capas") or {})
+             .get("sedes_men") or {}).get("features") or []
+    cuenta_men = {}
+    for f in sedes:
+        estado_f = (f.get("properties") or {}).get("estado_fisico")
+        cuenta_men[estado_f] = cuenta_men.get(estado_f, 0) + 1
+    men_lead = ""
+    if sedes:
+        # Los tres primeros de _ESTADOS_MEN son los críticos — la tabla ya
+        # está ordenada por gravedad y así no nace otra lista de literales.
+        graves = [f"{fmt_prosa(n, femenino=True)} {_estado_en_prosa(estado, n)}"
+                  for estado, _color in _ESTADOS_MEN[:3]
+                  if (n := cuenta_men.get(estado, 0))]
+        # «entre ellas» declara que el desglose es parcial (solo lo crítico);
+        # los dos puntos prometerían la enumeración exhaustiva, que vive en
+        # el plegable — misma puntuación, dos significados, mala página.
+        detalle_graves = f", entre ellas {enumera(graves)}" if graves else ""
+        men_lead = (
+            f" El Ministerio de Educación Nacional (MEN) {{conector}} "
+            f"<strong>{fmt(len(sedes))} "
+            f"{concuerda(len(sedes), 'sede educativa', 'sedes educativas')} con "
+            f"afectación</strong>{detalle_graves}.")
     if m.get("rud_familias"):
         partes.append(
             f"{e(nombre)} ({e(depto)}) tiene <strong>{fmt(m['rud_familias'])} "
@@ -1189,7 +1216,8 @@ def _partes_respuesta(d: dict) -> list[str]:
             f"{concuerda(m['rud_viv_destruidas'], 'vivienda destruida', 'viviendas destruidas')} "
             f"y {fmt(m['rud_viv_averiadas'])} "
             f"{concuerda(m['rud_viv_averiadas'], 'averiada', 'averiadas')}. <strong>El RUD es un registro progresivo "
-            f"que cargan las autoridades municipales y está sujeto a verificación posterior</strong>: mide inscripciones tramitadas, no daño comprobado.")
+            f"que cargan las autoridades municipales y está sujeto a verificación posterior</strong>: mide inscripciones tramitadas, no daño comprobado."
+            + men_lead.format(conector="reporta además"))
     else:
         partes.append(
             f"{e(nombre)} ({e(depto)}) <strong>no tiene inscripciones en el Registro Único de "
@@ -1197,7 +1225,8 @@ def _partes_respuesta(d: dict) -> list[str]:
             f"(UNGRD)</strong> en la última captura del monitor. Sin registro no significa sin "
             f"daño: significa que las autoridades municipales aún no lo han cargado. Su población "
             f"proyectada para 2026 por el Departamento Administrativo Nacional de Estadística "
-            f"(DANE) es de {fmt(m['poblacion_2026'])} habitantes.")
+            f"(DANE) es de {fmt(m['poblacion_2026'])} habitantes."
+            + men_lead.format(conector="sí reporta"))
     # La afirmación se construye desde SATELITES, no desde una fuente concreta:
     # el día que entre otro producto, la frase sigue siendo cierta sola.
     vistos = satelites_con_dato(m, d["satelite"])
@@ -1252,13 +1281,9 @@ def _partes_respuesta(d: dict) -> list[str]:
         partes.append(
             f"<strong>Ningún producto satelital de daño ha reportado daños en {e(nombre)}"
             f"</strong>: no han evaluado sus edificios ni {ninguno}.{cerca}")
-    sedes = (((d.get("evidencia") or {}).get("capas") or {})
-             .get("sedes_men") or {}).get("features") or []
     if sedes:
-        cuenta = {}
-        for f in sedes:
-            estado = (f.get("properties") or {}).get("estado_fisico")
-            cuenta[estado] = cuenta.get(estado, 0) + 1
+        # el mismo conteo que la frase del lead: no pueden divergir
+        cuenta = dict(cuenta_men)
         desglose = []
         for estado, _color in _ESTADOS_MEN:
             n = cuenta.pop(estado, 0)
