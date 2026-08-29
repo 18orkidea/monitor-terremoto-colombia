@@ -260,11 +260,20 @@
               "administrativo, no una evaluación estructural en campo",
           }));
         },
-      }).addTo(map);
-      overlays[`Sedes educativas MEN (${sedes.features.length})`] = capa;
-      porCapa.sedes_men = capa;
-      map.attributionControl.addAttribution("MEN · SISE");
-      sumarBounds(bounds, capa);
+      });
+      /* Se cuenta lo DIBUJADO, no las features: la sede sin coordenada
+         resuelta viaja en la capa con `geometry` null —cuenta en el panel y
+         en la prosa— y Leaflet la salta al pintar. Un rótulo con el total
+         prometería puntos que el mapa no tiene; y si ninguna trae punto, la
+         capa entera sobra (el chip tampoco viene: el build cuenta igual). */
+      const dibujadas = capa.getLayers().length;
+      if (dibujadas) {
+        capa.addTo(map);
+        overlays[`Sedes educativas MEN (${dibujadas})`] = capa;
+        porCapa.sedes_men = capa;
+        map.attributionControl.addAttribution("MEN · SISE");
+        sumarBounds(bounds, capa);
+      }
     }
 
     const ciudadanos = capas.ciudadanos;

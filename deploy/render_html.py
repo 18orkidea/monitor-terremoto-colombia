@@ -820,7 +820,13 @@ def evidencia_municipal(nombre: str, muni: dict, ctx: dict) -> dict:
     capas = {"copernicus": copernicus, "unosat": unosat, "sertit": sertit,
              "sedes_men": sedes_men, "ciudadanos": ciudadanos, "zonas": zonas}
     conteos = {clave: len(capas[clave]) for clave in
-               ("copernicus", "unosat", "sertit", "sedes_men", "ciudadanos")}
+               ("copernicus", "unosat", "sertit", "ciudadanos")}
+    # Los conteos del paquete prometen PUNTOS del mapa de evidencias, así que
+    # el del MEN cuenta solo las sedes con coordenada. La capa viaja entera
+    # —la sede sin punto cuenta en el panel y en la prosa de la ficha, que
+    # leen las features—, pero no infla `total`: una ficha cuyas sedes llegan
+    # todas sin coordenada no gana un mapa que no tendría nada que pintar.
+    conteos["sedes_men"] = len(_sedes_georreferenciadas(sedes_men))
     return {
         "municipio": {"nombre": nombre, "departamento": muni["departamento"],
                       "lat": muni.get("lat"), "lon": muni.get("lon")},
@@ -1266,14 +1272,25 @@ def _partes_respuesta(d: dict) -> list[str]:
             desglose.append(f"{fmt_prosa(n, femenino=True)} con el estado "
                             f"«{e(str(estado))}»")
         total = len(sedes)
+        georef = len(_sedes_georreferenciadas(sedes))
+        # la doble cifra, solo cuando difiere: la sede sin coordenada resuelta
+        # reporta daño igual y cuenta aquí; lo único que no puede es aparecer
+        # en el mapa, y callarlo dejaría al lector restando puntos contra prosa
+        pintables = ("" if georef == total else (
+            f" De ellas, <strong>{fmt(georef)}</strong> "
+            f"{concuerda(georef, 'está georreferenciada', 'están georreferenciadas')} "
+            f"en el mapa de evidencias; el resto llega sin coordenada resuelta "
+            f"y no se puede pintar." if georef else
+            " Ninguna llega con coordenada resuelta, así que el mapa de "
+            "evidencias no puede pintarlas."))
         prosa_men = MEN_SEDES["prosa"]
         partes.append(
             f"{prosa_men[0].upper()}{prosa_men[1:]} reporta <strong>{fmt(total)} "
             f"{concuerda(total, 'sede educativa', 'sedes educativas')} con "
-            f"afectación</strong> en {e(nombre)}: {enumera(desglose)}. Es el "
-            f"reporte administrativo que cargan las secretarías de educación, "
-            f"sede a sede: no es una evaluación estructural en campo ni un "
-            f"producto satelital.")
+            f"afectación</strong> en {e(nombre)}: {enumera(desglose)}.{pintables} "
+            f"Es el reporte administrativo que cargan las secretarías de "
+            f"educación, sede a sede: no es una evaluación estructural en campo "
+            f"ni un producto satelital.")
     if d["ciudadanos"]:
         partes.append(
             f"La comunidad sí lo ha documentado: <strong>{fmt_prosa(len(d['ciudadanos']))} reportes "
@@ -1645,7 +1662,13 @@ def chips_evidencia(d: dict) -> str:
     unidades = {sat["clave"]: ("punto", "puntos") for sat in SATELITES}
     botones = []
     for clave, rotulo in capas_evidencia():
-        n = len((capas.get(clave) or {}).get("features") or [])
+        features = (capas.get(clave) or {}).get("features") or []
+        # el chip del MEN cuenta lo que su capa PINTA: la sede sin coordenada
+        # cuenta en el panel y en la prosa, pero prometerla en un chip que
+        # enciende puntos sería un control que ofrece más de lo que enseña
+        if clave == MEN_SEDES["clave"]:
+            features = _sedes_georreferenciadas(features)
+        n = len(features)
         if not n:
             continue                       # sin capa no hay chip que la accione
         unidad = unidades.get(clave)
@@ -1956,12 +1979,19 @@ def lienzo_municipal(d: dict, svg: str, destino: str) -> str:
                 "servicios satelitales —cada uno en su capa, sin sumar entre "
                 "ellos—")
         # `.get`: los paquetes construidos antes de que existiera la capa del
-        # MEN no traen la clave, y una ficha vieja no puede romper el build
-        if conteos.get("sedes_men"):
+        # MEN no traen la clave, y una ficha vieja no puede romper el build.
+        # La cifra del intro es la del mapa que presenta —solo sedes con
+        # punto—; el total con las que llegan sin coordenada lo dan la prosa
+        # y el panel, cada cifra con su nombre (G3).
+        sedes_pintables = len(_sedes_georreferenciadas(
+            ((d.get("evidencia") or {}).get("capas") or {})
+            .get("sedes_men", {}).get("features") or []))
+        if sedes_pintables:
             partes.append(
-                f'{fmt(conteos["sedes_men"])} '
-                f'{concuerda(conteos["sedes_men"], "sede educativa", "sedes educativas")}'
-                " con afectación reportada por el Ministerio de Educación")
+                f'{fmt(sedes_pintables)} '
+                f'{concuerda(sedes_pintables, "sede educativa", "sedes educativas")}'
+                " con afectación georreferenciada por el Ministerio de "
+                "Educación")
         if conteos["ciudadanos"]:
             partes.append(
                 f'{fmt(conteos["ciudadanos"])} '
@@ -2188,6 +2218,14 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
             len(sedes_ficha), "sedes",
             "Reporte administrativo de las secretarías de educación, sede a "
             "sede; no es una evaluación estructural en campo."))
+        # la gemela de la doble cifra de la prosa, solo cuando difiere
+        georef_ficha = len(_sedes_georreferenciadas(sedes_ficha))
+        if georef_ficha != len(sedes_ficha):
+            variables.append(_medida(
+                "Sedes del MEN georreferenciadas en el mapa de evidencias",
+                georef_ficha, "sedes",
+                "Las demás reportan afectación sin coordenada resuelta: "
+                "cuentan en las cifras y el mapa no puede pintarlas."))
     # Solo cuando la prosa lo dice, y por el mismo motivo: sumar las cifras de
     # dos servicios que miran el mismo tejado inventaría edificios. Con un solo
     # servicio, este dato sería su propia cifra repetida con otro nombre.
@@ -3737,20 +3775,40 @@ def sin_mirada_satelital(ctx: dict) -> list:
             if m.get("rud_familias") and not _mirado_por_satelite(m)]
 
 
-def _sedes_men_nacional(ctx: dict) -> tuple:
-    """(sedes con afectación, municipios distintos) del recorte del MEN.
+def _sedes_georreferenciadas(features: list) -> list:
+    """Las sedes que el mapa puede pintar: las que traen coordenada.
 
-    Una sola cuenta para la frase de la entradilla y para su gemela en el
-    marcado de referencia.html (G3): dos cálculos de la misma cifra divergen.
-    Los municipios se cuentan por el par (municipio, departamento)
-    normalizado, porque el MEN repite nombres de municipio entre
-    departamentos, y del MISMO fichero que la capa dibuja — la regla de los
-    «36 en portada, 43 en la tabla»."""
+    El MEN reporta sedes cuya geolocalización no resuelve, y el export las
+    trae con `geometry` en null — Leaflet no las dibuja, y este monitor no les
+    inventa una posición (R3: el (0,0) era un cero disfrazado de sitio). La
+    sede sin punto SIGUE contando en las cifras de su municipio: existe y
+    reporta daño; lo único que no puede es aparecer en el mapa. Toda cifra
+    que prometa puntos dibujados se cuenta con esta lista; la que hable del
+    reporte del MEN, con la lista entera — y cuando difieren, la prosa
+    enseña las dos (G3)."""
+    return [f for f in features
+            if ((f.get("geometry") or {}).get("coordinates"))]
+
+
+def _sedes_men_nacional(ctx: dict) -> dict:
+    """Las cuentas nacionales del MEN, calculadas UNA vez.
+
+    Una sola cuenta para la frase de la entradilla, el chip de la portada y
+    la gemela en el marcado de referencia.html (G3): dos cálculos de la misma
+    cifra divergen. Los municipios se cuentan por el par (municipio,
+    departamento) normalizado, porque el MEN repite nombres de municipio
+    entre departamentos, y del MISMO fichero que la capa dibuja — la regla de
+    los «36 en portada, 43 en la tabla». `muns_georef` cuenta solo municipios
+    con alguna sede pintable: es lo que el chip promete encender."""
+    def pares(features):
+        return {(norm_busqueda((f.get("properties") or {}).get("nom_mun") or ""),
+                 norm_busqueda((f.get("properties") or {}).get("nom_dep") or ""))
+                for f in features}
+
     sedes = ctx.get("men_sedes") or []
-    muns = {(norm_busqueda((f.get("properties") or {}).get("nom_mun") or ""),
-             norm_busqueda((f.get("properties") or {}).get("nom_dep") or ""))
-            for f in sedes}
-    return len(sedes), len(muns)
+    georef = _sedes_georreferenciadas(sedes)
+    return {"total": len(sedes), "georef": len(georef),
+            "muns": len(pares(sedes)), "muns_georef": len(pares(georef))}
 
 
 def entradilla_portada(ctx: dict) -> str:
@@ -3777,13 +3835,20 @@ def entradilla_portada(ctx: dict) -> str:
     if sin:
         frases.append(f"A otros <b>{fmt(sin)}</b> no los ha mirado ningún "
                       "satélite.")
-    n_sedes, muns_men = _sedes_men_nacional(ctx)
-    if n_sedes and muns_men:
+    men = _sedes_men_nacional(ctx)
+    if men["total"] and men["muns"]:
+        # La doble cifra es honesta, no redundante: la sede cuya
+        # geolocalización no resuelve reporta daño igual, solo que el mapa no
+        # puede enseñarla. Con una sola cifra, o el mapa promete puntos que no
+        # tiene o la frase esconde sedes que existen.
+        pintables = ("" if men["georef"] == men["total"] else
+                     f', <b>{fmt(men["georef"])}</b> de ellas '
+                     "georreferenciadas en el mapa")
         frases.append(
-            f"El Ministerio de Educación reporta <b>{fmt(n_sedes)}</b> "
-            f"{concuerda(n_sedes, 'sede educativa', 'sedes educativas')} con "
-            f"afectación en <b>{fmt(muns_men)}</b> "
-            f'{concuerda(muns_men, "municipio", "municipios")}.')
+            f"El Ministerio de Educación reporta <b>{fmt(men['total'])}</b> "
+            f"{concuerda(men['total'], 'sede educativa', 'sedes educativas')} con "
+            f"afectación en <b>{fmt(men['muns'])}</b> "
+            f'{concuerda(men["muns"], "municipio", "municipios")}{pintables}.')
     if not frases:
         return ("<p>Todavía no hay ninguna fuente con cifras agregadas de este "
                 "sismo. El monitor publica lo que haya en cuanto lo haya.</p>")
@@ -3924,8 +3989,10 @@ def _municipios_por_capa(ctx: dict) -> dict:
     return {
         "copernicus": sin_sinteticos(ctx["conteo_satelite"]),
         **por_campo,
-        # del mismo fichero que la capa dibuja, como la ausencia
-        "sedes_men": _sedes_men_nacional(ctx)[1],
+        # del mismo fichero que la capa dibuja, como la ausencia — y SOLO los
+        # municipios con alguna sede pintable: el chip enciende puntos, y un
+        # municipio cuyas sedes llegan todas sin coordenada no pone ninguno
+        "sedes_men": _sedes_men_nacional(ctx)["muns_georef"],
         "ciudadanos": sin_sinteticos(ctx["conteo_ciudadanos"]),
         "ausencia": capa.get("con_coordenadas") or 0,
     }
@@ -5330,19 +5397,28 @@ def dataset_referencia(ctx: dict) -> str:
     # de la portada (G3): la entradilla dice «N sedes en M municipios» y este
     # es el único nodo legible por máquina de ese mismo conjunto (`@id`
     # compartido con el de la portada).
-    n_sedes, muns_men = _sedes_men_nacional(ctx)
+    men = _sedes_men_nacional(ctx)
     variables = []
-    if n_sedes and muns_men:
+    if men["total"] and men["muns"]:
         citas.append(_cita("Seguimiento de sedes educativas afectadas (SISE)",
                            MEN_SEDES["publicador"], MEN_SEDES["url"]))
         variables = [
             _medida("Sedes educativas con afectación reportada por el MEN",
-                    n_sedes, "sedes",
+                    men["total"], "sedes",
                     "Reporte administrativo de las secretarías de educación, "
                     "sede a sede; no es una evaluación estructural en campo."),
             _medida("Municipios con sedes educativas afectadas (MEN)",
-                    muns_men, "municipios"),
+                    men["muns"], "municipios"),
         ]
+        # la gemela de la doble cifra de la entradilla: solo existe cuando
+        # difiere del total — publicar dos veces el mismo número con dos
+        # nombres invita a restarlos y leer un cero que no significa nada
+        if men["georef"] != men["total"]:
+            variables.append(_medida(
+                "Sedes del MEN georreferenciadas en el mapa", men["georef"],
+                "sedes",
+                "Las demás reportan afectación sin coordenada resuelta: "
+                "cuentan en las cifras y el mapa no puede pintarlas."))
     ld = {
         "@context": "https://schema.org", "@type": "Dataset",
         # el MISMO `@id` que el nodo de la portada: un solo conjunto
@@ -5382,7 +5458,7 @@ def dataset_referencia(ctx: dict) -> str:
                "por el Ministerio de Educación Nacional (SISE), sede a sede: "
                "no es interpretación satelital ni una evaluación estructural "
                "en campo, y «no aporta información» se conserva como sin "
-               "verificar, nunca como sin daño."] if n_sedes else []),
+               "verificar, nunca como sin daño."] if men["total"] else []),
         ],
         **({"variableMeasured": variables} if variables else {}),
         "citation": citas,

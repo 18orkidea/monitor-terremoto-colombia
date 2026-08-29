@@ -714,6 +714,11 @@
       "Afectación menor": "#f7d46b",
       "Reporta afectación sin definir el impacto": css("--muted"),
     };
+    /* Las sedes sin geolocalización resuelta viajan con `geometry` null:
+       Leaflet las salta al construir la capa y el rótulo del control cuenta
+       lo DIBUJADO (`enciende`), así que la cifra del mapa es la de los
+       puntos que se ven. El total con las no pintables lo da la prosa de la
+       portada, con las dos cifras y sus nombres. */
     return conZoom(() => radioPunto(5.5), L.geoJSON(sedes, {
         pointToLayer: (f, ll) => L.circleMarker(ll, {
           radius: radioPunto(5.5), weight: 1.5, color: "#fff", fillOpacity: 0.9,

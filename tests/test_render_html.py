@@ -8549,3 +8549,46 @@ class TestSedesDelMenPorMunicipio(unittest.TestCase):
         self.assertEqual(R._sedes_por_municipio(ctx), {},
                          "un municipio fuera del catálogo no se cuelga de "
                          "ninguna ficha")
+
+
+class TestSedesSinCoordenada(unittest.TestCase):
+    """La sede con `geometry` null cuenta en las cifras y no en lo pintable.
+
+    El export del MEN trae con geometría nula la sede cuya geolocalización no
+    resuelve (antes venía en (0,0): un cero disfrazado de posición que pintaba
+    colegios en el golfo de Guinea). La regla de presentación: existe y
+    reporta daño —cuenta en su municipio, en la prosa y en el panel—, pero
+    ninguna cifra que prometa puntos dibujados puede incluirla."""
+
+    @staticmethod
+    def _sede(mun, dep, con_punto=True):
+        return {"type": "Feature",
+                "geometry": ({"type": "Point", "coordinates": [-76.5, 3.4]}
+                             if con_punto else None),
+                "properties": {"nom_mun": mun, "nom_dep": dep,
+                               "estado_fisico": "Colapso total"}}
+
+    def test_cuenta_en_su_municipio_aunque_no_tenga_punto(self):
+        ctx = {"idx": {"Cali": {"departamento": "Valle del Cauca"}},
+               "men_sedes": [self._sede("CALI", "VALLE DEL CAUCA", False),
+                             self._sede("CALI", "VALLE DEL CAUCA", True)]}
+        self.assertEqual(len(R._sedes_por_municipio(ctx)["Cali"]), 2)
+        self.assertEqual(
+            len(R._sedes_georreferenciadas(ctx["men_sedes"])), 1)
+
+    def test_la_entradilla_dice_las_dos_cifras_cuando_difieren(self):
+        ctx = {"monitor": {}, "municipios": [],
+               "men_sedes": [self._sede("CALI", "VALLE DEL CAUCA", False),
+                             self._sede("CALI", "VALLE DEL CAUCA", True)]}
+        salida = R.entradilla_portada(ctx)
+        self.assertIn("<b>2</b> sedes educativas con afectación", salida)
+        self.assertIn("<b>1</b> de ellas georreferenciadas en el mapa", salida)
+
+    def test_con_todas_pintables_no_hay_segunda_cifra(self):
+        ctx = {"monitor": {}, "municipios": [],
+               "men_sedes": [self._sede("CALI", "VALLE DEL CAUCA", True)]}
+        salida = R.entradilla_portada(ctx)
+        self.assertIn("sede educativa con afectación", salida)
+        self.assertNotIn("georreferenciada", salida,
+                         "dos cifras iguales con dos nombres invitan a restar "
+                         "un cero que no significa nada")
