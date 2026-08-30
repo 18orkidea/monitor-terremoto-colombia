@@ -128,7 +128,12 @@ Ningún cambio está terminado sin sus casillas:
 1. **Reglas**: conforme a R1–R16 y a idioma/naming.
 2. **Test**: comportamiento nuevo ⇒ test nuevo (unit/hipótesis/supuesto según
    capa); bug corregido ⇒ el test que lo habría cazado. Suite en verde:
-   `python3 -m unittest discover -s tests`.
+   `python3 -m unittest discover -s tests`. **Ningún test fija a mano una
+   fecha o una cifra de una serie viva** (RUD, titulares, balances — todo lo
+   que el snapshot diario de mañana puede mover): prueba comportamiento sobre
+   un fixture sintético propio, o afirma una propiedad estructural del dato
+   real («para todo X, existe Y»). Lo fijado a mano solo vale si está atado a
+   un snapshot inmutable por su sha256 (docs/DECISIONES.md, 30-ago-2026).
 3. **Documentación**: README/`docs/ARQUITECTURA.md`/CONTRIBUTING si cambió el
    comportamiento; `docs/DECISIONES.md` si hubo decisión; hito en
    `feeds/hitos_monitor.json` si es visible al público.
