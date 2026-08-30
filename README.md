@@ -97,6 +97,14 @@ python -m unittest tests.test_hipotesis -v       # afirmaciones del proyecto vs 
 | [EMSC seismicportal](https://www.seismicportal.eu/) | 1.339 felt reports (contraste con DYFI) | Público |
 | Worker interno `monitor-terremoto-colombia-oficiales-ai` | Monitoreo de canales oficiales y extracción estructurada de documentos con `qwen-vl-ocr-2025-11-20` | Privado para inferencia; público solo JSON/RSS estructurado |
 
+**Vigilantes de fuentes que todavía no existen** (`ingest/alerts.py`, tabla
+`fuentes_watch`): no ingieren datos, avisan cuando algo nuevo aparece.
+
+| Vigilante | Qué busca | Acceso |
+|---|---|---|
+| [HDX/CKAN `package_search`](https://data.humdata.org/api/3/action/package_search) | Datasets nuevos o revisados del terremoto en el grupo de país «col» (habría cantado los datos de Microsoft del 12-ago-2026) | Público, sin clave; licencia declarada por cada dataset, no por la API |
+| [Buscador de arcgis.com](https://www.arcgis.com/sharing/rest/search) | El tablero ERES/MinSalud de establecimientos de salud que la OPS ayuda a construir (aún no existe al 30-ago-2026); alerta candidatos, no hallazgos confirmados — el buscador libre no es exacto | Público, sin clave, bajo los términos de uso de Esri; no apto para scraping masivo, solo consultas puntuales |
+
 Sin acceso programático (documentado, no usado): [SNIGRD](https://sni.gestiondelriesgo.gov.co/)/geoportal
 UNGRD (Keycloak), [SGC Sismo Sentido](https://sismosentido2.sgc.gov.co/) (SPA sin API),
 ReliefWeb (requiere appname).

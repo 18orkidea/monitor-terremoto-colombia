@@ -4137,3 +4137,68 @@ extensión posible, no pedida) y `CIFRAS_BALANCE`.
 `COD_DANE` (PK), el enum de 8 literales (si aparece uno nuevo, avisa — R11) y
 la paginación (una página corta o un error de ArcGIS con HTTP 200 es error de
 corrida, no fin de datos).
+
+## 2026-08-30 — Vigilantes de fuentes que aún no existen: HDX y el tablero ERES/MinSalud
+
+**Contexto.** Hasta hoy toda alerta de "fuente nueva" del monitor comparaba el
+snapshot de HOY contra el de AYER (`_institucionales_nuevos`, sobre el feed
+institucional de GDACS ya archivado). Los dos vigilantes de esta entrada son
+distintos: no ingieren datos de una fuente que el monitor ya sigue, sino que
+**buscan** en catálogos ajenos (HDX/CKAN, el buscador público de arcgis.com)
+algo que puede no existir todavía — el tablero ERES/MinSalud de
+establecimientos de salud que la OPS ayuda a construir con el Ministerio de
+Salud no existe al 30-ago-2026. Comparar snapshots día a día no sirve aquí: el
+orden y el contenido de una BÚSQUEDA cambian sin que el mundo real haya
+cambiado (arcgis.com reordena por relevancia; HDX puede devolver un dataset
+hoy y no mañana sin que se haya borrado). Lo que hace falta es identidad por
+ítem, no por cuerpo del día.
+
+**Decisiones, numeradas:**
+
+1. **Estado por ítem en una tabla nueva (`fuentes_watch`), no diff de
+   snapshots.** Una sola tabla para los dos watchers — comparten la misma
+   pregunta, «¿esto ya lo habíamos visto?» — con clave (watcher, external_id).
+   El histórico de revisiones no vive ahí: ya lo tiene `sources_log` por su
+   propio sha256/ts, y duplicarlo sería una segunda copia que diverge.
+2. **La primera corrida siembra en silencio.** Mismo patrón que
+   `_institucionales_nuevos`: sin línea base, cada resultado de la primera
+   consulta se declararía «nuevo» —de HDX salieron 4 datasets ya publicados el
+   primer día de prueba—, que es ruido, no noticia.
+3. **HDX alerta también por revisión (`metadata_modified` cambia); ArcGIS
+   solo por aparición.** Un dataset de HDX que se re-sube es una entrega
+   nueva y real. Un item de ArcGIS en construcción cambia su `modified` cada
+   vez que alguien lo edita: si el tablero tarda una semana en publicarse,
+   alertar cada `modified` sería una alerta diaria mientras dura la obra. Solo
+   importa el día en que el `id` aparece por primera vez.
+4. **La consulta de ArcGIS combina cuatro señales, no una.** Probado contra
+   la red real: "ERES" en solitario confunde con el pronombre español —el
+   buscador de arcgis.com tokeniza texto libre y "eres" aparece dentro de
+   contenido no relacionado—, y "MinSalud"/"MSPS" en solitario trae tableros
+   reales del Ministerio que no tienen nada que ver con el terremoto (COVID-19,
+   vacunación, zoonosis). La consulta exige sigla o nombre completo (ERES /
+   «establecimientos de salud») **Y** una señal de entidad (MinSalud, MSPS,
+   OPS, o la cuenta oficial confirmada `owner:sispro_geo`) **Y** una señal de
+   evento (sismo, terremoto, Colombia). Las tres juntas no garantizan cero
+   falsos positivos —el buscador no es exacto—, así que la alerta se redacta
+   como candidato a revisar (ver decisión 5).
+5. **Nivel `media`, no `alta`, para el candidato de ArcGIS.** `nivel: alta`
+   dispara push y Telegram a todos los suscriptores
+   (`workers/push/src/webpush.js::filtrarNotificables`); empujar como urgente
+   algo que el propio código admite que puede ser ruido no es correcto.
+   Sigue publicado en `alerts.json`/RSS, visible para quien lo lea.
+   **Decisión editorial pendiente de confirmar**: si al aparecer el tablero
+   real conviene subir a `alta` a mano, o dejar que el candidato se confirme
+   por revisión humana antes de avisar a todos.
+6. **Detector de silencio propio (R15), replicando `worker_balances_silencio`
+   en vez de generalizarlo.** Un watcher que deja de responder (clave
+   rotada, user-agent bloqueado, endpoint movido) degradaba en silencio total
+   —R13 lo permite, pero nada avisaba de que dejó de mirar—. Tras 48 h sin una
+   respuesta 200, `_watcher_silencioso` emite alerta `alta`. Se replicó el
+   patrón en vez de generalizar `worker_balances_silencio` porque ese detector
+   lee un `generated_at` propio del feed, y los watchers de esta entrada no
+   tienen uno — la señal disponible es la última fila 200 en `sources_log`.
+
+**Qué NO se tocó:** los watchers no ingieren cifras ni tocan `crosscheck.py`;
+no hay export público dedicado (no hay dato que exportar, solo hallazgo/no
+hallazgo) ni necesidad de Wayback (la fuente que se archiva es la búsqueda del
+día, ya en `data/snapshots/`).

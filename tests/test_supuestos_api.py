@@ -218,6 +218,57 @@ class TestSupuestoFuenteEnGoogleNews(unittest.TestCase):
             "docs/LIMITACIONES.md: la URL original ha dejado de perderse")
 
 
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosWatcherHDX(unittest.TestCase):
+    """HDX/CKAN (data.humdata.org): el catálogo que `alerts.datasets_hdx_nuevos`
+    vigila. `package_search` es la acción pública de CKAN. Este supuesto no
+    pregunta por el terremoto —eso cambia cada día, y el día que no haya
+    ningún dataset del evento no es un fallo, es buena noticia— sino por la
+    FORMA de la respuesta, que es lo que el parser del watcher asume."""
+
+    def test_package_search_responde_con_el_esquema_esperado(self):
+        st, d = fetch_json(
+            "https://data.humdata.org/api/3/action/package_search",
+            {"fq": "groups:col", "rows": 1}, note=NOTA_SONDA)
+        self.assertEqual(st, 200)
+        self.assertTrue(d.get("success"),
+                        "package_search dejó de responder success=true")
+        resultado = d.get("result") or {}
+        self.assertIn("results", resultado, "la respuesta perdió 'result.results'")
+        self.assertTrue(resultado["results"],
+                        "Colombia sin ni un dataset en HDX: revisar el grupo 'col'")
+        r = resultado["results"][0]
+        for campo in ("id", "metadata_modified", "organization"):
+            self.assertIn(campo, r, f"HDX dejó de traer '{campo}' en cada resultado")
+        self.assertIn("title", r.get("organization") or {},
+                      "el objeto organization ya no trae 'title'")
+
+
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosWatcherArcGIS(unittest.TestCase):
+    """arcgis.com/sharing/rest/search: el buscador público que
+    `alerts.tablero_arcgis_eres` vigila esperando el tablero ERES/MinSalud.
+    Como el tablero AÚN NO EXISTE (30-ago-2026), este supuesto no puede
+    pedirlo por su nombre — vigila la FORMA de la respuesta del buscador con
+    una consulta genérica que siempre trae resultados, no la consulta real
+    del watcher."""
+
+    def test_el_buscador_responde_con_el_esquema_esperado(self):
+        st, d = fetch_json(
+            "https://www.arcgis.com/sharing/rest/search",
+            {"q": "Colombia", "f": "json", "num": 1}, note=NOTA_SONDA)
+        self.assertEqual(st, 200)
+        self.assertNotIn("error", d or {},
+                         "arcgis.com/sharing/rest/search devolvió un error")
+        self.assertIn("results", d, "la respuesta perdió 'results'")
+        self.assertTrue(d["results"],
+                        "una búsqueda genérica de 'Colombia' no trajo ni un "
+                        "item: revisar el endpoint")
+        r = d["results"][0]
+        for campo in ("id", "title", "type", "owner", "modified"):
+            self.assertIn(campo, r, f"arcgis.com dejó de traer '{campo}' en cada resultado")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
 

@@ -567,6 +567,189 @@ def divergencias_del_archivo_de_activos(conn) -> list[dict]:
     return avisos
 
 
+HDX_SEARCH = "https://data.humdata.org/api/3/action/package_search"
+# Varios términos en OR, nunca uno solo: un dataset puede etiquetarse "sismo"
+# y no "earthquake", o al revés — fijar la búsqueda a uno perdería al otro.
+HDX_TERMINOS = ("terremoto", "sismo", "earthquake")
+HDX_PAIS = "col"          # grupo de país en HDX: ISO3 en minúsculas
+
+
+def _primera_corrida_del_watcher(conn, watcher: str) -> bool:
+    """¿Es la primera vez que este watcher corre?
+
+    Sin esto, la primera corrida convertiría en «alerta nueva» cada dataset o
+    tablero que la fuente YA tenía publicado antes de que el monitor empezara
+    a mirar —de HDX salen varios el primer día de prueba (30-ago-2026)—, que
+    es ruido y no noticia. Mismo patrón que `_institucionales_nuevos`: sin
+    captura previa no se alerta, se siembra la línea base en silencio.
+    """
+    return conn.execute(
+        "SELECT 1 FROM fuentes_watch WHERE watcher=? LIMIT 1", (watcher,)
+    ).fetchone() is None
+
+
+def _watcher_silencioso(conn, watcher: str, nota: str, nombre_fuente: str) -> dict | None:
+    """¿Lleva este vigilante más de 48 h sin una respuesta 200? (R15)
+
+    Sin esto, un watcher que deja de funcionar —clave rotada, user-agent
+    bloqueado, endpoint movido— degrada en silencio para siempre: R13 permite
+    que la corrida no se rompa, pero nada obligaba a que alguien se enterase
+    de que dejó de mirar. Mismo patrón que `worker_balances_silencio` (bloque
+    5 de `run()`), aplicado a los dos watchers nuevos en vez de duplicarlo.
+    """
+    ultimo_ok = conn.execute(
+        "SELECT MAX(ts) FROM sources_log WHERE note=? AND http_status=200",
+        (nota,)).fetchone()[0]
+    if ultimo_ok is None:
+        return None        # nunca respondió bien: no hay «desde cuándo» que contar
+    edad_h = (datetime.now(timezone.utc)
+              - datetime.fromisoformat(ultimo_ok.replace("Z", "+00:00"))
+              ).total_seconds() / 3600
+    if edad_h <= 48:
+        return None
+    return {
+        "tipo": f"{watcher}_watcher_silencio", "nivel": "alta",
+        "texto": f"El vigilante de {nombre_fuente} lleva {edad_h:.0f} h sin "
+                 f"una respuesta 200: revisar si la fuente cambió su "
+                 f"contrato o bloqueó al monitor.",
+        "watcher": watcher, "horas": round(edad_h)}
+
+
+def datasets_hdx_nuevos(conn, snap: str) -> list[dict]:
+    """Datasets nuevos o revisados en HDX (data.humdata.org) sobre el terremoto.
+
+    HDX es el catálogo humanitario donde las organizaciones publican sin que
+    el monitor las busque una a una: así habría cantado los datos de Microsoft
+    el 12-ago-2026, que hoy solo se encuentran leyendo a mano. La búsqueda
+    combina el grupo de país (Colombia) con varios términos en OR.
+
+    Sin clave: `package_search` de CKAN es pública. R4: la petición entera pasa
+    por `fetch_json`, con su snapshot del listado del día.
+    """
+    primera = _primera_corrida_del_watcher(conn, "hdx")
+    q = " OR ".join(HDX_TERMINOS)
+    st, d = fetch_json(HDX_SEARCH, {
+        "q": q, "fq": f"groups:{HDX_PAIS}", "sort": "metadata_modified desc",
+        "rows": 30,
+    }, note="watcher hdx", snapshot_name="hdx_search.json", conn=conn)
+    if st != 200 or not d or not d.get("success"):
+        aviso = _watcher_silencioso(conn, "hdx", "watcher hdx", "HDX/CKAN")
+        return [aviso] if aviso else []
+    avisos = []
+    for r in (((d.get("result") or {}).get("results")) or []):
+        ext_id = r.get("id")
+        if not ext_id:
+            continue
+        titulo = r.get("title") or r.get("name") or ext_id
+        org = ((r.get("organization") or {}).get("title")
+               or "organización sin identificar")
+        url = f"https://data.humdata.org/dataset/{r.get('name') or ext_id}"
+        modif = r.get("metadata_modified")
+        previa = conn.execute(
+            "SELECT modificado FROM fuentes_watch"
+            " WHERE watcher='hdx' AND external_id=?", (ext_id,)).fetchone()
+        if not primera:
+            if previa is None:
+                avisos.append({
+                    "tipo": "hdx_dataset_nuevo", "nivel": "alta",
+                    "texto": f"Fuente nueva en HDX: «{titulo}» ({org}) — {url}",
+                    "titulo": titulo, "organizacion": org, "url": url})
+            elif modif and previa[0] != modif:
+                avisos.append({
+                    "tipo": "hdx_dataset_revisado", "nivel": "info",
+                    "texto": f"HDX revisó «{titulo}» ({org}) — {url}",
+                    "titulo": titulo, "organizacion": org, "url": url})
+        conn.execute(
+            "INSERT INTO fuentes_watch (watcher, external_id, titulo,"
+            " organizacion, url, modificado, first_seen, last_seen)"
+            " VALUES ('hdx',?,?,?,?,?,?,?)"
+            " ON CONFLICT(watcher, external_id) DO UPDATE SET"
+            " titulo=excluded.titulo, organizacion=excluded.organizacion,"
+            " url=excluded.url, modificado=excluded.modificado,"
+            " last_seen=excluded.last_seen",
+            (ext_id, titulo, org, url, modif, snap, snap))
+    return avisos
+
+
+ARCGIS_SEARCH = "https://www.arcgis.com/sharing/rest/search"
+# Cuatro señales combinadas para no fijar la búsqueda a un único término: el
+# tablero puede llamarse por su sigla (ERES), por su nombre completo
+# («establecimientos de salud»), por quien lo publica (MinSalud, MSPS, o la
+# propia cuenta oficial sispro_geo) o por el evento (sismo/terremoto/
+# Colombia). Medido el 30-ago-2026: sin la segunda cláusula de entidad, la
+# búsqueda libre de arcgis.com confunde «ERES» con el pronombre español
+# —cualquier texto que contenga la palabra «eres» entra—; sin la tercera trae
+# tableros reales de MinSalud que no tienen nada que ver con el terremoto
+# (COVID-19, vacunación, zoonosis). Las cuatro juntas no garantizan cero
+# falsos positivos —el buscador de arcgis.com no es exacto—, así que la
+# alerta se redacta como candidato a revisar, no como hallazgo confirmado.
+ARCGIS_QUERY = (
+    '(ERES OR "establecimientos de salud" OR "evaluación de establecimientos'
+    ' de salud") AND (MinSalud OR MSPS OR OPS OR owner:sispro_geo)'
+    ' AND (sismo OR terremoto OR Colombia)')
+
+
+def tablero_arcgis_eres(conn, snap: str) -> list[dict]:
+    """¿Apareció el tablero ArcGIS ERES/MinSalud de establecimientos de salud?
+
+    La OPS está ayudando a construirlo junto al Ministerio de Salud; el
+    30-ago-2026 no existe todavía en el catálogo público de arcgis.com. El día
+    que se publique, alguien tiene que enterarse sin ir a buscarlo a mano.
+
+    Solo se alerta la PRIMERA vez que se ve un item, no en cada revisión: a
+    diferencia de HDX, un tablero ArcGIS se edita todo el tiempo mientras se
+    construye, y avisar de cada `modified` sería una alerta diaria mientras
+    dure la obra.
+    """
+    primera = _primera_corrida_del_watcher(conn, "arcgis_eres")
+    st, d = fetch_json(ARCGIS_SEARCH, {
+        "q": ARCGIS_QUERY, "f": "json", "num": 20,
+        "sortField": "modified", "sortOrder": "desc",
+    }, note="watcher arcgis eres", snapshot_name="arcgis_eres_search.json",
+        conn=conn)
+    if st != 200 or not d or d.get("error"):
+        aviso = _watcher_silencioso(conn, "arcgis_eres", "watcher arcgis eres",
+                                    "arcgis.com (tablero ERES/MinSalud)")
+        return [aviso] if aviso else []
+    avisos = []
+    for r in d.get("results") or []:
+        ext_id = r.get("id")
+        if not ext_id:
+            continue
+        ya_visto = conn.execute(
+            "SELECT 1 FROM fuentes_watch"
+            " WHERE watcher='arcgis_eres' AND external_id=?",
+            (ext_id,)).fetchone()
+        titulo = r.get("title") or ext_id
+        owner = r.get("owner") or "propietario sin identificar"
+        url = f"https://www.arcgis.com/home/item.html?id={ext_id}"
+        if not primera and not ya_visto:
+            tipo = r.get("type") or "item"
+            avisos.append({
+                # "media", no "alta": la búsqueda libre de arcgis.com no es
+                # exacta y esto es un candidato a revisar, no un hallazgo
+                # confirmado (ver ARCGIS_QUERY) — "alta" dispararía push y
+                # Telegram a todos los suscriptores por algo que un humano
+                # aún no confirmó. Sigue publicado en alerts.json/RSS, visible
+                # para quien lo lea. Nivel a confirmar con criterio editorial
+                # (docs/DECISIONES.md, 2026-08-30).
+                "tipo": "arcgis_eres_candidato", "nivel": "media",
+                "texto": f"Posible tablero ERES/MinSalud en ArcGIS: «{titulo}»"
+                         f" ({tipo}, {owner}) — revisar si es el que construye"
+                         f" la OPS: {url}",
+                "titulo": titulo, "item_type": tipo, "owner": owner, "url": url})
+        conn.execute(
+            "INSERT INTO fuentes_watch (watcher, external_id, titulo,"
+            " organizacion, url, modificado, first_seen, last_seen)"
+            " VALUES ('arcgis_eres',?,?,?,?,?,?,?)"
+            " ON CONFLICT(watcher, external_id) DO UPDATE SET"
+            " titulo=excluded.titulo, organizacion=excluded.organizacion,"
+            " url=excluded.url, modificado=excluded.modificado,"
+            " last_seen=excluded.last_seen",
+            (ext_id, titulo, owner, url, r.get("modified"), snap, snap))
+    return avisos
+
+
 def run(copernicus_summary: dict | None = None) -> list[dict]:
     conn = db()
     snap = today()
@@ -796,6 +979,23 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     # sí; el día que se separen hay que verlo (R11).
     try:
         alerts.extend(divergencias_del_archivo_de_activos(conn))
+    except sqlite3.Error:
+        pass
+
+    # 11) HDX/CKAN: datasets nuevos o revisados sobre el terremoto. Un feed que
+    # falla no rompe la corrida (R13) — es la fuente misma de una vigilancia,
+    # así que su propio silencio no puede ser fatal.
+    try:
+        alerts.extend(datasets_hdx_nuevos(conn, snap))
+    except sqlite3.Error:
+        pass
+
+    # 12) ArcGIS: ¿nació el tablero ERES/MinSalud de establecimientos de salud
+    # que la OPS ayuda a construir? Mientras no exista, esto no encuentra nada
+    # que avisar — el día que aparezca, es justo la noticia que este vigilante
+    # existe para cazar.
+    try:
+        alerts.extend(tablero_arcgis_eres(conn, snap))
     except sqlite3.Error:
         pass
 
