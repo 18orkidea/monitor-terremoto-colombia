@@ -87,7 +87,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-from common import DATA, fetch, registrar_entrega, to_num, utcnow
+from common import DATA, PUBLIC, fetch, registrar_entrega, to_num, utcnow
 
 DOCUMENTOS = DATA / "documentos" / "ops_salud"
 
@@ -430,9 +430,13 @@ def run(conn=None, *, snapshot_date=None, **_op) -> dict:
 
 def cifras_por_ambito(conn) -> dict[str, dict[str, dict]]:
     """La última cifra de cada (ámbito, concepto), con su fecha, autor y
-    fuente. Es el contrato que consume la sección «Lo que declara el
-    departamento» de las fichas: `{ambito: {concepto: {valor, fecha_corte,
-    autor, fuente_citada, sitrep_n, nota}}}`.
+    fuente: `{ambito: {concepto: {valor, fecha_corte, autor, fuente_citada,
+    sitrep_n, nota}}}`.
+
+    El contrato que consumen las fichas es `export_public()`, no esta función
+    directamente: `deploy/render_html.py` nunca abre sqlite (R14, y el patrón
+    del sitio entero — lee solo `data/public/*.json`). Esta función es la
+    fuente de la que sale `data/public/ops_salud.json`.
 
     Solo mira las filas con `nivel_complejidad IS NULL` — el total del
     concepto para ese ámbito — porque un ámbito puede tener además hasta 4
@@ -459,10 +463,10 @@ def cifras_por_ambito(conn) -> dict[str, dict[str, dict]]:
 
 def instituciones_por_municipio(conn) -> dict[str, list[dict]]:
     """El detalle por institución, agrupado por `municipio_slug` (excluidas
-    las que no resolvieron municipio). Contrato para las fichas municipales:
-    `{slug: [{sitrep_n, fecha_corte, nombre_ips, nivel_complejidad,
-    observacion, municipio_literal, departamento_literal}, …]}`, en el orden
-    en que se transcribieron (sitrep, idx).
+    las que no resolvieron municipio): `{slug: [{sitrep_n, fecha_corte,
+    nombre_ips, nivel_complejidad, observacion, municipio_literal,
+    departamento_literal}, …]}`, en el orden en que se transcribieron
+    (sitrep, idx). Fuente de `export_public()` — ver `cifras_por_ambito`.
     """
     out: dict[str, list[dict]] = {}
     for (slug, sitrep_n, fecha_corte, nombre, nivel, obs, mun_lit,
@@ -477,6 +481,42 @@ def instituciones_por_municipio(conn) -> dict[str, list[dict]]:
             "observacion": obs, "municipio_literal": mun_lit,
             "departamento_literal": dep_lit})
     return out
+
+
+def export_public(conn=None) -> dict:
+    """Escribe `data/public/ops_salud.json`: el contrato público que consumen
+    las fichas.
+
+    `deploy/render_html.py` no toca sqlite (R14, y el patrón del sitio
+    entero: render lee solo `data/public/*.json`, igual que `rud.json` o
+    `men_sedes_mapa.geojson`) — lee este fichero. De regalo, es archivo: un
+    JSON versionado y descargable es el mismo plan de sucesión que `rud.json`
+    — si la OPS retira los PDF, este export sigue siendo reconstruible sin
+    volver a sqlite ni a la red.
+
+    `sitrep_paginas` viaja aparte porque las fichas citan la página del
+    sitrep de origen (trazabilidad) y no hay otro sitio en `data/public/`
+    donde esa URL viva.
+
+    `conn=None` abre y cierra su propia conexión, como `run()`: es un paso
+    aparte en `run_daily.py`, no comparte la de la ingesta."""
+    own = conn is None
+    if own:
+        from common import db
+        conn = db()
+    salida = {
+        "generado": utcnow(),
+        "por_ambito": cifras_por_ambito(conn),
+        "instituciones_por_municipio": instituciones_por_municipio(conn),
+        "sitrep_paginas": {str(n): url for n, url in PAGINAS.items()},
+    }
+    if own:
+        conn.close()
+    PUBLIC.mkdir(parents=True, exist_ok=True)
+    (PUBLIC / "ops_salud.json").write_text(
+        json.dumps(salida, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return {"ambitos": len(salida["por_ambito"]),
+            "municipios_con_ips": len(salida["instituciones_por_municipio"])}
 
 
 if __name__ == "__main__":

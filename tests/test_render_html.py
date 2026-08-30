@@ -538,6 +538,152 @@ class TestFichaDepartamental(unittest.TestCase):
         self.assertNotIn(" en el rud", self.html)
 
 
+class TestIntegracionDepartamental(unittest.TestCase):
+    """OPS/salud y matrícula agregada en la ficha departamental; detalle de
+    instituciones nombradas en la ficha municipal.
+
+    Fixtures sintéticos para el comportamiento: la serie OPS son cinco PDF
+    inmutables (sha256 archivado), pero de qué sitrep hay hoy en el corpus no
+    es algo que este archivo deba fijar a mano (regla del 30-ago-2026) — cada
+    test construye su propio `ops_salud` mínimo. Las propiedades sobre el
+    dato real (guardián de dos caminos, cobertura del municipio con IPS) se
+    prueban recorriendo el corpus, nunca nombrando una cifra."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    # ---------------------------------------------- cifras_salud_departamento
+    def test_solo_los_dos_conceptos_de_minsalud_bajan_a_departamento(self):
+        """`ips_reportadas_ungrd` (nacional) e `ips_identificadas_msps`
+        (sitrep 4, superado por el 5) no deben aparecer nunca a escala
+        departamental, aunque la fuente los trajera bajo ese ámbito."""
+        ctx = {**self.ctx, "ops_salud": {"por_ambito": {"Depto de prueba": {
+            "ips_reportadas_ungrd": {"valor": 999, "autor": "UNGRD",
+                                     "fecha_corte": "2026-08-18", "sitrep_n": 5},
+            "ips_identificadas_msps": {"valor": 10, "autor": "MSPS",
+                                       "fecha_corte": "2026-08-13", "sitrep_n": 4},
+            "ips_verificadas_crue": {"valor": 5, "autor": "MSPS",
+                                     "fecha_corte": "2026-08-18", "sitrep_n": 5},
+            "ips_priorizadas": {"valor": 2, "autor": "MSPS",
+                                "fecha_corte": "2026-08-18", "sitrep_n": 5}}}}}
+        cifras = R.cifras_salud_departamento("Depto de prueba", ctx)
+        self.assertEqual(set(cifras), {"ips_verificadas_crue", "ips_priorizadas"})
+
+    def test_ambito_de_ciudad_no_se_confunde_con_el_departamento(self):
+        """El sitrep 4 desglosa además alguna ciudad suelta («Cali (Valle del
+        Cauca)»): la igualdad exacta con el nombre del departamento no puede
+        colarla aquí."""
+        ctx = {**self.ctx, "ops_salud": {"por_ambito": {
+            "Ciudad (Depto de prueba)": {"ips_verificadas_crue": {
+                "valor": 999, "autor": "MSPS", "fecha_corte": "2026-08-18",
+                "sitrep_n": 5}}}}}
+        self.assertEqual(R.cifras_salud_departamento("Depto de prueba", ctx), {})
+
+    def test_sin_ambito_no_hay_cifras(self):
+        ctx = {**self.ctx, "ops_salud": {"por_ambito": {}}}
+        self.assertEqual(R.cifras_salud_departamento("Cualquiera", ctx), {})
+
+    # ---------------------------------------------- seccion_salud_departamental
+    def test_seccion_no_se_pinta_sin_cifras_declaradas(self):
+        """Nada de globos con «—»: sin sitrep que mencione el departamento no
+        hay «lo que declara», hay silencio."""
+        self.assertEqual(R.seccion_salud_departamental({"salud_declarada": {}}), "")
+
+    def test_seccion_se_pinta_con_autor_y_fecha_pegados_a_cada_cifra(self):
+        d = {"salud_declarada": {
+            "ips_verificadas_crue": {
+                "valor": 40, "autor": "Ministerio de Salud y Protección Social",
+                "fecha_corte": "2026-08-18", "sitrep_n": 5},
+            "ips_priorizadas": {
+                "valor": 9, "autor": "Ministerio de Salud y Protección Social",
+                "fecha_corte": "2026-08-18", "sitrep_n": 5}}}
+        html = R.seccion_salud_departamental(d)
+        self.assertIn("Lo que declara el departamento", html)
+        self.assertIn(R.fmt(40), html)
+        self.assertIn(R.fmt(9), html)
+        self.assertIn("Ministerio de Salud", html)
+        self.assertNotIn("suma municipal", html,
+                         "la cifra declarada no es un agregado nuestro: no lleva "
+                         "el rótulo del agregado del RUD (jamás fundidas)")
+
+    def test_una_sola_cifra_declarada_tambien_se_pinta(self):
+        """El sitrep puede traer un concepto sin el otro: la sección no exige
+        los dos a la vez para aparecer."""
+        d = {"salud_declarada": {"ips_priorizadas": {
+            "valor": 9, "autor": "MSPS", "fecha_corte": "2026-08-18", "sitrep_n": 5}}}
+        self.assertIn(R.fmt(9), R.seccion_salud_departamental(d))
+
+    # ------------------------------------- matricula_departamento: dos caminos
+    def test_guardian_de_dos_caminos_matricula_departamental(self):
+        """Camino 1: `matricula_departamento`. Camino 2: la misma suma
+        calculada aquí, uniendo las sedes de `_sedes_por_municipio` a mano."""
+        por_municipio = R._sedes_por_municipio(self.ctx)
+        for depto in R.departamentos_afectados(self.ctx):
+            with self.subTest(depto=depto):
+                camino1 = R.matricula_departamento(depto, self.ctx)
+                sedes = [f for m in R.municipios_del_departamento(depto, self.ctx)
+                        for f in por_municipio.get(m["municipio"], [])]
+                camino2 = R._matricula_de_sedes(sedes)
+                self.assertEqual(camino1, camino2)
+
+    def test_el_guardian_de_matricula_muerde_si_se_rompe(self):
+        """Con una sede contada dos veces, el total tiene que cambiar: si no
+        cambiara, el guardián de arriba no probaría nada."""
+        por_municipio = R._sedes_por_municipio(self.ctx)
+        sedes = None
+        for depto in R.departamentos_afectados(self.ctx):
+            candidatas = [f for m in R.municipios_del_departamento(depto, self.ctx)
+                         for f in por_municipio.get(m["municipio"], [])]
+            if any((f.get("properties") or {}).get("total_matricula")
+                  for f in candidatas):
+                sedes = candidatas
+                break
+        if sedes is None:
+            self.skipTest("ningún departamento del corpus actual tiene sedes con "
+                          "matrícula informada")
+        real = R._matricula_de_sedes(sedes)
+        roto = R._matricula_de_sedes(sedes + [sedes[0]])
+        self.assertNotEqual(roto["total"], real["total"],
+                            "duplicar una sede no cambió el total: la mutación "
+                            "no prueba nada")
+
+    def test_matricula_ausente_en_todo_el_departamento_no_es_cero(self):
+        ctx = {**self.ctx, "men_sedes": []}
+        depto = R.departamentos_afectados(self.ctx)[0]
+        self.assertIsNone(R.matricula_departamento(depto, ctx)["total"])
+
+    def test_matricula_nunca_se_rotula_afectados(self):
+        """Rótulo legal de #39: «matriculados en sedes con afectación», nunca
+        «afectados» a secas — la matrícula no es un recuento de víctimas."""
+        for depto in R.departamentos_afectados(self.ctx):
+            html = R.render_ficha_departamento(R.datos_ficha_departamento(depto, self.ctx))
+            self.assertNotIn("estudiantes afectados", html.lower())
+
+    # -------------------------------------------- ficha municipal: detalle OPS
+    def test_municipio_con_ips_nombradas_publica_la_seccion(self):
+        muni_real = None
+        idx_municipios = {R.slug(m["municipio"]): m["municipio"]
+                          for m in self.ctx["municipios"]}
+        for slug_m in (self.ctx["ops_salud"].get("instituciones_por_municipio") or {}):
+            nombre = idx_municipios.get(slug_m)
+            if nombre and R.es_elegible(nombre, self.ctx):
+                muni_real = nombre
+                break
+        if not muni_real:
+            self.skipTest("ningún municipio elegible del corpus actual tiene IPS "
+                          "nombradas por la OPS")
+        d = R.datos_ficha(muni_real, self.ctx)
+        html = R.render_ficha(d)
+        self.assertIn("Establecimientos de salud nombrados", html)
+        for ips in d["ops_ips"]:
+            self.assertIn(R.e(ips["nombre_ips"]), html)
+
+    def test_municipio_sin_ips_no_publica_la_seccion(self):
+        d = dict(R.datos_ficha("Nóvita", self.ctx), ops_ips=[])
+        self.assertNotIn("Establecimientos de salud nombrados", R.render_ficha(d))
+
+
 class TestMapaEvidencias(unittest.TestCase):
     """La segunda pestaña existe solo con puntos y no pesa hasta que se pide.
 
@@ -7005,7 +7151,8 @@ class TestLienzoMunicipal(unittest.TestCase):
         self.assertNotIn("1 familias menos", svg)
 
     def test_el_esquema_de_titulos_es_el_del_prototipo_sin_saltar_niveles(self):
-        """H1 → panel → registro → prensa → lagunas → trazabilidad.
+        """H1 → panel → registro → prensa → [OPS, si Cali tiene IPS nombradas]
+        → lagunas → trazabilidad.
         Destacado y tarjetas van DEBAJO del lienzo (24-ago, frente al
         prototipo). Ningún H3 sin H2, y el H2 del panel va antes de los de
         zona-datos."""
@@ -7016,12 +7163,16 @@ class TestLienzoMunicipal(unittest.TestCase):
             self.assertLessEqual(b, a + 1, f"salto de h{a} a h{b}")
         h2s = re.findall(r"<h2>(.*?)</h2>", html)
         self.assertEqual(h2s[0], "Qué dice cada fuente")
-        self.assertEqual(h2s[1:], [
-            "Cómo avanza el registro oficial",
-            "Qué publicó la prensa sobre Cali",
-            "Qué no sabemos de Cali",
-            "Fuentes y trazabilidad",
-        ])
+        # La sección de establecimientos de salud nombrados solo existe si la
+        # OPS nombró alguno en Cali (sitrep 1-3): condicional, como el resto
+        # del esquema — no se fija a mano si hay IPS hoy (regla del
+        # 30-ago-2026), se lee del propio dato.
+        esperado = ["Cómo avanza el registro oficial",
+                   "Qué publicó la prensa sobre Cali"]
+        if R.datos_ficha("Cali", self.ctx)["ops_ips"]:
+            esperado.append("Establecimientos de salud nombrados en Cali")
+        esperado += ["Qué no sabemos de Cali", "Fuentes y trazabilidad"]
+        self.assertEqual(h2s[1:], esperado)
         self.assertLess(html.find("<h1>"), html.find("<h2>"))
         self.assertLess(html.find('class="lienzo lienzo-mun"'),
                         html.find('class="destacado"'))

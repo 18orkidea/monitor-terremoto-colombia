@@ -50,6 +50,7 @@ def main():
     step("ungrd_rud", ungrd_rud.run)
     step("men_sedes", men_sedes.run)
     step("ops_salud", ops_salud.run)
+    step("ops_salud_export", ops_salud.export_public)
     step("chatmap", chatmap.run)
     step("emsc", emsc.run)
     step("community_feeds", community_feeds.run)
