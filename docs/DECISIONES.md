@@ -4321,3 +4321,67 @@ minúsculas antes de construir la URL, así que corregir la capitalización no
 puede mover ninguna URL publicada — verificado con test
 (`TestSlugEstableTrasLaCapitalizacion`), no solo asumido: `slug('Bogotá,
 D.c.') == slug('Bogotá, D.C.') == 'bogota-d-c'`.
+
+## 2026-08-30 — `pr.yml` medía cinco guardianes que nunca corrían
+
+**Contexto.** Cinco tests dependen de `dist/`, el artefacto publicado:
+`TestGraficoRud`, `TestSeoCheck`, `TestInventarioDelPie`,
+`TestBarraYPieUnaSolaVez` y `TestLaPaginaDeReferencia`. `pr.yml` corría
+«Tests de lo que se publica» (que incluye estos cinco) ANTES del paso que
+construye `dist/` con `deploy/build_dist.sh`. `dist/` está en `.gitignore`,
+así que en cada PR, desde que existe el workflow, los cinco se saltaban con
+`skipTest("no hay dist construido")` — verde, pero sin haber comprobado
+nada. Lo cazó el alta de una fuente nueva (OPS), al negarse a aceptar cinco
+skips sin nombre en su propio CI en vez de asumir que «si el resto está en
+verde, esos cinco también lo estarían».
+
+**La prueba de que mordía de verdad, no solo en la forma:** `PROSA_MINIMA`
+en `ingest/seo_check.py` llevaba calibrado `referencia.html` en 7.124
+palabras desde el 25-ago-2026. La página publica hoy 8.052 —928 más—, y el
+guardián que exige ese suelo (`TestLaPaginaDeReferencia::
+test_su_suelo_de_prosa_es_el_que_de_verdad_publica`) es uno de los cinco que
+nunca corría en CI. No fue solo un desfase temporal: fue exactamente el
+efecto que este mecanismo existe para evitar, ocurriendo en directo sin que
+nada lo dijera.
+
+**Corrección:**
+
+1. **`pr.yml` reordenado**: el paso «El artefacto se construye y se mide»
+   (que corre `build_dist.sh` y `seo_check.py`) pasa a ir ANTES de «Tests de
+   lo que se publica». Los cinco guardianes ahora corren en cada PR.
+2. **Blindaje contra la reincidencia**: `_requiere_dist()`
+   (`tests/test_render_html.py`) sustituye los cinco `if not dist.exists():
+   self.skipTest(...)` sueltos. Sigue saltando en local (comodidad de quien
+   no ha corrido `build_dist.sh`), pero si la variable `CI` está presente
+   (GitHub Actions la define siempre) y `dist/` no existe, el test FALLA en
+   vez de saltarse. Si alguien vuelve a invertir el orden de `pr.yml`, el CI
+   se pone rojo con un mensaje que dice exactamente qué pasó — no vuelve a
+   pasar desapercibido.
+3. **`PROSA_MINIMA` recalibrado contra `dist/` real** (construido desde
+   `main` el 30-ago-2026, con los cinco guardianes corriendo de verdad):
+   - `index.html`: 1.807 → 1.898 (2.094 medidas − 196 condicionales). El
+     alta del MEN/SISE (28/29-ago) y su revisión editorial fijaron prosa
+     nueva en el lead y la portada; no se contabilizó palabra a palabra
+     contra los ~12 commits intermedios, pero SUBIR nunca esconde una
+     regresión (solo bajar la exige — CLAUDE.md DoD #2).
+   - `municipios.html`: 507 → 514 (714 medidas − 200 condicionales).
+   - `referencia.html`: 7.124 → 7.811 (8.052 medidas − 241 condicionales).
+     Mismo alta del MEN: su glosario y su metodología entraron en la guía de
+     secciones.
+   - `rud.html` y `balances.html` **NO se tocan**: medidos hoy en 531 y
+     1.645 respectivamente, por debajo de sus picos históricos (578 y 1.647)
+     porque hoy no se publica la frase condicional del desglose del salto
+     del RUD (el propio aviso de la corrida lo dice: «el desglose del salto
+     (170) no cuadra con la serie (300); la frase no se publica») — exactamente
+     el caso para el que existe el margen condicional. Los dos siguen
+     pasando contra su suelo actual (531≥531, 1.645≥1.454); bajarlos sin que
+     la frase condicional haya desaparecido de verdad sería debilitar el
+     guardián justo cuando está haciendo su trabajo (regla del propio
+     archivo: «no se baja para que pase un build» sin investigar por qué).
+   - `noticias.html`: sin cambio (827 medidas, exactas al suelo vigente).
+
+**Orden de fusión**: este PR entra ANTES que el alta de la matrícula del
+MEN, que también toca `PROSA_MINIMA["referencia.html"]` sobre su propio
+delta — con este PR fusionado primero, ese cambio rebasa sobre el valor
+medido aquí (7.811) en vez de sobre el antiguo (7.124), y su conflicto
+esperado es de una sola línea.

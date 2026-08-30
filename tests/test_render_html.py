@@ -9,6 +9,7 @@ import contextlib
 import copy
 import io
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -25,6 +26,30 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "deploy"))
 
 import render_html as R
+
+
+def _requiere_dist(ruta: Path, motivo: str) -> None:
+    """Puerta común de los guardianes que miden `dist/`: si el artefacto no
+    existe, SALTA en local (comodidad de quien no ha corrido build_dist.sh)
+    pero FALLA en CI (variable `CI`, ya presente en GitHub Actions).
+
+    Hasta el 30-ago-2026 las cinco pruebas que dependen de `dist/` se
+    saltaban siempre en `pr.yml`, porque ese workflow corría la suite ANTES
+    de construir el artefacto: cinco guardianes en verde que no habían
+    comprobado nada, en cada PR, durante días. `pr.yml` ya construye `dist/`
+    antes de esta suite (docs/DECISIONES.md) — esta puerta es el blindaje
+    contra que alguien vuelva a invertir el orden sin que nadie se entere:
+    un skip por falta de artefacto no puede volver a pasar desapercibido en
+    la única superficie donde este guardián tenía que morder.
+    """
+    if ruta.exists():
+        return
+    if os.environ.get("CI"):
+        raise AssertionError(
+            f"{motivo}: dist/ no existe en CI. pr.yml tiene que construir el "
+            f"artefacto ANTES de esta suite — este guardián no puede saltarse "
+            f"aquí (docs/DECISIONES.md, 30-ago-2026).")
+    raise unittest.SkipTest(motivo)
 
 ROOT = Path(__file__).parent.parent
 NODE = shutil.which("node")
@@ -2339,8 +2364,7 @@ class TestGraficoRud(unittest.TestCase):
         """La comprobación de fondo de todo el paso: `rud.html` pasa de servir
         cero `<svg>` a servir uno."""
         html = (ROOT / "dist" / "rud.html")
-        if not html.exists():
-            self.skipTest("no hay dist/ construido")
+        _requiere_dist(html, "no hay dist/ construido")
         self.assertEqual(html.read_text(encoding="utf-8").count("<svg"), 1)
 
 
@@ -3940,8 +3964,7 @@ class TestSeoCheck(unittest.TestCase):
 
     def test_el_artefacto_real_pasa(self):
         dist = Path(__file__).parent.parent / "dist"
-        if not dist.exists():
-            self.skipTest("no hay dist construido")
+        _requiere_dist(dist, "no hay dist construido")
         res = self.seo.revisar(dist)
         self.assertEqual(res["fallos"], [], "el artefacto publicado tiene fallos de SEO")
 
@@ -4845,8 +4868,7 @@ class TestInventarioDelPie(unittest.TestCase):
         viaja por dos caminos distintos —`escribir_piezas_compartidas` en las cinco
         páginas grandes, `render_ficha` en las 208 fichas—."""
         dist = ROOT / "dist"
-        if not dist.exists():
-            self.skipTest("no hay dist construido")
+        _requiere_dist(dist, "no hay dist construido")
         paginas = [dist / "index.html"]
         fichas = sorted(dist.glob("municipio/*/index.html"))
         self.assertTrue(fichas, "dist/ no trae fichas municipales")
@@ -5028,8 +5050,7 @@ class TestBarraYPieUnaSolaVez(unittest.TestCase):
 
     def test_el_artefacto_real_trae_la_barra_y_el_pie(self):
         dist = ROOT / "dist"
-        if not dist.exists():
-            self.skipTest("no hay dist construido")
+        _requiere_dist(dist, "no hay dist construido")
         for pagina in self.PAGINAS:
             html = (dist / pagina).read_text(encoding="utf-8")
             for etiqueta, vacio, dentro in self.VACIOS:
@@ -7922,8 +7943,7 @@ class TestLaPaginaDeReferencia(unittest.TestCase):
         # suyo. Sin `dist/` no hay nada que medir y se dice, en vez de medir
         # otra cosa.
         artefacto = ROOT / "dist" / "referencia.html"
-        if not artefacto.exists():
-            self.skipTest("sin dist/: el suelo se mide sobre el artefacto")
+        _requiere_dist(artefacto, "sin dist/: el suelo se mide sobre el artefacto")
         propias = seo.prosa_propia(artefacto.read_text(encoding="utf-8"))
         suelo = seo.PROSA_MINIMA["referencia.html"]
         self.assertGreaterEqual(

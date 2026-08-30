@@ -95,8 +95,19 @@ PROSA_MINIMA = {
     # mismo que otra»— y deja de afirmar que las cuatro fuentes «miden igual»
     # el municipio, que es justo lo que desmienten las cuatro tarjetas de
     # debajo. Son 55 palabras más de PROSA FIJA: el suelo sube de 1.752 a 1.807.
-    "index.html": 1807,
-    "municipios.html": 507,    # fase 4: 707 medidas − 200 de aviso condicional
+    #
+    # 30-ago-2026 (`docs/DECISIONES.md`): 2.094 medidas − 196 condicionales. El
+    # alta del MEN/SISE (28/29-ago) suma su diagnóstico al lead de cada ficha y
+    # a la portada, y la revisión editorial que la siguió (7ec7411, ee4d9bf)
+    # fijó texto que antes no estaba. No se reconstruyó palabra a palabra
+    # contra los ~12 commits intermedios —el volumen no lo permitía en el
+    # tiempo del cambio—, pero SUBIR nunca puede esconder una regresión (solo
+    # bajar la exige, CLAUDE.md DoD #2): el suelo sube de 1.807 a 1.898.
+    "index.html": 1898,
+    # 30-ago-2026 (`docs/DECISIONES.md`): 714 medidas − 200 de aviso
+    # condicional. Crecimiento pequeño y sin causa única identificada entre
+    # el alta del MEN y las correcciones editoriales; sube de 507 a 514.
+    "municipios.html": 514,
     # fase 3: 578 medidas − 47 del desglose del salto, que es condicional
     # (24-ago-2026, docs/DECISIONES.md). La oración «De las N familias…»
     # solo se publica si el reparto del último corte cuadra con la serie
@@ -152,7 +163,12 @@ PROSA_MINIMA = {
     # que no miró y el cambio de tesis (294 más). Las 319 son prosa fija: viven
     # versionadas en `feeds/hitos_monitor.json` y solo desaparecen si alguien
     # las borra a mano. El margen condicional no se toca.
-    "referencia.html": 7124,
+    #
+    # 30-ago-2026 (`docs/DECISIONES.md`): 8.052 medidas − 241 condicionales.
+    # El alta del MEN/SISE (28/29-ago) suma su glosario y su metodología a la
+    # guía de secciones, con la misma revisión editorial que subió el suelo de
+    # `index.html`. El suelo sube de 7.124 a 7.811.
+    "referencia.html": 7811,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 
