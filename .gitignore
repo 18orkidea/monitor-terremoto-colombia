@@ -53,4 +53,15 @@ dist-antes-*/
 # guardan aquí para poder leerlos junto al código, pero NO son del repositorio:
 # este monitor es público y un `git add -A` ya estuvo a punto de publicar un
 # documento interno con rutas locales dentro.
-documentos/
+# Ancla a la raíz (30-ago-2026, decisión editorial con guardas): sin la barra
+# inicial, el patrón alcanzaba también a data/documentos/ — la carpeta donde
+# SÍ se archivan cuerpos públicos que no caben en una petición HTTP (los ZIP
+# de SERTIT, los PDF y transcripciones de la OPS). SERTIT sobrevivió de
+# milagro por estar indexado desde antes de que naciera esta regla; la OPS no
+# tuvo esa suerte y tuvo que entrar con `git add -f`. El ancla resuelve los
+# dos casos a la vez: `documentos/METODO.md` de la raíz sigue ignorado
+# (`tests/test_unit.py::TestElMetodoNoSePublica`), y `data/documentos/` deja
+# de estarlo (`tests/test_unit.py::TestActivosDelArchivo::
+# test_lo_que_git_ignora_y_se_descarga_esta_declarado`, que fija el patrón
+# exacto y ahora vigila las dos direcciones).
+/documentos/

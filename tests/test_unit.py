@@ -4721,10 +4721,8 @@ class TestActivosDelArchivo(unittest.TestCase):
             "docs/DECISIONES.md, 24-ago-2026)")
         # Los patrones sueltos alcanzan al archivo aunque no lo nombren, así
         # que cada uno tiene que ser algo que NUNCA es contenido descargable:
-        # cachés y artefactos de herramienta, credenciales, el material temporal
-        # del rediseño y los documentos de trabajo (planes y auditorías que se
-        # leen junto al código y no son del repositorio público). Ninguno lo
-        # trae una fuente.
+        # cachés y artefactos de herramienta, credenciales y el material
+        # temporal del rediseño. Ninguno lo trae una fuente.
         self.assertEqual(
             set(sueltos),
             {"node_modules/", "__pycache__/", "*.pyc", ".DS_Store",
@@ -4732,11 +4730,45 @@ class TestActivosDelArchivo(unittest.TestCase):
              ".env", ".env.*", "*.pem", "*.key", "*token*",
              "!package-lock.json",
              "prototipo/", "COORDINACION-REDISENO.md", "HANDOFF*.md",
-             "dist-antes-*/", "documentos/"},
+             "dist-antes-*/"},
             "un patrón sin barra se aplica a cualquier profundidad, también "
             "dentro de data/: un «*.mp4» suelto ignoraría los vídeos sin "
             "nombrarlos y este guardián no lo vería pasar. Si lo que se añade "
             "es contenido que se descarga, su guardián no puede mirar el disco")
+        self.assertIn(
+            "/documentos/", lineas,
+            "los documentos de trabajo (planes, auditorías, el método que no "
+            "se publica) tienen que ignorarse ANCLADOS a la raíz — sin la "
+            "barra inicial, el patrón alcanzaba también a data/documentos/, "
+            "que SÍ es del repositorio (ver las dos comprobaciones de abajo)")
+
+    def test_el_ancla_de_documentos_protege_las_dos_direcciones(self):
+        """`/documentos/` es el único patrón de `.gitignore` que puede
+        equivocarse en dos sentidos distintos a la vez, así que se mutó en los
+        dos (30-ago-2026): sin la barra inicial ocultaba `data/documentos/`
+        —donde SÍ viven cuerpos del repositorio, como los ZIP de SERTIT y los
+        PDF/transcripciones de la OPS—; anclado sin más también podría dejar
+        de ignorar `documentos/METODO.md` de la raíz si alguien lo desancla
+        mal el día de mañana. Las dos direcciones quedan fijadas aquí, no solo
+        comprobadas a mano una vez."""
+        import subprocess
+        raiz = Path(__file__).parent.parent
+
+        def ignorado(ruta):
+            r = subprocess.run(["git", "check-ignore", "-q", ruta],
+                               capture_output=True, cwd=raiz)
+            return r.returncode == 0
+
+        self.assertTrue(
+            ignorado("documentos/METODO.md"),
+            "documentos/METODO.md de la raíz debe seguir ignorado: es el "
+            "método de trabajo, que no se publica (docs/DECISIONES.md, "
+            "30-ago-2026)")
+        self.assertFalse(
+            ignorado("data/documentos/ops_salud/sitrep_1.json"),
+            "data/documentos/ no puede seguir ignorado: ahí se archivan "
+            "cuerpos del repositorio (SERTIT, OPS) que un `git add` normal "
+            "tiene que poder trackear sin necesitar -f")
 
     def test_las_extensiones_de_r2_dicen_lo_mismo_en_las_cuatro_superficies(self):
         """`.avi` llevaba desde el principio en `.gitignore` y en ninguna de

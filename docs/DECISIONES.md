@@ -4558,6 +4558,18 @@ en ningún sitrep de esta serie (ver `docs/LIMITACIONES.md`, hito del
    `TestDumpRoundtrip` gana una fila real de `ops_salud_cifras` — con las
    tablas vacías de antes, el ciclo comparaba dos listas vacías y no lo
    habría cazado nunca.
+10. **`.gitignore` corregido: `documentos/` pasa a `/documentos/`** (decisión
+    editorial, con guardas). El patrón sin ancla se aplica a cualquier
+    profundidad y ocultaba también `data/documentos/` — donde SÍ viven
+    cuerpos del repositorio (los ZIP de SERTIT, ahora los PDF y
+    transcripciones de la OPS). SERTIT sobrevivió de milagro por estar
+    indexado desde antes de que naciera la regla; esta fuente tuvo que
+    entrar con `git add -f` hasta corregirla. El ancla resuelve las dos
+    direcciones a la vez, y las dos quedan fijadas en el mismo test, no solo
+    comprobadas a mano: `documentos/METODO.md` de la raíz SIGUE ignorado (el
+    método de trabajo, que no se publica) y `data/documentos/` deja de
+    estarlo —
+    `tests/test_unit.py::TestActivosDelArchivo::test_el_ancla_de_documentos_protege_las_dos_direcciones`.
 
 **Qué NO se tocó:** `deploy/render_html.py` y `site/` — la integración visual
 (fichas municipales y departamentales) se hace en un lote aparte, sobre estos
