@@ -4574,3 +4574,77 @@ en ningún sitrep de esta serie (ver `docs/LIMITACIONES.md`, hito del
 **Qué NO se tocó:** `deploy/render_html.py` y `site/` — la integración visual
 (fichas municipales y departamentales) se hace en un lote aparte, sobre estos
 datos ya cargados.
+
+## 2026-08-30 — Alta de Microsoft AI for Good: daño edificio a edificio, dos decisiones de escala
+
+**Contexto.** Microsoft AI for Good Lab publica en HDX daño por IA sobre el
+parque de edificios COMPLETO de Cali y Pereira (dos fuentes de huellas —
+Google, Overture— y, en Pereira, una reedición «Extended» con revisión
+humana), cruzando 882.805 polígonos contra imagen posterior al sismo. Nada
+parecido existía: SERTIT y UNOSAT fotointerpretan a mano un recorte.
+
+**1. Dónde vive cada byte: git para lo ligero, R2 para lo pesado.** Los tres
+datasets suman 268 MB en 12 recursos. Las máscaras `.geojson` (bytes a KB) van
+a git, como las fotos ciudadanas. Los 7 gpkg y 2 GeoTIFF (268 MB) van a R2
+—extendiendo `ARCHIVO_EN_R2` en `ingest/common.py`, y con ello las cuatro
+superficies que ya vigilaba el guardián de esa lista (`.gitignore`,
+`daily.yml`, el test de trazabilidad)—, como los vídeos ciudadanos: se
+descargan y se parsean UNA VEZ (antes de que `daily.yml` los suba, para que la
+corrida no dependa de re-bajar 240 MB) y su sha256 queda en `sources_log` y en
+`msft_recursos.sha256`. Precedente descartado: SERTIT archiva sus 5 ZIP en
+git, pero pesan 248 KB — tres órdenes de magnitud menos, no es comparable.
+
+**2. `msft_danos` no es un espejo 1:1 del gpkg.** Guardar una fila por cada
+uno de los 882.805 edificios —como hacen `sertit_danos`/`unosat_damage`—
+mediría ~150-200 MB de CSV versionado en `data/dumps/`, más que el resto de
+`data/dumps/` junto (~24 MB), para un dato cuya fidelidad completa YA está
+garantizada: el gpkg entero vive en R2 con su sha256. El daño real es 0,3 %-
+0,5 % del total. Se decidió que `msft_danos` guarde SOLO lo informativo:
+`damaged=1`, o `review_status` no vacío (un rechazo humano también informa),
+o `unknown_pct >= 0.5` (la mitad o más del edificio tapado por nube/niebla/
+humo, así que «sin daño» no es un veredicto fiable). El umbral 0,5 es el punto
+medio defendible entre «cualquier nube cuenta» (demasiado laxo: en Pereira
+Extended-msft habría marcado 17.588 de 123.924 edificios, el 14 %, por un
+wisp) y «solo lo casi opaco» (demasiado estricto: dejaría fuera casos donde el
+modelo vio la mitad del tejado y aun así clasificó "sin daño", que es
+precisamente el veredicto que no hay que fiarse). El censo completo, con sus
+totales (`total_edificios`, `total_danados`, `total_revisados`,
+`total_desconocidos`), vive agregado en `msft_recursos`, para que cualquier
+tasa se calcule sin el censo fila a fila. Un auditor que abra `msft_danos` y
+cuente menos filas que edificios reales tiene que encontrar esta nota antes de
+extrañarse: no faltan datos, el resto vive en el gpkg archivado.
+
+**Hallazgo del propio desarrollo, no una decisión:** los cuatro gpkg base
+(Cali×2, Pereira×2) declaran EPSG:32618 (UTM 18N); los tres de Pereira
+Extended declaran EPSG:4326 (WGS84 directo) — comprobado abriendo los siete
+gpkg reales, no asumido de uno solo. El parser lee el SRS del propio blob de
+geometría en cada fila (`sources/msft.py::centroide_de_wkb_gpkg`) en vez de
+asumir uno fijo; asumirlo habría puesto el pin de 12.928 edificios de Pereira
+Extended en (0, -79) en vez de Pereira, con la corrida en verde.
+
+**Qué NO se tocó:** la integración en fichas (capa en el mapa de Cali/Pereira,
+prosa indexable) queda para un PR posterior — este alta cubre solo
+`ingest/sources/msft.py`, el esquema y los tests. Ver docs/LIMITACIONES.md
+para la sucesión de R2 como tercero.
+
+**Addendum: por qué la corrida real NO viaja en el PR.** Se probó el pipeline
+completo contra la API real de HDX en local (12 recursos, 882.805 edificios
+censados, 39.661 filas informativas) — pero sin credenciales de R2. Commitear
+esa corrida habría escrito en `data/r2_manifest.json` el sha256 de los 9
+gpkg/tif como si ya estuvieran en el bucket. `activo_archivado()` confía en
+el manifiesto para NO volver a descargar lo ya archivado — es la misma regla
+que protege a los vídeos ciudadanos de bajarse 2,6 GB cada día—, así que la
+primera corrida real en `daily.yml` habría LEÍDO ese manifiesto sembrado a
+mano, dado los 9 ficheros por archivados, y saltado su descarga: `data/media/`
+se habría quedado vacío en el runner, el `aws s3 sync` no habría tenido nada
+que subir, y el bucket real jamás habría recibido esos 268 MB — con
+`auditar_r2.py` en rojo para siempre hasta que alguien lo notara y limpiara el
+manifiesto a mano. Un manifiesto que afirma sin que el archivo lo respalde es
+justo lo que el proyecto ya identificó como el peor tipo de mentira (ver
+`activo_archivado`: «si la base y el manifiesto se contradicen, no autoriza a
+saltarse nada»). Por eso este commit revierte los 9 objetos R2 de
+`sources_log`, `msft_recursos`, `msft_danos` y el manifiesto —quedan solo el
+código, el esquema, los tests y los 3 recursos que sí viven en git (máscaras
++ catálogo)— y deja que la primera subida real ocurra en el primer
+`daily.yml` posterior a la fusión, con credenciales reales y el `sync`
+inmediatamente después de la descarga, en la misma corrida.

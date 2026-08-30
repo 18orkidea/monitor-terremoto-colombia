@@ -6,6 +6,7 @@ salida del código — si un test falla, el código está mal, no el test.
 """
 import json
 import re
+import struct
 import sys
 import unittest
 from pathlib import Path
@@ -3608,6 +3609,225 @@ class TestAlertaSertitSinVectores(unittest.TestCase):
         conn.close()
 
 
+class TestMsftGeometria(unittest.TestCase):
+    """Decodificador de WKB de GeoPackage y reproyección, contra blobs
+    construidos a mano — independientes del propio decodificador: si el
+    helper de este test y `centroide_de_wkb_gpkg` compartieran lógica, un
+    bug en los dos a la vez pasaría en verde."""
+
+    def _blob(self, anillos, srs_id=4326, tipo=3):
+        cabecera = b"GP" + bytes([0, 1]) + struct.pack("<i", srs_id)
+        if tipo == 3:
+            wkb = struct.pack("<B", 1) + struct.pack("<I", 3)
+            wkb += struct.pack("<I", len(anillos))
+            for anillo in anillos:
+                wkb += struct.pack("<I", len(anillo))
+                for x, y in anillo:
+                    wkb += struct.pack("<dd", x, y)
+        else:                                        # MULTIPOLYGON de 1 sola pieza
+            wkb = struct.pack("<B", 1) + struct.pack("<I", 6)
+            wkb += struct.pack("<I", 1)
+            wkb += struct.pack("<B", 1) + struct.pack("<I", 3)
+            wkb += struct.pack("<I", len(anillos))
+            for anillo in anillos:
+                wkb += struct.pack("<I", len(anillo))
+                for x, y in anillo:
+                    wkb += struct.pack("<dd", x, y)
+        return cabecera + wkb
+
+    def test_centroide_de_un_cuadrado(self):
+        from sources.msft import centroide_de_wkb_gpkg
+        cuadrado = [[(0, 0), (2, 0), (2, 2), (0, 2), (0, 0)]]
+        x, y, srs = centroide_de_wkb_gpkg(self._blob(cuadrado, srs_id=4326))
+        self.assertAlmostEqual(x, 1.0)
+        self.assertAlmostEqual(y, 1.0)
+        self.assertEqual(srs, 4326)
+
+    def test_multipoligono_toma_el_de_mayor_area(self):
+        """Una geometría MULTIPOLYGON con partes de distinto tamaño: el
+        centroide tiene que salir del trozo grande, no del pequeño ni de un
+        promedio entre los dos."""
+        from sources.msft import centroide_de_wkb_gpkg
+        chico = [(0, 0), (1, 0), (1, 1), (0, 1), (0, 0)]      # área 1
+        grande = [(10, 10), (14, 10), (14, 14), (10, 14), (10, 10)]  # área 16
+        # dos MULTIPOLYGON de una pieza no sirven: se construye a mano un
+        # MULTIPOLYGON de dos piezas reusando el empaquetado del helper.
+        cabecera = b"GP" + bytes([0, 1]) + struct.pack("<i", 4326)
+        wkb = struct.pack("<B", 1) + struct.pack("<I", 6) + struct.pack("<I", 2)
+        for anillo in (chico, grande):
+            wkb += struct.pack("<B", 1) + struct.pack("<I", 3)
+            wkb += struct.pack("<I", 1) + struct.pack("<I", len(anillo))
+            for x, y in anillo:
+                wkb += struct.pack("<dd", x, y)
+        x, y, srs = centroide_de_wkb_gpkg(cabecera + wkb)
+        self.assertAlmostEqual(x, 12.0)
+        self.assertAlmostEqual(y, 12.0)
+
+    def test_srs_4326_no_se_reproyecta(self):
+        from sources.msft import _lon_lat
+        self.assertEqual(_lon_lat(-75.7, 4.8, 4326), (-75.7, 4.8))
+
+    def test_srs_utm_18n_cae_dentro_de_pereira(self):
+        """Coordenadas UTM reales de un edificio de Pereira, medidas contra
+        el gpkg de la fuente el 30-ago-2026 (vantor_8-12_pereira_overture)."""
+        from sources.msft import _lon_lat
+        lon, lat = _lon_lat(413482.41, 528405.17, 32618)
+        self.assertAlmostEqual(lon, -75.780, places=2)
+        self.assertAlmostEqual(lat, 4.780, places=2)
+
+    def test_srs_no_soportado_no_inventa_un_pin(self):
+        """Sin pin es mejor que un pin en el sitio equivocado: si HDX publica
+        mañana un gpkg en otro SRS, la fila entra a msft_danos sin lat/lon en
+        vez de con coordenadas fabricadas."""
+        from sources.msft import _lon_lat
+        self.assertEqual(_lon_lat(100.0, 200.0, 3116), (None, None))
+
+    def test_no_confunde_srs_entre_ficheros(self):
+        """El bug real que cazó este parser: los cuatro gpkg base declaran
+        EPSG:32618 y los tres de Pereira Extended EPSG:4326 — asumir un único
+        SRS fijo reproyectaba coordenadas que ya estaban en grados y ponía el
+        pin en (0, -79) en vez de Pereira. `centroide_de_wkb_gpkg` lee el SRS
+        del propio blob, nunca lo asume."""
+        from sources.msft import centroide_de_wkb_gpkg
+        cuadrado = [[(-75.71, 4.79), (-75.70, 4.79), (-75.70, 4.80),
+                    (-75.71, 4.80), (-75.71, 4.79)]]
+        _, _, srs_4326 = centroide_de_wkb_gpkg(self._blob(cuadrado, srs_id=4326))
+        _, _, srs_utm = centroide_de_wkb_gpkg(self._blob(cuadrado, srs_id=32618))
+        self.assertEqual(srs_4326, 4326)
+        self.assertEqual(srs_utm, 32618)
+
+
+class TestMsftConjuntoDeHuellas(unittest.TestCase):
+    """'overture' | 'google' | 'msft': variantes del MISMO producto que
+    `msft_danos.conjunto_huellas` no puede sumar entre sí."""
+
+    def test_overture_por_nombre(self):
+        from sources.msft import _conjunto_de
+        self.assertEqual(
+            _conjunto_de("cali_overture_building_footprints.gpkg", ""),
+            "overture")
+
+    def test_google_solo_declarado_en_la_descripcion(self):
+        """El gpkg de Google de Cali NO lleva 'google' en el nombre de
+        fichero —`airbus_8-10_cali_HDX_building_footprints…`—, solo en la
+        descripción HDX. Si el clasificador mirara solo el nombre, este
+        fichero quedaría sin conjunto."""
+        from sources.msft import _conjunto_de
+        self.assertEqual(_conjunto_de(
+            "airbus_8-10_cali_hdx_building_footprints_with_predictions_validated.gpkg",
+            "Geopackage for Google posted footprints available in HDX"),
+            "google")
+
+    def test_msft_gana_a_google_cuando_coexisten(self):
+        """El fichero de Pereira Extended lleva 'msft' Y 'google' a la vez
+        (`…msft_footprint_reviewed_plus_google_dam_vantor_reviewed.gpkg`): es
+        el conjunto de Microsoft, según la propia HDX ('Damage assessment on
+        Microsoft released building footprints'), no el de Google."""
+        from sources.msft import _conjunto_de
+        self.assertEqual(_conjunto_de(
+            "predicted_damage_pereira_20260813-msft_footprint_reviewed_plus_"
+            "google_dam_vantor_reviewed.gpkg",
+            "Damage assessment on Microsoft released building footprints."),
+            "msft")
+
+    def test_sin_pista_no_inventa_conjunto(self):
+        from sources.msft import _conjunto_de
+        self.assertIsNone(
+            _conjunto_de("vantor_8-12_pereira_valid_area_mask.geojson",
+                        "Valid area mask."))
+
+
+class TestMsftFiltroDeFilas(unittest.TestCase):
+    """`msft_danos` NO es un espejo 1:1 del gpkg: decisión de escala del
+    30-ago-2026 (882.805 edificios reales; ~150-200 MB de CSV si se guardara
+    fila a fila). Solo entra lo informativo — ver docstring de sources/msft.py.
+    """
+
+    def _blob(self, x=0.0):
+        cabecera = b"GP" + bytes([0, 1]) + struct.pack("<i", 4326)
+        anillo = [(x, x), (x + 1, x), (x + 1, x + 1), (x, x + 1), (x, x)]
+        wkb = struct.pack("<B", 1) + struct.pack("<I", 3) + struct.pack("<I", 1)
+        wkb += struct.pack("<I", len(anillo))
+        for px, py in anillo:
+            wkb += struct.pack("<dd", px, py)
+        return cabecera + wkb
+
+    def _gpkg(self, filas):
+        """Genera un gpkg mínimo: solo lo que `_filas_informativas` lee de
+        verdad (`gpkg_contents` + la tabla de features), no el esquema OGC
+        completo — un fixture de kilobytes, nunca los 77 MB reales."""
+        import sqlite3
+        import tempfile
+        ruta = tempfile.NamedTemporaryFile(suffix=".gpkg", delete=False).name
+        self.addCleanup(lambda: Path(ruta).unlink(missing_ok=True))
+        conn = sqlite3.connect(ruta)
+        conn.execute("CREATE TABLE gpkg_contents (table_name TEXT, data_type TEXT)")
+        conn.execute("INSERT INTO gpkg_contents VALUES ('edificios', 'features')")
+        conn.execute(
+            "CREATE TABLE edificios (fid INTEGER PRIMARY KEY, geom BLOB, id TEXT,"
+            " damaged INTEGER, unknown_pct REAL, review_status TEXT)")
+        for i, fd in enumerate(filas):
+            conn.execute(
+                "INSERT INTO edificios (fid, geom, id, damaged, unknown_pct,"
+                " review_status) VALUES (?,?,?,?,?,?)",
+                (i, self._blob(float(i)), str(i), fd.get("damaged", 0),
+                 fd.get("unknown_pct"), fd.get("review_status")))
+        conn.commit()
+        conn.close()
+        return ruta
+
+    def test_solo_lo_informativo_entra(self):
+        from sources.msft import _filas_informativas
+        ruta = self._gpkg([
+            {"damaged": 0, "unknown_pct": 0.0},                             # fuera
+            {"damaged": 1, "unknown_pct": 0.0},                             # dañado
+            {"damaged": 0, "unknown_pct": 0.9},                             # nube
+            {"damaged": 0, "unknown_pct": 0.3},                             # poca nube: fuera
+            {"damaged": 0, "unknown_pct": 0.0, "review_status": "rejected"},  # revisado
+        ])
+        filas, tot = _filas_informativas(
+            ruta, "r1", "cali", "overture", "Cali", "Valle del Cauca",
+            "2026-08-30")
+        self.assertEqual(tot, {"total_edificios": 5, "total_danados": 1,
+                               "total_revisados": 1, "total_desconocidos": 1})
+        self.assertEqual(len(filas), 3,
+                         "el rechazo humano y el edificio con poca nube no "
+                         "deberían dejar la misma huella en msft_danos")
+
+    def test_el_umbral_de_nube_incluye_el_borde(self):
+        from sources.msft import _filas_informativas, UMBRAL_NUBE
+        ruta = self._gpkg([{"damaged": 0, "unknown_pct": UMBRAL_NUBE}])
+        filas, tot = _filas_informativas(
+            ruta, "r1", "cali", "overture", "Cali", "Valle del Cauca",
+            "2026-08-30")
+        self.assertEqual(len(filas), 1, "UMBRAL_NUBE es '>=', no '>'")
+
+    def test_rechazado_tambien_informa(self):
+        """review_status='rejected' es un veredicto humano, no un vacío: un
+        rechazo también es información y no puede tratarse como 'sin
+        revisar'."""
+        from sources.msft import _filas_informativas
+        ruta = self._gpkg([{"damaged": 0, "unknown_pct": 0.0,
+                           "review_status": "rejected"}])
+        filas, tot = _filas_informativas(
+            ruta, "r1", "cali", "overture", "Cali", "Valle del Cauca",
+            "2026-08-30")
+        self.assertEqual(tot["total_revisados"], 1)
+        self.assertEqual(len(filas), 1)
+
+    def test_r3_nube_cero_no_es_null(self):
+        """R3: unknown_pct=0.0 (dato real, «sin nube») no puede confundirse
+        con ausencia de dato."""
+        from sources.msft import _filas_informativas
+        ruta = self._gpkg([{"damaged": 1, "unknown_pct": 0.0}])
+        filas, _ = _filas_informativas(
+            ruta, "r1", "cali", "overture", "Cali", "Valle del Cauca",
+            "2026-08-30")
+        pct_desconocido = filas[0][12]
+        self.assertIsNotNone(pct_desconocido)
+        self.assertEqual(pct_desconocido, 0.0)
+
+
 class TestLaAlertaNoContaminaConPaquetesViejos(unittest.TestCase):
     """La alerta y la portada tienen que decir el mismo número.
 
@@ -4467,6 +4687,62 @@ class TestActivosDelArchivo(unittest.TestCase):
                                         "sha256": self.SHA_ARCHIVADO,
                                         "bytes": 4096}],
                              "lo que ya se declaró archivado sigue declarado")
+            conn.close()
+
+    def test_un_recurso_de_msft_entra_al_manifiesto_igual_que_un_video(self):
+        """Los gpkg/tif de Microsoft AI for Good viven en R2 igual que los
+        vídeos, pero su procedencia es `msft_recursos`, no `citizen_reports`
+        — es una segunda vía hacia el mismo manifiesto y necesita su propio
+        espejo de este test."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            GPKG = ("https://data.humdata.org/dataset/x/resource/y/download/"
+                   "airbus_8-10_cali_overture_building_footprints.gpkg")
+            conn, parches = self._mundo(tmp, objetos=[])
+            conn.execute(
+                "INSERT INTO msft_recursos (resource_id, dataset, nombre,"
+                " formato, ubicacion, ruta, sha256, download_url,"
+                " snapshot_date) VALUES ('r1','cali',"
+                "'airbus_8-10_cali_overture_building_footprints.gpkg',"
+                "'Geopackage','r2','data/media/airbus_8-10_cali_overture_"
+                "building_footprints.gpkg',?,?,'2026-08-30')",
+                (self.SHA_ARCHIVADO, GPKG))
+            conn.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note) VALUES"
+                " ('2026-08-30T10:00:00Z',?,200,?,28372992,"
+                "'data/media/airbus_8-10_cali_overture_building_footprints"
+                ".gpkg','msft cali x.gpkg')", (GPKG, self.SHA_ARCHIVADO))
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(
+                objetos,
+                [{"objeto": "airbus_8-10_cali_overture_building_footprints.gpkg",
+                  "sha256": self.SHA_ARCHIVADO, "bytes": 28372992}])
+            conn.close()
+
+    def test_msft_con_ubicacion_git_no_entra_al_manifiesto_de_r2(self):
+        """Las máscaras `.geojson` de la misma fuente viven en git, no en R2:
+        un recurso con `ubicacion='git'` no puede colarse en el manifiesto
+        del bucket."""
+        import tempfile
+        import publish
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            conn, parches = self._mundo(tmp, objetos=[])
+            conn.execute(
+                "INSERT INTO msft_recursos (resource_id, dataset, nombre,"
+                " formato, ubicacion, ruta, sha256, download_url,"
+                " snapshot_date) VALUES ('r2','cali',"
+                "'airbus_8-10_cali_valid_area_mask.geojson','GeoJSON','git',"
+                "'data/media/airbus_8-10_cali_valid_area_mask.geojson',"
+                "?,'https://x/mask.geojson','2026-08-30')",
+                (self.SHA_ARCHIVADO,))
+            with parches[0], parches[4]:
+                objetos = publish.manifiesto_de_activos(conn)
+            self.assertEqual(objetos, [])
             conn.close()
 
     def test_una_foto_que_falta_del_repo_se_vuelve_a_traer(self):

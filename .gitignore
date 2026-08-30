@@ -8,6 +8,12 @@ data/media/*.opus
 data/media/*.ogg
 data/media/*.m4a
 
+# Microsoft AI for Good (30-ago-2026): gpkg y GeoTIFF de la fuente pesan
+# 268 MB en total — van a R2, no a git. Las máscaras .geojson de la misma
+# fuente SÍ entran en git (no están aquí, a propósito).
+data/media/*.gpkg
+data/media/*.tif
+
 # la BD no se versiona: se reconstruye desde data/dumps/*.csv (dump_db.py)
 data/monitor.sqlite
 

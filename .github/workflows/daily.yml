@@ -46,10 +46,12 @@ jobs:
         continue-on-error: true
         run: python ingest/run_daily.py
 
-      # Archivo permanente de videos ciudadanos (ChatMap no garantiza retención).
-      # Requiere secrets R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY (token S3 de R2,
-      # solo bucket monitor-terremoto-media). Sin ellos, se salta.
-      - name: Archivar videos ciudadanos en R2
+      # Archivo permanente de videos ciudadanos (ChatMap no garantiza retención)
+      # y, desde el 30-ago-2026, de los gpkg/tif de Microsoft AI for Good
+      # (268 MB: no caben en git). Requiere secrets R2_ACCESS_KEY_ID /
+      # R2_SECRET_ACCESS_KEY (token S3 de R2, solo bucket
+      # monitor-terremoto-media). Sin ellos, se salta.
+      - name: Archivar activos pesados en R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
@@ -60,7 +62,7 @@ jobs:
             --endpoint-url https://fe26e2674ce7e3cdf6b07397be7ee8e8.r2.cloudflarestorage.com \
             --exclude "*" --include "*.mp4" --include "*.mov" --include "*.avi" \
             --include "*.webm" --include "*.opus" --include "*.ogg" \
-            --include "*.m4a" --size-only
+            --include "*.m4a" --include "*.gpkg" --include "*.tif" --size-only
 
       # El manifiesto contra la realidad (R11), y la red que este cambio quitó.
       #

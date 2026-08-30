@@ -1,0 +1,1 @@
+resource_id,fid,dataset,conjunto_huellas,municipio,departamento,huella_id,dano,pct_dano_0m,pct_dano_10m,pct_dano_20m,pct_construido_0m,pct_desconocido,confianza,subtipo,area_m2,estado_revision,origen_geometria,procedencia_dano,pct_vantor,estado_previo,lat,lon,first_seen,snapshot_date
