@@ -4202,3 +4202,71 @@ hoy y no mañana sin que se haya borrado). Lo que hace falta es identidad por
 no hay export público dedicado (no hay dato que exportar, solo hallazgo/no
 hallazgo) ni necesidad de Wayback (la fuente que se archiva es la búsqueda del
 día, ya en `data/snapshots/`).
+
+## 2026-08-30 — Los tests no fijan a mano una serie viva (regla nueva, DoD #2)
+
+**Contexto.** El snapshot diario del 30-ago-2026 rompió 4 tests que llevaban
+meses en verde, todos en el mismo sitio: `TestElRegistroQueSeDetiene`
+(`test_render_html.py`), sobre la ficha de Cali/Jamundí. Los cuatro
+construían su fixture APPENDING unos pocos días sintéticos a la cola REAL de
+`R.datos_ficha("Cali", R.contexto())` — y afirmaban después una fecha exacta
+("28-ago-2026"), un conteo exacto ("doce días", "cuatro capturas") o una frase
+exacta ("no cambia desde el 28 de agosto"), todo ello DEPENDIENDO de cómo
+terminara la cola real de Cali/Jamundí ese día concreto. El snapshot de hoy
+cambió esa cola y los cuatro cayeron a la vez.
+
+**El problema de fondo:** no es que estos 4 tests estén
+desfasados — es que fijaron a mano cifras y fechas de una serie VIVA. El RUD
+avanza cada día; el snapshot de mañana rompería cualquier parche que solo
+actualice los números. Arreglarlos así sería reincidir.
+
+**La regla (nueva casilla del DoD #2, este archivo era el sitio correcto
+porque CLAUDE.md manda anotar sus propios cambios aquí):** ningún test fija a
+mano una fecha o cifra de una serie viva. Dos salidas, según qué prueba el
+test:
+- Si prueba COMPORTAMIENTO del render (agrupar tramos, decir que el registro
+  está parado, pasar la serie entera a la gráfica): construye su PROPIA serie
+  de fixture, con fechas y valores que el test controla por completo, y
+  afirma sobre ella. El comportamiento no depende de qué día sea hoy en el
+  RUD.
+- Si prueba una PROPIEDAD del dato real (todo municipio del RUD recibe su
+  búsqueda de prensa, ninguna cifra del marcado se aparta de la tarjeta): se
+  afirma ESTRUCTURALMENTE («para todo X existe Y», o comparando dos
+  superficies derivadas del mismo dato entre sí), nunca con un conteo
+  literal.
+- Lo fijado a mano solo es legítimo si está atado a un **snapshot
+  inmutable** por su sha256 (una transcripción archivada, un fixture escrito
+  entero a mano con fechas propias) — nunca si viene de copiar un valor de la
+  serie real de hoy.
+
+**La corrección aplicada** (`tests/test_render_html.py::
+TestElRegistroQueSeDetiene`): un helper nuevo, `_ficha(serie)`, que usa Cali
+como PLANTILLA solo para los campos que estos tests no ejercen (coordenadas,
+evidencia, satélite…) pero sustituye la serie entera por la que arma
+`_serie(...)` — ya existía, y ya la usaban las otras 6 pruebas de la clase sin
+problema; el fallo estaba en las que mezclaban ese patrón sano con datos
+reales. Las aserciones ahora se calculan a partir del MISMO fixture
+(`R.tramos_del_registro(serie)`, `R.rotulo_de_tramo(...)`,
+`R.fmt_prosa(...)`), nunca copiadas del HTML de hoy.
+
+**Barrido completo de la suite** (no solo los 4 rotos, por decisión editorial):
+21 candidatos localizados por patrón (fecha `2026-08-DD`/`2026-09-DD` o
+conteo con separador de miles dentro de un `assert*`, fuera de los helpers
+`_serie`/`_ficha` ya sanos) en `test_render_html.py`, más 34 en el resto de la
+suite (`test_frontend.py`, `test_hipotesis.py`, `test_unit.py`,
+`test_webpush.py`, `test_worker_toponimos.py`). **Los 5 arreglados en esta
+entrada eran los únicos que leían de una serie viva real** (`R.contexto()`,
+`R.datos_ficha(<municipio real>, ...)` sin sustituir la serie). Los otros 50
+son literales atados a un fixture escrito a mano en el propio test (una
+`SERIE`/`MONITOR`/`ctx_con(...)` de clase, o el argumento literal de una
+función pura) — legales por la propia regla: ninguno se moverá con el
+snapshot de mañana porque ninguno lee del RUD real.
+
+**Un caso fronterizo que se dejó estar, para que el criterio editorial lo
+confirme si no está de acuerdo:** `test_historial_de_cali_conserva_cada_captura_diaria` afirma
+`serie[0] == "2026-08-16"` sobre la serie REAL de Cali. No es una cifra que
+avance cada día: es la fecha de la PRIMERA captura archivada de Cali, un
+hecho histórico del propio archivo — el mismo tipo de literal que la fecha
+del sismo. Si el archivo no se reescribe (y no se reescribe, por principio),
+este literal no se mueve nunca. Se deja fuera de la corrección por eso, no
+por descuido.
