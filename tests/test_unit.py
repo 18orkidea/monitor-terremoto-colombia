@@ -5951,7 +5951,6 @@ class TestOpsSaludCarga(unittest.TestCase):
         ops_salud.DATA = tmp    # para que `ruta.relative_to(DATA.parent)` no reviente
         ops_salud.fetch = fake_fetch
         ops_salud.registrar_entrega = fake_registrar_entrega
-        import sources.ops_salud as mod
         import municipios as _municipios
         cat_original = _municipios.catalogo_vigente
         _municipios.catalogo_vigente = lambda: (catalogo or {})
