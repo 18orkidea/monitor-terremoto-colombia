@@ -410,6 +410,134 @@ class TestFicha(unittest.TestCase):
                          "el salto real pequeño se publicó como cero")
 
 
+class TestFichaDepartamental(unittest.TestCase):
+    """La ficha departamental v1: agregados municipales, sin cifra propia
+    declarada por el departamento todavía."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.deptos = R.departamentos_afectados(cls.ctx)
+        cls.depto = cls.deptos[0]
+        cls.datos = R.datos_ficha_departamento(cls.depto, cls.ctx)
+        cls.html = R.render_ficha_departamento(cls.datos)
+
+    def test_hay_al_menos_un_departamento_afectado(self):
+        self.assertTrue(self.deptos, "ningún departamento resultó elegible")
+
+    def test_la_ficha_lleva_el_nombre_del_departamento(self):
+        self.assertIn(self.depto, self.html)
+        self.assertIn("<h1>", self.html)
+
+    def test_enlaces_a_fichas_municipales_estan_resueltos(self):
+        """Cada municipio elegible del departamento enlaza a la misma ruta que
+        `run()` escribiría para su ficha municipal (mismo slug)."""
+        elegibles = [m["municipio"] for m in self.datos["elegibles"]]
+        self.assertTrue(elegibles,
+                        "el departamento de prueba no tiene municipios elegibles")
+        for nombre in elegibles:
+            href = f'/municipio/{R.slug(nombre)}/'
+            self.assertIn(href, self.html, f"falta el enlace a {nombre}")
+
+    def test_json_ld_es_un_unico_dataset(self):
+        datasets = datasets_ld(self.html)
+        self.assertEqual(len(datasets), 1)
+        ld, = datasets
+        for campo in ("name", "description"):
+            self.assertTrue((ld.get(campo) or "").strip(),
+                            f"el dataset departamental se publica sin «{campo}»")
+
+    def test_guardian_de_dos_caminos_la_suma_cuadra_con_los_municipios(self):
+        """El total que calcula la función (camino 1) tiene que coincidir con
+        la suma hecha aquí de forma independiente (camino 2), recorriendo
+        `municipios.json` sin pasar por `agregado_rud_departamento`."""
+        for depto in self.deptos:
+            with self.subTest(depto=depto):
+                agregado = R.agregado_rud_departamento(depto, self.ctx)
+                for columna in R.COLUMNAS_RUD_DEPARTAMENTO:
+                    valores = [m[columna] for m in self.ctx["municipios"]
+                              if m["departamento"] == depto
+                              and m.get(columna) is not None]
+                    esperado = sum(valores) if valores else None
+                    self.assertEqual(
+                        agregado[columna], esperado,
+                        f"{depto}/{columna}: la función publica "
+                        f"{agregado[columna]} y la suma independiente da {esperado}")
+
+    def test_el_guardian_muerde_si_la_suma_se_rompe(self):
+        """Comprobación de que el guardián anterior sí detecta una avería: con
+        un municipio duplicado, la función (que lo recorrería dos veces) deja
+        de coincidir con la suma que lo cuenta una sola vez."""
+        depto = self.deptos[0]
+        municipios_reales = R.municipios_del_departamento(depto, self.ctx)
+        alguno = next(m for m in municipios_reales
+                     if m.get("rud_familias") is not None)
+        ctx_mutado = {**self.ctx,
+                     "municipios": [*self.ctx["municipios"], dict(alguno)]}
+        agregado = R.agregado_rud_departamento(depto, ctx_mutado)
+        suma_sin_duplicar = sum(m["rud_familias"] for m in municipios_reales
+                                if m.get("rud_familias") is not None)
+        self.assertNotEqual(
+            agregado["rud_familias"], suma_sin_duplicar,
+            "el duplicado no cambió la suma: la mutación no probó nada")
+
+    def test_una_cifra_ausente_en_todo_el_departamento_no_es_cero(self):
+        """R3 a escala departamental: si NINGÚN municipio tiene una columna,
+        el agregado es `None`, nunca 0."""
+        depto = self.deptos[0]
+        municipios_mutados = [dict(m) for m in self.ctx["municipios"]]
+        for m in municipios_mutados:
+            if m["departamento"] == depto:
+                m["rud_familias"] = None
+        ctx_mutado = {**self.ctx, "municipios": municipios_mutados}
+        agregado = R.agregado_rud_departamento(depto, ctx_mutado)
+        self.assertIsNone(agregado["rud_familias"])
+
+    def test_seccion_de_salud_departamental_no_se_pinta_sin_datos(self):
+        """Nada de globos con «—»: hoy no hay serie OPS/salud, así que la
+        sección no debe aparecer en ningún departamento."""
+        self.assertEqual(R.seccion_salud_departamental(self.datos), "")
+        self.assertNotIn("Lo que declara el departamento", self.html)
+
+    def test_un_departamento_sin_municipios_elegibles_no_genera_pagina(self):
+        """`departamentos_afectados` es el único filtro que usa `run()`: un
+        departamento fabricado sin ninguna señal no debe aparecer en la lista."""
+        depto_falso = "Departamento sin señal (caso fabricado)"
+        municipio_falso = {**self.ctx["municipios"][0],
+                           "municipio": "Municipio sin señal (caso fabricado)",
+                           "departamento": depto_falso,
+                           "rud_familias": None, "rud_personas": None,
+                           "rud_viv_destruidas": None, "rud_viv_averiadas": None,
+                           "n_noticias": None, "dyfi_respuestas": None,
+                           "en_aoi_copernicus": False,
+                           "unosat_edificios": None, "sertit_edificios": None}
+        ctx_mutado = {**self.ctx,
+                     "municipios": [*self.ctx["municipios"], municipio_falso],
+                     "idx": {**self.ctx["idx"],
+                             municipio_falso["municipio"]: municipio_falso}}
+        self.assertFalse(R.es_elegible_departamento(depto_falso, ctx_mutado))
+        self.assertNotIn(depto_falso, R.departamentos_afectados(ctx_mutado))
+
+    def test_no_funde_maximo_informado_municipal_con_cifra_departamental(self):
+        """Las tarjetas del agregado se rotulan «suma municipal», nunca «cifra
+        oficial» ni «máximo informado»: son conceptos distintos (R16)."""
+        if any(v is not None for v in self.datos["agregado"].values()):
+            self.assertIn("suma municipal", self.html)
+        self.assertNotIn("máximo informado", self.html)
+
+    def test_departamento_enlazado_desde_la_tabla_de_municipios(self):
+        html_municipios = R.filas_municipios(self.ctx)
+        self.assertIn(f'/departamento/{R.slug(self.depto)}/', html_municipios)
+
+    def test_la_sigla_rud_no_pierde_mayusculas_en_el_resumen(self):
+        """Un `.capitalize()` sobre la frase entera bajaba «RUD» a «rud»: la
+        sigla no se toca, y la cifra que la precede no tiene mayúscula que
+        corregir."""
+        if self.datos["agregado"]["rud_familias"] is not None:
+            self.assertIn(" en el RUD", self.html)
+        self.assertNotIn(" en el rud", self.html)
+
+
 class TestMapaEvidencias(unittest.TestCase):
     """La segunda pestaña existe solo con puntos y no pesa hasta que se pide.
 
@@ -5152,11 +5280,15 @@ class TestMarcadoEstructurado(unittest.TestCase):
         otro traje. El número de fichas no se escribe a mano —crece con los
         datos—: se compara con el que declara el propio build."""
         fichas = [p for p in self.paginas if p.parent.parent.name == "municipio"]
+        deptos = [p for p in self.paginas if p.parent.parent.name == "departamento"]
         self.assertEqual(len(fichas), self.res["fichas"])
         self.assertGreater(len(fichas), 200, "el artefacto se ha encogido")
+        self.assertEqual(len(deptos), self.res["departamentos"])
+        self.assertGreater(len(deptos), 0, "ningún departamento generó ficha")
         self.assertEqual(sorted(R.PAGINAS_GRANDES), sorted(self.ESTATICAS),
                          "el build dejó de escribir alguna de las cinco grandes")
-        self.assertEqual(len(self.paginas), len(fichas) + len(self.ESTATICAS))
+        self.assertEqual(len(self.paginas),
+                         len(fichas) + len(deptos) + len(self.ESTATICAS))
         # Cada una de las 213 publica su `Dataset`, y exactamente uno. Exigir
         # solo «algún bloque JSON-LD» no guardaba nada: `BLOQUE_IDENTIDAD` lo
         # escribe `escribir_piezas_compartidas` en las 213, así que el test

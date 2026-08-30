@@ -50,6 +50,8 @@ def sitemap(destino: Path) -> int:
     urls = [(DOMINIO + ruta, cad, pri) for ruta, cad, pri in PAGINAS]
     for ficha in sorted((destino / "municipio").glob("*/index.html")):
         urls.append((f"{DOMINIO}/municipio/{ficha.parent.name}/", "daily", "0.6"))
+    for ficha in sorted((destino / "departamento").glob("*/index.html")):
+        urls.append((f"{DOMINIO}/departamento/{ficha.parent.name}/", "daily", "0.6"))
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for loc, cad, pri in urls:
