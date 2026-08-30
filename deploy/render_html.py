@@ -2964,11 +2964,11 @@ def render_ficha(d: dict) -> str:
              "<td>comunidad, sin validación humana</td></tr>"
              "<tr><td>Titulares</td><td>feeds abiertos del monitor y Google News municipal</td>"
              "<td>prensa · nunca equivale a balance oficial</td></tr>"
-             + (f'<tr><td>Establecimientos de salud nombrados</td>'
-                f'<td>Organización Panamericana de la Salud (OPS/OMS) · '
-                f'Informes de Situación (sitrep)</td>'
-                f'<td>transcripción a mano de los sitrep 1-3, únicos con nombre de '
-                f'institución</td></tr>' if d["ops_ips"] else "") +
+             + ('<tr><td>Establecimientos de salud nombrados</td>'
+                '<td>Organización Panamericana de la Salud (OPS/OMS) · '
+                'Informes de Situación (sitrep)</td>'
+                '<td>transcripción a mano de los sitrep 1-3, únicos con nombre de '
+                'institución</td></tr>' if d["ops_ips"] else "") +
              # El código DIVIPOLA y la fecha de la corrida bajaron aquí desde el
              # subtítulo: son trazabilidad, no portada de ficha. La fecha no
              # podía perderse por el camino — un archivo que no dice de cuándo
