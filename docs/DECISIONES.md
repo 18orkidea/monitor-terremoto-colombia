@@ -4648,3 +4648,97 @@ código, el esquema, los tests y los 3 recursos que sí viven en git (máscaras
 + catálogo)— y deja que la primera subida real ocurra en el primer
 `daily.yml` posterior a la fusión, con credenciales reales y el `sync`
 inmediatamente después de la descarga, en la misma corrida.
+
+## 2026-08-30 — La integración visual: OPS/salud y matrícula en las fichas
+
+**Contexto.** El lote anterior dejó `ops_salud_cifras`/`ops_salud_ips` en
+sqlite con sus dos accessors (`cifras_por_ambito`, `instituciones_por_municipio`)
+documentados como «el contrato para las fichas» — pero `deploy/render_html.py`
+nunca ha abierto sqlite, solo lee `data/public/*.json`.
+
+**Decisiones:**
+
+1. **`render_html.py` sigue sin tocar sqlite.** Se descartó que abriera su
+   propia conexión e importara los accessors directamente: rompía el patrón
+   del sitio entero y obligaba a los tests de la ficha a montar un sqlite
+   sintético en vez de un fixture JSON (justo la regla nueva del DoD #2, en
+   la entrada de arriba). En su lugar, `ops_salud.py::export_public(conn=None)`
+   escribe `data/public/ops_salud.json` —mismo plan de sucesión que
+   `rud.json`— y `render_html.py` lo lee con `_leer()`. `ingest/run_daily.py`
+   gana un paso aparte (`ops_salud_export`), no una llamada dentro de `run()`:
+   el conocimiento de la fuente no se desparrama fuera de `ops_salud.py`.
+2. **A escala departamental, solo dos de las tres cifras.** `ips_reportadas_ungrd`
+   nunca baja de nacional en ningún sitrep (ver la entrada de arriba) y no se
+   reparte por invención; `ips_identificadas_msps` (sitrep 4) queda superada
+   por `ips_verificadas_crue`/`ips_priorizadas` (sitrep 5) y se excluye del
+   agregado departamental para no mezclar tres sitrep en una tarjeta. Cada
+   cifra que sí se publica lleva su autor y su fecha de corte pegados —nunca
+   una cifra sola— y nunca se funde con el agregado del RUD de la misma
+   ficha, que es un concepto distinto (suma nuestra de familias/viviendas,
+   no de establecimientos de salud).
+3. **El sitrep 4 desglosa también ciudades sueltas** («Cali (Valle del
+   Cauca)», «Buenaventura (Valle del Cauca)») además de departamentos — un
+   hallazgo al leer el JSON exportado, no algo que el briefing anticipara.
+   `cifras_salud_departamento` exige igualdad EXACTA con el nombre del
+   departamento para que esas filas de ciudad no se cuelen en el agregado
+   departamental; ese detalle de ciudad no se usa en ningún sitio todavía
+   (pendiente para quien construya una ficha con ese nivel de granularidad).
+4. **Un ámbito («Bolívar») no corresponde a ningún departamento del
+   catálogo.** OPS/MinSalud reportan cifras para Bolívar, que hoy tiene cero
+   municipios en `municipios.json` y por tanto ninguna ficha departamental:
+   esa cifra queda invisible en todo el sitio. No se resuelve aquí —ampliar
+   el catálogo a un departamento nuevo es una decisión de alcance aparte—,
+   se deja anotado como hallazgo (candidato a `docs/LIMITACIONES.md`).
+5. **Matrícula departamental reutiliza `_matricula_de_sedes` sin segunda
+   suma**: unión de las sedes con afectación de todos los municipios del
+   departamento, la misma función que ya usa la ficha municipal (#39). Mismo
+   rótulo legal («matriculados en sedes con afectación», nunca «afectados») y
+   la misma advertencia editorial (`_matricula_descripcion`), reutilizada
+   literalmente en las dos escalas (G3).
+6. **Detalle de instituciones nombradas, en la ficha MUNICIPAL, no en la
+   departamental.** `instituciones_por_municipio` es el detalle fino de los
+   sitrep 1-3; agregarlo por departamento sería sumar nombres con el
+   agregado sin nombre del sitrep 5, dos granularidades distintas. Cada
+   nombre de institución cita el sitrep de origen con enlace a su página
+   pública (`sitrep_paginas`, exportado junto con las cifras).
+
+## 2026-08-30 — Corregir una transcripción registrada: fila nueva, la vieja intacta
+
+**Confusión real, no hipotética.** Al verificar en navegador se encontró un
+typo en la transcripción del sitrep 5 (`data/documentos/ops_salud/sitrep_5.json`):
+un paréntesis del autor de `ips_verificadas_crue` se quedó sin cerrar. Corregir
+el JSON cambia su sha256, y ese sha256 ya estaba registrado en `sources_log`
+como una «entrega» (`registrar_entrega`, el mismo mecanismo que ata los
+vectores de SERTIT a su PDF de origen) — así que corregirlo chocó de frente
+con `dump_db.py::_proteger_historia`, que rechaza perder una clave histórica
+del dump. El primer instinto fue forzarlo o borrar la fila vieja; se paró y
+se preguntó en vez de eso.
+
+**La respuesta ya estaba escrita** en «Dos capas, y solo una es inmutable»
+(arriba en este mismo archivo, sección de CLAUDE.md): el PDF es lo que dijo
+la fuente —intocable—; la transcripción JSON es la capa que hicimos
+NOSOTROS con lo que dijo, y «si encontramos un error en la manera en que
+mostramos los datos, se corrige» — «las dos trazas se conservan; lo que se
+arregla es lo publicado». Aplicado a `sources_log`: **la corrección es una
+fila NUEVA, nunca una edición ni un borrado de la vieja** — eso es
+exactamente lo que `_proteger_historia` existe para proteger, y estaba en
+lo correcto al rechazarlo.
+
+`ingest/sources/ops_salud.py::_registrar_transcripcion` queda así: si ya hay
+una fila para la ruta con OTRO sha256, la nueva nota dice explícitamente
+«corrige la transcripción anterior (sha …), que se conserva sin tocar» y
+cita el sha256 del PDF de origen, que no cambia. `_proteger_historia` no
+necesitó ningún cambio — solo rechaza PERDER claves, nunca rechaza sumar
+una—; el guardián que sí hacía falta enseñar fue
+`test_hipotesis.py::test_una_derivacion_no_finge_ser_una_peticion`, que
+comparaba TODAS las filas de entrega contra el fichero actual: ahora compara
+solo la MÁS RECIENTE por ruta, porque una fila vieja documenta lo que ANTES
+decía la transcripción, no lo que dice hoy. Test del caso en
+`tests/test_unit.py::TestOpsSaludCarga::test_una_correccion_de_la_transcripcion_anade_fila_sin_tocar_la_vieja`.
+
+Por qué se anota aquí y no solo en el commit: esta misma confusión —invocar
+la inmutabilidad de un snapshot para defender un error nuestro de
+presentación— ya pasó una vez en el proyecto con un redondeo mal aplicado
+(ver la entrada de El Cerrito / Alcalá más arriba). Que vuelva a pasar con
+otro nombre —esta vez «entrega» en vez de «snapshot»— es la señal de que la
+distinción necesita quedar escrita donde la vea quien corrija la próxima.

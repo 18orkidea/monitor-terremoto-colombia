@@ -214,25 +214,37 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
 | `fuentes_watch` | (watcher, external_id) | Estado de los vigilantes de fuentes que aún no existen: `hdx` (datasets nuevos en data.humdata.org) y `arcgis_eres` (el tablero ERES/MinSalud). Una fila por item ya visto — decide «nuevo» vs «ya conocido» en `ingest/alerts.py` |
 
-**Accessors de `ingest/sources/ops_salud.py`**, el contrato para quien construya la
-sección «Lo que declara el departamento» de las fichas:
+**Accessors de `ingest/sources/ops_salud.py`**:
 
 - `cifras_por_ambito(conn) -> {ambito: {concepto: {valor, valor_raw, autor,
   fuente_citada, nota, sitrep_n, fecha_corte}}}` — la última cifra PUBLICADA
   (por `sitrep_n`, no por `fecha_corte`: dos sitrep pueden compartir corte) de
-  cada concepto, para cada ámbito (`'nacional'` o un departamento/distrito).
-  Solo mira las filas sin desglose por nivel de complejidad; el desglose de la
-  matriz del sitrep 4 se consulta aparte, filtrando `ops_salud_cifras` por
-  `nivel_complejidad`. El titular fijo decidido el 30-ago-2026 —«303
-  reportadas (UNGRD) · 192 verificadas (MinSalud) · 50 priorizadas (MinSalud)»,
-  las tres cifras siempre juntas y cada una con su autor, nunca una sola— se
-  compone con `cifras_por_ambito(conn)['nacional']` leyendo los conceptos
-  `ips_reportadas_ungrd`, `ips_verificadas_crue` e `ips_priorizadas`.
+  cada concepto, para cada ámbito (`'nacional'`, un departamento, o alguna
+  ciudad suelta que el sitrep 4 desglosa aparte, p. ej. «Cali (Valle del
+  Cauca)»). Solo mira las filas sin desglose por nivel de complejidad; el
+  desglose de la matriz del sitrep 4 se consulta aparte, filtrando
+  `ops_salud_cifras` por `nivel_complejidad`. El titular fijo decidido el
+  30-ago-2026 —«303 reportadas (UNGRD) · 192 verificadas (MinSalud) · 50
+  priorizadas (MinSalud)», las tres cifras siempre juntas y cada una con su
+  autor, nunca una sola— se compone con `cifras_por_ambito(conn)['nacional']`
+  leyendo los conceptos `ips_reportadas_ungrd`, `ips_verificadas_crue` e
+  `ips_priorizadas`. A escala departamental solo bajan `ips_verificadas_crue`
+  e `ips_priorizadas` (sitrep 5): `ips_reportadas_ungrd` es solo nacional y
+  `ips_identificadas_msps` (sitrep 4) queda superada por las dos del 5 — ver
+  `deploy/render_html.py::CONCEPTOS_SALUD_DEPARTAMENTO`.
 - `instituciones_por_municipio(conn) -> {municipio_slug: [{sitrep_n,
   fecha_corte, nombre_ips, nivel_complejidad, observacion, municipio_literal,
   departamento_literal}]}` — el detalle por institución de los sitreps 1-3,
   agrupado por el municipio ya resuelto (nunca adivinado — R10 con
   departamento como desambiguador de homónimos).
+- `export_public(conn=None) -> dict` — escribe `data/public/ops_salud.json`
+  con los dos accessors de arriba más `sitrep_paginas` (n → URL de la página
+  del sitrep, para la trazabilidad de las fichas). **Es el contrato real que
+  consumen las fichas municipales y departamentales**: `deploy/render_html.py`
+  nunca abre sqlite, lee este JSON con `_leer()` igual que `rud.json` o
+  `men_sedes_mapa.geojson` — mismo patrón, mismo plan de sucesión. Un paso
+  aparte en `ingest/run_daily.py` (`ops_salud_export`, después de `ops_salud`),
+  no una llamada dentro de `run()`.
 
 ## Los tres ciclos automáticos
 

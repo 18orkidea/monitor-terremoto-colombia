@@ -1,0 +1,1061 @@
+{
+ "generado": "2026-08-30T17:17:17Z",
+ "por_ambito": {
+  "nacional": {
+   "ips_reportadas_monitoreo_ops": {
+    "valor": 24.0,
+    "valor_raw": "24",
+    "autor": "Secretarías de salud y consultores OPS/OMS en terreno",
+    "fuente_citada": "Monitoreo conjunto secretarías de salud + OPS/OMS, corte 10-ago-2026 19:30",
+    "nota": "El párrafo del sitrep cita corte 17:30 y la Tabla 1 cita 19:30 — discrepancia del propio documento, se conserva la de la tabla.",
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10"
+   },
+   "ips_reportadas_ungrd": {
+    "valor": 303.0,
+    "valor_raw": "303",
+    "autor": "UNGRD",
+    "fuente_citada": "Reporte Situacional No. 032, Sismo San José del Palmar 7,4 Mw, UNGRD, corte 18-ago-2026 06:30h",
+    "nota": "Cifra citada solo en prosa (§2.4): 303 establecimientos afectados en 11 de 15 departamentos, SIN desglose departamental en este sitrep.",
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_identificadas_msps": {
+    "valor": 59.0,
+    "valor_raw": "59",
+    "autor": "Ministerio de Salud y Protección Social y secretarías de salud territoriales",
+    "fuente_citada": "Sitrep 4 OPS/OMS, Tabla 2, corte 13-ago-2026 07:00h",
+    "nota": "Total general de la matriz (Tabla 2).",
+    "sitrep_n": 4,
+    "fecha_corte": "2026-08-13"
+   },
+   "ips_verificadas_crue": {
+    "valor": 192.0,
+    "valor_raw": "192",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": "Fila 'Total' de la Tabla 2. El propio sitrep lo marca como 'dato en actualización'.",
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": 50.0,
+    "valor_raw": "50",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": "Fila 'Total' de la Tabla 2.",
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Caldas": {
+   "ips_identificadas_msps": {
+    "valor": 8.0,
+    "valor_raw": "8",
+    "autor": "Ministerio de Salud y Protección Social y secretarías de salud territoriales",
+    "fuente_citada": "Sitrep 4 OPS/OMS, Tabla 2, corte 13-ago-2026 07:00h",
+    "nota": "Total del departamento (fila 'Total general' de la matriz para esta columna).",
+    "sitrep_n": 4,
+    "fecha_corte": "2026-08-13"
+   },
+   "ips_verificadas_crue": {
+    "valor": 18.0,
+    "valor_raw": "18",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": 6.0,
+    "valor_raw": "6",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Cauca": {
+   "ips_identificadas_msps": {
+    "valor": 6.0,
+    "valor_raw": "6",
+    "autor": "Ministerio de Salud y Protección Social y secretarías de salud territoriales",
+    "fuente_citada": "Sitrep 4 OPS/OMS, Tabla 2, corte 13-ago-2026 07:00h",
+    "nota": "Total del departamento (fila 'Total general' de la matriz para esta columna).",
+    "sitrep_n": 4,
+    "fecha_corte": "2026-08-13"
+   },
+   "ips_verificadas_crue": {
+    "valor": 6.0,
+    "valor_raw": "6",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": null,
+    "valor_raw": "-",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Chocó": {
+   "ips_identificadas_msps": {
+    "valor": 28.0,
+    "valor_raw": "28",
+    "autor": "Ministerio de Salud y Protección Social y secretarías de salud territoriales",
+    "fuente_citada": "Sitrep 4 OPS/OMS, Tabla 2, corte 13-ago-2026 07:00h",
+    "nota": "Total del departamento (fila 'Total general' de la matriz para esta columna).",
+    "sitrep_n": 4,
+    "fecha_corte": "2026-08-13"
+   },
+   "ips_verificadas_crue": {
+    "valor": 70.0,
+    "valor_raw": "70",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": 19.0,
+    "valor_raw": "19",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Quindío": {
+   "ips_identificadas_msps": {
+    "valor": 1.0,
+    "valor_raw": "1",
+    "autor": "Ministerio de Salud y Protección Social y secretarías de salud territoriales",
+    "fuente_citada": "Sitrep 4 OPS/OMS, Tabla 2, corte 13-ago-2026 07:00h",
+    "nota": "Total del departamento (fila 'Total general' de la matriz para esta columna).",
+    "sitrep_n": 4,
+    "fecha_corte": "2026-08-13"
+   },
+   "ips_verificadas_crue": {
+    "valor": 21.0,
+    "valor_raw": "21",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": 5.0,
+    "valor_raw": "5",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Risaralda": {
+   "ips_identificadas_msps": {
+    "valor": 2.0,
+    "valor_raw": "2",
+    "autor": "Ministerio de Salud y Protección Social y secretarías de salud territoriales",
+    "fuente_citada": "Sitrep 4 OPS/OMS, Tabla 2, corte 13-ago-2026 07:00h",
+    "nota": "Total del departamento (fila 'Total general' de la matriz para esta columna).",
+    "sitrep_n": 4,
+    "fecha_corte": "2026-08-13"
+   },
+   "ips_verificadas_crue": {
+    "valor": 22.0,
+    "valor_raw": "22",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": 10.0,
+    "valor_raw": "10",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Valle del Cauca": {
+   "ips_identificadas_msps": {
+    "valor": 14.0,
+    "valor_raw": "14",
+    "autor": "Ministerio de Salud y Protección Social y secretarías de salud territoriales",
+    "fuente_citada": "Sitrep 4 OPS/OMS, Tabla 2, corte 13-ago-2026 07:00h",
+    "nota": "Total del departamento (fila 'Total general' de la matriz para esta columna).",
+    "sitrep_n": 4,
+    "fecha_corte": "2026-08-13"
+   },
+   "ips_verificadas_crue": {
+    "valor": 40.0,
+    "valor_raw": "40",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": 9.0,
+    "valor_raw": "9",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Cali (Valle del Cauca)": {
+   "ips_verificadas_crue": {
+    "valor": 10.0,
+    "valor_raw": "10",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": null,
+    "valor_raw": "-",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Buenaventura (Valle del Cauca)": {
+   "ips_verificadas_crue": {
+    "valor": 3.0,
+    "valor_raw": "3",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": 1.0,
+    "valor_raw": "1",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  },
+  "Bolívar": {
+   "ips_verificadas_crue": {
+    "valor": 2.0,
+    "valor_raw": "2",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   },
+   "ips_priorizadas": {
+    "valor": null,
+    "valor_raw": "-",
+    "autor": "Ministerio de Salud y Protección Social",
+    "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+    "nota": null,
+    "sitrep_n": 5,
+    "fecha_corte": "2026-08-18"
+   }
+  }
+ },
+ "instituciones_por_municipio": {
+  "popayan": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica La Estancia",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica San Rafael",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Santa Gracia",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Susana López",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Algunos daños, en verificación",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica La Estancia",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica San Rafael",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Santa Gracia",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Susana López",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica La Estancia",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica San Rafael",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica Santa Gracia",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Susana López",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "Popayán",
+    "departamento_literal": "Cauca"
+   }
+  ],
+  "toribio": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital de Toribío",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "Toribío",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital de Toribio",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "Toribio",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital de Toribío",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "Toribío",
+    "departamento_literal": "Cauca"
+   }
+  ],
+  "el-tambo": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital de El Tambo",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "El Tambo",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital de El Tambo",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "El Tambo",
+    "departamento_literal": "Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital de El Tambo",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "El Tambo",
+    "departamento_literal": "Cauca"
+   }
+  ],
+  "quibdo": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "San Francisco de Asis",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Con daños en evaluación",
+    "municipio_literal": "Quibdó",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Local Ismael Roldán",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital",
+    "municipio_literal": "Quibdó",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "San Francisco de Asís",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Con daños en evaluación",
+    "municipio_literal": "Quibdó",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Local Ismael Roldán",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital",
+    "municipio_literal": "Quibdó",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "San Francisco de Asis",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Con daños en evaluación",
+    "municipio_literal": "Quibdó",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Local Ismael Roldán Valencia de Quibdó",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital",
+    "municipio_literal": "Quibdó",
+    "departamento_literal": "Chocó"
+   }
+  ],
+  "manizales": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Santa Sofía",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Pendiente verificación",
+    "municipio_literal": "Manizales",
+    "departamento_literal": "Caldas"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Santa Sofía",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Pendiente verificación",
+    "municipio_literal": "Manizales",
+    "departamento_literal": "Caldas"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Santa Sofía",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Pendiente verificación",
+    "municipio_literal": "Manizales",
+    "departamento_literal": "Caldas"
+   }
+  ],
+  "pereira": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Megacentro",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños no estructurales, preliminar",
+    "municipio_literal": "Pereira",
+    "departamento_literal": "Risaralda"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Santa Mónica",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Daños no estructurales, preliminar",
+    "municipio_literal": "Pereira",
+    "departamento_literal": "Risaralda"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Megacentro",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños no estructurales, preliminar",
+    "municipio_literal": "Pereira",
+    "departamento_literal": "Risaralda"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Santa Mónica",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Daños no estructurales, preliminar",
+    "municipio_literal": "Pereira",
+    "departamento_literal": "Risaralda"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica Megacentro",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños no estructurales, preliminar",
+    "municipio_literal": "Pereira",
+    "departamento_literal": "Risaralda"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Santa Mónica",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Daños no estructurales, preliminar",
+    "municipio_literal": "Pereira",
+    "departamento_literal": "Risaralda"
+   }
+  ],
+  "cali": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Universitario del Valle",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Colapso estructural de una parte de una torre.",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Valle Salud",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Fundación Valle del Lili",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños no estructurales",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Rey David",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños en tanques de almacenamiento de agua",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Nuestra",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños estructurales; evacuación total",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica de Colores",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños no estructurales (no tiene habilitado servicio de urgencias)",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Isaías Duarte Cancino",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Sanitas",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital San Juan de Dios",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Departamental Mario Correa Rengifo",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Universitario del Valle",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Colapso estructural de una parte de una torre.",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Valle Salud",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Fundación Valle del Lili",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños no estructurales",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Rey David",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños en tanques de almacenamiento de agua",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Nuestra",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños estructurales; evacuación total",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica de Colores",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños no estructurales (no tiene habilitado servicio de urgencias)",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Isaías Duarte Cancino",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Sanitas",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital San Juan de Dios",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Departamental Mario Correa Rengifo",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Universitario del Valle",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Colapso estructural de una parte de una torre.",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica Valle Salud",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Fundación Valle del Lili",
+    "nivel_complejidad": "Nivel 4",
+    "observacion": "Daños no estructurales",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica Rey David",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños en tanques de almacenamiento de agua",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica Nuestra",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños estructurales; evacuación total",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica de Colores",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños no estructurales (no tiene habilitado servicio de urgencias)",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Isaías Duarte Cancino",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica Sanitas",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital San Juan de Dios",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Departamental Mario Correa Rengifo",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Afectación no estructural, pendiente evaluación",
+    "municipio_literal": "Cali",
+    "departamento_literal": "Valle del Cauca"
+   }
+  ],
+  "buenaventura": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Santa Sofía del Pacífico",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico)",
+    "municipio_literal": "Buenaventura",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Luis Ablanque de la Plata",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo.",
+    "municipio_literal": "Buenaventura",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Clínica Santa Sofía del Pacífico",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico)",
+    "municipio_literal": "Buenaventura",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Luis Ablanque de la Plata",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo.",
+    "municipio_literal": "Buenaventura",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Clínica Santa Sofía del Pacífico",
+    "nivel_complejidad": "Por confirmar",
+    "observacion": "Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico)",
+    "municipio_literal": "Buenaventura",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Luis Ablanque de la Plata",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo.",
+    "municipio_literal": "Buenaventura",
+    "departamento_literal": "Valle del Cauca"
+   }
+  ],
+  "armenia": [
+   {
+    "sitrep_n": 1,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital San Juan de Dios",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)",
+    "municipio_literal": "Armenia",
+    "departamento_literal": "Quindío"
+   },
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital San Juan de Dios",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)",
+    "municipio_literal": "Armenia",
+    "departamento_literal": "Quindío"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital San Juan de Dios",
+    "nivel_complejidad": "Nivel 3",
+    "observacion": "Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)",
+    "municipio_literal": "Armenia",
+    "departamento_literal": "Quindío"
+   }
+  ],
+  "alto-baudo": [
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Centro de Salud",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Daño no estructural, pendiente evaluación.",
+    "municipio_literal": "Alto Baudó",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Centro de Salud",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Daño no estructural, pendiente evaluación.",
+    "municipio_literal": "Alto Baudó",
+    "departamento_literal": "Chocó"
+   }
+  ],
+  "nuqui": [
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Centros de Salud Arusi y Tribuga",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "En verificación",
+    "municipio_literal": "Nuquí",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Centros de Salud Arusi y Tribuga",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "En verificación",
+    "municipio_literal": "Nuquí",
+    "departamento_literal": "Chocó"
+   }
+  ],
+  "san-jose-del-palmar": [
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Centro de Salud",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Daños no estructurales, pendiente evaluación",
+    "municipio_literal": "San José del Palmar",
+    "departamento_literal": "Chocó"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Centro de Salud",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Daños no estructurales, pendiente evaluación",
+    "municipio_literal": "San José del Palmar",
+    "departamento_literal": "Chocó"
+   }
+  ],
+  "el-aguila": [
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital San Rafael",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "El Aguila",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital San Rafael",
+    "nivel_complejidad": "Nivel 1",
+    "observacion": "Daños por confirmar",
+    "municipio_literal": "El Aguila",
+    "departamento_literal": "Valle del Cauca"
+   }
+  ],
+  "roldanillo": [
+   {
+    "sitrep_n": 2,
+    "fecha_corte": "2026-08-10",
+    "nombre_ips": "Hospital Departamental de San Antonio",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "Roldanillo",
+    "departamento_literal": "Valle del Cauca"
+   },
+   {
+    "sitrep_n": 3,
+    "fecha_corte": "2026-08-11",
+    "nombre_ips": "Hospital Departamental de San Antonio",
+    "nivel_complejidad": "Nivel 2",
+    "observacion": "Con daños. Pendiente verificación",
+    "municipio_literal": "Roldanillo",
+    "departamento_literal": "Valle del Cauca"
+   }
+  ]
+ },
+ "sitrep_paginas": {
+  "1": "https://www.paho.org/es/documentos/informe-situacion-1-colombia-terremoto-agosto-2026-10-agosto-2026",
+  "2": "https://www.paho.org/es/documentos/informe-situacion-2-colombia-terremoto-agosto-2026-10-agosto-2026",
+  "3": "https://www.paho.org/es/documentos/informe-situacion-3-colombia-terremoto-agosto-2026-11-agosto-2026",
+  "4": "https://www.paho.org/es/documentos/informe-situacion-4-colombia-terremoto-agosto-2026-13-agosto-2026",
+  "5": "https://www.paho.org/es/documentos/informe-situacion-5-colombia-terremoto-agosto-2026-19-agosto-2026"
+ }
+}

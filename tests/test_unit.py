@@ -6312,6 +6312,48 @@ class TestOpsSaludCarga(unittest.TestCase):
         self.assertEqual(conn.execute(
             "SELECT municipio_slug FROM ops_salud_ips").fetchone()[0], "cali")
 
+    def test_una_correccion_de_la_transcripcion_anade_fila_sin_tocar_la_vieja(self):
+        """El JSON de transcripción es la capa que hicimos NOSOTROS con lo que
+        dijo el PDF, no el PDF mismo: un error nuestro publicado se corrige
+        (CLAUDE.md, «Dos capas, y solo una es inmutable»). La corrección
+        SUMA una fila a `sources_log` —nunca reemplaza ni borra la vieja,
+        que es justo lo que `dump_db.py::_proteger_historia` existe para
+        proteger— y la fila nueva dice a cuál corrige."""
+        import hashlib
+        cuerpo = b"cuerpo estable del sitrep 4"
+        t = self._transcripcion(4, cifras=[
+            {"ambito": "Caldas", "concepto": "ips_identificadas_msps",
+             "valor": 8, "valor_raw": "8", "nivel_complejidad": None,
+             "autor": "MSPS (sin cerrar"}])
+        t["pdf_sha256"] = hashlib.sha256(cuerpo).hexdigest()
+        ops_salud, conn = self._modulo({4: t}, pdf_bodies={4: cuerpo})
+        ops_salud.run(conn)
+        filas = conn.execute(
+            "SELECT sha256 FROM sources_log WHERE snapshot_path LIKE"
+            " '%sitrep_4.json'").fetchall()
+        self.assertEqual(len(filas), 1, "la primera carga registra una fila")
+        sha_viejo = filas[0][0]
+
+        # La corrección: se edita el JSON de transcripción en disco —el mismo
+        # camino que tomaría quien arregla un typo— y se vuelve a correr.
+        ruta = ops_salud.DOCUMENTOS / "sitrep_4.json"
+        datos = json.loads(ruta.read_text())
+        datos["cifras"][0]["autor"] = "MSPS (cerrado)"
+        ruta.write_text(json.dumps(datos, ensure_ascii=False), encoding="utf-8")
+        ops_salud.run(conn)
+
+        filas = conn.execute(
+            "SELECT sha256, note FROM sources_log WHERE snapshot_path LIKE"
+            " '%sitrep_4.json'").fetchall()
+        self.assertEqual(len(filas), 2,
+                         "la corrección debe SUMAR una fila, no reemplazar la vieja")
+        shas = {sha for sha, _ in filas}
+        self.assertIn(sha_viejo, shas, "la fila vieja no puede cambiar de sha256")
+        nota_nueva = next(nota for sha, nota in filas if sha != sha_viejo)
+        self.assertIn("corrige la transcripción anterior", nota_nueva)
+        self.assertIn(sha_viejo[:12], nota_nueva,
+                     "la nota de la corrección debe citar el sha256 que corrige")
+
     def test_cifras_por_ambito_ignora_el_desglose_por_nivel(self):
         """El accessor documentado para render: una sola cifra por (ámbito,
         concepto), la fila 'total' (nivel_complejidad NULL) — no una de las

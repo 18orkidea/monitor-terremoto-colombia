@@ -87,7 +87,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-from common import DATA, fetch, registrar_entrega, to_num, utcnow
+from common import DATA, PUBLIC, fetch, registrar_entrega, to_num, utcnow
 
 DOCUMENTOS = DATA / "documentos" / "ops_salud"
 
@@ -297,7 +297,7 @@ def _archivar_pdf(conn, n: int, meta: dict) -> dict:
 
 
 def _registrar_transcripcion(conn, ruta: Path, n: int, pdf_sha256: str) -> None:
-    """Anota en `sources_log` el propio fichero de transcripción, una vez.
+    """Anota en `sources_log` el propio fichero de transcripción.
 
     No llega por HTTP, así que no puede pasar por `fetch()` — pero es un
     cuerpo real de `data/documentos/`, verificable por su sha256, y ese es
@@ -305,9 +305,16 @@ def _registrar_transcripcion(conn, ruta: Path, n: int, pdf_sha256: str) -> None:
     que usa `sertit.py` para sus vectores): un `http_status` NULL con un sha
     detrás solo se admite si la fila se anota así, no por texto libre —
     `test_hipotesis.py::test_una_derivacion_no_finge_ser_una_peticion` lo
-    exige. Se registra solo la primera vez (por sha256 + ruta) para no
-    repetir la misma fila cada corrida.
-    """
+    exige. Se registra solo cuando el sha256 cambia (por sha256 + ruta) para
+    no repetir la misma fila cada corrida.
+
+    Si YA hay una fila para esta ruta con OTRO sha256, esto es una
+    CORRECCIÓN, no una transcripción nueva: el JSON es la capa que hicimos
+    nosotros con lo que dijo el PDF, y un error nuestro publicado se corrige
+    (CLAUDE.md, «Dos capas, y solo una es inmutable»). La fila vieja NO se
+    toca —eso es lo que impide perder `dump_db.py::_proteger_historia`—; se
+    añade una fila nueva que dice explícitamente a cuál corrige, para que
+    quien lea `sources_log` dentro de años entienda las dos sin adivinar."""
     import hashlib
     spath_check = str(ruta.relative_to(DATA.parent))
     sha = hashlib.sha256(ruta.read_bytes()).hexdigest()
@@ -316,10 +323,17 @@ def _registrar_transcripcion(conn, ruta: Path, n: int, pdf_sha256: str) -> None:
         (sha, spath_check)).fetchone()
     if ya:
         return
-    registrar_entrega(
-        conn, url=PAGINAS[n], ruta=ruta,
-        note=f"transcripción a mano de la tabla del sitrep {n} de la OPS, "
-             f"leída del PDF ya archivado (sha256 {pdf_sha256[:12]}…)")
+    anterior = conn.execute(
+        "SELECT sha256 FROM sources_log WHERE snapshot_path=? ORDER BY ts DESC LIMIT 1",
+        (spath_check,)).fetchone()
+    if anterior:
+        note = (f"corrige la transcripción anterior del sitrep {n} de la OPS "
+                f"(sha256 {anterior[0][:12]}…, que se conserva sin tocar): el "
+                f"PDF de origen no cambia (sha256 {pdf_sha256[:12]}…)")
+    else:
+        note = (f"transcripción a mano de la tabla del sitrep {n} de la OPS, "
+                f"leída del PDF ya archivado (sha256 {pdf_sha256[:12]}…)")
+    registrar_entrega(conn, url=PAGINAS[n], ruta=ruta, note=note)
 
 
 def _upsert_cifra(conn, n: int, idx: int, fila: dict, fecha_corte_default) -> None:
@@ -430,9 +444,13 @@ def run(conn=None, *, snapshot_date=None, **_op) -> dict:
 
 def cifras_por_ambito(conn) -> dict[str, dict[str, dict]]:
     """La última cifra de cada (ámbito, concepto), con su fecha, autor y
-    fuente. Es el contrato que consume la sección «Lo que declara el
-    departamento» de las fichas: `{ambito: {concepto: {valor, fecha_corte,
-    autor, fuente_citada, sitrep_n, nota}}}`.
+    fuente: `{ambito: {concepto: {valor, fecha_corte, autor, fuente_citada,
+    sitrep_n, nota}}}`.
+
+    El contrato que consumen las fichas es `export_public()`, no esta función
+    directamente: `deploy/render_html.py` nunca abre sqlite (R14, y el patrón
+    del sitio entero — lee solo `data/public/*.json`). Esta función es la
+    fuente de la que sale `data/public/ops_salud.json`.
 
     Solo mira las filas con `nivel_complejidad IS NULL` — el total del
     concepto para ese ámbito — porque un ámbito puede tener además hasta 4
@@ -459,10 +477,10 @@ def cifras_por_ambito(conn) -> dict[str, dict[str, dict]]:
 
 def instituciones_por_municipio(conn) -> dict[str, list[dict]]:
     """El detalle por institución, agrupado por `municipio_slug` (excluidas
-    las que no resolvieron municipio). Contrato para las fichas municipales:
-    `{slug: [{sitrep_n, fecha_corte, nombre_ips, nivel_complejidad,
-    observacion, municipio_literal, departamento_literal}, …]}`, en el orden
-    en que se transcribieron (sitrep, idx).
+    las que no resolvieron municipio): `{slug: [{sitrep_n, fecha_corte,
+    nombre_ips, nivel_complejidad, observacion, municipio_literal,
+    departamento_literal}, …]}`, en el orden en que se transcribieron
+    (sitrep, idx). Fuente de `export_public()` — ver `cifras_por_ambito`.
     """
     out: dict[str, list[dict]] = {}
     for (slug, sitrep_n, fecha_corte, nombre, nivel, obs, mun_lit,
@@ -477,6 +495,42 @@ def instituciones_por_municipio(conn) -> dict[str, list[dict]]:
             "observacion": obs, "municipio_literal": mun_lit,
             "departamento_literal": dep_lit})
     return out
+
+
+def export_public(conn=None) -> dict:
+    """Escribe `data/public/ops_salud.json`: el contrato público que consumen
+    las fichas.
+
+    `deploy/render_html.py` no toca sqlite (R14, y el patrón del sitio
+    entero: render lee solo `data/public/*.json`, igual que `rud.json` o
+    `men_sedes_mapa.geojson`) — lee este fichero. De regalo, es archivo: un
+    JSON versionado y descargable es el mismo plan de sucesión que `rud.json`
+    — si la OPS retira los PDF, este export sigue siendo reconstruible sin
+    volver a sqlite ni a la red.
+
+    `sitrep_paginas` viaja aparte porque las fichas citan la página del
+    sitrep de origen (trazabilidad) y no hay otro sitio en `data/public/`
+    donde esa URL viva.
+
+    `conn=None` abre y cierra su propia conexión, como `run()`: es un paso
+    aparte en `run_daily.py`, no comparte la de la ingesta."""
+    own = conn is None
+    if own:
+        from common import db
+        conn = db()
+    salida = {
+        "generado": utcnow(),
+        "por_ambito": cifras_por_ambito(conn),
+        "instituciones_por_municipio": instituciones_por_municipio(conn),
+        "sitrep_paginas": {str(n): url for n, url in PAGINAS.items()},
+    }
+    if own:
+        conn.close()
+    PUBLIC.mkdir(parents=True, exist_ok=True)
+    (PUBLIC / "ops_salud.json").write_text(
+        json.dumps(salida, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return {"ambitos": len(salida["por_ambito"]),
+            "municipios_con_ips": len(salida["instituciones_por_municipio"])}
 
 
 if __name__ == "__main__":
