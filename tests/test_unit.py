@@ -133,6 +133,90 @@ class TestToponimos(unittest.TestCase):
         self.assertNotIn("Istmina", self.match("el istmo de Panamá"))
 
 
+class TestTituloEs(unittest.TestCase):
+    """`municipios._title_es`: pasa un topónimo en mayúsculas de la fuente
+    (RUD/UNGRD) a Title Case. Hasta el 30-ago-2026 capitalizaba solo la
+    primera letra de cada PALABRA (separada por espacios), así que una sigla
+    con punto interno —«D.C.»— perdía su segunda mayúscula: «D.c.»."""
+
+    def _f(self):
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        from municipios import _title_es
+        return _title_es
+
+    def test_bogota_dc_conserva_las_dos_mayusculas_de_la_sigla(self):
+        f = self._f()
+        self.assertEqual(f("BOGOTÁ, D.C."), "Bogotá, D.C.")
+
+    def test_una_sola_palabra_sigue_funcionando(self):
+        f = self._f()
+        self.assertEqual(f("CALDAS"), "Caldas")
+
+    def test_preposiciones_internas_siguen_en_minuscula(self):
+        f = self._f()
+        self.assertEqual(f("VALLE DEL CAUCA"), "Valle del Cauca")
+        self.assertEqual(f("SAN JOSÉ DE CÚCUTA"), "San José de Cúcuta")
+
+    def test_una_preposicion_al_inicio_no_se_minusculiza(self):
+        """`_LOWER_WORDS` solo aplica desde la segunda palabra (i > 0): "El
+        Cairo" no puede empezar con minúscula."""
+        f = self._f()
+        self.assertEqual(f("EL CANTÓN DEL SAN PABLO"), "El Cantón del San Pablo")
+
+
+class TestNombresPublicadosSinAbreviaturaRota(unittest.TestCase):
+    """Guardián estructural (no de casos concretos): ningún topónimo publicado
+    puede llevar una letra, un punto y una minúscula pegados —el patrón exacto
+    del bug de Bogotá, D.c.—, sin importar qué municipio o departamento entre
+    mañana al RUD. Barrido hecho el 30-ago-2026 contra los 377 municipios y 15
+    departamentos publicados: Bogotá, D.C. era el único caso en todo el
+    corpus (ninguna otra sigla con punto interno en nombres de Colombia)."""
+
+    # Mayúscula, punto, minúscula: exactamente la forma en que una sigla
+    # pierde su segunda letra («D.c.» donde debía seguir «D.C.»). No
+    # cualquier letra-punto-minúscula: un topónimo no tiene por qué llevar
+    # jamás una minúscula seguida de punto y otra minúscula, así que ese caso
+    # no hace falta distinguirlo del que sí es un error real.
+    PATRON_ABREVIATURA_ROTA = re.compile(r"[A-ZÁÉÍÓÚÑ]\.[a-záéíóúñ]")
+
+    def test_municipios_json_no_tiene_ninguna_abreviatura_rota(self):
+        raiz = Path(__file__).parent.parent
+        items = json.loads((raiz / "data/public/municipios.json")
+                           .read_text(encoding="utf-8"))["items"]
+        rotos = [(m.get("municipio"), m.get("departamento")) for m in items
+                 if self.PATRON_ABREVIATURA_ROTA.search(m.get("municipio") or "")
+                 or self.PATRON_ABREVIATURA_ROTA.search(m.get("departamento") or "")]
+        self.assertEqual(rotos, [],
+                         f"topónimo con sigla mal capitalizada: {rotos}")
+
+    def test_el_patron_detecta_el_bug_real(self):
+        """El patrón no es un adorno: sin él, este test habría dejado pasar
+        «Bogotá, D.c.» en verde durante días."""
+        self.assertTrue(self.PATRON_ABREVIATURA_ROTA.search("Bogotá, D.c."))
+        self.assertFalse(self.PATRON_ABREVIATURA_ROTA.search("Bogotá, D.C."))
+        self.assertFalse(self.PATRON_ABREVIATURA_ROTA.search("Valle del Cauca"))
+
+
+class TestSlugEstableTrasLaCapitalizacion(unittest.TestCase):
+    """Corregir «D.c.» → «D.C.» es una corrección de PRESENTACIÓN (ver
+    "Dos capas" en CLAUDE.md): no puede mover ni una URL publicada. `slug()`
+    ya normaliza a minúsculas antes de construir la URL, así que la
+    corrección de capitalización es, por construcción, invisible para el
+    slug — este test lo deja demostrado en vez de asumido."""
+
+    def _slug(self):
+        sys.path.insert(0, str(Path(__file__).parent.parent / "deploy"))
+        from render_html import slug
+        return slug
+
+    def test_el_slug_de_bogota_no_cambio_con_la_correccion(self):
+        slug = self._slug()
+        antes = slug("Bogotá, D.c.")
+        despues = slug("Bogotá, D.C.")
+        self.assertEqual(antes, despues)
+        self.assertEqual(despues, "bogota-d-c")
+
+
 class TestPrivacidad(unittest.TestCase):
     def test_el_reporte_se_publica_donde_la_fuente_lo_registro(self):
         """R5 desde el 24-ago-2026. Antes esto exigía lo contrario.
