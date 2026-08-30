@@ -8691,3 +8691,330 @@ class TestElLeadCuentaElDiagnosticoDelMen(unittest.TestCase):
                          R._partes_respuesta(d)[0],
                          "un municipio sin sedes afectadas no puede estrenar "
                          "una frase del MEN en el lead")
+
+
+class TestLaMatriculaDeLasSedesDelMen(unittest.TestCase):
+    """La cifra humana del reporte del MEN: cuántos estudiantes están
+    matriculados en las sedes que declaran daño.
+
+    Viajaba en el mismo export que el mapa dibuja y no se decía en ninguna
+    superficie: la ficha contaba colegios y la portada también, y 987 sedes no
+    se pueden imaginar sin saber cuánta gente estudia en ellas (decisión
+    editorial del 30-ago-2026).
+
+    **Lo que estos guardianes vigilan no es el número, es el concepto.** La
+    matrícula es la del establecimiento —la que las secretarías tienen
+    cargada—, no un censo de afectados: «estudiantes afectados» sería una
+    cifra que nadie ha medido. Y la sede que no informa matrícula no suma
+    cero: no suma (R3), y entonces la cifra tiene que decir sobre cuántas
+    sedes se apoya.
+    """
+
+    ETIQUETA_PANEL = "Estudiantes matriculados en esas sedes"
+    MEDIDA = "Estudiantes matriculados en sedes con afectación reportada"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+        cls.por_mun = R._sedes_por_municipio(cls.ctx)
+
+    @staticmethod
+    def _sede(matricula, estado="Colapso parcial", con_punto=True):
+        """Una sede como la trae el export: la matrícula llega REAL («343.0»)
+        y la que no la informa llega en null, jamás en cero.
+
+        Las cifras de estos escenarios son inventadas y NO imitan a las del
+        día: un test que fije 273.056 o 32.223 se rompe con el refresco del MEN
+        y, peor, no distingue si lo que falló fue el código o la fuente. Lo que
+        sí depende de los datos vivos se comprueba contra el fichero
+        publicado, no contra un literal."""
+        return {"type": "Feature",
+                "geometry": ({"type": "Point", "coordinates": [-76.6, 5.7]}
+                             if con_punto else None),
+                "properties": {"nom_mun": "QUIBDÓ", "nom_dep": "CHOCÓ",
+                               "estado_fisico": estado,
+                               "total_matricula": matricula}}
+
+    @staticmethod
+    def _marcado_nacional(sedes):
+        """Las `variableMeasured` del Dataset nacional, con `men_sedes` puesto
+        a mano: es el nodo que cita una máquina para el conjunto entero."""
+        ld = R.dataset_referencia({"monitor": {}, "municipios": [], "idx": {},
+                                   "men_sedes": sedes})
+        nodos = [n for b in bloques_ld(ld) for n in nodos_ld(b)
+                 if "Dataset" in tipos_ld(n)]
+        return nodos[0].get("variableMeasured") or []
+
+    def _ficha_con(self, sedes):
+        """Una ficha real con sus sedes sustituidas por las del escenario.
+
+        El municipio se busca en los datos publicados en vez de escribirse
+        aquí: el nombre con el que se publica un municipio puede cambiar —los
+        topónimos del MEN se están corrigiendo— y un literal convertiría esa
+        corrección en un test roto."""
+        candidatos = [m["municipio"] for m in self.ctx["municipios"]
+                      if self.por_mun.get(m["municipio"])
+                      and m.get("rud_familias")]
+        if not candidatos:
+            self.skipTest("ningún municipio con RUD y sedes MEN en los datos")
+        d = copy.deepcopy(R.datos_ficha(candidatos[0], self.ctx))
+        d["evidencia"]["capas"]["sedes_men"]["features"] = sedes
+        return d
+
+    def _portada_con(self, sedes):
+        return R.entradilla_portada({"monitor": {}, "municipios": [],
+                                     "men_sedes": sedes})
+
+    # ---- el recuento, antes de que nadie lo escriba en una página ----
+
+    def test_solo_suman_las_sedes_que_informan_matricula(self):
+        mat = R._matricula_de_sedes(
+            [self._sede(12000.0), self._sede(None), self._sede(1234.0)])
+        self.assertEqual(mat["total"], 13234)
+        self.assertEqual(mat["sedes"], 2,
+                         "la sede que calla no puede contarse entre las que "
+                         "sostienen la cifra")
+        self.assertFalse(mat["todas"])
+
+    def test_sin_ninguna_matricula_la_cifra_es_desconocida_no_cero(self):
+        """R3, y la mutación que este guardián existe para matar:
+        `sum(v or 0 for …)`. Devolvería 0 —un total redondo y falso— donde lo
+        que pasa es que ninguna sede lo informó."""
+        mat = R._matricula_de_sedes([self._sede(None), self._sede(None)])
+        self.assertIsNone(mat["total"],
+                          "«no lo sabemos» no es «cero estudiantes»")
+        self.assertEqual(mat["sedes"], 0)
+
+    def test_la_matricula_entera_no_arrastra_el_decimal_del_real(self):
+        """El campo llega REAL desde sqlite: 355 estudiantes no son «355,0»
+        en la prosa ni «355.0» en el marcado."""
+        mat = R._matricula_de_sedes([self._sede(343.0), self._sede(12.0)])
+        self.assertIsInstance(mat["total"], int)
+        self.assertEqual(R.fmt(mat["total"]), "355")
+
+    # ---- la ficha: lead y panel ----
+
+    def test_el_lead_dice_la_matricula_con_formato_es_co(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(1234.0)])
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("sedes educativas con afectación</strong>, que matriculan "
+                      "a <strong>13.234 estudiantes</strong>.", lead)
+        self.assertNotIn("13234", lead, "los miles se separan como en es-CO")
+
+    def test_el_lead_separa_la_matricula_de_la_relacion_de_graves(self):
+        """La frase iba en una sola oración de 31 palabras y el «entre ellas»
+        acababa colgando de los estudiantes: se lee que 14 de los matriculados
+        están en riesgo de colapso. Son dos hechos y van en dos oraciones, con
+        el verbo dicho una vez y elidido con coma en el resto."""
+        d = self._ficha_con([self._sede(12000.0, "Riesgo inminente de colapso")
+                             for _ in range(14)]
+                            + [self._sede(1234.0, "Colapso parcial")
+                               for _ in range(13)])
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("estudiantes</strong>. Entre ellas, 14 están en riesgo "
+                      "inminente de colapso y 13, en colapso parcial.", lead)
+
+    def test_la_relacion_de_graves_no_mezcla_letras_y_guarismos(self):
+        """Libro de estilo 10.2: en una misma relación, si un elemento pide
+        guarismos los llevan todos. Publicaba «14 … y tres …»."""
+        d = self._ficha_con([self._sede(100.0, "Riesgo inminente de colapso")
+                             for _ in range(14)]
+                            + [self._sede(100.0, "Colapso parcial")
+                               for _ in range(3)])
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("14 están en riesgo inminente de colapso y 3, en "
+                      "colapso parcial.", lead)
+        self.assertNotIn(" y tres, en colapso parcial", lead)
+
+    def test_el_panel_dice_los_estudiantes_de_esas_sedes(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(1234.0)])
+        panel = R.panel_fuentes(d)
+        self.assertIn(self.ETIQUETA_PANEL, panel)
+        self.assertIn(">13.234<", panel)
+
+    def test_ninguna_superficie_llama_afectados_a_los_matriculados(self):
+        """El rótulo es criterio editorial cerrado: es la matrícula que el
+        reporte trae para cada sede, no un recuento de quién se quedó sin
+        clase. Se vigilan las CINCO superficies —el veto cubría tres, y la
+        portada, que es la que más se cita suelta, no estaba."""
+        d = self._ficha_con([self._sede(12000.0), self._sede(1234.0)])
+        sedes = [self._sede(12000.0), self._sede(1234.0)]
+        superficies = [
+            R._partes_respuesta(d)[0],
+            R.panel_fuentes(d),
+            json.dumps(R.dataset_ficha(d, "X", "Y", "https://x/", "d"),
+                       ensure_ascii=False),
+            self._portada_con(sedes),
+            json.dumps(self._marcado_nacional(sedes), ensure_ascii=False),
+        ]
+        for superficie in superficies:
+            self.assertNotIn("estudiantes afectados", superficie.lower())
+            self.assertNotIn("matriculados afectados", superficie.lower())
+
+    def test_el_lead_dice_en_cuantas_sedes_se_apoya_si_alguna_calla(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(1234.0),
+                             self._sede(None)])
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("Las dos que informan matrícula suman "
+                      "<strong>13.234 estudiantes</strong>.", lead)
+        self.assertIn("Entre las tres,", lead,
+                      "con la matrícula en medio, «entre ellas» pierde a las "
+                      "sedes de antecedente y hay que repetirlas")
+
+    def test_el_lead_con_una_sola_sede_que_informa_no_habla_en_plural(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(None),
+                             self._sede(None)])
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("La única que informa matrícula suma "
+                      "<strong>12.000 estudiantes</strong>.", lead)
+
+    def test_el_panel_dice_en_cuantas_sedes_se_apoya_si_alguna_calla(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(1234.0),
+                             self._sede(None)])
+        panel = R.panel_fuentes(d)
+        # guarismos, no letras: es un rótulo de tabla (Libro de estilo, 10.2)
+        self.assertIn("Estudiantes matriculados en las 2 sedes que informan "
+                      "matrícula", panel)
+        self.assertNotIn(self.ETIQUETA_PANEL, panel,
+                         "una suma parcial no se puede rotular como si "
+                         "cubriera todas las sedes")
+
+    def test_el_panel_con_una_sola_sede_que_informa_no_habla_en_plural(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(None)])
+        self.assertIn("Estudiantes matriculados en la única sede que informa "
+                      "matrícula", R.panel_fuentes(d))
+
+    def test_con_todas_informando_no_sobra_la_coletilla(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(1234.0)])
+        self.assertNotIn("que informan matrícula", R._partes_respuesta(d)[0],
+                         "con todas informando, la salvedad diría en voz alta "
+                         "algo que ya es el total")
+        self.assertIn(self.ETIQUETA_PANEL, R.panel_fuentes(d))
+
+    def test_sin_matricula_en_ninguna_sede_no_se_publica_un_cero(self):
+        """R3 en las tres superficies de la ficha: donde el MEN no informa
+        matrícula, la ficha calla — no publica «0 estudiantes»."""
+        d = self._ficha_con([self._sede(None), self._sede(None)])
+        lead = R._partes_respuesta(d)[0]
+        self.assertIn("sedes educativas con afectación", lead)
+        self.assertNotIn("estudiante", lead)
+        self.assertNotIn("Estudiantes matriculados", R.panel_fuentes(d))
+        medidas = {v["name"] for v in R.dataset_ficha(
+            d, "X", "Y", "https://x/", "d")["variableMeasured"]}
+        self.assertNotIn(self.MEDIDA, medidas)
+
+    def test_una_matricula_declarada_en_cero_si_se_publica(self):
+        """La simetría de R3 por el otro lado: «cero matriculados» es un dato
+        que la fuente dio, y esconderlo sería callar a una fuente que habló.
+        Lo que no se publica es la ausencia."""
+        d = self._ficha_con([self._sede(0.0), self._sede(0.0)])
+        self.assertIn(self.ETIQUETA_PANEL, R.panel_fuentes(d))
+        medidas = {v["name"]: v for v in R.dataset_ficha(
+            d, "X", "Y", "https://x/", "d")["variableMeasured"]}
+        self.assertEqual(medidas[self.MEDIDA]["value"], 0)
+
+    # ---- el marcado que citan los motores ----
+
+    def test_el_marcado_publica_la_matricula_con_su_advertencia(self):
+        d = self._ficha_con([self._sede(12000.0), self._sede(1234.0)])
+        medidas = {v["name"]: v for v in R.dataset_ficha(
+            d, "X", "Y", "https://x/", "d")["variableMeasured"]}
+        self.assertIn(self.MEDIDA, medidas)
+        medida = medidas[self.MEDIDA]
+        self.assertEqual(medida["value"], 13234)
+        self.assertEqual(medida["unitText"], "estudiantes")
+        # «recuento» y no «censo»: la palabra prohibida en toda la ficha por el
+        # guardián del vocabulario del RUD también lo está aquí.
+        self.assertIn("no un recuento de afectados", medida["description"])
+        self.assertIn("secretarías", medida["description"])
+        self.assertNotIn("censo", medida["description"].lower())
+
+    def test_el_marcado_no_atribuye_la_matricula_al_establecimiento(self):
+        """Era falso y estuvo escrito: el dato es por SEDE. Un colegio reparte
+        su matrícula entre varias sedes —117001000602 tiene dos, con 193 y
+        204—, así que «matrícula del establecimiento» prometía otra unidad."""
+        d = self._ficha_con([self._sede(12000.0)])
+        medidas = {v["name"]: v for v in R.dataset_ficha(
+            d, "X", "Y", "https://x/", "d")["variableMeasured"]}
+        descripcion = medidas[self.MEDIDA]["description"]
+        self.assertIn("para cada sede", descripcion)
+        self.assertNotIn("del establecimiento", descripcion)
+
+    def test_el_marcado_nacional_publica_la_gemela_de_la_portada(self):
+        """La entradilla dice la cifra en prosa y este es el único nodo del
+        mismo conjunto que una máquina puede citar (G3). Con la misma
+        descripción que la ficha: dos redacciones de la misma salvedad acaban
+        divergiendo, y la que se quede corta publica el recuento de víctimas
+        que nadie ha hecho."""
+        sedes = [self._sede(12000.0), self._sede(1234.0)]
+        medidas = {v["name"]: v for v in self._marcado_nacional(sedes)}
+        self.assertIn(self.MEDIDA, medidas)
+        self.assertEqual(medidas[self.MEDIDA]["value"], 13234)
+        d = self._ficha_con(sedes)
+        de_la_ficha = {v["name"]: v for v in R.dataset_ficha(
+            d, "X", "Y", "https://x/", "d")["variableMeasured"]}
+        self.assertEqual(medidas[self.MEDIDA]["description"],
+                         de_la_ficha[self.MEDIDA]["description"])
+
+    def test_el_marcado_nacional_calla_lo_que_la_fuente_calla(self):
+        sedes = [self._sede(None), self._sede(None)]
+        medidas = {v["name"] for v in self._marcado_nacional(sedes)}
+        self.assertNotIn(self.MEDIDA, medidas)
+
+    # ---- la portada ----
+
+    def test_la_portada_suma_la_matricula_en_vez_de_escribirla(self):
+        """La lección de «las cifras a mano envejecen»: escrito en la prosa, el
+        número seguiría diciendo lo mismo el día que el MEN publique otra
+        cosa."""
+        salida = self._portada_con([self._sede(100.0), self._sede(250.0)])
+        self.assertIn("Las <b>2</b> sedes matriculan a <b>350</b> estudiantes:",
+                      salida)
+
+    def test_la_portada_nombra_el_sujeto_con_su_cifra_y_no_con_un_deictico(self):
+        """«Esas sedes matriculan a…» venía detrás de «694 de ellas
+        georreferenciadas» y se leía como las 694: la portada estaría
+        atribuyendo la matrícula de todas a la parte que el mapa pinta."""
+        sedes = [self._sede(100.0), self._sede(250.0, con_punto=False)]
+        salida = self._portada_con(sedes)
+        self.assertIn("de ellas georreferenciada en el mapa", salida)
+        self.assertNotIn("Esas sedes matriculan", salida)
+        self.assertIn("Las <b>2</b> sedes matriculan", salida)
+
+    def test_la_portada_lleva_la_advertencia_pegada_a_la_cifra(self):
+        """La frase se cita suelta —buscador, resumen generado, tuit— y sin la
+        salvedad «273.056 estudiantes» al lado de un terremoto se lee como un
+        recuento de damnificados. En el marcado no basta: eso no se ve."""
+        salida = self._portada_con([self._sede(100.0), self._sede(250.0)])
+        self.assertIn("no un recuento de quién se quedó sin clase", salida)
+
+    def test_la_portada_coincide_con_los_datos_publicados(self):
+        """Y esa cifra es la del fichero que el mapa dibuja: dos cuentas de lo
+        mismo divergen (G3). Espejo estructural, no literal: lo que el MEN
+        mueva mañana lo mueve en los dos lados."""
+        esperado = R._matricula_de_sedes(self.ctx["men_sedes"])
+        if esperado["total"] is None:
+            self.skipTest("el export del MEN no trae matrícula hoy")
+        self.assertIn(f"<b>{R.fmt(esperado['total'])}</b>",
+                      R.entradilla_portada(self.ctx))
+
+    def test_la_portada_dice_en_cuantas_sedes_se_apoya_si_alguna_calla(self):
+        salida = self._portada_con([self._sede(100.0), self._sede(250.0),
+                                    self._sede(None)])
+        self.assertIn("Las <b>dos</b> sedes que informan matrícula suman "
+                      "<b>350</b> estudiantes:", salida)
+
+    def test_la_portada_con_una_sola_sede_que_informa_no_habla_en_plural(self):
+        salida = self._portada_con([self._sede(100.0), self._sede(None)])
+        self.assertIn("La única que informa matrícula suma <b>100</b> "
+                      "estudiantes:", salida)
+
+    def test_la_portada_no_publica_un_cero_de_estudiantes(self):
+        salida = self._portada_con([self._sede(None), self._sede(None)])
+        self.assertIn("sedes educativas con afectación", salida)
+        self.assertNotIn("estudiante", salida)
+
+    def test_la_portada_enuncia_la_sigla_del_ministerio(self):
+        """El chip del mapa dice «MEN» y ninguna frase decía de qué es sigla."""
+        salida = self._portada_con([self._sede(100.0)])
+        self.assertIn("Ministerio de Educación Nacional (MEN)", salida)

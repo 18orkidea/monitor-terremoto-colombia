@@ -168,7 +168,15 @@ PROSA_MINIMA = {
     # El alta del MEN/SISE (28/29-ago) suma su glosario y su metodología a la
     # guía de secciones, con la misma revisión editorial que subió el suelo de
     # `index.html`. El suelo sube de 7.124 a 7.811.
-    "referencia.html": 7811,
+    #
+    # 30-ago-2026 (segunda del día, `docs/DECISIONES.md`): 8.112 medidas − 241
+    # condicionales, sobre el `dist/` construido con la matrícula del MEN. La
+    # entrada nueva del glosario —las dos matrículas de la fuente y por qué la
+    # cifra jamás se rotula «afectados»— aporta las 60 palabras que separan
+    # esta medición de la anterior (8.052); el hito curado de la matrícula no
+    # suma aquí porque su prosa no vive en esta página. El suelo sube de 7.811
+    # a 7.871.
+    "referencia.html": 7871,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 
