@@ -449,6 +449,20 @@ CREATE TABLE IF NOT EXISTS sertit_danos (
   first_seen TEXT, snapshot_date TEXT NOT NULL,
   PRIMARY KEY (paquete_sha, capa, idx)
 );
+-- Estado de los vigilantes de fuentes que TODAVÍA no existen (o que pueden
+-- reaparecer sin aviso): HDX/CKAN y el tablero ArcGIS ERES/MinSalud. Una sola
+-- tabla para los dos —comparten la misma pregunta, «¿esto ya lo habíamos
+-- visto?»— y una segunda tabla idéntica solo sería una copia. La fila más
+-- reciente basta para decidir «nuevo» vs «revisado»; el historial de
+-- revisiones ya lo tiene sources_log por su propio sha256/ts.
+CREATE TABLE IF NOT EXISTS fuentes_watch (
+  watcher TEXT NOT NULL,        -- 'hdx' | 'arcgis_eres'
+  external_id TEXT NOT NULL,    -- id del dataset/item en la fuente externa
+  titulo TEXT, organizacion TEXT, url TEXT,
+  modificado TEXT,              -- metadata_modified (HDX) / modified (ArcGIS)
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+  PRIMARY KEY (watcher, external_id)
+);
 """
 
 

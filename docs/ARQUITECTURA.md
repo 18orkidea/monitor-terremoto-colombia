@@ -185,7 +185,7 @@ Lo que **no** cambia: nada se sobrescribe ni se migra. Un cuerpo distinto el
 mismo día sigue archivándose aparte con su sufijo `_<sha8>`, y un cuerpo nuevo
 siempre se escribe.
 
-## Modelo de datos (sqlite, 17 tablas)
+## Modelo de datos (sqlite, 19 tablas)
 
 Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 
@@ -208,6 +208,7 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `sertit_productos` | producto_id | Los cinco mapas de ICube-SERTIT: escala, sensor, área analizada y el sha del paquete de vectores que les corresponde |
 | `sertit_danos` | (paquete_sha, capa, idx) | Edificios de SERTIT. Clave por **paquete** como en UNOSAT: la identidad del dato es el ZIP recibido, no el id del producto, porque la fuente reedita sin cambiar el id |
 | `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
+| `fuentes_watch` | (watcher, external_id) | Estado de los vigilantes de fuentes que aún no existen: `hdx` (datasets nuevos en data.humdata.org) y `arcgis_eres` (el tablero ERES/MinSalud). Una fila por item ya visto — decide «nuevo» vs «ya conocido» en `ingest/alerts.py` |
 
 ## Los tres ciclos automáticos
 

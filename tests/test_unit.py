@@ -5474,3 +5474,164 @@ class TestMenSedesSoloCambios(unittest.TestCase):
         self.assertEqual(len(por_cod), 2, "las 2 afectadas van al geojson")
         self.assertIsNone(por_cod["S1"]["geometry"])
         self.assertEqual(por_cod["S2"]["geometry"]["type"], "Point")
+
+
+class TestWatcherHDX(unittest.TestCase):
+    """`alerts.datasets_hdx_nuevos`: la primera corrida siembra en silencio
+    (mismo patrón que `_institucionales_nuevos`), las siguientes cantan lo
+    nuevo en alta y lo revisado en info — nunca lo ya visto sin cambios."""
+
+    def _armar(self):
+        import sqlite3
+        import alerts
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        original = alerts.fetch_json
+        self.addCleanup(lambda: setattr(alerts, "fetch_json", original))
+        return alerts, conn
+
+    @staticmethod
+    def _resultado(ext_id, titulo="Dataset", org="ACNUR",
+                   modif="2026-08-20T00:00:00"):
+        return {"id": ext_id, "title": titulo, "name": ext_id,
+                "organization": {"title": org}, "metadata_modified": modif}
+
+    def test_la_primera_corrida_siembra_sin_alertar(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (200, {
+            "success": True,
+            "result": {"results": [self._resultado("d1"), self._resultado("d2")]}})
+        avisos = alerts.datasets_hdx_nuevos(conn, "2026-08-30")
+        self.assertEqual(avisos, [])
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM fuentes_watch WHERE watcher='hdx'"
+        ).fetchone()[0], 2)
+
+    def test_un_dataset_nuevo_tras_la_linea_base_alerta_alta(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (200, {
+            "success": True, "result": {"results": [self._resultado("d1")]}})
+        alerts.datasets_hdx_nuevos(conn, "2026-08-29")  # línea base
+        alerts.fetch_json = lambda *a, **k: (200, {
+            "success": True,
+            "result": {"results": [self._resultado("d1"),
+                                    self._resultado("d2", "Microsoft Building "
+                                                          "Footprints")]}})
+        avisos = alerts.datasets_hdx_nuevos(conn, "2026-08-30")
+        self.assertEqual([a["tipo"] for a in avisos], ["hdx_dataset_nuevo"])
+        self.assertEqual(avisos[0]["nivel"], "alta")
+        self.assertIn("Microsoft", avisos[0]["texto"])
+
+    def test_una_revision_sin_cambiar_id_alerta_info(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (200, {
+            "success": True, "result": {"results": [self._resultado(
+                "d1", modif="2026-08-20T00:00:00")]}})
+        alerts.datasets_hdx_nuevos(conn, "2026-08-29")  # línea base
+        alerts.fetch_json = lambda *a, **k: (200, {
+            "success": True, "result": {"results": [self._resultado(
+                "d1", modif="2026-08-30T00:00:00")]}})
+        avisos = alerts.datasets_hdx_nuevos(conn, "2026-08-30")
+        self.assertEqual([a["tipo"] for a in avisos], ["hdx_dataset_revisado"])
+        self.assertEqual(avisos[0]["nivel"], "info")
+
+    def test_sin_cambios_no_hay_ruido(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (200, {
+            "success": True, "result": {"results": [self._resultado("d1")]}})
+        alerts.datasets_hdx_nuevos(conn, "2026-08-29")
+        self.assertEqual(alerts.datasets_hdx_nuevos(conn, "2026-08-30"), [])
+
+    def test_un_fallo_de_red_degrada_sin_romper(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (503, None)
+        self.assertEqual(alerts.datasets_hdx_nuevos(conn, "2026-08-30"), [])
+
+    def test_un_fallo_con_mas_de_48h_sin_exito_avisa_en_alta(self):
+        """R15: un vigilante que deja de responder no puede apagarse en
+        silencio para siempre — mismo umbral que `worker_balances_silencio`."""
+        alerts, conn = self._armar()
+        conn.execute(
+            "INSERT INTO sources_log (ts, url, http_status, note)"
+            " VALUES ('2020-01-01T00:00:00Z','https://x',200,'watcher hdx')")
+        alerts.fetch_json = lambda *a, **k: (503, None)
+        avisos = alerts.datasets_hdx_nuevos(conn, "2026-08-30")
+        self.assertEqual([a["tipo"] for a in avisos], ["hdx_watcher_silencio"])
+        self.assertEqual(avisos[0]["nivel"], "alta")
+
+
+class TestWatcherArcGISEres(unittest.TestCase):
+    """`alerts.tablero_arcgis_eres`: solo alerta un item la primera vez que
+    aparece, nunca por sus revisiones posteriores — un tablero en obras se
+    edita todo el tiempo y avisar de cada `modified` sería ruido diario."""
+
+    def _armar(self):
+        import sqlite3
+        import alerts
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        original = alerts.fetch_json
+        self.addCleanup(lambda: setattr(alerts, "fetch_json", original))
+        return alerts, conn
+
+    @staticmethod
+    def _item(ext_id, titulo="Item", tipo="Dashboard", owner="sispro_geo",
+              modif=1700000000000):
+        return {"id": ext_id, "title": titulo, "type": tipo, "owner": owner,
+                "modified": modif}
+
+    def test_la_primera_corrida_siembra_sin_alertar(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (
+            200, {"total": 1, "results": [self._item("i1")]})
+        avisos = alerts.tablero_arcgis_eres(conn, "2026-08-30")
+        self.assertEqual(avisos, [])
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM fuentes_watch WHERE watcher='arcgis_eres'"
+        ).fetchone()[0], 1)
+
+    def test_un_tablero_nuevo_tras_la_linea_base_alerta_media(self):
+        """Nivel 'media', no 'alta': la búsqueda libre de arcgis.com no es
+        exacta y esto es un candidato a revisar, no un hallazgo confirmado —
+        'alta' dispararía push/Telegram a todos por algo sin confirmar."""
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (
+            200, {"total": 1, "results": [self._item("i1")]})
+        alerts.tablero_arcgis_eres(conn, "2026-08-29")  # línea base
+        alerts.fetch_json = lambda *a, **k: (200, {"total": 2, "results": [
+            self._item("i1"), self._item("i2", "Tablero ERES establecimientos "
+                                                "de salud")]})
+        avisos = alerts.tablero_arcgis_eres(conn, "2026-08-30")
+        self.assertEqual([a["tipo"] for a in avisos], ["arcgis_eres_candidato"])
+        self.assertEqual(avisos[0]["nivel"], "media")
+        self.assertIn("Tablero ERES", avisos[0]["texto"])
+
+    def test_una_revision_del_mismo_item_no_reabre_la_alerta(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (
+            200, {"total": 1, "results": [self._item("i1", modif=1)]})
+        alerts.tablero_arcgis_eres(conn, "2026-08-29")  # línea base
+        alerts.fetch_json = lambda *a, **k: (
+            200, {"total": 1, "results": [self._item("i1", modif=2)]})
+        avisos = alerts.tablero_arcgis_eres(conn, "2026-08-30")
+        self.assertEqual(avisos, [], "un item ya visto no alerta de nuevo "
+                         "aunque se edite mientras se construye")
+
+    def test_un_fallo_de_red_degrada_sin_romper(self):
+        alerts, conn = self._armar()
+        alerts.fetch_json = lambda *a, **k: (500, None)
+        self.assertEqual(alerts.tablero_arcgis_eres(conn, "2026-08-30"), [])
+
+    def test_un_fallo_con_mas_de_48h_sin_exito_avisa_en_alta(self):
+        alerts, conn = self._armar()
+        conn.execute(
+            "INSERT INTO sources_log (ts, url, http_status, note)"
+            " VALUES ('2020-01-01T00:00:00Z','https://x',200,"
+            "'watcher arcgis eres')")
+        alerts.fetch_json = lambda *a, **k: (500, None)
+        avisos = alerts.tablero_arcgis_eres(conn, "2026-08-30")
+        self.assertEqual([a["tipo"] for a in avisos],
+                         ["arcgis_eres_watcher_silencio"])
+        self.assertEqual(avisos[0]["nivel"], "alta")
