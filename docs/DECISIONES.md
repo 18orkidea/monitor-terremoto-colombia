@@ -4385,3 +4385,106 @@ MEN, que también toca `PROSA_MINIMA["referencia.html"]` sobre su propio
 delta — con este PR fusionado primero, ese cambio rebasa sobre el valor
 medido aquí (7.811) en vez de sobre el antiguo (7.124), y su conflicto
 esperado es de una sola línea.
+
+## 2026-08-30 — La matrícula del MEN se publica: 273.056 estudiantes que no se decían en ninguna parte
+
+**Contexto.** El alta del MEN trajo `total_matricula` sede a sede hasta la base
+y hasta `data/public/men_sedes_mapa.geojson`, pero el sitio solo la enseñaba
+dentro del globo de un punto del mapa: había que encontrar el colegio y
+hacer clic. Ninguna superficie que se lee sin interactuar —el lead de la ficha,
+el panel de cifras, la entradilla de la portada, el marcado que citan los
+motores— decía cuánta gente estudia en los colegios que declaran daño. **987
+sedes es una cifra de inventario; 273.056 estudiantes es la misma noticia
+contada en personas**, y era la única cifra humana que esta fuente aporta.
+
+**Decisión.** La matrícula entra en cinco superficies, todas computadas en el
+build desde el mismo fichero que el mapa dibuja: el lead de la ficha («96 sedes
+educativas con afectación, que matriculan a 32.223 estudiantes. Entre ellas…»),
+el panel «Sedes educativas con afectación · MEN · SISE» con una línea propia,
+la entradilla de la portada con una frase aparte, una `PropertyValue` nueva en
+el `Dataset` de la ficha y su gemela en el `Dataset` nacional de
+`referencia.html` — que es el nodo que una máquina cita para el conjunto
+entero, y sin ella tenía las sedes y los municipios pero no la única cifra en
+personas de esta fuente.
+
+**El rótulo es la decisión, no el número.** Jamás «estudiantes afectados» ni
+«matriculados afectados»: siempre variantes de «estudiantes matriculados en las
+sedes con afectación». Es la matrícula que el reporte trae para cada sede, la
+que las secretarías tienen cargada — no un recuento de quién se quedó sin
+clase, que nadie ha hecho. Llamarla «afectados» fabricaría una cifra de
+víctimas a partir de un registro administrativo, que es exactamente lo que este
+monitor audita en los demás. Una cifra, un concepto. Un guardián lo vigila en
+las cinco superficies.
+
+**«Del establecimiento» era falso, y se publicó un rato.** La primera redacción
+decía que la matrícula es la del establecimiento. No lo es: el colegio
+117001000602 tiene dos sedes con 193 y 204 matriculados, y **1.178
+establecimientos reparten su matrícula entre varias sedes**. El dato es por
+sede, la suma es correcta y la etiqueta prometía otra unidad — que es
+exactamente la clase de error que este monitor le audita a los demás.
+
+**Dos matrículas y solo una entra.** El SISE publica `total_matricula` y
+`matricula_prel` (preliminar), y no coinciden: 1.658 frente a 1.649 en una sede
+de Manizales. Se suma la total; mezclarlas sería sumar dos conceptos con un
+solo nombre.
+
+La `description` del marcado decía «no un censo de afectados» y la palabra la
+tiene prohibida **toda** la ficha, guardián incluido
+(`test_el_rud_se_describe_como_registro_progresivo`): «censo» es justo la que
+confunde un registro progresivo con un recuento cerrado. Dice «recuento», que
+es lo mismo sin la palabra vetada — el veto lo cazó la suite, no la revisión.
+
+**En la portada va en frase aparte, y por una razón de sintaxis.** Encajada en
+la existente quedaba «…987 sedes con afectación en 88 municipios, que matriculan
+a 273.056 estudiantes, 694 de ellas georreferenciadas»: el «de ellas» pasaría a
+colgar de los estudiantes y el lector restaría puntos contra personas. Pero
+separarla creó el problema simétrico: «**Esas** sedes matriculan a…» se leía
+como las 694 recién nombradas, así que el sujeto se dice con su cifra —«Las 987
+sedes»—, computada, no escrita.
+
+**Y en la portada la salvedad viaja VISIBLE, no solo en el marcado.** Esta
+frase se cita suelta —en un buscador, en un resumen generado, en un tuit— y
+«273.056 estudiantes» al lado de un terremoto se lee como un recuento de
+damnificados. La coletilla («es la matrícula registrada de esas sedes, no un
+recuento de quién se quedó sin clase») vive en una sola constante y se repite
+en el glosario de `referencia.html`.
+
+**R3 desde el día uno, aunque hoy no haga falta.** Las 987 sedes informan
+matrícula, así que la cifra es hoy un total limpio. El código no lo da por
+supuesto: suma solo las sedes que la informan, la sede que calla no suma cero, y
+si alguna callara la prosa se rotula «en las N sedes que informan matrícula» —y
+sin ninguna, no se publica un cero: no se publica nada. La alternativa
+(`sum(v or 0 …)`) daría un total redondo, válido y falso, y el día que el MEN
+deje un hueco nadie se enteraría.
+
+**El lead se parte en dos oraciones.** «…96 sedes educativas con afectación,
+que matriculan a 32.223 estudiantes. Entre ellas, 14 están en riesgo inminente
+de colapso y 13, en colapso parcial.» En una sola frase eran 31 palabras y el
+«entre ellas» colgaba de los estudiantes. Al separarla, la relación se quedó
+sin verbo: se dice una vez y se elide con coma en los siguientes. Y la
+enumeración pasa a guarismos en bloque si algún elemento llega a 10 (norma
+10.2): publicaba «14 … y trece …», dos criterios en la misma relación.
+
+**Consecuencia.** `deploy/render_html.py::_matricula_de_sedes` es la única
+cuenta de esta cifra y las cinco superficies la invocan —lead, panel, portada,
+marcado de la ficha y marcado nacional—: dos cálculos de lo mismo divergen
+(G3), y la descripción de las dos medidas sale del mismo helper. Tests nuevos
+en `tests/test_render_html.py::TestLaMatriculaDeLasSedesDelMen`, validados por
+mutación uno a uno —incluida la mutación de R3 de punta a punta, la única que
+llegaría a publicar «0 estudiantes»— y **sin un solo literal de la serie viva**:
+lo que el refresco diario del MEN puede mover se comprueba contra el fichero
+publicado, no contra un número escrito a mano. La prosa del plegable «Qué más
+se sabe» no cambia: decisión de alcance.
+
+**El suelo de prosa de `referencia.html` sube de 7.811 a 7.871**
+(`ingest/seo_check.py::PROSA_MINIMA`). No es papeleo: el guardián exige que el
+suelo no se quede por debajo del 90 % de lo que la página publica —uno muy
+holgado dejaría pasar una mudanza a medias—. Medido contra el `dist/`
+construido con este cambio (8.112 palabras propias, convención del PR #40:
+medidas − 241 condicionales): la entrada de glosario que explica las dos
+matrículas de la fuente y el rótulo aporta las 60 palabras nuevas de esta
+página. El hito curado de la matrícula (167 palabras) no suma aquí porque su
+prosa no vive en `referencia.html` — la primera redacción de esta entrada lo
+contaba y la medición lo desmintió. Sube solo por lo que no puede evaporarse
+con el dato del día, que es el criterio de todas las subidas anteriores de
+esta constante.

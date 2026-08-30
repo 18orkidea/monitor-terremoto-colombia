@@ -1109,6 +1109,106 @@ def _estado_en_prosa(estado: str, n: int) -> str:
     return f"{preposicion} {estado[0].lower()}{estado[1:]}"
 
 
+def _matricula_de_sedes(features: list) -> dict:
+    """La matrícula de las sedes con afectación, contada UNA vez.
+
+    Es la cifra humana del reporte del MEN —cuántos estudiantes están
+    matriculados en los colegios que declaran daño— y hasta hoy no se decía en
+    ninguna superficie del sitio, aunque viajaba en el mismo export que el
+    mapa dibuja.
+
+    **No es un recuento de afectados, y por eso jamás se rotula «estudiantes
+    afectados»**: es la matrícula que el reporte trae para cada sede, no un
+    recuento de quién se quedó sin clase ni de quién estaba dentro. Una cifra,
+    un concepto.
+
+    **Y es por SEDE, no por establecimiento** — la primera redacción decía «del
+    establecimiento» y era falsa: el colegio 117001000602 tiene dos sedes con
+    193 y 204 matriculados, y 1.178 establecimientos más reparten su matrícula
+    entre varias sedes. Sumar «matrículas de establecimientos» habría contado
+    de más y prometido otra unidad.
+
+    **De las dos matrículas que publica el SISE se suma `total_matricula`**, no
+    `matricula_prel` (preliminar), que difiere sede a sede: 1.658 frente a
+    1.649 en una de Manizales. Mezclarlas sería sumar dos conceptos.
+
+    **R3**: la sede que no informa matrícula no suma cero, no suma. Devuelve
+    también en cuántas sedes se apoya la cifra y si son todas, porque una suma
+    parcial que se presente como total sería el cero disfrazado por la puerta
+    de atrás: hoy la informan las 987, y el día que una calle la prosa tiene
+    que decirlo en vez de encogerse sola. Sin ninguna sede que informe, el
+    total es `None` —«no lo sabemos»—, nunca 0."""
+    valores = [v for f in features
+               if (v := (f.get("properties") or {}).get("total_matricula"))
+               is not None]
+    total = sum(valores)
+    # El campo llega REAL desde sqlite («343.0»): 32.223 estudiantes no son
+    # «32.223,0 estudiantes», y una matrícula no tiene decimales.
+    if isinstance(total, float) and total.is_integer():
+        total = int(total)
+    return {"total": total if valores else None,
+            "sedes": len(valores),
+            "todas": len(valores) == len(features)}
+
+
+# La advertencia viaja pegada a la cifra en las superficies donde no hay
+# contexto que la sostenga —la portada y el marcado—, y vive UNA vez: dos
+# redacciones de la misma salvedad acaban divergiendo, y la que se quede corta
+# es la que publica un recuento de víctimas que nadie ha hecho. En la ficha no
+# se repite: allí la cifra llega después de tres frases que ya dicen de quién
+# es el dato.
+_MATRICULA_ADVERTENCIA = ("es la matrícula registrada de esas sedes, no un "
+                          "recuento de quién se quedó sin clase")
+
+
+def _matricula_descripcion(matricula: dict) -> str:
+    """La descripción de la medida de matrícula, para la ficha y para el
+    marcado nacional: **una sola redacción para las dos** (G3).
+
+    Son el mismo dato a dos escalas y la advertencia que llevan pegada es la
+    que impide que un motor generativo cite «estudiantes» como si fueran
+    damnificados. Con dos copias, la que se quede corta es la que publica el
+    recuento de víctimas que nadie ha hecho.
+
+    «Censo» no se escribe: el guardián del vocabulario del RUD lo prohíbe en
+    toda la ficha, y aquí valdría lo mismo. Y es la matrícula de la SEDE —decir
+    «del establecimiento» era falso: un colegio reparte su matrícula entre
+    varias sedes—."""
+    if matricula["todas"]:
+        alcance = ""
+    elif matricula["sedes"] == 1:
+        alcance = (" Suma la matrícula de la única sede que la informa; el "
+                   "resto no la declara y no se cuenta como cero.")
+    else:
+        alcance = (f" Suma la matrícula de las {fmt_prosa(matricula['sedes'])} "
+                   f"sedes que la informan; el resto no la declara y no se "
+                   f"cuenta como cero.")
+    return ("Matrícula que el reporte de las secretarías de educación trae "
+            "para cada sede, no un recuento de afectados: mide cuántos "
+            "estudiantes están matriculados en las sedes que declaran daño, "
+            "no cuántos sufrieron ese daño." + alcance)
+
+
+def _grave_en_relacion(estado: str, n: int, cifra: str, primero: bool) -> str:
+    """Un estado crítico dentro de la relación del lead: «14 están en riesgo
+    inminente de colapso y 13, en colapso parcial».
+
+    El verbo se dice una vez y del segundo elemento en adelante se elide con
+    coma, que es como se escribe una enumeración de predicados iguales. Antes
+    la relación colgaba de «entre ellas» sin verbo, y al separarla en su propia
+    oración se quedaba sin él.
+
+    El literal de la fuente que ya es oración con verbo —«que reportan
+    afectación sin definir el impacto»— no admite «están» ni elisión: se le
+    quita el relativo y funciona como predicado. Hoy ese estado no entra en la
+    relación (no está entre los tres críticos), pero el vocabulario del MEN
+    muta y una frase rota es peor que una frase larga (R11)."""
+    frase = _estado_en_prosa(estado, n)
+    if frase.startswith("que "):
+        return f"{cifra} {frase[4:]}"
+    return f"{cifra} están {frase}" if primero else f"{cifra}, {frase}"
+
+
 def satelites_con_dato(m: dict, n_copernicus: int) -> list:
     """Qué productos satelitales han reportado daño en este municipio.
 
@@ -1189,18 +1289,56 @@ def _partes_respuesta(d: dict) -> list[str]:
     if sedes:
         # Los tres primeros de _ESTADOS_MEN son los críticos — la tabla ya
         # está ordenada por gravedad y así no nace otra lista de literales.
-        graves = [f"{fmt_prosa(n, femenino=True)} {_estado_en_prosa(estado, n)}"
-                  for estado, _color in _ESTADOS_MEN[:3]
-                  if (n := cuenta_men.get(estado, 0))]
-        # «entre ellas» declara que el desglose es parcial (solo lo crítico);
+        cuentas_graves = [(estado, n) for estado, _color in _ESTADOS_MEN[:3]
+                          if (n := cuenta_men.get(estado, 0))]
+        # Libro de estilo 10.2: en una misma relación, si un elemento pide
+        # guarismos los llevan todos. Quibdó publicaba «14 en riesgo inminente
+        # de colapso y trece en colapso parcial»: dos criterios en la misma
+        # enumeración, que se lee como si contaran cosas distintas.
+        con_guarismos = any(n >= 10 for _estado, n in cuentas_graves)
+        graves = [_grave_en_relacion(estado, n,
+                                     fmt(n) if con_guarismos
+                                     else fmt_prosa(n, femenino=True),
+                                     primero=(i == 0))
+                  for i, (estado, n) in enumerate(cuentas_graves)]
+        # La matrícula es lo único de este reporte que se cuenta en personas, y
+        # es lo que convierte «96 sedes» en algo que se puede imaginar. Va en su
+        # propia oración: encajada como inciso dejaba una frase de 31 palabras
+        # y, peor, ponía a los estudiantes de antecedente del «entre ellas» que
+        # cuenta colegios.
+        matricula = _matricula_de_sedes(sedes)
+        if matricula["total"] is None:
+            mat_lead = "."
+        elif matricula["todas"]:
+            mat_lead = (f", que matriculan a <strong>{fmt(matricula['total'])} "
+                        f"{concuerda(matricula['total'], 'estudiante', 'estudiantes')}"
+                        f"</strong>.")
+        else:
+            # Con alguna sede callada el sujeto deja de ser «esas sedes»: la
+            # suma es del subconjunto que informa, y decirlo de otro modo
+            # publicaría como total del municipio lo que no lo es (R3).
+            sujeto = ("La única que informa matrícula" if matricula["sedes"] == 1
+                      else f"Las {fmt_prosa(matricula['sedes'])} que informan "
+                           "matrícula")
+            mat_lead = (f". {sujeto} "
+                        f"{concuerda(matricula['sedes'], 'suma', 'suman')} "
+                        f"<strong>{fmt(matricula['total'])} "
+                        f"{concuerda(matricula['total'], 'estudiante', 'estudiantes')}"
+                        f"</strong>.")
+        # «Entre ellas» declara que el desglose es parcial (solo lo crítico);
         # los dos puntos prometerían la enumeración exhaustiva, que vive en
-        # el plegable — misma puntuación, dos significados, mala página.
-        detalle_graves = f", entre ellas {enumera(graves)}" if graves else ""
+        # el plegable — misma puntuación, dos significados, mala página. Con la
+        # matrícula en medio, «ellas» ya no tiene a las sedes al lado y el
+        # antecedente se repite con su cifra.
+        antecedente = ("Entre ellas" if matricula["total"] is None
+                       or matricula["todas"]
+                       else f"Entre las {fmt_prosa(len(sedes))}")
+        detalle_graves = f" {antecedente}, {enumera(graves)}." if graves else ""
         men_lead = (
             f" El Ministerio de Educación Nacional (MEN) {{conector}} "
             f"<strong>{fmt(len(sedes))} "
             f"{concuerda(len(sedes), 'sede educativa', 'sedes educativas')} con "
-            f"afectación</strong>{detalle_graves}.")
+            f"afectación</strong>{mat_lead}{detalle_graves}")
     if m.get("rud_familias"):
         partes.append(
             f"{e(nombre)} ({e(depto)}) tiene <strong>{fmt(m['rud_familias'])} "
@@ -1883,8 +2021,28 @@ def panel_fuentes(d: dict) -> str:
     # dibuja solo trae las que reportan daño. Las «Sin afectación» y «No
     # aporta información» del municipio no están aquí, y un total que las
     # sumara con otro nombre sería una segunda verdad (G3).
+    # La matrícula va pegada al total de sedes y antes del desglose por estado:
+    # las dos cifras de cabecera juntas —cuántas sedes y cuánta gente estudia en
+    # ellas— y luego el detalle. La etiqueta dice «esas sedes» y no
+    # «estudiantes afectados»: es la matrícula que el reporte trae para cada
+    # sede, no un recuento de quién se quedó sin clase. Cuando alguna sede no la
+    # informa, la propia etiqueta dice sobre cuántas se apoya (R3). Aquí van
+    # guarismos y no letras: es un rótulo de tabla (Libro de estilo, 10.2).
+    matricula = _matricula_de_sedes(sedes)
+    etiqueta_mat = ("Estudiantes matriculados en esas sedes" if matricula["todas"]
+                    else "Estudiantes matriculados en la única sede que informa "
+                         "matrícula" if matricula["sedes"] == 1
+                    else f"Estudiantes matriculados en las {fmt(matricula['sedes'])} "
+                         f"sedes que informan matrícula")
     filas.append(_fila_fuente("Sedes educativas con afectación", len(sedes),
                               "MEN · SISE", "var(--men)", ocultar_cero=True)
+                 # Sin `ocultar_cero`: aquí el cero no es «esta fuente no miró
+                 # este municipio» —el motivo por el que las filas satelitales
+                 # lo esconden—, sino una matrícula declarada en cero, que es
+                 # dato. Lo que no se publica es la ausencia, y de eso ya se
+                 # encarga `_fila_fuente` con el `None` (R3).
+                 + (_fila_fuente(etiqueta_mat, matricula["total"], "MEN · SISE",
+                                 "var(--men)") if sedes else "")
                  + (_estados_de_sedes(sedes) if sedes else ""))
     n_vecinos = len((capas.get("ciudadanos") or {}).get("features") or [])
     filas.append(_fila_fuente("Fotos y avisos de vecinos", n_vecinos,
@@ -2249,6 +2407,15 @@ def dataset_ficha(d: dict, nombre: str, depto: str, url: str, descr: str) -> dic
             len(sedes_ficha), "sedes",
             "Reporte administrativo de las secretarías de educación, sede a "
             "sede; no es una evaluación estructural en campo."))
+        # La cifra humana del reporte, con la advertencia dentro del propio
+        # marcado: un motor generativo que cite «estudiantes» sin leer la
+        # descripción publicaría un recuento de afectados que nadie ha hecho.
+        matricula_ficha = _matricula_de_sedes(sedes_ficha)
+        if matricula_ficha["total"] is not None:
+            variables.append(_medida(
+                "Estudiantes matriculados en sedes con afectación reportada",
+                matricula_ficha["total"], "estudiantes",
+                _matricula_descripcion(matricula_ficha)))
         # la gemela de la doble cifra de la prosa, solo cuando difiere
         georef_ficha = len(_sedes_georreferenciadas(sedes_ficha))
         if georef_ficha != len(sedes_ficha):
@@ -3839,7 +4006,8 @@ def _sedes_men_nacional(ctx: dict) -> dict:
     sedes = ctx.get("men_sedes") or []
     georef = _sedes_georreferenciadas(sedes)
     return {"total": len(sedes), "georef": len(georef),
-            "muns": len(pares(sedes)), "muns_georef": len(pares(georef))}
+            "muns": len(pares(sedes)), "muns_georef": len(pares(georef)),
+            "matricula": _matricula_de_sedes(sedes)}
 
 
 def entradilla_portada(ctx: dict) -> str:
@@ -3876,11 +4044,46 @@ def entradilla_portada(ctx: dict) -> str:
                      f', <b>{fmt(men["georef"])}</b> de ellas '
                      f'{concuerda(men["georef"], "georreferenciada", "georreferenciadas")} '
                      "en el mapa")
+        # La sigla se enuncia aquí, que es donde el Ministerio entra por
+        # primera vez en la portada: el chip del mapa dice «MEN» y hasta hoy
+        # ninguna frase decía de qué es sigla.
         frases.append(
-            f"El Ministerio de Educación reporta <b>{fmt(men['total'])}</b> "
+            f"El Ministerio de Educación Nacional (MEN) reporta "
+            f"<b>{fmt(men['total'])}</b> "
             f"{concuerda(men['total'], 'sede educativa', 'sedes educativas')} con "
             f"afectación en <b>{fmt(men['muns'])}</b> "
             f'{concuerda(men["muns"], "municipio", "municipios")}{pintables}.')
+        # La matrícula, en frase aparte y no encajada en la anterior: metida
+        # entre las sedes y el «de ellas» dejaría a los estudiantes de
+        # antecedente de una cifra que cuenta colegios. Se computa aquí, del
+        # mismo fichero que el mapa dibuja: escrita a mano envejecería en la
+        # primera corrida (la regla de los «36 en portada, 43 en la tabla»).
+        matricula = men["matricula"]
+        if matricula["total"] is not None:
+            # El sujeto se nombra con su cifra —«Las 987 sedes»— y no con un
+            # «esas sedes» que, después de la frase anterior, se lee como las
+            # georreferenciadas: serían 694, y la portada estaría publicando
+            # una matrícula que no corresponde a la cifra que el lector tiene
+            # delante. Con alguna sede callada el sujeto es, además, otro: el
+            # subconjunto que informa, y decirlo de otro modo publicaría como
+            # total lo que no lo es (R3).
+            cifra = (f"<b>{fmt(matricula['total'])}</b> "
+                     f"{concuerda(matricula['total'], 'estudiante', 'estudiantes')}")
+            if matricula["todas"]:
+                frase_mat = (f"Las <b>{fmt(men['total'])}</b> "
+                             f"{concuerda(men['total'], 'sede', 'sedes')} "
+                             f"{concuerda(men['total'], 'matricula', 'matriculan')} "
+                             f"a {cifra}")
+            elif matricula["sedes"] == 1:
+                frase_mat = f"La única que informa matrícula suma {cifra}"
+            else:
+                frase_mat = (f"Las <b>{fmt_prosa(matricula['sedes'])}</b> sedes "
+                             f"que informan matrícula suman {cifra}")
+            # La salvedad viaja VISIBLE con la cifra y no solo en el marcado:
+            # esta frase se cita suelta —en un buscador, en un resumen de IA, en
+            # un tuit— y sin ella «273.056 estudiantes» al lado de un terremoto
+            # se lee como un recuento de damnificados.
+            frases.append(f"{frase_mat}: {_MATRICULA_ADVERTENCIA}.")
     if not frases:
         return ("<p>Todavía no hay ninguna fuente con cifras agregadas de este "
                 "sismo. El monitor publica lo que haya en cuanto lo haya.</p>")
@@ -5445,6 +5648,16 @@ def dataset_referencia(ctx: dict) -> str:
             _medida("Municipios con sedes educativas afectadas (MEN)",
                     men["muns"], "municipios"),
         ]
+        # La gemela nacional de la matrícula: la entradilla la dice en prosa y
+        # este es el único nodo del mismo conjunto que una máquina puede citar.
+        # Sin ella, un motor que lea el marcado nacional tiene las sedes y los
+        # municipios pero no la única cifra en personas que da esta fuente — y
+        # la description es LA MISMA que en la ficha, por el mismo helper (G3).
+        if men["matricula"]["total"] is not None:
+            variables.append(_medida(
+                "Estudiantes matriculados en sedes con afectación reportada",
+                men["matricula"]["total"], "estudiantes",
+                _matricula_descripcion(men["matricula"])))
         # la gemela de la doble cifra de la entradilla: solo existe cuando
         # difiere del total — publicar dos veces el mismo número con dos
         # nombres invita a restarlos y leer un cero que no significa nada

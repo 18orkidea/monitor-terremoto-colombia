@@ -256,6 +256,13 @@
       "resumen": "El monitor vigila HDX y arcgis.com por fuentes del sismo que aún no existen.",
       "texto": "Dos vigilantes nuevos entran a las alertas diarias, distintos de las fuentes que el monitor ya archiva: no traen datos, avisan cuando algo nuevo aparece. El primero consulta HDX, el catálogo humanitario donde las organizaciones publican datasets sin que el monitor las busque una a una — así habría cantado los datos de Microsoft del 12 de agosto de 2026, que hoy solo se encuentran leyendo a mano. El segundo busca en arcgis.com el tablero de establecimientos de salud (ERES) que la OPS ayuda a construir con el Ministerio de Salud: no existe todavía, y el día que se publique alguien tiene que enterarse sin ir a buscarlo a mano. La primera corrida de cada vigilante siembra en silencio lo que la fuente ya tenía publicado, para no confundir «ya estaba ahí» con «acaba de aparecer»; las siguientes cantan lo nuevo.",
       "url": null
+    },
+    {
+      "fecha": "2026-08-30",
+      "tipo": "monitor",
+      "resumen": "Las sedes con afectación que reporta el Ministerio matriculan a 273.056 estudiantes.",
+      "texto": "El reporte del Ministerio de Educación trae la matrícula de cada sede, y hasta hoy solo se veía haciendo clic en un punto del mapa: el sitio contaba colegios —987 sedes con afectación— sin decir cuánta gente estudia en ellos. Desde hoy la portada, la entradilla de cada ficha, su tabla de fuentes y el marcado que citan los buscadores publican la cifra: 273.056 estudiantes matriculados en esas sedes, 32.223 de ellos en las 96 de Quibdó. Es la matrícula que el reporte trae para cada sede, la que las secretarías de educación tienen cargada, y por eso no se llama «estudiantes afectados»: nadie ha contado cuántos se quedaron sin clase, y ponerle ese nombre inventaría una cifra de víctimas a partir de un registro administrativo. Hoy las 987 sedes informan matrícula; si alguna dejara de hacerlo, la cifra dirá sobre cuántas se apoya en vez de contar como cero lo que la fuente calla.",
+      "url": "/"
     }
   ]
 }
