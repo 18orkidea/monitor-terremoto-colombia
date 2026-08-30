@@ -2979,8 +2979,370 @@ def run(destino: Path) -> dict:
                 json.dumps(d["evidencia"], ensure_ascii=False, separators=(",", ":")) + "\n",
                 encoding="utf-8")
         escritas.append(d["slug"])
+
+    deptos_escritos = []
+    for depto in departamentos_afectados(ctx):
+        d = datos_ficha_departamento(depto, ctx)
+        carpeta = destino / "departamento" / d["slug"]
+        carpeta.mkdir(parents=True, exist_ok=True)
+        (carpeta / "index.html").write_text(render_ficha_departamento(d), encoding="utf-8")
+        deptos_escritos.append(d["slug"])
+
     return {"fichas": len(escritas), "omitidas": len(omitidas),
-            "sin_senal": omitidas, "slugs": sorted(escritas)}
+            "sin_senal": omitidas, "slugs": sorted(escritas),
+            "departamentos": len(deptos_escritos),
+            "slugs_departamentos": sorted(deptos_escritos)}
+
+
+# --------------------------------------------------- fichas departamentales
+def municipios_del_departamento(depto: str, ctx: dict) -> list[dict]:
+    """Los municipios del catálogo que pertenecen a este departamento.
+
+    `departamento` es un campo del propio catálogo (`ingest/municipios.py` lo
+    asigna una vez, con DIVIPOLA), no un texto libre de otra fuente: aquí basta
+    la igualdad exacta. El emparejamiento por topónimo con límite de palabra
+    (R10) hace falta al leer el RUD porque el RUD nombra a su manera; entre
+    municipio y departamento del propio catálogo no hay ese problema."""
+    return [m for m in ctx["municipios"] if m["departamento"] == depto]
+
+
+def es_elegible_departamento(depto: str, ctx: dict) -> bool:
+    """Solo hay ficha si alguno de sus municipios la tiene: mismo criterio que
+    `es_elegible`, un nivel más arriba. Un departamento cuyos municipios están
+    todos sin señal no publica página vacía."""
+    return any(es_elegible(m["municipio"], ctx)
+              for m in municipios_del_departamento(depto, ctx))
+
+
+def departamentos_afectados(ctx: dict) -> list[str]:
+    """Los departamentos con al menos un municipio elegible, alfabético."""
+    deptos = sorted({m["departamento"] for m in ctx["municipios"]})
+    return [d for d in deptos if es_elegible_departamento(d, ctx)]
+
+
+# Las cifras del RUD que se agregan a escala departamental, mismas columnas
+# que trae ya resueltas cada fila de `municipios.json`.
+COLUMNAS_RUD_DEPARTAMENTO = ("rud_familias", "rud_personas",
+                             "rud_viv_destruidas", "rud_viv_averiadas")
+
+
+def agregado_rud_departamento(depto: str, ctx: dict) -> dict:
+    """Suma de las cifras del RUD de los municipios del departamento, por UN
+    solo camino: este bucle, y ningún otro en el sitio.
+
+    Es un agregado NUESTRO —la suma de lo que cada municipio ya trae resuelto
+    en su ficha—, no una cifra que el departamento haya declarado. Se rotula
+    «suma de los registros municipales», nunca «cifra oficial departamental»:
+    son dos conceptos distintos y no se funden, la misma distinción que separa
+    el «máximo informado» municipal (R16) de la futura serie que declare el
+    propio departamento (`seccion_salud_departamental`).
+
+    R3: un municipio sin ese dato no aporta un cero a la suma, aporta
+    ausencia; si NINGÚN municipio del departamento lo tiene, el agregado es
+    `None`. `tests/test_render_html.py` compara este resultado contra una
+    suma calculada de forma independiente en el propio test —el guardián de
+    dos caminos que pidió el PM—: si este bucle cambiara de forma que dejara
+    de sumar lo que debe, el guardián lo nota sin tener que conocer la cifra
+    exacta del día."""
+    municipios = municipios_del_departamento(depto, ctx)
+    agregado = {}
+    for columna in COLUMNAS_RUD_DEPARTAMENTO:
+        valores = [m[columna] for m in municipios if m.get(columna) is not None]
+        agregado[columna] = sum(valores) if valores else None
+    return agregado
+
+
+def municipios_con_evidencia_satelital_del_departamento(depto: str, ctx: dict) -> list[dict]:
+    """Los municipios del departamento con al menos un edificio clasificado
+    por algún servicio satelital (Copernicus, UNOSAT o ICube-SERTIT)."""
+    return [m for m in municipios_del_departamento(depto, ctx)
+            if ctx["conteo_satelite"].get(m["municipio"])
+            or (m.get("unosat_edificios") or 0)
+            or (m.get("sertit_edificios") or 0)]
+
+
+def titulares_departamento(depto: str, ctx: dict) -> list:
+    """Los titulares de cualquier municipio del departamento, recientes
+    primero. Reutiliza `ctx["noticias"]`: no hay una segunda copia del corpus
+    de prensa a escala departamental."""
+    nombres = {m["municipio"] for m in municipios_del_departamento(depto, ctx)}
+    return sorted(
+        (x for x in ctx["noticias"] if nombres & set(x.get("municipios") or [])),
+        key=lambda x: x.get("fecha") or "", reverse=True)
+
+
+def seccion_salud_departamental(d: dict) -> str:
+    """Dónde aterrizará «Lo que declara el departamento» cuando llegue la
+    serie OPS/salud, con su propia trazabilidad (JSON + snapshot + sha256 +
+    fila en `sources_log`, R4).
+
+    Hoy no hay ese dato, y la sección NO SE PINTA: un globo vacío con «—»
+    sería peor que no publicarla —la misma lección que ya costó una
+    corrección en la portada—. Esta función solo existe para que, cuando el
+    JSON llegue, tenga dónde aterrizar sin tocar la forma del resto de la
+    ficha; no inventa ni transcribe ningún dato de salud."""
+    return ""
+
+
+def datos_ficha_departamento(depto: str, ctx: dict) -> dict:
+    municipios = sorted(municipios_del_departamento(depto, ctx),
+                        key=lambda m: m.get("poblacion_2026") or 0, reverse=True)
+    elegibles = [m for m in municipios if es_elegible(m["municipio"], ctx)]
+    con_evidencia = municipios_con_evidencia_satelital_del_departamento(depto, ctx)
+    poblaciones = [m["poblacion_2026"] for m in municipios
+                  if m.get("poblacion_2026") is not None]
+    return {
+        "depto": depto, "slug": slug(depto), "municipios": municipios,
+        "elegibles": elegibles, "con_evidencia": con_evidencia,
+        "agregado": agregado_rud_departamento(depto, ctx),
+        "titulares": titulares_departamento(depto, ctx),
+        "poblacion": sum(poblaciones) if poblaciones else None,
+        "generado": ctx["rud"].get("generado", ""),
+    }
+
+
+def dataset_ficha_departamento(d: dict, url: str, descr: str) -> dict:
+    """El nodo `Dataset` de una ficha departamental. Mismo criterio que
+    `dataset_ficha` (R9 en el marcado, R3 en cada campo), sin lo que la ficha
+    departamental todavía no tiene: mapa de evidencias propio ni serie
+    declarada por el departamento."""
+    depto = d["depto"]
+    fecha = _solo_fecha(d.get("generado"))
+    agregado = d["agregado"]
+    variables = [v for v in [
+        _medida("Familias inscritas en el RUD (suma de sus municipios)",
+                agregado["rud_familias"], "familias",
+                "Suma de las inscripciones tramitadas en cada municipio del "
+                "departamento; no es una cifra que el departamento declare "
+                "por su cuenta."),
+        _medida("Personas inscritas en el RUD (suma de sus municipios)",
+                agregado["rud_personas"], "personas"),
+        _medida("Viviendas destruidas declaradas en el RUD (suma de sus municipios)",
+                agregado["rud_viv_destruidas"], "viviendas"),
+        _medida("Viviendas averiadas declaradas en el RUD (suma de sus municipios)",
+                agregado["rud_viv_averiadas"], "viviendas"),
+        _medida("Población proyectada 2026 (DANE, suma de sus municipios)",
+                d["poblacion"], "habitantes"),
+        _medida("Municipios con ficha publicada por el monitor",
+                len(d["elegibles"]) or None, "municipios"),
+        _medida("Municipios con evidencia satelital de daño",
+                len(d["con_evidencia"]) or None, "municipios"),
+    ] if v]
+    return {
+        "@context": "https://schema.org", "@type": "Dataset",
+        "@id": f"{url}#dataset", "url": url,
+        "name": f"Damnificados y cobertura del terremoto de 2026 en {depto}",
+        "description": descr, "inLanguage": "es",
+        "temporalCoverage": f"2026-08-10/{fecha}" if fecha else "2026-08-10/..",
+        **({"dateModified": fecha} if fecha else {}),
+        "license": LICENCIA, "isAccessibleForFree": True,
+        "creator": {"@id": ORGANIZACION}, "publisher": {"@id": ORGANIZACION},
+        "keywords": [depto, "terremoto Colombia 2026", "damnificados", "RUD",
+                    "UNGRD", "DANE"],
+        **({"variableMeasured": variables} if variables else {}),
+        "citation": [cita_rud(), cita_dane()],
+        "isPartOf": {"@id": SITIO}, "includedInDataCatalog": {"@id": SITIO}}
+
+
+def render_ficha_departamento(d: dict) -> str:
+    """HTML completo de una ficha departamental: los mismos componentes
+    compartidos que la ficha municipal (`.destacado`, `.metric-strip`,
+    `.aviso`…), sin el lienzo de mapa interactivo —fuera del alcance v1— y con
+    el hueco ya listo para la serie que declare el propio departamento."""
+    depto = d["depto"]
+    agregado = d["agregado"]
+    url = f"https://datosdelterremoto.org/departamento/{d['slug']}/"
+    titulo = f"Terremoto en {depto} 2026: damnificados y daños por municipio"
+    fam = agregado["rud_familias"]
+    frase_fam = (f"{fmt(fam)} {concuerda(fam, 'familia inscrita', 'familias inscritas')} en el RUD"
+                if fam is not None else "sin familias inscritas todavía en el RUD")
+    descr = (f"{depto}: {frase_fam}, suma de sus "
+            f"{fmt_prosa(len(d['elegibles']), femenino=True)} municipios con ficha propia. "
+            f"Cada cifra con su fuente y su fecha.")
+    ld = dataset_ficha_departamento(d, url, descr)
+    migas = [("Monitor de brechas", f"{BASE}/"),
+            ("Municipios", f"{BASE}/municipios.html"),
+            (depto, None)]
+    ld_migas = {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": txt,
+             **({"item": f"https://datosdelterremoto.org{href}"} if href else {})}
+            for i, (txt, href) in enumerate(migas)]}
+
+    o = ['<!DOCTYPE html>', '<html lang="es">', '<head>', '<meta charset="utf-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1">',
+        f'<title>{e(titulo)}</title>',
+        f'<meta name="description" content="{e(descr)}">',
+        '<meta name="robots" content="index, follow">',
+        f'<link rel="canonical" href="{url}">',
+        f'<meta property="og:url" content="{url}">',
+        '<meta property="og:type" content="article">',
+        '<meta property="og:locale" content="es_CO">',
+        '<meta property="og:site_name" content="Datos del terremoto de Colombia 2026">',
+        f'<meta property="og:title" content="{e(titulo)}">',
+        f'<meta property="og:description" content="{e(descr)}">',
+        f'<meta property="og:image" content="https://datosdelterremoto.org{BASE}/og/portada.png">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        BLOQUE_IDENTIDAD,
+        f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>',
+        f'<script type="application/ld+json">{json.dumps(ld_migas, ensure_ascii=False)}</script>',
+        f'<link rel="stylesheet" href="{BASE}/styles.css?v=dev">',
+        f'<link rel="icon" type="image/png" href="{BASE}/icons/favicon.png">',
+        '<meta name="theme-color" content="#101418">',
+        '</head>', '<body>',
+        nav_estatico(),
+        '<main>',
+        '<div class="contenido contenido-ficha">',
+        '<nav class="migas" aria-label="Ruta"><ol>' + "".join(
+            f'<li><a href="{href}">{e(txt)}</a></li>' if href
+            else f'<li aria-current="page">{e(txt)}</li>'
+            for txt, href in migas) + '</ol></nav>',
+        '<header><div>',
+        f'<h1>Terremoto de Colombia 2026 en {e(depto)}</h1>',
+        f'<p class="fecha"><span class="contexto-sismo">{CONTEXTO_SISMO}</span>'
+        f' · actualizado el {e(fecha_larga(d["generado"]))}</p>',
+        '</div></header>',
+        # Sin `.capitalize()`: baja a minúsculas todo lo que no sea la
+        # primera letra, y publicaba «en el rud» — la frase ya empieza por una
+        # cifra, que no tiene mayúscula que corregir.
+        f'<p class="resumen">{e(frase_fam)}, en el conjunto de sus municipios. '
+        f'Es una suma nuestra de los registros municipales, no una cifra que el '
+        f'departamento publique por su cuenta.</p>',
+        '</div>']
+
+    tarjetas = []
+    if agregado["rud_familias"] is not None:
+        tarjetas.append(("Familias inscritas", fmt(agregado["rud_familias"]),
+                        "RUD · UNGRD · suma municipal"))
+    if agregado["rud_personas"] is not None:
+        tarjetas.append(("Personas inscritas", fmt(agregado["rud_personas"]),
+                        "RUD · UNGRD · suma municipal"))
+    if agregado["rud_viv_destruidas"] is not None:
+        tarjetas.append(("Viviendas destruidas", fmt(agregado["rud_viv_destruidas"]),
+                        "RUD · UNGRD · suma municipal"))
+    if agregado["rud_viv_averiadas"] is not None:
+        tarjetas.append(("Viviendas averiadas", fmt(agregado["rud_viv_averiadas"]),
+                        "RUD · UNGRD · suma municipal"))
+    if d["poblacion"] is not None:
+        tarjetas.append(("Población 2026", fmt(d["poblacion"]), "DANE · suma municipal"))
+
+    o.append('<div class="zona-datos">')
+    # Sin tarjetas que mostrar, la tira no se pinta: una fila de «—» sería el
+    # globo sin dato que este proyecto decidió no volver a publicar.
+    if tarjetas:
+        o.append('<div class="metric-strip">')
+        for etiqueta, valor, sub in tarjetas:
+            o.append(f'<div class="metric-card"><span>{etiqueta}</span><strong>{valor}</strong>'
+                    f'<small>{sub}</small></div>')
+        o.append('</div>')
+
+    # ---- municipios del departamento
+    o.append('<section class="page-section" id="municipios">')
+    o.append(f"<h2>Municipios de {e(depto)}</h2>")
+    o.append(f'<p>{fmt_prosa(len(d["municipios"]), femenino=True)} '
+            f'{concuerda(len(d["municipios"]), "municipio", "municipios")} del área de '
+            f'influencia del monitor {concuerda(len(d["municipios"]), "pertenece", "pertenecen")} '
+            f'a {e(depto)}; {fmt_prosa(len(d["elegibles"]), femenino=True)} '
+            f'{concuerda(len(d["elegibles"]), "tiene", "tienen")} ficha propia con alguna señal '
+            f'registrada.</p>')
+    nombres_elegibles = {m["municipio"] for m in d["elegibles"]}
+    nombres_evidencia = {m["municipio"] for m in d["con_evidencia"]}
+    o.append('<div class="tabla-scroll"><table>')
+    o.append('<thead><tr><th>Municipio</th><th class="num">Familias RUD</th>'
+            '<th class="num">Personas RUD</th><th>Evidencia satelital</th></tr></thead><tbody>')
+    for m in d["municipios"]:
+        nombre_m = m["municipio"]
+        nombre_legible = toponimo(nombre_m, depto)
+        celda = (f'<a href="/municipio/{slug(nombre_m)}/">{e(nombre_legible)}</a>'
+                if nombre_m in nombres_elegibles else e(nombre_legible))
+        o.append(f'<tr><td>{celda}</td>'
+                f'<td class="num">{valor_suelto(fmt(m.get("rud_familias")))}</td>'
+                f'<td class="num">{valor_suelto(fmt(m.get("rud_personas")))}</td>'
+                f'<td>{"Sí" if nombre_m in nombres_evidencia else "No"}</td></tr>')
+    o.append("</tbody></table></div>")
+    o.append("</section>")
+
+    # ---- prensa
+    if d["titulares"]:
+        medios = {medio_de_titular(t) for t in d["titulares"]} - {None}
+        o.append('<section class="page-section">')
+        o.append(f"<h2>Qué publicó la prensa sobre {e(depto)}</h2>")
+        n_piezas, n_medios = len(d["titulares"]), len(medios)
+        o.append(f'<p>El monitor ha recogido {fmt_prosa(n_piezas, femenino=True)} '
+                f'pieza{"s" if n_piezas != 1 else ""} de prensa sobre municipios de {e(depto)}, '
+                f'de {fmt_prosa(n_medios)} medio{"s" if n_medios != 1 else ""} '
+                f'identificado{"s" if n_medios != 1 else ""}. La prensa nunca equivale a un '
+                f'balance oficial: aquí consta quién publicó y cuándo, no qué se verificó.</p>')
+        o.append('<div class="tabla-scroll"><table>')
+        o.append('<thead><tr><th>Fecha</th><th>Municipio</th><th>Titular</th>'
+                '<th>Medio</th></tr></thead><tbody>')
+        for t in d["titulares"][:40]:
+            medio = medio_de_titular(t)
+            titular = t.get("titulo") or ""
+            if medio:
+                titular = titular.rsplit(" - ", 1)[0]
+            municipios_t = ", ".join(t.get("municipios") or [])
+            o.append(f'<tr><td>{e(fecha_corta((t.get("fecha") or "")[:10]))}</td>'
+                    f'<td>{e(municipios_t)}</td>'
+                    f'<td><a href="{e(t.get("url") or "#")}" target="_blank" '
+                    f'rel="noopener nofollow">{e(titular[:130])}</a></td>'
+                    f'<td>{e(medio) if medio else "—"}</td></tr>')
+        o.append("</tbody></table></div>")
+        if len(d["titulares"]) > 40:
+            o.append(f'<p class="note">Se muestran los 40 titulares más recientes de '
+                    f'{fmt(len(d["titulares"]))}. El resto, en '
+                    f'<a href="{BASE}/noticias.html">Titulares</a>.</p>')
+        o.append("</section>")
+
+    # ---- lo que declara el propio departamento (hueco para la serie OPS/salud)
+    o.append(seccion_salud_departamental(d))
+
+    # ---- lo que no sabemos
+    o.append('<section class="page-section">')
+    o.append(f"<h2>Qué no sabemos de {e(depto)}</h2>")
+    o.append('<div class="aviso aviso--laguna"><ul>')
+    o.append('<li><strong>La cifra de arriba es una suma nuestra, no una declaración del '
+            'departamento.</strong> Es el agregado de lo que cada municipio tiene inscrito en '
+            'el RUD; el departamento como entidad no publica todavía una serie propia que este '
+            'monitor pueda citar.</li>')
+    if not d["con_evidencia"]:
+        o.append(f'<li><strong>Ningún municipio de {e(depto)} tiene evaluación satelital de '
+                f'daño.</strong> Ningún producto satelital ha clasificado los edificios de '
+                f'esta zona.</li>')
+    o.append('<li><strong>El registro municipal es progresivo y sigue abierto.</strong> Lo '
+            'cargan las autoridades de cada municipio y recoge inscripciones que se verifican '
+            'después: son un mínimo conocido sujeto a comprobación, no un balance cerrado.</li>')
+    o.append("</ul></div></section>")
+
+    # ---- trazabilidad
+    o.append('<section class="page-section">')
+    o.append("<h2>Fuentes y trazabilidad</h2>")
+    o.append('<div class="tabla-scroll"><table><thead><tr><th>Dato</th><th>Fuente</th>'
+            "<th>Naturaleza</th></tr></thead><tbody>"
+            '<tr><td>Familias, personas y viviendas (suma municipal)</td>'
+            '<td><a href="https://rud.gestiondelriesgo.gov.co/" target="_blank" '
+            'rel="noopener">RUD · UNGRD</a></td>'
+            "<td>registro progresivo por municipio, verificación posterior</td></tr>"
+            "<tr><td>Población 2026 (suma municipal)</td>"
+            "<td>DANE · proyecciones municipales por área</td>"
+            "<td>estadística oficial</td></tr>"
+            "<tr><td>Titulares</td><td>feeds abiertos del monitor y Google News municipal</td>"
+            "<td>prensa · nunca equivale a balance oficial</td></tr>"
+            f'<tr><td>Fecha de las cifras</td><td>última captura diaria del RUD por municipio</td>'
+            f'<td>{sello_fechas(None, d["generado"], "del RUD")}</td></tr>'
+            "</tbody></table></div>")
+    o.append('<p class="note">Cada petición queda registrada con su dirección, su código de '
+            "respuesta, su huella digital (sha256) y su fecha; la copia original de lo que "
+            "devolvió cada fuente se archiva sin tocarla en el repositorio público, así que "
+            "cualquier cifra de esta página puede reconstruirse y rebatirse.</p>")
+    o.append("</section>")
+    o.append(f'<p class="note nota-pie"><a href="{BASE}/municipios.html">← Todos los '
+            f'municipios del área de influencia</a></p>')
+    o.append("</div></main>")
+    o.append(pie_estatico())
+    o.append("</body></html>")
+    return "\n".join(o)
 
 
 # ---------------------------------------------- tabla de municipios (fase B)
@@ -3167,7 +3529,13 @@ def filas_municipios(ctx: dict) -> str:
     las cifras, un `<span title>` para lo que se explica, el `<a>` de prensa
     para el segundo destino— porque solo un elemento se puede subir por encima
     de la capa. Un texto sin envoltorio deja de poder copiarse y su título deja
-    de poder leerse."""
+    de poder leerse.
+
+    La columna de departamento enlaza a su ficha departamental cuando existe
+    (`departamentos_afectados`, calculado una vez fuera del bucle): es el
+    enlace mínimo que pidió el PM, sin engordar la tabla con una columna
+    nueva."""
+    deptos_con_ficha = set(departamentos_afectados(ctx))
     filas = []
     for m in sorted(ctx["municipios"], key=lambda x: x.get("poblacion_2026") or 0,
                     reverse=True):
@@ -3190,6 +3558,9 @@ def filas_municipios(ctx: dict) -> str:
         # servicios. Sirve para ordenar «cuánto se ha mirado»; las cifras NO se
         # suman ni en la celda ni aquí, porque miden trozos distintos de ciudad.
         v_sat = evaluados_unicos(m, ctx)
+        depto_celda = (f'<a href="/departamento/{slug(m["departamento"])}/" '
+                      f'style="color:inherit">{e(m["departamento"])}</a>'
+                      if m["departamento"] in deptos_con_ficha else e(m["departamento"]))
         valores = [m["municipio"], etiqueta, m.get("poblacion_2026"), v_sat or None,
                    m.get("rud_personas"), m.get("tasa_rud_pct"), m.get("dyfi_max_cdi"),
                    m.get("dyfi_respuestas"),
@@ -3200,7 +3571,7 @@ def filas_municipios(ctx: dict) -> str:
         filas.append(
             f'<tr data-buscar="{e(buscar)}" data-depto="{e(m["departamento"])}"'
             f' data-chips="{e(" ".join(etiquetas))}" {datos}>'
-            f'<td>{celda}<br><span style="color:var(--muted)">{e(m["departamento"])}</span></td>'
+            f'<td>{celda}<br><span style="color:var(--muted)">{depto_celda}</span></td>'
             f'<td><span class="badge" style="--bc:var({color})" title="{e(explica)}">'
             f"{e(etiqueta)}</span></td>"
             f'<td class="num" title="Población proyectada para 2026 por el Departamento '
