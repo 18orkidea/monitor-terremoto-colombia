@@ -404,3 +404,67 @@ class TestSupuestosSertit(unittest.TestCase):
             "del HTML por los endpoints documentados en "
             "/en/api-rest-for-icube-sertits-rapid-mapping-resources/ y "
             "actualizar el docstring de ingest/sources/sertit.py")
+
+
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosOpsSalud(unittest.TestCase):
+    """OPS/OMS: los Informes de Situación en paho.org, sin API — cada sitrep es
+    un PDF que hay que descubrir desde su página, y el índice de la serie vive
+    en el hub de Naciones Unidas en Colombia (otro dominio, otra fuente).
+    """
+
+    def test_la_url_numerica_del_hub_sigue_dando_404(self):
+        """El hub de la ONU exige el slug completo: /es/320793 a secas no
+        resuelve. Si esto empezara a dar 200, el detector de serie nueva
+        podría simplificarse a la URL corta — comprobado el 30-ago-2026."""
+        from common import fetch
+        st, _ = fetch("https://colombia.un.org/es/320793", note=NOTA_SONDA)
+        self.assertEqual(
+            st, 404,
+            "la URL numérica sola del hub ya no da 404: revisar si "
+            "ops_salud.HUB_URL puede simplificarse")
+
+    def test_el_hub_sigue_enlazando_los_sitrep_conocidos(self):
+        """El hub es el índice barato del detector de serie nueva
+        (`ops_salud.sitreps_en_hub`). No exige un número exacto —solo que
+        siga enlazando AL MENOS los 5 sitrep que el monitor ya transcribió—:
+        un número mayor sería una BUENA noticia (sitrep nuevo, R11), no un
+        fallo de este supuesto."""
+        from common import fetch
+        from sources.ops_salud import HUB_URL, sitreps_en_hub, _transcripciones
+        st, body = fetch(HUB_URL, note=NOTA_SONDA)
+        if st != 200 or not body:
+            self.skipTest(
+                f"el hub de la ONU no responde (HTTP {st}). Plan de "
+                "sucesión: los 5 sitrep ya transcritos están archivados en "
+                "data/documentos/ops_salud/ con su sha256 en sources_log, así "
+                "que la serie cargada no depende de este hub — solo se "
+                "pierde la detección automática de un sitrep nuevo.")
+        conocidos = set(_transcripciones())
+        encontrados = set(sitreps_en_hub(body))
+        self.assertTrue(
+            conocidos <= encontrados,
+            f"el hub dejó de enlazar sitrep ya transcritos: "
+            f"{conocidos - encontrados}. Revisar si cambió el maquetado del "
+            f"hub o si la ONU retiró un enlace")
+
+    def test_cada_pagina_de_sitrep_sigue_publicando_el_boton_descargar(self):
+        """El enlace al PDF se descubre SIEMPRE desde el
+        `<div class="download-button">`, nunca adivinando el nombre del
+        fichero — entre los 5 sitrep conocidos hay tres convenciones de
+        nombre distintas. Si este selector deja de aparecer, hay que revisar
+        `ops_salud.pdf_link_de_pagina` antes que cualquier otra cosa."""
+        from common import fetch
+        from sources.ops_salud import PAGINAS, pdf_link_de_pagina
+        rotas = []
+        for n, url in PAGINAS.items():
+            st, body = fetch(url, note=NOTA_SONDA)
+            if st != 200 or not body:
+                continue    # R13: una página caída no tumba el supuesto entero
+            if not pdf_link_de_pagina(body):
+                rotas.append(n)
+        self.assertFalse(
+            rotas,
+            f"la(s) página(s) de sitrep {rotas} ya no traen el "
+            f"'<div class=\"download-button\">': cambió el maquetado de "
+            f"paho.org y hay que revisar pdf_link_de_pagina()")

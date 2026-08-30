@@ -207,8 +207,30 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `unosat_damage` | (paquete_sha, capa, idx) | Edificios evaluados por UNOSAT. La clave es el **paquete**, no el producto: tres productos publican el mismo ZIP y el edificio es uno solo |
 | `sertit_productos` | producto_id | Los cinco mapas de ICube-SERTIT: escala, sensor, área analizada y el sha del paquete de vectores que les corresponde |
 | `sertit_danos` | (paquete_sha, capa, idx) | Edificios de SERTIT. Clave por **paquete** como en UNOSAT: la identidad del dato es el ZIP recibido, no el id del producto, porque la fuente reedita sin cambiar el id |
+| `ops_salud_cifras` | (sitrep_n, idx) | Los Informes de Situación de la OPS sobre establecimientos de salud, en **formato largo**: una fila, una cifra, un concepto, un autor. Cada sitrep trae una tabla distinta (no hay columnas fijas que rellenar); `valor_raw` conserva el literal («-» nunca es 0, R3) |
+| `ops_salud_ips` | (sitrep_n, idx) | El detalle por INSTITUCIÓN de los sitreps 1-3 (nombre, municipio, nivel de complejidad) — más fino que `ops_salud_cifras` y **congelado en 31 instituciones** desde el 11-ago-2026, mientras los sitreps siguientes solo agregan por departamento (`docs/LIMITACIONES.md`) |
 | `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
 | `fuentes_watch` | (watcher, external_id) | Estado de los vigilantes de fuentes que aún no existen: `hdx` (datasets nuevos en data.humdata.org) y `arcgis_eres` (el tablero ERES/MinSalud). Una fila por item ya visto — decide «nuevo» vs «ya conocido» en `ingest/alerts.py` |
+
+**Accessors de `ingest/sources/ops_salud.py`**, el contrato para quien construya la
+sección «Lo que declara el departamento» de las fichas:
+
+- `cifras_por_ambito(conn) -> {ambito: {concepto: {valor, valor_raw, autor,
+  fuente_citada, nota, sitrep_n, fecha_corte}}}` — la última cifra PUBLICADA
+  (por `sitrep_n`, no por `fecha_corte`: dos sitrep pueden compartir corte) de
+  cada concepto, para cada ámbito (`'nacional'` o un departamento/distrito).
+  Solo mira las filas sin desglose por nivel de complejidad; el desglose de la
+  matriz del sitrep 4 se consulta aparte, filtrando `ops_salud_cifras` por
+  `nivel_complejidad`. El titular fijo decidido el 30-ago-2026 —«303
+  reportadas (UNGRD) · 192 verificadas (MinSalud) · 50 priorizadas (MinSalud)»,
+  las tres cifras siempre juntas y cada una con su autor, nunca una sola— se
+  compone con `cifras_por_ambito(conn)['nacional']` leyendo los conceptos
+  `ips_reportadas_ungrd`, `ips_verificadas_crue` e `ips_priorizadas`.
+- `instituciones_por_municipio(conn) -> {municipio_slug: [{sitrep_n,
+  fecha_corte, nombre_ips, nivel_complejidad, observacion, municipio_literal,
+  departamento_literal}]}` — el detalle por institución de los sitreps 1-3,
+  agrupado por el municipio ya resuelto (nunca adivinado — R10 con
+  departamento como desambiguador de homónimos).
 
 ## Los tres ciclos automáticos
 

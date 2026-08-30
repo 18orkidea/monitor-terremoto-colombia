@@ -1135,3 +1135,45 @@ Dos de los 88 municipios con afectación declarada por el MEN (corte del
 cifra cuenta en la entradilla y en el mapa pero no tiene ficha municipal —
 el mismo patrón ya documentado con Ocaña en el RUD: el registro oficial no
 se recorta a nuestra área de fichas, y recortarlo callaría afectación real.
+
+## La OPS publicó 24 nombres el primer día y ninguno en el quinto (30-ago-2026)
+
+Los Informes de Situación de la OPS/OMS sobre establecimientos de salud
+dañados (`ingest/sources/ops_salud.py`) no traen una serie de columnas
+estables: cada sitrep trae una tabla distinta.
+
+- **10-ago-2026 (sitrep 1, corte 13:30)**: tabla de 24 instituciones con
+  nombre, municipio y nivel de complejidad — «Hospital Universitario del
+  Valle, Cali, colapso estructural de una parte de una torre», por ejemplo.
+- **10-ago-2026, mismo día (sitrep 2, corte 19:30) y 11-ago-2026 (sitrep 3,
+  corte 17:00)**: la misma tabla, ampliada a 31 instituciones. Es la última
+  vez que la serie publica un nombre.
+- **13-ago-2026 (sitrep 4)**: ya no hay tabla por institución. Solo una
+  matriz departamento × nivel de complejidad (59 establecimientos, un único
+  autor: MSPS y secretarías de salud) y, en prosa, la cifra de UNGRD (109,
+  igual que en el sitrep 3 — el documento no aclara si UNGRD actualizó su
+  conteo o repite el anterior).
+- **19-ago-2026 (sitrep 5, corte 18-ago)**: la UNGRD reporta 303
+  establecimientos afectados en 11 de 15 departamentos, cifra citada SOLO en
+  prosa, sin desglose por departamento en ningún lugar del documento. El
+  Ministerio de Salud, vía sus Centros Reguladores de Urgencias y
+  Emergencias, «verifica» 192 (con desglose por departamento) y prioriza 50
+  — de los 192, cero llevan nombre.
+
+En nueve días, el universo de establecimientos con nombre y municipio
+publicable pasó de 31 a 0, mientras la cifra agregada creció de 31 a 303.
+No es un fallo de esta transcripción: es lo que la fuente decidió publicar
+en cada corte, con su fecha y su sitrep de origen (ver
+`feeds/hitos_monitor.json`, hito del 30-ago-2026). El detalle por
+institución de los sitreps 1-3 sigue siendo, hoy, la única fuente pública
+que baja el daño en salud a nivel de EDIFICIO — 24-31 nombres frente a los
+miles de establecimientos de salud que tiene el país— y **el monitor lo
+archiva completo en `ops_salud_ips` aunque haya dejado de crecer**.
+
+Consecuencia práctica para quien lea `ops_salud_cifras`: las tres cifras
+del titular público —reportadas (UNGRD), verificadas (MinSalud) y
+priorizadas (MinSalud)— nunca se suman entre sí ni se comparan como si
+fueran la misma medida repetida por tres fuentes. Son tres preguntas
+distintas sobre el mismo universo, y solo dos de las tres (verificadas y
+priorizadas) bajan a nivel de departamento en algún sitrep — la de UNGRD, la
+más citada en prensa, nunca lo hace en esta serie.

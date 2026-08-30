@@ -966,6 +966,30 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                       f"hizo el 20-ago-2026."),
             "municipio": muni, "producto": pid})
 
+    # 8b) OPS: sitrep nuevo sin transcribir (la OPS no tiene API — cada sitrep
+    # hay que verlo, descubrir su tabla y transcribirla a mano) y silencio
+    # prolongado de la serie (R15, umbral propio: 15 días, más laxo que el
+    # general porque la propia serie ya dejó pasar 7 días naturales entre dos
+    # sitrep sin haber cerrado).
+    from sources import ops_salud
+    for n in ops_salud.sitreps_nuevos(conn):
+        alerts.append({
+            "tipo": "ops_sitrep_nuevo_sin_transcribir", "nivel": "alta",
+            "texto": (f"La OPS publicó el Informe de Situación {n} sobre el "
+                      f"terremoto y el monitor no lo ha transcrito todavía: "
+                      f"revisar su tabla de establecimientos de salud y "
+                      f"añadirla a data/documentos/ops_salud/."),
+            "sitrep": n})
+    dias = ops_salud.dias_desde_ultimo_sitrep(snap)
+    if dias is not None and dias > 15 and not ops_salud.SERIE_CERRADA:
+        alerts.append({
+            "tipo": "ops_serie_silenciosa", "nivel": "media",
+            "texto": (f"La OPS lleva {dias} día(s) sin publicar un sitrep "
+                      f"nuevo del terremoto. Puede haber cerrado la serie sin "
+                      f"anunciarlo — si se confirma, marcar "
+                      f"ops_salud.SERIE_CERRADA con la fecha y el porqué."),
+            "dias": dias})
+
     # 9) ¿cambió alguna fuente su forma de contestar a una petición
     # condicional? Un supuesto del monitor sobre sus propias fuentes: avisa,
     # no rompe (R11), y una consulta rota no puede tumbar la corrida (R13).

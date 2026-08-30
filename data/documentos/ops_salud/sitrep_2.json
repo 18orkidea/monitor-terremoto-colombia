@@ -1,0 +1,239 @@
+{
+ "sitrep_n": 2,
+ "pagina_url": "https://www.paho.org/es/documentos/informe-situacion-2-colombia-terremoto-agosto-2026-10-agosto-2026",
+ "pdf_url": "https://www.paho.org/sites/default/files/2026/08/sitrep-2-colombiasismo.pdf",
+ "pdf_sha256": "60b9498bc3686449b79159f398fd1e033a14eef7ab964722f15a2541abf19088",
+ "fecha_publicacion": "2026-08-10",
+ "cifras": [
+  {
+   "ambito": "nacional",
+   "concepto": "ips_reportadas_monitoreo_ops",
+   "valor": 24,
+   "valor_raw": "24",
+   "nivel_complejidad": null,
+   "autor": "Secretarías de salud y consultores OPS/OMS en terreno",
+   "fuente_citada": "Monitoreo conjunto secretarías de salud + OPS/OMS, corte 10-ago-2026 19:30",
+   "fecha_corte": "2026-08-10",
+   "nota": "El párrafo del sitrep cita corte 17:30 y la Tabla 1 cita 19:30 — discrepancia del propio documento, se conserva la de la tabla."
+  }
+ ],
+ "instituciones": [
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Clínica La Estancia",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Clínica San Rafael",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Clínica Santa Gracia",
+   "nivel_complejidad": "Nivel 4",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Hospital Susana López",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Con daños. Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Toribio",
+   "nombre_ips": "Hospital de Toribio",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Con daños. Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "El Tambo",
+   "nombre_ips": "Hospital de El Tambo",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Con daños. Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Quibdó",
+   "nombre_ips": "San Francisco de Asís",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Con daños en evaluación"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Quibdó",
+   "nombre_ips": "Hospital Local Ismael Roldán",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Carmen de Atrato",
+   "nombre_ips": "Hospital San Roque",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Daño no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Alto Baudó",
+   "nombre_ips": "Centro de Salud",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Daño no estructural, pendiente evaluación."
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Nuquí",
+   "nombre_ips": "Centros de Salud Arusi y Tribuga",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "En verificación"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Litoral",
+   "nombre_ips": "Centros de Salud Durapdur y Palestina",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "En verificación"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "San José del Palmar",
+   "nombre_ips": "Centro de Salud",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Daños no estructurales, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Caldas",
+   "municipio_literal": "Manizales",
+   "nombre_ips": "Hospital Santa Sofía",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Risaralda",
+   "municipio_literal": "Pereira",
+   "nombre_ips": "Clínica Megacentro",
+   "nivel_complejidad": "Nivel 4",
+   "observacion": "Daños no estructurales, preliminar"
+  },
+  {
+   "departamento_literal": "Risaralda",
+   "municipio_literal": "Pereira",
+   "nombre_ips": "Hospital Santa Mónica",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Daños no estructurales, preliminar"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital Universitario del Valle",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Colapso estructural de una parte de una torre."
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Valle Salud",
+   "nivel_complejidad": "Por confirmar",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Fundación Valle del Lili",
+   "nivel_complejidad": "Nivel 4",
+   "observacion": "Daños no estructurales"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Rey David",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños en tanques de almacenamiento de agua"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Nuestra",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños estructurales; evacuación total"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica de Colores",
+   "nivel_complejidad": "Por confirmar",
+   "observacion": "Daños no estructurales (no tiene habilitado servicio de urgencias)"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital Isaías Duarte Cancino",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Sanitas",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital San Juan de Dios",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital Departamental Mario Correa Rengifo",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Buenaventura",
+   "nombre_ips": "Clínica Santa Sofía del Pacífico",
+   "nivel_complejidad": "Por confirmar",
+   "observacion": "Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico)"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Buenaventura",
+   "nombre_ips": "Luis Ablanque de la Plata",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo."
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "El Aguila",
+   "nombre_ips": "Hospital San Rafael",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Roldanillo",
+   "nombre_ips": "Hospital Departamental de San Antonio",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Con daños. Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Quindío",
+   "municipio_literal": "Armenia",
+   "nombre_ips": "Hospital San Juan de Dios",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)"
+  }
+ ]
+}

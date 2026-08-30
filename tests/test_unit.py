@@ -1862,6 +1862,46 @@ class TestDumpSinRuidoDeRowid(unittest.TestCase):
             conn.close()
 
 
+class TestEsRowid(unittest.TestCase):
+    """`pk` en `PRAGMA table_info` es la POSICIÓN de la columna dentro de la
+    clave primaria (1, 2, 3…), no un booleano de «es primaria». Confundirlo
+    hacía que la primera columna de una clave COMPUESTA que empezara en
+    INTEGER —`ops_salud_cifras (sitrep_n, idx)`— se tratara como alias de
+    rowid de una sola columna: se omitía del dump y `rebuild()` la
+    reinsertaba en NULL, reventando su NOT NULL (30-ago-2026)."""
+
+    def _info(self, sql_pk):
+        import sqlite3
+        conn = sqlite3.connect(":memory:")
+        conn.execute(f"CREATE TABLE t (a INTEGER, b INTEGER, c TEXT, "
+                     f"PRIMARY KEY ({sql_pk}))")
+        info = conn.execute("PRAGMA table_info(t)").fetchall()
+        conn.close()
+        return info
+
+    def test_columna_unica_integer_es_rowid(self):
+        from dump_db import _es_rowid
+        self.assertEqual(self._info("a")[0][5], 1)   # pk=1: única columna
+        self.assertEqual(_es_rowid(self._info("a")), "a")
+
+    def test_primera_columna_de_clave_compuesta_no_es_rowid(self):
+        """El caso que rompía `ops_salud_cifras`: `a` también lleva pk=1
+        aquí, pero NO es un alias de rowid porque `b` también es primaria."""
+        from dump_db import _es_rowid
+        info = self._info("a, b")
+        self.assertEqual(info[0][5], 1)   # misma pk=1 que el caso de arriba…
+        self.assertIsNone(_es_rowid(info), "…pero aquí NO es un rowid: es "
+                          "la primera columna de una clave de dos")
+
+    def test_columna_de_texto_nunca_es_rowid_aunque_sea_unica(self):
+        from dump_db import _es_rowid
+        self.assertIsNone(_es_rowid(self._info("c")))
+
+    def test_tabla_sin_clave_primaria_no_tiene_rowid_alias(self):
+        from dump_db import _es_rowid
+        self.assertIsNone(_es_rowid([(0, "a", "INTEGER", 0, None, 0)]))
+
+
 class TestDumpRoundtrip(unittest.TestCase):
     """El sqlite no se versiona; los dumps CSV sí. Si el ciclo dump→rebuild
     perdiera un solo valor (un NULL vuelto cero, una tilde rota), el archivo
@@ -1895,6 +1935,16 @@ class TestDumpRoundtrip(unittest.TestCase):
                 "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
                 "snapshot_path,note) VALUES ('2026-08-16T00:00:00Z','u',200,"
                 "NULL,0,NULL,'NA no es cero')")
+            # clave compuesta que EMPIEZA en INTEGER: `_es_rowid()` confundía
+            # este `sitrep_n` (pk=1 en PRAGMA table_info, que es la POSICIÓN
+            # dentro de la clave, no un booleano) con un alias de rowid de una
+            # sola columna, lo omitía del dump y `rebuild()` lo reinsertaba en
+            # NULL — reventando el NOT NULL. Sin una fila real aquí, el bucle
+            # de más abajo compara dos listas vacías y no habría cazado nada.
+            origen.execute(
+                "INSERT INTO ops_salud_cifras (sitrep_n, idx, ambito,"
+                " concepto, valor, autor) VALUES (5, 0, 'nacional',"
+                " 'ips_reportadas_ungrd', 303, 'UNGRD')")
             origen.commit()
             dumps_orig, dump_db.DUMPS = dump_db.DUMPS, tmp / "dumps"
             try:
@@ -5719,3 +5769,351 @@ class TestWatcherArcGISEres(unittest.TestCase):
         self.assertEqual([a["tipo"] for a in avisos],
                          ["arcgis_eres_watcher_silencio"])
         self.assertEqual(avisos[0]["nivel"], "alta")
+class TestOpsSaludParseo(unittest.TestCase):
+    """Funciones puras de ops_salud: descubrir el PDF de una página y los
+    sitrep que enlaza el hub. Sin red — cuerpos fabricados a mano."""
+
+    def test_descubre_el_pdf_por_el_div_download_button(self):
+        from sources.ops_salud import pdf_link_de_pagina
+        cuerpo = (b'<div class="pdfpreview">...</div>'
+                 b'<div class="download-button"><a href="/sites/default/files/'
+                 b'2026/08/sitrep5colombiasismo18082026.pdf" target="_blank">'
+                 b'Descargar</a></div>')
+        self.assertEqual(
+            pdf_link_de_pagina(cuerpo),
+            "https://www.paho.org/sites/default/files/2026/08/"
+            "sitrep5colombiasismo18082026.pdf")
+
+    def test_sin_boton_de_descarga_no_inventa_enlace(self):
+        from sources.ops_salud import pdf_link_de_pagina
+        self.assertIsNone(pdf_link_de_pagina(b"<html>sin pdf aqui</html>"))
+
+    def test_no_adivina_el_pdf_por_el_nombre_del_fichero(self):
+        """Tres convenciones de nombre distintas entre los 5 sitrep conocidos
+        (con guion, sin guion, con fecha): solo el selector del botón resuelve
+        las tres, un patrón de nombre no."""
+        from sources.ops_salud import pdf_link_de_pagina
+        nombres = ["sitrep1-terremoto-colombia-agosto-20260.pdf",
+                  "sitrep-2-colombiasismo.pdf",
+                  "sitrep5colombiasismo18082026.pdf"]
+        for nombre in nombres:
+            cuerpo = (f'<div class="download-button"><a href="/sites/default/'
+                     f'files/2026/08/{nombre}">Descargar</a></div>').encode()
+            self.assertTrue(pdf_link_de_pagina(cuerpo).endswith(nombre))
+
+    def test_sitreps_en_hub_lee_los_numeros_enlazados(self):
+        from sources.ops_salud import sitreps_en_hub
+        cuerpo = (
+            b'<a href="https://www.paho.org/es/documentos/'
+            b'informe-situacion-1-colombia-terremoto-agosto-2026-10-agosto-2026">1</a>'
+            b'<a href="https://www.paho.org/es/documentos/'
+            b'informe-situacion-6-colombia-terremoto-agosto-2026-20-agosto-2026">6</a>')
+        self.assertEqual(sitreps_en_hub(cuerpo), [1, 6])
+
+    def test_sitreps_en_hub_vacio_si_no_hay_enlaces(self):
+        from sources.ops_salud import sitreps_en_hub
+        self.assertEqual(sitreps_en_hub(b"<html></html>"), [])
+
+
+class TestOpsSaludResolverMunicipio(unittest.TestCase):
+    """R10 aplicado a una tabla ya estructurada (departamento + municipio en
+    columnas separadas, no texto libre): el departamento desambigua homónimos
+    y un municipio fuera del catálogo nunca se adivina."""
+
+    CATALOGO = {
+        "Cali": {"departamento": "Valle del Cauca"},
+        "Riosucio (Caldas)": {"departamento": "Caldas"},
+        "Riosucio (Chocó)": {"departamento": "Chocó"},
+    }
+
+    def test_resuelve_por_nombre_y_departamento(self):
+        from sources.ops_salud import resolver_municipio
+        slug, canon = resolver_municipio("Valle del Cauca", "Cali", self.CATALOGO)
+        self.assertEqual((slug, canon), ("cali", "Cali"))
+
+    def test_desambigua_homonimos_por_departamento(self):
+        """El NOMBRE CANÓNICO sí distingue los dos Riosucio — el slug no
+        (los dos derivan de 'Riosucio' sin el paréntesis, igual que hace
+        `deploy/render_html.py::slug`): una limitación conocida y no algo que
+        este resolver deba inventarse una solución para arreglar, documentada
+        en el docstring de `resolver_municipio`."""
+        from sources.ops_salud import resolver_municipio
+        slug, canon = resolver_municipio("Chocó", "Riosucio", self.CATALOGO)
+        self.assertEqual((slug, canon), ("riosucio", "Riosucio (Chocó)"))
+        slug2, canon2 = resolver_municipio("Caldas", "Riosucio", self.CATALOGO)
+        self.assertEqual((slug2, canon2), ("riosucio", "Riosucio (Caldas)"))
+
+    def test_departamento_que_no_casa_no_resuelve(self):
+        """Mismo nombre de municipio, departamento equivocado: no es el mismo
+        pueblo y no se adivina."""
+        from sources.ops_salud import resolver_municipio
+        slug, canon = resolver_municipio("Quindío", "Cali", self.CATALOGO)
+        self.assertEqual((slug, canon), (None, None))
+
+    def test_municipio_fuera_del_catalogo_no_resuelve(self):
+        """Popayán no está en el catálogo curado por este monitor: el literal
+        se conserva y el slug queda NULL, nunca se inventa."""
+        from sources.ops_salud import resolver_municipio
+        slug, canon = resolver_municipio("Cauca", "Popayán", self.CATALOGO)
+        self.assertEqual((slug, canon), (None, None))
+
+    def test_es_insensible_a_tildes_y_mayusculas(self):
+        from sources.ops_salud import resolver_municipio
+        slug, canon = resolver_municipio("valle DEL cauca", "CALI", self.CATALOGO)
+        self.assertEqual(canon, "Cali")
+
+
+class TestOpsSaludCarga(unittest.TestCase):
+    """run() de extremo a extremo, con la red y el PDF simulados: sha256
+    correcto, R3 en los guiones de la fuente, e idempotencia de la carga."""
+
+    def _modulo(self, transcripciones, *, pdf_bodies=None, catalogo=None):
+        """ops_salud con fetch()/registrar_entrega()/catalogo_vigente()
+        simulados y sus JSON de transcripción en un directorio efímero (nunca
+        toca data/documentos/ops_salud/ del repo)."""
+        import hashlib
+        import sqlite3
+        import tempfile
+        from common import SCHEMA
+        from sources import ops_salud
+
+        tmp = Path(tempfile.mkdtemp())
+        for n, datos in transcripciones.items():
+            (tmp / f"sitrep_{n}.json").write_text(
+                json.dumps(datos, ensure_ascii=False), encoding="utf-8")
+
+        pdf_bodies = pdf_bodies or {}
+        cuerpos = {n: (body if isinstance(body, bytes) else body.encode())
+                  for n, body in pdf_bodies.items()}
+
+        def fake_fetch(url, *a, **kw):
+            for n, datos in transcripciones.items():
+                if url == datos["pagina_url"]:
+                    return 200, b'<div class="download-button"><a href="x.pdf">D</a></div>'
+                if url == datos["pdf_url"]:
+                    body = cuerpos.get(n, b"%PDF-1.4 cuerpo de prueba")
+                    save_to = kw.get("save_to")
+                    if save_to:
+                        save_to.parent.mkdir(parents=True, exist_ok=True)
+                        save_to.write_bytes(body)
+                    return 200, body
+            return 404, b""
+
+        def fake_registrar_entrega(conn_, *, url, ruta, note):
+            # Espejo de common.registrar_entrega(), pero relativo a `tmp` en
+            # vez de al ROOT real del repo (aquí `ruta` vive bajo /tmp).
+            body = ruta.read_bytes()
+            sha = hashlib.sha256(body).hexdigest()
+            conn_.execute(
+                "INSERT INTO sources_log (ts,url,http_status,sha256,bytes,"
+                " snapshot_path,note) VALUES (?,?,NULL,?,?,?,?)",
+                ("2026-08-30T00:00:00Z", url, sha, len(body),
+                 str(ruta.relative_to(tmp.parent)), f"entrega fuera de banda: {note}"))
+            return sha
+
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        originales = (ops_salud.DOCUMENTOS, ops_salud.DATA, ops_salud.fetch,
+                     ops_salud.registrar_entrega)
+        ops_salud.DOCUMENTOS = tmp
+        ops_salud.DATA = tmp    # para que `ruta.relative_to(DATA.parent)` no reviente
+        ops_salud.fetch = fake_fetch
+        ops_salud.registrar_entrega = fake_registrar_entrega
+        import sources.ops_salud as mod
+        import municipios as _municipios
+        cat_original = _municipios.catalogo_vigente
+        _municipios.catalogo_vigente = lambda: (catalogo or {})
+
+        def _restaurar():
+            (ops_salud.DOCUMENTOS, ops_salud.DATA, ops_salud.fetch,
+             ops_salud.registrar_entrega) = originales
+            _municipios.catalogo_vigente = cat_original
+        self.addCleanup(_restaurar)
+        return ops_salud, conn
+
+    @staticmethod
+    def _transcripcion(n, *, cifras=None, instituciones=None):
+        return {"sitrep_n": n,
+               "pagina_url": f"https://paho.example/pagina{n}",
+               "pdf_url": f"https://paho.example/sitrep{n}.pdf",
+               "pdf_sha256": None,   # se completa tras conocer el cuerpo simulado
+               "fecha_publicacion": f"2026-08-1{n}",
+               "cifras": cifras or [], "instituciones": instituciones or []}
+
+    def test_el_sha256_archivado_coincide_con_el_declarado(self):
+        """Ata la transcripción a su snapshot: si el PDF archivado no
+        coincide con el sha256 que declara el JSON, run() lo canta como error
+        en vez de cargar una tabla que ya no corresponde a su fuente."""
+        import hashlib
+        cuerpo = b"%PDF-1.4 contenido real del sitrep"
+        t = self._transcripcion(1)
+        t["pdf_sha256"] = hashlib.sha256(cuerpo).hexdigest()
+        ops_salud, conn = self._modulo({1: t}, pdf_bodies={1: cuerpo})
+        out = ops_salud.run(conn)
+        self.assertEqual(out["errores"], [])
+        self.assertEqual(out["pdfs"][1]["sha256"], t["pdf_sha256"])
+
+    def test_un_sha256_declarado_que_no_coincide_es_error_no_carga_muda(self):
+        t = self._transcripcion(1, cifras=[{
+            "ambito": "nacional", "concepto": "ips_priorizadas", "valor": 5,
+            "valor_raw": "5", "nivel_complejidad": None, "autor": "MSPS"}])
+        t["pdf_sha256"] = "0" * 64    # no puede coincidir con ningún cuerpo real
+        ops_salud, conn = self._modulo({1: t}, pdf_bodies={1: b"cuerpo real"})
+        out = ops_salud.run(conn)
+        self.assertTrue(out["errores"], "un sha256 que no cuadra debe avisar")
+        self.assertEqual(
+            conn.execute("SELECT COUNT(*) FROM ops_salud_cifras").fetchone()[0],
+            0, "sin PDF verificado no se cargan sus cifras (R11)")
+
+    def test_un_guion_de_la_fuente_entra_como_null_nunca_como_cero(self):
+        """R3: la Tabla 2 del sitrep 5 marca con '-' las IPS priorizadas que
+        el departamento no tiene — eso es NULL con su literal, no un cero."""
+        import hashlib
+        cuerpo = b"cuerpo del sitrep con guiones"
+        t = self._transcripcion(5, cifras=[{
+            "ambito": "Bolívar", "concepto": "ips_priorizadas", "valor": None,
+            "valor_raw": "-", "nivel_complejidad": None,
+            "autor": "Ministerio de Salud y Protección Social"}])
+        t["pdf_sha256"] = hashlib.sha256(cuerpo).hexdigest()
+        ops_salud, conn = self._modulo({5: t}, pdf_bodies={5: cuerpo})
+        ops_salud.run(conn)
+        valor, valor_raw = conn.execute(
+            "SELECT valor, valor_raw FROM ops_salud_cifras"
+            " WHERE ambito='Bolívar'").fetchone()
+        self.assertIsNone(valor)
+        self.assertEqual(valor_raw, "-")
+
+    def test_una_segunda_corrida_no_duplica_filas(self):
+        import hashlib
+        cuerpo = b"cuerpo estable del sitrep"
+        t = self._transcripcion(4, cifras=[
+            {"ambito": "Caldas", "concepto": "ips_identificadas_msps",
+             "valor": 8, "valor_raw": "8", "nivel_complejidad": None,
+             "autor": "MSPS"}],
+            instituciones=[{"departamento_literal": "Valle del Cauca",
+                           "municipio_literal": "Cali", "nombre_ips": "Clínica X",
+                           "nivel_complejidad": "Nivel 2", "observacion": "obs"}])
+        t["pdf_sha256"] = hashlib.sha256(cuerpo).hexdigest()
+        catalogo = {"Cali": {"departamento": "Valle del Cauca"}}
+        ops_salud, conn = self._modulo({4: t}, pdf_bodies={4: cuerpo}, catalogo=catalogo)
+        ops_salud.run(conn)
+        ops_salud.run(conn)
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM ops_salud_cifras").fetchone()[0], 1)
+        self.assertEqual(conn.execute(
+            "SELECT COUNT(*) FROM ops_salud_ips").fetchone()[0], 1)
+        self.assertEqual(conn.execute(
+            "SELECT municipio_slug FROM ops_salud_ips").fetchone()[0], "cali")
+
+    def test_cifras_por_ambito_ignora_el_desglose_por_nivel(self):
+        """El accessor documentado para render: una sola cifra por (ámbito,
+        concepto), la fila 'total' (nivel_complejidad NULL) — no una de las
+        4 filas de desglose por nivel de complejidad."""
+        import hashlib
+        cuerpo = b"cuerpo con matriz de niveles"
+        t = self._transcripcion(4, cifras=[
+            {"ambito": "Caldas", "concepto": "ips_identificadas_msps",
+             "valor": 4, "valor_raw": "4", "nivel_complejidad": "1", "autor": "MSPS"},
+            {"ambito": "Caldas", "concepto": "ips_identificadas_msps",
+             "valor": 8, "valor_raw": "8", "nivel_complejidad": None, "autor": "MSPS",
+             "fuente_citada": "Sitrep 4", "fecha_corte": "2026-08-13"},
+        ])
+        t["pdf_sha256"] = hashlib.sha256(cuerpo).hexdigest()
+        ops_salud, conn = self._modulo({4: t}, pdf_bodies={4: cuerpo})
+        ops_salud.run(conn)
+        cba = ops_salud.cifras_por_ambito(conn)
+        self.assertEqual(cba["Caldas"]["ips_identificadas_msps"]["valor"], 8)
+
+    def test_instituciones_por_municipio_excluye_las_no_resueltas(self):
+        import hashlib
+        cuerpo = b"cuerpo con detalle institucional"
+        t = self._transcripcion(1, instituciones=[
+            {"departamento_literal": "Valle del Cauca", "municipio_literal": "Cali",
+             "nombre_ips": "Clínica X", "nivel_complejidad": "Nivel 2",
+             "observacion": "obs"},
+            {"departamento_literal": "Cauca", "municipio_literal": "Popayán",
+             "nombre_ips": "Clínica Y", "nivel_complejidad": "Nivel 3",
+             "observacion": "obs2"},
+        ])
+        t["pdf_sha256"] = hashlib.sha256(cuerpo).hexdigest()
+        catalogo = {"Cali": {"departamento": "Valle del Cauca"}}
+        ops_salud, conn = self._modulo({1: t}, pdf_bodies={1: cuerpo}, catalogo=catalogo)
+        ops_salud.run(conn)
+        ipm = ops_salud.instituciones_por_municipio(conn)
+        self.assertEqual(list(ipm), ["cali"])
+        self.assertEqual(len(ipm["cali"]), 1)
+
+
+class TestAlertaOpsSaludSitrepNuevo(unittest.TestCase):
+    """El disparador de «sitrep OPS nuevo sin transcribir» (R11): la OPS no
+    tiene API, así que sin este aviso un sitrep nuevo se queda invisible
+    hasta que alguien mire el hub a mano."""
+
+    def test_un_sitrep_mayor_en_el_hub_se_detecta_como_nuevo(self):
+        import tempfile
+        from sources import ops_salud
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "sitrep_1.json").write_text(
+            json.dumps({"sitrep_n": 1}), encoding="utf-8")
+        original_doc, original_fetch = ops_salud.DOCUMENTOS, ops_salud.fetch
+        ops_salud.DOCUMENTOS = tmp
+        ops_salud.fetch = lambda *a, **kw: (200, (
+            b'<a href="https://www.paho.org/es/documentos/'
+            b'informe-situacion-1-colombia-terremoto-agosto-2026">1</a>'
+            b'<a href="https://www.paho.org/es/documentos/'
+            b'informe-situacion-6-colombia-terremoto-agosto-2026">6</a>'))
+        self.addCleanup(lambda: (setattr(ops_salud, "DOCUMENTOS", original_doc),
+                                 setattr(ops_salud, "fetch", original_fetch)))
+        self.assertEqual(ops_salud.sitreps_nuevos(), [6])
+
+    def test_sin_novedad_en_el_hub_no_hay_nada_que_avisar(self):
+        import tempfile
+        from sources import ops_salud
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "sitrep_1.json").write_text(
+            json.dumps({"sitrep_n": 1}), encoding="utf-8")
+        original_doc, original_fetch = ops_salud.DOCUMENTOS, ops_salud.fetch
+        ops_salud.DOCUMENTOS = tmp
+        ops_salud.fetch = lambda *a, **kw: (200, (
+            b'<a href="https://www.paho.org/es/documentos/'
+            b'informe-situacion-1-colombia-terremoto-agosto-2026">1</a>'))
+        self.addCleanup(lambda: (setattr(ops_salud, "DOCUMENTOS", original_doc),
+                                 setattr(ops_salud, "fetch", original_fetch)))
+        self.assertEqual(ops_salud.sitreps_nuevos(), [])
+
+    def test_hub_caido_no_avisa_sin_evidencia(self):
+        """R13: un hub que no responde no puede afirmar que hay un sitrep
+        nuevo — ni tampoco que no lo hay. La lista vacía es correcta aquí
+        porque el detector de silencio (R15) es quien cubre este caso."""
+        from sources import ops_salud
+        original_fetch = ops_salud.fetch
+        ops_salud.fetch = lambda *a, **kw: (503, b"")
+        self.addCleanup(lambda: setattr(ops_salud, "fetch", original_fetch))
+        self.assertEqual(ops_salud.sitreps_nuevos(), [])
+
+
+class TestOpsSaludDiasDesdeUltimoSitrep(unittest.TestCase):
+    """Base del aviso de silencio prolongado (R15, umbral propio de 15
+    días): sale de los JSON del repo, no de la red."""
+
+    def test_cuenta_los_dias_desde_la_ultima_fecha_de_publicacion(self):
+        import tempfile
+        from sources import ops_salud
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "sitrep_1.json").write_text(json.dumps(
+            {"sitrep_n": 1, "fecha_publicacion": "2026-08-10"}), encoding="utf-8")
+        (tmp / "sitrep_2.json").write_text(json.dumps(
+            {"sitrep_n": 2, "fecha_publicacion": "2026-08-19"}), encoding="utf-8")
+        original = ops_salud.DOCUMENTOS
+        ops_salud.DOCUMENTOS = tmp
+        self.addCleanup(lambda: setattr(ops_salud, "DOCUMENTOS", original))
+        self.assertEqual(
+            ops_salud.dias_desde_ultimo_sitrep(hoy="2026-08-30"), 11)
+
+    def test_sin_transcripciones_devuelve_none(self):
+        import tempfile
+        from sources import ops_salud
+        original = ops_salud.DOCUMENTOS
+        ops_salud.DOCUMENTOS = Path(tempfile.mkdtemp())
+        self.addCleanup(lambda: setattr(ops_salud, "DOCUMENTOS", original))
+        self.assertIsNone(ops_salud.dias_desde_ultimo_sitrep(hoy="2026-08-30"))

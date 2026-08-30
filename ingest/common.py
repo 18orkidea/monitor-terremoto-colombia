@@ -399,6 +399,44 @@ CREATE TABLE IF NOT EXISTS unosat_damage (
   first_seen TEXT, snapshot_date TEXT NOT NULL,
   PRIMARY KEY (paquete_sha, capa, idx)
 );
+-- OPS/OMS: los Informes de Situación (sitrep) sobre establecimientos de salud.
+-- No hay una API: cada sitrep es un PDF con SU PROPIA tabla —distinta en cada
+-- número—, transcrita a mano a data/documentos/ops_salud/sitrep_N.json y
+-- atada al sha256 del PDF archivado (ver ingest/sources/ops_salud.py). Dos
+-- tablas y no una fusionada: el detalle por institución (sitreps 1-3) y los
+-- agregados por departamento (sitreps 4-5) tienen una granularidad distinta y
+-- fusionarlos habría obligado a fabricar NULL estructurales.
+CREATE TABLE IF NOT EXISTS ops_salud_cifras (
+  sitrep_n INTEGER NOT NULL,
+  idx INTEGER NOT NULL,             -- orden de transcripción dentro del sitrep
+  fecha_corte TEXT,
+  ambito TEXT NOT NULL,             -- 'nacional' | nombre de departamento/distrito
+  concepto TEXT NOT NULL,           -- una cifra, un concepto, un autor: nunca se
+                                     -- funden bajo el mismo nombre dos series de
+                                     -- distinto autor aunque cuenten "lo mismo"
+  valor REAL,
+  valor_raw TEXT,                   -- literal de la celda ("-" incluido): R3
+  nivel_complejidad TEXT,           -- '1'..'4' solo en la matriz del sitrep 4
+  autor TEXT NOT NULL,
+  fuente_citada TEXT,
+  nota TEXT,
+  first_seen TEXT,
+  PRIMARY KEY (sitrep_n, idx)
+);
+CREATE TABLE IF NOT EXISTS ops_salud_ips (
+  sitrep_n INTEGER NOT NULL,
+  idx INTEGER NOT NULL,
+  fecha_corte TEXT,
+  departamento_literal TEXT,
+  municipio_literal TEXT,
+  municipio_slug TEXT,              -- resuelto contra municipios.MUNICIPIOS;
+                                     -- NULL si no hay match seguro (nunca se adivina)
+  nombre_ips TEXT,
+  nivel_complejidad TEXT,
+  observacion TEXT,
+  first_seen TEXT,
+  PRIMARY KEY (sitrep_n, idx)
+);
 CREATE TABLE IF NOT EXISTS crosscheck (
   aoi_name TEXT NOT NULL, snapshot_date TEXT NOT NULL,
   estado TEXT NOT NULL,

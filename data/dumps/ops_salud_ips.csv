@@ -1,0 +1,87 @@
+sitrep_n,idx,fecha_corte,departamento_literal,municipio_literal,municipio_slug,nombre_ips,nivel_complejidad,observacion,first_seen
+1,0,2026-08-10,Cauca,Popayán,popayan,Clínica La Estancia,Nivel 3,Daños por confirmar,2026-08-30T11:06:29Z
+1,1,2026-08-10,Cauca,Popayán,popayan,Clínica San Rafael,Nivel 2,Daños por confirmar,2026-08-30T11:06:29Z
+1,2,2026-08-10,Cauca,Popayán,popayan,Clínica Santa Gracia,Nivel 4,Daños por confirmar,2026-08-30T11:06:29Z
+1,3,2026-08-10,Cauca,Popayán,popayan,Hospital Susana López,Nivel 2,"Algunos daños, en verificación",2026-08-30T11:06:30Z
+1,4,2026-08-10,Cauca,Toribío,toribio,Hospital de Toribío,Nivel 1,Con daños. Pendiente verificación,2026-08-30T11:06:30Z
+1,5,2026-08-10,Cauca,El Tambo,el-tambo,Hospital de El Tambo,Nivel 1,Con daños. Pendiente verificación,2026-08-30T11:06:30Z
+1,6,2026-08-10,Chocó,Quibdó,quibdo,San Francisco de Asis,Nivel 2,Con daños en evaluación,2026-08-30T11:06:30Z
+1,7,2026-08-10,Chocó,Quibdó,quibdo,Hospital Local Ismael Roldán,Nivel 1,"Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital",2026-08-30T11:06:30Z
+1,8,2026-08-10,Caldas,Manizales,manizales,Hospital Santa Sofía,Nivel 2,Pendiente verificación,2026-08-30T11:06:30Z
+1,9,2026-08-10,Risaralda,Pereira,pereira,Clínica Megacentro,Nivel 4,"Daños no estructurales, preliminar",2026-08-30T11:06:30Z
+1,10,2026-08-10,Risaralda,Pereira,pereira,Hospital Santa Mónica,Nivel 2,"Daños no estructurales, preliminar",2026-08-30T11:06:30Z
+1,11,2026-08-10,Valle del Cauca,Cali,cali,Hospital Universitario del Valle,Nivel 3,Colapso estructural de una parte de una torre.,2026-08-30T11:06:30Z
+1,12,2026-08-10,Valle del Cauca,Cali,cali,Clínica Valle Salud,Por confirmar,Daños por confirmar,2026-08-30T11:06:30Z
+1,13,2026-08-10,Valle del Cauca,Cali,cali,Fundación Valle del Lili,Nivel 4,Daños no estructurales,2026-08-30T11:06:30Z
+1,14,2026-08-10,Valle del Cauca,Cali,cali,Clínica Rey David,Nivel 3,Daños en tanques de almacenamiento de agua,2026-08-30T11:06:30Z
+1,15,2026-08-10,Valle del Cauca,Cali,cali,Clínica Nuestra,Nivel 3,Daños estructurales; evacuación total,2026-08-30T11:06:30Z
+1,16,2026-08-10,Valle del Cauca,Cali,cali,Clínica de Colores,Por confirmar,Daños no estructurales (no tiene habilitado servicio de urgencias),2026-08-30T11:06:30Z
+1,17,2026-08-10,Valle del Cauca,Cali,cali,Hospital Isaías Duarte Cancino,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:30Z
+1,18,2026-08-10,Valle del Cauca,Cali,cali,Clínica Sanitas,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:30Z
+1,19,2026-08-10,Valle del Cauca,Cali,cali,Hospital San Juan de Dios,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:30Z
+1,20,2026-08-10,Valle del Cauca,Cali,cali,Hospital Departamental Mario Correa Rengifo,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:30Z
+1,21,2026-08-10,Valle del Cauca,Buenaventura,buenaventura,Clínica Santa Sofía del Pacífico,Por confirmar,Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico),2026-08-30T11:06:30Z
+1,22,2026-08-10,Valle del Cauca,Buenaventura,buenaventura,Luis Ablanque de la Plata,Nivel 3,"Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo.",2026-08-30T11:06:30Z
+1,23,2026-08-10,Quindío,Armenia,armenia,Hospital San Juan de Dios,Nivel 3,"Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)",2026-08-30T11:06:30Z
+2,0,2026-08-10,Cauca,Popayán,popayan,Clínica La Estancia,Nivel 3,Daños por confirmar,2026-08-30T11:06:31Z
+2,1,2026-08-10,Cauca,Popayán,popayan,Clínica San Rafael,Nivel 2,Daños por confirmar,2026-08-30T11:06:31Z
+2,2,2026-08-10,Cauca,Popayán,popayan,Clínica Santa Gracia,Nivel 4,Daños por confirmar,2026-08-30T11:06:31Z
+2,3,2026-08-10,Cauca,Popayán,popayan,Hospital Susana López,Nivel 2,Con daños. Pendiente verificación,2026-08-30T11:06:31Z
+2,4,2026-08-10,Cauca,Toribio,toribio,Hospital de Toribio,Nivel 1,Con daños. Pendiente verificación,2026-08-30T11:06:31Z
+2,5,2026-08-10,Cauca,El Tambo,el-tambo,Hospital de El Tambo,Nivel 1,Con daños. Pendiente verificación,2026-08-30T11:06:31Z
+2,6,2026-08-10,Chocó,Quibdó,quibdo,San Francisco de Asís,Nivel 2,Con daños en evaluación,2026-08-30T11:06:31Z
+2,7,2026-08-10,Chocó,Quibdó,quibdo,Hospital Local Ismael Roldán,Nivel 1,"Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital",2026-08-30T11:06:31Z
+2,8,2026-08-10,Chocó,Carmen de Atrato,\N,Hospital San Roque,Nivel 1,"Daño no estructural, pendiente evaluación",2026-08-30T11:06:31Z
+2,9,2026-08-10,Chocó,Alto Baudó,alto-baudo,Centro de Salud,Nivel 1,"Daño no estructural, pendiente evaluación.",2026-08-30T11:06:31Z
+2,10,2026-08-10,Chocó,Nuquí,nuqui,Centros de Salud Arusi y Tribuga,Nivel 1,En verificación,2026-08-30T11:06:31Z
+2,11,2026-08-10,Chocó,Litoral,\N,Centros de Salud Durapdur y Palestina,Nivel 1,En verificación,2026-08-30T11:06:31Z
+2,12,2026-08-10,Chocó,San José del Palmar,san-jose-del-palmar,Centro de Salud,Nivel 1,"Daños no estructurales, pendiente evaluación",2026-08-30T11:06:31Z
+2,13,2026-08-10,Caldas,Manizales,manizales,Hospital Santa Sofía,Nivel 2,Pendiente verificación,2026-08-30T11:06:31Z
+2,14,2026-08-10,Risaralda,Pereira,pereira,Clínica Megacentro,Nivel 4,"Daños no estructurales, preliminar",2026-08-30T11:06:31Z
+2,15,2026-08-10,Risaralda,Pereira,pereira,Hospital Santa Mónica,Nivel 2,"Daños no estructurales, preliminar",2026-08-30T11:06:31Z
+2,16,2026-08-10,Valle del Cauca,Cali,cali,Hospital Universitario del Valle,Nivel 3,Colapso estructural de una parte de una torre.,2026-08-30T11:06:31Z
+2,17,2026-08-10,Valle del Cauca,Cali,cali,Clínica Valle Salud,Por confirmar,Daños por confirmar,2026-08-30T11:06:31Z
+2,18,2026-08-10,Valle del Cauca,Cali,cali,Fundación Valle del Lili,Nivel 4,Daños no estructurales,2026-08-30T11:06:31Z
+2,19,2026-08-10,Valle del Cauca,Cali,cali,Clínica Rey David,Nivel 3,Daños en tanques de almacenamiento de agua,2026-08-30T11:06:31Z
+2,20,2026-08-10,Valle del Cauca,Cali,cali,Clínica Nuestra,Nivel 3,Daños estructurales; evacuación total,2026-08-30T11:06:31Z
+2,21,2026-08-10,Valle del Cauca,Cali,cali,Clínica de Colores,Por confirmar,Daños no estructurales (no tiene habilitado servicio de urgencias),2026-08-30T11:06:31Z
+2,22,2026-08-10,Valle del Cauca,Cali,cali,Hospital Isaías Duarte Cancino,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:31Z
+2,23,2026-08-10,Valle del Cauca,Cali,cali,Clínica Sanitas,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:31Z
+2,24,2026-08-10,Valle del Cauca,Cali,cali,Hospital San Juan de Dios,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:31Z
+2,25,2026-08-10,Valle del Cauca,Cali,cali,Hospital Departamental Mario Correa Rengifo,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:31Z
+2,26,2026-08-10,Valle del Cauca,Buenaventura,buenaventura,Clínica Santa Sofía del Pacífico,Por confirmar,Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico),2026-08-30T11:06:31Z
+2,27,2026-08-10,Valle del Cauca,Buenaventura,buenaventura,Luis Ablanque de la Plata,Nivel 3,"Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo.",2026-08-30T11:06:31Z
+2,28,2026-08-10,Valle del Cauca,El Aguila,el-aguila,Hospital San Rafael,Nivel 1,Daños por confirmar,2026-08-30T11:06:31Z
+2,29,2026-08-10,Valle del Cauca,Roldanillo,roldanillo,Hospital Departamental de San Antonio,Nivel 2,Con daños. Pendiente verificación,2026-08-30T11:06:31Z
+2,30,2026-08-10,Quindío,Armenia,armenia,Hospital San Juan de Dios,Nivel 3,"Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)",2026-08-30T11:06:31Z
+3,0,2026-08-11,Cauca,Popayán,popayan,Clínica La Estancia,Nivel 3,Daños por confirmar,2026-08-30T11:06:31Z
+3,1,2026-08-11,Cauca,Popayán,popayan,Clínica San Rafael,Nivel 2,Daños por confirmar,2026-08-30T11:06:31Z
+3,2,2026-08-11,Cauca,Popayán,popayan,Clínica Santa Gracia,Nivel 4,Daños por confirmar,2026-08-30T11:06:31Z
+3,3,2026-08-11,Cauca,Popayán,popayan,Hospital Susana López,Nivel 2,Con daños. Pendiente verificación,2026-08-30T11:06:31Z
+3,4,2026-08-11,Cauca,Toribío,toribio,Hospital de Toribío,Nivel 1,Con daños. Pendiente verificación,2026-08-30T11:06:31Z
+3,5,2026-08-11,Cauca,El Tambo,el-tambo,Hospital de El Tambo,Nivel 1,Con daños. Pendiente verificación,2026-08-30T11:06:31Z
+3,6,2026-08-11,Chocó,Quibdó,quibdo,San Francisco de Asis,Nivel 2,Con daños en evaluación,2026-08-30T11:06:32Z
+3,7,2026-08-11,Chocó,Quibdó,quibdo,Hospital Local Ismael Roldán Valencia de Quibdó,Nivel 1,"Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital",2026-08-30T11:06:32Z
+3,8,2026-08-11,Chocó,Carmen de Atrato,\N,Hospital San Roque,Nivel 1,"Daño no estructural, pendiente evaluación",2026-08-30T11:06:32Z
+3,9,2026-08-11,Chocó,Alto Baudó,alto-baudo,Centro de Salud,Nivel 1,"Daño no estructural, pendiente evaluación.",2026-08-30T11:06:32Z
+3,10,2026-08-11,Chocó,Nuquí,nuqui,Centros de Salud Arusi y Tribuga,Nivel 1,En verificación,2026-08-30T11:06:32Z
+3,11,2026-08-11,Chocó,Litoral,\N,Centros de Salud Durapdur y Palestina,Nivel 1,En verificación,2026-08-30T11:06:32Z
+3,12,2026-08-11,Chocó,San José del Palmar,san-jose-del-palmar,Centro de Salud,Nivel 1,"Daños no estructurales, pendiente evaluación",2026-08-30T11:06:32Z
+3,13,2026-08-11,Caldas,Manizales,manizales,Hospital Santa Sofía,Nivel 2,Pendiente verificación,2026-08-30T11:06:32Z
+3,14,2026-08-11,Risaralda,Pereira,pereira,Clínica Megacentro,Nivel 4,"Daños no estructurales, preliminar",2026-08-30T11:06:32Z
+3,15,2026-08-11,Risaralda,Pereira,pereira,Hospital Santa Mónica,Nivel 2,"Daños no estructurales, preliminar",2026-08-30T11:06:32Z
+3,16,2026-08-11,Valle del Cauca,Cali,cali,Hospital Universitario del Valle,Nivel 3,Colapso estructural de una parte de una torre.,2026-08-30T11:06:32Z
+3,17,2026-08-11,Valle del Cauca,Cali,cali,Clínica Valle Salud,Por confirmar,Daños por confirmar,2026-08-30T11:06:32Z
+3,18,2026-08-11,Valle del Cauca,Cali,cali,Fundación Valle del Lili,Nivel 4,Daños no estructurales,2026-08-30T11:06:32Z
+3,19,2026-08-11,Valle del Cauca,Cali,cali,Clínica Rey David,Nivel 3,Daños en tanques de almacenamiento de agua,2026-08-30T11:06:32Z
+3,20,2026-08-11,Valle del Cauca,Cali,cali,Clínica Nuestra,Nivel 3,Daños estructurales; evacuación total,2026-08-30T11:06:32Z
+3,21,2026-08-11,Valle del Cauca,Cali,cali,Clínica de Colores,Por confirmar,Daños no estructurales (no tiene habilitado servicio de urgencias),2026-08-30T11:06:32Z
+3,22,2026-08-11,Valle del Cauca,Cali,cali,Hospital Isaías Duarte Cancino,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:32Z
+3,23,2026-08-11,Valle del Cauca,Cali,cali,Clínica Sanitas,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:32Z
+3,24,2026-08-11,Valle del Cauca,Cali,cali,Hospital San Juan de Dios,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:32Z
+3,25,2026-08-11,Valle del Cauca,Cali,cali,Hospital Departamental Mario Correa Rengifo,Nivel 2,"Afectación no estructural, pendiente evaluación",2026-08-30T11:06:32Z
+3,26,2026-08-11,Valle del Cauca,Buenaventura,buenaventura,Clínica Santa Sofía del Pacífico,Por confirmar,Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico),2026-08-30T11:06:32Z
+3,27,2026-08-11,Valle del Cauca,Buenaventura,buenaventura,Luis Ablanque de la Plata,Nivel 3,"Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo.",2026-08-30T11:06:32Z
+3,28,2026-08-11,Valle del Cauca,El Aguila,el-aguila,Hospital San Rafael,Nivel 1,Daños por confirmar,2026-08-30T11:06:32Z
+3,29,2026-08-11,Valle del Cauca,Roldanillo,roldanillo,Hospital Departamental de San Antonio,Nivel 2,Con daños. Pendiente verificación,2026-08-30T11:06:32Z
+3,30,2026-08-11,Quindío,Armenia,armenia,Hospital San Juan de Dios,Nivel 3,"Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)",2026-08-30T11:06:32Z
