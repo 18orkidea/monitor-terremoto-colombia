@@ -132,6 +132,18 @@ def manifiesto_de_activos(conn) -> list[dict]:
         manifiesto.append({"objeto": clave, "sha256": msha,
                            "bytes": _bytes_del_activo(conn, _ROOT, fname, clave,
                                                       msha, mlocal, previo)})
+    # Microsoft AI for Good: los gpkg/tif pesados van a R2 igual que los
+    # vídeos ciudadanos, pero su procedencia es msft_recursos (un recurso HDX
+    # por fila), no citizen_reports.
+    for fname, msha, mlocal, url in conn.execute(
+            "SELECT nombre, sha256, ruta, download_url FROM msft_recursos"
+            " WHERE ubicacion='r2' AND sha256 IS NOT NULL ORDER BY nombre"):
+        clave = (fname or "").rsplit("/", 1)[-1]
+        if not clave.lower().endswith(ARCHIVO_EN_R2):
+            continue
+        manifiesto.append({"objeto": clave, "sha256": msha,
+                           "bytes": _bytes_del_activo(conn, _ROOT, url, clave,
+                                                      msha, mlocal, previo)})
     # el manifiesto no encoge: lo ya declarado sigue declarado
     declarados = {o["objeto"] for o in manifiesto}
     for clave, o in previo.items():

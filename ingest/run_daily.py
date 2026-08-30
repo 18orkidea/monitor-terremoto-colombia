@@ -29,7 +29,7 @@ def main():
     backfill = "--backfill" in sys.argv
     from sources import copernicus, copernicus_layers, usgs, gdacs, gdelt, \
         ungrd_arcgis, ungrd_socrata, ungrd_rud, men_sedes, chatmap, emsc, \
-        community_feeds, unosat, sertit, ops_salud
+        community_feeds, unosat, sertit, ops_salud, msft
     import backfill_medios, dump_db, verify_citizen, crosscheck, alerts, publish, \
         indexnow
 
@@ -41,6 +41,7 @@ def main():
     step("copernicus_layers", copernicus_layers.run)
     step("unosat", unosat.run)
     step("sertit", sertit.run)
+    step("msft", msft.run)
     step("usgs", usgs.run)
     step("gdacs", gdacs.run)
     step("gdelt", gdelt.run)

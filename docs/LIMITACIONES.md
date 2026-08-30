@@ -1177,3 +1177,28 @@ fueran la misma medida repetida por tres fuentes. Son tres preguntas
 distintas sobre el mismo universo, y solo dos de las tres (verificadas y
 priorizadas) bajan a nivel de departamento en algún sitrep — la de UNGRD, la
 más citada en prensa, nunca lo hace en esta serie.
+
+## Microsoft AI for Good: `msft_danos` no es un censo completo, y R2 es un tercero
+
+`msft_danos` (alta del 30-ago-2026) guarda solo lo informativo — dañado,
+revisado por un humano o con media nube o más encima (umbral 0,5) — de los
+882.805 edificios evaluados en Cali y Pereira. El resto del censo (sano, sin
+nube, sin revisar) no tiene fila individual; solo cuenta en los totales
+agregados de `msft_recursos`. La decisión y su porqué están en
+`docs/DECISIONES.md` (30-ago-2026); esta entrada es la constancia de lo que
+falta, no la justificación.
+
+**R2 (Cloudflare) es un tercero, igual que los vídeos ciudadanos que ya vivían
+ahí.** Los 7 gpkg y 2 GeoTIFF (268 MB) no están en git: viven en el bucket
+`monitor-terremoto-media` con su sha256 en `sources_log`, `msft_recursos` y
+`data/r2_manifest.json` (el manifiesto versionado que sí viaja en el clon).
+`ingest/auditar_r2.py` compara el manifiesto contra el bucket real cada día y
+pone la corrida en rojo si un objeto declarado falta — la misma red que
+protege a los vídeos. Pero si Cloudflare R2 o la cuenta que lo aloja
+desaparecieran sin que el `sync` diario alcanzara a correr antes, esos 268 MB
+—el 100 % de la geometría fila a fila de Microsoft, no solo un resumen— se
+perderían: no hay Wayback ni espejo de un gpkg binario. Lo que SÍ sobrevive
+siempre, pase lo que pase con R2: el catálogo diario (`package_show` de los
+tres datasets, snapshot en `data/snapshots/`), las máscaras `.geojson` (en
+git) y los totales agregados de `msft_recursos` — la señal de qué se archivó y
+cuánto pesaba, aunque el bucket se apagara antes de leer el propio contenido.

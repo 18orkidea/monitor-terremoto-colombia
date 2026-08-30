@@ -468,3 +468,68 @@ class TestSupuestosOpsSalud(unittest.TestCase):
             f"la(s) página(s) de sitrep {rotas} ya no traen el "
             f"'<div class=\"download-button\">': cambió el maquetado de "
             f"paho.org y hay que revisar pdf_link_de_pagina()")
+
+
+@unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
+class TestSupuestosMSFT(unittest.TestCase):
+    """Microsoft AI for Good Lab, vía HDX (CKAN público de data.humdata.org).
+
+    No hay URL de fichero fija: `ingest/sources/msft.py` lee la lista de
+    recursos de `package_show` EN CADA CORRIDA porque HDX reindexa y la URL
+    de descarga es firmada y caduca. Este supuesto vigila que esa API siga
+    respondiendo con la forma que el parser espera.
+
+    La sonda NO descarga ningún gpkg/tif (240+ MB por corrida, y ya viven
+    archivados en R2 con su sha256): solo el JSON de metadatos, igual que
+    hace `TestSupuestosSertit` con el catálogo.
+    """
+
+    CKAN = "https://data.humdata.org/api/3/action/package_show"
+    DATASETS = ("2026-colombia-earthquake",
+               "colombia-2026-earthquake-pereira",
+               "colombia-2026-earthquake-pereira-extended")
+
+    def test_los_tres_datasets_siguen_publicados(self):
+        for ds in self.DATASETS:
+            st, d = fetch_json(f"{self.CKAN}?id={ds}", note=NOTA_SONDA)
+            if st != 200 or not (d or {}).get("success"):
+                self.skipTest(
+                    f"{ds} no responde (HTTP {st}): la capa sobrevive con lo "
+                    f"ya archivado — los gpkg/tif viven en R2 y las máscaras "
+                    f"en git, todos con su sha256 en msft_recursos. Lo que se "
+                    f"pierde es enterarse de una reedición nueva.")
+            self.assertTrue(
+                (d["result"].get("resources") or []),
+                f"{ds} ya no declara recursos: HDX vació el dataset")
+
+    def test_cali_sigue_trayendo_sus_cuatro_recursos(self):
+        st, d = fetch_json(f"{self.CKAN}?id=2026-colombia-earthquake",
+                           note=NOTA_SONDA)
+        if st != 200 or not (d or {}).get("success"):
+            self.skipTest("HDX no responde")
+        recursos = d["result"]["resources"]
+        formatos = sorted((r.get("format") or "").lower() for r in recursos)
+        self.assertEqual(
+            formatos, ["geojson", "geopackage", "geopackage", "geotiff"],
+            "Cali cambió de forma: revisar msft._recursos_del_dataset() y el "
+            "docstring de ingest/sources/msft.py")
+        for r in recursos:
+            self.assertTrue(
+                r.get("download_url") or r.get("url"),
+                f"{r.get('name')} no trae URL de descarga: no se puede archivar")
+
+    def test_pereira_extended_sigue_siendo_una_reedicion_no_un_reemplazo(self):
+        """Pereira Extended es un dataset CKAN aparte del Pereira original,
+        no una versión nueva del mismo — si HDX lo fusionara algún día,
+        `msft.DATASETS` tendría que dejar de tratarlos como dos entradas."""
+        st_a, a = fetch_json(
+            f"{self.CKAN}?id=colombia-2026-earthquake-pereira", note=NOTA_SONDA)
+        st_b, b = fetch_json(
+            f"{self.CKAN}?id=colombia-2026-earthquake-pereira-extended",
+            note=NOTA_SONDA)
+        if st_a != 200 or st_b != 200 or not (a or {}).get("success") \
+                or not (b or {}).get("success"):
+            self.skipTest("HDX no responde a uno de los dos datasets")
+        self.assertNotEqual(a["result"]["id"], b["result"]["id"],
+                            "Pereira y Pereira Extended ya son el mismo "
+                            "dataset CKAN: simplificar msft.DATASETS")

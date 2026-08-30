@@ -209,6 +209,8 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
 | `sertit_danos` | (paquete_sha, capa, idx) | Edificios de SERTIT. Clave por **paquete** como en UNOSAT: la identidad del dato es el ZIP recibido, no el id del producto, porque la fuente reedita sin cambiar el id |
 | `ops_salud_cifras` | (sitrep_n, idx) | Los Informes de Situación de la OPS sobre establecimientos de salud, en **formato largo**: una fila, una cifra, un concepto, un autor. Cada sitrep trae una tabla distinta (no hay columnas fijas que rellenar); `valor_raw` conserva el literal («-» nunca es 0, R3) |
 | `ops_salud_ips` | (sitrep_n, idx) | El detalle por INSTITUCIÓN de los sitreps 1-3 (nombre, municipio, nivel de complejidad) — más fino que `ops_salud_cifras` y **congelado en 31 instituciones** desde el 11-ago-2026, mientras los sitreps siguientes solo agregan por departamento (`docs/LIMITACIONES.md`) |
+| `msft_recursos` | resource_id | Catálogo de los 12 recursos HDX de Microsoft AI for Good (gpkg, GeoTIFF, máscara): dónde vive cada byte (`ubicacion` 'git'\|'r2'), su sha256, y —solo gpkg— el censo completo agregado (`total_edificios`, `total_danados`, `total_revisados`, `total_desconocidos`) |
+| `msft_danos` | (resource_id, fid) | **NO es un espejo del gpkg**: solo edificios informativos (dañado, revisado por humano o con ≥50 % de nube) de los 882.805 evaluados — decisión de escala, ver `docs/DECISIONES.md` (30-ago-2026) |
 | `crosscheck` | (aoi_name, snapshot_date) | Resultado del cruce por zona y día |
 | `fuentes_watch` | (watcher, external_id) | Estado de los vigilantes de fuentes que aún no existen: `hdx` (datasets nuevos en data.humdata.org) y `arcgis_eres` (el tablero ERES/MinSalud). Una fila por item ya visto — decide «nuevo» vs «ya conocido» en `ingest/alerts.py` |
 

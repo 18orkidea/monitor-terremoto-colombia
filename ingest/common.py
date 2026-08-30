@@ -501,6 +501,57 @@ CREATE TABLE IF NOT EXISTS fuentes_watch (
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
   PRIMARY KEY (watcher, external_id)
 );
+-- Microsoft AI for Good Lab, vía HDX (data.humdata.org). Daño edificio a
+-- edificio sobre el parque COMPLETO de Cali y Pereira, no un recorte — 882.805
+-- edificios en los 7 gpkg. `msft_recursos` es el catálogo por recurso HDX
+-- (uno por gpkg/tif/geojson, con sha256 y ubicación final trazable: 'git' los
+-- geojson, 'r2' los gpkg/tif — ver ARCHIVO_EN_R2 más arriba) y sus totales
+-- agregados (censo completo, aunque msft_danos no lo espeje fila a fila).
+-- `msft_danos` guarda SOLO lo informativo: dañado, revisado por un humano
+-- (incluye 'rejected': un rechazo también informa) o con media nube o más
+-- encima (UMBRAL_NUBE=0.5 en ingest/sources/msft.py). Decisión de escala del
+-- 30-ago-2026 — ver docs/DECISIONES.md y el docstring del módulo: guardar
+-- una fila por cada uno de los 882.805 edificios habría añadido ~150-200 MB
+-- de CSV versionado por un dato que ya vive byte a byte en R2 con su sha256.
+CREATE TABLE IF NOT EXISTS msft_recursos (
+  resource_id TEXT PRIMARY KEY,    -- id CKAN del recurso: identidad estable
+  dataset TEXT NOT NULL,           -- 'cali' | 'pereira' | 'pereira_extended'
+  dataset_id TEXT,                 -- id CKAN del paquete (package_show)
+  municipio TEXT, departamento TEXT,
+  nombre TEXT,                     -- nombre de fichero que declara HDX
+  formato TEXT,                    -- 'GeoJSON' | 'GeoTIFF' | 'Geopackage'
+  conjunto_huellas TEXT,           -- 'google'|'overture'|'msft'; NULL en
+                                   -- máscara/GeoTIFF, que no son huellas
+  ubicacion TEXT,                  -- 'git' | 'r2': dónde vive el cuerpo
+  ruta TEXT,                       -- ruta relativa del cuerpo archivado
+  sha256 TEXT, bytes INTEGER, download_url TEXT,
+  total_edificios INTEGER,         -- solo gpkg: censo completo del fichero
+  total_danados INTEGER, total_revisados INTEGER, total_desconocidos INTEGER,
+  first_seen TEXT, snapshot_date TEXT
+);
+CREATE TABLE IF NOT EXISTS msft_danos (
+  resource_id TEXT NOT NULL,       -- msft_recursos.resource_id: el gpkg
+  fid INTEGER NOT NULL,            -- fid dentro del gpkg
+  dataset TEXT NOT NULL, conjunto_huellas TEXT NOT NULL,
+  municipio TEXT, departamento TEXT,
+  huella_id TEXT,                  -- id de Overture/Google del edificio
+  dano INTEGER,                    -- 'damaged' literal 0/1 de la fuente
+  pct_dano_0m REAL, pct_dano_10m REAL, pct_dano_20m REAL,
+  pct_construido_0m REAL,
+  pct_desconocido REAL,            -- nube/niebla/humo; 0.0 real, nunca NULL
+                                   -- disfrazado (R3): así llega del gpkg
+  confianza REAL, subtipo TEXT, area_m2 REAL,
+  estado_revision TEXT,            -- ''→NULL, confirmed/ground_truth/
+                                   -- rejected/unsure: solo en Pereira Extended
+  origen_geometria TEXT,           -- 'google'|'msft': huella real de ESTA fila
+                                   -- dentro del conjunto 'msft', que no es
+                                   -- homogéneo por dentro
+  procedencia_dano TEXT,           -- damage_from literal
+  pct_vantor REAL, estado_previo TEXT,
+  lat REAL, lon REAL,              -- centroide del polígono, UTM→WGS84
+  first_seen TEXT, snapshot_date TEXT NOT NULL,
+  PRIMARY KEY (resource_id, fid)
+);
 """
 
 
@@ -620,7 +671,13 @@ MANIFIESTO_R2 = DATA / "r2_manifest.json"
 # con esa extensión se habría descargado, no habría entrado en git, no habría
 # subido a R2 y no habría figurado en el manifiesto — irrecuperable en cuanto
 # el runner se apagara, y sin una sola línea roja.
-ARCHIVO_EN_R2 = (".mp4", ".mov", ".avi", ".webm", ".opus", ".ogg", ".m4a")
+#
+# `.gpkg`/`.tif` se añadieron el 30-ago-2026 (alta de Microsoft AI for Good):
+# los 268 MB de gpkg+tif de esa fuente son, con diferencia, el activo más
+# pesado del monitor — no caben en git sin bloatear la historia para siempre.
+# Ver docs/DECISIONES.md y el docstring de ingest/sources/msft.py.
+ARCHIVO_EN_R2 = (".mp4", ".mov", ".avi", ".webm", ".opus", ".ogg", ".m4a",
+                 ".gpkg", ".tif")
 
 
 def manifiesto_r2(ruta: Path | None = None) -> dict[str, dict]:
