@@ -1075,7 +1075,7 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
         # un departamento cualquiera: es la capital, el topónimo más citado
         # del país. El corpus de titulares del sismo la menciona 218 veces —
         # ninguna buscable, ninguna de ellas del municipio como afectado.
-        "Bogotá, D.c.",
+        "Bogotá, D.C.",
         # el único que no es homónimo de departamento: el RUD lo escribe con el
         # guion de la fusión municipal («PIENDAMÓ - TUNÍA», el nombre oficial
         # desde 2019) y así no aparece en ningún titular — la prensa escribe

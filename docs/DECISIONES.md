@@ -4270,3 +4270,54 @@ hecho histórico del propio archivo — el mismo tipo de literal que la fecha
 del sismo. Si el archivo no se reescribe (y no se reescribe, por principio),
 este literal no se mueve nunca. Se deja fuera de la corrección por eso, no
 por descuido.
+
+## 2026-08-30 — «Bogotá, D.c.»: una sigla que perdía su segunda mayúscula
+
+**Contexto.** `data/public/municipios.json` publicaba el departamento de
+Bogotá como «Bogotá, D.c.» (la «c» en minúscula). Se ve en `municipios.html`
+y lo iba a heredar la ficha departamental nueva.
+
+**Origen del literal, rastreado en los snapshots archivados.** El RUD/UNGRD
+publica el departamento correctamente escrito, en mayúsculas: `"BOGOTÁ,
+D.C."` (verificado en `data/snapshots/2026-08-27..29/rud_2026T.json`). El
+error no es de la fuente — es nuestro, en la capa de presentación
+(`ingest/municipios.py::_title_es`), que convierte los nombres en mayúsculas
+del RUD a Title Case. Bogotá no está en el diccionario `MUNICIPIOS` curado a
+mano (donde cada departamento se escribe una vez, correctamente, y nunca pasa
+por `_title_es`): es de los pocos municipios que solo existen por
+`municipios_dinamicos()`, el camino que toma directamente lo que dice el RUD
+y lo pasa por `_title_es`. La función capitalizaba solo la primera letra de
+cada palabra separada por ESPACIOS: `"D.C.".lower()` → `"d.c."` →
+`[:1].upper() + [1:]` → `"D" + ".c."` → `"D.c."`. El punto interno de la
+sigla nunca se trataba como límite de capitalización propio.
+
+**Corrección**, en la capa de presentación, nunca en el snapshot (que sigue
+diciendo lo que dijo el RUD, intocable): `_title_es` ahora capitaliza cada
+segmento separado por puntos dentro de la palabra, no solo el primero.
+`data/public/municipios.json` se corrigió a mano en las dos ocurrencias
+exactas del literal viejo (municipio y departamento del mismo registro,
+Bogotá es su propio departamento) en vez de regenerarse con el pipeline
+completo: `publish.run()` también reordena `noticias_ejemplo` de forma no
+determinista en al menos dos municipios (Argelia y Argelia (Antioquia)) por
+una causa ajena a este cambio, y meter ese ruido en un PR que solo corrige
+una capitalización habría sido peor que el bug. Queda como deuda para
+`docs/LIMITACIONES.md` o una sesión aparte: el orden de `noticias_ejemplo` no
+es estable entre corridas.
+
+**Barrido antes de dar el arreglo por bueno** (no solo el caso visto): se
+comprobaron los 15 departamentos y los 363 municipios únicos del RUD crudo
+(`data/snapshots/2026-08-29/rud_2026T.json`) y los 84 municipios curados a
+mano en `MUNICIPIOS`. «BOGOTÁ, D.C.» es el ÚNICO topónimo de todo el corpus
+con un punto interno — ninguna otra sigla, y las preposiciones internas
+(De/Del/La/Los/Las/El/Y) ya se manejaban bien antes de este cambio
+(`_LOWER_WORDS`, probado contra «El Cantón del San Pablo», «San José de
+Cúcuta», «Valle del Cauca»). El guardián nuevo (`test_unit.py::
+TestNombresPublicadosSinAbreviaturaRota`) no depende de esta lista: vigila el
+PATRÓN (mayúscula-punto-minúscula) contra lo publicado, así que un municipio
+nuevo con el mismo problema se cazaría solo.
+
+**El slug no se mueve.** `deploy/render_html.py::slug()` normaliza a
+minúsculas antes de construir la URL, así que corregir la capitalización no
+puede mover ninguna URL publicada — verificado con test
+(`TestSlugEstableTrasLaCapitalizacion`), no solo asumido: `slug('Bogotá,
+D.c.') == slug('Bogotá, D.C.') == 'bogota-d-c'`.

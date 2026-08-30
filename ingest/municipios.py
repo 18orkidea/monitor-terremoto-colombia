@@ -401,10 +401,19 @@ def _find_rud(rud_municipios: dict | None, municipio: str, meta: dict) -> dict |
 _LOWER_WORDS = {"de", "del", "la", "el", "los", "las", "y"}
 
 
+def _capitaliza_palabra(w: str) -> str:
+    """Primera letra de la palabra en mayúscula — y de CADA segmento si la
+    palabra lleva siglas con punto interno («D.C.»). Sin esto, capitalizar
+    solo la primera letra del conjunto deja «d.c.» → «D.c.»: el punto no
+    separa palabras para `str.split()`, así que «D.C.» nunca pasaba por su
+    propio segmento. Bogotá, D.C. lo publicaba así hasta el 30-ago-2026."""
+    return ".".join(seg[:1].upper() + seg[1:] for seg in w.lower().split("."))
+
+
 def _title_es(s: str) -> str:
     words = (s or "").strip().split()
     return " ".join(w.lower() if i > 0 and w.lower() in _LOWER_WORDS
-                    else w.lower()[:1].upper() + w.lower()[1:]
+                    else _capitaliza_palabra(w)
                     for i, w in enumerate(words))
 
 
