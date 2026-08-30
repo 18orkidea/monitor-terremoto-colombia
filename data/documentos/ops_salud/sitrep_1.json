@@ -1,0 +1,190 @@
+{
+ "sitrep_n": 1,
+ "pagina_url": "https://www.paho.org/es/documentos/informe-situacion-1-colombia-terremoto-agosto-2026-10-agosto-2026",
+ "pdf_url": "https://www.paho.org/sites/default/files/2026/08/sitrep1-terremoto-colombia-agosto-20260.pdf",
+ "pdf_sha256": "548925a71d6e28f5df5bd350d131945640016d358045bfc967ab65a3310fed7b",
+ "fecha_publicacion": "2026-08-10",
+ "cifras": [
+  {
+   "ambito": "nacional",
+   "concepto": "ips_reportadas_monitoreo_ops",
+   "valor": 24,
+   "valor_raw": "24",
+   "nivel_complejidad": null,
+   "autor": "Secretarías de salud y consultores OPS/OMS en terreno",
+   "fuente_citada": "Monitoreo conjunto secretarías de salud + OPS/OMS, corte 10-ago-2026 13:30",
+   "fecha_corte": "2026-08-10",
+   "nota": "Recuento preliminar por monitoreo directo, no por reporte UNGRD; sujeto a cambios."
+  }
+ ],
+ "instituciones": [
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Clínica La Estancia",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Clínica San Rafael",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Clínica Santa Gracia",
+   "nivel_complejidad": "Nivel 4",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Popayán",
+   "nombre_ips": "Hospital Susana López",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Algunos daños, en verificación"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "Toribío",
+   "nombre_ips": "Hospital de Toribío",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Con daños. Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Cauca",
+   "municipio_literal": "El Tambo",
+   "nombre_ips": "Hospital de El Tambo",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Con daños. Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Quibdó",
+   "nombre_ips": "San Francisco de Asis",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Con daños en evaluación"
+  },
+  {
+   "departamento_literal": "Chocó",
+   "municipio_literal": "Quibdó",
+   "nombre_ips": "Hospital Local Ismael Roldán",
+   "nivel_complejidad": "Nivel 1",
+   "observacion": "Con daños en evaluación, con servicios de hospitalización y Triage afuera del Hospital"
+  },
+  {
+   "departamento_literal": "Caldas",
+   "municipio_literal": "Manizales",
+   "nombre_ips": "Hospital Santa Sofía",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Pendiente verificación"
+  },
+  {
+   "departamento_literal": "Risaralda",
+   "municipio_literal": "Pereira",
+   "nombre_ips": "Clínica Megacentro",
+   "nivel_complejidad": "Nivel 4",
+   "observacion": "Daños no estructurales, preliminar"
+  },
+  {
+   "departamento_literal": "Risaralda",
+   "municipio_literal": "Pereira",
+   "nombre_ips": "Hospital Santa Mónica",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Daños no estructurales, preliminar"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital Universitario del Valle",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Colapso estructural de una parte de una torre."
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Valle Salud",
+   "nivel_complejidad": "Por confirmar",
+   "observacion": "Daños por confirmar"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Fundación Valle del Lili",
+   "nivel_complejidad": "Nivel 4",
+   "observacion": "Daños no estructurales"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Rey David",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños en tanques de almacenamiento de agua"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Nuestra",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños estructurales; evacuación total"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica de Colores",
+   "nivel_complejidad": "Por confirmar",
+   "observacion": "Daños no estructurales (no tiene habilitado servicio de urgencias)"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital Isaías Duarte Cancino",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Clínica Sanitas",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital San Juan de Dios",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Cali",
+   "nombre_ips": "Hospital Departamental Mario Correa Rengifo",
+   "nivel_complejidad": "Nivel 2",
+   "observacion": "Afectación no estructural, pendiente evaluación"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Buenaventura",
+   "nombre_ips": "Clínica Santa Sofía del Pacífico",
+   "nivel_complejidad": "Por confirmar",
+   "observacion": "Daños por confirmar. 3 fallecidos como consecuencia del sismo (1 por aplastamiento y 2 asociados a trauma craneoencefálico)"
+  },
+  {
+   "departamento_literal": "Valle del Cauca",
+   "municipio_literal": "Buenaventura",
+   "nombre_ips": "Luis Ablanque de la Plata",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Daños no estructurales, pendiente de verificación. Paciente fallecido por aplastamiento como consecuencia del sismo."
+  },
+  {
+   "departamento_literal": "Quindío",
+   "municipio_literal": "Armenia",
+   "nombre_ips": "Hospital San Juan de Dios",
+   "nivel_complejidad": "Nivel 3",
+   "observacion": "Fracturas en muros, escape de agua, revisión de gases, 40 camas perdidas (reforzamiento estructural)"
+  }
+ ]
+}

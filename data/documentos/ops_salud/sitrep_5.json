@@ -1,0 +1,241 @@
+{
+ "sitrep_n": 5,
+ "pagina_url": "https://www.paho.org/es/documentos/informe-situacion-5-colombia-terremoto-agosto-2026-19-agosto-2026",
+ "pdf_url": "https://www.paho.org/sites/default/files/2026/08/sitrep5colombiasismo18082026.pdf",
+ "pdf_sha256": "1d961fe7b8b10823e433db1edca58b3083b21cdce48fcd230a89e91213eb206f",
+ "fecha_publicacion": "2026-08-19",
+ "cifras": [
+  {
+   "ambito": "Chocó",
+   "concepto": "ips_verificadas_crue",
+   "valor": 70,
+   "valor_raw": "70",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Chocó",
+   "concepto": "ips_priorizadas",
+   "valor": 19,
+   "valor_raw": "19",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Valle del Cauca",
+   "concepto": "ips_verificadas_crue",
+   "valor": 40,
+   "valor_raw": "40",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Valle del Cauca",
+   "concepto": "ips_priorizadas",
+   "valor": 9,
+   "valor_raw": "9",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Risaralda",
+   "concepto": "ips_verificadas_crue",
+   "valor": 22,
+   "valor_raw": "22",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Risaralda",
+   "concepto": "ips_priorizadas",
+   "valor": 10,
+   "valor_raw": "10",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Quindío",
+   "concepto": "ips_verificadas_crue",
+   "valor": 21,
+   "valor_raw": "21",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Quindío",
+   "concepto": "ips_priorizadas",
+   "valor": 5,
+   "valor_raw": "5",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Caldas",
+   "concepto": "ips_verificadas_crue",
+   "valor": 18,
+   "valor_raw": "18",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Caldas",
+   "concepto": "ips_priorizadas",
+   "valor": 6,
+   "valor_raw": "6",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Cali (Valle del Cauca)",
+   "concepto": "ips_verificadas_crue",
+   "valor": 10,
+   "valor_raw": "10",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Cali (Valle del Cauca)",
+   "concepto": "ips_priorizadas",
+   "valor": null,
+   "valor_raw": "-",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Cauca",
+   "concepto": "ips_verificadas_crue",
+   "valor": 6,
+   "valor_raw": "6",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Cauca",
+   "concepto": "ips_priorizadas",
+   "valor": null,
+   "valor_raw": "-",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Buenaventura (Valle del Cauca)",
+   "concepto": "ips_verificadas_crue",
+   "valor": 3,
+   "valor_raw": "3",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Buenaventura (Valle del Cauca)",
+   "concepto": "ips_priorizadas",
+   "valor": 1,
+   "valor_raw": "1",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Bolívar",
+   "concepto": "ips_verificadas_crue",
+   "valor": 2,
+   "valor_raw": "2",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "Bolívar",
+   "concepto": "ips_priorizadas",
+   "valor": null,
+   "valor_raw": "-",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": null
+  },
+  {
+   "ambito": "nacional",
+   "concepto": "ips_verificadas_crue",
+   "valor": 192,
+   "valor_raw": "192",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": "Fila 'Total' de la Tabla 2. El propio sitrep lo marca como 'dato en actualización'."
+  },
+  {
+   "ambito": "nacional",
+   "concepto": "ips_priorizadas",
+   "valor": 50,
+   "valor_raw": "50",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social",
+   "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
+   "fecha_corte": "2026-08-18",
+   "nota": "Fila 'Total' de la Tabla 2."
+  },
+  {
+   "ambito": "nacional",
+   "concepto": "ips_reportadas_ungrd",
+   "valor": 303,
+   "valor_raw": "303",
+   "nivel_complejidad": null,
+   "autor": "UNGRD",
+   "fuente_citada": "Reporte Situacional No. 032, Sismo San José del Palmar 7,4 Mw, UNGRD, corte 18-ago-2026 06:30h",
+   "fecha_corte": "2026-08-18",
+   "nota": "Cifra citada solo en prosa (§2.4): 303 establecimientos afectados en 11 de 15 departamentos, SIN desglose departamental en este sitrep."
+  }
+ ],
+ "instituciones": []
+}

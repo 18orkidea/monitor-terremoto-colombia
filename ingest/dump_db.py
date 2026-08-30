@@ -62,10 +62,20 @@ def _es_rowid(info: list) -> str | None:
     día), así que 27 de sus 100 líneas cambiaban de valor sin que cambiara
     nada real. En un repositorio que es archivo, un diff que miente sobre lo
     que pasó cuesta más que la columna que ahorra.
+
+    Exige que sea la ÚNICA columna de la clave primaria (30-ago-2026): en
+    `PRAGMA table_info`, `pk` es la POSICIÓN de la columna dentro de una clave
+    compuesta, no un booleano — la primera columna de `(sitrep_n, idx)` lleva
+    `pk=1` igual que un `id INTEGER PRIMARY KEY` de una sola columna, pero no
+    es un rowid: es el primer campo de un dato compuesto, y sqlite NO lo
+    reparte solo. Comprobar solo `pk == 1` omitía esa columna del dump y
+    `rebuild()` la reinsertaba en NULL — reventando el `NOT NULL` de
+    `ops_salud_cifras.sitrep_n`, la primera tabla del proyecto con una clave
+    compuesta que empieza en INTEGER. Ninguna tabla anterior lo pisó por eso.
     """
-    for _, nombre, tipo, _, _, pk in info:
-        if pk == 1 and (tipo or "").upper() == "INTEGER":
-            return nombre
+    pks = [(nombre, tipo) for _, nombre, tipo, _, _, pk in info if pk]
+    if len(pks) == 1 and (pks[0][1] or "").upper() == "INTEGER":
+        return pks[0][0]
     return None
 
 

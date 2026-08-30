@@ -4488,3 +4488,89 @@ prosa no vive en `referencia.html` — la primera redacción de esta entrada lo
 contaba y la medición lo desmintió. Sube solo por lo que no puede evaporarse
 con el dato del día, que es el criterio de todas las subidas anteriores de
 esta constante.
+
+## 2026-08-30 — Alta de OPS/OMS: establecimientos de salud, dos tablas y formato largo
+
+**Contexto.** La OPS/OMS publica un Informe de Situación (sitrep) por hito del
+terremoto, sin API: cada uno es un PDF que hay que descubrir desde su página
+(`<div class="download-button">`, nunca el nombre del fichero — tres
+convenciones distintas entre los 5 sitrep conocidos) y transcribir a mano. El
+briefing inicial asumía «una tabla con tres cifras de tres autores por
+departamento»; al leer los 5 PDF (30-ago-2026) resultó ser incorrecto: cada
+sitrep trae una tabla distinta, y la cifra de UNGRD nunca baja a departamento
+en ningún sitrep de esta serie (ver `docs/LIMITACIONES.md`, hito del
+30-ago-2026).
+
+**Decisiones, numeradas:**
+
+1. **Dos tablas, no columnas flexibles.** `ops_salud_ips` (detalle por
+   institución, sitreps 1-3: nombre, municipio, nivel de complejidad) y
+   `ops_salud_cifras` (todo lo agregado, sitreps 4-5). Son granularidades
+   distintas — fusionarlas habría fabricado NULL estructurales donde el
+   detalle no existe.
+2. **`ops_salud_cifras` en formato LARGO**: una fila, una cifra, un concepto,
+   un autor. Es la respuesta a que cada sitrep traiga una tabla con columnas
+   distintas: no hay esquema fijo que romper, un sitrep 6 con otra forma solo
+   añade filas. Y **una cifra, un concepto, un autor** se lleva al extremo: dos
+   series que cuentan algo parecido con métodos distintos (`ips_reportadas_ungrd`
+   vs `ips_reportadas_monitoreo_ops`, la del sitrep 1-2 antes de que UNGRD
+   publicara la suya) nunca comparten concepto, aunque las dos midan
+   «establecimientos con daño reportado».
+3. **La cifra nacional de UNGRD SÍ entra**, como fila `ambito='nacional'`,
+   aunque no tenga desglose departamental en ningún sitrep (303 el 18-ago, 109
+   el 11 y el 13-ago, 24 el 10-ago por un autor distinto). Excluirla habría
+   matado el contraste 303-vs-192, que es la mitad del titular público.
+4. **Rotulado público (decisión editorial, 30-ago-2026): las tres cifras
+   SIEMPRE juntas y cada una con su autor** — «303 reportadas (UNGRD) · 192
+   verificadas (MinSalud) · 50 priorizadas (MinSalud)». Ninguna se publica
+   sola. Los nombres de concepto (`ips_reportadas_ungrd`, `ips_verificadas_crue`,
+   `ips_priorizadas`) están pensados para componer ese titular sin lógica
+   extra en el render — documentado en `docs/ARQUITECTURA.md`. El rótulo final
+   de cara al lector (cómo se leen esas palabras) queda pendiente de decisión
+   editorial.
+5. **El PDF es un activo, no un dato diario**: se archiva una vez
+   (`common.activo_archivado`) y la transcripción queda atada a su sha256 —
+   un test (`test_unit.py::TestOpsSaludCarga`) canta si el sha256 archivado
+   deja de coincidir con el declarado en el JSON de transcripción.
+6. **Municipio resuelto sin adivinar (R10)**: `resolver_municipio()` exige que
+   el departamento normalizado coincida además del nombre contra el catálogo
+   vigente (`municipios.catalogo_vigente()`); un municipio fuera de ese
+   catálogo (p. ej. Popayán) queda con slug `NULL` y el literal conservado.
+7. **El hallazgo del detalle desaparecido SE PUBLICA** (decisión editorial): 24
+   instituciones con nombre el 10-ago, 192 «verificadas» sin un solo nombre el
+   18-ago. Hito en `feeds/hitos_monitor.json`, con las cifras y fechas exactas
+   citando los PDF archivados — el texto pasa por revisión editorial y de
+   estilo antes de publicarse.
+8. **Detector de silencio con umbral propio (15 días, no los 48 h
+   generales)**: la propia serie ya dejó pasar 7 días naturales entre dos
+   sitrep (13-ago → 19-ago) sin haber cerrado. `ops_salud.SERIE_CERRADA` es el
+   interruptor manual para el día en que la OPS anuncie el cierre.
+9. **Bug encontrado y corregido en `dump_db.py::_es_rowid()`** (no de esta
+   fuente, del volcado compartido): en `PRAGMA table_info`, `pk` es la
+   POSICIÓN de la columna dentro de la clave primaria, no un booleano — la
+   función comprobaba solo `pk == 1`, así que la primera columna de una clave
+   COMPUESTA que empieza en INTEGER se confundía con un alias de rowid de una
+   sola columna. `ops_salud_cifras (sitrep_n, idx)` es la primera tabla del
+   proyecto con ese patrón, así que ninguna la había pisado antes: `dump()`
+   omitía `sitrep_n` del CSV y `rebuild()` lo reinsertaba en NULL, reventando
+   su `NOT NULL`. Corregido para exigir que sea la ÚNICA columna de la clave;
+   `tests/test_unit.py::TestEsRowid` fija el caso compuesto y
+   `TestDumpRoundtrip` gana una fila real de `ops_salud_cifras` — con las
+   tablas vacías de antes, el ciclo comparaba dos listas vacías y no lo
+   habría cazado nunca.
+10. **`.gitignore` corregido: `documentos/` pasa a `/documentos/`** (decisión
+    editorial, con guardas). El patrón sin ancla se aplica a cualquier
+    profundidad y ocultaba también `data/documentos/` — donde SÍ viven
+    cuerpos del repositorio (los ZIP de SERTIT, ahora los PDF y
+    transcripciones de la OPS). SERTIT sobrevivió de milagro por estar
+    indexado desde antes de que naciera la regla; esta fuente tuvo que
+    entrar con `git add -f` hasta corregirla. El ancla resuelve las dos
+    direcciones a la vez, y las dos quedan fijadas en el mismo test, no solo
+    comprobadas a mano: `documentos/METODO.md` de la raíz SIGUE ignorado (el
+    método de trabajo, que no se publica) y `data/documentos/` deja de
+    estarlo —
+    `tests/test_unit.py::TestActivosDelArchivo::test_el_ancla_de_documentos_protege_las_dos_direcciones`.
+
+**Qué NO se tocó:** `deploy/render_html.py` y `site/` — la integración visual
+(fichas municipales y departamentales) se hace en un lote aparte, sobre estos
+datos ya cargados.
