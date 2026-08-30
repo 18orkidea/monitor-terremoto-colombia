@@ -1202,3 +1202,18 @@ siempre, pase lo que pase con R2: el catálogo diario (`package_show` de los
 tres datasets, snapshot en `data/snapshots/`), las máscaras `.geojson` (en
 git) y los totales agregados de `msft_recursos` — la señal de qué se archivó y
 cuánto pesaba, aunque el bucket se apagara antes de leer el propio contenido.
+
+## Bolívar: la OPS reporta un ámbito que no tiene ficha donde vivir
+
+`data/public/ops_salud.json` trae cifras de establecimientos de salud
+verificados y priorizados para el ámbito «Bolívar» (sitrep 5 de la OPS), pero
+`data/public/municipios.json` no tiene ningún municipio con ese departamento:
+Bolívar queda fuera del área de influencia que este monitor cubre hoy. La
+ficha departamental solo se genera para departamentos con al menos un
+municipio elegible (`deploy/render_html.py::departamentos_afectados`), así
+que esa cifra de la OPS —real, archivada y exportada— **no se muestra en
+ningún sitio del sitio**. No es un error de la integración: es el hallazgo
+correcto de que la OPS mira más lejos que el catálogo de municipios de este
+monitor. Queda documentado hasta que alguien decida si Bolívar entra al
+catálogo (una decisión de alcance distinta a esta integración, con su propio
+`docs/DECISIONES.md` si se toma).

@@ -1,5 +1,5 @@
 {
- "generado": "2026-08-30T16:29:48Z",
+ "generado": "2026-08-30T17:17:17Z",
  "por_ambito": {
   "nacional": {
    "ips_reportadas_monitoreo_ops": {
@@ -32,7 +32,7 @@
    "ips_verificadas_crue": {
     "valor": 192.0,
     "valor_raw": "192",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": "Fila 'Total' de la Tabla 2. El propio sitrep lo marca como 'dato en actualización'.",
     "sitrep_n": 5,
@@ -61,7 +61,7 @@
    "ips_verificadas_crue": {
     "valor": 18.0,
     "valor_raw": "18",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -90,7 +90,7 @@
    "ips_verificadas_crue": {
     "valor": 6.0,
     "valor_raw": "6",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -119,7 +119,7 @@
    "ips_verificadas_crue": {
     "valor": 70.0,
     "valor_raw": "70",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -148,7 +148,7 @@
    "ips_verificadas_crue": {
     "valor": 21.0,
     "valor_raw": "21",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -177,7 +177,7 @@
    "ips_verificadas_crue": {
     "valor": 22.0,
     "valor_raw": "22",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -206,7 +206,7 @@
    "ips_verificadas_crue": {
     "valor": 40.0,
     "valor_raw": "40",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -226,7 +226,7 @@
    "ips_verificadas_crue": {
     "valor": 10.0,
     "valor_raw": "10",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -246,7 +246,7 @@
    "ips_verificadas_crue": {
     "valor": 3.0,
     "valor_raw": "3",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,
@@ -266,7 +266,7 @@
    "ips_verificadas_crue": {
     "valor": 2.0,
     "valor_raw": "2",
-    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias",
+    "autor": "Ministerio de Salud y Protección Social (verificado vía Centros Reguladores de Urgencias y Emergencias)",
     "fuente_citada": "Sitrep 21, Ministerio de Salud y Protección Social, 18-ago-2026 (vía CRUE)",
     "nota": null,
     "sitrep_n": 5,

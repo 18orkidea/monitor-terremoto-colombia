@@ -497,7 +497,7 @@ class TestFichaDepartamental(unittest.TestCase):
         """Nada de globos con «—»: hoy no hay serie OPS/salud, así que la
         sección no debe aparecer en ningún departamento."""
         self.assertEqual(R.seccion_salud_departamental(self.datos), "")
-        self.assertNotIn("Lo que declara el departamento", self.html)
+        self.assertNotIn("Salud: lo que declaran MinSalud y la OPS", self.html)
 
     def test_un_departamento_sin_municipios_elegibles_no_genera_pagina(self):
         """`departamentos_afectados` es el único filtro que usa `run()`: un
@@ -599,7 +599,7 @@ class TestIntegracionDepartamental(unittest.TestCase):
                 "valor": 9, "autor": "Ministerio de Salud y Protección Social",
                 "fecha_corte": "2026-08-18", "sitrep_n": 5}}}
         html = R.seccion_salud_departamental(d)
-        self.assertIn("Lo que declara el departamento", html)
+        self.assertIn("Salud: lo que declaran MinSalud y la OPS", html)
         self.assertIn(R.fmt(40), html)
         self.assertIn(R.fmt(9), html)
         self.assertIn("Ministerio de Salud", html)
@@ -613,6 +613,30 @@ class TestIntegracionDepartamental(unittest.TestCase):
         d = {"salud_declarada": {"ips_priorizadas": {
             "valor": 9, "autor": "MSPS", "fecha_corte": "2026-08-18", "sitrep_n": 5}}}
         self.assertIn(R.fmt(9), R.seccion_salud_departamental(d))
+
+    def test_un_concepto_con_valor_nulo_no_se_pinta_como_guion(self):
+        """El caso real del Cauca: el sitrep trae la fila de `ips_priorizadas`
+        para el ámbito, pero con `valor` nulo y `valor_raw` «-» (el propio
+        documento no la cuenta ahí). `fmt(None)` habría pintado un guion
+        suelto en la tarjeta y colado un `null` en el `Dataset` — el hallazgo
+        bloqueante del auditor editorial. Fixture sintético, guiado por el
+        caso real."""
+        ctx = {**self.ctx, "ops_salud": {"por_ambito": {"Depto de prueba": {
+            "ips_verificadas_crue": {"valor": 40, "autor": "MSPS",
+                                     "fecha_corte": "2026-08-18", "sitrep_n": 5},
+            "ips_priorizadas": {"valor": None, "valor_raw": "-", "autor": "MSPS",
+                               "fecha_corte": "2026-08-18", "sitrep_n": 5}}}}}
+        cifras = R.cifras_salud_departamento("Depto de prueba", ctx)
+        self.assertEqual(set(cifras), {"ips_verificadas_crue"},
+                         "el concepto sin valor no debe llegar a la sección")
+        sin_valor = R.cifras_salud_departamento_sin_valor("Depto de prueba", ctx)
+        self.assertEqual(sin_valor,
+                         [("Establecimientos de salud priorizados", "-")])
+        d = {"salud_declarada": cifras, "salud_sin_valor": sin_valor}
+        html = R.seccion_salud_departamental(d)
+        self.assertNotIn(">—<", html.replace(R.fmt(40), ""),
+                         "ningún guion suelto de un valor ausente en la tarjeta")
+        self.assertIn("la fuente escribe «-»", html)
 
     # ------------------------------------- matricula_departamento: dos caminos
     def test_guardian_de_dos_caminos_matricula_departamental(self):
@@ -654,11 +678,21 @@ class TestIntegracionDepartamental(unittest.TestCase):
         self.assertIsNone(R.matricula_departamento(depto, ctx)["total"])
 
     def test_matricula_nunca_se_rotula_afectados(self):
-        """Rótulo legal de #39: «matriculados en sedes con afectación», nunca
-        «afectados» a secas — la matrícula no es un recuento de víctimas."""
+        """Rótulo legal de #39: «matriculados en sedes con afectación
+        reportada», nunca «afectados» a secas — la matrícula no es un
+        recuento de víctimas. Y «reportada» no se pierde a escala
+        departamental: la gemela municipal y la nacional ya la llevan."""
+        vio_matricula = False
         for depto in R.departamentos_afectados(self.ctx):
-            html = R.render_ficha_departamento(R.datos_ficha_departamento(depto, self.ctx))
+            d = R.datos_ficha_departamento(depto, self.ctx)
+            html = R.render_ficha_departamento(d)
             self.assertNotIn("estudiantes afectados", html.lower())
+            if d["matricula"]["total"] is not None:
+                vio_matricula = True
+                self.assertIn("con afectación reportada", html)
+        self.assertTrue(vio_matricula,
+                        "ningún departamento del corpus tiene matrícula: la "
+                        "mitad del test no se ejerció")
 
     # -------------------------------------------- ficha municipal: detalle OPS
     def test_municipio_con_ips_nombradas_publica_la_seccion(self):

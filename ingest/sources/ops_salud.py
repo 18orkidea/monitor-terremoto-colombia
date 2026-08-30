@@ -297,7 +297,7 @@ def _archivar_pdf(conn, n: int, meta: dict) -> dict:
 
 
 def _registrar_transcripcion(conn, ruta: Path, n: int, pdf_sha256: str) -> None:
-    """Anota en `sources_log` el propio fichero de transcripción, una vez.
+    """Anota en `sources_log` el propio fichero de transcripción.
 
     No llega por HTTP, así que no puede pasar por `fetch()` — pero es un
     cuerpo real de `data/documentos/`, verificable por su sha256, y ese es
@@ -305,9 +305,16 @@ def _registrar_transcripcion(conn, ruta: Path, n: int, pdf_sha256: str) -> None:
     que usa `sertit.py` para sus vectores): un `http_status` NULL con un sha
     detrás solo se admite si la fila se anota así, no por texto libre —
     `test_hipotesis.py::test_una_derivacion_no_finge_ser_una_peticion` lo
-    exige. Se registra solo la primera vez (por sha256 + ruta) para no
-    repetir la misma fila cada corrida.
-    """
+    exige. Se registra solo cuando el sha256 cambia (por sha256 + ruta) para
+    no repetir la misma fila cada corrida.
+
+    Si YA hay una fila para esta ruta con OTRO sha256, esto es una
+    CORRECCIÓN, no una transcripción nueva: el JSON es la capa que hicimos
+    nosotros con lo que dijo el PDF, y un error nuestro publicado se corrige
+    (CLAUDE.md, «Dos capas, y solo una es inmutable»). La fila vieja NO se
+    toca —eso es lo que impide perder `dump_db.py::_proteger_historia`—; se
+    añade una fila nueva que dice explícitamente a cuál corrige, para que
+    quien lea `sources_log` dentro de años entienda las dos sin adivinar."""
     import hashlib
     spath_check = str(ruta.relative_to(DATA.parent))
     sha = hashlib.sha256(ruta.read_bytes()).hexdigest()
@@ -316,10 +323,17 @@ def _registrar_transcripcion(conn, ruta: Path, n: int, pdf_sha256: str) -> None:
         (sha, spath_check)).fetchone()
     if ya:
         return
-    registrar_entrega(
-        conn, url=PAGINAS[n], ruta=ruta,
-        note=f"transcripción a mano de la tabla del sitrep {n} de la OPS, "
-             f"leída del PDF ya archivado (sha256 {pdf_sha256[:12]}…)")
+    anterior = conn.execute(
+        "SELECT sha256 FROM sources_log WHERE snapshot_path=? ORDER BY ts DESC LIMIT 1",
+        (spath_check,)).fetchone()
+    if anterior:
+        note = (f"corrige la transcripción anterior del sitrep {n} de la OPS "
+                f"(sha256 {anterior[0][:12]}…, que se conserva sin tocar): el "
+                f"PDF de origen no cambia (sha256 {pdf_sha256[:12]}…)")
+    else:
+        note = (f"transcripción a mano de la tabla del sitrep {n} de la OPS, "
+                f"leída del PDF ya archivado (sha256 {pdf_sha256[:12]}…)")
+    registrar_entrega(conn, url=PAGINAS[n], ruta=ruta, note=note)
 
 
 def _upsert_cifra(conn, n: int, idx: int, fila: dict, fecha_corte_default) -> None:

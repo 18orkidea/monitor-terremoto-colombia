@@ -4701,3 +4701,44 @@ nunca ha abierto sqlite, solo lee `data/public/*.json`.
    agregado sin nombre del sitrep 5, dos granularidades distintas. Cada
    nombre de institución cita el sitrep de origen con enlace a su página
    pública (`sitrep_paginas`, exportado junto con las cifras).
+
+## 2026-08-30 — Corregir una transcripción registrada: fila nueva, la vieja intacta
+
+**Confusión real, no hipotética.** Al verificar en navegador se encontró un
+typo en la transcripción del sitrep 5 (`data/documentos/ops_salud/sitrep_5.json`):
+un paréntesis del autor de `ips_verificadas_crue` se quedó sin cerrar. Corregir
+el JSON cambia su sha256, y ese sha256 ya estaba registrado en `sources_log`
+como una «entrega» (`registrar_entrega`, el mismo mecanismo que ata los
+vectores de SERTIT a su PDF de origen) — así que corregirlo chocó de frente
+con `dump_db.py::_proteger_historia`, que rechaza perder una clave histórica
+del dump. El primer instinto fue forzarlo o borrar la fila vieja; se paró y
+se preguntó en vez de eso.
+
+**La respuesta ya estaba escrita** en «Dos capas, y solo una es inmutable»
+(arriba en este mismo archivo, sección de CLAUDE.md): el PDF es lo que dijo
+la fuente —intocable—; la transcripción JSON es la capa que hicimos
+NOSOTROS con lo que dijo, y «si encontramos un error en la manera en que
+mostramos los datos, se corrige» — «las dos trazas se conservan; lo que se
+arregla es lo publicado». Aplicado a `sources_log`: **la corrección es una
+fila NUEVA, nunca una edición ni un borrado de la vieja** — eso es
+exactamente lo que `_proteger_historia` existe para proteger, y estaba en
+lo correcto al rechazarlo.
+
+`ingest/sources/ops_salud.py::_registrar_transcripcion` queda así: si ya hay
+una fila para la ruta con OTRO sha256, la nueva nota dice explícitamente
+«corrige la transcripción anterior (sha …), que se conserva sin tocar» y
+cita el sha256 del PDF de origen, que no cambia. `_proteger_historia` no
+necesitó ningún cambio — solo rechaza PERDER claves, nunca rechaza sumar
+una—; el guardián que sí hacía falta enseñar fue
+`test_hipotesis.py::test_una_derivacion_no_finge_ser_una_peticion`, que
+comparaba TODAS las filas de entrega contra el fichero actual: ahora compara
+solo la MÁS RECIENTE por ruta, porque una fila vieja documenta lo que ANTES
+decía la transcripción, no lo que dice hoy. Test del caso en
+`tests/test_unit.py::TestOpsSaludCarga::test_una_correccion_de_la_transcripcion_anade_fila_sin_tocar_la_vieja`.
+
+Por qué se anota aquí y no solo en el commit: esta misma confusión —invocar
+la inmutabilidad de un snapshot para defender un error nuestro de
+presentación— ya pasó una vez en el proyecto con un redondeo mal aplicado
+(ver la entrada de El Cerrito / Alcalá más arriba). Que vuelva a pasar con
+otro nombre —esta vez «entrega» en vez de «snapshot»— es la señal de que la
+distinción necesita quedar escrita donde la vea quien corrija la próxima.

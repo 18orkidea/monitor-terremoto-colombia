@@ -2906,13 +2906,14 @@ def render_ficha(d: dict) -> str:
         o.append(f'<p>La Organización Panamericana de la Salud (OPS/OMS) nombró estos '
                  f'establecimientos de salud en sus Informes de Situación (sitrep) sobre el '
                  f'terremoto. Es la única fuente pública con nombre de institución: los '
-                 f'sitrep posteriores al tercero dejaron de nombrarlas y solo agregan cifras '
+                 f'sitrep posteriores al tercero dejaron de nombrarlos y solo agregan cifras '
                  f'por departamento (<a href="{BASE}/referencia.html#glosario">más sobre cómo '
-                 f'se construye este dato</a>).</p>')
+                 f'se construye este dato</a>). Una fila por cada sitrep que la nombra: la misma '
+                 f'institución puede repetirse si tres sitrep la mencionan.</p>')
         o.append('<div class="tabla-scroll"><table><thead><tr><th>Institución</th>'
                  '<th>Nivel de complejidad</th><th>Sitrep</th></tr></thead><tbody>')
         for ips in d["ops_ips"]:
-            nivel = ips.get("nivel_complejidad") or "—"
+            nivel = ips.get("nivel_complejidad") or "no consta en el sitrep"
             sitrep = (f'<a href="{e(ips["pagina_url"])}" target="_blank" rel="noopener">'
                      f'{ips["sitrep_n"]}</a>' if ips.get("pagina_url") else str(ips["sitrep_n"]))
             o.append(f'<tr><td>{e(ips["nombre_ips"])}</td><td>{e(nivel)}</td>'
@@ -3139,21 +3140,43 @@ CONCEPTOS_SALUD_DEPARTAMENTO = (
 def cifras_salud_departamento(depto: str, ctx: dict) -> dict:
     """Las cifras que la OPS/MinSalud declaran PARA ESTE departamento —nunca
     inventadas, nunca repartidas—: solo las de `CONCEPTOS_SALUD_DEPARTAMENTO`,
-    y solo si `ops_salud.json` trae ese ámbito exacto. El ámbito es un
-    literal de la fuente (p. ej. el sitrep 4 también desglosa algunas
+    y solo si `ops_salud.json` trae ese ámbito exacto CON valor. El ámbito es
+    un literal de la fuente (p. ej. el sitrep 4 también desglosa algunas
     ciudades sueltas, «Cali (Valle del Cauca)»): la igualdad exacta con el
-    nombre del departamento evita que esas filas de ciudad se cuelen aquí."""
+    nombre del departamento evita que esas filas de ciudad se cuelen aquí.
+
+    R3: el Cauca trae `ips_priorizadas` con `valor` nulo y `valor_raw` «-» —el
+    propio sitrep no lo cuenta para ese departamento, no es un cero—, así que
+    un `valor is None` se excluye aquí, antes de que `fmt(None)` lo pintara
+    como un guion suelto en la tarjeta o `null` se colara en el `Dataset`."""
     todas = (ctx["ops_salud"].get("por_ambito") or {}).get(depto) or {}
     return {clave: todas[clave] for clave, _ in CONCEPTOS_SALUD_DEPARTAMENTO
-           if clave in todas}
+           if clave in todas and todas[clave].get("valor") is not None}
+
+
+def cifras_salud_departamento_sin_valor(depto: str, ctx: dict) -> list[tuple[str, str]]:
+    """Los conceptos que el ámbito SÍ trae pero sin valor —el sitrep escribe
+    «-», nunca 0—, como (etiqueta, valor_raw). Es la mitad que
+    `cifras_salud_departamento` excluye de las tarjetas; existe para que la
+    sección lo diga con el literal de la fuente en vez de callarlo del
+    todo (R3)."""
+    todas = (ctx["ops_salud"].get("por_ambito") or {}).get(depto) or {}
+    return [(etiqueta, todas[clave].get("valor_raw") or "—")
+           for clave, etiqueta in CONCEPTOS_SALUD_DEPARTAMENTO
+           if clave in todas and todas[clave].get("valor") is None]
 
 
 def seccion_salud_departamental(d: dict) -> str:
-    """«Lo que declara el departamento»: los establecimientos de salud que
-    la OPS/MinSalud reportan PARA ESTE departamento (sitrep 5), cada cifra
-    con su autor y su fecha de corte pegados — nunca una cifra sola
+    """«Salud: lo que declaran MinSalud y la OPS»: los establecimientos de
+    salud que reportan PARA ESTE departamento (sitrep 5), cada cifra con su
+    autor y su fecha de corte pegados — nunca una cifra sola
     (docs/DECISIONES.md, 30-ago-2026). La de UNGRD es nacional y no aparece
     aquí (R3: no se reparte lo que la fuente no desglosó).
+
+    El título NO dice «lo que declara el departamento»: quien declara es
+    MinSalud y la OPS PARA el departamento, no el departamento como entidad
+    —esa distinción es justo la que hace «Qué no sabemos» tres secciones más
+    abajo, y el título original la contradecía en la misma página.
 
     Es una cifra DECLARADA por una fuente distinta del RUD: no se funde con
     el agregado municipal de más arriba en la misma ficha, que es una suma
@@ -3168,10 +3191,12 @@ def seccion_salud_departamental(d: dict) -> str:
     if not cifras:
         return ""
     o = ['<section class="page-section" id="salud">',
-        "<h2>Lo que declara el departamento</h2>",
-        "<p>Los Informes de Situación (sitrep) de la OPS/OMS sobre "
-        "establecimientos de salud dañados cruzan autores que nunca se suman "
-        "entre sí: la UNGRD reporta solo a escala nacional, y el Ministerio "
+        "<h2>Salud: lo que declaran MinSalud y la OPS</h2>",
+        "<p>Los Informes de Situación (sitrep) de la Organización "
+        "Panamericana de la Salud (OPS/OMS) sobre establecimientos de salud "
+        "dañados reúnen cifras de autores distintos que nunca se suman "
+        "entre sí: la Unidad Nacional para la Gestión del Riesgo de "
+        "Desastres (UNGRD) reporta solo a escala nacional, y el Ministerio "
         "de Salud desglosa por departamento lo que sus Centros Reguladores "
         "de Urgencias y Emergencias verifican y lo que prioriza para "
         "atención — dos preguntas distintas sobre el mismo universo, no dos "
@@ -3187,9 +3212,18 @@ def seccion_salud_departamental(d: dict) -> str:
                  f'<small>{e(c["autor"])} · corte '
                  f'{e(fecha_corta(c["fecha_corte"]))}{sitrep}</small></div>')
     o.append("</div>")
-    o.append('<p class="note">Ninguna de estas dos cifras se suma con la '
-             "otra ni con el agregado del RUD de más arriba: cuentan "
-             "universos y autores distintos.</p>")
+    if d.get("salud_sin_valor"):
+        # R3: el sitrep no calla el concepto, calla el VALOR («-», nunca 0).
+        # La tarjeta no puede pintarlo —fmt(None) daría un guion suelto sin
+        # contexto—, pero la ausencia se dice con el literal de la fuente en
+        # vez de desaparecer del todo.
+        partes = "; ".join(f'{e(etq)}: la fuente escribe «{e(vr)}»'
+                           for etq, vr in d["salud_sin_valor"])
+        o.append(f'<p class="note">El sitrep menciona este departamento sin dar un '
+                 f'valor para: {partes}.</p>')
+    o.append('<p class="note">Estas cifras no se suman entre sí ni al '
+             "agregado del RUD de más arriba: cuentan universos y autores "
+             "distintos.</p>")
     o.append("</section>")
     return "\n".join(o)
 
@@ -3219,6 +3253,8 @@ def datos_ficha_departamento(depto: str, ctx: dict) -> dict:
         "titulares": titulares_departamento(depto, ctx),
         "poblacion": sum(poblaciones) if poblaciones else None,
         "salud_declarada": cifras_salud_departamento(depto, ctx),
+        "salud_sin_valor": cifras_salud_departamento_sin_valor(depto, ctx),
+        "sitrep_paginas": ctx["ops_salud"].get("sitrep_paginas") or {},
         "matricula": matricula_departamento(depto, ctx),
         "generado": ctx["rud"].get("generado", ""),
     }
@@ -3253,7 +3289,7 @@ def dataset_ficha_departamento(d: dict, url: str, descr: str) -> dict:
     ] if v]
     if d["matricula"]["total"] is not None:
         variables.append(_medida(
-            "Estudiantes matriculados en sedes con afectación (suma de sus municipios)",
+            "Estudiantes matriculados en sedes con afectación reportada (suma de sus municipios)",
             d["matricula"]["total"], "estudiantes",
             _matricula_descripcion(d["matricula"])))
     citas = [cita_rud(), cita_dane()]
@@ -3368,7 +3404,7 @@ def render_ficha_departamento(d: dict) -> str:
         tarjetas.append(("Población 2026", fmt(d["poblacion"]), "DANE · suma municipal"))
     matricula = d["matricula"]
     if matricula["total"] is not None:
-        tarjetas.append(("Estudiantes matriculados en sedes con afectación",
+        tarjetas.append(("Estudiantes matriculados en sedes con afectación reportada",
                         fmt(matricula["total"]), "MEN · SISE · suma municipal"))
 
     o.append('<div class="zona-datos">')
@@ -3477,7 +3513,20 @@ def render_ficha_departamento(d: dict) -> str:
             "<td>estadística oficial</td></tr>"
             "<tr><td>Titulares</td><td>feeds abiertos del monitor y Google News municipal</td>"
             "<td>prensa · nunca equivale a balance oficial</td></tr>"
-            f'<tr><td>Fecha de las cifras</td><td>última captura diaria del RUD por municipio</td>'
+            + (f'<tr><td>Estudiantes matriculados (suma municipal)</td>'
+               f'<td><a href="{MEN_SEDES["url"]}" target="_blank" rel="noopener">'
+               f'MEN · SISE</a></td>'
+               f'<td>reporte administrativo, sede a sede</td></tr>'
+               if d["matricula"]["total"] is not None else "")
+            + "".join(
+                f'<tr><td>{e(etiqueta)}</td>'
+                f'<td><a href="{e(d["sitrep_paginas"].get(str(c["sitrep_n"]), "#"))}" '
+                f'target="_blank" rel="noopener">Organización Panamericana de la Salud '
+                f'(OPS/OMS) · sitrep {c["sitrep_n"]}</a></td>'
+                f'<td>{e(c["autor"])}</td></tr>'
+                for clave, etiqueta in CONCEPTOS_SALUD_DEPARTAMENTO
+                if (c := (d.get("salud_declarada") or {}).get(clave)))
+            + f'<tr><td>Fecha de las cifras</td><td>última captura diaria del RUD por municipio</td>'
             f'<td>{sello_fechas(None, d["generado"], "del RUD")}</td></tr>'
             "</tbody></table></div>")
     o.append('<p class="note">Cada petición queda registrada con su dirección, su código de '

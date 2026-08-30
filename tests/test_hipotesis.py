@@ -578,10 +578,17 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
         # poniéndose la nota. A cambio de salir, se les exige MÁS que al resto:
         # cuerpo presente, sha coincidente y ruta dentro del archivo.
         entregas = q(
-            "SELECT url, sha256, bytes, snapshot_path FROM sources_log"
+            "SELECT ts, url, sha256, bytes, snapshot_path FROM sources_log"
             " WHERE note LIKE ?", NOTA_ENTREGA + "%")
         import hashlib
-        for url, sha, bytes_, ruta in entregas:
+        # La MÁS RECIENTE por ruta es la única que tiene que coincidir con el
+        # fichero de hoy: una entrega puede corregirse —el JSON es la capa que
+        # hicimos nosotros, no el PDF que archiva (CLAUDE.md, «Dos capas, y
+        # solo una es inmutable»)— y la fila vieja se conserva a propósito
+        # (`_proteger_historia` la protege de perderse), documentando lo que
+        # ANTES decía la transcripción, no lo que dice el fichero ahora.
+        ultima_por_ruta = {}
+        for ts, url, sha, bytes_, ruta in entregas:
             self.assertTrue(
                 sha and bytes_ and ruta,
                 f"entrega sin cuerpo verificable ({url}): una entrega existe "
@@ -591,11 +598,15 @@ class TestHipotesisTrazabilidad(unittest.TestCase):
                 ruta.startswith("data/documentos/"),
                 f"{ruta}: las entregas viven en data/documentos/, no en "
                 f"snapshots — un cuerpo que nadie descargó no es un snapshot")
+            if ts > ultima_por_ruta.get(ruta, ("",))[0]:
+                ultima_por_ruta[ruta] = (ts, sha)
+        for ruta, (_, sha) in ultima_por_ruta.items():
             f = ROOT / ruta
             self.assertTrue(f.exists(), f"{ruta}: registrado y ausente")
             self.assertEqual(
                 hashlib.sha256(f.read_bytes()).hexdigest(), sha,
-                f"{ruta}: el cuerpo cambió desde que se registró")
+                f"{ruta}: la entrega MÁS RECIENTE no coincide con el fichero "
+                f"de hoy — si se corrigió, faltó registrar la fila nueva")
 
     def test_un_304_apunta_a_un_cuerpo_que_sigue_estando(self):
         """Un 304 dice «lo mismo que ya tienes». Si eso que ya teníamos
