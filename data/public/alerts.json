@@ -1,17 +1,17 @@
 {
- "generado": "2026-08-29",
- "fecha": "2026-08-29",
+ "generado": "2026-08-30",
+ "fecha": "2026-08-30",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "351 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 351
+   "texto": "303 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 303
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +4 municipios. +9.583 familias desde la captura anterior"
+   "texto": "RUD actualizado: +0 municipios. +6.794 familias desde la captura anterior"
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -25,9 +25,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 13 días distintos, pero rud_daily solo tiene 12 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 13,
-   "dias_en_rud_daily": 12
+   "texto": "sources_log registra capturas del RUD en 14 días distintos, pero rud_daily solo tiene 13 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 14,
+   "dias_en_rud_daily": 13
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -44,25 +44,10 @@
    "event_code": "EQ20260822COL",
    "capa": "Pleiades_20260813_BuildingDamageAsessment_Zarzal",
    "puntos": 201
-  },
-  {
-   "tipo": "fuentes_con_peticion_condicional",
-   "nivel": "info",
-   "texto": "7 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
-   "urls": [
-    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
-    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=2000&resultRecordCount=2000&orderByFields=OBJECTID",
-    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=4000&resultRecordCount=2000&orderByFields=OBJECTID",
-    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=6000&resultRecordCount=2000&orderByFields=OBJECTID",
-    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=8000&resultRecordCount=2000&orderByFields=OBJECTID",
-    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=9273&resultRecordCount=2000&orderByFields=OBJECTID",
-    "https://www.qhubocali.com/feed/"
-   ],
-   "n": 7
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-28",
+  "fecha": "2026-08-29",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -131,128 +116,184 @@
   "ignoradas": [
    {
     "cifra": "departamentos_afectados",
-    "valor": 8,
+    "valor": 15,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   {
+    "cifra": "departamentos_afectados",
+    "valor": 15,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "municipios_afectados",
+    "valor": 472,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   {
+    "cifra": "municipios_afectados",
+    "valor": 448,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 53000,
+    "valor": 186182,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 115461,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 115461,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "familias_afectadas",
-    "valor": 11132,
+    "valor": 54008,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 54382,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 8357,
+    "valor": 127266,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 20557,
+    "valor": 81506,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 1136,
+    "valor": 26558,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 3715,
+    "valor": 14493,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "heridos",
-    "valor": 885,
+    "valor": 4400,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
    },
    {
     "cifra": "heridos",
-    "valor": 2774,
+    "valor": 3935,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "heridos",
-    "valor": 1401,
+    "valor": 3937,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
+    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "fallecidos",
-    "valor": 80,
+    "valor": 304,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
    },
    {
     "cifra": "fallecidos",
-    "valor": 18,
+    "valor": 294,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "fallecidos",
-    "valor": 105,
+    "valor": 289,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
+    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 195,
+    "valor": 426,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 400,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/10/en-vivo-fuerte-temblor-de-74-se-sintio-en-colombia-cali-y-manizales-reportan-derrumbes-en-edificaciones/"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 86,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Primicias",
-    "url": "https://www.primicias.ec/internacional/colombia-terremoto-sismo-temblor-10-agosto-129973/"
-   },
-   {
-    "cifra": "rescatados",
     "valor": 320,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Caracol Radio",
-    "url": "https://caracol.com.co/2026/08/10/terremoto-en-vivo-en-colombia-ultimas-noticias-danos-en-directo-videos-y-replicas-sgc/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 143,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 357,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 188,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "rescatados",
+    "valor": 353,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "infobae",
+    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-08-29/oficiales_feed.json",
-   "items": 51,
+   "snapshot": "data/snapshots/2026-08-30/oficiales_feed.json",
+   "items": 54,
    "regla_sha256": "8c63eb30daf5604d8682e387ede6a671e1836957c221648999d699149c155f18"
   }
  }
