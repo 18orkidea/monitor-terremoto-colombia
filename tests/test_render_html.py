@@ -872,10 +872,11 @@ class TestIndiceDepartamentosPortada(unittest.TestCase):
         html = R.filas_departamentos_portada(ctx)
         self.assertNotIn(depto_falso, html)
 
-    def test_celda_de_salud_ausente_se_dice_con_guion_no_se_omite(self):
-        """Un guion no es un cero (R3): el concepto existe en la columna y
-        este departamento no tiene cifra, así que la celda se publica con
-        «—» — nunca se quita la celda entera, que rompería la tabla."""
+    def test_celda_de_salud_ausente_se_nombra_no_se_dibuja_como_guion(self):
+        """La ausencia de cifra de MinSalud ES información —9 de 15
+        departamentos no la tienen— y se dice con palabras, no con un guion
+        que se confunde con un cero o se pasa por alto en una columna de
+        números. Nunca se quita la celda entera, que rompería la tabla."""
         con_salud = [d for d in R.departamentos_afectados(self.ctx)
                     if R.cifras_salud_departamento(d, self.ctx)]
         sin_salud = [d for d in R.departamentos_afectados(self.ctx)
@@ -886,7 +887,8 @@ class TestIndiceDepartamentosPortada(unittest.TestCase):
         filas = html.split("</tr>")
         for depto in sin_salud:
             fila = next(f for f in filas if R.e(depto) in f)
-            self.assertIn('<td class="num">—</td>', fila)
+            self.assertIn("sin cifra de MinSalud", fila)
+            self.assertNotIn('<td class="num">—</td>', fila)
 
     def test_entradilla_cuenta_lo_mismo_que_la_tabla(self):
         intro = R.entradilla_departamentos_portada(self.ctx)

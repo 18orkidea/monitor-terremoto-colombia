@@ -4596,13 +4596,13 @@ def filas_departamentos_portada(ctx: dict) -> str:
     enlace que la home ofrece hacia las fichas departamentales —antes solo se
     llegaba por la columna de departamento de `municipios.html`—.
 
-    La celda de salud NO EXISTE con un guion inventado cuando el concepto no
-    aplica en absoluto (la sección entera no se pintaría, como en la propia
-    ficha); pero SÍ se publica «—» cuando el concepto existe en la columna y
-    este departamento en concreto no tiene cifra: es el mismo convenio de
-    «un guion no es un cero» que usan todas las demás tablas numéricas del
-    sitio (`filas_municipios`, `filas_portada`) — la ausencia se dice, no se
-    esconde quitando la celda y rompiendo la tabla."""
+    La celda de salud ausente se dice con palabras («sin cifra de
+    MinSalud»), no con un guion: un guion es el convenio de «dato numérico
+    que la fuente no desglosó» (`filas_municipios`, `filas_portada`), pero
+    aquí la ausencia misma ES el hallazgo —9 de 15 departamentos no tienen
+    cifra de MinSalud, y esa proporción se lee mejor en palabras que en un
+    signo que se puede confundir con un cero o pasarse por alto en una
+    columna de números—. Nunca se quita la celda entera y se rompe la tabla."""
     filas = []
     for depto, agregado in _deptos_ordenados_por_afectacion(ctx):
         familias = agregado["rud_familias"]
@@ -4614,8 +4614,9 @@ def filas_departamentos_portada(ctx: dict) -> str:
             f'<td><a href="/departamento/{slug(depto)}/" style="color:inherit">'
             f'<strong>{e(depto)}</strong></a></td>'
             f'<td class="num">{fmt(familias)}</td>'
-            f'<td class="num">{fmt(verificadas["valor"]) if verificadas else "—"}</td>'
-            "</tr>")
+            + (f'<td class="num">{fmt(verificadas["valor"])}</td>' if verificadas
+               else '<td><span style="color:var(--muted)">sin cifra de MinSalud</span></td>')
+            + "</tr>")
     return "\n".join(filas)
 
 
