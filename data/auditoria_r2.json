@@ -1,8 +1,8 @@
 {
- "fecha": "2026-08-30",
+ "fecha": "2026-08-31",
  "auditado": true,
- "objetos_en_bucket": 80,
- "objetos_en_manifiesto": 80,
+ "objetos_en_bucket": 95,
+ "objetos_en_manifiesto": 95,
  "faltan_en_r2": [],
  "difieren_en_tamano": [],
  "sobran_en_r2": [],

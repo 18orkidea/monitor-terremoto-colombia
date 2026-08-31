@@ -1,5 +1,5 @@
 {
- "generado": "2026-08-30",
+ "generado": "2026-08-31",
  "bucket": "monitor-terremoto-media",
  "objetos": [
   {
@@ -11,6 +11,11 @@
    "objeto": "05cb9771-b232-408d-a1cc-0a2d971edecd.mp4",
    "sha256": "4b318cef61bc0e54cee0b189236df206414709f3aa07e8d3edde52644831187b",
    "bytes": 582255
+  },
+  {
+   "objeto": "075354f6-0046-44ae-9920-2aac0f060b51.mp4",
+   "sha256": "6541414e78f2ef2dc477f1cf6cc34a64e7fcf780ebe79c1b7174555f0b571d76",
+   "bytes": 2419551
   },
   {
    "objeto": "0add867d-d89c-4f8c-b9c3-79e53eb8bc30.mp4",
@@ -238,6 +243,11 @@
    "bytes": 15479792
   },
   {
+   "objeto": "95f28df5-3974-44f3-ae5e-dc7786a9947b.mp4",
+   "sha256": "207bb5c87effde91830ddf6165f633beb3c78cfd09be8674181b4fbf7a37252e",
+   "bytes": 3597260
+  },
+  {
    "objeto": "971a9efb-6e8e-40f4-bd5c-6f9624720927.mp4",
    "sha256": "7b6a502bec3c290d15b32188e63aafa8ca64d773f9e46c291c6fb3a04717ee64",
    "bytes": 9213793
@@ -263,6 +273,11 @@
    "bytes": 1025118
   },
   {
+   "objeto": "a59ada19-a487-4bb3-a917-31a67b1c0f9f.mp4",
+   "sha256": "73bcadb2325e787dc485cd1779ce7217540d0e24869a2d0403e2e32cdfc8628b",
+   "bytes": 3873355
+  },
+  {
    "objeto": "a5c53333-3657-428c-b4d6-6de02328018a.mp4",
    "sha256": "476be371d4fca0d85743dafe667a45cd7ba1f604760818168c8f26b409cea83c",
    "bytes": 6545063
@@ -278,9 +293,29 @@
    "bytes": 3874765
   },
   {
+   "objeto": "airbus_8-10_cali_hdx_building_footprints_with_predictions_validated.gpkg",
+   "sha256": "500003e2211a456944082b0482377c6cb9dbfdc738856424734bacf4ef7619c9",
+   "bytes": 76890112
+  },
+  {
+   "objeto": "airbus_8-10_cali_overture_building_footprints_with_predictions.gpkg",
+   "sha256": "56055fd73b66d50e5ceed3321f92b7849ad66891f8591d19915905cd6c9d49d0",
+   "bytes": 28372992
+  },
+  {
+   "objeto": "airbus_cali_warped_cog_model-predictions.tif",
+   "sha256": "4c4f55fed11e7cd7bbdf0de2eadd84e251e4d5fc26aea7517e2fe56bd15f6c10",
+   "bytes": 19459394
+  },
+  {
    "objeto": "b1b099c5-6114-4b97-b50a-0dd164763c92.mp4",
    "sha256": "8a8407ba3bc6fbd2c73d25c90347c1acc958b6bb0217d3e035ae7cf95b060ec3",
    "bytes": 1640900
+  },
+  {
+   "objeto": "b48cd61d-8cd1-45b1-b837-ade0348bb054.mp4",
+   "sha256": "b4f5b87595e86aca6d2dd8d25e57d481050ae6f8ae1f191c13a404e29ead78c9",
+   "bytes": 1501754
   },
   {
    "objeto": "b50705df-ade5-4e58-a156-af35b5a9c992.mp4",
@@ -301,6 +336,11 @@
    "objeto": "c207867b-1f41-4c14-980c-7187b6f1c63a.mp4",
    "sha256": "0b9be4185e606e049d8d6d1bece879b4a4ce663934ac516b20bafe394058142f",
    "bytes": 1884220
+  },
+  {
+   "objeto": "c2972fdf-5321-4180-b766-b40bacb51f52.mp4",
+   "sha256": "ef0b6ac23f563519efee4160fe25fd3bbcd0662c6b39f79b6d99c316071b7d1c",
+   "bytes": 7218142
   },
   {
    "objeto": "c5cfce1d-18dd-4c0d-a259-a594e72d06dc.mp4",
@@ -373,6 +413,11 @@
    "bytes": 1036581
   },
   {
+   "objeto": "e99bc833-258c-4d29-ae41-172bf8c5a846.mp4",
+   "sha256": "b5d2be606fed926bc018f98cd70bf61d2f89aadfe5bfe37ad158bccc7f1190cc",
+   "bytes": 878955
+  },
+  {
    "objeto": "e9dfe7a8-73fd-41ad-bcd7-94ebb28084b0.mp4",
    "sha256": "b80aeeeef66b729a46043466da25b01953a256167bc6853381bb673c8f53192c",
    "bytes": 4538274
@@ -401,6 +446,36 @@
    "objeto": "fd211407-ce6e-4cdf-aa99-67e90bf72caf.mp4",
    "sha256": "6e98bb8dac5987044c7e7b9af89c02af93346905887ebf2d9b43426db175110f",
    "bytes": 8416212
+  },
+  {
+   "objeto": "predicted_damage_pereira_20260813-google_open_buildings_thresh0.2_reviewed_vantor_reviewed.gpkg",
+   "sha256": "90e149caea117dc158aa8caa2d1640a71bb8dd558f1ec12ce863c9492a5f3aa3",
+   "bytes": 41652224
+  },
+  {
+   "objeto": "predicted_damage_pereira_20260813-msft_footprint_reviewed_plus_google_dam_vantor_reviewed.gpkg",
+   "sha256": "d42a1ebc723baffbace1cd0baa2d2263cc6815dc90ae7763c1667d98379cdf5f",
+   "bytes": 41332736
+  },
+  {
+   "objeto": "predicted_damage_pereira_20260813-overture_no_embedding_reviewed_vantor_reviewed.gpkg",
+   "sha256": "376ef17eb5a442696f81420b06a113849bd37912acd1a06eaa5997351cc2292e",
+   "bytes": 20267008
+  },
+  {
+   "objeto": "vantor_8-12_pereira_google_buildings_with_predictions.gpkg",
+   "sha256": "a8b09e86c5bb50d5e173b46835847ea5827e4494fdb92fa478fd6be56b910af4",
+   "bytes": 19271680
+  },
+  {
+   "objeto": "vantor_8-12_pereira_model-predictions.tif",
+   "sha256": "a3505bfef4f1ca35b8efd807b7168ab7ad9c1aca20d61a83fd1df324a422d727",
+   "bytes": 9887494
+  },
+  {
+   "objeto": "vantor_8-12_pereira_overture_buildings_with_predictions.gpkg",
+   "sha256": "d5930da99b0a933dd65fa82e5a06c3e219adf09190822f92d173abe6f477504e",
+   "bytes": 10780672
   }
  ]
 }

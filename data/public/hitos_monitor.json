@@ -256,6 +256,20 @@
       "resumen": "El monitor vigila HDX y arcgis.com por fuentes del sismo que aún no existen.",
       "texto": "Dos vigilantes nuevos entran a las alertas diarias, distintos de las fuentes que el monitor ya archiva: no traen datos, avisan cuando algo nuevo aparece. El primero consulta HDX, el catálogo humanitario donde las organizaciones publican datasets sin que el monitor las busque una a una — así habría cantado los datos de Microsoft del 12 de agosto de 2026, que hoy solo se encuentran leyendo a mano. El segundo busca en arcgis.com el tablero de establecimientos de salud (ERES) que la OPS ayuda a construir con el Ministerio de Salud: no existe todavía, y el día que se publique alguien tiene que enterarse sin ir a buscarlo a mano. La primera corrida de cada vigilante siembra en silencio lo que la fuente ya tenía publicado, para no confundir «ya estaba ahí» con «acaba de aparecer»; las siguientes cantan lo nuevo.",
       "url": null
+    },
+    {
+      "fecha": "2026-08-30",
+      "tipo": "monitor",
+      "resumen": "Las sedes con afectación que reporta el Ministerio matriculan a 273.056 estudiantes.",
+      "texto": "El reporte del Ministerio de Educación trae la matrícula de cada sede, y hasta hoy solo se veía haciendo clic en un punto del mapa: el sitio contaba colegios —987 sedes con afectación— sin decir cuánta gente estudia en ellos. Desde hoy la portada, la entradilla de cada ficha, su tabla de fuentes y el marcado que citan los buscadores publican la cifra: 273.056 estudiantes matriculados en esas sedes, 32.223 de ellos en las 96 de Quibdó. Es la matrícula que el reporte trae para cada sede, la que las secretarías de educación tienen cargada, y por eso no se llama «estudiantes afectados»: nadie ha contado cuántos se quedaron sin clase, y ponerle ese nombre inventaría una cifra de víctimas a partir de un registro administrativo. Hoy las 987 sedes informan matrícula; si alguna dejara de hacerlo, la cifra dirá sobre cuántas se apoya en vez de contar como cero lo que la fuente calla.",
+      "url": "/"
+    },
+    {
+      "fecha": "2026-08-30",
+      "tipo": "internacional",
+      "resumen": "La OPS publicó 24 establecimientos de salud con nombre el 10 de agosto y 192 sin ninguno el 18 de agosto.",
+      "texto": "La OPS/OMS publica informes de situación (sitrep) sobre establecimientos de salud dañados por el terremoto. El sitrep 1, con corte a las 13:30 del 10 de agosto de 2026, nombra 24 establecimientos con su municipio. El sitrep 2, corte 19:30 del mismo día, y el sitrep 3, corte 17:00 del 11 de agosto, amplían la lista a 31 establecimientos nombrados. Ningún sitrep posterior vuelve a nombrar establecimientos. El sitrep 4, del 13 de agosto, publica 59 establecimientos identificados por departamento y nivel de complejidad, sin nombres, y cita en prosa 109 establecimientos según UNGRD, la misma cifra que el sitrep 3, sin aclarar si UNGRD actualizó su conteo. El sitrep 5, del 19 de agosto con corte al 18, cita en prosa 303 establecimientos afectados según UNGRD (Reporte Situacional 032), sin desglose por departamento en ningún punto del documento; el Ministerio de Salud, a través de sus Centros Reguladores de Urgencias y Emergencias, verifica 192 con desglose por departamento (Sitrep 21 MSPS) y prioriza 50 para atención. Entre el 11 y el 18 de agosto, el universo de establecimientos con nombre público pasó de 31 a 0 mientras la cifra agregada más citada pasó de 31 a 303. Los cinco PDF están archivados en el monitor con su sha256.",
+      "url": "https://www.paho.org/es/documentos/informe-situacion-5-colombia-terremoto-agosto-2026-19-agosto-2026"
     }
   ]
 }
