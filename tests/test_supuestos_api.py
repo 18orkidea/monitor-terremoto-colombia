@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
 
-from common import NOTA_SONDA, fetch_json
+from common import CAPA_RETIRADA_DESDE, NOTA_SONDA, fetch_json
 
 ONLINE = os.environ.get("SKIP_ONLINE") != "1"
 COP = "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/"
@@ -88,7 +88,14 @@ class TestSupuestosOficiales(unittest.TestCase):
 class TestSupuestosMEN(unittest.TestCase):
     """La capa SISE del MEN se republica sin aviso y muta de tamaño y
     vocabulario en horas (el 28-ago-2026 pasó de ~50.000 filas a 9.273 entre
-    dos sondas). Este supuesto vigila que siga viva y con sus campos clave."""
+    dos sondas). Este supuesto vigila que siga viva y con sus campos clave.
+
+    Desde el 31-ago-2026 la capa (y el ítem del tablero público que la
+    enseñaba) quedaron inaccesibles en ArcGIS — certificado por dos vías
+    independientes, docs/DECISIONES.md. Se certifica INACCESIBILIDAD, no
+    intención: si un mantenimiento la devuelve, este supuesto lo celebra en
+    vez de fallar en rojo cada día por algo ya diagnosticado.
+    """
 
     def test_arcgis_men_responde_con_estado_fisico(self):
         L = ("https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/"
@@ -96,7 +103,19 @@ class TestSupuestosMEN(unittest.TestCase):
         st, d = fetch_json(L, {"where": "1=1", "f": "json", "resultRecordCount": 1,
                                "outFields": "COD_DANE,ESTADO_FISICO,NOM_MUN"},
                           note=NOTA_SONDA)
-        self.assertEqual(st, 200)
+        err = (d or {}).get("error") if isinstance(d, dict) else None
+        if (st == 200 and isinstance(err, dict) and err.get("code") == 400
+                and "invalid url" in str(err.get("message", "")).lower()):
+            self.skipTest(
+                f"la capa SISE sigue inaccesible en ArcGIS, como certificado "
+                f"desde {CAPA_RETIRADA_DESDE} (docs/DECISIONES.md, "
+                "common.py::CAPA_RETIRADA_DESDE). Si esto deja de saltarse, "
+                "¡es la reaparición! — revisar "
+                "alerts.py::men_sedes_capa_reaparecida")
+        self.assertEqual(
+            st, 200,
+            f"la capa MEN falla con algo DISTINTO a la inaccesibilidad ya "
+            f"certificada ({err}): esto sí es un supuesto nuevo por revisar")
         at = d["features"][0]["attributes"]
         for campo in ("COD_DANE", "ESTADO_FISICO", "NOM_MUN"):
             self.assertIn(campo, at, f"campo {campo} desapareció de la capa "

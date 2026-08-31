@@ -88,6 +88,18 @@ HUECOS_RUD_CONOCIDOS = {
                   "por decisión editorial (docs/DECISIONES.md, 28-ago-2026)",
 }
 
+# La capa SISE del MEN (y el ítem del tablero público que la enseñaba)
+# quedaron inaccesibles en ArcGIS Online desde esta fecha, certificado por
+# dos vías independientes (la propia consulta y el tablero, los dos con el
+# mismo "elemento no encontrado" — docs/DECISIONES.md, 31-ago-2026). Se
+# certifica INACCESIBILIDAD, no intención: un mantenimiento torpe podría
+# devolverla mañana, y por eso `men_sedes.run()` sigue preguntando cada día
+# en vez de dejar de intentarlo (R11: volver también es noticia). Vive aquí
+# —y no en `sources/men_sedes.py`— porque `test_unit.py::
+# test_no_hay_otra_frontera_de_corte_en_la_ingesta` exige que ninguna fecha
+# de agosto de 2026 quede suelta como literal fuera de este módulo.
+CAPA_RETIRADA_DESDE = "2026-08-31"
+
 
 def anterior_al_sismo(fecha: str | None) -> bool:
     """¿Consta que el titular es anterior al terremoto?

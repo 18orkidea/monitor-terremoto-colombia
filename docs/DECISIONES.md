@@ -4742,3 +4742,104 @@ presentación— ya pasó una vez en el proyecto con un redondeo mal aplicado
 (ver la entrada de El Cerrito / Alcalá más arriba). Que vuelva a pasar con
 otro nombre —esta vez «entrega» en vez de «snapshot»— es la señal de que la
 distinción necesita quedar escrita donde la vea quien corrija la próxima.
+
+## 2026-08-31 — La capa del MEN (SISE) queda inaccesible: plan de sucesión activado
+
+**Contexto.** La capa `SISE202608_Priorizadas_Final` (services3.arcgis.com,
+cuenta `Rv2iYa4TcJdIHIfq`) que alimenta `men_sedes.py` dejó de responder el
+31-ago-2026 a las 09:30 UTC: HTTP 200 con `{"code": 400, "message": "Invalid
+URL"}`, la firma con la que ArcGIS contesta cuando un ítem ya no existe. Lo
+cazó un test de supuesto en otra rama (KeyError 'features' persistente,
+reintentado dos veces) — R11 funcionando como debía.
+
+**Diagnóstico, por dos vías independientes** (no solo el fallo de la
+consulta): el ítem del tablero público que la enseñaba
+(`mineducacion.maps.arcgis.com/apps/dashboards/5e47f09f3b374396a5b3be15e8e96192`)
+también es inaccesible — comprobado cargándolo en un navegador real, no solo
+por API: la aplicación de ArcGIS Dashboards responde «No se puede encontrar
+el elemento […]». El elemento que publicaba el tablero fue retirado, no solo
+la capa que consultábamos.
+
+**Barrido de sucesoras, antes de dar la fuente por perdida**: de las ~50
+capas de la cuenta, dos comparten el prefijo SISE — `DANE_SISE_Pt` (registro
+general, fechado diciembre de 2025, anterior al sismo) y `MEN_SISE_Cruce_Pt`
+(cruce de geocodificación). Ninguna trae `ESTADO_FISICO` ni
+`TOTAL_MATRICULA`/`MATRICULA_PREL`: no son sucesoras funcionales, son
+catálogos con otro propósito. Ninguna otra capa de la cuenta menciona el
+sismo, el daño o 2026 en su nombre.
+
+**Decisiones, numeradas:**
+
+1. **Se certifica INACCESIBILIDAD, no intención.** El monitor no afirma que
+   el MEN cerró la serie a propósito — solo que hoy no se puede acceder ni a
+   la capa ni al tablero. Un mantenimiento torpe podría devolverla mañana.
+2. **La corrida diaria SIGUE preguntando** a la misma URL, cada día, barato
+   —una consulta que ya se archivaba de todas formas—: es el único vigilante
+   posible de una reaparición, y R11 dice que volver también es noticia.
+3. **Mensaje de error específico, no el genérico de «se republica sin
+   aviso».** Esa frase describía OTRO comportamiento conocido de esta fuente
+   (mutar de tamaño y vocabulario en horas); confundir los dos habría hecho
+   perder la causa real. `men_sedes.CAPA_RETIRADA_DESDE = "2026-08-31"` fija
+   la fecha certificada, y el resultado de `run()` marca `capa_retirada:
+   True` cuando la firma de error coincide exactamente (código 400,
+   «Invalid URL») — otros errores (throttling, capa vacía, contrato de
+   paginación roto) siguen con su mensaje de siempre.
+4. **Alerta dedicada (`ingest/alerts.py`, bloque 14) en vez del genérico
+   detector de silencio de 48 h**: mientras la capa siga muda,
+   `men_sedes_capa_inaccesible` en nivel `info` nombra la causa conocida
+   —así el estado consta sin sonar como una avería nuestra cada día (R11: lo
+   ya explicado no vuelve a pedir que alguien lo investigue)—; si vuelve a
+   responder con datos, `men_sedes_capa_reaparecida` en `alta`. Se lee del
+   snapshot del día (`men_sedes_offset0.json`), no de una segunda petición:
+   `fetch()` ya archiva el cuerpo de error con su HTTP 200 (R4), así que
+   comprobarlo no cuesta red propia.
+5. **Lo que el archivo conserva**: la serie sede a sede sigue completa hasta
+   su corte, con el patrón del registro detenido (una fila por cambio, la
+   ausencia de cambio queda en `sources_log`) — exactamente para esto existe
+   el principio de archivo. El geojson público
+   (`data/public/men_sedes_mapa.geojson`) sigue sirviendo el último corte;
+   no se vacía ni se retira.
+6. **El fechado visible al público** («con corte 30-ago-2026, último día
+   publicado» en el lead de las fichas y `deploy/render_html.py`) **queda
+   fuera de este cambio a propósito**: se hace en un lote aparte, después de
+   que se fusione el PR del índice departamental en curso, para no chocar de
+   superficie con ese trabajo.
+7. **El hito público queda EN ESPERA** (decisión editorial, 31-ago-2026,
+   criterio textual: «lo importante es que los datos no desaparezcan de los
+   tableros — nosotros mantenemos los datos vivos al público, esperamos
+   antes de reportarlo como hito, pero no ocultamos los datos del último
+   snapshot»). El borrador se guarda AQUÍ, fechado, y no en
+   `feeds/hitos_monitor.json`, hasta que se decida publicarlo:
+
+   ```json
+   {
+     "fecha": "2026-08-31",
+     "tipo": "monitor",
+     "resumen": "La capa del MEN sede a sede quedó inaccesible el 31-ago; el tablero público también.",
+     "texto": "El Ministerio de Educación documentaba en un tablero público el estado físico de las sedes educativas, sede a sede, desde el 28 de agosto de 2026; el monitor lo archivaba a diario desde el 29. El 31 de agosto de 2026, a las 09:30 UTC, la capa que alimentaba ese tablero dejó de responder. El propio ítem del tablero también quedó inaccesible: cargado en un navegador, ArcGIS Dashboards responde que no encuentra el elemento. No se sabe si es un retiro definitivo o un mantenimiento temporal — el monitor no afirma lo uno ni lo otro, solo constata que hoy no se puede acceder ni a la capa ni al tablero, y sigue preguntando cada día por si vuelve. Ninguna otra capa pública de la cuenta del Ministerio trae el mismo detalle sede a sede. La serie que el monitor archivó entre el 28 y el 30 de agosto queda completa y disponible, con su último corte documentado.",
+     "url": "/municipio/quibdo/"
+   }
+   ```
+
+   Los datos MEN, mientras tanto, siguen publicados tal cual el último
+   snapshot (ya era así antes de esta entrada: `men_sedes_mapa.geojson` no
+   se vacía ni se retira — decisión 5).
+8. **Bug crítico encontrado y corregido en `run_daily.py`, no de esta
+   fuente**: el orquestador contaba CUALQUIER `{"error": …}` como fallo de
+   la corrida (`sys.exit(1)`), sin distinguir una degradación YA
+   diagnosticada de un fallo nuevo sin explicar. El 31-ago-2026 esto puso la
+   corrida diaria en rojo por `men_sedes: ERROR` y **el deploy de Pages se
+   saltó entero** — 39.661 edificios de Microsoft quedaron archivados sin
+   publicar hasta un deploy manual de excepción. Corregido con un contrato
+   genérico: un resultado marca `"degradado_conocido": True` junto a su
+   `"error"` para decir «esto ya lo sabemos, la alerta lo explica, no
+   apagues la imprenta» — `run_daily.py::_es_error_real()` es la única
+   función que decide el rojo, y el resumen de la corrida distingue "ok" /
+   "degradado (conocido, ver alertas)" / "ERROR". `men_sedes.run()` es el
+   primer emisor del marcador; cualquier fuente futura con una degradación
+   certificada y vigilada por su propia alerta puede usarlo igual.
+   `tests/test_unit.py::TestRunDailyDegradacionConocida` lo fija, extremo a
+   extremo con la firma real de `men_sedes.run()`.
+
+**Qué NO se tocó:** `deploy/render_html.py`, `site/` y el lead de las
+fichas — ver decisión 6.
