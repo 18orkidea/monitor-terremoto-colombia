@@ -3239,6 +3239,28 @@ def matricula_departamento(depto: str, ctx: dict) -> dict:
     return _matricula_de_sedes(sedes)
 
 
+def porcentaje_afectacion_departamento(personas: float | None,
+                                       poblacion: float | None, depto: str) -> float | None:
+    """Qué porcentaje de la población departamental (suma DANE de sus
+    municipios) figura inscrito en el RUD (suma de personas de los MISMOS
+    municipios) — mismo universo en numerador y denominador; nunca un total
+    departamental de otra fuente mezclado con la suma municipal.
+
+    R11: por encima de 100 —o un hallazgo real (más inscritos que población
+    proyectada) o un error de datos, y los dos casos piden revisión humana
+    antes de publicarse— no se devuelve nada y se avisa, en vez de romper la
+    corrida (R13) o publicar un porcentaje que nadie ha comprobado."""
+    if personas is None or not poblacion:
+        return None
+    valor = personas / poblacion * 100
+    if valor > 100:
+        print(f"AVISO: el {valor:.1f}% de afectación en el RUD de {depto} supera "
+              f"el 100% ({fmt(personas)} personas sobre {fmt(poblacion)} de "
+              f"población DANE); no se publica, hace falta revisión")
+        return None
+    return valor
+
+
 def datos_ficha_departamento(depto: str, ctx: dict) -> dict:
     municipios = sorted(municipios_del_departamento(depto, ctx),
                         key=lambda m: m.get("poblacion_2026") or 0, reverse=True)
@@ -3246,12 +3268,16 @@ def datos_ficha_departamento(depto: str, ctx: dict) -> dict:
     con_evidencia = municipios_con_evidencia_satelital_del_departamento(depto, ctx)
     poblaciones = [m["poblacion_2026"] for m in municipios
                   if m.get("poblacion_2026") is not None]
+    poblacion = sum(poblaciones) if poblaciones else None
+    agregado = agregado_rud_departamento(depto, ctx)
     return {
         "depto": depto, "slug": slug(depto), "municipios": municipios,
         "elegibles": elegibles, "con_evidencia": con_evidencia,
-        "agregado": agregado_rud_departamento(depto, ctx),
+        "agregado": agregado,
         "titulares": titulares_departamento(depto, ctx),
-        "poblacion": sum(poblaciones) if poblaciones else None,
+        "poblacion": poblacion,
+        "pct_rud_poblacion": porcentaje_afectacion_departamento(
+            agregado["rud_personas"], poblacion, depto),
         "salud_declarada": cifras_salud_departamento(depto, ctx),
         "salud_sin_valor": cifras_salud_departamento_sin_valor(depto, ctx),
         "sitrep_paginas": ctx["ops_salud"].get("sitrep_paginas") or {},
@@ -3401,7 +3427,15 @@ def render_ficha_departamento(d: dict) -> str:
         tarjetas.append(("Viviendas averiadas", fmt(agregado["rud_viv_averiadas"]),
                         "RUD · UNGRD · suma municipal"))
     if d["poblacion"] is not None:
-        tarjetas.append(("Población 2026", fmt(d["poblacion"]), "DANE · suma municipal"))
+        sub_poblacion = "DANE · suma municipal"
+        if d["pct_rud_poblacion"] is not None:
+            # R3: es un porcentaje del RUD, no una medida de daño real — el
+            # registro es progresivo y puede subrepresentar mucho (la lección
+            # de Pereira), así que hereda ese caveat entero, nunca se lee como
+            # «el X % de la población quedó afectada».
+            sub_poblacion += (f'; el {e(pct(d["pct_rud_poblacion"]))} de esa población figura '
+                             f'inscrito como afectado en el RUD')
+        tarjetas.append(("Población 2026", fmt(d["poblacion"]), sub_poblacion))
     matricula = d["matricula"]
     if matricula["total"] is not None:
         tarjetas.append(("Estudiantes matriculados en sedes con afectación reportada",
@@ -3420,6 +3454,14 @@ def render_ficha_departamento(d: dict) -> str:
             # Misma redacción que la ficha municipal y el marcado nacional
             # (G3): la advertencia no se reescribe una tercera vez.
             o.append(f'<p class="note">{e(_matricula_descripcion(matricula))}</p>')
+
+    # ---- lo que declara el propio departamento (OPS/salud)
+    # Sube de posición (docs/DECISIONES.md, 31-ago-2026): es un dato
+    # importante y va justo tras las tarjetas de cifras, antes de la lista de
+    # municipios, no enterrada tras prensa. El orden de secciones de la
+    # ficha departamental queda fijado y con guardián:
+    # `TestOrdenFichaDepartamental`.
+    o.append(seccion_salud_departamental(d))
 
     # ---- municipios del departamento
     o.append('<section class="page-section" id="municipios">')
@@ -3478,9 +3520,6 @@ def render_ficha_departamento(d: dict) -> str:
                     f'{fmt(len(d["titulares"]))}. El resto, en '
                     f'<a href="{BASE}/noticias.html">Titulares</a>.</p>')
         o.append("</section>")
-
-    # ---- lo que declara el propio departamento (hueco para la serie OPS/salud)
-    o.append(seccion_salud_departamental(d))
 
     # ---- lo que no sabemos
     o.append('<section class="page-section">')
@@ -4513,6 +4552,78 @@ def nota_mirada_portada(ctx: dict) -> str:
     ciu = len([m for m in filas if m["n_ciudadanos"]])
     return (f" —<strong>los satélites han mirado {fmt_prosa(sat)} municipios; "
             f"la comunidad ha documentado {fmt_prosa(ciu)}</strong>")
+
+
+def _deptos_ordenados_por_afectacion(ctx: dict) -> list[tuple[str, dict]]:
+    """Los departamentos afectados, del más al menos afectado por familias
+    inscritas en el RUD (suma municipal). MISMO camino de cálculo que usa la
+    propia ficha departamental (`agregado_rud_departamento`), nunca un
+    recuento paralelo — es justo lo que el guardián de índice-vs-fichas
+    compara.
+
+    El orden es descendente por familias y no alfabético: un departamento sin
+    ninguna familia inscrita todavía (`None`) se trata como el mínimo, no
+    como un cero — R3 aplicado también al ORDEN, no solo al valor."""
+    deptos = departamentos_afectados(ctx)
+    con_agregado = [(d, agregado_rud_departamento(d, ctx)) for d in deptos]
+    return sorted(con_agregado,
+                 key=lambda t: (t[1]["rud_familias"] is not None, t[1]["rud_familias"] or 0),
+                 reverse=True)
+
+
+def entradilla_departamentos_portada(ctx: dict) -> str:
+    """La entradilla del índice de departamentos: cuenta lo mismo que la
+    tabla, de la misma lista (`_deptos_ordenados_por_afectacion`), para que
+    texto y tabla no puedan contradecirse — mismo principio que
+    `nota_mirada_portada` con los municipios.
+
+    Abre con «Un total de»: la frase no puede empezar por un guarismo (Libro
+    de estilo, 10.10) y hoy son 15. Y desarrolla RUD y OPS/OMS porque esta
+    entradilla es su primera aparición visible en la portada (9.19)."""
+    deptos = _deptos_ordenados_por_afectacion(ctx)
+    n = len(deptos)
+    con_salud = sum(1 for d, _ in deptos if cifras_salud_departamento(d, ctx))
+    frase_salud = (
+        f' De ellos, {fmt_prosa(con_salud)} '
+        f'{concuerda(con_salud, "tiene", "tienen")} además establecimientos de salud '
+        f'verificados por el Ministerio de Salud, según los Informes de Situación '
+        f'de la Organización Panamericana de la Salud (OPS/OMS).' if con_salud else "")
+    return (f'Un total de {fmt_prosa(n)} '
+            f'{concuerda(n, "departamento tiene", "departamentos tienen")} ficha propia en '
+            f'este monitor, ordenados de mayor a menor por las familias inscritas en el '
+            f'Registro Único de Damnificados (RUD) de sus municipios: el orden también '
+            f'cuenta la jerarquía del registro, no del desastre —el RUD puede '
+            f'subrepresentar mucho—, así que tampoco es solo alfabético.{frase_salud}')
+
+
+def filas_departamentos_portada(ctx: dict) -> str:
+    """Las filas del índice de departamentos de la portada: hoy es el único
+    enlace que la home ofrece hacia las fichas departamentales —antes solo se
+    llegaba por la columna de departamento de `municipios.html`—.
+
+    La celda de salud ausente se dice con palabras («sin cifra de
+    MinSalud»), no con un guion: un guion es el convenio de «dato numérico
+    que la fuente no desglosó» (`filas_municipios`, `filas_portada`), pero
+    aquí la ausencia misma ES el hallazgo —hoy la mayoría de los
+    departamentos no tienen cifra de MinSalud, y esa proporción se lee mejor
+    en palabras que en un signo que se puede confundir con un cero o pasarse
+    por alto en una columna de números—. Nunca se quita la celda entera y se
+    rompe la tabla."""
+    filas = []
+    for depto, agregado in _deptos_ordenados_por_afectacion(ctx):
+        familias = agregado["rud_familias"]
+        salud = cifras_salud_departamento(depto, ctx)
+        verificadas = salud.get("ips_verificadas_crue")
+        filas.append(
+            f'<tr data-buscar="{e(norm_busqueda(depto))}" '
+            f'data-familias="{"" if familias is None else int(familias)}">'
+            f'<td><a href="/departamento/{slug(depto)}/" style="color:inherit">'
+            f'<strong>{e(depto)}</strong></a></td>'
+            f'<td class="num">{fmt(familias)}</td>'
+            + (f'<td class="num">{fmt(verificadas["valor"])}</td>' if verificadas
+               else '<td><span style="color:var(--muted)">sin cifra de MinSalud</span></td>')
+            + "</tr>")
+    return "\n".join(filas)
 
 
 # ============================================================================
@@ -7823,6 +7934,8 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "portada-nota-rud": nota_rud_desde,
                    "portada-nota-sin": nota_sin_registro,
                    "portada-tarjetas": tarjetas_portada,
+                   "portada-deptos-intro": entradilla_departamentos_portada,
+                   "portada-deptos": filas_departamentos_portada,
                    "portada-sello": sello_portada,
                    # el mismo sello: la página de referencia se rehace en la
                    # misma corrida y con la misma fecha de datos que la portada
@@ -7868,6 +7981,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "referencia-cronologia": "referencia",
                "portada-leyenda": "index", "portada-nota-rud": "index",
                "portada-nota-sin": "index", "portada-tarjetas": "index",
+               "portada-deptos-intro": "index", "portada-deptos": "index",
                "portada-sello": "index", "referencia-sello": "referencia",
                "referencia-dataset": "referencia",
                "municipios-sello": "municipios",

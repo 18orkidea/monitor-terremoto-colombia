@@ -103,7 +103,17 @@ PROSA_MINIMA = {
     # contra los ~12 commits intermedios —el volumen no lo permitía en el
     # tiempo del cambio—, pero SUBIR nunca puede esconder una regresión (solo
     # bajar la exige, CLAUDE.md DoD #2): el suelo sube de 1.807 a 1.898.
-    "index.html": 1898,
+    #
+    # 31-ago-2026 (`docs/DECISIONES.md`): 2.190 medidas − 196 condicionales
+    # (mismo descuento de alertas de siempre). Medido contra `dist/` real
+    # construido CON el índice de departamentos: la entradilla nueva
+    # (`entradilla_departamentos_portada`) más los dos encabezados estáticos
+    # del bloque son 65 palabras propias, medidas aparte; el resto del salto
+    # es deriva normal de un día a otro en la prosa condicional de la propia
+    # portada (alertas, brecha), sin causa única identificada — la misma
+    # figura que ya aparece en la entrada del 30-ago de municipios.html. El
+    # suelo sube de 1.898 a 2.190; no baja en ningún caso.
+    "index.html": 2190,
     # 30-ago-2026 (`docs/DECISIONES.md`): 714 medidas − 200 de aviso
     # condicional. Crecimiento pequeño y sin causa única identificada entre
     # el alta del MEN y las correcciones editoriales; sube de 507 a 514.
