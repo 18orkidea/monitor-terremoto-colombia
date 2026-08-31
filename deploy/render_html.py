@@ -3433,7 +3433,7 @@ def render_ficha_departamento(d: dict) -> str:
             # registro es progresivo y puede subrepresentar mucho (la lección
             # de Pereira), así que hereda ese caveat entero, nunca se lee como
             # «el X % de la población quedó afectada».
-            sub_poblacion += (f'; {e(pct(d["pct_rud_poblacion"]))} de esa población figura '
+            sub_poblacion += (f'; el {e(pct(d["pct_rud_poblacion"]))} de esa población figura '
                              f'inscrito como afectado en el RUD')
         tarjetas.append(("Población 2026", fmt(d["poblacion"]), sub_poblacion))
     matricula = d["matricula"]
@@ -4575,20 +4575,25 @@ def entradilla_departamentos_portada(ctx: dict) -> str:
     """La entradilla del índice de departamentos: cuenta lo mismo que la
     tabla, de la misma lista (`_deptos_ordenados_por_afectacion`), para que
     texto y tabla no puedan contradecirse — mismo principio que
-    `nota_mirada_portada` con los municipios."""
+    `nota_mirada_portada` con los municipios.
+
+    Abre con «Un total de»: la frase no puede empezar por un guarismo (Libro
+    de estilo, 10.10) y hoy son 15. Y desarrolla RUD y OPS/OMS porque esta
+    entradilla es su primera aparición visible en la portada (9.19)."""
     deptos = _deptos_ordenados_por_afectacion(ctx)
     n = len(deptos)
     con_salud = sum(1 for d, _ in deptos if cifras_salud_departamento(d, ctx))
     frase_salud = (
-        f' {fmt_prosa(con_salud, femenino=True)} además '
-        f'{concuerda(con_salud, "tiene", "tienen")} establecimientos de salud '
-        f'verificados por el Ministerio de Salud, según los Informes de '
-        f'Situación de la OPS/OMS.' if con_salud else "")
-    return (f'{fmt_prosa(n, femenino=True)} '
+        f' De ellos, {fmt_prosa(con_salud)} '
+        f'{concuerda(con_salud, "tiene", "tienen")} además establecimientos de salud '
+        f'verificados por el Ministerio de Salud, según los Informes de Situación '
+        f'de la Organización Panamericana de la Salud (OPS/OMS).' if con_salud else "")
+    return (f'Un total de {fmt_prosa(n)} '
             f'{concuerda(n, "departamento tiene", "departamentos tienen")} ficha propia en '
-            f'este monitor, ordenados de mayor a menor por las familias inscritas en el RUD '
-            f'de sus municipios: el orden también cuenta la jerarquía del desastre, no solo '
-            f'el alfabeto.{frase_salud}')
+            f'este monitor, ordenados de mayor a menor por las familias inscritas en el '
+            f'Registro Único de Damnificados (RUD) de sus municipios: el orden también '
+            f'cuenta la jerarquía del registro, no del desastre —el RUD puede '
+            f'subrepresentar mucho—, así que tampoco es solo alfabético.{frase_salud}')
 
 
 def filas_departamentos_portada(ctx: dict) -> str:
@@ -4599,10 +4604,11 @@ def filas_departamentos_portada(ctx: dict) -> str:
     La celda de salud ausente se dice con palabras («sin cifra de
     MinSalud»), no con un guion: un guion es el convenio de «dato numérico
     que la fuente no desglosó» (`filas_municipios`, `filas_portada`), pero
-    aquí la ausencia misma ES el hallazgo —9 de 15 departamentos no tienen
-    cifra de MinSalud, y esa proporción se lee mejor en palabras que en un
-    signo que se puede confundir con un cero o pasarse por alto en una
-    columna de números—. Nunca se quita la celda entera y se rompe la tabla."""
+    aquí la ausencia misma ES el hallazgo —hoy la mayoría de los
+    departamentos no tienen cifra de MinSalud, y esa proporción se lee mejor
+    en palabras que en un signo que se puede confundir con un cero o pasarse
+    por alto en una columna de números—. Nunca se quita la celda entera y se
+    rompe la tabla."""
     filas = []
     for depto, agregado in _deptos_ordenados_por_afectacion(ctx):
         familias = agregado["rud_familias"]
@@ -4610,7 +4616,7 @@ def filas_departamentos_portada(ctx: dict) -> str:
         verificadas = salud.get("ips_verificadas_crue")
         filas.append(
             f'<tr data-buscar="{e(norm_busqueda(depto))}" '
-            f'data-familias="{"" if familias is None else familias}">'
+            f'data-familias="{"" if familias is None else int(familias)}">'
             f'<td><a href="/departamento/{slug(depto)}/" style="color:inherit">'
             f'<strong>{e(depto)}</strong></a></td>'
             f'<td class="num">{fmt(familias)}</td>'

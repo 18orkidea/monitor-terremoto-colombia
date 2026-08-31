@@ -4857,17 +4857,22 @@ sufría.
    `filas_departamentos_portada`, inyectados por el mecanismo `data-gen` de
    siempre): tabla de los 15 departamentos, ordenada de mayor a menor por
    familias inscritas en el RUD —el orden también cuenta la jerarquía del
-   desastre, no solo el alfabeto—, con enlace a cada ficha y, donde exista,
-   los establecimientos de salud verificados por MinSalud.
+   registro, no del desastre (el RUD puede subrepresentar mucho), así que
+   tampoco es solo alfabético—, con enlace a cada ficha y, donde exista, los
+   establecimientos de salud verificados por MinSalud.
 2. **Índice y ficha comparten UN solo camino de cálculo**
    (`agregado_rud_departamento`, `cifras_salud_departamento`): el índice no
    recalcula nada por su cuenta. Guardián con mutación en
    `TestIndiceDepartamentosPortada`.
-3. **La celda de salud ausente es un guion, no una celda que desaparece**: el
-   concepto existe en la columna aunque este departamento en concreto no
-   tenga cifra —mismo convenio que ya usan `filas_municipios`/`filas_portada`
-   para «un guion no es un cero»—, y es distinto de «la sección entera no se
-   pinta», que sigue aplicando cuando NINGÚN concepto tiene valor.
+3. **La celda de salud ausente se nombra, no se dibuja como un guion.**
+   Corregido tras el auditor editorial: el primer intento usaba el mismo
+   guion que las cifras numéricas ausentes (`filas_municipios`,
+   `filas_portada`), pero aquí la ausencia misma ES el hallazgo —hoy la
+   mayoría de los departamentos no tienen cifra de MinSalud, y esa
+   proporción se lee mejor en palabras («sin cifra de MinSalud») que en un
+   signo que se confunde con un cero o se pasa por alto en una columna de
+   números—. Sigue siendo distinto de «la sección entera no se pinta», que
+   aplica cuando NINGÚN concepto tiene valor en toda la ficha.
 4. **La sección «Salud: lo que declaran MinSalud y la OPS» sube de posición
    en la ficha departamental**: pasa de ir tras prensa a ir justo después de
    las tarjetas de cifras, antes de la lista de municipios — «es un dato

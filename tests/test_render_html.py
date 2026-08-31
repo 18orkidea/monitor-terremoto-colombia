@@ -841,7 +841,7 @@ class TestIndiceDepartamentosPortada(unittest.TestCase):
                 ficha = R.datos_ficha_departamento(depto, self.ctx)
                 self.assertEqual(agregado["rud_familias"], ficha["agregado"]["rud_familias"],
                                  "índice y ficha divergen para el mismo departamento")
-                marca = f'data-familias="{"" if esperado is None else esperado}"'
+                marca = f'data-familias="{"" if esperado is None else int(esperado)}"'
                 self.assertIn(marca, html, f"el índice no publica {marca}")
 
     def test_el_guardian_muerde_si_la_suma_se_rompe(self):
@@ -853,9 +853,9 @@ class TestIndiceDepartamentosPortada(unittest.TestCase):
         suma_real = sum(m["rud_familias"] for m in municipios_reales
                         if m.get("rud_familias") is not None)
         suma_mutada = suma_real + alguno["rud_familias"]
-        self.assertIn(f'data-familias="{suma_mutada}"', html_mutado,
+        self.assertIn(f'data-familias="{int(suma_mutada)}"', html_mutado,
                      "el índice no reflejó el municipio duplicado: la mutación no prueba nada")
-        self.assertNotIn(f'data-familias="{suma_real}"', html_mutado)
+        self.assertNotIn(f'data-familias="{int(suma_real)}"', html_mutado)
 
     def test_un_departamento_sin_municipios_elegibles_no_aparece(self):
         depto_falso = "Departamento sin señal (caso fabricado)"
@@ -873,16 +873,22 @@ class TestIndiceDepartamentosPortada(unittest.TestCase):
         self.assertNotIn(depto_falso, html)
 
     def test_celda_de_salud_ausente_se_nombra_no_se_dibuja_como_guion(self):
-        """La ausencia de cifra de MinSalud ES información —9 de 15
-        departamentos no la tienen— y se dice con palabras, no con un guion
-        que se confunde con un cero o se pasa por alto en una columna de
-        números. Nunca se quita la celda entera, que rompería la tabla."""
+        """La ausencia de cifra de MinSalud ES información —hoy la mayoría de
+        los departamentos no la tienen— y se dice con palabras, no con un
+        guion que se confunde con un cero o se pasa por alto en una columna
+        de números. Nunca se quita la celda entera, que rompería la tabla."""
         con_salud = [d for d in R.departamentos_afectados(self.ctx)
                     if R.cifras_salud_departamento(d, self.ctx)]
         sin_salud = [d for d in R.departamentos_afectados(self.ctx)
                     if not R.cifras_salud_departamento(d, self.ctx)]
         self.assertTrue(con_salud, "ningún departamento con salud declarada en el corpus")
-        self.assertTrue(sin_salud, "ningún departamento sin salud declarada en el corpus")
+        if not sin_salud:
+            # Buena noticia: MinSalud ya desglosó los 15. El caso que este
+            # test ejerce desaparece del corpus real — se celebra, no se
+            # fuerza un departamento a mano (mismo criterio que
+            # `SIN_EVIDENCIA_AGOTADA`).
+            self.skipTest("los 15 departamentos ya tienen cifra de MinSalud: "
+                          "ningún caso «sin cifra» que ejercer, buena noticia")
         html = R.filas_departamentos_portada(self.ctx)
         filas = html.split("</tr>")
         for depto in sin_salud:
@@ -893,7 +899,7 @@ class TestIndiceDepartamentosPortada(unittest.TestCase):
     def test_entradilla_cuenta_lo_mismo_que_la_tabla(self):
         intro = R.entradilla_departamentos_portada(self.ctx)
         n = len(R.departamentos_afectados(self.ctx))
-        self.assertIn(R.fmt_prosa(n, femenino=True), intro)
+        self.assertIn(R.fmt_prosa(n), intro)
 
 
 class TestMapaEvidencias(unittest.TestCase):
