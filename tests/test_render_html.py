@@ -718,6 +718,182 @@ class TestIntegracionDepartamental(unittest.TestCase):
         self.assertNotIn("Establecimientos de salud nombrados", R.render_ficha(d))
 
 
+class TestPorcentajeAfectacionDepartamento(unittest.TestCase):
+    """El % de la población departamental inscrita en el RUD: mismo universo
+    en numerador y denominador (suma municipal de personas RUD ÷ suma
+    municipal de población DANE, de LOS MISMOS municipios). Fixtures
+    sintéticos: es aritmética pura, no depende de qué diga hoy el corpus."""
+
+    def test_calculo_normal(self):
+        self.assertAlmostEqual(
+            R.porcentaje_afectacion_departamento(500, 10000, "Depto de prueba"), 5.0)
+
+    def test_sin_numerador_no_se_publica(self):
+        self.assertIsNone(
+            R.porcentaje_afectacion_departamento(None, 10000, "Depto de prueba"))
+
+    def test_sin_denominador_no_se_publica(self):
+        self.assertIsNone(
+            R.porcentaje_afectacion_departamento(500, None, "Depto de prueba"))
+        self.assertIsNone(
+            R.porcentaje_afectacion_departamento(500, 0, "Depto de prueba"))
+
+    def test_mas_de_cien_no_se_publica_y_avisa(self):
+        """R11: por encima de 100 es un hallazgo o un error de datos, y los
+        dos casos piden revisión humana — no se publica solo, se avisa."""
+        salida = io.StringIO()
+        with contextlib.redirect_stdout(salida):
+            resultado = R.porcentaje_afectacion_departamento(
+                15000, 10000, "Depto de prueba")
+        self.assertIsNone(resultado)
+        self.assertIn("AVISO", salida.getvalue())
+        self.assertIn("Depto de prueba", salida.getvalue())
+
+    def test_la_tarjeta_de_poblacion_lleva_el_porcentaje_cuando_hay(self):
+        ctx = R.contexto()
+        depto = next((d for d in R.departamentos_afectados(ctx)
+                     if R.datos_ficha_departamento(d, ctx)["pct_rud_poblacion"] is not None),
+                    None)
+        if depto is None:
+            self.skipTest("ningún departamento del corpus tiene el porcentaje calculable")
+        d = R.datos_ficha_departamento(depto, ctx)
+        html = R.render_ficha_departamento(d)
+        self.assertIn("figura inscrito como afectado en el RUD", html)
+        self.assertIn(R.pct(d["pct_rud_poblacion"]), html)
+
+    def test_el_porcentaje_no_engorda_el_indice_de_portada(self):
+        """Encargo explícito: el índice de la portada solo lleva familias y
+        salud, no el porcentaje de población — no se engorda con un dato más
+        por fila."""
+        ctx = R.contexto()
+        html = R.filas_departamentos_portada(ctx)
+        self.assertNotIn("figura inscrito como afectado", html)
+
+
+class TestOrdenFichaDepartamental(unittest.TestCase):
+    """Orden de secciones fijado por decisión editorial (docs/DECISIONES.md,
+    31-ago-2026): tarjetas → salud → municipios → prensa → qué no sabemos →
+    fuentes, con las que apliquen en cada departamento. «Es un dato
+    importante»: la salud sube por delante de la lista de municipios, no
+    queda enterrada tras prensa."""
+
+    MARCAS = ('class="metric-strip"', 'id="salud"', 'id="municipios"',
+             "Qué publicó la prensa", "Qué no sabemos de",
+             "Fuentes y trazabilidad")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def _posiciones_en_orden(self, html):
+        return [html.find(marca) for marca in self.MARCAS if marca in html]
+
+    def test_el_orden_se_respeta_con_seccion_de_salud(self):
+        depto = next((d for d in R.departamentos_afectados(self.ctx)
+                     if R.cifras_salud_departamento(d, self.ctx)), None)
+        if depto is None:
+            self.skipTest("ningún departamento del corpus tiene sección de salud hoy")
+        html = R.render_ficha_departamento(R.datos_ficha_departamento(depto, self.ctx))
+        self.assertIn('id="salud"', html)
+        pos = self._posiciones_en_orden(html)
+        self.assertEqual(pos, sorted(pos), "la sección de salud no está en su sitio")
+
+    def test_el_orden_se_respeta_sin_seccion_de_salud(self):
+        """El reorden no puede dejar rastro donde no hay salud que mostrar."""
+        depto = next((d for d in R.departamentos_afectados(self.ctx)
+                     if not R.cifras_salud_departamento(d, self.ctx)), None)
+        if depto is None:
+            self.skipTest("todos los departamentos del corpus tienen salud hoy")
+        html = R.render_ficha_departamento(R.datos_ficha_departamento(depto, self.ctx))
+        self.assertNotIn('id="salud"', html)
+        pos = self._posiciones_en_orden(html)
+        self.assertEqual(pos, sorted(pos))
+
+
+class TestIndiceDepartamentosPortada(unittest.TestCase):
+    """El índice de departamentos en la portada — hoy el único enlace desde
+    la home hacia las fichas departamentales."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.ctx = R.contexto()
+
+    def test_orden_descendente_por_familias(self):
+        deptos = R._deptos_ordenados_por_afectacion(self.ctx)
+        self.assertTrue(deptos, "ningún departamento afectado en el corpus")
+        familias = [agregado["rud_familias"] or -1 for _, agregado in deptos]
+        self.assertEqual(familias, sorted(familias, reverse=True))
+
+    def test_guardian_indice_vs_fichas(self):
+        """El índice y la ficha departamental tienen que decir la misma
+        cifra de familias — vienen de la MISMA función
+        (`agregado_rud_departamento`), y aquí se compara además contra una
+        suma independiente calculada en el propio test."""
+        html = R.filas_departamentos_portada(self.ctx)
+        for depto, agregado in R._deptos_ordenados_por_afectacion(self.ctx):
+            with self.subTest(depto=depto):
+                municipios = R.municipios_del_departamento(depto, self.ctx)
+                valores = [m["rud_familias"] for m in municipios
+                          if m.get("rud_familias") is not None]
+                esperado = sum(valores) if valores else None
+                self.assertEqual(agregado["rud_familias"], esperado,
+                                 "el agregado del índice no cuadra con la suma independiente")
+                ficha = R.datos_ficha_departamento(depto, self.ctx)
+                self.assertEqual(agregado["rud_familias"], ficha["agregado"]["rud_familias"],
+                                 "índice y ficha divergen para el mismo departamento")
+                marca = f'data-familias="{"" if esperado is None else esperado}"'
+                self.assertIn(marca, html, f"el índice no publica {marca}")
+
+    def test_el_guardian_muerde_si_la_suma_se_rompe(self):
+        depto = R.departamentos_afectados(self.ctx)[0]
+        municipios_reales = R.municipios_del_departamento(depto, self.ctx)
+        alguno = next(m for m in municipios_reales if m.get("rud_familias") is not None)
+        ctx_mutado = {**self.ctx, "municipios": [*self.ctx["municipios"], dict(alguno)]}
+        html_mutado = R.filas_departamentos_portada(ctx_mutado)
+        suma_real = sum(m["rud_familias"] for m in municipios_reales
+                        if m.get("rud_familias") is not None)
+        suma_mutada = suma_real + alguno["rud_familias"]
+        self.assertIn(f'data-familias="{suma_mutada}"', html_mutado,
+                     "el índice no reflejó el municipio duplicado: la mutación no prueba nada")
+        self.assertNotIn(f'data-familias="{suma_real}"', html_mutado)
+
+    def test_un_departamento_sin_municipios_elegibles_no_aparece(self):
+        depto_falso = "Departamento sin señal (caso fabricado)"
+        municipio_falso = {**self.ctx["municipios"][0],
+                           "municipio": "Municipio sin señal (caso fabricado)",
+                           "departamento": depto_falso,
+                           "rud_familias": None, "rud_personas": None,
+                           "rud_viv_destruidas": None, "rud_viv_averiadas": None,
+                           "n_noticias": None, "dyfi_respuestas": None,
+                           "en_aoi_copernicus": False,
+                           "unosat_edificios": None, "sertit_edificios": None}
+        ctx = {**self.ctx, "municipios": [*self.ctx["municipios"], municipio_falso],
+              "idx": {**self.ctx["idx"], municipio_falso["municipio"]: municipio_falso}}
+        html = R.filas_departamentos_portada(ctx)
+        self.assertNotIn(depto_falso, html)
+
+    def test_celda_de_salud_ausente_se_dice_con_guion_no_se_omite(self):
+        """Un guion no es un cero (R3): el concepto existe en la columna y
+        este departamento no tiene cifra, así que la celda se publica con
+        «—» — nunca se quita la celda entera, que rompería la tabla."""
+        con_salud = [d for d in R.departamentos_afectados(self.ctx)
+                    if R.cifras_salud_departamento(d, self.ctx)]
+        sin_salud = [d for d in R.departamentos_afectados(self.ctx)
+                    if not R.cifras_salud_departamento(d, self.ctx)]
+        self.assertTrue(con_salud, "ningún departamento con salud declarada en el corpus")
+        self.assertTrue(sin_salud, "ningún departamento sin salud declarada en el corpus")
+        html = R.filas_departamentos_portada(self.ctx)
+        filas = html.split("</tr>")
+        for depto in sin_salud:
+            fila = next(f for f in filas if R.e(depto) in f)
+            self.assertIn('<td class="num">—</td>', fila)
+
+    def test_entradilla_cuenta_lo_mismo_que_la_tabla(self):
+        intro = R.entradilla_departamentos_portada(self.ctx)
+        n = len(R.departamentos_afectados(self.ctx))
+        self.assertIn(R.fmt_prosa(n, femenino=True), intro)
+
+
 class TestMapaEvidencias(unittest.TestCase):
     """La segunda pestaña existe solo con puntos y no pesa hasta que se pide.
 

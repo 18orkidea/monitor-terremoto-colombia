@@ -4843,3 +4843,52 @@ sismo, el daño o 2026 en su nombre.
 
 **Qué NO se tocó:** `deploy/render_html.py`, `site/` y el lead de las
 fichas — ver decisión 6.
+
+## 2026-08-31 — Índice de departamentos en la portada, reorden de la salud, % de afectación
+
+**Contexto.** Las 15 fichas departamentales no recibían ni un enlace desde la
+home (cero «departamento/» en `index.html`): solo se llegaba por la columna
+de departamento de `municipios.html`, y el objetivo SEO de esas fichas lo
+sufría.
+
+**Decisiones:**
+
+1. **Bloque nuevo en la portada** (`entradilla_departamentos_portada` +
+   `filas_departamentos_portada`, inyectados por el mecanismo `data-gen` de
+   siempre): tabla de los 15 departamentos, ordenada de mayor a menor por
+   familias inscritas en el RUD —el orden también cuenta la jerarquía del
+   desastre, no solo el alfabeto—, con enlace a cada ficha y, donde exista,
+   los establecimientos de salud verificados por MinSalud.
+2. **Índice y ficha comparten UN solo camino de cálculo**
+   (`agregado_rud_departamento`, `cifras_salud_departamento`): el índice no
+   recalcula nada por su cuenta. Guardián con mutación en
+   `TestIndiceDepartamentosPortada`.
+3. **La celda de salud ausente es un guion, no una celda que desaparece**: el
+   concepto existe en la columna aunque este departamento en concreto no
+   tenga cifra —mismo convenio que ya usan `filas_municipios`/`filas_portada`
+   para «un guion no es un cero»—, y es distinto de «la sección entera no se
+   pinta», que sigue aplicando cuando NINGÚN concepto tiene valor.
+4. **La sección «Salud: lo que declaran MinSalud y la OPS» sube de posición
+   en la ficha departamental**: pasa de ir tras prensa a ir justo después de
+   las tarjetas de cifras, antes de la lista de municipios — «es un dato
+   importante». El orden de secciones queda fijado con guardián
+   (`TestOrdenFichaDepartamental`): tarjetas → salud → municipios → prensa →
+   qué no sabemos → fuentes, con las que apliquen por departamento.
+5. **Nueva cifra en la tarjeta de Población**: qué porcentaje de la
+   población departamental (suma DANE de sus municipios) figura inscrito en
+   el RUD (suma de personas de los MISMOS municipios) — mismo universo en
+   numerador y denominador, nunca un total departamental de otra fuente
+   mezclado con la suma municipal. Hereda todos los caveats del RUD (registro
+   progresivo, puede subrepresentar mucho — la lección de Pereira): se
+   rotula como inscripción, nunca como «población afectada». Por encima de
+   100 no se publica y se avisa (R11): o es un hallazgo real o un error de
+   datos, y los dos casos piden revisión humana antes de publicarse. No se
+   añade al índice de la portada — encargo explícito de no engordarlo con un
+   dato más por fila.
+6. **`ingest/seo_check.py::PROSA_MINIMA["index.html"]` sube de 1.898 a
+   2.190**, medido contra `dist/` real construido CON el índice. La
+   entradilla nueva más los dos encabezados estáticos del bloque son 65
+   palabras propias medidas aparte; el resto del salto es deriva normal de
+   un día a otro en la prosa condicional de la portada (alertas, brecha),
+   sin causa única identificada — la misma figura de otras entradas de este
+   documento. El suelo nunca baja, solo sube (CLAUDE.md DoD #2).
