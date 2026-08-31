@@ -5768,6 +5768,30 @@ class TestMenSedesPaginacion(unittest.TestCase):
         self.assertEqual(conn.execute(
             "SELECT COUNT(*) FROM men_sedes").fetchone()[0], 0)
 
+    def test_la_firma_de_item_retirado_se_distingue_de_otros_errores(self):
+        """ArcGIS contesta {"code": 400, "message": "Invalid URL"} con HTTP
+        200 cuando el ítem ya no existe (certificado el 31-ago-2026,
+        docs/DECISIONES.md) — una firma distinta de un throttling o de una
+        capa vacía, y `capa_retirada` solo se marca con ESA firma exacta."""
+        men_sedes, conn, _ = self._modulo([
+            (200, {"error": {"code": 400, "message": "Invalid URL",
+                             "details": ["Invalid URL"]}}),
+        ])
+        out = men_sedes.run(conn, snapshot_date="2026-08-31")
+        self.assertTrue(out.get("capa_retirada"))
+        self.assertIn(men_sedes.CAPA_RETIRADA_DESDE, out["error"])
+
+    def test_un_throttling_no_se_confunde_con_el_item_retirado(self):
+        """Mismo HTTP 200 con {"error": …}, código distinto: no puede
+        marcarse `capa_retirada` — sería un falso «MEN cerró la serie» sobre
+        lo que solo es una limitación de tasa pasajera."""
+        men_sedes, conn, _ = self._modulo([
+            (200, {"error": {"code": 503, "message": "throttled"}}),
+        ])
+        out = men_sedes.run(conn, snapshot_date="2026-08-31")
+        self.assertNotIn("capa_retirada", out)
+        self.assertIn("se republica sin aviso", out["error"])
+
 
 class TestMenSedesSoloCambios(unittest.TestCase):
     """El archivo de tabla es POR CAMBIOS: línea base completa el primer día
@@ -6441,6 +6465,53 @@ class TestAlertaOpsSaludSitrepNuevo(unittest.TestCase):
         self.assertEqual(ops_salud.sitreps_nuevos(), [])
 
 
+class TestAlertaMenSedesCapaRetiradaOReaparecida(unittest.TestCase):
+    """La capa del MEN (SISE) quedó inaccesible el 31-ago-2026, junto con el
+    ítem del tablero público (docs/DECISIONES.md). El aviso reemplaza al
+    detector de silencio genérico mientras la fuente siga muda, y vigila
+    también la reaparición — R11: volver también es noticia."""
+
+    def _snapshot(self, tmp, dia, cuerpo):
+        d = tmp / dia
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "men_sedes_offset0.json").write_text(
+            json.dumps(cuerpo, ensure_ascii=False), encoding="utf-8")
+
+    def test_sin_features_hoy_es_inaccesible(self):
+        import tempfile
+        import alerts
+        tmp = Path(tempfile.mkdtemp())
+        self._snapshot(tmp, "2026-08-31",
+                       {"error": {"code": 400, "message": "Invalid URL"}})
+        original = alerts.SNAPSHOTS
+        alerts.SNAPSHOTS = tmp
+        self.addCleanup(lambda: setattr(alerts, "SNAPSHOTS", original))
+        self.assertFalse(alerts._men_sedes_capa_viva("2026-08-31"))
+
+    def test_con_features_hoy_es_reaparicion(self):
+        import tempfile
+        import alerts
+        tmp = Path(tempfile.mkdtemp())
+        self._snapshot(tmp, "2026-09-05", {
+            "features": [{"attributes": {"COD_DANE": "S1"},
+                         "geometry": {"x": -75.0, "y": 5.0}}]})
+        original = alerts.SNAPSHOTS
+        alerts.SNAPSHOTS = tmp
+        self.addCleanup(lambda: setattr(alerts, "SNAPSHOTS", original))
+        self.assertTrue(alerts._men_sedes_capa_viva("2026-09-05"))
+
+    def test_sin_snapshot_del_dia_no_afirma_nada(self):
+        """La corrida de hoy puede no haber llegado aún a ese paso: sin
+        evidencia, no se afirma ni que está viva ni que sigue muda."""
+        import tempfile
+        import alerts
+        tmp = Path(tempfile.mkdtemp())
+        original = alerts.SNAPSHOTS
+        alerts.SNAPSHOTS = tmp
+        self.addCleanup(lambda: setattr(alerts, "SNAPSHOTS", original))
+        self.assertIsNone(alerts._men_sedes_capa_viva("2026-08-31"))
+
+
 class TestOpsSaludDiasDesdeUltimoSitrep(unittest.TestCase):
     """Base del aviso de silencio prolongado (R15, umbral propio de 15
     días): sale de los JSON del repo, no de la red."""
@@ -6466,3 +6537,62 @@ class TestOpsSaludDiasDesdeUltimoSitrep(unittest.TestCase):
         ops_salud.DOCUMENTOS = Path(tempfile.mkdtemp())
         self.addCleanup(lambda: setattr(ops_salud, "DOCUMENTOS", original))
         self.assertIsNone(ops_salud.dias_desde_ultimo_sitrep(hoy="2026-08-30"))
+
+
+class TestRunDailyDegradacionConocida(unittest.TestCase):
+    """El 31-ago-2026, `men_sedes: ERROR` puso la corrida en rojo y el deploy
+    de Pages se saltó: 39.661 edificios de Microsoft quedaron archivados sin
+    publicar por una degradación YA diagnosticada y vigilada por su propia
+    alerta. `_es_error_real` es el contrato que lo distingue de un fallo
+    nuevo sin explicar — el rojo se reserva para lo segundo."""
+
+    def test_un_error_con_degradado_conocido_no_cuenta_como_error_real(self):
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        import run_daily
+        self.assertFalse(run_daily._es_error_real(
+            {"error": "la capa sigue inaccesible…", "degradado_conocido": True}))
+
+    def test_un_error_sin_marcar_sigue_siendo_error_real(self):
+        """Sin el marcador explícito, CUALQUIER otro fallo sigue en rojo —
+        la excepción es solo para lo que una fuente diagnosticó a propósito,
+        nunca el comportamiento por defecto de un error nuevo."""
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        import run_daily
+        self.assertTrue(run_daily._es_error_real({"error": "HTTP 500"}))
+        self.assertTrue(run_daily._es_error_real(
+            {"error": "algo se rompió", "degradado_conocido": False}))
+
+    def test_un_resultado_sin_error_nunca_cuenta(self):
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        import run_daily
+        self.assertFalse(run_daily._es_error_real({"sedes_comprobadas": 9273}))
+        self.assertFalse(run_daily._es_error_real(None))
+
+    def test_men_sedes_con_la_capa_retirada_no_pone_la_corrida_en_rojo(self):
+        """Extremo a extremo con la firma real de men_sedes.run(): la salida
+        que hoy produce la fuente ya lleva el marcador que la libra del
+        rojo."""
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent.parent / "ingest"))
+        import run_daily
+        from sources import men_sedes
+
+        conn_originales = men_sedes.fetch_json
+        men_sedes.fetch_json = lambda *a, **kw: (200, {"error": {
+            "code": 400, "message": "Invalid URL", "details": ["Invalid URL"]}})
+        self.addCleanup(lambda: setattr(men_sedes, "fetch_json", conn_originales))
+
+        import sqlite3
+        from common import SCHEMA
+        conn = sqlite3.connect(":memory:")
+        conn.executescript(SCHEMA)
+        resultado = men_sedes.run(conn, snapshot_date="2026-08-31")
+        self.assertIn("error", resultado)
+        self.assertFalse(
+            run_daily._es_error_real(resultado),
+            "una degradación certificada y vigilada no puede tumbar la "
+            "corrida ni saltar el deploy — es el patrón exacto del "
+            "31-ago-2026 (docs/DECISIONES.md)")

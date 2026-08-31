@@ -14,6 +14,21 @@ sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent))
 
 RESULTS = {}
 
+# Contrato entre una fuente y este orquestador (R11/R13): un paso que
+# devuelve `{"error": …}` normalmente cuenta como ERROR y pone la corrida en
+# rojo — pero una degradación YA DIAGNOSTICADA y vigilada (la capa del MEN
+# retirada de ArcGIS el 31-ago-2026, docs/DECISIONES.md, es el primer caso)
+# no es lo mismo que un fallo nuevo sin explicar: si se cuenta igual, el
+# deploy de Pages se salta CADA DÍA por algo que ya sabemos y que su propia
+# alerta explica — pasó el 31-ago-2026 y dejó sin publicar 39.661 edificios
+# de Microsoft ya archivados. Un paso marca `"degradado_conocido": True`
+# junto a su `"error"` para decir «esto ya lo sabemos, sigue avisando, pero
+# no apagues la imprenta por ello» — el rojo se reserva para lo que nadie ha
+# diagnosticado todavía.
+def _es_error_real(resultado) -> bool:
+    return (isinstance(resultado, dict) and "error" in resultado
+           and not resultado.get("degradado_conocido"))
+
 
 def step(name, fn, *a, **kw):
     print(f"── {name}…", flush=True)
@@ -73,9 +88,14 @@ def main():
 
     print("\n== RESUMEN ==")
     for k, v in RESULTS.items():
-        ok = "ERROR" if isinstance(v, dict) and "error" in v else "ok"
-        print(f"  {k}: {ok}")
-    errs = [k for k, v in RESULTS.items() if isinstance(v, dict) and "error" in v]
+        if _es_error_real(v):
+            estado = "ERROR"
+        elif isinstance(v, dict) and v.get("degradado_conocido"):
+            estado = "degradado (conocido, ver alertas)"
+        else:
+            estado = "ok"
+        print(f"  {k}: {estado}")
+    errs = [k for k, v in RESULTS.items() if _es_error_real(v)]
     sys.exit(1 if errs else 0)
 
 

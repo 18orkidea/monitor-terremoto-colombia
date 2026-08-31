@@ -348,6 +348,25 @@ def _emisor(titulo: str) -> str:
     return "Una fuente institucional"
 
 
+def _men_sedes_capa_viva(snap: str) -> bool | None:
+    """¿La capa SISE del MEN respondió con datos hoy, o sigue inaccesible?
+
+    None si la corrida de hoy aún no dejó snapshot que mirar (no ha llegado a
+    ese paso, o falló antes de archivar nada). El snapshot existe SIEMPRE que
+    hubo un HTTP 200 con cuerpo —incluido el cuerpo de error que ArcGIS
+    contesta con 200—, así que `fetch()` lo archiva igual (R4) y esto solo lo
+    lee, sin red propia.
+    """
+    f = SNAPSHOTS / snap / "men_sedes_offset0.json"
+    if not f.exists():
+        return None
+    try:
+        datos = json.loads(f.read_text())
+    except json.JSONDecodeError:
+        return None
+    return bool(datos.get("features"))
+
+
 def _institucional(dia: str) -> list[dict] | None:
     """Cronología institucional archivada de un día, o None si no se capturó."""
     f = SNAPSHOTS / dia / "gdacs_news_institucional.json"
@@ -1022,6 +1041,32 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                       f"anunciarlo — si se confirma, marcar "
                       f"ops_salud.SERIE_CERRADA con la fecha y el porqué."),
             "dias": dias})
+
+    # 14) MEN/SISE: la capa de sedes educativas (y el ítem del tablero
+    # público que la enseñaba) quedaron inaccesibles en ArcGIS el
+    # 31-ago-2026 (docs/DECISIONES.md). Se certifica INACCESIBILIDAD, no
+    # intención — por eso la corrida sigue preguntando cada día y esto vigila
+    # los dos sentidos: mientras siga muda, un aviso "info" nombra la causa
+    # conocida para que el estado conste sin ensordecer el resto (R11: ya
+    # explicado no vuelve a pedir que alguien lo investigue); si vuelve a
+    # responder con datos, "alta" — un regreso también es noticia.
+    from common import CAPA_RETIRADA_DESDE
+    viva = _men_sedes_capa_viva(snap)
+    if viva is False:
+        alerts.append({
+            "tipo": "men_sedes_capa_inaccesible", "nivel": "info",
+            "texto": (f"La capa de sedes educativas del MEN (SISE) sigue "
+                      f"inaccesible en ArcGIS desde el {CAPA_RETIRADA_DESDE} "
+                      f"— el ítem del tablero público también lo está. El "
+                      f"monitor conserva el corte del 30-ago-2026 y pregunta "
+                      f"a diario por si reaparece.")})
+    elif viva is True:
+        alerts.append({
+            "tipo": "men_sedes_capa_reaparecida", "nivel": "alta",
+            "texto": (f"La capa de sedes educativas del MEN (SISE) volvió a "
+                      f"responder con datos, tras estar inaccesible desde el "
+                      f"{CAPA_RETIRADA_DESDE}. Revisar si es la misma capa u "
+                      f"otra, y reanudar la serie.")})
 
     payload = {"generado": snap, "fecha": snap, "alertas": alerts}
     if balance_consolidado:

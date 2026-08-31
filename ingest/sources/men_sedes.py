@@ -97,7 +97,7 @@ from __future__ import annotations
 
 import json
 
-from common import PUBLIC, fetch_json, to_num, today, utcnow
+from common import CAPA_RETIRADA_DESDE, PUBLIC, fetch_json, to_num, today, utcnow
 
 LAYER = ("https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/"
          "SISE202608_Priorizadas_Final/FeatureServer/0/query")
@@ -241,8 +241,31 @@ def run(conn=None, *, snapshot_date=None, **_op) -> dict:
             conn.commit()
             if own:
                 conn.close()
+            err = (page or {}).get("error")
+            # La firma exacta con la que ArcGIS contesta cuando el ítem ya no
+            # existe (código 400, "Invalid URL"): distinta de un throttling o
+            # una capa que se republica a medias, así que se nombra la causa
+            # conocida en vez de repetir el aviso genérico — evita que el
+            # detector de silencio suene como si fuera una avería nuestra.
+            if isinstance(err, dict) and err.get("code") == 400 and \
+                    "invalid url" in str(err.get("message", "")).lower():
+                return {"error": f"MEN sedes: la capa sigue inaccesible en "
+                                 f"ArcGIS (HTTP {st}, {err}) — consta "
+                                 f"retirada desde el {CAPA_RETIRADA_DESDE} "
+                                 f"(docs/DECISIONES.md), junto con el ítem "
+                                 f"del tablero público que la enseñaba. El "
+                                 f"monitor sigue el corte del 30-ago-2026 y "
+                                 f"pregunta a diario por si reaparece.",
+                        # Degradación YA DIAGNOSTICADA y vigilada (alerts.py
+                        # bloque 14): `run_daily.py` no puede ponerla en rojo
+                        # ni saltar el deploy por ella — eso es justo lo que
+                        # pasó el 31-ago-2026 y dejó sin publicar 39.661
+                        # edificios de Microsoft ya archivados. `capa_retirada`
+                        # es el detalle de ESTA fuente; `degradado_conocido`
+                        # es el contrato genérico que lee run_daily.py.
+                        "capa_retirada": True, "degradado_conocido": True}
             return {"error": f"MEN sedes HTTP {st} en offset={offset} "
-                             f"({(page or {}).get('error') or 'sin cuerpo'}): "
+                             f"({err or 'sin cuerpo'}): "
                              f"descarga incompleta ({descargadas} sedes "
                              "comprobadas) — la capa se republica sin aviso, "
                              "ver snapshots previos y el test de supuesto"}

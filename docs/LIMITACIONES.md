@@ -1217,3 +1217,48 @@ correcto de que la OPS mira más lejos que el catálogo de municipios de este
 monitor. Queda documentado hasta que alguien decida si Bolívar entra al
 catálogo (una decisión de alcance distinta a esta integración, con su propio
 `docs/DECISIONES.md` si se toma).
+
+## La capa del MEN (SISE) quedó inaccesible en ArcGIS el 31-ago-2026
+
+El tablero del MEN se documentó desde el 28-ago-2026 y el monitor lo archiva
+a diario desde el 29-ago. El 31-ago-2026, a las 09:30 UTC, la capa
+`SISE202608_Priorizadas_Final` dejó de responder: la consulta habitual
+devuelve `{"code": 400, "message": "Invalid URL"}` con HTTP 200 — la firma
+con la que ArcGIS contesta cuando un ítem ya no existe.
+
+**Certificado por dos vías independientes, no solo por el fallo de la
+consulta**: el propio ítem del TABLERO público
+(`mineducacion.maps.arcgis.com/apps/dashboards/5e47f09f3b374396a5b3be15e8e96192`)
+también es inaccesible — cargado en un navegador real, la aplicación de
+ArcGIS Dashboards responde «No se puede encontrar el elemento […]. Es
+posible que se haya eliminado el elemento o que hayas introducido la URL
+incorrecta.» No es un problema de esta consulta concreta: el elemento que la
+publicaba fue retirado.
+
+**Se certifica INACCESIBILIDAD, no intención.** No hay forma de saber desde
+fuera si es un retiro deliberado o un mantenimiento que la devuelva mañana
+— por eso el monitor no lo llama «cierre» ni «retirada» en el sentido de un
+final decidido, solo constata que hoy no se puede acceder. La corrida diaria
+sigue preguntando a la misma URL cada día, barato, como único vigilante de
+una posible reaparición (`ingest/alerts.py`, tipo `men_sedes_capa_reaparecida`,
+nivel alta si vuelve).
+
+**Barrido de la cuenta de ArcGIS del MEN antes de dar la fuente por
+irrecuperable**: de las ~50 capas públicas de la cuenta (`Rv2iYa4TcJdIHIfq`),
+dos comparten el prefijo SISE — `DANE_SISE_Pt` (registro general de sedes,
+fechado diciembre de 2025, sin campos de estado físico ni matrícula) y
+`MEN_SISE_Cruce_Pt` (cruce de geocodificación, sin esos campos tampoco—.
+Ninguna de las dos es sucesora funcional: ninguna trae `ESTADO_FISICO` ni
+`TOTAL_MATRICULA`/`MATRICULA_PREL`, que es lo que hacía valiosa la capa
+original para el seguimiento del daño. No hay ninguna otra capa en la cuenta
+con nombre relacionado al sismo, al daño o a 2026.
+
+**Lo que el archivo conserva** (para lo que existe el principio de archivo):
+la serie completa sede a sede, con su corte documentado en el patrón del
+registro detenido — la última captura buena es del 30-ago-2026, y desde el
+31-ago cada corrida sin datos queda como una comprobación más en
+`sources_log`, nunca como un hueco silencioso. Sobreviven los snapshots
+diarios (`data/snapshots/*/men_sedes_offset*.json`), la tabla `men_sedes` y
+su CSV de dumps, y el geojson público ya publicado
+(`data/public/men_sedes_mapa.geojson`), que no se borra ni se vacía: sigue
+sirviendo el último corte conocido.
