@@ -1,23 +1,23 @@
 {
- "generado": "2026-08-31",
- "fecha": "2026-08-31",
+ "generado": "2026-09-01",
+ "fecha": "2026-09-01",
  "alertas": [
   {
    "tipo": "reportes_ciudadanos",
    "nivel": "info",
-   "texto": "45 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 45
+   "texto": "6 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 6
   },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "232 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 232
+   "texto": "315 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 315
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +0 municipios. +4.209 familias desde la captura anterior"
+   "texto": "RUD actualizado: +2 municipios. +8.991 familias desde la captura anterior"
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -31,9 +31,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 15 días distintos, pero rud_daily solo tiene 14 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 15,
-   "dias_en_rud_daily": 14
+   "texto": "sources_log registra capturas del RUD en 16 días distintos, pero rud_daily solo tiene 15 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 16,
+   "dias_en_rud_daily": 15
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -52,17 +52,41 @@
    "puntos": 201
   },
   {
-   "tipo": "fuentes_con_peticion_condicional",
-   "nivel": "info",
-   "texto": "1 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1788061940878/dyfi_geo_10km.geojson",
+   "tipo": "fuente_deja_de_honrar_condicionales",
+   "nivel": "media",
+   "texto": "1 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.0 MB). Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
    "urls": [
-    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1788061940878/dyfi_geo_10km.geojson"
+    "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID"
    ],
-   "n": 1
+   "n": 1,
+   "bytes": 72
+  },
+  {
+   "tipo": "manifiesto_r2_con_objetos_sin_reporte",
+   "nivel": "media",
+   "texto": "9 objeto(s) del manifiesto de R2 no corresponden a ningún reporte ciudadano de la base: o sobran en el bucket o la base perdió su fila. Ejemplo: airbus_8-10_cali_hdx_building_footprints_with_predictions_validated.gpkg",
+   "objetos": [
+    "airbus_8-10_cali_hdx_building_footprints_with_predictions_validated.gpkg",
+    "airbus_8-10_cali_overture_building_footprints_with_predictions.gpkg",
+    "airbus_cali_warped_cog_model-predictions.tif",
+    "predicted_damage_pereira_20260813-google_open_buildings_thresh0.2_reviewed_vantor_reviewed.gpkg",
+    "predicted_damage_pereira_20260813-msft_footprint_reviewed_plus_google_dam_vantor_reviewed.gpkg",
+    "predicted_damage_pereira_20260813-overture_no_embedding_reviewed_vantor_reviewed.gpkg",
+    "vantor_8-12_pereira_google_buildings_with_predictions.gpkg",
+    "vantor_8-12_pereira_model-predictions.tif",
+    "vantor_8-12_pereira_overture_buildings_with_predictions.gpkg"
+   ],
+   "n": 9
+  },
+  {
+   "tipo": "ops_sitrep_nuevo_sin_transcribir",
+   "nivel": "alta",
+   "texto": "La OPS publicó el Informe de Situación 6 sobre el terremoto y el monitor no lo ha transcrito todavía: revisar su tabla de establecimientos de salud y añadirla a data/documentos/ops_salud/.",
+   "sitrep": 6
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-30",
+  "fecha": "2026-08-31",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -237,8 +261,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-08-31/oficiales_feed.json",
-   "items": 56,
+   "snapshot": "data/snapshots/2026-09-01/oficiales_feed.json",
+   "items": 58,
    "regla_sha256": "8c63eb30daf5604d8682e387ede6a671e1836957c221648999d699149c155f18"
   }
  }
