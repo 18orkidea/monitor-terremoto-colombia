@@ -1,23 +1,17 @@
 {
- "generado": "2026-09-01",
- "fecha": "2026-09-01",
+ "generado": "2026-09-02",
+ "fecha": "2026-09-02",
  "alertas": [
-  {
-   "tipo": "reportes_ciudadanos",
-   "nivel": "info",
-   "texto": "6 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 6
-  },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "315 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 315
+   "texto": "338 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 338
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +2 municipios. +8.991 familias desde la captura anterior"
+   "texto": "RUD actualizado: +7 municipios. +12.129 familias desde la captura anterior"
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -31,9 +25,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 16 días distintos, pero rud_daily solo tiene 15 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 16,
-   "dias_en_rud_daily": 15
+   "texto": "sources_log registra capturas del RUD en 17 días distintos, pero rud_daily solo tiene 16 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 17,
+   "dias_en_rud_daily": 16
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -54,12 +48,13 @@
   {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
-   "texto": "1 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.0 MB). Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
+   "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
    "urls": [
+    "https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
     "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID"
    ],
-   "n": 1,
-   "bytes": 72
+   "n": 2,
+   "bytes": 62893
   },
   {
    "tipo": "manifiesto_r2_con_objetos_sin_reporte",
@@ -86,7 +81,7 @@
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-08-31",
+  "fecha": "2026-09-01",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -157,22 +152,29 @@
     "cifra": "departamentos_afectados",
     "valor": 15,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "municipios_afectados",
-    "valor": 472,
+    "valor": 448,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 186182,
+    "valor": 115461,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "personas_afectadas",
+    "valor": 282709,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    },
    {
     "cifra": "personas_afectadas",
@@ -183,6 +185,20 @@
    },
    {
     "cifra": "familias_afectadas",
+    "valor": 54008,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 153336,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
+   },
+   {
+    "cifra": "familias_afectadas",
     "valor": 54382,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "infobae",
@@ -190,24 +206,45 @@
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 127266,
+    "valor": 81506,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "viviendas_averiadas",
+    "valor": 163492,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 26558,
+    "valor": 14493,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "viviendas_destruidas",
+    "valor": 31461,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    },
    {
     "cifra": "heridos",
-    "valor": 4400,
+    "valor": 3935,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 4506,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    },
    {
     "cifra": "heridos",
@@ -218,10 +255,17 @@
    },
    {
     "cifra": "fallecidos",
-    "valor": 304,
+    "valor": 294,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 319,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    },
    {
     "cifra": "fallecidos",
@@ -232,10 +276,17 @@
    },
    {
     "cifra": "desaparecidos",
-    "valor": 426,
+    "valor": 320,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 260,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    },
    {
     "cifra": "desaparecidos",
@@ -246,10 +297,10 @@
    },
    {
     "cifra": "rescatados",
-    "valor": 357,
+    "valor": 188,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "rescatados",
@@ -261,8 +312,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-01/oficiales_feed.json",
-   "items": 58,
+   "snapshot": "data/snapshots/2026-09-02/oficiales_feed.json",
+   "items": 61,
    "regla_sha256": "8c63eb30daf5604d8682e387ede6a671e1836957c221648999d699149c155f18"
   }
  }
