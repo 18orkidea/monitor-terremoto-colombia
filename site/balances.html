@@ -50,10 +50,10 @@
   <section class="intro">
     <p>Cada medio publica la cifra que tenía a mano el día que escribió, citando a quien
     cita. Que no coincidan no es un error de esta página: <strong>esa distancia es la
-    brecha que el monitor mide</strong>. Las cifras se rotulan como <strong>máximo
-    informado</strong> porque el consolidado no retrocede, aunque en la realidad los
-    desaparecidos sí puedan bajar, y lo que no entra en la serie se enseña con su
-    motivo.</p>
+    brecha que el monitor mide</strong>. Las cifras acumulativas se rotulan como
+    <strong>máximo informado</strong> porque el consolidado no retrocede; los
+    desaparecidos, que en la realidad bajan, siguen <strong>el corte más
+    reciente</strong>; y lo que no entra en la serie se enseña con su motivo.</p>
     <p><strong>La advertencia importa más que el dato:</strong> esto <em>no</em> es el balance
     oficial. Es lo que la prensa dice que dicen las fuentes oficiales —y, cuando la
     hay, lo que publica la propia entidad por sus canales, marcado como tal—: útil porque vuela más
@@ -68,7 +68,7 @@
 
 <section id="balance-hero">
   <section id="balance-cards" class="metric-strip" data-gen="balances-tarjetas"></section><!-- lo rellena deploy/render_html.py en el build -->
-  <p class="note">Estos valores son el máximo informado de cada cifra, extraído de páginas públicas. El publicador
+  <p class="note">Estos valores son el máximo informado de cada cifra acumulativa —y, en los desaparecidos, la cifra del corte más reciente—, extraídos de páginas públicas. El publicador
   suele ser un medio; UNGRD, SGC, Gobernación, Presidencia o Alcaldía aparecen como fuentes
   citadas dentro del texto. Las coberturas en vivo se muestran, pero pesan menos en la serie.</p>
 </section>
@@ -96,8 +96,8 @@
 </section>
 
 <section id="balance-chart-section">
-  <h2>Serie del máximo informado por día</h2>
-  <p class="sub">El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance.</p>
+  <h2>Serie del consolidado por día</h2>
+  <p class="sub">El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance. Los desaparecidos son la excepción: el punto es la cifra del balance con el corte más reciente, suba o baje.</p>
   <section id="balance-chart" data-gen="balances-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
 </section>
 
@@ -171,11 +171,19 @@
       <strong>«cifras en disputa»</strong>. Y si la captura elegida no trae una cifra, se
       conserva el máximo conocido con su fecha y su medio de origen: un dato no desaparece
       porque un medio no lo repita.</li>
-      <li><strong>¿Por qué «máximo informado» y no «cifra actual»?</strong> Porque en esta
-      serie ninguna cifra baja, y hay una que sí puede bajar en la realidad: los
-      desaparecidos, cuando aparece gente viva. Llamarla «actual» sería afirmar algo que el
-      monitor no sabe. Si un balance oficial corrige a la baja, la corrección aparece entre
-      las cifras descartadas del día en que llega, con su medio y su enlace.</li>
+      <li><strong>¿Por qué «máximo informado» y no «cifra actual»?</strong> Porque las
+      cifras acumulativas de esta serie no bajan, y un balance oficial que corrige a la baja
+      (294 → 289 fallecidos el 17 de agosto) aparece entre las cifras descartadas del día en
+      que llega, con su medio y su enlace. Llamar «actual» a ese máximo sería afirmar algo que
+      el monitor no sabe.</li>
+      <li><strong>¿Y los desaparecidos?</strong> Son la excepción, porque no son un
+      acumulado sino un estado: bajan cuando aparece gente, viva o muerta, y el archivo lo
+      demuestra —426 el 18 de agosto, 260 el 20, 234 el 24 y 219 el 27—. Para ellos no manda el máximo sino <strong>la fecha de
+      corte</strong>: entra la cifra del balance más reciente, suba o baje, y la tarjeta dice
+      de qué corte es. Un medio que llega tarde con un corte viejo sigue sin poder entrar,
+      porque su corte es anterior al vigente. Hasta el 3 de septiembre esta serie servía 496
+      desaparecidos —un corte del 11 de agosto— en cada día desde el 13 de agosto; eso era un
+      error de cómo mostrábamos el dato, y se corrigió.</li>
       <li><strong>¿Una cobertura en vivo puede ser la captura del día?</strong> Sí, si es la
       única con atribución oficial y las demás vienen vacías o con cortes viejos. Sigue
       pesando menos que un artículo estático equivalente, pero una cobertura en vivo que

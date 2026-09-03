@@ -7098,6 +7098,11 @@ CIFRAS_BALANCE_ES = {"fallecidos": "fallecidos", "heridos": "heridos",
 CIFRAS_BALANCE_UI = {"fallecidos": "Fallecidos", "heridos": "Heridos",
                      "desaparecidos": "Desaparecidos",
                      "familias_afectadas": "Familias afectadas"}
+# Espejo de `site/ui.js::CIFRAS_STOCK`: las cifras que cuentan un estado, no
+# un acumulado, y para las que el consolidado sigue el corte más reciente en
+# vez del máximo informado. Aquí solo decide cómo se ROTULAN; la regla vive
+# en ui.js. Si se toca una lista, mirar la otra: el test de espejo lo vigila.
+CIFRAS_STOCK = ("desaparecidos",)
 
 
 def _items_balances(ctx: dict) -> list:
@@ -7142,16 +7147,34 @@ def resumen_balances(ctx: dict) -> str:
     cons = (ult or {}).get("consolidado") or {}
     piezas = [f"<b>{fmt((cons[k] or {}).get('valor'))}</b> {nombre}"
               for k, nombre in CIFRAS_BALANCE_ES.items()
-              if (cons.get(k) or {}).get("valor") is not None]
-    if not piezas:
+              if k not in CIFRAS_STOCK
+              and (cons.get(k) or {}).get("valor") is not None]
+    # Las cifras de stock no son un máximo: van en su propia frase y con su
+    # corte, que es lo que las distingue (una cifra sin su corte miente en
+    # 48 horas, y esta además baja).
+    stock = []
+    for k in CIFRAS_STOCK:
+        v = cons.get(k) or {}
+        if v.get("valor") is None:
+            continue
+        corte = _corte_de_stock(v)
+        stock.append(f"<b>{fmt(v['valor'])}</b> {CIFRAS_BALANCE_ES.get(k, k)}"
+                     f"{' ' + corte if corte else ''}")
+    if not piezas and not stock:
         return f"<p>{cabeza}</p>"
-    lista = piezas[0] if len(piezas) == 1 else ", ".join(piezas[:-1]) + " y " + piezas[-1]
-    # «máximo informado» y no «cifra actual»: R16 también en la entradilla, y
-    # la fecha viaja dentro de la frase porque es el párrafo que se cita suelto
-    # (una cifra sin su corte miente en 48 horas).
-    return (f"<p>{cabeza} Máximo informado hasta el "
-            f"{fecha_larga(ult.get('fecha'))}: {lista}. No es el balance "
-            f"oficial: es lo que publican los medios citándolo.</p>")
+    frase = ""
+    if piezas:
+        lista = (piezas[0] if len(piezas) == 1
+                 else ", ".join(piezas[:-1]) + " y " + piezas[-1])
+        # «máximo informado» y no «cifra actual»: R16 también en la
+        # entradilla, y la fecha viaja dentro de la frase porque es el párrafo
+        # que se cita suelto.
+        frase += (f" Máximo informado hasta el "
+                  f"{fecha_larga(ult.get('fecha'))}: {lista}.")
+    if stock:
+        frase += " Último corte informado: " + "; ".join(stock) + "."
+    return (f"<p>{cabeza}{frase} No es el balance oficial: es lo que "
+            f"publican los medios citándolo.</p>")
 
 
 def tarjetas_balances(ctx: dict) -> str:
@@ -7180,7 +7203,11 @@ def tarjetas_balances(ctx: dict) -> str:
             tarjetas.append(_metric_card(nombre, "—"))
             continue
         partes = []
-        if v.get("fecha") != ult.get("fecha"):
+        if k in CIFRAS_STOCK and v.get("corte"):
+            # la cifra de stock se fecha por su CORTE, no por el día en que
+            # entró: es lo que la hace comparable con el balance oficial
+            partes.append(_corte_de_stock(v, fecha_corta))
+        elif v.get("fecha") != ult.get("fecha"):
             partes.append(f"del {fecha_corta(v['fecha'])}")
         if v.get("medio"):
             partes.append(v["medio"])
@@ -7198,10 +7225,10 @@ def tarjetas_balances(ctx: dict) -> str:
             f"{fmt(v.get('max'))}" for k, v in disputa.items())
         tarjetas.append(
             '<p class="note full">⚠️ <strong>Cifras en disputa entre los '
-            f"medios de este día</strong>: {rangos}. Se muestra la captura "
-            "coherente con la serie: un balance acumulado no retrocede, y un "
-            "medio que llega tarde con un corte viejo no puede hacerla "
-            "bajar.</p>")
+            f"medios de este día</strong>: {rangos}. Se muestra la cifra "
+            "coherente con la serie: un balance acumulado no retrocede, los "
+            "desaparecidos siguen el corte más reciente, y un medio que llega "
+            "tarde con un corte viejo no entra.</p>")
 
     # lo que NO entró en la serie, con su motivo: un balance menor, sin
     # atribución o incoherente sigue siendo información de brecha
@@ -7303,10 +7330,11 @@ def tarjetas_balances(ctx: dict) -> str:
     # dice en ningún otro sitio y no puede faltar: qué significa el rótulo y en
     # qué dirección puede engañar.
     tarjetas.append(
-        '<p class="note full">Cada cifra es <strong>el máximo informado hasta '
-        "la fecha</strong>, no la última publicada: puede ir por detrás de la "
-        "realidad, y los desaparecidos pueden bajar en la realidad sin bajar "
-        "aquí.</p>")
+        '<p class="note full">Cada cifra acumulativa es <strong>el máximo '
+        "informado hasta la fecha</strong>, no la última publicada, y puede ir "
+        "por detrás de la realidad. Los desaparecidos son la excepción: "
+        "cuentan un estado, no un acumulado, y se publica la cifra del "
+        "<strong>corte más reciente</strong>, suba o baje.</p>")
     return "".join(tarjetas)
 
 
@@ -7370,7 +7398,7 @@ def grafico_balances(ctx: dict) -> str:
             f'xmlns="http://www.w3.org/2000/svg" role="img" '
             f'class="grafico-balances" '
             f'aria-labelledby="bal-chart-{pi}-title bal-chart-{pi}-desc">'
-            f'<title id="bal-chart-{pi}-title">{e(titulo)}: máximo informado '
+            f'<title id="bal-chart-{pi}-title">{e(titulo)}: consolidado '
             f'por día</title>'
             f'<desc id="bal-chart-{pi}-desc">{e(descripcion)}</desc>')
         # banda ámbar en los días con cifras en disputa entre medios
@@ -7406,8 +7434,8 @@ def grafico_balances(ctx: dict) -> str:
                     f'<circle cx="{_n(x(i))}" cy="{_n(y(cv["valor"]))}" r="4" '
                     f'fill="{color}" stroke="var(--surface-1)" stroke-width="2">'
                     f'<title>{e(fecha_larga(por_dia[i].get("fecha")))}: '
-                    f'{fmt(cv["valor"])} {e(CIFRAS_BALANCE_ES.get(k, k))} como '
-                    f'máximo informado{e(origen)}</title></circle>')
+                    f'{fmt(cv["valor"])} {e(CIFRAS_BALANCE_ES.get(k, k))} '
+                    f'{e(_como_entra(k, cv))}{e(origen)}</title></circle>')
             # etiqueta directa sobre el último valor: se lee sin ir a la leyenda
             if puntos:
                 ult_v = puntos[-1][1]["valor"]
@@ -7437,19 +7465,44 @@ def grafico_balances(ctx: dict) -> str:
     return "".join(o)
 
 
+def _corte_de_stock(cv: dict, fecha=None) -> str | None:
+    """Cómo se fecha una cifra de stock: por su corte cuando la captura lo
+    declara (texto, URL u otra captura del mismo artículo), y cuando no lo
+    declara nadie se dice así —«archivada el …, sin corte declarado»—, porque
+    el día de la búsqueda es lo más tarde que pudo cortarse, no el corte. R3
+    en la prosa: una fecha que la fuente no dio no se presenta como suya."""
+    fecha = fecha or fecha_larga
+    if not cv.get("corte"):
+        return None
+    if cv.get("senal") == "busqueda":
+        return (f"según una captura archivada el {fecha(cv['corte'])}, sin "
+                "corte declarado")
+    # «con corte al», que es la fórmula de la propia UNGRD
+    return f"con corte al {fecha(cv['corte'])}"
+
+
+def _como_entra(k: str, cv: dict) -> str:
+    """Con qué título figura una cifra en el consolidado: las acumulativas
+    «como máximo informado» (R16); las de stock, con su corte, que es lo que
+    las hace comparables con el balance oficial."""
+    if k in CIFRAS_STOCK:
+        return _corte_de_stock(cv) or "del corte más reciente"
+    return "como máximo informado"
+
+
 def _narra_dia_balances(d: dict, metricas) -> str | None:
     """Una frase del `<desc>`: el consolidado del día para las métricas del
     panel. La cifra que falta se calla; el día sin ninguna, entero."""
     cons = d.get("consolidado") or {}
-    piezas = [f"{fmt(cv['valor'])} {CIFRAS_BALANCE_ES.get(k, k)}"
+    piezas = [f"{fmt(cv['valor'])} {CIFRAS_BALANCE_ES.get(k, k)} "
+              f"{_como_entra(k, cv)}"
               for k, _, _ in metricas
               for cv in [cons.get(k) or {}] if cv.get("valor") is not None]
     if not piezas:
         return None
     lista = piezas[0] if len(piezas) == 1 else " y ".join(piezas)
     marca = ("; cifras en disputa entre medios" if d.get("disputa") else "")
-    return (f"{fecha_larga(d.get('fecha'))}: {lista} como máximo informado"
-            f"{marca}")
+    return f"{fecha_larga(d.get('fecha'))}: {lista}{marca}"
 
 
 # La cifra principal de cada tarjeta de la comparativa, por mirada. Es la
@@ -7754,11 +7807,14 @@ def marcado_balances(ctx: dict) -> str:
         "spatialCoverage": {"@type": "Place", "name": "Occidente de Colombia"},
         "measurementTechnique":
             "Extracción determinista por reglas de texto sobre artículos "
-            "archivados con su sha256. El consolidado es monótono: una cifra "
+            "archivados con su sha256. El consolidado no retrocede: una cifra "
             "entra si supera a la vigente, se puede atribuir a una fuente "
             "oficial, es coherente con el resto de su balance y no supera el "
             "techo de salto. Se publica como máximo informado, no como cifra "
-            "actual, y lo descartado se enseña con su motivo.",
+            "actual, y lo descartado se enseña con su motivo. Los "
+            "desaparecidos son la excepción: cuentan un estado, no un "
+            "acumulado, y se publica la cifra del corte más reciente, suba o "
+            "baje.",
         "distribution": [
             {"@type": "DataDownload",
              "name": "Feed archivado de balances (JSON)",

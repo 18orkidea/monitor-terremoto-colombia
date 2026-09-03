@@ -296,24 +296,33 @@ class TestConsolidadoMonotono(unittest.TestCase):
     11.132 familias afectadas donde el RUD registraba 65.663, porque un
     liveblog del día 10 ganó el día y el consolidado adoptó su cifra."""
 
-    def test_ninguna_cifra_del_balance_retrocede(self):
-        # todas las cifras bajan de golpe al día siguiente: ninguna debe caer
+    def test_ninguna_cifra_acumulativa_del_balance_retrocede(self):
+        # todas las cifras bajan de golpe al día siguiente: ninguna
+        # acumulativa debe caer. Las de stock (los desaparecidos) tienen su
+        # propia regla y su propia clase de tests, más abajo.
         altas = {"departamentos_afectados": 15, "municipios_afectados": 450,
                  "personas_afectadas": 186016, "familias_afectadas": 120328,
                  "viviendas_averiadas": 127557, "viviendas_destruidas": 26945,
                  "heridos": 4187, "fallecidos": 294, "desaparecidos": 426,
                  "rescatados": 356}
         bajas = {k: max(1, v // 10) for k, v in altas.items()}
+        stock = set(correr_con([], "UI.CIFRAS_STOCK"))
+        self.assertTrue(stock, "ui.js tiene que declarar sus cifras de stock")
         serie = correr_con(
             [captura("2026-08-18", "Bueno", altas),
              captura("2026-08-19", "CorteViejo", bajas)],
             "UI.mejorPorDia(items)")
         cons = serie[-1]["consolidado"]
         for cifra, alto in altas.items():
+            if cifra in stock:
+                continue
             self.assertEqual(cons[cifra]["valor"], alto,
                              f"{cifra} retrocedió: un acumulado no baja")
             self.assertEqual(cons[cifra]["fecha"], "2026-08-18",
                              f"{cifra} debe declarar de qué día es el máximo")
+        self.assertEqual(len(altas) - len(stock),
+                         sum(1 for k in altas if k not in stock),
+                         "la lista de arriba tiene que cubrir las diez cifras")
 
     def test_la_cifra_rechazada_se_registra_no_se_borra(self):
         # la discrepancia es brecha (R12): lo que no entra queda con su motivo
@@ -379,6 +388,177 @@ class TestConsolidadoMonotono(unittest.TestCase):
         serie = correr_con([propio], "UI.mejorPorDia(items)")
         self.assertEqual(
             serie[-1]["consolidado"]["viviendas_averiadas"]["valor"], 134342)
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestDesaparecidosSiguenElCorte(unittest.TestCase):
+    """Los desaparecidos cuentan un estado, no un acumulado, y bajan cuando
+    aparece gente —viva o muerta—. El archivo lo demuestra (426 el 18-ago,
+    219 el 27, 136 el 2-sep según la UNGRD) y con monotonía el sitio publicó
+    496 —un corte del 11-ago— durante diecisiete días. Para las cifras de
+    stock manda la fecha de corte, no el máximo (docs/DECISIONES.md,
+    3-sep-2026)."""
+
+    def test_toda_cifra_de_stock_es_una_cifra_del_balance(self):
+        stock = correr_con([], "UI.CIFRAS_STOCK")
+        balance = correr_con([], "UI.CIFRAS_BALANCE")
+        self.assertIn("desaparecidos", stock)
+        self.assertEqual(set(stock) - set(balance), set(),
+                         "una cifra de stock que no está en el balance no "
+                         "se consolida nunca")
+
+    def test_la_cifra_baja_cuando_el_corte_es_mas_reciente(self):
+        serie = correr_con(
+            [captura("2026-08-18", "UNGRD", {"desaparecidos": 426},
+                     fecha_corte="2026-08-18"),
+             captura("2026-08-27", "ElTiempo", {"desaparecidos": 219},
+                     fecha_corte="2026-08-27")],
+            "UI.mejorPorDia(items)")
+        celda = serie[-1]["consolidado"]["desaparecidos"]
+        self.assertEqual(celda["valor"], 219, "el corte más reciente manda")
+        self.assertEqual(celda["corte"], "2026-08-27")
+        self.assertEqual(celda["senal"], "texto",
+                         "la celda dice de dónde salió su corte")
+        self.assertEqual(celda["medio"], "ElTiempo")
+
+    def test_un_corte_viejo_mas_alto_no_entra_y_se_ensena(self):
+        # el 28-ago Caracol volvió a servir el corte del 11 con 496
+        serie = correr_con(
+            [captura("2026-08-27", "ElTiempo", {"desaparecidos": 219},
+                     fecha_corte="2026-08-27"),
+             captura("2026-08-28", "Caracol", {"desaparecidos": 496},
+                     fecha_corte="2026-08-11")],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["consolidado"]["desaparecidos"]["valor"], 219)
+        rechazo = [g for g in serie[-1]["ignoradas"]
+                   if g["cifra"] == "desaparecidos" and g["valor"] == 496]
+        self.assertTrue(rechazo, "la cifra rechazada se enseña, no se borra")
+        self.assertIn("corte", rechazo[0]["motivo"])
+        self.assertIn("11-ago-2026", rechazo[0]["motivo"],
+                      "el motivo nombra el corte que perdió, en la forma "
+                      "corta de la casa y no en ISO: se publica entrecomillado")
+
+    def test_el_mismo_corte_con_otra_cifra_no_pisa_a_la_vigente(self):
+        serie = correr_con(
+            [captura("2026-08-24", "ElTiempo", {"desaparecidos": 234},
+                     fecha_corte="2026-08-24"),
+             captura("2026-08-25", "Otro", {"desaparecidos": 240},
+                     fecha_corte="2026-08-24")],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["consolidado"]["desaparecidos"]["valor"], 234)
+        self.assertTrue(any("mismo corte" in g["motivo"]
+                            for g in serie[-1]["ignoradas"]))
+
+    def test_dentro_del_dia_gana_el_corte_mas_reciente_no_el_ganador(self):
+        # «Rico» gana el día por sus anclas, pero su corte es del 20; «Pobre»
+        # trae el corte del 22. Si se recorriera en el orden del día, el
+        # corte del 22 no volvería a verse nunca.
+        rico = captura("2026-08-22", "Rico",
+                       {"desaparecidos": 260, "fallecidos": 319,
+                        "familias_afectadas": 123789},
+                       fecha_corte="2026-08-20")
+        pobre = captura("2026-08-22", "Pobre", {"desaparecidos": 250},
+                        fecha_corte="2026-08-22")
+        serie = correr_con([rico, pobre], "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["item"]["publisher"]["name"], "Rico",
+                         "el día lo sigue ganando quien trae anclas")
+        celda = serie[-1]["consolidado"]["desaparecidos"]
+        self.assertEqual((celda["valor"], celda["corte"]), (250, "2026-08-22"))
+
+    def test_sin_corte_propio_hereda_el_de_otra_captura_del_mismo_articulo(self):
+        # la URL de El Tiempo del 13-ago se archivó siete veces sin corte
+        # antes de que el worker supiera calcularlo, y una vez con él
+        url = "https://ejemplo.com/balance-ungrd"
+        vieja = captura("2026-08-17", "ElTiempo", {"desaparecidos": 379},
+                        publication_url=url)
+        fresca = captura("2026-08-17", "Caracol", {"desaparecidos": 143},
+                         fecha_corte="2026-08-17")
+        con_corte = captura("2026-08-21", "ElTiempo", {"desaparecidos": 379},
+                            publication_url=url, fecha_corte="2026-08-13")
+        serie = correr_con([vieja, fresca, con_corte], "UI.mejorPorDia(items)")
+        celda = serie[0]["consolidado"]["desaparecidos"]
+        self.assertEqual((celda["valor"], celda["corte"], celda["senal"]),
+                         (143, "2026-08-17", "texto"),
+                         "sin la herencia, la captura vieja empataría en "
+                         "corte con la fresca y podría ganar")
+
+    def test_el_corte_heredado_no_se_adelanta_al_dia_de_la_busqueda(self):
+        # El Tiempo actualiza el mismo artículo en la misma URL: la lectura
+        # del 12 no puede hablar del corte del 15
+        item = {"search_date": "2026-08-12", "publication_url": "https://x/y"}
+        r = correr_con([item],
+                       "UI.corteDe(items[0], {'https://x/y': '2026-08-15'})")
+        self.assertEqual(r, {"fecha": "2026-08-12", "senal": "busqueda"})
+        r = correr_con([item],
+                       "UI.corteDe(items[0], {'https://x/y': '2026-08-11'})")
+        self.assertEqual(r, {"fecha": "2026-08-11", "senal": "misma_url"})
+
+    def test_sin_ninguna_senal_el_dia_de_la_busqueda_hace_de_corte(self):
+        serie = correr_con(
+            [captura("2026-08-23", "Agencia", {"desaparecidos": 290})],
+            "UI.mejorPorDia(items)")
+        celda = serie[-1]["consolidado"]["desaparecidos"]
+        self.assertEqual((celda["corte"], celda["senal"]),
+                         ("2026-08-23", "busqueda"))
+
+    def test_el_techo_de_salto_sigue_hacia_arriba_y_no_existe_hacia_abajo(self):
+        serie = correr_con(
+            [captura("2026-08-18", "UNGRD", {"desaparecidos": 426},
+                     fecha_corte="2026-08-18"),
+             captura("2026-08-19", "Disparate", {"desaparecidos": 426 * 9},
+                     fecha_corte="2026-08-19"),
+             captura("2026-08-20", "Real", {"desaparecidos": 40},
+                     fecha_corte="2026-08-20")],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(serie[1]["consolidado"]["desaparecidos"]["valor"], 426)
+        self.assertTrue(any("salto" in g["motivo"] for g in serie[1]["ignoradas"]))
+        self.assertEqual(serie[2]["consolidado"]["desaparecidos"]["valor"], 40,
+                         "bajar es lo que esta cifra hace: sin techo abajo")
+
+    def test_las_puertas_comunes_siguen_cerradas_para_el_stock(self):
+        # atribución y coherencia rigen igual que para las acumulativas
+        anon = captura("2026-08-27", "Anonimo", {"desaparecidos": 5},
+                       fecha_corte="2026-08-27")
+        anon["reported_data_source"] = []
+        serie = correr_con(
+            [captura("2026-08-18", "UNGRD", {"desaparecidos": 426},
+                     fecha_corte="2026-08-18"), anon],
+            "UI.mejorPorDia(items)")
+        self.assertEqual(serie[-1]["consolidado"]["desaparecidos"]["valor"], 426)
+        self.assertTrue(any("atribución" in g["motivo"]
+                            for g in serie[-1]["ignoradas"]))
+
+    def test_el_archivo_real_demuestra_que_los_desaparecidos_bajan(self):
+        """Propiedad estructural sobre el corpus vivo, sin fechas ni cifras
+        fijadas: existe al menos un día en que el consolidado de
+        desaparecidos es menor que el de la víspera, y cada punto de la serie
+        lleva su corte. Si esto deja de cumplirse, la premisa entera de la
+        regla ha cambiado y hay que volver a docs/DECISIONES.md."""
+        feed = json.loads(
+            (ROOT / "data/public/oficiales.json").read_text(encoding="utf-8"))
+        items = [i for i in feed.get("items", []) if i.get("search_date")]
+        serie = correr_con(items, "UI.mejorPorDia(items)")
+        valores = [(d["consolidado"].get("desaparecidos") or {})
+                   for d in serie]
+        con_dato = [v for v in valores if v.get("valor") is not None]
+        self.assertTrue(con_dato, "el corpus real trae desaparecidos")
+        for v in con_dato:
+            self.assertTrue(v.get("corte") and v.get("senal"),
+                            "cada punto declara su corte y su señal")
+        self.assertTrue(
+            any(b["valor"] < a["valor"]
+                for a, b in zip(con_dato, con_dato[1:])),
+            "el archivo ya no muestra ningún descenso: revisar la premisa")
+
+    def test_el_build_rotula_las_mismas_cifras_de_stock_que_ui_js(self):
+        # espejo (como R8/R10): el build decide cómo se ROTULA cada cifra
+        # con su propia lista; si divergen, el sitio llamaría «máximo» a
+        # una cifra que la regla ya no trata como tal
+        import sys
+        sys.path.insert(0, str(ROOT / "deploy"))
+        import render_html as R
+        self.assertEqual(set(R.CIFRAS_STOCK),
+                         set(correr_con([], "UI.CIFRAS_STOCK")))
 
 
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")

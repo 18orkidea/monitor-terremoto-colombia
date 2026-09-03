@@ -64,11 +64,15 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
   red ni para transformar datos por su cuenta—. Si falta, se degrada avisando y no se
   publica la cifra. `ingest/alerts.py::_consolidado_de_la_serie` · `daily.yml`
 - **R15** Detector de silencio: fuente que calla >48 h ⇒ alerta. `ingest/alerts.py`
-- **R16** El balance consolidado **no retrocede**: una cifra entra si supera a la
-  vigente, tiene atribución oficial trazable, es coherente con su balance y no supera el
-  techo de salto. Se rotula «máximo informado» —los desaparecidos pueden bajar en la
-  realidad— y lo rechazado se enseña con su motivo.
-  `site/ui.js::consolidarDia` · `tests/test_frontend.py::TestConsolidadoMonotono`
+- **R16** El balance consolidado **no retrocede** en sus cifras acumulativas: una cifra
+  entra si supera a la vigente, tiene atribución oficial trazable, es coherente con su
+  balance y no supera el techo de salto. Se rotula «máximo informado» y lo rechazado se
+  enseña con su motivo. **Excepción: las cifras de stock (`CIFRAS_STOCK`, hoy solo los
+  desaparecidos) siguen el corte más reciente, suba o baje**, porque cuentan un estado
+  y el archivo demuestra que bajan (426 el 18-ago → 219 el 27-ago); un corte viejo
+  republicado tarde sigue sin entrar porque su corte es anterior al vigente.
+  `site/ui.js::consolidarDia` · `tests/test_frontend.py::TestConsolidadoMonotono` ·
+  `TestDesaparecidosSiguenElCorte`
 
 ## Principio de archivo
 

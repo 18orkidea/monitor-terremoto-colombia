@@ -582,16 +582,26 @@ window.UI = (function () {
      oposición, publicando 11.132 familias donde el RUD registraba 65.663. */
   const ANCLAS = ["fallecidos", "familias_afectadas"];
 
-  /* Las diez cifras del balance, TODAS acumulativas por decisión editorial
-     (docs/DECISIONES.md, 21-ago-2026): ninguna baja nunca. Incluye
-     `desaparecidos`, que en la realidad SÍ puede bajar —cuando aparece gente
-     viva, que es una buena noticia—; por eso el sitio las rotula «máximo
-     informado» con su fecha y no «cifras actuales». Si el worker añade una
-     métrica nueva, el test la obliga a declararse aquí. */
+  /* Las diez cifras del balance. Nueve son acumulativas por decisión
+     editorial (docs/DECISIONES.md, 21-ago-2026): ninguna baja nunca, y el
+     sitio las rotula «máximo informado» con su fecha y no «cifras actuales».
+     Si el worker añade una métrica nueva, el test la obliga a declararse
+     aquí. */
   const CIFRAS_BALANCE = ["departamentos_afectados", "municipios_afectados",
     "personas_afectadas", "familias_afectadas", "viviendas_averiadas",
     "viviendas_destruidas", "heridos", "fallecidos", "desaparecidos",
     "rescatados"];
+
+  /* La décima cuenta un ESTADO, no un acumulado, y en la realidad baja: los
+     desaparecidos aparecen —vivos o muertos— y salen del recuento. El propio
+     archivo lo demuestra: 426 el 18-ago (UNGRD), 260 el 20, 234 el 24, 219 el
+     27 y 136 el 2-sep, mientras los fallecidos subían de 304 a 331. Con
+     monotonía la serie servía 496 —un corte del 11-ago— en cada día desde el
+     13-ago. Para estas cifras no manda el máximo sino la FECHA DE CORTE: entra
+     el balance más reciente, suba o baje (docs/DECISIONES.md, 3-sep-2026).
+     El corte viejo republicado tarde —el enemigo de la regla del 21-ago—
+     sigue sin poder entrar: su corte es anterior al vigente. */
+  const CIFRAS_STOCK = ["desaparecidos"];
 
   /* Techo de salto. Con monotonía, un error de extracción AL ALZA se queda
      para siempre: el worker ya produjo «900 municipios afectados» desde el
@@ -723,12 +733,44 @@ window.UI = (function () {
      boletín oficial del 18-ago se perderían si solo mirásemos al ganador—.
      Lo rechazado no desaparece: sale en `ignoradas` con su motivo, porque la
      discrepancia es brecha (R12), no un error a ocultar. */
-  function consolidarDia(previo, dia, fecha, orden) {
+  /* Fecha de corte con la que compite una captura por una cifra de stock.
+     Primero lo que `fechaCorte` sabe leer; si no hay nada, el corte que el
+     worker calculó para OTRA captura del mismo artículo —la URL de El Tiempo
+     del 13-ago se archivó siete veces sin corte antes de que el worker
+     supiera calcularlo, y una vez con él—; y en último término el día de la
+     búsqueda, que es lo más tarde que ese balance pudo cortarse. La señal
+     viaja con la fecha para que el sitio diga de dónde salió. */
+  function corteDe(item, cortePorUrl) {
+    const propio = fechaCorte(item);
+    if (propio) return propio;
+    const u = (item && (item.publication_url || item.url)) || null;
+    const busqueda = (item && item.search_date) || null;
+    // El corte prestado no puede ser posterior al día en que se archivó esta
+    // captura: El Tiempo actualiza el mismo artículo en la misma URL, y la
+    // lectura del 12-ago no puede hablar del corte del 15.
+    if (u && cortePorUrl && cortePorUrl[u] &&
+        (!busqueda || cortePorUrl[u] <= busqueda))
+      return { fecha: cortePorUrl[u], senal: "misma_url" };
+    if (busqueda) return { fecha: busqueda, senal: "busqueda" };
+    return null;
+  }
+
+  function consolidarDia(previo, dia, fecha, orden, cortePorUrl) {
     const consolidado = { ...previo };
     const ignoradas = [];
     for (const k of CIFRAS_BALANCE) {
       const vigente = valorDe(consolidado[k]);
-      for (const item of orden) {
+      const esStock = CIFRAS_STOCK.includes(k);
+      // Para una cifra de stock el candidato que importa es el del corte más
+      // reciente, no el que gana el día por atribución: si el orden del día
+      // pusiera delante un corte del 20 y detrás uno del 22, el del 22 no
+      // volvería a verse nunca (cada captura pertenece a un solo día).
+      const candidatos = esStock
+        ? [...orden].sort((a, b) =>
+            ((corteDe(b, cortePorUrl) || {}).fecha || "").localeCompare(
+              (corteDe(a, cortePorUrl) || {}).fecha || ""))
+        : orden;
+      for (const item of candidatos) {
         const v = ((item && item.cifras) || {})[k];
         if (v == null) continue;
         const medio = (item.publisher || {}).name ||
@@ -743,6 +785,35 @@ window.UI = (function () {
         if (!atribucionOficial(item)) {
           rechaza("sin atribución oficial trazable");
           continue;
+        }
+        if (esStock) {
+          const corte = corteDe(item, cortePorUrl);
+          const corteVigente = (consolidado[k] || {}).corte || null;
+          // el motivo es prosa que el sitio publica entrecomillada: las
+          // fechas van en la forma corta de la casa, no en ISO
+          if (corte && corteVigente && corte.fecha < corteVigente) {
+            if (v !== vigente)
+              rechaza(`corte del ${fechaEs(corte.fecha)} anterior al ` +
+                      `vigente (${fechaEs(corteVigente)})`);
+            continue;
+          }
+          if (corte && corteVigente && corte.fecha === corteVigente) {
+            if (v !== vigente)
+              rechaza(`mismo corte que el vigente ` +
+                      `(${fechaEs(corteVigente)}) con otra cifra`);
+            continue;
+          }
+          // El techo de salto se conserva hacia arriba: un «900» sacado de un
+          // nombre de imagen también puede traer corte fresco. Hacia abajo no
+          // hay techo, porque bajar es lo que esta cifra hace.
+          if (vigente != null && vigente > 0 && v > vigente * TECHO_SALTO) {
+            rechaza(`salto de más de ${TECHO_SALTO} veces la cifra vigente`);
+            continue;
+          }
+          consolidado[k] = { valor: v, fecha, medio, url,
+                             corte: corte ? corte.fecha : null,
+                             senal: corte ? corte.senal : null };
+          break;
         }
         if (vigente != null && v <= vigente) {
           if (v < vigente) rechaza("retrocede sobre el máximo informado");
@@ -760,12 +831,27 @@ window.UI = (function () {
   }
 
   /* Serie diaria con memoria: cada día lleva su mejor captura y el
-     `consolidado`, que es el MÁXIMO informado de cada cifra con su fecha y su
-     medio de origen. Ninguna cifra baja (decisión editorial de 21-ago-2026): un
-     medio tardío citando un corte viejo ya no puede hacer retroceder la serie.
+     `consolidado`, que es el MÁXIMO informado de cada cifra acumulativa con su
+     fecha y su medio de origen —ninguna baja (decisión editorial de
+     21-ago-2026): un medio tardío citando un corte viejo ya no puede hacer
+     retroceder la serie— y, para las cifras de stock (`CIFRAS_STOCK`), la del
+     CORTE MÁS RECIENTE con su corte y la señal de la que salió.
      Devuelve [{fecha, item, disputa, consolidado, ignoradas}] */
   function mejorPorDia(items) {
     const fechas = [...new Set(items.map((x) => x.search_date))].sort();
+    // El corte que el worker calculó para un artículo sirve a todas sus
+    // capturas, también a las archivadas antes de que supiera calcularlo. Se
+    // toma el más antiguo (un artículo no puede hablar de un corte anterior a
+    // sí mismo, así que es la lectura prudente) y sin la señal «campo», que
+    // cambia de una captura a otra del mismo artículo y no describe al
+    // artículo sino a la captura.
+    const cortePorUrl = {};
+    for (const x of items) {
+      const u = x.publication_url || x.url;
+      const fc = fechaCorte(x);
+      if (u && fc && fc.senal !== "campo" &&
+          (!cortePorUrl[u] || fc.fecha < cortePorUrl[u])) cortePorUrl[u] = fc.fecha;
+    }
     // Dos acumuladores con oficios distintos, y conviene no confundirlos:
     // `maximos` es todo lo visto —con atribución o sin ella— y sirve para
     // detectar el corte viejo en la VITRINA; `consolidado` es lo que se
@@ -778,7 +864,7 @@ window.UI = (function () {
       const dia = items.filter((x) => x.search_date === fecha);
       const orden = [...dia].sort(cmpCandidatos(maximos));
       const item = orden[0] || null;
-      const paso = consolidarDia(consolidado, dia, fecha, orden);
+      const paso = consolidarDia(consolidado, dia, fecha, orden, cortePorUrl);
       consolidado = paso.consolidado;
       for (const x of dia) {
         for (const k of ANCLAS) {
@@ -1005,7 +1091,8 @@ window.UI = (function () {
           + `oficiales, o por la propia entidad. Las ${fmt(c.familias_afectadas)} `
           + `familias salen de ${orig.medio || "una captura"} y son del `
           + `${fechaEs(orig.fecha || fecha)}. No es el balance oficial ni un `
-          + `EDAN, y no baja aunque una fuente corrija a la baja.`,
+          + `EDAN, y no baja aunque una fuente corrija a la baja; los `
+          + `desaparecidos son la excepción: siguen el corte más reciente.`,
         cifras: { municipios: c.municipios_afectados,
                   familias: c.familias_afectadas, personas: c.personas_afectadas,
                   viv_destruidas: c.viviendas_destruidas,
@@ -1037,6 +1124,6 @@ window.UI = (function () {
            medioDe, viaGoogleNews, hostDe,
            retrocede, sinAnclas, esCoherente, incoherencias, atribucionOficial,
            fechaCorte, retrasoDelBalance,
-           esNacional, CIFRAS_BALANCE, TECHO_SALTO,
+           esNacional, CIFRAS_BALANCE, CIFRAS_STOCK, TECHO_SALTO, corteDe,
            disputaDia, comparativaFuentes, PUSH_BASE, VAPID_PUBLIC_KEY };
 })();

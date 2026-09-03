@@ -169,7 +169,10 @@ def main():
                     cifras = a.get("cifras") or {}
     except FileNotFoundError:
         pass
-    img, d = base("Balances en medios", "máximo informado por medios que citan fuentes oficiales (UNGRD, SGC)")
+    # «máximo informado» vale para fallecidos y familias; los desaparecidos son
+    # la cifra del corte más reciente (ui.js::CIFRAS_STOCK), así que el
+    # subtítulo habla de lo que publican, no de un máximo
+    img, d = base("Balances en medios", "lo que publican los medios citando fuentes oficiales (UNGRD, SGC)")
     stats_row(d, [
         (fmt(cifras.get("fallecidos")), "fallecidos", CRIT),
         (fmt(cifras.get("desaparecidos")), "desaparecidos", WARN),

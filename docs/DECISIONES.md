@@ -4938,3 +4938,56 @@ internet a 400.000 estudiantes afectados por el terremoto» (Blu Radio) en Norte
 Santander. El titular es capa de la fuente y se publica tal cual; el guardián vigila desde
 hoy solo la prosa propia, con los enlaces externos fuera del texto examinado.
 
+## 2026-09-03 — Los desaparecidos siguen el corte más reciente, no el máximo
+
+Contexto: la regla del 21-ago-2026 (R16, monotonía total) trataba los desaparecidos como
+una cifra acumulativa más y lo confesaba en el rótulo «máximo informado». El archivo
+demuestra que esa cifra **baja, y baja por sistema**: 426 el 18-ago (boletín de la
+UNGRD, replicado por Infobae), 260 el 20 (Vanguardia), 234 el 24 y 219 el 27 (El
+Tiempo), y 136 el 2-sep en el balance oficial de la UNGRD por Facebook —mientras los
+fallecidos subían de 304 a 331—. Un desaparecido que aparece, vivo o muerto, sale del
+recuento: es un **estado**, no un acumulado. Con la monotonía, la serie servía **496
+desaparecidos —un corte del 11-ago de Caracol— en cada día desde el 13-ago, y así se
+publicó hasta hoy: una cifra que todo el archivo desmentía.** El 3-sep se señaló lo evidente: los
+desaparecidos deben poder descender, y el propio dataset lo demuestra.
+
+Decisión:
+
+1. **Dos clases de cifra en el balance.** Las nueve acumulativas siguen bajo R16 sin
+   cambios. Las de **stock** (`site/ui.js::CIFRAS_STOCK`, hoy solo `desaparecidos`) se
+   consolidan por **fecha de corte**: entra la cifra del balance con el corte más
+   reciente, suba o baje. El enemigo de la regla del 21-ago —el corte viejo republicado
+   tarde— sigue sin poder entrar, porque su corte es anterior al vigente: el 28-ago
+   Caracol volvió a servir el corte del 11 con 496, y se rechaza con ese motivo.
+2. **El corte se lee en este orden**: lo que `fechaCorte` ya sabía (texto, URL, campo);
+   si no hay nada, el corte que el worker calculó para **otra captura del mismo
+   artículo** (la URL de El Tiempo del 13-ago se archivó siete veces sin corte antes de
+   que el worker supiera calcularlo), acotado al día de la búsqueda porque El Tiempo
+   actualiza el mismo artículo en la misma URL y la lectura del 12 no puede hablar del
+   corte del 15; y en último término **el día de la búsqueda**, que es lo más tarde que
+   ese balance pudo cortarse. La señal viaja en la celda (`corte`, `senal`) y el sitio
+   la enseña. Medido sobre el corpus: 11 capturas con desaparecidos y sin corte, 7 lo
+   heredan de su URL.
+3. **Dentro de un día gana el corte más reciente**, no el candidato que gana el día por
+   atribución: cada captura pertenece a un solo día, y si el orden pusiera delante un
+   corte del 20 y detrás uno del 22, el del 22 no volvería a verse nunca.
+4. **El techo de salto se conserva hacia arriba y no existe hacia abajo.** Un «900» sacado
+   de un nombre de imagen también puede traer corte fresco; bajar es lo que esta cifra
+   hace, y una extracción mala a la baja dura hasta el siguiente corte fechado, no para
+   siempre.
+5. **El rótulo cambia con la regla.** Las acumulativas siguen siendo «máximo informado»;
+   los desaparecidos se publican «con corte al …» en tarjetas, entradilla, gráfico,
+   `<desc>`, aviso push/Telegram y JSON-LD. Un rótulo que llama máximo a un mínimo miente
+   en la dirección contraria.
+
+Lo que NO se decide aquí: los heridos también se revisan a la baja (4.611 informados el
+23-ago; 4.519 en el balance oficial del 2-sep) y siguen bajo monotonía, con la corrección
+entre las descartadas. Se documenta en `docs/LIMITACIONES.md` y se decidirá con más
+serie. El post de Facebook de la UNGRD no entra en el archivo (no se puede snapshotear,
+ver `docs/LIMITACIONES.md`); entra lo que la prensa publique citándolo.
+
+Consecuencia con el corpus real: la serie pasa de 496 (fijos desde el 13-ago) a
+426 → 260 → 290 → 234 → 240 → 219, y cada punto dice de qué corte es. Es la capa nuestra
+la que estaba mal, no la de la fuente: los snapshots no se tocan, el cambio se documenta
+en git y lo publicado se corrige (principio de las dos capas, CLAUDE.md).
+
