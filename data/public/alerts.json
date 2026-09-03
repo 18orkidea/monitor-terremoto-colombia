@@ -1,17 +1,17 @@
 {
- "generado": "2026-09-02",
- "fecha": "2026-09-02",
+ "generado": "2026-09-03",
+ "fecha": "2026-09-03",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "338 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 338
+   "texto": "593 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 593
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +7 municipios. +12.129 familias desde la captura anterior"
+   "texto": "RUD actualizado: +7 municipios. +11.264 familias desde la captura anterior"
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -25,9 +25,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 17 días distintos, pero rud_daily solo tiene 16 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 17,
-   "dias_en_rud_daily": 16
+   "texto": "sources_log registra capturas del RUD en 18 días distintos, pero rud_daily solo tiene 17 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 18,
+   "dias_en_rud_daily": 17
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -44,6 +44,17 @@
    "event_code": "EQ20260822COL",
    "capa": "Pleiades_20260813_BuildingDamageAsessment_Zarzal",
    "puntos": 201
+  },
+  {
+   "tipo": "fuentes_con_peticion_condicional",
+   "nivel": "info",
+   "texto": "3 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/losspager/us6000tjl2/us/1788275013678/json/exposures.json",
+   "urls": [
+    "https://earthquake.usgs.gov/product/losspager/us6000tjl2/us/1788275013678/json/exposures.json",
+    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1788274855250/download/cont_mmi.json",
+    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1788274855250/download/coverage_mmi_low_res.covjson"
+   ],
+   "n": 3
   },
   {
    "tipo": "fuente_deja_de_honrar_condicionales",
@@ -81,7 +92,7 @@
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-01",
+  "fecha": "2026-09-02",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -149,32 +160,11 @@
   },
   "ignoradas": [
    {
-    "cifra": "departamentos_afectados",
-    "valor": 15,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "municipios_afectados",
-    "valor": 448,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "personas_afectadas",
-    "valor": 115461,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
     "cifra": "personas_afectadas",
     "valor": 282709,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
    },
    {
     "cifra": "personas_afectadas",
@@ -182,20 +172,6 @@
     "motivo": "retrocede sobre el máximo informado",
     "medio": "infobae",
     "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 54008,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 153336,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    },
    {
     "cifra": "familias_afectadas",
@@ -206,45 +182,31 @@
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 81506,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "viviendas_averiadas",
     "valor": 163492,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 14493,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
    },
    {
     "cifra": "viviendas_destruidas",
     "valor": 31461,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
    },
    {
     "cifra": "heridos",
-    "valor": 3935,
+    "valor": 4519,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+    "medio": "facebook.com",
+    "url": "https://www.facebook.com/GestionUNGRD/posts/actualizaci%C3%B3n-de-cifras-sismo-en-san-jos%C3%A9-del-palmar-choc%C3%B3-74-mwla-ungrd-entrega/1471947451628224/"
    },
    {
     "cifra": "heridos",
     "valor": 4506,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
    },
    {
     "cifra": "heridos",
@@ -255,17 +217,10 @@
    },
    {
     "cifra": "fallecidos",
-    "valor": 294,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "fallecidos",
     "valor": 319,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
    },
    {
     "cifra": "fallecidos",
@@ -276,17 +231,17 @@
    },
    {
     "cifra": "desaparecidos",
-    "valor": 320,
+    "valor": 136,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+    "medio": "facebook.com",
+    "url": "https://www.facebook.com/GestionUNGRD/posts/actualizaci%C3%B3n-de-cifras-sismo-en-san-jos%C3%A9-del-palmar-choc%C3%B3-74-mwla-ungrd-entrega/1471947451628224/"
    },
    {
     "cifra": "desaparecidos",
     "valor": 260,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
    },
    {
     "cifra": "desaparecidos",
@@ -294,13 +249,6 @@
     "motivo": "retrocede sobre el máximo informado",
     "medio": "infobae",
     "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 188,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "rescatados",
@@ -312,8 +260,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-02/oficiales_feed.json",
-   "items": 61,
+   "snapshot": "data/snapshots/2026-09-03/oficiales_feed.json",
+   "items": 64,
    "regla_sha256": "8c63eb30daf5604d8682e387ede6a671e1836957c221648999d699149c155f18"
   }
  }
