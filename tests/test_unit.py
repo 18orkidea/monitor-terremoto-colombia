@@ -8,6 +8,7 @@ import json
 import re
 import struct
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -6596,3 +6597,58 @@ class TestRunDailyDegradacionConocida(unittest.TestCase):
             "una degradación certificada y vigilada no puede tumbar la "
             "corrida ni saltar el deploy — es el patrón exacto del "
             "31-ago-2026 (docs/DECISIONES.md)")
+
+
+class TestExtentsDeAoiArchivados(unittest.TestCase):
+    """El 2-sep-2026 Copernicus abrió EMSR928 (Lombardía) y el lector de AOIs
+    de `verify_citizen` se quedó con la carpeta más reciente: solo AOIs
+    italianos, cero reportes colombianos dentro de un AOI durante dos
+    dailies. Los AOIs de una activación no caducan porque otra abra los
+    suyos: se leen todos los archivados."""
+
+    ITALIA = "POLYGON ((9.4 45.4, 9.5 45.4, 9.5 45.5, 9.4 45.5, 9.4 45.4))"
+    COLOMBIA = "POLYGON ((-77.2 3.4, -76.4 3.4, -76.4 4.2, -77.2 4.2, -77.2 3.4))"
+
+    def _archivo(self, raiz, dia, code, aois):
+        d = raiz / dia
+        d.mkdir(parents=True, exist_ok=True)
+        (d / f"copernicus_{code}.json").write_text(json.dumps(
+            {"results": [{"code": code, "aois": aois}]}), encoding="utf-8")
+
+    def test_una_activacion_ajena_mas_reciente_no_ciega_el_cruce(self):
+        from verify_citizen import extents_de_aoi_archivados
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            self._archivo(raiz, "2026-08-25", "EMSR916",
+                          [{"name": "Western Colombia", "extent": self.COLOMBIA}])
+            self._archivo(raiz, "2026-09-02", "EMSR928",
+                          [{"name": "Cremona", "extent": self.ITALIA}])
+            ext = extents_de_aoi_archivados(raiz)
+        self.assertIn("Western Colombia", ext,
+                      "la carpeta más reciente, con AOIs de otro desastre, "
+                      "dejaba fuera los AOIs colombianos")
+        self.assertIn("Cremona", ext)
+
+    def test_para_un_mismo_aoi_gana_el_extent_mas_reciente(self):
+        from verify_citizen import extents_de_aoi_archivados
+        viejo = self.COLOMBIA.replace("-77.2", "-77.0")
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            self._archivo(raiz, "2026-08-20", "EMSR916",
+                          [{"name": "Western Colombia", "extent": viejo}])
+            self._archivo(raiz, "2026-08-25", "EMSR916",
+                          [{"name": "Western Colombia", "extent": self.COLOMBIA}])
+            ext = extents_de_aoi_archivados(raiz)
+        self.assertEqual(ext["Western Colombia"], self.COLOMBIA)
+
+    def test_un_aoi_sin_extent_no_tapa_al_que_si_lo_tiene(self):
+        from verify_citizen import extents_de_aoi_archivados
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            self._archivo(raiz, "2026-08-25", "EMSR916",
+                          [{"name": "Western Colombia", "extent": self.COLOMBIA}])
+            self._archivo(raiz, "2026-09-02", "EMSR916",
+                          [{"name": "Western Colombia", "extent": None}])
+            ext = extents_de_aoi_archivados(raiz)
+        self.assertEqual(ext.get("Western Colombia"), self.COLOMBIA)
+

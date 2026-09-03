@@ -510,6 +510,12 @@ NOMBRE_A_SECAS_CONGELADO = {
     # mención. Ningún caso silencia ni infla una brecha visible.
     "Belén": {"divipola": "52083", "departamento": "Nariño"},
     "Sabanalarga": {"divipola": "05628", "departamento": "Antioquia"},
+    # estrenó homonimia con el RUD del 2/3-sep-2026: el registro dio de alta
+    # Ricaurte (Nariño) y la DIVIPOLA nacional repite el nombre en
+    # Cundinamarca. Se congela lo publicado en `data/public/municipios.json`
+    # (52612). Medido contra el corpus de titulares antes de anotar: ninguna
+    # mención de «Ricaurte», así que no hay brecha que silenciar ni inflar.
+    "Ricaurte": {"divipola": "52612", "departamento": "Nariño"},
     "Valparaíso": {"divipola": "05856", "departamento": "Antioquia"},
     # anclados por `MUNICIPIOS` (el reparto no los toca), anotados igual: si
     # algún día uno sale del catálogo curado, el nombre no puede quedar a subasta

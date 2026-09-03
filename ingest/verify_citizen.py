@@ -15,6 +15,7 @@ el monitor no reposiciona nada.
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from common import INSTANTE_SISMO, db, snapshot_dir
 from geo import grid_mmi_vigente, point_in_wkt_polygon
@@ -34,21 +35,41 @@ def _bbox_area(wkt: str) -> float:
     return (max(xs) - min(xs)) * (max(ys) - min(ys))
 
 
+def extents_de_aoi_archivados(raiz: Path) -> dict:
+    """Extent (WKT) de cada AOI de Copernicus, leído de TODOS los snapshots
+    archivados, del más reciente al más antiguo; para un mismo nombre gana
+    el más reciente.
+
+    Hasta el 3-sep-2026 se leía solo la carpeta más reciente que tuviera
+    algún AOI. El 2-sep Copernicus abrió EMSR928 —una tormenta en
+    Lombardía— y el daily la archivó como archiva toda activación nueva: la
+    carpeta del día solo tenía AOIs italianos, y el cruce satélite↔suelo
+    pasó de 745 reportes ciudadanos dentro de un AOI a cero, dos días
+    seguidos, sin que nadie lo dijera (R11). Los AOIs colombianos no
+    caducan porque otro desastre abra los suyos: se leen todos."""
+    extents = {}
+    if not raiz.is_dir():
+        return extents
+    for d in sorted(raiz.iterdir(), reverse=True):
+        for f in sorted(d.glob("copernicus_*.json")):
+            try:
+                data = json.loads(f.read_text())
+            except (OSError, ValueError):
+                continue
+            for r in data.get("results", []):
+                for aoi in r.get("aois") or []:
+                    if aoi.get("name") and aoi.get("extent"):
+                        extents.setdefault(aoi["name"], aoi["extent"])
+    return extents
+
+
 def run() -> dict:
     conn = db()
     grid = grid_mmi_vigente(snapshot_dir())
 
     # extent por AOI: la activación guarda un extent global; los AOI extents
     # están en los snapshots crudos de Copernicus
-    aoi_extents = {}
-    for d in sorted((snapshot_dir().parent).iterdir(), reverse=True):
-        for f in d.glob("copernicus_*.json"):
-            data = json.loads(f.read_text())
-            for r in data.get("results", []):
-                for aoi in r.get("aois") or []:
-                    aoi_extents.setdefault(aoi.get("name"), aoi.get("extent"))
-        if aoi_extents:
-            break
+    aoi_extents = extents_de_aoi_archivados(snapshot_dir().parent)
 
     seen_hashes = {}
     rows = conn.execute(
