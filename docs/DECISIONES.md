@@ -4932,3 +4932,9 @@ corpus de titulares).
 Pendiente: el daily debería avisar (R11) cuando `en_aoi` cae a cero con reportes en la
 base; hoy solo lo dice el log.
 
+Corolario del mismo día: el guardián «la matrícula nunca se rotula afectados» leía la
+ficha entera, titulares enlazados incluidos, y saltó con «Andesco propone conectar a
+internet a 400.000 estudiantes afectados por el terremoto» (Blu Radio) en Norte de
+Santander. El titular es capa de la fuente y se publica tal cual; el guardián vigila desde
+hoy solo la prosa propia, con los enlaces externos fuera del texto examinado.
+

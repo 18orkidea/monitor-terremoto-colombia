@@ -686,7 +686,14 @@ class TestIntegracionDepartamental(unittest.TestCase):
         for depto in R.departamentos_afectados(self.ctx):
             d = R.datos_ficha_departamento(depto, self.ctx)
             html = R.render_ficha_departamento(d)
-            self.assertNotIn("estudiantes afectados", html.lower())
+            # Se vigila NUESTRO rótulo, no las palabras del medio: el 3-sep
+            # Blu Radio tituló «…400.000 estudiantes afectados por el
+            # terremoto» y la ficha de Norte de Santander lo enlaza tal cual,
+            # que es lo que debe hacer (el titular es capa de la fuente y no
+            # se reescribe). Los enlaces externos salen del texto examinado.
+            propio = re.sub(r'<a [^>]*rel="noopener nofollow"[^>]*>.*?</a>',
+                            "", html, flags=re.S)
+            self.assertNotIn("estudiantes afectados", propio.lower())
             if d["matricula"]["total"] is not None:
                 vio_matricula = True
                 self.assertIn("con afectación reportada", html)
