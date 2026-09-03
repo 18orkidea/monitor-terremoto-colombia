@@ -4897,3 +4897,38 @@ sufría.
    un día a otro en la prosa condicional de la portada (alertas, brecha),
    sin causa única identificada — la misma figura de otras entradas de este
    documento. El suelo nunca baja, solo sube (CLAUDE.md DoD #2).
+
+## 2026-09-03 — Los AOIs de Copernicus se leen de todo el archivo, no de la última carpeta
+
+Contexto: el 2-sep Copernicus abrió EMSR928 —una tormenta en Lombardía— y el daily la
+archivó como archiva toda activación nueva (es lo que alimenta el hito de «nueva
+activación»). `verify_citizen` tomaba los extents de AOI de **la carpeta de snapshots más
+reciente que tuviera alguno**: ese día la carpeta solo tenía AOIs italianos, y el cruce
+satélite↔suelo pasó de 745 reportes ciudadanos dentro de un AOI a **cero, dos dailies
+seguidos** (2 y 3-sep), sin aviso. Lo cazó el test de hipótesis H4 en el CI del primer PR
+que llegó después (#46), no el daily, que solo corre los tests unitarios.
+
+Decisión: `verify_citizen.extents_de_aoi_archivados` lee **todos** los snapshots de
+Copernicus, del más reciente al más antiguo, y para un mismo AOI gana el extent más
+reciente. Los AOIs de una activación no caducan porque otro desastre abra los suyos. Test
+unitario con fixture sintético (activación ajena más reciente; extent más reciente gana;
+extent nulo no tapa al válido).
+
+**Los checks de los 821 reportes se recalculan y el dump se corrige en este mismo cambio**:
+`data/dumps/citizen_reports.csv` es capa nuestra (derivada), no lo que dijo la fuente
+—los snapshots de ChatMap no se tocan—, y dejar dos días de cruces en cero sería
+publicar un error nuestro con aspecto de registro (principio de las dos capas). Medido
+antes y después sobre la base reconstruida desde los dumps del 3-sep: `mmi` presente en
+816 reportes en ambos casos; `aoi` de 0 a 745 (Western Colombia 398, Pereira 288, Quibdó
+50, Buenaventura 5, Cali 4); los scores suben en consecuencia y ninguno está `validado`
+(R6).
+
+En el mismo cambio, dos supuestos que el RUD del 2/3-sep rompió al dar de alta municipios:
+«Córdoba (Nariño)» (homónimo de departamento, sin búsqueda propia de prensa, anotado en
+`SIN_BUSQUEDA_ESPERADOS`) y «Ricaurte» (nombre a secas que la DIVIPOLA repite en
+Cundinamarca; se congela el DIVIPOLA publicado, 52612, Nariño; cero menciones en el
+corpus de titulares).
+
+Pendiente: el daily debería avisar (R11) cuando `en_aoi` cae a cero con reportes en la
+base; hoy solo lo dice el log.
+

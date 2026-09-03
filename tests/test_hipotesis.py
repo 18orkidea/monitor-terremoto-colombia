@@ -1071,6 +1071,11 @@ class TestSupuestoBusquedaMunicipal(unittest.TestCase):
         "Bolívar",            # Valle del Cauca
         "Bolívar (Cauca)",
         "Córdoba",            # Quindío
+        # el RUD del 2/3-sep-2026 dio de alta el segundo Córdoba, el de
+        # Nariño (DIVIPOLA 52215): homónimo del departamento igual que el del
+        # Quindío, y con la misma consecuencia — `"córdoba" "nariño"` traería
+        # los titulares de dos departamentos con la etiqueta de un municipio.
+        "Córdoba (Nariño)",
         "Risaralda",          # Caldas
         "Sucre",              # Cauca
         # los trae el RUD del 24-ago-2026 (capturado el 25), en el salto de 251
