@@ -317,13 +317,27 @@ def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
         d_f = c["fallecidos"] - antes
         delta = f" (+{d_f} desde el balance anterior)" if d_f else ""
     mil = lambda n: f"{n:,}".replace(",", ".") if isinstance(n, int) else "?"
+    # Los desaparecidos no son un máximo: son la cifra del corte más reciente
+    # (ui.js::CIFRAS_STOCK), y el aviso dice de qué corte, porque la cifra
+    # sin su corte es la que engaña en 48 horas.
+    celda = ultimo["consolidado"].get("desaparecidos") or {}
+    corte = celda.get("corte")
+    if not corte:
+        a_corte = ""
+    elif celda.get("senal") == "busqueda":
+        # nadie declaró el corte: el día de la búsqueda es lo más tarde que
+        # pudo cortarse, y no se presenta como si la fuente lo hubiera dicho
+        a_corte = (f" (según una captura archivada el {_fecha_es(corte)}, "
+                   "sin corte declarado)")
+    else:
+        a_corte = f" con corte al {_fecha_es(corte)}"
     return ([{
         "tipo": "balance_en_medios", "nivel": "info",
-        "texto": f"Máximo informado en medios que citan fuentes oficiales "
+        "texto": f"Balance en medios que citan fuentes oficiales "
                  f"({_fecha_es(ultimo['fecha'])}): "
-                 f"{mil(c['fallecidos'])} fallecidos{delta}, "
-                 f"{mil(c['heridos'])} heridos, "
-                 f"{mil(c['desaparecidos'])} desaparecidos",
+                 f"{mil(c['fallecidos'])} fallecidos{delta} y "
+                 f"{mil(c['heridos'])} heridos como máximo informado; "
+                 f"{mil(c['desaparecidos'])} desaparecidos{a_corte}",
         "fecha_balance": ultimo["fecha"], "cifras": c,
         "regla": regla}], consolidado)
 

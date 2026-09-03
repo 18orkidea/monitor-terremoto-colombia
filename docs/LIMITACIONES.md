@@ -217,23 +217,33 @@ anterior a las reglas nuevas **o** posterior al despliegue pero servido desde la
 del worker. Al desplegar hay que anotar en `docs/DECISIONES.md` la fecha y hora UTC, que
 es la única frontera fiable.
 
-## Las cifras del balance no bajan nunca, y una de ellas debería poder bajar
+## Las cifras acumulativas del balance no bajan nunca; los desaparecidos siguen el corte
 
 Desde el 21-ago-2026 el consolidado del balance conserva el **máximo informado** de cada
-cifra (R16). Es una decisión editorial, con dos consecuencias que conviene tener a la
-vista:
+cifra acumulativa (R16). Es una decisión editorial, con consecuencias que conviene tener
+a la vista:
 
 - **Una corrección oficial a la baja queda congelada.** El 17-ago la UNGRD pasó de 294 a
   289 fallecidos; con esta regla, el sitio sigue publicando 294 y el 289 aparece entre las
-  cifras descartadas del día, con su medio y su enlace.
-- **Los desaparecidos no bajan aquí y sí bajan en la realidad**, cuando aparece gente
-  viva. Por eso las tarjetas se rotulan «máximo informado» y no «cifras actuales»: el
-  monitor no sabe cuántos siguen desaparecidos hoy, solo cuántos llegó a informar la
-  prensa citando a las autoridades.
+  cifras descartadas del día, con su medio y su enlace. Lo mismo con los heridos: el
+  balance de la UNGRD del 2-sep por Facebook —un canal que el monitor no puede archivar—
+  dice 4.519 y la serie conserva los 4.611 que un medio informó el 23-ago. El monitor no sabe cuál es la cifra actual, solo la mayor que llegó a
+  informarse.
+- **Los desaparecidos son la excepción desde el 3-sep-2026.** No son un acumulado sino un
+  estado, y bajan cuando aparece gente, viva o muerta: 426 el 18-ago, 260 el 20, 234 el
+  24 y 219 el 27 en el archivo; 136 el 2-sep según la UNGRD por Facebook, fuera del
+  archivo. Para ellos manda la **fecha de corte**:
+  entra la cifra del balance más reciente, suba o baje. Hasta el 3-sep la serie servía
+  496 desaparecidos —un corte del 11-ago— en cada día desde el 13-ago; era un error de
+  cómo mostrábamos el dato, y se corrigió (principio de las dos capas).
+- **El corte de una captura no siempre se conoce.** Cuando ni el texto, ni la URL, ni
+  otra captura del mismo artículo lo dicen, se usa el día de la búsqueda, que es lo más
+  tarde que ese balance pudo cortarse; la tarjeta lo declara con su señal. Una captura sin
+  corte y con cifra vieja puede entrar por un día hasta que llega un corte fechado.
 
-El motivo de la regla está en `docs/DECISIONES.md` (2026-08-21): sin ella, un medio tardío
-citando un corte viejo hundía la serie —el 19-ago se publicaron 11.132 familias afectadas
-donde el registro oficial ya llevaba 65.663—.
+El motivo de la regla está en `docs/DECISIONES.md` (2026-08-21 y 2026-09-03): sin ella,
+un medio tardío citando un corte viejo hundía la serie —el 19-ago se publicaron 11.132
+familias afectadas donde el registro oficial ya llevaba 65.663—.
 
 ## La serie de balances está fechada por el día de la búsqueda, no por el del balance
 

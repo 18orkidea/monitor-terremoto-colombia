@@ -3726,10 +3726,13 @@ class TestLosDosPlegablesDeBalances(unittest.TestCase):
     una reescritura; el primer párrafo del plegable de arriba sí es nuevo (es
     el rótulo largo del criterio R16: máximo informado, lo rechazado se
     enseña). Los recuentos exactos son lo único que distingue mover de
-    resumir."""
+    resumir. El 3-sep-2026 los dos plegables se reescribieron a propósito:
+    los desaparecidos dejaron de ser un máximo y pasaron a seguir el corte
+    más reciente (docs/DECISIONES.md), y la prosa tenía que decirlo; los
+    recuentos se actualizaron con ese cambio y vuelven a vigilar."""
 
-    PALABRAS = {"Por qué las cifras no coinciden": 168,
-                "Cómo se recogen y se validan estos balances": 641}
+    PALABRAS = {"Por qué las cifras no coinciden": 173,
+                "Cómo se recogen y se validan estos balances": 764}
     UMBRAL = 120        # nada se pliega por debajo (criterio del proyecto)
 
     @classmethod
