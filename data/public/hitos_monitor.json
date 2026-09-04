@@ -277,6 +277,13 @@
    "resumen": "Las 15 fichas departamentales ganan su primer enlace desde la portada.",
    "texto": "Hasta hoy, ninguna de las 15 fichas departamentales tenía un enlace desde la portada: solo se llegaba por la columna de departamento de la tabla de municipios. Desde hoy la home publica un índice propio, ordenado de mayor a menor por las familias inscritas en el Registro Único de Damnificados (RUD) de cada departamento, con enlace a cada ficha y, donde el Ministerio de Salud lo declara, sus establecimientos de salud verificados. La ficha departamental gana además el porcentaje de su población inscrito en el RUD, y la sección de lo que declaran la OPS y el Ministerio de Salud sube de posición: va justo tras las cifras del registro, antes de la lista de municipios.",
    "url": "/"
+  },
+  {
+   "fecha": "2026-09-03",
+   "tipo": "monitor",
+   "resumen": "Los desaparecidos dejan de ser un «máximo informado» y siguen el corte más reciente.",
+   "texto": "Hasta hoy la serie de balances en medios trataba los desaparecidos como una cifra acumulativa y publicaba 496 —un corte del 11 de agosto— desde el 13 de agosto, mientras el propio archivo registraba 426 el 18, 260 el 20, 234 el 24 y 219 el 27. Los desaparecidos cuentan un estado, no un acumulado: bajan cuando aparece gente, viva o muerta. Desde hoy se publica la cifra del balance con el corte más reciente, suba o baje, y la tarjeta dice de qué corte es. Las demás cifras del balance siguen bajo la regla del máximo informado. Era un error de cómo mostrábamos el dato, no de la fuente, y se corrige.",
+   "url": "/balances.html"
   }
  ]
 }
