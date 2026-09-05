@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Fri, 04 Sep 26 09:04:32 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Venta de vehículo</title>
+  <link>https://www.lapatria.com/clasificados/venta-de-vehiculo-26</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Venta de vehículo&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-04T09:04:32-05:00" title="Viernes, Septiembre 4, 2026 - 09:04" class="datetime"&gt;Vie, 04/09/2026 - 09:04&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=92336&amp;amp;2=bookmark&amp;amp;3=rss" token="fc0e4KM8nYfW1uSQ3ad6fFEdOwkIzPQBJSGY6Ir4ORQ"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3365" hreflang="es"&gt;Carros / Motos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;313-7743090&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 04 Sep 2026 14:04:32 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">92336 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>ARRIENDO APARTAESTUDIO</title>
+  <link>https://www.lapatria.com/clasificados/arriendo-apartaestudio-13</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;ARRIENDO APARTAESTUDIO&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-04T08:04:16-05:00" title="Viernes, Septiembre 4, 2026 - 08:04" class="datetime"&gt;Vie, 04/09/2026 - 08:04&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=92335&amp;amp;2=bookmark&amp;amp;3=rss" token="pal-U3h1xDjA3FBglDcvxvITmz_kNNWMq0_YaBTHmdM"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;322-6813000&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 04 Sep 2026 13:04:16 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">92335 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 4 de septiembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-4-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 4 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/71" typeof="schema:Person" property="schema:name" datatype&gt;Natalia Hernández&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-04T06:11:31-05:00" title="Viernes, Septiembre 4, 2026 - 06:11" class="datetime"&gt;Vie, 04/09/2026 - 06:11&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=92328&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="xfyFiLTXnbdfdD_JsIrC8QpFPl6vCI2hkNGKHmX6-Rg"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-09/Portada-4-septiembre-2026.jpg" width="787" height="1001" alt="Portada 4 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 4 de septiembre del 2026.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 04 Sep 2026 11:11:31 +0000</pubDate>
+          <dc:creator>Natalia Hernández</dc:creator>
+          <guid isPermaLink="false">92328 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>La Universidad Católica de Manizales (UCM) realizó una nueva ceremonia de grado</title>
+  <link>https://www.lapatria.com/galerias/la-universidad-catolica-de-manizales-ucm-realizo-una-nueva-ceremonia-de-grado</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;La Universidad Católica de Manizales (UCM) realizó una nueva ceremonia de grado&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-04T00:00:00-05:00" title="Viernes, Septiembre 4, 2026 - 00:00" class="datetime"&gt;Vie, 04/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;La Universidad Católica de Manizales (UCM) realizó una nueva ceremonia de grado. Los graduandos estuvieron acompañados por sus familias.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/la-universidad-catolica-de-manizales-ucm-realizo-una-nueva-ceremonia-de-grado" data-a2a-title="La Universidad Católica de Manizales (UCM) realizó una nueva ceremonia de grado"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fla-universidad-catolica-de-manizales-ucm-realizo-una-nueva-ceremonia-de-grado&amp;amp;title=La%20Universidad%20Cat%C3%B3lica%20de%20Manizales%20%28UCM%29%20realiz%C3%B3%20una%20nueva%20ceremonia%20de%20grado"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Fri, 04 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">92301 at https://www.lapatria.com</guid>
+          <category domain="https://www.lapatria.com/galeria">Galería</category>
+          </item>
+<item>
+  <title>VENTA APARTAMENTO</title>
+  <link>https://www.lapatria.com/clasificados/venta-apartamento-22</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA APARTAMENTO&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-03T08:09:40-05:00" title="Jueves, Septiembre 3, 2026 - 08:09" class="datetime"&gt;Jue, 03/09/2026 - 08:09&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=92261&amp;amp;2=bookmark&amp;amp;3=rss" token="iKtU8AjDOYjspufxl_43QhP0ilA9IJUwuf7rSBNhTGQ"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;310-3826919&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Thu, 03 Sep 2026 13:09:40 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">92261 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA APARTAMENTO</title>
+  <link>https://www.lapatria.com/clasificados/venta-apartamento-23</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA APARTAMENTO&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-03T08:08:24-05:00" title="Jueves, Septiembre 3, 2026 - 08:08" class="datetime"&gt;Jue, 03/09/2026 - 08:08&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=92264&amp;amp;2=bookmark&amp;amp;3=rss" token="oblDAXYBzyhoaRAOHLTGBf80quCIYyGeVOufYwhRDkg"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;318-6074981&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Thu, 03 Sep 2026 13:08:24 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">92264 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA CASA</title>
+  <link>https://www.lapatria.com/clasificados/venta-casa-71</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA CASA&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-03T08:07:24-05:00" title="Jueves, Septiembre 3, 2026 - 08:07" class="datetime"&gt;Jue, 03/09/2026 - 08:07&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=92260&amp;amp;2=bookmark&amp;amp;3=rss" token="hVchz6bhF-7P_bOZcXjK0-45xbIQiYzMIuG_-9XWblE"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;317-2858486&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Thu, 03 Sep 2026 13:07:24 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">92260 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Venta de vehículo</title>
+  <link>https://www.lapatria.com/clasificados/venta-de-vehiculo-25</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Venta de vehículo&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-03T07:39:54-05:00" title="Jueves, Septiembre 3, 2026 - 07:39" class="datetime"&gt;Jue, 03/09/2026 - 07:39&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=92248&amp;amp;2=bookmark&amp;amp;3=rss" token="BOvTyNwb3DqXdf985TzeiljW15vrj09cb8bxUJ5KCK0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3365" hreflang="es"&gt;Carros / Motos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;310-2179628&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Thu, 03 Sep 2026 12:39:54 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">92248 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 3 de septiembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-3-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 3 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/71" typeof="schema:Person" property="schema:name" datatype&gt;Natalia Hernández&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-03T06:13:17-05:00" title="Jueves, Septiembre 3, 2026 - 06:13" class="datetime"&gt;Jue, 03/09/2026 - 06:13&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=92240&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="xP8sz0TijWV3v1-zPDgv1dqV3OB4g-8Q9MFIKq5FzIU"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-09/Portada-3-septiembre-2026.jpg" width="921" height="1200" alt="Portada 3 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 3 de septiembre del 2026.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Thu, 03 Sep 2026 11:13:17 +0000</pubDate>
+          <dc:creator>Natalia Hernández</dc:creator>
+          <guid isPermaLink="false">92240 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
