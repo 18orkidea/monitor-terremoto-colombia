@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Sat, 05 Sep 2026 19:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.8.3</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Protección contra estafas en Meta</title>
+		<link>https://occidente.co/secciones/tecnologia/proteccion-contra-estafas-en-meta/</link>
+					<comments>https://occidente.co/secciones/tecnologia/proteccion-contra-estafas-en-meta/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 19:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=437628</guid>
+
+					<description><![CDATA[<p>Meta refuerza la protección contra estafas en Polonia Meta lanzó en Polonia un sistema mejorado de inteligencia artificial y nuevas reglas para anuncios financieros tras detectar un aumento de estafas en línea. La compañía informó que estas medidas entran en funcionamiento ahora para reducir fraudes, suplantaciones y publicidad engañosa dirigida al país. Protección contra estafas:...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/proteccion-contra-estafas-en-meta/">Protección contra estafas en Meta</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Meta refuerza la protección contra estafas en Polonia</h2>
+</p>
+<p>Meta lanzó en Polonia un sistema mejorado de inteligencia artificial y nuevas reglas para anuncios financieros tras detectar un aumento de estafas en línea. La compañía informó que estas medidas entran en funcionamiento ahora para reducir fraudes, suplantaciones y publicidad engañosa dirigida al país.</p>
+</p>
+<h2>Protección contra estafas: qué anunció Meta, quién lo hizo y por qué importa</h2>
+</p>
+<p>Meta, a través de su equipo de políticas públicas en Europa Central y Oriental, detalló el 28 de agosto de 2026 que implementa un sistema de IA más avanzado para detectar y bloquear cuentas que suplantan a celebridades y otras figuras públicas. También informó que exigirá la verificación de identidad al 100% de los anunciantes de servicios financieros que dirijan publicidad a Polonia. La empresa dice que estas acciones responden a tácticas cambiantes de los estafadores y buscan reducir el daño a usuarios y la confianza en el ecosistema publicitario.</p>
+</p>
+<h2>Cómo cambian las cosas para las personas</h2>
+</p>
+<h3>Menos exposicin a anuncios fraudulentos</h3>
+</p>
+<p>Meta reporta que entre julio de 2024 y junio de 2026 las denuncias por anuncios con estafas en Polonia bajaron 83%. Con la verificación obligatoria para anunciantes financieros, esperan disminuir aún me1s la presencia de publicidad engañosa en los muros y servicios de la plataforma.</p>
+</p>
+<h3>Menos cuentas suplantadas visibles</h3>
+</p>
+<p>El nuevo sistema de IA, dice Meta, ya ayudf3 a reducir en me1s de 80% las denuncias sobre uso indebido de la imagen de personas conocidas. Para el usuario esto implica que habrá menos perfiles falsos que pretendan ser figuras pfablicas o celebridades.</p>
+</p>
+<h3>Mayor control sobre anunciantes financieros</h3>
+</p>
+<p>Con la exigencia de verificación de identidad al 100% de anunciantes financieros dirigidos a Polonia, los usuarios podre1n confiar me1s en que las cuentas que promueven productos o servicios de dinero han sido sometidas a comprobacif3n, lo que reduce riesgos de fraudes asociados a publicidad.</p>
+</p>
+<h2>Aspectos pendientes y dudas por resolver</h2>
+</p>
+<p>Meta indica plazos breves para implementar la verificación completa de anunciantes financieros, pero no detalla el proceso ni cf3mo se protegere1n los datos personales usados en esa verificacif3n. Tampoco ofrece cifras sobre cf3mo se medirá la eficacia futura del nuevo sistema de IA en distintos tipos de estafa ni sobre la atencif3n a posibles falsos positivos (contenidos o cuentas legítimas bloqueadas por error).</p>
+</p>
+<h2>Contexto de resultados</h2>
+</p>
+<p>Meta afirma que de julio de 2025 a junio de 2026 retirf3 137.000 anuncios fraudulentos en Polonia, y que me1s del 88% fueron eliminados antes de recibir denuncias de usuarios. La empresa enfatiza su colaboracif3n con autoridades pfablicas y socios del sector privado para detectar redes delictivas y desplegar advertencias y funciones de seguridad.</p>
+</p>
+<p>Quedan por conocerse detalles operativos sobre la verificación de anunciantes y las salvaguardas de privacidad asociadas al nuevo proceso. La lucha contra las estafas es continua y depende de actualizaciones tecnolf3gicas y cooperacif3n entre plataformas, autoridades y empresas.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Menos anuncios y cuentas fraudulentas reducen el riesgo de ser engañado.</p>
+</p>
+<p><strong>Negocio:</strong> Mayor verificacif3n busca restaurar la confianza en la publicidad y proteger ingresos reales.</p>
+</p>
+<p><strong>Industria:</strong> Impulsa este1ndares de verificación y colaboracif3n para combatir redes de estafas.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/proteccion-contra-estafas-en-meta/">Protección contra estafas en Meta</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/proteccion-contra-estafas-en-meta/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Anthropic enfrenta demanda por piratería</title>
+		<link>https://occidente.co/secciones/tecnologia/anthropic-enfrenta-demanda-por-pirateria/</link>
+					<comments>https://occidente.co/secciones/tecnologia/anthropic-enfrenta-demanda-por-pirateria/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 14:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=437626</guid>
+
+					<description><![CDATA[<p>Piratería alegada pone en jaque a Anthropic Sony Music Publishing y Warner Chappell presentaron una demanda contra Anthropic y sus cofundadores, acusándolos de una &#8220;campaña descarada&#8221; de torrenting, scraping y descarga ilegal de obras protegidas para entrenar el modelo de IA Claude. La palabra Anthropic demanda aparece desde el inicio porque sintetiza la acusación central...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/anthropic-enfrenta-demanda-por-pirateria/">Anthropic enfrenta demanda por piratería</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Piratería alegada pone en jaque a Anthropic</h2>
+<p>Sony Music Publishing y Warner Chappell presentaron una demanda contra Anthropic y sus cofundadores, acusándolos de una &#8220;campaña descarada&#8221; de torrenting, scraping y descarga ilegal de obras protegidas para entrenar el modelo de IA Claude. La palabra Anthropic demanda aparece desde el inicio porque sintetiza la acusación central y el motivo de la noticia.</p>
+<h2>Anthropic demanda: qué ocurrió y por qué importa</h2>
+<p>La demanda, presentada en el Tribunal de Distrito de Estados Unidos para el Distrito Norte de California a finales de viernes, acusa al laboratorio de usar miles de obras con derechos de autor sin permiso para entrenar su IA. Los editoriales alegan que la técnica incluyó descargas masivas e ilegales de libros, letras y partituras. Anthropic respondió por escrito que no está de acuerdo con las acusaciones y que se defenderá enérgicamente en la corte.</p>
+<p>Este caso se suma a litigios previos similares: abogados que representan a las editoriales participaron en demandas anteriores contra Anthropic y en la demanda colectiva Bartz, en la que una corte determinó que, aunque el uso de obras protegidas para entrenar IA puede ser legal en ciertos contextos, la adquisición mediante piratería no lo fue y terminó en una multa millonaria. La nueva demanda amplía las alegaciones, señalando un presunto patrón más amplio de obtención ilegal de contenidos.</p>
+<h2>Qué cambia para las personas</h2>
+<h3>Mayor escrutinio sobre los modelos de IA</h3>
+<p>Los usuarios pueden esperar que jueces y reguladores examinen con más detalle cómo las empresas obtienen datos para entrenar modelos. Esto puede traducirse en decisiones que limiten el acceso abierto a ciertos datos o cambien prácticas de recopilación.</p>
+<h3>Posibles cambios en servicios y permisos</h3>
+<p>Si las cortes o acuerdos futuros restringen ciertas fuentes de entrenamiento, algunas funcionalidades de IA podrían ajustarse o requerir acuerdos de licencia, lo que afectaría la disponibilidad de características basadas en grandes cantidades de texto o música.</p>
+<h3>Mayor protección para creadores</h3>
+<p>Los autores y editoriales podrían obtener vías más claras para reclamar indemnizaciones o control sobre el uso de sus obras, lo que impactaría cómo se comparten y reutilizan contenidos en plataformas digitales.</p>
+<h2>Aspectos que aún están sin resolver</h2>
+<p>No está confirmado si los tribunales probarán que Anthropic obtuvo los materiales específicamente mediante torrenting u otras formas de piratería, ni cómo se diferenciarán legalmente la obtención de datos y su uso para entrenar modelos. Tampoco está definido qué alcance tendrán las posibles sanciones ni si esto generará cambios en la normativa o en prácticas industriales. Anthropic ha dicho que defenderá su posición; el proceso judicial determinará los hechos y las consecuencias legales.</p>
+<h2>Explicación contextual</h2>
+<p>Cuando se habla de &#8220;entrenar&#8221; una IA se refiere a alimentar un modelo con grandes cantidades de texto o datos para que aprenda patrones y genere respuestas. Imagina enseñar a alguien a escribir dándole miles de artículos y canciones: la forma en que se consiguen esos materiales puede ser tan relevante como el uso que se haga de ellos.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Podrían ver cambios en funciones de IA y acceso a contenidos dependiendo de fallos o acuerdos.</p>
+<p><strong>Negocio:</strong> Empresas de IA enfrentarán costos legales, posibles acuerdos y necesidad de revisar sus fuentes de datos.</p>
+<p><strong>Industria:</strong> El sector editorial y musical podría obtener mayor control sobre licencias y compensaciones.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/anthropic-enfrenta-demanda-por-pirateria/">Anthropic enfrenta demanda por piratería</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/anthropic-enfrenta-demanda-por-pirateria/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>La felicidad de lo alcanzado</title>
+		<link>https://occidente.co/opinion/columnistas/la-felicidad-de-lo-alcanzado/</link>
+					<comments>https://occidente.co/opinion/columnistas/la-felicidad-de-lo-alcanzado/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 01:02:14 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Heriberto González Valencia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438296</guid>
+
+					<description><![CDATA[<p>Mucha gente se pregunta ¿Qué tanto he alcanzado en mi vida? y generalmente, siempre se piensa que se pueden alcanzar puntos más altos. Esto se puede ejemplificar usando palabras conocidas en todos los ámbitos; por ejemplo, las grandes ligas en el béisbol, se creería que todos los jugadores de este deporte quieren llegar a esos...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/la-felicidad-de-lo-alcanzado/">La felicidad de lo alcanzado</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Mucha gente se pregunta ¿Qué tanto he alcanzado en mi vida? y generalmente, siempre se piensa que se pueden alcanzar puntos más altos.</p>
+<p>Esto se puede ejemplificar usando palabras conocidas en todos los ámbitos; por ejemplo, las grandes ligas en el béisbol, se creería que todos los jugadores de este deporte quieren llegar a esos escenarios, pero la realidad es que no todos están predeterminados a llegar a ese punto.</p>
+<p><strong>Un escritor visualiza los logros del Premio Nobel Gabriel García Márquez</strong>, este quisiera seguir esos pasos, pero solo hay cupo para una muy limitada población en ese pedestal.</p>
+<p>Un corredor de autos quiere llegar a la F1, pero, solo son 11 escuderías y 22 pilotos.</p>
+<p>¿Cuántos profesores están felices con su primer libro publicado?, pero los que tiene 20 publicaciones siguen sin sentir el tope.</p>
+<p>Así, muchos ejemplos de donde se quiere llegar.</p>
+<p>Después de estos ejemplos, la pegunta sería ¿en qué liga juego yo? no se debería pensar en llegar a la felicidad de lo alcanzado sin tener en cuenta todos los logros; ser feliz por esas metas realizadas, aunque siempre pensando en hacer mucho más, no olvidar el puesto que nos ha tocado en la vida.</p>
+<p>Mucha gente puede no sentirse feliz por no llegar más alto, pero al mirar sus logros, ver todo lo realizado en ese trayecto de vida, debería estar orgullosamente feliz de lo alcanzado.</p>
+<p>La vida siempre está abierta para nuevas oportunidades, puede ser que juguemos en ligas menores, pero estas también tienen sus buenos frutos.</p>
+<p>Alguna vez leí una historia que decía que uno es más rico o más pobre dependiendo con quien se compare; y esta situación es muy parecida, una persona siempre va a lograr un poco más o un poco menos dependiendo con quien se compare, y esto no queriendo decir que uno debe vivir en comparación con otro, pero eso es un común del ser humano.</p>
+<p>La vida deja ver muchas etapas por las que se puede circular, y hay que aprovechar cada momento.</p>
+<p>Al final, no importa en qué categoría o en qué liga nos toque jugar; lo verdaderamente valioso es salir a la cancha, disfrutar el juego y reconocer que cada logro en nuestra propia liga deja satisfacciones personales, familiares, profesionales y sociales imborrables.</p>
+<p><strong><span style="color: #01bfa5;"><a style="color: #01bfa5;" href="mailto:hery77@hotmail.com" target="_blank" rel="noopener"><em>hery77@hotmail.com</em></a></span></strong></p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/la-felicidad-de-lo-alcanzado/">La felicidad de lo alcanzado</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/la-felicidad-de-lo-alcanzado/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El adiós de Lucy Bolaños</title>
+		<link>https://occidente.co/secciones/tendencias/fallecio-lucy-bolanos-diaz-pionera-del-teatro-de-genero-en-colombia/</link>
+					<comments>https://occidente.co/secciones/tendencias/fallecio-lucy-bolanos-diaz-pionera-del-teatro-de-genero-en-colombia/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 00:52:13 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438292</guid>
+
+					<description><![CDATA[<p>Luis Ángel Muñoz Zúñiga Especial Diario Occidente Lucy Bolaños Díaz, (1948-2026), pionera del teatro de género en Colombia y directora del Grupo La Máscara, falleció el pasado sábado 28 de agosto. Legó a los actores y al público caleño amante del teatro, una lujosa sala sobre la carrera diez, a pocos pasos de San Antonio,...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/fallecio-lucy-bolanos-diaz-pionera-del-teatro-de-genero-en-colombia/">El adiós de Lucy Bolaños</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em>Luis Ángel Muñoz Zúñiga</em></p>
+<p><em>Especial <strong><span style="color: #01bfa5;"><a style="color: #01bfa5;" href="http://occidente.co" target="_blank" rel="noopener">Diario Occidente</a></span></strong></em></p>
+<p>Lucy Bolaños Díaz, (1948-2026), pionera del teatro de género en Colombia y directora del Grupo La Máscara, falleció el pasado sábado 28 de agosto.</p>
+<p>Legó a los actores y al público caleño amante del teatro, una lujosa sala sobre la carrera diez, a pocos pasos de San Antonio, incorporado el laboratorio de formación de artistas.</p>
+<p>“<em>Cuánto cuesta el hierro</em>”, fue una de las primeras obras en que actuó Lucy Bolaños en los años setenta, cuando La Máscara todavía dependía del Teatro Experimental de Cali.</p>
+<p>Pronto, con la dirección de Lucy Bolaños, el grupo La Máscara adquirió independencia e identidad dramatúrgica.</p>
+<p>“<em>Cuánto cuesta el hierro</em>”, escrito por Bertolt Brecht y montado en segunda versión por La Máscara, con creación y dirección colectivas, actuada por Luz Marina Gil, Diego Villegas y Héctor Fabio Cobo, permitió a Lucy Bolaños emerger en la dirección teatral.</p>
+<p>En La Máscara, el hierro le costó medio siglo de dirección.</p>
+<p>Lucy Bolaños, también participó en el “<em>Proyecto Magdalena Pacífica</em>”, ruta de mujeres de negro por la paz.</p>
+<p>En 1998, Lucy se acreditó La Gran Orden del Ministerio de Cultura y en 2016 la Secretaría de Cultura de Cali le rindió el merecido homenaje “<em>Lucy Toda una Vida en el Arte Teatral</em>”.</p>
+<h2>Amigas más cercanas</h2>
+<p>Diana Londoño y Pilar Retrepo, dos amigas y compañeras cercanas desde fundada La Máscara, la acompañaron en su sepelio.</p>
+<p>A Luz Marina Gil y a Claudia Morales, veteranas actrices y amigas de siempre, les fue imposible llegar por estar radicadas en España y Australia, respectivamente.</p>
+<p>Pilar Restrepo, otrora actriz, hace varios años investigó y recopiló datos y evidencias fotográficas sobre Lucy Bolaños, que publicó en “<em>La Máscara, la Mariposa y la Metáfora</em>”, <strong>libro editado en los talleres Cruz Ltda, (septiembre de 1998)</strong>.</p>
+<p><strong>El último adiós a Lucy Bolaño en el escenario del Teatro La Máscara, estuvo muy concurrido, entre otros, acompañada por colegas: Jorge Vanegas, Fernando Vidal, Gabriel Uribe, Mauricio Doménicci, Álvaro Arcos y Lucy Rodríguez; Miguel Gonzales (curador y crítico de arte); Artistas:</strong> Gloria Castro (fundadora de Incolballet), Oscar Campo (documentalista), Carlos Moreno (cineasta), Arturo Benavidez (Premio Nacional de Poesía), Liliana Montes (canta-autora).</p>
+<p>El espacio estuvo ambientado con ritmos cubanos y latinoamericanos, porque era su música preferida.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/09/El-adios-de-Lucy-Bolanos-1.jpg" alt="Banner Canal WhatsApp" /></p>
+<p>Susana confesó que un día antes que falleciera, acogiendo su deseo, la trajo ahí, su morada que siempre amó, para que durmiera apacible en su última noche. Mostró unos cuadernos de ella con sus dibujos y leyó unas cartas y varios de sus poemas inéditos.</p>
+<h3>La Máscara, la Mariposa y la Metáfora</h3>
+<p>Pilar Restrepo, es autora de “<em>La Máscara, la Mariposa y la Metáfora</em>”, libro que representa la autobiografía colectiva, pero también contextualiza social y políticamente toda la dramaturgia colombiana.</p>
+<p>Pilar escogió como sintaxis simbólica, la transformación de la mariposa de seda, asociando todas las fases de su metamorfosis con la gestación del Nuevo Teatro.</p>
+<p>“<em>Las asociaciones y significaciones las fuimos encontrando en su vuelo: “La Máscara, la Mariposa y la Metáfora”, surgen como una iluminación súbita, unidas entre sí cual signos, por sus atributos, sus cualidades, sus movimientos y sus valores simbólicos, y de un modo dramático, por la interacción de estas tres en el devenir artístico actual</em>”.</p>
+<h4>Repertorio de género</h4>
+<p>El Teatro La Máscara, bajo la dirección de Lucy Bolaños, logró construir una moderna sala en San Antonio y consolidó el grupo de mujeres pionero del teatro de género.</p>
+<p>La sede fue su utopía que inició en una casa de bahareque en un solar de San Antonio y poco a poco se trasformó gestionando apoyos oficiales y donaciones del público.</p>
+<p><strong>Sus montajes:</strong> “<em>Historias de mujeres</em>”, “<em>Noticias de María</em>”, “<em>Bocas de bolero</em>”, “<em>A flor de piel</em>”, “<em>Casa Matriz</em>”, “<em>Emocionales</em>”, “<em>Lobas</em>”, “<em>La reina de los bandidos</em>”, “<em>El grito de Antígona versus la Nuda vida</em>”, “<em>El jardín de las Delicias</em>”, “<em>Karmen</em>”, “<em>Orizonta</em>”, “<em>Los invertidos</em>”, “<em>Aguamala</em>” y “<em>Kauka</em>”.</p>
+<p>Lucy Bolaños tuvo el mérito de cultivar en Susana Uribe Bolaños, su hija, la vocación teatral a la edad de 10 años, la vinculó de actriz en “<em>Las tareas</em>” (1986).</p>
+<p>El Teatro La Máscara adelanta importantes proyectos populares que convergen en el “<em>Laboratorio de Creación Teatral y Pensamiento Feminista</em>”.</p>
+<p>“<em>Cantando y contando tradiciones</em>”, es su otro proyecto social, dirigido especialmente a las mujeres de Navarro, Hormiguero y Montebello.</p>
+<h2>Sentimientos filiales</h2>
+<p>Susana Uribe Bolaños, su hija, atendió la invitación de Diario Occidente, para que hiciera una semblanza sobre Lucy Bolaños.</p>
+<p>“<em>Todo lo que Lucy fue, hizo y entregó, no cabe en palabras. Mi madre fue una mujer de vanguardia, abría caminos a las generaciones, quitaba los obstáculos. Fue una verdadera líder, matriarca, mayora del teatro, oficios que hizo en absoluto silencio, pero con convicción. Era tímida, no aceptó puestos, ni reconocimientos. Fue una trabajadora del teatro, lo amó y lo entregó a muchos. Era una devota del teatro y movía los corazones. Tuve la fortuna de ser su hija y compañera de la vida, de las giras y las risas. Tuvimos mucha complicidad, atravesamos momentos difíciles. Le llegó la enfermedad que le roba su memoria, sus recuerdos, pero nos acercó más. Eso invirtió los roles, me convertí en su cuidadora. Lo más valioso de la experiencia de vida y este transitar juntas, es poder haberla acompañado en su última respiración, tomándola de la mano y mirándola a sus ojos, despidiéndole en su casa, en su teatro, en su hogar y acompañada de mucha gente. Espero que ahora desde arriba nos alumbre con la lucecita de su alma</em>”. <strong>(Susana Uribe Bolaños).</strong></p>
+<h3>De Lucy a Lucy</h3>
+<p>Que dos personas sean homólogas y homónimas, seguramente corresponda a los destinos inequívocos, iguales vocaciones y misiones, por ejemplo, es el caso, de Lucy Bolaños a Lucy Rodríguez.</p>
+<p>La Grande viajó satisfecha hacia la eternidad; la profesora queda en la tierra entre las actrices que con dignidad abonarán su legado, ella lo viene haciendo desde el “<em>Colectivo Teatral Escena Maestra del Sutev</em>”.</p>
+<p>“<em>A Lucy Bolaños la conocí en los años ochenta, en la época de mi formación teatral en Bellas Artes. Lucy Bolaños, conjuntamente con Enrique Buenaventura y Guillermo Piedrahita, hizo parte de los imprescindibles de la dramaturgia. La labor titánica de Lucy Bolaños, además de la consecución de la sala La Máscara, fue su gran apuesta por el teatro de género, en una época en que la palabra feminista se pronunciaba con cierto resquemor. Gracias Lucy: significaste mucho en la cultura, el teatro caleño, colombiano y mundial. ¡Vuela más alto!</em>”.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/fallecio-lucy-bolanos-diaz-pionera-del-teatro-de-genero-en-colombia/">El adiós de Lucy Bolaños</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/fallecio-lucy-bolanos-diaz-pionera-del-teatro-de-genero-en-colombia/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Puntos Violeta atendieron nueve casos de violencia contra las mujeres tras el terremoto en Cali: uno presentó riesgo de feminicidio</title>
+		<link>https://occidente.co/cali/puntos-violeta-atendieron-nueve-casos-de-violencia-contra-las-mujeres-tras-el-terremoto-en-cali-uno-presento-riesgo-de-feminicidio/</link>
+					<comments>https://occidente.co/cali/puntos-violeta-atendieron-nueve-casos-de-violencia-contra-las-mujeres-tras-el-terremoto-en-cali-uno-presento-riesgo-de-feminicidio/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 00:41:35 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438289</guid>
+
+					<description><![CDATA[<p>Los Puntos Violeta instalados por la Alcaldía de Cali durante la emergencia ocasionada por el terremoto permitieron identificar a una mujer en riesgo de feminicidio y activar medidas para su protección. La estrategia funcionó en seis zonas de emergencia después del sismo del 10 de agosto y también permitió detectar otros casos relacionados con violencias...</p>
+<p>The post <a href="https://occidente.co/cali/puntos-violeta-atendieron-nueve-casos-de-violencia-contra-las-mujeres-tras-el-terremoto-en-cali-uno-presento-riesgo-de-feminicidio/">Puntos Violeta atendieron nueve casos de violencia contra las mujeres tras el terremoto en Cali: uno presentó riesgo de feminicidio</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Los Puntos Violeta instalados por la Alcaldía de Cali durante la emergencia ocasionada por el terremoto permitieron identificar a una mujer en riesgo de feminicidio y activar medidas para su protección</strong>.</p>
+<p>La estrategia funcionó en seis zonas de emergencia después del sismo del 10 de agosto y también permitió detectar otros casos relacionados con violencias basadas en género.</p>
+<p>La administración distrital ubicó los Puntos Violeta en Chiminangos, Bueno Madrid, Altos de Santa Elena, Altos de Meléndez, Coliseo de Hockey y Danubio.</p>
+<p><strong>Profesionales de la Subsecretaría de Equidad de Género</strong> atendieron estos espacios para orientar a mujeres, identificar señales de alerta y activar las rutas institucionales cuando las circunstancias requerían una intervención.</p>
+<p>Durante los días de funcionamiento, los equipos identificaron nueve casos de riesgos por violencias basadas en género.</p>
+<p>Entre ellos encontraron una situación de riesgo de feminicidio, que requirió la intervención especializada de la Subsecretaría de Equidad de Género para activar las medidas correspondientes y fortalecer las condiciones de seguridad y protección de la mujer.</p>
+<h2>Riesgos en emergencias</h2>
+<p><strong>Nigeria Rentería, secretaria de Bienestar Social de Cali, explicó</strong> que algunas situaciones pueden quedar invisibilizadas durante una emergencia debido a la dimensión de la crisis.</p>
+<p>La funcionaria señaló que la respuesta institucional debe actuar cuando una vida se encuentra en riesgo y destacó la necesidad de escuchar, acompañar y proteger a las mujeres que requieren atención.</p>
+<p>Según la información entregada por la Alcaldía de Cali, una emergencia puede profundizar desigualdades existentes y modificar las condiciones en las cuales permanecen mujeres, niñas y adolescentes.</p>
+<p>El hacinamiento, la pérdida de privacidad, la dependencia de otras personas para conseguir recursos, la falta de autonomía económica y las dificultades para acceder a servicios pueden aumentar su exposición a situaciones de control, intimidación y violencia.</p>
+<p>Asimismo, el debilitamiento de las redes de apoyo puede generar mayores dificultades para acceder a mecanismos de protección.</p>
+<p>Estas condiciones también pueden incrementar los riesgos de explotación, abuso sexual y trata de personas, especialmente cuando mujeres y niñas permanecen en alojamientos temporales o dependen de terceros para cubrir sus necesidades básicas.</p>
+<h3>Atención en Cali</h3>
+<p>La atención institucional continúa después de la emergencia.</p>
+<p>Desde el 10 de agosto, 48 mujeres recibieron orientación psicosocial y asesoría jurídica de manera virtual mediante Casa Matria, como parte del acompañamiento dispuesto por la Alcaldía de Cali durante y después de la situación ocasionada por el sismo.</p>
+<p>Además, las mujeres en riesgo de feminicidio pueden comunicarse con la Línea Fácil 24/7 en el 311 612 0000.</p>
+<p>Casa Matria mantiene disponible el número 350 803 2031 para agendar citas de atención psicosocial y jurídica.</p>
+<p>También funcionan la Línea 122 de la Fiscalía General de la Nación, la Línea 141 del ICBF y la Línea 155 para orientación nacional a mujeres víctimas de violencia.</p>
+<p>Por otra parte, las mujeres pueden acudir a las Comisarías de Familia ante situaciones de violencia en el contexto familiar y a instituciones de salud frente a casos de violencia física, psicológica o sexual.</p>
+<p>La Patrulla Púrpura de la Policía Nacional atiende en el 318 861 1522, mientras la Secretaría de Salud de Cali dispone de la Línea 106 para atención en salud mental.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/puntos-violeta-atendieron-nueve-casos-de-violencia-contra-las-mujeres-tras-el-terremoto-en-cali-uno-presento-riesgo-de-feminicidio/">Puntos Violeta atendieron nueve casos de violencia contra las mujeres tras el terremoto en Cali: uno presentó riesgo de feminicidio</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/puntos-violeta-atendieron-nueve-casos-de-violencia-contra-las-mujeres-tras-el-terremoto-en-cali-uno-presento-riesgo-de-feminicidio/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“Estemos preparados anímicamente”: Alejandro Eder confirma que comenzarán las demoliciones de edificios en Cali</title>
+		<link>https://occidente.co/cali/demolicion-de-edificios-afectados-por-el-terremoto-en-cali-anuncio-eder/</link>
+					<comments>https://occidente.co/cali/demolicion-de-edificios-afectados-por-el-terremoto-en-cali-anuncio-eder/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 00:34:26 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438286</guid>
+
+					<description><![CDATA[<p>El alcalde de Cali, Alejandro Eder, confirmó que desde hoy comenzará la demolición de edificios afectados por el terremoto en Cali que no pueden recuperarse. El mandatario explicó que actualmente hay maquinaria trabajando en la recolección de estructuras que colapsaron totalmente y en otras que sufrieron daños parciales durante la emergencia. El anuncio se durante...</p>
+<p>The post <a href="https://occidente.co/cali/demolicion-de-edificios-afectados-por-el-terremoto-en-cali-anuncio-eder/">“Estemos preparados anímicamente”: Alejandro Eder confirma que comenzarán las demoliciones de edificios en Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El alcalde de Cali, Alejandro Eder, confirmó</strong> que desde hoy comenzará la demolición de edificios afectados por el terremoto en Cali que no pueden recuperarse.</p>
+<p><strong>El mandatario explicó</strong> que actualmente hay maquinaria trabajando en la recolección de estructuras que colapsaron totalmente y en otras que sufrieron daños parciales durante la emergencia.</p>
+<p>El anuncio se durante la visita de Eder a Bogotá, donde estuvo en el pabellón habilitado en Corferias para la muestra del Festival de Música del Pacífico Petronio Álvarez.</p>
+<p>El evento llegó a la capital del país después de la suspensión del Festival en Cali como consecuencia del terremoto registrado el pasado 10 de agosto.</p>
+<p>“<em>Tan pronto como la semana entrante empezaremos a demoler edificios que no son salvables</em>”, manifestó Eder al ser consultado sobre el inicio de estas intervenciones.</p>
+<p>Además, pidió a los habitantes de la ciudad prepararse anímicamente para el proceso que comenzará en los próximos días.</p>
+<h2>Demoliciones en Cali</h2>
+<p>El alcalde también dirigió un mensaje a los habitantes de Cali frente a la siguiente etapa de atención de la emergencia.</p>
+<p>Al referirse a las estructuras que no pueden recuperarse, “<em>pero quiero hacer ese llamado a los caleños, estemos preparados anímicamente porque tan pronto como la semana entrante empezaremos a demoler edificios que no son salvables</em>”, <strong>manifestó Eder</strong>.</p>
+<p><strong>Agregando que:</strong> &#8220;<em>la parte más fácil es demoler el edificio. Lo que no podemos olvidar es que en cada edificio de esos había viviendas, había apartamentos, había sueños, había personas que vivían, personas que quizás hoy están sufriendo mucho porque ven que pierden su patrimonio</em>”.</p>
+<p>La demolición de edificios afectados por el terremoto en Cali se desarrollará mientras continúa la recolección de estructuras colapsadas.</p>
+<p>Eder indicó que la Alcaldía mantiene maquinaria destinada a estas tareas y reiteró que la atención a las personas continuará durante el proceso.</p>
+<p>En ese contexto, el alcalde hizo un llamado para mantener el respaldo hacia los territorios afectados. “<em>Esta tragedia apenas está iniciando. Por favor, así como de la Alcaldía de Cali no vamos a soltar a nuestra gente, le pido a Colombia no soltemos a Cal</em>i”, <strong>afirmó</strong>.</p>
+<p>En su declaración también mencionó al Valle del Cauca, Chocó y el Eje Cafetero.</p>
+<p>Eder aprovechó su intervención para reconocer el acompañamiento recibido desde el Gobierno Nacional. “<em>Quiero resaltar el compromiso del señor presidente y de todo su equipo</em>”, <strong>señaló al referirse al presidente Abelardo De La Espriella</strong>.</p>
+<h3>Petronio en Bogotá</h3>
+<p>La presencia del alcalde en Bogotá estuvo relacionada con la participación de más de 120 portadores y portadoras de tradición del Festival Petronio Álvarez en la Feria del Hogar, que se realiza en Corferias.</p>
+<p>La muestra permanecerá disponible hasta el próximo 20 de septiembre para bogotanos y visitantes.</p>
+<p>La iniciativa surgió mediante la articulación de la Alcaldía de Cali, la Alcaldía de Bogotá, la Cámara de Comercio de Bogotá, Fontur y el Ministerio de Comercio, Industria y Turismo. El espacio permite presentar productos, sabores, bebidas tradicionales, moda, artesanías y expresiones culturales del Pacífico colombiano.</p>
+<p>Durante su recorrido, Eder agradeció al alcalde de Bogotá, Carlos Fernando Galán, y a las entidades vinculadas con la iniciativa. También reconoció el apoyo del presidente Abelardo De La Espriella, del ministro de Comercio, Mauricio Gómez, y de Fontur.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/demolicion-de-edificios-afectados-por-el-terremoto-en-cali-anuncio-eder/">“Estemos preparados anímicamente”: Alejandro Eder confirma que comenzarán las demoliciones de edificios en Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/demolicion-de-edificios-afectados-por-el-terremoto-en-cali-anuncio-eder/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Perdió a su mascota tras el terremoto en Cali? Cerca de 181 permanecen en el Centro de Bienestar Animal</title>
+		<link>https://occidente.co/cali/centro-de-bienestar-animal-de-cali-proceso-reencuentro-adopcion-terremoto/</link>
+					<comments>https://occidente.co/cali/centro-de-bienestar-animal-de-cali-proceso-reencuentro-adopcion-terremoto/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 00:24:09 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438283</guid>
+
+					<description><![CDATA[<p>De los 231 animales recuperados que ingresaron con vida al Centro de Bienestar Animal, CBA, tras el terremoto, cerca de 50 ya regresaron con sus familias. La entidad mantiene bajo su cuidado a los demás animales mientras continúa el proceso de reconocimiento por parte de ciudadanos que todavía buscan a sus animales compañeros en Cali....</p>
+<p>The post <a href="https://occidente.co/cali/centro-de-bienestar-animal-de-cali-proceso-reencuentro-adopcion-terremoto/">¿Perdió a su mascota tras el terremoto en Cali? Cerca de 181 permanecen en el Centro de Bienestar Animal</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>De los 231 animales recuperados que ingresaron con vida al Centro de Bienestar Animal, CBA, tras el terremoto, cerca de 50 ya regresaron con sus familias.</p>
+<p>La entidad mantiene bajo su cuidado a los demás animales mientras continúa el proceso de reconocimiento por parte de ciudadanos que todavía buscan a sus animales compañeros en Cali.</p>
+<p>La directora del CBA, Carmen Elena Domínguez Murillo, informó este viernes 4 de septiembre que las familias pueden consultar las redes sociales de la Unidad Administrativa Especial de Protección Animal, UAEPA.</p>
+<p>También pueden acercarse directamente al Centro de Bienestar Animal para verificar si alguno de los animales recuperados corresponde al que perdieron durante la emergencia.</p>
+<p>Para realizar el reconocimiento, las familias pueden presentar fotografías, videos, carné de vacunación, historia clínica u otros elementos que permitan acreditar su relación con el animal.</p>
+<p>Este procedimiento busca facilitar la identificación de quienes permanecen en las instalaciones del CBA después del terremoto registrado el 10 de agosto.</p>
+<h2>Cómo reconocerlos</h2>
+<p>El Centro de Bienestar Animal atiende de lunes a viernes, entre las 8:00 a. m. y las 5:00 p. m.</p>
+<p>Durante los sábados y domingos, el horario establecido para la atención al público comienza a las 10:00 a. m. y termina a las 2:00 p. m.</p>
+<p>La UAEPA reiteró el llamado a las personas que todavía buscan animales recuperados para que revisen los canales oficiales de la entidad.</p>
+<p>Las publicaciones permiten conocer información relacionada con los animales que permanecen en el CBA y facilitan un primer paso antes de realizar presencialmente el proceso de reconocimiento.</p>
+<p>Al mismo tiempo, el Centro de Bienestar Animal mantiene activos sus procesos de adopción.</p>
+<p>Estos procedimientos no corresponden únicamente a los animales que llegaron durante la emergencia del 10 de agosto, sino a todos aquellos que ingresan a las instalaciones y cumplen las condiciones establecidas para avanzar hacia una adopción.</p>
+<p>Los animales deben permanecer durante un plazo legal de 30 días calendario desde su ingreso.</p>
+<p>Una vez termine ese periodo y se realice el acto administrativo de declaratoria de abandono correspondiente, podrán quedar disponibles para que las personas interesadas comiencen el proceso de adopción.</p>
+<p>Entre los requisitos para adoptar se encuentran ser mayor de edad, presentar fotocopia de la cédula de ciudadanía y entregar una certificación de ingresos.</p>
+<p>Además, los interesados deben presentar fotografías y videos del lugar donde residirá el animal.</p>
+<h3>Vuelven las esterilizaciones</h3>
+<p>Por otra parte, desde el primero de septiembre, la UAEPA retomó las jornadas de esterilización dirigidas a animales compañeros en las comunas y corregimientos del Distrito de Santiago de Cali.</p>
+<p>La entidad informó que las fechas, los lugares y las condiciones de acceso a estas actividades se publican mediante sus redes sociales.</p>
+<p>Con la reactivación de estas jornadas, el CBA continúa prestando sus servicios mientras desarrolla los procesos relacionados con los animales recuperados después del terremoto.</p>
+<p><strong> Domínguez Murillo invitó a la ciudadanía a consultar de manera permanente los canales oficiales para mantenerse informada sobre las actividades y servicios disponibles.</strong><br />
+<strong>La UAEPA mantiene así el llamado dirigido especialmente a las familias que siguen buscando a sus animales compañeros</strong>.</p>
+<p>Estas personas pueden acudir al Centro de Bienestar Animal durante los horarios establecidos o consultar las redes sociales de la entidad para avanzar en su identificación.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/centro-de-bienestar-animal-de-cali-proceso-reencuentro-adopcion-terremoto/">¿Perdió a su mascota tras el terremoto en Cali? Cerca de 181 permanecen en el Centro de Bienestar Animal</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/centro-de-bienestar-animal-de-cali-proceso-reencuentro-adopcion-terremoto/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Qué pasará con las lluvias este fin de semana? Ideam muestra el pronóstico para el Valle del Cauca y Colombia</title>
+		<link>https://occidente.co/colombia/pronostico-del-tiempo-para-el-fin-de-semana-lluvias-valle-del-cauca-ideam/</link>
+					<comments>https://occidente.co/colombia/pronostico-del-tiempo-para-el-fin-de-semana-lluvias-valle-del-cauca-ideam/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 00:12:50 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438280</guid>
+
+					<description><![CDATA[<p>El pronóstico del tiempo para el sábado 5 y domingo 6 de septiembre de 2026 contempla lluvias en el Valle del Cauca y otras zonas de Colombia. Los mapas publicados por el Instituto de Hidrología, Meteorología y Estudios Ambientales, Ideam, muestran precipitaciones durante diferentes momentos de ambas jornadas, con presencia principalmente sobre sectores del occidente...</p>
+<p>The post <a href="https://occidente.co/colombia/pronostico-del-tiempo-para-el-fin-de-semana-lluvias-valle-del-cauca-ideam/">¿Qué pasará con las lluvias este fin de semana? Ideam muestra el pronóstico para el Valle del Cauca y Colombia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El pronóstico del tiempo para el sábado 5 y domingo 6 de septiembre de 2026 contempla lluvias en el Valle del Cauca y otras zonas de Colombia.</p>
+<p>Los mapas publicados por el Instituto de Hidrología, Meteorología y Estudios Ambientales, Ideam, muestran precipitaciones durante diferentes momentos de ambas jornadas, con presencia principalmente sobre sectores del occidente del territorio nacional.</p>
+<p>El boletín nacional presenta las condiciones más probables de precipitación acumulada para madrugada, mañana, tarde y noche.</p>
+<p>El Ideam construye estos mapas mediante el análisis de condiciones sinópticas, imágenes satelitales, radares, instrumentos meteorológicos y simulaciones desarrolladas con modelos numéricos.</p>
+<h2>Lluvias durante el sábado</h2>
+<p>Para la madrugada del sábado 5 de septiembre, el mapa del Ideam concentra las precipitaciones principalmente sobre el occidente y noroccidente colombiano.</p>
+<p>Durante la mañana, las lluvias continúan en zonas occidentales, mientras también aparecen precipitaciones en sectores del centro y oriente del país.</p>
+<p>Los mapas representan acumulados de lluvia previstos para periodos de seis horas.</p>
+<p>En la tarde, el pronóstico del tiempo mantiene áreas con precipitaciones sobre el occidente colombiano y registra lluvias en otros sectores del centro y sur del territorio.</p>
+<p>Durante la noche continúa la presencia de lluvias en diferentes puntos del país.</p>
+<p>El Valle del Cauca aparece dentro de las zonas donde los mapas muestran precipitaciones durante distintos momentos del sábado.</p>
+<p>El panorama también se extiende hacia otras regiones de Colombia.</p>
+<p>Los mapas del sábado muestran precipitaciones distribuidas en diferentes sectores del territorio, aunque su ubicación y representación cambian dependiendo de la jornada.</p>
+<p>El reporte permite observar por separado las condiciones previstas durante la madrugada, mañana, tarde y noche.</p>
+<p>Para el domingo 6 de septiembre, las precipitaciones siguen presentes desde las primeras horas.</p>
+<p>El mapa correspondiente a la madrugada registra lluvias en sectores del occidente y sur del país.</p>
+<p>Durante la mañana permanecen áreas con precipitación sobre el occidente colombiano y también aparecen lluvias en otros puntos del territorio nacional.</p>
+<h3>Alertas en Colombia</h3>
+<p>En la tarde y noche del domingo, los mapas mantienen precipitaciones sobre diferentes zonas colombianas.</p>
+<p>El Valle del Cauca continúa dentro del área occidental donde aparecen lluvias, mientras otros sectores del país también registran condiciones de precipitación.</p>
+<p>De esta manera, el pronóstico del tiempo para el fin de semana comprende tanto al departamento como a otras regiones de Colombia.</p>
+<p>Además del comportamiento de las lluvias, el boletín presenta el estado de las alertas hidrológicas del país.</p>
+<p>Con actualización del 3 de septiembre, el Ideam contabiliza 166 alertas por probabilidad de crecientes súbitas e inundaciones.</p>
+<p>La entidad también registra dos alertas puntuales por inundaciones o crecientes súbitas en el área hidrográfica Magdalena-Cauca.</p>
+<p>El informe incorpora igualmente el pronóstico de amenaza por deslizamientos de tierra. En total, 266 municipios aparecen bajo algún nivel de alerta.</p>
+<p>En el Valle del Cauca, la tabla incluida por el Ideam registra un municipio en alerta roja y otro en alerta naranja.</p>
+<p>Chocó, Antioquia, Boyacá, Meta, Cundinamarca, Casanare, Cauca y otros departamentos también figuran en el reporte.</p>
+<p>Ante las condiciones hidrológicas, el Ideam recomienda a las poblaciones ribereñas mantenerse atentas al comportamiento de los niveles de los ríos y seguir las recomendaciones de la Unidad Nacional para la Gestión del Riesgo de Desastres.</p>
+<p>Las alertas pueden recibir correcciones o actualizaciones posteriores, según precisa el mismo boletín.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/pronostico-del-tiempo-para-el-fin-de-semana-lluvias-valle-del-cauca-ideam/">¿Qué pasará con las lluvias este fin de semana? Ideam muestra el pronóstico para el Valle del Cauca y Colombia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/pronostico-del-tiempo-para-el-fin-de-semana-lluvias-valle-del-cauca-ideam/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>De La Espriella desmonta mesas de diálogo de la paz total</title>
+		<link>https://occidente.co/colombia/gobierno-de-abelardo-de-la-espriella-cierra-mesa-comuneros-del-sur/</link>
+					<comments>https://occidente.co/colombia/gobierno-de-abelardo-de-la-espriella-cierra-mesa-comuneros-del-sur/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 05 Sep 2026 00:06:32 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438277</guid>
+
+					<description><![CDATA[<p>El Gobierno del presidente Abelardo De La Espriella tomó nuevas decisiones sobre los procesos de negociación que permanecían abiertos desde la administración de Gustavo Petro. Mediante resoluciones, el Ejecutivo cerró el espacio de conversaciones con Comuneros del Sur y dejó sin efecto las designaciones de funcionarios y delegados que participaban en esa mesa. La determinación...</p>
+<p>The post <a href="https://occidente.co/colombia/gobierno-de-abelardo-de-la-espriella-cierra-mesa-comuneros-del-sur/">De La Espriella desmonta mesas de diálogo de la paz total</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El Gobierno del presidente Abelardo De La Espriella tomó nuevas decisiones sobre los procesos de negociación que permanecían abiertos desde la administración de Gustavo Petro</strong>.</p>
+<p>Mediante resoluciones, el Ejecutivo cerró el espacio de conversaciones con Comuneros del Sur y dejó sin efecto las designaciones de funcionarios y delegados que participaban en esa mesa.</p>
+<p>La determinación sobre Comuneros del Sur quedó establecida en la Resolución Ejecutiva 365 de 2026.</p>
+<p>El acto administrativo finaliza oficialmente las conversaciones entre el Gobierno nacional y los integrantes de esa organización.</p>
+<p>También establece que la medida comenzó a regir desde el momento de su expedición y elimina los efectos de una resolución emitida en septiembre de 2024.</p>
+<p>El Ejecutivo complementó esa decisión mediante la Resolución Ejecutiva 368.</p>
+<p>En este caso, la Presidencia retiró la autorización otorgada a quienes representaban al Gobierno en las conversaciones.</p>
+<p><strong><em>La lista incluye a Carlos Augusto Erazo Murcia, Ángela María Robledo Gómez, Andrea Giovani Gómez Suarez, Clemencia Carabalí Rodallega, Juan David Correa Ulloa, Pablo Francisco Pardo Velasco e Iván David Correa Ulloa</em></strong>.</p>
+<h2>Cambios en diálogos</h2>
+<p>Los documentos establecen que la Oficina del Consejero Comisionado de Paz deberá informar las decisiones a las autoridades competentes.</p>
+<p><strong>Para adoptar las medidas, las resoluciones mencionan las facultades constitucionales de la Presidencia y las disposiciones de la Ley 418 de 1997</strong>, norma que regula diferentes instrumentos relacionados con procesos de paz y orden público.</p>
+<p>La Resolución 368 también deja sin vigencia disposiciones expedidas en septiembre de 2024 y diciembre de 2025.</p>
+<p>De esta forma, el cierre de la mesa de diálogo con Comuneros del Sur no se limita a finalizar las conversaciones, sino que también elimina los nombramientos gubernamentales establecidos para desarrollar ese proceso.</p>
+<p>Las medidas conocidas ahora se suman a otras decisiones adoptadas por el Gobierno De La Espriella frente a negociaciones provenientes de la administración anterior.</p>
+<p><strong>Según la información suministrada</strong>, previamente fueron cerrados procesos relacionados con las disidencias de alias “<em>Calarcá</em>”, la Coordinadora Nacional Ejército Bolivariano y las Autodefensas Conquistadoras de la Sierra Nevada.</p>
+<h3>Procesos aún pendientes</h3>
+<p>La información entregada también registra el cierre de conversaciones con estructuras criminales de Medellín y el Valle de Aburrá, conocidas como “<em>Combos</em>”.</p>
+<p>Así, varias de las mesas que hicieron parte de la política de “<em>paz total</em>” impulsada durante el Gobierno de Gustavo Petro quedaron terminadas mediante decisiones del actual Ejecutivo.</p>
+<p>No todos los procesos mencionados cuentan, sin embargo, con una determinación similar dentro del material disponible.</p>
+<p>Hasta el momento señalado en la información suministrada, no se conoce una resolución que ordene finalizar específicamente el diálogo con el Clan del Golfo.</p>
+<p>Por esa razón, los documentos compartidos no permiten establecer el cierre de esas conversaciones.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/gobierno-de-abelardo-de-la-espriella-cierra-mesa-comuneros-del-sur/">De La Espriella desmonta mesas de diálogo de la paz total</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/gobierno-de-abelardo-de-la-espriella-cierra-mesa-comuneros-del-sur/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>CVC invertirá $1.500 millones en negocios verdes tras el sismo y confirma la Gran Vitrina Verde en Cali</title>
+		<link>https://occidente.co/medio-ambiente/negocios-verdes-en-el-valle-del-cauca-cvc-inversion-vitrina-verde-cali/</link>
+					<comments>https://occidente.co/medio-ambiente/negocios-verdes-en-el-valle-del-cauca-cvc-inversion-vitrina-verde-cali/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 04 Sep 2026 23:59:10 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438274</guid>
+
+					<description><![CDATA[<p>La CVC destinará $1.500 millones para apoyar a los negocios verdes después del terremoto del 10 de agosto y confirmó que Cali recibirá la Gran Vitrina Verde de Colombia entre el 30 de noviembre y el 5 de diciembre. El anuncio busca atender las necesidades identificadas entre empresarios del Valle del Cauca y mantener un...</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/negocios-verdes-en-el-valle-del-cauca-cvc-inversion-vitrina-verde-cali/">CVC invertirá $1.500 millones en negocios verdes tras el sismo y confirma la Gran Vitrina Verde en Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La CVC destinará $1.500 millones para apoyar a los negocios verdes después del terremoto del 10 de agosto y confirmó que Cali recibirá la Gran Vitrina Verde de Colombia entre el 30 de noviembre y el 5 de diciembre</strong>.</p>
+<p>El anuncio busca atender las necesidades identificadas entre empresarios del Valle del Cauca y mantener un espacio que reunirá a 400 negocios verdes procedentes de diferentes regiones del país.</p>
+<p>La Corporación Autónoma Regional del Valle del Cauca tenía previstos inicialmente $500 millones para estas iniciativas durante 2026.</p>
+<p>Sin embargo, después del sismo, la entidad aumentó en $1.000 millones el presupuesto destinado al sector.</p>
+<p><strong>El director general de la CVC, Marco Antonio Suárez Gutiérrez, explicó</strong> que los recursos permitirán apoyar a los empresarios en el mejoramiento de sus unidades productivas.</p>
+<h2>Vitrina en Cali</h2>
+<p><strong>Además de anunciar los recursos, Suárez Gutiérrez ratificó</strong> la realización de la Gran Vitrina Verde de Colombia en Cali.</p>
+<p>El encuentro estaba previsto inicialmente para septiembre, pero las condiciones generadas por el terremoto llevaron a cambiar la fecha.</p>
+<p>La nueva programación quedó establecida del 30 de noviembre al 5 de diciembre, con la participación prevista de 400 negocios verdes de todo el territorio nacional.</p>
+<p>El anuncio se realizó durante la Cuarta Mesa Departamental de Negocios Verdes, una alianza interinstitucional en la que participan entidades públicas, privadas, académicas y empresarios.</p>
+<p><strong>En esta jornada también estuvo Carla Mosquera Zapata, jefe de la Oficina de Negocios Verdes del Ministerio de Ambiente, quien confirmó la participación de esa dependencia en la Gran Vitrina Verde de Colombia y manifestó</strong> su respaldo al trabajo desarrollado por las instituciones.</p>
+<p>Durante la mesa, los participantes revisaron las necesidades de los negocios verdes del Valle del Cauca después del terremoto.</p>
+<p><strong>Luisa Fernanda López, de la Corporación Biocomercio Sostenible, explicó</strong> que el encuentro permitió conocer la situación de estas iniciativas y destacó la articulación entre las entidades regionales y nacionales para acompañar el proceso.</p>
+<h3>Efectos del sismo</h3>
+<p>Los representantes de los negocios verdes informaron que no se registraron pérdidas de vidas entre los emprendimientos caracterizados, aunque sí reportaron afectaciones en materiales.</p>
+<p>En el caso de las empresas vinculadas con el turismo de naturaleza, uno de los principales problemas corresponde a la cancelación de reservas después del terremoto del 10 de agosto.</p>
+<p>Ante esta situación, el director de la CVC invitó a visitar el Valle del Cauca y señaló que las rutas de turismo permanecen abiertas.</p>
+<p>Asimismo, la Mesa Departamental estableció como compromiso consolidar información sobre las necesidades de materiales, insumos y acompañamiento técnico que presentan los negocios verdes después del sismo.</p>
+<p>Otro de los acuerdos consiste en desarrollar una campaña de promoción regional, nacional e internacional para impulsar el consumo de productos y servicios ofrecidos por estos emprendimientos.</p>
+<p>En la jornada participaron las secretarías de Turismo de Cali y del Valle del Cauca, universidades, el Sena, Parques Nacionales Naturales, el Dagma y empresarios vinculados con los negocios verdes.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/negocios-verdes-en-el-valle-del-cauca-cvc-inversion-vitrina-verde-cali/">CVC invertirá $1.500 millones en negocios verdes tras el sismo y confirma la Gran Vitrina Verde en Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/negocios-verdes-en-el-valle-del-cauca-cvc-inversion-vitrina-verde-cali/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Cómo quedó la infraestructura vial de Cali tras el sismo? Alcaldía informa sobre vías, puentes y andenes</title>
+		<link>https://occidente.co/cali/infraestructura-vial-de-cali-sin-riesgo-inversion-sismo/</link>
+					<comments>https://occidente.co/cali/infraestructura-vial-de-cali-sin-riesgo-inversion-sismo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 04 Sep 2026 23:50:50 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438271</guid>
+
+					<description><![CDATA[<p>La infraestructura vial de Cali no presenta afectaciones que representen riesgo para peatones y conductores tras el sismo del 10 de agosto. La Alcaldía proyecta $15.300 millones para ejecutar acciones de recuperación y prevención, mientras las cuadrillas de la Secretaría de Infraestructura retomaron los trabajos habituales en diferentes sectores de la ciudad. El secretario de...</p>
+<p>The post <a href="https://occidente.co/cali/infraestructura-vial-de-cali-sin-riesgo-inversion-sismo/">¿Cómo quedó la infraestructura vial de Cali tras el sismo? Alcaldía informa sobre vías, puentes y andenes</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La infraestructura vial de Cali no presenta afectaciones que representen riesgo para peatones y conductores tras el sismo del 10 de agosto.</p>
+<p><strong>La Alcaldía proyecta $15.300 millones para ejecutar acciones de recuperación y prevención, mientras las cuadrillas de la Secretaría de Infraestructura retomaron los trabajos habituales en diferentes sectores de la ciudad</strong>.</p>
+<p><strong>El secretario de Infraestructura, Daniel Montoya Ossa, presentó</strong> el balance durante una citación de la Comisión de Presupuesto del Concejo de Cali.</p>
+<p><strong>El funcionario explicó</strong> las acciones desarrolladas después del sismo y expuso las medidas previstas para continuar con la recuperación de los puntos afectados.</p>
+<h2>Estado de las vías</h2>
+<p>De acuerdo con la Secretaría de Infraestructura, la malla vial, los andenes y los puentes de Cali no registran afectaciones que impliquen riesgos para la ciudadanía.</p>
+<p>Sin embargo, el Distrito incluyó recursos dentro del Plan de Acción Específico, PAE, para atender las consecuencias de la emergencia y desarrollar medidas preventivas.</p>
+<p>En total, la administración proyecta $15.300 millones para intervenciones en puntos donde se presentaron colapsos y para realizar estudios de vulnerabilidad sísmica.</p>
+<p>Estos análisis estarán dirigidos a puentes peatonales y vehiculares como parte de las acciones planteadas después del movimiento sísmico.</p>
+<p><strong>Durante la sesión, el concejal Fabio Arroyave consultó</strong> sobre el uso de la nueva maquinaria adquirida por el Distrito.</p>
+<p><strong>Montoya señaló</strong> que los equipos apoyaron las labores de remoción de escombros y la atención de los puntos afectados durante la emergencia registrada en Cali.</p>
+<p>Asimismo, la Secretaría de Infraestructura trabajó con la Unidad Administrativa Especial de Servicios Públicos, Uaesp, para retirar más de 75.000 toneladas de residuos de construcción y demolición.</p>
+<p>El sector privado también aportó equipos especializados, entre ellos grúas de izaje con capacidad de hasta 300 toneladas.</p>
+<p>Los residuos retirados permanecen en puntos destinados para su almacenamiento y posteriormente la Uaesp los traslada hacia lugares autorizados para aprovechamiento y reciclaje.</p>
+<p>Parte del material podrá utilizarse como insumo para la construcción de vías, adoquines y otros usos relacionados con infraestructura.</p>
+<h3>Regresan las cuadrillas</h3>
+<p>Con el avance de la atención inmediata hacia la etapa de recuperación, la maquinaria y el personal de la Secretaría de Infraestructura retomaron sus actividades sobre la malla vial.</p>
+<p>16 cuadrillas trabajaban en distintos puntos urbanos y rurales de Cali.</p>
+<p>Las labores se concentraron en las comunas 5, 6, 10, 11, 14, 15, 17 y 19, además de la zona rural.</p>
+<p>Los equipos realizan pavimentación, mantenimiento vial, construcción de andenes y recuperación de espacios en diferentes sectores de la capital del Valle del Cauca.</p>
+<p>Además, las cuadrillas intervienen corredores como la Avenida Simón Bolívar y la Autopista Sur.</p>
+<p>De esta manera, la infraestructura vial de Cali vuelve a concentrar personal y maquinaria en las actividades habituales de recuperación después de atender las necesidades relacionadas con el sismo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/infraestructura-vial-de-cali-sin-riesgo-inversion-sismo/">¿Cómo quedó la infraestructura vial de Cali tras el sismo? Alcaldía informa sobre vías, puentes y andenes</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/infraestructura-vial-de-cali-sin-riesgo-inversion-sismo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

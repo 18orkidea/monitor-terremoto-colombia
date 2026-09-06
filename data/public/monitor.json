@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-05",
- "fecha": "2026-09-05",
+ "generado": "2026-09-06",
+ "fecha": "2026-09-06",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1061,
-    "n_oficial": 19,
+    "n_prensa": 1077,
+    "n_oficial": 20,
     "n_ciudadano": 414,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 939,
-    "n_oficial": 19,
+    "n_prensa": 969,
+    "n_oficial": 20,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 521,
-    "n_oficial": 16,
+    "n_prensa": 534,
+    "n_oficial": 17,
     "n_ciudadano": 293,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 939,
-    "n_oficial": 19,
+    "n_prensa": 969,
+    "n_oficial": 20,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 89,
-    "n_oficial": 19,
+    "n_prensa": 92,
+    "n_oficial": 20,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -513,7 +513,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 67,
-    "n_oficial": 19,
+    "n_oficial": 20,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 245,
-    "n_oficial": 18,
+    "n_prensa": 246,
+    "n_oficial": 19,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 795
+   "feeds": 810
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 673
+   "feeds": 694
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 524
+   "feeds": 534
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 534
+   "feeds": 545
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 517
+   "feeds": 521
   },
   {
    "fecha": "2026-08-15",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 490
+   "feeds": 492
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 286
+   "feeds": 287
   },
   {
    "fecha": "2026-08-17",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 282
+   "feeds": 284
   },
   {
    "fecha": "2026-08-18",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 344
+   "feeds": 346
   },
   {
    "fecha": "2026-08-19",
@@ -715,7 +715,7 @@
    "gdelt": 0.5095,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 296
+   "feeds": 297
   },
   {
    "fecha": "2026-08-20",
@@ -723,7 +723,7 @@
    "gdelt": 0.3937,
    "fuentes": null,
    "chatmap": 55,
-   "feeds": 335
+   "feeds": 336
   },
   {
    "fecha": "2026-08-21",
@@ -739,7 +739,7 @@
    "gdelt": 0.2718,
    "fuentes": null,
    "chatmap": 80,
-   "feeds": 216
+   "feeds": 217
   },
   {
    "fecha": "2026-08-23",
@@ -747,7 +747,7 @@
    "gdelt": 0.2353,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 151
+   "feeds": 152
   },
   {
    "fecha": "2026-08-24",
@@ -755,7 +755,7 @@
    "gdelt": 0.2422,
    "fuentes": null,
    "chatmap": 97,
-   "feeds": 338
+   "feeds": 339
   },
   {
    "fecha": "2026-08-25",
@@ -763,7 +763,7 @@
    "gdelt": 0.2535,
    "fuentes": null,
    "chatmap": 12,
-   "feeds": 277
+   "feeds": 278
   },
   {
    "fecha": "2026-08-26",
@@ -771,7 +771,7 @@
    "gdelt": 0.198,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 242
+   "feeds": 243
   },
   {
    "fecha": "2026-08-27",
@@ -795,7 +795,7 @@
    "gdelt": 0.1865,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 166
+   "feeds": 167
   },
   {
    "fecha": "2026-08-30",
@@ -819,7 +819,7 @@
    "gdelt": 0.0773,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 176
+   "feeds": 181
   },
   {
    "fecha": "2026-09-02",
@@ -827,7 +827,7 @@
    "gdelt": 0.0798,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 150
+   "feeds": 153
   },
   {
    "fecha": "2026-09-03",
@@ -835,23 +835,31 @@
    "gdelt": 0.0953,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 160
+   "feeds": 166
   },
   {
    "fecha": "2026-09-04",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.0748,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 93
+   "feeds": 99
   },
   {
    "fecha": "2026-09-05",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.0662,
+   "fuentes": null,
+   "chatmap": 0,
+   "feeds": 81
+  },
+  {
+   "fecha": "2026-09-06",
+   "emm": null,
+   "gdelt": 0.0588,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 15
+   "feeds": 16
   }
  ],
  "entregas": [
@@ -920,7 +928,7 @@
    "personas": 759311.0,
    "viv_destruidas": 18768.0,
    "viv_averiadas": 117362.0,
-   "corte": "2026-09-04",
+   "corte": "2026-09-05",
    "retirados": [],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
@@ -1086,6 +1094,14 @@
     "personas": 759311.0,
     "viv_destruidas": 18768.0,
     "viv_averiadas": 117362.0
+   },
+   {
+    "fecha": "2026-09-05",
+    "municipios": 409,
+    "familias": 353271.0,
+    "personas": 759311.0,
+    "viv_destruidas": 18768.0,
+    "viv_averiadas": 117362.0
    }
   ],
   "municipios": [
@@ -1098,7 +1114,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 487820,
     "tasa_pct": 22.6885,
-    "delta_familias": 26336.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1110,7 +1126,7 @@
     "viv_averiadas": 16357.0,
     "poblacion_2026": 2269983,
     "tasa_pct": 4.288,
-    "delta_familias": 1724.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1122,7 +1138,7 @@
     "viv_averiadas": 16613.0,
     "poblacion_2026": 335217,
     "tasa_pct": 20.1634,
-    "delta_familias": 2910.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1134,7 +1150,7 @@
     "viv_averiadas": 8296.0,
     "poblacion_2026": 143332,
     "tasa_pct": 24.1453,
-    "delta_familias": 2378.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1146,7 +1162,7 @@
     "viv_averiadas": 409.0,
     "poblacion_2026": 307103,
     "tasa_pct": 8.3558,
-    "delta_familias": 51.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1158,7 +1174,7 @@
     "viv_averiadas": 2843.0,
     "poblacion_2026": 475690,
     "tasa_pct": 3.0184,
-    "delta_familias": 1374.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1170,7 +1186,7 @@
     "viv_averiadas": 98.0,
     "poblacion_2026": 246388,
     "tasa_pct": 7.1736,
-    "delta_familias": 959.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1182,7 +1198,7 @@
     "viv_averiadas": 3445.0,
     "poblacion_2026": 74399,
     "tasa_pct": 13.7677,
-    "delta_familias": 908.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1194,7 +1210,7 @@
     "viv_averiadas": 1960.0,
     "poblacion_2026": 38639,
     "tasa_pct": 24.0586,
-    "delta_familias": 425.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1206,7 +1222,7 @@
     "viv_averiadas": 437.0,
     "poblacion_2026": 37483,
     "tasa_pct": 32.4254,
-    "delta_familias": 311.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1218,7 +1234,7 @@
     "viv_averiadas": 1938.0,
     "poblacion_2026": 60038,
     "tasa_pct": 18.913,
-    "delta_familias": 344.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1230,7 +1246,7 @@
     "viv_averiadas": 2332.0,
     "poblacion_2026": 44172,
     "tasa_pct": 24.1714,
-    "delta_familias": 282.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1242,7 +1258,7 @@
     "viv_averiadas": 567.0,
     "poblacion_2026": 84054,
     "tasa_pct": 13.8542,
-    "delta_familias": 359.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1254,7 +1270,7 @@
     "viv_averiadas": 504.0,
     "poblacion_2026": 31350,
     "tasa_pct": 35.9904,
-    "delta_familias": -116.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1266,7 +1282,7 @@
     "viv_averiadas": 1563.0,
     "poblacion_2026": 34699,
     "tasa_pct": 20.5481,
-    "delta_familias": 105.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1278,7 +1294,7 @@
     "viv_averiadas": 2088.0,
     "poblacion_2026": 17617,
     "tasa_pct": 51.3992,
-    "delta_familias": 147.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1290,7 +1306,7 @@
     "viv_averiadas": 1125.0,
     "poblacion_2026": 20058,
     "tasa_pct": 38.8424,
-    "delta_familias": 123.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1302,7 +1318,7 @@
     "viv_averiadas": 1477.0,
     "poblacion_2026": 15958,
     "tasa_pct": 34.2336,
-    "delta_familias": 167.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1314,7 +1330,7 @@
     "viv_averiadas": 1173.0,
     "poblacion_2026": 30248,
     "tasa_pct": 16.4341,
-    "delta_familias": 48.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1326,7 +1342,7 @@
     "viv_averiadas": 450.0,
     "poblacion_2026": 28971,
     "tasa_pct": 15.9539,
-    "delta_familias": 206.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1338,7 +1354,7 @@
     "viv_averiadas": 1205.0,
     "poblacion_2026": 43993,
     "tasa_pct": 12.1042,
-    "delta_familias": 91.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1350,7 +1366,7 @@
     "viv_averiadas": 712.0,
     "poblacion_2026": 16843,
     "tasa_pct": 37.0302,
-    "delta_familias": 19.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1362,7 +1378,7 @@
     "viv_averiadas": 747.0,
     "poblacion_2026": 17825,
     "tasa_pct": 25.3128,
-    "delta_familias": 44.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1374,7 +1390,7 @@
     "viv_averiadas": 211.0,
     "poblacion_2026": 25527,
     "tasa_pct": 13.425,
-    "delta_familias": 118.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1386,7 +1402,7 @@
     "viv_averiadas": 471.0,
     "poblacion_2026": 14922,
     "tasa_pct": 33.3936,
-    "delta_familias": 21.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1398,7 +1414,7 @@
     "viv_averiadas": 567.0,
     "poblacion_2026": 144206,
     "tasa_pct": 1.7267,
-    "delta_familias": 570.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1410,7 +1426,7 @@
     "viv_averiadas": 814.0,
     "poblacion_2026": 16021,
     "tasa_pct": 31.6834,
-    "delta_familias": 40.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1422,7 +1438,7 @@
     "viv_averiadas": 480.0,
     "poblacion_2026": 16207,
     "tasa_pct": 27.2598,
-    "delta_familias": 108.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1434,7 +1450,7 @@
     "viv_averiadas": 1319.0,
     "poblacion_2026": 196875,
     "tasa_pct": 2.2329,
-    "delta_familias": 93.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1446,7 +1462,7 @@
     "viv_averiadas": 798.0,
     "poblacion_2026": 29358,
     "tasa_pct": 19.2861,
-    "delta_familias": 14.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1458,7 +1474,7 @@
     "viv_averiadas": 1515.0,
     "poblacion_2026": 10016,
     "tasa_pct": 44.349,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1470,7 +1486,7 @@
     "viv_averiadas": 732.0,
     "poblacion_2026": 28386,
     "tasa_pct": 15.5288,
-    "delta_familias": 251.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1482,7 +1498,7 @@
     "viv_averiadas": 593.0,
     "poblacion_2026": 7010,
     "tasa_pct": 64.8359,
-    "delta_familias": 105.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1494,7 +1510,7 @@
     "viv_averiadas": 134.0,
     "poblacion_2026": 225868,
     "tasa_pct": 1.1431,
-    "delta_familias": 148.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1506,7 +1522,7 @@
     "viv_averiadas": 518.0,
     "poblacion_2026": 17320,
     "tasa_pct": 25.4965,
-    "delta_familias": 135.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1518,7 +1534,7 @@
     "viv_averiadas": 1102.0,
     "poblacion_2026": 33342,
     "tasa_pct": 12.1288,
-    "delta_familias": 53.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1530,7 +1546,7 @@
     "viv_averiadas": 553.0,
     "poblacion_2026": 18765,
     "tasa_pct": 16.8185,
-    "delta_familias": 44.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1542,7 +1558,7 @@
     "viv_averiadas": 709.0,
     "poblacion_2026": 36717,
     "tasa_pct": 7.457,
-    "delta_familias": 164.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1554,7 +1570,7 @@
     "viv_averiadas": 852.0,
     "poblacion_2026": 25277,
     "tasa_pct": 15.6387,
-    "delta_familias": 68.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1566,7 +1582,7 @@
     "viv_averiadas": 494.0,
     "poblacion_2026": 7694,
     "tasa_pct": 46.5558,
-    "delta_familias": 23.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1578,7 +1594,7 @@
     "viv_averiadas": 397.0,
     "poblacion_2026": 19402,
     "tasa_pct": 19.0187,
-    "delta_familias": 24.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1590,7 +1606,7 @@
     "viv_averiadas": 662.0,
     "poblacion_2026": 52118,
     "tasa_pct": 9.0199,
-    "delta_familias": 28.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1602,7 +1618,7 @@
     "viv_averiadas": 125.0,
     "poblacion_2026": 12345,
     "tasa_pct": 29.3884,
-    "delta_familias": 75.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1614,7 +1630,7 @@
     "viv_averiadas": 187.0,
     "poblacion_2026": 5538,
     "tasa_pct": 66.8111,
-    "delta_familias": 27.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1626,7 +1642,7 @@
     "viv_averiadas": 513.0,
     "poblacion_2026": 14335,
     "tasa_pct": 18.9327,
-    "delta_familias": 74.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1638,7 +1654,7 @@
     "viv_averiadas": 44.0,
     "poblacion_2026": 19486,
     "tasa_pct": 7.9904,
-    "delta_familias": 33.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1650,7 +1666,7 @@
     "viv_averiadas": 1173.0,
     "poblacion_2026": 12936,
     "tasa_pct": 17.8185,
-    "delta_familias": 463.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1674,7 +1690,7 @@
     "viv_averiadas": 372.0,
     "poblacion_2026": 7441,
     "tasa_pct": 42.2793,
-    "delta_familias": 78.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1686,7 +1702,7 @@
     "viv_averiadas": 484.0,
     "poblacion_2026": 37352,
     "tasa_pct": 10.2592,
-    "delta_familias": 119.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1698,7 +1714,7 @@
     "viv_averiadas": 611.0,
     "poblacion_2026": 33758,
     "tasa_pct": 8.1521,
-    "delta_familias": 42.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1710,7 +1726,7 @@
     "viv_averiadas": 964.0,
     "poblacion_2026": 29935,
     "tasa_pct": 5.4552,
-    "delta_familias": -2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1722,7 +1738,7 @@
     "viv_averiadas": 502.0,
     "poblacion_2026": 9312,
     "tasa_pct": 35.9214,
-    "delta_familias": 23.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1734,7 +1750,7 @@
     "viv_averiadas": 434.0,
     "poblacion_2026": 9164,
     "tasa_pct": 30.3361,
-    "delta_familias": 34.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1746,7 +1762,7 @@
     "viv_averiadas": 982.0,
     "poblacion_2026": 25109,
     "tasa_pct": 11.1713,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1758,7 +1774,7 @@
     "viv_averiadas": 298.0,
     "poblacion_2026": 11296,
     "tasa_pct": 20.3081,
-    "delta_familias": 39.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1770,7 +1786,7 @@
     "viv_averiadas": 737.0,
     "poblacion_2026": 130768,
     "tasa_pct": 1.7367,
-    "delta_familias": 255.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1782,7 +1798,7 @@
     "viv_averiadas": 672.0,
     "poblacion_2026": 27635,
     "tasa_pct": 13.8448,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1794,7 +1810,7 @@
     "viv_averiadas": 647.0,
     "poblacion_2026": 12558,
     "tasa_pct": 18.4185,
-    "delta_familias": 64.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1806,7 +1822,7 @@
     "viv_averiadas": 979.0,
     "poblacion_2026": 18515,
     "tasa_pct": 21.6473,
-    "delta_familias": 75.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1818,7 +1834,7 @@
     "viv_averiadas": 434.0,
     "poblacion_2026": 12765,
     "tasa_pct": 17.7595,
-    "delta_familias": 25.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1830,7 +1846,7 @@
     "viv_averiadas": 173.0,
     "poblacion_2026": 74463,
     "tasa_pct": 3.4245,
-    "delta_familias": 54.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1842,7 +1858,7 @@
     "viv_averiadas": 359.0,
     "poblacion_2026": 5863,
     "tasa_pct": 36.5342,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1854,7 +1870,7 @@
     "viv_averiadas": 382.0,
     "poblacion_2026": 18544,
     "tasa_pct": 18.7554,
-    "delta_familias": 24.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1878,7 +1894,7 @@
     "viv_averiadas": 627.0,
     "poblacion_2026": 28053,
     "tasa_pct": 10.8972,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1890,7 +1906,7 @@
     "viv_averiadas": 228.0,
     "poblacion_2026": 10327,
     "tasa_pct": 20.7611,
-    "delta_familias": 31.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1902,7 +1918,7 @@
     "viv_averiadas": 511.0,
     "poblacion_2026": 382703,
     "tasa_pct": 0.63,
-    "delta_familias": 229.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1914,7 +1930,7 @@
     "viv_averiadas": 342.0,
     "poblacion_2026": 12968,
     "tasa_pct": 18.8695,
-    "delta_familias": 17.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1926,7 +1942,7 @@
     "viv_averiadas": 302.0,
     "poblacion_2026": 5136,
     "tasa_pct": 40.2064,
-    "delta_familias": 38.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1938,7 +1954,7 @@
     "viv_averiadas": 149.0,
     "poblacion_2026": 10372,
     "tasa_pct": 18.4921,
-    "delta_familias": 38.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1950,7 +1966,7 @@
     "viv_averiadas": 222.0,
     "poblacion_2026": 6532,
     "tasa_pct": 26.3472,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1962,7 +1978,7 @@
     "viv_averiadas": 270.0,
     "poblacion_2026": 115667,
     "tasa_pct": 2.0645,
-    "delta_familias": 74.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1974,7 +1990,7 @@
     "viv_averiadas": 462.0,
     "poblacion_2026": 12461,
     "tasa_pct": 17.1736,
-    "delta_familias": 83.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1986,7 +2002,7 @@
     "viv_averiadas": 494.0,
     "poblacion_2026": 132250,
     "tasa_pct": 1.175,
-    "delta_familias": 52.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1998,7 +2014,7 @@
     "viv_averiadas": 178.0,
     "poblacion_2026": 45131,
     "tasa_pct": 3.8488,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2010,7 +2026,7 @@
     "viv_averiadas": 121.0,
     "poblacion_2026": 17244,
     "tasa_pct": 11.0183,
-    "delta_familias": 21.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2022,7 +2038,7 @@
     "viv_averiadas": 418.0,
     "poblacion_2026": 12698,
     "tasa_pct": 16.5459,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2034,7 +2050,7 @@
     "viv_averiadas": 173.0,
     "poblacion_2026": 12613,
     "tasa_pct": 16.9746,
-    "delta_familias": 68.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2046,7 +2062,7 @@
     "viv_averiadas": 151.0,
     "poblacion_2026": 19757,
     "tasa_pct": 10.0218,
-    "delta_familias": 6.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2058,7 +2074,7 @@
     "viv_averiadas": 338.0,
     "poblacion_2026": 14126,
     "tasa_pct": 12.0204,
-    "delta_familias": 152.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2070,7 +2086,7 @@
     "viv_averiadas": 432.0,
     "poblacion_2026": 5347,
     "tasa_pct": 36.5439,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2082,7 +2098,7 @@
     "viv_averiadas": 559.0,
     "poblacion_2026": 6601,
     "tasa_pct": 32.9647,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2094,7 +2110,7 @@
     "viv_averiadas": 585.0,
     "poblacion_2026": 42986,
     "tasa_pct": 2.1402,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2106,7 +2122,7 @@
     "viv_averiadas": 222.0,
     "poblacion_2026": 5601,
     "tasa_pct": 25.2098,
-    "delta_familias": 44.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2118,7 +2134,7 @@
     "viv_averiadas": 344.0,
     "poblacion_2026": 7322,
     "tasa_pct": 23.0402,
-    "delta_familias": 141.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2130,7 +2146,7 @@
     "viv_averiadas": 403.0,
     "poblacion_2026": 22301,
     "tasa_pct": 4.5603,
-    "delta_familias": 50.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2166,7 +2182,7 @@
     "viv_averiadas": 138.0,
     "poblacion_2026": 50452,
     "tasa_pct": 3.209,
-    "delta_familias": 92.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2178,7 +2194,7 @@
     "viv_averiadas": 201.0,
     "poblacion_2026": 4960,
     "tasa_pct": 28.5685,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2190,7 +2206,7 @@
     "viv_averiadas": 252.0,
     "poblacion_2026": 15966,
     "tasa_pct": 8.8876,
-    "delta_familias": 23.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2214,7 +2230,7 @@
     "viv_averiadas": 106.0,
     "poblacion_2026": 45436,
     "tasa_pct": 3.2925,
-    "delta_familias": 53.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2226,7 +2242,7 @@
     "viv_averiadas": 480.0,
     "poblacion_2026": 19254,
     "tasa_pct": 7.4686,
-    "delta_familias": 73.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2238,7 +2254,7 @@
     "viv_averiadas": 180.0,
     "poblacion_2026": 21492,
     "tasa_pct": 5.4206,
-    "delta_familias": 104.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2250,7 +2266,7 @@
     "viv_averiadas": 161.0,
     "poblacion_2026": 38524,
     "tasa_pct": 3.307,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2262,7 +2278,7 @@
     "viv_averiadas": 157.0,
     "poblacion_2026": 46001,
     "tasa_pct": 2.5347,
-    "delta_familias": 22.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2274,7 +2290,7 @@
     "viv_averiadas": 273.0,
     "poblacion_2026": 7700,
     "tasa_pct": 17.8442,
-    "delta_familias": 49.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2286,7 +2302,7 @@
     "viv_averiadas": 76.0,
     "poblacion_2026": 3165,
     "tasa_pct": 19.1153,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2298,7 +2314,7 @@
     "viv_averiadas": 470.0,
     "poblacion_2026": 10485,
     "tasa_pct": 8.6505,
-    "delta_familias": 59.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2310,7 +2326,7 @@
     "viv_averiadas": 111.0,
     "poblacion_2026": 10781,
     "tasa_pct": 9.7023,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2322,7 +2338,7 @@
     "viv_averiadas": 467.0,
     "poblacion_2026": 36604,
     "tasa_pct": 3.1472,
-    "delta_familias": 35.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2334,7 +2350,7 @@
     "viv_averiadas": 232.0,
     "poblacion_2026": 53336,
     "tasa_pct": 1.4868,
-    "delta_familias": 19.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2346,7 +2362,7 @@
     "viv_averiadas": 452.0,
     "poblacion_2026": 40488,
     "tasa_pct": 3.4232,
-    "delta_familias": 17.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2358,7 +2374,7 @@
     "viv_averiadas": 103.0,
     "poblacion_2026": 24545,
     "tasa_pct": 3.0149,
-    "delta_familias": 27.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2370,7 +2386,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 40504,
     "tasa_pct": 1.6912,
-    "delta_familias": 26.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2382,7 +2398,7 @@
     "viv_averiadas": 294.0,
     "poblacion_2026": 46986,
     "tasa_pct": 2.1177,
-    "delta_familias": 4.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2394,7 +2410,7 @@
     "viv_averiadas": 234.0,
     "poblacion_2026": 15531,
     "tasa_pct": 6.9796,
-    "delta_familias": 110.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2418,7 +2434,7 @@
     "viv_averiadas": 166.0,
     "poblacion_2026": 57017,
     "tasa_pct": 1.6697,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2430,7 +2446,7 @@
     "viv_averiadas": 334.0,
     "poblacion_2026": 115933,
     "tasa_pct": 0.4943,
-    "delta_familias": 18.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2442,7 +2458,7 @@
     "viv_averiadas": 348.0,
     "poblacion_2026": 58555,
     "tasa_pct": 1.3833,
-    "delta_familias": 20.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2454,7 +2470,7 @@
     "viv_averiadas": 222.0,
     "poblacion_2026": 10743,
     "tasa_pct": 4.4308,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2466,7 +2482,7 @@
     "viv_averiadas": 178.0,
     "poblacion_2026": 31774,
     "tasa_pct": 2.8514,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2478,7 +2494,7 @@
     "viv_averiadas": 301.0,
     "poblacion_2026": 20589,
     "tasa_pct": 3.3513,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2502,7 +2518,7 @@
     "viv_averiadas": 219.0,
     "poblacion_2026": 11079,
     "tasa_pct": 9.9016,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2514,7 +2530,7 @@
     "viv_averiadas": 23.0,
     "poblacion_2026": 8768,
     "tasa_pct": 5.0639,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2526,7 +2542,7 @@
     "viv_averiadas": 373.0,
     "poblacion_2026": 29766,
     "tasa_pct": 2.355,
-    "delta_familias": 14.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2538,7 +2554,7 @@
     "viv_averiadas": 269.0,
     "poblacion_2026": 21004,
     "tasa_pct": 4.3754,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2550,7 +2566,7 @@
     "viv_averiadas": 216.0,
     "poblacion_2026": 39534,
     "tasa_pct": 1.8895,
-    "delta_familias": 31.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2562,7 +2578,7 @@
     "viv_averiadas": 109.0,
     "poblacion_2026": 5652,
     "tasa_pct": 6.0686,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2574,7 +2590,7 @@
     "viv_averiadas": 88.0,
     "poblacion_2026": 22556,
     "tasa_pct": 4.1408,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2610,7 +2626,7 @@
     "viv_averiadas": 221.0,
     "poblacion_2026": 50067,
     "tasa_pct": 1.482,
-    "delta_familias": 45.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2634,7 +2650,7 @@
     "viv_averiadas": 274.0,
     "poblacion_2026": 15657,
     "tasa_pct": 3.7491,
-    "delta_familias": 6.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2646,7 +2662,7 @@
     "viv_averiadas": 111.0,
     "poblacion_2026": 23909,
     "tasa_pct": 2.3338,
-    "delta_familias": 15.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2658,7 +2674,7 @@
     "viv_averiadas": 268.0,
     "poblacion_2026": 19492,
     "tasa_pct": 5.0585,
-    "delta_familias": -1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2670,7 +2686,7 @@
     "viv_averiadas": 161.0,
     "poblacion_2026": 13351,
     "tasa_pct": 5.5052,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2682,7 +2698,7 @@
     "viv_averiadas": 130.0,
     "poblacion_2026": 10931,
     "tasa_pct": 6.0196,
-    "delta_familias": 41.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2694,7 +2710,7 @@
     "viv_averiadas": 267.0,
     "poblacion_2026": 12211,
     "tasa_pct": 2.4077,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2706,7 +2722,7 @@
     "viv_averiadas": 52.0,
     "poblacion_2026": 22391,
     "tasa_pct": 3.2781,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2718,7 +2734,7 @@
     "viv_averiadas": 241.0,
     "poblacion_2026": 43709,
     "tasa_pct": 0.8991,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2730,7 +2746,7 @@
     "viv_averiadas": 227.0,
     "poblacion_2026": 20404,
     "tasa_pct": 3.3768,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2742,7 +2758,7 @@
     "viv_averiadas": 267.0,
     "poblacion_2026": 24376,
     "tasa_pct": 1.4317,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2754,7 +2770,7 @@
     "viv_averiadas": 89.0,
     "poblacion_2026": 56397,
     "tasa_pct": 0.9522,
-    "delta_familias": 55.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2778,7 +2794,7 @@
     "viv_averiadas": 60.0,
     "poblacion_2026": 11341,
     "tasa_pct": 5.0525,
-    "delta_familias": 4.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2802,7 +2818,7 @@
     "viv_averiadas": 100.0,
     "poblacion_2026": 10622,
     "tasa_pct": 2.6831,
-    "delta_familias": 6.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2814,7 +2830,7 @@
     "viv_averiadas": 119.0,
     "poblacion_2026": 18927,
     "tasa_pct": 3.2176,
-    "delta_familias": 42.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2826,7 +2842,7 @@
     "viv_averiadas": 100.0,
     "poblacion_2026": 35750,
     "tasa_pct": 1.3203,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2838,7 +2854,7 @@
     "viv_averiadas": 176.0,
     "poblacion_2026": 27500,
     "tasa_pct": 2.1127,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2874,7 +2890,7 @@
     "viv_averiadas": 196.0,
     "poblacion_2026": 24152,
     "tasa_pct": 1.9046,
-    "delta_familias": 16.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2886,7 +2902,7 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 4444,
     "tasa_pct": 10.8461,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2898,7 +2914,7 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 32700,
     "tasa_pct": 0.6269,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2922,7 +2938,7 @@
     "viv_averiadas": 85.0,
     "poblacion_2026": 39457,
     "tasa_pct": 1.1253,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2934,7 +2950,7 @@
     "viv_averiadas": 52.0,
     "poblacion_2026": 8242,
     "tasa_pct": 5.3385,
-    "delta_familias": 54.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2946,7 +2962,7 @@
     "viv_averiadas": 161.0,
     "poblacion_2026": 33934,
     "tasa_pct": 0.9312,
-    "delta_familias": 20.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2958,7 +2974,7 @@
     "viv_averiadas": 31.0,
     "poblacion_2026": 34739,
     "tasa_pct": 1.0737,
-    "delta_familias": 26.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2970,7 +2986,7 @@
     "viv_averiadas": 39.0,
     "poblacion_2026": 557317,
     "tasa_pct": 0.0673,
-    "delta_familias": 37.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -2982,7 +2998,7 @@
     "viv_averiadas": 46.0,
     "poblacion_2026": 18310,
     "tasa_pct": 0.994,
-    "delta_familias": 83.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3006,7 +3022,7 @@
     "viv_averiadas": 135.0,
     "poblacion_2026": 17068,
     "tasa_pct": 2.1326,
-    "delta_familias": 68.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3018,7 +3034,7 @@
     "viv_averiadas": 143.0,
     "poblacion_2026": 8635,
     "tasa_pct": 3.2426,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3030,7 +3046,7 @@
     "viv_averiadas": 45.0,
     "poblacion_2026": 7565,
     "tasa_pct": 3.8599,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3042,7 +3058,7 @@
     "viv_averiadas": 28.0,
     "poblacion_2026": 5679,
     "tasa_pct": 2.9935,
-    "delta_familias": 55.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3054,7 +3070,7 @@
     "viv_averiadas": 130.0,
     "poblacion_2026": 5515,
     "tasa_pct": 2.5385,
-    "delta_familias": 4.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3066,7 +3082,7 @@
     "viv_averiadas": 72.0,
     "poblacion_2026": 27710,
     "tasa_pct": 0.9022,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3102,7 +3118,7 @@
     "viv_averiadas": 129.0,
     "poblacion_2026": 23765,
     "tasa_pct": 1.1151,
-    "delta_familias": 32.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3114,7 +3130,7 @@
     "viv_averiadas": 85.0,
     "poblacion_2026": 14806,
     "tasa_pct": 1.4319,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3126,7 +3142,7 @@
     "viv_averiadas": 124.0,
     "poblacion_2026": 6630,
     "tasa_pct": 4.736,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3138,7 +3154,7 @@
     "viv_averiadas": 61.0,
     "poblacion_2026": 31883,
     "tasa_pct": 0.7088,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3150,7 +3166,7 @@
     "viv_averiadas": 84.0,
     "poblacion_2026": 11466,
     "tasa_pct": 1.91,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3162,7 +3178,7 @@
     "viv_averiadas": 115.0,
     "poblacion_2026": 9363,
     "tasa_pct": 3.7808,
-    "delta_familias": 27.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3174,7 +3190,7 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 2676,
     "tasa_pct": 8.2212,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3198,7 +3214,7 @@
     "viv_averiadas": 81.0,
     "poblacion_2026": 6477,
     "tasa_pct": 3.7363,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3210,7 +3226,7 @@
     "viv_averiadas": 99.0,
     "poblacion_2026": 29737,
     "tasa_pct": 0.6759,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3222,7 +3238,7 @@
     "viv_averiadas": 94.0,
     "poblacion_2026": 8137,
     "tasa_pct": 1.9172,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3234,7 +3250,7 @@
     "viv_averiadas": 76.0,
     "poblacion_2026": 12653,
     "tasa_pct": 2.45,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3246,7 +3262,7 @@
     "viv_averiadas": 79.0,
     "poblacion_2026": 20322,
     "tasa_pct": 1.4172,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3258,7 +3274,7 @@
     "viv_averiadas": 20.0,
     "poblacion_2026": 408218,
     "tasa_pct": 0.0475,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3270,7 +3286,7 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 6763,
     "tasa_pct": 1.8483,
-    "delta_familias": 40.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3282,7 +3298,7 @@
     "viv_averiadas": 111.0,
     "poblacion_2026": 5181,
     "tasa_pct": 6.2536,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3294,7 +3310,7 @@
     "viv_averiadas": 65.0,
     "poblacion_2026": 8625,
     "tasa_pct": 2.5971,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3306,7 +3322,7 @@
     "viv_averiadas": 91.0,
     "poblacion_2026": 14826,
     "tasa_pct": 1.7402,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3318,7 +3334,7 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 5966,
     "tasa_pct": 3.587,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3342,7 +3358,7 @@
     "viv_averiadas": 96.0,
     "poblacion_2026": 10784,
     "tasa_pct": 2.2441,
-    "delta_familias": 12.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3354,7 +3370,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 22503,
     "tasa_pct": 0.4266,
-    "delta_familias": 53.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3366,7 +3382,7 @@
     "viv_averiadas": 41.0,
     "poblacion_2026": 15989,
     "tasa_pct": 1.2446,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3390,7 +3406,7 @@
     "viv_averiadas": 65.0,
     "poblacion_2026": 24149,
     "tasa_pct": 1.0021,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3402,7 +3418,7 @@
     "viv_averiadas": 13.0,
     "poblacion_2026": 11015,
     "tasa_pct": 1.7431,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3426,7 +3442,7 @@
     "viv_averiadas": 27.0,
     "poblacion_2026": 6717,
     "tasa_pct": 3.1562,
-    "delta_familias": 20.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3438,7 +3454,7 @@
     "viv_averiadas": 79.0,
     "poblacion_2026": 11686,
     "tasa_pct": 2.2848,
-    "delta_familias": 8.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3450,7 +3466,7 @@
     "viv_averiadas": 53.0,
     "poblacion_2026": 22750,
     "tasa_pct": 0.7736,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3462,7 +3478,7 @@
     "viv_averiadas": 63.0,
     "poblacion_2026": 7761,
     "tasa_pct": 2.1776,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3498,7 +3514,7 @@
     "viv_averiadas": 26.0,
     "poblacion_2026": 37626,
     "tasa_pct": 0.2924,
-    "delta_familias": 21.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3510,7 +3526,7 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 13092,
     "tasa_pct": 1.0617,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3558,7 +3574,7 @@
     "viv_averiadas": 42.0,
     "poblacion_2026": 10943,
     "tasa_pct": 1.5078,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3606,7 +3622,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 8074,
     "tasa_pct": 2.0312,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3618,7 +3634,7 @@
     "viv_averiadas": 22.0,
     "poblacion_2026": 7994,
     "tasa_pct": 0.9757,
-    "delta_familias": 5.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3654,7 +3670,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 16961,
     "tasa_pct": 0.9492,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3666,7 +3682,7 @@
     "viv_averiadas": 57.0,
     "poblacion_2026": 11059,
     "tasa_pct": 1.1755,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3690,7 +3706,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 7464,
     "tasa_pct": 1.3398,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3714,7 +3730,7 @@
     "viv_averiadas": 62.0,
     "poblacion_2026": 18221,
     "tasa_pct": 0.8452,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3726,7 +3742,7 @@
     "viv_averiadas": 49.0,
     "poblacion_2026": 8175,
     "tasa_pct": 1.945,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3738,7 +3754,7 @@
     "viv_averiadas": 40.0,
     "poblacion_2026": 24121,
     "tasa_pct": 0.5472,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3750,7 +3766,7 @@
     "viv_averiadas": 53.0,
     "poblacion_2026": 18376,
     "tasa_pct": 0.6149,
-    "delta_familias": 11.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3762,7 +3778,7 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 125881,
     "tasa_pct": 0.1112,
-    "delta_familias": 28.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3774,7 +3790,7 @@
     "viv_averiadas": 14.0,
     "poblacion_2026": 355347,
     "tasa_pct": 0.0144,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3786,7 +3802,7 @@
     "viv_averiadas": 47.0,
     "poblacion_2026": 13025,
     "tasa_pct": 0.3916,
-    "delta_familias": 9.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3798,7 +3814,7 @@
     "viv_averiadas": 25.0,
     "poblacion_2026": 18910,
     "tasa_pct": 0.6399,
-    "delta_familias": -1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3894,7 +3910,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 8842,
     "tasa_pct": 1.1197,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3918,7 +3934,7 @@
     "viv_averiadas": 8.0,
     "poblacion_2026": 14593,
     "tasa_pct": 0.5345,
-    "delta_familias": 4.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3930,7 +3946,7 @@
     "viv_averiadas": 24.0,
     "poblacion_2026": 28673,
     "tasa_pct": 0.3871,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3942,7 +3958,7 @@
     "viv_averiadas": 18.0,
     "poblacion_2026": 27457,
     "tasa_pct": 0.2367,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -3978,7 +3994,7 @@
     "viv_averiadas": 35.0,
     "poblacion_2026": 29365,
     "tasa_pct": 0.3065,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4014,7 +4030,7 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 17510,
     "tasa_pct": 0.4397,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4038,7 +4054,7 @@
     "viv_averiadas": 19.0,
     "poblacion_2026": 5347,
     "tasa_pct": 1.8702,
-    "delta_familias": 28.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4074,7 +4090,7 @@
     "viv_averiadas": 28.0,
     "poblacion_2026": 21808,
     "tasa_pct": 0.2751,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4110,7 +4126,7 @@
     "viv_averiadas": 31.0,
     "poblacion_2026": 16099,
     "tasa_pct": 0.6212,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4158,7 +4174,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 8565,
     "tasa_pct": 0.5838,
-    "delta_familias": 24.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4182,7 +4198,7 @@
     "viv_averiadas": 25.0,
     "poblacion_2026": 9073,
     "tasa_pct": 0.8046,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4206,7 +4222,7 @@
     "viv_averiadas": 27.0,
     "poblacion_2026": 24374,
     "tasa_pct": 0.3487,
-    "delta_familias": 10.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4218,7 +4234,7 @@
     "viv_averiadas": 23.0,
     "poblacion_2026": 2526795,
     "tasa_pct": 0.0038,
-    "delta_familias": 21.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4278,7 +4294,7 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 39791,
     "tasa_pct": 0.1432,
-    "delta_familias": 4.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4290,7 +4306,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 22145,
     "tasa_pct": 0.2438,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4302,8 +4318,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 4961,
     "tasa_pct": 0.5442,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4338,7 +4354,7 @@
     "viv_averiadas": 27.0,
     "poblacion_2026": 8277,
     "tasa_pct": 0.6282,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4350,8 +4366,8 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 7737,
     "tasa_pct": 0.336,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -4446,7 +4462,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 29650,
     "tasa_pct": 0.1754,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4506,7 +4522,7 @@
     "viv_averiadas": 25.0,
     "poblacion_2026": 12523,
     "tasa_pct": 0.4392,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4530,7 +4546,7 @@
     "viv_averiadas": 23.0,
     "poblacion_2026": 54283,
     "tasa_pct": 0.1418,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4614,7 +4630,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 5976,
     "tasa_pct": 0.7865,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4638,7 +4654,7 @@
     "viv_averiadas": 4.0,
     "poblacion_2026": 76970,
     "tasa_pct": 0.0533,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4662,7 +4678,7 @@
     "viv_averiadas": 20.0,
     "poblacion_2026": 27622,
     "tasa_pct": 0.1919,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4674,7 +4690,7 @@
     "viv_averiadas": 3.0,
     "poblacion_2026": 12494,
     "tasa_pct": 0.3282,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4734,7 +4750,7 @@
     "viv_averiadas": 1.0,
     "poblacion_2026": 31197,
     "tasa_pct": 0.1635,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4794,7 +4810,7 @@
     "viv_averiadas": 9.0,
     "poblacion_2026": 19002,
     "tasa_pct": 0.0737,
-    "delta_familias": 12.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4830,8 +4846,8 @@
     "viv_averiadas": 13.0,
     "poblacion_2026": 130286,
     "tasa_pct": 0.0115,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CUNDINAMARCA",
@@ -4890,7 +4906,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 16647,
     "tasa_pct": 0.0961,
-    "delta_familias": 7.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4926,8 +4942,8 @@
     "viv_averiadas": 7.0,
     "poblacion_2026": 10896,
     "tasa_pct": 0.101,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "CAUCA",
@@ -4938,7 +4954,7 @@
     "viv_averiadas": 11.0,
     "poblacion_2026": 5310,
     "tasa_pct": 0.4143,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -4998,7 +5014,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6253,
     "tasa_pct": 0.2399,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5130,7 +5146,7 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 4719,
     "tasa_pct": 0.2119,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5178,7 +5194,7 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 26697,
     "tasa_pct": 0.0487,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5238,8 +5254,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 11756,
     "tasa_pct": 0.1106,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "TOLIMA",
@@ -5250,7 +5266,7 @@
     "viv_averiadas": 6.0,
     "poblacion_2026": 24973,
     "tasa_pct": 0.028,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5274,7 +5290,7 @@
     "viv_averiadas": 2.0,
     "poblacion_2026": 92069,
     "tasa_pct": 0.013,
-    "delta_familias": 3.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5298,7 +5314,7 @@
     "viv_averiadas": 6.0,
     "poblacion_2026": 10653,
     "tasa_pct": 0.1314,
-    "delta_familias": 2.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5598,8 +5614,8 @@
     "viv_averiadas": 5.0,
     "poblacion_2026": 2116,
     "tasa_pct": 0.6616,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -5778,7 +5794,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 3926,
     "tasa_pct": 0.1528,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5898,7 +5914,7 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 6314,
     "tasa_pct": 0.0475,
-    "delta_familias": 1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -5922,8 +5938,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 268381,
     "tasa_pct": 0.0022,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "ANTIOQUIA",
@@ -5982,8 +5998,8 @@
     "viv_averiadas": 0.0,
     "poblacion_2026": 9620,
     "tasa_pct": 0.0312,
-    "delta_familias": null,
-    "nuevo": true
+    "delta_familias": 0.0,
+    "nuevo": false
    },
    {
     "departamento": "NORTE DE SANTANDER",
@@ -6160,7 +6176,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-09-05"
+  "generado": "2026-09-06"
  },
  "citizen": {
   "chatmap_total": 842,
@@ -7885,6 +7901,13 @@
    "category": "Storm",
    "countries": "Italy",
    "event_time": "2026-08-28T15:00:00"
+  },
+  {
+   "code": "EMSR929",
+   "name": "Wildfire in Trapezitsa Mountain, Greece",
+   "category": "Wildfire",
+   "countries": "Greece",
+   "event_time": "2026-08-31T13:00:00"
   }
  ],
  "institucional": [

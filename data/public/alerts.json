@@ -1,17 +1,19 @@
 {
- "generado": "2026-09-05",
- "fecha": "2026-09-05",
+ "generado": "2026-09-06",
+ "fecha": "2026-09-06",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "369 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 369
+   "texto": "278 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 278
   },
   {
-   "tipo": "rud_actualizado",
+   "tipo": "rud_sin_movimiento",
    "nivel": "info",
-   "texto": "RUD actualizado: +8 municipios. +45.969 familias desde la captura anterior"
+   "capturas_planas": 1,
+   "desde": "2026-09-05",
+   "texto": "El RUD lleva 1 captura(s) sin mover un solo municipio (desde 2026-09-05). La fuente responde y repite las mismas cifras: no es un fallo de la corrida, es un registro que dejó de crecer."
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -25,9 +27,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 20 días distintos, pero rud_daily solo tiene 19 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 20,
-   "dias_en_rud_daily": 19
+   "texto": "sources_log registra capturas del RUD en 21 días distintos, pero rud_daily solo tiene 20 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 21,
+   "dias_en_rud_daily": 20
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -46,15 +48,23 @@
    "puntos": 201
   },
   {
+   "tipo": "fuentes_con_peticion_condicional",
+   "nivel": "info",
+   "texto": "1 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1788562644802/dyfi_geo_10km.geojson",
+   "urls": [
+    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1788562644802/dyfi_geo_10km.geojson"
+   ],
+   "n": 1
+  },
+  {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
-   "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
+   "texto": "1 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.0 MB). Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
    "urls": [
-    "https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
     "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID"
    ],
-   "n": 2,
-   "bytes": 62893
+   "n": 1,
+   "bytes": 72
   },
   {
    "tipo": "manifiesto_r2_con_objetos_sin_reporte",
@@ -74,20 +84,14 @@
    "n": 9
   },
   {
-   "tipo": "ops_sitrep_nuevo_sin_transcribir",
-   "nivel": "alta",
-   "texto": "La OPS publicó el Informe de Situación 6 sobre el terremoto y el monitor no lo ha transcrito todavía: revisar su tabla de establecimientos de salud y añadirla a data/documentos/ops_salud/.",
-   "sitrep": 6
-  },
-  {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 17 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 17
+   "texto": "La OPS lleva 18 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 18
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-04",
+  "fecha": "2026-09-05",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -98,7 +102,7 @@
    "viviendas_destruidas": 33395,
    "heridos": 4611,
    "fallecidos": 331,
-   "desaparecidos": 202,
+   "desaparecidos": 136,
    "rescatados": 364
   },
   "origen": {
@@ -143,9 +147,9 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "desaparecidos": {
-    "fecha": "2026-09-03",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "fecha": "2026-09-02",
+    "medio": "facebook.com",
+    "url": "https://www.facebook.com/GestionUNGRD/posts/actualizaci%C3%B3n-de-cifras-sismo-en-san-jos%C3%A9-del-palmar-choc%C3%B3-74-mwla-ungrd-entrega/1471947451628224/"
    },
    "rescatados": {
     "fecha": "2026-08-22",
@@ -162,6 +166,13 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
+    "cifra": "departamentos_afectados",
+    "valor": 15,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+   },
+   {
     "cifra": "municipios_afectados",
     "valor": 426,
     "motivo": "retrocede sobre el máximo informado",
@@ -169,14 +180,11 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
-    "cifra": "personas_afectadas",
-    "valor": 2000,
+    "cifra": "municipios_afectados",
+    "valor": 448,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": [
-     "Portal Alcaldía de Santiago de Cali",
-     "uMap"
-    ],
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "personas_afectadas",
@@ -187,20 +195,10 @@
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 115461,
+    "valor": 145601,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 20,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": [
-     "Portal Alcaldía de Santiago de Cali",
-     "uMap"
-    ],
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "familias_afectadas",
@@ -211,20 +209,10 @@
    },
    {
     "cifra": "familias_afectadas",
-    "valor": 54382,
+    "valor": 57516,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 5000,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": [
-     "Portal Alcaldía de Santiago de Cali",
-     "uMap"
-    ],
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "viviendas_averiadas",
@@ -234,6 +222,13 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
+    "cifra": "viviendas_averiadas",
+    "valor": 80744,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+   },
+   {
     "cifra": "viviendas_destruidas",
     "valor": 10677,
     "motivo": "retrocede sobre el máximo informado",
@@ -241,14 +236,11 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
    },
    {
-    "cifra": "heridos",
-    "valor": 949,
+    "cifra": "viviendas_destruidas",
+    "valor": 12504,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": [
-     "Portal Alcaldía de Santiago de Cali",
-     "uMap"
-    ],
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "heridos",
@@ -259,20 +251,10 @@
    },
    {
     "cifra": "heridos",
-    "valor": 3937,
+    "valor": 4018,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 95,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": [
-     "Portal Alcaldía de Santiago de Cali",
-     "uMap"
-    ],
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "fallecidos",
@@ -283,34 +265,24 @@
    },
    {
     "cifra": "fallecidos",
-    "valor": 289,
+    "valor": 288,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 143,
-    "motivo": "corte del 15-ago-2026 anterior al vigente (3-sep-2026)",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
+    "valor": 202,
+    "motivo": "corte del 14-ago-2026 anterior al vigente (2-sep-2026)",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "desaparecidos",
     "valor": 379,
-    "motivo": "corte del 13-ago-2026 anterior al vigente (3-sep-2026)",
+    "motivo": "corte del 13-ago-2026 anterior al vigente (2-sep-2026)",
     "medio": "El Tiempo",
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 88,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": [
-     "Portal Alcaldía de Santiago de Cali",
-     "uMap"
-    ],
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
    },
    {
     "cifra": "rescatados",
@@ -321,16 +293,16 @@
    },
    {
     "cifra": "rescatados",
-    "valor": 353,
+    "valor": 170,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-05/oficiales_feed.json",
-   "items": 70,
+   "snapshot": "data/snapshots/2026-09-06/oficiales_feed.json",
+   "items": 72,
    "regla_sha256": "8e42e91b68b441dde6dc0d255604145b26162c7e91b1ef7d40422f880409b7f0"
   }
  }
