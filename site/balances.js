@@ -4,7 +4,7 @@
    puede hacer: filtrar la tabla, decir cuántas capturas quedan a la vista y
    marcar la elegida de cada día. Usa los componentes de ui.js. */
 (async function () {
-  const { fmt, fechaEs, fetchJson, metricCount } = window.UI;
+  const { fmt, fechaEs, fetchJson, metricCount, nombrePublicador } = window.UI;
   // El feed se lee del producto propio, no del worker que lo genera: la corrida
   // diaria lo archiva y lo publica, así que la página sigue funcionando el día
   // que ese worker —que vive en una cuenta ajena— se apague.
@@ -59,10 +59,9 @@
     }[level] || level || "Sin nivel";
   }
 
-  function publisherName(item) {
-    const p = item.publisher || {};
-    return p.name || p.domain || "—";
-  }
+  // quién publica lo decide ui.js (nombrePublicador), que ya aguanta el
+  // nombre en lista con el que llegó la Alcaldía de Cali el 4-sep-2026
+  const publisherName = nombrePublicador;
 
   function renderTable() {
     const q = document.getElementById("balance-buscar").value.toLowerCase();

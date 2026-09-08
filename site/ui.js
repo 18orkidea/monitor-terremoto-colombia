@@ -698,9 +698,20 @@ window.UI = (function () {
     "w radio", "wradio", "el heraldo", "elheraldo", "vanguardia", "pulzo",
     "la silla vacia", "lasillavacia",
   ];
+  /* Quién publica, en UNA cadena, venga como venga del feed: schema.org
+     admite una lista en `publisher.name` y el repositorio de la Alcaldía de
+     Cali (4-sep-2026) llegó así. Espejo de `render_html.py::nombre_publicador`;
+     balances.js lo usa en vez de tener su propia copia. */
+  function nombrePublicador(item, vacio = "—") {
+    const p = (item && item.publisher) || {};
+    const nombre = Array.isArray(p.name)
+      ? p.name.filter(Boolean).join(" / ") : p.name;
+    return nombre || p.domain || vacio;
+  }
+
   function esNacional(item) {
     const p = item.publisher || {};
-    const n = norm(`${p.name || ""} ${p.domain || ""} ` +
+    const n = norm(`${nombrePublicador(item)} ${p.domain || ""} ` +
                    `${item.publication_url || item.url || ""}`);
     return MEDIOS_NACIONALES.some((m) => n.includes(m)) ||
       n.includes(".com.co") || n.includes(".gov.co");
@@ -773,8 +784,9 @@ window.UI = (function () {
       for (const item of candidatos) {
         const v = ((item && item.cifras) || {})[k];
         if (v == null) continue;
-        const medio = (item.publisher || {}).name ||
-          (item.publisher || {}).domain || null;
+        // `null`, no «—»: este `medio` viaja al JSON del consolidado y a
+        // las alertas, donde un guion sería un dato inventado
+        const medio = nombrePublicador(item, null);
         const url = item.publication_url || item.url || null;
         const rechaza = (motivo) => ignoradas.push(
           { cifra: k, valor: v, motivo, medio, url });
@@ -1124,6 +1136,6 @@ window.UI = (function () {
            medioDe, viaGoogleNews, hostDe,
            retrocede, sinAnclas, esCoherente, incoherencias, atribucionOficial,
            fechaCorte, retrasoDelBalance,
-           esNacional, CIFRAS_BALANCE, CIFRAS_STOCK, TECHO_SALTO, corteDe,
+           esNacional, nombrePublicador, CIFRAS_BALANCE, CIFRAS_STOCK, TECHO_SALTO, corteDe,
            disputaDia, comparativaFuentes, PUSH_BASE, VAPID_PUBLIC_KEY };
 })();

@@ -3646,6 +3646,69 @@ class TestEspejoDeDiaMes(unittest.TestCase):
                                  "diaMes ha divergido entre ui.js y render_html.py")
 
 
+class TestPublicadorConNombreEnLista(unittest.TestCase):
+    """El build aguantó cuatro días roto por un `publisher.name` en lista.
+
+    El 4-sep-2026 el worker archivó el repositorio de la Alcaldía de Cali con
+    `name: ["Portal Alcaldía de Santiago de Cali", "uMap"]` —schema.org lo
+    admite— y `resumen_balances` lo metió en un `set`: `TypeError` en el build
+    del 5, 6, 7 y 8 de septiembre, y el sitio publicando el 4-sep mientras el
+    archivo crecía. Este guardián reproduce la forma exacta del ítem que lo
+    tumbó (`feeds/balances/2026-09-05.json`, ítem 11) y cae si vuelve a
+    reventar o si el nombre deja de salir entero."""
+
+    LISTA = {"search_date": "2026-09-04", "official": True,
+             "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/",
+             "publisher": {"name": ["Portal Alcaldía de Santiago de Cali", "uMap"],
+                           "domain": "cali.gov.co", "channel": "web"},
+             "reported_data_source": [], "cifras": {"familias_afectadas": 42387}}
+    SUELTO = {"search_date": "2026-09-04", "official": True,
+              "url": "https://www.cali.gov.co/otra/",
+              "publisher": {"name": "Portal Alcaldía de Santiago de Cali",
+                            "domain": "cali.gov.co"},
+              "reported_data_source": [], "cifras": {"familias_afectadas": 42387}}
+
+    def ctx(self, *items):
+        return {"_balances_ui": None, "monitor": {},
+                "oficiales": {"items": [dict(i) for i in items],
+                              "generated_at": "2026-09-05T04:00:00Z"}}
+
+    def test_la_lista_se_une_y_el_dominio_solo_entra_si_no_hay_nombre(self):
+        self.assertEqual(R.nombre_publicador(self.LISTA),
+                         "Portal Alcaldía de Santiago de Cali / uMap")
+        self.assertEqual(R.nombre_publicador({"publisher": {"name": [None, ""],
+                                                            "domain": "x.co"}}),
+                         "x.co")
+        self.assertEqual(R.nombre_publicador({"publisher": {}}), "—")
+        self.assertIsNone(R.nombre_publicador({}, vacio=None))
+
+    def test_el_resumen_no_revienta_y_cuenta_publicadores(self):
+        """La forma real del bug: un ítem con lista dentro del `set`. Con el
+        código de antes esto lanza `TypeError: unhashable type: 'list'`."""
+        salida = R.resumen_balances(self.ctx(self.LISTA))
+        self.assertIn("1 balances", salida)
+        self.assertIn("1 publicadores", salida)
+        # el mismo publicador con nombre suelto y en lista son DOS cadenas
+        # distintas: no se finge que son uno, se cuentan como llegaron
+        salida = R.resumen_balances(self.ctx(self.LISTA, self.SUELTO))
+        self.assertIn("2 balances", salida)
+        self.assertIn("2 publicadores", salida)
+
+    def test_la_tabla_escribe_el_nombre_entero_y_no_la_lista_en_crudo(self):
+        salida = R.filas_balances(self.ctx(self.LISTA))
+        self.assertIn("Portal Alcaldía de Santiago de Cali / uMap", salida)
+        self.assertNotIn("[&#x27;", salida, "la lista salió como repr de Python")
+
+    def test_el_frontend_tiene_el_espejo_y_balances_no_lleva_copia(self):
+        ui = (ROOT / "site" / "ui.js").read_text(encoding="utf-8")
+        self.assertIn("function nombrePublicador(item", ui)
+        self.assertIn("Array.isArray(p.name)", ui)
+        balances = (ROOT / "site" / "balances.js").read_text(encoding="utf-8")
+        self.assertIn("nombrePublicador", balances)
+        self.assertNotIn("p.name || p.domain", balances,
+                         "balances.js volvió a decidir por su cuenta quién publica")
+
+
 class TestBalances(unittest.TestCase):
     """Fase D: la tabla trazable de balances citados en medios."""
 

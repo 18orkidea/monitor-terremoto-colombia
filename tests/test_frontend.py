@@ -86,6 +86,36 @@ class TestSerieGraficoPortada(unittest.TestCase):
         self.assertEqual(serie, ["2026-08-10", "2026-08-11"])
 
 
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestNombreDelPublicadorEnLista(unittest.TestCase):
+    """Espejo en el navegador de `render_html.py::nombre_publicador`: el
+    `publisher.name` en lista con el que llegó la Alcaldía de Cali (4-sep-2026)
+    tiene que leerse igual en la tabla del build y en el consolidado de ui.js."""
+
+    def test_une_la_lista_y_respeta_el_vacio_pedido(self):
+        self.assertEqual(
+            correr_ui('UI.nombrePublicador({publisher:{name:["Portal Alcaldía de '
+                      'Santiago de Cali","uMap"],domain:"cali.gov.co"}})'),
+            "Portal Alcaldía de Santiago de Cali / uMap")
+        self.assertEqual(correr_ui('UI.nombrePublicador({publisher:{domain:"x.co"}})'),
+                         "x.co")
+        self.assertEqual(correr_ui('UI.nombrePublicador({publisher:{}})'), "—")
+        self.assertIsNone(correr_ui('UI.nombrePublicador({}, null)'))
+
+    def test_el_consolidado_no_inventa_un_guion_como_medio(self):
+        """`medio` viaja al JSON del consolidado y a las alertas: sin nombre ni
+        dominio sigue siendo `null`, como antes del helper."""
+        serie = correr_ui(
+            'UI.mejorPorDia([{search_date:"2026-09-04", official:true, '
+            'publisher:{}, reported_data_source:[{id:"UNGRD"}], '
+            'cifras:{familias_afectadas: 10}}])')
+        medios = [v.get("medio") for dia in serie
+                  for v in (dia.get("consolidado") or {}).values()]
+        medios += [x.get("medio") for dia in serie for x in dia.get("ignoradas") or []]
+        self.assertTrue(medios, "el fixture no consolidó ni rechazó nada")
+        self.assertTrue(all(m is None for m in medios), medios)
+
+
 class TestCronologiaDelEvento(unittest.TestCase):
     """El fichero curado de hitos y el CSS de la lista.
 
