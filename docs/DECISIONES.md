@@ -4991,3 +4991,59 @@ Consecuencia con el corpus real: la serie pasa de 496 (fijos desde el 13-ago) a
 la que estaba mal, no la de la fuente: los snapshots no se tocan, el cambio se documenta
 en git y lo publicado se corrige (principio de las dos capas, CLAUDE.md).
 
+## 2026-09-08 — La habitabilidad del RUD se publica: serie, tabla, fichas y el chip de los que no califican
+
+**Contexto.** La pregunta fue por qué el total del RUD se paraba el 3-sep en
+la página, con una hipótesis: que desde el 4-sep dejaban de entrar registros
+y empezaba a moverse la cifra de viviendas no habitables y destruidas
+verificadas. Se midió contra los 20 snapshots antes de diseñar nada:
+
+- **El corte del 3 no era el RUD, era el deploy.** «Deploy GitHub Pages»
+  falló el 5, 6, 7 y 8-sep por un `publisher.name` en lista (PR #48); el sitio
+  publicaba la corrida del 4-sep mientras el archivo crecía.
+- **La hipótesis no se sostiene.** La calificación de habitabilidad se anota
+  en la misma captura que la inscripción: los municipios que la mueven sin
+  registrar familias nuevas son entre 0 y 18 por captura, y en la última con
+  movimiento (5-sep) solo Bajo Baudó y Cértegui. Desde esa captura el
+  endpoint devuelve el mismo fichero byte a byte (sha256 `c3fda476…`). El
+  panel «Sismo - 2026» del propio RUD lee el mismo `json.php?temp=2026T`:
+  no hay otra tabla con «verificadas».
+- **El patrón real es el contrario.** Los municipios que registran familias
+  sin calificar ninguna vivienda pasan de 2 por captura a mediados de agosto
+  a 71 en la del 5-sep; en el último corte son 95 municipios y 2.985 familias.
+
+**Decisión.** Las dos columnas que el RUD publica y el monitor archivaba
+desde el 16-ago sin enseñar (`habitables`, `nohabitables`, en `rud_daily` y
+en `detalle_diario` de `rud.json`) se publican:
+
+1. **Serie nacional** en `rud.json` (`publish.py`) y gráfica propia en
+   `rud.html` (`grafico_habitabilidad`): dos líneas, la de no habitables con
+   su cifra en cada punto y la de habitables una sola vez al final, para que
+   dos rótulos por día no se pisen en móvil. Hereda los guardianes de
+   geometría de la gráfica del RUD (`TestElGraficoDeHabitabilidadSeLeeEnMovil`).
+2. **Dos columnas** en la tabla de `rud.html` y en la tabla de tramos de las
+   409 fichas; `COLUMNAS_DEL_RUD` las incluye, así que calificar viviendas es
+   un cambio del registro (medido: 2.804 → 2.807 filas de tramos en total).
+3. **Chip «Sin vivienda calificada»** (95) con el predicado
+   `sin_vivienda_calificada`, el mismo que usa la entradilla y la ficha.
+4. **El rótulo viaja con la cifra** (`ROTULO_HABITABILIDAD`): «concepto que
+   anota cada municipio tras una inspección visual, del que depende el
+   subsidio de arriendo; la UNGRD no publica su definición». Sin el rótulo
+   la cifra se leería como daño verificado.
+
+**Por qué el build también suma.** `rud.json` lo escribe la corrida diaria y
+el build lo lee del repo: si solo `publish.py` sumara las columnas, la
+gráfica saldría vacía hasta la corrida siguiente al merge.
+`render_html.py::completar_habitabilidad` suma desde `detalle_diario` lo que
+la serie no trae todavía y nunca pisa lo que ya viene escrito;
+`TestHabitabilidadDelRud::test_el_dato_real_se_completa_o_cuadra…` exige que
+las dos sumas coincidan el día que convivan.
+
+**De paso.** La meseta del RUD (capturas planas del 5, 6 y 7-sep) puso en
+rojo el guardián móvil de la gráfica de familias: el «0» de una captura plana
+nace en la línea de cero y la @media lo bajaba encima de la fecha. Clase
+propia `g-cero`, que crece como un alta y no baja.
+
+**Lo que no se decide.** La definición oficial del concepto: la única vía es
+un derecho de petición a la UNGRD, y su silencio también se archiva (R15).
+

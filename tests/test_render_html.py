@@ -2331,7 +2331,8 @@ class TestElInyectorNoSeCalla(unittest.TestCase):
             self.rud_con(destino, '<tbody data-gen="rud"></tbody>')
             self.assertEqual(sorted(R.inyectar_prerenderizado(destino, self.ctx)),
                              ["rud", "rud-chips", "rud-dataset", "rud-grafico",
-                              "rud-nota", "rud-resumen", "rud-sello"],
+                              "rud-habitabilidad", "rud-nota", "rud-resumen",
+                              "rud-sello"],
                              "la primera pasada ya falló")
             with self.assertRaises(LookupError) as repetida:
                 R.inyectar_prerenderizado(destino, self.ctx)
@@ -2724,9 +2725,26 @@ class TestTablaRud(unittest.TestCase):
         self.assertEqual(self.html.count("data-buscar="), n)
         self.assertEqual(self.html.count("data-depto="), n)
         self.assertEqual(self.html.count("data-chips="), n)
-        for i in range(8):
+        # 10 columnas desde el 8-sep-2026: las dos de habitabilidad entraron
+        # entre «Viv. averiadas» y «Δ captura», en el mismo orden que el <thead>
+        for i in range(10):
             self.assertEqual(self.html.count(f'data-v{i}="'), n,
                              f"falta el valor de la columna {i} en alguna fila")
+
+    def test_las_columnas_del_navegador_siguen_el_orden_del_thead(self):
+        """`rud.js::COLUMNAS` nombra cada columna por su índice para la nota de
+        orden; si el <thead> gana una columna y la lista no, la página anuncia
+        «ordenados por viviendas averiadas» mientras ordena por otra cosa."""
+        html = (ROOT / "site" / "rud.html").read_text(encoding="utf-8")
+        cabeceras = re.findall(r'<th scope="col"[^>]*>(.*?)</th>', html)
+        js = (ROOT / "site" / "rud.js").read_text(encoding="utf-8")
+        nombres = re.findall(r'\{ nombre: "([^"]+)" \}', js)
+        self.assertEqual(len(cabeceras), len(nombres),
+                         f"thead: {cabeceras} · rud.js: {nombres}")
+        self.assertEqual(cabeceras.index("Viv. no habitables"),
+                         nombres.index("viviendas no habitables"))
+        self.assertEqual(cabeceras.index("Viv. habitables"),
+                         nombres.index("viviendas habitables"))
 
     def test_las_etiquetas_de_los_filtros_cuadran_con_el_dato(self):
         con_destruidas = sum(1 for m in self.municipios if (m.get("viv_destruidas") or 0) > 0)
@@ -2864,7 +2882,8 @@ class TestGraficoRud(unittest.TestCase):
         cero `<svg>` a servir uno."""
         html = (ROOT / "dist" / "rud.html")
         _requiere_dist(html, "no hay dist/ construido")
-        self.assertEqual(html.read_text(encoding="utf-8").count("<svg"), 1)
+        # dos desde el 8-sep-2026: la de familias y la de habitabilidad
+        self.assertEqual(html.read_text(encoding="utf-8").count("<svg"), 2)
 
 
 class TestLosDosPlegablesDelRud(unittest.TestCase):
@@ -2962,16 +2981,24 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
     ALTO_ARRIBA = 0.78  # de la línea base hacia arriba
     ALTO_ABAJO = 0.22   # y hacia abajo
 
+    SELECTOR = ".grafico-rud"
+
     @classmethod
     def setUpClass(cls):
         cls.svg = R.grafico_rud(R.contexto())
+        cls.bandas = cls._bandas_de(cls.SELECTOR)
+
+    @classmethod
+    def _bandas_de(cls, selector: str) -> dict:
+        """La cascada de cada @media para un gráfico: la gráfica de
+        habitabilidad tiene su propio bloque y hereda estos guardianes."""
         css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
         bloques = [(int(ancho), cuerpo) for ancho, cuerpo in re.findall(
             r"@media \(max-width: (\d+)px\) \{(.*?)\n\}", css, re.S)
-            if ".grafico-rud" in cuerpo]
+            if selector in cuerpo]
         # Cada banda es la cascada que de verdad se aplica a esa anchura: la
         # de 480 hereda lo de 760 y solo pisa lo que redeclara.
-        cls.bandas, acumulado = {}, {}
+        bandas, acumulado = {}, {}
         for ancho, cuerpo in sorted(bloques, key=lambda b: -b[0]):
             acumulado = {c: dict(v) for c, v in acumulado.items()}
             for sels, decls in re.findall(r"([^{}]+)\{([^{}]*)\}", cuerpo):
@@ -2997,7 +3024,8 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                         v["dy"] = float(mueve.group(2))
                     if muestra:
                         v["oculto"] = muestra.group(1) == "none"
-            cls.bandas[ancho] = acumulado
+            bandas[ancho] = acumulado
+        return bandas
 
     @staticmethod
     def _clases(atrs: str) -> list:
@@ -3076,17 +3104,22 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
         como mucho— y se protege el rótulo que de verdad importa, el del último
         día, que es la cifra vigente del registro. Contando la alternancia
         desde el principio, una serie de longitud par lo apagaba justo a él."""
+        # `g-cero` es el rótulo de alta de una captura plana: cuenta como
+        # `g-alta` en el trato, porque es el mismo dato con otra clase
+        familia = {"g-cero": "g-alta"}
         for largo, svg in self._las_dos_paridades():
             puntos = len(re.findall(r'<circle cx="[\d.]+" cy="[\d.]+" r="5"', svg))
             ultimo = {}
             for atrs, _t in re.findall(r"<text ([^>]*)>(.*?)</text>", svg):
                 for c in self._clases(atrs):
-                    if c in ("g-alta", "g-dia", "g-total"):
-                        ultimo[c] = self._clases(atrs)
+                    if familia.get(c, c) in ("g-alta", "g-dia", "g-total"):
+                        ultimo[familia.get(c, c)] = self._clases(atrs)
             for ancho, banda in self.bandas.items():
                 for clase in ("g-alta", "g-dia", "g-total"):
                     with self.subTest(serie=largo, ancho=ancho, clase=clase):
-                        visibles = len(self._rotulos(clase, banda, svg))
+                        visibles = sum(len(self._rotulos(c, banda, svg))
+                                       for c in (clase, *[k for k, v in familia.items()
+                                                         if v == clase]))
                         self.assertGreaterEqual(
                             visibles, puntos // 2,
                             f"por debajo de {ancho}px se esconden más de la "
@@ -3246,6 +3279,225 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
                 with self.subTest(ancho=ancho, rotulo=nombre):
                     self.assertLessEqual(abajo, alto,
                                          f"«{nombre}» cae fuera del lienzo")
+
+
+class TestElGraficoDeHabitabilidadSeLeeEnMovil(TestElGraficoSeLeeEnMovil):
+    """La gráfica de habitabilidad hereda los guardianes de geometría de la
+    del RUD —mismo lienzo, mismas bandas, mismo `g-alterna`— y solo cambia lo
+    que su forma cambia: no tiene barras (`g-alta`) y su segunda cifra va una
+    sola vez al final (`g-fin`)."""
+
+    SELECTOR = ".grafico-hab"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.svg = R.grafico_habitabilidad(R.contexto())
+        cls.bandas = cls._bandas_de(cls.SELECTOR)
+
+    def test_hay_dos_bandas_y_las_dos_agrandan_los_rotulos(self):
+        self.assertEqual(sorted(self.bandas), [480, 760],
+                         "la gráfica de habitabilidad ya no declara sus dos bandas")
+        for ancho, banda in self.bandas.items():
+            for clase in ("g-eje", "g-dia", "g-total", "g-fin", "g-leyenda"):
+                with self.subTest(ancho=ancho, clase=clase):
+                    self.assertIn(clase, banda)
+                    self.assertGreater(banda[clase]["tam"], 11)
+                    self.assertTrue(self._rotulos(clase, banda),
+                                    f"`.{clase}` no se dibuja por debajo de {ancho}px")
+
+    def _las_dos_paridades(self):
+        serie = R.contexto()["rud"]["serie"]
+        manana = [*serie, {**serie[-1], "fecha": (date.fromisoformat(
+            serie[-1]["fecha"]) + timedelta(days=1)).isoformat()}]
+        return [(len(serie), self.svg),
+                (len(manana), R.grafico_habitabilidad({"rud": {"serie": manana}}))]
+
+    def test_el_movil_esconde_como_mucho_uno_de_cada_dos_y_nunca_el_ultimo(self):
+        for largo, svg in self._las_dos_paridades():
+            puntos = len(re.findall(r'data-nohabitables="', svg))
+            ultimo = {}
+            for atrs, _t in re.findall(r"<text ([^>]*)>(.*?)</text>", svg):
+                for c in self._clases(atrs):
+                    if c in ("g-dia", "g-total"):
+                        ultimo[c] = self._clases(atrs)
+            for ancho, banda in self.bandas.items():
+                for clase in ("g-dia", "g-total"):
+                    with self.subTest(serie=largo, ancho=ancho, clase=clase):
+                        visibles = len(self._rotulos(clase, banda, svg))
+                        self.assertGreaterEqual(visibles, puntos // 2)
+                        self.assertFalse(self._oculto(banda, ultimo.get(clase, [])),
+                                         "se esconde la cifra vigente")
+
+    def test_el_desc_narra_tambien_lo_que_el_movil_esconde(self):
+        puntos = len(re.findall(r'class="g-dia', self.svg))
+        desc = re.search(r'<desc id="rud-hab-desc">(.*?)</desc>', self.svg, re.S)
+        self.assertEqual(len(re.findall(r"\d+ de \w+ de \d{4}", desc.group(1))),
+                         puntos, "el `<desc>` dejó de narrar algún día")
+
+    def test_el_grafico_todavia_cabe_con_cinco_capturas_mas(self):
+        serie = [d for d in R.contexto()["rud"]["serie"] if d.get("nohabitables") is not None]
+        if len(serie) < 2:
+            self.skipTest("con un punto no hay crecimiento que prolongar")
+        paso = {c: (serie[-1].get(c) or 0) - (serie[-2].get(c) or 0)
+                for c in R.CAMPOS_HABITABILIDAD}
+        futura = [dict(d) for d in serie]
+        for _ in range(5):
+            dia = date.fromisoformat(futura[-1]["fecha"]) + timedelta(days=1)
+            futura.append({"fecha": dia.isoformat(),
+                           **{c: (futura[-1].get(c) or 0) + paso[c]
+                              for c in R.CAMPOS_HABITABILIDAD}})
+        svg = R.grafico_habitabilidad({"rud": {"serie": futura}})
+        for ancho, banda in self.bandas.items():
+            cajas = self._cajas(banda, svg)
+            pisados = [(a[0], b[0]) for i, a in enumerate(cajas)
+                       for b in cajas[i + 1:]
+                       if a[1] < b[2] and b[1] < a[2] and a[3] < b[4] and b[3] < a[4]]
+            with self.subTest(ancho=ancho):
+                self.assertEqual(pisados, [])
+
+
+class TestHabitabilidadDelRud(unittest.TestCase):
+    """Las dos columnas que el RUD publicaba y el monitor archivaba sin
+    enseñar (8-sep-2026): las no habitables son las que reciben el subsidio
+    de arriendo. La hipótesis que motivó mirarlas —que desde el 4-sep dejaban
+    de entrar registros y empezaba a moverse la calificación— se midió contra
+    los snapshots y no se sostuvo: la calificación se anota en la misma
+    captura que la inscripción (0-18 municipios por captura la mueven sola) y
+    desde el 5-sep no se mueve nada. Lo que sí hay es 95 municipios con
+    familias y ninguna vivienda calificada."""
+
+    DETALLE = {
+        "2026-08-20": [{"departamento": "VALLE", "municipio": "CALI", "familias": 100,
+                        "habitables": 10, "nohabitables": 40},
+                       {"departamento": "VALLE", "municipio": "YUMBO", "familias": 5,
+                        "habitables": 0, "nohabitables": 0}],
+        "2026-08-21": [{"departamento": "VALLE", "municipio": "CALI", "familias": 130,
+                        "habitables": 12, "nohabitables": 55},
+                       {"departamento": "VALLE", "municipio": "YUMBO", "familias": 7,
+                        "habitables": None, "nohabitables": None}],
+    }
+    SERIE = [{"fecha": "2026-08-20", "familias": 105, "municipios": 2},
+             {"fecha": "2026-08-21", "familias": 137, "municipios": 2}]
+
+    def rud(self, **extra):
+        rud = {"serie": copy.deepcopy(self.SERIE),
+               "detalle_diario": copy.deepcopy(self.DETALLE),
+               "municipios": [{"departamento": "VALLE", "municipio": "CALI",
+                               "familias": 130},
+                              {"departamento": "VALLE", "municipio": "YUMBO",
+                               "familias": 7}]}
+        rud.update(extra)
+        return rud
+
+    def test_completa_la_serie_y_el_ultimo_dia_desde_el_detalle(self):
+        rud = R.completar_habitabilidad(self.rud())
+        self.assertEqual([(d["nohabitables"], d["habitables"]) for d in rud["serie"]],
+                         [(40, 10), (55, 12)])
+        cali, yumbo = rud["municipios"]
+        self.assertEqual((cali["nohabitables"], cali["habitables"]), (55, 12))
+        # R3: el municipio sin dato en el último corte se queda sin dato
+        self.assertIsNone(yumbo["nohabitables"])
+
+    def test_lo_que_publish_ya_escribio_manda(self):
+        serie = copy.deepcopy(self.SERIE)
+        serie[1]["nohabitables"], serie[1]["habitables"] = 999, 1
+        rud = R.completar_habitabilidad(self.rud(serie=serie))
+        self.assertEqual(rud["serie"][1]["nohabitables"], 999)
+        self.assertEqual(rud["serie"][0]["nohabitables"], 40)
+
+    def test_un_punto_sin_detalle_se_queda_sin_habitabilidad_no_a_cero(self):
+        serie = [*copy.deepcopy(self.SERIE),
+                 {"fecha": "2026-08-22", "familias": 140, "reconstruido": True}]
+        rud = R.completar_habitabilidad(self.rud(serie=serie))
+        self.assertIsNone(rud["serie"][-1].get("nohabitables"))
+        svg = R.grafico_habitabilidad({"rud": rud})
+        # la línea se corta en el hueco: dos puntos dibujados, ningún tercero
+        self.assertEqual(svg.count('data-nohabitables="'), 2)
+        self.assertNotIn('data-nohabitables="0"', svg)
+
+    def test_el_dato_real_se_completa_o_cuadra_con_lo_que_publish_trae(self):
+        """Estructural sobre `rud.json`: todo punto con detalle acaba con sus
+        dos cifras, y el día que `publish.py` las escriba tienen que ser las
+        mismas que suma el build — dos sumas de las mismas filas."""
+        crudo = json.loads((ROOT / "data" / "public" / "rud.json").read_text(encoding="utf-8"))
+        completado = R.completar_habitabilidad(copy.deepcopy(crudo))
+        detalle = crudo.get("detalle_diario") or {}
+        comprobados = 0
+        for antes, despues in zip(crudo["serie"], completado["serie"]):
+            if antes["fecha"] not in detalle:
+                continue
+            for campo in R.CAMPOS_HABITABILIDAD:
+                suma = sum(f[campo] for f in detalle[antes["fecha"]]
+                           if f.get(campo) is not None)
+                self.assertEqual(despues[campo], suma, (antes["fecha"], campo))
+                if antes.get(campo) is not None:
+                    self.assertEqual(antes[campo], suma,
+                                     f"publish.py y el build suman distinto el "
+                                     f"{antes['fecha']} ({campo})")
+                comprobados += 1
+        self.assertGreater(comprobados, 0)
+
+    def test_el_predicado_de_sin_calificar(self):
+        self.assertTrue(R.sin_vivienda_calificada({"familias": 3, "habitables": 0,
+                                                   "nohabitables": 0}))
+        self.assertTrue(R.sin_vivienda_calificada({"familias": 3}))
+        self.assertFalse(R.sin_vivienda_calificada({"familias": 3, "nohabitables": 1}))
+        self.assertFalse(R.sin_vivienda_calificada({"familias": 0}))
+        self.assertIn("sin_calificar", [c[0] for c in R.CHIPS_RUD])
+
+    def test_el_grafico_dibuja_las_dos_lineas_y_narra_los_dos_valores(self):
+        svg = R.grafico_habitabilidad({"rud": R.completar_habitabilidad(self.rud())})
+        self.assertIn('data-serie="nohabitables"', svg)
+        self.assertIn('data-serie="habitables"', svg)
+        self.assertEqual(svg.count('class="g-total'), 2)
+        self.assertEqual(svg.count('class="g-fin"'), 1)
+        self.assertIn(">12</text>", svg)          # habitables vigentes, una vez
+        desc = re.search(r"<desc[^>]*>(.*?)</desc>", svg, re.S).group(1)
+        self.assertIn("55 viviendas no habitables", desc)
+        self.assertIn("12 viviendas habitables", desc)
+
+    def test_sin_dato_el_grafico_lo_dice_y_nunca_devuelve_vacio(self):
+        salida = R.grafico_habitabilidad({"rud": {"serie": self.SERIE}})
+        self.assertIn("habitabilidad", salida)
+        self.assertNotIn("<svg", salida)
+
+    def test_la_entradilla_y_la_nota_llevan_la_cifra_con_su_rotulo(self):
+        rud = R.completar_habitabilidad(self.rud())
+        texto = R.entradilla_rud({"rud": rud})
+        self.assertIn("55 son no habitables", re.sub("<[^>]+>", "", texto))
+        self.assertIn("subsidio de arriendo", texto)
+        self.assertIn("no publica su definición", texto)
+        self.assertIn("1 municipios registran familias sin haber calificado", texto)
+        self.assertIn("subsidio de arriendo", R.nota_rud({"rud": rud}))
+        # sin la cifra, ni la frase ni un cero
+        sin = R.entradilla_rud({"rud": {"serie": self.SERIE}})
+        self.assertNotIn("calificadas", sin)
+
+    def test_la_ficha_lleva_las_dos_columnas_y_la_frase(self):
+        ctx = R.contexto()
+        html = R.render_ficha(R.datos_ficha("Cali", ctx))
+        self.assertIn("Viv. no habitables</th>", html)
+        self.assertIn("Viv. habitables</th>", html)
+        self.assertIn("ha calificado", html)
+        self.assertIn("subsidio de arriendo", html)
+        ultimo = R.datos_ficha("Cali", ctx)["ultimo"]
+        self.assertIn(f'<td class="num">{R.fmt(ultimo["nohabitables"])}</td>', html)
+
+    def test_la_captura_plana_no_baja_su_cero_sobre_la_fecha(self):
+        """El guardián móvil se puso rojo con la meseta del 5, 6 y 7-sep-2026:
+        el «0» de una captura sin altas nace en la línea de cero y la @media
+        lo bajaba encima del día. `g-cero` lo exime, y el guardián de
+        geometría (`TestElGraficoSeLeeEnMovil`) mide que ya no se pisa."""
+        serie = [{"fecha": "2026-09-05", "familias": 100, "municipios": 1},
+                 {"fecha": "2026-09-06", "familias": 100, "municipios": 1},
+                 {"fecha": "2026-09-07", "familias": 110, "municipios": 1}]
+        svg = R.grafico_rud({"rud": {"serie": serie}})
+        self.assertEqual(svg.count("g-cero"), 1)
+        self.assertRegex(svg, r'class="g-cero[^"]*"[^>]*>0</text>')
+        self.assertNotRegex(svg, r'class="g-alta[^"]*"[^>]*>0</text>')
+        css = (ROOT / "site" / "styles.css").read_text(encoding="utf-8")
+        self.assertEqual(len(re.findall(r"\.grafico-rud \.g-cero\s*\{ font-size", css)), 2,
+                         "las dos bandas tienen que agrandar el cero sin bajarlo")
 
 
 class TestElLienzoCreceEnVezDeEncogerse(unittest.TestCase):

@@ -135,7 +135,10 @@ class TestSupuestosRUD(unittest.TestCase):
                       "ingest/sources/ungrd_rud.py y buscar el reemplazo")
         rows = d if isinstance(d, list) else (d or {}).get("data") or []
         self.assertTrue(rows, "RUD respondió vacío")
-        for campo in ("departamento", "municipio", "fecha_evento", "familias"):
+        # habitables/nohabitables desde el 8-sep-2026: la serie y la gráfica
+        # de habitabilidad se publican con ellos; si el RUD los quita, avisar
+        for campo in ("departamento", "municipio", "fecha_evento", "familias",
+                      "habitables", "nohabitables"):
             self.assertIn(campo, rows[0], f"campo {campo} desapareció del RUD")
 
 

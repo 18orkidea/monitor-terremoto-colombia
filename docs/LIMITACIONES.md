@@ -675,6 +675,38 @@ Consecuencias para leer estas cifras:
   —entre 44.936 y 120.328 familias el 17-ago—, así que la página no elige una:
   remite a la comparativa de fuentes, donde cada cifra lleva su publicador.
 
+## La habitabilidad del RUD no tiene definición publicada (8-sep-2026)
+
+El RUD publica por municipio, además de familias y viviendas destruidas o
+averiadas, **viviendas habitables y no habitables**. El monitor las archiva
+desde la primera captura (16-ago-2026) y desde el 8-sep las publica en la serie,
+en la tabla y en las fichas. Lo que no existe es **una definición oficial del
+concepto**: no está en la web del RUD, ni en su manual de usuario (2016, el
+único público: el formulario tiene un campo «Afectación» con una lista
+desplegable cuyos valores no se enumeran), ni en el glosario de la UNGRD, ni en
+la guía EDAN. Lo más cercano es la inspección visual del RUFE, hecha por equipos
+municipales, bomberos o Cruz Roja, que decide si la vivienda «puede ser
+habitable o requiere restricciones» y que da derecho al subsidio de arriendo.
+
+Consecuencias para leer estas cifras:
+
+- **Es un concepto municipal, no daño verificado por un tercero.** Cada
+  alcaldía lo anota con su criterio, y el rótulo que acompaña a la cifra en el
+  sitio lo dice en todas partes.
+- **No suma las familias.** Se cuentan viviendas, no hogares: en el corte del
+  3-sep, habitables + no habitables + destruidas + averiadas coincidía con las
+  familias en 84 municipios de 393, era menor en 254 y mayor en 55.
+- **Un municipio con familias y cero viviendas calificadas no es «sin daño»:**
+  es un municipio donde la inspección de la que depende el subsidio no consta
+  todavía. En el corte del 7-sep son 95 municipios (2.985 familias); el chip
+  «Sin vivienda calificada» los lista.
+- **La calificación no es una fase posterior al registro.** Medido en los 20
+  snapshots: se anota en la misma captura que la inscripción, y los municipios
+  que la mueven sin registrar familias nuevas son entre 0 y 18 por captura.
+
+La única vía a la definición escrita es un derecho de petición a la UNGRD; si
+llega, se archiva con su fecha, y si no llega, el silencio también (R15).
+
 ## UNOSAT: lo que se archiva y lo que no
 
 La capa de UNITAR-UNOSAT trae **548 edificios evaluados** en Anserma, Manizales
