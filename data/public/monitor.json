@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-07",
- "fecha": "2026-09-07",
+ "generado": "2026-09-08",
+ "fecha": "2026-09-08",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -13,7 +13,7 @@
   ],
   "mag": 7.4,
   "place": "2 km SE of San José del Palmar, Colombia",
-  "felt": 1244
+  "felt": 1245
  },
  "aois": [
   {
@@ -63,9 +63,9 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1096,
-    "n_oficial": 21,
-    "n_ciudadano": 414,
+    "n_prensa": 1123,
+    "n_oficial": 22,
+    "n_ciudadano": 434,
     "etiqueta": "No comparable 1:1"
    },
    "n_productos": 1
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 983,
-    "n_oficial": 21,
+    "n_prensa": 1019,
+    "n_oficial": 22,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,9 +253,9 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 550,
-    "n_oficial": 18,
-    "n_ciudadano": 293,
+    "n_prensa": 555,
+    "n_oficial": 19,
+    "n_ciudadano": 295,
     "etiqueta": "Coincide cualitativamente"
    },
    "n_productos": 1
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 983,
-    "n_oficial": 21,
+    "n_prensa": 1019,
+    "n_oficial": 22,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 92,
-    "n_oficial": 21,
+    "n_prensa": 94,
+    "n_oficial": 22,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -513,7 +513,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 67,
-    "n_oficial": 21,
+    "n_oficial": 22,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 246,
-    "n_oficial": 20,
+    "n_prensa": 250,
+    "n_oficial": 21,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 821
+   "feeds": 838
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 703
+   "feeds": 712
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 541
+   "feeds": 546
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 551
+   "feeds": 557
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 523
+   "feeds": 525
   },
   {
    "fecha": "2026-08-15",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 285
+   "feeds": 286
   },
   {
    "fecha": "2026-08-18",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 346
+   "feeds": 347
   },
   {
    "fecha": "2026-08-19",
@@ -723,7 +723,7 @@
    "gdelt": 0.3937,
    "fuentes": null,
    "chatmap": 55,
-   "feeds": 337
+   "feeds": 339
   },
   {
    "fecha": "2026-08-21",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 334
+   "feeds": 336
   },
   {
    "fecha": "2026-08-22",
@@ -747,7 +747,7 @@
    "gdelt": 0.2353,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 153
+   "feeds": 156
   },
   {
    "fecha": "2026-08-24",
@@ -755,7 +755,7 @@
    "gdelt": 0.2422,
    "fuentes": null,
    "chatmap": 97,
-   "feeds": 340
+   "feeds": 341
   },
   {
    "fecha": "2026-08-25",
@@ -771,7 +771,7 @@
    "gdelt": 0.198,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 243
+   "feeds": 246
   },
   {
    "fecha": "2026-08-27",
@@ -803,7 +803,7 @@
    "gdelt": 0.1727,
    "fuentes": null,
    "chatmap": 45,
-   "feeds": 134
+   "feeds": 135
   },
   {
    "fecha": "2026-08-31",
@@ -811,7 +811,7 @@
    "gdelt": 0.0911,
    "fuentes": null,
    "chatmap": 6,
-   "feeds": 172
+   "feeds": 173
   },
   {
    "fecha": "2026-09-01",
@@ -819,7 +819,7 @@
    "gdelt": 0.0773,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 184
+   "feeds": 186
   },
   {
    "fecha": "2026-09-02",
@@ -827,7 +827,7 @@
    "gdelt": 0.0798,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 155
+   "feeds": 156
   },
   {
    "fecha": "2026-09-03",
@@ -835,7 +835,7 @@
    "gdelt": 0.0953,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 168
+   "feeds": 174
   },
   {
    "fecha": "2026-09-04",
@@ -843,7 +843,7 @@
    "gdelt": 0.0748,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 110
+   "feeds": 111
   },
   {
    "fecha": "2026-09-05",
@@ -851,7 +851,7 @@
    "gdelt": 0.0662,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 98
+   "feeds": 101
   },
   {
    "fecha": "2026-09-06",
@@ -859,15 +859,23 @@
    "gdelt": 0.0588,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 77
+   "feeds": 80
   },
   {
    "fecha": "2026-09-07",
    "emm": null,
    "gdelt": 0.0724,
    "fuentes": null,
+   "chatmap": 22,
+   "feeds": 135
+  },
+  {
+   "fecha": "2026-09-08",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 36
+   "feeds": 44
   }
  ],
  "entregas": [
@@ -936,16 +944,16 @@
    "personas": 759311.0,
    "viv_destruidas": 18768.0,
    "viv_averiadas": 117362.0,
-   "corte": "2026-09-06",
+   "corte": "2026-09-07",
    "retirados": [],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
  },
  "exposicion": {
-  "expuesta_mmi6plus": 10677892,
+  "expuesta_mmi6plus": 9329268,
   "en_aois_copernicus": 1040000.0,
-  "sin_mapeo_satelital": 9637892.0,
-  "pct_cubierta": 9.7,
+  "sin_mapeo_satelital": 8289268.0,
+  "pct_cubierta": 11.1,
   "fuente": "USGS PAGER exposures + Copernicus Estimated population",
   "nota": "Aproximación: bandas MMI y AOIs no son geometrías equivalentes; ver README para la extensión con HRSL/Open Buildings."
  },
@@ -1113,6 +1121,14 @@
    },
    {
     "fecha": "2026-09-06",
+    "municipios": 409,
+    "familias": 353271.0,
+    "personas": 759311.0,
+    "viv_destruidas": 18768.0,
+    "viv_averiadas": 117362.0
+   },
+   {
+    "fecha": "2026-09-07",
     "municipios": 409,
     "familias": 353271.0,
     "personas": 759311.0,
@@ -6192,11 +6208,11 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-09-07"
+  "generado": "2026-09-08"
  },
  "citizen": {
-  "chatmap_total": 842,
-  "en_aoi": 766
+  "chatmap_total": 864,
+  "en_aoi": 788
  },
  "municipios": {
   "total": 409,
@@ -7924,6 +7940,13 @@
    "category": "Wildfire",
    "countries": "Greece",
    "event_time": "2026-08-31T13:00:00"
+  },
+  {
+   "code": "EMSR930",
+   "name": "Storm in Basilicata, Italy.",
+   "category": "Storm",
+   "countries": "Italy",
+   "event_time": "2026-09-02T13:00:00"
   }
  ],
  "institucional": [
