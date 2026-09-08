@@ -6844,7 +6844,7 @@ def filas_balances(ctx: dict) -> str:
             f'<tr data-fecha="{e(item.get("search_date") or "")}"'
             f' data-url="{e(url)}">'
             f'<td>{e(fecha_corta(item.get("search_date") or ""))}</td>'
-            f'<td><strong>{e(pub.get("name") or pub.get("domain") or "—")}</strong><br>'
+            f'<td><strong>{e(nombre_publicador(item))}</strong><br>'
             f'{marca_lb}<span class="badge" style="--bc:var({color})">{e(etiqueta)}</span> '
             f'<span class="note">{citadas}</span></td>'
             f'<td class="num">{fmt(c.get("fallecidos"))}</td>'
@@ -7122,6 +7122,24 @@ def _metric_card(label, value, sub=None, title=None, href=None) -> str:
     return f'<div class="metric-card"{t}>{inner}</div>'
 
 
+def nombre_publicador(item: dict, vacio: str = "—") -> str:
+    """Quién publica, en UNA cadena, venga como venga del feed.
+
+    El worker extrae `publisher.name` del marcado de la página, y schema.org
+    admite ahí una lista: el repositorio de la Alcaldía de Cali (4-sep-2026)
+    llegó con `["Portal Alcaldía de Santiago de Cali", "uMap"]`. Meter eso en
+    un `set` reventó el build cuatro días seguidos (5 al 8-sep) y el sitio se
+    quedó publicando el 4-sep mientras el archivo seguía creciendo — un
+    supuesto roto que rompía en silencio, justo lo que R11 prohíbe. El feed es
+    lo que dijo la fuente y no se toca; la capa nuestra es la que tiene que
+    aguantarlo. Espejo de `ui.js::nombrePublicador`."""
+    pub = item.get("publisher") or {}
+    nombre = pub.get("name")
+    if isinstance(nombre, (list, tuple)):
+        nombre = " / ".join(str(n) for n in nombre if n)
+    return nombre or pub.get("domain") or vacio
+
+
 def resumen_balances(ctx: dict) -> str:
     """La entradilla: cuántas capturas hay y cuál es el máximo informado.
 
@@ -7134,9 +7152,7 @@ def resumen_balances(ctx: dict) -> str:
         return ("<p>Todavía no hay ninguna captura de balances en medios. La "
                 "serie se publica en cuanto el rastreo nocturno archive la "
                 "primera.</p>")
-    publicadores = {(i.get("publisher") or {}).get("name")
-                    or (i.get("publisher") or {}).get("domain") or "—"
-                    for i in items}
+    publicadores = {nombre_publicador(i) for i in items}
     cabeza = (f"<b>{fmt(len(items))} balances</b> archivados de "
               f"<b>{fmt(len(publicadores))} publicadores</b> distintos, cada "
               f"uno con su URL.")
@@ -7316,7 +7332,7 @@ def tarjetas_balances(ctx: dict) -> str:
             '<p class="note full">' + cabeza +
             f'<a href="{e(url)}" target="_blank" rel="noopener">'
             f'{e(item.get("title") or "")}</a> · publica '
-            f'{e(pub.get("name") or pub.get("domain") or "—")}{atrib.rstrip()}</p>')
+            f'{e(nombre_publicador(item))}{atrib.rstrip()}</p>')
 
     # El rótulo de R16 va SIEMPRE y en su propio párrafo, no colgado de la
     # atribución. Viajaba dentro del párrafo de la captura elegida, y un día en
