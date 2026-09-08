@@ -72,6 +72,17 @@
   </section>
 
   <section class="page-section">
+    <h2>Viviendas calificadas: no habitables y habitables por captura</h2>
+    <p class="sub">Cada municipio anota en el RUD si la vivienda de la familia inscrita es
+      habitable o no habitable. De la calificación «no habitable» depende el subsidio de
+      arriendo. La UNGRD no publica la definición del concepto: es una inspección visual
+      municipal, no daño verificado por un tercero. No suman las familias —se cuentan
+      viviendas, no hogares—. Un punto sin línea es un día del que solo se conoce el total
+      de familias.</p>
+    <section id="rud-chart-hab" data-gen="rud-habitabilidad"></section><!-- lo rellena deploy/render_html.py en el build -->
+  </section>
+
+  <section class="page-section">
     <h2>Detalle municipal</h2>
     <section class="chips" id="rud-chips" role="group" aria-label="Filtros de la tabla" data-gen="rud-chips"></section><!-- lo rellena deploy/render_html.py en el build -->
     <div class="filtros">
@@ -89,6 +100,8 @@
         <th scope="col" class="num" title="Personas registradas en el RUD divididas por la proyección de población DANE 2026. Es una proporción indicativa de la magnitud relativa, no una medición de daño.">% pobl.</th>
         <th scope="col" class="num" title="Viviendas que el municipio ha cargado como destruidas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. destruidas</th>
         <th scope="col" class="num" title="Viviendas que el municipio ha cargado como averiadas. Un cero puede significar «todavía sin evaluar», no «sin daño».">Viv. averiadas</th>
+        <th scope="col" class="num" title="Viviendas que el municipio ha calificado como no habitables tras una inspección visual: de esta calificación depende el subsidio de arriendo. La UNGRD no publica su definición.">Viv. no habitables</th>
+        <th scope="col" class="num" title="Viviendas que el municipio ha calificado como habitables tras una inspección visual. La UNGRD no publica su definición.">Viv. habitables</th>
         <th scope="col" class="num" title="Cambio de familias respecto a la captura anterior: indica si el municipio sigue registrando.">Δ captura</th>
       </tr></thead>
       <tbody data-gen="rud"></tbody><!-- lo rellena deploy/render_html.py en el build -->

@@ -842,7 +842,13 @@ def evidencia_municipal(nombre: str, muni: dict, ctx: dict) -> dict:
 
 # Las columnas que la ficha publica de cada captura. Si ninguna se mueve, esa
 # captura no añade información al lector: es la fuente reafirmando lo mismo.
-COLUMNAS_DEL_RUD = ("familias", "personas", "viv_destruidas", "viv_averiadas")
+# Habitabilidad incluida (8-sep-2026): calificar una vivienda como no habitable
+# es un cambio del registro tanto como inscribir una familia —es el concepto
+# que abre el subsidio de arriendo—. Medido antes de añadirla: 2.804 → 2.807
+# filas de tramos en las 409 fichas, porque la calificación se anota en la
+# misma captura que la inscripción y casi nunca se mueve sola.
+COLUMNAS_DEL_RUD = ("familias", "personas", "viv_destruidas", "viv_averiadas",
+                    "habitables", "nohabitables")
 
 
 def tramos_del_registro(serie: list) -> list[tuple[list, dict]]:
@@ -895,6 +901,79 @@ def rotulo_de_tramo(fechas: list) -> str:
     if a.split("-", 1)[1] == b.split("-", 1)[1]:
         a = a.split("-", 1)[0]
     return f"{a} al {b}"
+
+
+# ------------------------------------------------ habitabilidad del RUD
+CAMPOS_HABITABILIDAD = ("nohabitables", "habitables")
+
+
+def completar_habitabilidad(rud: dict) -> dict:
+    """La serie y el detalle del último día ganan sus dos columnas de
+    habitabilidad, sumadas desde `detalle_diario` cuando `publish.py` no las
+    trae todavía.
+
+    El RUD publica seis columnas por municipio y el monitor las archivaba
+    todas desde el 16-ago-2026 —`rud_daily` y `detalle_diario` llevan
+    `habitables` y `nohabitables` desde la primera captura—, pero la serie
+    agregada y la tabla solo enseñaban cuatro. Las no habitables son las
+    viviendas cuya familia recibe el subsidio de arriendo (8-sep-2026), y es
+    la cifra que había que estar contando.
+
+    Se completa AQUÍ y no solo en `publish.py` porque `rud.json` lo escribe la
+    corrida diaria y el build lo lee del repo: sin esto, la gráfica nueva no
+    saldría hasta la corrida siguiente al merge, y una página que promete una
+    serie y la enseña vacía un día es peor que sumarla dos veces. Las dos
+    sumas salen de las mismas filas de `rud_daily`, y
+    `TestHabitabilidadDelRud` comprueba que coinciden cuando la serie ya trae
+    el dato. Lo que ya viene escrito nunca se pisa: `publish.py` manda.
+
+    Un punto sin detalle —el reconstruido del 26-ago, del que solo se conoce
+    el total— se queda sin habitabilidad, no con cero (R3)."""
+    detalle = rud.get("detalle_diario") or {}
+
+    def suma(filas, campo):
+        valores = [f.get(campo) for f in filas if f.get(campo) is not None]
+        return sum(valores) if valores else None
+
+    serie = rud.get("serie") or []
+    for punto in serie:
+        filas = detalle.get(punto.get("fecha"))
+        if not filas:
+            continue
+        for campo in CAMPOS_HABITABILIDAD:
+            if punto.get(campo) is None:
+                punto[campo] = suma(filas, campo)
+    ultimo = serie[-1].get("fecha") if serie else None
+    por_municipio = {(f.get("departamento"), f.get("municipio")): f
+                     for f in detalle.get(ultimo) or []}
+    for m in rud.get("municipios") or []:
+        fila = por_municipio.get((m.get("departamento"), m.get("municipio")))
+        if fila is None:
+            continue
+        for campo in CAMPOS_HABITABILIDAD:
+            if m.get(campo) is None:
+                m[campo] = fila.get(campo)
+    return rud
+
+
+def sin_vivienda_calificada(m: dict) -> bool:
+    """Registra familias y no ha calificado ni una vivienda como habitable ni
+    como no habitable. El predicado del chip, de la ficha y de la entradilla:
+    UNA definición, para que los tres cuenten lo mismo."""
+    return ((m.get("familias") or 0) > 0
+            and not (m.get("habitables") or 0)
+            and not (m.get("nohabitables") or 0))
+
+
+# El rótulo que acompaña a la cifra donde quiera que se publique. La UNGRD no
+# define el concepto en ningún documento público (buscado el 3-sep-2026 en la
+# web del RUD, su manual de 2016, el glosario de la UNGRD y la guía EDAN); lo
+# más cercano es la inspección visual del RUFE, que decide si la vivienda
+# «puede ser habitable o requiere restricciones» y da derecho al subsidio de
+# arriendo. Una cifra sin su rótulo se leería como daño verificado, que no es.
+ROTULO_HABITABILIDAD = ("concepto que anota cada municipio tras una inspección "
+                        "visual, del que depende el subsidio de arriendo; la "
+                        "UNGRD no publica su definición")
 
 
 def datos_ficha(nombre: str, ctx: dict) -> dict:
@@ -1724,7 +1803,7 @@ def contexto() -> dict:
         # la corrida de municipios.json, que el sello de esa página necesita y
         # que se perdía al quedarnos solo con `items`
         "municipios_generado": municipios_json.get("generado"),
-        "rud": _leer("rud.json"),
+        "rud": completar_habitabilidad(_leer("rud.json")),
         "aois": _leer("aois.geojson")["features"],
         "damage": damage,
         "unosat": unosat,
@@ -2824,10 +2903,30 @@ def render_ficha(d: dict) -> str:
         # capturas que repitieron una cifra no se borran — se cuentan en su
         # propia celda, y esa cuenta es el dato.
         tramos = tramos_del_registro(d["serie"])
+        # La habitabilidad, con su rótulo pegado: es la columna de la que
+        # depende el subsidio de arriendo y la única sin definición oficial.
+        nohab, hab = d["ultimo"].get("nohabitables"), d["ultimo"].get("habitables")
+        if nohab is not None or hab is not None:
+            if sin_vivienda_calificada(d["ultimo"]):
+                calif = (f'<p>En la última captura {e(nombre)} registra familias '
+                         f'pero <strong>ninguna vivienda calificada</strong> como '
+                         f'habitable o no habitable ({ROTULO_HABITABILIDAD}).</p>')
+            else:
+                calif = (f'<p>En la última captura el municipio ha calificado '
+                         f'<strong>{fmt(nohab)} '
+                         f'{concuerda(nohab, "vivienda", "viviendas")} como no '
+                         f'{concuerda(nohab, "habitable", "habitables")}</strong> y '
+                         f'<strong>{fmt(hab)} como '
+                         f'{concuerda(hab, "habitable", "habitables")}</strong> '
+                         f'({ROTULO_HABITABILIDAD}).</p>')
+            o.append(calif)
         o.append('<div class="tabla-scroll"><table>')
         o.append('<thead><tr><th>Captura</th><th class="num">Familias</th>'
                  '<th class="num">Personas</th><th class="num">Viv. destruidas</th>'
-                 '<th class="num">Viv. averiadas</th></tr></thead><tbody>')
+                 '<th class="num">Viv. averiadas</th>'
+                 f'<th class="num" title="{e(ROTULO_HABITABILIDAD)}">Viv. no habitables</th>'
+                 f'<th class="num" title="{e(ROTULO_HABITABILIDAD)}">Viv. habitables</th>'
+                 '</tr></thead><tbody>')
         for fechas, fila in tramos:
             repetido = (f'<span class="capturas">{fmt_prosa(len(fechas), femenino=True)} '
                         f'capturas, sin cambios</span>' if len(fechas) > 1 else "")
@@ -2839,7 +2938,9 @@ def render_ficha(d: dict) -> str:
                      f'<td class="num">{fmt(fila["familias"])}</td>'
                      f'<td class="num">{fmt(fila["personas"])}</td>'
                      f'<td class="num">{fmt(fila["viv_destruidas"])}</td>'
-                     f'<td class="num">{fmt(fila["viv_averiadas"])}</td></tr>')
+                     f'<td class="num">{fmt(fila["viv_averiadas"])}</td>'
+                     f'<td class="num">{fmt(fila.get("nohabitables"))}</td>'
+                     f'<td class="num">{fmt(fila.get("habitables"))}</td></tr>')
         o.append("</tbody></table></div>")
         # Que el registro esté parado HOY se dice con todas las letras: la
         # última fila ya lleva la fecha de la última captura, pero quien mira
@@ -5910,6 +6011,11 @@ CHIPS_RUD = (
      "El municipio ya ha cargado viviendas destruidas. Que un municipio no salga "
      "aquí puede ser que aún no las haya evaluado",
      lambda m: (m.get("viv_destruidas") or 0) > 0),
+    ("sin_calificar", "Sin vivienda calificada",
+     "Registra familias pero ninguna vivienda calificada como habitable o no "
+     "habitable: la inspección de la que depende el subsidio de arriendo no "
+     "consta todavía",
+     sin_vivienda_calificada),
 )
 
 
@@ -6064,6 +6170,18 @@ def entradilla_rud(ctx: dict) -> str:
     elif viviendas:
         frases.append(f'El registro oficial ha cargado {viviendas}.')
     frases.append("Es un <b>mínimo provisional</b>, no un balance cerrado.")
+    nohab, hab = ult.get("nohabitables"), ult.get("habitables")
+    if nohab is not None and hab is not None:
+        # La cifra del subsidio va con su rótulo en la misma frase: suelta,
+        # se leería como daño verificado.
+        sin_calif = sum(1 for m in rud.get("municipios") or []
+                        if sin_vivienda_calificada(m))
+        cola = (f', y {fmt(sin_calif)} municipios registran familias sin haber '
+                f'calificado todavía ninguna vivienda' if sin_calif else "")
+        frases.append(
+            f'Entre las viviendas ya calificadas, <b>{fmt(nohab)} son no '
+            f'habitables</b> y <b>{fmt(hab)} habitables</b> '
+            f'({ROTULO_HABITABILIDAD}){cola}.')
 
     salto = _salto_del_rud(rud)
     if salto:
@@ -6097,6 +6215,8 @@ def nota_rud(ctx: dict) -> str:
         partes.append(f'Serie iniciada el {fecha_larga(serie[0]["fecha"])}.')
     partes.append("Un cero en las columnas de viviendas puede significar «todavía "
                   "sin evaluar», no «sin daño».")
+    partes.append("Las columnas de habitabilidad recogen el "
+                  f"{ROTULO_HABITABILIDAD}.")
     # R11: la advertencia se apaga sola el día que no quede ningún punto
     # reconstruido. No es un literal que alguien tenga que acordarse de borrar.
     if any(d.get("reconstruido") for d in serie):
@@ -6122,6 +6242,8 @@ COLUMNAS_RUD = (
     ("tasa_pct", "Personas del RUD sobre población 2026", "%", False),
     ("viv_destruidas", "Viviendas destruidas", "viviendas", True),
     ("viv_averiadas", "Viviendas averiadas", "viviendas", True),
+    ("nohabitables", "Viviendas calificadas como no habitables", "viviendas", True),
+    ("habitables", "Viviendas calificadas como habitables", "viviendas", True),
     ("delta_familias", "Familias nuevas desde la captura anterior",
      "familias", False),
     ("municipios", "Municipios con registro en el RUD", "municipios", True),
@@ -6681,6 +6803,13 @@ def grafico_rud(ctx: dict) -> str:
         # hacia abajo y eso es información (R3, R16).
         color = "var(--critical)" if valor < 0 else "var(--s8)"
         etiqueta = ("+" if valor > 0 else "") + fmt(valor)
+        # Una captura plana es un dato —«ese día no entró nadie»— y su «0»
+        # nace pegado a la línea de cero. La regla móvil que baja los rótulos
+        # de las altas al cuerpo de su columna lo dejaba encima de la fecha
+        # (medido por `test_ningun_rotulo_se_pisa_en_movil` con la meseta del
+        # 5, 6 y 7-sep-2026); `g-cero` es una clase propia, no `g-alta`,
+        # porque la cascada que lo mide no lee selectores compuestos.
+        clase_alta = "g-cero" if valor == 0 else "g-alta"
         o.append(
             f'<rect x="{_n(x(i) - ancho_barra / 2)}" y="{_n(min(yy, y0))}" '
             f'width="{_n(ancho_barra)}" height="{_n(max(1, abs(y0 - yy)))}" rx="2" '
@@ -6690,7 +6819,7 @@ def grafico_rud(ctx: dict) -> str:
             f'{concuerda(valor, "familia", "familias")} '
             f'desde la captura anterior</title></rect>'
             f'<text x="{_n(x(i))}" y="{_n(yy + 13 if valor < 0 else yy - 6)}" '
-            f'text-anchor="middle" class="g-alta{alterna(i)}" font-size="10" '
+            f'text-anchor="middle" class="{clase_alta}{alterna(i)}" font-size="10" '
             f'font-weight="600" fill="{color}">{etiqueta}</text>')
 
     linea = " ".join(f'{"L" if i else "M"} {_n(x(i))} {_n(y(d.get("familias") or 0))}'
@@ -6738,6 +6867,125 @@ def grafico_rud(ctx: dict) -> str:
     return "".join(o)
 
 
+def grafico_habitabilidad(ctx: dict) -> str:
+    """Viviendas calificadas como no habitables y como habitables, captura a
+    captura, en el mismo lienzo que `grafico_rud` y con sus mismas reglas.
+
+    Dos líneas y no barras: aquí no hay «altas» que contar, hay dos estados
+    de un mismo parque de viviendas y lo que importa es cómo se separan. La
+    de no habitables lleva su cifra en cada punto —es la del subsidio—; la de
+    habitables solo al final, para que dos rótulos por día no se pisen en un
+    móvil (la banda de un día son ~62 unidades y en 480 px los cuerpos son de
+    24-26). El `<desc>` narra las dos enteras: lo que se esconde son rótulos,
+    no datos.
+
+    Mismo blindaje que `grafico_rud` (docs/DECISIONES.md, hueco del
+    26-ago-2026): el lienzo crece con la serie y el sobrante se ve con scroll,
+    nunca comprimido; `g-alterna` esconde uno de cada dos rótulos en móvil,
+    contando desde el final para que la cifra vigente sea siempre visible. Un
+    punto sin habitabilidad —el reconstruido, del que solo se conoce el
+    total— no se dibuja ni se interpola: la línea se corta ahí (R3)."""
+    serie = [d for d in ((ctx["rud"] or {}).get("serie") or [])
+             if d.get("nohabitables") is not None or d.get("habitables") is not None]
+    if not serie:
+        return ("<p class=\"note\">Ninguna captura del RUD trae todavía la "
+                "calificación de habitabilidad: la serie se dibuja en cuanto "
+                "la primera la traiga.</p>")
+    H = 230
+    m_t, m_r, m_b, m_l = 38, 70, 38, 64
+    PASO_MIN = 62
+    W = max(900, m_l + m_r + PASO_MIN * max(1, len(serie) - 1))
+    techo = max([1] + [d.get(c) or 0 for d in serie for c in CAMPOS_HABITABILIDAD]) * 1.1
+
+    def x(i):
+        return W / 2 if len(serie) == 1 else m_l + i * (W - m_l - m_r) / (len(serie) - 1)
+
+    def y(v):
+        return m_t + (H - m_t - m_b) * (1 - v / techo)
+
+    def alterna(i: int) -> str:
+        return " g-alterna" if (len(serie) - 1 - i) % 2 else ""
+
+    def trazo(campo):
+        partes, abierto = [], False
+        for i, d in enumerate(serie):
+            v = d.get(campo)
+            if v is None:
+                abierto = False
+                continue
+            partes.append(f'{"L" if abierto else "M"} {_n(x(i))} {_n(y(v))}')
+            abierto = True
+        return " ".join(partes)
+
+    descripcion = ". ".join(
+        f'{fecha_larga(d.get("fecha"))}: '
+        + " y ".join(
+            f'{fmt(d.get(c))} {concuerda(d.get(c), "vivienda", "viviendas")} '
+            f'{"no habitable" if c == "nohabitables" else "habitable"}'
+            + ("s" if (d.get(c) or 0) != 1 else "")
+            for c in CAMPOS_HABITABILIDAD if d.get(c) is not None)
+        for d in serie)
+    estilo_ancho = f' style="min-width:{_n(W)}px"' if W > 900 else ""
+    o = [f'<div class="grafico-rud-scroll">'
+         f'<svg viewBox="0 0 {W} {H}" width="100%"{estilo_ancho} '
+         f'xmlns="http://www.w3.org/2000/svg" role="img" class="grafico-hab"'
+         f' aria-labelledby="rud-hab-title rud-hab-desc">',
+         '<title id="rud-hab-title">Viviendas calificadas en el RUD como no '
+         'habitables y como habitables, por captura</title>',
+         f'<desc id="rud-hab-desc">{e(descripcion)}</desc>']
+    for v in (0, techo / 2, techo):
+        yy = y(v)
+        o.append(f'<line x1="{_n(m_l)}" x2="{_n(W - m_r)}" y1="{_n(yy)}" '
+                 f'y2="{_n(yy)}" stroke="var(--grid)"/>'
+                 f'<text x="{_n(m_l - 6)}" y="{_n(yy + 4)}" text-anchor="end" '
+                 f'class="g-eje" font-size="10" fill="var(--muted)">'
+                 f'{fmt(round(v))}</text>')
+    o.append(f'<path d="{trazo("nohabitables")}" fill="none" '
+             f'stroke="var(--critical)" stroke-width="2.5" data-serie="nohabitables"/>')
+    o.append(f'<path d="{trazo("habitables")}" fill="none" '
+             f'stroke="var(--good)" stroke-width="2.5" data-serie="habitables"/>')
+    for i, d in enumerate(serie):
+        nohab, hab = d.get("nohabitables"), d.get("habitables")
+        fecha = fecha_larga(d.get("fecha"))
+        if hab is not None:
+            o.append(f'<circle cx="{_n(x(i))}" cy="{_n(y(hab))}" r="4" '
+                     f'fill="var(--good)" data-habitables="{_n(hab)}">'
+                     f'<title>{e(fecha)}: {fmt(hab)} '
+                     f'{concuerda(hab, "vivienda habitable", "viviendas habitables")}'
+                     f'</title></circle>')
+        if nohab is not None:
+            o.append(f'<circle cx="{_n(x(i))}" cy="{_n(y(nohab))}" r="4" '
+                     f'fill="var(--critical)" data-nohabitables="{_n(nohab)}">'
+                     f'<title>{e(fecha)}: {fmt(nohab)} '
+                     f'{concuerda(nohab, "vivienda no habitable", "viviendas no habitables")}'
+                     f'</title></circle>'
+                     f'<text x="{_n(x(i))}" y="{_n(y(nohab) - 10)}" text-anchor="middle" '
+                     f'class="g-total{alterna(i)}" font-size="11" font-weight="600" '
+                     f'fill="var(--critical)">{fmt(nohab)}</text>')
+        o.append(f'<text x="{_n(x(i))}" y="{_n(H - m_b + 16)}" text-anchor="middle" '
+                 f'class="g-dia{alterna(i)}" font-size="10" fill="var(--muted)">'
+                 f'{dia_mes(d.get("fecha"))}</text>')
+    # la cifra vigente de habitables, una sola vez y a la derecha del último
+    # punto: el margen derecho (70) existe para esto
+    ultimo_hab = next((d for d in reversed(serie) if d.get("habitables") is not None), None)
+    if ultimo_hab is not None:
+        i = serie.index(ultimo_hab)
+        o.append(f'<text x="{_n(x(i) + 8)}" y="{_n(y(ultimo_hab["habitables"]) + 4)}" '
+                 f'class="g-fin" font-size="11" font-weight="600" fill="var(--good)">'
+                 f'{fmt(ultimo_hab["habitables"])}</text>')
+    lx = m_l
+    o.append(
+        f'<g class="g-leyenda-1"><line x1="{_n(lx)}" x2="{_n(lx + 24)}" y1="12" y2="12" '
+        f'stroke="var(--critical)" stroke-width="2.5"/>'
+        f'<text x="{_n(lx + 30)}" y="15" class="g-leyenda" font-size="10" '
+        f'fill="var(--ink-2)">No habitables</text></g>'
+        f'<g class="g-leyenda-2"><line x1="{_n(lx + 150)}" x2="{_n(lx + 174)}" y1="12" y2="12" '
+        f'stroke="var(--good)" stroke-width="2.5"/>'
+        f'<text x="{_n(lx + 180)}" y="15" class="g-leyenda" font-size="10" '
+        f'fill="var(--ink-2)">Habitables</text></g></svg></div>')
+    return "".join(o)
+
+
 def filas_rud(ctx: dict) -> str:
     """El registro oficial municipio a municipio, escrito en el HTML.
 
@@ -6758,6 +7006,7 @@ def filas_rud(ctx: dict) -> str:
         # sobre el DOM sin volver a leer el JSON
         valores = [nombre, m.get("familias"), m.get("personas"), m.get("poblacion_2026"),
                    m.get("tasa_pct"), m.get("viv_destruidas"), m.get("viv_averiadas"),
+                   m.get("nohabitables"), m.get("habitables"),
                    m.get("delta_familias")]
         datos = " ".join(f'data-v{i}="{e("" if v is None else v)}"'
                          for i, v in enumerate(valores))
@@ -6776,6 +7025,8 @@ def filas_rud(ctx: dict) -> str:
             f'<td class="num">{e(pct(m.get("tasa_pct")))}</td>'
             f'<td class="num">{fmt(m.get("viv_destruidas"))}</td>'
             f'<td class="num">{fmt(m.get("viv_averiadas"))}</td>'
+            f'<td class="num">{fmt(m.get("nohabitables"))}</td>'
+            f'<td class="num">{fmt(m.get("habitables"))}</td>'
             f'<td class="num">{delta_txt}</td></tr>')
     return "\n".join(filas)
 
@@ -8019,6 +8270,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "noticias-sello": sello_noticias,
                    "rud-resumen": entradilla_rud,
                    "rud-grafico": grafico_rud,
+                   "rud-habitabilidad": grafico_habitabilidad,
                    "rud-chips": chips_rud,
                    "rud-nota": nota_rud,
                    "rud-dataset": dataset_rud,
@@ -8060,6 +8312,7 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "rud-sello": "rud", "balances-sello": "balances",
                "noticias-sello": "noticias",
                "rud-resumen": "rud", "rud-grafico": "rud",
+               "rud-habitabilidad": "rud",
                "rud-chips": "rud", "rud-nota": "rud",
                "rud-dataset": "rud",
                "noticias-resumen": "noticias", "noticias-nota": "noticias",

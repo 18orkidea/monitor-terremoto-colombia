@@ -560,11 +560,18 @@ def run() -> dict:
 
     # RUD en el tiempo: serie diaria agregada + detalle municipal del último día
     # (se construye antes que la capa de municipios para alimentarla)
+    # Habitabilidad en la serie (8-sep-2026): se archivaba desde el 16-ago en
+    # rud_daily y solo salía en `detalle_diario`; la cifra de no habitables es
+    # la del subsidio de arriendo y merece su serie. `SUM` de sqlite devuelve
+    # NULL si toda la columna es NULL: un corte sin el dato queda sin él, no
+    # a cero (R3).
     rud_serie = [dict(zip(["fecha", "municipios", "familias", "personas",
-                           "viv_destruidas", "viv_averiadas"], r))
+                           "viv_destruidas", "viv_averiadas",
+                           "nohabitables", "habitables"], r))
                  for r in conn.execute(
                      "SELECT snapshot_date, COUNT(*), SUM(familias), SUM(personas),"
-                     " SUM(viv_destruidas), SUM(viv_averiadas) FROM rud_daily"
+                     " SUM(viv_destruidas), SUM(viv_averiadas),"
+                     " SUM(nohabitables), SUM(habitables) FROM rud_daily"
                      " GROUP BY snapshot_date ORDER BY snapshot_date")]
     # Puntos que no vienen de una captura propia (una corrida perdida, y el RUD
     # solo devuelve su estado actual): se fusionan MARCADOS, nunca en silencio.
@@ -594,12 +601,14 @@ def run() -> dict:
             prev = {(r[0], r[1]): r[2] for r in conn.execute(
                 "SELECT departamento, municipio, familias FROM rud_daily"
                 " WHERE snapshot_date=?", (dia_prev,))}
-        for dep, mun, fam, per, dest, aver in conn.execute(
+        for dep, mun, fam, per, dest, aver, nohab, hab in conn.execute(
                 "SELECT departamento, municipio, familias, personas,"
-                " viv_destruidas, viv_averiadas FROM rud_daily"
+                " viv_destruidas, viv_averiadas, nohabitables, habitables"
+                " FROM rud_daily"
                 " WHERE snapshot_date=? ORDER BY familias DESC", (ult_dia,)):
             fila = {"departamento": dep, "municipio": mun, "familias": fam,
-                    "personas": per, "viv_destruidas": dest, "viv_averiadas": aver}
+                    "personas": per, "viv_destruidas": dest, "viv_averiadas": aver,
+                    "nohabitables": nohab, "habitables": hab}
             pop = _find_population(poblacion, mun, {"departamento": dep}, divipola)
             fila["poblacion_2026"] = pop.get("poblacion_2026") if pop else None
             # 4 decimales: una persona en una capital da 0,0003 % — redondear

@@ -805,6 +805,25 @@ a.metric-card:hover { border-color: var(--s1); }
      vez que el registro sube el techo del eje. Bajar el rótulo del alta lo
      mete en el cuerpo de su columna, que es donde se lee sin competir. */
   .grafico-rud .g-alta  { transform: translate(0, 10px); }
+  /* Una captura plana escribe «0» pegado a la línea de cero: bajarlo como a
+     las demás altas lo ponía sobre la fecha (medido con la meseta del 5, 6 y
+     7-sep-2026 por `test_ningun_rotulo_se_pisa_en_movil`). Clase propia:
+     crece como un alta y se queda donde nace. */
+  .grafico-rud .g-cero  { font-size: 14px; }
+}
+/* La gráfica de habitabilidad comparte lienzo y vocabulario con la del RUD
+   (mismo viewBox, mismos márgenes, `g-alterna` desde el final), pero no sus
+   transforms: no tiene barras cuyo rótulo haya que bajar, y su segunda cifra
+   —la de habitables— va una sola vez, a la derecha del último punto (`g-fin`).
+   Vigilada por `TestElGraficoDeHabitabilidadSeLeeEnMovil`. */
+@media (max-width: 760px) {
+  .grafico-hab .g-eje     { font-size: 13px; }
+  .grafico-hab .g-dia     { font-size: 14px; }
+  .grafico-hab .g-total,
+  .grafico-hab .g-fin     { font-size: 15px; }
+  .grafico-hab .g-leyenda { font-size: 14px; }
+  .grafico-hab .g-leyenda-2 { transform: translate(40px, 0); }
+  .grafico-hab .g-dia     { transform: translate(0, 8px); }
 }
 /* El gráfico de balances tiene el mismo problema y NO la misma geometría, así
    que no puede reusar los selectores del RUD: son tres paneles de doce bandas
@@ -858,6 +877,17 @@ a.metric-card:hover { border-color: var(--s1); }
      está cerca del eje de días. Dos unidades menos de bajada bastan para
      no pisarse; `test_ningun_rotulo_se_pisa_en_movil` es quien lo mide. */
   .grafico-rud .g-alta  { transform: translate(0, 14px); }
+  .grafico-rud .g-cero  { font-size: 24px; }
+}
+@media (max-width: 480px) {
+  .grafico-hab .g-eje     { font-size: 15px; }
+  .grafico-hab .g-dia     { font-size: 24px; }
+  .grafico-hab .g-total,
+  .grafico-hab .g-fin     { font-size: 26px; }
+  .grafico-hab .g-leyenda { font-size: 22px; }
+  .grafico-hab .g-alterna { display: none; }
+  .grafico-hab .g-dia     { transform: translate(0, 14px); }
+  .grafico-hab .g-leyenda-2 { transform: translate(120px, 0); }
 }
 
 /* En móvil el margen lateral de 20 px se come una décima parte del ancho útil:

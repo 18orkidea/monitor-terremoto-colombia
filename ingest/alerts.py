@@ -36,7 +36,8 @@ CAPTURAS_PLANAS_PARA_DETENIDO = 3
 # mismas que publica la ficha. Espejo de `COLUMNAS_DEL_RUD` en
 # deploy/render_html.py —la corrida diaria no importa el módulo de render—; si
 # tocas una, mira la otra: `tests/test_unit.py::TestRudDetenido` las compara.
-COLUMNAS_DEL_RUD = ("familias", "personas", "viv_destruidas", "viv_averiadas")
+COLUMNAS_DEL_RUD = ("familias", "personas", "viv_destruidas", "viv_averiadas",
+                    "habitables", "nohabitables")
 
 
 def capturas_sin_movimiento(capturas: list[tuple[str, dict]]) -> list[str]:
@@ -94,8 +95,8 @@ def _capturas_del_rud(conn, cuantas: int = 6) -> list[tuple[str, dict]]:
         filas = {}
         for r in conn.execute(
                 "SELECT departamento, municipio, familias, personas,"
-                " viv_destruidas, viv_averiadas FROM rud_daily"
-                " WHERE snapshot_date=?", (dia,)):
+                " viv_destruidas, viv_averiadas, habitables, nohabitables"
+                " FROM rud_daily WHERE snapshot_date=?", (dia,)):
             filas[(r[0], r[1])] = tuple(r[2:])
         capturas.append((dia, filas))
     return capturas

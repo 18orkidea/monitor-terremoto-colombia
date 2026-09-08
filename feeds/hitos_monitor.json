@@ -284,6 +284,13 @@
    "resumen": "Los desaparecidos dejan de ser un «máximo informado» y siguen el corte más reciente.",
    "texto": "Hasta hoy la serie de balances en medios trataba los desaparecidos como una cifra acumulativa y publicaba 496 —un corte del 11 de agosto— desde el 13 de agosto, mientras el propio archivo registraba 426 el 18, 260 el 20, 234 el 24 y 219 el 27. Los desaparecidos cuentan un estado, no un acumulado: bajan cuando aparece gente, viva o muerta. Desde hoy se publica la cifra del balance con el corte más reciente, suba o baje, y la tarjeta dice de qué corte es. Las demás cifras del balance siguen bajo la regla del máximo informado. Era un error de cómo mostrábamos el dato, no de la fuente, y se corrige.",
    "url": "/balances.html"
+  },
+  {
+   "fecha": "2026-09-08",
+   "tipo": "monitor",
+   "resumen": "El RUD gana su serie de habitabilidad y el filtro de quién registra sin calificar.",
+   "texto": "El Registro Único de Damnificados (RUD) publica por municipio cuántas viviendas ha calificado cada alcaldía como habitables y como no habitables, y de la calificación «no habitable» depende el subsidio de arriendo. El monitor archivaba esas dos columnas desde la primera captura, el 16 de agosto, pero no las enseñaba. Desde hoy tienen su serie y su gráfica en la página del RUD, dos columnas en la tabla y en la serie de cada una de las 409 fichas municipales, y un filtro con los municipios que registran familias sin haber calificado todavía ninguna vivienda: 95 en la captura del 7 de septiembre, con 2.985 familias. La cifra va siempre con su rótulo, porque la UNGRD no publica la definición del concepto: es una inspección visual municipal, no daño verificado por un tercero. De paso se comprobó una hipótesis: que desde el 4 de septiembre el registro se hubiera detenido mientras la calificación seguía moviéndose. No es así: la calificación se anota en la misma captura que la inscripción, y desde la captura del 5 de septiembre el RUD devuelve exactamente el mismo fichero.",
+   "url": "/rud.html"
   }
  ]
 }
