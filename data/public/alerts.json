@@ -1,12 +1,17 @@
 {
- "generado": "2026-09-09",
- "fecha": "2026-09-09",
+ "generado": "2026-09-10",
+ "fecha": "2026-09-10",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "237 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 237
+   "texto": "251 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 251
+  },
+  {
+   "tipo": "rud_actualizado",
+   "nivel": "info",
+   "texto": "RUD actualizado: +0 municipios. +11.401 familias desde la captura anterior"
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -20,9 +25,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 24 días distintos, pero rud_daily solo tiene 23 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 24,
-   "dias_en_rud_daily": 23
+   "texto": "sources_log registra capturas del RUD en 25 días distintos, pero rud_daily solo tiene 24 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 25,
+   "dias_en_rud_daily": 24
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -41,26 +46,15 @@
    "puntos": 201
   },
   {
-   "tipo": "fuentes_con_peticion_condicional",
-   "nivel": "info",
-   "texto": "4 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1788786473931/dyfi_geo_10km.geojson",
-   "urls": [
-    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1788786473931/dyfi_geo_10km.geojson",
-    "https://earthquake.usgs.gov/product/losspager/us6000tjl2/us/1788821915886/json/exposures.json",
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1788821766631/download/cont_mmi.json",
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1788821766631/download/coverage_mmi_low_res.covjson"
-   ],
-   "n": 4
-  },
-  {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
-   "texto": "1 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.0 MB). Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
+   "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
    "urls": [
+    "https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
     "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID"
    ],
-   "n": 1,
-   "bytes": 72
+   "n": 2,
+   "bytes": 64329
   },
   {
    "tipo": "manifiesto_r2_con_objetos_sin_reporte",
@@ -88,12 +82,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 21 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 21
+   "texto": "La OPS lleva 22 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 22
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-08",
+  "fecha": "2026-09-09",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -296,8 +290,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-09/oficiales_feed.json",
-   "items": 80,
+   "snapshot": "data/snapshots/2026-09-10/oficiales_feed.json",
+   "items": 83,
    "regla_sha256": "6c31c0f07f8757e02e4be0491cc29e5b27bf28ef58c99310502d227675904a96"
   }
  }

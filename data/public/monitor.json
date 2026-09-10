@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-09",
- "fecha": "2026-09-09",
+ "generado": "2026-09-10",
+ "fecha": "2026-09-10",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1148,
-    "n_oficial": 23,
+    "n_prensa": 1170,
+    "n_oficial": 24,
     "n_ciudadano": 434,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1039,
-    "n_oficial": 23,
+    "n_prensa": 1068,
+    "n_oficial": 24,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 560,
-    "n_oficial": 20,
+    "n_prensa": 569,
+    "n_oficial": 21,
     "n_ciudadano": 295,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1039,
-    "n_oficial": 23,
+    "n_prensa": 1068,
+    "n_oficial": 24,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -428,7 +428,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 95,
-    "n_oficial": 23,
+    "n_oficial": 24,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -513,7 +513,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 67,
-    "n_oficial": 23,
+    "n_oficial": 24,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 256,
-    "n_oficial": 22,
+    "n_prensa": 258,
+    "n_oficial": 23,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 848
+   "feeds": 855
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 717
+   "feeds": 721
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 547
+   "feeds": 549
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 563
+   "feeds": 565
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 528
+   "feeds": 529
   },
   {
    "fecha": "2026-08-15",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 492
+   "feeds": 494
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 288
+   "feeds": 291
   },
   {
    "fecha": "2026-08-17",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 288
+   "feeds": 292
   },
   {
    "fecha": "2026-08-18",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 351
+   "feeds": 358
   },
   {
    "fecha": "2026-08-19",
@@ -715,7 +715,7 @@
    "gdelt": 0.5095,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 300
+   "feeds": 303
   },
   {
    "fecha": "2026-08-20",
@@ -723,7 +723,7 @@
    "gdelt": 0.3937,
    "fuentes": null,
    "chatmap": 55,
-   "feeds": 340
+   "feeds": 341
   },
   {
    "fecha": "2026-08-21",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 338
+   "feeds": 339
   },
   {
    "fecha": "2026-08-22",
@@ -755,7 +755,7 @@
    "gdelt": 0.2422,
    "fuentes": null,
    "chatmap": 97,
-   "feeds": 341
+   "feeds": 342
   },
   {
    "fecha": "2026-08-25",
@@ -763,7 +763,7 @@
    "gdelt": 0.2535,
    "fuentes": null,
    "chatmap": 12,
-   "feeds": 280
+   "feeds": 282
   },
   {
    "fecha": "2026-08-26",
@@ -771,7 +771,7 @@
    "gdelt": 0.198,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 246
+   "feeds": 249
   },
   {
    "fecha": "2026-08-27",
@@ -779,7 +779,7 @@
    "gdelt": 0.2597,
    "fuentes": null,
    "chatmap": 18,
-   "feeds": 277
+   "feeds": 278
   },
   {
    "fecha": "2026-08-28",
@@ -795,7 +795,7 @@
    "gdelt": 0.1865,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 169
+   "feeds": 170
   },
   {
    "fecha": "2026-08-30",
@@ -803,7 +803,7 @@
    "gdelt": 0.1727,
    "fuentes": null,
    "chatmap": 45,
-   "feeds": 135
+   "feeds": 136
   },
   {
    "fecha": "2026-08-31",
@@ -811,7 +811,7 @@
    "gdelt": 0.0911,
    "fuentes": null,
    "chatmap": 6,
-   "feeds": 174
+   "feeds": 175
   },
   {
    "fecha": "2026-09-01",
@@ -864,7 +864,7 @@
   {
    "fecha": "2026-09-07",
    "emm": null,
-   "gdelt": 0.0724,
+   "gdelt": 0.1067,
    "fuentes": null,
    "chatmap": 22,
    "feeds": 142
@@ -872,18 +872,26 @@
   {
    "fecha": "2026-09-08",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.1552,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 145
+   "feeds": 150
   },
   {
    "fecha": "2026-09-09",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.1076,
+   "fuentes": null,
+   "chatmap": 0,
+   "feeds": 131
+  },
+  {
+   "fecha": "2026-09-10",
+   "emm": null,
+   "gdelt": 0.0937,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 39
+   "feeds": 63
   }
  ],
  "entregas": [
@@ -948,11 +956,11 @@
   },
   "ungrd_rud": {
    "municipios": 409,
-   "familias": 353271.0,
-   "personas": 759310.0,
-   "viv_destruidas": 18767.0,
-   "viv_averiadas": 117362.0,
-   "corte": "2026-09-08",
+   "familias": 364672.0,
+   "personas": 778281.0,
+   "viv_destruidas": 19142.0,
+   "viv_averiadas": 119752.0,
+   "corte": "2026-09-09",
    "retirados": [],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
@@ -1196,21 +1204,31 @@
     "viv_averiadas": 117362.0,
     "nohabitables": 101416.0,
     "habitables": 81281.0
+   },
+   {
+    "fecha": "2026-09-09",
+    "municipios": 409,
+    "familias": 364672.0,
+    "personas": 778281.0,
+    "viv_destruidas": 19142.0,
+    "viv_averiadas": 119752.0,
+    "nohabitables": 104038.0,
+    "habitables": 84856.0
    }
   ],
   "municipios": [
    {
     "departamento": "RISARALDA",
     "municipio": "PEREIRA",
-    "familias": 47131.0,
-    "personas": 110678.0,
+    "familias": 47212.0,
+    "personas": 110883.0,
     "viv_destruidas": 4341.0,
     "viv_averiadas": 0.0,
     "nohabitables": 23873.0,
     "habitables": 18799.0,
     "poblacion_2026": 487820,
-    "tasa_pct": 22.6883,
-    "delta_familias": 0.0,
+    "tasa_pct": 22.7303,
+    "delta_familias": 81.0,
     "nuevo": false
    },
    {
@@ -1242,6 +1260,20 @@
     "nuevo": false
    },
    {
+    "departamento": "QUINDÍO",
+    "municipio": "ARMENIA",
+    "familias": 21935.0,
+    "personas": 41197.0,
+    "viv_destruidas": 1147.0,
+    "viv_averiadas": 2476.0,
+    "nohabitables": 7270.0,
+    "habitables": 9817.0,
+    "poblacion_2026": 307103,
+    "tasa_pct": 13.4147,
+    "delta_familias": 9755.0,
+    "nuevo": false
+   },
+   {
     "departamento": "CHOCÓ",
     "municipio": "QUIBDÓ",
     "familias": 14889.0,
@@ -1256,59 +1288,45 @@
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "ARMENIA",
-    "familias": 12180.0,
-    "personas": 25661.0,
-    "viv_destruidas": 835.0,
-    "viv_averiadas": 409.0,
-    "nohabitables": 4931.0,
-    "habitables": 6472.0,
-    "poblacion_2026": 307103,
-    "tasa_pct": 8.3558,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CALDAS",
     "municipio": "MANIZALES",
-    "familias": 9124.0,
-    "personas": 14358.0,
+    "familias": 9125.0,
+    "personas": 14359.0,
     "viv_destruidas": 158.0,
     "viv_averiadas": 2843.0,
-    "nohabitables": 4589.0,
+    "nohabitables": 4590.0,
     "habitables": 298.0,
     "poblacion_2026": 475690,
-    "tasa_pct": 3.0184,
-    "delta_familias": 0.0,
+    "tasa_pct": 3.0186,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
     "departamento": "RISARALDA",
     "municipio": "DOSQUEBRADAS",
-    "familias": 8086.0,
-    "personas": 17675.0,
+    "familias": 8116.0,
+    "personas": 17742.0,
     "viv_destruidas": 609.0,
-    "viv_averiadas": 98.0,
+    "viv_averiadas": 99.0,
     "nohabitables": 4180.0,
     "habitables": 2288.0,
     "poblacion_2026": 246388,
-    "tasa_pct": 7.1736,
-    "delta_familias": 0.0,
+    "tasa_pct": 7.2008,
+    "delta_familias": 30.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
     "municipio": "CALARCÁ",
-    "familias": 6823.0,
-    "personas": 10243.0,
-    "viv_destruidas": 16.0,
-    "viv_averiadas": 3445.0,
-    "nohabitables": 437.0,
-    "habitables": 1265.0,
+    "familias": 6883.0,
+    "personas": 10370.0,
+    "viv_destruidas": 17.0,
+    "viv_averiadas": 3454.0,
+    "nohabitables": 451.0,
+    "habitables": 1281.0,
     "poblacion_2026": 74399,
-    "tasa_pct": 13.7677,
-    "delta_familias": 0.0,
+    "tasa_pct": 13.9384,
+    "delta_familias": 60.0,
     "nuevo": false
    },
    {
@@ -1327,16 +1345,30 @@
    },
    {
     "departamento": "QUINDÍO",
+    "municipio": "QUIMBAYA",
+    "familias": 5728.0,
+    "personas": 12739.0,
+    "viv_destruidas": 338.0,
+    "viv_averiadas": 768.0,
+    "nohabitables": 1683.0,
+    "habitables": 1772.0,
+    "poblacion_2026": 31350,
+    "tasa_pct": 40.6348,
+    "delta_familias": 740.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
     "municipio": "MONTENEGRO",
-    "familias": 5409.0,
-    "personas": 12154.0,
-    "viv_destruidas": 282.0,
-    "viv_averiadas": 437.0,
-    "nohabitables": 1008.0,
-    "habitables": 3102.0,
+    "familias": 5423.0,
+    "personas": 12407.0,
+    "viv_destruidas": 285.0,
+    "viv_averiadas": 455.0,
+    "nohabitables": 1048.0,
+    "habitables": 3153.0,
     "poblacion_2026": 37483,
-    "tasa_pct": 32.4254,
-    "delta_familias": 0.0,
+    "tasa_pct": 33.1003,
+    "delta_familias": 14.0,
     "nuevo": false
    },
    {
@@ -1370,29 +1402,15 @@
    {
     "departamento": "RISARALDA",
     "municipio": "SANTA ROSA DE CABAL",
-    "familias": 5061.0,
-    "personas": 11645.0,
-    "viv_destruidas": 40.0,
+    "familias": 5202.0,
+    "personas": 11899.0,
+    "viv_destruidas": 49.0,
     "viv_averiadas": 567.0,
-    "nohabitables": 1898.0,
-    "habitables": 1391.0,
+    "nohabitables": 1904.0,
+    "habitables": 1414.0,
     "poblacion_2026": 84054,
-    "tasa_pct": 13.8542,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "QUIMBAYA",
-    "familias": 4988.0,
-    "personas": 11283.0,
-    "viv_destruidas": 291.0,
-    "viv_averiadas": 504.0,
-    "nohabitables": 1499.0,
-    "habitables": 1700.0,
-    "poblacion_2026": 31350,
-    "tasa_pct": 35.9904,
-    "delta_familias": 0.0,
+    "tasa_pct": 14.1564,
+    "delta_familias": 141.0,
     "nuevo": false
    },
    {
@@ -1426,15 +1444,15 @@
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "TRUJILLO",
-    "familias": 3038.0,
-    "personas": 7791.0,
-    "viv_destruidas": 224.0,
-    "viv_averiadas": 1125.0,
-    "nohabitables": 595.0,
-    "habitables": 199.0,
+    "familias": 3089.0,
+    "personas": 7897.0,
+    "viv_destruidas": 225.0,
+    "viv_averiadas": 1127.0,
+    "nohabitables": 605.0,
+    "habitables": 206.0,
     "poblacion_2026": 20058,
-    "tasa_pct": 38.8424,
-    "delta_familias": 0.0,
+    "tasa_pct": 39.3708,
+    "delta_familias": 51.0,
     "nuevo": false
    },
    {
@@ -1452,6 +1470,20 @@
     "nuevo": false
    },
    {
+    "departamento": "QUINDÍO",
+    "municipio": "CIRCASIA",
+    "familias": 2634.0,
+    "personas": 4714.0,
+    "viv_destruidas": 117.0,
+    "viv_averiadas": 464.0,
+    "nohabitables": 409.0,
+    "habitables": 955.0,
+    "poblacion_2026": 28971,
+    "tasa_pct": 16.2714,
+    "delta_familias": 44.0,
+    "nuevo": false
+   },
+   {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "CAICEDONIA",
     "familias": 2620.0,
@@ -1462,20 +1494,6 @@
     "habitables": 479.0,
     "poblacion_2026": 30248,
     "tasa_pct": 16.4341,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "CIRCASIA",
-    "familias": 2590.0,
-    "personas": 4622.0,
-    "viv_destruidas": 117.0,
-    "viv_averiadas": 450.0,
-    "nohabitables": 402.0,
-    "habitables": 946.0,
-    "poblacion_2026": 28971,
-    "tasa_pct": 15.9539,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -1523,6 +1541,20 @@
    },
    {
     "departamento": "VALLE DEL CAUCA",
+    "municipio": "TORO",
+    "familias": 2196.0,
+    "personas": 4986.0,
+    "viv_destruidas": 266.0,
+    "viv_averiadas": 471.0,
+    "nohabitables": 565.0,
+    "habitables": 645.0,
+    "poblacion_2026": 14922,
+    "tasa_pct": 33.4138,
+    "delta_familias": 2.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "VALLE DEL CAUCA",
     "municipio": "BUGALAGRANDE",
     "familias": 2195.0,
     "personas": 3427.0,
@@ -1532,20 +1564,6 @@
     "habitables": 802.0,
     "poblacion_2026": 25527,
     "tasa_pct": 13.425,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "TORO",
-    "familias": 2194.0,
-    "personas": 4983.0,
-    "viv_destruidas": 266.0,
-    "viv_averiadas": 471.0,
-    "nohabitables": 565.0,
-    "habitables": 645.0,
-    "poblacion_2026": 14922,
-    "tasa_pct": 33.3936,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -1634,6 +1652,20 @@
     "nuevo": false
    },
    {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "EL CAIRO",
+    "familias": 1987.0,
+    "personas": 4563.0,
+    "viv_destruidas": 95.0,
+    "viv_averiadas": 593.0,
+    "nohabitables": 447.0,
+    "habitables": 149.0,
+    "poblacion_2026": 7010,
+    "tasa_pct": 65.0927,
+    "delta_familias": 8.0,
+    "nuevo": false
+   },
+   {
     "departamento": "RISARALDA",
     "municipio": "LA VIRGINIA",
     "familias": 1982.0,
@@ -1648,17 +1680,17 @@
     "nuevo": false
    },
    {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "EL CAIRO",
-    "familias": 1979.0,
-    "personas": 4545.0,
-    "viv_destruidas": 95.0,
-    "viv_averiadas": 593.0,
-    "nohabitables": 447.0,
-    "habitables": 149.0,
-    "poblacion_2026": 7010,
-    "tasa_pct": 64.8359,
-    "delta_familias": 0.0,
+    "departamento": "RISARALDA",
+    "municipio": "MARSELLA",
+    "familias": 1948.0,
+    "personas": 4518.0,
+    "viv_destruidas": 49.0,
+    "viv_averiadas": 522.0,
+    "nohabitables": 227.0,
+    "habitables": 704.0,
+    "poblacion_2026": 17320,
+    "tasa_pct": 26.0855,
+    "delta_familias": 51.0,
     "nuevo": false
    },
    {
@@ -1676,20 +1708,6 @@
     "nuevo": false
    },
    {
-    "departamento": "RISARALDA",
-    "municipio": "MARSELLA",
-    "familias": 1897.0,
-    "personas": 4416.0,
-    "viv_destruidas": 48.0,
-    "viv_averiadas": 518.0,
-    "nohabitables": 222.0,
-    "habitables": 699.0,
-    "poblacion_2026": 17320,
-    "tasa_pct": 25.4965,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CAUCA",
     "municipio": "BUENOS AIRES",
     "familias": 1873.0,
@@ -1701,6 +1719,20 @@
     "poblacion_2026": 33342,
     "tasa_pct": 12.1288,
     "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "RISARALDA",
+    "municipio": "BELÉN DE UMBRÍA",
+    "familias": 1736.0,
+    "personas": 4040.0,
+    "viv_destruidas": 79.0,
+    "viv_averiadas": 852.0,
+    "nohabitables": 249.0,
+    "habitables": 116.0,
+    "poblacion_2026": 25277,
+    "tasa_pct": 15.9829,
+    "delta_familias": 53.0,
     "nuevo": false
    },
    {
@@ -1728,20 +1760,6 @@
     "habitables": 229.0,
     "poblacion_2026": 36717,
     "tasa_pct": 7.457,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "RISARALDA",
-    "municipio": "BELÉN DE UMBRÍA",
-    "familias": 1683.0,
-    "personas": 3953.0,
-    "viv_destruidas": 79.0,
-    "viv_averiadas": 852.0,
-    "nohabitables": 244.0,
-    "habitables": 111.0,
-    "poblacion_2026": 25277,
-    "tasa_pct": 15.6387,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -1790,15 +1808,15 @@
    {
     "departamento": "QUINDÍO",
     "municipio": "FILANDIA",
-    "familias": 1535.0,
-    "personas": 3628.0,
-    "viv_destruidas": 28.0,
-    "viv_averiadas": 125.0,
-    "nohabitables": 109.0,
-    "habitables": 300.0,
+    "familias": 1592.0,
+    "personas": 3747.0,
+    "viv_destruidas": 29.0,
+    "viv_averiadas": 129.0,
+    "nohabitables": 110.0,
+    "habitables": 309.0,
     "poblacion_2026": 12345,
-    "tasa_pct": 29.3884,
-    "delta_familias": 0.0,
+    "tasa_pct": 30.3524,
+    "delta_familias": 57.0,
     "nuevo": false
    },
    {
@@ -1874,43 +1892,43 @@
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "VERSALLES",
-    "familias": 1414.0,
-    "personas": 3146.0,
+    "familias": 1416.0,
+    "personas": 3151.0,
     "viv_destruidas": 174.0,
     "viv_averiadas": 372.0,
     "nohabitables": 268.0,
     "habitables": 223.0,
     "poblacion_2026": 7441,
-    "tasa_pct": 42.2793,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CALDAS",
-    "municipio": "ANSERMA",
-    "familias": 1390.0,
-    "personas": 3832.0,
-    "viv_destruidas": 78.0,
-    "viv_averiadas": 484.0,
-    "nohabitables": 157.0,
-    "habitables": 310.0,
-    "poblacion_2026": 37352,
-    "tasa_pct": 10.2592,
-    "delta_familias": 0.0,
+    "tasa_pct": 42.3465,
+    "delta_familias": 2.0,
     "nuevo": false
    },
    {
     "departamento": "QUINDÍO",
     "municipio": "LA TEBAIDA",
-    "familias": 1385.0,
-    "personas": 2752.0,
+    "familias": 1406.0,
+    "personas": 2773.0,
     "viv_destruidas": 20.0,
-    "viv_averiadas": 611.0,
-    "nohabitables": 90.0,
-    "habitables": 317.0,
+    "viv_averiadas": 613.0,
+    "nohabitables": 95.0,
+    "habitables": 323.0,
     "poblacion_2026": 33758,
-    "tasa_pct": 8.1521,
-    "delta_familias": 0.0,
+    "tasa_pct": 8.2143,
+    "delta_familias": 21.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "CALDAS",
+    "municipio": "ANSERMA",
+    "familias": 1391.0,
+    "personas": 3834.0,
+    "viv_destruidas": 78.0,
+    "viv_averiadas": 485.0,
+    "nohabitables": 157.0,
+    "habitables": 310.0,
+    "poblacion_2026": 37352,
+    "tasa_pct": 10.2645,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
@@ -1944,15 +1962,15 @@
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "EL ÁGUILA",
-    "familias": 1325.0,
-    "personas": 2780.0,
+    "familias": 1355.0,
+    "personas": 2848.0,
     "viv_destruidas": 83.0,
     "viv_averiadas": 434.0,
     "nohabitables": 205.0,
     "habitables": 28.0,
     "poblacion_2026": 9164,
-    "tasa_pct": 30.3361,
-    "delta_familias": 0.0,
+    "tasa_pct": 31.0781,
+    "delta_familias": 30.0,
     "nuevo": false
    },
    {
@@ -2084,15 +2102,15 @@
    {
     "departamento": "RISARALDA",
     "municipio": "PUEBLO RICO",
-    "familias": 1076.0,
-    "personas": 3478.0,
+    "familias": 1080.0,
+    "personas": 3490.0,
     "viv_destruidas": 47.0,
     "viv_averiadas": 382.0,
     "nohabitables": 133.0,
     "habitables": 313.0,
     "poblacion_2026": 18544,
-    "tasa_pct": 18.7554,
-    "delta_familias": 0.0,
+    "tasa_pct": 18.8201,
+    "delta_familias": 4.0,
     "nuevo": false
    },
    {
@@ -2138,6 +2156,20 @@
     "nuevo": false
    },
    {
+    "departamento": "RISARALDA",
+    "municipio": "APÍA",
+    "familias": 983.0,
+    "personas": 2335.0,
+    "viv_destruidas": 36.0,
+    "viv_averiadas": 419.0,
+    "nohabitables": 165.0,
+    "habitables": 145.0,
+    "poblacion_2026": 12698,
+    "tasa_pct": 18.3887,
+    "delta_familias": 136.0,
+    "nuevo": false
+   },
+   {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "PALMIRA",
     "familias": 956.0,
@@ -2166,6 +2198,20 @@
     "nuevo": false
    },
    {
+    "departamento": "QUINDÍO",
+    "municipio": "SALENTO",
+    "familias": 943.0,
+    "personas": 1945.0,
+    "viv_destruidas": 15.0,
+    "viv_averiadas": 149.0,
+    "nohabitables": 50.0,
+    "habitables": 251.0,
+    "poblacion_2026": 10372,
+    "tasa_pct": 18.7524,
+    "delta_familias": 17.0,
+    "nuevo": false
+   },
+   {
     "departamento": "CHOCÓ",
     "municipio": "SAN JOSÉ DEL PALMAR",
     "familias": 926.0,
@@ -2176,20 +2222,6 @@
     "habitables": 352.0,
     "poblacion_2026": 5136,
     "tasa_pct": 40.2064,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "QUINDÍO",
-    "municipio": "SALENTO",
-    "familias": 926.0,
-    "personas": 1918.0,
-    "viv_destruidas": 15.0,
-    "viv_averiadas": 149.0,
-    "nohabitables": 49.0,
-    "habitables": 249.0,
-    "poblacion_2026": 10372,
-    "tasa_pct": 18.4921,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -2278,20 +2310,6 @@
     "nuevo": false
    },
    {
-    "departamento": "RISARALDA",
-    "municipio": "APÍA",
-    "familias": 847.0,
-    "personas": 2101.0,
-    "viv_destruidas": 36.0,
-    "viv_averiadas": 418.0,
-    "nohabitables": 165.0,
-    "habitables": 142.0,
-    "poblacion_2026": 12698,
-    "tasa_pct": 16.5459,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
     "departamento": "CALDAS",
     "municipio": "VITERBO",
     "familias": 839.0,
@@ -2303,6 +2321,20 @@
     "poblacion_2026": 12613,
     "tasa_pct": 16.9746,
     "delta_familias": 0.0,
+    "nuevo": false
+   },
+   {
+    "departamento": "QUINDÍO",
+    "municipio": "PIJAO",
+    "familias": 817.0,
+    "personas": 2000.0,
+    "viv_destruidas": 6.0,
+    "viv_averiadas": 433.0,
+    "nohabitables": 60.0,
+    "habitables": 105.0,
+    "poblacion_2026": 5347,
+    "tasa_pct": 37.4042,
+    "delta_familias": 22.0,
     "nuevo": false
    },
    {
@@ -2334,31 +2366,17 @@
     "nuevo": false
    },
    {
-    "departamento": "QUINDÍO",
-    "municipio": "PIJAO",
-    "familias": 795.0,
-    "personas": 1954.0,
-    "viv_destruidas": 6.0,
-    "viv_averiadas": 432.0,
-    "nohabitables": 60.0,
-    "habitables": 85.0,
-    "poblacion_2026": 5347,
-    "tasa_pct": 36.5439,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
     "departamento": "RISARALDA",
     "municipio": "BALBOA",
-    "familias": 770.0,
-    "personas": 2176.0,
+    "familias": 773.0,
+    "personas": 2179.0,
     "viv_destruidas": 47.0,
-    "viv_averiadas": 559.0,
-    "nohabitables": 115.0,
-    "habitables": 19.0,
+    "viv_averiadas": 560.0,
+    "nohabitables": 116.0,
+    "habitables": 20.0,
     "poblacion_2026": 6601,
-    "tasa_pct": 32.9647,
-    "delta_familias": 0.0,
+    "tasa_pct": 33.0101,
+    "delta_familias": 3.0,
     "nuevo": false
    },
    {
@@ -2516,6 +2534,20 @@
     "nuevo": false
    },
    {
+    "departamento": "RISARALDA",
+    "municipio": "LA CELIA",
+    "familias": 586.0,
+    "personas": 1457.0,
+    "viv_destruidas": 19.0,
+    "viv_averiadas": 274.0,
+    "nohabitables": 59.0,
+    "habitables": 114.0,
+    "poblacion_2026": 7700,
+    "tasa_pct": 18.9221,
+    "delta_familias": 46.0,
+    "nuevo": false
+   },
+   {
     "departamento": "CALDAS",
     "municipio": "SALAMINA",
     "familias": 580.0,
@@ -2572,31 +2604,17 @@
     "nuevo": false
    },
    {
-    "departamento": "RISARALDA",
-    "municipio": "LA CELIA",
-    "familias": 540.0,
-    "personas": 1374.0,
-    "viv_destruidas": 19.0,
-    "viv_averiadas": 273.0,
-    "nohabitables": 57.0,
-    "habitables": 113.0,
-    "poblacion_2026": 7700,
-    "tasa_pct": 17.8442,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
     "departamento": "QUINDÍO",
     "municipio": "BUENAVISTA",
-    "familias": 531.0,
-    "personas": 605.0,
+    "familias": 532.0,
+    "personas": 606.0,
     "viv_destruidas": 4.0,
     "viv_averiadas": 76.0,
     "nohabitables": 129.0,
     "habitables": 51.0,
     "poblacion_2026": 3165,
-    "tasa_pct": 19.1153,
-    "delta_familias": 0.0,
+    "tasa_pct": 19.1469,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
@@ -2684,6 +2702,20 @@
     "nuevo": false
    },
    {
+    "departamento": "VALLE DEL CAUCA",
+    "municipio": "FLORIDA",
+    "familias": 452.0,
+    "personas": 986.0,
+    "viv_destruidas": 2.0,
+    "viv_averiadas": 166.0,
+    "nohabitables": 19.0,
+    "habitables": 36.0,
+    "poblacion_2026": 57017,
+    "tasa_pct": 1.7293,
+    "delta_familias": 25.0,
+    "nuevo": false
+   },
+   {
     "departamento": "CAUCA",
     "municipio": "SILVIA",
     "familias": 444.0,
@@ -2700,15 +2732,15 @@
    {
     "departamento": "CAUCA",
     "municipio": "CAJIBÍO",
-    "familias": 434.0,
-    "personas": 995.0,
+    "familias": 435.0,
+    "personas": 996.0,
     "viv_destruidas": 40.0,
     "viv_averiadas": 294.0,
-    "nohabitables": 95.0,
+    "nohabitables": 96.0,
     "habitables": 3.0,
     "poblacion_2026": 46986,
-    "tasa_pct": 2.1177,
-    "delta_familias": 0.0,
+    "tasa_pct": 2.1198,
+    "delta_familias": 1.0,
     "nuevo": false
    },
    {
@@ -2736,20 +2768,6 @@
     "habitables": 57.0,
     "poblacion_2026": 14054,
     "tasa_pct": 5.7635,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "VALLE DEL CAUCA",
-    "municipio": "FLORIDA",
-    "familias": 427.0,
-    "personas": 952.0,
-    "viv_destruidas": 2.0,
-    "viv_averiadas": 166.0,
-    "nohabitables": 19.0,
-    "habitables": 36.0,
-    "poblacion_2026": 57017,
-    "tasa_pct": 1.6697,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -4056,6 +4074,20 @@
     "nuevo": false
    },
    {
+    "departamento": "CAUCA",
+    "municipio": "ARGELIA",
+    "familias": 69.0,
+    "personas": 176.0,
+    "viv_destruidas": 3.0,
+    "viv_averiadas": 35.0,
+    "nohabitables": 13.0,
+    "habitables": 13.0,
+    "poblacion_2026": 27853,
+    "tasa_pct": 0.6319,
+    "delta_familias": 4.0,
+    "nuevo": false
+   },
+   {
     "departamento": "HUILA",
     "municipio": "LA ARGENTINA",
     "familias": 67.0,
@@ -4080,20 +4112,6 @@
     "habitables": 7.0,
     "poblacion_2026": 10943,
     "tasa_pct": 1.5078,
-    "delta_familias": 0.0,
-    "nuevo": false
-   },
-   {
-    "departamento": "CAUCA",
-    "municipio": "ARGELIA",
-    "familias": 65.0,
-    "personas": 168.0,
-    "viv_destruidas": 3.0,
-    "viv_averiadas": 35.0,
-    "nohabitables": 13.0,
-    "habitables": 13.0,
-    "poblacion_2026": 27853,
-    "tasa_pct": 0.6032,
     "delta_familias": 0.0,
     "nuevo": false
    },
@@ -7088,7 +7106,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-09-09"
+  "generado": "2026-09-10"
  },
  "citizen": {
   "chatmap_total": 864,

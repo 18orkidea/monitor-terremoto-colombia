@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Thu, 10 Sep 2026 09:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Alexa para Shopping verifica mensajes</title>
+		<link>https://occidente.co/secciones/tecnologia/alexa-para-shopping-verifica-mensajes/</link>
+					<comments>https://occidente.co/secciones/tecnologia/alexa-para-shopping-verifica-mensajes/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 09:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438353</guid>
+
+					<description><![CDATA[<p>Verificar mensajes con Alexa para Shopping cambia la forma de identificar fraudes Si recibió un correo, texto o llamada que dice ser de Amazon, ahora puede pedirle a Alexa para Shopping que confirme si esa comunicación es auténtica en cuestión de segundos. Alexa para Shopping integra una herramienta de verificación que compara el contenido y...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/alexa-para-shopping-verifica-mensajes/">Alexa para Shopping verifica mensajes</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Verificar mensajes con Alexa para Shopping cambia la forma de identificar fraudes</h2>
+</p>
+<p>Si recibió un correo, texto o llamada que dice ser de Amazon, ahora puede pedirle a Alexa para Shopping que confirme si esa comunicación es auténtica en cuestión de segundos. Alexa para Shopping integra una herramienta de verificación que compara el contenido y el remitente con el historial de mensajes legítimos de Amazon.</p>
+</p>
+<h2>Alexa para Shopping: qué ocurrió y por qué importa</h2>
+</p>
+<p>Amazon anunció en Estados Unidos la integración de una función en Alexa para Shopping que verifica si un mensaje, correo, llamada o SMS provino de sus sistemas. El anuncio fue hecho por Amazon y forma parte de las medidas de la compañía para combatir estafas que suplantan su identidad. La herramienta usa IA para comparar quién envió el mensaje, qué contiene, cuándo se envió y su formato, y devuelve resultados claros: confirmado, no confirmado o no verificable.</p>
+</p>
+<h2>Qué cambia para los usuarios</h2>
+</p>
+<h3>Respuesta rápida sobre autenticidad</h3>
+</p>
+<p>Al describir dónde y cuándo llegó la comunicación y qué decía, el usuario obtiene en segundos si el mensaje es oficial de Amazon o no, lo que permite actuar de inmediato ante posibles fraudes.</p>
+</p>
+<h3>Orientación práctica tras la verificación</h3>
+</p>
+<p>Además de la respuesta, Alexa para Shopping ofrece consejos concretos —por ejemplo evitar dar contraseñas o códigos únicos— y pasos a seguir como revisar pedidos o contactar soporte si la comunicación no es legítima.</p>
+</p>
+<h3>Reporte automático para protección colectiva</h3>
+</p>
+<p>Cada verificación se reporta al equipo de protección de clientes de Amazon, lo que ayuda a identificar tácticas nuevas de estafa y a bloquear a los delincuentes, ampliando la protección para otros usuarios.</p>
+</p>
+<h2>Qué aspectos siguen pendientes</h2>
+</p>
+<p>La función se lanzó primero en Estados Unidos y su disponibilidad en otros países dependerá de futuras implementaciones. Además, la herramienta no confirma mensajes cuando no puede hallar coincidencias exactas y en esos casos recomienda reenviar la comunicación a otros canales de verificación de Amazon. No hay información sobre plazos de expansión internacional ni sobre limitaciones técnicas específicas más allá de los casos no verificables.</p>
+</p>
+<h2>Contexto y uso cotidiano</h2>
+</p>
+<p>La verificación con Alexa se suma a opciones existentes, como enviar el correo sospechoso a verify@amazon.com o usar el formulario de verificación en la atención al cliente. En la práctica, esto significa que alguien que recibe un SMS sobre un problema con una entrega puede pedir a Alexa confirmar su origen antes de hacer clic en enlaces o responder.</p>
+</p>
+<p>La iniciativa es parte de una línea más amplia de medidas de Amazon para reducir fraudes: bloqueos preventivos de llamadas sospechosas y educación a los usuarios sobre buenas prácticas, como no pagar con tarjetas de regalo ni facilitar contraseñas por teléfono.</p>
+</p>
+<p>En los próximos meses se espera que la función llegue a más regiones, pero por ahora la verificación mediante Alexa está disponible solo en Estados Unidos.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Acceden a una comprobación rápida y fiable que reduce el riesgo de caer en estafas.</p>
+</p>
+<p><strong>Negocio:</strong> Mejora la confianza del cliente y facilita la detección de actores fraudulentos que afectan la reputación.</p>
+</p>
+<p><strong>Industria:</strong> Refuerza la tendencia de usar IA para prevenir fraudes y protege canales de venta y atención.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/alexa-para-shopping-verifica-mensajes/">Alexa para Shopping verifica mensajes</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/alexa-para-shopping-verifica-mensajes/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Subsidios para damnificados del terremoto en Cali: 11.100 personas recibirán $1.050.000 en el primer pago</title>
+		<link>https://occidente.co/cali/subsidios-economicos-a-damnificados-del-terremoto-inician-giros/</link>
+					<comments>https://occidente.co/cali/subsidios-economicos-a-damnificados-del-terremoto-inician-giros/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 02:22:13 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438716</guid>
+
+					<description><![CDATA[<p>La Alcaldía de Cali se prepara para iniciar la entrega del primer corte de subsidios económicos a damnificados del terremoto ocurrido el 10 de agosto de 2026. Cerca de 11.100 personas recibirán $1.050.000, luego del proceso de registro y evaluación adelantado por las autoridades para identificar a las familias afectadas y establecer las condiciones de...</p>
+<p>The post <a href="https://occidente.co/cali/subsidios-economicos-a-damnificados-del-terremoto-inician-giros/">Subsidios para damnificados del terremoto en Cali: 11.100 personas recibirán $1.050.000 en el primer pago</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La Alcaldía de Cali se prepara para iniciar la entrega del primer corte de subsidios económicos a damnificados del terremoto ocurrido el 10 de agosto de 2026.</p>
+<p>Cerca de 11.100 personas recibirán $1.050.000, luego del proceso de registro y evaluación adelantado por las autoridades para identificar a las familias afectadas y establecer las condiciones de sus viviendas o locales comerciales.</p>
+<p>Después del terremoto, registrado a las 7:34 de la mañana, los equipos operativos y de gestión del riesgo iniciaron labores de búsqueda, rescate y evaluación de daños.</p>
+<p>Al mismo tiempo, las entidades avanzaron con el levantamiento y la digitalización del censo del Registro Único de Familias en Emergencia, RUFE, como parte de la respuesta institucional desplegada en Cali.</p>
+<p><strong>El secretario de Gestión del Riesgo de Emergencias y Desastres, Ricardo Peñuela, informó</strong> que el proceso permitió consolidar cerca de 50.000 registros en el RUFE.</p>
+<p>Además, las autoridades contabilizaron 45.000 familias censadas mediante el Registro Único de Damnificados, RUD, información utilizada para avanzar en la identificación de las personas afectadas.</p>
+<h2>Primeros beneficiarios</h2>
+<p>Este primer corte de subsidios económicos a damnificados del terremoto llegará aproximadamente a 11.100 personas.</p>
+<p>Cada beneficiario recibirá un apoyo de $1.050.000, según la información entregada por la Administración Distrital este 9 de septiembre.</p>
+<p>Sin embargo, este desembolso corresponde exclusivamente a las personas cuyas viviendas o locales comerciales quedaron clasificados como no habitables o destruidos.</p>
+<p>La Alcaldía de Cali estableció esta condición para determinar quiénes integrarán el primer grupo que recibirá los recursos destinados a la atención de la emergencia.</p>
+<p>Los desembolsos comenzarán durante los próximos días mediante dos mecanismos.</p>
+<p>Los beneficiarios podrán recibir el dinero a través de la red de pagos de SuperGIROS o mediante consignaciones directas en las cuentas bancarias que reportaron previamente por los canales oficiales de WhatsApp.</p>
+<p>Los recursos destinados a los subsidios económicos a damnificados del terremoto provienen del Fondo de Inversión Colectiva, gestionado conjuntamente con la Unidad Nacional para la Gestión del Riesgo de Desastres, UNGRD.</p>
+<p>Antes de realizar los pagos, las entidades desarrollan comités, protocolos y procesos de depuración de las bases registradas en el RUFE.</p>
+<h3>Habrá más cortes</h3>
+<p>Peñuela explicó que estas revisiones buscan garantizar transparencia y evitar anomalías durante la entrega de los recursos.</p>
+<p>Por esta razón, las autoridades continúan verificando la información recopilada después del terremoto antes de habilitar las siguientes dispersiones económicas.</p>
+<p>La Alcaldía de Cali también aclaró que este anuncio corresponde únicamente al primer corte.</p>
+<p>En consecuencia, las entidades continúan consolidando y depurando las bases de datos para organizar los siguientes grupos de beneficiarios que recibirán los recursos destinados a atender las afectaciones ocasionadas por el sismo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/subsidios-economicos-a-damnificados-del-terremoto-inician-giros/">Subsidios para damnificados del terremoto en Cali: 11.100 personas recibirán $1.050.000 en el primer pago</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/subsidios-economicos-a-damnificados-del-terremoto-inician-giros/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“La IA podría matarnos a todos para finales de la década”: alerta de investigador</title>
+		<link>https://occidente.co/secciones/tecnologia/renuncia-a-anthropic-por-riesgos-de-la-ia-investigadora-advierte-peligro/</link>
+					<comments>https://occidente.co/secciones/tecnologia/renuncia-a-anthropic-por-riesgos-de-la-ia-investigadora-advierte-peligro/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 02:06:40 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438712</guid>
+
+					<description><![CDATA[<p>Jacob Coxon, investigador especializado en seguridad de inteligencia artificial, anunció su renuncia a Anthropic y lanzó una fuerte advertencia sobre el rumbo que están tomando las compañías que desarrollan esta tecnología. Según afirmó, los principales laboratorios avanzan hacia una superinteligencia capaz de superar ampliamente las capacidades humanas y adquirir poder y recursos reales. Coxon aseguró...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/renuncia-a-anthropic-por-riesgos-de-la-ia-investigadora-advierte-peligro/">“La IA podría matarnos a todos para finales de la década”: alerta de investigador</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Jacob Coxon, investigador especializado en seguridad de inteligencia artificial, anunció su renuncia a Anthropic y lanzó una fuerte advertencia sobre el rumbo que están tomando las compañías que desarrollan esta tecnología</strong>.</p>
+<p><strong>Según afirmó</strong>, los principales laboratorios avanzan hacia una superinteligencia capaz de superar ampliamente las capacidades humanas y adquirir poder y recursos reales.</p>
+<p>Coxon aseguró que durante los últimos tres años realizó investigación de preentrenamiento tanto en OpenAI como en Anthropic y cuestionó el comportamiento de ambas compañías.</p>
+<p>“<em>Ninguna de las dos compañías está actuando de manera responsable. Están corriendo directamente hacia una superinteligencia auto-mejorante y apostando con nuestras vidas</em>”, <strong>escribió en un hilo publicado en X</strong>.</p>
+<p>El investigador sostuvo que no debe subestimarse la velocidad con la que avanzan estos sistemas y planteó un escenario en el que podrían alcanzar capacidades sobrehumanas en diferentes áreas.</p>
+<p>“<em>Pronto serán sistemas sobrehumanos capaces de hackear cualquier cosa, revolucionar cualquier campo de la noche a la mañana y adquirir poder y recursos reales</em>”, <strong>afirmó</strong>.</p>
+<h2>“Esto no es un truco de marketing”</h2>
+<p>Una de las afirmaciones más fuertes de Coxon está relacionada con la percepción que, según él, existe dentro de las propias compañías sobre los riesgos de la inteligencia artificial.</p>
+<p>“<em>Las personas que están construyendo IA creen sinceramente que podría matarnos a todos para finales de la década. Esto no es un truco de marketing</em>”, <strong>escribió</strong>.</p>
+<p>Según su relato, algunos ejecutivos e investigadores senior moderan públicamente la forma en que hablan sobre estos riesgos, pero expresan preocupaciones mayores en conversaciones privadas.</p>
+<p>“<em>Si acaso, muchos ejecutivos e investigadores senior moderarán su lenguaje en la prensa para sonar sensatos, pero oigo a las mismas personas expresar miedo en privado. Ninguna otra actividad humana representa este nivel de peligro</em>”, <strong>aseguró</strong>.</p>
+<p><strong>Coxon también abordó una pregunta que, según dijo, surge frente a estas advertencias:</strong> si quienes desarrollan inteligencia artificial consideran que existe semejante riesgo, ¿por qué continúan trabajando para aumentar sus capacidades?</p>
+<h3>Una carrera por desarrollar primero la superinteligencia</h3>
+<p>El investigador diferenció lo que, según su experiencia, ocurre dentro de OpenAI y Anthropic.</p>
+<p>“<em>En OpenAI, muchos no han interiorizado profundamente las apuestas civilizatorias. En Anthropic, las apuestas están bien comprendidas, pero están atrapados en una carrera por llegar primero: creen que nadie más actuará de manera responsable, por lo que deben hacerlo ellos mismos, a pesar del riesgo</em>”, <strong>afirmó</strong>.</p>
+<p>Coxon cuestionó que decisiones de esta magnitud puedan quedar exclusivamente en manos de compañías privadas y calificó como una apuesta aceptar la carrera hacia lo que denominó el “<em>endgame</em>”.</p>
+<p>El investigador, sin embargo, afirmó que mantiene optimismo frente a la posibilidad de lograr coordinación entre los actores involucrados.</p>
+<p>Señaló que episodios como el ataque a Hugging Face hicieron más viables los acuerdos sobre el ritmo de desarrollo entre laboratorios estadounidenses.</p>
+<p>También planteó que evitar una carrera global podría requerir medidas de alto costo, entre ellas una prohibición temporal de seguir aumentando las capacidades de los modelos.</p>
+<p>Finalmente, Coxon dirigió un mensaje a otros investigadores que trabajan en laboratorios de inteligencia artificial y los invitó a cuestionar la idea de continuar desarrollando estos sistemas simplemente porque otros también lo harán.</p>
+<p>“<em>¿Quieres iniciar una ejecución de RL superinteligente sin una comprensión rigurosa de su mente? ¿Deberías agachar la cabeza porque ‘de todos modos está sucediendo’ —o aprovechar este momento para pedir condiciones diferentes?</em>”, <strong>concluyó</strong>.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/renuncia-a-anthropic-por-riesgos-de-la-ia-investigadora-advierte-peligro/">“La IA podría matarnos a todos para finales de la década”: alerta de investigador</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/renuncia-a-anthropic-por-riesgos-de-la-ia-investigadora-advierte-peligro/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cambio de rumbo</title>
+		<link>https://occidente.co/opinion/columnistas/cambio-de-rumbo/</link>
+					<comments>https://occidente.co/opinion/columnistas/cambio-de-rumbo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 01:53:37 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Harold García]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438710</guid>
+
+					<description><![CDATA[<p>Los poetas y los cantores han comparado a Cali con una hermosa mujer, por su cadencia, su dulzura y ese no se que embriagador y alucinante. Tienen toda la razón, adentrarse en sus calles, bulevares, sitios culturales, en una noche calurosa y refrescarse con el viento que baja de la cordillera es algo sinigual. Pero...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cambio-de-rumbo/">Cambio de rumbo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Los poetas y los cantores han comparado a Cali con una hermosa mujer, por su cadencia, su dulzura y ese no se que embriagador y alucinante.</p>
+<p>Tienen toda la razón, adentrarse en sus calles, bulevares, sitios culturales, en una noche calurosa y refrescarse con el viento que baja de la cordillera es algo sinigual.</p>
+<p>Pero muy en voz baja, Cali en los últimos años parece signada por la fatalidad de algunas espléndidas mujeres de la literatura, que llevan aparejado a su talle un destino inexplicablemente difícil.</p>
+<p>Efectivamente, llevamos varios remezones que nos han tomado por sorpresa y casi no nos dejan respirar.</p>
+<p>La pandemia, nos encerró entre cuatro paredes y cuando vimos de nuevo el sol, fueron muchas las secuelas emocionales, familiares, económicas y sociales.</p>
+<p>Aprendimos a cuidar nuestra salud, a convivir con la virtualidad y sobre todo a entendernos en familia o deshacer lo que ya no podía ser.</p>
+<p>Luego el estallido social, que convirtió a Cali en epicentro de controversias nacionales que debieron evitarse con meros ejercicios de consenso y racionalidad.</p>
+<p>Aun cuando la responsabilidad política de esta debacle aún no se ha decantado, nos quedó un lema, un paradigma inquebrantable, “<em>nunca más debe volver a suceder</em>”.</p>
+<p>Ahora, el terremoto, nos enfrentó con la finitud del ser humano.</p>
+<p>Ricos y pobres, jóvenes y viejos, blancos, afros, indígenas, hombres y mujeres, en escasos segundos podemos ser atrapados por el final de la vida.</p>
+<p>Aprendimos tantas cosas, entre ellas que no hay tiempo para seguir peleando entre nosotros, que ayudar al otro es ayudarse a uno mismo, que nada es perpetuo, todo es transitorio, que debemos hacer las cosas al derecho y no al revés.</p>
+<p>Se que esta ardua tarea los caleños ya la comenzamos. Que finura de sus gentes. Pero debemos seguir porque el camino es largo.</p>
+<p>Hay que retomar definitivamente los valores fundacionales en forma permanente, la solidaridad no debe ser una contingencia, el civismo es un hábito que nos caracterizo largo tiempo y debe volver, la cooperación con el vecino, ese “<em>guárdate una sopita para el vecino que está enfermo, ve</em>”, la convivencia en la familia, donde los problemas se dialogan, no se gritan, los bazares del barrio para mejorar la canchita.</p>
+<p>Tantas cosas que se nos estaban olvidado.</p>
+<p>Tenemos que borrar los antivalores, el fanatismo, la polarización que hasta dejo familias partidas en dos y solo se reconciliaron en un abrazo post terremoto, la corrupción que nos hace desconfiar de nuestros dirigentes, la cultura del dinero fácil que culmina en la muerte temprana de nuestros jóvenes, la violencia, la desigualdad y tantas cosas que cuando nos enfrentamos a un terremoto se nos convierten en un terrible cargo de conciencia.</p>
+<p>Todos tenemos algo que aportar. Hay que seguir dando. Quizás además de esas ayudas que se compran, aquello que nos demanda tiempo, cercanía con el otro, llorar con la tragedia de alguien que no conocías.</p>
+<h3>Algunas pildoritas para iniciar el cambio de rumbo:</h3>
+<p>Cuántos profesionales, técnicos y tecnólogos estamos reunidos en asociaciones profesionales, cooperativas, grupos de amigos en redes sociales que organizadamente podemos donar atención profesional, consulta técnica, acompañamiento al menos una tarde a la semana.</p>
+<p>Entendamos, cambiar el rumbo de Cali es un proceso largo y es conveniente prestar servicio social voluntario.</p>
+<p>En las iglesias, previo a las prédicas u homilías, expertos en temas cruciales como la atención psicológica postraumática, el salvamento de empresas y personas naturales a nivel económico, primeros auxilios, atención de mascotas abandonadas o nerviosas, reconstrucción de viviendas, pueden regalarnos diez o quince minutos de valiosa información y luego al final de la misa o el culto, atender algunas personas.</p>
+<p>Sonreír al vecino que no te habla, ayudar al anciano que sube las escaleras en nuestra unidad, preguntarse si el vecino esta pasando trabajos y ofrecerle ayuda, regalar esa linterna que nos sobra al vigilante de la cuadra.</p>
+<p>En fin, hay tanto por hacer cuando se trata de un cambio de rumbo.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cambio-de-rumbo/">Cambio de rumbo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/cambio-de-rumbo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Terremoto golpeó a más de 16.000 empresas del Valle</title>
+		<link>https://occidente.co/empresario/recuperacion-empresarial-del-valle-el-70-por-ciento-de-negocios-opera-con-fallas/</link>
+					<comments>https://occidente.co/empresario/recuperacion-empresarial-del-valle-el-70-por-ciento-de-negocios-opera-con-fallas/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 00:45:53 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438707</guid>
+
+					<description><![CDATA[<p>El terremoto del 10 de agosto no solamente dejó edificaciones averiadas, establecimientos cerrados e inventarios perdidos en el Valle del Cauca. También puso bajo presión la supervivencia de miles de pequeños negocios y, con ellos, los ingresos de las familias que dependen de su actividad. El balance final de afectaciones empresariales identificó 16.132 registros de...</p>
+<p>The post <a href="https://occidente.co/empresario/recuperacion-empresarial-del-valle-el-70-por-ciento-de-negocios-opera-con-fallas/">Terremoto golpeó a más de 16.000 empresas del Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El terremoto del 10 de agosto no solamente dejó edificaciones averiadas, establecimientos cerrados e inventarios perdidos en el Valle del Cauca.</p>
+<p>También puso bajo presión la supervivencia de miles de pequeños negocios y, con ellos, los ingresos de las familias que dependen de su actividad.</p>
+<p>El balance final de afectaciones empresariales identificó 16.132 registros de empresas y establecimientos comerciales en el Valle del Cauca, equivalentes al 36 % de los cerca de 45.000 recopilados en el país mediante el ejercicio coordinado desde la Cámara de Comercio de Cali.</p>
+<p><strong>La dimensión del problema aparece con mayor claridad al analizar su gravedad:</strong> el 94% de las empresas del Valle que respondieron la encuesta reportó afectaciones por el terremoto y, entre las afectadas, el 63 % señaló daños graves o críticos.</p>
+<p>Pero quizás uno de los datos más preocupantes está en la capacidad de continuar trabajando.</p>
+<p>El 28% no puede operar actualmente y, al sumar aquellas que funcionan parcialmente, la proporción con restricciones llega al 70%.</p>
+<h2>El empleo también quedó bajo presión</h2>
+<p>El impacto empresarial rápidamente se traslada a las familias.</p>
+<p>El 72% de las empresas reportó tener entre uno y 20 puestos de trabajo en riesgo, una señal de que las consecuencias económicas del terremoto pueden extenderse mucho más allá de los daños físicos.</p>
+<p><strong>La vulnerabilidad aumenta por el tamaño de los negocios afectados:</strong> el 98% corresponde a micro y pequeñas empresas, unidades productivas que generalmente cuentan con menor capacidad para absorber pérdidas, financiar reparaciones o permanecer durante largos períodos con ingresos reducidos.</p>
+<p>Cali concentra el mayor número de casos, con el 46% del total departamental, seguida por Buenaventura con 9%, Roldanillo con 5%, Cartago con 4% y Sevilla con 4%.</p>
+<h3>Comercio, turismo e industria, los más golpeados</h3>
+<p><strong>Tres actividades reúnen el 68% de las empresas afectadas:</strong> comercio representa el 40 %; alojamiento, gastronomía y turismo, el 16%, e industrias manufactureras, el 12%.</p>
+<p>También existen daños concretos sobre la capacidad de producir y vender.</p>
+<p>El 59% reportó afectaciones en infraestructura, maquinaria o equipos; el 43% reducción de clientes, pedidos o ventas y el 34% pérdidas de inventarios o mercancías.</p>
+<p>Además, el 79% estimó pérdidas económicas de hasta $20 millones.</p>
+<p>Para una gran empresa esa cifra podría resultar manejable, pero para un pequeño negocio puede significar quedarse sin inventario, perder el capital de trabajo o no tener recursos para reparar el establecimiento.</p>
+<h3>No quieren más deuda</h3>
+<p>El diagnóstico también permitió preguntar directamente a los empresarios qué necesitan para levantarse.</p>
+<p>El 43% requiere capital de trabajo, inventarios o insumos, otro 43% necesita reparar instalaciones, maquinaria o equipos y el 23% considera prioritario recuperar clientes y ventas.</p>
+<p>Pero uno de los hallazgos más reveladores aparece cuando se pregunta por el tipo de apoyo financiero.</p>
+<p>El 61% prefiere capital semilla o recursos no reembolsables, el 31% solicita alivio sobre obligaciones actuales y apenas el 15% señala nuevo crédito o financiación.</p>
+<p>La señal es clara: para buena parte de los afectados, recuperarse no pasa simplemente por conseguir un préstamo y sumar una nueva obligación a sus cuentas.</p>
+<p>El reto de la recuperación empresarial del Valle será, por tanto, evitar que un daño inicialmente provocado por el terremoto termine convirtiéndose en cierres definitivos y pérdida de puestos de trabajo.</p>
+<p>Los datos ya permiten saber dónde está el problema; el siguiente desafío será lograr que los recursos lleguen a tiempo a los negocios que todavía están intentando mantenerse en pie.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/recuperacion-empresarial-del-valle-el-70-por-ciento-de-negocios-opera-con-fallas/">Terremoto golpeó a más de 16.000 empresas del Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/recuperacion-empresarial-del-valle-el-70-por-ciento-de-negocios-opera-con-fallas/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Tiene una investigación inédita sobre danza? Dos trabajos recibirán $10 millones y serán publicados</title>
+		<link>https://occidente.co/secciones/tendencias/bienal-internacional-de-danza-de-cali-2027-becas-de-investigacion/</link>
+					<comments>https://occidente.co/secciones/tendencias/bienal-internacional-de-danza-de-cali-2027-becas-de-investigacion/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 00:35:21 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438704</guid>
+
+					<description><![CDATA[<p>La Bienal Internacional de Danza de Cali 2027 abrió una convocatoria para reconocer investigaciones que aporten a la memoria y al conocimiento de la danza colombiana. Hay dos estímulos de $10 millones y las postulaciones estarán abiertas hasta el 25 de septiembre. Una investigación que durante años haya permanecido guardada en un computador, una biblioteca...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/bienal-internacional-de-danza-de-cali-2027-becas-de-investigacion/">¿Tiene una investigación inédita sobre danza? Dos trabajos recibirán $10 millones y serán publicados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La Bienal Internacional de Danza de Cali 2027 abrió una convocatoria para reconocer investigaciones que aporten a la memoria y al conocimiento de la danza colombiana.</p>
+<p>Hay dos estímulos de $10 millones y las postulaciones estarán abiertas hasta el 25 de septiembre.</p>
+<p>Una investigación que durante años haya permanecido guardada en un computador, una biblioteca personal o un archivo puede terminar convertida en una publicación y llegar a nuevos lectores.</p>
+<p>Esa es una de las posibilidades que abre la convocatoria de Becas de Investigación de la 8.ª</p>
+<p>Bienal Internacional de Danza de Cali 2027, dirigida a quienes han estudiado la danza colombiana desde diferentes perspectivas.</p>
+<p>La Bienal Internacional de Danza de Cali y Proartes entregarán dos estímulos de $10 millones cada uno a investigaciones terminadas, inéditas y que tengan viabilidad editorial.</p>
+<p><strong> Los trabajos seleccionados no solamente recibirán el incentivo económico:</strong> también pasarán por procesos de corrección de estilo, diseño y diagramación para posteriormente ser publicados y presentados oficialmente durante la Bienal de 2027.</p>
+<p>La iniciativa busca que investigaciones que ya han sido desarrolladas puedan circular y contribuir a conservar la memoria, generar reflexión y ampliar el conocimiento alrededor de la danza en Colombia.</p>
+<h2>¿Sobre qué se puede investigar?</h2>
+<p>El abanico temático es amplio. Se aceptarán trabajos relacionados con la historia e historiografía de la danza en Colombia, pedagogía, vida y obra de personajes representativos de la danza colombiana, vestuarios, parafernalias y puestas en escena.</p>
+<p>También tienen cabida investigaciones sobre fenómenos dancísticos asociados con tradiciones populares, urbanas o rurales y otras propuestas capaces de contribuir a la construcción de memoria e identidad alrededor de la danza nacional.</p>
+<p>Existe, sin embargo, una condición fundamental para quienes estén pensando en participar: esta no es una convocatoria para financiar investigaciones que apenas comienzan.</p>
+<p>Los trabajos deben estar completamente terminados al momento de inscribirse y no pueden necesitar nuevas etapas sustanciales de investigación de campo o escritura.</p>
+<p>Además, deben presentar una estructura completa con título, resumen, palabras clave, índice, texto, referencias y anexos.</p>
+<p>La extensión exigida está entre 35.000 y 70.000 palabras.</p>
+<h3>¿Quiénes pueden aspirar a los $10 millones?</h3>
+<p>La convocatoria está abierta a personas naturales y grupos constituidos.</p>
+<p>Pueden participar escritores, artistas, gestores culturales e investigadores colombianos que tengan trayectoria en investigación.</p>
+<p>En el caso de los grupos, por lo menos uno de sus integrantes deberá acreditar la experiencia exigida.</p>
+<p>No podrán presentarse personas jurídicas ni quienes hayan ganado las Becas de Investigación de las dos versiones anteriores de la Bienal, correspondientes al periodo 2023-2025.</p>
+<p>Los jurados tendrán en cuenta aspectos como la claridad del problema planteado, coherencia de la argumentación, referentes utilizados, metodología y tratamiento de las fuentes.</p>
+<p>También evaluarán la contribución del trabajo al conocimiento de la danza colombiana, su estructura y escritura, las posibilidades reales de publicación y la propuesta para socializar los resultados.</p>
+<h4>Una investigación que puede convertirse en libro</h4>
+<p>Uno de los atractivos de la convocatoria está precisamente en lo que sucederá después de elegir a los ganadores.</p>
+<p>Además de recibir el estímulo y publicar sus trabajos, los investigadores seleccionados tendrán un espacio de socialización durante la 8.ª Bienal Internacional de Danza de Cali 2027, permitiendo que sus hallazgos entren en conversación con artistas, gestores, investigadores y públicos relacionados con la danza.</p>
+<p>La convocatoria abrió el 28 de agosto, cerrará el 25 de septiembre de 2026 y los resultados serán publicados el 23 de octubre.</p>
+<p>La iniciativa es desarrollada por Proartes y la Bienal Internacional de Danza de Cali, en alianza con el Ministerio de las Culturas, las Artes y los Saberes y el Centro de Danza y Coreografía del Valle del Cauca La Licorera.</p>
+<p><strong>Más que premiar un documento terminado, la convocatoria busca darle una nueva vida:</strong> sacar la investigación del archivo, convertirla en una publicación y hacer que las historias, conocimientos y memorias de la danza colombiana puedan llegar a nuevos públicos.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/bienal-internacional-de-danza-de-cali-2027-becas-de-investigacion/">¿Tiene una investigación inédita sobre danza? Dos trabajos recibirán $10 millones y serán publicados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/bienal-internacional-de-danza-de-cali-2027-becas-de-investigacion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Un mes después del terremoto, ¿Qué aprendimos?</title>
+		<link>https://occidente.co/opinion/columnistas/un-mes-despues-del-terremoto-que-aprendimos/</link>
+					<comments>https://occidente.co/opinion/columnistas/un-mes-despues-del-terremoto-que-aprendimos/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 00:26:18 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Edwin Maldonado]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438702</guid>
+
+					<description><![CDATA[<p>Un mes después del terremoto, todavía estamos tratando de asimilar lo que pasó. El 10 de agosto no solo se movieron la tierra, los edificios y las calles. También se movió nuestra tranquilidad: la seguridad con la que entrábamos a nuestra casa, abríamos nuestro negocio o enviábamos a nuestros hijos al colegio. Se movieron familias,...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/un-mes-despues-del-terremoto-que-aprendimos/">Un mes después del terremoto, ¿Qué aprendimos?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Un mes después del terremoto, todavía estamos tratando de asimilar lo que pasó.</p>
+<p>El 10 de agosto no solo se movieron la tierra, los edificios y las calles.</p>
+<p><strong>También se movió nuestra tranquilidad:</strong> la seguridad con la que entrábamos a nuestra casa, abríamos nuestro negocio o enviábamos a nuestros hijos al colegio.</p>
+<p>Se movieron familias, proyectos de vida y empleos que, en segundos, quedaron entre escombros.</p>
+<p>La tragedia afectó a 16 departamentos y 498 municipios, pero el Valle del Cauca fue el territorio más golpeado.</p>
+<p>De los 331 fallecidos en el país, cerca del 60% corresponden al Valle.</p>
+<p>De las 296.725 familias afectadas en Colombia, aproximadamente la mitad está en nuestro departamento, y de las cerca de 38.700 empresas que reportaron daños, casi cuatro de cada diez son vallecaucanas.</p>
+<p>De los $30 billones en pérdidas físicas directas estimadas, $19,5 billones corresponden al Valle: casi dos de cada tres pesos.</p>
+<p>Vistas en contexto regional, estas cifras dicen aún más.</p>
+<p>Para Colombia, esas pérdidas equivalen a cerca del 1,5 % del PIB; para el Valle, al 12% de todo lo que produce en un año.</p>
+<p>Las 314.798 personas afectadas significan que uno de cada 15 vallecaucanos sufrió alguna afectación, y las cerca de 15.000 empresas con daños representan el 10% de nuestro tejido empresarial.</p>
+<p>Pero hay daños que no caben en una cifra.</p>
+<p>Detrás de cada persona afectada hay una historia; detrás de cada vivienda, una familia; y detrás de cada negocio, trabajadores y hogares que dependen de él.</p>
+<p><strong>Tardaremos mucho tiempo en superar esta tragedia. Y nos queda una pregunta que, como región, no podemos evadir:</strong> ¿Qué aprendimos?</p>
+<p>La primera lección es que la solidaridad nos hace más fuertes.</p>
+<p>Ciudadanos, empresas, gremios y comunidades respondieron con donaciones, voluntarios y manos dispuestas.</p>
+<p><strong>Esa respuesta mostró mucho de lo que somos como sociedad y no debería desaparecer cuando termine la emergencia:</strong> todavía hay mucha gente que necesita ayuda y muchas formas de ayudar.</p>
+<p>La segunda es que cuando el Valle se une, el Valle puede mucho más.</p>
+<p>La solidaridad nos lleva a ayudar al que sufre; la unidad, a resolver los problemas de fondo.</p>
+<p><strong>Aquí sobran capacidades:</strong> empresarios, universidades, gremios, trabajadores y gobiernos. Lo que falta es voluntad para dejar a un lado los egos y los intereses particulares.</p>
+<p>Cuando el Valle habla con una sola voz, el país lo escucha; cuando habla dividido, pasa a un segundo plano.</p>
+<p>La tercera lección es que tenemos que aprender a construir y habitar mejor nuestro territorio.</p>
+<p><strong>Cali tiene limitaciones para crecer horizontalmente y tendrá que pensar en densificación, renovación urbana y altura, pero desde una planeación inteligente:</strong> estudios de suelo, normas sismorresistentes, servicios, movilidad y gestión del riesgo.</p>
+<p>No se trata de construir más, sino mejor y en los lugares correctos.</p>
+<p>La resiliencia no se improvisa el día del terremoto; se construye en los años anteriores.</p>
+<p>La cuarta lección es la importancia de tener buenos gobiernos que sepan liderar y articular.</p>
+<p>Una tragedia así exige planear, coordinar y ejecutar, priorizar recursos y hacer seguimiento, trabajando con la Nación, los municipios, el sector privado, la academia y las comunidades.</p>
+<p>La calidad de un gobierno no se mide solo por cómo responde cuando ocurre una tragedia, sino por qué tan rápido convierte los anuncios en hechos.</p>
+<p>Y aquí el tiempo apremia. El Decreto 1261 declaró la emergencia económica por treinta días, plazo que vence el 18 de septiembre.</p>
+<p><strong>La declaratoria no entrega por sí sola los recursos:</strong> cada medida de vivienda, arriendo, crédito, empleo o alivio tributario debe concretarse dentro de ese marco.</p>
+<p>Lo que no se reglamente a tiempo tendrá que avanzar por la vía ordinaria, que toma meses que muchas familias y negocios no tienen.</p>
+<p>La quinta lección es que también tenemos que reconstruir nuestra economía, y para eso necesitamos al sector privado.</p>
+<p>Una empresa que no puede abrir sus puertas no solo afecta al empresario, sino al trabajador, al proveedor y a la familia que depende de ese ingreso.</p>
+<p>La mayoría son micro y pequeñas empresas, y el 61% de quienes pidieron apoyo financiero priorizó capital semilla o recursos no reembolsables, frente a apenas un 15% que pidió crédito nuevo.</p>
+<p>Quien perdió su inventario no necesita una cuota más; necesita volver a producir.</p>
+<p>La reconstrucción económica debe evitar que una emergencia temporal termine convertida en desempleo, informalidad y pobreza.</p>
+<p>Así tendremos un tejido productivo vibrante que genere empleo, inversión y oportunidades, y que pueda participar en alianzas público-privadas, obras por impuestos y proyectos que transformen territorios históricamente rezagados.</p>
+<p>Por eso, la reconstrucción no puede verse aislada de la agenda de competitividad del Valle. Una gran ayuda del Gobierno Nacional sería destrabar los proyectos estratégicos que llevamos años esperando, que serían motores de inversión y empleo y acelerarían la recuperación.</p>
+<p>No podemos cambiar lo que ocurrió el 10 de agosto ni devolver las vidas que se perdieron. Pero sí podemos decidir qué hacemos con lo que esta tragedia nos enseñó. Podemos limitarnos a recuperar lo que teníamos, o construir un Valle mejor planificado, más resiliente, competitivo y unido.</p>
+<p><strong>Ese debería ser nuestro propósito:</strong> que de esta tragedia no solo salgamos reconstruidos, sino fortalecidos como región.</p>
+<p><em><strong><span style="color: #01bfa5;"><a style="color: #01bfa5;" href="https://www.instagram.com/edwinhmaldonado/" target="_blank" rel="noopener">@edwinhmaldonado</a></span></strong></em></p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/un-mes-despues-del-terremoto-que-aprendimos/">Un mes después del terremoto, ¿Qué aprendimos?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/un-mes-despues-del-terremoto-que-aprendimos/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Cómo te fue en internet hoy?</title>
+		<link>https://occidente.co/opinion/columnistas/como-te-fue-en-internet-hoy/</link>
+					<comments>https://occidente.co/opinion/columnistas/como-te-fue-en-internet-hoy/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 00:16:53 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Tania Fernández]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438699</guid>
+
+					<description><![CDATA[<p>Hay una pregunta que llevamos generaciones haciéndoles a nuestros hijos apenas cruzan la puerta: “¿Cómo te fue hoy?” La hacemos cuando llegan del colegio, de la universidad, de una fiesta o de un entrenamiento. Queremos saber qué hicieron, con quién estuvieron, si algo los hizo felices o si pasó algo que los preocupó. Es casi...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/como-te-fue-en-internet-hoy/">¿Cómo te fue en internet hoy?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Hay una pregunta que llevamos generaciones haciéndoles a nuestros hijos apenas cruzan la puerta:</strong> “<em>¿Cómo te fue hoy?</em>” La hacemos cuando llegan del colegio, de la universidad, de una fiesta o de un entrenamiento.</p>
+<p>Queremos saber qué hicieron, con quién estuvieron, si algo los hizo felices o si pasó algo que los preocupó. Es casi un reflejo.</p>
+<p>Pero el mundo de nuestros hijos ya no cabe completo en esa pregunta.</p>
+<p>Y creo que hoy necesitamos hacerles una segunda: ¿Cómo te fue en internet hoy? Sé que puede sonar raro decirlo así, pero cada vez tiene más sentido.</p>
+<p>Los niños y adolescentes de hoy no construyen sus relaciones solamente en el colegio, el barrio o la casa.</p>
+<p>Una parte importante de su vida también ocurre detrás de una pantalla. Allí conversan, juegan, aprenden, se entretienen y hacen amigos.</p>
+<p>Pero también allí se comparan constantemente con otros, pueden sufrir ciberacoso, recibir mensajes de desconocidos, encontrarse con contenidos que no deberían ver o simplemente pasar muchas más horas conectados de las que ellos mismos —<strong><em>o nosotros</em></strong>— alcanzamos a notar.</p>
+<p>Lo que pasó esta semana en Estados Unidos me parece una buena oportunidad para empezar esta conversación en casa.</p>
+<p>Meta, la empresa dueña de Facebook e Instagram, llegó a un acuerdo con una amplia coalición de fiscales generales de ese país para resolver demandas que la señalaban de diseñar funciones que podían fomentar el uso compulsivo entre menores y afectar su bienestar.</p>
+<p>Hay que decirlo con claridad: Meta niega haber actuado mal.</p>
+<p>Pero lo acordado también merece que lo miremos con atención.</p>
+<p>La compañía pagará hasta 18.000 millones de dólares en los próximos diez años y tendrá que implementar cambios para los menores de 18 años en Estados Unidos.</p>
+<p>Uno de los que más me llama la atención es un límite de dos horas diarias de uso acumulado entre Facebook e Instagram para los adolescentes, que solo podrá desactivarse con autorización de los padres.</p>
+<p>También habrá restricciones durante la madrugada, notificaciones silenciadas en horario escolar y controles de edad más estrictos, entre otras medidas.</p>
+<p>Con esto sobre la mesa, creo que ya no tiene mucho sentido seguir preguntándonos si las redes sociales son buenas o malas.</p>
+<p>Esa no es realmente la pregunta.</p>
+<p>La tecnología nos ha traído enormes oportunidades y ya hace parte de la vida de nuestros hijos, para bien y para mal.</p>
+<p>El problema aparece cuando los adultos pensamos que acompañarlos significa solamente saber dónde están físicamente.</p>
+<p>Un hijo puede estar sentado tranquilamente en su cuarto y, al mismo tiempo, estar pasando por algo muy difícil a través del teléfono que tiene en la mano.</p>
+<p>Podemos saber exactamente dónde está y no tener idea de qué le está pasando.</p>
+<p>Ese, para mí, es el verdadero llamado de atención.</p>
+<p>Durante años les enseñamos a nuestros hijos a no hablar con extraños en la calle.</p>
+<p>Hoy también tenemos que enseñarles a reconocer los riesgos de los extraños que aparecen detrás de una pantalla.</p>
+<p>Pero tampoco creo que la respuesta sea declararle la guerra a los celulares. Prohibir no reemplaza acompañar.</p>
+<p>Necesitamos padres que entiendan mejor el mundo digital de sus hijos, colegios capaces de identificar a tiempo el ciberacoso y otras señales de riesgo, jóvenes que sepan pedir ayuda cuando algo no está bien y políticas públicas que incluyan el bienestar digital en la conversación sobre salud mental. Y, sobre todo, necesitamos datos.</p>
+<p>En Cali deberíamos saber cuánto tiempo pasan realmente nuestros niños y adolescentes en las redes, qué situaciones están enfrentando allí, cómo está afectando esto su sueño, qué tanto ciberacoso existe y qué relación puede haber entre algunas experiencias digitales y las consultas de salud mental que estamos atendiendo.</p>
+<p>No se trata de culpar a internet de todos los problemas emocionales de los jóvenes.</p>
+<p>Eso sería irresponsable.</p>
+<p>Se trata de reconocer que hoy existe un nuevo escenario de convivencia y que los adultos también tenemos que aprender a movernos en él.</p>
+<p><strong>Las grandes plataformas saben muchísimo sobre nuestra actividad digital:</strong> cuánto tiempo pasamos conectados, qué vemos, dónde hacemos clic y qué contenidos logran atraparnos.</p>
+<p>Quizás ya es hora de que nosotros sepamos un poco más sobre la vida digital de nuestros hijos.</p>
+<p>No a escondidas. No interrogándolos como si fueran sospechosos. Simplemente conversando con ellos.</p>
+<p>Por eso quiero proponer algo que no cuesta nada y que podemos empezar a hacer desde esta misma noche.</p>
+<p><strong>Cuando lleguen a casa y les preguntemos:</strong> “<em>¿Cómo te fue hoy?</em>”, <strong>agreguemos cinco palabras:</strong> “<em>¿Cómo te fue en internet hoy?</em>” <strong>Puede que respondan simplemente:</strong> “<em>bien</em>”.</p>
+<p>Puede que no tengan ganas de hablar del tema, pero tal vez, algún día, esa pregunta tan sencilla les abra la puerta para contarnos algo que necesitaban decir y que nosotros todavía no habíamos aprendido a preguntar.</p>
+<p>En una época en la que nuestros hijos viven buena parte de su vida frente a una pantalla, acompañarlos también significa estar presentes en ese mundo.</p>
+<p>Y para estar presentes, primero hay que preguntar.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/como-te-fue-en-internet-hoy/">¿Cómo te fue en internet hoy?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/como-te-fue-en-internet-hoy/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>América de Cali vs Pereira: duelo copero clave</title>
+		<link>https://occidente.co/deportes/america-de-cali-vs-pereira-duelo-copero-clave/</link>
+					<comments>https://occidente.co/deportes/america-de-cali-vs-pereira-duelo-copero-clave/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 09 Sep 2026 23:30:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/america-de-cali-vs-pereira-duelo-copero-clave/</guid>
+
+					<description><![CDATA[<p>América de Cali y Pereira protagonizarán uno de los cruces de la Llave 3 de la Copa Colombia 2026, en un partido programado para este miércoles 9 de septiembre. El duelo está fijado para las 20:00, hora de GMT-3, equivalente a las 18:00 en Colombia, y será transmitido por Win Sports +. De acuerdo con...</p>
+<p>The post <a href="https://occidente.co/deportes/america-de-cali-vs-pereira-duelo-copero-clave/">América de Cali vs Pereira: duelo copero clave</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>América de Cali y Pereira protagonizarán uno de los cruces de la Llave 3 de la Copa Colombia 2026, en un partido programado para este miércoles 9 de septiembre. El duelo está fijado para las 20:00, hora de GMT-3, equivalente a las 18:00 en Colombia, y será transmitido por Win Sports +.</p>
+<p>De acuerdo con la información disponible, el escenario y la ciudad donde se disputará el compromiso aún aparecen como sin confirmar. El encuentro cobra relevancia por el presente de ambos equipos y por la importancia que tiene la Copa Colombia para sus aspiraciones en este tramo de la temporada.</p>
+<h2>América de Cali Pereira y el contexto del cruce</h2>
+<h3>América llega con cambios en su plantel</h3>
+<p>El equipo dirigido por David González afronta el partido después de superar a Real Cartagena en la fase de clasificación, con un global de 3-2. En sus últimos cinco partidos oficiales y preparatorios, América suma dos victorias, dos empates y una derrota. Su triunfo más reciente en liga fue 3-0 frente a Alianza FC.</p>
+<h3>Pereira mantiene su foco en la copa</h3>
+<p>Deportivo Pereira, bajo la conducción de Arturo Reyes Montero, llega invicto en la Copa BetPlay Dimayor. En su más reciente presentación por liga empató 1-1 con Millonarios. Reyes ha señalado que cuenta con jugadores con deseo de hacer cosas importantes por el club, pese a las limitaciones en refuerzos y retrasos en los pagos.</p>
+<h3>Un historial parejo entre ambos</h3>
+<p>La fuente también destaca que el historial entre América de Cali y Pereira es equilibrado: 16 victorias para cada equipo y 9 empates en 41 enfrentamientos. Ese antecedente añade expectativa a un partido que puede marcar el camino de ambos en la competición.</p>
+<h2>Lo que viene para el partido de la Llave 3</h2>
+<p>El compromiso se disputará este miércoles 9 de septiembre y, según la programación informada, se verá por Win Sports +. La confirmación del estadio y la ciudad sigue pendiente, por lo que ese será uno de los datos a seguir antes del inicio del encuentro.</p>
+<p>América busca sostener su proceso deportivo en un torneo que sigue siendo una cuenta pendiente para el club, mientras Pereira intenta mantener su buen andar copero en una llave que promete ser ajustada y estratégica.</p>
+<h3>Por qué importa</h3>
+<p><strong>Deportivo:</strong> América y Pereira se juegan el avance en la Llave 3 de la Copa Colombia 2026.</p>
+<p><strong>Actualidad:</strong> América llega tras eliminar a Real Cartagena y Pereira permanece invicto en la copa.</p>
+<p><strong>Próximos pasos:</strong> El partido será este miércoles 9 de septiembre a las 20:00 GMT-3.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+<p></p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/america-de-cali-vs-pereira-duelo-copero-clave/">América de Cali vs Pereira: duelo copero clave</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/america-de-cali-vs-pereira-duelo-copero-clave/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Atlético Nacional eliminó al Cali y avanza en Copa BetPlay</title>
+		<link>https://occidente.co/deportes/atletico-nacional-elimino-al-cali-copa-betplay/</link>
+					<comments>https://occidente.co/deportes/atletico-nacional-elimino-al-cali-copa-betplay/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 09 Sep 2026 23:30:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/atletico-nacional-elimino-al-cali-copa-betplay/</guid>
+
+					<description><![CDATA[<p>Atlético Nacional superó 3-0 al Deportivo Cali en el estadio Atanasio Girardot y aseguró su clasificación a los cuartos de final de la Copa BetPlay Dimayor 2026. El partido de octavos de final se jugó a puerta cerrada y dejó al conjunto verdolaga con una victoria clara en Medellín. El equipo dirigido desde la cancha...</p>
+<p>The post <a href="https://occidente.co/deportes/atletico-nacional-elimino-al-cali-copa-betplay/">Atlético Nacional eliminó al Cali y avanza en Copa BetPlay</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Atlético Nacional superó 3-0 al Deportivo Cali en el estadio Atanasio Girardot y aseguró su clasificación a los cuartos de final de la Copa BetPlay Dimayor 2026. El partido de octavos de final se jugó a puerta cerrada y dejó al conjunto verdolaga con una victoria clara en Medellín.</p>
+<p>El equipo dirigido desde la cancha por su plantilla aprovechó rápidamente una de sus primeras opciones. A los cuatro minutos, Edwin Cardona abrió la jugada hacia la derecha, Andrés Felipe Román asistió de regreso y Alfredo Morelos definió dentro del área para el 1-0.</p>
+<p>Deportivo Cali intentó responder tras el golpe inicial, pero no logró concretar una ocasión importante que pudo modificar el desarrollo del compromiso. Con el paso de los minutos, Nacional mantuvo el control del juego y sostuvo la ventaja parcial hasta el descanso.</p>
+<h2>Copa BetPlay y el desarrollo del partido</h2>
+<h3>El inicio favoreció a Nacional</h3>
+<p>El gol tempranero de Alfredo Morelos permitió que Atlético Nacional administrara el trámite del encuentro con mayor tranquilidad. Desde ese momento, el cuadro paisa mostró solidez para sostener la iniciativa frente al conjunto azucarero.</p>
+<h3>El segundo tiempo amplió la ventaja</h3>
+<p>En la segunda parte, Andrés Sarmiento desbordó por el costado derecho y envió un centro que Marlos Moreno conectó para marcar el 2-0 al minuto 56. Esa anotación dejó al Cali con la obligación de buscar una reacción inmediata.</p>
+<h3>Una jugada anulada generó discusión</h3>
+<p>Al minuto 63, Sarmiento marcó una jugada que parecía significar el tercer tanto de Nacional, pero el juez de línea Diego Urrego levantó la bandera por fuera de juego. La acción no pudo revisarse, ya que la Copa BetPlay no cuenta con VAR.</p>
+<h2>Atlético Nacional espera rival en cuartos</h2>
+<p>Con la clasificación asegurada, Atlético Nacional quedó a la espera de su rival en los cuartos de final. El adversario saldrá de la llave entre Deportivo Pasto e Independiente Medellín, programada para este miércoles 9 de septiembre.</p>
+<p>El resultado dejó al equipo verdolaga entre los ocho mejores del torneo y confirmó su avance con una actuación efectiva en los momentos clave del compromiso.</p>
+<h3>Por qué importa</h3>
+<p><strong>Deportivo:</strong> Atlético Nacional avanzó a cuartos de final de la Copa BetPlay tras eliminar al Deportivo Cali.</p>
+<p><strong>Actualidad:</strong> ganó 3-0 en el Atanasio Girardot, en un partido único y a puerta cerrada.</p>
+<p><strong>Próximos pasos:</strong> espera rival entre Deportivo Pasto e Independiente Medellín.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+<p></p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/atletico-nacional-elimino-al-cali-copa-betplay/">Atlético Nacional eliminó al Cali y avanza en Copa BetPlay</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/atletico-nacional-elimino-al-cali-copa-betplay/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Avistan por primera vez un águila arpía en el Valle del Cauca</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/aguila-arpia-en-el-valle-del-cauca-historico-hallazgo-en-san-cipriano/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/aguila-arpia-en-el-valle-del-cauca-historico-hallazgo-en-san-cipriano/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 09 Sep 2026 23:20:48 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438694</guid>
+
+					<description><![CDATA[<p>La Red de Clubes de Observadores de Aves de Valle del Cauca liderada por la CVC hizo un sorprendente avistamiento de un águila arpía, en el sector de San Cipriano. El registro, documentado con fotografías y videos, representa un importante aporte al conocimiento de la biodiversidad del departamento, indicaron los avistadores de aves. Una de...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/aguila-arpia-en-el-valle-del-cauca-historico-hallazgo-en-san-cipriano/">Avistan por primera vez un águila arpía en el Valle del Cauca</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La Red de Clubes de Observadores de Aves de Valle del Cauca liderada por la CVC hizo un sorprendente avistamiento de un águila arpía, en el sector de San Cipriano.</strong></p>
+<p>El registro, documentado con fotografías y videos, representa un importante aporte al conocimiento de la biodiversidad del departamento, indicaron los avistadores de aves.</p>
+<p>Una de las aves rapaces más imponentes del planeta acaba de convertirse en protagonista de un hallazgo extraordinario para la biodiversidad del Valle del Cauca por parte de dicha red que logró observar, fotografiar y grabar un Águila arpía (Harpia harpyja) en San Cipriano, en Buenaventura.</p>
+<p>El avistamiento ocurrió durante una jornada de observación de aves en la que participaban los fotógrafos de aves profesionales: Diego Fernando Mejía, Maribel Rivera, Crhistian Trejos, Leidi Johanna Hidalgo, Javier Roa y Alejandro Vera.</p>
+<p><em>“Todo comenzó cuando Maribel me advirtió de la presencia de una enorme ave rapaz sobrevolando el área. Minutos después, Crhistian logró localizarla nuevamente cuando se posó en un árbol y, aunque inicialmente no teníamos certeza sobre su identidad, conseguimos obtener fotografías y videos que posteriormente compartimos con otros expertos y comunidades de observadores de aves”</em>, <strong>contó Diego Mejía.</strong></p>
+<p>Luego de contrastar las características del ejemplar y adelantar consultas con especialistas, el grupo determinó que se trataba de un Águila arpía, una especie de gran tamaño, asociada principalmente a bosques tropicales y reconocida como uno de los principales depredadores de los ecosistemas donde habita.</p>
+<p><em>“Para nosotros, como pajareros que ya llevamos bastante tiempo en esto, fue como llegar al cielo con este hallazgo”</em>, <strong>relató Diego Fernando Mejía</strong>, quien recordó que la emoción fue tal que el grupo incluso hizo una pausa en la jornada para celebrar el extraordinario encuentro con la naturaleza.</p>
+<p><strong>Por su parte, Crhistian Trejos dijo:</strong> <em>“Para mí como guía y observador de aves, poder hacer el primer registro de Águila arpía para el departamento del Valle del Cauca significa mucho, ya que esta es la rapaz más poderosa del neotrópico, es la joya de la biodiversidad colombiana”.</em></p>
+<p>Así mismo, resaltó que <em>“confirmar la presencia del Águila arpía en las selvas del Pacífico en el Valle del Cauca, refleja el buen estado de conservación de este territorio, ya que esta especie requiere bosques maduros y extensos para cazar y mantenerse, por lo que su supervivencia depende directamente de nuestro compromiso con la protección del ecosistema”</em>.</p>
+<p>Desde la CVC el biólogo Milton Reyes, experto en aves, resaltó que el hallazgo es especialmente significativo, porque hasta ahora no se contaba con un registro documentado de esta especie para el Valle del Cauca.</p>
+<p><em>“La literatura sobre la distribución del Águila arpía en Colombia ha reportado históricamente su presencia principalmente en regiones como el Chocó, la Amazonía y sectores de la Orinoquia”</em>.</p>
+<p>Por ello, la documentación obtenida en la Reserva Forestal Protectora Nacional de los Ríos San Cipriano y Escalerete, constituye un aporte relevante para el conocimiento de la distribución de esta especie en el país y demuestra el enorme valor de las áreas protegidas y los ecosistemas del Valle del Cauca y la importancia de continuar promoviendo la observación, el monitoreo y la conservación de la biodiversidad.</p>
+<p><em>“El registro cobra mucha importancia teniendo en cuenta que el Águila arpía requiere grandes extensiones de bosque y árboles de gran porte para desarrollar su ciclo de vida. La especie es considerada un depredador tope que se alimenta de presas de gran tamaño como osos hormigueros, perezosos, venados y su presencia está asociada a ecosistemas con buenas condiciones de conservación”</em>, <strong>agregó el biólogo de la CVC.</strong></p>
+<p>Desde la CVC se hizo un llamado a que cualquier visita para intentar observar al Águila arpía se realice con responsabilidad y respeto por el animal.</p>
+<p><em>“Si van a ir grupos de pajareros o personas interesadas en ver este tipo de especies, que lo hagan de forma responsable, cuidando siempre la integridad del ave, sin perturbarla, para evitar que se aleje de este territorio”</em>, <strong>recalcó Reyes.</strong></p>
+<p><strong>El águila arpía (Harpia harpyja) es una de las aves rapaces más grandes y poderosas del mundo.</strong></p>
+<p>Puede alcanzar cerca de un metro de longitud y alrededor de dos metros de envergadura, siendo las hembras considerablemente más grandes que los machos.</p>
+<p>A pesar de su gran tamaño, puede desplazarse con notable agilidad entre el bosque.</p>
+<p>Es una especie que permanece asociada a territorios de bosque y presenta una reproducción lenta, características que hacen especialmente importante la conservación de los ecosistemas donde habita.</p>
+<p><strong>La especie está catalogada como Vulnerable (VU) a nivel global, de acuerdo con información reciente de la literatura especializada.</strong></p>
+<p>Su presencia también puede convertirse en una oportunidad para seguir fortaleciendo el monitoreo de la biodiversidad y el conocimiento de las especies que habitan los bosques del Valle del Cauca.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/aguila-arpia-en-el-valle-del-cauca-historico-hallazgo-en-san-cipriano/">Avistan por primera vez un águila arpía en el Valle del Cauca</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/aguila-arpia-en-el-valle-del-cauca-historico-hallazgo-en-san-cipriano/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
