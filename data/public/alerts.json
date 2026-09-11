@@ -1,17 +1,17 @@
 {
- "generado": "2026-09-10",
- "fecha": "2026-09-10",
+ "generado": "2026-09-11",
+ "fecha": "2026-09-11",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "251 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 251
+   "texto": "400 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 400
   },
   {
    "tipo": "rud_actualizado",
    "nivel": "info",
-   "texto": "RUD actualizado: +0 municipios. +11.401 familias desde la captura anterior"
+   "texto": "RUD actualizado: +0 municipios. -1 familias desde la captura anterior"
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -25,9 +25,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 25 días distintos, pero rud_daily solo tiene 24 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 25,
-   "dias_en_rud_daily": 24
+   "texto": "sources_log registra capturas del RUD en 26 días distintos, pero rud_daily solo tiene 25 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 26,
+   "dias_en_rud_daily": 25
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -82,12 +82,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 22 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 22
+   "texto": "La OPS lleva 23 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 23
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-09",
+  "fecha": "2026-09-10",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -166,7 +166,7 @@
     "valor": 15,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "municipios_afectados",
@@ -180,7 +180,7 @@
     "valor": 448,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "personas_afectadas",
@@ -191,17 +191,17 @@
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 145601,
+    "valor": 115461,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "familias_afectadas",
-    "valor": 57516,
+    "valor": 54008,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "viviendas_averiadas",
@@ -212,10 +212,10 @@
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 80744,
+    "valor": 81506,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "viviendas_destruidas",
@@ -226,10 +226,10 @@
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 12504,
+    "valor": 14493,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "heridos",
@@ -240,10 +240,10 @@
    },
    {
     "cifra": "heridos",
-    "valor": 4018,
+    "valor": 3935,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "fallecidos",
@@ -254,17 +254,17 @@
    },
    {
     "cifra": "fallecidos",
-    "valor": 288,
+    "valor": 294,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 202,
-    "motivo": "corte del 14-ago-2026 anterior al vigente (2-sep-2026)",
+    "valor": 320,
+    "motivo": "corte del 15-ago-2026 anterior al vigente (2-sep-2026)",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    },
    {
     "cifra": "desaparecidos",
@@ -282,16 +282,16 @@
    },
    {
     "cifra": "rescatados",
-    "valor": 170,
+    "valor": 188,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-10/oficiales_feed.json",
-   "items": 83,
+   "snapshot": "data/snapshots/2026-09-11/oficiales_feed.json",
+   "items": 86,
    "regla_sha256": "6c31c0f07f8757e02e4be0491cc29e5b27bf28ef58c99310502d227675904a96"
   }
  }

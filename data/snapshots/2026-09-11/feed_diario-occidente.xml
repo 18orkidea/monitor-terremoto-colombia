@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Fri, 11 Sep 2026 09:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Gemini 3.7 Flash y Pixel 11: novedades de agosto 2026</title>
+		<link>https://occidente.co/secciones/tecnologia/gemini-3-7-flash-pixel-11-agosto-2026/</link>
+					<comments>https://occidente.co/secciones/tecnologia/gemini-3-7-flash-pixel-11-agosto-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2026 09:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438359</guid>
+
+					<description><![CDATA[<p>Pixel 11 y Gemini 3.7 Flash llegan para acelerar tareas reales Google presentó en agosto de 2026 novedades que combinan nuevo hardware y modelos de inteligencia artificial diseñados para facilitar tareas cotidianas. Entre los anuncios están el modelo Gemini 3.7 Flash, mejoras en transcripción con Gemini 3.5 Transcribe y la familia de dispositivos Pixel 11,...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/gemini-3-7-flash-pixel-11-agosto-2026/">Gemini 3.7 Flash y Pixel 11: novedades de agosto 2026</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Pixel 11 y Gemini 3.7 Flash llegan para acelerar tareas reales</h2>
+</p>
+<p>Google presentó en agosto de 2026 novedades que combinan nuevo hardware y modelos de inteligencia artificial diseñados para facilitar tareas cotidianas. Entre los anuncios están el modelo Gemini 3.7 Flash, mejoras en transcripción con Gemini 3.5 Transcribe y la familia de dispositivos Pixel 11, pensada para ejecutar capacidades de Gemini directamente en el teléfono.</p>
+</p>
+<h2>Gemini 3.7 Flash: qué ocurrió y por qué importa</h2>
+</p>
+<p>Google lanzó Gemini 3.7 Flash como una versión optimizada de sus modelos para desarrolladores y equipos de ingeniería. El anuncio, realizado en agosto, destaca que 3.7 Flash ofrece mejor rendimiento para tareas de codificación y agentes autónomos y se ofrece a un costo inicial menor por millón de tokens que la versión anterior. El comunicado también presentó novedades complementarias: Gemini 3.5 Transcribe para transcripciones en tiempo real más precisas y Gemini Omni 1.1 Flash para generación de video con mayor control.</p>
+</p>
+<h2>Qué cambia para las personas</h2>
+</p>
+<h3>Mejor productividad en el día a día</h3>
+</p>
+<p>Gemini Live incorpora funciones como Personal Intelligence, Daily Brief y gestión de bandeja de entrada manos libres, que permiten delegar tareas y organizar el día hablando con la aplicación en lugar de hacerlo manualmente.</p>
+</p>
+<h3>Acceso a herramientas educativas</h3>
+</p>
+<p>Google ofrece un año gratuito del plan Gemini a estudiantes elegibles y nuevas herramientas de estudio y de preparación de exámenes integradas en Search y Gemini, pensadas para simplificar la organización y el aprendizaje.</p>
+</p>
+<h3>Creación de medios más accesible</h3>
+</p>
+<p>Con Gemini Omni 1.1 Flash y mejoras en Google AI Studio y Google Flow, los usuarios podrán generar videos y música con mayor calidad y control, incluyendo hasta 4K y herramientas de interpolación para facilitar producciones más profesionales desde el propio dispositivo.</p>
+</p>
+<h2>Aspectos pendientes y limitaciones</h2>
+</p>
+<p>Algunas funciones están disponibles solo en países o idiomas selectos y pueden requerir suscripciones para usos superiores. La disponibilidad de Gemini integrado en dispositivos y en Chrome varía según región y configuración. Además, aunque WeatherNext 2 se ha compartido con la comunidad investigadora, su implementación generalizada depende de futuras colaboraciones y pruebas operativas.</p>
+</p>
+<h2>Contexto adicional</h2>
+</p>
+<p>El anuncio agrupa avances en modelos más eficientes —como 3.7 Flash— con hardware nuevo —Pixel 11 series con chip Tensor G6 capaz de ejecutar Gemini Nano— y herramientas pensadas para distintos públicos: desarrolladores, estudiantes, empresas y creadores de contenido. En conjunto, las mejoras buscan reducir costos y llevar funciones avanzadas a dispositivos y flujos de trabajo cotidianos.</p>
+</p>
+<h2>Cierre</h2>
+</p>
+<p>Las actualizaciones de agosto muestran una apuesta por modelos más eficientes y por integrar IA en dispositivos personales para tareas prácticas. Queda por ver cómo y cuándo se extenderán todas las funciones a más países y qué adopción tendrán en sectores como la educación y la creación de medios.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Acceso a asistentes más útiles y herramientas de estudio y creación.</p>
+</p>
+<p><strong>Negocio:</strong> Reducción de costos para desarrolladores y nuevas oportunidades comerciales con Pixel 11 y servicios IA.</p>
+</p>
+<p><strong>Industria:</strong> Avance en modelos eficientes y en generación de medios que impulsa competencia y adopción.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/gemini-3-7-flash-pixel-11-agosto-2026/">Gemini 3.7 Flash y Pixel 11: novedades de agosto 2026</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/gemini-3-7-flash-pixel-11-agosto-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cali avanza en la adecuación y mantenimiento de los hangares de los Talleres del Distrito</title>
+		<link>https://occidente.co/cali/cali-avanza-en-la-adecuacion-y-mantenimiento-de-los-hangares-de-los-talleres-del-distrito/</link>
+					<comments>https://occidente.co/cali/cali-avanza-en-la-adecuacion-y-mantenimiento-de-los-hangares-de-los-talleres-del-distrito/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2026 02:51:21 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438897</guid>
+
+					<description><![CDATA[<p>La Administración Distrital de Santiago de Cali dio un nuevo paso para el fortalecimiento de la infraestructura destinada al funcionamiento de los Talleres del Distrito, con la adjudicación de la Licitación Pública No. 4181.010.26.1.442-2026, cuyo objeto es realizar adecuaciones locativas y de mantenimiento en los hangares maquinaria y adoquines, ubicados en la calle 70 #...</p>
+<p>The post <a href="https://occidente.co/cali/cali-avanza-en-la-adecuacion-y-mantenimiento-de-los-hangares-de-los-talleres-del-distrito/">Cali avanza en la adecuación y mantenimiento de los hangares de los Talleres del Distrito</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La Administración Distrital de Santiago de Cali dio un nuevo paso para el fortalecimiento de la infraestructura destinada al funcionamiento de los Talleres del Distrito, con la adjudicación de la Licitación Pública No. 4181.010.26.1.442-2026, cuyo objeto es realizar adecuaciones locativas y de mantenimiento en los hangares maquinaria y adoquines, ubicados en la calle 70 # 8-20</strong>.</p>
+<p>El proceso, adelantado bajo criterios jurídicos, técnicos y económicos, contó con la participaciónñññ% de 30 oferentes y culminó con la adjudicación al consorcio Hangares Cali 2026, por un valor de $3.931.569.414.</p>
+<p>La cifra adjudicada representa una diferencia de $206.924.706 frente al presupuesto oficial, establecido en $4.138.494.120.</p>
+<p><strong>Para Noralba García Moreno, directora de la Unidad Administrativa Especial de Gestión de Bienes y Servicios (UAEGBS)</strong>, este resultado representa un avance importante en el propósito de recuperar y fortalecer la infraestructura pública del Distrito.</p>
+<p>“<em>Hoy damos un paso importante para el fortalecimiento de la infraestructura de los Talleres del Distrito. Culminamos un proceso de selección que contó con la participación de 30 oferentes y que fue evaluado bajo criterios jurídicos, técnicos y económicos, garantizando un proceso transparente y responsable con los recursos públicos</em>”, <strong>dijo</strong>.</p>
+<p>Cabe precisar que la adjudicación, por $3.931 millones, permite avanzar hacia la intervención de elementos fundamentales de los hangares, como las cubiertas, los sistemas de aguas lluvias, las redes sanitarias y de alcantarillado, los cerramientos y diferentes espacios internos que requieren adecuaciones y mantenimiento.</p>
+<p>“<em>Desde la Unidad de Bienes y Servicios tenemos el compromiso de contribuir a que la infraestructura pública de Cali se encuentre en condiciones adecuadas para cumplir su función. Esta adjudicación es un paso concreto en ese propósito y continuaremos adelantando las etapas correspondientes para avanzar hacia la ejecución de las obras</em>”, <strong>sostuvo García</strong>.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/cali-avanza-en-la-adecuacion-y-mantenimiento-de-los-hangares-de-los-talleres-del-distrito/">Cali avanza en la adecuación y mantenimiento de los hangares de los Talleres del Distrito</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/cali-avanza-en-la-adecuacion-y-mantenimiento-de-los-hangares-de-los-talleres-del-distrito/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Mr Plata sube la apuesta con “Malos y Cueros”, junto a Conep y Jaime El King</title>
+		<link>https://occidente.co/secciones/espectaculo/mr-plata-sube-la-apuesta-con-malos-y-cueros-junto-a-conep-y-jaime-el-king/</link>
+					<comments>https://occidente.co/secciones/espectaculo/mr-plata-sube-la-apuesta-con-malos-y-cueros-junto-a-conep-y-jaime-el-king/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2026 02:48:04 +0000</pubDate>
+				<category><![CDATA[Espectáculo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438894</guid>
+
+					<description><![CDATA[<p>El artista nacido en Tumaco presenta una colaboración que mezcla dembow y trap y conecta sonidos de Colombia, Puerto Rico y el Caribe. El lanzamiento llega después de la repercusión internacional de “Las Muñequitas” y su remix con Maluma. Después de llevar “Las Muñequitas” a diferentes mercados de América Latina y España y sumar a...</p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/mr-plata-sube-la-apuesta-con-malos-y-cueros-junto-a-conep-y-jaime-el-king/">Mr Plata sube la apuesta con “Malos y Cueros”, junto a Conep y Jaime El King</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El artista nacido en Tumaco presenta una colaboración que mezcla dembow y trap y conecta sonidos de Colombia, Puerto Rico y el Caribe.</p>
+<p>El lanzamiento llega después de la repercusión internacional de “<em>Las Muñequitas</em>” y su remix con Maluma.</p>
+<p>Después de llevar “<em>Las Muñequitas</em>” a diferentes mercados de América Latina y España y sumar a Maluma en la versión remix, Mr Plata vuelve a la escena urbana con “<em>Malos y Cueros</em>”, una canción en la que comparte créditos con Conep y Jaime El King y con la que busca ampliar su exploración entre el perreo, el trap y los ritmos del Caribe.</p>
+<p>El nuevo sencillo plantea una historia de atracción marcada por el desafío.</p>
+<p>Sus protagonistas entran en un juego de poder en el que ninguno parece dispuesto a enamorarse.</p>
+<p>En el centro aparece una mujer independiente, astuta y cercana al universo de las discotecas, la farándula y la vida nocturna, hasta que conoce a un hombre dispuesto a jugar con sus mismas reglas.</p>
+<p>Pero detrás de la historia hay también una apuesta musical que conecta diferentes puntos del mapa latinoamericano.</p>
+<h2>Del dembow al trap</h2>
+<p>El dembow funciona como columna vertebral de “<em>Malos y Cueros</em>”.</p>
+<p>Según Mr Plata, el concepto toma elementos de la cultura urbana y mediática de República Dominicana, particularmente del ambiente de las fiestas, los clubes, la vida nocturna y las dinámicas sociales que rodean este género.</p>
+<p>A esa base se suman elementos de trap aportados por Conep y Jaime El King.</p>
+<p>El resultado pretende tender un puente sonoro entre Colombia, Puerto Rico y el Caribe, combinando la energía asociada con las discotecas caribeñas con las distintas identidades de los artistas participantes.</p>
+<p>Para Mr Plata, cuyo nombre es José Armando Plata, el lanzamiento representa un nuevo momento dentro de una carrera que ha venido ganando visibilidad internacional.</p>
+<p>Originario de Tumaco, el artista y productor hace parte de una generación de creadores que ha encontrado en el perreo y el trap un territorio para construir nuevas propuestas.</p>
+<p>“<em>Las Muñequitas</em>” se convirtió en uno de sus principales impulsos al lograr presencia en charts de varios países latinoamericanos y España, además de incorporar posteriormente a Maluma en su remix.</p>
+<h3>Puerto Rico, Cali y el Pacífico se encuentran</h3>
+<p>La colaboración también permite reunir artistas con recorridos y procedencias diferentes.</p>
+<p>Conep, cuyo nombre es Ronniel Oneill Collazo Montes, es un cantante y compositor puertorriqueño relacionado con el trap latino y el reguetón.</p>
+<p>De acuerdo con la información suministrada por su sello, supera los cinco millones de oyentes mensuales en Spotify y ha tenido presencia en listados de la plataforma con canciones como “<em>AFTER</em>”.</p>
+<p>El tercer protagonista es Jaime El King, artista colombiano cuya propuesta incorpora influencias de Cali y el Pacífico colombiano.</p>
+<p>Su carrera comenzó a mediados de 2024 y, según el boletín de lanzamiento, ya alcanza alrededor de 800.000 oyentes mensuales.</p>
+<p>Es precisamente esa diversidad la que le da otra dimensión a “Malos y Cueros”: Tumaco aparece representado por Mr Plata, Puerto Rico por Conep y las influencias de Cali y el Pacífico llegan con Jaime El King.</p>
+<p>Más que mantener cada sonido dentro de sus fronteras, la canción apuesta por mezclarlos.</p>
+<p><strong>El lanzamiento también refleja un fenómeno cada vez más visible dentro de la música urbana latina:</strong> artistas emergentes que ya no necesitan construir sus carreras únicamente desde un territorio.</p>
+<p>Las colaboraciones permiten cruzar públicos, géneros y escenas musicales que hace algunos años funcionaban de manera mucho más independiente.</p>
+<p>En ese escenario, Mr Plata continúa aprovechando el impulso conseguido con “Las Muñequitas”, pero esta vez amplía la fórmula.</p>
+<p>Con “<em>Malos y Cueros</em>”, el artista tumaqueño deja atrás el trabajo en solitario para reunir en una misma canción el dembow, el trap y tres miradas diferentes de la música urbana, en un recorrido sonoro que va del Pacífico colombiano a Puerto Rico y encuentra en el Caribe su punto de conexión.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/mr-plata-sube-la-apuesta-con-malos-y-cueros-junto-a-conep-y-jaime-el-king/">Mr Plata sube la apuesta con “Malos y Cueros”, junto a Conep y Jaime El King</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/espectaculo/mr-plata-sube-la-apuesta-con-malos-y-cueros-junto-a-conep-y-jaime-el-king/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El elefante en la habitación</title>
+		<link>https://occidente.co/opinion/columnistas/el-elefante-en-la-habitacion/</link>
+					<comments>https://occidente.co/opinion/columnistas/el-elefante-en-la-habitacion/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2026 02:42:20 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[William Sánchez Lenis]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438891</guid>
+
+					<description><![CDATA[<p>En psicología hablan de la moraleja del elefante en la habitación. Está basada en una historia que habla de muchas personas que están en un lugar donde hay un elefante, pero nadie habla de él, aunque todos lo ven. En nuestras familias, nuestras casas, nuestras comunidades y nuestros trabajos hay grandes elefantes con los que...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-elefante-en-la-habitacion/">El elefante en la habitación</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>En psicología hablan de la moraleja del elefante en la habitación.</p>
+<p>Está basada en una historia que habla de muchas personas que están en un lugar donde hay un elefante, pero nadie habla de él, aunque todos lo ven.</p>
+<p>En nuestras familias, nuestras casas, nuestras comunidades y nuestros trabajos hay grandes elefantes con los que convivimos a diario y no los nombramos.</p>
+<p>Sabemos que están ahí y preferimos no decirlo nunca en voz alta.</p>
+<p><strong>Y ahí está el problema:</strong> esas situaciones que no nombramos, que tratamos de dejar debajo de la alfombra, son las que no nos permiten avanzar.</p>
+<p>Hay elefantes en algunas casas y entre ellos hay uno muy conocido que llamamos violencia intrafamiliar.</p>
+<p>Esa violencia no es solo el maltrato físico, porque ese es el que podemos ver a simple vista.</p>
+<p>El maltrato psicológico no deja marcas visibles, no se le puede tomar una foto, pero es igual, o tal vez incluso peor que el físico, porque mina y destruye la autoestima de las personas afectadas.</p>
+<p>En los empleos hay elefantes que llamamos abuso laboral y pensamos que eso es cuando el jefe grita al empleado, pero incluso puede ser más sutil: cuando a alguien no se le reconoce su labor, no le dan los descansos o no se reconoce su trabajo; cuando se cree que el empleador hace un favor al dar un salario y no se entiende que existe una relación balanceada donde ambos dan y ambos reciben.</p>
+<p>En nuestras comunidades de creyentes hay elefantes como la apariencia, la falta de solidaridad o la falta de sinceridad, y buscamos mantener la apariencia sobre la verdad, aunque pueda ser difícil.</p>
+<p>Todos esos elefantes son difíciles de nombrar y de hacernos cargo de ellos, y lo son porque es muy fácil pretender que otro se haga cargo.</p>
+<p>Y así nadie quiere iniciar la conversación difícil.</p>
+<p><strong>Hay un elefante, a veces más grande y hasta aterradores, y lo es porque no están fuera:</strong> está en nosotros, en nuestra forma de ver el mundo y en la sociedad en que vivimos.</p>
+<p>Y, aun peor, es como un gran lente que hemos colocado en nuestros ojos y actúa como un filtro que determina la forma como nos relacionamos con otras personas.</p>
+<p>Ese elefante puede llamarse prejuicio. Puede ser la manera como juzgamos a alguien antes de conocerlo, la forma como clasificamos a las personas por lo que tienen, por el lugar donde viven, por su manera de pensar o simplemente por aquello que no entendemos.</p>
+<p>Lo peligroso es que, cuando ese elefante lleva demasiado tiempo en la habitación, dejamos de verlo y comenzamos a creer que hace parte natural del paisaje.</p>
+<p>Así aprendemos a convivir con la discriminación, con la indiferencia y con la exclusión como si fueran situaciones normales.</p>
+<p>Vemos a una persona que necesita ayuda y pensamos que alguien más se hará cargo.</p>
+<p>Escuchamos una injusticia y preferimos guardar silencio porque no queremos problemas.</p>
+<p>Vemos que alguien es tratado de manera diferente y encontramos una explicación para justificarlo.</p>
+<p>El problema no es solamente que exista el elefante. El verdadero problema comienza cuando aprendemos a vivir alrededor de él.</p>
+<p>Tal vez por eso necesitamos recuperar algo que parece sencillo, pero que cada vez nos cuesta más: la capacidad de nombrar las cosas.</p>
+<p>Decir que algo está mal cuando realmente está mal. Reconocer que una relación nos está haciendo daño.</p>
+<p>Admitir que una institución puede equivocarse. Aceptar que nosotros mismos podemos estar viendo el mundo desde un prejuicio.</p>
+<p>Nombrar el elefante no significa destruirlo inmediatamente, pero sí significa dejar de fingir que no existe.</p>
+<p>Y quizás ese sea el primer paso para comenzar a cambiar aquello que durante mucho tiempo hemos preferido ignorar.</p>
+<p>Jesús habló muchas veces de aquello que las personas preferían no mirar.</p>
+<p>Se acercó al enfermo, al excluido, al pecador y al que la sociedad había aprendido a mirar desde lejos.</p>
+<p>No porque quisiera llamar la atención sobre el problema, sino porque para él ninguna persona podía convertirse en un elefante al que todos prefiriéramos no mirar.</p>
+<p><strong>Quizás nuestra tarea hoy sea mucho más sencilla y, al mismo tiempo, mucho más difícil:</strong> mirar alrededor, reconocer qué elefantes tenemos en nuestras habitaciones y atrevernos a decir sus nombres.</p>
+<p>Porque mientras todos sigamos diciendo que allí no hay ningún elefante, el elefante seguirá ocupando el espacio que debería estar destinado a nosotros, a nuestras relaciones y a nuestra capacidad de vivir juntos de una manera más humana.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-elefante-en-la-habitacion/">El elefante en la habitación</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/el-elefante-en-la-habitacion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cuando las armas se convierten en defensa propia</title>
+		<link>https://occidente.co/opinion/columnistas/cuando-las-armas-se-convierten-en-defensa-propia/</link>
+					<comments>https://occidente.co/opinion/columnistas/cuando-las-armas-se-convierten-en-defensa-propia/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2026 01:18:09 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Javier Fernandez]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438881</guid>
+
+					<description><![CDATA[<p>El levantamiento de la suspensión general del porte de armas de fuego en Colombia ha abierto un debate que considero necesario abordar con serenidad, responsabilidad y, sobre todo, con claridad. El Gobierno Nacional expidió el Decreto 1368 del 8 de septiembre de 2026, mediante el cual se levanta la suspensión general de los permisos para...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cuando-las-armas-se-convierten-en-defensa-propia/">Cuando las armas se convierten en defensa propia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El levantamiento de la suspensión general del porte de armas de fuego en Colombia ha abierto un debate que considero necesario abordar con serenidad, responsabilidad y, sobre todo, con claridad.</p>
+<p><strong>El Gobierno Nacional expidió el Decreto 1368 del 8 de septiembre de 2026</strong>, mediante el cual se levanta la suspensión general de los permisos para el porte de armas de fuego en el territorio nacional.</p>
+<p>Pero debemos entender exactamente qué significa esta decisión.</p>
+<p>No se trata de una autorización para que cualquier ciudadano pueda salir armado.</p>
+<p>No existe un porte indiscriminado de armas.</p>
+<p>Lo que se restablece es la vigencia de los permisos individuales que cumplan con las condiciones establecidas por la ley y que no estén suspendidos, cancelados, revocados, vencidos o sujetos a una prohibición legal o judicial.</p>
+<p>Por eso considero importante no alimentar interpretaciones equivocadas, quienes creen que ahora pueden hacer y deshacer con las armas y exhibirlas para generar los odios absurdos y divisiones sobre quienes tienen que perder y quienes quieren lo que otros tienen.</p>
+<p>Un arma de fuego no es un objeto cualquiera.</p>
+<p>Su tenencia y su porte implican una enorme responsabilidad y están sometidos a controles del Departamento de control comercio de armas y explosivos entidad adscrita al Comando general de las Fuerzas Militares.</p>
+<p>El Decreto Ley 2535 de 1993 establece expresamente que los particulares solo pueden poseer o portar armas con permiso expedido por la autoridad competente.</p>
+<p><strong>Además, diferencia claramente entre tenencia y porte:</strong> la tenencia permite mantener el arma en el inmueble autorizado, mientras que el porte permite llevarla consigo con el respectivo permiso.</p>
+<p>Para obtener un permiso existen requisitos que deben ser acreditados ante la autoridad competente.</p>
+<p>Entre ellos están la documentación correspondiente, los antecedentes y el certificado de aptitud sicofísica para el uso de armas.</p>
+<p>Para el porte, además, debe acreditarse la necesidad de portar un arma para la defensa e integridad personal, de acuerdo con las circunstancias previstas en la legislación.</p>
+<h3>Por eso quiero insistir en algo que considero fundamental:</h3>
+<p>El levantamiento de la suspensión no significa que Colombia haya decidido armar a sus ciudadanos.</p>
+<p>Tampoco considero que la solución a la inseguridad sea que cada persona tenga un arma en su casa o salga armada a la calle.</p>
+<p>Como militar durante tantos años de mi vida aprendí que un arma siempre debe ser el último recurso y que su utilización exige responsabilidad, disciplina y conocimiento de la ley.</p>
+<p>La defensa propia no puede convertirse en una excusa para responder violentamente ante cualquier conflicto.</p>
+<p>La legítima defensa por ende tiene límites y condiciones jurídicas.</p>
+<p>Sentirse amenazado no significa que cualquier reacción armada esté automáticamente justificada.</p>
+<p>Cada situación debe analizarse de acuerdo con las circunstancias y dentro del marco de la ley.</p>
+<p><strong>Pero, aun así, y basados en el decreto ley 2535 de 1993, el porte de armas en Colombia ha existido desde siempre, fue en el 2015 que en el gobierno del Dr Santos impuso un permiso especial con criterios de control</strong>.</p>
+<p>Pero ese porte tiene unos requisitos, y considero que el derecho de todo ciudadano de tener un arma para su protección es legal y constitucional, es necesario dadas las actuales circunstancias del país, y es una reacción que estábamos esperando los ciudadanos de un gobierno que había indicado que esa prohibición de porte estaba causando una serie de impedimentos y costos incluso ilegales que se generaban al interior de los cuarteles y las oficinas encargadas de los permisos especiales.</p>
+<p>Por eso creo que el ciudadano que cumple todos los requisitos y obtiene legalmente un permiso debe poder ejercerlo.</p>
+<p>Pero también debe comprender perfectamente la responsabilidad que adquiere.</p>
+<p>Portar un arma no convierte a nadie en autoridad y mucho menos le resta al Estado la obligación de protección de los ciudadanos en su vida, honra y bienes.</p>
+<p><strong>Aquí existe otro asunto que me parece mucho más preocupante:</strong> mientras discutimos sobre las armas legales, los delincuentes continúan utilizando armas ilegales para cometer homicidios, extorsiones, hurtos y otros delitos.</p>
+<p>Según cifras divulgadas por el Gobierno Nacional, entre el 1 de enero y el 3 de septiembre de 2026 la Fuerza Pública incautó 15.700 armas de fuego, de las cuales 14.179 estaban relacionadas con la comisión de delitos.</p>
+<p>Ese es el verdadero desafío.</p>
+<p>El Estado debe quitarles las armas a los criminales y no centrarse en quien legalmente las porta, al mismo tiempo, garantizar que los ciudadanos que cumplen la ley sean tratados dentro del marco de sus derechos y obligaciones.</p>
+<p><strong>No podemos caer en ninguno de los dos extremos:</strong> ni pensar que todo ciudadano armado representa una amenaza, ni creer que tener un arma es la solución personal frente a la inseguridad, de hecho, tener un arma en casa es un reto para quienes tienen menores de edad y a quienes no le dan la dimensión de poder a un arma y se pierde el respeto por un artefacto que causa perdida de vidas en accidentes, aunque para ello no haya estadísticas.</p>
+<p>La seguridad de una nación no se construye únicamente con armas.</p>
+<p>Se construye con instituciones fuertes, una Fuerza Pública respaldada, una justicia eficaz, autoridades presentes y ciudadanos conscientes de sus derechos y deberes.</p>
+<p>Y uno de los deberes ciudadanos es la denuncia y al unísono la alerta ciudadana.</p>
+<p>Aquí también esta nuestro desafío, hacer que todos tengamos ojos para informar.</p>
+<p><strong>Por eso mi posición es:</strong> no debemos convertir el miedo en una carrera por armarnos.</p>
+<p>Si una persona cumple los requisitos establecidos por la ley y cuenta con un permiso vigente para portar un arma, el Decreto 1368 permite que ese permiso recupere su eficacia, dentro de las condiciones legales.</p>
+<p>Permiso que, si lo va a agradecer el taxista que roban de forma permanente, el tendero que es abordado para desocupar su caja, y los comensales en restaurantes y cafeterías que en segundos son abordados para robarlos, todos ellos ejemplos vivos de lo puede cambiar a partir de hoy, el delincuente ya debe saber que su vida está en riesgo cuando alguien armado vea amenazada su vida, bienes o integridad.</p>
+<p><strong>Debemos recuperar algo que quizá hemos perdido:</strong> la confianza en las instituciones y en la capacidad del Estado para protegernos.</p>
+<p>Como ciudadano y como oficial veterano, creo firmemente que debemos defender, antes que cualquier otra cosa, el derecho a la vida, la tranquilidad y la seguridad de nuestras familias.</p>
+<p>Porque una sociedad verdaderamente segura no es aquella en la que todos están armados.</p>
+<p>Es aquella en la que nadie tiene que vivir con miedo.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cuando-las-armas-se-convierten-en-defensa-propia/">Cuando las armas se convierten en defensa propia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/cuando-las-armas-se-convierten-en-defensa-propia/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Terremoto deja más de 20.000 damnificados en ciudades intermedias</title>
+		<link>https://occidente.co/colombia/damnificadas-en-las-ciudades-intermedias-mas-de-20000-tras-sismo/</link>
+					<comments>https://occidente.co/colombia/damnificadas-en-las-ciudades-intermedias-mas-de-20000-tras-sismo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2026 00:00:23 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438862</guid>
+
+					<description><![CDATA[<p>A un mes del terremoto, 20.181 personas aparecen como damnificadas en las ciudades intermedias del país, donde además se reportan 26 fallecidos, 421 heridos y 12.426 viviendas afectadas, según el balance consolidado por Asointermedias con corte al 10 de septiembre. El reporte también registra afectaciones en 99 colegios. De las viviendas incluidas en el diagnóstico,...</p>
+<p>The post <a href="https://occidente.co/colombia/damnificadas-en-las-ciudades-intermedias-mas-de-20000-tras-sismo/">Terremoto deja más de 20.000 damnificados en ciudades intermedias</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>A un mes del terremoto, 20.181 personas aparecen como damnificadas en las ciudades intermedias del país, donde además se reportan 26 fallecidos, 421 heridos y 12.426 viviendas afectadas, según el balance consolidado por Asointermedias con corte al 10 de septiembre.</p>
+<p>El reporte también registra afectaciones en 99 colegios.</p>
+<p>De las viviendas incluidas en el diagnóstico, 1.966 presentan afectación total y otras 10.460 tienen algún tipo de daño.</p>
+<p><strong>Tras la atención inicial de la emergencia, Asointermedias señaló que su gestión se concentra ahora en tres frentes:</strong> atención humanitaria, fortalecimiento de la capacidad técnica de los municipios y búsqueda de mecanismos que permitan financiar y acelerar la reconstrucción.</p>
+<h2>Más de 1.000 toneladas de ayudas movilizadas</h2>
+<p>A través de la campaña “<em>Ciudades Hermanas de Corazón</em>”, Asointermedias articuló el envío de más de 150 toneladas de ayuda humanitaria entre ciudades intermedias.</p>
+<p>Las ayudas corresponden principalmente a alimentos, elementos de aseo y otros insumos de primera necesidad.</p>
+<p>A este esfuerzo se suma la movilización realizada por alcaldes y comunidades, que mediante acciones locales reunieron y trasladaron más de 900 toneladas hacia los municipios afectados.</p>
+<p>La asociación también mantiene una mesa de interlocución con la Unidad Nacional para la Gestión del Riesgo de Desastres, UNGRD, para coordinar las acciones de respuesta y preparar la transición hacia la recuperación.</p>
+<p>Además, consolidó información sobre población damnificada, viviendas e infraestructura crítica, incluidos colegios, vías, redes de acueducto y equipamientos institucionales, con el propósito de establecer prioridades de intervención.</p>
+<h3>Ingenieros evaluarán estructuras afectadas</h3>
+<p>Otro de los frentes está relacionado con la evaluación de los daños.</p>
+<p>Asointermedias articuló con la Escuela Colombiana de Ingeniería la movilización de 14 ingenieros civiles especializados en infraestructura.</p>
+<p>Los profesionales acompañarán la evaluación de las estructuras afectadas y los estudios requeridos para determinar las intervenciones que deberán realizarse.</p>
+<h4>Cinco propuestas para financiar la reconstrucción</h4>
+<p>Asointermedias presentó cinco mecanismos con los que busca financiar y acelerar el proceso de reconstrucción.</p>
+<p>Entre las alternativas están una Ruta Nacional de Vivienda Segura, el uso de Obras por Impuestos y Obras por Regalías, así como la flexibilización de rentas específicas destinadas a la reconstrucción territorial.</p>
+<p>También se plantea crear un Banco Nacional de Activos para la Reconstrucción, que permitiría aprovechar maquinaria e inmuebles de la Sociedad de Activos Especiales, SAE, que tengan capacidad operativa.</p>
+<p>Las propuestas se encuentran en revisión con el Departamento Nacional de Planeación, DNP, dentro de la retroalimentación de los proyectos de decreto para la reconstrucción presentados por el Gobierno Nacional.</p>
+<p>A un mes del terremoto, el balance de Asointermedias muestra que, además de atender las necesidades de los damnificados, las ciudades afectadas enfrentan el desafío de recuperar miles de viviendas, infraestructura y servicios esenciales.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/damnificadas-en-las-ciudades-intermedias-mas-de-20000-tras-sismo/">Terremoto deja más de 20.000 damnificados en ciudades intermedias</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/damnificadas-en-las-ciudades-intermedias-mas-de-20000-tras-sismo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El centro histórico huele feo</title>
+		<link>https://occidente.co/opinion/columnistas/el-centro-historico-huele-feo/</link>
+					<comments>https://occidente.co/opinion/columnistas/el-centro-historico-huele-feo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 23:36:23 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Leonardo Medina Patiño]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438860</guid>
+
+					<description><![CDATA[<p>Estuve caminando por el centro histórico de la ciudad, declarado monumento nacional por la ley 163 de 1959. Observo que han cerrado el acceso vehicular hacia la plaza de Cayzedo, y que se ha delimitado con cinta de color amarillo, algunos andenes por amenaza de que caiga alguna parte de algún edificio patrimonial al peatón....</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-centro-historico-huele-feo/">El centro histórico huele feo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Estuve caminando por el centro histórico de la ciudad, declarado monumento nacional por la ley 163 de 1959.</p>
+<p>Observo que han cerrado el acceso vehicular hacia la plaza de Cayzedo, y que se ha delimitado con cinta de color amarillo, algunos andenes por amenaza de que caiga alguna parte de algún edificio patrimonial al peatón.</p>
+<p>Me asombró observar que en la universidad católica estén haciendo algunas intervenciones sin ningún tipo de protección al exterior.</p>
+<p>Tanto es así, que cayó (justo cuando iba a cruzar la calle para ingresar a la librería nacional), un pedazo de vidrio que dejó estupefactos a los que por ahí caminábamos.</p>
+<p><strong>Pero, más allá de las afectaciones que sufrió la catedral, la iglesia de la Ermita, la Merced, el banco de la República (acordonado por protección), el centro cultural de Cali (sede alterna de la presidencia) también protegido porque se averió, el teatro Municipal mudo, me dolió sí algo que puede ser invisible, pero se percibe:</strong> un olor asqueroso y suciedad atroz, que agudiza lo que el terremoto afectó.</p>
+<p>Por las calles que caminé había inmundicia, olores nauseabundos que daba asco continuar caminando por las calles de un espacio de la ciudad (hoy distrito especial cultural y turístico) declarado monumento nacional, como ya lo dije líneas arriba.</p>
+<p>Se del esfuerzo de mi alcalde Alejandro Eder de lograr recuperar a Cali, levantarla de la fatiga pos terremoto, del querer mostrar su buena gestión que bien ha logrado percibir la ciudadanía, pero él solo no alcanza.</p>
+<p>Sugiero se organice una jornada de limpieza, desinfección, que conjure aquello que se denomina “<em>ventanas rotas</em>”, porque en la medida que se dejen las basuras en las calles, que se haga lo que quiera en las vías, lo físico tampoco tendría valía así luzca en buen estado, luego de su restauración.</p>
+<p>Unidos podemos alcanzar esa Cali que todos queremos.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-centro-historico-huele-feo/">El centro histórico huele feo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/el-centro-historico-huele-feo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Foro 5 cumple 20 años después de perder su casa y taller: “Lo difícil no fue perder una pared”</title>
+		<link>https://occidente.co/reinventarse-para-seguir/marca-de-ropa-urbana-foro-5-resurge-tras-perderlo-todo-en-el-terremoto/</link>
+					<comments>https://occidente.co/reinventarse-para-seguir/marca-de-ropa-urbana-foro-5-resurge-tras-perderlo-todo-en-el-terremoto/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 23:09:14 +0000</pubDate>
+				<category><![CDATA[Reinventarse para Seguir]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438851</guid>
+
+					<description><![CDATA[<p>Juan Manuel Chávez extraña cosas que antes ni siquiera tenía que pensar: Levantarse en su casa o saber dónde están sus máquinas, sentarse a trabajar cuando quiere o dejar algo sobre una mesa sin que nadie le diga que debe moverlo. Encontrar sus telas, sus estampados, sus insumos, dormir en su cama. Extraña, en realidad,...</p>
+<p>The post <a href="https://occidente.co/reinventarse-para-seguir/marca-de-ropa-urbana-foro-5-resurge-tras-perderlo-todo-en-el-terremoto/">Foro 5 cumple 20 años después de perder su casa y taller: “Lo difícil no fue perder una pared”</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Juan Manuel Chávez extraña cosas que antes ni siquiera tenía que pensar: Levantarse en su casa o saber dónde están sus máquinas, sentarse a trabajar cuando quiere o dejar algo sobre una mesa sin que nadie le diga que debe moverlo</strong>.</p>
+<p>Encontrar sus telas, sus estampados, sus insumos, dormir en su cama.</p>
+<p><strong>Extraña, en realidad, una palabra que suele pasar inadvertida hasta que desaparece:</strong> la rutina</p>
+<p>“<em>Mi espacio, mi tranquilidad, mi estar, mi rutina. Esa es mi principal batalla</em>”. <strong>El terremoto le quitó todo eso en pocos segundos</strong>.</p>
+<p>Su casa era también el showroom y el taller de Foro 5, la marca de ropa urbana que está cerca de cumplir veinte años.</p>
+<p>Una pared del área de trabajo cayó, una máquina se golpeó, algunos insumos se perdieron y otros quedaron atrapados.</p>
+<p>Aunque estructuralmente el apartamento no presentó el peor escenario, el riesgo de caída de muros lo hizo inhabitable.</p>
+<p><strong>Juan Manuel lo resume de una manera menos técnica:</strong> “<em>Quedamos en la calle. Literal</em>”.</p>
+<p>Ahora vive con su mamá. Tiene dónde dormir y qué comer gracias a su familia.</p>
+<p>Incluso reconoce que su situación es menos grave que la de muchos otros damnificados.</p>
+<p>Pero estar a salvo no significa estar bien.</p>
+<p>Duerme en un colchón inflable y trata de trabajar en espacios que no son los suyos.</p>
+<p>Hay horarios, objetos que no puede dejar donde quisiera, dinámicas familiares a las que debe volver a acomodarse después de haber vivido solo.</p>
+<p>Todavía hay cosas adentro que no ha podido sacar porque la escalera está bloqueada.</p>
+<p>Algunas máquinas pudieron desmontarse y rescatarse; otras permanecen allí.</p>
+<p>La lluvia también entró al apartamento y terminó mojando materiales que habían sobrevivido al terremoto.</p>
+<p>Cada vez que regresa a esa zona, recuerda que su vida sigue suspendida.</p>
+<p>Juan Manuel la llama “<em>zona cero</em>” y cuando pasa por allí, el ánimo cambia.</p>
+<p>Porque una casa no es únicamente aquello que puede cargarse en un camión.</p>
+<p>En ese apartamento estaba también la vida cotidiana que había construido y hasta el recuerdo de su perro, que murió hace un año y había compartido ese espacio con él.</p>
+<p>“<em>Es tu espacio, es tu mundo, tu lugar de trabajo</em>”. Y su mundo, además, tenía máquinas de coser.</p>
+<h2>¿Seguir?</h2>
+<p>Quizá por eso resulta significativo que, cuando vio lo que había quedado después del terremoto, Juan Manuel no se preguntara demasiado si Foro 5 había llegado hasta allí.</p>
+<p><strong>Pensó otra cosa:</strong> “<em>Rescatar lo que más pueda y seguir</em>”. Llamó a personas para las que trabajaba. Les contó lo ocurrido.</p>
+<p>Envió fotografías. “<em>Necesito trabajo. Montemos pedido</em>”.</p>
+<p>No pidió que lo esperaran mientras reorganizaba su vida. Pidió trabajo.</p>
+<p><strong>Su forma de reconstruirse, al menos por ahora, consiste precisamente en eso:</strong> producir.</p>
+<p>“<em>Hay gente que necesita en este momento más ayuda, que está muy, muy damnificada. Entonces yo con trabajo puedo ir saliendo adelante</em>”. <strong>La frase dice bastante de Juan Manuel</strong>.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/09/Foro-5-cumple-20-anos-despues-de-perder-su-casa-y-taller-Lo-dificil-no-fue-perder-una-pared-1.jpg" alt="Juan Manuel Chávez, creador de la marca de ropa urbana Foro 5, trabajando en la reconstrucción de su taller." /></p>
+<p>Porque no es la primera vez que Foro 5 lo obliga a decidir cuánto está dispuesto a insistir. La marca nació casi por accidente.</p>
+<p>Juan Manuel es arquitecto. Recién egresado de la universidad, él y dos compañeros se preguntaron qué podían hacer juntos.</p>
+<p>Decidieron estampar camisetas. Faltaba un nombre.</p>
+<p>Una noche, viendo televisión, Juan Manuel encontró una referencia en el Chavo del Ocho que terminó convirtiéndose en Foro 5.</p>
+<p>Él mismo diseñó el logo. Con los años, sus dos amigos tomaron otros caminos y él se quedó con la empresa.</p>
+<p>Pero durante mucho tiempo la marca fue apenas una vida paralela. Juan Manuel ejercía como arquitecto y, al regresar a casa, diseñaba ropa.</p>
+<p>Participaba en algún desfile, hacía prendas para amigos o lanzaba pequeñas colecciones para que Foro 5 no desapareciera.</p>
+<p>La arquitectura era la profesión pero la moda, aquello que realmente le gustaba.</p>
+<p>Y entre las dos existía también el peso de una familia tradicional y la idea de que había carreras que parecían ofrecer un futuro más seguro.</p>
+<p><strong>La pandemia terminó de empujarlo hacia una decisión que llevaba tiempo aplazando:</strong> dedicarse de lleno a Foro 5.</p>
+<p>Desde entonces también ha pensado muchas veces en abandonar.</p>
+<p>Porque vivir de la moda, dice, implica sacrificio, inversión y temporadas en las que parece que nada alcanza.</p>
+<p><strong>Ha pensado:</strong> “<em>Ya no puedo más</em>”. Ha imaginado irse a España y empezar otra vida, pero no se ha ido. “<em>Aquí sigo</em>”.</p>
+<p><strong>Y esa misma frase apareció después del terremoto:</strong> “<em>Aquí sigo</em>”.</p>
+<h3>Una marca urbana</h3>
+<p>Foro 5 tiene algo de la personalidad de su creador.</p>
+<p>Es una marca urbana, cargada de estampados, mezclas de texturas, referencias a los años ochenta y noventa y cruces inesperados entre prendas deportivas y piezas más clásicas.</p>
+<p>Mientras las tendencias se vuelven beige, blancas o negras, Juan Manuel insiste en el color, porque para él Cali también es eso.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/09/Foro-5-cumple-20-anos-despues-de-perder-su-casa-y-taller-Lo-dificil-no-fue-perder-una-pared-2.jpg" alt="Juan Manuel Chávez, creador de la marca de ropa urbana Foro 5, trabajando en la reconstrucción de su taller." /></p>
+<p>Y quizá resulte inevitable encontrar cierta correspondencia entre esa manera de diseñar y su manera de enfrentar este momento: no parece interesado en crear una colección sobre la tragedia ni en convertir el terremoto en estrategia comercial.</p>
+<p>Quiere volver a hacer lo que hacía, recuperar clientes, conseguir pedidos y producir, volver a una normalidad que sabe que no será inmediata.</p>
+<p>“<em>Como si no hubiera pasado, entre comillas, pero sé que está ahí</em>”. Ahí está la dificultad.</p>
+<p>Seguir mientras aquello que ocurrió continúa presente.</p>
+<p>Durante la primera semana estuvo irritable. Él mismo se define como explosivo y reconoce que la tensión terminó afectando también a quienes trabajan a su alrededor.</p>
+<p>No tener su espacio, intentar producir en lugares prestados y regresar a una zona profundamente afectada han ido desgastándolo.</p>
+<p>No pretende convertirlo en una historia bonita. “<em>Es duro volver</em>”, pero vuelve.</p>
+<h4>Una pasarela</h4>
+<p>El próximo año Foro 5 cumple veinte años y Juan Manuel ya piensa en celebrarlos con una pasarela.</p>
+<p>Antes del terremoto, veinte años podían significar simplemente permanencia, ahora significan otra cosa.</p>
+<p>Quiere que ese desfile también sirva para recordar que la recuperación de Cali no terminará cuando desaparezcan las noticias sobre el terremoto.</p>
+<p>Piensa incluso en buscar una manera de recaudar recursos para quienes seguirán necesitando ayuda meses después.</p>
+<p>“<em>Es que la recuperación de la ciudad no es en un mes, dos meses, tres meses</em>”.</p>
+<p>Tal vez él lo entiende porque su propia recuperación tampoco cabe en un calendario.</p>
+<p>Todavía no tiene casa y no tiene taller.</p>
+<p>No ha recuperado completamente sus máquinas ni sus materiales, no tiene siquiera aquella rutina que antes parecía tan simple; pero tiene algo que ya había elegido antes de que temblara: sabe a qué quiere dedicar su vida.</p>
+<p>Hace algunos años tuvo que escoger entre la arquitectura que había estudiado y la moda que lo hacía feliz.</p>
+<p>El terremoto volvió a ponerlo frente a la posibilidad de empezar de cero y esta vez no necesitó pensarlo demasiado.</p>
+<p>Rescató las máquinas que pudo. Buscó los insumos que sobrevivieron.</p>
+<p>Llamó a sus clientes y pidió trabajo.</p>
+<p>No sabe cuándo volverá a tener un espacio propio. Por ahora duerme en un colchón inflable y trata de reconstruir una rutina dentro de una vida prestada.</p>
+<p><strong>Pero cuando habla de Foro 5, repite una frase que parece sencilla hasta que se conoce todo lo que hay detrás:</strong> “<em>Aquí sigo y no voy a parar</em>”.</p>
+<p>Conócelos en <strong><span style="color: #01bfa5;"><a style="color: #01bfa5;" href="https://www.instagram.com/forocinco/" target="_blank" rel="noopener">@forocinco</a></span></strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/reinventarse-para-seguir/marca-de-ropa-urbana-foro-5-resurge-tras-perderlo-todo-en-el-terremoto/">Foro 5 cumple 20 años después de perder su casa y taller: “Lo difícil no fue perder una pared”</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/reinventarse-para-seguir/marca-de-ropa-urbana-foro-5-resurge-tras-perderlo-todo-en-el-terremoto/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Quiénes accederían a los alivios tributarios por el sismo en Cali? Estos son los beneficios que estudia el Concejo</title>
+		<link>https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica-2/</link>
+					<comments>https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica-2/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 23:00:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/alivios-tributarios-sismo-cali-predial-ica-2/</guid>
+
+					<description><![CDATA[<p>Cali dio el primer paso para establecer alivios tributarios por el sismo del pasado 10 de agosto, dirigidos a familias, propietarios, comerciantes y otros contribuyentes afectados por la emergencia. La Comisión de Presupuesto del Concejo aprobó en primer debate el Proyecto de Acuerdo 100, presentado por la Administración del alcalde Alejandro Eder y liderado técnicamente...</p>
+<p>The post <a href="https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica-2/">¿Quiénes accederían a los alivios tributarios por el sismo en Cali? Estos son los beneficios que estudia el Concejo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Cali dio el primer paso para establecer alivios tributarios por el sismo del pasado 10 de agosto, dirigidos a familias, propietarios, comerciantes y otros contribuyentes afectados por la emergencia. La Comisión de Presupuesto del Concejo aprobó en primer debate el Proyecto de Acuerdo 100, presentado por la Administración del alcalde Alejandro Eder y liderado técnicamente por el Departamento Administrativo de Hacienda.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La propuesta reúne medidas fiscales para atender diferentes niveles de afectación registrados en la ciudad. El proyecto contempla beneficios relacionados con el impuesto predial unificado, IPU; el impuesto de Industria y Comercio, ICA; los intereses moratorios; las sanciones tributarias; la participación en plusvalía y las estampillas distritales vinculadas con contratos destinados a atender la emergencia.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El director de Hacienda de Cali, Jhon Quinchua, explicó que la iniciativa establece respuestas diferentes según las afectaciones identificadas. El funcionario señaló que el paquete incluye desde medidas para quienes perdieron una vivienda hasta beneficios dirigidos a establecimientos comerciales que necesitan continuar sus actividades después de los daños registrados.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Sin embargo, los alivios tributarios por el sismo todavía no se encuentran vigentes. La aprobación conseguida en la Comisión de Presupuesto corresponde al primer debate del proyecto y todavía queda pendiente su discusión en la plenaria del Concejo de Cali antes de que las medidas puedan convertirse oficialmente en un Acuerdo Distrital.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Beneficios para afectados</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Uno de los componentes del Proyecto de Acuerdo 100 corresponde al impuesto predial. Los inmuebles con pérdida total o que tengan una orden de demolición recibirían una exoneración del 100 % del impuesto predial correspondiente a una vigencia fiscal. La medida aplicaría para propietarios y poseedores de predios incluidos en el censo de la Secretaría de Gestión del Riesgo.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La propuesta también contempla beneficios para quienes construyan nuevamente sobre los lotes donde se encontraban las edificaciones colapsadas. Las nuevas construcciones quedarían exoneradas del 100 % del impuesto predial durante cuatro vigencias fiscales. En caso de que el impuesto correspondiente al año 2026 ya esté pagado completamente, el beneficio se extendería hasta cinco vigencias fiscales.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Los terrenos que permanezcan sin edificar después de la demolición también están incluidos dentro de los alivios tributarios por el sismo. Según el articulado, estos lotes recibirían una exoneración del 100 % del impuesto predial durante las vigencias comprendidas entre 2027 y 2029.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Además, el proyecto diferencia los casos de inmuebles que registraron afectaciones parciales. Las viviendas con daños que impidan su habitabilidad, pero que no requieran una demolición, podrían acceder a un descuento del 50 % en el impuesto predial correspondiente a la vigencia fiscal de 2027.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El comercio también forma parte de las medidas presentadas al Concejo. Los establecimientos comerciales, talleres y consultorios médicos afectados por el sismo y censados por las autoridades competentes podrían obtener un descuento del 20 % en el impuesto de Industria y Comercio correspondiente al año 2027. El beneficio se aplicaría sobre los ingresos del establecimiento que registre la mayor afectación física.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">En materia de salud, la iniciativa establece modificaciones permanentes en algunas tarifas del ICA. Para hospitales y clínicas con internación, correspondientes al código CIIU 8610, la tarifa quedaría fijada en el 3 por mil. Por su parte, las prácticas médicas y las actividades de apoyo diagnóstico y terapéutico tendrían una tarifa del 5 por mil.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Trámite sigue pendiente</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Otro componente de los alivios tributarios por el sismo corresponde a las obligaciones pendientes de años anteriores. Los contribuyentes afectados o evacuados por el terremoto que presenten mora en el impuesto predial de vigencias anteriores a 2026 podrían pagar hasta cinco vigencias sin intereses moratorios, siempre que cancelen el capital adeudado antes del 31 de diciembre de 2027.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El Proyecto de Acuerdo 100 también contempla una alternativa para los ciudadanos que tengan obligaciones en mora, aunque no pertenezcan al grupo de afectados o evacuados. Para esta población, el plazo previsto para acceder a un descuento del 100 % sobre los intereses moratorios terminaría el 31 de diciembre de 2026.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Las sanciones tributarias también tendrían reducciones dependiendo de la fecha de pago. Quienes liquiden y paguen hasta el 31 de octubre de 2026 podrían reducir la sanción al 20%. La reducción sería al 50 % para quienes realicen el procedimiento hasta el 30 de noviembre y al 75 % para quienes lo hagan hasta el 31 de diciembre de 2026.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La reconstrucción de las edificaciones colapsadas cuenta con otra medida dentro de la propuesta. Las obras realizadas para levantar nuevamente estos inmuebles quedarían exoneradas del pago de participación en plusvalía durante un periodo de tres años, de acuerdo con las disposiciones incluidas en el proyecto.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Asimismo, los contratos del Fondo de Gestión del Riesgo que estén destinados a atender la emergencia quedarían exentos del pago de estampillas distritales durante tres vigencias fiscales. Estas disposiciones hacen parte del paquete presentado por la Administración Distrital para responder a las consecuencias del sismo registrado el 10 de agosto.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Pese a la aprobación en primer debate, el director de Hacienda recordó que ninguna de estas medidas puede solicitarse todavía. El Proyecto de Acuerdo 100 deberá superar el segundo debate en la plenaria del Concejo Distrital para continuar el proceso necesario antes de convertirse oficialmente en Acuerdo Distrital.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Además, varios de los beneficios necesitarán una reglamentación posterior para definir sus aspectos operativos y los procedimientos correspondientes. Por esa razón, el Departamento Administrativo de Hacienda pidió a los ciudadanos no adelantar solicitudes ni realizar trámites relacionados con las medidas mientras continúa la discusión de la iniciativa.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La entidad también hizo un llamado para que las personas no acudan a intermediarios. Una vez que el proyecto complete el trámite en el Concejo y reciba la sanción del alcalde, la Administración Distrital informará los requisitos, canales y procedimientos establecidos para acceder a cada beneficio.</span></p>
+<p>The post <a href="https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica-2/">¿Quiénes accederían a los alivios tributarios por el sismo en Cali? Estos son los beneficios que estudia el Concejo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica-2/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cali retira 99 mil toneladas de escombros tras el terremoto: conozca qué harán con los materiales recolectados</title>
+		<link>https://occidente.co/cali/cali-retira-99-mil-toneladas-escombros-terremoto-2/</link>
+					<comments>https://occidente.co/cali/cali-retira-99-mil-toneladas-escombros-terremoto-2/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 23:00:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/cali-retira-99-mil-toneladas-escombros-terremoto-2/</guid>
+
+					<description><![CDATA[<p>Un mes después del terremoto del 10 de agosto, Cali reportó el retiro de más de 99 mil toneladas de escombros provenientes de los 24 edificios e infraestructuras que colapsaron durante la emergencia. La Administración Distrital mantiene las labores de recolección para despejar corredores viales y peatonales en comunas y barrios con viviendas afectadas. Las...</p>
+<p>The post <a href="https://occidente.co/cali/cali-retira-99-mil-toneladas-escombros-terremoto-2/">Cali retira 99 mil toneladas de escombros tras el terremoto: conozca qué harán con los materiales recolectados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Un mes después del terremoto del 10 de agosto, Cali reportó el retiro de más de 99 mil toneladas de escombros provenientes de los 24 edificios e infraestructuras que colapsaron durante la emergencia. La Administración Distrital mantiene las labores de recolección para despejar corredores viales y peatonales en comunas y barrios con viviendas afectadas.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Las labores reúnen a la Unidad Administrativa Especial de Servicios Públicos, Uaesp, las secretarías de Gestión del Riesgo de Emergencias y Desastres e Infraestructura. Según Diego Hau, director técnico de la Uaesp, las entidades trabajan de manera articulada para retirar los residuos y responder a los requerimientos presentados por la ciudadanía.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Destino de escombros</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Para manejar los residuos de construcción y demolición, RCD, la Administración Distrital habilitó tres estaciones de transferencia temporales en Cañasgordas, La Base y Mariano Ramos. Estos puntos cuentan con los permisos ambientales correspondientes y reciben los escombros retirados de las edificaciones que colapsaron tras el terremoto en Cali.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">De acuerdo con Hau, las tres estaciones recibieron más de 99 mil toneladas de escombros durante el mes posterior al movimiento telúrico. El funcionario señaló que esta cantidad representa entre cinco y seis veces el volumen que normalmente reciben estos espacios durante un día.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Además, del total acumulado en las estaciones temporales, más de 54 mil toneladas ya fueron evacuadas hacia los sitios destinados para su disposición final. Mientras avanza este traslado, las entidades distritales continúan con la recolección en las zonas donde permanecen materiales procedentes de las estructuras afectadas.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El manejo de los escombros en Cali también contempla el aprovechamiento de una parte de los materiales recolectados. Para este proceso, la Alcaldía utiliza nueva maquinaria y trabaja en alianza con el sector privado y el Servicio Nacional de Aprendizaje, SENA.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Material para reconstrucción</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El proceso de aprovechamiento comienza con la trituración de los escombros para convertirlos en material granulado. Según la información entregada por la Administración Distrital, este producto será utilizado posteriormente en trabajos relacionados con la construcción y recuperación de vías y andenes de Cali.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Asimismo, la Alcaldía proyecta emplear este material en la fabricación de adoquines destinados a calles y andenes. Estos elementos se utilizarán mediante proyectos relacionados con espacio público y urbanismo, como parte del aprovechamiento de los residuos de construcción y demolición generados por el terremoto.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">De esta manera, las labores posteriores a la emergencia avanzan en dos frentes relacionados con los escombros: el traslado hacia los sitios de disposición final y el procesamiento de materiales que pueden utilizarse nuevamente. La operación se mantiene un mes después del terremoto que dejó 24 edificios e infraestructuras colapsadas en Cali.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El balance presentado este 10 de septiembre registra más de 99 mil toneladas de escombros retiradas y más de 54 mil toneladas evacuadas hacia disposición final. Las estaciones temporales de Cañasgordas, La Base y Mariano Ramos continúan como puntos habilitados para recibir los residuos derivados de las estructuras afectadas.</span></p>
+<p>The post <a href="https://occidente.co/cali/cali-retira-99-mil-toneladas-escombros-terremoto-2/">Cali retira 99 mil toneladas de escombros tras el terremoto: conozca qué harán con los materiales recolectados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/cali-retira-99-mil-toneladas-escombros-terremoto-2/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Quiénes accederían a los alivios tributarios por el sismo en Cali? Estos son los beneficios que estudia el Concejo</title>
+		<link>https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica/</link>
+					<comments>https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 10 Sep 2026 23:00:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=438846</guid>
+
+					<description><![CDATA[<p>Cali dio el primer paso para establecer alivios tributarios por el sismo del pasado 10 de agosto, dirigidos a familias, propietarios, comerciantes y otros contribuyentes afectados por la emergencia. La Comisión de Presupuesto del Concejo aprobó en primer debate el Proyecto de Acuerdo 100, presentado por la Administración del alcalde Alejandro Eder y liderado técnicamente...</p>
+<p>The post <a href="https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica/">¿Quiénes accederían a los alivios tributarios por el sismo en Cali? Estos son los beneficios que estudia el Concejo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Cali dio el primer paso para establecer alivios tributarios por el sismo del pasado 10 de agosto, dirigidos a familias, propietarios, comerciantes y otros contribuyentes afectados por la emergencia. La Comisión de Presupuesto del Concejo aprobó en primer debate el Proyecto de Acuerdo 100, presentado por la Administración del alcalde Alejandro Eder y liderado técnicamente por el Departamento Administrativo de Hacienda.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La propuesta reúne medidas fiscales para atender diferentes niveles de afectación registrados en la ciudad. El proyecto contempla beneficios relacionados con el impuesto predial unificado, IPU; el impuesto de Industria y Comercio, ICA; los intereses moratorios; las sanciones tributarias; la participación en plusvalía y las estampillas distritales vinculadas con contratos destinados a atender la emergencia.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El director de Hacienda de Cali, Jhon Quinchua, explicó que la iniciativa establece respuestas diferentes según las afectaciones identificadas. El funcionario señaló que el paquete incluye desde medidas para quienes perdieron una vivienda hasta beneficios dirigidos a establecimientos comerciales que necesitan continuar sus actividades después de los daños registrados.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Sin embargo, los alivios tributarios por el sismo todavía no se encuentran vigentes. La aprobación conseguida en la Comisión de Presupuesto corresponde al primer debate del proyecto y todavía queda pendiente su discusión en la plenaria del Concejo de Cali antes de que las medidas puedan convertirse oficialmente en un Acuerdo Distrital.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Beneficios para afectados</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Uno de los componentes del Proyecto de Acuerdo 100 corresponde al impuesto predial. Los inmuebles con pérdida total o que tengan una orden de demolición recibirían una exoneración del 100 % del impuesto predial correspondiente a una vigencia fiscal. La medida aplicaría para propietarios y poseedores de predios incluidos en el censo de la Secretaría de Gestión del Riesgo.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La propuesta también contempla beneficios para quienes construyan nuevamente sobre los lotes donde se encontraban las edificaciones colapsadas. Las nuevas construcciones quedarían exoneradas del 100 % del impuesto predial durante cuatro vigencias fiscales. En caso de que el impuesto correspondiente al año 2026 ya esté pagado completamente, el beneficio se extendería hasta cinco vigencias fiscales.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Los terrenos que permanezcan sin edificar después de la demolición también están incluidos dentro de los alivios tributarios por el sismo. Según el articulado, estos lotes recibirían una exoneración del 100 % del impuesto predial durante las vigencias comprendidas entre 2027 y 2029.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Además, el proyecto diferencia los casos de inmuebles que registraron afectaciones parciales. Las viviendas con daños que impidan su habitabilidad, pero que no requieran una demolición, podrían acceder a un descuento del 50 % en el impuesto predial correspondiente a la vigencia fiscal de 2027.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El comercio también forma parte de las medidas presentadas al Concejo. Los establecimientos comerciales, talleres y consultorios médicos afectados por el sismo y censados por las autoridades competentes podrían obtener un descuento del 20 % en el impuesto de Industria y Comercio correspondiente al año 2027. El beneficio se aplicaría sobre los ingresos del establecimiento que registre la mayor afectación física.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">En materia de salud, la iniciativa establece modificaciones permanentes en algunas tarifas del ICA. Para hospitales y clínicas con internación, correspondientes al código CIIU 8610, la tarifa quedaría fijada en el 3 por mil. Por su parte, las prácticas médicas y las actividades de apoyo diagnóstico y terapéutico tendrían una tarifa del 5 por mil.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Trámite sigue pendiente</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Otro componente de los alivios tributarios por el sismo corresponde a las obligaciones pendientes de años anteriores. Los contribuyentes afectados o evacuados por el terremoto que presenten mora en el impuesto predial de vigencias anteriores a 2026 podrían pagar hasta cinco vigencias sin intereses moratorios, siempre que cancelen el capital adeudado antes del 31 de diciembre de 2027.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El Proyecto de Acuerdo 100 también contempla una alternativa para los ciudadanos que tengan obligaciones en mora, aunque no pertenezcan al grupo de afectados o evacuados. Para esta población, el plazo previsto para acceder a un descuento del 100 % sobre los intereses moratorios terminaría el 31 de diciembre de 2026.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Las sanciones tributarias también tendrían reducciones dependiendo de la fecha de pago. Quienes liquiden y paguen hasta el 31 de octubre de 2026 podrían reducir la sanción al 20%. La reducción sería al 50 % para quienes realicen el procedimiento hasta el 30 de noviembre y al 75 % para quienes lo hagan hasta el 31 de diciembre de 2026.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La reconstrucción de las edificaciones colapsadas cuenta con otra medida dentro de la propuesta. Las obras realizadas para levantar nuevamente estos inmuebles quedarían exoneradas del pago de participación en plusvalía durante un periodo de tres años, de acuerdo con las disposiciones incluidas en el proyecto.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Asimismo, los contratos del Fondo de Gestión del Riesgo que estén destinados a atender la emergencia quedarían exentos del pago de estampillas distritales durante tres vigencias fiscales. Estas disposiciones hacen parte del paquete presentado por la Administración Distrital para responder a las consecuencias del sismo registrado el 10 de agosto.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Pese a la aprobación en primer debate, el director de Hacienda recordó que ninguna de estas medidas puede solicitarse todavía. El Proyecto de Acuerdo 100 deberá superar el segundo debate en la plenaria del Concejo Distrital para continuar el proceso necesario antes de convertirse oficialmente en Acuerdo Distrital.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Además, varios de los beneficios necesitarán una reglamentación posterior para definir sus aspectos operativos y los procedimientos correspondientes. Por esa razón, el Departamento Administrativo de Hacienda pidió a los ciudadanos no adelantar solicitudes ni realizar trámites relacionados con las medidas mientras continúa la discusión de la iniciativa.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La entidad también hizo un llamado para que las personas no acudan a intermediarios. Una vez que el proyecto complete el trámite en el Concejo y reciba la sanción del alcalde, la Administración Distrital informará los requisitos, canales y procedimientos establecidos para acceder a cada beneficio.</span></p>
+<p>The post <a href="https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica/">¿Quiénes accederían a los alivios tributarios por el sismo en Cali? Estos son los beneficios que estudia el Concejo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/alivios-tributarios-sismo-cali-predial-ica/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
