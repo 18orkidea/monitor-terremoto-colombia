@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-09-11T04:01:31.064Z",
- "run_date": "2026-09-10",
- "total": 86,
+ "generated_at": "2026-09-12T04:02:04.439Z",
+ "run_date": "2026-09-11",
+ "total": 89,
  "items": [
   {
    "url": "https://www.infobae.com/colombia/2026/09/03/ungrd-borro-a-varios-desaparecidos-por-el-terremoto-del-10-de-agosto-de-listado-oficial-esta-es-la-razon/",
@@ -167,6 +167,101 @@
    "requiere_revision_humana": true,
    "confianza": "media",
    "cita": "# Balance oficial de la UNGRD este 15 de agosto tras terremoto de 7,4 en Colombia: 294 fallecidos, 3.935 heridos y 320 desaparecidos\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/14/6a7f4d88d64ed.r_d.572-268.png)\n\n**Balance tras terrem",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.infobae.com/colombia/2026/09/11/un-mes-despues-del-terremoto-volvio-a-teblar-en-el-pacifico-sismo-de-45-con-epicentro-en-el-choco-se-sintio-en-cali-pereira-y-manizales/",
+   "publication_url": "https://www.infobae.com/colombia/2026/09/11/un-mes-despues-del-terremoto-volvio-a-teblar-en-el-pacifico-sismo-de-45-con-epicentro-en-el-choco-se-sintio-en-cali-pereira-y-manizales/",
+   "title": "Un mes después del terremoto volvió a temblar en el pacífico: sismo de 4 ...",
+   "snapshot_id": "2026-09-11:https://www.infobae.com/colombia/2026/09/11/un-mes-despues-del-terremoto-volvio-a-teblar-en-el-pacifico-sismo-de-45-con-epicentro-en-el-choco-se-sintio-en-cali-pereira-y-manizales/",
+   "search_date": "2026-09-11",
+   "search_query": "UNGRD SGC terremoto Colombia 11-09-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "infobae",
+    "domain": "infobae.com",
+    "channel": "web",
+    "url": "https://www.infobae.com/colombia/2026/09/11/un-mes-despues-del-terremoto-volvio-a-teblar-en-el-pacifico-sismo-de-45-con-epicentro-en-el-choco-se-sintio-en-cali-pereira-y-manizales/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "a42ed99a2b92fccaa11f92a48d7f6de67f8b3b8b91475bbdae5ca3129a3c5e65",
+   "captured_at": "2026-09-12T04:01:58.466Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a093c6-9b6b-7532-b3d3-95eadc6b89f8",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "![Santander es una de las regiones de Colombia donde se registra mayor actividad sísmica - crédito imagen ilustrativa Infobae Colombia](https://www.infobae.com/resizer/v2/AJZSD4RZBVBXJCE5CZE5NQF4FE.png?auth=3cbee083ec007a1a6305c7147a3fc69e3ac3f9f4348b79390ba01e45216d31be&smart=true&width=350&height=197&quality=85)Tembló en Colombia: SGC confirmó sismo de 4,5 en el occidente del país- crédito imagen ilustrativa Infobae Colombia\n\n11 Sep, 2026 01:10 p. m. EST\n\n**El viernes 11 de septiembre de 2026, el Servicio Geológico Colombiano (SGC) reportó un sismo de magnitud 4,5 en el departamento del Chocó.** De acuerdo con la entidad, el evento ocurrió a las 11:42 a. m., con referencia al municipio de Istmina.\n\nEl SGC aclaró que la información corresponde a un boletín actualizado y que algunos parámetros técnicos podrían ajustarse a medida que avance el procesamiento de los registros de sus estaciones sismológicas.\n\n![El Servicio Geológico Colombiano señaló que el epicentro se localizó a 27 kilómetros del municipio de Sipí, Chocó - crédito SGC](https://www.infobae.com/resizer/v2/UMOMKD3645FHFOBDHHZGMG6PKA.jpg?auth=2e33c8f02a51a3be4a89d3fb54fffa3893fd3912c94bd703e1ac5beabc4f7a32&smart=true&width=350&height=452&quality=85)El Servicio Geológico Colombiano señaló que el epicentro se localizó a 27 kilómetros del municipio de Sipí, Chocó - crédito SGC\n\n**Según el boletín, el epicentro se localizó a 27 kilómetros del municipio de Sipí, también en Chocó, y el movimiento tuvo una profundidad de 41 kilómetros.** La entidad ubicó el punto al occidente de la cordillera de los Andes, dentro del territorio chocoano, con coordenadas de latitud 4,42° y longitud -76,72°.\n\n## Numerosas personas evacuaron las edificaciones en donde estaban tras sentir movimientos telúricos en Cali - crédito @cristianforca/X\n\nEl temblor se sintió en varias zonas del país, como Cali y el Eje Cafetero. Hasta ahora, no se han reportado afectados o daños en edificaciones. En redes sociales circularon videos de las evacuaciones en la capital del departamento del Valle del Cauca.\n\nEl sismo se sintió muy fuerte en los edificios más altos de Cali, también se sintió en los municipios del norte de Valle - crédito suministrado infobae\n\nLos caleños aseguraron que el movimiento telúrico “se sintió muy fuerte en el Norte de Cali”; “Dios santísimo se sintió fuerte Pero corto, en el sur de cali desde una edificación alta”. “Dios ampararnos!🙏🏻 Lo sentí en el sur cali, 9 piso… pensé que eran ideas mías pero vi como se movió el agua que tengo en la mesa de noche”, escribieron en X.\n\n![El sismo de magnitud 7,4 dejó afectaciones en 16 departamentos y 498 municipios de Colombia. - crédito REUTERS/Juan Pablo Arbelaez](https://www.infobae.com/resizer/v2/TY3JVNMR5BDGRB4BWV64TRDRSM.JPG?auth=1f1cdfc9063ab921b4c760071c94452963d9451a7f9511f1d839c734812c49db&smart=true&width=350&height=245&quality=85)El sismo de magnitud 7,4 dejó afectaciones en 16 departamentos y 498 municipios de Colombia. - crédito REUTERS/Juan Pablo Arbelaez\n\nUn mes después del terremoto de magnitud 7,4 que sacudió a Colombia el 10 de agosto de 2026, el balance nacional registra 331 muertos, 4.505 heridos, 111 desaparecidos y 466.709 personas afectadas. El sismo, cuyo epicentro estuvo en San José del Palmar, Chocó, abrió una emergencia en 16 departamentos que obligará a desarrollar una reconstrucción proyectada para un período de entre dos y cuatro años.\n\n**La recuperación de las viviendas podría costar cerca de $16 billones, dentro de una estimación inicial de $30 billones para reconstruir las zonas golpeadas.** La ruta oficial prevé un diagnóstico durante septiembre, trabajos habitacionales entre octubre de 2026 y marzo de 2027 y una etapa de reconstrucción estructural posterior.\n\n![Este es el balance tras la emergencia por el terremoto de 7,4 en Colombia del lunes 10 de agosto de 2026, según la Unidad Nacional para la Gestión del Riesgo de Desastres con corte a las 6:30 a. m. del miércoles 9 de septiembre de 2026 - crédito @UNG",
+   "publicado_en": "2026-09-11T17:10:56.308Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-09-11",
+   "fecha_corte": "2026-08-10",
+   "departamentos": [
+    "Chocó",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Cali",
+    "Istmina",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 466709,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 35263,
+    "viviendas_destruidas": 5221,
+    "heridos": 4505,
+    "fallecidos": 331,
+    "desaparecidos": 111,
+    "rescatados": 3003
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "![Santander es una de las regiones de Colombia donde se registra mayor actividad sísmica - crédito imagen ilustrativa Infobae Colombia](https://www.infobae.com/resizer/v2/AJZSD4RZBVBXJCE5CZE5NQF4FE.png?auth=3cbee083ec007a1a6305c7147a3fc69e3ac3f9f4348b79390ba01e45216d31be&smart=tr",
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
@@ -7177,6 +7272,203 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/",
+   "publication_url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/",
+   "title": "Estos son los municipios y ciudades más afectados por el terremoto del ...",
+   "snapshot_id": "2026-09-11:https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/",
+   "search_date": "2026-09-11",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 11-09-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "infobae",
+    "domain": "infobae.com",
+    "channel": "web",
+    "url": "https://www.infobae.com/colombia/2026/08/18/estos-son-los-municipios-y-ciudades-mas-afectados-por-el-terremoto-del-10-de-agosto-en-colombia-segun-el-ultimo-reporte-de-las-autoridades/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "7e4fa033df88e2ed38e1e87b8b53042c044a3379c27409958923fdecbfd25ef8",
+   "captured_at": "2026-09-12T04:01:58.466Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a093c6-a4ab-72ec-a4a1-16aaf46c66e9",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "![Asocapitales informó que Quibdó, Cali, Manizales, Pereira y Armenia quedaron en alerta roja tras los colapsos causados por el terremoto - crédito @Alcaldiapereira/X](https://www.infobae.com/resizer/v2/5TKPZUI4HNHORBMUSY6BKORPQM.jpg?auth=348ac493b4a34fa88dc9f22bf510d18025918c0b07232f62226a54a8ef0b6938&smart=true&width=350&height=222&quality=85)Asocapitales informó que Quibdó, Cali, Manizales, Pereira y Armenia quedaron en alerta roja tras los colapsos causados por el terremoto - crédito @Alcaldiapereira/X\n\n18 Ago, 2026 10:42 a. m. EST\n\nEl terremoto de magnitud 7,4 que sacudió a Colombia el lunes 10 de agosto de 2026 dejó su impacto más grave en el occidente y suroccidente del país, con 472 municipios reportados como afectados en los primeros balances y cinco capitales en alerta roja, en una emergencia que sigue bajo evaluación de las autoridades.\n\nEn el más reciente reporte difundido por la Unidad Nacional para la Gestión del Riesgo de Desastres (Ungrd) el martes 18 de agosto informó 123.789 familias afectadas, 292.043 personas afectadas, 304 fallecidos, 4.548 heridos y 426 desaparecidos.\n\nAsí mismo, según el Servicio Geológico Colombiano, **el epicentro se localizó en inmediaciones de San José del Palmar, en el departamento del Chocó**. La Ungrd advirtió que las cifras podían modificarse a medida que avanzaran los censos y las verificaciones en terreno.\n\nAsocapitales atribuyó a Cali y Pereira las mayores afectaciones en pérdidas humanas y colapsos de infraestructura.\n\n![Cali concentró la mayor cantidad de fallecidos entre las capitales y registró viviendas, vías, estaciones de policía y estructuras colapsadas - crédito @alejoeder/X](https://www.infobae.com/resizer/v2/LX3DAEXSEJHPTN6JTHKGNCKEVQ.jpg?auth=1df95a010ef4e8fe1811d59a82ff78b6911d3401ddefd25953fdf72dcb625e78&smart=true&width=350&height=233&quality=85)Cali concentró la mayor cantidad de fallecidos entre las capitales y registró viviendas, vías, estaciones de policía y estructuras colapsadas - crédito @alejoeder/X\n\nCali ha concentrado la mayor cantidad de decesos en las capitales. **La ciudad registró 96 fallecidos, 1.224 heridos, 88 rescatados y 111 desaparecidos, además de 107 viviendas colapsadas**, 800 viviendas averiadas, 56 estructuras colapsadas, tres vías colapsadas y cuatro estaciones de policía afectadas.\n\nLas labores de búsqueda en la capital del Valle del Cauca movilizaban 750 rescatistas, de los cuales 350 eran de apoyo externo y 400 de Cali, junto con 14 caninos. Los barrios y zonas más afectados eran Alameda, Nueva Tequendama, Cámbulos, Guadalupe, El Refugio, Pampalinda, El Limonar, Capri y Caldas.\n\nEn todo el Valle del Cauca, según el último reporte entregado por la Gobernación **los daños se extendieron a municipios como Calima-El Darién, Zarzal, El Cairo, Buenaventura, Sevilla, Roldanillo, Buga, Yumbo, Florida, Yotoco, Versalles, La Unión, El Águila, Cartago y Riofrío**, donde en los lugares más golpeados el daño estructural alcanzaba hasta 80% de las edificaciones.\n\n![Pereira reportó la mayor cifra de desaparecidos, con 260 personas no localizadas, además de afectaciones en vías, puentes, la terminal y el aeropuerto Matecaña - crédito Juan Felipe León/Reuters](https://www.infobae.com/resizer/v2/2NS5AGZB5FCWLJVN32FSMDP7P4.JPG?auth=7d7b5b10c77be152e89d6a36c41811fe3721cb64e410e09cba79380ec9cf4c9f&smart=true&width=350&height=197&quality=85)Pereira reportó la mayor cifra de desaparecidos, con 260 personas no localizadas, además de afectaciones en vías, puentes, la terminal y el aeropuerto Matecaña - crédito Juan Felipe León/Reuters\n\nEn Pereira, capital de Risaralda, se reportó la cifra más alta de personas desaparecidas: 260. El último informe indicó 93 fallecidos, 259 heridos y 260 personas rescatadas, además de 66 estructuras colapsadas y 67 averiadas.\n\nLa ciudad tenía hasta 14 vías y puentes afectados. **La Terminal de Transporte de Pereira permanecía cerrada y el Aeropuerto Internacional Matecaña operaba con restricciones**; entre los sectores más dañ",
+   "publicado_en": "2026-08-18T14:42:57.178Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Armenia",
+    "Buenaventura",
+    "Buga",
+    "Calarcá",
+    "Cali",
+    "Cartago",
+    "Dosquebradas",
+    "Istmina",
+    "Manizales",
+    "Montenegro",
+    "Pereira",
+    "Quibdó",
+    "Roldanillo",
+    "Salento",
+    "San José del Palmar",
+    "Sevilla",
+    "Villamaría",
+    "Zarzal"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 292043,
+    "familias_afectadas": 123789,
+    "viviendas_averiadas": 800,
+    "viviendas_destruidas": 107,
+    "heridos": 4548,
+    "fallecidos": 304,
+    "desaparecidos": 426,
+    "rescatados": 260
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "![Asocapitales informó que Quibdó, Cali, Manizales, Pereira y Armenia quedaron en alerta roja tras los colapsos causados por el terremoto - crédito @Alcaldiapereira/X](https://www.infobae.com/resizer/v2/5TKPZUI4HNHORBMUSY6BKORPQM.jpg?auth=348ac493b4a34fa88dc9f22bf510d18025918c0b0",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "publication_url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "title": "OIM Respuesta al Terremoto en Colombia - Reporte de Situación #3 ...",
+   "snapshot_id": "2026-09-11:https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "search_date": "2026-09-11",
+   "search_query": "Presidencia Colombia UNGRD SGC terremoto 11-09-2026 reporte oficial afectados",
+   "publisher": {
+    "name": "ReliefWeb",
+    "domain": "reliefweb.int",
+    "channel": "web",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   "reported_data_source": [
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "e9bb9cbc453d3a2f3e80b51baff6b81525923825cae40184ec005149c7232977",
+   "captured_at": "2026-09-12T04:01:58.466Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a093c6-a8d9-775c-8c22-4c98acc7befe",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Presidencia reporte oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Attachments\n\n- [![Preview of Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/83/3d/833dcc84-be04-5fcb-a3d7-694b3f76689f.png?2737805-1-0)**Download Report**(PDF \\| 723.95 KB)](https://reliefweb.int/attachments/833dcc84-be04-5fcb-a3d7-694b3f76689f/Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf)\n\n**CONTEXTO GENERAL**\n\nEl 10 de agosto de 2026, a las 7:34 a.m. se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó. El Gobierno nacional declaró la situación de desastre nacional mediante el Decreto Presidencial 1171 de 2026. En los días posteriores, la atención y respuesta se ha concentrado principalmente en los departamentos con mayores afectaciones son Valle del Cauca, Chocó, Risaralda, Caldas y Quindío.\n\n**AFECTACIONES**\n\n304 personas fallecidas\n\n426 personas desaparecidas\n\n357 personas rescatadas\n\n186.182 personas afectadas\n\n4.400 personas heridas\n\n127.266 viviendas afectadas\n\n26.558 viviendas destruidas\n\n5 aeropuertos afectados\n\n300 establecimientos de salud afectados\n\n3.074 instituciones educativas afectadas\n\n4.043 centros comunitarios afectados\n\n197 edificios colapsados\n\n15 departamentos afectados\n\n472 municipios afectados\n\n**EVOLUCIÓN DE LA SITUACIÓN**\n\n• El Servicio Geológico Colombiano ha reportado 183 réplicas, 15 superiores a magnitud 3 y dos superiores a magnitud 4.\n\n• La información sobre daños y población afectada continúa consolidándose, incorporando nuevos territorios y actualizando las estimaciones iniciales a medida que avanzan los EDAN y los reportes territoriales.\n\n• Desde el evento se han realizado evaluaciones de daños y afectaciones en los territorios impactados, identificándose impactos diferenciados entre municipios y departamentos.\n\n• El aumento de las lluvias en varios departamentos, especialmente en Chocó, ha agravado la situación de los afectados.",
+   "publicado_en": null,
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 472,
+    "personas_afectadas": 186182,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 127266,
+    "viviendas_destruidas": 26558,
+    "heridos": 4400,
+    "fallecidos": 304,
+    "desaparecidos": 426,
+    "rescatados": 357
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -7356,8 +7648,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a08e9f-d8c1-7110-aaff-ca2d8ae65695",
-       "query": "UNGRD SGC terremoto Colombia 10-09-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a093c6-9b6b-7532-b3d3-95eadc6b89f8",
+       "query": "UNGRD SGC terremoto Colombia 11-09-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -7365,8 +7657,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a08e9f-dfb1-75ee-ba53-a72f0dba1e69",
-       "query": "Gobernación Alcaldía terremoto Colombia 10-09-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a093c6-a4ab-72ec-a4a1-16aaf46c66e9",
+       "query": "Gobernación Alcaldía terremoto Colombia 11-09-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -7374,8 +7666,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a08e9f-e597-74ab-bc79-104d7f17e7ea",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 10-09-2026 reporte oficial afectados",
+       "id": "01a093c6-a8d9-775c-8c22-4c98acc7befe",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 11-09-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -7514,7 +7806,7 @@
      "http_status": 200,
      "ok": true,
      "links_found": 119,
-     "candidates": 3,
+     "candidates": 4,
      "result": "candidate_links"
     }
    ]
@@ -7550,6 +7842,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-09-11/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-09-12/oficiales_feed.json"
  }
 }

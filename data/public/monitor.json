@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-11",
- "fecha": "2026-09-11",
+ "generado": "2026-09-12",
+ "fecha": "2026-09-12",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1190,
-    "n_oficial": 25,
+    "n_prensa": 1218,
+    "n_oficial": 26,
     "n_ciudadano": 434,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1132,
-    "n_oficial": 25,
+    "n_prensa": 1167,
+    "n_oficial": 26,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 583,
-    "n_oficial": 22,
+    "n_prensa": 594,
+    "n_oficial": 23,
     "n_ciudadano": 295,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1132,
-    "n_oficial": 25,
+    "n_prensa": 1167,
+    "n_oficial": 26,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 98,
-    "n_oficial": 25,
+    "n_prensa": 100,
+    "n_oficial": 26,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -512,8 +512,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 67,
-    "n_oficial": 25,
+    "n_prensa": 75,
+    "n_oficial": 26,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 262,
-    "n_oficial": 24,
+    "n_prensa": 264,
+    "n_oficial": 25,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 865
+   "feeds": 873
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 726
+   "feeds": 730
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 550
+   "feeds": 552
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 569
+   "feeds": 570
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 533
+   "feeds": 534
   },
   {
    "fecha": "2026-08-15",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 496
+   "feeds": 499
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 293
+   "feeds": 295
   },
   {
    "fecha": "2026-08-17",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 296
+   "feeds": 297
   },
   {
    "fecha": "2026-08-18",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 360
+   "feeds": 362
   },
   {
    "fecha": "2026-08-19",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 340
+   "feeds": 343
   },
   {
    "fecha": "2026-08-22",
@@ -763,7 +763,7 @@
    "gdelt": 0.2535,
    "fuentes": null,
    "chatmap": 12,
-   "feeds": 283
+   "feeds": 284
   },
   {
    "fecha": "2026-08-26",
@@ -771,7 +771,7 @@
    "gdelt": 0.198,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 249
+   "feeds": 250
   },
   {
    "fecha": "2026-08-27",
@@ -779,7 +779,7 @@
    "gdelt": 0.2597,
    "fuentes": null,
    "chatmap": 18,
-   "feeds": 278
+   "feeds": 280
   },
   {
    "fecha": "2026-08-28",
@@ -795,7 +795,7 @@
    "gdelt": 0.1865,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 171
+   "feeds": 172
   },
   {
    "fecha": "2026-08-30",
@@ -819,7 +819,7 @@
    "gdelt": 0.0773,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 188
+   "feeds": 189
   },
   {
    "fecha": "2026-09-02",
@@ -827,7 +827,7 @@
    "gdelt": 0.0798,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 156
+   "feeds": 157
   },
   {
    "fecha": "2026-09-03",
@@ -835,7 +835,7 @@
    "gdelt": 0.0953,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 174
+   "feeds": 176
   },
   {
    "fecha": "2026-09-04",
@@ -843,7 +843,7 @@
    "gdelt": 0.0748,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 117
+   "feeds": 118
   },
   {
    "fecha": "2026-09-05",
@@ -875,7 +875,7 @@
    "gdelt": 0.1552,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 153
+   "feeds": 155
   },
   {
    "fecha": "2026-09-09",
@@ -883,7 +883,7 @@
    "gdelt": 0.1076,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 141
+   "feeds": 146
   },
   {
    "fecha": "2026-09-10",
@@ -891,15 +891,23 @@
    "gdelt": 0.1096,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 285
+   "feeds": 297
   },
   {
    "fecha": "2026-09-11",
    "emm": null,
    "gdelt": 0.0809,
    "fuentes": null,
+   "chatmap": 0,
+   "feeds": 172
+  },
+  {
+   "fecha": "2026-09-12",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 64
+   "feeds": 24
   }
  ],
  "entregas": [
@@ -964,11 +972,11 @@
   },
   "ungrd_rud": {
    "municipios": 409,
-   "familias": 364671.0,
+   "familias": 364670.0,
    "personas": 778279.0,
    "viv_destruidas": 19142.0,
    "viv_averiadas": 119752.0,
-   "corte": "2026-09-10",
+   "corte": "2026-09-11",
    "retirados": [],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
@@ -1232,6 +1240,16 @@
     "viv_averiadas": 119752.0,
     "nohabitables": 104037.0,
     "habitables": 84855.0
+   },
+   {
+    "fecha": "2026-09-11",
+    "municipios": 409,
+    "familias": 364670.0,
+    "personas": 778279.0,
+    "viv_destruidas": 19142.0,
+    "viv_averiadas": 119752.0,
+    "nohabitables": 104038.0,
+    "habitables": 84855.0
    }
   ],
   "municipios": [
@@ -1246,21 +1264,21 @@
     "habitables": 18798.0,
     "poblacion_2026": 487820,
     "tasa_pct": 22.7301,
-    "delta_familias": -1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
     "departamento": "VALLE DEL CAUCA",
     "municipio": "CALI",
-    "familias": 45139.0,
+    "familias": 45138.0,
     "personas": 97337.0,
     "viv_destruidas": 879.0,
     "viv_averiadas": 16357.0,
-    "nohabitables": 21308.0,
+    "nohabitables": 21309.0,
     "habitables": 6855.0,
     "poblacion_2026": 2269983,
     "tasa_pct": 4.288,
-    "delta_familias": 0.0,
+    "delta_familias": -1.0,
     "nuevo": false
    },
    {
@@ -7124,7 +7142,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-09-11"
+  "generado": "2026-09-12"
  },
  "citizen": {
   "chatmap_total": 864,
@@ -8863,6 +8881,13 @@
    "category": "Storm",
    "countries": "Italy",
    "event_time": "2026-09-02T13:00:00"
+  },
+  {
+   "code": "EMSR931",
+   "name": "Wildfire in Island of Brac, Croatia",
+   "category": "Wildfire",
+   "countries": "Croatia",
+   "event_time": "2026-09-10T20:15:00"
   }
  ],
  "institucional": [
