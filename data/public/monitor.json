@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-12",
- "fecha": "2026-09-12",
+ "generado": "2026-09-13",
+ "fecha": "2026-09-13",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1218,
-    "n_oficial": 26,
+    "n_prensa": 1243,
+    "n_oficial": 27,
     "n_ciudadano": 434,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1167,
-    "n_oficial": 26,
+    "n_prensa": 1176,
+    "n_oficial": 27,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 594,
-    "n_oficial": 23,
+    "n_prensa": 597,
+    "n_oficial": 24,
     "n_ciudadano": 295,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1167,
-    "n_oficial": 26,
+    "n_prensa": 1176,
+    "n_oficial": 27,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 100,
-    "n_oficial": 26,
+    "n_prensa": 101,
+    "n_oficial": 27,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -502,18 +502,18 @@
      "medio_dominio": null
     },
     {
-     "titular": "Se sintieron en Cali: nuevos sismos reportados en Istmina, Chocó de 4,4 y 4,0 sacudieron al país este 27 de agosto - elpais.com.co",
-     "medio": "elpais.com.co",
-     "fecha": "2026-08-27T14:43:00",
-     "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNeGdua2syajZJQWdhaE9sVURmandyUkpOMGdTaXF2dE1xRnd3V094S084LWRwOW9jdTRoR0hxU1J5a1JyR3paRGl1cnFWbWt0eExfS3BEX2psY29YMUhISFA2R0czM0ZpZElHdEFLWm9VRkwtUXgxMlZ1Yi0zX1Jtb0U1b0ZLNkhYQTNabUV1Z296aTJQNGJDZlZmakxFSDZ2QmhvclVrSS1qTXd3b0pyT1ZoRkFuMkpVVVFkeERiT0tiU0czNjFVRUh4TU9kZ2daMnpaandNaV_SAd4BQVVfeXFMTUNQbkRuNEhlcFd1M2tNM2VIN1RuV0ZLRDJWVDBJOENFMHE3dFVtb2xkckl5QklBdHVIS2Y5ekZOMWZKQ1R4QkViSGFBTEJwTlo4bFZCRW5nVVliM21CQzFKUTFhSDBKOGstc0ZJQ0czelFVbmpuUlhpcWJsd19mbWJJb2tSalpIU1h4RnU5YVpBaFNhY1MzR0JkMVV2V1hYSEFvNFEzczRoNWNVWnVzdHpBOE5GTkQ3YVFIb2VtWVlvOGNSdzJEYTJlQVBnYkkzQXl0RVJVeHdoU2Myc0hB?oc=5",
-     "medio_canonico": "elpais.com.co",
-     "medio_dominio": "elpais.com.co"
+     "titular": "Fuerte temblor de magnitud 4,5 sacudió Istmina, Chocó, este 11 de septiembre - ELHERALDO.CO",
+     "medio": "ELHERALDO.CO",
+     "fecha": "2026-09-11T17:14:38",
+     "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQXzVrOWxENHM5MUxoWnZGbG14R1RrR2xVOXVPM09PZ2c3bU0zR1hpRG1VQi1MU3lqUkpYWU1YT0VsMktuQ1d1WlF5SzE3d2U5eVN4X2c0VG5MeERHQ1RFd3EtSlFuSnJ6NzlJLVktRHJaT21uYzg0Q2dRSWw3TlloVWZJYjc4V0hvVUhqWGNIV1NvMDdOWk5vSHlFbWp1R3JxcmotNTgwdnpBT3RScjVGZjNEck52bjBjUkRRbUlBNGwwREVKLVdEZ294X3czbW9melMyY3l30gHWAUFVX3lxTFBfNWs5bEQ0czkxTGhadkZsbXhHVGtHbFU5dU8zT09nZzdtTTNHWGlEbVVCLUxTeWpSSlhZTVhPRWwyS25DV3VaUXlLMTd3ZTl5U3hfZzRUbkx4REdDVEV3cS1KUW5Kcno3OUktWS1EclpPbW5jODRDZ1FJbDdOWWhVZkliNzhXSG9VSGpYY0hXU28wN05aTm9IeUVtanVHcnFyai01ODB2ekFPdFJyNUZmM0RyTnZuMGNSRFFtSUE0bDBERUotV0Rnb3hfdzNtb2Z6UzJjeXc?oc=5",
+     "medio_canonico": "ELHERALDO.CO",
+     "medio_dominio": "elheraldo.co"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 75,
-    "n_oficial": 26,
+    "n_prensa": 84,
+    "n_oficial": 27,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 264,
-    "n_oficial": 25,
+    "n_prensa": 266,
+    "n_oficial": 26,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 873
+   "feeds": 881
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 730
+   "feeds": 735
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 552
+   "feeds": 555
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 570
+   "feeds": 571
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 534
+   "feeds": 537
   },
   {
    "fecha": "2026-08-15",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 499
+   "feeds": 502
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 295
+   "feeds": 296
   },
   {
    "fecha": "2026-08-17",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 362
+   "feeds": 364
   },
   {
    "fecha": "2026-08-19",
@@ -715,7 +715,7 @@
    "gdelt": 0.5095,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 309
+   "feeds": 310
   },
   {
    "fecha": "2026-08-20",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 343
+   "feeds": 344
   },
   {
    "fecha": "2026-08-22",
@@ -739,7 +739,7 @@
    "gdelt": 0.2718,
    "fuentes": null,
    "chatmap": 80,
-   "feeds": 220
+   "feeds": 221
   },
   {
    "fecha": "2026-08-23",
@@ -771,7 +771,7 @@
    "gdelt": 0.198,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 250
+   "feeds": 252
   },
   {
    "fecha": "2026-08-27",
@@ -795,7 +795,7 @@
    "gdelt": 0.1865,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 172
+   "feeds": 173
   },
   {
    "fecha": "2026-08-30",
@@ -803,7 +803,7 @@
    "gdelt": 0.1727,
    "fuentes": null,
    "chatmap": 45,
-   "feeds": 136
+   "feeds": 137
   },
   {
    "fecha": "2026-08-31",
@@ -851,7 +851,7 @@
    "gdelt": 0.0662,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 104
+   "feeds": 105
   },
   {
    "fecha": "2026-09-06",
@@ -883,7 +883,7 @@
    "gdelt": 0.1076,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 146
+   "feeds": 147
   },
   {
    "fecha": "2026-09-10",
@@ -891,7 +891,7 @@
    "gdelt": 0.1096,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 297
+   "feeds": 305
   },
   {
    "fecha": "2026-09-11",
@@ -899,15 +899,23 @@
    "gdelt": 0.0809,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 172
+   "feeds": 184
   },
   {
    "fecha": "2026-09-12",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.0687,
+   "fuentes": null,
+   "chatmap": 0,
+   "feeds": 78
+  },
+  {
+   "fecha": "2026-09-13",
+   "emm": null,
+   "gdelt": 0.0855,
    "fuentes": null,
    "chatmap": null,
-   "feeds": 24
+   "feeds": 13
   }
  ],
  "entregas": [
@@ -974,9 +982,9 @@
    "municipios": 409,
    "familias": 364670.0,
    "personas": 778279.0,
-   "viv_destruidas": 19142.0,
+   "viv_destruidas": 19143.0,
    "viv_averiadas": 119752.0,
-   "corte": "2026-09-11",
+   "corte": "2026-09-12",
    "retirados": [],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
@@ -1250,6 +1258,16 @@
     "viv_averiadas": 119752.0,
     "nohabitables": 104038.0,
     "habitables": 84855.0
+   },
+   {
+    "fecha": "2026-09-12",
+    "municipios": 409,
+    "familias": 364670.0,
+    "personas": 778279.0,
+    "viv_destruidas": 19143.0,
+    "viv_averiadas": 119752.0,
+    "nohabitables": 104037.0,
+    "habitables": 84855.0
    }
   ],
   "municipios": [
@@ -1278,7 +1296,7 @@
     "habitables": 6855.0,
     "poblacion_2026": 2269983,
     "tasa_pct": 4.288,
-    "delta_familias": -1.0,
+    "delta_familias": 0.0,
     "nuevo": false
    },
    {
@@ -1356,9 +1374,9 @@
     "municipio": "CALARCÁ",
     "familias": 6883.0,
     "personas": 10370.0,
-    "viv_destruidas": 17.0,
+    "viv_destruidas": 18.0,
     "viv_averiadas": 3454.0,
-    "nohabitables": 451.0,
+    "nohabitables": 450.0,
     "habitables": 1281.0,
     "poblacion_2026": 74399,
     "tasa_pct": 13.9384,
@@ -7142,7 +7160,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-09-12"
+  "generado": "2026-09-13"
  },
  "citizen": {
   "chatmap_total": 864,
