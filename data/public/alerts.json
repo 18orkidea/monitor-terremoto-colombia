@@ -1,19 +1,19 @@
 {
- "generado": "2026-09-14",
- "fecha": "2026-09-14",
+ "generado": "2026-09-15",
+ "fecha": "2026-09-15",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "122 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 122
+   "texto": "223 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 223
   },
   {
    "tipo": "rud_sin_movimiento",
    "nivel": "info",
-   "capturas_planas": 1,
+   "capturas_planas": 2,
    "desde": "2026-09-13",
-   "texto": "El RUD lleva 1 captura(s) sin mover un solo municipio (desde 2026-09-13). La fuente responde y repite las mismas cifras: no es un fallo de la corrida, es un registro que dejó de crecer."
+   "texto": "El RUD lleva 2 captura(s) sin mover un solo municipio (desde 2026-09-13). La fuente responde y repite las mismas cifras: no es un fallo de la corrida, es un registro que dejó de crecer."
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -27,9 +27,9 @@
   {
    "tipo": "colision_etiquetado_rud",
    "nivel": "info",
-   "texto": "sources_log registra capturas del RUD en 29 días distintos, pero rud_daily solo tiene 28 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
-   "dias_de_fetch": 29,
-   "dias_en_rud_daily": 28
+   "texto": "sources_log registra capturas del RUD en 30 días distintos, pero rud_daily solo tiene 29 snapshot_date: al menos una etiqueta se repitió (dos corridas calcularon el mismo día consolidado). La más reciente pisó a la anterior (INSERT OR REPLACE) — esto solo lo deja dicho.",
+   "dias_de_fetch": 30,
+   "dias_en_rud_daily": 29
   },
   {
    "tipo": "unosat_codigo_evento_imposible",
@@ -50,13 +50,12 @@
   {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
-   "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
+   "texto": "1 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.0 MB). Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
    "urls": [
-    "https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
     "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID"
    ],
-   "n": 2,
-   "bytes": 64329
+   "n": 1,
+   "bytes": 72
   },
   {
    "tipo": "manifiesto_r2_con_objetos_sin_reporte",
@@ -84,12 +83,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 26 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 26
+   "texto": "La OPS lleva 27 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 27
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-13",
+  "fecha": "2026-09-14",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -168,7 +167,7 @@
     "valor": 15,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "municipios_afectados",
@@ -179,10 +178,10 @@
    },
    {
     "cifra": "municipios_afectados",
-    "valor": 426,
+    "valor": 448,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "personas_afectadas",
@@ -193,17 +192,24 @@
    },
    {
     "cifra": "personas_afectadas",
-    "valor": 102105,
+    "valor": 145601,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "familias_afectadas",
-    "valor": 44936,
+    "valor": 57516,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+   },
+   {
+    "cifra": "familias_afectadas",
+    "valor": 159924,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
+    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
    },
    {
     "cifra": "viviendas_averiadas",
@@ -214,10 +220,17 @@
    },
    {
     "cifra": "viviendas_averiadas",
-    "valor": 65841,
+    "valor": 80744,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+   },
+   {
+    "cifra": "viviendas_averiadas",
+    "valor": 178236,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
+    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
    },
    {
     "cifra": "viviendas_destruidas",
@@ -228,10 +241,10 @@
    },
    {
     "cifra": "viviendas_destruidas",
-    "valor": 10677,
+    "valor": 12504,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "heridos",
@@ -242,10 +255,17 @@
    },
    {
     "cifra": "heridos",
-    "valor": 3971,
+    "valor": 4018,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 4592,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
+    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
    },
    {
     "cifra": "fallecidos",
@@ -256,17 +276,31 @@
    },
    {
     "cifra": "fallecidos",
-    "valor": 281,
+    "valor": 288,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
+   },
+   {
+    "cifra": "fallecidos",
+    "valor": 329,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
+    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
    },
    {
     "cifra": "desaparecidos",
-    "valor": 379,
-    "motivo": "corte del 13-ago-2026 anterior al vigente (2-sep-2026)",
+    "valor": 234,
+    "motivo": "corte del 24-ago-2026 anterior al vigente (2-sep-2026)",
+    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
+    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 202,
+    "motivo": "corte del 14-ago-2026 anterior al vigente (2-sep-2026)",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    },
    {
     "cifra": "desaparecidos",
@@ -284,16 +318,16 @@
    },
    {
     "cifra": "rescatados",
-    "valor": 169,
+    "valor": 170,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-287-fallecidos-3-975-heridos-y-378-desaparecidos-3578445"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-14/oficiales_feed.json",
-   "items": 95,
+   "snapshot": "data/snapshots/2026-09-15/oficiales_feed.json",
+   "items": 98,
    "regla_sha256": "6c31c0f07f8757e02e4be0491cc29e5b27bf28ef58c99310502d227675904a96"
   }
  }

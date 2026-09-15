@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-14",
- "fecha": "2026-09-14",
+ "generado": "2026-09-15",
+ "fecha": "2026-09-15",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -13,7 +13,7 @@
   ],
   "mag": 7.4,
   "place": "2 km SE of San José del Palmar, Colombia",
-  "felt": 1245
+  "felt": 1246
  },
  "aois": [
   {
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1252,
-    "n_oficial": 28,
+    "n_prensa": 1289,
+    "n_oficial": 29,
     "n_ciudadano": 434,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1185,
-    "n_oficial": 28,
+    "n_prensa": 1223,
+    "n_oficial": 29,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 599,
-    "n_oficial": 25,
+    "n_prensa": 604,
+    "n_oficial": 26,
     "n_ciudadano": 295,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1185,
-    "n_oficial": 28,
+    "n_prensa": 1223,
+    "n_oficial": 29,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 101,
-    "n_oficial": 28,
+    "n_prensa": 103,
+    "n_oficial": 29,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -512,8 +512,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 84,
-    "n_oficial": 28,
+    "n_prensa": 91,
+    "n_oficial": 29,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 268,
-    "n_oficial": 27,
+    "n_prensa": 269,
+    "n_oficial": 28,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 883
+   "feeds": 895
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 738
+   "feeds": 739
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 558
+   "feeds": 559
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 574
+   "feeds": 576
   },
   {
    "fecha": "2026-08-14",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 504
+   "feeds": 505
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 297
+   "feeds": 301
   },
   {
    "fecha": "2026-08-17",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 365
+   "feeds": 366
   },
   {
    "fecha": "2026-08-19",
@@ -715,7 +715,7 @@
    "gdelt": 0.5095,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 311
+   "feeds": 314
   },
   {
    "fecha": "2026-08-20",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 345
+   "feeds": 347
   },
   {
    "fecha": "2026-08-22",
@@ -739,7 +739,7 @@
    "gdelt": 0.2718,
    "fuentes": null,
    "chatmap": 80,
-   "feeds": 221
+   "feeds": 222
   },
   {
    "fecha": "2026-08-23",
@@ -755,7 +755,7 @@
    "gdelt": 0.2422,
    "fuentes": null,
    "chatmap": 97,
-   "feeds": 344
+   "feeds": 345
   },
   {
    "fecha": "2026-08-25",
@@ -811,7 +811,7 @@
    "gdelt": 0.0911,
    "fuentes": null,
    "chatmap": 6,
-   "feeds": 177
+   "feeds": 178
   },
   {
    "fecha": "2026-09-01",
@@ -827,7 +827,7 @@
    "gdelt": 0.0798,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 157
+   "feeds": 158
   },
   {
    "fecha": "2026-09-03",
@@ -867,7 +867,7 @@
    "gdelt": 0.1067,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 145
+   "feeds": 146
   },
   {
    "fecha": "2026-09-08",
@@ -875,7 +875,7 @@
    "gdelt": 0.1552,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 156
+   "feeds": 157
   },
   {
    "fecha": "2026-09-09",
@@ -883,7 +883,7 @@
    "gdelt": 0.1076,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 147
+   "feeds": 148
   },
   {
    "fecha": "2026-09-10",
@@ -891,7 +891,7 @@
    "gdelt": 0.1096,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 314
+   "feeds": 321
   },
   {
    "fecha": "2026-09-11",
@@ -899,7 +899,7 @@
    "gdelt": 0.0809,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 187
+   "feeds": 193
   },
   {
    "fecha": "2026-09-12",
@@ -915,15 +915,23 @@
    "gdelt": 0.0855,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 45
+   "feeds": 51
   },
   {
    "fecha": "2026-09-14",
    "emm": null,
    "gdelt": null,
    "fuentes": null,
+   "chatmap": 0,
+   "feeds": 125
+  },
+  {
+   "fecha": "2026-09-15",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 24
+   "feeds": 34
   }
  ],
  "entregas": [
@@ -992,7 +1000,7 @@
    "personas": 778279.0,
    "viv_destruidas": 19143.0,
    "viv_averiadas": 119752.0,
-   "corte": "2026-09-13",
+   "corte": "2026-09-14",
    "retirados": [],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
@@ -1279,6 +1287,16 @@
    },
    {
     "fecha": "2026-09-13",
+    "municipios": 409,
+    "familias": 364670.0,
+    "personas": 778279.0,
+    "viv_destruidas": 19143.0,
+    "viv_averiadas": 119752.0,
+    "nohabitables": 104037.0,
+    "habitables": 84855.0
+   },
+   {
+    "fecha": "2026-09-14",
     "municipios": 409,
     "familias": 364670.0,
     "personas": 778279.0,
@@ -7178,7 +7196,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-09-14"
+  "generado": "2026-09-15"
  },
  "citizen": {
   "chatmap_total": 864,
