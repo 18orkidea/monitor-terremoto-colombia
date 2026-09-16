@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-15",
- "fecha": "2026-09-15",
+ "generado": "2026-09-16",
+ "fecha": "2026-09-16",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1289,
-    "n_oficial": 29,
+    "n_prensa": 1313,
+    "n_oficial": 30,
     "n_ciudadano": 434,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1223,
-    "n_oficial": 29,
+    "n_prensa": 1240,
+    "n_oficial": 30,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 604,
-    "n_oficial": 26,
+    "n_prensa": 608,
+    "n_oficial": 27,
     "n_ciudadano": 295,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1223,
-    "n_oficial": 29,
+    "n_prensa": 1240,
+    "n_oficial": 30,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 103,
-    "n_oficial": 29,
+    "n_prensa": 109,
+    "n_oficial": 30,
     "n_ciudadano": 50,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -502,18 +502,18 @@
      "medio_dominio": null
     },
     {
-     "titular": "Temblor en Colombia HOY 12 de septiembre de magnitud de 4.6: epicentro en Istmina, Chocó - Hoy Diario del Magdalena",
-     "medio": "Hoy Diario del Magdalena",
-     "fecha": "2026-09-12T13:21:00",
-     "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPVUdPbXo3MEM3dlZQSndIdlhFcUw2R2tEWWJ5QldQT3lLWUJ5cE90R3E1NUk0UzhQcmMyWmctTlFFS1Zod0ppQXVYYWk0dFM4STJpVXBkM2hJcjkxNUliXzZ6TjdqcWVPN2NtRXprYXgzdTZrem14NDVBQkN4MWVFdzF4V3o5SldKMzFfLTZVYnpXTzZ5ODZ6bHVSRmZVY2djRElQOE5ZV2NIWVFvTl9CYjNDYlNESWhiVXFHd3JYWDg2bjZjZmx2ZU1TVFc3dWtCN2dwOEt3?oc=5",
-     "medio_canonico": "Hoy Diario del Magdalena",
-     "medio_dominio": "hoydiariodelmagdalena.com.co"
+     "titular": "Temblor de magnitud 4,9 en Istmina, Chocó; reportan tres réplicas de magnitudes mayor a 4,0 - Noticias Caracol",
+     "medio": "Noticias Caracol",
+     "fecha": "2026-09-14T20:10:04",
+     "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPLVBha0pXa2RSb2RuRVJzN2tXVlVVN0E2OGlZZzU5WW9XTEozYi1FaGZud1NzdW93U0xvSFdsckpYRjNHTTNFSnZ0QXAySkJSa1M4TmJyRU9YZU1qMm5nSXdQWjZKbElwejlyLUdoM1pnOU00RXNRNHlhdE4yWmVaVHBKRldvZzFyeXVaaWxFNHp4OXhNTVJsajRmbmVsTTF0RkNtNnpWTmlFbGF0angtNklzLXJxQVVPcFc5V1U0OHVPWVgzeVplbkpOekJKS3lp0gHeAUFVX3lxTE5YOHdEOHJteG14alhqVHJiek5nYUdBdDBjYVFsdFpNaTFpVW54aE16WDRBTGxwVHB5cFA3ZFdwM2RKMmE1V3pFSjg2SEVNLW5oeHhGc0pCQWNMYVRvUGJhSGowbldnMlNBbWEzQWcxcjVoNkt3aGFocVpGTm1HWktPZ0VyVFFMQ0ZnOGhWcWdZcE85cnkxT2c5VUVlcm9Sb3hSd1ZhUkMtWHl5Rjl1ZmVZQ2lpT2ljSEFvUDVxYnYtTFBKSGlac1Q3dGVsWTFJZ19uUEtsSXNXbnZNclBEUQ?oc=5",
+     "medio_canonico": "Noticias Caracol",
+     "medio_dominio": "noticiascaracol.com"
     }
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 91,
-    "n_oficial": 29,
+    "n_prensa": 95,
+    "n_oficial": 30,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 269,
-    "n_oficial": 28,
+    "n_prensa": 282,
+    "n_oficial": 29,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 895
+   "feeds": 899
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 739
+   "feeds": 742
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 559
+   "feeds": 560
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 576
+   "feeds": 577
   },
   {
    "fecha": "2026-08-14",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 366
+   "feeds": 367
   },
   {
    "fecha": "2026-08-19",
@@ -723,7 +723,7 @@
    "gdelt": 0.3937,
    "fuentes": null,
    "chatmap": 55,
-   "feeds": 346
+   "feeds": 347
   },
   {
    "fecha": "2026-08-21",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 347
+   "feeds": 349
   },
   {
    "fecha": "2026-08-22",
@@ -755,7 +755,7 @@
    "gdelt": 0.2422,
    "fuentes": null,
    "chatmap": 97,
-   "feeds": 345
+   "feeds": 346
   },
   {
    "fecha": "2026-08-25",
@@ -763,7 +763,7 @@
    "gdelt": 0.2535,
    "fuentes": null,
    "chatmap": 12,
-   "feeds": 286
+   "feeds": 288
   },
   {
    "fecha": "2026-08-26",
@@ -771,7 +771,7 @@
    "gdelt": 0.198,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 253
+   "feeds": 256
   },
   {
    "fecha": "2026-08-27",
@@ -779,7 +779,7 @@
    "gdelt": 0.2597,
    "fuentes": null,
    "chatmap": 18,
-   "feeds": 282
+   "feeds": 283
   },
   {
    "fecha": "2026-08-28",
@@ -787,7 +787,7 @@
    "gdelt": 0.1485,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 234
+   "feeds": 235
   },
   {
    "fecha": "2026-08-29",
@@ -819,7 +819,7 @@
    "gdelt": 0.0773,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 189
+   "feeds": 190
   },
   {
    "fecha": "2026-09-02",
@@ -827,7 +827,7 @@
    "gdelt": 0.0798,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 158
+   "feeds": 159
   },
   {
    "fecha": "2026-09-03",
@@ -835,7 +835,7 @@
    "gdelt": 0.0953,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 177
+   "feeds": 178
   },
   {
    "fecha": "2026-09-04",
@@ -843,7 +843,7 @@
    "gdelt": 0.0748,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 118
+   "feeds": 119
   },
   {
    "fecha": "2026-09-05",
@@ -859,7 +859,7 @@
    "gdelt": 0.0588,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 81
+   "feeds": 82
   },
   {
    "fecha": "2026-09-07",
@@ -867,7 +867,7 @@
    "gdelt": 0.1067,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 146
+   "feeds": 147
   },
   {
    "fecha": "2026-09-08",
@@ -875,7 +875,7 @@
    "gdelt": 0.1552,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 157
+   "feeds": 158
   },
   {
    "fecha": "2026-09-09",
@@ -883,7 +883,7 @@
    "gdelt": 0.1076,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 148
+   "feeds": 149
   },
   {
    "fecha": "2026-09-10",
@@ -899,7 +899,7 @@
    "gdelt": 0.0809,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 193
+   "feeds": 195
   },
   {
    "fecha": "2026-09-12",
@@ -907,7 +907,7 @@
    "gdelt": 0.0687,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 80
+   "feeds": 82
   },
   {
    "fecha": "2026-09-13",
@@ -915,7 +915,7 @@
    "gdelt": 0.0855,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 51
+   "feeds": 52
   },
   {
    "fecha": "2026-09-14",
@@ -923,15 +923,23 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 125
+   "feeds": 137
   },
   {
    "fecha": "2026-09-15",
    "emm": null,
    "gdelt": null,
    "fuentes": null,
+   "chatmap": 0,
+   "feeds": 138
+  },
+  {
+   "fecha": "2026-09-16",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 34
+   "feeds": 19
   }
  ],
  "entregas": [
@@ -1000,7 +1008,7 @@
    "personas": 778279.0,
    "viv_destruidas": 19143.0,
    "viv_averiadas": 119752.0,
-   "corte": "2026-09-14",
+   "corte": "2026-09-15",
    "retirados": [],
    "fuente": "https://rud.gestiondelriesgo.gov.co/"
   }
@@ -1297,6 +1305,16 @@
    },
    {
     "fecha": "2026-09-14",
+    "municipios": 409,
+    "familias": 364670.0,
+    "personas": 778279.0,
+    "viv_destruidas": 19143.0,
+    "viv_averiadas": 119752.0,
+    "nohabitables": 104037.0,
+    "habitables": 84855.0
+   },
+   {
+    "fecha": "2026-09-15",
     "municipios": 409,
     "familias": 364670.0,
     "personas": 778279.0,
@@ -7196,7 +7214,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-09-15"
+  "generado": "2026-09-16"
  },
  "citizen": {
   "chatmap_total": 864,
@@ -8942,6 +8960,13 @@
    "category": "Wildfire",
    "countries": "Croatia",
    "event_time": "2026-09-10T20:15:00"
+  },
+  {
+   "code": "EMSR932",
+   "name": "Wildfire in Huelva Province, Spain",
+   "category": "Wildfire",
+   "countries": "Spain",
+   "event_time": "2026-09-15T13:00:00"
   }
  ],
  "institucional": [
