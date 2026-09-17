@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="http://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>http://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Thu, 17 Sep 26 00:00:00 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>http://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Manizaleños se reúnen en el Mirador de Niza para compartir y apoyar a los comerciantes del barrio Milán</title>
+  <link>http://www.lapatria.com/galerias/manizalenos-se-reunen-en-el-mirador-de-niza-para-compartir-y-apoyar-los-comerciantes-del</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Manizaleños se reúnen en el Mirador de Niza para compartir y apoyar a los comerciantes del barrio Milán&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-17T00:00:00-05:00" title="Jueves, Septiembre 17, 2026 - 00:00" class="datetime"&gt;Jue, 17/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Manizaleños se siguen reuniendo en el Mirador de Niza para compartir con familiares y amigos y apoyar a los comerciantes del barrio Milán.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/manizalenos-se-reunen-en-el-mirador-de-niza-para-compartir-y-apoyar-los-comerciantes-del" data-a2a-title="Manizaleños se reúnen en el Mirador de Niza para compartir y apoyar a los comerciantes del barrio Milán"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fmanizalenos-se-reunen-en-el-mirador-de-niza-para-compartir-y-apoyar-los-comerciantes-del&amp;amp;title=Manizale%C3%B1os%20se%20re%C3%BAnen%20en%20el%20Mirador%20de%20Niza%20para%20compartir%20y%20apoyar%20a%20los%20comerciantes%20del%20barrio%20Mil%C3%A1n"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Thu, 17 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93297 at http://www.lapatria.com</guid>
+          <category domain="http://www.lapatria.com/galeria">Galería</category>
+          </item>
+<item>
+  <title>VENTA CASA</title>
+  <link>http://www.lapatria.com/clasificados/venta-casa-79</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA CASA&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T08:21:26-05:00" title="Miércoles, Septiembre 16, 2026 - 08:21" class="datetime"&gt;Mié, 16/09/2026 - 08:21&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93257&amp;amp;2=bookmark&amp;amp;3=rss" token="HJ3YJewQN0wMpsJrXqrxfCy_acsIKYTzuAYRfmjLVWI"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;. 317-6417626.&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 13:21:26 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93257 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA PARQUEADERO</title>
+  <link>http://www.lapatria.com/clasificados/venta-parqueadero-1</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA PARQUEADERO&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T08:19:36-05:00" title="Miércoles, Septiembre 16, 2026 - 08:19" class="datetime"&gt;Mié, 16/09/2026 - 08:19&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93256&amp;amp;2=bookmark&amp;amp;3=rss" token="qznSy4UsKK84ukAb_IDOiEMcuOfJdY2CgpXAr6V69iM"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;317-6417626.&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 13:19:36 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93256 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>arriendo apartamento</title>
+  <link>http://www.lapatria.com/clasificados/arriendo-apartamento-34</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;arriendo apartamento&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T08:18:23-05:00" title="Miércoles, Septiembre 16, 2026 - 08:18" class="datetime"&gt;Mié, 16/09/2026 - 08:18&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;1.550.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93255&amp;amp;2=bookmark&amp;amp;3=rss" token="atxwC_j_XbWrDpK5Up_HhYlbLstYvDFdPpL7ZYPLTgA"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;321-7692425&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 13:18:23 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93255 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>EMPLEO </title>
+  <link>http://www.lapatria.com/clasificados/empleo-93</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;EMPLEO &lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T08:17:33-05:00" title="Miércoles, Septiembre 16, 2026 - 08:17" class="datetime"&gt;Mié, 16/09/2026 - 08:17&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93254&amp;amp;2=bookmark&amp;amp;3=rss" token="sCOE7SzUhUB911_VhNwFgjPQTxN59mli5kH3rs84mgM"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3366" hreflang="es"&gt;Empleos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt; 314-5541666, 310-5001187&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 13:17:33 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93254 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 16 de septiembre del 2026</title>
+  <link>http://www.lapatria.com/publicacion/portada-16-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 16 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/23" typeof="schema:Person" property="schema:name" datatype&gt;david.munoz&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T07:54:38-05:00" title="Miércoles, Septiembre 16, 2026 - 07:54" class="datetime"&gt;Mié, 16/09/2026 - 07:54&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=93252&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="b99kSQkrNGwETwVXJesjJlhDqBuIAxzd73uAcd8pKg4"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/LP-01A-16-09-26%20%281%29.jpg" width="600" height="782" alt="Portada 16 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 16 de septiembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 12:54:38 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">93252 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>ARRIENDO APARTAESTUDIO</title>
+  <link>http://www.lapatria.com/clasificados/arriendo-apartaestudio-14</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;ARRIENDO APARTAESTUDIO&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T07:35:48-05:00" title="Miércoles, Septiembre 16, 2026 - 07:35" class="datetime"&gt;Mié, 16/09/2026 - 07:35&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93253&amp;amp;2=bookmark&amp;amp;3=rss" token="xrII4jQqhNVpzFj0P2GsmwWkbhGvq_KICnV5sQqrygE"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;313-6847057&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 12:35:48 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93253 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>El restaurante La Shiraka fue escenario de cenas y almuerzos para celebrar grados.</title>
+  <link>http://www.lapatria.com/galerias/el-restaurante-la-shiraka-fue-escenario-de-cenas-y-almuerzos-para-celebrar-grados</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;El restaurante La Shiraka fue escenario de cenas y almuerzos para celebrar grados.&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T00:00:00-05:00" title="Miércoles, Septiembre 16, 2026 - 00:00" class="datetime"&gt;Mié, 16/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;El restaurante La Shiraka fue escenario de cenas y almuerzos para celebrar grados.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/el-restaurante-la-shiraka-fue-escenario-de-cenas-y-almuerzos-para-celebrar-grados" data-a2a-title="El restaurante La Shiraka fue escenario de cenas y almuerzos para celebrar grados."&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fel-restaurante-la-shiraka-fue-escenario-de-cenas-y-almuerzos-para-celebrar-grados&amp;amp;title=El%20restaurante%20La%20Shiraka%20fue%20escenario%20de%20cenas%20y%20almuerzos%20para%20celebrar%20grados."&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93205 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Como parte del programa Prensa Escuela, estudiantes de universidades y colegios visitaron las instalaciones de El periódico de casa </title>
+  <link>http://www.lapatria.com/galerias/como-parte-del-programa-prensa-escuela-estudiantes-de-universidades-y-colegios-visitaron</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Como parte del programa Prensa Escuela, estudiantes de universidades y colegios visitaron las instalaciones de El periódico de casa &lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-16T00:00:00-05:00" title="Miércoles, Septiembre 16, 2026 - 00:00" class="datetime"&gt;Mié, 16/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Como parte del programa Prensa Escuela, estudiantes de universidades y colegios visitaron las instalaciones de El periódico de casa para conocer el proceso de elaboración del diario: desde la redacción y el diseño, pasando por la preprensa digital, hasta la impresión en la rotativa.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/como-parte-del-programa-prensa-escuela-estudiantes-de-universidades-y-colegios-visitaron" data-a2a-title="Como parte del programa Prensa Escuela, estudiantes de universidades y colegios visitaron las instalaciones de El periódico de casa "&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fcomo-parte-del-programa-prensa-escuela-estudiantes-de-universidades-y-colegios-visitaron&amp;amp;title=Como%20parte%20del%20programa%20Prensa%20Escuela%2C%20estudiantes%20de%20universidades%20y%20colegios%20visitaron%20las%20instalaciones%20de%20El%20peri%C3%B3dico%20de%20casa%20"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Wed, 16 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93204 at http://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
