@@ -87,7 +87,7 @@
     <thead><tr>
       <th>Indicador</th>
       <th class="num" title="Registro Único de Damnificados (UNGRD): lo registrado municipio a municipio por las autoridades locales. Registro progresivo — crece a medida que los municipios cargan datos.">RUD (registro oficial)</th>
-      <th class="num" title="Máximo informado hasta el último día por medios que citan el consolidado oficial (UNGRD y SGC).">Medios citando oficiales</th>
+      <th class="num" title="Lo que han publicado los medios que citan el consolidado oficial (UNGRD y SGC), hasta el último balance recibido: el máximo informado de cada cifra acumulativa y, en los desaparecidos, la del corte más reciente.">Medios citando oficiales</th>
       <th class="num" title="Cuánto separan las dos columnas y cuál va por delante. No es un error: son cortes y coberturas distintas del mismo desastre.">Diferencia</th>
     </tr></thead>
     <tbody data-gen="comparativa-filas"></tbody><!-- lo rellena deploy/render_html.py en el build -->
@@ -95,9 +95,28 @@
   <p class="note" data-gen="comparativa-nota"></p><!-- lo rellena deploy/render_html.py en el build: qué indicador va por delante cambia cada día -->
 </section>
 
+<section id="retraso-section">
+  <h2>Cuánto tarda cada medio en publicar el balance</h2>
+  <p class="sub">Un balance habla de un corte —«con corte al 25 de agosto»— y se publica
+  después. Esa distancia es la que hace que una cifra vieja siga circulando como nueva: el
+  mismo artículo reaparece en las búsquedas de días posteriores, y quien lo lee no sabe de
+  qué día habla. Aquí está medida medio a medio, sobre las capturas en las que el propio
+  texto declara su corte y se conoce la fecha de publicación.</p>
+  <div class="tabla-scroll"><table id="retraso-tabla">
+    <thead><tr>
+      <th>Publicador</th>
+      <th class="num" title="Capturas archivadas de este publicador, y en cuántas se puede calcular el retraso (necesita la fecha de publicación).">Capturas</th>
+      <th class="num" title="Días entre el corte del que habla el balance y su publicación, en la captura mediana.">Retraso mediano</th>
+      <th class="num" title="El mayor retraso medido a este publicador.">Máximo</th>
+    </tr></thead>
+    <tbody data-gen="retraso-filas"></tbody><!-- lo rellena deploy/render_html.py en el build -->
+  </table></div>
+  <p class="note" data-gen="retraso-nota"></p><!-- lo rellena deploy/render_html.py en el build: la cobertura cambia cada día -->
+</section>
+
 <section id="balance-chart-section">
   <h2>Serie del consolidado por día</h2>
-  <p class="sub">El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance. Los desaparecidos son la excepción: el punto es la cifra del balance con el corte más reciente, suba o baje.</p>
+  <p class="sub">Cada día del eje es el del <strong>corte del que habla el balance</strong>, no el día en que el monitor lo encontró buscando: por eso hay días sin punto nuevo —se buscó y no llegó ningún balance—, y la línea arrastra entonces la última cifra conocida. El punto diario es el máximo informado hasta esa fecha: una cifra entra si supera a la vigente, se puede atribuir a una fuente oficial y es coherente con el resto de su balance. Los desaparecidos son la excepción: el punto es la cifra del balance con el corte más reciente, suba o baje.</p>
   <section id="balance-chart" data-gen="balances-grafico"></section><!-- lo rellena deploy/render_html.py en el build -->
 </section>
 
@@ -106,7 +125,9 @@
   <p class="sub">Todas las capturas archivadas, con su publicador y su fuente citada.
   Las filas marcadas <strong style="color:var(--good)">✓ usada en la serie</strong> son
   la captura elegida de cada día: sus cifras alimentan la serie, las tarjetas y la
-  comparativa; el resto se conserva como evidencia pero no afecta los datos.</p>
+  comparativa; el resto se conserva como evidencia pero no afecta los datos. Ojo con las
+  dos fechas: esta tabla se ordena por el día en que se archivó cada captura, y la serie
+  la coloca en el día del corte del que habla, que puede ser muy anterior.</p>
   <div id="balance-filtros" class="filtros">
     <input id="balance-buscar" type="search" placeholder="Buscar publicador, fuente o título…">
     <select id="balance-fecha"><option value="">Todas las fechas</option></select>
@@ -116,7 +137,7 @@
   <div class="tabla-scroll"><table id="balance-table">
     <thead>
       <tr>
-        <th title="Día en que el monitor buscó ese balance, no necesariamente el del corte del que habla la noticia.">Fecha de búsqueda</th>
+        <th title="Día en que el monitor buscó y archivó esa captura. NO es el día que ocupa en la serie: desde el 18 de septiembre de 2026 la serie y el gráfico fechan cada balance por su corte, que puede ser bastante anterior.">Fecha de búsqueda</th>
         <th>Publicador / fuente citada</th>
         <th class="num">Fallecidos</th>
         <th class="num">Heridos</th>

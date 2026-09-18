@@ -5137,3 +5137,89 @@ que crece como un alta y no se desplaza, igual que `g-cero`.
 cerrarse por decisión documentada, con la constante en la fuente y el sitio
 contándolo.
 
+## 2026-09-18 — La serie de balances se fecha por el corte, y cada medio publica su retraso
+
+**Contexto.** `TestSupuestoCoberturaDeFechado` llevaba desde el 21-ago esperando este
+día: la serie se indexaba por `search_date` —el día que se le pidió al buscador— porque
+no había con qué fecharla mejor. Con 90 de 107 capturas ya **fechables** por su corte
+(84 %), el supuesto se rompió, que era su forma de avisar de que ya se podía.
+
+**Fechable no es declarado, y la diferencia importa.** De esas 90: **54 traen el corte
+que declara su propio texto**, 14 lo sacan de la fecha del enlace, 22 del campo `fecha`
+del artículo y 17 no dan ninguna señal. El guardián viejo contaba las cuatro cosas
+juntas bajo el nombre de «declaran su corte», que es precisamente la confusión que este
+monitor persigue en otros. Ahora son dos umbrales: fechables ≥ 80 % (lo que el eje
+necesita) y corte declarado por el texto ≥ 40 % (hoy 50 %), porque si el worker dejara
+de leer el texto las URL sostendrían la cobertura y el desplome pasaría inadvertido.
+
+**Decisión.**
+
+1. **El eje de la serie es el día del CORTE** (`ui.js::mejorPorDia`). Cada captura
+   cuenta en el día del balance del que habla, no en el día en que la encontramos. El
+   día sale de `corteDe`, que ya existía para las cifras de stock, con sus respaldos:
+   lo que dice el texto, la fecha de la URL, el corte que el worker calculó para otra
+   captura del mismo artículo y, en último término, el día de la búsqueda.
+2. **Ninguna captura se cae por no declarar corte.** Las 17 sin ninguna señal (16 %)
+   entran por ese último respaldo. **Y cada celda publica su señal**, también las de las
+   cifras acumulativas —hasta ahora solo la llevaban los desaparecidos—: la tarjeta de
+   heridos dice «del 23-ago-2026 (sin corte declarado: es el día en que se archivó)»,
+   para que nadie lea como dicho por la fuente lo que dedujimos nosotros. La alternativa —dejarlas fuera— habría borrado del eje
+   capturas que el archivo sí guarda.
+3. **El eje conserva los días sin balance nuevo.** Va del primer corte al último día de
+   rastreo, y un día sin captura se queda vacío arrastrando la cifra vigente. Con el
+   corpus del 18-sep son 39 días de eje y 19 con balance: **veinte días en que el
+   monitor buscó y no llegó nada**. Recortar el eje al último corte habría dicho que el
+   monitor dejó de mirar el 10-sep, que es lo contrario de lo que pasó.
+4. **El retraso de cada medio se publica** (`ui.js::retrasoPorMedio`, tabla nueva en
+   `balances.html`): capturas, cuántas se pueden fechar, retraso mediano y máximo. El
+   Tiempo publica el mismo día del corte (mediana 0); infobae llega a servir un balance
+   con 32 días de retraso. **La cobertura se declara en la página**: 56 de 107, porque
+   a las otras les falta la fecha de publicación (43) o el corte, y doce publicadores
+   aparecen con su recuento y sin medida en vez de desaparecer de la tabla.
+
+**Lo que cambia en lo publicado.** Las cifras del consolidado se mantienen salvo una:
+personas afectadas pasa de 466.709 a 466.345. El porqué merece contarse entero, porque
+es el cambio de regla trabajando: las 466.709 venían de una captura de infobae archivada
+el 11-sep cuyo texto declara un corte del **10 de agosto** —la fecha del terremoto leída
+como corte—. Fechada por la búsqueda, esa cifra entraba como máximo informado del 11-sep;
+fechada por su corte, va al 10-ago, donde ya había entrado otra captura, y se queda fuera
+**con su fila entre las descartadas**, con su medio y su enlace. La cifra vigente pasa a
+ser la del balance del 10-sep. Que una cifra de casi medio millón de afectados se
+atribuyera al día del sismo era un error que el eje viejo no podía ver. Las fechas sí cambian de significado: el sello y la entradilla dicen «hasta el
+balance del 10-sep» en vez de «hasta el 17-sep», que era el día de la última búsqueda, y
+la tira de tarjetas separa «Último rastreo» de «Último balance».
+
+**Lo que cuesta, y se aceptó al decidirlo.** La serie deja de ser append-only: un
+balance tardío con corte viejo se coloca en su día y reescribe lo que esa fecha decía.
+El archivo de cada captura no se toca —es la lectura la que se corrige, que es la capa
+que sí se corrige (CLAUDE.md, «Dos capas»)—, y por eso el artefacto de alertas se
+regenera en cada corrida y viaja regenerado en este cambio.
+
+**Tres arreglos que el cambio obligó a hacer, y que valen por sí solos.**
+
+- Dos capturas del MISMO corte con cifras distintas caían antes en días distintos y la
+  segunda salía entre las descartadas; fechando por el corte caen en el mismo día y el
+  desacuerdo desaparecía. `consolidarDia` sigue recorriendo candidatos después de
+  elegir —en las cifras de stock Y en las acumulativas—, así que la discrepancia se
+  sigue enseñando (R12). Sin esto, el cambio habría escondido 96 cifras mayores en vez
+  de las 4 que escondía antes: un día del eje nuevo junta capturas de semanas distintas,
+  y el `break` dejaba fuera a todas menos la primera sin dejar rastro.
+- El aviso diario miraba «¿se movió el último día del eje?», y ese día ahora suele estar
+  vacío. Pregunta por lo que de verdad llegó hoy —las capturas con `search_date` de hoy
+  o ayer— y por si el balance del que hablaría es el mismo que ya anunció el artefacto
+  anterior: sin esa segunda puerta, el push y el Telegram habrían repetido la misma
+  cifra cada mañana mientras el rastreo archivara cualquier cosa, porque el último día
+  con balance deja de moverse hasta que llega uno más nuevo. Y `_ayer()` se deriva ahora
+  del día de la corrida, no del reloj, para que regenerar el artefacto dentro de un año
+  dé lo mismo que dio ese día.
+- **El retraso solo se mide con el corte que declara el texto.** Con el deducido de la
+  fecha del enlace salía cero por construcción —se restaba la fecha de publicación de sí
+  misma—, y ELHERALDO.CO y Semana figuraban con «0 días» que no medían nada. La
+  cobertura baja de 56 a 48 capturas y la página lo dice.
+
+**Lo que no se decide aquí.** Recuperar la fecha de publicación de las 43 capturas que
+no la traen —es trabajo del worker, y sin ella no hay retraso que medir—, ni añadir a la
+tabla de capturas una columna con el corte y su señal, que hoy solo se ven en las
+tarjetas y en el gráfico. Ninguna de las dos bloquea el cambio; las dos están en
+`docs/LIMITACIONES.md`.
+

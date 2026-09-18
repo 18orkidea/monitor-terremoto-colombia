@@ -4548,8 +4548,13 @@ class TestBalancesConSerieSintetica(unittest.TestCase):
         self.assertIn("https://ejemplo.co/tarde", cuerpo)
 
     def test_la_entradilla_fecha_la_cifra_que_publica(self):
-        """Una cifra de una fuente viva sin su corte miente en 48 horas."""
-        self.assertIn("Máximo informado hasta el 12 de agosto de 2026",
+        """Una cifra de una fuente viva sin su corte miente en 48 horas.
+
+        Fecha por el último BALANCE recibido (el 11), no por el final del eje
+        (el 12): desde que la serie se fecha por el corte (18-sep-2026) el eje
+        llega hasta hoy y su último día suele estar vacío, así que fecharla
+        ahí anunciaría como de hoy una cifra de hace días."""
+        self.assertIn("Máximo informado hasta el balance del 11 de agosto de 2026",
                       R.resumen_balances(self.ctx))
 
     # ---- R3 en el marcado
@@ -4578,12 +4583,16 @@ class TestBalancesConSerieSintetica(unittest.TestCase):
 
     def test_el_marcado_se_fecha_con_el_dato_y_no_con_la_corrida(self):
         """`rud.json` ya enseñó la trampa: se genera el 22 con una serie que
-        termina el 21, y la página anunciaba cifras del 21 fechadas el 22."""
+        termina el 21, y la página anunciaba cifras del 21 fechadas el 22.
+
+        «El dato» es el último BALANCE (el 11), no el último día del eje (el
+        12, que en esta fixture está vacío): las tres fechas de la página —el
+        sello, la entradilla y este marcado— tienen que decir lo mismo."""
         nodo = self._nodo({**self.ctx,
                            "oficiales": {**self.ctx["oficiales"],
                                          "generated_at": "2026-09-30T04:00:00Z"}})
-        self.assertEqual(nodo["dateModified"], "2026-08-12")
-        self.assertEqual(nodo["temporalCoverage"], "2026-08-10/2026-08-12")
+        self.assertEqual(nodo["dateModified"], "2026-08-11")
+        self.assertEqual(nodo["temporalCoverage"], "2026-08-10/2026-08-11")
 
     def test_r9_el_monitor_compila_y_las_oficiales_se_citan(self):
         """Los dos niveles de atribución. `creator`/`publisher` son el monitor

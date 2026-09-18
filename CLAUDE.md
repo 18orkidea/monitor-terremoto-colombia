@@ -70,9 +70,16 @@ este monitor quedará **felizmente obsoleto** — ese es el éxito.
   enseña con su motivo. **Excepción: las cifras de stock (`CIFRAS_STOCK`, hoy solo los
   desaparecidos) siguen el corte más reciente, suba o baje**, porque cuentan un estado
   y el archivo demuestra que bajan (426 el 18-ago → 219 el 27-ago); un corte viejo
-  republicado tarde sigue sin entrar porque su corte es anterior al vigente.
-  `site/ui.js::consolidarDia` · `tests/test_frontend.py::TestConsolidadoMonotono` ·
-  `TestDesaparecidosSiguenElCorte`
+  republicado tarde ya no tiene que rechazarse para que no mande, porque **desde el
+  18-sep-2026 la serie se fecha por el corte**: esa captura entra en SU día, el del
+  balance del que habla, no en el día en que la encontramos. Ojo con la asimetría: en
+  las cifras de STOCK eso deja intacta la vigente (manda el corte más reciente), pero
+  en las acumulativas el máximo se arrastra hacia adelante, así que una captura tardía
+  colocada en un día antiguo sí puede subir la serie desde ese día. Dos capturas del
+  mismo corte con cifras distintas siguen enseñándose como descartadas.
+  `site/ui.js::mejorPorDia` · `consolidarDia` ·
+  `tests/test_frontend.py::TestConsolidadoMonotono` ·
+  `TestDesaparecidosSiguenElCorte` · `TestLaSerieSeFechaPorElCorte`
 
 ## Principio de archivo
 

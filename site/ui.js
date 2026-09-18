@@ -771,6 +771,10 @@ window.UI = (function () {
     const ignoradas = [];
     for (const k of CIFRAS_BALANCE) {
       const vigente = valorDe(consolidado[k]);
+      // Lo que esta cifra de stock ya eligió HOY. Con la serie fechada por el
+      // corte (18-sep-2026), dos capturas del mismo día comparten corte, así
+      // que la segunda ya no se compara con la víspera sino con la elegida.
+      let elegidoHoy = null;
       const esStock = CIFRAS_STOCK.includes(k);
       // Para una cifra de stock el candidato que importa es el del corte más
       // reciente, no el que gana el día por atribución: si el orden del día
@@ -810,7 +814,12 @@ window.UI = (function () {
             continue;
           }
           if (corte && corteVigente && corte.fecha === corteVigente) {
-            if (v !== vigente)
+            // Dos medios que dicen cosas distintas del MISMO corte es brecha,
+            // y se enseña (R12). Se compara con lo elegido hoy cuando ya hay
+            // algo elegido: si no, una segunda captura que repite la cifra
+            // recién entrada se acusaría de contradecir a la víspera.
+            const referencia = elegidoHoy != null ? elegidoHoy : vigente;
+            if (v !== referencia)
               rechaza(`mismo corte que el vigente ` +
                       `(${fechaEs(corteVigente)}) con otra cifra`);
             continue;
@@ -825,21 +834,67 @@ window.UI = (function () {
           consolidado[k] = { valor: v, fecha, medio, url,
                              corte: corte ? corte.fecha : null,
                              senal: corte ? corte.senal : null };
-          break;
+          elegidoHoy = v;
+          // Sin `break`: los demás candidatos del día se siguen recorriendo
+          // para que una cifra distinta con el mismo corte salga entre las
+          // descartadas, con su medio y su enlace. Antes ese choque se veía
+          // porque cada captura caía en un día distinto; fechando por el
+          // corte caen en el mismo, y sin esto el desacuerdo desaparecía.
+          continue;
         }
-        if (vigente != null && v <= vigente) {
-          if (v < vigente) rechaza("retrocede sobre el máximo informado");
+        // La referencia es lo elegido HOY si ya se eligió. Fechando por el
+        // corte, un día junta capturas de semanas distintas y la segunda ya no
+        // compite contra la víspera sino contra la que acaba de entrar.
+        const referencia = elegidoHoy != null ? elegidoHoy : vigente;
+        if (referencia != null && v <= referencia) {
+          if (v < referencia)
+            rechaza(elegidoHoy != null
+              ? `otra captura del mismo día entró con una cifra mayor`
+              : "retrocede sobre el máximo informado");
+          continue;
+        }
+        if (elegidoHoy != null) {
+          // Ya hay una cifra elegida para este día y esta la supera: no se
+          // pisa a la que ganó por atribución, pero NO desaparece —antes el
+          // `break` la dejaba fuera sin dejar rastro—. Es la brecha del día:
+          // dos capturas del mismo corte con cifras distintas (R12, R16).
+          rechaza(`otra captura del mismo día ya entró con otra cifra`);
           continue;
         }
         if (vigente != null && vigente > 0 && v > vigente * TECHO_SALTO) {
           rechaza(`salto de más de ${TECHO_SALTO} veces el máximo informado`);
           continue;
         }
-        consolidado[k] = { valor: v, fecha, medio, url };
-        break;
+        // El corte y su señal viajan también en las cifras acumulativas
+        // (18-sep-2026): desde que el eje es el corte, la fecha de la celda ES
+        // un corte, y la mitad de las capturas no lo declaran —lo deduce la
+        // URL o el campo `fecha`—. Sin la señal, la página presentaría como
+        // dicho por la fuente algo que dedujimos nosotros.
+        const corteAcum = corteDe(item, cortePorUrl);
+        consolidado[k] = { valor: v, fecha, medio, url,
+                           corte: corteAcum ? corteAcum.fecha : null,
+                           senal: corteAcum ? corteAcum.senal : null };
+        elegidoHoy = v;
+        // sin `break`, igual que en la rama de stock: lo que no entró se
+        // enseña con su motivo en vez de caerse en silencio
+        continue;
       }
     }
     return { consolidado, ignoradas };
+  }
+
+  /* Los días del eje: del primer corte conocido al último día de búsqueda.
+
+     El eje es el CALENDARIO del evento, no la lista de días con balance. Un
+     día sin ningún balance nuevo se queda vacío —sin captura, arrastrando el
+     consolidado— porque ese silencio es el dato: entre el 11 y el 17-sep-2026
+     el monitor buscó cada día y no llegó ni un balance nuevo. Recortar el eje
+     al último corte diría que el monitor dejó de mirar. */
+  function diasDelEje(desde, hasta) {
+    const out = [];
+    for (let t = Date.parse(desde); t <= Date.parse(hasta); t += 86400000)
+      out.push(new Date(t).toISOString().slice(0, 10));
+    return out;
   }
 
   /* Serie diaria con memoria: cada día lleva su mejor captura y el
@@ -848,9 +903,24 @@ window.UI = (function () {
      21-ago-2026): un medio tardío citando un corte viejo ya no puede hacer
      retroceder la serie— y, para las cifras de stock (`CIFRAS_STOCK`), la del
      CORTE MÁS RECIENTE con su corte y la señal de la que salió.
+
+     **Cada captura cuenta en el día del CORTE del que habla** (18-sep-2026),
+     no en el día en que la encontramos: el mismo artículo de El Tiempo
+     figuraba como el balance del 12, el 14, el 15 y el 18 de agosto. El día
+     sale de `corteDe`, con sus respaldos —lo que dice el texto, la fecha de
+     la URL, el corte que el worker calculó para otra captura del mismo
+     artículo y, en último término, el día de la búsqueda, que es lo más tarde
+     que ese balance pudo cortarse—, así que ninguna captura se cae de la
+     serie por no declarar su corte: 17 de las 107 del corpus del 18-sep-2026
+     entran por ese último respaldo, y la tarjeta declara la señal.
+
+     Lo que se gana: la serie deja de fechar un balance por el día en que se
+     buscó. Lo que cuesta, y se aceptó al decidirlo: deja de ser append-only
+     —una captura tardía con corte viejo reescribe días ya publicados—, y por
+     eso el artefacto de alertas se regenera en cada corrida.
+
      Devuelve [{fecha, item, disputa, consolidado, ignoradas}] */
   function mejorPorDia(items) {
-    const fechas = [...new Set(items.map((x) => x.search_date))].sort();
     // El corte que el worker calculó para un artículo sirve a todas sus
     // capturas, también a las archivadas antes de que supiera calcularlo. Se
     // toma el más antiguo (un artículo no puede hablar de un corte anterior a
@@ -870,10 +940,25 @@ window.UI = (function () {
     // PUBLICA, y por eso exige atribución oficial. Si fueran el mismo, un día
     // sin ninguna fuente atribuible dejaría el guardarraíl sin referencia y
     // volvería a colarse un corte de hace nueve días.
+    // Cada captura, al día de su corte. Se calcula una vez: `corteDe` mira
+    // `cortePorUrl`, que solo está completo cuando se han visto todas.
+    const delDia = {};
+    for (const x of items) {
+      const c = corteDe(x, cortePorUrl);
+      const dia = (c && c.fecha) || x.search_date;
+      (delDia[dia] = delDia[dia] || []).push(x);
+    }
+    const busquedas = items.map((x) => x.search_date).filter(Boolean).sort();
+    const cortes = Object.keys(delDia).sort();
+    const fechas = cortes.length
+      ? diasDelEje(cortes[0],
+                   [cortes[cortes.length - 1],
+                    busquedas[busquedas.length - 1] || ""].sort().pop())
+      : [];
     let maximos = {};
     let consolidado = {};
     return fechas.map((fecha) => {
-      const dia = items.filter((x) => x.search_date === fecha);
+      const dia = delDia[fecha] || [];
       const orden = [...dia].sort(cmpCandidatos(maximos));
       const item = orden[0] || null;
       const paso = consolidarDia(consolidado, dia, fecha, orden, cortePorUrl);
@@ -921,10 +1006,45 @@ window.UI = (function () {
   function retrasoDelBalance(item) {
     const corte = fechaCorte(item);
     const pub = (item && item.publicado_en) || null;
-    if (!corte || !pub) return null;
+    // Solo con el corte que DECLARA el texto (18-sep-2026). Con el deducido
+    // de la fecha del enlace el retraso salía 0 por construcción —se estaría
+    // restando la fecha de publicación de sí misma— y ELHERALDO.CO y Semana
+    // figuraban con «0 días» que no medían nada.
+    if (!corte || corte.senal !== "texto" || !pub) return null;
     const dias = Math.round(
       (Date.parse(pub.slice(0, 10)) - Date.parse(corte.fecha)) / 86400000);
     return Number.isFinite(dias) && dias >= 0 ? dias : null;
+  }
+
+  /* El retraso de cada medio: cuánto tarda en publicar el balance del que
+     habla. Convierte el corte viejo de estorbo en hallazgo — «infobae sirvió
+     un balance con 32 días de retraso» es exactamente la brecha que este
+     monitor mide.
+
+     Devuelve una fila por medio, de más capturas a menos:
+     {medio, capturas, fechadas, mediana, maximo}. `fechadas` no sobra: el
+     retraso exige la fecha de PUBLICACIÓN y el corte que DECLARA el texto, y
+     con el corpus del 18-sep-2026 eso deja 48 de 107 capturas, así que un
+     medio puede tener doce capturas y ningún retraso calculable (ReliefWeb).
+     Publicar la mediana sin decir sobre cuántas se calculó sería presentar
+     una muestra como el todo; los medios sin ninguna medible se quedan en la
+     tabla con su recuento, no se esconden. */
+  function retrasoPorMedio(items) {
+    const por = {};
+    for (const x of items || []) {
+      const medio = nombrePublicador(x, null) || "Sin publicador";
+      const fila = por[medio] || (por[medio] = { medio, capturas: 0, dias: [] });
+      fila.capturas++;
+      const r = retrasoDelBalance(x);
+      if (r != null) fila.dias.push(r);
+    }
+    return Object.values(por).map((f) => {
+      const d = [...f.dias].sort((a, b) => a - b);
+      return { medio: f.medio, capturas: f.capturas, fechadas: d.length,
+               mediana: d.length ? d[Math.floor(d.length / 2)] : null,
+               maximo: d.length ? d[d.length - 1] : null };
+    }).sort((a, b) => b.capturas - a.capturas ||
+                      a.medio.localeCompare(b.medio, "es"));
   }
 
   /* Enumeración española: «a, b y c», con «e» cuando la última pieza empieza
@@ -1135,7 +1255,7 @@ window.UI = (function () {
            attachTooltip, isLiveblog, bestSnapshot, metricCount, mejorPorDia,
            medioDe, viaGoogleNews, hostDe,
            retrocede, sinAnclas, esCoherente, incoherencias, atribucionOficial,
-           fechaCorte, retrasoDelBalance,
+           fechaCorte, retrasoDelBalance, retrasoPorMedio, diasDelEje,
            esNacional, nombrePublicador, CIFRAS_BALANCE, CIFRAS_STOCK, TECHO_SALTO, corteDe,
            disputaDia, comparativaFuentes, PUSH_BASE, VAPID_PUBLIC_KEY };
 })();

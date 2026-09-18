@@ -245,23 +245,65 @@ El motivo de la regla está en `docs/DECISIONES.md` (2026-08-21 y 2026-09-03): s
 un medio tardío citando un corte viejo hundía la serie —el 19-ago se publicaron 11.132
 familias afectadas donde el registro oficial ya llevaba 65.663—.
 
-## La serie de balances está fechada por el día de la búsqueda, no por el del balance
+## La serie de balances se fecha por el corte desde el 18-sep-2026, y el retraso solo se mide en la mitad de las capturas
 
-`search_date` es la fecha que se le pidió al buscador, no la fecha del corte del que
-habla la noticia. Por eso el mismo artículo de El Tiempo —el balance del 15 de agosto—
-figura en el archivo como si fuera el del 12, el 14, el 15 y el 18, con cuatro hashes
-distintos. Y por eso el 19 de agosto la serie tiene tres capturas cuyos artículos son
-del 10, el 11 y el 14: ese día no llegó ningún balance nuevo.
+Hasta esa fecha la serie se indexaba por `search_date`, el día que se le pidió al
+buscador: por eso el mismo artículo de El Tiempo —el balance del 15 de agosto— figuraba
+en el archivo como si fuera el del 12, el 14, el 15 y el 18, con cuatro hashes distintos.
+Con 90 de 107 capturas ya fechables por su corte, el eje cambió
+(`docs/DECISIONES.md`, 18-sep-2026). Lo que queda por saber, y conviene tener a la
+vista:
 
-Desde el 21-ago-2026 el worker calcula `fecha_corte` leyendo lo que el propio texto dice
-de sí mismo («balance de este 15 de agosto»), y `UI.fechaCorte` la lee con dos respaldos
-—la fecha de la URL y el campo `fecha`—. **La serie todavía NO se indexa por ella**:
-sobre el corpus del 20-ago solo 15 de 26 capturas se pueden fechar, y las 11 restantes
-desaparecerían de la página. La señal buena llega cuando el worker esté desplegado.
+- **Fechable no es declarado.** Solo 54 de las 107 capturas traen el corte que declara
+  su propio texto; 14 lo sacan de la fecha del enlace, 22 del campo `fecha` del artículo
+  y **17 no dan ninguna señal**. Estas últimas entran con el día de la búsqueda —lo más
+  tarde que ese balance pudo cortarse— y la celda lo dice («sin corte declarado: es el
+  día en que se archivó»). No desaparecen de la serie, pero su fecha es un techo, no un
+  dato.
+- **El retraso de cada medio se mide sobre 56 de las 107 capturas.** A 43 les falta la
+  fecha de publicación; a las ocho restantes, el corte. Doce publicadores —ReliefWeb y El
+  Colombiano entre ellos— no tienen ni una captura medible, así que de ellos la tabla
+  publica el recuento y nada más. La cobertura se dice en la propia página. Y un matiz
+  del propio cálculo: un retraso negativo —un balance publicado ANTES del corte del que
+  dice hablar, que sería un error de la fuente o de la extracción— hoy se descarta en
+  silencio y se confunde con «sin medida» (`ui.js::retrasoDelBalance`).
+- **La serie dejó de ser append-only.** Antes, una captura nueva caía siempre en el día
+  de hoy; ahora un balance tardío con corte viejo se coloca en su día y reescribe lo
+  publicado para esa fecha. El archivo de cada captura sigue siendo inmutable; lo que
+  cambia es la lectura que hacemos de él, que es la capa que sí se corrige.
+- **Un desacuerdo que antes se veía, ahora se ve menos.** Cuando dos capturas con
+  cortes distintos caían en el mismo día, la más vieja se rechazaba y salía entre las
+  descartadas con su motivo. Hoy cada una va a su día y esa clase de rechazo casi no se
+  da —siguen dándose los otros: mismo corte con otra cifra, sin atribución, incoherente,
+  por debajo del máximo—. La distancia que antes delataba ese rechazo la mide ahora la
+  tabla de retraso por medio, que no es lo mismo: mide publicación menos corte, y solo
+  en 56 capturas.
 
-`tests/test_frontend.py::TestSupuestoCoberturaDeFechado` vigila la cobertura y falla
-cuando supera el 80 %: ese fallo es el aviso de que ya se puede cambiar el eje y
-publicar el retraso de cada medio.
+- **La tabla de capturas se sigue ordenando por el día en que se archivó cada una**, no
+  por el corte: son dos calendarios en la misma página. La tabla lo advierte, pero no
+  trae todavía una columna con el corte y su señal.
+- **El primer día del eje (10-ago) es un vertedero.** Veintidós capturas caen ahí, con
+  búsquedas que van del 10-ago al 16-sep: los liveblogs de Caracol (su URL lleva
+  `/2026/08/10/`), doce capturas del mismo sitrep de ReliefWeb (señal `campo`, la fecha
+  del artículo) y un artículo de infobae del 11-sep cuyo texto declara «10 de agosto» —
+  la fecha del terremoto leída como corte—. Son señales deducidas apuntando al día del
+  evento, no cortes reales, y por eso el punto del 10-ago mezcla publicaciones de un mes
+  después. Se midió la alternativa (aceptar solo el corte del texto y el heredado) y las
+  cifras publicadas salen idénticas, así que no se cambió: queda anotado aquí.
+- **`campo` es a la vez desconfiado y fiado.** `cortePorUrl` lo excluye al heredar el
+  corte entre capturas del mismo artículo, pero `fechaCorte` sí lo acepta como fecha
+  propia en 22 capturas (21 %). Una de las dos cosas está mal y no se ha decidido cuál.
+- **La serie se puede recomputar, y eso es lo que hace aceptable perder el append-only.**
+  `feeds/balances/AAAA-MM-DD.json` guarda el feed completo de cada día (desde el
+  16-ago-2026) y la regla vive en git, así que la serie tal y como se publicó cualquier
+  día se puede reconstruir. Con una laguna: del 10 al 15 de agosto no hay feed archivado,
+  así que esos cinco días no se pueden recomputar desde el repositorio.
+
+`tests/test_frontend.py::TestSupuestoCoberturaDeFechado` vigila ahora la dirección
+contraria, y con dos umbrales: si las capturas fechables bajaran del 80 % la serie se
+estaría fechando por el día de la búsqueda otra vez, y si el corte declarado por el
+texto bajara del 40 % (hoy 50 %) sería que el worker dejó de leerlo, con las URL
+tapando el desplome.
 
 ## Los balances archivados antes del 21-ago-2026 traen cifras mutiladas
 

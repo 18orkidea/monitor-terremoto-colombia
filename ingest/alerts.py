@@ -267,7 +267,24 @@ def _fecha_es(iso: str) -> str:
         return iso
 
 
-def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
+def _ultimo_balance_publicado() -> str | None:
+    """De qué balance habló el artefacto de la corrida anterior.
+
+    `data/public/alerts.json` está versionado, así que esta memoria sobrevive
+    al runner efímero del CI. Es la que evita repetir el aviso: desde que la
+    serie se fecha por el corte (18-sep-2026), el último día CON balance deja
+    de moverse mientras no llegue uno más nuevo, y preguntar «¿cambió la
+    última cifra?» contestaría que sí todos los días."""
+    try:
+        previo = json.loads((PUBLIC / "alerts.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return ((previo.get("balance_consolidado") or {}).get("ultimo_balance"))
+
+
+def balance_de_medios(feed: dict, snap: str,
+                      ultimo_publicado: str | None = None
+                      ) -> tuple[list[dict], dict | None]:
     """Los avisos del balance y el consolidado que se archiva, en una sola
     función para que el artefacto se pueda REGENERAR con este mismo código.
 
@@ -286,6 +303,13 @@ def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
                      "en vez de publicar una cifra con otra regla."}], None)
 
     ultimo = serie[-1]
+    # Desde que la serie se fecha por el corte (18-sep-2026) el último día del
+    # eje suele estar VACÍO —el eje llega hasta hoy y el último balance puede
+    # ser de hace una semana—. El estado vigente es el del último día (el
+    # consolidado se arrastra); lo que hay que mirar para contar qué llegó es
+    # el último día CON balance.
+    con_balance = [d for d in serie if d.get("item")]
+    ultimo_bal = con_balance[-1] if con_balance else None
     valor = lambda d, k: (d["consolidado"].get(k) or {}).get("valor")
     # se publica SIEMPRE, no solo cuando hay aviso: la imagen social y
     # cualquier otro consumidor necesitan la cifra vigente también los días
@@ -300,9 +324,16 @@ def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
                        "medio": (v or {}).get("medio"),
                        "url": (v or {}).get("url")}
                    for k, v in ultimo["consolidado"].items()},
-        # lo descartado y por qué: la brecha (R12) también se archiva, no solo
-        # se pinta en el navegador
-        "ignoradas": ultimo.get("ignoradas") or [],
+        # de qué día es el último balance recibido: con el eje fechado por el
+        # corte, no tiene por qué ser hoy, y la cifra sin eso no se entiende
+        "ultimo_balance": (ultimo_bal or {}).get("fecha"),
+        # Lo descartado y por qué: la brecha (R12) también se archiva, no solo
+        # se pinta en el navegador. Es del último día CON balance —el día
+        # vacío de hoy no descarta nada porque no le llegó nada—, y por eso
+        # lleva SU fecha en la clave: `cifras` habla de `fecha` y esto de
+        # `ultimo_balance`, dos días en el mismo objeto, y callarlo obligaría
+        # a un lector futuro a deducirlo.
+        "ignoradas_del_balance": (ultimo_bal or {}).get("ignoradas") or [],
         # R4: un derivado tiene que decir de qué cuerpo sale y con qué versión
         # de la regla, o no se puede reconstruir
         "derivado_de": {
@@ -312,17 +343,28 @@ def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
                           if i.get("search_date")]),
             "regla_sha256": _sha_de_la_regla()}}
 
-    if ultimo["fecha"] not in (snap, _ayer()):
+    # Dos puertas, y hacen falta las dos. Con el eje fechado por el corte, un
+    # balance capturado hoy puede colocarse días atrás, así que «¿se movió el
+    # último día del eje?» ya no contesta nada: se pregunta (1) si hoy llegó
+    # alguna captura y (2) si el balance del que hablaríamos no es el mismo
+    # que ya anunció el artefacto anterior. Sin la segunda, el push repetiría
+    # la misma cifra cada mañana mientras el rastreo archivara cualquier cosa.
+    capturadas_hoy = [i for i in (feed.get("items") or [])
+                      if i.get("search_date") in (snap, _ayer(snap))]
+    if not capturadas_hoy or ultimo_bal is None:
+        return ([], consolidado)
+    if ultimo_publicado and ultimo_bal["fecha"] <= ultimo_publicado:
         return ([], consolidado)
 
     c = {k: valor(ultimo, k)
          for k in ("fallecidos", "heridos", "desaparecidos",
                    "familias_afectadas", "personas_afectadas")}
-    prev = serie[-2] if len(serie) > 1 else None
+    i_bal = serie.index(ultimo_bal)
+    prev = serie[i_bal - 1] if i_bal else None
     antes = valor(prev, "fallecidos") if prev else None
-    # el consolidado no retrocede, así que un delta 0 significa que ese día no
-    # llegó ningún balance nuevo: no hay nada que avisar
-    if prev is not None and c["fallecidos"] == antes:
+    # el consolidado no retrocede, así que un delta 0 significa que lo que
+    # llegó no movió la cifra: no hay nada que avisar
+    if prev is not None and valor(ultimo_bal, "fallecidos") == antes:
         return ([], consolidado)
 
     delta = ""
@@ -334,6 +376,8 @@ def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
     # (ui.js::CIFRAS_STOCK), y el aviso dice de qué corte, porque la cifra
     # sin su corte es la que engaña en 48 horas.
     celda = ultimo["consolidado"].get("desaparecidos") or {}
+    # el día del que habla el aviso es el del BALANCE, no el de la corrida
+    dia_balance = ultimo_bal["fecha"]
     corte = celda.get("corte")
     if not corte:
         a_corte = ""
@@ -347,15 +391,23 @@ def balance_de_medios(feed: dict, snap: str) -> tuple[list[dict], dict | None]:
     return ([{
         "tipo": "balance_en_medios", "nivel": "info",
         "texto": f"Balance en medios que citan fuentes oficiales "
-                 f"({_fecha_es(ultimo['fecha'])}): "
+                 f"(corte del {_fecha_es(dia_balance)}): "
                  f"{mil(c['fallecidos'])} fallecidos{delta} y "
                  f"{mil(c['heridos'])} heridos como máximo informado; "
                  f"{mil(c['desaparecidos'])} desaparecidos{a_corte}",
-        "fecha_balance": ultimo["fecha"], "cifras": c,
+        "fecha_balance": dia_balance, "cifras": c,
         "regla": regla}], consolidado)
 
 
-def _ayer() -> str:
+def _ayer(snap: str | None = None) -> str:
+    """La víspera de la corrida. Se deriva de `snap` y no del reloj: este
+    cálculo decide qué capturas cuentan como «de hoy», y regenerar el
+    artefacto dentro de un año tiene que dar lo mismo que dio ese día."""
+    if snap:
+        try:
+            return (date.fromisoformat(snap) - timedelta(days=1)).isoformat()
+        except ValueError:
+            pass
     return (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
 
 
@@ -901,7 +953,10 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
                          f"(última: {gen[:16]}): revisar logs en Cloudflare "
                          f"(¿clave de Firecrawl/Qwen caducada?)"})
     if feed and feed.get("items"):
-        avisos, balance_consolidado = balance_de_medios(feed, snap)
+        # el artefacto anterior dice de qué balance ya se avisó: sin esa
+        # memoria, el mismo balance se anunciaría cada mañana
+        avisos, balance_consolidado = balance_de_medios(
+            feed, snap, _ultimo_balance_publicado())
         alerts.extend(avisos)
 
     # 6b) RUD: el registro oficial de damnificados crece — contar el delta

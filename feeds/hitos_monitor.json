@@ -305,6 +305,13 @@
    "resumen": "El monitor deja de capturar el RUD, parado desde el 13 de septiembre.",
    "texto": "El Registro Único de Damnificados (RUD) repetía las mismas cifras en sus 409 municipios desde el 13 de septiembre de 2026: 364.670 familias inscritas. El monitor, que lo capturaba a diario desde el 16 de agosto —salvo el 26 de agosto, que se perdió—, dejó de consultarlo tras la corrida del 18 de septiembre por decisión editorial: la última captura es la del 17 de septiembre, y esas son las cifras publicadas. Las gráficas del registro terminan ahora el día de su último cambio, y una nota cuenta cuántas capturas repitieron después las mismas cifras. Si el registro vuelve a moverse, este archivo no lo recogerá sin una revisión manual: el RUD solo muestra su estado del momento, así que los días no capturados no se pueden recuperar. Había una opción que no perdía nada —seguir preguntando cada día y no guardar las capturas repetidas— y se descartó a favor de la parada total.",
    "url": "/rud.html"
+  },
+  {
+   "fecha": "2026-09-18",
+   "tipo": "monitor",
+   "resumen": "La serie de balances se fecha por el corte, y se mide el retraso de cada medio.",
+   "texto": "Hasta hoy, la serie de balances en medios ordenaba cada captura por el día en que el monitor la encontró buscando. Por eso el mismo artículo de El Tiempo —el balance del 15 de agosto— figuraba en el archivo como si fuera el del 12, el 14, el 15 y el 18. Desde hoy cada balance cuenta en el día del corte del que habla. Ese corte lo declara el propio texto en la mitad de las capturas; en otro tercio se deduce de la fecha del enlace o de otra captura del mismo artículo, y las 17 que no dan ninguna señal entran con el día en que se archivaron. La página dice, cifra por cifra, cuál de las tres cosas es. El cambio enseña algo que antes quedaba tapado: de los 39 días de la serie, solo 19 traen un balance nuevo. En los otros 20 días el monitor buscó y no llegó nada. Y una tabla nueva mide cuánto tarda cada medio en publicar el balance del que habla: El Tiempo lo publica el mismo día del corte, mientras que infobae ha llegado a publicar uno con 32 días de retraso. Está medido sobre 56 de las 107 capturas: el resto no trae fecha de publicación o no declara corte.",
+   "url": "/balances.html"
   }
  ]
 }
