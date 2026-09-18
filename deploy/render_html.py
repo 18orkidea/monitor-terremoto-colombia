@@ -2978,9 +2978,11 @@ def render_ficha(d: dict) -> str:
         if cerrada:
             # Fuera del `if` de la cola: una ficha cuya última captura sí trajo
             # cambio también tiene que contar que ya no se pregunta.
-            o.append(f'<p class="note">El monitor dejó de consultar el RUD el '
-                     f'{e(fecha_larga(cerrada["fecha"]))}: la última captura '
-                     f'es la del {e(fecha_larga(cerrada["ultima_captura"]))}.</p>')
+            o.append(f'<p class="note">El monitor dejó de consultar el RUD '
+                     f'tras la corrida del '
+                     f'{e(fecha_larga(cerrada["ultima_corrida"]))}: la última '
+                     f'captura es la del '
+                     f'{e(fecha_larga(cerrada["ultima_captura"]))}.</p>')
         if len(d["serie"]) < MIN_CAPTURAS_GRAFICA:
             o.append(f'<p class="note">La gráfica de evolución aparece a partir de la '
                      f'{MIN_CAPTURAS_GRAFICA}.ª captura diaria: con '
@@ -6621,8 +6623,8 @@ def nota_cola_plana(cola: list, ultimo: str, sujeto: str, cerrada) -> str:
     n = len(cola)
     capturas = ("la captura siguiente, del " if n == 1 else
                 f"las {fmt_prosa(n, femenino=True)} capturas siguientes, hasta el ")
-    cierre = (f' El monitor dejó de consultar el RUD el '
-              f'{e(fecha_larga(cerrada["fecha"]))}.' if cerrada else "")
+    cierre = (f' El monitor dejó de consultar el RUD tras la corrida del '
+              f'{e(fecha_larga(cerrada["ultima_corrida"]))}.' if cerrada else "")
     return (f'<p class="note nota-cola" data-capturas-planas="{n}">{sujeto} '
             f'después del {e(fecha_larga(ultimo))}: {capturas}'
             f'{e(fecha_larga(cola[-1]))}, {"repitió" if n == 1 else "repitieron"} '

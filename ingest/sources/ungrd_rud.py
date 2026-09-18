@@ -39,15 +39,15 @@ URL = "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T"
 # hay que anotarlo en `common.HUECOS_RUD_CONOCIDOS` con su porqué.
 #
 # `ultima_captura` es la etiqueta de `rud_daily` de la última corrida que
-# capturó —la del 17-sep, que consolida el día colombiano 16-sep— y no se
+# capturó —la del 18-sep, que consolida el día colombiano 17-sep— y no se
 # escribe a ojo: `test_unit.py::TestCapturaDelRudCerrada` la compara con la
 # fecha máxima de `data/dumps/rud_daily.csv`, para que una parada que llegue
 # tarde (un cron de por medio) se vea en rojo en vez de publicar una fecha
 # falsa.
 CAPTURA_CERRADA = {
     "fecha": "2026-09-18",
-    "ultima_captura": "2026-09-16",
-    "ultima_corrida": "2026-09-17",
+    "ultima_captura": "2026-09-17",
+    "ultima_corrida": "2026-09-18",
     "motivo": ("el registro repetía las mismas cifras en todos los municipios "
                "desde el 13-sep-2026"),
 }

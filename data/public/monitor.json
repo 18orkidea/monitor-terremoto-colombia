@@ -7090,8 +7090,8 @@
   ],
   "captura_cerrada": {
    "fecha": "2026-09-18",
-   "ultima_captura": "2026-09-16",
-   "ultima_corrida": "2026-09-17",
+   "ultima_captura": "2026-09-17",
+   "ultima_corrida": "2026-09-18",
    "motivo": "el registro repetía las mismas cifras en todos los municipios desde el 13-sep-2026"
   }
  },

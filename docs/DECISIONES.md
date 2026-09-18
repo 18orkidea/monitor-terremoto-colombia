@@ -5050,7 +5050,7 @@ un derecho de petición a la UNGRD, y su silencio también se archiva (R15).
 ## 2026-09-18 — Se cierra la captura del RUD y las gráficas terminan en su último cambio
 
 **Contexto.** Desde el 13-sep el RUD repetía las mismas cifras en los 409
-municipios (364.670 familias del 11 al 16-sep). El aviso «lleva N capturas sin
+municipios (364.670 familias del 11 al 17-sep). El aviso «lleva N capturas sin
 mover un solo municipio» salía cada día y cada captura añadía un punto plano a
 todas las gráficas: en las fichas, 10.312 puntos dibujados frente a los 4.566
 que cuentan un cambio. Las 409 fichas tenían la cola plana y 407 de ellas con

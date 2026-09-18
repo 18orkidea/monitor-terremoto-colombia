@@ -2897,11 +2897,11 @@ class TestGraficoRud(unittest.TestCase):
 class TestLosDosPlegablesDelRud(unittest.TestCase):
     """La introducción se reparte entre dos plegables y no se pierde una palabra.
 
-    La página servía cuatro párrafos —268 palabras, 306 desde el
+    La página servía cuatro párrafos —268 palabras, 309 desde el
     18-sep-2026— entre la entradilla y el
     primer dato. Se pliegan en dos: arriba, antes de la tabla, los dos que
     enseñan a LEERLA (123 palabras); al final, los dos que dicen QUÉ ES el RUD
-    y qué no es (183 desde el 18-sep-2026: el párrafo de la captura cerrada
+    y qué no es (186 desde el 18-sep-2026: el párrafo de la captura cerrada
     sustituyó a la frase de la copia diaria en Wayback). El reparto lo decidió
     el 23-ago y los dos superan su umbral de 120 palabras.
 
@@ -2909,7 +2909,7 @@ class TestLosDosPlegablesDelRud(unittest.TestCase):
     distingue: sin él, resumir un párrafo «para que quepa» deja la suite en
     verde y se lleva por delante prosa que ya estaba publicada."""
 
-    PALABRAS = {"Cómo leer estas cifras": 123, "Qué es el RUD y qué no es": 183}
+    PALABRAS = {"Cómo leer estas cifras": 123, "Qué es el RUD y qué no es": 186}
     UMBRAL = 120        # nada se pliega por debajo (criterio del proyecto)
 
     @classmethod
@@ -2939,8 +2939,8 @@ class TestLosDosPlegablesDelRud(unittest.TestCase):
         self.assertEqual(visto, self.PALABRAS,
                          "alguien reescribió, resumió o perdió un párrafo de la "
                          "introducción: era un movimiento, no una redacción")
-        self.assertEqual(sum(visto.values()), 306,
-                         "las 306 palabras de la introducción no cuadran")
+        self.assertEqual(sum(visto.values()), 309,
+                         "las 309 palabras de la introducción no cuadran")
         for titulo, n in visto.items():
             self.assertGreaterEqual(
                 n, self.UMBRAL,
@@ -9359,10 +9359,10 @@ class TestLaGraficaTerminaCuandoElRegistroSePara(unittest.TestCase):
 
     def test_la_nota_cuenta_la_parada_de_la_captura(self):
         cerrada = {"fecha": "2026-09-17", "ultima_captura": "2026-09-06",
-                   "motivo": "prueba"}
+                   "ultima_corrida": "2026-09-18", "motivo": "prueba"}
         svg = R.grafico_rud(self._nacional(10, 20, 20, cerrada=cerrada))
-        self.assertIn("dejó de consultar el RUD el "
-                      f"{R.fecha_larga('2026-09-17')}", svg)
+        self.assertIn("dejó de consultar el RUD tras la corrida del "
+                      f"{R.fecha_larga('2026-09-18')}", svg)
         self.assertNotIn("dejó de consultar",
                          R.grafico_rud(self._nacional(10, 20, 20)))
 
@@ -9387,11 +9387,12 @@ class TestLaGraficaTerminaCuandoElRegistroSePara(unittest.TestCase):
     def test_la_nota_de_la_ficha_cuenta_la_parada(self):
         serie = TestElRegistroQueSeDetiene._serie(5, 9, 9, 9, 9, 9)
         d = TestElRegistroQueSeDetiene._ficha(serie)
-        d["rud_cerrada"] = {"fecha": "2026-09-17", "ultima_captura": "2026-09-16"}
+        d["rud_cerrada"] = {"fecha": "2026-09-17", "ultima_captura": "2026-09-16",
+                            "ultima_corrida": "2026-09-17"}
         html = R.render_ficha(d)
         self.assertIn(f"La gráfica termina el {R.fecha_larga(serie[1][0])}", html)
-        self.assertIn(f"dejó de consultar el RUD el {R.fecha_larga('2026-09-17')}",
-                      html)
+        self.assertIn("dejó de consultar el RUD tras la corrida del "
+                      f"{R.fecha_larga('2026-09-17')}", html)
         self.assertIn("no cambió después del", html,
                       "con la captura cerrada la nota va en pasado")
         d["rud_cerrada"] = None

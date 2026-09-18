@@ -413,8 +413,8 @@ archivo no pierde nada — los avisos son derivados y su fuente (`alerts.json` y
 
 ## El RUD dejó de capturarse el 18-sep-2026
 
-La última captura del Registro Único de Damnificados es la del 16-sep (día
-colombiano; la corrida del 17-sep). Desde el 18-sep el monitor no pregunta —ni
+La última captura del Registro Único de Damnificados es la del 17-sep (día
+colombiano; la corrida del 18-sep). Desde entonces el monitor no pregunta —ni
 la corrida ni la sonda de contrato—: el registro llevaba desde el 13-sep sin
 mover un solo municipio y la captura se cerró por decisión editorial
 (`docs/DECISIONES.md`, 18-sep-2026). **Lo que
