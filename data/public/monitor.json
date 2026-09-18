@@ -7087,7 +7087,13 @@
     "delta_familias": 0.0,
     "nuevo": false
    }
-  ]
+  ],
+  "captura_cerrada": {
+   "fecha": "2026-09-18",
+   "ultima_captura": "2026-09-16",
+   "ultima_corrida": "2026-09-17",
+   "motivo": "el registro repetía las mismas cifras en todos los municipios desde el 13-sep-2026"
+  }
  },
  "unosat": {
   "edificios": 548,

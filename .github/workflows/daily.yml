@@ -102,7 +102,8 @@ jobs:
 
       # Copia independiente en la Wayback Machine de las fuentes más frágiles
       # (nadie archivaba el RUD durante la semana del sismo; que no vuelva a
-      # pasar). La Wayback ratelimita, así que aquí va solo lo que NO queda
+      # pasar — hasta que su captura se cerró el 17-sep-2026 y salió de esta
+      # lista con ella: ver ungrd_rud.CAPTURA_CERRADA, 18-sep-2026). La Wayback ratelimita, así que aquí va solo lo que NO queda
       # archivado en data/snapshots/: los ficheros de UNOSAT que no son
       # geometría —el informe del epicentro, único análisis de San José del
       # Palmar, del que no se publican vectores, y la tabla de exposición de
@@ -122,7 +123,6 @@ jobs:
              UNION SELECT xlsx_url FROM unosat_products WHERE xlsx_url IS NOT NULL;" \
             2>/dev/null || true)
           for url in \
-            "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T" \
             "https://chatmap.hotosm.org/api/v1/map/89319bbb-a14a-4dfd-b9a1-c83b8b55785f" \
             "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json" \
             "https://sertit.unistra.fr/cartographie-rapide/cartoaction/845/" \

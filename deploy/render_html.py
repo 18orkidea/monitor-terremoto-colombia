@@ -905,6 +905,12 @@ def rotulo_de_tramo(fechas: list) -> str:
 
 # ------------------------------------------------ habitabilidad del RUD
 CAMPOS_HABITABILIDAD = ("nohabitables", "habitables")
+# Lo que distingue una captura nacional de la anterior: las columnas de la
+# tabla más el número de municipios, que la serie nacional añade.
+CAMPOS_SERIE_NACIONAL = ("municipios",) + COLUMNAS_DEL_RUD
+# Las tres curvas de la portada: municipios en el registro, mirados por
+# satélite y documentados por los vecinos.
+CAMPOS_DE_LA_BRECHA = ("rud", "sat", "ciu")
 
 
 def completar_habitabilidad(rud: dict) -> dict:
@@ -1076,6 +1082,7 @@ def datos_ficha(nombre: str, ctx: dict) -> dict:
     # que puedan separarse.
     return {
         "muni": muni, "serie": serie, "zonas": zonas, "ciudadanos": ciudadanos,
+        "rud_cerrada": (ctx.get("rud") or {}).get("captura_cerrada"),
         "con_medio": sum(1 for *_, p in ciudadanos if p.get("media")),
         "mmis": [p["mmi"] for *_, p in ciudadanos if p.get("mmi") is not None],
         "titulares": titulares, "ultimo": ultimo, "primero": primero,
@@ -2864,6 +2871,7 @@ def render_ficha(d: dict) -> str:
         # El gráfico recibe la serie ENTERA, día a día: su eje es el tiempo, y
         # agrupar los días quietos como hace la tabla convertiría los ocho días
         # planos de Jamundí en un paso tan ancho como el salto que vino después.
+        # Solo la cola plana se recorta (17-sep-2026, `hasta_el_ultimo_cambio`).
         graf = grafico_rud_municipal(d["serie"], d["slug"])
         if graf:
             o.append(graf)
@@ -2948,18 +2956,31 @@ def render_ficha(d: dict) -> str:
         # esta línea, un registro detenido y un monitor abandonado se leen igual
         # — y distinguirlos es lo que este proyecto viene a hacer.
         cola = tramos[-1][0]
+        cerrada = d.get("rud_cerrada")
         if len(cola) > 1:
             # Se cuenta lo que se hizo, sin sentenciar. «Lo que se detuvo es el
             # registro» es verdad a los diez días y suena alarmista al segundo,
             # y meter un umbral para decidir cuándo cabe sería inventarse otro
             # número que defender: la cifra de capturas ya dice de qué tamaño es
             # el parón, y el lector la lee mejor que un adjetivo nuestro.
-            o.append(f'<p class="note">El registro de {e(nombre)} no cambia '
-                     f'desde el {e(fecha_larga(cola[0]))}: el monitor lo ha '
-                     f'capturado {fmt_prosa(len(cola) - 1, femenino=True)} '
+            # En pasado si la captura está cerrada: el presente afirmaría un
+            # estado que el monitor ya no comprueba.
+            o.append(f'<p class="note">El registro de {e(nombre)} '
+                     + ("no cambió después del " if cerrada else "no cambia desde el ")
+                     + f'{e(fecha_larga(cola[0]))}: el monitor lo '
+                     + ("capturó " if cerrada else "ha capturado ")
+                     + f'{fmt_prosa(len(cola) - 1, femenino=True)} '
                      f'{"vez" if len(cola) == 2 else "veces"} más —la última, el '
                      f'{e(fecha_larga(cola[-1]))}— y ninguna traía una cifra '
-                     f'nueva.</p>')
+                     f'nueva.'
+                     + (f' La gráfica termina el {e(fecha_larga(cola[0]))}.'
+                        if graf else "") + '</p>')
+        if cerrada:
+            # Fuera del `if` de la cola: una ficha cuya última captura sí trajo
+            # cambio también tiene que contar que ya no se pregunta.
+            o.append(f'<p class="note">El monitor dejó de consultar el RUD el '
+                     f'{e(fecha_larga(cerrada["fecha"]))}: la última captura '
+                     f'es la del {e(fecha_larga(cerrada["ultima_captura"]))}.</p>')
         if len(d["serie"]) < MIN_CAPTURAS_GRAFICA:
             o.append(f'<p class="note">La gráfica de evolución aparece a partir de la '
                      f'{MIN_CAPTURAS_GRAFICA}.ª captura diaria: con '
@@ -3084,7 +3105,11 @@ def render_ficha(d: dict) -> str:
              # empaquetaron. Decía «datos del 22 de agosto» con la última
              # captura del 21, y la tabla de capturas de esta misma página lo
              # desmentía tres filas más arriba.
-             f'<tr><td>Fecha de las cifras</td><td>captura diaria del RUD</td>'
+             f'<tr><td>Fecha de las cifras</td><td>'
+             + ("última captura del RUD (captura cerrada el "
+                + e(fecha_larga(d["rud_cerrada"]["fecha"])) + ")"
+                if d.get("rud_cerrada") else "captura diaria del RUD")
+             + f'</td>'
              f'<td>{sello_fechas(d["serie"][-1][0] if d.get("serie") else None, d["generado"], "del RUD")}</td></tr>'
              "</tbody></table></div>")
     o.append('<p class="note">Cada petición queda registrada con su dirección, su código de '
@@ -5299,6 +5324,7 @@ def nota_grafico_brecha(ctx: dict) -> str:
     if not serie:
         return ("Todavía no hay serie diaria con la que dibujar la brecha: hace "
                 "falta al menos una captura del registro oficial.")
+    serie, _cola = hasta_el_ultimo_cambio(serie, CAMPOS_DE_LA_BRECHA)
     ult = serie[-1]
     ultima_mirada = max(
         (d["fecha"] for d in serie if d.get("entradas")), default=None)
@@ -5313,8 +5339,8 @@ def nota_grafico_brecha(ctx: dict) -> str:
     # párrafo que ya define la brecha de otra manera. Dos definiciones a un
     # centímetro se leen como un titubeo; el hecho concreto, no.
     frase += (". <b>Lo que hay en medio son los municipios que el registro ya "
-              "cuenta y ningún satélite ha mirado</b>, y son más cada día que "
-              "el registro crece y nadie mira. La fecha del satélite es la de "
+              "cuenta y ningún satélite ha mirado</b>, y fueron más cada día "
+              "que el registro creció y nadie miró. La fecha del satélite es la de "
               "adquisición de la imagen, que es cuando pasó por encima. La "
               "violeta son los municipios que ha documentado la propia "
               f'comunidad con sus reportes: <b data-cifra="ciudadano-municipios">'
@@ -5335,6 +5361,12 @@ def grafico_brecha(ctx: dict, ancho: int = 980, alto: int = 310) -> str:
         # Sin serie no se dibuja un lienzo vacío, se dice que no la hay
         return ('<p class="note">Todavía no hay serie diaria del registro '
                 "oficial con la que dibujar la brecha.</p>")
+    # Misma regla que las gráficas del RUD (17-sep-2026): el dibujo termina el
+    # día en que alguna de las tres curvas se movió por última vez, y la nota
+    # cuenta los días que repitieron.
+    serie, cola = hasta_el_ultimo_cambio(serie, CAMPOS_DE_LA_BRECHA)
+    nota_cola = nota_cola_plana(cola, serie[-1]["fecha"], "Las tres curvas no cambiaron",
+                                (ctx["rud"] or {}).get("captura_cerrada"))
     izq, der, arr, aba, carril = 44, 14, 16, 30, 74
     au, al = ancho - izq - der, alto - arr - aba - carril
     tope = max([d["rud"] for d in serie if d["rud"] is not None] + [1])
@@ -5440,6 +5472,7 @@ def grafico_brecha(ctx: dict, ancho: int = 980, alto: int = 310) -> str:
                  f'font-size="12" font-weight="700" fill="{color}" '
                  f'text-anchor="end">{fmt(valor)} {texto}</text>')
     o.append("</svg>")
+    o.append(nota_cola)
     # La leyenda va FUERA del SVG, en HTML: así la lee el buscador del
     # navegador, se traduce y no depende de que el SVG escale bien. Y `svg` es
     # justo lo que `seo_check::prosa_propia` descuenta.
@@ -6357,7 +6390,7 @@ def dataset_rud(ctx: dict) -> str:
         # agregador que lea solo esos dos campos —que es el uso que este marcado
         # teme— que el monitor edita el RUD. La ficha ya lo hacía bien y esta
         # página no: R9 empieza por cómo se llama lo que se firma.
-        "name": "Serie diaria del RUD (UNGRD) del terremoto de Colombia 2026, "
+        "name": "Serie de capturas del RUD (UNGRD) del terremoto de Colombia 2026, "
                 "recopilada municipio a municipio",
         "description":
             "Serie diaria de familias y personas inscritas como damnificadas, "
@@ -6386,7 +6419,7 @@ def dataset_rud(ctx: dict) -> str:
         "citation": citas,
         "distribution": [
             {"@type": "DataDownload",
-             "name": "Serie diaria y detalle municipal del RUD (JSON)",
+             "name": "Serie de capturas y detalle municipal del RUD (JSON)",
              "encodingFormat": "application/json",
              "contentUrl": "https://datosdelterremoto.org/data/public/rud.json"},
         ]}
@@ -6520,7 +6553,7 @@ def dataset_referencia(ctx: dict) -> str:
              "encodingFormat": "application/json",
              "contentUrl": "https://datosdelterremoto.org/data/public/monitor.json"},
             {"@type": "DataDownload",
-             "name": "Serie diaria y detalle municipal del RUD (JSON)",
+             "name": "Serie de capturas y detalle municipal del RUD (JSON)",
              "encodingFormat": "application/json",
              "contentUrl": "https://datosdelterremoto.org/data/public/rud.json"},
         ]}
@@ -6551,6 +6584,52 @@ def _altas_diarias(serie: list) -> list:
     return altas
 
 
+def hasta_el_ultimo_cambio(puntos: list, campos) -> tuple[list, list]:
+    """La serie hasta la captura que fijó las cifras vigentes, y las fechas
+    de las capturas posteriores que solo las repitieron.
+
+    Decisión del 17-sep-2026 (docs/DECISIONES.md): las gráficas terminan el
+    día en que el registro dejó de moverse. Antes se dibujaba cada captura
+    plana, y con el registro parado las 409 fichas acumulaban puntos
+    idénticos —10.312 contra los 4.566 que cuentan algo—. Lo que se quita
+    del dibujo no se esconde: `nota_cola_plana` lo cuenta con su cifra de
+    capturas y sus fechas, y la tabla y `rud.json` conservan cada una.
+
+    Solo se recorta la COLA. Las mesetas intermedias (5-7 sep) se quedan:
+    ahí el registro volvió a moverse y la forma importa. Dos capturas son
+    iguales si coinciden en todos los `campos`, el mismo criterio que
+    `tramos_del_registro`, para que la gráfica termine donde empieza la
+    última fila de la tabla."""
+    def cifras(p):
+        return tuple(p.get(c) for c in campos)
+    n = len(puntos)
+    while n > 1 and cifras(puntos[n - 2]) == cifras(puntos[-1]):
+        n -= 1
+    return puntos[:n], [p.get("fecha") for p in puntos[n:]]
+
+
+def nota_cola_plana(cola: list, ultimo: str, sujeto: str, cerrada) -> str:
+    """La frase que acompaña a una gráfica recortada: cuántas capturas se
+    quitaron, entre qué fechas y, si la captura está cerrada, desde cuándo
+    el monitor no pregunta. Sin cola no dice nada.
+
+    `sujeto` trae ya su verbo («El registro nacional no cambió», «Las tres
+    curvas no cambiaron»): concordarlo aquí en singular daba «Ninguna de las
+    tres no cambió»."""
+    if not cola:
+        return ""
+    n = len(cola)
+    capturas = ("la captura siguiente, del " if n == 1 else
+                f"las {fmt_prosa(n, femenino=True)} capturas siguientes, hasta el ")
+    cierre = (f' El monitor dejó de consultar el RUD el '
+              f'{e(fecha_larga(cerrada["fecha"]))}.' if cerrada else "")
+    return (f'<p class="note nota-cola" data-capturas-planas="{n}">{sujeto} '
+            f'después del {e(fecha_larga(ultimo))}: {capturas}'
+            f'{e(fecha_larga(cola[-1]))}, {"repitió" if n == 1 else "repitieron"} '
+            f'las mismas cifras y la gráfica no {"la" if n == 1 else "las"} '
+            f'dibuja.{cierre}</p>')
+
+
 def grafico_rud_municipal(serie: list, slug: str) -> str:
     """Altas por día en barras y acumulado en línea, en la ficha.
 
@@ -6563,9 +6642,19 @@ def grafico_rud_municipal(serie: list, slug: str) -> str:
 
     Una corrección a la baja no se recorta a cero (R3, R16): el prototipo
     usaba `max(0, …)` y escondía las bajas del registro. Aquí se pintan."""
-    puntos = [{"fecha": f, "familias": (fila or {}).get("familias")}
-              for f, fila in serie]
-    if sum(1 for p in puntos if p["familias"] is not None) < MIN_CAPTURAS_GRAFICA:
+    # El umbral mira las capturas HECHAS, no las dibujadas: un registro que
+    # se paró pronto tiene historia suficiente aunque su gráfica sea corta.
+    if sum(1 for _, fila in serie
+           if (fila or {}).get("familias") is not None) < MIN_CAPTURAS_GRAFICA:
+        return ""
+    # Se recorta con TODAS las columnas, como la tabla: la gráfica termina en
+    # la fecha con la que empieza su última fila, y la nota de la tabla ya
+    # cuenta el resto (`nota_cola_plana` sería la misma frase dos veces).
+    puntos, _ = hasta_el_ultimo_cambio(
+        [{"fecha": f, **{c: (fila or {}).get(c) for c in COLUMNAS_DEL_RUD}}
+         for f, fila in serie], COLUMNAS_DEL_RUD)
+    if len(puntos) < 2:
+        # Un solo punto no es una forma: la tabla dice que nunca cambió.
         return ""
     altas = _altas_diarias(puntos)
     acums = [p["familias"] for p in puntos if p["familias"] is not None]
@@ -6726,6 +6815,10 @@ def grafico_rud(ctx: dict) -> str:
         # peor que decirlo. La entradilla ya cuenta lo mismo con más detalle.
         return ("<p class=\"note\">Sin ninguna captura del RUD todavía no hay "
                 "serie que dibujar.</p>")
+    serie, cola = hasta_el_ultimo_cambio(serie, CAMPOS_SERIE_NACIONAL)
+    nota = nota_cola_plana(cola, serie[-1].get("fecha"),
+                           "El registro nacional no cambió",
+                           (ctx["rud"] or {}).get("captura_cerrada"))
     H = 230
     m_t, m_r, m_b, m_l = 38, 70, 38, 64
     PASO_MIN = 62
@@ -6735,7 +6828,12 @@ def grafico_rud(ctx: dict) -> str:
     max_total = max([1] + [d.get("familias") or 0 for d in serie] + cambios)
     min_cambio = min([0] + cambios)
     techo = max_total * 1.1
-    piso = min_cambio * 1.1 if min_cambio < 0 else 0
+    # Una baja pequeña frente al total (−1 familia sobre 364.670, el
+    # 10-sep-2026) dejaba el tick del piso a un píxel del cero y su rótulo
+    # encima de la fecha. La franja negativa tiene un alto mínimo —el 12 % del
+    # techo— para que la baja se lea sin pisar nada; si la baja es mayor, manda
+    # ella.
+    piso = min(min_cambio * 1.1, -0.12 * techo) if min_cambio < 0 else 0
 
     def x(i):
         return W / 2 if len(serie) == 1 else m_l + i * (W - m_l - m_r) / (len(serie) - 1)
@@ -6766,7 +6864,10 @@ def grafico_rud(ctx: dict) -> str:
         f'{concuerda(altas[i], "familia", "familias")} desde la '
         f'captura anterior; {fmt(d.get("familias"))} acumuladas'
         for i, d in enumerate(serie))
-    ticks = [piso, 0, techo] if piso < 0 else [0, techo / 2, techo]
+    # El piso forzado (ver arriba) es espacio, no una cifra: rotularlo
+    # anunciaría una baja de decenas de miles que ninguna barra alcanza.
+    ticks = ([piso, 0, techo] if piso < 0 and piso == min_cambio * 1.1
+             else [0, techo / 2, techo])
     # Con trece capturas o menos W se queda en 900 y esto no escribe nada: el
     # caso de hoy se ve idéntico a como se veía ayer. Pasado ese punto, el
     # `min-width` impide que el navegador encoja el lienzo por debajo de su
@@ -6809,7 +6910,9 @@ def grafico_rud(ctx: dict) -> str:
         # (medido por `test_ningun_rotulo_se_pisa_en_movil` con la meseta del
         # 5, 6 y 7-sep-2026); `g-cero` es una clase propia, no `g-alta`,
         # porque la cascada que lo mide no lee selectores compuestos.
-        clase_alta = "g-cero" if valor == 0 else "g-alta"
+        # `g-baja`, por lo mismo: su rótulo ya nace debajo de la línea de cero.
+        clase_alta = ("g-cero" if valor == 0 else
+                      "g-baja" if valor < 0 else "g-alta")
         o.append(
             f'<rect x="{_n(x(i) - ancho_barra / 2)}" y="{_n(min(yy, y0))}" '
             f'width="{_n(ancho_barra)}" height="{_n(max(1, abs(y0 - yy)))}" rx="2" '
@@ -6864,6 +6967,7 @@ def grafico_rud(ctx: dict) -> str:
         f'<circle cx="{_n(lx + 217)}" cy="12" r="3.5" fill="var(--good)"/>'
         f'<text x="{_n(lx + 234)}" y="15" class="g-leyenda" font-size="10" '
         f'fill="var(--ink-2)">Total acumulado</text></g></svg></div>')
+    o.append(nota)
     return "".join(o)
 
 
@@ -6891,6 +6995,10 @@ def grafico_habitabilidad(ctx: dict) -> str:
         return ("<p class=\"note\">Ninguna captura del RUD trae todavía la "
                 "calificación de habitabilidad: la serie se dibuja en cuanto "
                 "la primera la traiga.</p>")
+    serie, cola = hasta_el_ultimo_cambio(serie, CAMPOS_SERIE_NACIONAL)
+    nota = nota_cola_plana(cola, serie[-1].get("fecha"),
+                           "La calificación no cambió",
+                           (ctx["rud"] or {}).get("captura_cerrada"))
     H = 230
     m_t, m_r, m_b, m_l = 38, 70, 38, 64
     PASO_MIN = 62
@@ -6983,6 +7091,7 @@ def grafico_habitabilidad(ctx: dict) -> str:
         f'stroke="var(--good)" stroke-width="2.5"/>'
         f'<text x="{_n(lx + 180)}" y="15" class="g-leyenda" font-size="10" '
         f'fill="var(--ink-2)">Habitables</text></g></svg></div>')
+    o.append(nota)
     return "".join(o)
 
 
@@ -7242,9 +7351,22 @@ def sello_municipios(ctx: dict) -> str:
 
 
 def sello_rud(ctx: dict) -> str:
-    """RUD: las dos fechas. Es la página donde la confusión se veía."""
+    """RUD: las dos fechas. Es la página donde la confusión se veía.
+
+    Con la captura cerrada, la segunda fecha (la corrida) diría que el monitor
+    preguntó hoy por el registro, y no lo hace: se sustituye por el día en que
+    dejó de preguntar."""
     rud = ctx["rud"] or {}
     serie = rud.get("serie") or []
+    cerrada = rud.get("captura_cerrada")
+    if cerrada:
+        # Las dos fechas siguen siendo legibles por máquina (`<time>`), como
+        # en `sello_fechas`: lo que cambia es la segunda, que ya no es la
+        # corrida de hoy sino el día en que se dejó de preguntar.
+        return (f'Datos del RUD hasta el <time datetime="{cerrada["ultima_captura"]}">'
+                f'{fecha_larga(cerrada["ultima_captura"])}</time> · captura cerrada '
+                f'el <time datetime="{cerrada["fecha"]}">'
+                f'{fecha_larga(cerrada["fecha"])}</time>')
     return sello_fechas(serie[-1].get("fecha") if serie else None,
                         rud.get("generado"), "del RUD")
 

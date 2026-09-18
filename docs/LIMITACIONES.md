@@ -411,6 +411,18 @@ el plan de $5/mes. El canal de Telegram es un tercero: si desapareciera, el
 archivo no pierde nada — los avisos son derivados y su fuente (`alerts.json` y
 `alerts.rss`) vive en el repo.
 
+## El RUD dejó de capturarse el 18-sep-2026
+
+La última captura del Registro Único de Damnificados es la del 16-sep (día
+colombiano; la corrida del 17-sep). Desde el 18-sep el monitor no pregunta —ni
+la corrida ni la sonda de contrato—: el registro llevaba desde el 13-sep sin
+mover un solo municipio y la captura se cerró por decisión editorial
+(`docs/DECISIONES.md`, 18-sep-2026). **Lo que
+el RUD cambie después no está en este archivo**: el endpoint solo sirve su
+estado actual, así que esos días no se pueden reconstruir, y nadie avisa si
+las alcaldías vuelven a cargar. Las cifras publicadas son las del 16-sep, con
+esa fecha.
+
 ## El RUD es un registro progresivo, no un censo
 
 Que un municipio no aparezca en el RUD significa «sin registro aún», no «sin

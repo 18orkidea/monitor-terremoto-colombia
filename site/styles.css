@@ -810,6 +810,9 @@ a.metric-card:hover { border-color: var(--s1); }
      7-sep-2026 por `test_ningun_rotulo_se_pisa_en_movil`). Clase propia:
      crece como un alta y se queda donde nace. */
   .grafico-rud .g-cero  { font-size: 14px; }
+  /* Una baja escribe su rótulo DEBAJO de la línea de cero; bajarlo más lo
+     ponía sobre la fecha (la corrección de −1 familia del 10-sep-2026). */
+  .grafico-rud .g-baja  { font-size: 14px; }
 }
 /* La gráfica de habitabilidad comparte lienzo y vocabulario con la del RUD
    (mismo viewBox, mismos márgenes, `g-alterna` desde el final), pero no sus
@@ -878,6 +881,7 @@ a.metric-card:hover { border-color: var(--s1); }
      no pisarse; `test_ningun_rotulo_se_pisa_en_movil` es quien lo mide. */
   .grafico-rud .g-alta  { transform: translate(0, 14px); }
   .grafico-rud .g-cero  { font-size: 24px; }
+  .grafico-rud .g-baja  { font-size: 24px; }
 }
 @media (max-width: 480px) {
   .grafico-hab .g-eje     { font-size: 15px; }

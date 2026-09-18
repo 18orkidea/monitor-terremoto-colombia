@@ -85,6 +85,18 @@ def aviso_de_estancamiento(planas: list[str]) -> dict | None:
                   f"registro que dejó de crecer.")}
 
 
+def estancamiento_vigente(conn) -> dict | None:
+    """El aviso de estancamiento de hoy, o None si la captura está cerrada.
+
+    Con `ungrd_rud.CAPTURA_CERRADA` puesto no llegan capturas nuevas, y el
+    aviso repetiría a diario la racha del último día capturado: una noticia
+    que ya no lo es (decisión del 17-sep-2026, docs/DECISIONES.md)."""
+    from sources.ungrd_rud import CAPTURA_CERRADA
+    if CAPTURA_CERRADA:
+        return None
+    return aviso_de_estancamiento(capturas_sin_movimiento(_capturas_del_rud(conn)))
+
+
 def _capturas_del_rud(conn, cuantas: int = 6) -> list[tuple[str, dict]]:
     """Las últimas capturas del RUD, tal como quedaron archivadas."""
     dias = [r[0] for r in conn.execute(
@@ -931,10 +943,9 @@ def run(copernicus_summary: dict | None = None) -> list[dict]:
     # 6c) ¿se detuvo el registro? El RUD no muere: sigue contestando 200 con
     # las mismas cifras cuando las alcaldías terminan de cargar. Sin esto, el
     # final del registro llegaría como la simple ausencia de `rud_actualizado`
-    # —un silencio idéntico al de una corrida rota—, y es la señal que decide
-    # cuándo las fichas dejan de dibujar filas planas.
-    aviso = aviso_de_estancamiento(
-        capturas_sin_movimiento(_capturas_del_rud(conn)))
+    # —un silencio idéntico al de una corrida rota—. Quien decide qué dibujan
+    # las gráficas es `render_html.hasta_el_ultimo_cambio`, no este aviso.
+    aviso = estancamiento_vigente(conn)
     if aviso:
         alerts.append(aviso)
 
