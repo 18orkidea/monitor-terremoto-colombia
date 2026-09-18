@@ -517,6 +517,16 @@ NOMBRE_A_SECAS_CONGELADO = {
     # mención de «Ricaurte», así que no hay brecha que silenciar ni inflar.
     "Ricaurte": {"divipola": "52612", "departamento": "Nariño"},
     "Valparaíso": {"divipola": "05856", "departamento": "Antioquia"},
+    # estrenaron homonimia con el RUD de mediados de sep-2026: el registro dio
+    # de alta Albán (Nariño, 1 familia) y El Peñón (Cundinamarca, 7), y la
+    # DIVIPOLA nacional repite los dos nombres —Albán está también en
+    # Cundinamarca; El Peñón, en Bolívar, Santander y Cundinamarca—. Mismo
+    # criterio de siempre: se congela LO PUBLICADO (`municipios.json`), no la
+    # asignación que uno elegiría de cero. Medido contra el corpus de
+    # titulares antes de anotar: CERO menciones de cualquiera de los dos, así
+    # que no hay brecha que silenciar ni inflar.
+    "Albán": {"divipola": "52019", "departamento": "Nariño"},
+    "El Peñón": {"divipola": "25258", "departamento": "Cundinamarca"},
     # anclados por `MUNICIPIOS` (el reparto no los toca), anotados igual: si
     # algún día uno sale del catálogo curado, el nombre no puede quedar a subasta
     "Armenia": {"divipola": "63001", "departamento": "Quindío"},
