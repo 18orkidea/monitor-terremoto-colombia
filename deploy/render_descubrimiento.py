@@ -207,7 +207,9 @@ def llms_full(destino: Path) -> int:
           "",
           f"Datos completos: {DOMINIO}/data/public/monitor.json",
           "Código y copias archivadas: https://github.com/18orkidea/monitor-terremoto-colombia",
-          f"Serie diaria del RUD: {len(rud.get('detalle_diario', {}))} capturas archivadas.",
+          f"Serie del RUD: {len(rud.get('detalle_diario', {}))} capturas archivadas"
+          + (f" (captura cerrada el {(rud.get('captura_cerrada') or {}).get('fecha')})."
+             if rud.get("captura_cerrada") else "."),
           ""]
     texto = "\n".join(L)
     (destino / "llms-full.txt").write_text(texto, encoding="utf-8")

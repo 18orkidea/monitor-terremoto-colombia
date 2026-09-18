@@ -8,6 +8,22 @@ parser es tolerante y su test de supuesto vigilará que siga vivo.
 Matiz importante: el RUD lo cargan las autoridades municipales — que un
 municipio no aparezca no significa "sin daño", significa "sin registro aún".
 Esa asimetría es en sí misma una brecha que el monitor muestra.
+
+## Captura cerrada (17-sep-2026)
+
+La captura diaria se detuvo por decisión editorial: desde el 13-sep el
+registro repetía las mismas cifras en los 409 municipios, y cada captura
+nueva solo alargaba las gráficas con puntos planos. `CAPTURA_CERRADA` lo
+declara, y mientras esté puesto `run()` no hace ninguna petición: no hay
+fila en `sources_log` ni snapshot, y `rud.json` lo dice para que el sitio
+pueda contarlo. La sonda de contrato (`test_supuestos_api.py`) también se
+salta: parada total es parada total, y una sonda diaria contra el endpoint
+sería justo la opción intermedia que se descartó.
+
+Lo que se pierde, y se asumió al decidirlo (docs/DECISIONES.md): el RUD solo
+sirve su estado actual, así que un día sin capturar no se recupera nunca, y
+si las alcaldías vuelven a cargar nadie se entera sin mirar a mano. El test de supuesto queda escrito y se
+reactiva con la captura.
 """
 from __future__ import annotations
 
@@ -16,6 +32,25 @@ import json
 from common import db, dia_colombiano_consolidado, fetch_json
 
 URL = "https://rud.gestiondelriesgo.gov.co/home/json.php?temp=2026T"
+
+# None para reanudar la captura diaria — pero reanudar NO es solo esto: los
+# días cerrados aparecerían como huecos sin explicar (`alerts.py`,
+# `test_no_hay_dias_perdidos_entre_capturas`), así que el intervalo cerrado
+# hay que anotarlo en `common.HUECOS_RUD_CONOCIDOS` con su porqué.
+#
+# `ultima_captura` es la etiqueta de `rud_daily` de la última corrida que
+# capturó —la del 18-sep, que consolida el día colombiano 17-sep— y no se
+# escribe a ojo: `test_unit.py::TestCapturaDelRudCerrada` la compara con la
+# fecha máxima de `data/dumps/rud_daily.csv`, para que una parada que llegue
+# tarde (un cron de por medio) se vea en rojo en vez de publicar una fecha
+# falsa.
+CAPTURA_CERRADA = {
+    "fecha": "2026-09-18",
+    "ultima_captura": "2026-09-17",
+    "ultima_corrida": "2026-09-18",
+    "motivo": ("el registro repetía las mismas cifras en todos los municipios "
+               "desde el 13-sep-2026"),
+}
 
 
 def _fecha_iso(f: str) -> str | None:
@@ -34,6 +69,10 @@ def _n(v):
 
 
 def run() -> dict:
+    if CAPTURA_CERRADA:
+        # Sin petición: que la fuente callara aquí no es un fallo (R13), es
+        # la decisión documentada arriba.
+        return {"captura_cerrada": CAPTURA_CERRADA}
     conn = db()
     status, data = fetch_json(URL, note="rud 2026T",
                               snapshot_name="rud_2026T.json", conn=conn)

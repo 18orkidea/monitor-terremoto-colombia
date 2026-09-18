@@ -110,6 +110,12 @@ plan de sucesión (¿qué pasa si muere? ¿merece Wayback? ¿hay export dedicado
 `rud.json`?). Las lagunas conocidas se documentan en `docs/LIMITACIONES.md` — un
 archivo honesto documenta lo que no tiene.
 
+**Cerrar una captura es una decisión editorial, no un fallo.** Se declara con
+una constante en la propia fuente (precedente: `ungrd_rud.CAPTURA_CERRADA`,
+18-sep-2026), la corrida deja de pedir, el sitio cuenta desde cuándo y por qué,
+y `docs/DECISIONES.md` y `docs/LIMITACIONES.md` dicen qué se pierde. Reanudar
+es devolver la constante a `None`.
+
 ## Idioma y naming
 
 - Docs, comentarios, mensajes de commit y textos del sitio: **español** (con tildes).

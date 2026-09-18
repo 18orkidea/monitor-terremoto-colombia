@@ -2212,14 +2212,21 @@ class TestSelloDeFecha(unittest.TestCase):
                               f"{pagina}: la fecha no es legible por máquina")
 
     def test_el_rud_y_los_balances_fechan_tambien_el_dato(self):
-        """Las dos páginas cuyas fuentes sí saben hasta dónde llegan."""
+        """Las dos páginas cuyas fuentes sí saben hasta dónde llegan.
+
+        Las DOS fechas siguen ahí con la captura del RUD cerrada
+        (18-sep-2026); lo que cambia es la segunda, que ya no es la corrida de
+        hoy —el monitor no le pregunta— sino el día en que dejó de hacerlo."""
         for pagina, clave in (("rud.html", "rud-sello"),
                               ("balances.html", "balances-sello")):
             with self.subTest(pagina=pagina):
                 cuerpo = self.sello_servido(pagina, clave)
                 self.assertEqual(len(re.findall(r'<time ', cuerpo)), 2,
                                  f"{pagina}: el sello dejó de decir las dos fechas")
-                self.assertIn("corrida del", cuerpo)
+                self.assertTrue("corrida del" in cuerpo
+                                or "captura cerrada el" in cuerpo,
+                                f"{pagina}: el sello no dice de cuándo es la "
+                                "segunda fecha")
 
     def test_la_portada_y_los_municipios_no_inventan_la_fecha_del_dato(self):
         """Sus fuentes no la publican, así que ese trozo se calla."""
@@ -2863,7 +2870,8 @@ class TestGraficoRud(unittest.TestCase):
         self.assertIn("acumuladas", desc)
 
     def test_el_desc_del_dato_real_tiene_un_dia_por_punto(self):
-        serie = R.contexto()["rud"]["serie"]
+        serie, _ = R.hasta_el_ultimo_cambio(R.contexto()["rud"]["serie"],
+                                            R.CAMPOS_SERIE_NACIONAL)
         desc = re.search(r'<desc id="rud-chart-desc">(.*?)</desc>',
                          R.grafico_rud(R.contexto()), re.S).group(1)
         self.assertEqual(len(re.findall(r"\d+ de \w+ de \d{4}", desc)), len(serie))
@@ -2889,17 +2897,19 @@ class TestGraficoRud(unittest.TestCase):
 class TestLosDosPlegablesDelRud(unittest.TestCase):
     """La introducción se reparte entre dos plegables y no se pierde una palabra.
 
-    La página servía cuatro párrafos —268 palabras— entre la entradilla y el
+    La página servía cuatro párrafos —268 palabras, 309 desde el
+    18-sep-2026— entre la entradilla y el
     primer dato. Se pliegan en dos: arriba, antes de la tabla, los dos que
     enseñan a LEERLA (123 palabras); al final, los dos que dicen QUÉ ES el RUD
-    y qué no es (145). El reparto lo decidió el 23-ago y los dos superan su
-    umbral de 120 palabras.
+    y qué no es (186 desde el 18-sep-2026: el párrafo de la captura cerrada
+    sustituyó a la frase de la copia diaria en Wayback). El reparto lo decidió
+    el 23-ago y los dos superan su umbral de 120 palabras.
 
     Es un movimiento, no una reescritura, y este test es lo único que lo
     distingue: sin él, resumir un párrafo «para que quepa» deja la suite en
     verde y se lleva por delante prosa que ya estaba publicada."""
 
-    PALABRAS = {"Cómo leer estas cifras": 123, "Qué es el RUD y qué no es": 145}
+    PALABRAS = {"Cómo leer estas cifras": 123, "Qué es el RUD y qué no es": 186}
     UMBRAL = 120        # nada se pliega por debajo (criterio del proyecto)
 
     @classmethod
@@ -2929,8 +2939,8 @@ class TestLosDosPlegablesDelRud(unittest.TestCase):
         self.assertEqual(visto, self.PALABRAS,
                          "alguien reescribió, resumió o perdió un párrafo de la "
                          "introducción: era un movimiento, no una redacción")
-        self.assertEqual(sum(visto.values()), 268,
-                         "las 268 palabras de la introducción no cuadran")
+        self.assertEqual(sum(visto.values()), 309,
+                         "las 309 palabras de la introducción no cuadran")
         for titulo, n in visto.items():
             self.assertGreaterEqual(
                 n, self.UMBRAL,
@@ -3104,9 +3114,10 @@ class TestElGraficoSeLeeEnMovil(unittest.TestCase):
         como mucho— y se protege el rótulo que de verdad importa, el del último
         día, que es la cifra vigente del registro. Contando la alternancia
         desde el principio, una serie de longitud par lo apagaba justo a él."""
-        # `g-cero` es el rótulo de alta de una captura plana: cuenta como
-        # `g-alta` en el trato, porque es el mismo dato con otra clase
-        familia = {"g-cero": "g-alta"}
+        # `g-cero` y `g-baja` son el rótulo de alta de una captura plana y de
+        # una baja: cuentan como `g-alta` en el trato, porque son el mismo
+        # dato con otra clase
+        familia = {"g-cero": "g-alta", "g-baja": "g-alta"}
         for largo, svg in self._las_dos_paridades():
             puntos = len(re.findall(r'<circle cx="[\d.]+" cy="[\d.]+" r="5"', svg))
             ultimo = {}
@@ -9154,6 +9165,9 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         render no puede depender de qué día sea hoy en el RUD."""
         d = copy.deepcopy(R.datos_ficha("Cali", R.contexto()))
         d["serie"] = serie
+        # La captura del RUD, abierta salvo que el test diga lo contrario: si
+        # no, estas pruebas cambiarían de frase el día que se cierre.
+        d["rud_cerrada"] = None
         d["ultimo"] = serie[-1][1] if serie else {}
         d["primero"] = serie[0][1] if serie else {}
         d["delta"] = d["pct_delta"] = None
@@ -9257,13 +9271,14 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         serie = self._serie(100, 200, 300, 400)  # ninguna captura se repite
         self.assertNotIn("no cambia desde", R.render_ficha(self._ficha(serie)))
 
-    def test_la_grafica_recibe_la_serie_entera_y_no_los_tramos(self):
+    def test_la_grafica_dibuja_la_meseta_intermedia_y_corta_la_cola(self):
         """Su eje es el tiempo. Agrupados, los días quietos ocuparían lo mismo
         que el salto que vino después y la forma —lo único que aporta el
-        dibujo— mentiría: la gráfica tiene que dibujar una captura por cada
-        entrada de la serie, sin importar cuántos tramos formen al agruparse
-        para la tabla (`R.tramos_del_registro` colapsaría estas 10 capturas
-        en solo 2 tramos)."""
+        dibujo— mentiría: la meseta de en medio se dibuja captura a captura
+        aunque la tabla la junte en un tramo (`R.tramos_del_registro`
+        colapsaría estas 10 capturas en 2). Lo único que se recorta es la
+        cola que repite la última cifra (17-sep-2026): la gráfica termina el
+        día del salto a 1.539 y la nota de la tabla cuenta el resto."""
         serie = self._serie(23, 23, 23, 23, 23, 23, 23, 23, 1539, 1539)
         self.assertEqual(len(R.tramos_del_registro(serie)), 2,
                          "la serie de este test tiene que seguir agrupándose "
@@ -9272,10 +9287,11 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         svg = html[html.find('class="grafico-rud-muni"'):]
         svg = svg[:svg.find("</svg>")]
         dias = re.findall(r'class="g-dia"[^>]*>([^<]+)<', svg)
-        self.assertEqual(len(dias), len(serie),
-                         f"el eje tiene que llevar una captura por cada día "
-                         f"de la serie, no una por tramo agrupado: {dias}")
-        self.assertEqual(len(re.findall(r"<circle", svg)), len(serie))
+        self.assertEqual(len(dias), len(serie) - 1,
+                         f"el eje lleva las ocho capturas de la meseta y el "
+                         f"salto, y no la captura que solo lo repite: {dias}")
+        self.assertEqual(len(re.findall(r"<circle", svg)), len(serie) - 1)
+        self.assertIn(f"La gráfica termina el {R.fecha_larga(serie[-2][0])}", html)
 
     def test_un_dia_de_cero_altas_se_dibuja_y_no_se_confunde_con_un_hueco(self):
         """R3 dentro del SVG. El primer día no tiene barra porque no hay
@@ -9283,12 +9299,104 @@ class TestElRegistroQueSeDetiene(unittest.TestCase):
         cero altas es lo contrario, «ese día no entró nadie», y con el hueco
         idéntico la gráfica de Cali parecía terminar el 24 de agosto teniendo
         el 25 dibujado. Es el fallo que encontró el 26-ago-2026."""
-        svg = R.grafico_rud_municipal(self._serie(100, 200, 300, 400, 400), "cero")
+        # el cero va EN MEDIO: en la cola, la captura que repite no se dibuja
+        svg = R.grafico_rud_municipal(self._serie(100, 200, 200, 300, 400), "cero")
         self.assertIn('data-altas="0"', svg)
         self.assertIn("ni una familia nueva desde la captura anterior", svg)
         self.assertEqual(len(re.findall(r"<rect", svg)), 4,
                          "cuatro barras: tres altas y la marca del cero. El "
                          "primer día sigue sin barra, que es lo correcto")
+
+
+class TestLaGraficaTerminaCuandoElRegistroSePara(unittest.TestCase):
+    """Decisión del 17-sep-2026: las gráficas del RUD terminan el día en que
+    el registro dejó de moverse, y lo que no dibujan lo cuentan con su cifra.
+    Series sintéticas propias: el RUD real no se usa para fijar nada."""
+
+    @staticmethod
+    def _nacional(*familias, cerrada=None):
+        serie = [{"fecha": f"2026-09-{1 + i:02d}", "municipios": 3,
+                  "familias": f, "personas": f * 2, "viv_destruidas": 1,
+                  "viv_averiadas": 2, "habitables": 5, "nohabitables": 7}
+                 for i, f in enumerate(familias)]
+        return {"rud": {"serie": serie, "captura_cerrada": cerrada}}
+
+    def test_solo_se_recorta_la_cola(self):
+        puntos = [{"fecha": str(i), "v": v} for i, v in enumerate([1, 1, 2, 2, 2])]
+        dibujo, cola = R.hasta_el_ultimo_cambio(puntos, ("v",))
+        self.assertEqual([p["v"] for p in dibujo], [1, 1, 2])
+        self.assertEqual(cola, ["3", "4"])
+
+    def test_sin_cola_no_se_toca_nada(self):
+        puntos = [{"fecha": str(i), "v": v} for i, v in enumerate([1, 2, 3])]
+        self.assertEqual(R.hasta_el_ultimo_cambio(puntos, ("v",)), (puntos, []))
+
+    def test_una_serie_que_nunca_cambio_se_queda_en_su_primer_punto(self):
+        puntos = [{"fecha": str(i), "v": 4} for i in range(5)]
+        dibujo, cola = R.hasta_el_ultimo_cambio(puntos, ("v",))
+        self.assertEqual(dibujo, puntos[:1])
+        self.assertEqual(len(cola), 4)
+
+    def test_cualquier_columna_que_cambie_cuenta_como_cambio(self):
+        """Mismo criterio que la tabla: si las familias no se mueven pero las
+        viviendas sí, esa captura se dibuja."""
+        ctx = self._nacional(10, 10, 10)
+        for d in ctx["rud"]["serie"][1:]:
+            d["viv_destruidas"] = 9
+        svg = R.grafico_rud(ctx)
+        self.assertEqual(len(re.findall(r'class="g-dia', svg)), 2)
+
+    def test_las_graficas_nacionales_terminan_en_el_ultimo_cambio(self):
+        ctx = self._nacional(10, 20, 30, 30, 30, 30)
+        for nombre, svg in (("familias", R.grafico_rud(ctx)),
+                            ("habitabilidad", R.grafico_habitabilidad(ctx))):
+            with self.subTest(grafica=nombre):
+                if nombre == "familias":
+                    self.assertEqual(len(re.findall(r'class="g-dia', svg)), 3)
+                self.assertIn('data-capturas-planas="3"', svg)
+                self.assertIn(R.fecha_larga("2026-09-06"), svg,
+                              "la nota dice hasta cuándo se repitió la cifra")
+
+    def test_la_nota_cuenta_la_parada_de_la_captura(self):
+        cerrada = {"fecha": "2026-09-17", "ultima_captura": "2026-09-06",
+                   "ultima_corrida": "2026-09-18", "motivo": "prueba"}
+        svg = R.grafico_rud(self._nacional(10, 20, 20, cerrada=cerrada))
+        self.assertIn("dejó de consultar el RUD tras la corrida del "
+                      f"{R.fecha_larga('2026-09-18')}", svg)
+        self.assertNotIn("dejó de consultar",
+                         R.grafico_rud(self._nacional(10, 20, 20)))
+
+    def test_una_baja_pequena_no_rotula_un_piso_que_nadie_alcanza(self):
+        """−1 familia sobre 10.000: la franja negativa tiene alto mínimo para
+        que el rótulo no pise la fecha, pero ese alto no es una cifra."""
+        svg = R.grafico_rud(self._nacional(10000, 9999, 12000))
+        ejes = re.findall(r'class="g-eje"[^>]*>([^<]+)<', svg)
+        self.assertFalse([t for t in ejes if t.startswith(("-", "−"))], ejes)
+        grande = R.grafico_rud(self._nacional(10000, 4000, 12000))
+        self.assertTrue([t for t in re.findall(r'class="g-eje"[^>]*>([^<]+)<', grande)
+                         if t.startswith(("-", "−"))],
+                        "una baja grande sí rotula su piso")
+
+    def test_sin_cola_no_hay_nota(self):
+        self.assertNotIn("nota-cola", R.grafico_rud(self._nacional(10, 20, 30)))
+
+    def test_una_ficha_que_nunca_cambio_no_dibuja_una_grafica_de_un_punto(self):
+        serie = TestElRegistroQueSeDetiene._serie(5, 5, 5, 5, 5, 5)
+        self.assertEqual(R.grafico_rud_municipal(serie, "quieto"), "")
+
+    def test_la_nota_de_la_ficha_cuenta_la_parada(self):
+        serie = TestElRegistroQueSeDetiene._serie(5, 9, 9, 9, 9, 9)
+        d = TestElRegistroQueSeDetiene._ficha(serie)
+        d["rud_cerrada"] = {"fecha": "2026-09-17", "ultima_captura": "2026-09-16",
+                            "ultima_corrida": "2026-09-17"}
+        html = R.render_ficha(d)
+        self.assertIn(f"La gráfica termina el {R.fecha_larga(serie[1][0])}", html)
+        self.assertIn("dejó de consultar el RUD tras la corrida del "
+                      f"{R.fecha_larga('2026-09-17')}", html)
+        self.assertIn("no cambió después del", html,
+                      "con la captura cerrada la nota va en pasado")
+        d["rud_cerrada"] = None
+        self.assertNotIn("dejó de consultar", R.render_ficha(d))
 
 
 class TestEstadosDelMen(unittest.TestCase):

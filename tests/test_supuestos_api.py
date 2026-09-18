@@ -124,7 +124,20 @@ class TestSupuestosMEN(unittest.TestCase):
 
 @unittest.skipUnless(ONLINE, "SKIP_ONLINE=1")
 class TestSupuestosRUD(unittest.TestCase):
-    """El RUD es un endpoint interno no documentado: si cambia, avisar."""
+    """El RUD es un endpoint interno no documentado: si cambia, avisar.
+
+    Con la captura cerrada (`ungrd_rud.CAPTURA_CERRADA`, 17-sep-2026) esta
+    sonda NO corre: seguir preguntando a diario desde el CI sería la opción
+    intermedia que se descartó, y además su fila se perdería —el CI lanza los
+    supuestos después del commit—. Vuelve con la captura."""
+
+    def setUp(self):
+        from sources.ungrd_rud import CAPTURA_CERRADA
+        if CAPTURA_CERRADA:
+            self.skipTest(
+                "captura del RUD cerrada el "
+                f"{CAPTURA_CERRADA['fecha']}: el monitor no pregunta al "
+                "endpoint. Reanudar la captura reactiva esta sonda.")
 
     def test_rud_responde_con_esquema(self):
         st, d = fetch_json(

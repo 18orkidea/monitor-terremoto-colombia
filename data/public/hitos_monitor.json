@@ -291,6 +291,13 @@
    "resumen": "El RUD gana su serie de habitabilidad y el filtro de quién registra sin calificar.",
    "texto": "El Registro Único de Damnificados (RUD) publica por municipio cuántas viviendas ha calificado cada alcaldía como habitables y como no habitables, y de la calificación «no habitable» depende el subsidio de arriendo. El monitor archivaba esas dos columnas desde la primera captura, el 16 de agosto, pero no las enseñaba. Desde hoy tienen su serie y su gráfica en la página del RUD, dos columnas en la tabla y en la serie de cada una de las 409 fichas municipales, y un filtro con los municipios que registran familias sin haber calificado todavía ninguna vivienda: 95 en la captura del 7 de septiembre, con 2.985 familias. La cifra va siempre con su rótulo, porque la UNGRD no publica la definición del concepto: es una inspección visual municipal, no daño verificado por un tercero. De paso se comprobó una hipótesis: que desde el 4 de septiembre el registro se hubiera detenido mientras la calificación seguía moviéndose. No es así: la calificación se anota en la misma captura que la inscripción, y desde la captura del 5 de septiembre el RUD devuelve exactamente el mismo fichero.",
    "url": "/rud.html"
+  },
+  {
+   "fecha": "2026-09-18",
+   "tipo": "monitor",
+   "resumen": "El monitor deja de capturar el RUD, parado desde el 13 de septiembre.",
+   "texto": "El Registro Único de Damnificados (RUD) repetía las mismas cifras en sus 409 municipios desde el 13 de septiembre de 2026: 364.670 familias inscritas. El monitor, que lo capturaba a diario desde el 16 de agosto —salvo el 26 de agosto, que se perdió—, dejó de consultarlo tras la corrida del 18 de septiembre por decisión editorial: la última captura es la del 17 de septiembre, y esas son las cifras publicadas. Las gráficas del registro terminan ahora el día de su último cambio, y una nota cuenta cuántas capturas repitieron después las mismas cifras. Si el registro vuelve a moverse, este archivo no lo recogerá sin una revisión manual: el RUD solo muestra su estado del momento, así que los días no capturados no se pueden recuperar. Había una opción que no perdía nada —seguir preguntando cada día y no guardar las capturas repetidas— y se descartó a favor de la parada total.",
+   "url": "/rud.html"
   }
  ]
 }

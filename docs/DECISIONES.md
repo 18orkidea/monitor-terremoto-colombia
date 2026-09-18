@@ -5047,3 +5047,58 @@ propia `g-cero`, que crece como un alta y no baja.
 **Lo que no se decide.** La definición oficial del concepto: la única vía es
 un derecho de petición a la UNGRD, y su silencio también se archiva (R15).
 
+## 2026-09-18 — Se cierra la captura del RUD y las gráficas terminan en su último cambio
+
+**Contexto.** Desde el 13-sep el RUD repetía las mismas cifras en los 409
+municipios (364.670 familias del 11 al 17-sep). El aviso «lleva N capturas sin
+mover un solo municipio» salía cada día y cada captura añadía un punto plano a
+todas las gráficas: en las fichas, 10.312 puntos dibujados frente a los 4.566
+que cuentan un cambio. Las 409 fichas tenían la cola plana y 407 de ellas con
+siete capturas o más.
+
+**Decisión editorial, con sus costes a la vista.**
+
+1. **Parada total de la captura** (`ungrd_rud.CAPTURA_CERRADA`). La corrida
+   no pregunta al RUD (ni fila en `sources_log` ni snapshot) y la sonda de
+   contrato de `test_supuestos_api.py` se salta —dejarla habría sido la
+   opción intermedia que se descartó, y encima sin rastro: el CI lanza los
+   supuestos después del commit—, `daily.yml` deja
+   de pedir su copia a la Wayback Machine, `alerts.py` deja de emitir el
+   aviso de estancamiento (`estancamiento_vigente`) y `rud.json` publica
+   `captura_cerrada` para que el sitio lo cuente. **Lo que se pierde, y se
+   eligió sabiéndolo:** el RUD solo sirve su estado actual, así que cada día
+   sin capturar es irrecuperable (como el hueco del 26-ago), y si las
+   alcaldías vuelven a cargar nadie se entera sin mirar a mano. Se
+   descartaron «preguntar a diario sin guardar repetidos» (recomendada: no
+   perdía nada) y «vigilancia semanal». **Reanudar no es solo poner
+   `CAPTURA_CERRADA = None`**: los días cerrados aparecerían como huecos sin
+   explicar (`alerts.py`, `test_no_hay_dias_perdidos_entre_capturas`), así que
+   el intervalo hay que anotarlo en `common.HUECOS_RUD_CONOCIDOS`. La fecha de
+   la última captura no se escribe a ojo: un test la compara con el dump.
+2. **Las gráficas terminan en el último cambio** (`hasta_el_ultimo_cambio`),
+   en las dos nacionales, en la municipal y en la de la brecha de la portada
+   (sus tres curvas llevan planas desde el 4-sep). Solo se recorta la COLA: las
+   mesetas intermedias se dibujan, porque ahí el registro volvió a moverse.
+   Dos capturas son iguales si coinciden en todas las columnas, el criterio de
+   `tramos_del_registro`, así que la gráfica de la ficha termina en la fecha
+   con la que empieza la última fila de su tabla. Lo que no se dibuja se
+   cuenta: `nota_cola_plana` (nacionales) y la nota de la tabla (fichas) dan
+   el número de capturas, sus fechas y el día en que se cerró la captura.
+   **Revoca en parte** la regla del 28-ago («comprimir el eje mentiría sobre
+   la forma»): el eje sigue siendo tiempo lineal donde hay dibujo; lo que
+   cambia es que la cola repetida pasa del dibujo a la frase.
+3. **Umbral de la gráfica municipal**: sigue contando las capturas HECHAS
+   (5), no las dibujadas; una ficha cuyo registro nunca cambió (80 hoy) no
+   dibuja una gráfica de un solo punto: la tabla ya lo dice.
+
+**De paso: las bajas de −1 familia (10 y 11-sep) rompían el gráfico en móvil.** El
+tick del piso quedaba a un píxel del cero y el rótulo «−1», bajado por la
+regla móvil de las altas, caía sobre la fecha
+(`TestElGraficoSeLeeEnMovil`, en rojo en `main`). La franja negativa tiene
+ahora un alto mínimo (12 % del techo) y las bajas usan la clase `g-baja`,
+que crece como un alta y no se desplaza, igual que `g-cero`.
+
+**CLAUDE.md** recoge la excepción al snapshot diario: una captura puede
+cerrarse por decisión documentada, con la constante en la fuente y el sitio
+contándolo.
+

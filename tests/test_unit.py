@@ -5360,6 +5360,63 @@ class TestElFaviconConvencionalResponde(unittest.TestCase):
             "comentada?): /favicon.ico volvería a dar 404")
 
 
+class TestCapturaDelRudCerrada(unittest.TestCase):
+    """Decisión del 17-sep-2026: con `ungrd_rud.CAPTURA_CERRADA` puesto, la
+    corrida no pregunta al RUD ni avisa de un estancamiento que ya no mide."""
+
+    def test_cerrada_no_hace_ninguna_peticion(self):
+        from sources import ungrd_rud
+        antes = (ungrd_rud.CAPTURA_CERRADA, ungrd_rud.fetch_json)
+        try:
+            ungrd_rud.CAPTURA_CERRADA = {"fecha": "2026-09-17"}
+            def prohibido(*a, **k):
+                raise AssertionError("con la captura cerrada no se pide nada")
+            ungrd_rud.fetch_json = prohibido
+            self.assertEqual(ungrd_rud.run(),
+                             {"captura_cerrada": {"fecha": "2026-09-17"}})
+        finally:
+            ungrd_rud.CAPTURA_CERRADA, ungrd_rud.fetch_json = antes
+
+    def test_la_fecha_de_la_ultima_captura_no_se_escribe_a_ojo(self):
+        """Si una corrida capturó DESPUÉS de escribir la constante —un cron
+        entre la decisión y el merge—, la fecha publicada sería falsa: el
+        hito, LIMITACIONES y el sitio dicen «las cifras son las del …». Se
+        compara con el dump, que es lo que de verdad hay archivado."""
+        import csv as _csv
+        from sources.ungrd_rud import CAPTURA_CERRADA
+        if not CAPTURA_CERRADA:
+            self.skipTest("captura abierta: no hay fecha que fijar")
+        dump = Path(__file__).parent.parent / "data" / "dumps" / "rud_daily.csv"
+        with dump.open(encoding="utf-8") as f:
+            fechas = {fila["snapshot_date"] for fila in _csv.DictReader(f)}
+        self.assertEqual(
+            CAPTURA_CERRADA["ultima_captura"], max(fechas),
+            "ungrd_rud.CAPTURA_CERRADA['ultima_captura'] no es la última "
+            "captura archivada: actualizarla (y con ella el hito, "
+            "docs/LIMITACIONES.md y docs/ARQUITECTURA.md)")
+
+    def test_cerrada_no_avisa_de_estancamiento(self):
+        import sqlite3
+        import alerts
+        from sources import ungrd_rud
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE rud_daily (snapshot_date, departamento,"
+                     " municipio, familias, personas, viv_destruidas,"
+                     " viv_averiadas, habitables, nohabitables)")
+        for dia in ("2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04"):
+            conn.execute("INSERT INTO rud_daily VALUES (?,'D','M',1,1,1,1,1,1)",
+                         (dia,))
+        antes = ungrd_rud.CAPTURA_CERRADA
+        try:
+            ungrd_rud.CAPTURA_CERRADA = None
+            self.assertIsNotNone(alerts.estancamiento_vigente(conn),
+                                 "sin cerrar, tres capturas planas avisan")
+            ungrd_rud.CAPTURA_CERRADA = {"fecha": "2026-09-17"}
+            self.assertIsNone(alerts.estancamiento_vigente(conn))
+        finally:
+            ungrd_rud.CAPTURA_CERRADA = antes
+
+
 class TestRudDetenido(unittest.TestCase):
     """El RUD no muere: cuando las alcaldías terminan de cargar, la fuente
     sigue contestando 200 con las mismas cifras. Ese estancamiento es el que

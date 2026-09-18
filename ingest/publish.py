@@ -15,6 +15,7 @@ from common import (db, today, anterior_al_sismo, ARCHIVO_EN_R2,
                     DATA, FECHA_SISMO, PUBLIC)
 from geo import wkt_to_geojson
 from sources.community_feeds import dominio
+from sources.ungrd_rud import CAPTURA_CERRADA
 
 ESTADO_LABEL = {
     "coincide": "Coincide cualitativamente",
@@ -737,11 +738,15 @@ def run() -> dict:
         "generado": snap,
         "fuente": "https://rud.gestiondelriesgo.gov.co/",
         "descripcion": "Registro Único de Damnificados (UNGRD), capturado a diario "
-                       "por el monitor. serie = agregado por día de captura; "
+                       "por el monitor (salvo el 26-ago-2026) hasta que se cerró "
+                       "la captura (ver captura_cerrada). serie = agregado por día de captura; "
                        "detalle_diario = filas municipales de cada captura; "
                        "municipios = detalle del último día con deltas.",
         "serie": rud_serie, "municipios": rud_municipios,
         "detalle_diario": rud_detalle,
+        # El sitio cuenta que la serie termina porque el monitor dejó de
+        # preguntar, no porque la fuente muriera (ungrd_rud.CAPTURA_CERRADA).
+        "captura_cerrada": CAPTURA_CERRADA,
     }, ensure_ascii=False))
 
     # UNOSAT agregado, tal como estaba: lo consumen el sitio y los monitor.json
@@ -785,7 +790,8 @@ def run() -> dict:
         "aois": sorted(aois, key=lambda a: a["numero"] or 0),
         "media_volume": media, "entregas": entregas,
         "brechas_oficiales": gaps, "exposicion": exposicion,
-        "rud": {"serie": rud_serie, "municipios": rud_municipios},
+        "rud": {"serie": rud_serie, "municipios": rud_municipios,
+                "captura_cerrada": CAPTURA_CERRADA},
         "unosat": unosat_totales,
         "satelital": satelital,
         "citizen": {"chatmap_total": len(cit_feats),
