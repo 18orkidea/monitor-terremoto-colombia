@@ -6179,13 +6179,14 @@ class TestOpsSaludParseo(unittest.TestCase):
         self.assertIsNone(pdf_link_de_pagina(b"<html>sin pdf aqui</html>"))
 
     def test_no_adivina_el_pdf_por_el_nombre_del_fichero(self):
-        """Tres convenciones de nombre distintas entre los 5 sitrep conocidos
-        (con guion, sin guion, con fecha): solo el selector del botón resuelve
-        las tres, un patrón de nombre no."""
+        """Cuatro convenciones de nombre distintas entre los sitrep conocidos
+        (con guion, sin guion, con fecha, con idioma): solo el selector del
+        botón resuelve todas, un patrón de nombre no."""
         from sources.ops_salud import pdf_link_de_pagina
         nombres = ["sitrep1-terremoto-colombia-agosto-20260.pdf",
                   "sitrep-2-colombiasismo.pdf",
-                  "sitrep5colombiasismo18082026.pdf"]
+                  "sitrep5colombiasismo18082026.pdf",
+                  "sitrep6-colombia-sismo-26082026-es.pdf"]
         for nombre in nombres:
             cuerpo = (f'<div class="download-button"><a href="/sites/default/'
                      f'files/2026/08/{nombre}">Descargar</a></div>').encode()
@@ -6203,6 +6204,38 @@ class TestOpsSaludParseo(unittest.TestCase):
     def test_sitreps_en_hub_vacio_si_no_hay_enlaces(self):
         from sources.ops_salud import sitreps_en_hub
         self.assertEqual(sitreps_en_hub(b"<html></html>"), [])
+
+
+class TestOpsSaludTranscripciones(unittest.TestCase):
+    """Propiedades estructurales de las transcripciones reales del repo —
+    para todo `sitrep_N.json`, existe su página declarada—, sin cifras fijadas
+    a mano: cada JSON está atado a su PDF inmutable por sha256."""
+
+    def test_cada_transcripcion_tiene_su_pagina_declarada(self):
+        """Transcribir un sitrep sin darlo de alta en `PAGINAS` rompe la
+        fuente entera en la corrida: `_registrar_transcripcion` busca la URL
+        en `PAGINAS[n]` (KeyError), y el export público pierde la página que
+        las fichas citan."""
+        from sources.ops_salud import PAGINAS, _transcripciones
+        transcripciones = _transcripciones()
+        self.assertTrue(transcripciones, "no hay transcripciones en el repo")
+        for n, meta in transcripciones.items():
+            with self.subTest(sitrep=n):
+                self.assertIn(n, PAGINAS)
+                self.assertEqual(meta.get("pagina_url"), PAGINAS[n])
+
+    def test_cada_transcripcion_declara_pdf_y_sha256(self):
+        """Sin `pdf_url` no se archiva el PDF y sin `pdf_sha256` la
+        transcripción no queda atada a lo que dijo la fuente."""
+        import re
+        from sources.ops_salud import _transcripciones
+        for n, meta in _transcripciones().items():
+            with self.subTest(sitrep=n):
+                self.assertTrue((meta.get("pdf_url") or "").endswith(".pdf"))
+                self.assertRegex(meta.get("pdf_sha256") or "",
+                                 re.compile(r"^[0-9a-f]{64}$"))
+                self.assertRegex(meta.get("fecha_publicacion") or "",
+                                 r"^\d{4}-\d{2}-\d{2}$")
 
 
 class TestOpsSaludResolverMunicipio(unittest.TestCase):

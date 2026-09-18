@@ -1,0 +1,32 @@
+{
+ "sitrep_n": 6,
+ "pagina_url": "https://www.paho.org/es/documentos/informe-situacion-6-colombia-terremoto-agosto-2026-27-agosto-2026",
+ "pdf_url": "https://www.paho.org/sites/default/files/2026/08/sitrep6-colombia-sismo-26082026-es.pdf",
+ "pdf_sha256": "a6ab2b2de179251152849ae2c2cc54c3bd568cbed8d80720f1f0e81e1c460eff",
+ "fecha_publicacion": "2026-08-27",
+ "cifras": [
+  {
+   "ambito": "nacional",
+   "concepto": "ips_reportadas_ungrd",
+   "valor": 378,
+   "valor_raw": "378",
+   "nivel_complejidad": null,
+   "autor": "UNGRD",
+   "fuente_citada": "Reporte Situacional No. 048, Sismo San José del Palmar 7,4 Mw, UNGRD, corte 25-ago-2026 06:30h",
+   "fecha_corte": "2026-08-25",
+   "nota": "Cifra citada solo en prosa (§2.4 y «Destacados»): 378 establecimientos afectados en 14 de 16 departamentos, SIN desglose departamental. Este sitrep no trae tabla de establecimientos por departamento: pasa de la Tabla 1 a la Tabla 3. Discrepancia del propio documento: la referencia (1) y el recuadro «En cifras» citan el Reporte Situacional No. 048, y la fuente de la Tabla 1, con el mismo corte, dice No. 044; se conserva el 048, que es la cita que acompaña a esta cifra."
+  },
+  {
+   "ambito": "nacional",
+   "concepto": "ips_evaluadas_eres",
+   "valor": 251,
+   "valor_raw": "251",
+   "nivel_complejidad": null,
+   "autor": "Ministerio de Salud y Protección Social con apoyo de la OPS/OMS (Evaluación Rápida de Establecimientos de Salud, ERES)",
+   "fuente_citada": "Sitrep 6 OPS/OMS, §2.4, corte 25-ago-2026 18:30h (sin referencia numerada propia)",
+   "fecha_corte": "2026-08-25",
+   "nota": "Concepto que aparece por primera vez en este sitrep: establecimientos evaluados con la herramienta ERES; según el sitrep, las evaluaciones se hicieron en territorio por equipos de las secretarías de salud y delegados del MSPS y de la OPS/OMS. No es la serie «verificadas vía CRUE» del sitrep 5 (192 al 18-ago): cambian el método y quien evalúa, así que no se funde con ella ni se lee como su continuación. Sin desglose departamental."
+  }
+ ],
+ "instituciones": []
+}

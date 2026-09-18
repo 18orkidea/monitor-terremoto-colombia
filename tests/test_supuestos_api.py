@@ -462,7 +462,7 @@ class TestSupuestosOpsSalud(unittest.TestCase):
     def test_el_hub_sigue_enlazando_los_sitrep_conocidos(self):
         """El hub es el índice barato del detector de serie nueva
         (`ops_salud.sitreps_en_hub`). No exige un número exacto —solo que
-        siga enlazando AL MENOS los 5 sitrep que el monitor ya transcribió—:
+        siga enlazando AL MENOS los sitrep que el monitor ya transcribió—:
         un número mayor sería una BUENA noticia (sitrep nuevo, R11), no un
         fallo de este supuesto."""
         from common import fetch
@@ -471,7 +471,7 @@ class TestSupuestosOpsSalud(unittest.TestCase):
         if st != 200 or not body:
             self.skipTest(
                 f"el hub de la ONU no responde (HTTP {st}). Plan de "
-                "sucesión: los 5 sitrep ya transcritos están archivados en "
+                "sucesión: los sitrep ya transcritos están archivados en "
                 "data/documentos/ops_salud/ con su sha256 en sources_log, así "
                 "que la serie cargada no depende de este hub — solo se "
                 "pierde la detección automática de un sitrep nuevo.")
@@ -486,7 +486,7 @@ class TestSupuestosOpsSalud(unittest.TestCase):
     def test_cada_pagina_de_sitrep_sigue_publicando_el_boton_descargar(self):
         """El enlace al PDF se descubre SIEMPRE desde el
         `<div class="download-button">`, nunca adivinando el nombre del
-        fichero — entre los 5 sitrep conocidos hay tres convenciones de
+        fichero — entre los sitrep conocidos hay cuatro convenciones de
         nombre distintas. Si este selector deja de aparecer, hay que revisar
         `ops_salud.pdf_link_de_pagina` antes que cualquier otra cosa."""
         from common import fetch

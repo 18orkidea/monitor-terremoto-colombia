@@ -1213,9 +1213,21 @@ estables: cada sitrep trae una tabla distinta.
   Ministerio de Salud, vía sus Centros Reguladores de Urgencias y
   Emergencias, «verifica» 192 (con desglose por departamento) y prioriza 50
   — de los 192, cero llevan nombre.
+- **27-ago-2026 (sitrep 6, corte 25-ago)**: ninguna tabla de
+  establecimientos —el documento pasa de la Tabla 1 a la Tabla 3—. Solo dos
+  cifras nacionales en prosa: 378 afectados según la UNGRD (14 de 16
+  departamentos) y 251 evaluados con la herramienta ERES (MSPS con apoyo de
+  la OPS). Ninguna de las dos baja a departamento, así que las cifras
+  departamentales vigentes siguen siendo las del 18-ago. El propio documento
+  cita la fuente de la UNGRD de dos formas (Reporte Situacional 048 en la
+  referencia y 044 al pie de la Tabla 1, con el mismo corte); la
+  transcripción conserva el 048 y anota la discrepancia.
 
-En nueve días, el universo de establecimientos con nombre y municipio
-publicable pasó de 31 a 0, mientras la cifra agregada creció de 31 a 303.
+En quince días, el universo de establecimientos con nombre y municipio
+publicable pasó de 31 a 0, mientras la cifra agregada de la UNGRD creció de
+109 a 378. Las dos no miden lo mismo —31 instituciones nombradas por las
+secretarías y la OPS frente al conteo de afectados de la UNGRD—: lo que se
+compara es cuánto deja ver cada corte, no una serie.
 No es un fallo de esta transcripción: es lo que la fuente decidió publicar
 en cada corte, con su fecha y su sitrep de origen (ver
 `feeds/hitos_monitor.json`, hito del 30-ago-2026). El detalle por
@@ -1224,13 +1236,14 @@ que baja el daño en salud a nivel de EDIFICIO — 24-31 nombres frente a los
 miles de establecimientos de salud que tiene el país— y **el monitor lo
 archiva completo en `ops_salud_ips` aunque haya dejado de crecer**.
 
-Consecuencia práctica para quien lea `ops_salud_cifras`: las tres cifras
-del titular público —reportadas (UNGRD), verificadas (MinSalud) y
-priorizadas (MinSalud)— nunca se suman entre sí ni se comparan como si
-fueran la misma medida repetida por tres fuentes. Son tres preguntas
-distintas sobre el mismo universo, y solo dos de las tres (verificadas y
-priorizadas) bajan a nivel de departamento en algún sitrep — la de UNGRD, la
-más citada en prensa, nunca lo hace en esta serie.
+Consecuencia práctica para quien lea `ops_salud_cifras`: las cifras
+—reportadas (UNGRD), verificadas vía CRUE (MinSalud), priorizadas (MinSalud)
+y, desde el sitrep 6, evaluadas con ERES (MinSalud con la OPS)— nunca se
+suman entre sí ni se comparan como si fueran la misma medida repetida por
+varias fuentes. Son preguntas distintas sobre el mismo universo, y solo dos
+(verificadas y priorizadas) bajan a nivel de departamento en algún sitrep: la
+de UNGRD, la más citada en prensa, y la de ERES nunca lo hacen en esta
+serie.
 
 ## Microsoft AI for Good: `msft_danos` no es un censo completo, y R2 es un tercero
 

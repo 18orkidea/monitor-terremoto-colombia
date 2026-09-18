@@ -244,6 +244,13 @@
    "url": "/municipio/jamundi/"
   },
   {
+   "fecha": "2026-08-27",
+   "tipo": "internacional",
+   "resumen": "El sexto informe de la OPS ya no desglosa por departamento los establecimientos de salud afectados.",
+   "texto": "El informe de situación 6 de la Organización Panamericana de la Salud (OPS/OMS), publicado el 27 de agosto de 2026 con corte al 25 de agosto, no trae ninguna tabla de establecimientos de salud. Los informes 4 y 5 sí los desglosaban por departamento. Este solo da dos cifras nacionales, sin reparto territorial. La Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD) reporta 378 establecimientos afectados en 14 de los 16 departamentos con afectación registrada (Reporte Situacional 048), frente a los 303 que la misma UNGRD daba el 18 de agosto, entonces en 11 de 15 departamentos. El Ministerio de Salud, con apoyo de la OPS, había evaluado 251 al 25 de agosto con la Evaluación Rápida de Establecimientos de Salud (ERES). Es un método distinto de la verificación de los Centros Reguladores de Urgencias y Emergencias (CRUE), que contaba 192 el 18 de agosto. Por eso el monitor no suma las dos cifras ni presenta una como continuación de la otra. En esta serie de la OPS, las cifras por departamento más recientes siguen siendo las verificadas por el Ministerio de Salud vía CRUE el 18 de agosto. El monitor transcribió el informe el 17 de septiembre: 21 días después de su publicación y 16 después de que su aviso automático del portal de Naciones Unidas en Colombia detectara que existía.",
+   "url": "https://www.paho.org/es/documentos/informe-situacion-6-colombia-terremoto-agosto-2026-27-agosto-2026"
+  },
+  {
    "fecha": "2026-08-28",
    "tipo": "local",
    "resumen": "El Ministerio de Educación tiene publicado el seguimiento sede a sede de los colegios afectados: 17 en colapso total, 113 en riesgo inminente.",
