@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Fri, 18 Sep 2026 02:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Habitat escala almacenamiento online</title>
+		<link>https://occidente.co/secciones/tecnologia/habitat-escala-almacenamiento-online/</link>
+					<comments>https://occidente.co/secciones/tecnologia/habitat-escala-almacenamiento-online/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 02:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439683</guid>
+
+					<description><![CDATA[<p>Habitat escala: OpenAI trasladó su capa de almacenamiento de biblioteca a servicio OpenAI convirtió Habitat, su plataforma de almacenamiento en línea, de una pequeña biblioteca en Python a un servicio distribuido que hoy atiende millones de solicitudes y gestiona cientos de petabytes. El cambio surgió porque la versión en cliente ya no soportaba la complejidad...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/habitat-escala-almacenamiento-online/">Habitat escala almacenamiento online</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Habitat escala: OpenAI trasladó su capa de almacenamiento de biblioteca a servicio</h2>
+</p>
+<p>OpenAI convirtió Habitat, su plataforma de almacenamiento en línea, de una pequeña biblioteca en Python a un servicio distribuido que hoy atiende millones de solicitudes y gestiona cientos de petabytes. El cambio surgió porque la versión en cliente ya no soportaba la complejidad y el crecimiento rápidos que exigían productos como ChatGPT.</p>
+</p>
+<h2>Habitat escala: qué ocurrió y por qué importa</h2>
+</p>
+<p>Entre 2023 y 2026, Habitat pasó de ser una librería Python usada por equipos de producto a un servicio centralizado. La empresa anunció que la plataforma llegó a manejar más de 70 millones de solicitudes por segundo y servir datos para más de 1.000 millones de personas por semana. La transición a servicio permitió un control único para despliegues, seguridad y mejoras operativas, reduciendo la coordinación compleja entre decenas de equipos.</p>
+</p>
+<h2>Cómo cambia en la práctica para las personas</h2>
+</p>
+<h3>Más estabilidad en productos</h3>
+</p>
+<p>Al centralizar la lógica de almacenamiento, OpenAI puede aplicar cambios y parches desde un solo lugar en vez de coordinar actualizaciones en docenas de servicios, lo que reduce la probabilidad de fallas causadas por incompatibilidades entre clientes.</p>
+</p>
+<h3>Mejor protección de datos</h3>
+</p>
+<p>Habitat como servicio actúa como un punto donde se aplican políticas de acceso, registro de auditoría y controles sobre los recursos subyacentes, lo que refuerza la seguridad y privacidad de la información de los usuarios.</p>
+</p>
+<h3>Rendimiento más consistente</h3>
+</p>
+<p>La migración técnica —primero operando en Python y luego reescribiendo el servicio en Rust— redujo consumo de CPU y memoria y mejoró latencias promedio y en cola, lo que puede traducirse en respuestas más rápidas para usuarios finales.</p>
+</p>
+<h2>Aspectos pendientes y preguntas por resolver</h2>
+</p>
+<p>Aunque OpenAI reescribió Habitat en Rust y ya maneja la mayor parte del tráfico, persisten retos operativos: optimizar la capa de almacenamiento (Azure Cosmos DB), evitar sobrecargas a dependencias por el gran número de procesos y mantener mecanismos que mitiguen latencias extremas. La compañía indicó que publicará una segunda parte con detalles sobre la capa de almacenamiento y soluciones de multi-tenancy.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Mayor estabilidad y respuestas más rápidas al usar servicios que dependen de Habitat.</p>
+</p>
+<p><strong>Negocio:</strong> Menor complejidad operativa y mejor control de despliegues centralizados para productos que usan la misma plataforma.</p>
+</p>
+<p><strong>Industria:</strong> Un ejemplo de cómo escalar almacenamiento para aplicaciones masivas y las compensaciones entre rapidez de desarrollo y eficiencia operativa.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/habitat-escala-almacenamiento-online/">Habitat escala almacenamiento online</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/habitat-escala-almacenamiento-online/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>GPT-6 Astra en Perplexity</title>
+		<link>https://occidente.co/secciones/tecnologia/gpt-6-astra-en-perplexity/</link>
+					<comments>https://occidente.co/secciones/tecnologia/gpt-6-astra-en-perplexity/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 02:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439681</guid>
+
+					<description><![CDATA[<p>Un modelo que prueba y vigila sistemas en producción Perplexity comenzó a usar GPT-6 Astra para crear comunicaciones, generar pruebas automatizadas y supervisar su software de producción, lo que ha permitido a la empresa revisar menos frecuentemente las tareas que antes requerían intervención humana. La palabra clave &#8220;GPT-6 Astra&#8221; aparece desde este primer párrafo para...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/gpt-6-astra-en-perplexity/">GPT-6 Astra en Perplexity</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Un modelo que prueba y vigila sistemas en producción</h2>
+<p>Perplexity comenzó a usar GPT-6 Astra para crear comunicaciones, generar pruebas automatizadas y supervisar su software de producción, lo que ha permitido a la empresa revisar menos frecuentemente las tareas que antes requerían intervención humana. La palabra clave &#8220;GPT-6 Astra&#8221; aparece desde este primer párrafo para dejar claro el foco de la nota.</p>
+<h2>GPT-6 Astra: qué ocurrió y por qué importa</h2>
+<p>Perplexity anunció el 14 de septiembre de 2026 que confía en GPT-6 Astra para tareas críticas como redactar mensajes, modificar software y monitorear sistemas en vivo. Johnny Ho, cofundador y director de estrategia, explicó que el modelo produce respuestas realistas que facilitan la prueba de aplicaciones y la simulación de servicios externos. Esto es relevante porque reduce el tiempo que los ingenieros destinan a pruebas manuales y puede acelerar despliegues.</p>
+<h2>Cambios prácticos para las personas</h2>
+<h3>Pruebas de software más rápidas</h3>
+<p>El uso de GPT-6 Astra permite generar escenarios de prueba automáticos que simulan respuestas de servicios externos, por ejemplo APIs. Para el usuario final esto puede traducirse en actualizaciones más rápidas y menos errores en funciones que dependen de integraciones externas.</p>
+<h3>Comunicación más precisa y consistente</h3>
+<p>Al encargar al modelo la redacción de comunicaciones, las empresas obtienen mensajes más uniformes. Para clientes y usuarios esto significa recibir notificaciones y explicaciones más claras sobre cambios o incidentes.</p>
+<h3>Monitoreo continuo con menor intervención humana</h3>
+<p>GPT-6 Astra ayuda a vigilar sistemas de producción y a detectar problemas potenciales. Esto puede reducir el tiempo de inactividad percibido por los usuarios si las alertas y correcciones se automatizan correctamente.</p>
+<h2>Aspectos que aún faltan por resolver</h2>
+<p>Pese a las ventajas reportadas por Perplexity, no todos los detalles están confirmados en la información disponible: no hay datos sobre métricas de precisión, límites del modelo en escenarios adversos, ni sobre cómo se gestionan errores críticos o sesgos en las respuestas. Tampoco se especifica el grado de supervisión humana que se mantiene ni políticas concretas de seguridad y privacidad aplicadas a estas tareas.</p>
+<p>Queda pendiente confirmar estos puntos en comunicaciones oficiales con información técnica y métricas específicas.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Menos fallas visibles y actualizaciones más rápidas para servicios que usan estas pruebas automáticas.</p>
+<p><strong>Negocio:</strong> Ahorro de tiempo de ingenieros y procesos de prueba más eficientes.</p>
+<p><strong>Industria:</strong> Mayor adopción de modelos avanzados para pruebas y monitoreo operacionales.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/gpt-6-astra-en-perplexity/">GPT-6 Astra en Perplexity</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/gpt-6-astra-en-perplexity/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Roa y Anuel AA se unen en “Vamo a Vel”</title>
+		<link>https://occidente.co/secciones/espectaculo/roa-y-anuel-aa-en-vamo-a-vel-colaboran-previo-a-su-gira-por-ee-uu/</link>
+					<comments>https://occidente.co/secciones/espectaculo/roa-y-anuel-aa-en-vamo-a-vel-colaboran-previo-a-su-gira-por-ee-uu/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 01:55:53 +0000</pubDate>
+				<category><![CDATA[Espectáculo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439679</guid>
+
+					<description><![CDATA[<p>El puertorriqueño ROA presenta una de las colaboraciones más importantes de su carrera mientras se prepara para su primer tour como artista principal por Estados Unidos. Miami, Boston, Nueva York, Washington y Nueva Jersey ya están agotados. Dos generaciones del urbano puertorriqueño se encuentran en una misma canción. ROA se unió a Anuel AA para...</p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/roa-y-anuel-aa-en-vamo-a-vel-colaboran-previo-a-su-gira-por-ee-uu/">Roa y Anuel AA se unen en “Vamo a Vel”</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El puertorriqueño ROA presenta una de las colaboraciones más importantes de su carrera mientras se prepara para su primer tour como artista principal por Estados Unidos.</strong></p>
+<p>Miami, Boston, Nueva York, Washington y Nueva Jersey ya están agotados.</p>
+<p>Dos generaciones del urbano puertorriqueño se encuentran en una misma canción.</p>
+<p><strong>ROA se unió a Anuel AA para lanzar “Vamo a Vel”</strong>, una colaboración que llega mientras el joven artista prepara uno de los pasos más importantes de su carrera: su primera gira como protagonista por Estados Unidos.</p>
+<p>La canción gira alrededor de una relación que comienza desde la atracción y el deseo, aparentemente sin compromisos, pero que progresivamente revela una conexión emocional más profunda entre sus protagonistas.</p>
+<p><strong>La unión entre ambos artistas venía generando rumores desde meses atrás.</strong></p>
+<p>Durante el Spain Tour de ROA, que agotó sus fechas, el puertorriqueño compartió escenario con Anuel AA en el Puro Latino Fest, donde interpretaron “Netflix &amp; Chill”.</p>
+<p>Posteriormente fueron vistos juntos en diferentes ocasiones y la expectativa aumentó cuando aparecieron en Puerto Rico unas misteriosas vallas con los emojis de un lobo y un diablo, símbolos asociados con los dos artistas.</p>
+<p>“Vamo a Vel” aparece así como antesala de USA Tour 2026, una gira de 19 ciudades que comenzará el 8 de octubre en Miami y finalizará el 13 de diciembre en Reading, Pensilvania.</p>
+<p>Incluso antes del primer concierto, cinco fechas ya aparecen agotadas: Miami, Boston, Nueva York, Washington D.C. y Elizabeth, Nueva Jersey.</p>
+<p><strong>El recorrido también incluye Chicago, Orlando, Houston, Dallas, Filadelfia, Charlotte, Columbus, San Francisco, Los Ángeles y Atlanta, entre otras ciudades.</strong></p>
+<p>El tour estadounidense llega después de presentaciones en Latinoamérica y Europa y trasladará al escenario el universo de Private Suite.</p>
+<p>El repertorio anunciado incluye canciones como “ETA RMX”, “Me Gustas CC”, “Fantasía”, “Tate Quieta”, “ETA”, “UuU” y “Pieza Exhibición”.</p>
+<p><strong>Las cifras ayudan a dimensionar el momento que atraviesa el artista.</strong></p>
+<p>De acuerdo con la información de su sello, ROA supera los 3.000 millones de reproducciones globales y los seis millones de seguidores en redes sociales.</p>
+<p>La colaboración con Anuel AA llega entonces en un punto estratégico: mientras ROA comienza a llevar su música a escenarios más grandes y nuevos mercados, “Vamo a Vel” lo conecta con uno de los nombres más reconocidos internacionalmente del reguetón y el trap latino.</p>
+<p>Para ROA, el lanzamiento y su primera gira estadounidense representan dos movimientos de una misma etapa: pasar de ser una figura emergente de Puerto Rico a buscar un espacio propio dentro del mapa internacional de la música urbana.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/roa-y-anuel-aa-en-vamo-a-vel-colaboran-previo-a-su-gira-por-ee-uu/">Roa y Anuel AA se unen en “Vamo a Vel”</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/espectaculo/roa-y-anuel-aa-en-vamo-a-vel-colaboran-previo-a-su-gira-por-ee-uu/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Aitana convierte Madrid en su “Cuarto Azul”</title>
+		<link>https://occidente.co/secciones/espectaculo/cuarto-azul-world-tour-de-aitana-agota-cuatro-fechas-en-madrid/</link>
+					<comments>https://occidente.co/secciones/espectaculo/cuarto-azul-world-tour-de-aitana-agota-cuatro-fechas-en-madrid/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 01:28:22 +0000</pubDate>
+				<category><![CDATA[Espectáculo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439674</guid>
+
+					<description><![CDATA[<p>La artista española cerró cuatro conciertos consecutivos con entradas agotadas en el Movistar Arena. Después de sus últimas presentaciones en Bilbao, “Cuarto Azul World Tour” continuará por Latinoamérica, Estados Unidos y Europa. Cuatro noches, miles de seguidores y un mismo escenario convertido en el universo musical de Aitana. La cantante española cerró su paso por...</p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/cuarto-azul-world-tour-de-aitana-agota-cuatro-fechas-en-madrid/">Aitana convierte Madrid en su “Cuarto Azul”</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La artista española cerró cuatro conciertos consecutivos con entradas agotadas en el Movistar Arena.</strong></p>
+<p>Después de sus últimas presentaciones en Bilbao, <strong>“Cuarto Azul World Tour”</strong> continuará por Latinoamérica, Estados Unidos y Europa.</p>
+<p>Cuatro noches, miles de seguidores y un mismo escenario convertido en el universo musical de Aitana.</p>
+<p>La cantante española cerró su paso por Madrid con cuatro conciertos con entradas agotadas en el Movistar Arena, los días 11, 12, 14 y 15 de septiembre, como parte de su “Cuarto Azul World Tour”.</p>
+<p><strong>La gira ha vendido 350.000 entradas en España y agotado todas sus fechas en el país, según las cifras divulgadas por su equipo.</strong></p>
+<p>Tras dos últimos conciertos programados en Bilbao, el recorrido continuará por Latinoamérica, Estados Unidos y Europa.</p>
+<p>En Madrid, el espectáculo estuvo construido alrededor del universo de Cuarto Azul, con una producción de gran formato y un repertorio en el que canciones como “Conexión Psíquica” y “Superestrella” se convirtieron en algunos de los momentos de mayor interacción con el público.</p>
+<p>Las cuatro noches también tuvieron invitados. Jay Wheeler apareció durante el primer concierto para interpretar junto a Aitana “Duele un montón despedirme de ti”, mientras que Chiara Oliver participó en la tercera fecha con “Cuando hables con él”.</p>
+<p>La gira también abrió espacio para artistas de una nueva generación: GALE fue telonera los días 11 y 12 de septiembre; Chiara Oliver abrió la presentación del día 14 y Gara Durán hizo lo propio en la última noche madrileña.</p>
+<p>Ahora Aitana se prepara para cerrar el capítulo español de la gira con dos presentaciones, los días 18 y 19 de septiembre en el Bizkaia Arena BEC! de Bilbao, ambas con entradas agotadas.</p>
+<p><strong>Después comenzará la expansión internacional de un espectáculo que llevará el universo de Cuarto Azul a nuevos públicos.</strong></p>
+<p>Con Madrid como una de las grandes paradas de esta etapa, Aitana confirma el crecimiento que ha experimentado su propuesta en vivo y demuestra que las canciones de Cuarto Azul encontraron en los conciertos una segunda vida: la que ocurre cuando miles de personas las cantan al mismo tiempo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/cuarto-azul-world-tour-de-aitana-agota-cuatro-fechas-en-madrid/">Aitana convierte Madrid en su “Cuarto Azul”</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/espectaculo/cuarto-azul-world-tour-de-aitana-agota-cuatro-fechas-en-madrid/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>En ‘Más Allá del Silencio’: secuestrada y violada por la guerrilla</title>
+		<link>https://occidente.co/colombia/secuestro-de-ninos-en-bogota-desgarrador-relato-de-una-victima/</link>
+					<comments>https://occidente.co/colombia/secuestro-de-ninos-en-bogota-desgarrador-relato-de-una-victima/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 01:20:37 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439671</guid>
+
+					<description><![CDATA[<p>“Este es seguramente uno de los podcast más importantes que he hecho en mi vida, una de las entrevistas más importantes, porque la guerrilla colombiana está secuestrando niños y se los está llevando”. Con esas palabras, Rafael Poveda presentó en Más Allá del Silencio el testimonio de Lizeth, una adolescente de 16 años que asegura...</p>
+<p>The post <a href="https://occidente.co/colombia/secuestro-de-ninos-en-bogota-desgarrador-relato-de-una-victima/">En ‘Más Allá del Silencio’: secuestrada y violada por la guerrilla</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em>“Este es seguramente uno de los podcast más importantes que he hecho en mi vida, una de las entrevistas más importantes, porque la guerrilla colombiana está secuestrando niños y se los está llevando”</em>.</p>
+<p><strong>Con esas palabras, Rafael Poveda presentó en Más Allá del Silencio el testimonio de Lizeth</strong>, una adolescente de 16 años que asegura haber sido secuestrada por la guerrilla en Bogotá y haber permanecido durante 20 días retenida junto a otros menores.</p>
+<p>El relato de la joven incluye graves denuncias: asegura que fue abusada sexualmente, que fue obligada a aprender a manipular armas y que para poder comunicarse con su familia debia ser primero abusada.</p>
+<p>Cursaba grado décimo cuando desapareció el 30 de julio de 2026 en Ciudad Bolívar.</p>
+<p>Ese día salió del colegio sobre las 2 de la tarde y regresó inicialmente a su casa.</p>
+<p>Allí habló con su madre y le mostró por videollamada que se encontraba junto a su hermano.</p>
+<p>Poco después recibió el mensaje de una amiga que le pidió acompañarla a comprar algunas cosas.</p>
+<p>La adolescente salió de su vivienda y se dirigió hacia Tres Esquinas, otro sector de Ciudad Bolívar.</p>
+<p><em>“Llegué y iba caminando hacia la casa de ella, subi a un bus y la verdad, de ahí no recuerdo más”</em>, <strong>relató.</strong></p>
+<p><em>—¿Nadie se te acercó en ese momento?</em>, <strong>preguntó Poveda.</strong></p>
+<p><em>—“No, señor”</em>, <strong>respondió.</strong></p>
+<p>Su siguiente recuerdo fue dentro de un vehículo.</p>
+<p><em>—¿Y cuando te despiertas, dónde estabas o qué recuerdas?</em></p>
+<p>—“<em>Me desperté y miré como al frente primero (&#8230;) y volteé a mirar hacia la mano derecha y veía solo árboles por la ventana”.</em></p>
+<p>Aseguró que había una persona conduciendo y que sentía la presencia de más personas detrás de ella. Después volvió a perder la noción de lo ocurrido.</p>
+<p><strong>“Conmigo éramos 11”: otros niños estaban retenidos</strong></p>
+<p>Cuando volvió a tener plena conciencia de lo que ocurría, Lizeth se encontraba amarrada contra un árbol.</p>
+<p>Pero no estaba sola.</p>
+<p><em>“Habían más niños conmigo”</em>, <strong>relató.</strong></p>
+<p><em>—¿Más niños como de tu edad?</em>, <strong>preguntó Rafa.</strong></p>
+<p><em>—“De mi edad solo se veían como dos, tres y de resto chiquiticos”</em>,<strong> respondió.</strong></p>
+<p>La adolescente calculó que los menores tenían aproximadamente entre 10 y 15 años.</p>
+<p><em>—¿Y cuántos eran?</em></p>
+<p><em>—“Los alcancé a contar y conmigo éramos 11”.</em></p>
+<p>También describió a los hombres que estaban en el lugar. Según contó algunos vestían prendas camufladas y botas.</p>
+<p><em>“Otros tenían pasamontañas o la cara pintada, entonces no los veía bien, no los reconocía”</em>,<strong> contó.</strong></p>
+<p>Ahí, solo veía árboles, una carpa plástica y un costal deteriorado y sucio cerca del lugar donde permanecían los menores bajo vigilancia constante.</p>
+<p>En otro momento los hicieron caminar y comenzaron a instruirlos para manipular armas.</p>
+<p><em>“Nos iban a enseñar como todo lo que tiene que ver con un arma y aprender a disparar”,</em> <strong>relató.</strong></p>
+<p>Les explicaron cómo cargarla y cómo cambiar el cartucho. Según Lizeth, los menores eran presionados para disparar y, si alguno se negaba, los obligaban a apuntarse entre ellos.</p>
+<h3>Abusos sexuales a cambio de hablar con su familia</h3>
+<p>Después de varios días, llegó un hombre que, según ella, parecía mayor y tenía una voz gruesa. Les preguntó a los menores si querían comunicarse con sus familias.</p>
+<p>Todos dijeron que sí.</p>
+<p>Sin embargo, les advirtió que no sería fácil.</p>
+<p>Entonces, según su testimonio, les impusieron una condición: tener relaciones sexuales con ellos.</p>
+<p>Lizeth explicó que decidió acceder porque quería escuchar a su familia.</p>
+<p><em>—¿Ese era el precio que ellos decían que tenías que pagar por poder hablar con tu mami?</em></p>
+<p><em>—“Sí, señor”.</em></p>
+<p>Y aseguró que las pocas oportunidades en las que logró comunicarse con su familia durante esos días estuvieron condicionadas de esa manera.</p>
+<p>Un dia la adolecente quiso saber por qué estaba allí y enfrentó a uno de los hombres.</p>
+<p><em>“¿Ustedes qué quieren de mí? Yo, ¿qué hice? Yo, ¿por qué estoy acá?”</em>, <strong>preguntó.</strong></p>
+<p>La respuesta, según aseguró, fue una sola: <em>“Es que a usted la vendieron”</em>.</p>
+<p>Lizeth respondió que su familia no tenía dinero y preguntó nuevamente qué querían de ella, pero dijo que no recibió más explicaciones.</p>
+<h3>La fuga después de 20 días de secuestro</h3>
+<p>Mientras Lizeth permanecía retenida, su madre, Lorena, intentaba determinar qué había ocurrido.</p>
+<p>Para la madre, su hija siemplemente había desaparecido.</p>
+<p>Cuando su hija se comunicaba nunca les pudo decir la verdad, como tampoco que para llamarla tenia que dejarse abusar.</p>
+<p><em>“Las autoridades siempre me decían que era una evasión de hogar voluntaria”</em>, <strong>afirmó la madre a Poveda</strong>… Lorena dice que fueron 20 días de angustia, insomnio y falta de respuestas.</p>
+<p>En una de esas conversaciones alcanzó a decirle a su madre: “Mami, nos van a devolver para Bogotá”. Pero antes de que eso ocurriera, Lizeth decidió intentar salir.</p>
+<p>Una noche se acercó a uno de los hombres. “La verdad, yo me quiero ir. Yo hago lo que sea (&#8230;) pero solo déjeme ir”, recordó haberle dicho.</p>
+<p>Según su relato, el hombre le respondió que sí, pero que antes él podía hacer lo que quisiera con su cuerpo.</p>
+<p>Lizeth denunció que volvió a ser abusada sexualmente brutalmente. Después, dijo, el hombre le entregó su celular y le indicó que se fuera.</p>
+<p><em>“Yo no podía caminar, o sea, las piernas me dolían, me temblaba todo el cuerpo”</em>, <strong>contó.</strong></p>
+<p>A pesar de ello comenzó a caminar en todo el dia y en la noche. Finalmente observó una luz y llegó hasta una vivienda.</p>
+<p><em>“Vecina, ayúdeme”</em>, le pidió a una mujer. La señora inicialmente dudó, pero Lizeth insistió: “Ayúdeme porque estoy secuestrada”.</p>
+<p>La familia la dejó entrar, le dio comida y puso a cargar su teléfono. Cuando consiguió encenderlo, Lizeth llamó a una prima.</p>
+<p><em>“Prima, ya llegué a una finca, ayúdeme”</em>, le dijo antes de enviarle su ubicación.</p>
+<p>La mujer que la había recibido le explicó que se encontraba por la zona de Pasca, cerca de Fusagasugá.</p>
+<p>Más tarde, uno de los hijos de la familia la trasladó en motocicleta hasta el terminal de Fusagasugá, donde esperó a que llegaran sus padres.</p>
+<p>Cuando finalmente los vio, habían pasado 20 días desde su desaparición. <em>“Vi a mi papá, o sea, me volví a sentir segura”</em>, recordó.</p>
+<p>Lizeth al final, aseguró además que, cuando logró escapar, aproximadamente tres menores permanecían todavía en poder de sus captores.</p>
+<p>Para Poveda, este testimonio deja una alerta que no puede pasar inadvertida: “Ustedes tienen que cuidar a sus hijos”. Su llamado también fue directo a las autoridades y al nuevo gobierno: “Hay que redoblar los esfuerzos”.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/secuestro-de-ninos-en-bogota-desgarrador-relato-de-una-victima/">En ‘Más Allá del Silencio’: secuestrada y violada por la guerrilla</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/secuestro-de-ninos-en-bogota-desgarrador-relato-de-una-victima/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Emcali culminó reparación de tubería afectada por el sismo y recupera presiones en el norte de Cali</title>
+		<link>https://occidente.co/cali/emcali-reparacion-tuberia-cali-sismo-norte/</link>
+					<comments>https://occidente.co/cali/emcali-reparacion-tuberia-cali-sismo-norte/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 01:00:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439667</guid>
+
+					<description><![CDATA[<p>Emcali culminó la reparación de tubería en Cali que resultó afectada por el sismo del pasado 10 de agosto y comenzó la recuperación gradual de las presiones del agua potable hacia el norte de la ciudad. Los trabajos se desarrollaron durante seis días en la Carrera 8A con Calle 59, donde la empresa intervino una...</p>
+<p>The post <a href="https://occidente.co/cali/emcali-reparacion-tuberia-cali-sismo-norte/">Emcali culminó reparación de tubería afectada por el sismo y recupera presiones en el norte de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Emcali culminó la </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">reparación de tubería en Cali</strong><span style="background-color: transparent; color: rgb(0, 0, 0);"> que resultó afectada por el sismo del pasado 10 de agosto y comenzó la recuperación gradual de las presiones del agua potable hacia el norte de la ciudad. Los trabajos se desarrollaron durante seis días en la Carrera 8A con Calle 59, donde la empresa intervino una tubería matriz de 36 pulgadas de diámetro que conduce agua desde la planta Río Cauca.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El movimiento telúrico provocó el desplazamiento de una unión y la ruptura de un tramo de esta infraestructura. Para atender la avería, los equipos técnicos reemplazaron aproximadamente seis metros de tubería ubicados a una profundidad cercana a seis metros. La intervención también requirió excavaciones en ambas calzadas, situación que generó afectaciones temporales en la movilidad mientras avanzaban las labores.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Presurización de la red</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Después de concluir la </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">reparación de tubería en Cali</strong><span style="background-color: transparent; color: rgb(0, 0, 0);">, Emcali inició la presurización progresiva del sistema para recuperar las condiciones de operación. La empresa trabaja con una bomba hacia el norte y mantiene un monitoreo permanente sobre el comportamiento de las presiones mientras avanza la estabilización de la red de distribución de agua potable.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Lucierne Obonaga Lopera, subgerente de Agua Potable de Emcali, explicó que las mediciones realizadas después de la reparación muestran una recuperación progresiva. Según indicó, las presiones comenzaron a mejorar hacia Laguna Seca y Arroyohondo, sectores ubicados en la cola de la red que abastece el norte de Cali.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">“Ya quedó reparado el daño de la 8 con 59. Estamos presurizando la red y poco a poco hemos ido presurizando el sistema”, señaló Obonaga Lopera. La funcionaria agregó que durante el monitoreo también comenzaron a registrarse mejores presiones hacia los sectores mencionados.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Emcali espera fortalecer el bombeo hacia el norte durante la próxima semana. La empresa busca avanzar con este procedimiento en la recuperación de las presiones, la estabilización del sistema y la continuidad del servicio de acueducto para las comunidades atendidas por esta red.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Recuperación de la vía</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Además de las labores sobre el sistema de acueducto, Emcali inició la rehabilitación de la capa asfáltica en el punto intervenido. Los trabajos buscan recuperar la vía después de las excavaciones necesarias para acceder a la tubería de 36 pulgadas y realizar la sustitución del tramo afectado por el sismo.</span></p>
+<p>The post <a href="https://occidente.co/cali/emcali-reparacion-tuberia-cali-sismo-norte/">Emcali culminó reparación de tubería afectada por el sismo y recupera presiones en el norte de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/emcali-reparacion-tuberia-cali-sismo-norte/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Buscan 1.200 voluntarios para reconstruir viviendas en Roldanillo y Darién: así puede inscribirse</title>
+		<link>https://occidente.co/cali/1200-voluntarios-reconstruir-viviendas-roldanillo-darien/</link>
+					<comments>https://occidente.co/cali/1200-voluntarios-reconstruir-viviendas-roldanillo-darien/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 01:00:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439669</guid>
+
+					<description><![CDATA[<p>Una convocatoria busca reunir a 1.200 voluntarios para reconstruir viviendas en Roldanillo y Darién, como parte de las jornadas dirigidas a apoyar a personas afectadas por el terremoto. La Fundación TECHO Colombia y el colectivo de voluntariado Hechos con Amor coordinan este primer esfuerzo, que contempla intervenir 100 viviendas entre ambos municipios. Voluntarios participaron en...</p>
+<p>The post <a href="https://occidente.co/cali/1200-voluntarios-reconstruir-viviendas-roldanillo-darien/">Buscan 1.200 voluntarios para reconstruir viviendas en Roldanillo y Darién: así puede inscribirse</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Una convocatoria busca reunir a 1.200 voluntarios para reconstruir viviendas en Roldanillo y Darién, como parte de las jornadas dirigidas a apoyar a personas afectadas por el terremoto. La Fundación TECHO Colombia y el colectivo de voluntariado Hechos con Amor coordinan este primer esfuerzo, que contempla intervenir 100 viviendas entre ambos municipios.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Voluntarios participaron en una reunión realizada en el Edificio Santa Mónica para coordinar las labores de construcción. El encuentro permitió avanzar en la organización de las jornadas y en la convocatoria de las personas que quieran aportar su trabajo en las actividades previstas.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El primer objetivo comprende 100 viviendas. En Roldanillo ya se construyeron siete casas y está prevista la construcción de otras 45, mientras que en Darién la iniciativa contempla 50 viviendas. Además, los responsables esperan continuar posteriormente con más construcciones, aunque por ahora el trabajo se concentra en este primer esfuerzo.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La convocatoria de </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">1.200 voluntarios para reconstruir viviendas</strong><span style="background-color: transparent; color: rgb(0, 0, 0);"> está abierta a personas que quieran participar sin necesidad de contar con conocimientos o experiencia previa. Samir Castillo, coordinador de Hechos con Amor, explicó que el colectivo decidió sumarse a las campañas y jornadas que realizará TECHO Colombia.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Convocatoria de voluntarios</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">“El día de hoy nos reunimos con la Fundación Techo Colombia, la cual va a comenzar a generar varias campañas y varias jornadas para ayudar a todas esas personas que se vieron afectadas por el terremoto”, señaló Castillo al referirse a la articulación entre ambas organizaciones.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El coordinador también explicó que Hechos con Amor se incorporará a las actividades y destacó que las personas pueden participar sin experiencia en construcción. “Necesitamos 1.200 voluntarios para sumarnos a este tipo de actividades en donde sin conocimiento, sin experiencia, sólo manos para ayudar”, manifestó.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Hechos con Amor es un colectivo de voluntariado en el que participan personas de diferentes credos y posturas ideológicas, unidas por su vocación de servicio. Sus integrantes plantean las jornadas como una oportunidad para agradecer y continuar prestando ayuda a quienes también la necesitan.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Según Castillo, el propósito consiste en reunir personas durante varias jornadas para apoyar directamente las labores de construcción. “La idea es sumarnos todos y poder durante varias jornadas hacer parte de estas jornadas apoyando en la construcción de muchas viviendas a los que los perdieron todo”, explicó el coordinador.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">¿Cómo participar?</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Las personas interesadas en formar parte de los </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">1.200 voluntarios para reconstruir viviendas</strong><span style="background-color: transparent; color: rgb(0, 0, 0);"> pueden realizar su inscripción mediante el formulario dispuesto para la convocatoria. El registro se encuentra disponible </span><a href="https://docs.google.com/forms/d/e/1FAIpQLSc-meZOMeEBAkgOy-EuFo0sT8A9ycgMir4RYdC1ojCHQGFyzQ/viewform?usp=publish-editor." rel="noopener noreferrer" target="_blank">aquí.</a>   </p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La convocatoria permitirá organizar las jornadas previstas en Roldanillo y Darién y reunir las manos necesarias para desarrollar este primer esfuerzo de construcción. Actualmente, el objetivo planteado comprende 100 viviendas entre ambos municipios, mientras los organizadores esperan que posteriormente puedan realizarse muchas más.</span></p>
+<p>The post <a href="https://occidente.co/cali/1200-voluntarios-reconstruir-viviendas-roldanillo-darien/">Buscan 1.200 voluntarios para reconstruir viviendas en Roldanillo y Darién: así puede inscribirse</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/1200-voluntarios-reconstruir-viviendas-roldanillo-darien/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Virus y bacterias: amenazas capaces de cambiar el destino humano</title>
+		<link>https://occidente.co/secciones/salud/pandemias-en-la-historia-de-la-humanidad-lecciones-de-crisis-globales/</link>
+					<comments>https://occidente.co/secciones/salud/pandemias-en-la-historia-de-la-humanidad-lecciones-de-crisis-globales/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 00:12:24 +0000</pubDate>
+				<category><![CDATA[Salud]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439655</guid>
+
+					<description><![CDATA[<p>Desde la peste negra hasta la gripe de 1918, desde la viruela hasta el Sida y el Covid- 19, los microorganismos han provocado algunas de las mayores crisis demográficas de la historia. La vacunación y la investigación científica han sido claves para contenerlas. La historia de la humanidad también puede contarse a través de enemigos...</p>
+<p>The post <a href="https://occidente.co/secciones/salud/pandemias-en-la-historia-de-la-humanidad-lecciones-de-crisis-globales/">Virus y bacterias: amenazas capaces de cambiar el destino humano</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Desde la peste negra hasta la gripe de 1918, desde la viruela hasta el Sida y el Covid- 19, los microorganismos han provocado algunas de las mayores crisis demográficas de la historia.</strong></p>
+<p>La vacunación y la investigación científica han sido claves para contenerlas.</p>
+<p><strong>La historia de la humanidad también puede contarse a través de enemigos invisibles.</strong></p>
+<p>Virus y bacterias han provocado epidemias capaces de paralizar sociedades, alterar economías y causar millones de muertes.</p>
+<p>La viruela, causada por el virus variola, acompañó a la humanidad durante miles de años y llegó a matar a millones de personas.</p>
+<p><strong>En el siglo XX, sin embargo, la vacunación cambió el desenlace.</strong></p>
+<p>La Organización Mundial de la Salud intensificó la campaña mundial de erradicación en 1967 y, tras el último caso natural registrado en Somalia en 1977, declaró la enfermedad erradicada en 1980.</p>
+<p><strong>Siglos antes, la peste negra devastó Europa entre 1347 y 1351.</strong></p>
+<p>La enfermedad, asociada principalmente a la bacteria Yersinia pestis, mató aproximadamente a un tercio de la población europea, aunque las estimaciones modernas varían considerablemente según la región.</p>
+<p><strong>Esta peste transformó profundamente la economía y la sociedad medievales.</strong></p>
+<p>La peste de Justiniano entre 541-750 aproximadamente causada por Yersinia pestis, afectó al Imperio bizantino y otras regiones.</p>
+<p>La primera gran ola ocurrió durante el gobierno del emperador Justiniano I.</p>
+<p>Volviendo al siglo XX, la gripe de 1918 o gripe española (1918-1919) fue una de las pandemias más mortíferas de la historia moderna.</p>
+<p>Se estima que infectó a unos 500 millones de personas y causó al menos 50 millones de muertes, según los Centros para el Control y la Prevención de Enfermedades de Estados Unidos.</p>
+<p><strong>La gripe asiática (1957-1958)</strong>, causada por el virus de influenza A(H2N2), provocó aproximadamente 1-2 millones de muertes a nivel mundial.</p>
+<p><strong>La gripe de Hong Kong (1968-1970)</strong> causada por influenza A(H3N2), produjo alrededor de un millón de muertes.</p>
+<p>Desde la década de 1980, el virus del VIH/sida o de la autoinmunodeficiencia adquirida ha causado decenas de millones de muertes desde el comienzo de la epidemia.</p>
+<p>En cuanto a tragedias que se evitaron por errores humanos se destaca la ocurrida en 1990 cuando científicos determinaron que una bacteria modificada genéticamente llamada Klebsiella planticola y que estaba diseñada para producir etanol, estuvo a punto de ser liberada y según las conclusiones, si esto hubiera pasado, habría acabado con la agricultura en Europa.</p>
+<p>A esta conclusión llegaron luego de experimentos con suelo y trigo, donde la cepa SDF20 provocó la muerte de las plantas y alteraciones en organismos del suelo y su liberación en el medio ambiente podría haber causado una hambruna.</p>
+<p>Ya en el siglo XXI es de reciente recordación el Covid- 19 que se convirtió en una pandemia mundial en 2020 y provocó millones de muertes confirmadas.</p>
+<p><strong>Estos episodios muestran que la supervivencia humana no depende únicamente de enfrentar guerras o desastres naturales: también exige comprender aquello que no puede verse a simple vista.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/salud/pandemias-en-la-historia-de-la-humanidad-lecciones-de-crisis-globales/">Virus y bacterias: amenazas capaces de cambiar el destino humano</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/salud/pandemias-en-la-historia-de-la-humanidad-lecciones-de-crisis-globales/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Colombia femenina Sub-20 va por cuartos ante Polonia</title>
+		<link>https://occidente.co/deportes/colombia-femenina-sub-20-vs-polonia-octavos-mundial/</link>
+					<comments>https://occidente.co/deportes/colombia-femenina-sub-20-vs-polonia-octavos-mundial/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 00:00:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/colombia-femenina-sub-20-vs-polonia-octavos-mundial/</guid>
+
+					<description><![CDATA[<p>La Colombia femenina Sub-20 buscará este jueves avanzar a los cuartos de final del Mundial de la categoría cuando enfrente al equipo local, Polonia, en el estadio de Bielsko-Biala. El partido corresponde a los octavos de final y está programado para las 11:30 a. m., hora de Colombia. Colombia femenina Sub-20 y su cruce ante...</p>
+<p>The post <a href="https://occidente.co/deportes/colombia-femenina-sub-20-vs-polonia-octavos-mundial/">Colombia femenina Sub-20 va por cuartos ante Polonia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La <strong>Colombia femenina Sub-20</strong> buscará este jueves avanzar a los cuartos de final del Mundial de la categoría cuando enfrente al equipo local, Polonia, en el estadio de Bielsko-Biala. El partido corresponde a los octavos de final y está programado para las 11:30 a. m., hora de Colombia.</p>
+</p>
+<h2>Colombia femenina Sub-20 y su cruce ante Polonia</h2>
+</p>
+<p>El equipo dirigido por Carlos Paniagua llega a esta instancia como uno de los mejores terceros del torneo, luego de sumar cuatro puntos en el Grupo E. En la fase inicial, la selección colombiana venció 3-1 a Costa Rica en su estreno, empató 0-0 con Portugal y perdió 3-0 frente a Corea del Norte en la última jornada.</p>
+</p>
+<p>Según explicó el cuerpo técnico, en ese cierre de grupo se apostó por la rotación de la nómina con una mirada puesta en el duelo de eliminación directa. Paniagua señaló que el equipo necesitaba llegar con continuidad, concentración y atención para sostener su camino en el certamen.</p>
+</p>
+<p>El vencedor de esta llave se enfrentará en la siguiente ronda al ganador del partido entre Inglaterra y Nigeria, por lo que el encuentro ante Polonia define el futuro inmediato de la selección en el Mundial.</p>
+</p>
+<h2>Lo que dejó la fase de grupos</h2>
+</p>
+<h3>Un arranque con victoria</h3>
+</p>
+<p>Colombia comenzó el torneo con triunfo 3-1 sobre Costa Rica, resultado que le permitió sumar confianza desde el primer partido.</p>
+</p>
+<h3>El empate ante Portugal</h3>
+</p>
+<p>En la segunda salida, el conjunto nacional igualó sin goles con Portugal y mantuvo opciones de clasificación.</p>
+</p>
+<h3>La derrota frente a Corea del Norte</h3>
+</p>
+<p>En el cierre del Grupo E, Colombia cayó 3-0 ante Corea del Norte en un duelo en el que el cuerpo técnico decidió mover la nómina.</p>
+</p>
+<h2>El análisis de Polonia y lo que viene</h2>
+</p>
+<p>Paniagua describió a Polonia como un rival fuerte en lo físico, con una estructura ofensiva 3-4-1-2 y una defensa en bloque corto, 5-4-1, además de transiciones rápidas. La selección europea avanzó como líder del Grupo A con puntaje ideal, tras vencer 3-0 a Argentina, 2-1 a México y 4-1 a Benín.</p>
+</p>
+<p>Para Colombia, el compromiso de este jueves representa la posibilidad de seguir instalada entre las mejores del campeonato y acercarse a una nueva fase del Mundial. El encuentro será transmitido por Gol Caracol, Deportes RCN, Ditu y DSports.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Deportivo:</strong> Colombia femenina Sub-20 juega por un cupo en cuartos y mantiene viva su aspiración en el Mundial.</p>
+</p>
+<p><strong>Actualidad:</strong> La selección llega a octavos como una de las mejores terceras y enfrentará al local Polonia.</p>
+</p>
+<p><strong>Próximos pasos:</strong> Si gana, avanzará a cuartos y se medirá al vencedor entre Inglaterra y Nigeria.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/colombia-femenina-sub-20-vs-polonia-octavos-mundial/">Colombia femenina Sub-20 va por cuartos ante Polonia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/colombia-femenina-sub-20-vs-polonia-octavos-mundial/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alcaldía de Cali avanza con los auxilios económicos a damnificados por el terremoto: pagos llegan al 61%</title>
+		<link>https://occidente.co/cali/auxilios-economicos-damnificados-terremoto-cali/</link>
+					<comments>https://occidente.co/cali/auxilios-economicos-damnificados-terremoto-cali/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 00:00:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/auxilios-economicos-damnificados-terremoto-cali/</guid>
+
+					<description><![CDATA[<p>La Alcaldía de Cali avanza en la entrega de auxilios económicos a damnificados por el terremoto registrado el pasado 10 de agosto. Según el balance presentado por la Administración Distrital, más de 5.500 giros ya fueron pagados, por un valor acumulado de $5.771.683.242. Esta cifra representa un avance del 61% de los pagos previstos durante...</p>
+<p>The post <a href="https://occidente.co/cali/auxilios-economicos-damnificados-terremoto-cali/">Alcaldía de Cali avanza con los auxilios económicos a damnificados por el terremoto: pagos llegan al 61%</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La Alcaldía de Cali avanza en la entrega de </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">auxilios económicos a damnificados por el terremoto</strong><span style="background-color: transparent; color: rgb(0, 0, 0);"> registrado el pasado 10 de agosto. Según el balance presentado por la Administración Distrital, más de 5.500 giros ya fueron pagados, por un valor acumulado de $5.771.683.242. Esta cifra representa un avance del 61% de los pagos previstos durante el primer ciclo establecido para atender a las personas afectadas por el movimiento telúrico.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Cali inició el pago de estos recursos como parte de la respuesta institucional frente a las afectaciones ocasionadas por el terremoto. De acuerdo con la información entregada por la Alcaldía, este primer ciclo tendrá una duración de 15 días y permitirá continuar progresivamente con los desembolsos destinados a las personas que cumplen los requisitos definidos para acceder al apoyo económico.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Además de efectuar los pagos, la Administración Distrital mantiene seguimiento sobre las inquietudes, quejas y solicitudes presentadas por los caleños durante el proceso. Las autoridades buscan identificar los casos que requieren atención y brindar orientación a las personas incluidas en el procedimiento de entrega de los </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">auxilios económicos a damnificados por el terremoto</strong><span style="background-color: transparent; color: rgb(0, 0, 0);">.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Correcciones en el RUD</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">De manera paralela, permanecen habilitados los canales destinados a corregir o actualizar los datos consignados en el Registro Único de Damnificados, RUD. Las personas que encuentren alguna inconsistencia en su información pueden solicitar la revisión a través del correo electrónico correccionesrud@cali.gov.co, dispuesto por la Administración Distrital para recibir y atender estos requerimientos.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El secretario de Gestión del Riesgo de Cali, Ricardo Peñuela, explicó que las autoridades trabajan actualmente en estas modificaciones. “Estamos en este momento realizando las correcciones en el RUD a través del correo correccionesrud@cali.gov.co. Es importante que los caleños escriban para tener acopiada esta información en la base de datos”, indicó el funcionario.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Por esta razón, quienes necesiten realizar alguna corrección relacionada con el Registro Único de Damnificados pueden utilizar directamente el correo habilitado. La actualización de esta información continuará mientras la Alcaldía desarrolla el proceso de atención relacionado con las consecuencias del terremoto ocurrido en Cali el 10 de agosto.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Continúan los pagos</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Con un avance reportado del 61 %, la Alcaldía continuará durante este primer ciclo con la entrega de los recursos previstos. Hasta el balance divulgado, el desembolso supera los $5.771 millones y corresponde a más de 5.500 giros efectuados a las personas damnificadas que cumplen con los requisitos establecidos.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La Administración Distrital también señaló que mantendrá el acompañamiento a las familias afectadas y realizará seguimiento a las situaciones que puedan surgir durante la entrega de los </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">auxilios económicos a damnificados por el terremoto</strong><span style="background-color: transparent; color: rgb(0, 0, 0);">. Al mismo tiempo, continuará recibiendo las solicitudes relacionadas con correcciones o actualizaciones de los datos registrados en el RUD.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">De esta forma, el proceso mantiene dos acciones simultáneas: la entrega progresiva de los recursos económicos y la atención de las solicitudes de actualización del Registro Único de Damnificados. Los canales anunciados por la Alcaldía de Cali permanecerán como mecanismo para atender las inconsistencias reportadas por las personas afectadas.</span></p>
+<p>The post <a href="https://occidente.co/cali/auxilios-economicos-damnificados-terremoto-cali/">Alcaldía de Cali avanza con los auxilios económicos a damnificados por el terremoto: pagos llegan al 61%</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/auxilios-economicos-damnificados-terremoto-cali/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Smart City Expo Cali 2026 reunirá a más de 3.000 asistentes para hablar de tecnología y sostenibilidad</title>
+		<link>https://occidente.co/cali/smart-city-expo-cali-2026-tecnologia-innovacion/</link>
+					<comments>https://occidente.co/cali/smart-city-expo-cali-2026-tecnologia-innovacion/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2026 00:00:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/smart-city-expo-cali-2026-tecnologia-innovacion/</guid>
+
+					<description><![CDATA[<p>Cali recibirá por primera vez el Smart City Expo Cali 2026, un encuentro internacional dedicado a las ciudades inteligentes que se realizará el 30 de septiembre y 1 de octubre en el Centro de Eventos Valle del Pacífico. La programación reunirá a más de 3.000 asistentes, 60 expertos y delegaciones de diferentes países para abordar...</p>
+<p>The post <a href="https://occidente.co/cali/smart-city-expo-cali-2026-tecnologia-innovacion/">Smart City Expo Cali 2026 reunirá a más de 3.000 asistentes para hablar de tecnología y sostenibilidad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Cali recibirá por primera vez el </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">Smart City Expo Cali 2026</strong><span style="background-color: transparent; color: rgb(0, 0, 0);">, un encuentro internacional dedicado a las ciudades inteligentes que se realizará el 30 de septiembre y 1 de octubre en el Centro de Eventos Valle del Pacífico. La programación reunirá a más de 3.000 asistentes, 60 expertos y delegaciones de diferentes países para abordar temas relacionados con tecnología, innovación urbana, sostenibilidad y resiliencia.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La Alcaldía de Cali, Emcali, Corferias y Fira Barcelona organizan el evento, que llegará a su cuarta edición en Colombia después de realizar encuentros en Bogotá y Cartagena. Entre las delegaciones internacionales confirmadas figuran representantes de Filipinas, Zimbabue, España, Dinamarca, Chile, México, Costa Rica y Brasil. La preparación de esta edición comenzó hace más de un año.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El alcalde de Cali, Alejandro Eder, explicó que el encuentro permitirá conocer tendencias y soluciones tecnológicas utilizadas para gestionar ciudades. Asimismo, indicó que Cali podrá presentar las acciones que desarrolla en este campo. La agenda contempla cuatro ejes relacionados con movilidad y conectividad; ciudades resilientes, seguras y saludables; medio ambiente y energía sostenible; e innovación pública, creatividad y tecnologías emergentes.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Tecnología y biodiversidad</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">El </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">Smart City Expo Cali 2026</strong><span style="background-color: transparent; color: rgb(0, 0, 0);"> también incluirá una plenaria sobre datos, tecnología y resiliencia aplicados a la gestión de emergencias y desastres. Además, la edición que se realizará en Cali incorporará la biodiversidad y el cuidado del medio ambiente dentro de sus conversaciones, con conceptos como biointeligencia y biociudades.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Por su parte, el presidente de Corferias, Andrés López, señaló que las ciudades inteligentes no dependen únicamente de incorporar herramientas tecnológicas. Según explicó, el proceso también requiere instituciones con capacidades para desarrollar conversaciones sobre los desafíos y oportunidades de cada territorio.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Durante el encuentro, Cali presentará proyectos de transformación digital liderados por el Departamento Administrativo de Tecnologías de la Información y las Comunicaciones, DATIC, y Emcali. Entre las iniciativas aparecen acciones relacionadas con modernización del alumbrado público, gestión de datos y fortalecimiento de herramientas tecnológicas para la administración de la ciudad.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Actualmente, Cali cuenta con 266 startups activas, siete universidades acreditadas, más de 400 grupos de investigación y cuatro centros de datos conectados con 60 países. También figura NIDO, iniciativa que registra US$11 millones movilizados en capital y más de 220 startups impactadas. La Administración Distrital presentará herramientas como Pa’ Que Veás, LegalTech, Dengue.IA, SATIC, GeoSmart Cali y GFS.</span></p>
+<p><strong style="background-color: transparent; color: rgb(0, 0, 0);">Becas para jóvenes</strong></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La agenda vinculada al </span><strong style="background-color: transparent; color: rgb(0, 0, 0);">Smart City Expo Cali 2026</strong><span style="background-color: transparent; color: rgb(0, 0, 0);"> también incluye oportunidades de formación. Durante la presentación del evento, Eder anunció una oferta de 8.000 becas para capacitar en tecnología a jóvenes de Cali y entregarles herramientas relacionadas con nuevas oportunidades.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">La Secretaría de Desarrollo Económico será la encargada de anunciar la información sobre las oportunidades de formación. La entidad también comunicará los requisitos y el procedimiento que deberán seguir los jóvenes interesados para realizar su inscripción.</span></p>
+<p><span style="background-color: transparent; color: rgb(0, 0, 0);">Con esta cuarta edición en Colombia, el Smart City Expo abrirá en Cali un espacio de discusión internacional sobre tecnología, datos, innovación, conectividad, sostenibilidad y gestión urbana. Además, la programación permitirá presentar iniciativas locales y establecer conversaciones con expertos y delegaciones internacionales durante las dos jornadas.</span></p>
+<p>The post <a href="https://occidente.co/cali/smart-city-expo-cali-2026-tecnologia-innovacion/">Smart City Expo Cali 2026 reunirá a más de 3.000 asistentes para hablar de tecnología y sostenibilidad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/smart-city-expo-cali-2026-tecnologia-innovacion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

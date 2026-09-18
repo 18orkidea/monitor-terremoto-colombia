@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-17",
+ "generado": "2026-09-18",
  "bucket": "monitor-terremoto-media",
  "objetos": [
   {
@@ -81,6 +81,11 @@
    "objeto": "2d2f6f2f-f982-4e53-9568-cb9c5c594ca2.mp4",
    "sha256": "b12eb0a78002002d30392c39e1f9380f5c2d2ed02acf7191093e2cc7ed176b06",
    "bytes": 1730710
+  },
+  {
+   "objeto": "3018d0ad-ea19-4e76-a1e3-e6d80c292ff9.mp4",
+   "sha256": "92d08711c1e551360081a4ffc8ae29c6cf90f0bd4a298ed86171b5c167bc2f21",
+   "bytes": 210807
   },
   {
    "objeto": "30d00822-6dcb-4357-89b1-851051b22907.mp4",
@@ -281,6 +286,11 @@
    "objeto": "a5c53333-3657-428c-b4d6-6de02328018a.mp4",
    "sha256": "476be371d4fca0d85743dafe667a45cd7ba1f604760818168c8f26b409cea83c",
    "bytes": 6545063
+  },
+  {
+   "objeto": "a6cc0a3d-9493-4f04-93a6-b926d4846ad4.mp4",
+   "sha256": "63fb7ad6255f5e8e0ec39573819f4d27ae6dfc66edcd0bb4346193309e79d9fc",
+   "bytes": 390258
   },
   {
    "objeto": "a831fdb1-14c6-4f10-9233-c734b301d7e6.mp4",
