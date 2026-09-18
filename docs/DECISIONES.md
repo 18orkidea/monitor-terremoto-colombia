@@ -5047,6 +5047,41 @@ propia `g-cero`, que crece como un alta y no baja.
 **Lo que no se decide.** La definición oficial del concepto: la única vía es
 un derecho de petición a la UNGRD, y su silencio también se archiva (R15).
 
+## 2026-09-17 — Sitrep 6 de la OPS: sin tabla, y ERES no continúa a CRUE
+
+**Contexto.** El vigilante del hub de Naciones Unidas avisó a diario, del
+1 al 17-sep, de que la OPS había publicado el sitrep 6 (27-ago, corte
+25-ago) y nadie lo había transcrito. Leído el PDF (sha256 `a6ab2b2d…`), el
+sitrep 6 no trae tabla de establecimientos: solo dos cifras nacionales en
+prosa, 378 afectados según la UNGRD y 251 establecimientos evaluados con la
+herramienta ERES por el MSPS con apoyo de la OPS.
+
+**Decisión.**
+
+1. **378 entra como `ips_reportadas_ungrd` nacional**, igual que el 303 del
+   sitrep 5: mismo autor, misma pregunta, corte más reciente.
+2. **251 entra como concepto nuevo, `ips_evaluadas_eres`**, y no como
+   continuación de `ips_verificadas_crue` (192 el 18-ago). Cambian el método
+   (evaluación rápida en territorio frente a verificación de los Centros
+   Reguladores) y quien la hace (secretarías, MSPS y OPS). Leer 192 → 251
+   como crecimiento fabricaría una serie que ninguna fuente declaró; es la
+   regla «una cifra, un concepto» del docstring de
+   `ingest/sources/ops_salud.py`.
+3. **Las cifras departamentales no cambian.** El sitrep 6 no las publica, así
+   que las fichas siguen enseñando las del sitrep 5 con su fecha (18-ago).
+   Nada se reparte por departamento.
+4. **El PDF no se commitea a mano.** Lo archiva la corrida diaria con
+   `fetch()` (fila en `sources_log`) y `_archivar_pdf` comprueba que su
+   sha256 es el que declara la transcripción. Traerlo desde un worktree
+   habría dejado un cuerpo sin fila de origen.
+
+**Guardián nuevo.** `TestOpsSaludTranscripciones`: toda transcripción tiene
+su página en `PAGINAS`. Sin ella, `_registrar_transcripcion` falla con
+`KeyError` y la fuente entera cae en la corrida. Se comprobó quitando la
+página 6: el test falla.
+
+**Pendiente.** Mostrar `ips_evaluadas_eres` en alguna superficie es una
+decisión editorial aparte. Hoy solo viaja en `data/public/ops_salud.json`.
 ## 2026-09-18 — Se cierra la captura del RUD y las gráficas terminan en su último cambio
 
 **Contexto.** Desde el 13-sep el RUD repetía las mismas cifras en los 409

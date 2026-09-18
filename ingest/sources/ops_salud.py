@@ -30,6 +30,11 @@ Y la tabla que trae cada sitrep es distinta, no una serie con columnas fijas:
   —verificadas vía CRUE (192) y priorizadas (50), ambas del MSPS—. La cifra de
   UNGRD (303) vuelve a ser SOLO prosa, sin desglose departamental en ningún
   lugar del documento.
+- **Sitrep 6** (27-ago, corte 25-ago): NINGUNA tabla de establecimientos —el
+  documento salta de la Tabla 1 a la Tabla 3—. Solo dos cifras nacionales en
+  prosa: UNGRD (378 afectados en 14 departamentos) y un concepto nuevo, los
+  251 establecimientos evaluados con la herramienta ERES (MSPS con apoyo de la
+  OPS). Las cifras departamentales vigentes siguen siendo las del sitrep 5.
 
 **El detalle por institución no reapareció.** 24 nombres con municipio el
 10-ago; 192 establecimientos «verificados» sin un solo nombre el 18-ago. No es
@@ -55,11 +60,11 @@ Los PDF de la serie no cambian una vez publicados: son contenido que no
 cambia (`common.activo_archivado`), se traen UNA vez y no se vuelven a
 descargar en cada corrida. La tabla de cada PDF se transcribió A MANO a
 `data/documentos/ops_salud/sitrep_N.json`, con el sha256 del PDF de origen
-dentro del propio JSON — `tests/test_unit.py::TestOpsSalud` comprueba que ese
-sha256 es el que de verdad quedó en `sources_log` tras archivar el PDF: si
-alguien edita el JSON sin volver a archivar el PDF correcto, o el PDF
-cambiara de contenido, el test lo canta en vez de publicar una transcripción
-que ya no corresponde a su fuente.
+dentro del propio JSON — `_archivar_pdf` compara en cada corrida ese sha256
+con el del PDF que trae `fetch()` (`tests/test_unit.py::TestOpsSaludCarga`):
+si alguien edita el JSON sin archivar el PDF correcto, o el PDF cambiara de
+contenido, la corrida lo canta y no carga sus cifras en vez de publicar una
+transcripción que ya no corresponde a su fuente.
 
 ## Detector de serie nueva
 
@@ -72,7 +77,7 @@ URL numérica sola (`/es/320793`) da 404 — el hub exige el slug completo
 
 ## Plan de sucesión
 
-Si la OPS deja de publicar la serie: sobreviven los 5 PDF archivados en el
+Si la OPS deja de publicar la serie: sobreviven los PDF archivados en el
 repo (cada uno < 1.1 MB, caben en git igual que los de SERTIT) con su sha256
 en `sources_log`, y la tabla `ops_salud_cifras`/`ops_salud_ips` sale de ahí,
 no de la red. El detector de silencio (R15) avisa a partir de 15 días sin un
@@ -102,6 +107,7 @@ PAGINAS = {
     3: f"{BASE}/es/documentos/informe-situacion-3-colombia-terremoto-agosto-2026-11-agosto-2026",
     4: f"{BASE}/es/documentos/informe-situacion-4-colombia-terremoto-agosto-2026-13-agosto-2026",
     5: f"{BASE}/es/documentos/informe-situacion-5-colombia-terremoto-agosto-2026-19-agosto-2026",
+    6: f"{BASE}/es/documentos/informe-situacion-6-colombia-terremoto-agosto-2026-27-agosto-2026",
 }
 
 # El hub de Naciones Unidas en Colombia enlaza los sitrep de la OPS y sirve de
@@ -126,6 +132,12 @@ CONCEPTO_PRIORIZADAS = "ips_priorizadas"              # → "priorizadas (MinSal
 # complejidad del sitrep 4 (MSPS+secretarías, sin equivalente en CRUE).
 CONCEPTO_MONITOREO_OPS = "ips_reportadas_monitoreo_ops"
 CONCEPTO_IDENTIFICADAS_MSPS = "ips_identificadas_msps"
+# El sitrep 6 estrena una cuarta pregunta: cuántos establecimientos se han
+# evaluado en territorio con la herramienta ERES (secretarías, MSPS y OPS). No es
+# la continuación de `ips_verificadas_crue` aunque la cifra sea mayor (251
+# frente a 192): cambian el método y quien evalúa, y fundirlas fabricaría un
+# crecimiento que ninguna fuente declaró.
+CONCEPTO_EVALUADAS_ERES = "ips_evaluadas_eres"
 
 # Cambiar a True el día que la OPS anuncie el cierre de la serie (con la
 # fecha y el porqué en un comentario aquí mismo, y en docs/DECISIONES.md):
@@ -152,10 +164,12 @@ def pdf_link_de_pagina(body: bytes) -> str | None:
     """El enlace de descarga de la página de un sitrep.
 
     Se lee el `<div class="download-button">`, NO el nombre del fichero: entre
-    los 5 sitrep conocidos hay tres convenciones de nombre distintas
+    los sitrep conocidos hay cuatro convenciones de nombre distintas
     (`sitrep1-terremoto-colombia-agosto-20260.pdf`, `sitrep-2-colombiasismo.pdf`,
-    `sitrep5colombiasismo18082026.pdf`), así que adivinar el patrón habría roto
-    con el propio sitrep 2. Confirmado en las 5 páginas el 30-ago-2026.
+    `sitrep5colombiasismo18082026.pdf`, `sitrep6-colombia-sismo-26082026-es.pdf`),
+    así que adivinar el patrón habría roto con el propio sitrep 2. Confirmado
+    en las 5 primeras páginas el 30-ago-2026 y en la del sitrep 6 el
+    17-sep-2026.
     """
     m = re.search(
         rb'<div class="download-button">\s*<a href="([^"]+\.pdf)"', body)
@@ -331,8 +345,8 @@ def _registrar_transcripcion(conn, ruta: Path, n: int, pdf_sha256: str) -> None:
                 f"(sha256 {anterior[0][:12]}…, que se conserva sin tocar): el "
                 f"PDF de origen no cambia (sha256 {pdf_sha256[:12]}…)")
     else:
-        note = (f"transcripción a mano de la tabla del sitrep {n} de la OPS, "
-                f"leída del PDF ya archivado (sha256 {pdf_sha256[:12]}…)")
+        note = (f"transcripción a mano de las cifras del sitrep {n} de la OPS, "
+                f"leídas del PDF ya archivado (sha256 {pdf_sha256[:12]}…)")
     registrar_entrega(conn, url=PAGINAS[n], ruta=ruta, note=note)
 
 

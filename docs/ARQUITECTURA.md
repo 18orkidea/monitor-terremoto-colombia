@@ -224,14 +224,18 @@ Esquema completo en `ingest/common.py::SCHEMA`. Resumen:
   Cauca)»). Solo mira las filas sin desglose por nivel de complejidad; el
   desglose de la matriz del sitrep 4 se consulta aparte, filtrando
   `ops_salud_cifras` por `nivel_complejidad`. El titular fijo decidido el
-  30-ago-2026 —«303 reportadas (UNGRD) · 192 verificadas (MinSalud) · 50
+  30-ago-2026 —«N reportadas (UNGRD) · N verificadas (MinSalud) · N
   priorizadas (MinSalud)», las tres cifras siempre juntas y cada una con su
-  autor, nunca una sola— se compone con `cifras_por_ambito(conn)['nacional']`
+  autor y SU fecha de corte, nunca una sola: desde el sitrep 6 la de UNGRD es
+  del 25-ago y las otras dos del 18-ago— se compone con `cifras_por_ambito(conn)['nacional']`
   leyendo los conceptos `ips_reportadas_ungrd`, `ips_verificadas_crue` e
   `ips_priorizadas`. A escala departamental solo bajan `ips_verificadas_crue`
   e `ips_priorizadas` (sitrep 5): `ips_reportadas_ungrd` es solo nacional y
   `ips_identificadas_msps` (sitrep 4) queda superada por las dos del 5 — ver
-  `deploy/render_html.py::CONCEPTOS_SALUD_DEPARTAMENTO`.
+  `deploy/render_html.py::CONCEPTOS_SALUD_DEPARTAMENTO`. El sitrep 6 añade
+  un cuarto concepto, solo nacional, `ips_evaluadas_eres` (evaluados con la
+  herramienta ERES): no continúa `ips_verificadas_crue` y ninguna superficie
+  del sitio lo pinta todavía; viaja en `ops_salud.json`.
 - `instituciones_por_municipio(conn) -> {municipio_slug: [{sitrep_n,
   fecha_corte, nombre_ips, nivel_complejidad, observacion, municipio_literal,
   departamento_literal}]}` — el detalle por institución de los sitreps 1-3,
