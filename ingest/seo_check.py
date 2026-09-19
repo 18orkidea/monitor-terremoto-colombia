@@ -186,7 +186,7 @@ PROSA_MINIMA = {
     # esta medición de la anterior (8.052); el hito curado de la matrícula no
     # suma aquí porque su prosa no vive en esta página. El suelo sube de 7.811
     # a 7.871.
-    "referencia.html": 8300,
+    "referencia.html": 8900,
 }
 MAX_KB_PAGINA = 400          # por encima, los rastreadores truncan
 

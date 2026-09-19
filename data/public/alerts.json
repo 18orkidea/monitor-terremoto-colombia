@@ -90,7 +90,7 @@
   "cifras": {
    "departamentos_afectados": 16,
    "municipios_afectados": 496,
-   "personas_afectadas": 466709,
+   "personas_afectadas": 466345,
    "familias_afectadas": 188034,
    "viviendas_averiadas": 187839,
    "viviendas_destruidas": 33395,
@@ -111,9 +111,9 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    "personas_afectadas": {
-    "fecha": "2026-09-11",
+    "fecha": "2026-09-10",
     "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/09/11/un-mes-despues-del-terremoto-volvio-a-teblar-en-el-pacifico-sismo-de-45-con-epicentro-en-el-choco-se-sintio-en-cali-pereira-y-manizales/"
+    "url": "https://www.infobae.com/colombia/2026/09/10/a-un-mes-del-sismo-de-74-en-colombia-asi-va-la-reconstruccion-de-las-zonas-mas-afectadas-no-queremos-solo-ayuda-queremos-inversion/"
    },
    "familias_afectadas": {
     "fecha": "2026-08-26",
@@ -141,198 +141,38 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
    },
    "desaparecidos": {
-    "fecha": "2026-09-15",
+    "fecha": "2026-09-10",
     "medio": "infobae",
     "url": "https://www.infobae.com/colombia/2026/09/10/a-un-mes-del-sismo-de-74-en-colombia-asi-va-la-reconstruccion-de-las-zonas-mas-afectadas-no-queremos-solo-ayuda-queremos-inversion/"
    },
    "rescatados": {
-    "fecha": "2026-08-22",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/08/20/ungrd-actualiza-cifras-del-terremoto-en-colombia-319-fallecidos-y-31461-viviendas-destruidas/"
+    "fecha": "2026-08-20",
+    "medio": "Diario La República",
+    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    }
   },
-  "ignoradas": [
-   {
-    "cifra": "departamentos_afectados",
-    "valor": 15,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "departamentos_afectados",
-    "valor": 15,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "municipios_afectados",
-    "valor": 472,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "municipios_afectados",
-    "valor": 448,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "personas_afectadas",
-    "valor": 186182,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "personas_afectadas",
-    "valor": 115461,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "personas_afectadas",
-    "valor": 115461,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
+  "ultimo_balance": "2026-09-10",
+  "ignoradas_del_balance": [
    {
     "cifra": "familias_afectadas",
-    "valor": 54008,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 54382,
+    "valor": 45000,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 127266,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 81506,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 26558,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 14493,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+    "url": "https://www.infobae.com/colombia/2026/09/10/a-un-mes-del-sismo-de-74-en-colombia-asi-va-la-reconstruccion-de-las-zonas-mas-afectadas-no-queremos-solo-ayuda-queremos-inversion/"
    },
    {
     "cifra": "heridos",
-    "valor": 4400,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "heridos",
-    "valor": 3935,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "heridos",
-    "valor": 3937,
+    "valor": 4505,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 304,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 294,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 289,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "desaparecidos",
-    "valor": 320,
-    "motivo": "corte del 15-ago-2026 anterior al vigente (10-sep-2026)",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "desaparecidos",
-    "valor": 143,
-    "motivo": "corte del 15-ago-2026 anterior al vigente (10-sep-2026)",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
-   },
-   {
-    "cifra": "desaparecidos",
-    "valor": 426,
-    "motivo": "corte del 10-ago-2026 anterior al vigente (10-sep-2026)",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 357,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 188,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 353,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/"
+    "url": "https://www.infobae.com/colombia/2026/09/10/a-un-mes-del-sismo-de-74-en-colombia-asi-va-la-reconstruccion-de-las-zonas-mas-afectadas-no-queremos-solo-ayuda-queremos-inversion/"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
    "snapshot": "data/snapshots/2026-09-19/oficiales_feed.json",
    "items": 110,
-   "regla_sha256": "6c31c0f07f8757e02e4be0491cc29e5b27bf28ef58c99310502d227675904a96"
+   "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
 }

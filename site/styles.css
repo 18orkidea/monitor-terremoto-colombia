@@ -257,6 +257,10 @@ th[title], th[data-tip] { cursor: help; text-decoration: underline dotted color-
    escondía el signo— y había que restar a ojo dos columnas de seis cifras
    para saber de qué lado caía. */
 .quien { color: var(--muted); font-weight: 600; font-size: 11px; }
+/* En la comparativa el «quién» remata la frase de la celda y va pegado al
+   número; en la tabla de retrasos es una segunda línea («36 · de ellas 24 con
+   fecha»), y sin esto se leía «36de ellas 24». */
+#retraso-tabla .quien { display: block; font-weight: 400; }
 .th-tip {
   position: fixed; z-index: 1200; line-height: 1.5; font-weight: 400;
   text-align: left; white-space: normal;

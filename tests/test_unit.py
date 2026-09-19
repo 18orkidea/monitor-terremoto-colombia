@@ -6159,6 +6159,33 @@ class TestWatcherArcGISEres(unittest.TestCase):
         self.assertEqual([a["tipo"] for a in avisos],
                          ["arcgis_eres_watcher_silencio"])
         self.assertEqual(avisos[0]["nivel"], "alta")
+class TestElArtefactoDeAlertasDiceDeQueReglaSale(unittest.TestCase):
+    """`data/public/alerts.json` está versionado y se despliega con el merge:
+    si la regla cambia y el artefacto no se regenera, el sitio publica la
+    cifra vieja con la etiqueta de la regla nueva (pasó el 21-ago-2026). El
+    `regla_sha256` es lo que permite comprobarlo sin recalcular nada."""
+
+    def test_el_sha_de_la_regla_es_el_de_site_ui_js(self):
+        import hashlib
+        raiz = Path(__file__).parent.parent
+        artefacto = raiz / "data" / "public" / "alerts.json"
+        if not artefacto.exists():
+            self.skipTest("sin artefacto de alertas en el repo")
+        d = json.loads(artefacto.read_text(encoding="utf-8"))
+        consolidado = d.get("balance_consolidado") or {}
+        sha = (consolidado.get("derivado_de") or {}).get("regla_sha256")
+        if not sha:
+            self.skipTest("el artefacto no declara la regla (corrida sin node)")
+        real = hashlib.sha256(
+            (raiz / "site" / "ui.js").read_bytes()).hexdigest()
+        self.assertEqual(
+            sha, real,
+            "alerts.json dice haber salido de una versión de site/ui.js que "
+            "ya no es la del repositorio: regenerarlo (ingest/alerts.py) "
+            "antes de fusionar, o publicará la cifra vieja con la etiqueta "
+            "de la regla nueva")
+
+
 class TestOpsSaludParseo(unittest.TestCase):
     """Funciones puras de ops_salud: descubrir el PDF de una página y los
     sitrep que enlaza el hub. Sin red — cuerpos fabricados a mano."""

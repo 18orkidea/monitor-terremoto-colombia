@@ -7181,7 +7181,6 @@ def filas_balances(ctx: dict) -> str:
                        key=lambda x: x.get("search_date") or "", reverse=True):
         c = item.get("cifras") or {}
         url = item.get("publication_url") or item.get("url") or "#"
-        pub = item.get("publisher") or {}
         etiqueta, color = NIVELES.get(item.get("source_level"),
                                       (item.get("source_level") or "Sin nivel", "--muted"))
         # el término inglés lo explica la propia página; el título lo traduce
@@ -7374,13 +7373,21 @@ def sello_rud(ctx: dict) -> str:
 
 
 def sello_balances(ctx: dict) -> str:
-    """Balances: las dos también. `oficiales.json` fecha cada nota con la
-    búsqueda que la encontró (`search_date`) y el fichero entero con
-    `generated_at`; la última búsqueda es hasta dónde llega el rastreo."""
+    """Balances: las dos también. El corte del dato es el ÚLTIMO BALANCE, no
+    la última búsqueda: desde que la serie se fecha por el corte (18-sep-2026)
+    el rastreo puede llevar una semana sin traer nada, y decir «datos hasta el
+    17» sobre un balance del 10 es exactamente la confusión que esta página
+    vino a deshacer. Cuándo se rastreó por última vez se dice en la tira de
+    tarjetas («Último rastreo»)."""
     oficiales = ctx.get("oficiales") or {}
-    buscadas = [i.get("search_date") for i in (oficiales.get("items") or [])
-                if i.get("search_date")]
-    return sello_fechas(max(buscadas) if buscadas else None,
+    datos = consolidado_balances(ctx)
+    con_balance = [d.get("fecha") for d in ((datos or {}).get("porDia") or [])
+                   if d.get("item")]
+    if not con_balance:
+        buscadas = [i.get("search_date") for i in (oficiales.get("items") or [])
+                    if i.get("search_date")]
+        con_balance = sorted(buscadas)
+    return sello_fechas(con_balance[-1] if con_balance else None,
                         oficiales.get("generated_at"), "de los balances")
 
 
@@ -7434,6 +7441,7 @@ def consolidado_balances(ctx: dict):
             ".filter((x) => x.search_date);"
             "console.log(JSON.stringify({"
             "porDia: window.UI.mejorPorDia(items),"
+            "retrasos: window.UI.retrasoPorMedio(items),"
             "comparativa: window.UI.comparativaFuentes(d.monitor, d.oficiales)"
             "}));")
         try:
@@ -7528,7 +7536,8 @@ def resumen_balances(ctx: dict) -> str:
                 "serie se publica en cuanto el rastreo nocturno archive la "
                 "primera.</p>")
     publicadores = {nombre_publicador(i) for i in items}
-    cabeza = (f"<b>{fmt(len(items))} balances</b> archivados de "
+    # «Un total de»: una frase no empieza con una cifra (libro de estilo, 10.10)
+    cabeza = (f"Un total de <b>{fmt(len(items))} balances</b> archivados de "
               f"<b>{fmt(len(publicadores))} publicadores</b> distintos, cada "
               f"uno con su URL.")
     datos = consolidado_balances(ctx)
@@ -7560,8 +7569,12 @@ def resumen_balances(ctx: dict) -> str:
         # «máximo informado» y no «cifra actual»: R16 también en la
         # entradilla, y la fecha viaja dentro de la frase porque es el párrafo
         # que se cita suelto.
-        frase += (f" Máximo informado hasta el "
-                  f"{fecha_larga(ult.get('fecha'))}: {lista}.")
+        # la fecha es la del último balance recibido, no la del final del
+        # eje: lo que se afirma es «hasta este balance», no «hasta hoy»
+        con_balance = [d for d in (datos.get("porDia") or []) if d.get("item")]
+        hasta = (con_balance[-1] if con_balance else ult or {}).get("fecha")
+        frase += (f" Máximo informado hasta el balance del "
+                  f"{fecha_larga(hasta)}: {lista}.")
     if stock:
         frase += " Último corte informado: " + "; ".join(stock) + "."
     return (f"<p>{cabeza}{frase} No es el balance oficial: es lo que "
@@ -7581,12 +7594,23 @@ def tarjetas_balances(ctx: dict) -> str:
         return "<p class=\"note\">Todavía no hay ninguna captura.</p>"
     fechas = sorted({i["search_date"] for i in items})
     datos = consolidado_balances(ctx)
-    tarjetas = [_metric_card("Última fecha", fecha_corta(fechas[-1]))]
+    # «Último rastreo», no «Última fecha»: desde que la serie se fecha por el
+    # corte hay dos fechas distintas en esta tira —cuándo se buscó por última
+    # vez y de cuándo es el último balance— y llamar «la fecha» a una de las
+    # dos era justo la confusión que esta página vino a deshacer.
+    tarjetas = [_metric_card("Último rastreo", fecha_corta(fechas[-1]))]
     if datos is None:
         tarjetas.append(_metric_card(
             "Capturas", f"{fmt(len(items))} / {fmt(len(fechas))} días"))
         return "".join(tarjetas) + AVISO_SIN_REGLA
-    ult = (datos.get("porDia") or [None])[-1] or {}
+    por_dia = datos.get("porDia") or []
+    ult = (por_dia or [None])[-1] or {}
+    # El estado vigente es el del último día del eje (el consolidado se
+    # arrastra); lo que LLEGÓ —la disputa del día, lo descartado— es del
+    # último día CON balance, que desde que la serie se fecha por el corte
+    # (18-sep-2026) no tiene por qué ser hoy.
+    con_balance = [d for d in por_dia if d.get("item")]
+    ultimo_bal = con_balance[-1] if con_balance else {}
     cons = ult.get("consolidado") or {}
     for k, nombre in CIFRAS_BALANCE_UI.items():
         v = cons.get(k)
@@ -7599,17 +7623,31 @@ def tarjetas_balances(ctx: dict) -> str:
             # entró: es lo que la hace comparable con el balance oficial
             partes.append(_corte_de_stock(v, fecha_corta))
         elif v.get("fecha") != ult.get("fecha"):
-            partes.append(f"del {fecha_corta(v['fecha'])}")
+            # La fecha de una acumulativa también es un corte desde que el eje
+            # lo es, y solo la mitad de las capturas lo declaran: cuando la
+            # dedujimos nosotros, se dice (R3 en la prosa).
+            deducida = SENAL_DEL_CORTE.get(v.get("senal"))
+            partes.append(f"del {fecha_corta(v['fecha'])}"
+                          + (f" ({deducida})" if deducida else ""))
         if v.get("medio"):
             partes.append(v["medio"])
         tarjetas.append(_metric_card(nombre, fmt(v["valor"]),
                                      sub=" · ".join(partes) or None))
+    # Dos cuentas distintas y las dos hacen falta: cuántas capturas se
+    # archivaron y cuántos DÍAS traen balance. Con la serie fechada por el
+    # corte, 107 capturas caben en 19 días: el resto del eje son días en que
+    # se buscó y no llegó nada.
     tarjetas.append(_metric_card(
-        "Capturas", f"{fmt(len(items))} / {fmt(len(fechas))} días"))
+        "Capturas", f"{fmt(len(items))} / {fmt(len(con_balance))} días",
+        sub=f"archivadas en {fmt(len(fechas))} días de rastreo"))
+    if ultimo_bal.get("fecha") and ultimo_bal["fecha"] != fechas[-1]:
+        tarjetas.append(_metric_card(
+            "Último balance", fecha_corta(ultimo_bal["fecha"]),
+            sub="sin balance nuevo desde entonces"))
 
     # disputa entre medios del día: se muestra, no se suprime — la
     # discrepancia entre fuentes ES información de brecha
-    disputa = ult.get("disputa")
+    disputa = ultimo_bal.get("disputa")
     if disputa:
         rangos = " · ".join(
             f"{CIFRAS_BALANCE_ES.get(k, k)} entre {fmt(v.get('min'))} y "
@@ -7623,7 +7661,7 @@ def tarjetas_balances(ctx: dict) -> str:
 
     # lo que NO entró en la serie, con su motivo: un balance menor, sin
     # atribución o incoherente sigue siendo información de brecha
-    rechazadas = [g for g in (ult.get("ignoradas") or [])
+    rechazadas = [g for g in (ultimo_bal.get("ignoradas") or [])
                   if g.get("cifra") in CIFRAS_BALANCE_ES]
     if rechazadas:
         # Agrupadas POR MOTIVO, no enumeradas una a una. Enumerarlas repetía
@@ -7668,7 +7706,7 @@ def tarjetas_balances(ctx: dict) -> str:
         else:
             porque = ": " + " · ".join(f"{fmt(n)} por «{e(m)}»" for m, n in orden)
         tarjetas.append(
-            f'<p class="note full">Este día se descartaron {cuantas} '
+            f'<p class="note full">Ese día se descartaron {cuantas} '
             f"cifra{plural} de la serie{de_quien}{porque}. "
             "No se borran: se enseñan abajo, porque la distancia entre lo que "
             "publica cada medio es justamente lo que este monitor mide.</p>")
@@ -7676,7 +7714,6 @@ def tarjetas_balances(ctx: dict) -> str:
     item = ult.get("item")
     if item:
         citadas = item.get("reported_data_source") or []
-        pub = item.get("publisher") or {}
         enlaces = ", ".join(
             (f'<a href="{e(f["url"])}" target="_blank" rel="noopener">'
              f'{e(f.get("id") or "fuente")}</a>')
@@ -7856,6 +7893,18 @@ def grafico_balances(ctx: dict) -> str:
     return "".join(o)
 
 
+# Cómo se nombra cada señal de `ui.js::fechaCorte` cuando la fecha NO la dijo
+# el texto del balance. La casa distingue tres cosas que se parecen: lo que la
+# fuente declara, lo que dedujimos de su URL o de otra captura suya, y el día
+# en que la archivamos, que es un techo y no un corte.
+SENAL_DEL_CORTE = {
+    "url": "corte deducido de la fecha de su enlace",
+    "campo": "corte deducido de la fecha del artículo",
+    "misma_url": "corte tomado de otra captura del mismo artículo",
+    "busqueda": "sin corte declarado: es el día en que se archivó",
+}
+
+
 def _corte_de_stock(cv: dict, fecha=None) -> str | None:
     """Cómo se fecha una cifra de stock: por su corte cuando la captura lo
     declara (texto, URL u otra captura del mismo artículo), y cuando no lo
@@ -8003,6 +8052,77 @@ def filas_comparativa(ctx: dict) -> str:
                  f'<td class="num">{fmt(m)}</td>'
                  f'<td class="num">{celda_diff}</td></tr>')
     return "\n".join(o)
+
+
+def filas_retraso(ctx: dict) -> str:
+    """Cuánto tarda cada medio en publicar el balance del que habla.
+
+    Es el segundo hallazgo que destapa fechar la serie por el corte: el
+    18-sep-2026, El Tiempo publica el mismo día del corte (mediana 0) e
+    infobae llega a servir un balance con 32 días de retraso.
+
+    La columna «fechadas» no es relleno: el retraso necesita la fecha de
+    publicación y más de la mitad de las capturas no la traen. Un medio sin
+    ninguna fechable se queda en la tabla con su recuento y un «sin fecha de
+    publicación» — esconderlo dejaría la tabla contando solo a quien se deja
+    medir, que es el error que este monitor persigue en otros."""
+    datos = consolidado_balances(ctx)
+    if datos is None:
+        return ('<tr><td colspan="4">El consolidado no se ha podido calcular '
+                "en esta construcción: el retraso no se publica antes que su "
+                "regla.</td></tr>")
+    filas = datos.get("retrasos") or []
+    if not filas:
+        return ('<tr><td colspan="4">Todavía no hay capturas con las que '
+                "medir el retraso.</td></tr>")
+    o = []
+    for f in filas:
+        if f.get("fechadas"):
+            medida = (f'<td class="num">{fmt(f.get("mediana"))} '
+                      f'{concuerda(f.get("mediana"), "día", "días")}</td>'
+                      f'<td class="num">{fmt(f.get("maximo"))} '
+                      f'{concuerda(f.get("maximo"), "día", "días")}</td>')
+        else:
+            medida = ('<td colspan="2"><span style="color:var(--muted)">sin '
+                      "fecha de publicación</span></td>")
+        cuantas = (f'de ellas {fmt(f.get("fechadas"))} con fecha'
+                   if f.get("fechadas") else "ninguna con fecha")
+        o.append(f'<tr><td>{e(f.get("medio") or "")}</td>'
+                 f'<td class="num">{fmt(f.get("capturas"))}'
+                 f'<span class="quien">{cuantas}</span></td>{medida}</tr>')
+    return "\n".join(o)
+
+
+def nota_retraso(ctx: dict) -> str:
+    """Sobre cuántas capturas está calculado el retraso, dicho en la página.
+
+    Una mediana sin su cobertura presenta una muestra como el todo."""
+    datos = consolidado_balances(ctx)
+    filas = (datos or {}).get("retrasos") or []
+    if not filas:
+        return ""
+    capturas = sum(f.get("capturas") or 0 for f in filas)
+    fechadas = sum(f.get("fechadas") or 0 for f in filas)
+    sin_medida = [f["medio"] for f in filas if not f.get("fechadas")]
+    frase = (f"El retraso está calculado sobre {fmt(fechadas)} de las "
+             f"{fmt(capturas)} capturas: es el desfase entre el corte del que "
+             f"habla el balance y el día en que el medio lo publicó, así que "
+             f"solo se puede medir donde el texto declara su corte y la "
+             f"captura trae fecha de publicación. Una fecha de corte deducida "
+             f"del enlace daría cero por construcción, y eso no mide nada.")
+    if sin_medida:
+        # los nombres, no solo el recuento: «12 publicadores sin fecha» no deja
+        # a nadie comprobar nada, y quién no se deja medir es parte del dato
+        nombres = sin_medida[:4]
+        if len(sin_medida) > 4:
+            nombres = nombres + [f"otros {fmt(len(sin_medida) - 4)}"]
+        # ninguna frase arranca con una cifra: «Un total de…», y con letras
+        # cuando es uno solo (libro de estilo, 10.10 y 10.1)
+        sujeto = ("Un publicador aparece" if len(sin_medida) == 1 else
+                  f"Un total de {fmt(len(sin_medida))} publicadores aparecen")
+        frase += (f" {sujeto} sin ninguna captura fechable: "
+                  f"{enumera(nombres)}.")
+    return frase
 
 
 def _corte_comparativa(ctx: dict) -> str:
@@ -8220,9 +8340,17 @@ def marcado_balances(ctx: dict) -> str:
     }
     if fechas:
         # la cobertura y la fecha del DATO, nunca la de la corrida: `rud.json`
-        # ya enseñó que confundirlas publica cifras del 21 fechadas el 22
-        nodo["temporalCoverage"] = f"{fechas[0]}/{fechas[-1]}"
-        nodo["dateModified"] = fechas[-1]
+        # ya enseñó que confundirlas publica cifras del 21 fechadas el 22.
+        # Y desde que la serie se fecha por el corte (18-sep-2026), «el dato»
+        # es el último BALANCE recibido, no la última búsqueda: el sello y la
+        # entradilla ya lo dicen así, y las tres fechas tienen que cuadrar.
+        datos_serie = consolidado_balances(ctx)
+        con_balance = [d.get("fecha")
+                       for d in ((datos_serie or {}).get("porDia") or [])
+                       if d.get("item")]
+        hasta = con_balance[-1] if con_balance else fechas[-1]
+        nodo["temporalCoverage"] = f"{fechas[0]}/{hasta}"
+        nodo["dateModified"] = hasta
     citas = _fuentes_citadas(items)
     if citas:
         nodo["citation"] = citas
@@ -8413,7 +8541,9 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                    "balances-datos-ld": marcado_balances,
                    "comparativa-tarjetas": tarjetas_comparativa,
                    "comparativa-filas": filas_comparativa,
-                   "comparativa-nota": nota_comparativa}
+                   "comparativa-nota": nota_comparativa,
+                   "retraso-filas": filas_retraso,
+                   "retraso-nota": nota_retraso}
     # explícito a propósito: un generador nuevo sin su página revienta aquí en
     # vez de no escribir nada y dejar el contenedor vacío en silencio
     paginas = {"municipios": "municipios", "portada": "index", "rud": "rud",
@@ -8450,7 +8580,9 @@ def inyectar_prerenderizado(destino: Path, ctx: dict) -> dict:
                "balances-datos-ld": "balances",
                "comparativa-tarjetas": "balances",
                "comparativa-filas": "balances",
-               "comparativa-nota": "balances"}
+               "comparativa-nota": "balances",
+               "retraso-filas": "balances",
+               "retraso-nota": "balances"}
     for nombre, generador in generadores.items():
         pagina = destino / f"{paginas[nombre]}.html"
         if not pagina.exists():

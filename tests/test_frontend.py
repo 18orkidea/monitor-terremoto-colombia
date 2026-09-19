@@ -451,38 +451,55 @@ class TestDesaparecidosSiguenElCorte(unittest.TestCase):
                          "la celda dice de dónde salió su corte")
         self.assertEqual(celda["medio"], "ElTiempo")
 
-    def test_un_corte_viejo_mas_alto_no_entra_y_se_ensena(self):
-        # el 28-ago Caracol volvió a servir el corte del 11 con 496
+    def test_un_corte_viejo_republicado_tarde_no_toca_la_cifra_vigente(self):
+        """El 28-ago Caracol volvió a servir el corte del 11 con 496.
+
+        Desde que la serie se fecha por el corte (18-sep-2026) esa captura ya
+        no compite contra la cifra vigente ni hace falta rechazarla: entra en
+        SU día, el 11, que es de lo que habla. La cifra vigente sigue siendo
+        la del corte más reciente."""
         serie = correr_con(
             [captura("2026-08-27", "ElTiempo", {"desaparecidos": 219},
                      fecha_corte="2026-08-27"),
              captura("2026-08-28", "Caracol", {"desaparecidos": 496},
                      fecha_corte="2026-08-11")],
             "UI.mejorPorDia(items)")
+        por_dia = {d["fecha"]: d for d in serie}
         self.assertEqual(serie[-1]["consolidado"]["desaparecidos"]["valor"], 219)
-        rechazo = [g for g in serie[-1]["ignoradas"]
-                   if g["cifra"] == "desaparecidos" and g["valor"] == 496]
-        self.assertTrue(rechazo, "la cifra rechazada se enseña, no se borra")
-        self.assertIn("corte", rechazo[0]["motivo"])
-        self.assertIn("11-ago-2026", rechazo[0]["motivo"],
-                      "el motivo nombra el corte que perdió, en la forma "
-                      "corta de la casa y no en ISO: se publica entrecomillado")
+        self.assertEqual(
+            por_dia["2026-08-11"]["consolidado"]["desaparecidos"]["valor"], 496,
+            "el balance del 11 se publica en el 11, no en el día en que "
+            "alguien volvió a servirlo")
+        self.assertEqual(por_dia["2026-08-28"]["item"], None,
+                         "el 28 no llegó ningún balance nuevo: su día queda "
+                         "vacío y eso es el dato")
 
-    def test_el_mismo_corte_con_otra_cifra_no_pisa_a_la_vigente(self):
+    def test_el_mismo_corte_con_otra_cifra_se_ensena_como_descartada(self):
+        """Dos medios que dicen cosas distintas del mismo corte es brecha, y
+        se publica (R12). Fechando por el corte los dos caen en el MISMO día
+        —antes caían en días distintos—, así que el desacuerdo solo se ve si
+        el consolidado sigue recorriendo candidatos después de elegir."""
         serie = correr_con(
             [captura("2026-08-24", "ElTiempo", {"desaparecidos": 234},
                      fecha_corte="2026-08-24"),
              captura("2026-08-25", "Otro", {"desaparecidos": 240},
                      fecha_corte="2026-08-24")],
             "UI.mejorPorDia(items)")
-        self.assertEqual(serie[-1]["consolidado"]["desaparecidos"]["valor"], 234)
-        self.assertTrue(any("mismo corte" in g["motivo"]
-                            for g in serie[-1]["ignoradas"]))
+        dia = next(d for d in serie if d["fecha"] == "2026-08-24")
+        self.assertEqual(dia["consolidado"]["desaparecidos"]["valor"], 234)
+        rechazo = [g for g in dia["ignoradas"]
+                   if g["cifra"] == "desaparecidos" and g["valor"] == 240]
+        self.assertTrue(rechazo, "la cifra descartada se enseña, no se borra")
+        self.assertIn("mismo corte", rechazo[0]["motivo"])
+        self.assertIn("24-ago-2026", rechazo[0]["motivo"],
+                      "el motivo nombra el corte en la forma corta de la "
+                      "casa y no en ISO: se publica entrecomillado")
 
-    def test_dentro_del_dia_gana_el_corte_mas_reciente_no_el_ganador(self):
-        # «Rico» gana el día por sus anclas, pero su corte es del 20; «Pobre»
-        # trae el corte del 22. Si se recorriera en el orden del día, el
-        # corte del 22 no volvería a verse nunca.
+    def test_una_captura_pobre_con_corte_fresco_manda_sobre_una_rica_vieja(self):
+        """«Rico» trae anclas y ganaría cualquier día, pero su corte es del
+        20; «Pobre» solo trae los desaparecidos, con corte del 22. Las dos se
+        archivaron el mismo día 22, y antes competían dentro de él; ahora cada
+        una cae en el día de su corte y la vigente es la del 22."""
         rico = captura("2026-08-22", "Rico",
                        {"desaparecidos": 260, "fallecidos": 319,
                         "familias_afectadas": 123789},
@@ -490,10 +507,14 @@ class TestDesaparecidosSiguenElCorte(unittest.TestCase):
         pobre = captura("2026-08-22", "Pobre", {"desaparecidos": 250},
                         fecha_corte="2026-08-22")
         serie = correr_con([rico, pobre], "UI.mejorPorDia(items)")
-        self.assertEqual(serie[-1]["item"]["publisher"]["name"], "Rico",
-                         "el día lo sigue ganando quien trae anclas")
+        por_dia = {d["fecha"]: d for d in serie}
+        self.assertEqual(por_dia["2026-08-20"]["item"]["publisher"]["name"],
+                         "Rico")
         celda = serie[-1]["consolidado"]["desaparecidos"]
         self.assertEqual((celda["valor"], celda["corte"]), (250, "2026-08-22"))
+        self.assertEqual(serie[-1]["consolidado"]["fallecidos"]["valor"], 319,
+                         "lo que aportó la captura rica no se pierde: el "
+                         "consolidado arrastra cada cifra por separado")
 
     def test_sin_corte_propio_hereda_el_de_otra_captura_del_mismo_articulo(self):
         # la URL de El Tiempo del 13-ago se archivó siete veces sin corte
@@ -506,11 +527,16 @@ class TestDesaparecidosSiguenElCorte(unittest.TestCase):
         con_corte = captura("2026-08-21", "ElTiempo", {"desaparecidos": 379},
                             publication_url=url, fecha_corte="2026-08-13")
         serie = correr_con([vieja, fresca, con_corte], "UI.mejorPorDia(items)")
-        celda = serie[0]["consolidado"]["desaparecidos"]
+        por_dia = {d["fecha"]: d for d in serie}
+        self.assertEqual(serie[0]["fecha"], "2026-08-13",
+                         "la captura sin corte propio se va al día que el "
+                         "worker calculó para su artículo, no al de su "
+                         "búsqueda")
+        celda = por_dia["2026-08-17"]["consolidado"]["desaparecidos"]
         self.assertEqual((celda["valor"], celda["corte"], celda["senal"]),
                          (143, "2026-08-17", "texto"),
-                         "sin la herencia, la captura vieja empataría en "
-                         "corte con la fresca y podría ganar")
+                         "sin la herencia, la captura vieja habría caído en "
+                         "el 17 y podría ganarle a la fresca")
 
     def test_el_corte_heredado_no_se_adelanta_al_dia_de_la_busqueda(self):
         # El Tiempo actualiza el mismo artículo en la misma URL: la lectura
@@ -1310,31 +1336,288 @@ class TestFechaDeCorte(unittest.TestCase):
 
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
 class TestSupuestoCoberturaDeFechado(unittest.TestCase):
-    """R11: el supuesto avisa, y romperse aquí es BUENA noticia.
+    """R11 al revés: desde el 18-sep-2026 la serie SE FECHA por el corte, y lo
+    que hay que vigilar es que la señal no se degrade.
 
-    La serie sigue indexada por `search_date` porque hoy no hay con qué
-    fecharla mejor: la señal fiable —lo que el texto dice de su propio corte—
-    la calcula el worker, y hasta que esté desplegado el corpus solo trae la
-    fecha de la URL y el campo `fecha`. Cuando la cobertura suba del umbral,
-    este test falla y toca cambiar el eje de la serie a la fecha de corte."""
+    El supuesto anterior esperaba a que la cobertura subiera del 80 % para
+    cambiar el eje; cuando llegó (90 de 107) se cambió. Ahora el umbral mira
+    en la otra dirección: si la cobertura cayera por debajo, la mayoría de las
+    capturas se estarían fechando por el día de la búsqueda —el respaldo— y la
+    serie volvería a contar el calendario del rastreo en vez del de los
+    balances. Sería un fallo del worker que calcula `fecha_corte`, no un
+    cambio del mundo, y hay que enterarse."""
 
+    # Lo que el eje necesita: que casi toda captura se pueda fechar por algo
+    # que no sea el día de la búsqueda.
     UMBRAL = 0.80
+    # Y lo que sostiene esa cobertura: el corte que el propio texto declara.
+    # Hoy es la mitad (54 de 107); el resto se deduce de la URL o del campo
+    # `fecha`. Si el worker dejara de leer el texto, las URL mantendrían la
+    # cobertura alta y el desplome pasaría inadvertido: por eso son DOS
+    # umbrales y no uno.
+    UMBRAL_TEXTO = 0.40
 
-    def test_avisa_cuando_ya_se_puede_fechar_por_corte(self):
+    def _items(self):
         feed = json.loads(
             (ROOT / "data/public/oficiales.json").read_text(encoding="utf-8"))
         items = [i for i in feed.get("items", []) if i.get("search_date")]
         if not items:
             self.skipTest("el feed archivado no trae capturas")
+        return items
+
+    def test_la_mayoria_de_las_capturas_se_puede_fechar_por_su_corte(self):
+        items = self._items()
         fechados = correr_con(
             items, "items.filter((x) => UI.fechaCorte(x)).length")
         cobertura = fechados / len(items)
-        self.assertLess(
+        self.assertGreaterEqual(
             cobertura, self.UMBRAL,
-            f"{fechados} de {len(items)} capturas ({cobertura:.0%}) ya tienen "
-            f"fecha de corte: toca indexar la serie por ella en vez de por "
-            f"`search_date`, y publicar el retraso de cada medio. Ver "
-            f"docs/LIMITACIONES.md.")
+            f"solo {fechados} de {len(items)} capturas ({cobertura:.0%}) se "
+            f"pueden fechar por su corte: la serie se estaría fechando por el "
+            f"día de la búsqueda. Revisar el worker de balances "
+            f"(`fecha_corte`) antes que nada. Ver docs/LIMITACIONES.md.")
+
+    def test_el_corte_que_declara_el_texto_no_se_desploma(self):
+        """El guardián de arriba acepta la fecha de la URL, que el worker no
+        calcula: con él solo, el día que el worker dejara de leer el texto la
+        cobertura seguiría alta y nadie se enteraría. Este mira la única señal
+        que habla del CORTE, no de la publicación."""
+        items = self._items()
+        del_texto = correr_con(
+            items,
+            "items.filter((x) => (UI.fechaCorte(x) || {}).senal === 'texto')"
+            ".length")
+        parte = del_texto / len(items)
+        self.assertGreaterEqual(
+            parte, self.UMBRAL_TEXTO,
+            f"solo {del_texto} de {len(items)} capturas ({parte:.0%}) traen "
+            f"el corte que declara su propio texto: el resto se deduce. "
+            f"Revisar la extracción de `fecha_corte` en el worker de "
+            f"balances.")
+
+
+@unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
+class TestElAvisoDelBalanceNoSeRepite(unittest.TestCase):
+    """El aviso del balance sale por push y por Telegram, y se deduplica por
+    día: uno repetido es una notificación nueva cada mañana diciendo lo mismo.
+
+    Fechando la serie por el corte (18-sep-2026) el riesgo apareció solo: el
+    último día CON balance deja de moverse mientras no llegue uno más nuevo,
+    así que «¿cambió la última cifra?» contesta que sí indefinidamente. La
+    puerta es otra: que lo capturado hoy caiga en el día de ese balance."""
+
+    def setUp(self):
+        import sys
+        sys.path.insert(0, str(ROOT / "ingest"))
+        import alerts
+        self.alerts = alerts
+
+    def _feed(self, *items):
+        return {"items": list(items)}
+
+    def test_avisa_el_dia_que_llega_el_balance(self):
+        feed = self._feed(
+            captura("2026-09-01", "ElTiempo", {"fallecidos": 300},
+                    fecha_corte="2026-09-01"),
+            captura("2026-09-05", "ElTiempo", {"fallecidos": 340},
+                    fecha_corte="2026-09-05"))
+        avisos, _ = self.alerts.balance_de_medios(feed, "2026-09-05")
+        self.assertEqual([a["tipo"] for a in avisos], ["balance_en_medios"])
+        self.assertIn("corte del 5 de septiembre", avisos[0]["texto"])
+
+    def test_no_lo_repite_al_dia_siguiente_aunque_siga_archivando(self):
+        """Al día siguiente el rastreo archiva otra captura, pero el último
+        balance sigue siendo el del 5 y de ese ya se avisó: lo dice el propio
+        artefacto de la corrida anterior, que está versionado."""
+        feed = self._feed(
+            captura("2026-09-01", "ElTiempo", {"fallecidos": 300},
+                    fecha_corte="2026-09-01"),
+            captura("2026-09-05", "ElTiempo", {"fallecidos": 340},
+                    fecha_corte="2026-09-05"),
+            captura("2026-09-06", "Caracol", {"fallecidos": 300},
+                    fecha_corte="2026-09-01"))
+        avisos, _ = self.alerts.balance_de_medios(
+            feed, "2026-09-06", ultimo_publicado="2026-09-05")
+        self.assertEqual(avisos, [],
+                         "ese balance ya se anunció: repetirlo sería una "
+                         "notificación nueva diciendo lo mismo")
+        # y el día en que SÍ llega uno más nuevo, vuelve a avisar
+        feed["items"].append(
+            captura("2026-09-06", "ElTiempo", {"fallecidos": 351},
+                    fecha_corte="2026-09-06"))
+        avisos, _ = self.alerts.balance_de_medios(
+            feed, "2026-09-06", ultimo_publicado="2026-09-05")
+        self.assertEqual([a["tipo"] for a in avisos], ["balance_en_medios"])
+
+    def test_el_consolidado_se_publica_aunque_no_haya_aviso(self):
+        """La imagen social y los demás consumidores necesitan la cifra
+        vigente también los días sin balance nuevo."""
+        feed = self._feed(
+            captura("2026-09-05", "ElTiempo", {"fallecidos": 340},
+                    fecha_corte="2026-09-05"))
+        _avisos, consolidado = self.alerts.balance_de_medios(feed, "2026-09-30")
+        self.assertEqual(consolidado["cifras"]["fallecidos"], 340)
+        self.assertEqual(consolidado["ultimo_balance"], "2026-09-05",
+                         "el consolidado dice de qué día es el último balance")
+
+
+class TestRetrasoPorMedio(unittest.TestCase):
+    """La tabla que mide cuánto tarda cada medio en publicar el balance del
+    que habla. Fixtures propias: el corpus real cambia cada día."""
+
+    @staticmethod
+    def _captura(medio, corte, publicado, url="https://ej.co/a"):
+        x = captura("2026-08-20", medio, {"fallecidos": 300},
+                    fecha_corte=corte, publication_url=url)
+        if publicado:
+            x["publicado_en"] = publicado
+        return x
+
+    def test_mide_la_mediana_y_el_maximo_de_cada_medio(self):
+        filas = correr_con(
+            [self._captura("Tardón", "2026-08-01", "2026-08-11"),
+             self._captura("Tardón", "2026-08-02", "2026-08-05"),
+             self._captura("Puntual", "2026-08-03", "2026-08-03")],
+            "UI.retrasoPorMedio(items)")
+        por = {f["medio"]: f for f in filas}
+        self.assertEqual((por["Tardón"]["mediana"], por["Tardón"]["maximo"]),
+                         (10, 10))
+        self.assertEqual(por["Puntual"]["mediana"], 0)
+        self.assertEqual([f["medio"] for f in filas], ["Tardón", "Puntual"],
+                         "de más capturas a menos")
+
+    def test_un_medio_sin_fecha_de_publicacion_se_queda_en_la_tabla(self):
+        """Con su recuento y sin medida. Esconderlo dejaría la tabla contando
+        solo a quien se deja medir, que es el error que este monitor persigue
+        en otros."""
+        filas = correr_con([self._captura("Opaco", "2026-08-01", None)],
+                           "UI.retrasoPorMedio(items)")
+        self.assertEqual(len(filas), 1)
+        self.assertEqual((filas[0]["capturas"], filas[0]["fechadas"]), (1, 0))
+        self.assertIsNone(filas[0]["mediana"])
+
+    def test_la_nota_publica_sobre_cuantas_capturas_esta_calculado(self):
+        """Una mediana sin su cobertura presenta una muestra como el todo."""
+        import sys
+        sys.path.insert(0, str(ROOT / "deploy"))
+        import render_html as R
+        ctx = R.contexto()
+        nota = R.nota_retraso(ctx)
+        datos = R.consolidado_balances(ctx)
+        if datos is None:
+            self.skipTest("sin node no hay retrasos que narrar")
+        filas = datos.get("retrasos") or []
+        capturas = sum(f["capturas"] for f in filas)
+        fechadas = sum(f["fechadas"] for f in filas)
+        self.assertIn(R.fmt(capturas), nota)
+        self.assertIn(R.fmt(fechadas), nota)
+        sin_medida = [f for f in filas if not f["fechadas"]]
+        if sin_medida:
+            self.assertIn(sin_medida[0]["medio"], nota,
+                          "los publicadores sin medida se nombran, no solo "
+                          "se cuentan")
+
+    def test_la_tabla_dice_cuando_un_medio_no_se_puede_medir(self):
+        """Su fila no puede traer un número: un «0 días» ahí afirmaría que
+        publica el mismo día del corte, que es lo contrario de «no lo sé».
+        (Un 0 sí es legítimo en quien SÍ se puede medir: El Tiempo lo
+        publica el mismo día.)"""
+        import re as _re
+        import sys
+        sys.path.insert(0, str(ROOT / "deploy"))
+        import render_html as R
+        ctx = R.contexto()
+        datos = R.consolidado_balances(ctx)
+        if datos is None:
+            self.skipTest("sin node no hay tabla que escribir")
+        sin_medida = [f["medio"] for f in (datos.get("retrasos") or [])
+                      if not f["fechadas"]]
+        if not sin_medida:
+            self.skipTest("hoy todos los publicadores tienen alguna captura "
+                          "fechable: no hay fila sin medida que comprobar")
+        filas = {_re.sub(r"<[^>]+>", "|", f): f
+                 for f in R.filas_retraso(ctx).split("</tr>")}
+        fila = next(t for t in filas if sin_medida[0] in t)
+        self.assertIn("sin fecha de publicación", fila)
+        self.assertNotIn("días", fila.split("ninguna con fecha")[-1],
+                         "un medio sin medida no puede salir con un número")
+
+
+class TestLaSerieSeFechaPorElCorte(unittest.TestCase):
+    """El eje de la serie es el día del BALANCE, no el día en que lo
+    encontramos (18-sep-2026). Fixtures propias: lo que el corpus real traiga
+    hoy no puede decidir si esta regla se cumple."""
+
+    def test_una_captura_cuenta_en_el_dia_de_su_corte(self):
+        serie = correr_con(
+            [captura("2026-08-19", "ElTiempo", {"fallecidos": 300},
+                     fecha_corte="2026-08-15")],
+            "UI.mejorPorDia(items)")
+        con_item = [d["fecha"] for d in serie if d["item"]]
+        self.assertEqual(con_item, ["2026-08-15"],
+                         "el balance del 15 se publica en el 15, aunque se "
+                         "encontrara el 19")
+
+    def test_sin_corte_declarado_entra_por_el_dia_de_la_busqueda(self):
+        """Ninguna captura se cae de la serie por no declarar su corte: el día
+        de la búsqueda es lo más tarde que ese balance pudo cortarse, y la
+        celda dice que la señal es esa."""
+        serie = correr_con(
+            [captura("2026-08-19", "Medio", {"desaparecidos": 200})],
+            "UI.mejorPorDia(items)")
+        con_item = [d for d in serie if d["item"]]
+        self.assertEqual([d["fecha"] for d in con_item], ["2026-08-19"])
+        celda = con_item[0]["consolidado"]["desaparecidos"]
+        self.assertEqual((celda["corte"], celda["senal"]),
+                         ("2026-08-19", "busqueda"))
+
+    def test_el_eje_conserva_los_dias_sin_ningun_balance_nuevo(self):
+        """Ese silencio es el dato: el monitor buscó y no llegó nada. Recortar
+        el eje al último corte diría que dejó de mirar."""
+        serie = correr_con(
+            [captura("2026-08-15", "ElTiempo", {"fallecidos": 300},
+                     fecha_corte="2026-08-15"),
+             captura("2026-08-19", "ElTiempo", {"fallecidos": 300},
+                     fecha_corte="2026-08-15")],
+            "UI.mejorPorDia(items)")
+        self.assertEqual([d["fecha"] for d in serie],
+                         ["2026-08-15", "2026-08-16", "2026-08-17",
+                          "2026-08-18", "2026-08-19"])
+        vacios = [d for d in serie if not d["item"]]
+        self.assertEqual(len(vacios), 4)
+        self.assertEqual(
+            vacios[-1]["consolidado"]["fallecidos"]["valor"], 300,
+            "un día sin balance arrastra la cifra vigente, no la borra")
+
+    def test_ninguna_captura_se_queda_sin_dia_en_el_corpus_real(self):
+        """Propiedad estructural sobre el corpus archivado: el día de cada
+        captura —su corte, o la búsqueda como respaldo— existe en la serie, y
+        todo día con captura lleva la suya. Si una se cayera, la página
+        publicaría menos evidencia de la que el archivo guarda."""
+        feed = json.loads(
+            (ROOT / "data/public/oficiales.json").read_text(encoding="utf-8"))
+        items = [i for i in feed.get("items", []) if i.get("search_date")]
+        if not items:
+            self.skipTest("el feed archivado no trae capturas")
+        r = correr_con(items, """(() => {
+          const cortePorUrl = {};
+          for (const x of items) {
+            const u = x.publication_url || x.url, fc = UI.fechaCorte(x);
+            if (u && fc && fc.senal !== 'campo' &&
+                (!cortePorUrl[u] || fc.fecha < cortePorUrl[u]))
+              cortePorUrl[u] = fc.fecha;
+          }
+          const dias = [...new Set(items.map((x) =>
+            (UI.corteDe(x, cortePorUrl) || {}).fecha || x.search_date))].sort();
+          const serie = UI.mejorPorDia(items);
+          const conItem = serie.filter((d) => d.item).map((d) => d.fecha);
+          const todos = serie.map((d) => d.fecha);
+          return { dias, conItem, sinDia: dias.filter((f) => !todos.includes(f)) };
+        })()""")
+        self.assertEqual(r["sinDia"], [],
+                         "hay capturas cuyo día no está en el eje de la serie")
+        self.assertEqual(sorted(r["conItem"]), sorted(r["dias"]),
+                         "todo día con captura tiene que llevar la suya")
 
 
 @unittest.skipUnless(NODE, "node no disponible (el CI de PR sí lo tiene)")
