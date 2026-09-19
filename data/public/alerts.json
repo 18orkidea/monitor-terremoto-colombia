@@ -1,25 +1,12 @@
 {
- "generado": "2026-09-18",
- "fecha": "2026-09-18",
+ "generado": "2026-09-19",
+ "fecha": "2026-09-19",
  "alertas": [
-  {
-   "tipo": "reportes_ciudadanos",
-   "nivel": "info",
-   "texto": "76 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
-   "n": 76
-  },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "200 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 200
-  },
-  {
-   "tipo": "rud_detenido",
-   "nivel": "info",
-   "capturas_planas": 5,
-   "desde": "2026-09-13",
-   "texto": "El RUD lleva 5 captura(s) sin mover un solo municipio (desde 2026-09-13). La fuente responde y repite las mismas cifras: no es un fallo de la corrida, es un registro que dejó de crecer."
+   "texto": "194 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 194
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -54,6 +41,15 @@
    "puntos": 201
   },
   {
+   "tipo": "fuentes_con_peticion_condicional",
+   "nivel": "info",
+   "texto": "1 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1789717102953/dyfi_geo_10km.geojson",
+   "urls": [
+    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1789717102953/dyfi_geo_10km.geojson"
+   ],
+   "n": 1
+  },
+  {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
    "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
@@ -82,20 +78,14 @@
    "n": 9
   },
   {
-   "tipo": "ops_sitrep_nuevo_sin_transcribir",
-   "nivel": "alta",
-   "texto": "La OPS publicó el Informe de Situación 6 sobre el terremoto y el monitor no lo ha transcrito todavía: revisar su tabla de establecimientos de salud y añadirla a data/documentos/ops_salud/.",
-   "sitrep": 6
-  },
-  {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 30 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 30
+   "texto": "La OPS lleva 23 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 23
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-17",
+  "fecha": "2026-09-18",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -180,8 +170,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-18/oficiales_feed.json",
-   "items": 107,
+   "snapshot": "data/snapshots/2026-09-19/oficiales_feed.json",
+   "items": 110,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
