@@ -7181,7 +7181,6 @@ def filas_balances(ctx: dict) -> str:
                        key=lambda x: x.get("search_date") or "", reverse=True):
         c = item.get("cifras") or {}
         url = item.get("publication_url") or item.get("url") or "#"
-        pub = item.get("publisher") or {}
         etiqueta, color = NIVELES.get(item.get("source_level"),
                                       (item.get("source_level") or "Sin nivel", "--muted"))
         # el término inglés lo explica la propia página; el título lo traduce
@@ -7715,7 +7714,6 @@ def tarjetas_balances(ctx: dict) -> str:
     item = ult.get("item")
     if item:
         citadas = item.get("reported_data_source") or []
-        pub = item.get("publisher") or {}
         enlaces = ", ".join(
             (f'<a href="{e(f["url"])}" target="_blank" rel="noopener">'
              f'{e(f.get("id") or "fuente")}</a>')
