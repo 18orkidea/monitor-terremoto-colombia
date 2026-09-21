@@ -1,12 +1,12 @@
 {
- "generado": "2026-09-20",
- "fecha": "2026-09-20",
+ "generado": "2026-09-21",
+ "fecha": "2026-09-21",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "191 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 191
+   "texto": "155 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 155
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -43,12 +43,11 @@
   {
    "tipo": "fuentes_con_peticion_condicional",
    "nivel": "info",
-   "texto": "2 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1789760983889/download/cont_mmi.json",
+   "texto": "1 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1789864519923/dyfi_geo_10km.geojson",
    "urls": [
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1789760983889/download/cont_mmi.json",
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1789760983889/download/coverage_mmi_low_res.covjson"
+    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1789864519923/dyfi_geo_10km.geojson"
    ],
-   "n": 2
+   "n": 1
   },
   {
    "tipo": "fuente_deja_de_honrar_condicionales",
@@ -81,12 +80,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 24 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 24
+   "texto": "La OPS lleva 25 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 25
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-19",
+  "fecha": "2026-09-20",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -199,8 +198,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-09-20/oficiales_feed.json",
-   "items": 113,
+   "snapshot": "data/snapshots/2026-09-21/oficiales_feed.json",
+   "items": 116,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }

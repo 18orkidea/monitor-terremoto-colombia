@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="http://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>http://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Mon, 21 Sep 26 00:00:00 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>http://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales</title>
+  <link>http://www.lapatria.com/galerias/en-el-teatro-de-confa-de-realizo-la-inauguracion-de-la-version-xx-del-festival</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-21T00:00:00-05:00" title="Lunes, Septiembre 21, 2026 - 00:00" class="datetime"&gt;Lun, 21/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales. Asistentes disfrutaron de la obra inaugural Alicia en el país de las pesadillas del Instituto Técnico San Rafael.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/en-el-teatro-de-confa-de-realizo-la-inauguracion-de-la-version-xx-del-festival" data-a2a-title="En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fen-el-teatro-de-confa-de-realizo-la-inauguracion-de-la-version-xx-del-festival&amp;amp;title=En%20el%20Teatro%20de%20Confa%20de%20realiz%C3%B3%20la%20inauguraci%C3%B3n%20de%20la%20versi%C3%B3n%20XX%20del%20Festival%20Intercolegiados%20de%20Teatro%20de%20Manizales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Mon, 21 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93503 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 20 de septiembre del 2026</title>
+  <link>http://www.lapatria.com/publicacion/portada-20-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 20 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/65" typeof="schema:Person" property="schema:name" datatype&gt;Luis David Patiño&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-20T00:10:25-05:00" title="Domingo, Septiembre 20, 2026 - 00:10" class="datetime"&gt;Dom, 20/09/2026 - 00:10&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=93561&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="aQgXAxhuAcgIjDTLiDq5OaTch6KqHdK0dbyOX4xGYL0"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/LP-01A-20-09-26%20%281%29%20%281%29.jpg" width="794" height="1035" alt="Portada 20 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 20 de septiembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sun, 20 Sep 2026 05:10:25 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">93561 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>En la Universidad Nacional sede Manizales se realizo el concierto del pianista Daniel Uribe Llanos bajo la batuta del maestro Sasha Rozhdestvensky junto a la Orquesta Sinfónica de Caldas</title>
+  <link>http://www.lapatria.com/galerias/en-la-universidad-nacional-sede-manizales-se-realizo-el-concierto-del-pianista-daniel</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;En la Universidad Nacional sede Manizales se realizo el concierto del pianista Daniel Uribe Llanos bajo la batuta del maestro Sasha Rozhdestvensky junto a la Orquesta Sinfónica de Caldas&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-20T00:00:00-05:00" title="Domingo, Septiembre 20, 2026 - 00:00" class="datetime"&gt;Dom, 20/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En el Auditorio del bloque K de la Universidad Nacional sede Manizales se realizo el concierto del pianista Daniel Uribe Llanos bajo la batuta del maestro Sasha Rozhdestvensky, considerado uno de los grandes violinistas rusos contemporáneos, junto con la Orquesta Sinfónica de Caldas.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/en-la-universidad-nacional-sede-manizales-se-realizo-el-concierto-del-pianista-daniel" data-a2a-title="En la Universidad Nacional sede Manizales se realizo el concierto del pianista Daniel Uribe Llanos bajo la batuta del maestro Sasha Rozhdestvensky junto a la Orquesta Sinfónica de Caldas"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fen-la-universidad-nacional-sede-manizales-se-realizo-el-concierto-del-pianista-daniel&amp;amp;title=En%20la%20Universidad%20Nacional%20sede%20Manizales%20se%20realizo%20el%20concierto%20del%20pianista%20Daniel%20Uribe%20Llanos%20bajo%20la%20batuta%20del%20maestro%20Sasha%20Rozhdestvensky%20junto%20a%20la%20Orquesta%20Sinf%C3%B3nica%20de%20Caldas"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sun, 20 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93497 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON SEPTIEMBRE 19 - 2026</title>
+  <link>http://www.lapatria.com/publicacion/papel-salmon-septiembre-19-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;PAPEL SALMON SEPTIEMBRE 19 - 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/38" typeof="schema:Person" property="schema:name" datatype&gt;GLORIA LUZ ANGEL&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-19T10:23:56-05:00" title="Sábado, Septiembre 19, 2026 - 10:23" class="datetime"&gt;Sáb, 19/09/2026 - 10:23&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=93535&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="g47x07FjRpfQKVNbNLehOD2cv0jqeLUW0vCyW5HPY40"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/Portada%20PAPEL%20SALMON%20SEPTIEMBRE%2019%20-%202026.jpg" width="345" height="450" alt="PAPEL SALMON SEPTIEMBRE 19 - 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;"Pájaros de humo" un libro del poeta Juan Carlos Acevedo Ramos que será presentado en la Feria del Libro de La Habana, Cuba, este año.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 19 Sep 2026 15:23:56 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">93535 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 19 de septiembre del 2026</title>
+  <link>http://www.lapatria.com/publicacion/portada-19-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 19 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/65" typeof="schema:Person" property="schema:name" datatype&gt;Luis David Patiño&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-19T00:01:00-05:00" title="Sábado, Septiembre 19, 2026 - 00:01" class="datetime"&gt;Sáb, 19/09/2026 - 00:01&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=93522&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="OgkOsEjgFY5B9laGfWQ_1eEEIJOAcmVsY2yk6rC8UaQ"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/LP-01A-19-09-26%20%281%29.jpg" width="794" height="1035" alt="Portada 19 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 19 de septiembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 19 Sep 2026 05:01:00 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">93522 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>En el restaurante A La Leña, en Manizales, se realizó la II edición de la Feria Empresarial de Mujeres con Ideales con la participación de 16 expositoras.</title>
+  <link>http://www.lapatria.com/galerias/en-el-restaurante-la-lena-en-manizales-se-realizo-la-ii-edicion-de-la-feria-empresarial-de</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;En el restaurante A La Leña, en Manizales, se realizó la II edición de la Feria Empresarial de Mujeres con Ideales con la participación de 16 expositoras.&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-19T00:00:00-05:00" title="Sábado, Septiembre 19, 2026 - 00:00" class="datetime"&gt;Sáb, 19/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En el restaurante A La Leña se realizó la II edición de la Feria Empresarial de Mujeres con Ideales con la participación de 16 expositoras.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/en-el-restaurante-la-lena-en-manizales-se-realizo-la-ii-edicion-de-la-feria-empresarial-de" data-a2a-title="En el restaurante A La Leña, en Manizales, se realizó la II edición de la Feria Empresarial de Mujeres con Ideales con la participación de 16 expositoras."&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fen-el-restaurante-la-lena-en-manizales-se-realizo-la-ii-edicion-de-la-feria-empresarial-de&amp;amp;title=En%20el%20restaurante%20A%20La%20Le%C3%B1a%2C%20en%20Manizales%2C%20se%20realiz%C3%B3%20la%20II%20edici%C3%B3n%20de%20la%20Feria%20Empresarial%20de%20Mujeres%20con%20Ideales%20con%20la%20participaci%C3%B3n%20de%2016%20expositoras."&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sat, 19 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93492 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>MAQUINARIA INDUSTRIAL</title>
+  <link>http://www.lapatria.com/clasificados/maquinaria-industrial-0</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;MAQUINARIA INDUSTRIAL&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-18T08:24:52-05:00" title="Viernes, Septiembre 18, 2026 - 08:24" class="datetime"&gt;Vie, 18/09/2026 - 08:24&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93426&amp;amp;2=bookmark&amp;amp;3=rss" token="8ypgxqmVL9W-7q63mut8MQVn7tN98sJDVawgJYHGMLQ"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3392" hreflang="es"&gt;MAQUINARIA&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;311-3008565&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 18 Sep 2026 13:24:52 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93426 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA OFICINA </title>
+  <link>http://www.lapatria.com/clasificados/venta-oficina-6</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA OFICINA &lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-18T08:23:08-05:00" title="Viernes, Septiembre 18, 2026 - 08:23" class="datetime"&gt;Vie, 18/09/2026 - 08:23&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93425&amp;amp;2=bookmark&amp;amp;3=rss" token="TLJmJdnUrpHgX6f58dbI-QDUUeBkwO4D4sFbMEw4ir4"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;315-5135609.&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 18 Sep 2026 13:23:08 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93425 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>ARRIENDO LOCAL</title>
+  <link>http://www.lapatria.com/clasificados/arriendo-local-13</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;ARRIENDO LOCAL&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-18T08:12:08-05:00" title="Viernes, Septiembre 18, 2026 - 08:12" class="datetime"&gt;Vie, 18/09/2026 - 08:12&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93427&amp;amp;2=bookmark&amp;amp;3=rss" token="ZSyk7MpIuJVj0XNK8na75H1xuDReHchKE0fIYv87J00"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;315-8160159, 310-5912302.&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 18 Sep 2026 13:12:08 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93427 at http://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
