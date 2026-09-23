@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="http://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>http://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Wed, 23 Sep 26 00:00:00 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>http://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Disfrutaron del tango en el auditorio del Centro Cultural Banco de la República</title>
+  <link>http://www.lapatria.com/galerias/disfrutaron-del-tango-en-el-auditorio-del-centro-cultural-banco-de-la-republica</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Disfrutaron del tango en el auditorio del Centro Cultural Banco de la República&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-23T00:00:00-05:00" title="Miércoles, Septiembre 23, 2026 - 00:00" class="datetime"&gt;Mié, 23/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En el auditorio del Centro Cultural Banco de la República se realizó un seminario técnico y expresivo de tango, milonga y vals.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/disfrutaron-del-tango-en-el-auditorio-del-centro-cultural-banco-de-la-republica" data-a2a-title="Disfrutaron del tango en el auditorio del Centro Cultural Banco de la República"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fdisfrutaron-del-tango-en-el-auditorio-del-centro-cultural-banco-de-la-republica&amp;amp;title=Disfrutaron%20del%20tango%20en%20el%20auditorio%20del%20Centro%20Cultural%20Banco%20de%20la%20Rep%C3%BAblica"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Wed, 23 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93738 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Eucaristía de cumpleaños de Ligia Gómez Morales</title>
+  <link>http://www.lapatria.com/galerias/eucaristia-de-cumpleanos-de-ligia-gomez-morales</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Eucaristía de cumpleaños de Ligia Gómez Morales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-23T00:00:00-05:00" title="Miércoles, Septiembre 23, 2026 - 00:00" class="datetime"&gt;Mié, 23/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Ligia Gómez Morales festejó su cumpleaños con una eucaristía en la Parroquia Santuario Nuestra Señora de la Valvanera. En la foto aparece junto al presbítero Humberto Gómez Morales.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/eucaristia-de-cumpleanos-de-ligia-gomez-morales" data-a2a-title="Eucaristía de cumpleaños de Ligia Gómez Morales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Feucaristia-de-cumpleanos-de-ligia-gomez-morales&amp;amp;title=Eucarist%C3%ADa%20de%20cumplea%C3%B1os%20de%20Ligia%20G%C3%B3mez%20Morales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Wed, 23 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93736 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Almuerzo para celebrar los 82 años de vida de Ligia Morales Rodríguez</title>
+  <link>http://www.lapatria.com/galerias/almuerzo-para-celebrar-los-82-anos-de-vida-de-ligia-morales-rodriguez</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Almuerzo para celebrar los 82 años de vida de Ligia Morales Rodríguez&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-23T00:00:00-05:00" title="Miércoles, Septiembre 23, 2026 - 00:00" class="datetime"&gt;Mié, 23/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Ligia Morales Rodríguez celebró sus 82 años de vida con un almuerzo en el restaurante Asados Chavita acompañada de su familia.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/almuerzo-para-celebrar-los-82-anos-de-vida-de-ligia-morales-rodriguez" data-a2a-title="Almuerzo para celebrar los 82 años de vida de Ligia Morales Rodríguez"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Falmuerzo-para-celebrar-los-82-anos-de-vida-de-ligia-morales-rodriguez&amp;amp;title=Almuerzo%20para%20celebrar%20los%2082%20a%C3%B1os%20de%20vida%20de%20Ligia%20Morales%20Rodr%C3%ADguez"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Wed, 23 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93735 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Venta de vehículo</title>
+  <link>http://www.lapatria.com/clasificados/venta-de-vehiculo-28</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Venta de vehículo&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-22T10:18:23-05:00" title="Martes, Septiembre 22, 2026 - 10:18" class="datetime"&gt;Mar, 22/09/2026 - 10:18&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93699&amp;amp;2=bookmark&amp;amp;3=rss" token="sPvoNjk-EImShLu-Dw_HxJbsH6abyEGa8zVc5SGAkgI"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3365" hreflang="es"&gt;Carros / Motos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;318-5499754&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 22 Sep 2026 15:18:23 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93699 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Celebraciones de cumpleaños y logros académicos en La Shiraka</title>
+  <link>http://www.lapatria.com/galerias/celebraciones-de-cumpleanos-y-logros-academicos-en-la-shiraka</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Celebraciones de cumpleaños y logros académicos en La Shiraka&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/26" typeof="schema:Person" property="schema:name" datatype&gt;wilson.gonzalez&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-22T00:00:00-05:00" title="Martes, Septiembre 22, 2026 - 00:00" class="datetime"&gt;Mar, 22/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Fotos | Cortesía | LA PATRIA&lt;br&gt;Familias y amigos se reunieron en el restaurante La Shiraka para compartir una cena y festejar cumpleaños y logros académicos.&amp;nbsp;&lt;br&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/celebraciones-de-cumpleanos-y-logros-academicos-en-la-shiraka" data-a2a-title="Celebraciones de cumpleaños y logros académicos en La Shiraka"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fcelebraciones-de-cumpleanos-y-logros-academicos-en-la-shiraka&amp;amp;title=Celebraciones%20de%20cumplea%C3%B1os%20y%20logros%20acad%C3%A9micos%20en%20La%20Shiraka"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Tue, 22 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>wilson.gonzalez</dc:creator>
+          <guid isPermaLink="false">93654 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 22 de septiembre del 2026</title>
+  <link>http://www.lapatria.com/publicacion/portada-22-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 22 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/4191" typeof="schema:Person" property="schema:name" datatype&gt;Manuela Cortés&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-21T21:29:04-05:00" title="Lunes, Septiembre 21, 2026 - 21:29" class="datetime"&gt;Lun, 21/09/2026 - 21:29&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=93679&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="jcr4DuTE1ma7s1s0cOThdQqAS7OZo6SfWD39gnFrLaE"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/LP-01A-22-09-26%20%281%29.jpg" width="921" height="1200" alt="Portada 22 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 22 de septiembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 22 Sep 2026 02:29:04 +0000</pubDate>
+          <dc:creator>Manuela Cortés</dc:creator>
+          <guid isPermaLink="false">93679 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales</title>
+  <link>http://www.lapatria.com/galerias/en-el-teatro-de-confa-de-realizo-la-inauguracion-de-la-version-xx-del-festival</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-21T00:00:00-05:00" title="Lunes, Septiembre 21, 2026 - 00:00" class="datetime"&gt;Lun, 21/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales. Asistentes disfrutaron de la obra inaugural Alicia en el país de las pesadillas del Instituto Técnico San Rafael.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/en-el-teatro-de-confa-de-realizo-la-inauguracion-de-la-version-xx-del-festival" data-a2a-title="En el Teatro de Confa de realizó la inauguración de la versión XX del Festival Intercolegiados de Teatro de Manizales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fen-el-teatro-de-confa-de-realizo-la-inauguracion-de-la-version-xx-del-festival&amp;amp;title=En%20el%20Teatro%20de%20Confa%20de%20realiz%C3%B3%20la%20inauguraci%C3%B3n%20de%20la%20versi%C3%B3n%20XX%20del%20Festival%20Intercolegiados%20de%20Teatro%20de%20Manizales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Mon, 21 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93503 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 21 de septiembre del 2026</title>
+  <link>http://www.lapatria.com/publicacion/portada-21-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 21 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/4191" typeof="schema:Person" property="schema:name" datatype&gt;Manuela Cortés&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-20T22:10:00-05:00" title="Domingo, Septiembre 20, 2026 - 22:10" class="datetime"&gt;Dom, 20/09/2026 - 22:10&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=93609&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="IfgvxPf6mOYIwv-UggtCRqBVDIUrsJmXeAMIyL1zyfg"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/LP-01A-21-09-26%20%281%29.jpg" width="921" height="1200" alt="Portada 21 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 21 de septiembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Mon, 21 Sep 2026 03:10:00 +0000</pubDate>
+          <dc:creator>Manuela Cortés</dc:creator>
+          <guid isPermaLink="false">93609 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 20 de septiembre del 2026</title>
+  <link>http://www.lapatria.com/publicacion/portada-20-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 20 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/65" typeof="schema:Person" property="schema:name" datatype&gt;Luis David Patiño&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-20T00:10:25-05:00" title="Domingo, Septiembre 20, 2026 - 00:10" class="datetime"&gt;Dom, 20/09/2026 - 00:10&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=93561&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="aQgXAxhuAcgIjDTLiDq5OaTch6KqHdK0dbyOX4xGYL0"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/LP-01A-20-09-26%20%281%29%20%281%29.jpg" width="794" height="1035" alt="Portada 20 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 20 de septiembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sun, 20 Sep 2026 05:10:25 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">93561 at http://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>

@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Wed, 23 Sep 2026 07:30:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Google Flow en la moda: herramientas para diseñadores</title>
+		<link>https://occidente.co/secciones/tecnologia/google-flow-moda-herramientas-disenadores/</link>
+					<comments>https://occidente.co/secciones/tecnologia/google-flow-moda-herramientas-disenadores/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 07:30:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439867</guid>
+
+					<description><![CDATA[<p>Google Flow ayuda a diseñadores a ahorrar tiempo en preparación de pasarelas Dos diseñadores de moda trabajaron con ingenieros de Google para crear herramientas personalizadas en Google Flow que permitieron preparar looks y escenarios para la Semana de la Moda de Nueva York con menos pruebas físicas y menor costo. Google Flow: qué ocurrió y...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/google-flow-moda-herramientas-disenadores/">Google Flow en la moda: herramientas para diseñadores</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Google Flow ayuda a diseñadores a ahorrar tiempo en preparación de pasarelas</h2>
+</p>
+<p>Dos diseñadores de moda trabajaron con ingenieros de Google para crear herramientas personalizadas en Google Flow que permitieron preparar looks y escenarios para la Semana de la Moda de Nueva York con menos pruebas físicas y menor costo.</p>
+</p>
+<h2>Google Flow: qué ocurrió y por qué importa</h2>
+</p>
+<p>Google, a través de su Envisioning Studio y con apoyo de Google Labs, colaboró con las diseñadoras Jane Wade y Sergio Hudson para desarrollar dos herramientas en Google Flow. El anuncio describe que estas herramientas se usaron antes de la Semana de la Moda en Nueva York; Google presentó el proyecto como un ejemplo de cómo la inteligencia artificial puede integrarse en procesos creativos. Google Flow es una plataforma de creación que permite diseñar herramientas usando lenguaje natural sin necesidad de programar.</p>
+</p>
+<h2>Qué cambia para las personas</h2>
+</p>
+<h3>Menos pruebas físicas en el taller</h3>
+</p>
+<p>La herramienta Styling Suite ayudó a Jane Wade a combinar peinados, maquillaje, accesorios, calzado y prendas en modelos digitales. Esto redujo la necesidad de jornadas de casting y pruebas que, según la nota, suelen consumir hasta tres días por equipo de diseño.</p>
+</p>
+<h3>Planificación de pasarela ajustada al presupuesto</h3>
+</p>
+<p>La herramienta Runway Visualization permitió a Sergio Hudson simular el montaje del desfile y probar distintas opciones de iluminación y utilería dentro de un presupuesto establecido, evitando costos repetidos por nuevas renderizaciones.</p>
+</p>
+<h3>Herramientas accesibles sin programar</h3>
+</p>
+<p>Google Flow ofrece la posibilidad de crear herramientas personalizadas usando lenguaje natural, lo que facilita que más diseñadores puedan adaptar flujos de trabajo sin contratar desarrolladores.</p>
+</p>
+<h2>Aspectos pendientes y limitaciones</h2>
+</p>
+<p>El texto indica que, aunque estas colaboraciones se mostraron en la pasarela, muchos proyectos de IA en moda siguen en fase de prueba y no todos salen de pilotos. No se detallan métricas cuantitativas sobre ahorro de tiempo o dinero ni se explica cómo se integran estas herramientas en procesos de producción a gran escala. Tampoco se presenta información sobre disponibilidad amplia, costos de uso o requisitos técnicos para equipos fuera de las colaboraciones con Google.</p>
+</p>
+<h2>Contexto y explicación</h2>
+</p>
+<p>Para entender mejor: una herramienta como Styling Suite funciona sobre modelos digitales que permiten combinar elementos visuales antes de fabricar una prenda. Esto evita producir muestras innecesarias. De forma similar, Runway Visualization simula el espacio y la iluminación, de modo que cambios en la puesta en escena se prueban virtualmente antes de implicar a la producción física.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Menos tiempo y pruebas físicas para ver conjuntos terminados.</p>
+</p>
+<p><strong>Negocio:</strong> Reducción de costos de producción y decisiones más rápidas en desfiles.</p>
+</p>
+<p><strong>Industria:</strong> Mayor adopción de herramientas de IA en diseño y planificación de moda.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/google-flow-moda-herramientas-disenadores/">Google Flow en la moda: herramientas para diseñadores</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/google-flow-moda-herramientas-disenadores/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>CCI propone actualizar el mapa sísmico de Cali y usar Obras por Impuestos para acelerar la reconstrucción</title>
+		<link>https://occidente.co/empresario/cci-propone-actualizar-el-mapa-sismico-de-cali-y-usar-obras-por-impuestos-para-acelerar-la-reconstruccion/</link>
+					<comments>https://occidente.co/empresario/cci-propone-actualizar-el-mapa-sismico-de-cali-y-usar-obras-por-impuestos-para-acelerar-la-reconstruccion/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 02:58:28 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440017</guid>
+
+					<description><![CDATA[<p>El gremio plantea priorizar hospitales, colegios y redes de servicios públicos, además de vincular la recuperación de las zonas afectadas con la renovación del centro y mantener las inversiones estratégicas en movilidad, logística y saneamiento. La reconstrucción de Cali después del terremoto del 10 de agosto debería convertirse también en una oportunidad para reducir la...</p>
+<p>The post <a href="https://occidente.co/empresario/cci-propone-actualizar-el-mapa-sismico-de-cali-y-usar-obras-por-impuestos-para-acelerar-la-reconstruccion/">CCI propone actualizar el mapa sísmico de Cali y usar Obras por Impuestos para acelerar la reconstrucción</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El gremio plantea priorizar hospitales, colegios y redes de servicios públicos, además de vincular la recuperación de las zonas afectadas con la renovación del centro y mantener las inversiones estratégicas en movilidad, logística y saneamiento</strong>.</p>
+<p>La reconstrucción de Cali después del terremoto del 10 de agosto debería convertirse también en una oportunidad para reducir la vulnerabilidad de la ciudad frente a futuros eventos sísmicos.</p>
+<p>Con ese propósito, la Cámara Colombiana de la Infraestructura, CCI, Seccional Occidente presentó a la Alcaldía una serie de propuestas para agilizar las obras y garantizar que las nuevas inversiones respondan a las condiciones actuales del territorio.</p>
+<p>Una de las principales recomendaciones es actualizar la microzonificación sísmica y geotécnica de Cali, incorporando la información obtenida durante el reciente terremoto.</p>
+<p>El objetivo es contar con mejores elementos técnicos para establecer dónde se puede construir y cuáles condiciones deben cumplir las edificaciones dependiendo del comportamiento de los suelos.</p>
+<p>El planteamiento fue presentado durante un encuentro con el alcalde Alejandro Eder y las secretarías de Gestión del Riesgo e Infraestructura, en el que la CCI Occidente puso a disposición de la Administración Distrital las capacidades técnicas y empresariales de sus afiliados.</p>
+<p>“<em>Somos una suma de capacidades técnicas que juntas hacen grandes transformaciones</em>”, <strong>afirmó Diana Rojas, directora ejecutiva de la CCI Occidente</strong>.</p>
+<h2>Hospitales y colegios, entre las prioridades</h2>
+<p>Otro frente propuesto es realizar un diagnóstico y priorizar el reforzamiento de la infraestructura esencial, especialmente hospitales, colegios y redes de servicios públicos.</p>
+<p>La conformación de mesas técnicas con especialistas permitiría determinar cuáles edificaciones requieren intervenciones más urgentes, tanto para proteger a sus usuarios como para garantizar la continuidad de servicios fundamentales en una eventual nueva emergencia.</p>
+<p>El gremio destacó que sus afiliados tienen experiencia en estudios, diseños, financiación, construcción y mantenimiento.</p>
+<p>Entre los proyectos en los que han participado mencionó la nueva edificación de Imbanaco, obras de la Fundación Valle del Lili, la Ciudadela Educativa Nuevo Latir y el refuerzo del Jarillón del río Cauca.</p>
+<p><strong>También señaló intervenciones en la pista del Aeropuerto Alfonso Bonilla Aragón y experiencias internacionales como la planta de tratamiento de aguas residuales Los Merinos, en Guayaquil</strong>.</p>
+<h3>Buscar recursos con Obras por Impuestos</h3>
+<p>Uno de los mayores desafíos de la reconstrucción será conseguir recursos para ejecutar las intervenciones.</p>
+<p>Por eso, la CCI propone estructurar proyectos que puedan financiarse mediante el mecanismo de Obras por Impuestos.</p>
+<p>El gremio plantea construir un portafolio regional de proyectos y participar en la elaboración de un manual operativo para la reconstrucción.</p>
+<p>La intención es conectar empresas financiadoras, firmas consultoras y constructoras para facilitar la estructuración y posterior ejecución de las iniciativas.</p>
+<p>La propuesta también busca evitar que la emergencia detenga otros proyectos considerados estratégicos para el desarrollo económico de Cali y el Valle.</p>
+<p>En ese sentido, la CCI considera necesario dar continuidad a las inversiones en movilidad, logística y saneamiento, debido a su capacidad para generar empleo y mejorar el acceso de la población a servicios y oportunidades.</p>
+<p>Además, plantea conectar la recuperación de las zonas afectadas por el terremoto con la renovación del centro de Cali, de manera que la reconstrucción no se limite a reparar los daños, sino que permita avanzar en transformaciones urbanas pendientes.</p>
+<p>La apuesta del gremio es que las decisiones que se tomen después del terremoto incorporen las lecciones dejadas por el sismo.</p>
+<p>Reconstruir más rápido, sostiene la CCI Occidente, debe ir acompañado de reconstruir con mejores criterios técnicos y menor vulnerabilidad, para que las inversiones realizadas hoy también permitan preparar a Cali frente a futuras emergencias.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/cci-propone-actualizar-el-mapa-sismico-de-cali-y-usar-obras-por-impuestos-para-acelerar-la-reconstruccion/">CCI propone actualizar el mapa sísmico de Cali y usar Obras por Impuestos para acelerar la reconstrucción</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/cci-propone-actualizar-el-mapa-sismico-de-cali-y-usar-obras-por-impuestos-para-acelerar-la-reconstruccion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Cómo manejar el miedo ante las réplicas?</title>
+		<link>https://occidente.co/secciones/tendencias/miedo-a-las-replicas-del-terremoto-ansiedad/</link>
+					<comments>https://occidente.co/secciones/tendencias/miedo-a-las-replicas-del-terremoto-ansiedad/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 02:52:52 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440014</guid>
+
+					<description><![CDATA[<p>Después de un terremoto, cada nuevo movimiento puede hacer que el cuerpo vuelva a sentir que está frente al peligro inicial. Aprender a regular esa respuesta, recuperar pequeñas rutinas y concentrarse en aquello que sí podemos controlar puede ayudar a convivir con la incertidumbre. Cuando las réplicas continúan durante días o semanas, recuperarse emocionalmente puede...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/miedo-a-las-replicas-del-terremoto-ansiedad/">¿Cómo manejar el miedo ante las réplicas?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Después de un terremoto, cada nuevo movimiento puede hacer que el cuerpo vuelva a sentir que está frente al peligro inicial.</p>
+<p>Aprender a regular esa respuesta, recuperar pequeñas rutinas y concentrarse en aquello que sí podemos controlar puede ayudar a convivir con la incertidumbre.</p>
+<p>Cuando las réplicas continúan durante días o semanas, recuperarse emocionalmente puede resultar mucho más difícil.</p>
+<p>Basta sentir una vibración, escuchar un ruido extraño o percibir que una lámpara se mueve para que el cuerpo vuelva a ponerse en alerta.</p>
+<p>El corazón se acelera, aparece la necesidad de salir corriendo y algunas personas comienzan a preguntarse constantemente cuándo volverá a temblar.</p>
+<p>En estas circunstancias, trabajar el miedo no significa pretender eliminarlo.</p>
+<p>Después de haber vivido un terremoto, sentir temor frente a un nuevo movimiento tiene sentido.</p>
+<p>El verdadero desafío consiste en evitar que la posibilidad de otra réplica mantenga a la persona permanentemente en estado de emergencia.</p>
+<p>Una primera herramienta consiste en diferenciar el peligro presente de la alarma que permanece en el cuerpo.</p>
+<p>Durante una réplica es necesario seguir las recomendaciones de seguridad, pero una vez termina y se comprueba que estamos en un lugar seguro, conviene regresar conscientemente al presente.</p>
+<p><strong>Una pregunta sencilla puede ayudar:</strong> “<em>¿Está temblando en este momento o mi cuerpo continúa reaccionando a lo que acaba de pasar?</em>”</p>
+<h2>Volver al presente</h2>
+<p>Después de una réplica, apoyar firmemente los pies sobre el suelo, observar cinco objetos alrededor, tocar cuatro elementos cercanos y reconocer tres sonidos puede ayudar a dirigir nuevamente la atención hacia el entorno.</p>
+<p>También puede acompañarse el ejercicio con respiraciones tranquilas, procurando que la exhalación sea un poco más larga que la inhalación.</p>
+<p>No se trata de repetirse que “<em>ya no va a pasar nada</em>”, porque nadie puede garantizar que no habrá nuevas réplicas.</p>
+<p><strong>Una frase más realista sería:</strong> “<em>Ahora mismo terminó. Estoy aquí y puedo ocuparme de lo que necesito en este momento</em>”.</p>
+<p>La preparación también puede disminuir parte de la incertidumbre.</p>
+<p>Tener lista una mochila de emergencia, conocer las rutas de evacuación, establecer un punto de encuentro familiar y saber cómo actuar permite recuperar cierta sensación de control frente a una situación que, precisamente, nos recuerda cuánto escapa de nuestras manos.</p>
+<p>Otro aspecto importante es controlar la exposición permanente a información sobre el terremoto.</p>
+<p>Revisar aplicaciones sísmicas compulsivamente, consumir videos durante horas, compartir rumores o interpretar cualquier vibración como una nueva réplica puede mantener activado el sistema de alarma. Estar informado es diferente a permanecer vigilando el peligro durante todo el día.</p>
+<h3>Recuperar la vida cotidiana</h3>
+<p>También hay que permitirse regresar progresivamente a las actividades habituales. Cocinar, trabajar, conversar, caminar, encontrarse con otras personas o simplemente sentarse nuevamente a terminar una taza de café después de una réplica son pequeñas señales de continuidad.</p>
+<p><strong>Puede ser útil dividir mentalmente la situación en tres espacios:</strong> lo que no puedo controlar, aquello sobre lo que puedo hacer algo y la respuesta que puedo elegir.</p>
+<p>No podemos decidir cuándo ocurrirá una réplica ni qué intensidad tendrá.</p>
+<p>Podemos prepararnos, seguir los protocolos, cuidar nuestro descanso, buscar información confiable y pedir ayuda. Y podemos elegir cómo continuar viviendo mientras la incertidumbre permanece.</p>
+<p>Después de cada movimiento, una frase puede convertirse en un pequeño ejercicio para volver al centro:</p>
+<p>“<em>No puedo controlar que la tierra vuelva a moverse, pero sí puedo aprender a volver a mi centro cada vez que ocurra</em>”.</p>
+<p>Porque quizá una de las tareas más difíciles después de un terremoto no sea conseguir que desaparezca inmediatamente el miedo, sino lograr que, aunque todavía existan réplicas, nuestra vida no permanezca temblando todo el tiempo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/miedo-a-las-replicas-del-terremoto-ansiedad/">¿Cómo manejar el miedo ante las réplicas?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/miedo-a-las-replicas-del-terremoto-ansiedad/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Adoptar es solo el primer paso: claves para ayudar a un perro a adaptarse a su nuevo hogar</title>
+		<link>https://occidente.co/secciones/mascotas/adaptacion-de-un-perro-adoptado-claves-hogar/</link>
+					<comments>https://occidente.co/secciones/mascotas/adaptacion-de-un-perro-adoptado-claves-hogar/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 02:47:15 +0000</pubDate>
+				<category><![CDATA[Mascotas]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440011</guid>
+
+					<description><![CDATA[<p>A propósito del Día Mundial del Perro Adoptado, que se celebra el 23 de septiembre, cada vez son más las familias que deciden abrir las puertas de su hogar a un perro que necesita una segunda oportunidad. En Bogotá, durante 2025, 479 perros fueron adoptados a través del Programa de Adopciones y Hogares de Paso...</p>
+<p>The post <a href="https://occidente.co/secciones/mascotas/adaptacion-de-un-perro-adoptado-claves-hogar/">Adoptar es solo el primer paso: claves para ayudar a un perro a adaptarse a su nuevo hogar</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>A propósito del Día Mundial del Perro Adoptado, que se celebra el 23 de septiembre, cada vez son más las familias que deciden abrir las puertas de su hogar a un perro que necesita una segunda oportunidad</strong>.</p>
+<p>En Bogotá, durante 2025, 479 perros fueron adoptados a través del Programa de Adopciones y Hogares de Paso del Instituto Distrital de Protección y Bienestar Animal, mientras que en agosto de 2026 una jornada de adopción realizada se consiguió que 105 perros y gatos encontraran una nueva familia, una de las cifras más altas registradas por esta entidad.</p>
+<p>Estas cifras reflejan el creciente interés de los ciudadanos por brindar un hogar a animales rescatados, pero también ponen sobre la mesa un desafío: la adopción no termina cuando el perro cruza la puerta de su nueva casa.</p>
+<p>En ese momento comienza un proceso de adaptación que requiere paciencia, comprensión y acompañamiento.</p>
+<p>“<em>Cuando un perro llega a un nuevo hogar, no solo cambia de espacio: cambia de sonidos, olores, personas, rutinas y referentes. Por eso es importante darle tiempo para entender que ese nuevo lugar es seguro. La paciencia y la consistencia son dos de las mejores herramientas que tiene una familia para construir confianza</em>”, <strong>explica Carlos Becerra, veterinario</strong>.</p>
+<p>La dimensión del reto es aún mayor si se tiene en cuenta que, según el Observatorio de Protección y Bienestar Animal en Bogotá hay más de 66.000 perros en situación de calle.</p>
+<p>Para un perro que ha vivido en la calle, en un refugio o que ha pasado por diferentes hogares, llegar a un nuevo espacio implica enfrentarse a sonidos, olores, personas, animales, rutinas y estímulos desconocidos.</p>
+<p>Por eso, incluso cuando la adopción representa una experiencia positiva, es posible que durante los primeros días aparezcan señales de miedo, inseguridad o estrés.</p>
+<h2>Cinco claves para facilitar la adaptación de un perro adoptado</h2>
+<p><strong>1. Los primeros días:</strong> menos es más: La emoción de tener un nuevo integrante en la familia puede llevar a querer presentarlo inmediatamente a todos los miembros del hogar, vecinos, amigos y otros animales.</p>
+<p>Sin embargo, lo recomendable es evitar una sobrecarga de estímulos.</p>
+<p>Durante los primeros días, el perro debería contar con un espacio tranquilo y propio, donde pueda descansar y retirarse cuando lo necesite.</p>
+<p>Allí puede tener su cama, agua, juguetes y algunos objetos que le resulten familiares.</p>
+<p><strong>2. Crear una rutina desde el primer momento:</strong> Los perros se benefician de la previsibilidad.</p>
+<p>Mantener horarios relativamente constantes para comer, salir a caminar, jugar, descansar y dormir puede ayudar a disminuir la incertidumbre.</p>
+<p>La rutina también permite que el perro empiece a comprender qué sucede en su nuevo hogar y qué se espera de él.</p>
+<p>Durante las primeras semanas, procure no hacer demasiados cambios simultáneamente.</p>
+<p>Primero permita que el perro conozca su hogar y a su familia; posteriormente podrá incorporar nuevas experiencias de manera gradual.</p>
+<p>Las esencias naturales pueden incorporarse como complemento dentro de una estrategia integral de bienestar para las mascotas, especialmente en momentos que implican cambios en su entorno y rutina.</p>
+<p>Su uso no sustituye la atención veterinaria ni el acompañamiento de un profesional del comportamiento cuando estos sean necesarios.</p>
+<p><strong>3. No interpretar el miedo como “<em>mal comportamiento</em>”:</strong> Un perro recién adoptado puede reaccionar con miedo ante situaciones que para las personas parecen completamente normales: una aspiradora, una puerta que se cierra, personas desconocidas, otros perros, determinados ruidos o incluso quedarse solo. En lugar de castigarlo, es importante identificar qué situaciones generan temor y trabajar en ellas progresivamente, utilizando refuerzo positivo.</p>
+<p><strong>4. Darle espacio para crear confianza:</strong> No todos los perros expresan el afecto de la misma manera.</p>
+<p>Algunos buscarán inmediatamente contacto físico, mientras que otros necesitarán varios días o semanas antes de sentirse cómodos con las caricias, los juegos o incluso con la presencia cercana de sus nuevos cuidadores.</p>
+<p>Por eso, es importante permitir que el perro se acerque voluntariamente y aprender a interpretar su lenguaje corporal.</p>
+<p><strong>5. Veterinario, alimentación y bienestar integral:</strong> Una vez adoptado, es conveniente programar una consulta veterinaria para conocer su estado general de salud, revisar vacunación y desparasitación y establecer una guía de alimentación y cuidados de acuerdo con su edad y condiciones particulares.</p>
+<p>El bienestar también incluye cuidar sus emociones. Un perro que está atravesando una etapa de adaptación puede necesitar herramientas adicionales para manejar situaciones de miedo, estrés o cambios en su entorno.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/mascotas/adaptacion-de-un-perro-adoptado-claves-hogar/">Adoptar es solo el primer paso: claves para ayudar a un perro a adaptarse a su nuevo hogar</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/mascotas/adaptacion-de-un-perro-adoptado-claves-hogar/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Los embargos y las libranzas se pueden detener: la historia de amor en la que la insolvencia llegó como un superhéroe</title>
+		<link>https://occidente.co/area-legal/ley-de-insolvencia-de-persona-natural-colombia/</link>
+					<comments>https://occidente.co/area-legal/ley-de-insolvencia-de-persona-natural-colombia/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 02:38:41 +0000</pubDate>
+				<category><![CDATA[Área Legal]]></category>
+		<category><![CDATA[Abogada Ángela Caicedo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440007</guid>
+
+					<description><![CDATA[<p>Por Ángela María Caicedo ÁNGELA MARÍA CAICEDO Abogada, Conciliadora y Comunicador Social-Periodista Escritora Apasionada y Exploradora del Conocimiento Jurídico. En Amor y Amistad, una historia que se repite en muchos hogares colombianos: el salario llega y desaparece entre libranzas, deudas y cobros. La Ley 2445 de 2025 contempla la suspensión de ciertos descuentos cuando es...</p>
+<p>The post <a href="https://occidente.co/area-legal/ley-de-insolvencia-de-persona-natural-colombia/">Los embargos y las libranzas se pueden detener: la historia de amor en la que la insolvencia llegó como un superhéroe</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><img decoding="async" class="img-fluid size-full wp-image-144260 alignleft" src="https://occidente.co/wp-content/uploads/2024/01/abogada-angela-maria-caicedo.jpg" alt="Abogada Ángela María Caicedo" width="150" /><em>Por <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://occidente.co/tag/abogada-angela-caicedo/" target="_blank" rel="noopener">Ángela María Caicedo</a></span></em></p>
+<h4><span style="color: #00bfa5;">ÁNGELA MARÍA CAICEDO</span></h4>
+<p>Abogada, Conciliadora y Comunicador Social-Periodista<br />
+Escritora Apasionada y Exploradora del Conocimiento Jurídico.</p>
+<p>En Amor y Amistad, una historia que se repite en muchos hogares colombianos: el salario llega y desaparece entre libranzas, deudas y cobros.</p>
+<p>La Ley 2445 de 2025 contempla la suspensión de ciertos descuentos cuando es aceptada la negociación de deudas.</p>
+<p>“<em>Amor, ¿qué vamos a hacer el sábado?</em>”</p>
+<p>Septiembre había llegado con su tradicional invasión de corazones.</p>
+<p>Flores en las vitrinas. Chocolates.</p>
+<p>Restaurantes ofreciendo cenas para dos. Promociones de Amor y Amistad.</p>
+<p>Y redes sociales repletas de parejas jurándose amor eterno hasta que la contraseña del celular los separe.</p>
+<h2>A él le llegó un mensaje de su pareja:</h2>
+<p>—<em>Amor, ¿qué vamos a hacer el sábado? Era una pregunta sencilla.</em><br />
+<em>Además, esa misma mañana le habían pagado el salario</em>.</p>
+<p>Así que abrió tranquilamente la aplicación del banco para calcular cuánto podía gastar.<br />
+Y ahí se acabó el romanticismo.</p>
+<p>La nómina había llegado.</p>
+<p>Pero el dinero prácticamente ya se había ido.</p>
+<p>Primero pasó una libranza. Después otro descuento. Luego una obligación automática.</p>
+<p>Y lo poco que quedó tenía suficientes compromisos como para no sobrevivir demasiado tiempo en aquella cuenta.</p>
+<p>Miró nuevamente el mensaje.</p>
+<p>“<em>¿Qué vamos a hacer el sábado?</em>”</p>
+<p><strong>La respuesta real habría sido:</strong></p>
+<p>—<em>Sobrevivir financieramente, mi amor</em>.</p>
+<p><strong>Pero escribió:</strong></p>
+<p>—<em>Hagamos algo tranquilo</em>.</p>
+<p><strong>Porque existe una frase maravillosa que utilizamos cuando queremos conservar la dignidad económica:</strong></p>
+<p>“<em>Hagamos algo tranquilo</em>”.</p>
+<p><strong>Traducción:</strong> No tengo plata.</p>
+<p>Cupido tenía flechas, pero no sabía cómo detener una libranza<br />
+El problema no había comenzado aquella mañana. Todo empezó mucho antes.<br />
+Primero fue un crédito manejable.</p>
+<p>Después una tarjeta.</p>
+<p>Luego apareció una emergencia. Otra obligación.</p>
+<p><strong>Y finalmente llegó esa frase que parece diseñada para producir tranquilidad:</strong><br />
+“<em>No se preocupe, la cuota se descuenta directamente de su nómina</em>”.</p>
+<p>Maravilloso. Automático. Cómodo.</p>
+<p>Tan cómodo que meses después nuestro protagonista descubrió que todo el mundo parecía tener acceso preferencial a su salario menos él.</p>
+<p>Trabajaba treinta días.</p>
+<p>Llegaba la nómina.</p>
+<p>Y comenzaba el desfile.</p>
+<p>Uno cobraba.</p>
+<p>Otro descontaba.</p>
+<p>Otro esperaba su turno.</p>
+<p>Y él observaba cómo el salario que acababa de recibir se despedía sin siquiera darle tiempo de conocerlo.</p>
+<p>Aquella relación financiera empezaba a parecerse a una mala relación sentimental:<br />
+él ponía todo y los otros decidían qué hacer con ello.</p>
+<p>El problema dejó de ser la cena cuando apareció una palabra mucho menos romántica<br />
+Al principio estaba preocupado porque no podía comprar un buen regalo.</p>
+<p>Después dejó de importarle el regalo.</p>
+<p>Una deuda completó más de tres meses atrasada.</p>
+<p>Después otra.</p>
+<p>Comenzaron las llamadas.</p>
+<p>—<em>Señor, nos comunicamos del área de cobranza&#8230;</em><br />
+Después llegaron mensajes.</p>
+<p>Correos. Notificaciones.</p>
+<p><strong>Y finalmente apareció una palabra capaz de quitarle el sueño hasta a quien duerme como un bebé:</strong></p>
+<p>EMBARGO.</p>
+<p>Ahí cambió completamente la historia.</p>
+<p><strong>Ya no pensaba:</strong></p>
+<p>“<em>¿Dónde vamos a cenar?</em>”</p>
+<p><strong>Ahora pensaba: </strong>“<em>¿Hasta dónde pueden llegar?</em>”</p>
+<p><strong>Después apareció la pregunta que realmente comenzó a perseguirlo:</strong></p>
+<p>“<em>¿Y si pierdo mi casa?</em>”</p>
+<p><strong>La cena romántica podía esperar. Su patrimonio, quizás no. Su pareja sabía que algo estaba pasando, pero él seguía diciendo la palabra favorita de quienes esconden un problema:</strong> “<em>nada</em>” Dormía mal.</p>
+<p>Revisaba constantemente el celular.</p>
+<p>Cuando entraba una llamada desconocida cambiaba inmediatamente la expresión.</p>
+<p>—<em>¿Te pasa algo?</em></p>
+<p>—<em>Nada</em>.</p>
+<p><strong>Ese famoso “<em>nada</em>” que en las relaciones suele significar:</strong></p>
+<p>“<em>Está pasando absolutamente todo, pero todavía no sé cómo contártelo</em>”.</p>
+<p>Le daba vergüenza reconocer que estaba financieramente desbordado.</p>
+<p>Y eso ocurre más de lo que imaginamos.</p>
+<p>Hay personas que cuentan tranquilamente que volvieron con el ex por quinta vez, que revisaron un teléfono mientras alguien dormía o que los dejaron por WhatsApp.</p>
+<h3>Pero si deben dinero responden:</h3>
+<p>“<em>Todo bien</em>”.</p>
+<p>Mientras financieramente están a dos llamadas de cobranza de empezar a contestarle hasta al número equivocado.</p>
+<h2>Las deudas también se meten en la cama</h2>
+<p>Ese es uno de los grandes secretos de los problemas económicos. Las deudas no viven únicamente dentro del extracto bancario.</p>
+<p>Viajan con usted al trabajo. Se sientan a desayunar. Aparecen cuando planea vacaciones.<br />
+Se atraviesan en una conversación de pareja.</p>
+<p>Llegan a la mesa cuando los niños necesitan algo. Y algunas noches hasta se acuestan en medio de la cama.</p>
+<p>Porque es difícil hablar de planes cuando una persona está calculando mentalmente qué deuda dejará de pagar para cubrir otra.</p>
+<p>Nuestro protagonista llevaba meses haciendo exactamente eso.</p>
+<p>Pagaba una obligación sacrificando otra. Tapaba un hueco. Abría dos.</p>
+<p>Usaba crédito para pagar crédito.</p>
+<p><strong>Y todos los meses pronunciaba la misma frase:</strong></p>
+<p>“<em>El próximo mes me organizo</em>”.</p>
+<p>El próximo mes nunca llegaba. Los acreedores sí.</p>
+<p>Hasta que una noche decidió conocer al monstruo completo. Sacó documentos.<br />
+Abrió correos. Buscó extractos.</p>
+<p>Anotó todas las obligaciones. Y sumó. Cuando vio el resultado, volvió a sumar.<br />
+No porque hubiera cometido un error.</p>
+<p>Sino porque todos tenemos derecho a esperar que, por una vez en la vida, la calculadora se equivoque a nuestro favor.</p>
+<p>No ocurrió.</p>
+<p>Las cifras eran claras.Ya no podía continuar pagando de aquella manera.</p>
+<p>Y en ese momento alguien le habló de una palabra que al principio le sonó casi tan aterradora como “<em>embargo</em>”.</p>
+<p>INSOLVENCIA.</p>
+<p>—<em>¿Eso no es para alguien que ya lo perdió todo?</em><br />
+No necesariamente.</p>
+<p>—<em>¿Eso quiere decir que desaparecen mis deudas?</em><br />
+Tampoco.<br />
+—<em>¿Entonces para qué sirve?</em><br />
+Ahí comenzó a cambiar la historia.</p>
+<p>La insolvencia apareció como ese superhéroe que uno quisiera ver cuando todo parece perdido.</p>
+<p><strong>¿Quién no ha imaginado alguna vez estar acorralado y que, justo cuando el villano está a punto de ganar, aparezca un superhéroe?</strong></p>
+<p>Capa. Música épica. Una entrada espectacular. Y problema solucionado.</p>
+<p>En materia financiera seguramente Superman no llegará volando por la ventana.</p>
+<p>Batman tampoco parece atender procesos de insolvencia.</p>
+<p>Pero la legislación colombiana sí contempla un procedimiento para las personas que cumplen determinadas condiciones y atraviesan una verdadera crisis económica.</p>
+<p><strong>La Ley 2445 de 2025 reformó el régimen de insolvencia de la persona natural y señaló</strong> entre sus finalidades facilitar la normalización de las relaciones crediticias de quien ha sufrido un quebranto económico, mediante la negociación con acreedores, la convalidación de acuerdos privados y, en los casos correspondientes, la liquidación patrimonial.</p>
+<p>No significa borrar las deudas con una varita mágica.</p>
+<p>Significa enfrentar el problema mediante unas reglas jurídicas.</p>
+<p>Y para alguien que sentía que estaba encerrado en un callejón, aquello ya era mucho.</p>
+<h3>Hasta que hizo la pregunta que llevaba meses necesitando hacer</h3>
+<p>—¿Y qué pasa con las libranzas?<br />
+La respuesta hizo que prestara más atención.</p>
+<p><strong>La Ley 2445 de 2025 modificó el artículo 545 del Código General del Proceso y dispuso que a partir de la aceptación de la solicitud de negociación</strong> de deudas se suspenden los descuentos de nómina o de productos financieros, los pagos por libranza y otras formas de pago o abono automático o directo al acreedor previstas en la norma, con excepción de las obligaciones alimentarias.</p>
+<p>Leyó esa frase nuevamente.</p>
+<p>SE SUSPENDEN.</p>
+<p><strong>Y aquí existe un detalle importantísimo:</strong></p>
+<p>La ley habla de los efectos a partir de la aceptación de la solicitud.</p>
+<p><strong>No basta con decir:</strong></p>
+<p>“<em>Voy a declararme insolvente</em>”.<br />
+No basta con haber solicitado una cita.</p>
+<p>No basta con guardar varios videos de insolvencia en TikTok.</p>
+<p>Debe existir la aceptación del trámite en los términos establecidos por la ley.</p>
+<p>Por primera vez en meses alguien podía poner un “<em>ALTO</em>”</p>
+<p><strong>Hasta ese momento, su historia financiera había sido sencilla:</strong></p>
+<p>Trabajar. Recibir sueldo. Descuento. Libranza. Otra cuota. Sobrevivir.</p>
+<p>Ahora había descubierto que, si cumplía los requisitos legales y su solicitud era aceptada, la propia ley establecía efectos concretos frente a esos descuentos.</p>
+<h3>Y entonces preguntó algo todavía mejor:</h3>
+<p>—¿Qué pasa si siguen descontando?<br />
+Aquí el asunto se puso interesante.</p>
+<p>Cuando jurídicamente le dijeron “<em>se acabó</em>”, no puede comportarse como el ex que todavía cree que están juntos.</p>
+<p>La misma disposición establece que los actos realizados contrariando esa suspensión son ineficaces de pleno derecho.</p>
+<p>Además, prevé que el conciliador comunique la situación al pagador y al acreedor y ordene la devolución inmediata al deudor de las sumas pagadas o descontadas en esas condiciones.</p>
+<p>La norma también establece responsabilidad solidaria del pagador y del acreedor desde que reciben la comunicación correspondiente.</p>
+<p>Sí.</p>
+<p>Devolución.</p>
+<p>En materia sentimental, lograr que un ex devuelva hasta la camiseta prestada puede convertirse en proceso diplomático internacional.</p>
+<p><strong>Aquí estamos hablando de algo jurídicamente bastante más serio:</strong></p>
+<p>si el descuento se realiza contrariando la suspensión legal y concurren las circunstancias previstas en la norma, existe una orden de devolución.</p>
+<p>Nuestro protagonista finalmente sintió que aquella historia tenía un giro.</p>
+<p><strong>Pero había algo más:</strong> los cobros tampoco podían seguir jugando como si el procedimiento no existiera.</p>
+<p><strong>La Ley 2445 también regula las consecuencias de determinadas diligencias judiciales o extrajudiciales de cobranza</strong> cuando el titular o cesionario ya ha sido directamente comunicado de la admisión del deudor al procedimiento.</p>
+<p>El artículo 545 contempla progresivamente un llamado de atención, una amonestación y, posteriormente, la postergación del pago de las obligaciones del acreedor; desde posteriores actuaciones puede darse traslado a la Superintendencia Financiera o a la Superintendencia de Industria y Comercio, según sus competencias, para las consecuencias previstas por la ley.</p>
+<h2>Traducido:</h2>
+<p>Una vez informado el procedimiento, hacerse el que no recibió el mensaje puede salir caro.</p>
+<p>Pero entonces llegó la conversación verdaderamente difícil. Esa noche regresó a casa.<br />
+Su pareja volvió al tema.</p>
+<p>—Entonces, ¿qué vamos a hacer para Amor y Amistad?</p>
+<p>Esta vez decidió no esconderse.</p>
+<p>No dijo que estaba cansado.</p>
+<p>No culpó al trabajo.</p>
+<p>Y tampoco utilizó el tráfico como excusa, que en Colombia sirve para llegar tarde, cancelar reuniones y probablemente algún día hasta para explicar un divorcio.</p>
+<p>Sacó una carpeta.</p>
+<p>La puso sobre la mesa.</p>
+<p>Y habló.</p>
+<p>Le contó cuánto debía.</p>
+<p>Las libranzas.</p>
+<p>Las cuotas vencidas.</p>
+<p>Los cobros.</p>
+<p>Las llamadas que llevaba semanas ocultando.</p>
+<p><strong>Y finalmente confesó lo que realmente le daba miedo:</strong></p>
+<p>—Tengo miedo de perder lo que hemos construido. Ella miró los papeles.<br />
+Después lo miró a él.</p>
+<h3>Y solamente preguntó:</h3>
+<p>—<em>¿Hay una salida?</em><br />
+—<em>Estoy revisando si puedo acogerme al procedimiento de insolvencia</em>.<br />
+Ella volvió a mirar la carpeta.</p>
+<h3>Y respondió:</h3>
+<p>—<em>Entonces solucionemos esto primero</em>.</p>
+<p>Tal vez ahí estaba el verdadero Amor y Amistad. No hubo restaurante costoso.<br />
+No hubo reloj. No hubo perfume.</p>
+<p>No hubo un ramo tan grande que necesitara permiso de construcción. Hubo una mesa.<br />
+Dos personas.</p>
+<p>Y una carpeta llena de deudas. Nada particularmente atractivo para Instagram.</p>
+<p>Pero quizá bastante más cercano a lo que significa acompañar realmente a alguien.</p>
+<p>Porque amor no es solamente viajar cuando todo va bien.</p>
+<h4>También es sentarse frente a una crisis y preguntar:</h4>
+<p>“<em>¿Qué vamos a hacer?</em>” Y amistad no es solamente brindar cuando sobra dinero.</p>
+<h4>A veces es decirle a alguien:</h4>
+<p>“<em>Deje de esconderse y busque ayuda antes de que el problema sea mayor</em>”.</p>
+<p><strong>Eso sí:</strong> la insolvencia no es un botón mágico para dejar de pagar</p>
+<p>No toda persona que tiene deudas puede acogerse automáticamente al procedimiento.<br />
+La Ley 2445 de 2025 establece supuestos concretos de cesación de pagos.</p>
+<p>Entre ellos, contempla que una persona incumpla dos o más obligaciones a favor de dos o más acreedores durante más de 90 días, o que existan dos o más procedimientos públicos o privados de cobro de los contemplados en la norma.</p>
+<p>Además, establece como regla un porcentaje mínimo del 30% del pasivo total para las obligaciones consideradas, con el tratamiento específico que la misma disposición da a las obligaciones pagadas mediante libranza o descuento de nómina.</p>
+<p>Por eso cada caso requiere revisión.</p>
+<p>Cuánto debe.</p>
+<p>A quién.</p>
+<p>Desde cuándo.</p>
+<p>Cuáles obligaciones tienen garantía.</p>
+<p>Qué cobros existen.</p>
+<p>Qué bienes posee.</p>
+<p>Qué descuentos se están realizando.</p>
+<p>Porque una cosa es tener una deuda.</p>
+<p>Y otra encontrarse jurídicamente en los supuestos establecidos para acudir a insolvencia.</p>
+<h2>Llegó finalmente el sábado</h2>
+<p>No hicieron una gran celebración.</p>
+<p>Compraron algo sencillo.</p>
+<p>Se sentaron juntos.</p>
+<p>Y sobre la mesa continuaba aquella carpeta.</p>
+<p>Por primera vez, él no la escondió.</p>
+<p><strong>Levantó su vaso y dijo:</strong></p>
+<p>—<em>Perdón por no haberte contado antes</em>.</p>
+<p><strong>Ella respondió:</strong></p>
+<p>—<em>Brindemos porque empezaste a solucionarlo</em>.<br />
+Y brindaron.</p>
+<p>Las deudas no habían desaparecido.</p>
+<p>No existía todavía un final feliz garantizado.</p>
+<p><strong>Nadie había llamado para decir:</strong></p>
+<p>“<em>Señor, tranquilo, todo lo que debía era una broma</em>”.</p>
+<p>Pero había ocurrido algo importante.</p>
+<p>Por primera vez en meses él sabía que el problema podía enfrentarse.</p>
+<p>Que existían reglas.</p>
+<p>Que había derechos que debía conocer.</p>
+<p>Y que buscar orientación a tiempo podía marcar una enorme diferencia.<br />
+Quizá aquel año no recibió el regalo que esperaba.</p>
+<p><strong>Pero comenzó a buscar algo mucho más valioso:</strong> una segunda oportunidad.</p>
+<h3>LLAMADO A LA ACCIÓN</h3>
+<p>Si esta historia se parece demasiado a la suya, si las libranzas están consumiendo sus ingresos, tiene varias obligaciones vencidas, existen procesos de cobro o siente que su patrimonio podría estar en riesgo, no espere a que el problema llegue al punto en que otros comiencen a tomar decisiones sobre sus bienes y sus ingresos.</p>
+<p>Cada situación es diferente y debe estudiarse antes de determinar si cumple los requisitos de insolvencia. Llámeme o escríbame al (316) 212 4646 y revisemos jurídicamente su situación, sus obligaciones y las alternativas que podrían existir en su caso.</p>
+<p>Buscar orientación oportunamente puede ser mucho más importante que seguir escondiendo las cartas de cobranza en un cajón.</p>
+<p>Si ya fue aceptado en un trámite de negociación de deudas y continúan efectuándose libranzas o descuentos que deberían estar suspendidos, también es importante revisar qué ocurrió, cuándo fueron comunicados el pagador y el acreedor y qué actuaciones corresponden conforme a la ley.</p>
+<p>No normalice un descuento solamente porque lleva meses ocurriendo: escríbame o llámeme al (316) 212 4646.</p>
+<h3>MORALEJA JURÍDICA</h3>
+<p>Las deudas no desaparecen por ignorarlas, pero tampoco debe asumir que un acreedor puede hacer cualquier cosa únicamente porque usted debe dinero.</p>
+<p>La Ley 2445 de 2025 estableció reglas concretas para el procedimiento de insolvencia, incluidos efectos sobre cobros, procesos y determinadas libranzas y descuentos una vez aceptada la solicitud.</p>
+<p><strong>La moraleja es sencilla:</strong> conocer sus derechos antes de que la crisis avance puede cambiar completamente la manera de enfrentar el problema.</p>
+<p>Si tiene dudas sobre su situación, puede comunicarse conmigo directamente al (316) 212 4646.</p>
+<h3>PROTEJA SUS DERECHOS</h3>
+<p>Su salario, su vivienda y el patrimonio que ha construido durante años merecen algo más que esperar a ver qué sucede.</p>
+<p>La insolvencia no garantiza que todas las deudas desaparezcan ni significa que todos los bienes queden automáticamente protegidos, pero para quien cumple los requisitos puede ofrecer herramientas jurídicas relevantes que deben utilizarse correctamente y a tiempo.</p>
+<p>No espere a que llegue el embargo, el siguiente descuento o una nueva actuación de cobro para empezar a preguntar.</p>
+<p>Llámeme o escríbame al (316) 212 4646. Conocer sus derechos puede ser el primer paso para volver a tomar el control de su historia financiera.</p>
+<h3>¿Cómo solicitar asesoría?</h3>
+<p><strong>Si necesita orientación jurídica, escriba al WhatsApp 316 212 4646 y deje un mensaje con:</strong></p>
+<ul style="list-style-type: square;">
+<li>Sus datos completos.</li>
+<li>El horario en que lo podemos contactar.</li>
+<li>La palabra clave relacionada con su caso.</li>
+</ul>
+<p><strong>Puede escribir palabras como:</strong> <em>&#8220;insolvencia&#8221;, &#8220;deudas&#8221;, &#8220;embargo&#8221;, &#8220;hipoteca&#8221;, &#8220;casa familiar&#8221;, &#8220;ocultamiento de bienes&#8221;, &#8220;acreedores&#8221;, &#8220;liquidación patrimonial&#8221;, &#8220;divorcio&#8221;, &#8220;cuota alimentaria&#8221;, &#8220;custodia&#8221;, &#8220;sucesión&#8221;, &#8220;accidente de tránsito&#8221;, &#8220;registro de marca&#8221; o &#8220;conciliación&#8221;</em>.</p>
+<p>Así podremos identificar más rápido su necesidad y brindarle una atención personalizada.</p>
+<h3>Visite La Abogada Periodista</h3>
+<p>¿Está buscando abogada en Colombia, asesoría jurídica confiable, soluciones para divorcio, custodia de hijos, cuota alimentaria, sucesiones, conciliaciones, insolvencia de persona natural, accidentes de tránsito, registro de marca, deudas, embargos o protección de vivienda familiar?</p>
+<p>Entonces visite hoy mismo <strong><span style="color: #00bfa5;"><a style="color: #00bfa5;" href="http://www.laabogadaperiodista.com." target="_blank" rel="noopener">www.laabogadaperiodista.com.</a></span></strong></p>
+<p>Allí encontrará una plataforma creada para orientar, informar y acompañar a quienes necesitan defender sus derechos con claridad, estrategia y respaldo profesional.</p>
+<blockquote class="instagram-media" style="background: #FFF; border: 0; border-radius: 3px; box-shadow: 0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width: 540px; min-width: 326px; padding: 0; width: calc(100% - 2px);" data-instgrm-captioned="" data-instgrm-permalink="https://www.instagram.com/reel/DdnQkNLxu_J/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+<div style="padding: 16px;">
+<p>&nbsp;</p>
+<div style="display: flex; flex-direction: row; align-items: center;">
+<div style="background-color: #f4f4f4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
+</div>
+</div>
+<div style="padding: 19% 0;"></div>
+<div style="display: block; height: 50px; margin: 0 auto 12px; width: 50px;"></div>
+<div style="padding-top: 8px;">
+<div style="color: #3897f0; font-family: Arial,sans-serif; font-size: 14px; font-style: normal; font-weight: 550; line-height: 18px;">Ver esta publicación en Instagram</div>
+</div>
+<div style="padding: 12.5% 0;"></div>
+<div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
+<div>
+<div style="background-color: #f4f4f4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div>
+<div style="background-color: #f4f4f4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div>
+</div>
+<div style="margin-left: 8px;">
+<div style="background-color: #f4f4f4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div>
+<div style="width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg);"></div>
+</div>
+<div style="margin-left: auto;">
+<div style="width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div>
+<div style="background-color: #f4f4f4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div>
+<div style="width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
+</div>
+<p>&nbsp;</p>
+<p style="color: #c9c8cd; font-family: Arial,sans-serif; font-size: 14px; line-height: 17px; margin-bottom: 0; margin-top: 8px; overflow: hidden; padding: 8px 0 7px; text-align: center; text-overflow: ellipsis; white-space: nowrap;"><a style="color: #c9c8cd; font-family: Arial,sans-serif; font-size: 14px; font-style: normal; font-weight: normal; line-height: 17px; text-decoration: none;" href="https://www.instagram.com/reel/DdnQkNLxu_J/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener">Una publicación compartida por Diario Occidente (@diariooccidente)</a></p>
+</div>
+</blockquote>
+<p><script async src="//www.instagram.com/embed.js"></script></p>
+<h3>ÁNGELA MARÍA CAICEDO</h3>
+<p>Abogada, Conciliadora y Comunicador Social-Periodista<br />
+Escritora Apasionada y Exploradora del Conocimiento Jurídico.</p>
+<p><img src="https://s.w.org/images/core/emoji/17.0.2/72x72/1f4cd.png" alt="📍" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Cali-Colombia</p>
+<h4>Sígueme en las Redes:</h4>
+<p><strong>Tiktok:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.tiktok.com/@laabogadaperiodista?is_from_webapp=1&amp;sender_device=pc" target="_blank" rel="noopener">@laabogadaperiodista</a></span></p>
+<p><strong>Instagram:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.instagram.com/_angelacaicedo/" target="_blank" rel="noopener">@angelacaicedo</a></span></p>
+<p><strong>Facebook:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.facebook.com/angelamaria.caicedo.9" target="_blank" rel="noopener">Angela Maria Caicedo</a></span></p>
+<p><strong>LinkedIn:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.linkedin.com/in/angelamaria-caicedo-3a27b2250?" target="_blank" rel="noopener">https://www.linkedin.com/in/angelamaria-caicedo-3a27b2250?</a></span></p>
+<p><strong>Numero telefónico;</strong> (316) 2124646</p>
+<h4>Acerca de Mí:</h4>
+<p>¡Hola! Soy Ángela María Caicedo, comunicador social-periodista, Abogada y Conciliadora y me encanta sumergirme en el fascinante mundo de la escritura y el descubrimiento.</p>
+<p>Como apasionada de los temas jurídicos, mi objetivo es compartir ideas, inspiración y conocimiento a través de mis palabras.</p>
+<p>Y aunque parezca que los abogados nos expresamos con un lenguaje de otro planeta, es nuestra responsabilidad acortar la brecha comunicativa entre abogados y no abogados, teniendo en cuenta que ambos lenguajes tanto el jurídico como el común coexisten.</p>
+<p>También como abogada conciliadora de la organización sin ánimo de lucro &#8220;<em>Convivencia Ciudadana</em>&#8221; me apasiona acompañar a las personas en el proceso de buscar soluciones pacíficas a sus problemas y que sea un &#8216;gana-gana&#8217; para las partes, porque otro tipo de justicia es posible.</p>
+<p>Por eso este espacio es mi plataforma para conectar contigo.</p>
+<p>Mis artículos están diseñados para informar, entretener y desafiar tus pensamientos.</p>
+<p>¡Espero que los disfrutes!</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Régimen de visitas en Colombia: qué hacer si no le permiten ver a sus hijos en Navidad" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/area-legal/ley-de-insolvencia-de-persona-natural-colombia/">Los embargos y las libranzas se pueden detener: la historia de amor en la que la insolvencia llegó como un superhéroe</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/area-legal/ley-de-insolvencia-de-persona-natural-colombia/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Juntos por el Pacífico superó $400 millones en ventas en Cali</title>
+		<link>https://occidente.co/uncategorized/juntos-por-el-pacifico-en-cali-ventas-el-guabal/</link>
+					<comments>https://occidente.co/uncategorized/juntos-por-el-pacifico-en-cali-ventas-el-guabal/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 02:15:53 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440003</guid>
+
+					<description><![CDATA[<p>Más de $400 millones en ventas y la asistencia de aproximadamente 100.000 personas dejó Juntos por el Pacífico, una iniciativa ciudadana realizada durante el fin de semana en la cancha del barrio El Guabal, en Cali, para apoyar a emprendedores que no pudieron comercializar sus productos después del terremoto del 10 de agosto, que obligó...</p>
+<p>The post <a href="https://occidente.co/uncategorized/juntos-por-el-pacifico-en-cali-ventas-el-guabal/">Juntos por el Pacífico superó $400 millones en ventas en Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Más de $400 millones en ventas y la asistencia de aproximadamente 100.000 personas dejó Juntos por el Pacífico, una iniciativa ciudadana realizada durante el fin de semana en la cancha del barrio El Guabal, en Cali, para apoyar a emprendedores que no pudieron comercializar sus productos después del terremoto del 10 de agosto, que obligó el aplazamiento del festival Petronio Álvarez</strong>.</p>
+<p>Durante tres días, 65 emprendedores del Pacífico colombiano ofrecieron productos de gastronomía tradicional, bebidas ancestrales, moda y artesanías.</p>
+<p>La jornada buscó generar oportunidades de comercialización para productores y comerciantes afectados por la emergencia.</p>
+<p>La convocatoria reunió a ciudadanos de Cali, visitantes de otras regiones y extranjeros, quienes participaron mediante la compra de los productos ofrecidos en los diferentes stands.</p>
+<h2>Emprendedores retomaron sus ventas</h2>
+<p>El balance económico de la jornada superó los $400 millones en ventas.</p>
+<p>La iniciativa permitió a los participantes retomar espacios de comercialización y presentar sus productos ante nuevos públicos.</p>
+<p><strong>Entre los emprendedores estuvo Gregorio, conocido como Goyo, quien aseguró</strong> que logró vender todos sus productos durante el encuentro.</p>
+<p>“<em>Veníamos de una situación muy complicada porque no pudimos vender nuestros productos después del terremoto, y encontrar una iniciativa que nos permitiera volver a comercializar fue fundamental. Estoy muy agradecido con los organizadores y con la gente que vino a apoyarnos. Logré vender todo y eso representa una gran ayuda para mi negocio y para mi familia</em>”, <strong>expresó</strong>.</p>
+<p><strong>El senador Kevin Gómez, uno de los impulsores de Juntos por el Pacífico, destacó</strong> el resultado comercial y la respuesta de los asistentes.</p>
+<p>“<em>Superar los 400 millones de pesos en ventas y reunir a 100.000 personas significa que logramos abrir una puerta para que nuestros emprendedores volvieran a comercializar sus productos</em>”, <strong>señaló el congresista</strong>.</p>
+<p>Gómez indicó que la iniciativa surgió como respuesta a las dificultades que enfrentaron comerciantes después del terremoto.</p>
+<h3>Música y danza acompañaron la jornada</h3>
+<p>Juntos por el Pacífico también contó con una programación cultural durante sus tres días. Los artistas que participaron lo hicieron sin cobrar por sus presentaciones, según explicó Danna Rendón, una de las gestoras de la iniciativa.</p>
+<p>En la tarima estuvieron Nidia Góngora, Maritza Bonilla, Guitarreros del Monte, Golpe de Timbiquí, el grupo de danza Jocaycu, DJ Marlong Son, Linda Caldas, Eduardo Granja, Kenyata, Jorgy Vásquez, DJ Dutyy Mix, DJ Efren y Aires de mi Tierra.</p>
+<p>“<em>Esta iniciativa nació de la necesidad de hacer algo por nuestros emprendedores y de entender que la cultura también puede ser una herramienta para generar oportunidades</em>”, <strong>expresó DJ Marlong Son, quien también estuvo entre los gestores del encuentro</strong>.</p>
+<p>Por su parte, Carolina Cortés, vocera e impulsora de Juntos por el Pacífico, destacó la participación de quienes acudieron a El Guabal y realizaron compras.</p>
+<p>“<em>Cada compra fue una manera de contribuir a la recuperación de nuestra gente</em>”, <strong>aseguró Cortés</strong>.</p>
+<p>La asistencia de visitantes extranjeros también permitió que la oferta gastronómica, artesanal y cultural presentada durante los tres días llegara a otros públicos.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/uncategorized/juntos-por-el-pacifico-en-cali-ventas-el-guabal/">Juntos por el Pacífico superó $400 millones en ventas en Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/uncategorized/juntos-por-el-pacifico-en-cali-ventas-el-guabal/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¡Obras!, la voz en barrios de Cali</title>
+		<link>https://occidente.co/cali/reconstruccion-de-chiminangos-en-cali-obras/</link>
+					<comments>https://occidente.co/cali/reconstruccion-de-chiminangos-en-cali-obras/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 01:58:09 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439999</guid>
+
+					<description><![CDATA[<p>Por: Fabio Larrahondo Viáfara Falavi2005@yahoo.com @falavi2005 Sin dejar atrás las ayudas humanitarias, en barrios de Cali, como Chiminangos 2, también se espera que el resurgir ingrese a la fase de la reconstrucción y que se pase del simbolismo y los anuncios a las obras físicas que se requieren con urgencia, como la edificación de viviendas,...</p>
+<p>The post <a href="https://occidente.co/cali/reconstruccion-de-chiminangos-en-cali-obras/">¡Obras!, la voz en barrios de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em><strong>Por:</strong> Fabio Larrahondo Viáfara</em></p>
+<p><em>Falavi2005@yahoo.com</em></p>
+<p><em>@falavi2005</em></p>
+<p>Sin dejar atrás las ayudas humanitarias, en barrios de Cali, como Chiminangos 2, también se espera que el resurgir ingrese a la fase de la reconstrucción y que se pase del simbolismo y los anuncios a las obras físicas que se requieren con urgencia, como la edificación de viviendas, el refuerzo y reparación de escaleras, por efectos del terremoto 7.4</p>
+<p>Esta es la misma tendencia en otros barrios, según lo escuché a varios ciudadanos mientras hacíamos cola, bajo ardiente sol, en las afueras de la parte posterior del Coliseo del Pueblo en procura de tramitar “<em>correcciones en el censo de damnificados</em>”, bien porque quedó mal el número de la cédula del cabeza de familia o porque la dirección del inmueble afectado quedó errada o porque los datos no fueron subidos al Rufe, ni al Rud y demás plataformas de registro municipal y nacional.</p>
+<p>Por haber llegado bastante temprano me tocó el puesto 42 en la fila y detrás de mí antes de las 8:00 de la mañana, ya estaban más de 200 personas.</p>
+<p>Del Coliseo del pueblo salí rayando las 11:00, agradeciendo la buena atención por parte de dos funcionarios de la Secretaría de Bienestar Ciudadano y Atención del Riesgo, a cuya supervisora recomendé abrir ante de las nueve dado el madrugón de casi todos.</p>
+<p>Ahora se anuncia que este proceso se traslada a dos CALIs, entre ellos el Cali 20, cerca al citado coliseo.</p>
+<p>Allí, en la fila, solo se hablaba de los desastres ocasionados por el terremoto y de la “<em>tembladera en Cali</em>”, de la esperanza de recibir el mensaje para cobrar el auxilio, de las ayudas humanitarias, de los stikers o sellos rojos, amarillos y verdes y de la necesidad que las obras de reconstrucción comiencen, “<em>pues muchos países y empresas han mandado plata para las obras</em>”, decía la mamá a su hija, quienes me precedían en la cola.</p>
+<p>Y esa, es la misma urgencia que va y viene entre transeúntes de la Chimisexta, la calle principal de Chiminangos 2, en los corredores, zonas verdes y pasillos de este barrio, donde familias se han organizado para meterle mano a necesidades comunes urgentes, al tiempo que esperan con ilusiones los resultados de un estudio hecho por especialistas a instancias de la Gobernación, tal como lo prometió su titular, Dilian Francisca Toro, quien, hace cerca de un mes se reunió con líderes en la Casa Comunal, merced a gestiones del presidente de la JAC, José Mosquera.</p>
+<p>“<em>Ella no se ha comprometido más allá de sus alcances y confiamos en que lo seguirá haciendo</em>”, <strong>expresó el presidente de la JAC</strong>, quien va de un lado a otro por Chiminangos respondiendo dudas y haciendo claridad sobre los temas básicos en esta coyuntura nunca antes vivida en el sector.</p>
+<p>La próxima reunión con la gobernadora está cercana y el eje central será conocer pormenores del primer informe.</p>
+<p>En un encuentro de líderes de las torres se acordó enviarle un documento (“<em>oficio</em>”) con temas básicos para que ella venga con las respuestas concretas.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/09/Obras-la-voz-en-barrios-de-Cali-1.jpg" alt="Habitantes de Chiminangos 2 en Cali solicitando la reconstrucción de sus viviendas tras el terremoto" /></p>
+<p><strong>La gobernadora Dilian Francisca Toro, en la primera reunión, aseveró que</strong> “<em>yo me comprometo a apoyarlos, a apoyar a Chiminangos 1 y 2 en todo lo que esté a mi alcance, hasta dónde lo pueda hacer el Departamento</em>”.</p>
+<h2>Tensiones</h2>
+<p>Las ilusiones, al igual que las tensiones y presiones, son de distintos tipos, dependiendo de las dimensiones de los daños sufridos en las torres, al punto que hay familias que no han podido volver a habitar sus apartamentos y permanecen en carpas.</p>
+<p>Otros han desafiado los “<em>Stikers rojos</em>”, pues no han tenido pa´dónde irse, ni están dispuestos a dejar abandonadas sus pertenencias, ni su patrimonio.</p>
+<p><strong>Al panorama se han agregado declaraciones del alcalde Alejandro Eder, asegurando que</strong> “<em>para mi gobierno Chiminangos es prioridad, ya tenemos separada la plata para las reparaciones y, si es necesario demoler alguna torre, la demolemos y la reconstruiremos…</em>”.</p>
+<p>Estas declaraciones, además de esperanzas, generan dudas, pues al no disponerse de los estudios claves cómo se sabe cuánta plata se requiere y bajo cuáles condiciones se ejecutarían los trabajos.</p>
+<p>Mientras tanto, se logró, por intermedio de la Junta de Acción Comunal, que se adelantarán dos jornadas para correcciones e inscripciones en el censo, labor que se cumplirá en la zona… y con ello la posibilidad de subsanar vacíos y poder ser incluidos en los auxilios y/o diversas formas de ayudas, tanto locales como nacionales.</p>
+<p>Y en medio de este panorama no falta aquel que rompió para ampliar la zona de la ventana de la sala y habilitar una puerta y construir una escalera externa que le permitiera llegar al segundo piso.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/reconstruccion-de-chiminangos-en-cali-obras/">¡Obras!, la voz en barrios de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/reconstruccion-de-chiminangos-en-cali-obras/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Proyecto busca preparar a Colombia para la economía plateada</title>
+		<link>https://occidente.co/colombia/politica-publica-de-longevidad-colombia/</link>
+					<comments>https://occidente.co/colombia/politica-publica-de-longevidad-colombia/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 01:48:16 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439996</guid>
+
+					<description><![CDATA[<p>El representante a la Cámara por el Valle del Cauca, Santiago Castro, radicó un proyecto de ley que busca crear la política pública de longevidad y economía plateada en Colombia, con el propósito de preparar al Estado ante el acelerado envejecimiento de la población. La iniciativa entiende la economía plateada como el conjunto de actividades...</p>
+<p>The post <a href="https://occidente.co/colombia/politica-publica-de-longevidad-colombia/">Proyecto busca preparar a Colombia para la economía plateada</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El representante a la Cámara por el Valle del Cauca, Santiago Castro, radicó un proyecto de ley que busca crear la política pública de longevidad y economía plateada en Colombia</strong>, con el propósito de preparar al Estado ante el acelerado envejecimiento de la población.</p>
+<p>La iniciativa entiende la economía plateada como el conjunto de actividades económicas relacionadas con el consumo, ahorro, trabajo y emprendimiento de las personas mayores de 50 años.</p>
+<p>Según las proyecciones del DANE citadas en la propuesta, la población de 60 años o más pasará de representar cerca del 14% en 2023 al 25% en 2050.</p>
+<p>Bogotá, Valle del Cauca y Antioquia concentran las proporciones más altas de personas mayores del país.</p>
+<h2>Medir el aporte de los mayores a la economía</h2>
+<p>Uno de los principales componentes del proyecto es la creación de la Cuenta Satélite de la Economía de la Longevidad, que estaría a cargo del DANE.</p>
+<p>Esta herramienta permitiría medir el aporte de las personas mayores a la economía colombiana a partir de aspectos como su capacidad de consumo, el empleo generado por sus decisiones de compra, el emprendimiento sénior, el trabajo remunerado y no remunerado y la inversión privada dirigida a esta población.</p>
+<p>La iniciativa parte también de que muchos adultos mayores trabajan de manera informal, cuidan a sus nietos u otros familiares o participan activamente en sus comunidades, actividades que en muchos casos desarrollan sin respaldo ni reconocimiento del Estado.</p>
+<p>El proyecto no plantea cambiar la protección que reciben las personas mayores en condición de vulnerabilidad.</p>
+<p>La propuesta busca sumar instrumentos para que el Estado reconozca y acompañe a quienes continúan aportando desde su conocimiento y experiencia.</p>
+<p>Actualmente, Colombia mide a través del DANE el trabajo doméstico y de cuidado no remunerado, asumido principalmente por mujeres, así como el mercado laboral de los jóvenes entre los 14 y 28 años.</p>
+<p>La iniciativa plantea desarrollar una medición para el otro extremo de la pirámide poblacional.</p>
+<h3>Comisión coordinaría políticas para esta población</h3>
+<p>El proyecto también propone crear la Comisión Intersectorial de Longevidad y Economía Plateada, que reuniría entidades de sectores como salud, vivienda, transporte, educación y trabajo para diseñar políticas públicas coordinadas dirigidas a esta población.</p>
+<p>Entre sus funciones estaría adoptar un Plan Nacional de Longevidad, realizar seguimiento mediante indicadores y rendir cuentas cada año ante el Congreso sobre sus avances.</p>
+<p>La propuesta busca que el país cuente con herramientas para afrontar un escenario en el que, según las proyecciones presentadas, en 2050 uno de cada cuatro colombianos tendrá 60 años o más.</p>
+<p>“<em>Le debemos más a nuestros adultos mayores, y este proyecto es un primer paso para pagar esa deuda. Todos tenemos en la familia a personas mayores con ganas, conocimiento y capacidad de seguir contribuyendo a la sociedad. Es hora de que el Estado empiece a verlos y a responderles de verdad</em>”, <strong>precisó el representante Santiago Castro</strong>.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/politica-publica-de-longevidad-colombia/">Proyecto busca preparar a Colombia para la economía plateada</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/politica-publica-de-longevidad-colombia/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Cómo andan los ánimos en Cali luego del terremoto?&#8230; Lea</title>
+		<link>https://occidente.co/opinion/ventana/impacto-del-terremoto-en-cali-duelo-ciudadano/</link>
+					<comments>https://occidente.co/opinion/ventana/impacto-del-terremoto-en-cali-duelo-ciudadano/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 01:36:44 +0000</pubDate>
+				<category><![CDATA[Ventana]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439993</guid>
+
+					<description><![CDATA[<p>Falavi2005@yahoo.com @falavi2005 Para tener en cuenta: Aunque uno pretende alejar la mente un poco de los desastres y golpes contra la vida y el bienestar dados por el terremoto 7.4 en Cali, otras ciudades y en pueblos, lo cierto es que ese impacto se mantiene latente en la mente y hasta en nuestras conductas. En...</p>
+<p>The post <a href="https://occidente.co/opinion/ventana/impacto-del-terremoto-en-cali-duelo-ciudadano/">¿Cómo andan los ánimos en Cali luego del terremoto?&#8230; Lea</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em>Falavi2005@yahoo.com</em></p>
+<p><em>@falavi2005</em></p>
+<h2>Para tener en cuenta:</h2>
+<p>Aunque uno pretende alejar la mente un poco de los desastres y golpes contra la vida y el bienestar dados por el terremoto 7.4 en Cali, otras ciudades y en pueblos, lo cierto es que ese impacto se mantiene latente en la mente y hasta en nuestras conductas.</p>
+<p>En el caso de Cali, la situación es más dolorosa al pasar por aquellos sectores más afectados, cuando se ven ruinas y lotes donde hubo construcciones que se convirtieron en tumbas, es que fueron 154 fallecidos y un sinnúmero de dramas contados y otros bajo el silencio del dolor… Por todo esto, es que, recomiendo tener especial tacto con eventos masivos de goce programados para esta ciudad, los ánimos están achicopalados, el corazón apretado y la mente en otra parte.</p>
+<p>Es así como se acaba de vivir el “<em>Día de amor y amistad</em>” más apagado de Cali, hasta los restaurantes estuvieron por debajo de lo que esperaban… La verdad, es que en Cali seguimos achicopalados entre demoliciones, colapsos y stikers amarillos y rojos… Como decimos los campesinos “<em>El palo no está pa´cucharas</em>” …</p>
+<h3>La Pregunta Fregona:</h3>
+<p><strong>¿En realidad existen “<em>outsiders</em>” en la política o son políticos muy bien camuflados?</strong></p>
+<h3>Entre Tomates y Fresas:</h3>
+<ul>
+<li><strong>Tomates:</strong> muchos y bien podridos para la desinformación que va y viene por Cali sobre los auxilios económicos a los damnificados… Luego de que “se pagaran” algunos, la mayoría siguen y seguimos esperando que lleguen mensajes anunciando que se puede acudir a cobrar, dineros que se invertirán en arriendos o reparaciones urgentes.</li>
+<li><strong>Fresas:</strong> bastantes y sabrosas para aquellos emprendedores, famiempresas y mipymes que en el Valle, incluyendo Cali, intentan levantar cabeza luego que el terremoto acabara con muchos de sus logros y de sus ilusiones.</li>
+</ul>
+<h4>Al César lo que es del César:</h4>
+<p>Hay que reconocer que, el presidente Abelardo de la Espriella, viene cumpliendo su promesa de atacar a los grupos terroristas, grupos alzados en arma y en general a la delincuencia organizada, lo mismo que a bandidos que venían haciendo de las suyas.</p>
+<p>Las Fuerzas Armadas y la misma Policía han tenido que reasumir a plenitud sus funciones constitucionales y pasar de la defensiva o posición contemplativa a la ofensiva en distintas zonas del país.</p>
+<h3>Farándula en Acción:</h3>
+<p>Impresionante el triunfo de Shakira en España con su serie de conciertos y ciudadela con expresiones y aires colombianos.</p>
+<p>Las exposiciones, las muestras del Carnaval de Barranquilla y mucho aquello que significa la colombianidad.</p>
+<p>Son 10 conciertos y ya tienen el éxito asegurado. Es un regreso triunfal, pues desde España salió hasta con la vida destrozada tras su fracasada relación matrimonial.</p>
+<h2>Las “Ultimas” del Periodismo:</h2>
+<p>Aunque todo está bajo cláusula de “<em>confidencialidad</em>”, lo cierto es que ya se sabe que la propuesta de firma Go Sports compite fuerte por quedarse con la exclusividad de las transmisiones de los partidos del Fútbol Profesional Colombiano -FPC-.</p>
+<p>Se dice que tiene la mayor propuesta económica, por encima de Win Sports.</p>
+<p>Vamos a ver si pesan otros factores como la credibilidad, experiencia en el sector y soportes financieros, más experiencia específica y el talento humano. Se dice que Win Sports no subirá su propuesta inicial.</p>
+<p>Los periodistas, en Win Sports, deben estar con los nervios alterados, porque en la licitación arriba mencionada también se están jugados sus empleos, al igual que el de las empresas contratadas para las transmisiones desde los estadios.</p>
+<p><em><strong>Chao… Nos vemos mañana… Gracias a DIOS por todo…</strong></em></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/opinion/ventana/impacto-del-terremoto-en-cali-duelo-ciudadano/">¿Cómo andan los ánimos en Cali luego del terremoto?&#8230; Lea</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/ventana/impacto-del-terremoto-en-cali-duelo-ciudadano/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“¿Ya te dormiste?”: por qué después del sexo uno queda listo para dormir y el otro podría salir de fiesta</title>
+		<link>https://occidente.co/uncategorized/dormirse-despues-del-sexo-razones-relajacion/</link>
+					<comments>https://occidente.co/uncategorized/dormirse-despues-del-sexo-razones-relajacion/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 00:39:38 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439989</guid>
+
+					<description><![CDATA[<p>La escena resulta familiar para muchas parejas. El encuentro termina, uno busca abrazarse, conversar, pedir algo de comer o poner una película y, cuando gira la cabeza para compartir alguna reflexión trascendental, descubre que la otra persona ya está prácticamente dormida. “¿En serio? ¿Ya te dormiste?”. Del otro lado apenas llega un murmullo incomprensible antes...</p>
+<p>The post <a href="https://occidente.co/uncategorized/dormirse-despues-del-sexo-razones-relajacion/">“¿Ya te dormiste?”: por qué después del sexo uno queda listo para dormir y el otro podría salir de fiesta</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La escena resulta familiar para muchas parejas.</p>
+<p>El encuentro termina, uno busca abrazarse, conversar, pedir algo de comer o poner una película y, cuando gira la cabeza para compartir alguna reflexión trascendental, descubre que la otra persona ya está prácticamente dormida. “<em>¿En serio? ¿Ya te dormiste?</em>”.</p>
+<p>Del otro lado apenas llega un murmullo incomprensible antes de comenzar la respiración profunda.</p>
+<p>Mientras uno siente que podría levantarse, preparar comida y conversar durante una hora, el otro parece haber recibido un poderoso sedante.</p>
+<h2>¿Por qué después del sexo algunas personas quedan profundamente relajadas y otras parecen tener más energía que antes?</h2>
+<p>La respuesta involucra la manera en que cada organismo atraviesa la fase posterior a la excitación sexual, pero también intervienen el cansancio, el momento del día, el sueño acumulado, las emociones e incluso las costumbres de cada persona.</p>
+<h3>El cuerpo empieza a bajar revoluciones</h3>
+<p>Durante la actividad sexual el organismo aumenta su nivel de activación.</p>
+<p>Se acelera el ritmo cardíaco, cambia la respiración, aumenta la tensión muscular y participan diferentes procesos del sistema nervioso.</p>
+<p>Después del orgasmo llega la denominada fase de resolución, durante la cual el cuerpo comienza progresivamente a regresar a su estado habitual.</p>
+<p>Para muchas personas ese descenso produce una poderosa sensación de relajación.</p>
+<p>Además, durante y después del orgasmo intervienen sustancias como la oxitocina y la prolactina, relacionadas, entre otras funciones, con procesos de vinculación, satisfacción y relajación.</p>
+<p><strong>Sin embargo, reducir todo a una sola “<em>hormona del sueño</em>” sería simplificar demasiado:</strong> la reacción posterior depende de múltiples factores.</p>
+<p>También importa la hora</p>
+<p>Existe además una explicación bastante menos romántica.</p>
+<p><strong>Muchas parejas tienen relaciones sexuales cuando finalmente han terminado todas las obligaciones del día:</strong> después de trabajar, cocinar, atender la casa, mirar televisión y acostarse.</p>
+<p>Es decir, exactamente cuando ya estaban cansadas.</p>
+<p>Si una persona tiene sexo a las 11:30 de la noche después de levantarse a las seis de la mañana, quizá no sea necesario buscar una compleja explicación biológica para entender por qué cinco minutos después está dormida.</p>
+<p>La relajación simplemente termina de hacer el trabajo.</p>
+<h4>¿Y por qué el otro queda completamente despierto?</h4>
+<p>Aquí aparece la parte curiosa. No todas las personas experimentan de igual manera el periodo posterior.</p>
+<p>Algunas sienten somnolencia inmediata; otras quedan relajadas pero despiertas y algunas experimentan una sensación agradable de energía, bienestar o conexión.</p>
+<p>Estas últimas pueden querer conversar, reír, abrazarse, comer algo o continuar compartiendo tiempo.</p>
+<p><strong>Y entonces surge uno de los pequeños conflictos clásicos de pareja:</strong> uno interpreta dormir como satisfacción y el otro puede interpretarlo como indiferencia.</p>
+<p>“<em>Terminó y se durmió</em>” puede sentirse muy diferente dependiendo de quién cuente la historia.</p>
+<h2>Dormirse no necesariamente significa desinterés</h2>
+<p>Este punto es importante porque alrededor del sueño posterior al sexo existen numerosos estereotipos.</p>
+<p>Que alguien tenga sueño inmediatamente después no demuestra por sí solo que sea egoísta, que haya perdido el interés o que quiera escapar de la conversación.</p>
+<p>Puede estar sencillamente agotado.</p>
+<p>El problema aparece cuando las necesidades posteriores son diferentes y nunca se hablan.</p>
+<p>Para una persona, quedarse abrazada durante quince minutos puede formar parte esencial de la intimidad; para otra, la sensación natural después del encuentro es cerrar los ojos y dormir.</p>
+<p>Ninguna reacción tiene que ser necesariamente incorrecta.</p>
+<h3><strong>El otro extremo:</strong> “<em>¿pedimos pizza?</em>”</h3>
+<p>También están quienes parecen experimentar un segundo aire.</p>
+<p><strong>Termina el encuentro y aparecen preguntas como:</strong></p>
+<ul>
+<li>“¿Tienes hambre?”.</li>
+<li>“¿Vemos otro capítulo?”.</li>
+<li>“¿Quieres una copa de agua?”.</li>
+<li>“¿Qué hacemos mañana?”.</li>
+</ul>
+<p>Mientras tanto, al lado hay alguien luchando heroicamente por mantener los ojos abiertos.</p>
+<p>La diferencia puede resultar divertida siempre que ambos entiendan que no existe una única manera correcta de sentirse después del sexo.</p>
+<h4>El famoso abrazo posterior también importa</h4>
+<p>Para muchas personas, el periodo inmediatamente posterior tiene un enorme valor emocional.</p>
+<p>Conversar, acariciarse, abrazarse o simplemente permanecer juntos puede reforzar la sensación de cercanía.</p>
+<p>Por eso, cuando una persona necesita dormir y la otra necesita conexión, puede servir un acuerdo tan sencillo como reservar unos minutos para estar juntos antes de darse vuelta y descansar.</p>
+<p>No hacen falta grandes discursos.</p>
+<p>A veces bastan cinco minutos.</p>
+<h3>Así que no se lo tome necesariamente personal</h3>
+<p>La próxima vez que alguien pronuncie indignado “<em>¿ya te dormiste?</em>” y reciba como respuesta únicamente un ronquido, quizá convenga recordar que el cuerpo humano tiene maneras muy diferentes de regresar a la normalidad después de la excitación.</p>
+<p>Uno puede querer conversar sobre la relación.</p>
+<p>El otro puede querer pedir hamburguesas.</p>
+<p>Y otro puede quedar profundamente dormido antes siquiera de encontrar la almohada.</p>
+<p>El verdadero misterio quizá no sea por qué alguien se duerme después del sexo, sino cómo su pareja todavía pretende iniciar una conversación de cuarenta minutos a medianoche.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/uncategorized/dormirse-despues-del-sexo-razones-relajacion/">“¿Ya te dormiste?”: por qué después del sexo uno queda listo para dormir y el otro podría salir de fiesta</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/uncategorized/dormirse-despues-del-sexo-razones-relajacion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Dilian y la U volverán a ser claves para elegir gobernador</title>
+		<link>https://occidente.co/politica/graffiti/gobernacion-del-valle-en-2027-partido-de-la-u/</link>
+					<comments>https://occidente.co/politica/graffiti/gobernacion-del-valle-en-2027-partido-de-la-u/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 00:27:40 +0000</pubDate>
+				<category><![CDATA[Graffiti]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439984</guid>
+
+					<description><![CDATA[<p>En algunos corrillos políticos del Valle se escucha una teoría según la cual el tiempo que lleva el Partido de la U en la Gobernación terminará sacándolo de la competencia por el primer cargo del departamento en 2027. Pero esa es una lectura bastante alejada de la realidad. La U ha ganado las últimas tres...</p>
+<p>The post <a href="https://occidente.co/politica/graffiti/gobernacion-del-valle-en-2027-partido-de-la-u/">Dilian y la U volverán a ser claves para elegir gobernador</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>En algunos corrillos políticos del Valle se escucha una teoría según la cual el tiempo que lleva el Partido de la U en la Gobernación terminará sacándolo de la competencia por el primer cargo del departamento en 2027</strong>.</p>
+<p>Pero esa es una lectura bastante alejada de la realidad.</p>
+<p>La U ha ganado las últimas tres elecciones departamentales y lleva diez años y nueve meses en la Gobernación del Valle.</p>
+<p><strong>Cuando termine el actual período, la colectividad habrá completado doce años consecutivos en el Palacio de San Francisco:</strong> Dilian Francisca Toro gobernó entre 2016 y 2019, Clara Luz Roldán entre 2020 y 2023 y desde 2024 gobierna nuevamente Toro.</p>
+<p>¿Hay desgaste después de tanto tiempo en el poder? Seguramente es un factor que estará en la discusión electoral, pero de ahí a pensar que Dilian Francisca Toro y su grupo político estarán por fuera de la definición del próximo gobernador hay mucho trecho.</p>
+<p>En términos prácticos, la mandataria y su colectividad tienen todo para volver a ser claves en las elecciones de 2027.</p>
+<p>Primero, porque no hay otra organización política en el Valle que tenga 300 mil votos propios.</p>
+<p><strong>Y segundo, porque además de tener el poder departamental, la U cuenta con una bancada propia importante:</strong> dos senadores y dos representantes a la Cámara.</p>
+<p>A eso se suma otro factor. Al margen de la campaña de desprestigio y los ataques sistemáticos que sectores de la izquierda mantienen contra Dilian Francisca Toro, la gobernadora lo ha hecho bien y está muy bien posicionada en los municipios vallecaucanos, y eso, naturalmente, también pesa electoralmente.</p>
+<p>Pero hay algo más. Graffiti conoció que están avanzadas las conversaciones para que la misma coalición de partidos que impulsó la candidatura de Dilian Francisca Toro en 2023 vuelva a actuar unida en las elecciones de octubre de 2027.</p>
+<p>Y sería una coalición muy poderosa. Si se suman los votos obtenidos en las recientes elecciones legislativas por los partidos que hicieron parte de esa alianza y los de otras colectividades que no estuvieron en 2023, pero que estarían dispuestas a sumarse ahora, el potencial electoral de ese bloque en el Valle se calcula en 900 mil votos.</p>
+<p>Es decir, tienen con qué poner gobernador. El reto será ponerse de acuerdo en el candidato, y allí hay un dato muy importante.</p>
+<p>De muy buena fuente, supo Graffiti que el Partido de la U no está obsesionado con que el candidato de esa coalición tenga que ser necesariamente uno de sus militantes.</p>
+<p>La idea es otra.</p>
+<p>La U tendrá sus precandidatos y seguramente los demás partidos también pondrán nombres sobre la mesa, pero el propósito es encontrar, entre todos, a quien tenga las mayores posibilidades de ganar y arroparlo conjuntamente.</p>
+<p>¿Cómo escogerlo? La idea que se viene trabajando es realizar una serie de encuestas para establecer cuál de los aspirantes tiene mayor opción y, una vez identificado, enfilar baterías alrededor suyo.</p>
+<p>Si logran ponerse de acuerdo, esta coalición llegará nuevamente con mucha fuerza a la disputa por la Gobernación.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/politica/graffiti/gobernacion-del-valle-en-2027-partido-de-la-u/">Dilian y la U volverán a ser claves para elegir gobernador</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/politica/graffiti/gobernacion-del-valle-en-2027-partido-de-la-u/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
