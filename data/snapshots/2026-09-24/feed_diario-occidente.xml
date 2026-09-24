@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Thu, 24 Sep 2026 07:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>AI slowdown: ¿realidad o discurso?</title>
+		<link>https://occidente.co/secciones/tecnologia/ai-slowdown-realidad-o-discurso/</link>
+					<comments>https://occidente.co/secciones/tecnologia/ai-slowdown-realidad-o-discurso/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 24 Sep 2026 07:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=439873</guid>
+
+					<description><![CDATA[<p>Un giro en la discusión sobre el ritmo del avance de la IA La industria de la inteligencia artificial volvió a la palestra cuando líderes como Dario Amodei (Anthropic) y Sam Altman (OpenAI) plantearon la idea de &#8220;pacear la frontera&#8221;, y figuras como Jensen Huang (Nvidia) y el presidente Donald Trump respondieron en sentido contrario....</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/ai-slowdown-realidad-o-discurso/">AI slowdown: ¿realidad o discurso?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Un giro en la discusión sobre el ritmo del avance de la IA</h2>
+</p>
+<p>La industria de la inteligencia artificial volvió a la palestra cuando líderes como Dario Amodei (Anthropic) y Sam Altman (OpenAI) plantearon la idea de &#8220;pacear la frontera&#8221;, y figuras como Jensen Huang (Nvidia) y el presidente Donald Trump respondieron en sentido contrario. El término &#8220;AI slowdown&#8221; aparece desde los primeros comentarios y resume la discusión pública sobre si el desarrollo de modelos avanzados debe frenarse o regularse más.</p>
+</p>
+<h2>AI slowdown: qué ocurrió y por qué importa</h2>
+</p>
+<p>En los últimos días varios ejecutivos y expertos del sector convergieron en propuestas que incluyen evaluadores externos para revisar prácticas de seguridad, coordinación entre grandes empresas en países democráticos y una agenda de estándares internacionales. Estas propuestas se hicieron públicas tras un blog de Amodei y comentarios en foros y conferencias, y generaron tanto apoyo como críticas inmediatas; por ejemplo, Jensen Huang rechazó la idea de una pausa, alineándose con posturas políticas que minimizan la necesidad de nuevas regulaciones.</p>
+</p>
+<h2>Qué cambia para las personas</h2>
+</p>
+<h3>Mayor supervisión en empresas líderes</h3>
+</p>
+<p>Si se implementan evaluadores externos, los productos y servicios basados en IA podrían someterse a revisiones más frecuentes, lo que podría traducirse en actualizaciones y controles adicionales antes de lanzamientos públicos. Para usuarios comunes, esto puede significar menos cambios repentinos en herramientas que ya usan.</p>
+</p>
+<h3>Posibles estándares internacionales</h3>
+</p>
+<p>La coordinación entre países democráticos buscaría uniformar límites y prácticas. En la práctica, los ciudadanos podrían ver reglas más claras sobre privacidad y uso de datos en aplicaciones con IA, aunque la aplicación dependerá de decisiones gubernamentales posteriores.</p>
+</p>
+<h3>Menos influencia del mercado de consumo</h3>
+</p>
+<p>El debate evidencia que la presión del consumidor puede no ser el motor principal del control: muchas empresas venden servicios a otras empresas (B2B), donde la cancelación por parte de usuarios finales tiene menos efecto. Esto reduce la capacidad de los consumidores de forzar cambios mediante boicots o migración de servicios.</p>
+</p>
+<h2>Aspectos pendientes y sin resolver</h2>
+</p>
+<p>Las propuestas contienen ideas generales pero carecen de detalles operativos: no hay claridad sobre cómo se seleccionarán los evaluadores, qué autoridad tendrán, ni cómo se coordinarán estándares entre países. Tampoco está resuelto si esas medidas implicarán una verdadera ralentización del desarrollo o solo mayor supervisión formal. Además, la voluntad política para aplicar y hacer cumplir normas sigue siendo incierta.</p>
+</p>
+<h2>Contexto para entender la discusión</h2>
+</p>
+<p>El término &#8220;pacear la frontera&#8221; busca evitar riesgos percibidos asociados a modelos cada vez más potentes. En términos cotidianos, sería como exigir pruebas y controles adicionales antes de vender un nuevo fármaco, pero aplicado a software avanzado. Sin embargo, a diferencia de la regulación farmacéutica, aquí falta consenso sobre quién define las pruebas y quién las ejecuta.</p>
+</p>
+<p>La conversación refleja una tensión entre actores que promueven precauciones y quienes temen que frenar la innovación perjudique el desarrollo tecnológico y económico. Mientras tanto, usuarios y empresas cliente seguirán viendo cambios según cómo evolucionen estas medidas y quiénes logren imponer reglas concretas.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Mayor supervisión puede traducirse en herramientas más seguras y lanzamientos menos bruscos.</p>
+</p>
+<p><strong>Negocio:</strong> Las empresas proveedoras podrían enfrentar auditorías y estándares que afecten sus ciclos de lanzamiento.</p>
+</p>
+<p><strong>Industria:</strong> El sector se enfrenta a definiciones de gobernanza que condicionarán la competencia y colaboración internacional.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/ai-slowdown-realidad-o-discurso/">AI slowdown: ¿realidad o discurso?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/ai-slowdown-realidad-o-discurso/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Unión Vial anuncia nuevas obras para avanzar en doble calzada Buga-Buenaventura</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/obras-en-la-via-buga-buenaventura-doble-calzada/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/obras-en-la-via-buga-buenaventura-doble-calzada/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 24 Sep 2026 01:06:58 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440118</guid>
+
+					<description><![CDATA[<p>La Unión Vial Camino del Pacífico anunció que se prepara para iniciar trabajos en las unidades funcionales 2, 3, 4 y parte de la 5 del corredor Buga-Buenaventura, obras consideradas necesarias para avanzar en la doble calzada hacia el puerto. El anuncio fue realizado por Juan Carlos Ruíz, gerente de la concesionaria, durante un encuentro...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/obras-en-la-via-buga-buenaventura-doble-calzada/">Unión Vial anuncia nuevas obras para avanzar en doble calzada Buga-Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La Unión Vial Camino del Pacífico anunció que se prepara para iniciar trabajos en las unidades funcionales 2, 3, 4 y parte de la 5 del corredor Buga-Buenaventura, obras consideradas necesarias para avanzar en la doble calzada hacia el puerto.</p>
+<p><strong>El anuncio fue realizado por Juan Carlos Ruíz, gerente de la concesionaria</strong>, durante un encuentro con medios de comunicación en Buenaventura, en el que presentó un balance de las obras y las próximas intervenciones previstas en el corredor.</p>
+<p>Como paso previo, la Unión Vial Camino del Pacífico convocó para el próximo 1 de octubre una audiencia pública en Buenaventura, a la que fueron invitados gremios, comunidades, instituciones y entidades nacionales y territoriales.</p>
+<p>El propósito será socializar el inicio de los trabajos en estas unidades funcionales.</p>
+<h2>Corredor registra un avance del 32%</h2>
+<p>Ruíz informó que el avance general de las unidades funcionales se encuentra alrededor del 32%.</p>
+<p>Explicó que algunos trámites de permisos ocasionaron un ritmo menor al esperado, pero aseguró que la concesionaria mantiene la disposición de continuar las obras.</p>
+<p>Durante 2026 fueron entregadas las unidades funcionales 6, 7, 16 y 18, que ya se encuentran a disposición de los usuarios de la vía.</p>
+<p>Para comienzos de 2027 está prevista la entrega de la totalidad de los túneles existentes y de las unidades funcionales 10 y 11.</p>
+<p>“<em>Creemos que el corredor ya presenta un cambio significativo que se puede ver precisamente en la modernidad y la seguridad que estamos dando a los usuarios de la vía</em>”, <strong>señaló el gerente</strong>.</p>
+<p>Ruíz también destacó el acompañamiento del Gobierno Nacional y de la Gobernación del Valle del Cauca.</p>
+<p>Señaló que recientemente la ministra de Transporte, Elsa Noguera, visitó los avances de las unidades funcionales 19, 20 y 21.</p>
+<h3>Audiencia para socializar nuevas obras</h3>
+<p>La audiencia del 1 de octubre tendrá como eje las unidades funcionales 2, 3, 4 y 5.</p>
+<p>Según Ruíz, estas intervenciones permitirán continuar la conexión en doble calzada entre Buga y Buenaventura.</p>
+<p>“<em>Necesitamos hacer esas obras, estamos dispuestos a hacer esas obras y queremos hacer esas obras</em>”, <strong>afirmó el gerente al convocar a los diferentes sectores de Buenaventura a participar en la jornada</strong>.</p>
+<p>Entre las entidades convocadas están los ministerios de Transporte e Interior, la Agencia Nacional de Infraestructura, la Procuraduría, la ANLA y la Gobernación del Valle del Cauca.</p>
+<p>La concesionaria también analiza alternativas para ejecutar trabajos nocturnos en las nuevas unidades funcionales.</p>
+<p>Ruíz explicó que una eventual operación durante las 24 horas dependerá de las garantías de seguridad necesarias para desarrollar las obras.</p>
+<h4>Nuevo peaje operaría a comienzos de 2027</h4>
+<p>Durante el encuentro también se abordó el nuevo peaje previsto en el sector de Cisneros. De acuerdo con el gerente de la Unión Vial Camino del Pacífico, actualmente se realizan trabajos en ese punto.</p>
+<p>La previsión es que comience a operar entre enero y febrero de 2027.</p>
+<p>Ruíz indicó que conservará la misma tarifa y que su entrada en funcionamiento deberá coordinarse con otras unidades funcionales y con el proceso para dejar de operar en Loboguerrero.</p>
+<p>El gerente también se refirió a las intervenciones realizadas después del terremoto del 10 de agosto.</p>
+<p>Indicó que aproximadamente diez horas después del sismo fue habilitado un corredor humanitario con un carril y paso restringido.</p>
+<p>Desde entonces, según explicó, continuaron los monitoreos y trabajos de ingeniería para determinar las afectaciones y las intervenciones necesarias en el corredor.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/obras-en-la-via-buga-buenaventura-doble-calzada/">Unión Vial anuncia nuevas obras para avanzar en doble calzada Buga-Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/obras-en-la-via-buga-buenaventura-doble-calzada/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>La Luna sigue guardando preguntas después de Artemis II</title>
+		<link>https://occidente.co/secciones/tendencias/mision-artemis-ii-a-la-luna-datos-cientificos/</link>
+					<comments>https://occidente.co/secciones/tendencias/mision-artemis-ii-a-la-luna-datos-cientificos/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 24 Sep 2026 00:36:09 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440115</guid>
+
+					<description><![CDATA[<p>Seis meses después de que Artemis II llevara nuevamente seres humanos alrededor de la Luna, nuestro satélite natural continúa planteando interrogantes. La misión, que despegó el 1 de abril y regresó el 10 de abril de 2026, permitió a cuatro astronautas observar de cerca la superficie lunar y recopilar imágenes, videos y registros de audio...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/mision-artemis-ii-a-la-luna-datos-cientificos/">La Luna sigue guardando preguntas después de Artemis II</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Seis meses después de que Artemis II llevara nuevamente seres humanos alrededor de la Luna, nuestro satélite natural continúa planteando interrogantes.</p>
+<p><strong>La misión, que despegó el 1 de abril y regresó el 10 de abril de 2026, permitió a cuatro astronautas observar de cerca la superficie lunar y recopilar imágenes, videos y registros de audio que todavía son objeto de análisis científico</strong>.</p>
+<p>Una de las preguntas centrales sigue siendo cómo evolucionó exactamente la Luna y qué puede revelar sobre los primeros tiempos de la Tierra y del sistema solar.</p>
+<p>Los científicos estudian cráteres, antiguos flujos de lava, fallas y variaciones de color y textura para reconstruir esa historia.</p>
+<p>También persisten interrogantes sobre el agua y otros recursos lunares, especialmente en regiones que permanecen en condiciones extremas de iluminación y temperatura. Resolverlos será importante para futuras misiones tripuladas.</p>
+<p>Pero la Luna no solo pertenece al territorio de la ciencia. Durante siglos fue explicada mediante mitos y leyendas.</p>
+<p>En la tradición china, por ejemplo, Chang’e, la esposa del arquero Hou Yi, vive en la Luna después de beber un elixir de inmortalidad; junto a ella aparece el célebre conejo de jade, asociado con la preparación de ese elixir.</p>
+<p>Otros relatos culturales han imaginado habitantes, dioses o animales en la superficie lunar.</p>
+<p>Incluso después de las misiones Apolo surgieron teorías que cuestionaban los alunizajes, pese a la abundante evidencia científica e histórica que los documenta.</p>
+<p>Artemis II no resolvió todos los enigmas. Su legado, en cambio, deja una nueva colección de datos para intentar responderlos.</p>
+<p>La Luna sigue siendo, simultáneamente, laboratorio científico, archivo del pasado y escenario de historias que la humanidad ha contado durante milenios.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/mision-artemis-ii-a-la-luna-datos-cientificos/">La Luna sigue guardando preguntas después de Artemis II</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/mision-artemis-ii-a-la-luna-datos-cientificos/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Siguen emisiones de ceniza en Puracé</title>
+		<link>https://occidente.co/regionales/cauca/emisiones-de-ceniza-en-purace-alerta-naranja/</link>
+					<comments>https://occidente.co/regionales/cauca/emisiones-de-ceniza-en-purace-alerta-naranja/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 24 Sep 2026 00:26:44 +0000</pubDate>
+				<category><![CDATA[Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440112</guid>
+
+					<description><![CDATA[<p>Al tiempo que mantuvo la alerta naranja, el Servicio Geológico Colombiano informó que el volcán Puracé registró tres emisiones de ceniza y continúa su actividad. Las emisiones fueron confirmadas mediante las cámaras de monitoreo de la actividad superficial. La más alta alcanzó 1.200 metros sobre la cima del volcán y se dispersó hacia el occidente....</p>
+<p>The post <a href="https://occidente.co/regionales/cauca/emisiones-de-ceniza-en-purace-alerta-naranja/">Siguen emisiones de ceniza en Puracé</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Al tiempo que mantuvo la alerta naranja, el Servicio Geológico Colombiano informó que el volcán Puracé registró tres emisiones de ceniza y continúa su actividad</strong>.</p>
+<p>Las emisiones fueron confirmadas mediante las cámaras de monitoreo de la actividad superficial.</p>
+<p>La más alta alcanzó 1.200 metros sobre la cima del volcán y se dispersó hacia el occidente. Además, se recibieron reportes de caída de ceniza en la vereda Cobaló y en el casco urbano de Coconuco, en el municipio de Puracé.</p>
+<p>Según la entidad persiste la actividad sísmica asociada con la dinámica de fluidos bajo el cráter, a profundidades inferiores a un kilómetro.</p>
+<p>También fueron registrados eventos relacionados con fracturamiento de roca, ubicados aproximadamente 15 kilómetros al nororiente del volcán, con profundidades entre seis y diez kilómetros y magnitudes inferiores a 1,0 Ml.</p>
+<p>El monitoreo evidencia, además, una deformación lenta del suelo en el sector entre los volcanes Puracé, Piocollo y Curiquinga.</p>
+<p>La emisión de dióxido de azufre continúa, aunque presenta una disminución, mientras el dióxido de carbono en el suelo sigue en ascenso. Una anomalía térmica de baja energía fue detectada en el fondo del cráter.</p>
+<p>Ante estas condiciones, el SGC recomendó evitar el ingreso a los cráteres y a las cabeceras de los ríos que nacen en estos volcanes, debido a posibles emisiones repentinas, expulsión de rocas y flujos de lodo de menor alcance.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/cauca/emisiones-de-ceniza-en-purace-alerta-naranja/">Siguen emisiones de ceniza en Puracé</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/cauca/emisiones-de-ceniza-en-purace-alerta-naranja/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Sector privado se suma a reconstrucción del HUV</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/hospital-universitario-del-valle-avanza-en-campana-de-reconstruccion/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/hospital-universitario-del-valle-avanza-en-campana-de-reconstruccion/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 24 Sep 2026 00:00:37 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440109</guid>
+
+					<description><![CDATA[<p>Ya son varios los empresarios y emprendedores que se han vinculado a la reconstrucción del Hospital Universitario del Valle a través de la campaña &#8220;El Valle lo Reconstruimos Juntos&#8221;, liderada por la Gobernación del Valle del Cauca. El objetivo es que la principal institución de salud del suroccidente colombiano, alcance nuevamente el 100 % de...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/hospital-universitario-del-valle-avanza-en-campana-de-reconstruccion/">Sector privado se suma a reconstrucción del HUV</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Ya son varios los empresarios y emprendedores que se han vinculado a la reconstrucción del Hospital Universitario del Valle a través de la campaña &#8220;El Valle lo Reconstruimos Juntos&#8221;, liderada por la Gobernación del Valle del Cauca.</strong></p>
+<p>El objetivo es que la principal institución de salud del suroccidente colombiano, alcance nuevamente el 100 % de su capacidad de atención.</p>
+<p>Es así como diseñadores, empresarios y representantes de gremios se han vinculado a esta iniciativa mediante aportes asociados a sus actividades comerciales.</p>
+<p><strong>Nicolás Leyton, director ejecutivo para el Pacífico y la Amazonía Gastronómica de Colombia</strong>, invitó a los establecimientos gastronómicos a participar mediante la venta de limonadas, destinando parte de sus ingresos a la reconstrucción del hospital.</p>
+<p>La gobernadora Dilian Francisca Toro explicó que el 20 % del costo de cada limonada podrá destinarse a esta campaña, como una alternativa para que los negocios y la ciudadanía contribuyan a la recuperación del HUV.</p>
+<p>Desde el sector de la moda, la emprendedora Claudia Osorio anunció que su emprendimiento de camisetas Bendita Sucursal donará el 10 % de sus utilidades por cada compra realizada en el marco de la campaña.</p>
+<p>A su vez, Nelson Aristizábal, presidente de Aritex, informó que la empresa aportará 500 camisetas, con un valor estimado de venta entre $40 y $50 millones, y destinará el 50 % de las utilidades de las prendas diseñadas para esta iniciativa.</p>
+<p><strong>La Gobernación invitó a más personas y empresas a sumarse a la recuperación de esta institución de salud.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/hospital-universitario-del-valle-avanza-en-campana-de-reconstruccion/">Sector privado se suma a reconstrucción del HUV</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/hospital-universitario-del-valle-avanza-en-campana-de-reconstruccion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Llamado a acelerar inversión en el Valle</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/dilian-francisca-toro-exige-acelerar-proyectos-claves-en-el-valle/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/dilian-francisca-toro-exige-acelerar-proyectos-claves-en-el-valle/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 23:50:20 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440106</guid>
+
+					<description><![CDATA[<p>Un llamado al gobierno nacional hizo la gobernadora del Valle del Cauca, Dilian Francisca Toro, para que acelere el respaldo financiero y administrativo para proyectos estratégicos que considera fundamentales para la competitividad y la reactivación económica del departamento. Durante la presentación de las iniciativas, Toro señaló que la reconstrucción tras el terremoto debe avanzar sin...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/dilian-francisca-toro-exige-acelerar-proyectos-claves-en-el-valle/">Llamado a acelerar inversión en el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un llamado al gobierno nacional hizo la gobernadora del Valle del Cauca, Dilian Francisca Toro, para que acelere el respaldo financiero y administrativo para proyectos estratégicos que considera fundamentales para la competitividad y la reactivación económica del departamento.</strong></p>
+<p>Durante la presentación de las iniciativas, Toro señaló que la reconstrucción tras el terremoto debe avanzar sin dejar de lado las obras de desarrollo.</p>
+<p><em>“La reconstrucción hay que hacerla, pero no podemos olvidarnos de los proyectos de desarrollo del Valle”</em>,<strong> afirmó.</strong></p>
+<p>Entre las prioridades está el Tren de Cercanías, cuyo convenio no pudo firmarse el año pasado.</p>
+<p><strong>La región tiene previstos aportes por $3,7 billones, mientras el proyecto tendría un costo estimado de entre $12 y $13 billones.</strong></p>
+<p>La Gobernación espera que el Ministerio de Hacienda permita avanzar con las vigencias futuras y la cofinanciación nacional.</p>
+<p>La mandataria también solicitó definir el futuro del dragado del canal de acceso al puerto de Buenaventura y conocer el estado de la vía Mulaló-Loboguerrero, actualmente en un Comité de Arbitramento.</p>
+<p>Otro de los proyectos señalados fue el corredor del Pacífico, con énfasis en el tramo Palmira-Buga y la recuperación del tren del Pacífico para transporte turístico, de pasajeros y carga.</p>
+<p>Así mismo, Toro planteó incluir 35 kilómetros de doble calzada entre La Paila y Calarcá en la nueva concesión de Autopistas del Café.</p>
+<p><strong>La ministra de Transporte, Elsa Noguera, aseguró que el Gobierno llevará las solicitudes para “destrabar, acelerar y ejecutar” los proyectos.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/dilian-francisca-toro-exige-acelerar-proyectos-claves-en-el-valle/">Llamado a acelerar inversión en el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/dilian-francisca-toro-exige-acelerar-proyectos-claves-en-el-valle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Canalón de Timbiquí y Nueva Ola se unen en un “Arrullo Solidario” por Cali</title>
+		<link>https://occidente.co/secciones/espectaculo/canalon-de-timbiqui-encabeza-el-concierto-arrullo-solidario-en-cali/</link>
+					<comments>https://occidente.co/secciones/espectaculo/canalon-de-timbiqui-encabeza-el-concierto-arrullo-solidario-en-cali/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 23:40:22 +0000</pubDate>
+				<category><![CDATA[Espectáculo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440103</guid>
+
+					<description><![CDATA[<p>El concierto será este sábado 26 de septiembre en Curador Club Social y reunirá los sonidos tradicionales del Pacífico con nuevas propuestas musicales. La cita comenzará a las 8:00 p. m. La marimba, los cununos, los bombos y las voces del Pacífico colombiano se encontrarán este sábado 26 de septiembre en el centro histórico de...</p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/canalon-de-timbiqui-encabeza-el-concierto-arrullo-solidario-en-cali/">Canalón de Timbiquí y Nueva Ola se unen en un “Arrullo Solidario” por Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El concierto será este sábado 26 de septiembre en Curador Club Social y reunirá los sonidos tradicionales del Pacífico con nuevas propuestas musicales.</strong></p>
+<p><strong>La cita comenzará a las 8:00 p. m.</strong></p>
+<p>La marimba, los cununos, los bombos y las voces del Pacífico colombiano se encontrarán este sábado 26 de septiembre en el centro histórico de Cali en “Arrullo Solidario”, un concierto que reunirá en un mismo escenario a Canalón de Timbiquí y Nueva Ola, alrededor de la música, la memoria y la solidaridad.</p>
+<p>La jornada tendrá lugar en Curador Club Social, ubicado en la calle 12 #1-18, diagonal al Teatro Jorge Isaacs, y comenzará a las 8:00 p.m. La boletería está disponible a través de la página oficial del espacio cultural.</p>
+<p><strong>El nombre del encuentro tiene una conexión directa con las tradiciones del Pacífico.</strong></p>
+<p>En Timbiquí, los arrullos son una forma de celebrar la vida mediante el canto y la música, conectando comunidad, memoria y territorio.</p>
+<p>En esta ocasión, el concepto llega a Cali convertido en una invitación a reunirse y reconocer el poder colectivo de la cultura.</p>
+<p>Uno de los grandes atractivos será Canalón de Timbiquí, agrupación insignia de la música del Pacífico caucano y que tiene entre sus voces destacadas a la maestra Nidia Góngora.</p>
+<p>Su propuesta recoge las vivencias de Timbiquí y habla de la selva, los ríos, el mar y las tradiciones de su territorio, acompañada por instrumentos como la marimba de chonta, el guasá, los cununos y los bombos.</p>
+<p><strong>La agrupación cuenta además con una importante trayectoria internacional.</strong></p>
+<p>Fue nominada al Latin Grammy en 2019 en la categoría Mejor Álbum Folclórico y obtuvo en 2008 el reconocimiento como Mejor Agrupación de Marimba en el Festival de Música del Pacífico Petronio Álvarez.</p>
+<p>También ha participado en escenarios como WOMEX, Glastonbury, SXSW, WOMAD Cáceres y Festival Cordillera.</p>
+<h2>Una nueva generación de sonidos</h2>
+<p>La otra protagonista será Nueva Ola, agrupación nacida en 2019 por iniciativa del gestor y músico folclorista Jhon Fredy Vivas Orobio, a partir de procesos de formación y divulgación de la musicalidad del litoral Pacífico colombiano desarrollados en Cali.</p>
+<p><strong>El proyecto evolucionó hasta construir una propuesta que fusiona ritmos tradicionales y afrodiaspóricos.</strong></p>
+<p>Sus canciones recorren mitos, leyendas, historias de amor y la añoranza por el territorio, buscando transmitir el legado cultural del Pacífico desde un lenguaje fresco y autóctono.</p>
+<p><strong>“Arrullo Solidario” busca así que el encuentro vaya más allá de un concierto.</strong></p>
+<p>La intención es volver a reunir a Cali alrededor de la música y de la posibilidad de acompañar y construir colectivamente, utilizando la cultura como escenario para la solidaridad.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/canalon-de-timbiqui-encabeza-el-concierto-arrullo-solidario-en-cali/">Canalón de Timbiquí y Nueva Ola se unen en un “Arrullo Solidario” por Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/espectaculo/canalon-de-timbiqui-encabeza-el-concierto-arrullo-solidario-en-cali/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Colombia podría depender 100 % del gas importado y perder más de $400 billones hacia 2050</title>
+		<link>https://occidente.co/empresario/sector-minero-energetico-anif-y-cree-advierten-riesgos-fiscales/</link>
+					<comments>https://occidente.co/empresario/sector-minero-energetico-anif-y-cree-advierten-riesgos-fiscales/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 23:33:47 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440100</guid>
+
+					<description><![CDATA[<p>El debilitamiento del sector minero-energético comienza a convertirse en un problema que va mucho más allá de la producción de petróleo, gas o minerales. Menores ingresos fiscales, mayor dependencia energética, presión sobre las tarifas y pérdida de competitividad son algunos de los riesgos advertidos por Anif y el Centro Regional de Estudios de Energía (Cree)...</p>
+<p>The post <a href="https://occidente.co/empresario/sector-minero-energetico-anif-y-cree-advierten-riesgos-fiscales/">Colombia podría depender 100 % del gas importado y perder más de $400 billones hacia 2050</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El debilitamiento del sector minero-energético comienza a convertirse en un problema que va mucho más allá de la producción de petróleo, gas o minerales.</strong></p>
+<p>Menores ingresos fiscales, mayor dependencia energética, presión sobre las tarifas y pérdida de competitividad son algunos de los riesgos advertidos por Anif y el Centro Regional de Estudios de Energía (Cree) durante el seminario “Energía para volver a crecer”.</p>
+<p>Una de las cifras más contundentes está en las finanzas públicas. Mientras el PIB colombiano creció 37% entre finales de 2013 y finales de 2025, minas y canteras se contrajo cerca de 30%.</p>
+<p>Como consecuencia, su participación en el recaudo del impuesto de renta corporativa pasó de 36,2 % en 2012 a solamente 6,3 % en 2025.</p>
+<p><em>“Con las finanzas públicas en uno de sus momentos más estrechos, el país no puede prescindir de una fuente de recaudo que en 2012 aportaba más de un tercio del impuesto de renta de las empresas”</em>,<strong> señaló José Ignacio López, presidente de Anif.</strong></p>
+<h2>Una sustitución difícil de conseguir</h2>
+<p>El Cree dimensionó cuánto tendría que crecer otra actividad económica para compensar ese deterioro.</p>
+<p>Según sus cálculos, por cada peso que caiga el PIB de hidrocarburos, la industria tendría que generar $2,8 adicionales para mantener constante el recaudo tributario.</p>
+<p><strong>El impacto también llega al empleo y las regiones.</strong></p>
+<p>De cada peso generado por la producción petrolera, 44 centavos se convierten directamente en salarios, utilidades e impuestos, mientras cada empleo en campo sostiene casi seis puestos indirectos en actividades como comercio, transporte y servicios.</p>
+<p>Las modelaciones del Cree indican que una contracción precipitada del sector, sin una sustitución fiscal, podría reducir en más de $400 billones los aportes públicos hacia 2050, afectando la capacidad estatal para financiar programas de reducción de pobreza, salud y vivienda.</p>
+<h2>Gas importado ya alcanza el 30,8 %</h2>
+<p>La segunda alerta está en el abastecimiento. Las importaciones de gas pasaron en apenas tres años de niveles cercanos a cero a representar un récord de 30,8 % del suministro nacional en julio de 2026.</p>
+<p>El Cree advierte que, sin incorporar nuevas fuentes locales de manera ordenada, Colombia podría llegar a depender hasta en 100 % del gas importado durante la próxima década.</p>
+<p>A esto se suma El Niño. Anif actualmente proyecta una inflación de 6,6 % al cierre del año, pero estima que podría alcanzar 7,3% si el fenómeno climático se presenta con fuerza, debido a sus efectos sobre alimentos, electricidad y gas.</p>
+<p><strong>El costo energético ya muestra un deterioro frente a otros países.</strong></p>
+<p>Desde el período prepandemia, los precios de electricidad, gas y otros combustibles han aumentado 55,5% en Colombia, el segundo incremento más alto entre los países comparados de América Latina, después de Chile, con 71,5%.</p>
+<p>El mayor costo afecta particularmente a la industria, donde la energía tiene un peso importante dentro de la estructura de producción y puede terminar trasladándose al precio pagado por los consumidores.</p>
+<p>Frente a este panorama, Anif plantea agilizar licencias ambientales, ofrecer seguridad jurídica e incentivar nuevos proyectos de generación.</p>
+<p><strong>El Cree, por su parte, propone avanzar en electrificación y energías limpias sin prescindir abruptamente de la producción nacional.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/sector-minero-energetico-anif-y-cree-advierten-riesgos-fiscales/">Colombia podría depender 100 % del gas importado y perder más de $400 billones hacia 2050</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/sector-minero-energetico-anif-y-cree-advierten-riesgos-fiscales/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Civiles quedaron en medio de combates en El Tambo</title>
+		<link>https://occidente.co/regionales/cauca/disidencias-de-las-farc-causan-confinamiento-por-combates-en-cauca/</link>
+					<comments>https://occidente.co/regionales/cauca/disidencias-de-las-farc-causan-confinamiento-por-combates-en-cauca/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 23:14:19 +0000</pubDate>
+				<category><![CDATA[Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440096</guid>
+
+					<description><![CDATA[<p>El fuego cruzado entre el Ejército y disidencias mantuvo confinadas durante más de seis horas a familias y estudiantes de Pueblo Nuevo Ciprés. Momentos de temor y zozobra vivieron habitantes de la zona rural de El Tambo, Cauca, durante los intensos combates entre tropas de la Tercera División del Ejército y miembros del frente Carlos...</p>
+<p>The post <a href="https://occidente.co/regionales/cauca/disidencias-de-las-farc-causan-confinamiento-por-combates-en-cauca/">Civiles quedaron en medio de combates en El Tambo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El fuego cruzado entre el Ejército y disidencias mantuvo confinadas durante más de seis horas a familias y estudiantes de Pueblo Nuevo Ciprés.</strong></p>
+<p>Momentos de temor y zozobra vivieron habitantes de la zona rural de El Tambo, Cauca, durante los intensos combates entre tropas de la Tercera División del Ejército y miembros del frente Carlos Patiño, de las disidencias de las Farc.</p>
+<p>Los enfrentamientos se registraron en el corregimiento de Pueblo Nuevo Ciprés, donde la comunidad permaneció resguardada en viviendas, negocios y un colegio durante varias horas.</p>
+<p>Según el personero de El Tambo, Luis Fernando Vergara, entre 150 y 200 estudiantes tuvieron que permanecer protegidos hasta aproximadamente las 5:00 de la tarde, cuando pudieron regresar a sus hogares.</p>
+<p><strong>La situación generó preocupación entre las familias ante el riesgo de quedar en medio de las ráfagas y por la posibilidad de que los combates se reanuden.</strong></p>
+<p>El personero también informó que recibió reportes sobre civiles heridos y una persona fallecida, aunque aclaró que, hasta ese momento, estas versiones estaban en proceso de verificación y no habían sido confirmadas por las autoridades ni los hospitales de El Tambo.</p>
+<p>Tras el cese de los enfrentamientos, fue convocado un Consejo Extraordinario de Seguridad para evaluar las afectaciones y realizar un censo de la población afectada.</p>
+<p><strong>Las comunidades pidieron acompañamiento de la Defensoría del Pueblo y de misiones humanitarias, ante el temor de nuevos combates y un eventual desplazamiento de familias hacia lugares seguros.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/cauca/disidencias-de-las-farc-causan-confinamiento-por-combates-en-cauca/">Civiles quedaron en medio de combates en El Tambo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/cauca/disidencias-de-las-farc-causan-confinamiento-por-combates-en-cauca/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Vigilan actividad de cerro Machín por sismos en Tolima</title>
+		<link>https://occidente.co/colombia/volcan-cerro-machin-registro-incremento-de-sismicidad-en-tolima/</link>
+					<comments>https://occidente.co/colombia/volcan-cerro-machin-registro-incremento-de-sismicidad-en-tolima/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 23:08:47 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440093</guid>
+
+					<description><![CDATA[<p>El Servicio Geológico Colombiano (SGC) mantiene bajo vigilancia permanente al volcán Cerro Machín, en el Tolima, luego de registrar un incremento en la actividad sísmica durante la semana comprendida entre el 15 y el 21 de septiembre de 2026. De acuerdo con el boletín semanal, aumentaron tanto el número de sismos como la energía liberada...</p>
+<p>The post <a href="https://occidente.co/colombia/volcan-cerro-machin-registro-incremento-de-sismicidad-en-tolima/">Vigilan actividad de cerro Machín por sismos en Tolima</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El Servicio Geológico Colombiano (SGC) mantiene bajo vigilancia permanente al volcán Cerro Machín, en el Tolima, luego de registrar un incremento en la actividad sísmica durante la semana comprendida entre el 15 y el 21 de septiembre de 2026.</strong></p>
+<p>De acuerdo con el boletín semanal, aumentaron tanto el número de sismos como la energía liberada frente a la semana anterior.</p>
+<p><strong>Los eventos estuvieron asociados principalmente con el fracturamiento de roca al interior del edificio volcánico.</strong></p>
+<p>Los movimientos fueron localizados en los flancos sursuroriental, occidentalsuroccidental y orientalsuroriental, entre 2 y 8 kilómetros respecto al nivel de referencia.</p>
+<p>El sismo de mayor magnitud ocurrió el 18 de septiembre, a las 5:37 p. m., con una magnitud de 1,2 y una profundidad de 8 kilómetros respecto al nivel de referencia.</p>
+<p>Pese al incremento de la sismicidad, el SGC indicó que los demás parámetros monitoreados no presentaron cambios importantes durante el periodo analizado.</p>
+<p><strong>Por ello, el estado de actividad del Cerro Machín permanece en alerta amarilla.</strong></p>
+<p>El SGC también aclaró que los temblores registrados en otras zonas del Tolima no necesariamente están relacionados con el volcán.</p>
+<p>En Chaparral, por ejemplo, se habían contabilizado más de 130 sismos de magnitud superior a 2,0 hasta el 21 de septiembre, asociados a fallas geológicas activas.</p>
+<p><strong>La entidad señaló que continuará evaluando la evolución de la actividad y recordó que los sismos de mayor magnitud no pueden predecirse.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/volcan-cerro-machin-registro-incremento-de-sismicidad-en-tolima/">Vigilan actividad de cerro Machín por sismos en Tolima</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/volcan-cerro-machin-registro-incremento-de-sismicidad-en-tolima/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Acuavalle descarta racionamiento de agua en el Valle</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/acuavalle-confirmo-que-no-habra-racionamiento-de-agua-en-el-valle/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/acuavalle-confirmo-que-no-habra-racionamiento-de-agua-en-el-valle/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 23 Sep 2026 23:04:27 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=440085</guid>
+
+					<description><![CDATA[<p>Pese al intenso calor y la proximidad del pico del fenómeno de El Niño, previsto para el mes de noviembre, Acuavalle confirmó que no habrá racionamiento de agua en los municipios que atiende en el Valle del Cauca. El gerente de la empresa, Jorge Enrique Sánchez, explicó que, aunque se ha registrado una disminución en...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/acuavalle-confirmo-que-no-habra-racionamiento-de-agua-en-el-valle/">Acuavalle descarta racionamiento de agua en el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Pese al intenso calor y la proximidad del pico del fenómeno de El Niño, previsto para el mes de noviembre, Acuavalle confirmó que no habrá racionamiento de agua en los municipios que atiende en el Valle del Cauca.</strong></p>
+<p>El gerente de la empresa, Jorge Enrique Sánchez, explicó que, aunque se ha registrado una disminución en algunos caudales de fuentes superficiales, se mantiene un monitoreo permanente de los sistemas y se han implementado medidas para garantizar la sostenibilidad del servicio.</p>
+<p>El funcionario indicó que “hemos podido hacer las regulaciones a través de nuestra empresa de las pérdidas que teníamos, haciendo un monitoreo permanente a todos nuestros sistemas y específicamente el tema del embalse del Sara Brut”.</p>
+<p>Sánchez desmintió versiones sobre un posible corte programado y aseguró que los niveles actuales permiten operar con normalidad.</p>
+<p><em>“No hemos tenido un descenso considerable que conlleve a un posible racionamiento”</em>, <strong>indicó.</strong></p>
+<p>Según Acuavalle, el embalse Sara Brut se encuentra al 93,5% de su capacidad, un nivel suficiente para afrontar los meses de mayor impacto climático, previstos entre octubre y noviembre.</p>
+<p>La entidad recordó que presta el servicio de agua potable en 33 municipios, 50 corregimientos y 66 veredas del departamento, con cerca de 205.000 suscriptores.</p>
+<p><strong>Mientras avanza la temporada seca, la empresa mantiene la vigilancia de caudales y redes para evitar pérdidas y asegurar el suministro sin interrupciones.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/acuavalle-confirmo-que-no-habra-racionamiento-de-agua-en-el-valle/">Acuavalle descarta racionamiento de agua en el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/acuavalle-confirmo-que-no-habra-racionamiento-de-agua-en-el-valle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
