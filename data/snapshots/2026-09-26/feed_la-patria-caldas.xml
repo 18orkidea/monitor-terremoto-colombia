@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="http://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>http://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Sat, 26 Sep 26 00:00:00 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>http://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Grados de la Fundación Cruzada Social</title>
+  <link>http://www.lapatria.com/galerias/grados-de-la-fundacion-cruzada-social</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Grados de la Fundación Cruzada Social&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-26T00:00:00-05:00" title="Sábado, Septiembre 26, 2026 - 00:00" class="datetime"&gt;Sáb, 26/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En la sala Kumanday del Teatro Los Fundadores se realizó la ceremonia de grados de los programas técnicos de la Fundación Cruzada Social.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/grados-de-la-fundacion-cruzada-social" data-a2a-title="Grados de la Fundación Cruzada Social"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fgrados-de-la-fundacion-cruzada-social&amp;amp;title=Grados%20de%20la%20Fundaci%C3%B3n%20Cruzada%20Social"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sat, 26 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">94013 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Novia del día</title>
+  <link>http://www.lapatria.com/galerias/novia-del-dia-1</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Novia del día&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-26T00:00:00-05:00" title="Sábado, Septiembre 26, 2026 - 00:00" class="datetime"&gt;Sáb, 26/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;María Camila Guastar Rincón contraerá matrimonio hoy con Cristian López Cifuentes, a las 4:00 p.m. en la parroquia de Nuestra Señora del Sagrado Corazón de Palermo. La recepción se realizará en el restaurante Casa Grande. Los padres de la novia son Luis Eduardo Guastar Montes y Olga Lucía Rincón Rodríguez y los padres del novio son Gerardo Augusto López Valencia y Olga Aseneth Cifuentes Bermúdez.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/novia-del-dia-1" data-a2a-title="Novia del día"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fnovia-del-dia-1&amp;amp;title=Novia%20del%20d%C3%ADa"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sat, 26 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">94010 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Matrimonio</title>
+  <link>http://www.lapatria.com/galerias/matrimonio-3</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Matrimonio&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-26T00:00:00-05:00" title="Sábado, Septiembre 26, 2026 - 00:00" class="datetime"&gt;Sáb, 26/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Javier de Jesús Cuartas Arango y Olga Lucía Cardona Correa contrajeron matrimonio en la parroquia Nuestra Señora de la Esperanza La Macarena, en el barrio La Sultana.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/matrimonio-3" data-a2a-title="Matrimonio"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fmatrimonio-3&amp;amp;title=Matrimonio"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sat, 26 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">94009 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 26 de septiembre del 2026</title>
+  <link>http://www.lapatria.com/publicacion/portada-26-de-septiembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 26 de septiembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/33" typeof="schema:Person" property="schema:name" datatype content="Santiago Zapata Zapata"&gt;Santiago Zapat…&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-25T23:05:59-05:00" title="Viernes, Septiembre 25, 2026 - 23:05" class="datetime"&gt;Vie, 25/09/2026 - 23:05&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=94043&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="goixGuUoMHQq0f2LPCaUg7d-FW9xD7XBEi2R6dHV0Dw"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="http://www.lapatria.com/sites/default/files/portadas/2026-09/Portada%2026%20de%20septiembre%20del%202026.jpg" width="537" height="700" alt="Portada 26 de septiembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 26 de septiembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 26 Sep 2026 04:05:59 +0000</pubDate>
+          <dc:creator>Santiago Zapata Zapata</dc:creator>
+          <guid isPermaLink="false">94043 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>EMPLEO </title>
+  <link>http://www.lapatria.com/clasificados/empleo-100</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;EMPLEO &lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-25T08:29:34-05:00" title="Viernes, Septiembre 25, 2026 - 08:29" class="datetime"&gt;Vie, 25/09/2026 - 08:29&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93938&amp;amp;2=bookmark&amp;amp;3=rss" token="3V-GmJPWm3l6so3vTLfLHdAxqfP50CEc9hJ-5-N7az0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3366" hreflang="es"&gt;Empleos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;321-3694911&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 25 Sep 2026 13:29:34 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93938 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>EMPLEO </title>
+  <link>http://www.lapatria.com/clasificados/empleo-99</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;EMPLEO &lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-25T08:28:07-05:00" title="Viernes, Septiembre 25, 2026 - 08:28" class="datetime"&gt;Vie, 25/09/2026 - 08:28&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93937&amp;amp;2=bookmark&amp;amp;3=rss" token="ZXzifyju3Mnyl-cHK7FzpnWQwgEw3gJxBbcpGt4DkgU"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3366" hreflang="es"&gt;Empleos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt; 310-7622628&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 25 Sep 2026 13:28:07 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93937 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Venta de vehículo</title>
+  <link>http://www.lapatria.com/clasificados/venta-de-vehiculo-29</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Venta de vehículo&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-25T08:24:59-05:00" title="Viernes, Septiembre 25, 2026 - 08:24" class="datetime"&gt;Vie, 25/09/2026 - 08:24&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93940&amp;amp;2=bookmark&amp;amp;3=rss" token="K1m-LMiDBwPB9OLW8WkZ__e0w1dsJnO_MNGbI4hB7Ro"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3365" hreflang="es"&gt;Carros / Motos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;: 311-3575169.&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 25 Sep 2026 13:24:59 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93940 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA CASA</title>
+  <link>http://www.lapatria.com/clasificados/venta-casa-81</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA CASA&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-25T07:35:53-05:00" title="Viernes, Septiembre 25, 2026 - 07:35" class="datetime"&gt;Vie, 25/09/2026 - 07:35&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=93936&amp;amp;2=bookmark&amp;amp;3=rss" token="UZqQO5X9z3qYZM8Ae_Xw-EcnWtWeRt4_l48imm_Q7C8"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="http://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt; 310-3826919&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 25 Sep 2026 12:35:53 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">93936 at http://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Encuentro con emprendedores del Sena en el Hotel Benidorm de Manizales</title>
+  <link>http://www.lapatria.com/galerias/encuentro-con-emprendedores-del-sena-en-el-hotel-benidorm-de-manizales</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Encuentro con emprendedores del Sena en el Hotel Benidorm de Manizales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="http://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-09-25T00:00:00-05:00" title="Viernes, Septiembre 25, 2026 - 00:00" class="datetime"&gt;Vie, 25/09/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;&amp;nbsp;La Unidad de Emprendimiento del Sena Caldas realizó en el Hotel Benidorm una jornada de orientación dirigida a emprendedores que se preparan para poner en marcha sus proyectos.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="http://www.lapatria.com/galerias/encuentro-con-emprendedores-del-sena-en-el-hotel-benidorm-de-manizales" data-a2a-title="Encuentro con emprendedores del Sena en el Hotel Benidorm de Manizales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fencuentro-con-emprendedores-del-sena-en-el-hotel-benidorm-de-manizales&amp;amp;title=Encuentro%20con%20emprendedores%20del%20Sena%20en%20el%20Hotel%20Benidorm%20de%20Manizales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Fri, 25 Sep 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">93918 at http://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
