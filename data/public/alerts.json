@@ -1,12 +1,18 @@
 {
- "generado": "2026-10-01",
- "fecha": "2026-10-01",
+ "generado": "2026-10-02",
+ "fecha": "2026-10-02",
  "alertas": [
+  {
+   "tipo": "reportes_ciudadanos",
+   "nivel": "info",
+   "texto": "11 reporte(s) ciudadano(s) nuevos en ChatMap en las últimas 24 h",
+   "n": 11
+  },
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "217 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 217
+   "texto": "317 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 317
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -71,12 +77,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 35 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 35
+   "texto": "La OPS lleva 36 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 36
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-09-30",
+  "fecha": "2026-10-01",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -189,8 +195,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-10-01/oficiales_feed.json",
-   "items": 146,
+   "snapshot": "data/snapshots/2026-10-02/oficiales_feed.json",
+   "items": 148,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
