@@ -1,6 +1,6 @@
 {
- "generado": "2026-10-03",
- "fecha": "2026-10-03",
+ "generado": "2026-10-04",
+ "fecha": "2026-10-04",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1601,
-    "n_oficial": 47,
+    "n_prensa": 1610,
+    "n_oficial": 48,
     "n_ciudadano": 488,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1499,
-    "n_oficial": 47,
+    "n_prensa": 1505,
+    "n_oficial": 48,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 723,
-    "n_oficial": 44,
+    "n_prensa": 724,
+    "n_oficial": 45,
     "n_ciudadano": 374,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1499,
-    "n_oficial": 47,
+    "n_prensa": 1505,
+    "n_oficial": 48,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -428,7 +428,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 124,
-    "n_oficial": 47,
+    "n_oficial": 48,
     "n_ciudadano": 51,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -512,8 +512,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 114,
-    "n_oficial": 47,
+    "n_prensa": 117,
+    "n_oficial": 48,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 344,
-    "n_oficial": 46,
+    "n_prensa": 347,
+    "n_oficial": 47,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 1060
+   "feeds": 1069
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 854
+   "feeds": 859
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 635
+   "feeds": 638
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 629
+   "feeds": 630
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 574
+   "feeds": 576
   },
   {
    "fecha": "2026-08-15",
@@ -683,7 +683,7 @@
    "gdelt": 0.9958,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 536
+   "feeds": 538
   },
   {
    "fecha": "2026-08-16",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 323
+   "feeds": 327
   },
   {
    "fecha": "2026-08-17",
@@ -707,7 +707,7 @@
    "gdelt": 0.7893,
    "fuentes": null,
    "chatmap": 22,
-   "feeds": 398
+   "feeds": 402
   },
   {
    "fecha": "2026-08-19",
@@ -715,7 +715,7 @@
    "gdelt": 0.5095,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 334
+   "feeds": 337
   },
   {
    "fecha": "2026-08-20",
@@ -731,7 +731,7 @@
    "gdelt": 0.4747,
    "fuentes": null,
    "chatmap": 26,
-   "feeds": 357
+   "feeds": 359
   },
   {
    "fecha": "2026-08-22",
@@ -739,7 +739,7 @@
    "gdelt": 0.2718,
    "fuentes": null,
    "chatmap": 80,
-   "feeds": 227
+   "feeds": 230
   },
   {
    "fecha": "2026-08-23",
@@ -747,7 +747,7 @@
    "gdelt": 0.2353,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 162
+   "feeds": 164
   },
   {
    "fecha": "2026-08-24",
@@ -755,7 +755,7 @@
    "gdelt": 0.2422,
    "fuentes": null,
    "chatmap": 97,
-   "feeds": 362
+   "feeds": 364
   },
   {
    "fecha": "2026-08-25",
@@ -763,7 +763,7 @@
    "gdelt": 0.2535,
    "fuentes": null,
    "chatmap": 12,
-   "feeds": 302
+   "feeds": 306
   },
   {
    "fecha": "2026-08-26",
@@ -779,7 +779,7 @@
    "gdelt": 0.2597,
    "fuentes": null,
    "chatmap": 18,
-   "feeds": 292
+   "feeds": 294
   },
   {
    "fecha": "2026-08-28",
@@ -875,7 +875,7 @@
    "gdelt": 0.1552,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 163
+   "feeds": 165
   },
   {
    "fecha": "2026-09-09",
@@ -923,7 +923,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 153
+   "feeds": 154
   },
   {
    "fecha": "2026-09-15",
@@ -939,7 +939,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 124
+   "feeds": 125
   },
   {
    "fecha": "2026-09-17",
@@ -955,7 +955,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 174
+   "feeds": 175
   },
   {
    "fecha": "2026-09-19",
@@ -971,7 +971,7 @@
    "gdelt": 0.0681,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 84
+   "feeds": 86
   },
   {
    "fecha": "2026-09-21",
@@ -979,7 +979,7 @@
    "gdelt": 0.047,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 144
+   "feeds": 145
   },
   {
    "fecha": "2026-09-22",
@@ -995,7 +995,7 @@
    "gdelt": 0.0587,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 162
+   "feeds": 163
   },
   {
    "fecha": "2026-09-24",
@@ -1035,7 +1035,7 @@
    "gdelt": 0.0322,
    "fuentes": null,
    "chatmap": 47,
-   "feeds": 84
+   "feeds": 85
   },
   {
    "fecha": "2026-09-29",
@@ -1051,7 +1051,7 @@
    "gdelt": 0.0467,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 75
+   "feeds": 77
   },
   {
    "fecha": "2026-10-01",
@@ -1074,8 +1074,16 @@
    "emm": null,
    "gdelt": null,
    "fuentes": null,
+   "chatmap": 0,
+   "feeds": 35
+  },
+  {
+   "fecha": "2026-10-04",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 26
+   "feeds": 17
   }
  ],
  "entregas": [
@@ -7376,7 +7384,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-10-03"
+  "generado": "2026-10-04"
  },
  "citizen": {
   "chatmap_total": 998,
@@ -9129,6 +9137,13 @@
    "category": "Wildfire",
    "countries": "Spain",
    "event_time": "2026-09-15T13:00:00"
+  },
+  {
+   "code": "EMSR933",
+   "name": "Flood in Crete, Greece",
+   "category": "Flood",
+   "countries": "Greece",
+   "event_time": "2026-10-01T07:00:00"
   }
  ],
  "institucional": [
