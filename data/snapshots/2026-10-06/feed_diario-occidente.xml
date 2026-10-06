@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Tue, 06 Oct 2026 13:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Chatham escala experiencia con OpenAI</title>
+		<link>https://occidente.co/secciones/tecnologia/chatham-escala-experiencia-openai/</link>
+					<comments>https://occidente.co/secciones/tecnologia/chatham-escala-experiencia-openai/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 13:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/chatham-escala-experiencia-openai/</guid>
+
+					<description><![CDATA[<p>Validación de operaciones acelerada por IA en Chatham Un sistema de revisión de operaciones que antes tomaba unos 30 minutos ahora puede completarse en menos de 4 minutos gracias a aplicaciones desarrolladas con Codex y funciones impulsadas por GPT‑5.6. Chatham OpenAI aparece desde el inicio de los procesos en este artículo para describir cómo la...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/chatham-escala-experiencia-openai/">Chatham escala experiencia con OpenAI</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Validación de operaciones acelerada por IA en Chatham</h2>
+<p>Un sistema de revisión de operaciones que antes tomaba unos 30 minutos ahora puede completarse en menos de 4 minutos gracias a aplicaciones desarrolladas con Codex y funciones impulsadas por GPT‑5.6. Chatham OpenAI aparece desde el inicio de los procesos en este artículo para describir cómo la firma redujo tiempos y reorganizó tareas rutinarias.</p>
+<h2>Chatham OpenAI: qué pasó y por qué importa</h2>
+<p>Chatham Financial anunció que usa Codex para construir herramientas internas y GPT‑5.6 para funciones de inteligencia artificial en su oferta y procesos. El anuncio, publicado por la propia compañía en octubre de 2026, destaca que su servicio de reingeniería Process Zero aplicó esas tecnologías para acelerar la validación de operaciones, además de apoyar el desarrollo de su plataforma Chatham Onyx y aplicaciones internas llamadas Chatham Vibes. Esto es relevante porque combina automatización con controles humanos: la firma valida el desempeño de las aplicaciones frente a revisores expertos antes de ampliar la automatización.</p>
+<h2>Qué cambia para las personas</h2>
+<h3>Revisión más rápida de transacciones</h3>
+<p>Los procesos de validación que requerían media hora ahora se ejecutan en menos de cuatro minutos, lo que reduce el tiempo que los especialistas deben dedicar a tareas rutinarias y les permite dedicar más tiempo a análisis y asesoría.</p>
+<h3>Herramientas accesibles dentro de equipos</h3>
+<p>Empleados construyen aplicaciones internas con Chatham Vibes que incorporan modelos como GPT‑5.6, facilitando tareas como preparar hojas de precios o revisar confirmaciones sin depender únicamente de desarrollos centralizados.</p>
+<h3>Información y soporte más ágil para clientes</h3>
+<p>Capacidades como ChatFIN resumen datos de mercado y localizan documentos legales, lo que agiliza la obtención de información relevante para clientes y asesores manteniendo la trazabilidad de las fuentes.</p>
+<h2>Aspectos pendientes y límites actuales</h2>
+<p>La compañía aún compara los resultados de las aplicaciones con revisores humanos para validar precisión antes de ampliar la automatización a otros tipos de operaciones. También mantiene controles y supervisión profesional como condición para cualquier expansión. No se han anunciado plazos concretos para llevar la solución a todos los productos y el alcance futuro dependerá de esas validaciones continuas.</p>
+<h2>Contexto adicional</h2>
+<p>Para entender mejor el alcance de estas herramientas: Codex ayuda a escribir y revisar código o flujos de trabajo, y GPT‑5.6 se usa para tareas complejas que requieren mayor precisión. En la práctica, eso significa que una aplicación puede reunir evidencia de una operación, comparar términos clave y resaltar discrepancias que un revisor humano confirmará o corregirá.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Menos tiempo de espera en revisiones y respuestas más rápidas de asesores.</p>
+<p><strong>Negocio:</strong> Mayor eficiencia operativa y capacidad para dedicar expertos a tareas de mayor valor.</p>
+<p><strong>Industria:</strong> Avance en la integración de IA en procesos financieros con controles humanos.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/chatham-escala-experiencia-openai/">Chatham escala experiencia con OpenAI</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/chatham-escala-experiencia-openai/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Valentina Duque Estrada, la nueva Señorita Valle 2026</title>
+		<link>https://occidente.co/secciones/tendencias/valentina-duque-estrada-srta-valle-del-cauca-2026-designacion/</link>
+					<comments>https://occidente.co/secciones/tendencias/valentina-duque-estrada-srta-valle-del-cauca-2026-designacion/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 03:52:33 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441161</guid>
+
+					<description><![CDATA[<p>El Comité de Belleza del Valle del Cauca, Combelleza, designó a Valentina Duque Estrada como Srta. Valle del Cauca 2026. La nueva reina de los vallecaucanos nació en Tuluá, tiene 25 años, mide 1.74 mts. La reina vallecaucana reside en Cali, donde adelanta su preparación con miras a participar en el Concurso Nacional de Belleza...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/valentina-duque-estrada-srta-valle-del-cauca-2026-designacion/">Valentina Duque Estrada, la nueva Señorita Valle 2026</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El Comité de Belleza del Valle del Cauca, Combelleza, designó a Valentina Duque Estrada como Srta.</p>
+<p>Valle del Cauca 2026. La nueva reina de los vallecaucanos nació en Tuluá, tiene 25 años, mide 1.74 mts.</p>
+<p>La reina vallecaucana reside en Cali, donde adelanta su preparación con miras a participar en el Concurso Nacional de Belleza de Cartagena, el cual se realizará como es tradición en la primera quincena del mes de noviembre.</p>
+<p>Valentina tiene un grado en Comunicación Social y Periodismo de la Universidad Autónoma de Occidente con especialización en Comunicación Estratégica.</p>
+<p>Residió durante un tiempo en Bogotá, donde trabajó como comunicadora social en el área de mercadeo de una reconocida empresa.</p>
+<p>“<em>Me siento muy cómoda con mis dos carreras. La comunicación no es solo verbal sino también corporal y de expresiones. Uno puede comunicarse de diferentes maneras. La Comunicación Social me ha ayudado a ser mucho más versátil en mi desempeño como modelo</em>”, <strong>asegura la nueva Señorita Valle 2026</strong>.</p>
+<p>También le gusta caminar, estar con su familia y viajar. Valentina es bachiller del Colegio San Juan de la Loma de Tuluá, habla inglés y se considera una persona que tiene muy claras sus metas.</p>
+<p>“<em>Mi primera meta a corto plazo es ser Señorita Colombia. Y de ahí, a través de mi carrera, servirle a mi país de muchas maneras. Me gustaría también internacionalizar mi carrera como modelo y emprender en el mundo de los negocios con mi propia marca de ropa</em>”.</p>
+<p>Su hogar está conformado por sus padres, Frank Duque y Ximena Estrada, y su hermano Santiago Duque, quienes estarán acompañándola en noviembre próximo en el reinado de Cartagena durante cada una de sus presentaciones.</p>
+<h2>Una mujer interesante</h2>
+<p><strong>Andrea Vélez, directora ejecutiva del Comité de Belleza del Valle del Cauca, Combelleza, opina así de quien tiene ahora la responsabilidad de representar a los vallecaucanos en Cartagena:</strong> “<em>vimos en Valentina Duque a una vallecaucana muy bella y con un perfil personal y profesional muy interesante. Es comunicadora social graduada y tiene experiencia en el modelaje, lo cual seguramente la va a ayudar mucho para destacarse en el reinado de Cartagena y lograr una excelente representación para el Valle del Cauca</em>”.</p>
+<p>Con sus 1,74 mts. de estatura, sus ojos color café, su larga cabellera castaño oscuro, así como toda la preparación que actualmente adelanta de la mano de distintos expertos, Valentina Duque Estrada está enfocada en su meta más inmediata: participar en el Concurso Nacional de Belleza de Cartagena en noviembre próximo y alzarse con la corona de Señorita Colombia.</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/valentina-duque-estrada-srta-valle-del-cauca-2026-designacion/">Valentina Duque Estrada, la nueva Señorita Valle 2026</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/valentina-duque-estrada-srta-valle-del-cauca-2026-designacion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Si el Estado pone el dinero, debe cambiar el gobierno</title>
+		<link>https://occidente.co/colombia/plan-de-choque-en-salud-compra-de-cartera-eps-rescate-financiero/</link>
+					<comments>https://occidente.co/colombia/plan-de-choque-en-salud-compra-de-cartera-eps-rescate-financiero/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 02:47:06 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441158</guid>
+
+					<description><![CDATA[<p>Por: Carlos Eduardo Pinzón Flórez Las crisis tienen la capacidad de desnudar problemas que durante años aprendimos a administrar sin resolver. En el sistema de salud colombiano llevamos demasiado tiempo hablando de cartera hospitalaria, insuficiencia financiera, reservas técnicas, UPC y deudas con proveedores. Cambian las cifras, los gobiernos y algunas EPS, pero regresamos periódicamente al...</p>
+<p>The post <a href="https://occidente.co/colombia/plan-de-choque-en-salud-compra-de-cartera-eps-rescate-financiero/">Si el Estado pone el dinero, debe cambiar el gobierno</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Por:</strong> <em>Carlos Eduardo Pinzón Flórez</em></p>
+<p>Las crisis tienen la capacidad de desnudar problemas que durante años aprendimos a administrar sin resolver.</p>
+<p>En el sistema de salud colombiano llevamos demasiado tiempo hablando de cartera hospitalaria, insuficiencia financiera, reservas técnicas, UPC y deudas con proveedores.</p>
+<p><strong> Cambian las cifras, los gobiernos y algunas EPS, pero regresamos periódicamente al mismo lugar:</strong> hospitales sin caja, aseguradores con dificultades financieras y pacientes atrapados en medio.</p>
+<p>El Plan de Choque en Salud nace de esa urgencia. El Ministerio de Salud identificó 1.069.196 personas con medicamentos o procedimientos pendientes, más de 700.000 de ellas esperando medicamentos.</p>
+<p>Para enfrentar el represamiento anunció, entre otras medidas, un mecanismo extraordinario de compra de cartera.</p>
+<p>La necesidad de actuar es evidente: cuando alguien espera quimioterapia, insulina, una cirugía o antirretrovirales, la crisis financiera deja de ser una discusión entre contadores.</p>
+<p>Pero precisamente porque hay que actuar rápido debemos hacernos una pregunta más difícil: ¿qué recibirá el país a cambio de este nuevo esfuerzo financiero?</p>
+<p><strong>Luis Gonzalo Morales planteó recientemente en El Espectador una posibilidad provocadora:</strong> si el Estado compra cartera y termina financiando una EPS en dificultades, ¿podría convertirse también en accionista? Más que una discusión entre estatización y privatización, la pregunta abre un debate necesario: qué derechos, controles y transformaciones deberían acompañar cada peso público utilizado para sostener una organización que administra recursos sociales y riesgos sobre la vida de millones de personas.</p>
+<h2>No todas las EPS enfermas tienen la msma enfermedad</h2>
+<p>Hay una distinción elemental de las finanzas corporativas que puede ayudarnos: liquidez no es solvencia.</p>
+<p>Una organización viable puede atravesar temporalmente dificultades de caja. Otra puede haber acumulado pérdidas suficientes para comprometer estructuralmente su patrimonio.</p>
+<p>La primera necesita liquidez; la segunda necesita capital, reorganización o una salida ordenada.</p>
+<p>La compra de cartera puede resolver el primer problema. El hospital recibe recursos, paga nómina, compra medicamentos y mantiene sus servicios.</p>
+<p><strong>Pero si la EPS es estructuralmente insolvente, la operación puede limitarse a cambiar de acreedor:</strong> la clínica recibe el dinero, la obligación pasa al Estado y la EPS obtiene tiempo.</p>
+<p>Si permanecen intactos los desequilibrios que originaron el problema, estaremos financiando la siguiente crisis.</p>
+<p><strong>Por eso el Plan de Choque debería comenzar con un triaje financiero de las EPS:</strong> cuáles enfrentan problemas transitorios de liquidez, cuáles tienen deterioro patrimonial recuperable, cuáles necesitan capital y cuáles dejaron de ser viables.</p>
+<h3>Wall Street y una vieja lección colombiana</h3>
+<p>Después de la caída de Lehman Brothers en 2008, Estados Unidos entendió que dejar colapsar desordenadamente instituciones sistémicas podía costar mucho más que intervenirlas.</p>
+<p>A través del TARP, el Tesoro invirtió cerca de US$205.000 millones en 707 instituciones financieras.</p>
+<p><strong>Pero no simplemente entregó dinero:</strong> recibió acciones preferenciales y, en muchos casos, warrants.</p>
+<p>Si el contribuyente asumía el riesgo, también podía participar de la recuperación.</p>
+<p><strong>En 2009 llegó otra innovación:</strong> las autoridades sometieron a los 19 mayores grupos bancarios a pruebas de estrés.</p>
+<p>Diez necesitaron fortalecer conjuntamente sus colchones de capital en US$75.000 millones.</p>
+<p>La pregunta ya no era cuánto capital tenían ese día, sino cuánto podían perder antes de poner en riesgo su supervivencia.</p>
+<p><strong>Una EPS no es un banco y la salud no es Wall Street. Pero existe una lección trasladable:</strong> rescatar una institución sistémicamente importante no significa rescatar incondicionalmente a sus propietarios.</p>
+<p>Colombia lo había aprendido una década antes. En la crisis de finales de los noventa, cuando en 1999 el PIB cayó alrededor de 4,2% y el desempleo llegó a niveles cercanos al 20%, el Estado tuvo que intervenir para proteger la estabilidad financiera.</p>
+<p>La respuesta dejó una enseñanza especialmente útil.</p>
+<p>No todas las instituciones recibieron el mismo tratamiento. Algunas necesitaban liquidez; otras, recapitalización; otras debían ser intervenidas o salir del mercado.</p>
+<p>Fogafín podía financiar hasta 80% de los recursos necesarios para recapitalizar determinadas instituciones privadas viables, pero los accionistas tenían que aportar al menos el 20%.</p>
+<p>Si el patrimonio era negativo, primero debían reconocerse las pérdidas.</p>
+<p><strong>Detrás de esa regla había una idea sencilla:</strong> el Estado podía ayudar a salvar una institución sin salvar necesariamente a sus accionistas.</p>
+<p>Pero la mayor enseñanza de aquella crisis fue otra.</p>
+<p>Colombia no salió solamente poniendo dinero. Fortaleció regulación, capital, provisiones, supervisión y mecanismos de intervención.</p>
+<p>Algunas instituciones fueron recapitalizadas; otras cambiaron de propietario; otras desaparecieron.</p>
+<p>La crisis terminó transformando las reglas.</p>
+<p>Esa debería ser también nuestra ambición para la salud.</p>
+<h4>Si el Estado pone capital, debe recibir derechos</h4>
+<p>Supongamos que una EPS presenta un deterioro patrimonial importante, pero conserva capacidades valiosas y su desaparición abrupta pondría en riesgo la atención de cientos de miles de personas.</p>
+<p>Allí podría contemplarse que parte del apoyo extraordinario se convierta en capital temporal o instrumentos convertibles en participación patrimonial.</p>
+<p>Pero primero deberían reconocerse las pérdidas, establecer el patrimonio real y determinar cuánto capital necesita la organización.</p>
+<p>Los propietarios existentes deberían absorber las pérdidas que les correspondan. Después podría entrar el Estado.<br />
+Y si aporta capital, debería recibir derechos proporcionales al riesgo asumido.</p>
+<p><strong>No es una discusión ideológica. Es una regla elemental de las finanzas corporativas:</strong> cuando una empresa necesita nuevo capital, quien lo aporta recibe participación y los accionistas anteriores pueden diluirse.</p>
+<p><strong>De lo contrario aparece el moral hazard:</strong> las ganancias permanecen privadas cuando las cosas funcionan y las pérdidas se socializan cuando dejan de hacerlo.</p>
+<p>La participación estatal, además, debería nacer con una estrategia de salida: entrar para estabilizar, gobernar para transformar y salir cuando la institución vuelva a ser sostenible.</p>
+<h2>Ser accionista no significa administrar</h2>
+<p>Aquí aparece otra lección del gobierno corporativo: propiedad, gobierno y administración son funciones diferentes.</p>
+<p>Los accionistas son propietarios, la junta directiva gobierna y la gerencia administra.</p>
+<p>Una junta no existe para autorizar cada factura. Selecciona y evalúa a la alta dirección, aprueba la estrategia, supervisa riesgos y protege la sostenibilidad de la organización.</p>
+<p>En una EPS debería vigilar simultáneamente resultados financieros y resultados en salud.</p>
+<p>Por eso una EPS recapitalizada con recursos públicos necesitaría una junta altamente técnica e independiente, con competencias en aseguramiento, medicina, actuaría, economía de la salud, finanzas, auditoría y gestión del riesgo.</p>
+<p>Ni una extensión del ministro.</p>
+<p>Ni una extensión del accionista privado.</p>
+<p>Ni una repartición burocrática.</p>
+<p>El peor desenlace sería convertir una buena idea financiera en una nueva fuente de cuotas políticas.</p>
+<h3>De las pruebas de estrés a una Fogafín para la salud</h3>
+<p>También deberíamos adoptar una idea que cambió la supervisión financiera después de las grandes crisis: anticiparnos.</p>
+<p>¿Qué ocurriría con una EPS si el gasto farmacéutico creciera 15%? ¿Si aumentara significativamente la siniestralidad? ¿Si una epidemia disparara las hospitalizaciones o una nueva tecnología de alto costo se incorporara rápidamente?</p>
+<p>Necesitamos pruebas periódicas de estrés financiero y sanitario para las EPS.</p>
+<p>No cuando estén a punto de ser intervenidas, sino antes.</p>
+<p>El objetivo sería determinar cuánto capital, liquidez y reservas necesita cada asegurador para soportar escenarios adversos.</p>
+<p><strong>Y necesitamos algo todavía más importante:</strong> un verdadero régimen de recuperación y resolución para las EPS.</p>
+<p><strong>No necesariamente crear otra entidad ni copiar literalmente a Fogafín. Necesitamos su lógica:</strong> alertas tempranas, umbrales de patrimonio y reservas, planes obligatorios de recuperación, recapitalización por accionistas, posibilidad de incorporar nuevos inversionistas, participación pública extraordinaria cuando esté justificada y salida ordenada cuando una organización deje de ser viable.</p>
+<p>El dinero público debería, además, comprar transformación. Una EPS que reciba apoyo extraordinario podría suscribir un acuerdo de recuperación con metas de patrimonio, reservas, cartera y tiempos de pago, pero también de entrega de medicamentos, oportunidad de atención y resultados clínicos.</p>
+<p>Capital público por transformación verificable.</p>
+<h4>Comprar cartera es apenas el comienzo</h4>
+<p>Volvamos entonces al más de un millón de colombianos que esperan medicamentos o procedimientos.</p>
+<p>Ellos explican por qué necesitamos actuar ahora, pero también por qué no podemos conformarnos con mover dinero de una cuenta a otra.</p>
+<p>Colombia necesita seguir simultáneamente dos cosas que durante demasiado tiempo hemos observado por separado: el dinero y el paciente.</p>
+<p><strong>Deberíamos poder reconstruir una secuencia sencilla:</strong></p>
+<p>UPC → EPS → prestador → pago → servicio → paciente → resultado en salud.</p>
+<p>Durante años hemos desarrollado una enorme capacidad para discutir cuánto se facturó, cuánto se glosó y cuánto se debe.</p>
+<p><strong>La siguiente pregunta debería ser más importante:</strong> ¿qué salud compramos con ese dinero?</p>
+<p>Las crisis financieras dejaron una lección común.</p>
+<p>El dinero público no debería entrar solo. Debe entrar acompañado de derechos, condiciones y transformación.</p>
+<p>Si el Estado pone capital, debe recibir derechos. Si recibe derechos, debe exigir buen gobierno. Si exige gobierno, debe medir resultados.</p>
+<p>Si una EPS puede recuperarse, debe transformarla. Si no puede, debe facilitar una salida ordenada. Y si logra recuperarla, debe saber cuándo salir.</p>
+<p>El Plan de Choque puede ayudarnos a apagar el incendio.</p>
+<p>El verdadero éxito será no tener que apagar el mismo incendio otra vez.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/plan-de-choque-en-salud-compra-de-cartera-eps-rescate-financiero/">Si el Estado pone el dinero, debe cambiar el gobierno</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/plan-de-choque-en-salud-compra-de-cartera-eps-rescate-financiero/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Se prevé un dólar entre $3.190 y $3.390 en octubre</title>
+		<link>https://occidente.co/empresario/comportamiento-del-dolar-en-colombia-proyeccion-octubre/</link>
+					<comments>https://occidente.co/empresario/comportamiento-del-dolar-en-colombia-proyeccion-octubre/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 01:56:29 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441150</guid>
+
+					<description><![CDATA[<p>El dólar cerró septiembre en $3.307,5, tras subir $92,5 durante el mes. La fortaleza global de la divisa estadounidense, las decisiones de tasas de la Fed y el Banco de la República y las conversaciones de Colombia con el FMI estarán entre los factores que marcarán el mercado cambiario en octubre. El peso colombiano cambió...</p>
+<p>The post <a href="https://occidente.co/empresario/comportamiento-del-dolar-en-colombia-proyeccion-octubre/">Se prevé un dólar entre $3.190 y $3.390 en octubre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El dólar cerró septiembre en $3.307,5, tras subir $92,5 durante el mes.</p>
+<p>La fortaleza global de la divisa estadounidense, las decisiones de tasas de la Fed y el Banco de la República y las conversaciones de Colombia con el FMI estarán entre los factores que marcarán el mercado cambiario en octubre.</p>
+<p>El peso colombiano cambió de dirección durante septiembre.</p>
+<p>Después de la fuerte apreciación observada en meses anteriores, la moneda nacional se depreció 2,9% frente al dólar y terminó el mes en $3.307,5, lo que representó un aumento de $92,5 en la tasa de cambio.</p>
+<p>De acuerdo con el Informe mensual del mercado cambiario de Bancolombia, la depreciación se concentró especialmente durante la segunda mitad de septiembre y estuvo impulsada en buena medida por una postura más restrictiva de la Reserva Federal de Estados Unidos.</p>
+<p>La tendencia no fue exclusiva de Colombia.</p>
+<p>Durante septiembre, la mayoría de las monedas analizadas perdió terreno frente al dólar, mientras el índice DXY, que mide el comportamiento de la moneda estadounidense frente a una canasta de divisas, se fortaleció 2% mensual.</p>
+<p>La Fed aumentó su tasa de interés en 25 puntos básicos, hasta un rango de 3,75%–4,00%, en medio de una inflación que continúa por encima de su meta.</p>
+<p>Además, la probabilidad de un nuevo incremento de 25 puntos básicos en octubre llegó a superar el 70% durante septiembre.</p>
+<h2>¿Hasta dónde podría llegar el dólar?</h2>
+<p>Para octubre, Bancolombia proyecta que el dólar se moverá dentro de un rango de $3.190 a $3.390.</p>
+<p>El análisis advierte que continúan existiendo riesgos que podrían presionar al alza la tasa de cambio, especialmente si persiste la fortaleza global del dólar.</p>
+<p>La economía estadounidense ha mostrado un desempeño superior al esperado y los integrantes de la Reserva Federal mantienen su preocupación por la inflación.</p>
+<p>Sin embargo, Colombia tiene un elemento que podría actuar como contrapeso: las altas tasas de interés.</p>
+<p>El Banco de la República sorprendió al mercado a finales de septiembre al elevar su tasa de política monetaria en 25 puntos básicos, hasta 12,25%.</p>
+<p>La decisión no era esperada ni por Bancolombia ni por el consenso de analistas.</p>
+<p>Para el equipo de investigaciones, esa decisión podría mantener atractivo el carry trade, estrategia mediante la cual inversionistas buscan aprovechar los diferenciales de tasas entre países, ayudando a contener parte de las presiones de depreciación sobre el peso.</p>
+<h3>El FMI entra en la ecuación</h3>
+<p>A estos factores se suma un nuevo elemento político y económico. El informe recoge el anuncio del Gobierno de iniciar conversaciones para buscar un programa con el Fondo Monetario Internacional (FMI).</p>
+<p>Según el documento, después de la visita de Nigel Clarke, subdirector gerente del organismo, se planteó comenzar con una evaluación de la economía colombiana y de los planes macroeconómicos del Gobierno.</p>
+<p>Bancolombia considera que los avances en esas conversaciones podrían renovar el optimismo de los inversionistas hacia Colombia y convertirse en otro elemento relevante para el comportamiento del peso.</p>
+<p>Así, octubre comienza con fuerzas contrapuestas: un dólar globalmente más fuerte que podría presionar la tasa de cambio al alza y una tasa de interés colombiana de 12,25% que podría favorecer la entrada de capitales.</p>
+<p>En medio de esas dos fuerzas, la previsión de Bancolombia pone los $3.190 como soporte y los $3.390 como resistencia para el dólar durante el mes.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/comportamiento-del-dolar-en-colombia-proyeccion-octubre/">Se prevé un dólar entre $3.190 y $3.390 en octubre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/comportamiento-del-dolar-en-colombia-proyeccion-octubre/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“Solo son diez mil pesos”: el autoengaño que puede estar vaciando su bolsillo sin que lo note</title>
+		<link>https://occidente.co/empresario/gastos-hormiga-en-el-hogar-fuga-silenciosa-presupuesto/</link>
+					<comments>https://occidente.co/empresario/gastos-hormiga-en-el-hogar-fuga-silenciosa-presupuesto/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 01:51:48 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441147</guid>
+
+					<description><![CDATA[<p>“No entiendo en qué se me fue la plata, si yo no compré nada”. La frase se repite en muchos hogares cuando faltan varios días para recibir el siguiente salario y la cuenta bancaria ya está prácticamente vacía. No hubo un televisor nuevo, tampoco un viaje ni una compra extraordinaria que explique el hueco en...</p>
+<p>The post <a href="https://occidente.co/empresario/gastos-hormiga-en-el-hogar-fuga-silenciosa-presupuesto/">“Solo son diez mil pesos”: el autoengaño que puede estar vaciando su bolsillo sin que lo note</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>“<em>No entiendo en qué se me fue la plata, si yo no compré nada</em>”.</p>
+<p>La frase se repite en muchos hogares cuando faltan varios días para recibir el siguiente salario y la cuenta bancaria ya está prácticamente vacía.</p>
+<p>No hubo un televisor nuevo, tampoco un viaje ni una compra extraordinaria que explique el hueco en el presupuesto; sin embargo, al revisar los movimientos aparecen $12.000 aquí, $18.000 allá, un domicilio, un café, una aplicación, un parqueadero, una compra rápida por internet y decenas de pequeños pagos que casi nadie recuerda haber realizado.</p>
+<p>El problema de estos gastos es precisamente su tamaño.</p>
+<p>Si alguien estuviera a punto de pagar $400.000 por un producto probablemente compararía precios, revisaría su presupuesto e incluso esperaría unos días antes de tomar la decisión, pero cuando el valor es de $10.000 o $20.000, el cerebro suele considerarlo suficientemente pequeño como para no necesitar demasiada reflexión.</p>
+<p><strong>Así aparece una de las frases más peligrosas para las finanzas domésticas:</strong> “<em>solo son diez mil pesos</em>”.</p>
+<h2>Cuando lo pequeño deja de ser pequeño</h2>
+<p>Diez mil pesos parecen poco hasta que se gastan todos los días.</p>
+<p>Si ese desembolso adicional se repitiera diariamente durante un mes, estaríamos hablando de aproximadamente $300.000, una cantidad que probablemente ya no consideraríamos insignificante.</p>
+<p>El problema es que nunca vemos esos $300.000 juntos, porque salen de la cuenta lentamente y en momentos diferentes.</p>
+<p>Esto explica por qué una persona puede sentirse cuidadosa con el dinero y, aun así, tener dificultades para ahorrar.</p>
+<p>No necesariamente está haciendo grandes compras; quizá simplemente acumula pequeños consumos que individualmente parecen inofensivos.</p>
+<p>Los pagos digitales han hecho todavía más fácil perder esa percepción.</p>
+<p>Cuando no entregamos un billete ni vemos disminuir el efectivo de la billetera, la sensación de gasto puede ser menor.</p>
+<p>Un toque en el celular permite pagar un domicilio, renovar una aplicación o comprar algo que apareció en redes sociales, mientras la consecuencia financiera queda reducida a una línea más dentro del extracto bancario.</p>
+<h3>El problema no es el café</h3>
+<p>Esto no significa que haya que eliminar cada pequeño gusto.</p>
+<p>Convertir las finanzas personales en una persecución contra el café, el helado o la salida ocasional puede terminar haciendo que cualquier presupuesto resulte imposible de mantener.</p>
+<p>El verdadero problema aparece cuando no sabemos cuánto representan en conjunto esos gastos.</p>
+<p>Una persona podría decidir perfectamente destinar $150.000 mensuales a pequeños gustos y disfrutarlos sin afectar sus obligaciones.</p>
+<p>La diferencia está en que esa cantidad fue elegida conscientemente y no descubierta accidentalmente al revisar el extracto.</p>
+<p><strong>Por eso puede resultar útil hacer un ejercicio durante una semana:</strong> registrar todas las compras pequeñas, incluso aquellas que parecen irrelevantes.</p>
+<p>Al finalizar, basta sumarlas. El resultado puede sorprender y, sobre todo, mostrar cuáles gastos realmente generan satisfacción y cuáles se realizan simplemente por costumbre.</p>
+<h3>Cuidado con el “ya que estoy aquí”</h3>
+<p>Existe además otra forma silenciosa de gastar.</p>
+<p>Vamos al supermercado por leche y agregamos un producto que vimos en promoción; entramos a una tienda por una necesidad concreta y salimos con tres cosas adicionales porque “<em>no estaban caras</em>”.</p>
+<p>Ninguna compra parece suficiente para preocuparnos, pero todas compiten por el mismo dinero.</p>
+<p>Antes de hacer uno de estos pequeños gastos puede servir una pregunta sencilla: ¿lo compraría igualmente si tuviera que pagarlo en efectivo? No es una regla absoluta, pero obliga a detener durante unos segundos una decisión que normalmente hacemos de manera automática.</p>
+<h4>No hay que dejar de disfrutar</h4>
+<p>Una economía doméstica saludable no consiste en vivir diciendo que no a todo.</p>
+<p>El objetivo es decidir qué pequeños gastos realmente valen la pena y cuáles pueden desaparecer sin afectar nuestra calidad de vida.</p>
+<p>Quizá ese café de la mañana sea uno de los mejores momentos del día y merezca permanecer en el presupuesto, mientras tres suscripciones olvidadas o varios domicilios improvisados no aportan el mismo valor.</p>
+<p>Al final, muchas veces el dinero no desaparece por una gran decisión equivocada.</p>
+<p>Se va lentamente en cantidades tan pequeñas que dejamos de prestarles atención.</p>
+<p><strong>Por eso, cuando vuelva a pensar “<em>solo son diez mil pesos</em>”, quizá valga la pena completar mentalmente la frase:</strong> “<em>solo son diez mil pesos… pero ¿cuántas veces he dicho lo mismo este mes?</em>”.</p>
+<p>La respuesta podría explicar mucho más de su presupuesto de lo que imagina.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/gastos-hormiga-en-el-hogar-fuga-silenciosa-presupuesto/">“Solo son diez mil pesos”: el autoengaño que puede estar vaciando su bolsillo sin que lo note</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/gastos-hormiga-en-el-hogar-fuga-silenciosa-presupuesto/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El Niño podría sumar hasta $57.000 al recibo de luz de los estratos 3 y 4</title>
+		<link>https://occidente.co/empresario/tarifa-de-energia-en-cali-impacto-el-nino-consumo-hogares/</link>
+					<comments>https://occidente.co/empresario/tarifa-de-energia-en-cali-impacto-el-nino-consumo-hogares/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 01:47:15 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441144</guid>
+
+					<description><![CDATA[<p>Un hogar caleño de estrato 4 que consume 200 kilovatios hora al mes pagaría alrededor de $183.100 por ese consumo tomando como referencia la tarifa residencial vigente de Emcali para septiembre. Pero si utilizara 20% más energía —240 kWh— y, simultáneamente, se materializará una presión equivalente al aumento de 18,7 % observado en agosto sobre...</p>
+<p>The post <a href="https://occidente.co/empresario/tarifa-de-energia-en-cali-impacto-el-nino-consumo-hogares/">El Niño podría sumar hasta $57.000 al recibo de luz de los estratos 3 y 4</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Un hogar caleño de estrato 4 que consume 200 kilovatios hora al mes pagaría alrededor de $183.100 por ese consumo tomando como referencia la tarifa residencial vigente de Emcali para septiembre.</p>
+<p>Pero si utilizara 20% más energía —<strong><em>240 kWh</em></strong>— y, simultáneamente, se materializará una presión equivalente al aumento de 18,7 % observado en agosto sobre el componente de generación, la cuenta podría acercarse a $240.100.</p>
+<p>La diferencia ronda los $57.000 en un solo mes.</p>
+<p>Si esas mismas condiciones permanecieran durante doce meses, representarían cerca de $684.000 adicionales, recursos que una familia también podría necesitar para mercado, medicamentos, transporte, educación o reparaciones de la vivienda.</p>
+<p>El cálculo hace parte del análisis financiero de Russell Bedford y fue ajustado específicamente para Cali con la estructura tarifaria oficial de la empresa de energía.</p>
+<p>Para septiembre, el costo unitario residencial de referencia del estrato 4 es de $915,52 por kWh en el nivel de tensión 1 cuando la red y el transformador pertenecen al operador.</p>
+<p>En estrato 3, los primeros 173 kWh mensuales, correspondientes al consumo de subsistencia de Cali, tienen una tarifa subsidiada de $778,19; por encima de ese nivel se pagan $915,52 por kWh.</p>
+<p>La estructura publicada por la empresa prestadora del servicio de energía permite hacer el ejercicio con mayor precisión.</p>
+<p>De los $915,52 del costo unitario, $453,40 corresponden al componente de generación.</p>
+<p>Si únicamente esa parte aumentara 18,7% y los demás cargos permanecieran iguales, el costo completo subiría aproximadamente 9,3%, hasta cerca de $1.000 por kWh.</p>
+<p>Eso no significa que Emcali haya anunciado esa subida ni que el incremento del mercado mayorista vaya a trasladarse automáticamente a la factura.</p>
+<p>Se trata de un escenario financiero para dimensionar el riesgo si las presiones de generación terminan llegando parcialmente a los hogares.</p>
+<p>El dato de referencia proviene de XM. En agosto, el precio promedio de la energía en bolsa llegó a $946,6 por kWh, 18,7% más que en julio y 278,2% por encima del mismo mes de 2025.</p>
+<p>Sin embargo, hay un amortiguador importante: el precio de la energía adquirida mediante contratos para hogares y pequeños negocios disminuyó 0,8 % en el mismo periodo.</p>
+<p>Para el bolsillo caleño, cualquier presión adicional llega en un momento especialmente sensible.</p>
+<p>Según el último IPC disponible del Dane, correspondiente a agosto, Cali registró una inflación anual de 6,41%, por encima del 6,24% nacional y la quinta más alta entre los dominios geográficos medidos.</p>
+<p>Durante ese mes, los precios en la ciudad aumentaron 0,34%.</p>
+<p>“<em>En términos financieros, una familia con poco margen después de pagar el arriendo o la cuota del crédito de vivienda, la alimentación y los servicios públicos puede sentir con fuerza incluso un aumento aparentemente pequeño</em>”, <strong>explica Mauricio Serna, socio de Finanzas Corporativas de Russell Bedford</strong>.</p>
+<h2>¿Qué dice el clima?</h2>
+<p>En Cali, además, El Niño ya dejó de ser únicamente una proyección.</p>
+<p>Emcali reportó a finales de septiembre que los caudales de los ríos Cali y Meléndez continuaban en niveles críticos, pese a algunas lluvias, y mantuvo planes de contingencia y alternancia del suministro de agua en sectores de las comunas 18 y 20.</p>
+<p>En el caso del río Meléndez, la empresa ha informado que durante la sequía logra captar cerca de 180 litros por segundo frente a una demanda aproximada de 550 litros por segundo para el sistema atendido desde esa fuente.</p>
+<p>El panorama climático puede prolongarse. El Ideam estima una probabilidad superior al 90% de que El Niño alcance una intensidad muy fuerte durante el último trimestre de 2026, y elevó a 75% la posibilidad de que sea el episodio más intenso de los últimos 76 años.</p>
+<p>Hay, sin embargo, una diferencia clave para los habitantes de Cali frente a otras ciudades.</p>
+<p>La CREG creó este año un programa que establece cobros adicionales cuando un usuario supera en más de 10% su meta individual de energía: el factor es 1,30 para estratos 1, 2 y 3 y 1,50 para los estratos 4, 5 y 6.</p>
+<p>Esos recargos no aplican actualmente a los usuarios caleños cobijados por la exclusión territorial derivada del terremoto del 10 de agosto.</p>
+<p>La Resolución CREG 101 126 ordenó exceptuar a los usuarios de municipios oficialmente identificados como afectados y estableció que esa exclusión opera, como mínimo, durante todo el primer periodo de liquidación. Cali figura entre los territorios afectados reconocidos oficialmente por la UNGRD.</p>
+<h3>Ahorrar</h3>
+<p>Cinco minutos extra durante cuatro duchas diarias pueden sumar $50.350 al mes</p>
+<p>Los hábitos cotidianos también pueden marcar una diferencia considerable.</p>
+<p>Si cuatro personas alargan cinco minutos cada día su baño utilizando una ducha eléctrica de 5.500 vatios, el consumo adicional rondaría los 55 kWh mensuales.</p>
+<p>Con la tarifa residencial de referencia de Emcali de $915,52 por kWh, serían aproximadamente $50.350 adicionales al mes, sin contar el consumo de agua.</p>
+<p>En Cali este ejemplo adquiere especial relevancia porque el ahorro no solo tiene un componente financiero.</p>
+<p>Las restricciones de abastecimiento que ya se presentan en algunas zonas de ladera muestran que una temporada seca prolongada puede presionar simultáneamente los servicios de energía y agua.</p>
+<p>La nevera también merece atención. Según la caracterización residencial de la UPME, la refrigeración constituye uno de los principales consumos eléctricos permanentes del hogar.</p>
+<p>Una diferencia ilustrativa de 40 kWh mensuales entre dos equipos representaría, con la tarifa de servicios, aproximadamente $36.600 cada mes.</p>
+<p>En doce meses serían cerca de $439.000, siempre que la tarifa permaneciera igual.</p>
+<p>Pero antes de reemplazar el electrodoméstico conviene revisar empaques, ventilación, temperatura y mantenimiento.</p>
+<p>Un equipo en malas condiciones puede gastar más energía, pero endeudarse para cambiarlo sin hacer cuentas también puede deteriorar el presupuesto.</p>
+<p>$600.000 adicionales: cuándo realmente conviene cambiar un electrodoméstico</p>
+<p>“<em>La eficiencia no debe confundirse con comprar más</em>”, <strong>advierte Serna</strong>.</p>
+<p>El experto recomienda comparar cuánto cuesta realmente adquirir un equipo nuevo frente al ahorro mensual que produciría.</p>
+<p>Si un electrodoméstico eficiente cuesta $600.000 más que otra alternativa y permite ahorrar $25.000 mensuales, recuperar esa diferencia tomaría 24 meses.</p>
+<p>A la cuenta habría que sumar transporte, instalación, mantenimiento y, si se compra financiado, intereses.</p>
+<p>Si la cuota del crédito absorbe o supera el ahorro en electricidad, la familia puede terminar consumiendo menos energía, pero teniendo menos dinero disponible todos los meses.</p>
+<p>Por eso, Russell Bedford recomienda corregir primero hábitos de consumo y revisar al menos dos o tres facturas antes de decidir qué aparato vale la pena cambiar.</p>
+<h4>La segunda presión está en el mercado</h4>
+<p>El análisis histórico de Corficolombiana muestra que durante episodios fuertes de El Niño la inflación de alimentos ha sido 3,9 puntos porcentuales superior a la observada en condiciones climáticas neutrales.</p>
+<p>La transmisión ocurre mediante menor oferta agrícola, pérdida de productividad y aumento de costos de producción.</p>
+<p>El riesgo merece atención particular en Cali, donde el IPC anual ya se encuentra por encima del promedio nacional y alimentos y vivienda siguen siendo componentes importantes del gasto familiar.</p>
+<p><strong>El análisis de Russell Bedford traduce aquella diferencia histórica a una cuenta sencilla:</strong> en una referencia de mercado de $1 millón, 3,9% equivaldría a $39.000 adicionales frente a un escenario climático neutral.</p>
+<p>No significa que una compra de $1 millón vaya a encarecerse automáticamente $39.000 ni que se trate de un cobro por cada mercado.</p>
+<p>Es una manera de dimensionar cuánto puede representar, en el presupuesto familiar, una presión inflacionaria adicional asociada a un Niño intenso.</p>
+<p>“<em>Ante una temporada seca prolongada, es prudente separar un pequeño monto para posibles aumentos de servicios, mantenimiento de equipos o reparación de fugas</em>”, <strong>aconseja Serna</strong>.</p>
+<p>Para los hogares caleños, la recomendación es revisar desde ahora por lo menos seis meses de facturas de servicios de energía, comparar el consumo en kilovatios y no únicamente el valor final del recibo, verificar qué electrodomésticos explican los mayores picos y comparar los alimentos por precio por kilo.</p>
+<p>Aunque Cali está temporalmente exceptuada del recargo de la CREG, reducir desperdicios sigue teniendo un efecto directo en el bolsillo.</p>
+<p>Y en una ciudad donde El Niño ya está afectando las fuentes de agua, anticiparse puede evitar que una factura más alta, un electrodoméstico dañado o un mercado más costoso terminen pagándose con tarjeta de crédito.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/tarifa-de-energia-en-cali-impacto-el-nino-consumo-hogares/">El Niño podría sumar hasta $57.000 al recibo de luz de los estratos 3 y 4</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/tarifa-de-energia-en-cali-impacto-el-nino-consumo-hogares/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>La salud mental, una prioridad en la recuperación de la ciudad</title>
+		<link>https://occidente.co/cali/construir-bienestar-transformar-ciudad-salud-mental-cali-sismo/</link>
+					<comments>https://occidente.co/cali/construir-bienestar-transformar-ciudad-salud-mental-cali-sismo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 01:42:19 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441141</guid>
+
+					<description><![CDATA[<p>El pasado lunes se realizó el conversatorio ‘Construir bienestar, transformar ciudad’, un espacio que reunió voces locales e internacionales para reflexionar sobre las afectaciones emocionales que dejó el sismo del 10 de agosto y los retos que enfrenta Cali para recuperar el bienestar de sus habitantes. A casi dos meses de la emergencia, la conversación...</p>
+<p>The post <a href="https://occidente.co/cali/construir-bienestar-transformar-ciudad-salud-mental-cali-sismo/">La salud mental, una prioridad en la recuperación de la ciudad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El pasado lunes se realizó el conversatorio ‘Construir bienestar, transformar ciudad’, un espacio que reunió voces locales e internacionales para reflexionar sobre las afectaciones emocionales que dejó el sismo del 10 de agosto y los retos que enfrenta Cali para recuperar el bienestar de sus habitantes.</p>
+<p><strong>A casi dos meses de la emergencia, la conversación puso sobre la mesa una dimensión de la recuperación que no siempre es visible:</strong> las huellas emocionales y sociales que permanecen después de una situación que alteró la cotidianidad de miles de caleños.</p>
+<p>La salud mental ya era un desafío para Cali antes del sismo, en una ciudad atravesada por situaciones como la violencia y otras circunstancias que afectan el bienestar de sus habitantes.</p>
+<p>Sin embargo, la emergencia hizo más visibles estas afectaciones. “<em>Normalmente teníamos un promedio de 860 llamadas al mes, ahora tenemos más de 3.000 llamadas al mes, producto obviamente de la afectación de salud mental</em>”,<strong> señaló el secretario de Salud</strong>.</p>
+<p>Para Daniella Plaza Saldarriaga, estas cifras muestran que la recuperación también debe ocuparse de aquello que no siempre se ve. “<em>Después del 10 de agosto, muchos caleños quedaron en modo de supervivencia</em>”, <strong>señaló</strong>.</p>
+<p>Aún hoy, servicios que no funcionan con normalidad, dificultades de movilidad y edificaciones afectadas mantienen presentes los efectos de la emergencia en la vida cotidiana de muchas personas.</p>
+<p>El conversatorio también destacó que el cuidado de la salud mental no ocurre únicamente desde las instituciones o los servicios especializados.</p>
+<p>Se construye en la comunidad, en las familias, en los espacios educativos y en las redes de apoyo.</p>
+<p><strong>Para Maritza Isaza Gómez</strong>, reconocer cómo está una comunidad después de una emergencia es fundamental para fortalecer los vínculos y su capacidad de responder colectivamente.</p>
+<p><strong>Por su parte, Marlen Fernández Barrera, consultora mexicana resaltó</strong> la importancia de construir una cultura de prevención, contención y acompañamiento.</p>
+<p>“<em>Nuestra experiencia desde México con un siniestro de esta naturaleza nos ha mostrado la importancia de poder culturizarnos y abordarlo de otra manera, para que la gente esté informada, tenga rutas, tenga hábitos y, sobre todo, pueda vivir con una realidad que inminentemente no podemos controlar</em>”, <strong>explicó</strong>.</p>
+<p>El encuentro dejó como uno de sus principales llamados la necesidad de seguir fortaleciendo los programas de salud mental y la intervención territorial, con prevención, atención oportuna y acompañamiento cercano.</p>
+<p><strong>Porque atender una emergencia no significa únicamente reconstruir lo que se ve:</strong> también implica acompañar a las personas y fortalecer las capacidades de la ciudad para seguir adelante.</p>
+<p>El encuentro contó con la participación del secretario de Salud, Germán Escobar Morales, la secretaria de Educación, Sara María Rodas, y especialistas como Maritza Isaza Gómez, exjefa de la Oficina de Promoción Social del Ministerio de Salud y Protección Social, reconocida en 2019 como una de las 13 mujeres expertas que transforman el país en salud mental; y Marlen Fernández Barrera, consultora mexicana con más de 16 años de experiencia en liderazgo, desarrollo humano, bienestar organizacional y salud mental.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/construir-bienestar-transformar-ciudad-salud-mental-cali-sismo/">La salud mental, una prioridad en la recuperación de la ciudad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/construir-bienestar-transformar-ciudad-salud-mental-cali-sismo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Kolectiva</title>
+		<link>https://occidente.co/opinion/columnistas/kolectiva/</link>
+					<comments>https://occidente.co/opinion/columnistas/kolectiva/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 01:32:38 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Leonardo Medina Patiño]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441139</guid>
+
+					<description><![CDATA[<p>Cali ha perdido -todo hay que decirlo-, su vocación por las galerías de arte y las grandes exposiciones de la plástica colombiana, olvidando aquellas épocas de los setentas que avivaron la creación de los artistas como Pedro Alcántara Herrán, Mario Gordillo, Fernell Franco, Chalo Rojas, Mónica Herrán, entre tantos otros que hacían parte de un...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/kolectiva/">Kolectiva</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Cali ha perdido -todo hay que decirlo-, su vocación por las galerías de arte y las grandes exposiciones de la plástica colombiana, olvidando aquellas épocas de los setentas que avivaron la creación de los artistas como Pedro Alcántara Herrán, Mario Gordillo, Fernell Franco, Chalo Rojas, Mónica Herrán, entre tantos otros que hacían parte de un gran taller de grabado y de arte, que puso a Cali en un especial sitial del arte latinoamericano.</p>
+<p>Aun con ese antecedente tan importante, Cali no ha logrado revivir esos momentos ni reinventarse para tal fin.</p>
+<p>Pero sí hay quienes, con ese entusiasmo propio que da la vocación, existen algunas galerías de arte que permiten oxigenar un poco a quienes acudimos a conocer las nuevas expresiones del arte en Cali y Colombia.</p>
+<p>Una de esas galerías es Kolectiva, de propiedad de Ana María Gómez, quien con su sonrisa que nos ilumina y su cálida voz que nos encanta, nos está llevando de la mano en la ciudad, para aproximarnos a diferentes manifestaciones de artistas emergentes, y otros consolidados en el arte contemporáneo.</p>
+<p>La galería Kolectiva, ubicada en Santa Rita, en la calle 10 oeste No. 3-42, es un oasis en esta ciudad cargada de ruido, pero cuando se llega a este espacio donde las paredes exhiben obras impregnadas del frenetismo del color como la reciente exposición de Diego Pombo, nos devuelve el entusiasmo por vivir en esta Cali.</p>
+<p>Sus paredes y su espacio de exposición han acogido la obra fotográfica de Mónica Herrán con su “<em>Floribus</em>”, de Pedro Alcántara, las esculturas de Jesús Tibaduiza y de Verónica Matiz, hasta llegar a la más reciente exposición que se expone en estos días del maestro Pablo Bartelsman.</p>
+<p>Anita, como le decimos, es quijotesca. Se iza en Cali con Kolectiva, nos muestra el sendero del arte contemporáneo y a los coleccionistas los orienta, para que nutramos mejor nuestra pinacoteca.</p>
+<p><strong>PD:</strong> <em>He encendido una vela en memoria del periodista Mario Fernando Prado, quien falleció este lunes 5 de octubre, y con quien compartí gratos momentos en su programa radial Oye Cali, como en otros espacios donde siempre florecía el chascarrillo, el fino humor</em>.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/kolectiva/">Kolectiva</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/kolectiva/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>IA Transformation: cuando el reto no es la tecnología</title>
+		<link>https://occidente.co/mi-talento-es-negocio-2026/mi-talento-es-negocio-2026-inteligencia-artificial-empresas/</link>
+					<comments>https://occidente.co/mi-talento-es-negocio-2026/mi-talento-es-negocio-2026-inteligencia-artificial-empresas/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 06 Oct 2026 01:00:30 +0000</pubDate>
+				<category><![CDATA[MTN]]></category>
+		<category><![CDATA[MTN 2026]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441070</guid>
+
+					<description><![CDATA[<p>Por: Rosa María Agudelo Ayerbe La inteligencia artificial está entrando rápidamente en las empresas. Se utiliza para crear contenidos, analizar información, responder preguntas o ahorrar tiempo en tareas cotidianas. Pero hay una pregunta que vale la pena hacerse: ¿usar IA significa realmente estar transformando el negocio? La respuesta puede ser menos evidente de lo que...</p>
+<p>The post <a href="https://occidente.co/mi-talento-es-negocio-2026/mi-talento-es-negocio-2026-inteligencia-artificial-empresas/">IA Transformation: cuando el reto no es la tecnología</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Por:</strong> <em>Rosa María Agudelo Ayerbe</em></p>
+<p>La inteligencia artificial está entrando rápidamente en las empresas.</p>
+<p>Se utiliza para crear contenidos, analizar información, responder preguntas o ahorrar tiempo en tareas cotidianas.</p>
+<p><strong>Pero hay una pregunta que vale la pena hacerse:</strong> ¿usar IA significa realmente estar transformando el negocio?</p>
+<p>La respuesta puede ser menos evidente de lo que parece.</p>
+<p>Durante años las empresas avanzaron primero en digitalización y luego en transformación digital.</p>
+<p>Ahora aparece un nuevo desafío: AI Transformation, un concepto que propone ir más allá de incorporar herramientas y utilizar la inteligencia artificial para repensar procesos, aprovechar los datos y, especialmente, tomar mejores decisiones.</p>
+<p>Porque una empresa puede ser más rápida y eficiente y, aun así, estar tomando decisiones equivocadas.</p>
+<p>El desafío también está en pasar del uso individual de la IA a su incorporación en equipos, procesos, estrategia y, finalmente, en el propio modelo de negocio.</p>
+<p>Este es el punto de partida de Mi Talento es Negocio 2026, un ciclo dedicado a entender cómo llevar la inteligencia artificial de la herramienta a la transformación empresarial.</p>
+<h3>En esta primera sesión planteamos una pregunta que acompañará todo el recorrido:</h3>
+<p><strong><em>¿Qué decisiones, si fueran mejores, podrían cambiar realmente el rumbo de su negocio?</em></strong></p>
+<p><img src="https://s.w.org/images/core/emoji/17.0.2/72x72/25b6.png" alt="▶" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <strong>Vea aquí la Sesión 1: <span style="color: #03bfa5;"><a style="color: #03bfa5;" href="https://l1nk.dev/cdqemku" target="_blank" rel="noopener">https://l1nk.dev/cdqemku</a></span></strong></p>
+<p><img src="https://s.w.org/images/core/emoji/17.0.2/72x72/1f4c4.png" alt="📄" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <strong>Consulte el material de la sesión: <a href="https://acesse.one/uf590n5" target="_blank" rel="noopener"><span style="color: #03bfa5;">https://acesse.one/uf590n5</span></a></strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/mi-talento-es-negocio-2026/mi-talento-es-negocio-2026-inteligencia-artificial-empresas/">IA Transformation: cuando el reto no es la tecnología</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/mi-talento-es-negocio-2026/mi-talento-es-negocio-2026-inteligencia-artificial-empresas/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Incautan 1.4 toneladas de cocaína en Palmira</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/incautacion-de-cocaina-en-palmira-caen-14-toneladas-en-rozo/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/incautacion-de-cocaina-en-palmira-caen-14-toneladas-en-rozo/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Mon, 05 Oct 2026 23:47:09 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441132</guid>
+
+					<description><![CDATA[<p>En operativos adelantados en zona rural de Palmira, la Policía Nacional incautó 1.412 kilogramos de cocaína, avaluados en más de $9.000 millones, y capturó a un presunto integrante de la subestructura criminal Valle. El cargamento fue incautado en un contundente operativo adelantado por la Dirección de Investigación Criminal e INTERPOL (DIJIN) de la Policía Nacional,...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/incautacion-de-cocaina-en-palmira-caen-14-toneladas-en-rozo/">Incautan 1.4 toneladas de cocaína en Palmira</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>En operativos adelantados en zona rural de Palmira, la Policía Nacional incautó 1.412 kilogramos de cocaína, avaluados en más de $9.000 millones, y capturó a un presunto integrante de la subestructura criminal Valle.</strong></p>
+<p>El cargamento fue incautado en un contundente operativo adelantado por la Dirección de Investigación Criminal e INTERPOL (DIJIN) de la Policía Nacional, en coordinación con la Fiscalía General de la Nación, mediante una diligencia de registro y allanamiento realizada en el corregimiento de Rozo, zona rural del municipio de Palmira.</p>
+<p>Durante el procedimiento fue capturado en flagrancia un hombre de 32 años,quien sería presunto integrante de la subestructura criminal Valle del Clan del Golfo indicaron las autoridades policiales.</p>
+<p>De acuerdo con las labores de investigación e inteligencia, el estupefaciente se encontraba dispuesto para ser transportado en un camión tipo cisterna, mediante la modalidad de caleta, con el propósito de evadir los controles de las autoridades.</p>
+<p>En el procedimiento, además de los 1.412 kilogramos de cocaína, fueron incautados 43,5 millones de pesos en efectivo, una pistola calibre 7.65, un equipo celular y el vehículo tipo tractocamión utilizado para el transporte del estupefaciente.</p>
+<p><strong>Sobre el resultado operacional, el Brigadier General Carlos Germán Oviedo Lamprea, Comandante de la Región de Policía No. 4, señaló:</strong></p>
+<p><em>“Este resultado operacional representa un contundente golpe a las finanzas del Clan del Golfo. De acuerdo con las labores de investigación adelantadas por nuestros hombres y mujeres de la Policía Nacional, este importante cargamento de estupefacientes, que supera las 1,4 toneladas de clorhidrato de cocaína, al parecer tendría como destino final mercados ilícitos de Centroamérica y Norteamérica. Con esta incautación afectamos de manera directa una de las principales rentas criminales de esta estructura y evitamos que miles de dosis de cocaína lleguen a los mercados internacionales.”</em></p>
+<p>Las labores de inteligencia e investigación criminal permitieron establecer que este punto sería utilizado para el acopio y posterior transporte de grandes cantidades de estupefacientes, actividad que constituiría una de las principales fuentes de financiación de esta estructura criminal.</p>
+<p>El capturado fue dejado a disposición de la Fiscalía General de la Nación, junto con los elementos materiales probatorios y elementos incautados, por los delitos de tráfico, fabricación o porte de estupefacientes y fabricación, tráfico y porte de armas de fuego.</p>
+<p><strong>Posteriormente, un Juez de Control de Garantías le impuso medida de aseguramiento intramural.</strong></p>
+<p>Con este contundente resultado operacional, la Policía Nacional propina un duro golpe a las finanzas del Clan del Golfo, afectando una de sus principales fuentes de financiación e impidiendo la comercialización de un importante volumen de estupefacientes en los mercados ilícitos internacionales.</p>
+<p><strong>La Policía Nacional reafirmó su compromiso con la lucha frontal contra el narcotráfico y el desmantelamiento de las organizaciones criminales que afectan la seguridad, la convivencia y la salud pública de los colombianos.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/incautacion-de-cocaina-en-palmira-caen-14-toneladas-en-rozo/">Incautan 1.4 toneladas de cocaína en Palmira</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/incautacion-de-cocaina-en-palmira-caen-14-toneladas-en-rozo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Variante Alterna Interna Buenaventura tendrá segunda calzada</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/variante-alterna-de-buenaventura-inician-obras-clave-para-el-puerto/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/variante-alterna-de-buenaventura-inician-obras-clave-para-el-puerto/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Mon, 05 Oct 2026 23:40:23 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441129</guid>
+
+					<description><![CDATA[<p>Como un hito histórico para la conectividad de Buenaventura con toda Colombia calificó la Concesionaria Unión Vial Camino del Pacífico el inicio de las obras de la Variante Alterna de Buenaventura. Juan Carlos Ruiz Pérez, gerente de la Unión Vial Camino del Pacífico dijo que después de más de una década de expectativa se dio...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/variante-alterna-de-buenaventura-inician-obras-clave-para-el-puerto/">Variante Alterna Interna Buenaventura tendrá segunda calzada</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Como un hito histórico para la conectividad de Buenaventura con toda Colombia calificó la Concesionaria Unión Vial Camino del Pacífico el inicio de las obras de la Variante Alterna de Buenaventura.</strong></p>
+<p><strong>Juan Carlos Ruiz Pérez, gerente de la Unión Vial Camino del Pacífico dijo que</strong> después de más de una década de expectativa se dio inicio a los trabajos en esta importante vía.</p>
+<p><strong>Ruiz dijo que</strong> <em>“con la activación de los frentes de obra en las Unidades Funcionales 2, 3 y 4, alcanzamos un logro trascendental, el 100% de las 21 unidades funcionales ya se encuentran activas y en ejecución”.</em></p>
+<p>El gerente destacó que este corredor es estratégico para Colombia ya que por él se moviliza más del 40 % de la carga que entra y sale del país.</p>
+<p>En los primeros 10 kilómetros de la Variante Alterna Interna Caminos del Pacífico interviene la vía actual para construir la segunda calzada, y habilitando un moderno Centro de Control de Operaciones y zonas de parqueo con capacidad para 350 tractocamiones.</p>
+<p>El directivo destacó que este avance ha sido posible gracias a la articulación del Gobierno Nacional, la Agencia Nacional de Infraestructura ANI y de forma muy especial con las comunidades.</p>
+<p>En ese sentido, fue enfático en que la prioridad es la continuidad del diálogo, la escucha activa, la concertación permanente con cada uno de los territorios.</p>
+<p><strong>Juan Carlos Ruiz enfatizó que</strong> <em>“este avance es resultado del trabajo articulado con el Gobierno Nacional, la ANI y las comunidades del territorio, porque transformar la infraestructura también significa escuchar, concertar y construir oportunidades”.</em></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/variante-alterna-de-buenaventura-inician-obras-clave-para-el-puerto/">Variante Alterna Interna Buenaventura tendrá segunda calzada</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/variante-alterna-de-buenaventura-inician-obras-clave-para-el-puerto/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

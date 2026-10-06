@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Tue, 06 Oct 26 07:55:41 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>ARRIENDO CASA</title>
+  <link>https://www.lapatria.com/clasificados/arriendo-casa-11</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;ARRIENDO CASA&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-06T07:55:41-05:00" title="Martes, Octubre 6, 2026 - 07:55" class="datetime"&gt;Mar, 06/10/2026 - 07:55&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=94731&amp;amp;2=bookmark&amp;amp;3=rss" token="qXYXURIVNhODxs1xgyiatskVE9AqGTNKDh3B_iwlBIE"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;311-6090720&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 06 Oct 2026 12:55:41 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">94731 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>EMPLEO </title>
+  <link>https://www.lapatria.com/clasificados/empleo-104</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;EMPLEO &lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-06T07:54:30-05:00" title="Martes, Octubre 6, 2026 - 07:54" class="datetime"&gt;Mar, 06/10/2026 - 07:54&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=94730&amp;amp;2=bookmark&amp;amp;3=rss" token="CX-0P-ZbY75NQtXO49JI8qPbzIzG5jHoOjBvBlEQ9TQ"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3366" hreflang="es"&gt;Empleos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;manizales@andap.edu.co&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 06 Oct 2026 12:54:30 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">94730 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Familiares y amigos se reunieron en los restaurantes Cortesana y La Azotea para compartir de una cena o un almuerzo</title>
+  <link>https://www.lapatria.com/galerias/familiares-y-amigos-se-reunieron-en-los-restaurantes-cortesana-y-la-azotea-para-compartir</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Familiares y amigos se reunieron en los restaurantes Cortesana y La Azotea para compartir de una cena o un almuerzo&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/26" typeof="schema:Person" property="schema:name" datatype&gt;wilson.gonzalez&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-06T00:00:00-05:00" title="Martes, Octubre 6, 2026 - 00:00" class="datetime"&gt;Mar, 06/10/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;FOTOS | Luis Fernando Trejos| LA PATRIA&lt;/p&gt;&lt;p&gt;Familiares y amigos se reunieron en los restaurantes Cortesana y La Azotea para compartir de una cena o un almuerzo.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/familiares-y-amigos-se-reunieron-en-los-restaurantes-cortesana-y-la-azotea-para-compartir" data-a2a-title="Familiares y amigos se reunieron en los restaurantes Cortesana y La Azotea para compartir de una cena o un almuerzo"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Ffamiliares-y-amigos-se-reunieron-en-los-restaurantes-cortesana-y-la-azotea-para-compartir&amp;amp;title=Familiares%20y%20amigos%20se%20reunieron%20en%20los%20restaurantes%20Cortesana%20y%20La%20Azotea%20para%20compartir%20de%20una%20cena%20o%20un%20almuerzo"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Tue, 06 Oct 2026 05:00:00 +0000</pubDate>
+          <dc:creator>wilson.gonzalez</dc:creator>
+          <guid isPermaLink="false">94706 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 6 de octubre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-6-de-octubre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 6 de octubre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4191" typeof="schema:Person" property="schema:name" datatype&gt;Manuela Cortés&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-05T20:19:24-05:00" title="Lunes, Octubre 5, 2026 - 20:19" class="datetime"&gt;Lun, 05/10/2026 - 20:19&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=94714&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="o72qVfn-tnrZlHjJTmF36UtrbQceWbyAvouHXxSc8j0"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/LP-01A-06-10-26%20%281%29.jpg" width="461" height="600" alt="Portada 6 de octubre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 6 de octubre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 06 Oct 2026 01:19:24 +0000</pubDate>
+          <dc:creator>Manuela Cortés</dc:creator>
+          <guid isPermaLink="false">94714 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 5 de octubre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-5-de-octubre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 5 de octubre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4553" typeof="schema:Person" property="schema:name" datatype&gt;Mariana Marín&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-05T06:24:52-05:00" title="Lunes, Octubre 5, 2026 - 06:24" class="datetime"&gt;Lun, 05/10/2026 - 06:24&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=94641&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="r5x-kiqMS0GpHXkECh1RJuYrASN080GvXKDd2cV-5WY"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/Portada-LAPATRIA1.jpg" width="600" height="782" alt="Portada 5 de octubre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 5 de octubre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Mon, 05 Oct 2026 11:24:52 +0000</pubDate>
+          <dc:creator>Mariana Marín</dc:creator>
+          <guid isPermaLink="false">94641 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Lanzamiento del libro Mi Madre me daba besos</title>
+  <link>https://www.lapatria.com/galerias/lanzamiento-del-libro-mi-madre-me-daba-besos</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Lanzamiento del libro Mi Madre me daba besos&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-05T00:00:00-05:00" title="Lunes, Octubre 5, 2026 - 00:00" class="datetime"&gt;Lun, 05/10/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;El escritor Antonio María Flórez realizó el lanzamiento de su libro Mi Madre me daba besos en Ágora Café Libro.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/lanzamiento-del-libro-mi-madre-me-daba-besos" data-a2a-title="Lanzamiento del libro Mi Madre me daba besos"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Flanzamiento-del-libro-mi-madre-me-daba-besos&amp;amp;title=Lanzamiento%20del%20libro%20Mi%20Madre%20me%20daba%20besos"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Mon, 05 Oct 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">94539 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Festival Internacional de Teatro de Manizales: así vivieron los asistentes la inauguración</title>
+  <link>https://www.lapatria.com/galerias/festival-internacional-de-teatro-de-manizales-asi-vivieron-los-asistentes-la-inauguracion</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Festival Internacional de Teatro de Manizales: así vivieron los asistentes la inauguración&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-04T00:00:00-05:00" title="Domingo, Octubre 4, 2026 - 00:00" class="datetime"&gt;Dom, 04/10/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Asistentes a la inauguración de la edición 58 del Festival Internacional de Teatro de Manizales disfrutaron de la obra Sahara, la barca del desierto de la compañía española Unahoramenos Producciones.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/festival-internacional-de-teatro-de-manizales-asi-vivieron-los-asistentes-la-inauguracion" data-a2a-title="Festival Internacional de Teatro de Manizales: así vivieron los asistentes la inauguración"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Ffestival-internacional-de-teatro-de-manizales-asi-vivieron-los-asistentes-la-inauguracion&amp;amp;title=Festival%20Internacional%20de%20Teatro%20de%20Manizales%3A%20as%C3%AD%20vivieron%20los%20asistentes%20la%20inauguraci%C3%B3n"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sun, 04 Oct 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">94537 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 4 de octubre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-4-de-octubre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 4 de octubre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/23" typeof="schema:Person" property="schema:name" datatype&gt;david.munoz&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-03T21:45:45-05:00" title="Sábado, Octubre 3, 2026 - 21:45" class="datetime"&gt;Sáb, 03/10/2026 - 21:45&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=94598&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="BhW8EZ8JHCs_bSzVArLB2QlA9AVuBj4YcY0DJ3Ua4TY"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/LP-01A-04-10-26%20%281%29.jpg" width="600" height="782" alt="Portada 4 de octubre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 4 de octubre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sun, 04 Oct 2026 02:45:45 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">94598 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON OCTUBRE 3 - 2026</title>
+  <link>https://www.lapatria.com/publicacion/papel-salmon-octubre-3-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;PAPEL SALMON OCTUBRE 3 - 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/38" typeof="schema:Person" property="schema:name" datatype&gt;GLORIA LUZ ANGEL&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-03T10:34:07-05:00" title="Sábado, Octubre 3, 2026 - 10:34" class="datetime"&gt;Sáb, 03/10/2026 - 10:34&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=94571&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="QF-c7q5Q3b1lgxclE_EZ8qxeCdM3uX8eWOPk2eS-Diw"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/Portada%20PAPEL%20SALMON%20OCTUBRE%203%20-%202026.jpg" width="345" height="450" alt="PAPEL SALMON OCTUBRE 3 - 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Últimas presentaciones de grupos invitados al Festival Internacional de Teatro de Manizales.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 03 Oct 2026 15:34:07 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">94571 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
