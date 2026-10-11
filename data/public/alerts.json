@@ -1,12 +1,26 @@
 {
- "generado": "2026-10-10",
- "fecha": "2026-10-10",
+ "generado": "2026-10-11",
+ "fecha": "2026-10-11",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "237 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 237
+   "texto": "179 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 179
+  },
+  {
+   "tipo": "balance_en_medios",
+   "nivel": "info",
+   "texto": "Balance en medios que citan fuentes oficiales (corte del 9 de octubre de 2026): 335 fallecidos (+4 desde el balance anterior) y 4.611 heridos como máximo informado; 103 desaparecidos con corte al 9 de octubre de 2026",
+   "fecha_balance": "2026-10-09",
+   "cifras": {
+    "fallecidos": 335,
+    "heridos": 4611,
+    "desaparecidos": 103,
+    "familias_afectadas": 303934,
+    "personas_afectadas": 487000
+   },
+   "regla": "serie_consolidada_ui_js"
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -71,23 +85,23 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 44 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 44
+   "texto": "La OPS lleva 45 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 45
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-10-09",
+  "fecha": "2026-10-10",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
    "municipios_afectados": 496,
-   "personas_afectadas": 466345,
-   "familias_afectadas": 188034,
-   "viviendas_averiadas": 201939,
+   "personas_afectadas": 487000,
+   "familias_afectadas": 303934,
+   "viviendas_averiadas": 243000,
    "viviendas_destruidas": 36327,
    "heridos": 4611,
-   "fallecidos": 331,
-   "desaparecidos": 234,
+   "fallecidos": 335,
+   "desaparecidos": 103,
    "rescatados": 364
   },
   "origen": {
@@ -102,19 +116,19 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    "personas_afectadas": {
-    "fecha": "2026-09-10",
-    "medio": "infobae",
-    "url": "https://www.infobae.com/colombia/2026/09/10/a-un-mes-del-sismo-de-74-en-colombia-asi-va-la-reconstruccion-de-las-zonas-mas-afectadas-no-queremos-solo-ayuda-queremos-inversion/"
+    "fecha": "2026-10-09",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "familias_afectadas": {
-    "fecha": "2026-08-26",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+    "fecha": "2026-10-09",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "viviendas_averiadas": {
-    "fecha": "2026-09-10",
-    "medio": "\n\t\n\t356 personas rescatadas: la respuesta de la UNGRD continúa un mes después del terremoto\n\n",
-    "url": "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/2026/356-personas-rescatadas-la-respuesta-de-la-UNGRD-continua-un-mes-despues-del-terremoto.aspx"
+    "fecha": "2026-10-09",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "viviendas_destruidas": {
     "fecha": "2026-09-10",
@@ -127,14 +141,14 @@
     "url": "https://www.agenciapi.co/noticia/regiones/terremoto-en-colombia-ungrd-reporta-312-muertos-4611-heridos-y-290-desaparecidos-en-su-mas-reciente-balance"
    },
    "fallecidos": {
-    "fecha": "2026-08-26",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-miercoles-26-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581088"
+    "fecha": "2026-10-09",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "desaparecidos": {
-    "fecha": "2026-10-06",
-    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
-    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
+    "fecha": "2026-10-09",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "rescatados": {
     "fecha": "2026-08-20",
@@ -142,41 +156,27 @@
     "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    }
   },
-  "ultimo_balance": "2026-10-06",
+  "ultimo_balance": "2026-10-09",
   "ignoradas_del_balance": [
    {
-    "cifra": "familias_afectadas",
-    "valor": 159924,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
-    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 178236,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
-    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
+    "cifra": "viviendas_destruidas",
+    "valor": 243000,
+    "motivo": "salto de más de 5 veces el máximo informado",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    {
     "cifra": "heridos",
-    "valor": 4592,
+    "valor": 4516,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
-    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 329,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Semana - Últimas Noticias de Colombia y el Mundo",
-    "url": "https://www.semana.com/nacion/articulo/nuevo-balance-de-la-ungrd-a-dos-semanas-del-terremoto-colombia-registra-329-fallecidos/202615/"
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-10-10/oficiales_feed.json",
-   "items": 172,
+   "snapshot": "data/snapshots/2026-10-11/oficiales_feed.json",
+   "items": 175,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
