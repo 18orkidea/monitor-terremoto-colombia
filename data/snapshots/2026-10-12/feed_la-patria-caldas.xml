@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Mon, 12 Oct 26 00:00:00 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Pablo Rolando Arango presentó la segunda edición de Grandes borrachos colombianos en Manizales</title>
+  <link>https://www.lapatria.com/galerias/pablo-rolando-arango-presento-la-segunda-edicion-de-grandes-borrachos-colombianos-en</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Pablo Rolando Arango presentó la segunda edición de Grandes borrachos colombianos en Manizales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang typeof="schema:Person" property="schema:name" datatype&gt;Anónimo (no verificado)&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-12T00:00:00-05:00" title="Lunes, Octubre 12, 2026 - 00:00" class="datetime"&gt;Lun, 12/10/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Fotos | Argemiro Idárraga | LA PATRIA&lt;/p&gt;&lt;p&gt;Las letras y la tertulia se tomaron la Librería Libélula durante la presentación oficial de la segunda edición de &lt;em&gt;Grandes borrachos colombianos&lt;/em&gt;. En este espacio, el escritor Pablo Rolando Arango conversó con los asistentes sobre los matices de su obra, propiciando un encuentro cercano alrededor de la literatura, la anécdota y la movida editorial de la ciudad.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/pablo-rolando-arango-presento-la-segunda-edicion-de-grandes-borrachos-colombianos-en" data-a2a-title="Pablo Rolando Arango presentó la segunda edición de Grandes borrachos colombianos en Manizales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fpablo-rolando-arango-presento-la-segunda-edicion-de-grandes-borrachos-colombianos-en&amp;amp;title=Pablo%20Rolando%20Arango%20present%C3%B3%20la%20segunda%20edici%C3%B3n%20de%20Grandes%20borrachos%20colombianos%20en%20Manizales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Mon, 12 Oct 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Anónimo</dc:creator>
+          <guid isPermaLink="false">95069 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 12 de octubre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-12-de-octubre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 12 de octubre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/65" typeof="schema:Person" property="schema:name" datatype&gt;Luis David Patiño&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-11T23:51:38-05:00" title="Domingo, Octubre 11, 2026 - 23:51" class="datetime"&gt;Dom, 11/10/2026 - 23:51&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=95172&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="ebZQAjm3Y_jizFgnSOxqBi8BrYWANjNmz8075MeAEIM"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/LP-01A-12-10-26%20%281%29.jpg" width="700" height="913" alt="Portada 12 de octubre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 12 de octubre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Mon, 12 Oct 2026 04:51:38 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">95172 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 11 de octubre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-11-de-octubre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 11 de octubre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/65" typeof="schema:Person" property="schema:name" datatype&gt;Luis David Patiño&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-11T00:02:15-05:00" title="Domingo, Octubre 11, 2026 - 00:02" class="datetime"&gt;Dom, 11/10/2026 - 00:02&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=95132&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="ZqpOX6bWQM2Fqw5c89ucVfa9CHRcLBYlWWjNxoQkpEQ"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/LP-01A-11-10-26.jpg" width="700" height="913" alt="Portada 11 de octubre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 11 de octubre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sun, 11 Oct 2026 05:02:15 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">95132 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Caldas reconoce a quienes unieron esfuerzos para proteger vidas tras el terremoto del 10 de agosto</title>
+  <link>https://www.lapatria.com/galerias/caldas-reconoce-quienes-unieron-esfuerzos-para-proteger-vidas-tras-el-terremoto-del-10-de</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Caldas reconoce a quienes unieron esfuerzos para proteger vidas tras el terremoto del 10 de agosto&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-11T00:00:00-05:00" title="Domingo, Octubre 11, 2026 - 00:00" class="datetime"&gt;Dom, 11/10/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Fotos | LA PATRIA&lt;/p&gt;&lt;p&gt;La Gobernación de Caldas exaltó la oportuna respuesta y el despliegue operativo de los organismos de socorro, la Fuerza Pública, el personal de la salud y diferentes gremios del departamento durante la emergencia del pasado 10 de agosto. A través de este encuentro, la Administración departamental entregó reconocimientos a las entidades que articularon esfuerzos para salvaguardar la vida de los caldenses tras el movimiento telúrico.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/caldas-reconoce-quienes-unieron-esfuerzos-para-proteger-vidas-tras-el-terremoto-del-10-de" data-a2a-title="Caldas reconoce a quienes unieron esfuerzos para proteger vidas tras el terremoto del 10 de agosto"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fcaldas-reconoce-quienes-unieron-esfuerzos-para-proteger-vidas-tras-el-terremoto-del-10-de&amp;amp;title=Caldas%20reconoce%20a%20quienes%20unieron%20esfuerzos%20para%20proteger%20vidas%20tras%20el%20terremoto%20del%2010%20de%20agosto"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sun, 11 Oct 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">95070 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON OCTUBRE 10 - 2026</title>
+  <link>https://www.lapatria.com/publicacion/papel-salmon-octubre-10-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;PAPEL SALMON OCTUBRE 10 - 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/38" typeof="schema:Person" property="schema:name" datatype&gt;GLORIA LUZ ANGEL&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-10T10:17:05-05:00" title="Sábado, Octubre 10, 2026 - 10:17" class="datetime"&gt;Sáb, 10/10/2026 - 10:17&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=95102&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="753Gu3BGGhaoS49McNr6mbg70luk8G7GDULogsFvfGY"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/Portada%20PAPEL%20SALMON%20OCTUBRE%2010%20-%202026.jpg" width="613" height="400" alt="PAPEL SALMON OCTUBRE 10 - 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Texto que hace parte de las palabras que Antonio María Flórez dijo en la presentación de su obra poética en la Academia Colombiana de la Lengua el pasado 17 de septiembre.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 10 Oct 2026 15:17:05 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">95102 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 10 de octubre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-10-de-octubre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 10 de octubre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/65" typeof="schema:Person" property="schema:name" datatype&gt;Luis David Patiño&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-10T01:05:22-05:00" title="Sábado, Octubre 10, 2026 - 01:05" class="datetime"&gt;Sáb, 10/10/2026 - 01:05&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=95092&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="fFzZGKImpAO_pv5wKlJI-UlAryLKLBI6BYgEhGN27_Q"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/LP-01A-10-10-26%20%282%29.jpg" width="700" height="913" alt="Portada 10 de octubre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 10 de octubre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 10 Oct 2026 06:05:22 +0000</pubDate>
+          <dc:creator>Luis David Patiño</dc:creator>
+          <guid isPermaLink="false">95092 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Asistentes al VIII Congreso Iberoamericano de Teatro en el Club Manizales</title>
+  <link>https://www.lapatria.com/galerias/asistentes-al-viii-congreso-iberoamericano-de-teatro-en-el-club-manizales</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Asistentes al VIII Congreso Iberoamericano de Teatro en el Club Manizales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-10T00:00:00-05:00" title="Sábado, Octubre 10, 2026 - 00:00" class="datetime"&gt;Sáb, 10/10/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Foto |Argemiro Idárraga | LA PATRIA&lt;/p&gt;&lt;p&gt;En el Club Manizales, sede Centro, se ofreció un almuerzo de atención para los delegados y asistentes al VIII Congreso Iberoamericano de Teatro. Los presentes compartieron experiencias en torno al quehacer teatral.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/asistentes-al-viii-congreso-iberoamericano-de-teatro-en-el-club-manizales" data-a2a-title="Asistentes al VIII Congreso Iberoamericano de Teatro en el Club Manizales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fasistentes-al-viii-congreso-iberoamericano-de-teatro-en-el-club-manizales&amp;amp;title=Asistentes%20al%20VIII%20Congreso%20Iberoamericano%20de%20Teatro%20en%20el%20Club%20Manizales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sat, 10 Oct 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">95066 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA CASA</title>
+  <link>https://www.lapatria.com/clasificados/venta-casa-90</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA CASA&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-09T15:40:37-05:00" title="Viernes, Octubre 9, 2026 - 15:40" class="datetime"&gt;Vie, 09/10/2026 - 15:40&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=95029&amp;amp;2=bookmark&amp;amp;3=rss" token="8wmNH9OBwHKrejIICvvzSykOnsXVIELmZyU11pqdnMU"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;310-3826919&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 09 Oct 2026 20:40:37 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">95029 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>EMPLEO </title>
+  <link>https://www.lapatria.com/clasificados/empleo-108</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;EMPLEO &lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-09T11:22:01-05:00" title="Viernes, Octubre 9, 2026 - 11:22" class="datetime"&gt;Vie, 09/10/2026 - 11:22&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=95006&amp;amp;2=bookmark&amp;amp;3=rss" token="JwNfofrn0QwgltaIZW5-drkAzcG1QLE1XXgkHWh68p0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3366" hreflang="es"&gt;Empleos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;314-5541666, 310-5001187&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 09 Oct 2026 16:22:01 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">95006 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>

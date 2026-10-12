@@ -1,26 +1,12 @@
 {
- "generado": "2026-10-11",
- "fecha": "2026-10-11",
+ "generado": "2026-10-12",
+ "fecha": "2026-10-12",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "179 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 179
-  },
-  {
-   "tipo": "balance_en_medios",
-   "nivel": "info",
-   "texto": "Balance en medios que citan fuentes oficiales (corte del 9 de octubre de 2026): 335 fallecidos (+4 desde el balance anterior) y 4.611 heridos como máximo informado; 103 desaparecidos con corte al 9 de octubre de 2026",
-   "fecha_balance": "2026-10-09",
-   "cifras": {
-    "fallecidos": 335,
-    "heridos": 4611,
-    "desaparecidos": 103,
-    "familias_afectadas": 303934,
-    "personas_afectadas": 487000
-   },
-   "regla": "serie_consolidada_ui_js"
+   "texto": "135 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 135
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -55,6 +41,17 @@
    "puntos": 201
   },
   {
+   "tipo": "fuentes_con_peticion_condicional",
+   "nivel": "info",
+   "texto": "3 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1791653907664/dyfi_geo_10km.geojson",
+   "urls": [
+    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1791653907664/dyfi_geo_10km.geojson",
+    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1791703961532/download/cont_mmi.json",
+    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1791703961532/download/coverage_mmi_low_res.covjson"
+   ],
+   "n": 3
+  },
+  {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
    "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
@@ -85,12 +82,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 45 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 45
+   "texto": "La OPS lleva 46 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 46
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-10-10",
+  "fecha": "2026-10-11",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -166,6 +163,20 @@
     "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    {
+    "cifra": "viviendas_destruidas",
+    "valor": 243000,
+    "motivo": "salto de más de 5 veces el máximo informado",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 4516,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+   },
+   {
     "cifra": "heridos",
     "valor": 4516,
     "motivo": "retrocede sobre el máximo informado",
@@ -175,8 +186,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-10-11/oficiales_feed.json",
-   "items": 175,
+   "snapshot": "data/snapshots/2026-10-12/oficiales_feed.json",
+   "items": 178,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
