@@ -1,12 +1,12 @@
 {
- "generado": "2026-10-12",
- "fecha": "2026-10-12",
+ "generado": "2026-10-13",
+ "fecha": "2026-10-13",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "135 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 135
+   "texto": "116 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 116
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -41,17 +41,6 @@
    "puntos": 201
   },
   {
-   "tipo": "fuentes_con_peticion_condicional",
-   "nivel": "info",
-   "texto": "3 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1791653907664/dyfi_geo_10km.geojson",
-   "urls": [
-    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1791653907664/dyfi_geo_10km.geojson",
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1791703961532/download/cont_mmi.json",
-    "https://earthquake.usgs.gov/product/shakemap/us6000tjl2/us/1791703961532/download/coverage_mmi_low_res.covjson"
-   ],
-   "n": 3
-  },
-  {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
    "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
@@ -82,15 +71,15 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 46 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 46
+   "texto": "La OPS lleva 47 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 47
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-10-11",
+  "fecha": "2026-10-12",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
-   "departamentos_afectados": 16,
+   "departamentos_afectados": 30,
    "municipios_afectados": 496,
    "personas_afectadas": 487000,
    "familias_afectadas": 303934,
@@ -103,9 +92,9 @@
   },
   "origen": {
    "departamentos_afectados": {
-    "fecha": "2026-08-24",
-    "medio": "El Tiempo",
-    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
+    "fecha": "2026-08-19",
+    "medio": "Decreto  1261 de 2026 Nivel Nacional",
+    "url": "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S"
    },
    "municipios_afectados": {
     "fecha": "2026-08-27",
@@ -186,8 +175,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-10-12/oficiales_feed.json",
-   "items": 178,
+   "snapshot": "data/snapshots/2026-10-13/oficiales_feed.json",
+   "items": 181,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
