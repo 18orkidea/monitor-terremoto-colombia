@@ -1,12 +1,12 @@
 {
- "generado": "2026-10-14",
- "fecha": "2026-10-14",
+ "generado": "2026-10-15",
+ "fecha": "2026-10-15",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "132 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 132
+   "texto": "126 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 126
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -41,15 +41,6 @@
    "puntos": 201
   },
   {
-   "tipo": "fuentes_con_peticion_condicional",
-   "nivel": "info",
-   "texto": "1 URL(s) contestaron hoy por primera vez «304 sin cambios»: preguntar sale gratis y el cuerpo no se descarga. Ejemplo: https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1791843688293/dyfi_geo_10km.geojson",
-   "urls": [
-    "https://earthquake.usgs.gov/product/dyfi/us6000tjl2/us/1791843688293/dyfi_geo_10km.geojson"
-   ],
-   "n": 1
-  },
-  {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
    "texto": "1 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.0 MB). Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
@@ -79,12 +70,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 48 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 48
+   "texto": "La OPS lleva 49 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 49
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-10-13",
+  "fecha": "2026-10-14",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -167,6 +158,20 @@
     "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    {
+    "cifra": "viviendas_destruidas",
+    "valor": 243000,
+    "motivo": "salto de más de 5 veces el máximo informado",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+   },
+   {
+    "cifra": "heridos",
+    "valor": 4516,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "www.vanguardia.com",
+    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+   },
+   {
     "cifra": "heridos",
     "valor": 4516,
     "motivo": "retrocede sobre el máximo informado",
@@ -183,8 +188,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-10-14/oficiales_feed.json",
-   "items": 183,
+   "snapshot": "data/snapshots/2026-10-15/oficiales_feed.json",
+   "items": 186,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }

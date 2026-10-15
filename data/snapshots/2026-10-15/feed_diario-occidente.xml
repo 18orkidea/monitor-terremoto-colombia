@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Thu, 15 Oct 2026 13:30:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>ChatGPT y Codex en Oracle: Días a minutos</title>
+		<link>https://occidente.co/secciones/tecnologia/chatgpt-codex-oracle-dias-minutos/</link>
+					<comments>https://occidente.co/secciones/tecnologia/chatgpt-codex-oracle-dias-minutos/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 13:30:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441802</guid>
+
+					<description><![CDATA[<p>Oracle reduce tareas de días a minutos con ChatGPT y Codex En Oracle, herramientas basadas en inteligencia artificial permiten que trabajos que antes requerían especialistas y días de investigación ahora se completen en minutos. La frase clave &#8220;ChatGPT y Codex&#8221; aparece desde el inicio porque son las tecnologías que impulsan esos cambios. Oracle anunció que...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/chatgpt-codex-oracle-dias-minutos/">ChatGPT y Codex en Oracle: Días a minutos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Oracle reduce tareas de días a minutos con ChatGPT y Codex</h2>
+</p>
+<p>En Oracle, herramientas basadas en inteligencia artificial permiten que trabajos que antes requerían especialistas y días de investigación ahora se completen en minutos. La frase clave &#8220;ChatGPT y Codex&#8221; aparece desde el inicio porque son las tecnologías que impulsan esos cambios.</p>
+</p>
+<p>Oracle anunció que más de 130.000 empleados usan ChatGPT Work y más de 95.000 usan Codex para tareas internas. El equipo de adquisición de talento creó una herramienta de inteligencia de mercado que, a partir de una descripción de puesto, compara roles, estima salarios y analiza disponibilidad de talento en distintas zonas. Antes ese proceso tomaba entre dos y cuatro días; ahora el preparativo para una entrevista puede tardar 15 a 20 minutos, según Jan Ackerman, responsable global de talento.</p>
+</p>
+<p>Además, el laboratorio de aplicaciones creó una ontología interna que permite transformar preguntas en lenguaje natural en consultas SQL fiables mediante Codex. En ingeniería, los equipos de confiabilidad (SRE) usan Codex para reunir contexto de incidentes y acceder automáticamente a los procedimientos adecuados, reduciendo tiempos de resolución que antes podían durar una hora a solo minutos.</p>
+</p>
+<h2>Qué cambia en el trabajo diario</h2>
+</p>
+<h3>Preparación de entrevistas más rápida</h3>
+</p>
+<p>Los reclutadores reciben en minutos análisis comparativos y referencias salariales que antes tomaban días, lo que agiliza la toma de decisiones y estandariza la calidad de la información para los responsables de contratación.</p>
+</p>
+<h3>Respuestas operativas inmediatas</h3>
+</p>
+<p>Usuarios de negocio obtienen análisis o reportes sin tener que buscar datos manualmente: describen el resultado deseado y la herramienta consulta sistemas internos y entrega la información casi de inmediato.</p>
+</p>
+<h3>Resolución de incidentes más breve</h3>
+</p>
+<p>Ingenieros de confiabilidad acceden rápidamente a contexto y playbooks, dedicando más tiempo a la decisión y menos a la búsqueda de información, lo que acelera la restauración de servicios.</p>
+</p>
+<h2>Qué aspectos siguen pendientes</h2>
+</p>
+<p>Oracle advierte que la inteligencia artificial no funciona en modo autónomo: hace falta supervisión humana para garantizar diseño, arquitectura, seguridad y mantenimiento del código. También hay que definir guardarras y responsabilidades sobre el código generado para evitar problemas de mantenibilidad. No se detallan plazos ni pasos concretos para extender estas soluciones más allá de los equipos ya mencionados.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Consultas y preparativos más rápidos mejoran la experiencia y ahorran tiempo.</p>
+</p>
+<p><strong>Negocio:</strong> Procesos estandarizados y más eficientes reducen costos operativos y aceleran decisiones.</p>
+</p>
+<p><strong>Industria:</strong> Ejemplifica cómo IA aplicada internamente acelera tareas técnicas y administrativas.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/chatgpt-codex-oracle-dias-minutos/">ChatGPT y Codex en Oracle: Días a minutos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/chatgpt-codex-oracle-dias-minutos/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Por qué nos atrae alguien que no nos conviene?</title>
+		<link>https://occidente.co/secciones/tendencias/por-que-nos-atrae-alguien-que-no-nos-conviene/</link>
+					<comments>https://occidente.co/secciones/tendencias/por-que-nos-atrae-alguien-que-no-nos-conviene/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 02:00:19 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441932</guid>
+
+					<description><![CDATA[<p>Sabemos que esa persona no es buena para nosotros, que la relación probablemente terminará mal y que lo más sensato sería alejarnos. Sin embargo, basta una mirada, un mensaje o un encuentro para que reaparezca una atracción difícil de explicar. Hay personas que parecen tener un poder inexplicable sobre nuestro deseo. No necesariamente son las...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/por-que-nos-atrae-alguien-que-no-nos-conviene/">¿Por qué nos atrae alguien que no nos conviene?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Sabemos que esa persona no es buena para nosotros, que la relación probablemente terminará mal y que lo más sensato sería alejarnos.</p>
+<p>Sin embargo, basta una mirada, un mensaje o un encuentro para que reaparezca una atracción difícil de explicar.</p>
+<p>Hay personas que parecen tener un poder inexplicable sobre nuestro deseo.</p>
+<p>No necesariamente son las más atractivas, las más cariñosas ni las que mejor nos tratan, pero despiertan una intensidad sexual que no siempre experimentamos con alguien que nos ofrece estabilidad, respeto y tranquilidad.</p>
+<p>¿Por qué ocurre esto? ¿Por qué podemos sentir una atracción irresistible hacia alguien con quien sabemos que difícilmente construiremos una relación saludable?</p>
+<h2>El deseo no siempre escucha a la razón</h2>
+<p>La atracción sexual no funciona como una lista de requisitos que podamos revisar antes de enamorarnos o desear a alguien.</p>
+<p>En ella intervienen experiencias anteriores, preferencias personales, emociones, expectativas y mecanismos de recompensa del cerebro.</p>
+<p>Por eso es posible reconocer racionalmente que una persona no nos conviene y, al mismo tiempo, experimentar una intensa atracción física hacia ella.</p>
+<p>El deseo y la evaluación de una relación no son exactamente el mismo proceso.</p>
+<p>Podemos sentir química con alguien sin que exista compatibilidad emocional, valores compartidos o posibilidades reales de construir una relación satisfactoria.</p>
+<p>El problema aparece cuando confundimos esa intensidad con una señal de que estamos frente a una persona extraordinaria.</p>
+<h3>El peligroso atractivo de lo impredecible</h3>
+<p>Una persona que un día demuestra muchísimo interés y al siguiente desaparece puede generar una combinación de expectativa, frustración y curiosidad.</p>
+<p>En psicología se estudia cómo las recompensas impredecibles pueden mantener determinadas conductas.</p>
+<p>En las relaciones, recibir atención de manera intermitente puede contribuir a que algunas personas permanezcan pendientes de una respuesta, una llamada o una nueva oportunidad de encuentro.</p>
+<p>No significa que todas las relaciones intensas funcionen así, pero ayuda a comprender por qué, en ciertos casos, alguien puede volverse especialmente difícil de olvidar.</p>
+<h3>El deseo termina mezclándose con una pregunta: ¿volverá a buscarme?</h3>
+<p>Y la espera puede ocupar tanto espacio emocional como la propia relación.</p>
+<h3>¿Por qué la tranquilidad a veces parece aburrida?</h3>
+<p>Existe una diferencia importante entre la intensidad emocional y la satisfacción afectiva.</p>
+<p>Cuando una relación está llena de incertidumbre, reconciliaciones, discusiones y encuentros apasionados, los cambios emocionales pueden ser muy marcados.</p>
+<p>En contraste, una relación estable puede sentirse menos dramática, aunque ofrezca mejores condiciones para la confianza y el bienestar.</p>
+<p>Algunas personas, especialmente cuando han vivido relaciones inestables durante mucho tiempo, pueden llegar a interpretar equivocadamente la ausencia de conflicto como falta de pasión.</p>
+<p>Sin embargo, una relación tranquila no tiene por qué ser una relación sexualmente aburrida.</p>
+<p>La seguridad emocional también puede favorecer la exploración, la comunicación y el disfrute.</p>
+<p>La fantasía de cambiar a alguien</p>
+<p>Otra razón por la que algunas atracciones se vuelven persistentes es la esperanza de que la otra persona cambie.</p>
+<p><strong>Aparecen pensamientos como:</strong> «Conmigo será diferente», «En el fondo sí me quiere» o «Si logro que se comprometa, todo mejorará».</p>
+<p>Entonces, el interés deja de centrarse exclusivamente en la persona real y comienza a alimentarse de una versión imaginada de lo que podría llegar a ser.</p>
+<p>La fantasía puede resultar muy poderosa, especialmente cuando existe una fuerte atracción sexual.</p>
+<p>Pero desear intensamente a alguien no garantiza que esa persona pueda ofrecernos la relación que necesitamos.</p>
+<h3>¿La química sexual puede hacernos ignorar las señales de alarma?</h3>
+<p>Sí, puede influir en nuestras decisiones, aunque no determina inevitablemente nuestro comportamiento.</p>
+<p>Cuando sentimos una atracción intensa, podemos prestar mayor atención a las cualidades que nos gustan y restar importancia a comportamientos que normalmente consideraríamos preocupantes.</p>
+<p>Por ejemplo, justificar la falta de compromiso, minimizar actitudes irrespetuosas o interpretar los celos como una demostración de amor.</p>
+<p>Aquí conviene distinguir entre una relación que presenta dificultades normales y otra donde existen manipulación, humillaciones o maltrato.</p>
+<p>La pasión no convierte las conductas dañinas en aceptables.</p>
+<h3>¿Podemos dejar de desear a alguien que no nos conviene?</h3>
+<p>No siempre podemos decidir qué persona nos atrae, pero sí podemos elegir qué hacemos con esa atracción.</p>
+<p>Reconocer los patrones que repetimos, establecer límites, tomar distancia cuando sea necesario y preguntarnos qué buscamos realmente en una relación son herramientas útiles.</p>
+<p>También ayuda comprender que extrañar a alguien no demuestra necesariamente que debamos regresar.</p>
+<p>A veces extrañamos la emoción, la expectativa, la intensidad de los encuentros o la versión idealizada de una historia que nunca llegó a existir.</p>
+<p>Y quizá esa sea una de las mayores contradicciones de la sexualidad humana: podemos experimentar una química extraordinaria con alguien que no nos hace bien y tardar mucho tiempo en comprender que ambas cosas pueden ser ciertas.</p>
+<p>Porque una persona puede encender nuestro deseo sin ser necesariamente la indicada para compartir nuestra vida.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/por-que-nos-atrae-alguien-que-no-nos-conviene/">¿Por qué nos atrae alguien que no nos conviene?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/por-que-nos-atrae-alguien-que-no-nos-conviene/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El FMI realizará una nueva visita técnica a Colombia en noviembre</title>
+		<link>https://occidente.co/empresario/mision-tecnica-del-fmi-visitara-colombia-en-noviembre-minhacienda/</link>
+					<comments>https://occidente.co/empresario/mision-tecnica-del-fmi-visitara-colombia-en-noviembre-minhacienda/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 01:57:20 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441929</guid>
+
+					<description><![CDATA[<p>En las próximas semanas, una misión técnica del Fondo Monetario Internacional (FMI), visitará nuevamente Colombia para sostener otro encuentro con el equipo económico del Ministerio de Hacienda y Crédito Público, y avanzar en “el acercamiento” de nuestro país con el organismo multilateral. Así lo confirmó la propia cartera en un comunicado donde dice que la...</p>
+<p>The post <a href="https://occidente.co/empresario/mision-tecnica-del-fmi-visitara-colombia-en-noviembre-minhacienda/">El FMI realizará una nueva visita técnica a Colombia en noviembre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>En las próximas semanas, una misión técnica del Fondo Monetario Internacional (FMI), visitará nuevamente Colombia para sostener otro encuentro con el equipo económico del Ministerio de Hacienda y Crédito Público, y avanzar en “<em>el acercamiento</em>” de nuestro país con el organismo multilateral</strong>.</p>
+<p>Así lo confirmó la propia cartera en un comunicado donde dice que la próxima reunión se dará en noviembre entrante, pero en ​fecha por confirmar.</p>
+<p>El ministro de Hacienda, Miguel Gómez, manifestó que “<em>el decidido acompañamiento que el FMI está dando a Colombia es altamente valorado por el Gobierno nacional, en la medida que contribuye a anclar la confianza en el país</em>”.</p>
+<p>Las conversaciones previstas durante la etapa exploratoria han incluido la realización de la consulta del Artículo IV del Convenio Constitutivo del FMI, mecanismo mediante el cual el organismo evalúa periódicamente la situación económica y financiera de sus países miembros, así como posibles instrumentos que contribuyan a mejorar las condiciones de financiamiento de Colombia.</p>
+<p><strong>El Ministerio de Hacienda ya había iniciado los acercamientos con el FMI con la visita que realizó al país Nigel Clarke, Subdirector Gerente de ese organismo, quien estuvo en Colombia a finales de septiembre</strong>.</p>
+<p>En esa ocasión, el representante del FMI destacó la solidez institucional del país y manifestó la disposición del organismo para apoyar a las autoridades colombianas en sus esfuerzos por fortalecer la credibilidad económica.</p>
+<p>El próximo encuentro se definió tras la visita que realizaron la semana pasada a Washington el viceministro Técnico de Hacienda, Juan Sebastián Betancur; el director General de Política Macroeconómica, Sammy Libos, y el director General de Crédito Público y Tesoro Nacional, César Arias.</p>
+<p>En esa visita al FMI se discutió en detalle la estrategia de estabilización de las finanzas públicas que plantea el Gobierno, y se exploraron nuevas alternativas de apoyo que ese organismo puede brindar a Colombia.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/mision-tecnica-del-fmi-visitara-colombia-en-noviembre-minhacienda/">El FMI realizará una nueva visita técnica a Colombia en noviembre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/mision-tecnica-del-fmi-visitara-colombia-en-noviembre-minhacienda/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Autoridades refuerzan seguridad en sitios turísticos de Buenaventura</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/zonas-turisticas-de-buenaventura-despliegue-seguridad-semana-receso/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/zonas-turisticas-de-buenaventura-despliegue-seguridad-semana-receso/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 01:54:18 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<category><![CDATA[Buenaventura]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441926</guid>
+
+					<description><![CDATA[<p>Con el fin de garantizar la seguridad y tranquilidad en las zonas turísticas de Buenaventura, las autoridades distritales mantienen un despliegue de seguridad articulado en sus principales corredores turísticos. La Alcaldía de Buenaventura, la Policía Nacional, la Armada Nacional y la Dimar trabajan conjuntamente para garantizar la tranquilidad de los visitantes y residentes. Es así...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/zonas-turisticas-de-buenaventura-despliegue-seguridad-semana-receso/">Autoridades refuerzan seguridad en sitios turísticos de Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Con el fin de garantizar la seguridad y tranquilidad en las zonas turísticas de Buenaventura, las autoridades distritales mantienen un despliegue de seguridad articulado en sus principales corredores turísticos.</p>
+<p>La Alcaldía de Buenaventura, la Policía Nacional, la Armada Nacional y la Dimar trabajan conjuntamente para garantizar la tranquilidad de los visitantes y residentes.</p>
+<p>Es así como se desarrollan medidas de refuerzo en vigilancia y control que cubren puntos clave como Juanchaco, Bazán La Bocana, Piangüita, Ladrilleros y San Cipriano.</p>
+<p>Al respecto, la Secretaría de Gobierno y Seguridad Ciudadana, liderada por María Liliana Vivas Paz, reportó un balance positivo en los patrullajes que se adelantan en la zona costera.</p>
+<p>El trabajo conjunto incluye la presencia permanente de la fuerza pública en playas, muelles y zonas de mayor afluencia.</p>
+<p>Por su parte, la Dirección General Marítima (Dimar), a través de la Capitanía de Puerto de Buenaventura, vigila las condiciones meteomarinas, los zarpes autorizados y el cumplimiento de normas por parte de las empresas de transporte de pasajeros.</p>
+<p>Es de anotar que desde el pasado puente festivo la Capitanía de Puerto de Buenaventura mantiene activos sus dispositivos de seguridad marítima para acompañar a propios y visitantes durante la semana de receso escolar.</p>
+<p>Con la presencia permanente de inspectores y personal operativo en playas, muelles y zonas de mayor afluencia turística, la Autoridad Marítima Colombiana adelanta labores de control, verificación y acompañamiento para proteger la vida humana en el mar y promover una navegación segura en el Pacífico colombiano.</p>
+<p>Estas acciones se mantendrán para preservar la seguridad en esta región, sobre todo en esta época del año cuando Buenaventura espera a miles de turistas que en las próximas semanas visitarán el distrito con motivo de la temporada de cierre de avistamiento de las ballenas jorobadas, que parten hacia las frías aguas de la Antártida.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/zonas-turisticas-de-buenaventura-despliegue-seguridad-semana-receso/">Autoridades refuerzan seguridad en sitios turísticos de Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/zonas-turisticas-de-buenaventura-despliegue-seguridad-semana-receso/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>La inflación sigue subiendo en Colombia</title>
+		<link>https://occidente.co/empresario/la-inflacion-sigue-subiendo-en-colombia/</link>
+					<comments>https://occidente.co/empresario/la-inflacion-sigue-subiendo-en-colombia/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 01:49:34 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441923</guid>
+
+					<description><![CDATA[<p>Mientras los colombianos siguen enfrentando incrementos en los precios de los alimentos y servicios, otros productos empiezan a mostrar un comportamiento diferente. Comprar un vehículo, un televisor o algunos electrodomésticos resultó más barato en septiembre, una tendencia que podría estar relacionada con la fuerte apreciación del peso frente al dólar. Esta diferencia explica por qué...</p>
+<p>The post <a href="https://occidente.co/empresario/la-inflacion-sigue-subiendo-en-colombia/">La inflación sigue subiendo en Colombia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Mientras los colombianos siguen enfrentando incrementos en los precios de los alimentos y servicios, otros productos empiezan a mostrar un comportamiento diferente.</p>
+<p>Comprar un vehículo, un televisor o algunos electrodomésticos resultó más barato en septiembre, una tendencia que podría estar relacionada con la fuerte apreciación del peso frente al dólar.</p>
+<p>Esta diferencia explica por qué la inflación colombiana está mostrando dos velocidades: una parte de la economía continúa presionando el costo de vida, mientras otra empieza a registrar reducciones de precios.</p>
+<p>En septiembre de 2026, la variación anual del Índice de Precios al Consumidor (IPC) se ubicó en 6,29%, por encima del 6,24% registrado en agosto y del 5,18 % de septiembre de 2025.</p>
+<p>Aunque el aumento frente al mes anterior fue moderado, el resultado confirma que la inflación anual continúa acelerándose y que las reducciones de precios observadas en determinados productos todavía no son suficientes para revertir esa tendencia.</p>
+<h2>Alimentos y servicios explican la mayor parte de la inflación</h2>
+<p>El análisis por categorías muestra que los servicios y los alimentos explicaron el 72% de la variación anual de la inflación de septiembre.</p>
+<p>Los servicios registraron una inflación anual de 7,19%, ligeramente superior al 7,17% de agosto, y aportaron 3,26 puntos porcentuales al resultado total.</p>
+<p>Los alimentos, por su parte, aceleraron su variación anual de 6,10 % en agosto a 6,74 % en septiembre, con una contribución de 1,28 puntos porcentuales.</p>
+<p>Los precios regulados presentaron una variación de 6,69%, frente al 6,77% del mes anterior, mientras que los bienes registraron una inflación anual de apenas 2,87%, inferior al 3,29 % observado en agosto.</p>
+<p>Este último comportamiento constituye una de las señales más importantes del reporte, porque muestra que los precios de numerosos productos están reaccionando de manera distinta a los alimentos y servicios.</p>
+<h3>Los productos que bajaron de precio</h3>
+<p>La canasta de bienes, que representa el 18,8% del IPC, registró una variación mensual de -0,10 %, su primera caída desde octubre de 2024.</p>
+<p>Entre los productos que más contribuyeron a esta reducción estuvieron los vehículos, las motocicletas y las bicicletas, cuyos precios disminuyeron conjuntamente 0,98 % durante septiembre.</p>
+<p>Dentro de este grupo, los vehículos particulares nuevos y usados registraron una caída mensual de 1,05%.</p>
+<p>En términos anuales, sus precios acumularon una disminución de 2,85%, completando seis meses consecutivos en terreno negativo.</p>
+<p>También se presentaron reducciones en productos tecnológicos y electrodomésticos.</p>
+<table style="border-collapse: collapse; width: 100%; height: 168px;">
+<tbody>
+<tr style="height: 24px;">
+<td style="width: 50%; height: 24px; text-align: center;"><strong>Producto</strong></td>
+<td style="width: 50%; height: 24px; text-align: center;"><strong>Variación mensual en septiembre</strong></td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 50%; height: 24px; text-align: center;">Artículos de oro y plata</td>
+<td style="width: 50%; height: 24px; text-align: center;">-2,91 %</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 50%; height: 24px; text-align: center;">Televisores y equipos de imagen</td>
+<td style="width: 50%; height: 24px; text-align: center;">-2,53 %</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 50%; height: 24px; text-align: center;">Neveras</td>
+<td style="width: 50%; height: 24px; text-align: center;">-1,37 %</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 50%; height: 24px; text-align: center;">Vehículos particulares</td>
+<td style="width: 50%; height: 24px; text-align: center;">-1,05 %</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 50%; height: 24px; text-align: center;">Lavadoras</td>
+<td style="width: 50%; height: 24px; text-align: center;">-0,79 %</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 50%; height: 24px; text-align: center;">Celulares</td>
+<td style="width: 50%; height: 24px; text-align: center;">-0,53 %</td>
+</tr>
+</tbody>
+</table>
+<p>En contraste, algunos bienes continuaron aumentando.</p>
+<p>Los productos de limpieza subieron 0,30 %, los de higiene oral 0,63% y la cerveza 0,48%.</p>
+<h3>El dólar más barato comienza a sentirse</h3>
+<p>Uno de los factores que podría explicar la reducción de precios es la apreciación del peso colombiano.</p>
+<p>Entre diciembre de 2025 y septiembre de 2026, el peso se apreció 16,2% frente al dólar.</p>
+<p>Si la comparación se realiza contra septiembre del año anterior, la apreciación alcanza el 18,9%.</p>
+<p>Este comportamiento puede reducir los costos en pesos de productos importados y de aquellos que dependen de insumos adquiridos en el exterior, aunque su traslado al consumidor no necesariamente ocurre de manera inmediata.</p>
+<p>De hecho, al agrupar los bienes más sensibles a la tasa de cambio, principalmente importados, se observa que sus precios disminuyeron 0,55% en septiembre.</p>
+<p>La inflación anual de estos productos pasó de 1,30 % en agosto a apenas 0,60% en septiembre.</p>
+<p>En cambio, el resto de los bienes presentó una variación mensual positiva de 0,19% y una inflación anual de 4,30%.</p>
+<p>La diferencia sugiere que la apreciación cambiaria empieza a transmitirse a los precios internos, especialmente en productos con mayor exposición al comercio internacional.</p>
+<h4>¿Por qué no baja entonces la inflación?</h4>
+<p>Aunque la reducción en los precios de bienes importados representa un alivio para algunos consumidores, su efecto todavía resulta insuficiente frente a las presiones de alimentos y servicios.</p>
+<p>Además, una inflación menor no significa necesariamente que todos los precios estén bajando.</p>
+<p>En septiembre, la inflación general siguió siendo positiva y superior a la del mes anterior, pese a que determinados productos registraron disminuciones.</p>
+<p>El comportamiento de los próximos meses dependerá de cuánto tiempo se mantenga la apreciación del peso, de la velocidad con la que las empresas trasladen los menores costos a los consumidores y de la evolución de los precios de alimentos y servicios.</p>
+<p>Por ahora, el panorama deja una conclusión: el dólar más barato comienza a favorecer los precios de algunos bienes, pero todavía no alcanza para frenar el encarecimiento general del costo de vida en Colombia.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/la-inflacion-sigue-subiendo-en-colombia/">La inflación sigue subiendo en Colombia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/la-inflacion-sigue-subiendo-en-colombia/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Valle del Cauca se propone transformar su economía hacia 2038</title>
+		<link>https://occidente.co/empresario/transformacion-economica-del-valle-camara-de-comercio-cali-2038/</link>
+					<comments>https://occidente.co/empresario/transformacion-economica-del-valle-camara-de-comercio-cali-2038/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 01:41:56 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441920</guid>
+
+					<description><![CDATA[<p>El Valle del Cauca enfrenta una decisión que puede marcar su futuro económico: limitarse a recuperar lo perdido después del terremoto del 10 de agosto o aprovechar la reconstrucción para transformar su estructura productiva, fortalecer sus empresas y construir una economía con mayores ingresos y empleos de calidad. Esa fue la propuesta presentada por María...</p>
+<p>The post <a href="https://occidente.co/empresario/transformacion-economica-del-valle-camara-de-comercio-cali-2038/">Valle del Cauca se propone transformar su economía hacia 2038</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El Valle del Cauca enfrenta una decisión que puede marcar su futuro económico: limitarse a recuperar lo perdido después del terremoto del 10 de agosto o aprovechar la reconstrucción para transformar su estructura productiva, fortalecer sus empresas y construir una economía con mayores ingresos y empleos de calidad</strong>.</p>
+<p><strong>Esa fue la propuesta presentada por María del Mar Palau, presidenta ejecutiva de la Cámara de Comercio de Cali, durante el Seminario Perspectivas Económicas, organizado por Anif</strong>, en el que también participaron José Ignacio López, presidente de ese centro de pensamiento económico, y Julián Buitrago, director del Departamento Nacional de Planeación.</p>
+<p>Bajo el concepto Empresas como motor de la reactivación económica, Palau insistió en que el crecimiento regional debe construirse alrededor del tejido empresarial y no limitarse a la recuperación de infraestructura afectada por la emergencia.</p>
+<p>“<em>No deberíamos reconstruir, deberíamos transformar</em>”, <strong>afirmó, al señalar que el departamento necesita salir de la crisis con una economía más productiva, innovadora y competitiva</strong>.</p>
+<h2>El terremoto profundizó dificultades que ya existían</h2>
+<p>La dirigente empresarial recordó que 2026 había comenzado con importantes presiones sobre los costos de producción, entre ellas el incremento del salario mínimo, el encarecimiento del crédito, la volatilidad cambiaria y los aranceles de Ecuador, uno de los mercados relevantes para las exportaciones regionales.</p>
+<p>Posteriormente, el terremoto agravó las dificultades del tejido empresarial.</p>
+<p>De acuerdo con las cifras presentadas por la Cámara de Comercio de Cali, 16.054 empresas de 42 municipios reportaron afectaciones.</p>
+<p><strong>Del total, el 62% señaló daños graves o críticos, el 28% no podía operar y el 72 % restante enfrentaba restricciones</strong>.</p>
+<p>Además, el 91% de las unidades afectadas tenía menos de 20 trabajadores.</p>
+<p>A pesar de este escenario, la economía del Valle mostró capacidad de resistencia.</p>
+<p>Según las estimaciones presentadas, creció 3,1% en el primer semestre de 2026, frente al 2,9% nacional.</p>
+<p>Sin embargo, los resultados sectoriales fueron desiguales: mientras la producción industrial creció 2,3% y las ventas de vehículos nuevos aumentaron 44,6%, la vivienda nueva registró una caída de 35,4 % y la producción de etanol disminuyó 7,3%.</p>
+<h3>Cuatro palancas para cambiar el rumbo</h3>
+<p><strong>La Cámara de Comercio de Cali propuso una estrategia de transformación productiva hacia 2038, sustentada en cuatro grandes frentes:</strong> acceso a mercados, productividad, innovación e inversión.</p>
+<p>El diagnóstico muestra brechas importantes.</p>
+<p>En innovación, el Valle obtuvo una calificación de apenas 2,38 sobre 10 en patentes, mientras que sus exportaciones no mineroenergéticas por habitante llegaron a US$580 en 2025, por debajo de departamentos comparables.</p>
+<p>En productividad laboral, cada ocupado del Valle generó un valor aproximado de $76,6 millones en 2025, frente a $96,4 millones en Bogotá, una diferencia cercana al 20%.</p>
+<p>La inversión constituye otro desafío. La relación entre inversión productiva e ingresos empresariales fue de 2,3 % en el Valle, inferior al promedio nacional de 2,9%.</p>
+<p>Palau hizo un llamado a los empresarios para que reinviertan más recursos en su territorio y no esperen exclusivamente la llegada de capital extranjero.</p>
+<p>“<em>Tenemos que coinvertir con ellos y tenemos que invertir nosotros más de nuestras utilidades en nuestro propio territorio</em>”,<strong> sostuvo</strong>.</p>
+<h4>Una meta ambiciosa para 2038</h4>
+<p>La propuesta plantea elevar el PIB por habitante del Valle del Cauca desde $38,4 millones en 2025 hasta $79,5 millones en 2038, medidos a precios constantes de 2025.</p>
+<p>En un escenario de crecimiento tendencial, el indicador llegaría solamente a $55 millones.</p>
+<p>Para alcanzar la meta más ambiciosa, la estrategia contempla un crecimiento económico de referencia del 6% anual, frente al 2,8 % del escenario tendencial.</p>
+<p>Las metas también incluyen aumentar la inversión productiva de $4,5 billones a $18 billones, multiplicar la inversión en innovación de $295.000 millones a $952.000 millones y elevar los ingresos por exportaciones de $12,3 billones a $32 billones.</p>
+<p>En acceso a mercados nacionales, la aspiración es pasar de $214 billones en ingresos locales y nacionales a $352 billones en 2038.</p>
+<p>Estas cifras representan objetivos de largo plazo y no resultados garantizados.</p>
+<p>Su cumplimiento dependerá de la capacidad de las empresas, las instituciones y los inversionistas para ejecutar los proyectos y mantener la estrategia durante los próximos años.</p>
+<h3>La Cámara de Comercio presenta resultados</h3>
+<p>La propuesta no parte de cero. Durante 2026, la Cámara de Comercio de Cali reportó el acompañamiento de más de 8.000 empresas mediante soluciones de organización, estrategia y fortalecimiento empresarial.</p>
+<p>En los frentes de acompañamiento evaluados, las compañías registraron aumentos promedio del 62 % en ventas y del 44 % en rentabilidad.</p>
+<p>En acceso a mercados nacionales, la entidad informó que 306 empresas participaron en 15 espacios comerciales, donde se generaron 4.378 contactos y más de 750 alianzas empresariales, además de ventas cerradas por $398,5 millones.</p>
+<p>En internacionalización, el número de empresas fortalecidas pasó de 290 a 455, mientras que las ventas cerradas en espacios comerciales internacionales alcanzaron US$2 millones, según los resultados presentados con corte al 30 de septiembre.</p>
+<p>Para Palau, estas experiencias muestran que la transformación productiva requiere pasar de los diagnósticos a resultados empresariales concretos.</p>
+<p>La dirigente insistió en que el Valle tiene condiciones para alcanzar un crecimiento superior, pero necesita fortalecer la colaboración, la confianza en el territorio y la disposición de los empresarios para invertir.</p>
+<p>El mensaje central del encuentro fue que la reconstrucción debe convertirse en el punto de partida de una transformación económica de largo plazo, capaz de generar empresas más fuertes, nuevos mercados, mejores empleos y mayores ingresos para los vallecaucanos.</p>
+<p>La meta de 2038 representa, en ese sentido, una invitación a que el departamento no se conforme con recuperar lo que tenía antes del terremoto, sino que aproveche la crisis para construir una economía más competitiva.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/transformacion-economica-del-valle-camara-de-comercio-cali-2038/">Valle del Cauca se propone transformar su economía hacia 2038</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/transformacion-economica-del-valle-camara-de-comercio-cali-2038/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Está viviendo violencia y no sabe a quién acudir?</title>
+		<link>https://occidente.co/cali/violencia-contra-las-mujeres-en-cali-rutas-de-atencion-casa-matria/</link>
+					<comments>https://occidente.co/cali/violencia-contra-las-mujeres-en-cali-rutas-de-atencion-casa-matria/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 01:35:18 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441917</guid>
+
+					<description><![CDATA[<p>La violencia contra las mujeres no siempre comienza con un golpe. En ocasiones aparece a través del control sobre el dinero, las amenazas, las humillaciones, el aislamiento de familiares y amigos o la vigilancia constante de sus actividades. Son situaciones que pueden normalizarse dentro de una relación y que, con el tiempo, afectan la autonomía,...</p>
+<p>The post <a href="https://occidente.co/cali/violencia-contra-las-mujeres-en-cali-rutas-de-atencion-casa-matria/">¿Está viviendo violencia y no sabe a quién acudir?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La violencia contra las mujeres no siempre comienza con un golpe.</p>
+<p>En ocasiones aparece a través del control sobre el dinero, las amenazas, las humillaciones, el aislamiento de familiares y amigos o la vigilancia constante de sus actividades.</p>
+<p>Son situaciones que pueden normalizarse dentro de una relación y que, con el tiempo, afectan la autonomía, la tranquilidad y la seguridad de quien las vive.</p>
+<p>Uno de los mayores obstáculos para buscar ayuda es no saber a dónde acudir.</p>
+<p>El temor a las represalias, la dependencia económica, la preocupación por los hijos o la esperanza de que el agresor cambie pueden hacer que una mujer permanezca durante mucho tiempo en una situación de violencia.</p>
+<p>Por eso, conocer las rutas institucionales de atención resulta fundamental.</p>
+<h2>¿Qué apoyo pueden recibir las mujeres en Cali?</h2>
+<p>Casa Matria ofrece acompañamiento psicosocial y orientación jurídica a mujeres víctimas de violencia, dos servicios importantes para comprender la situación que enfrentan, conocer sus derechos y recibir orientación sobre las alternativas disponibles.</p>
+<p>La atención psicosocial puede contribuir a reconocer las afectaciones emocionales de la violencia, mientras que la orientación jurídica permite identificar posibles acciones de protección y acceso a la justicia.</p>
+<h3>Una respuesta que requiere varias instituciones</h3>
+<p>La Policía Metropolitana trabaja de manera articulada con la Alcaldía de Cali y la Fiscalía para prevenir y atender las violencias basadas en género.</p>
+<p>Esta coordinación es importante porque las situaciones de violencia pueden requerir distintas respuestas, desde la orientación inicial hasta actuaciones de protección e investigación, según las circunstancias de cada caso.</p>
+<h4>No es necesario esperar a que la violencia empeore</h4>
+<p>Una mujer no debería tener que esperar a sufrir una agresión física grave para buscar orientación.</p>
+<p>Las amenazas, el control coercitivo, la violencia psicológica, sexual o económica también merecen atención.</p>
+<p>Reconocer las señales y hablar con profesionales puede ser un primer paso para identificar alternativas y tomar decisiones de manera más segura.</p>
+<p>La información suministrada señala la línea 311 612 0000 como canal de atención disponible las 24 horas, todos los días.</p>
+<p>Conviene confirmar con la entidad responsable su vigencia y alcance antes de publicar el número.</p>
+<p>Ante un peligro inmediato, se puede llamar al 123.</p>
+<p>Pedir ayuda no es una señal de debilidad y ninguna mujer tiene que enfrentar la violencia sola.</p>
+<p>Existen instituciones que pueden orientarla y acompañarla en la búsqueda de protección.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/violencia-contra-las-mujeres-en-cali-rutas-de-atencion-casa-matria/">¿Está viviendo violencia y no sabe a quién acudir?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/violencia-contra-las-mujeres-en-cali-rutas-de-atencion-casa-matria/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Puede la inteligencia artificial ayudarle a pensar el futuro de su negocio?</title>
+		<link>https://occidente.co/mi-talento-es-negocio-2026/inteligencia-artificial-para-pensar-el-futuro-liderazgo-empresarial/</link>
+					<comments>https://occidente.co/mi-talento-es-negocio-2026/inteligencia-artificial-para-pensar-el-futuro-liderazgo-empresarial/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 01:00:26 +0000</pubDate>
+				<category><![CDATA[MTN]]></category>
+		<category><![CDATA[MTN 2026]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441394</guid>
+
+					<description><![CDATA[<p>Por: Rosa María Agudelo Ayerbe La mayoría de las empresas está utilizando inteligencia artificial para resolver asuntos del presente: escribir más rápido, resumir documentos, analizar información o automatizar algunas tareas. Pero hay una posibilidad mucho más interesante: utilizarla para pensar el futuro. ¿Qué está cambiando en nuestro mercado? ¿Qué señales estamos ignorando? ¿Qué nuevos productos...</p>
+<p>The post <a href="https://occidente.co/mi-talento-es-negocio-2026/inteligencia-artificial-para-pensar-el-futuro-liderazgo-empresarial/">¿Puede la inteligencia artificial ayudarle a pensar el futuro de su negocio?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Por:</strong> <em>Rosa María Agudelo Ayerbe</em></p>
+<p><strong>La mayoría de las empresas está utilizando inteligencia artificial para resolver asuntos del presente:</strong> escribir más rápido, resumir documentos, analizar información o automatizar algunas tareas.</p>
+<p><strong>Pero hay una posibilidad mucho más interesante:</strong> utilizarla para pensar el futuro.</p>
+<p>¿Qué está cambiando en nuestro mercado? ¿Qué señales estamos ignorando? ¿Qué nuevos productos podríamos crear? ¿Qué ocurriría si tomamos una decisión u otra? ¿Dónde puede aparecer una oportunidad que todavía no estamos viendo?<br />
+Estas son preguntas estratégicas.</p>
+<p>Y es precisamente allí donde la inteligencia artificial comienza a adquirir un papel diferente.</p>
+<p><strong>En la Sesión 4 de Mi Talento es Negocio 2026 | AI Transformation exploramos cómo la IA puede convertirse en un socio del liderazgo:</strong> investigar grandes cantidades de información, encontrar patrones, generar nuevas ideas, construir escenarios y ayudarnos a evaluar alternativas antes de tomar una decisión.</p>
+<p>No se trata de entregarle la estrategia a una máquina.</p>
+<p>Se trata de ampliar nuestra capacidad para comprender, anticipar y decidir.</p>
+<p>La IA puede reducir la incertidumbre y ayudarnos a mirar posibilidades que quizá no habíamos considerado, pero el criterio y la decisión siguen siendo humanos.</p>
+<p>En un entorno que cambia cada vez más rápido, tener información ya no es suficiente.</p>
+<p>La verdadera ventaja puede estar en aprender a interpretarla mejor para anticipar lo que viene.</p>
+<p><img src="https://s.w.org/images/core/emoji/17.0.2/72x72/25b6.png" alt="▶" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Vea aquí la Sesión 4: <strong><span style="color: #03bfa5;"><a style="color: #03bfa5;" href="https://acortar.link/wFtuEN" target="_blank" rel="noopener">https://acortar.link/wFtuEN</a></span></strong></p>
+<p><img src="https://s.w.org/images/core/emoji/17.0.2/72x72/1f4c4.png" alt="📄" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Consulte el material de la sesión: <a href="https://acortar.link/iGg1bS" target="_blank" rel="noopener"><strong><span style="color: #03bfa5;">https://acortar.link/iGg1bS</span></strong></a></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/mi-talento-es-negocio-2026/inteligencia-artificial-para-pensar-el-futuro-liderazgo-empresarial/">¿Puede la inteligencia artificial ayudarle a pensar el futuro de su negocio?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/mi-talento-es-negocio-2026/inteligencia-artificial-para-pensar-el-futuro-liderazgo-empresarial/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Controles de velocidad en la vía Zaragoza -Cartago</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/variante-zaragoza-cartago-controles-velocidad-radares-accidentes/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/variante-zaragoza-cartago-controles-velocidad-radares-accidentes/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 00:52:11 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<category><![CDATA[Cartago]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441914</guid>
+
+					<description><![CDATA[<p>El incremento de la siniestralidad, que deja seis personas fallecidas en lo corrido de 2026, motivó operativos presenciales con radares manuales en este corredor vial. Las autoridades de tránsito implementaron controles de velocidad en la variante Zaragoza -Cartago, en el Valle del Cauca, como respuesta al aumento de los accidentes registrados en esta importante vía...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/variante-zaragoza-cartago-controles-velocidad-radares-accidentes/">Controles de velocidad en la vía Zaragoza -Cartago</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El incremento de la siniestralidad, que deja seis personas fallecidas en lo corrido de 2026, motivó operativos presenciales con radares manuales en este corredor vial.</p>
+<p><strong>Las autoridades de tránsito implementaron controles de velocidad en la variante Zaragoza -Cartago, en el Valle del Cauca, como respuesta al aumento de los accidentes registrados en esta importante vía nacional, donde durante 2026 se han reportado seis muertes</strong>.</p>
+<p><strong>El secretario de Movilidad, Jorge Palacio, señaló que</strong>, además del exceso de velocidad, el corredor presenta condiciones que incrementan los riesgos para los conductores, entre ellas peraltes mal diseñados, curvas peligrosas y sectores con oscuridad total.</p>
+<p>Los operativos son realizados por agentes de tránsito, quienes utilizan radares manuales para medir la velocidad de los vehículos y detener a quienes incumplen los límites establecidos.</p>
+<p>Las autoridades aclararon que no se trata de fotomultas, sino de procedimientos presenciales que pueden derivar en sanciones.</p>
+<p>La velocidad máxima permitida alcanza los 70 kilómetros por hora en algunos tramos rectos.</p>
+<p>Sin embargo, el límite disminuye en curvas y accesos urbanos, de acuerdo con la señalización instalada en cada sector.</p>
+<p>Los controles continuarán periódicamente en los puntos identificados con mayor accidentalidad y cobijarán tanto a motociclistas como a conductores de otros vehículos.</p>
+<p>Entretanto, ciudadanos han expresado inquietudes por un dispositivo de fotodetección ubicado en el ingreso a Obando, cerca de una estación de servicio, debido a la visibilidad de las señales preventivas.</p>
+<p>Las autoridades reiteraron el llamado a respetar los límites de velocidad y conducir con precaución para prevenir nuevos siniestros.</p>
+<p>La medida busca reducir los riesgos en un corredor donde las condiciones de la vía y las conductas de los usuarios representan desafíos para la seguridad vial.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/variante-zaragoza-cartago-controles-velocidad-radares-accidentes/">Controles de velocidad en la vía Zaragoza -Cartago</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/variante-zaragoza-cartago-controles-velocidad-radares-accidentes/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Córdoba: donde el Caribe reúne sabana, montaña y porro</title>
+		<link>https://occidente.co/opinion/columnistas/cordoba-donde-el-caribe-reune-sabana-montana-y-porro/</link>
+					<comments>https://occidente.co/opinion/columnistas/cordoba-donde-el-caribe-reune-sabana-montana-y-porro/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 00:48:42 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Jaime Alberto Leal Afanador - Rector UNAD]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441912</guid>
+
+					<description><![CDATA[<p>Córdoba es una región distinta del Caribe colombiano. Basta recorrer el valle, escuchar un porro en San Pelayo o caminar por la Ronda del Río Sinú, en Montería, para entender que es un universo propio, con alma sabanera, corazón anfibio y música alegre. Sus límites, con el mar Caribe, Sucre, Antioquia y Chocó, le dan...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cordoba-donde-el-caribe-reune-sabana-montana-y-porro/">Córdoba: donde el Caribe reúne sabana, montaña y porro</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Córdoba es una región distinta del Caribe colombiano. Basta recorrer el valle, escuchar un porro en San Pelayo o caminar por la Ronda del Río Sinú, en Montería, para entender que es un universo propio, con alma sabanera, corazón anfibio y música alegre.</p>
+<p>Sus límites, con el mar Caribe, Sucre, Antioquia y Chocó, le dan una impresionante diversidad, caracterizada por la convivencia de la cultura sinuana (así llamada por el Río Sinú); la cultura sabanera (en torno a innumerables pastizales, hatos, potreros y sabanas) y la cultura minera (donde la explotación de níquel ha definido gran parte del destino económico).</p>
+<p>Montería, la capital, sintetiza esa diversidad. Es una ciudad anfibia porque no le da la espalda al río, sino que lo incorpora como eje urbano, ecológico y simbólico.</p>
+<p>La Ronda del Sinú, con sus senderos, humedales, miradores y fauna es uno de los proyectos de urbanismo ecológico más importantes de Colombia.</p>
+<p>Allí el río no es una frontera ni una amenaza, es un parque, corredor biológico y espacio público.</p>
+<p>Es la única capital colombiana donde el agua incide en la vida urbana y la ciudad se integra con el paisaje natural. Montería podría definirse como una río-ciudad.</p>
+<p>La ganadería es un sello propio. Montería se reconoce como la capital ganadera del país. Con casi dos millones de cabezas, ocupa más del 40 % del territorio departamental.</p>
+<p>Mientras el Llano es la región ganadera más extensa, Córdoba es la más consolidada.</p>
+<p><strong>Córdoba posee otro atributo excepcional:</strong> único departamento con un parque nacional que integra ecosistemas Caribe, Andino y Amazónico: El Parque Nacional Paramillo.</p>
+<p><strong>Una rareza biogeográfica:</strong> en sus montañas nacen bosques nublados; en sus laderas se extienden selvas húmedas; y en sus bordes aparecen sabanas secas.</p>
+<p>Solo allí conviven la danta de páramo (de los Andes), con animales de La Amazonia (como la danta y el mono araña), y del Caribe (como el manatí y el mono aullador rojo).</p>
+<p>Igualmente coexisten palmas caribeñas, bosques nublados andinos, selvas amazónicas y vegetación como la del Chocó.</p>
+<p>Pero Córdoba también enfrenta desafíos profundos. El sur —<strong><em>Montelíbano, Puerto Libertador, San José de Uré</em></strong>— ha sufrido con grupos armados, minería ilegal, deforestación y desplazamientos.</p>
+<p>Su importancia para organizaciones criminales se explica en la minería de níquel y oro; los corredores hacia el Bajo Cauca antioqueño; el territorio rural disperso; y la histórica debilidad institucional en el Alto Sinú y el San Jorge.</p>
+<p>Cerro Matoso, una inmensa mina a cielo abierto en Montelíbano, es sinónimo de níquel.</p>
+<p>De allí proviene prácticamente todo el que se produce en el país.</p>
+<p>La producción de este metal, clave para baterías de vehículos eléctricos, turbinas, componentes aeroespaciales, monedas y aleaciones especiales, ha traído riqueza, pero también problemas por los impactos ambientales.</p>
+<p>Sus regalías han traído oportunidades, pero también corrupción y ejecución desigual.</p>
+<p>Mientras Montería y el Sinú han tenido significativos proyectos, en el sur minero hay obras inconclusas, sobrecostos y capturas políticas que han debilitado la confianza institucional.</p>
+<p><strong>Córdoba es una región llena de oportunidades. Su potencial turístico es enorme:</strong> Lorica, con su arquitectura republicana; San Antero y San Bernardo del Viento, con sus playas; y Montería, con su urbanismo verde.</p>
+<p>Sus platos gastronómicos como el bocachico, sancocho y queso costeño son una delicia, e identidad pura.</p>
+<p>El porro es un producto musical específico de San Pelayo, cuna del porro (de allí la denominación de las pelayeras o bandas de viento tradicionales de esa región), y algunas de sus piezas más conocidas, como María Varilla, El Porro Pelayero, El Pájaro Carpintero, El Toro Negro y El Porro de la Montaña, reflejan el espíritu fiestero, cadencioso y nostálgico de la región.</p>
+<p>Córdoba, una región marcadamente mestiza, también con indígenas zenú, población afrodescendiente, árabe (sirio-libanesa), campesinos, mineros, población desplazada, y recientemente migración venezolana.</p>
+<p>Ha dado a Colombia figuras como la del intelectual afrocolombiano Manuel Zapata Olivella; y Miguel “<em>Happy</em>” Lora, campeón mundial de boxeo.</p>
+<p>Es una región poderosa y culturalmente única. Su riqueza exige responsabilidad para evitar que caiga en manos corruptas.</p>
+<p>Es una región llena de oportunidades y sorpresas que Colombia aún no conoce del todo, y que requiere mayor protección jurídica y gubernamental para desplegar todo su potencial.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cordoba-donde-el-caribe-reune-sabana-montana-y-porro/">Córdoba: donde el Caribe reúne sabana, montaña y porro</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/cordoba-donde-el-caribe-reune-sabana-montana-y-porro/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Borondo Joven reunirá 60 emprendimientos en el sur de Cali</title>
+		<link>https://occidente.co/cali/borondo-joven-capri-nuevo-rey-emprendimiento-cali/</link>
+					<comments>https://occidente.co/cali/borondo-joven-capri-nuevo-rey-emprendimiento-cali/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2026 00:40:08 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441907</guid>
+
+					<description><![CDATA[<p>Un total de 60 emprendimientos liderados por jóvenes participarán este jueves 15 de octubre en Borondo Joven Capri–Nuevo Rey, una jornada que combinará comercio, gastronomía, actividades culturales y promoción del talento juvenil en el sur de Cali. El encuentro se realizará entre las 4:00 p. m. y las 11:00 p. m., en la calle 10A...</p>
+<p>The post <a href="https://occidente.co/cali/borondo-joven-capri-nuevo-rey-emprendimiento-cali/">Borondo Joven reunirá 60 emprendimientos en el sur de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un total de 60 emprendimientos liderados por jóvenes participarán este jueves 15 de octubre en Borondo Joven Capri–Nuevo Rey, una jornada que combinará comercio, gastronomía, actividades culturales y promoción del talento juvenil en el sur de Cali</strong>.</p>
+<p>El encuentro se realizará entre las 4:00 p. m. y las 11:00 p. m., en la calle 10A con carrera 70, en el sector de Nuevo Rey.</p>
+<p>Además de los emprendedores, participarán comerciantes y empresarios de Capri y Nuevo Rey, artistas, empresas promotoras y otros actores de la ciudad.</p>
+<p>La iniciativa es organizada por el Consejo Distrital de Juventudes de Cali, en articulación con la Secretaría de Desarrollo Económico, y busca generar oportunidades comerciales para los jóvenes, al tiempo que promueve las compras en los establecimientos de la zona.</p>
+<h2>Una vitrina para los emprendimientos juveniles</h2>
+<p>Durante la jornada, los 60 emprendimientos participantes tendrán la oportunidad de exhibir y comercializar sus productos y servicios, así como establecer contacto con nuevos clientes.</p>
+<p>Los establecimientos comerciales de Capri y Nuevo Rey también se vincularán a la actividad, con el propósito de aprovechar la circulación de visitantes y promover el consumo en el sector.</p>
+<p>“<em>Borondo Joven demuestra que podemos unir a las juventudes con los empresarios y comerciantes de nuestros territorios alrededor de un mismo propósito: mover la economía local y generar oportunidades</em>”, <strong>expresó Ana María Soto, consejera distrital de Juventudes de Cali</strong>.</p>
+<p>La jornada contará además con presentaciones y espacios para artistas y talentos culturales, de manera que los asistentes puedan recorrer la zona, conocer los emprendimientos y participar en diferentes actividades durante la tarde y la noche.</p>
+<h3>¿Qué es Borondo por Cali?</h3>
+<p>Borondo por Cali es una estrategia de la Alcaldía que utiliza recorridos peatonales, actividades culturales, gastronomía y emprendimiento para promover la actividad económica en diferentes corredores comerciales.</p>
+<p>La iniciativa parte de una expresión tradicional caleña, borondo, utilizada para referirse a un paseo o recorrido espontáneo por la ciudad.</p>
+<p>El modelo contempla la articulación de comerciantes, emprendedores, establecimientos y entidades públicas, junto con medidas relacionadas con movilidad, seguridad, accesibilidad y programación cultural.</p>
+<p>Después del terremoto del 10 de agosto, la estrategia incorporó un enfoque de reactivación económica para contribuir a la recuperación de corredores comerciales afectados por la emergencia.</p>
+<p>Según las cifras presentadas por la Alcaldía, la caracterización de las unidades productivas afectadas por el terremoto registró 7.063 empresas con reportes de afectación, de las cuales 1.082 se encontraban sin operaciones.</p>
+<p>La misma información estimó una afectación económica aproximada de $180.700 millones y 24.600 empleos afectados o en riesgo.</p>
+<h4>Una estrategia que ha recorrido diferentes sectores</h4>
+<p>Durante 2026, Borondo por Cali ha desarrollado actividades en sectores comerciales y gastronómicos como El Peñón, el Parque del Perro, Granada y Pance.</p>
+<p>De acuerdo con los datos de la Administración Distrital, las jornadas en El Peñón y el Parque del Perro acumularon más de 3.500 asistentes hasta el 6 de agosto, mientras que en Granada se reportaron más de 8.000 personas hasta el 30 de julio.</p>
+<p>En Pance, la jornada del 28 de agosto articuló 180 unidades de negocio, incluidos cuatro centros comerciales y emprendedores del Pacífico.</p>
+<p>La programación de Borondo por Cali también contempla actividades en otros sectores, entre ellos El Refugio, Valle Grande, San Joaquín, el barrio Obrero y San Antonio.</p>
+<p>Con la jornada de este jueves, el enfoque estará puesto en los emprendimientos juveniles y los establecimientos comerciales de Capri y Nuevo Rey.</p>
+<h3>¿Dónde y a qué hora será Borondo Joven?</h3>
+<p>Borondo Joven Capri–Nuevo Rey se realizará el jueves 15 de octubre de 2026, desde las 4:00 p. m. hasta las 11:00 p. m., en la calle 10A con carrera 70, en el sector de Nuevo Rey, al sur de Cali.</p>
+<p>La actividad estará abierta a la ciudadanía interesada en conocer los emprendimientos, apoyar el comercio local y disfrutar de las expresiones culturales programadas.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/borondo-joven-capri-nuevo-rey-emprendimiento-cali/">Borondo Joven reunirá 60 emprendimientos en el sur de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/borondo-joven-capri-nuevo-rey-emprendimiento-cali/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
