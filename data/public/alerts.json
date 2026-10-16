@@ -1,12 +1,12 @@
 {
- "generado": "2026-10-15",
- "fecha": "2026-10-15",
+ "generado": "2026-10-16",
+ "fecha": "2026-10-16",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "126 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 126
+   "texto": "149 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 149
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -68,14 +68,23 @@
    "n": 9
   },
   {
+   "tipo": "arcgis_eres_candidato",
+   "nivel": "media",
+   "texto": "Posible tablero ERES/MinSalud en ArcGIS: «Encuesta Impacto_Alumni_2026_form» (Feature Service, sheis.foundation) — revisar si es el que construye la OPS: https://www.arcgis.com/home/item.html?id=d09e3e9b1fbb43f1b7c6d3a9b0d07576",
+   "titulo": "Encuesta Impacto_Alumni_2026_form",
+   "item_type": "Feature Service",
+   "owner": "sheis.foundation",
+   "url": "https://www.arcgis.com/home/item.html?id=d09e3e9b1fbb43f1b7c6d3a9b0d07576"
+  },
+  {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 49 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 49
+   "texto": "La OPS lleva 50 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 50
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-10-14",
+  "fecha": "2026-10-15",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -188,8 +197,8 @@
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-10-15/oficiales_feed.json",
-   "items": 186,
+   "snapshot": "data/snapshots/2026-10-16/oficiales_feed.json",
+   "items": 188,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
