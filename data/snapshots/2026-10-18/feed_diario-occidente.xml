@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Sat, 17 Oct 2026 13:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Data centers y mitos despejados</title>
+		<link>https://occidente.co/secciones/tecnologia/data-centers-mitos-despejados/</link>
+					<comments>https://occidente.co/secciones/tecnologia/data-centers-mitos-despejados/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 17 Oct 2026 13:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=441814</guid>
+
+					<description><![CDATA[<p>Un dato concreto: Meta respondió a dudas sobre el uso de agua y energía Meta publicó una explicación que desmiente tres creencias comunes sobre los data centers: que consumen demasiada agua, que suben las tarifas eléctricas locales y que no generan empleo. La aclaración llega después de visitas a instalaciones y revisiones técnicas realizadas por...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/data-centers-mitos-despejados/">Data centers y mitos despejados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Un dato concreto: Meta respondió a dudas sobre el uso de agua y energía</h2>
+</p>
+<p>Meta publicó una explicación que desmiente tres creencias comunes sobre los data centers: que consumen demasiada agua, que suben las tarifas eléctricas locales y que no generan empleo. La aclaración llega después de visitas a instalaciones y revisiones técnicas realizadas por la compañía.</p>
+</p>
+<h2>Data centers: qué dijo Meta y por qué es relevante</h2>
+</p>
+<p>Meta explicó que algunos de sus centros usan sistemas de enfriamiento tradicionales con agua solo en temporadas cortas, y que sus centros optimizados para IA emplean circuitos cerrados con mezcla de agua y glicol. Un circuito cerrado recircula el líquido sin consumirlo constantemente. La empresa también indicó que las extracciones de agua que realizan son con permisos y mediciones y que, en regiones con estrés hídrico, se usa preferentemente el diseño cerrado para minimizar el consumo.</p>
+</p>
+<p>Además, Meta señaló que paga los costos energéticos y financia la infraestructura adicional necesaria, trabajando con las empresas de servicios para que la carga no recaiga en otros usuarios. Finalmente, recordó que la construcción y operación de estos centros genera empleo en obra, mantenimiento y operación técnica.</p>
+</p>
+<h2>Qué cambia para las personas</h2>
+</p>
+<h3>Mantenimiento de servicios locales</h3>
+</p>
+<p>Si la compañía financia la ampliación de redes y generación, la presión sobre la red existente se planifica de antemano, lo que reduce el riesgo de que los vecinos enfrenten aumentos directos en su recibo de energía.</p>
+</p>
+<h3>Menor consumo de agua en zonas críticas</h3>
+</p>
+<p>En áreas con escasez hídrica, el uso de sistemas de enfriamiento cerrados implica menos extracción continua de agua, lo que atenúa la competencia por el recurso frente a otros usos locales.</p>
+</p>
+<h3>Empleo en la comunidad</h3>
+</p>
+<p>La construcción y operación de centros demanda mano de obra especializada y contratos con proveedores locales, lo que puede traducirse en puestos de trabajo durante años y programas de formación asociados.</p>
+</p>
+<h2>Aspectos que siguen pendientes</h2>
+</p>
+<p>La información proviene de las prácticas de Meta en ciertas instalaciones y no constituye un panorama completo de todos los operadores de data centers. No hay cifras detalladas sobre consumos comparativos ni estudios independientes citados en la explicación. Queda por confirmar cómo aplican estas prácticas todas las empresas del sector y qué controles externos existen para verificar permisos y mediciones locales.</p>
+</p>
+<p>Tampoco se ofrecieron datos públicos que permitan comparar el consumo real de agua o el impacto en tarifas en cada comunidad donde hay instalaciones, por lo que algunas preocupaciones ciudadanas siguen sin respuestas verificables.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Menor riesgo de impactos directos en tarifas y servicios si la planificación es efectiva.</p>
+</p>
+<p><strong>Negocio:</strong> Empresas que financian infraestructura evitan trasladar costos a residentes.</p>
+</p>
+<p><strong>Industria:</strong> El uso de enfriamiento cerrado y acuerdos con servicios marcan una tendencia operativa en centros de datos.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/data-centers-mitos-despejados/">Data centers y mitos despejados</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/data-centers-mitos-despejados/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>La vejez ya no es motivo para sacrificar animales en Colombia: conozca los casos en los que se permite la eutanasia</title>
+		<link>https://occidente.co/colombia/prohiben-sacrificar-animales-por-vejez-extrema-colombia-corte-constitucional/</link>
+					<comments>https://occidente.co/colombia/prohiben-sacrificar-animales-por-vejez-extrema-colombia-corte-constitucional/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 17 Oct 2026 01:54:05 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442173</guid>
+
+					<description><![CDATA[<p>La Corte Constitucional de Colombia prohibió sacrificar animales por vejez extrema, al considerar que la edad no constituye una razón suficiente para terminar con su vida. Mediante la Sentencia C-336 de 2026, el alto tribunal declaró inexequible el literal c) del artículo 17 de la Ley 84 de 1989, que permitía este procedimiento. La decisión...</p>
+<p>The post <a href="https://occidente.co/colombia/prohiben-sacrificar-animales-por-vejez-extrema-colombia-corte-constitucional/">La vejez ya no es motivo para sacrificar animales en Colombia: conozca los casos en los que se permite la eutanasia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La Corte Constitucional de Colombia prohibió sacrificar animales por vejez extrema, al considerar que la edad no constituye una razón suficiente para terminar con su vida.</p>
+<p><strong> Mediante la Sentencia C-336 de 2026, el alto tribunal declaró inexequible el literal c) del artículo 17 de la Ley 84 de 1989, que permitía este procedimiento</strong>.</p>
+<p>La decisión fue unánime y contó con la ponencia del magistrado Héctor Alfonso Carvajal Londoño.</p>
+<p>Durante 37 años, el Estatuto Nacional de Protección de los Animales contempló la vejez extrema como una causal para sacrificar animales no destinados al consumo humano.</p>
+<p>Sin embargo, la legislación no establecía edades específicas ni exigía diagnósticos veterinarios para determinar cuándo un animal alcanzaba esa condición.</p>
+<p>Esta falta de precisión permitió que la edad funcionara como justificación legal, independientemente de su estado de salud.</p>
+<p>La decisión responde a una demanda presentada el 13 de febrero de 2026 por Jhaslen Ricardo Ramírez Lemus y Leydy Cristina Escobar Márquez.</p>
+<p>Los demandantes argumentaron que sacrificar animales únicamente por su edad desconocía su reconocimiento como seres sintientes.</p>
+<p>Además, cuestionaron la ausencia de criterios objetivos para definir la expresión «vejez extrema».</p>
+<h2>Razones de la Corte</h2>
+<p>Durante el estudio de la demanda, la Corte Constitucional examinó los argumentos de diferentes participantes.</p>
+<p>La Universidad de Antioquia propuso mantener la disposición bajo condiciones relacionadas con enfermedades, sufrimiento o deterioro irreversible, mientras que la senadora Andrea Padilla cuestionó la falta de precisión de la norma.</p>
+<p>Finalmente, los magistrados determinaron que el envejecimiento no implica necesariamente dolor, enfermedad o pérdida de calidad de vida.</p>
+<p>También señalaron que la expresión utilizada en la legislación carecía de parámetros verificables para justificar el sacrificio de un animal.</p>
+<p>Por esta razón, descartaron mantener la disposición mediante una interpretación condicionada.</p>
+<p>Asimismo, la Corte fundamentó su decisión en los artículos 8, 79 y 95 de la Constitución Política, relacionados con la protección de la naturaleza.</p>
+<p>Según el tribunal, la condición de vulnerabilidad de un animal exige mayores deberes de cuidado y no puede convertirse, por sí misma, en una justificación para terminar con su vida.</p>
+<h3>¿Qué cambia ahora?</h3>
+<p>La Sentencia C-336 de 2026 no prohíbe la eutanasia animal en Colombia.</p>
+<p>La decisión elimina exclusivamente la posibilidad de sacrificar animales por vejez extrema, sin modificar las demás causales contempladas en el artículo 17 de la Ley 84 de 1989.</p>
+<p>Por ejemplo, cuando un perro de edad avanzada presenta una enfermedad grave o incurable, la eutanasia puede seguir siendo una alternativa bajo las condiciones legales correspondientes.</p>
+<p>En estos casos, la justificación debe relacionarse con la enfermedad o lesión y no únicamente con la edad.</p>
+<p>Además, el procedimiento debe evitar la crueldad y la prolongación de la agonía.</p>
+<p>La medida también comprende a propietarios, veterinarios, albergues, centros de bienestar animal y responsables de animales de trabajo.</p>
+<p>En consecuencia, ninguna de estas personas o entidades podrá utilizar exclusivamente la ancianidad como fundamento legal para sacrificar animales.</p>
+<p>Esta decisión se suma a otras disposiciones de protección animal, como la Ley 1774 de 2016, que reconoció a los animales como seres sintientes.</p>
+<p>También forma parte de la línea jurisprudencial desarrollada por la Corte Constitucional sobre las obligaciones de protección y prevención del maltrato.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/prohiben-sacrificar-animales-por-vejez-extrema-colombia-corte-constitucional/">La vejez ya no es motivo para sacrificar animales en Colombia: conozca los casos en los que se permite la eutanasia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/prohiben-sacrificar-animales-por-vejez-extrema-colombia-corte-constitucional/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cali recibirá la Gran Vitrina Verde de Colombia tras aplazamiento por el terremoto</title>
+		<link>https://occidente.co/cali/cvc-inversion-1500-millones-recuperacion-negocios-verdes-sismo/</link>
+					<comments>https://occidente.co/cali/cvc-inversion-1500-millones-recuperacion-negocios-verdes-sismo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 17 Oct 2026 01:48:00 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442167</guid>
+
+					<description><![CDATA[<p>La Corporación Autónoma Regional del Valle del Cauca, CVC, anunció una inversión de $1.500 millones para apoyar la recuperación de los negocios verdes afectados por el terremoto del 10 de agosto, especialmente aquellos que han registrado pérdidas materiales y dificultades para mantener sus actividades económicas. La entidad incrementó en $1.000 millones el presupuesto que inicialmente...</p>
+<p>The post <a href="https://occidente.co/cali/cvc-inversion-1500-millones-recuperacion-negocios-verdes-sismo/">Cali recibirá la Gran Vitrina Verde de Colombia tras aplazamiento por el terremoto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La Corporación Autónoma Regional del Valle del Cauca, CVC, anunció una inversión de $1.500 millones para apoyar la recuperación de los negocios verdes afectados por el terremoto del 10 de agosto, especialmente aquellos que han registrado pérdidas materiales y dificultades para mantener sus actividades económicas</strong>.</p>
+<p>La entidad incrementó en $1.000 millones el presupuesto que inicialmente tenía previsto para este sector durante 2026, que era de $500 millones.</p>
+<p>Los recursos adicionales estarán orientados a fortalecer las unidades productivas y contribuir a su recuperación después de la emergencia.</p>
+<p><strong>El anuncio fue realizado por el director general de la CVC, Marco Antonio Suárez Gutiérrez, durante la Cuarta Mesa Departamental de Negocios Verdes</strong>, un encuentro que reunió a empresarios, entidades públicas, organizaciones privadas y representantes de la academia.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Vitrina-verde-1.jpg" alt="Empresarios e integrantes de la CVC articulan la reactivación de los negocios verdes en el Valle" /></p>
+<h2>Turismo de naturaleza, afectado</h2>
+<p>Durante la reunión, los representantes de los negocios verdes presentaron información sobre las consecuencias del terremoto en sus actividades.</p>
+<p>Según la caracterización expuesta en el encuentro, no se registraron pérdidas de vidas humanas entre los empresarios participantes, aunque sí daños y pérdidas de materiales.</p>
+<p>Una de las principales dificultades identificadas fue la cancelación de reservas en los emprendimientos dedicados al turismo de naturaleza, situación que afecta sus ingresos pese a que las rutas turísticas continúan abiertas.</p>
+<p>“<em>Queremos decirles que adicionales a los 500 millones que este año teníamos para ellos, hemos subido esa cifra a 1.500 millones para ayudarles a mejorar su unidad productiva. Nos preocupan nuestros negocios verdes y más ahora después del sismo</em>”, <strong>manifestó Suárez Gutiérrez</strong>.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Vitrina-verde-2.jpg" alt="Empresarios e integrantes de la CVC articulan la reactivación de los negocios verdes en el Valle" /></p>
+<p>El director de la CVC también hizo un llamado a visitar los destinos de naturaleza del departamento, al señalar que las rutas turísticas no sufrieron afectaciones de gran magnitud.</p>
+<h3>Cali recibirá a 400 negocios verdes</h3>
+<p>Otro de los anuncios fue la confirmación de la Gran Vitrina Verde de Colombia, que se realizará en Cali entre el 30 de noviembre y el 5 de diciembre.</p>
+<p>El evento estaba previsto inicialmente para septiembre, pero fue aplazado debido a la emergencia ocasionada por el terremoto.</p>
+<p>De acuerdo con la CVC, la feria reunirá a 400 negocios verdes provenientes de diferentes regiones del país y se plantea como una oportunidad para promover sus productos y servicios.</p>
+<p>“<em>Muchas familias dependen de esa actividad y qué bueno que nuestros negocios verdes estén esperándola con ansia porque saben que es parte de la gran reactivación económica que necesitamos</em>”,<strong> señaló el director de la corporación</strong>.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Vitrina-verde-3.jpg" alt="Empresarios e integrantes de la CVC articulan la reactivación de los negocios verdes en el Valle" /></p>
+<p>La programación permitirá que los emprendimientos participantes cuenten con un espacio de exhibición y promoción, en un momento en el que varios de ellos buscan recuperar sus actividades comerciales.</p>
+<h4>Acuerda identificar necesidades y promover emprendimientos</h4>
+<p>La Cuarta Mesa Departamental de Negocios Verdes contó con la participación de Carla Mosquera Zapata, jefe de la Oficina de Negocios Verdes del Ministerio de Ambiente, quien manifestó la disposición de esa dependencia para participar en la Gran Vitrina Verde de Colombia.</p>
+<p><strong>También intervino Luisa Fernanda López, de la Corporación Biocomercio Sostenible, quien explicó</strong> que el encuentro permitió conocer las necesidades de los negocios del departamento después del terremoto.</p>
+<p>“<em>Fue una mesa muy significativa porque la desarrollamos después del terremoto y lo que buscamos fue ver las necesidades de los negocios del departamento</em>”,<strong> expresó</strong>.</p>
+<p>Entre los compromisos establecidos se encuentra consolidar la información sobre las necesidades de materiales, insumos y acompañamiento técnico de los emprendimientos afectados.</p>
+<p>Asimismo, se acordó trabajar en una campaña de promoción regional, nacional e internacional que incentive el consumo de productos y servicios ofrecidos por los negocios verdes.</p>
+<p>En la reunión participaron representantes de las secretarías de Turismo de Cali y del Valle del Cauca, universidades, el Sena, Parques Nacionales Naturales, el Dagma y empresarios del sector.</p>
+<p>La CVC continuará el proceso de identificación de necesidades y acompañamiento a los negocios verdes, mientras avanza la preparación de la feria nacional programada para finales de noviembre y comienzos de diciembre.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/cvc-inversion-1500-millones-recuperacion-negocios-verdes-sismo/">Cali recibirá la Gran Vitrina Verde de Colombia tras aplazamiento por el terremoto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/cvc-inversion-1500-millones-recuperacion-negocios-verdes-sismo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Qué tan sucia será la campaña en Cali y el Valle con la IA?</title>
+		<link>https://occidente.co/politica/graffiti/campana-por-la-alcaldia-de-cali-inteligencia-artificial-elecciones-2027/</link>
+					<comments>https://occidente.co/politica/graffiti/campana-por-la-alcaldia-de-cali-inteligencia-artificial-elecciones-2027/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 17 Oct 2026 00:51:56 +0000</pubDate>
+				<category><![CDATA[Graffiti]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442162</guid>
+
+					<description><![CDATA[<p>¿Cómo será la campaña por la Alcaldía de Cali y la Gobernación del Valle cuando la inteligencia artificial permita poner a los candidatos a decir cosas que nunca dijeron y hacer cosas que jamás hicieron? La pregunta no es exagerada. Las elecciones territoriales serán el 31 de octubre de 2027 y, cuando las campañas comiencen...</p>
+<p>The post <a href="https://occidente.co/politica/graffiti/campana-por-la-alcaldia-de-cali-inteligencia-artificial-elecciones-2027/">¿Qué tan sucia será la campaña en Cali y el Valle con la IA?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>¿Cómo será la campaña por la Alcaldía de Cali y la Gobernación del Valle cuando la inteligencia artificial permita poner a los candidatos a decir cosas que nunca dijeron y hacer cosas que jamás hicieron?</strong></p>
+<p>La pregunta no es exagerada. Las elecciones territoriales serán el 31 de octubre de 2027 y, cuando las campañas comiencen a calentarse, hacia julio del próximo año, las herramientas de inteligencia artificial estarán todavía más desarrolladas de lo que están hoy.</p>
+<p>En las elecciones de 2023 ya se utilizaba esta tecnología, pero las imágenes, los audios y los videos artificiales no tenían el realismo que alcanzan actualmente.</p>
+<p>Muchos montajes eran fácilmente identificables.</p>
+<p>Ahora, en cambio, hay contenidos tan bien elaborados que resulta difícil distinguirlos de una grabación o una fotografía auténtica.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Que-tan-sucia-sera-la-campana-en-Cali-y-el-Valle-con-la-IA.jpg" alt="Análisis del impacto de la inteligencia artificial en la campaña por la Alcaldía de Cali y Gobernación del Valle" /></p>
+<h2>Y si esto ocurre en 2026, ¿qué podremos esperar dentro de un año?</h2>
+<p>La preocupación es mayor en Cali y el Valle del Cauca, donde las campañas electorales tienen una larga historia de guerra sucia.</p>
+<p>Antes de que existiera la inteligencia artificial, aquí ya se utilizaban toda clase de recursos para desacreditar adversarios políticos.</p>
+<p>Hubo épocas en las que circulaban pasquines impresos con ataques contra candidatos. Cali fue empapelada con afiches que contenían información falsa, verdades a medias o acusaciones dirigidas a perjudicar aspiraciones electorales.</p>
+<p>Incluso, en una ocasión, desde una avioneta se lanzaron volantes con propaganda falsa sobre el Distrito de Aguablanca.</p>
+<p>Todo eso se hacía cuando fabricar una mentira exigía imprimirla, distribuirla o conseguir quién la difundiera.</p>
+<p>Ahora basta con tener acceso a una herramienta tecnológica y abrir una cuenta en una red social.</p>
+<p>Y lo que viene puede ser mucho más complejo. Una investigación del Panel Internacional sobre el Entorno de la Información, IPIE, publicada en 2025, encontró que en las elecciones nacionales de 2024 se documentaron usos de inteligencia artificial generativa en 40 de los 50 países analizados.</p>
+<p>Es decir, en el 80% de los países estudiados ya se utilizaba esta tecnología en el contexto electoral.</p>
+<p>La investigación recopiló 215 casos documentados y encontró que el 90% correspondía a la creación de contenidos como imágenes, audios, videos y publicaciones para redes sociales.</p>
+<p><strong> Pero hay dos cifras especialmente preocupantes:</strong> el 69% de los casos fue clasificado como perjudicial para los procesos electorales y en el 46% no se pudo identificar a los responsables.</p>
+<p>Es decir, no solamente se pueden fabricar contenidos falsos, sino que muchas veces resulta difícil establecer quién está detrás de ellos.</p>
+<p>Un ejemplo ocurrió en Bangladés, durante las elecciones de enero de 2024, cuando circuló un video creado con inteligencia artificial –<strong><em>y difundido el día electoral</em></strong>&#8211; en el que una candidata supuestamente anunciaba que renunciaba a su aspiración y pedía votar por otro candidato.</p>
+<p>La candidata nunca había renunciado. Todo era falso.</p>
+<p>Un audio en el que un candidato aparentemente negocia con un grupo ilegal, un video en el que supuestamente recibe dinero, una fotografía que lo muestra en una reunión que nunca ocurrió.</p>
+<p>Todo puede fabricarse con herramientas de inteligencia artificial y difundirse por redes sociales y grupos de WhatsApp.</p>
+<p>Y no se necesita que todo el mundo crea la mentira.</p>
+<p>Basta con que circule, genere dudas y obligue al candidato afectado a dedicar parte de su campaña a desmentirla.</p>
+<p>Colombia acaba de vivir una campaña presidencial en la que la inteligencia artificial tuvo un protagonismo evidente.</p>
+<p>La campaña que llevó a Abelardo De la Espriella a la Presidencia hizo de esta tecnología una herramienta importante de comunicación política.</p>
+<p>Pero sería equivocado pensar que la inteligencia artificial solamente se usa en política para fabricar mentiras, también está cambiando profundamente la manera de hacer campañas.</p>
+<p>Los equipos políticos la usan para elaborar programas de gobierno –<strong><em>que nadie lee</em></strong>-, redactar discursos, producir videos, diseñar afiches, crear fotografías, inventar eslóganes y componer jingles con herramientas que reducen tiempos y costos de producción.</p>
+<p><strong>Esto tendrá consecuencias para quienes tradicionalmente viven de esos trabajos:</strong> diseñadores gráficos, publicistas, creativos, compositores, arreglistas y músicos encontrarán una competencia cada vez mayor en sistemas capaces de producir en minutos lo que antes requería equipos de profesionales.</p>
+<p>Y también habrá usos positivos. La inteligencia artificial puede facilitar la comunicación con los ciudadanos, explicar propuestas, procesar información y ayudar a que campañas con pocos recursos produzcan materiales que antes estaban fuera de su alcance.</p>
+<p>Pretender que las elecciones de 2027 se desarrollen sin inteligencia artificial sería tan ingenuo como creer que todos los políticos la utilizarán responsablemente.</p>
+<p>La tecnología estará disponible tanto para quienes quieran informar como para quienes pretendan engañar.</p>
+<p>Por eso, el problema de fondo no será que una campaña utilice inteligencia artificial, sino para qué la utilice y qué tan fácil resulte descubrir cuándo se está empleando para manipular a los electores.</p>
+<p><strong>Y aquí aparece otra dificultad:</strong> así como será posible fabricar pruebas falsas contra un candidato, también será posible que alguien intente desacreditar una grabación auténtica alegando que fue creada con inteligencia artificial.</p>
+<p>En otras palabras, no solamente habrá que desconfiar de lo falso que parece verdadero, sino también de quienes pretendan hacer pasar por falso lo que realmente ocurrió.</p>
+<p>La campaña que viene plantea, entonces, un desafío enorme para los candidatos, los medios de comunicación, las autoridades electorales y, sobre todo, los ciudadanos.</p>
+<p>Ahora imaginemos, con todo lo anterior, cómo será la campaña por la Alcaldía de Cali y la Gobernación del Valle con la IA en pleno furor&#8230;</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/politica/graffiti/campana-por-la-alcaldia-de-cali-inteligencia-artificial-elecciones-2027/">¿Qué tan sucia será la campaña en Cali y el Valle con la IA?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/politica/graffiti/campana-por-la-alcaldia-de-cali-inteligencia-artificial-elecciones-2027/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Divide y no reinarás: el plan del Pacto para el Valle</title>
+		<link>https://occidente.co/opinion/columnistas/divide-y-no-reinaras-el-plan-del-pacto-para-el-valle/</link>
+					<comments>https://occidente.co/opinion/columnistas/divide-y-no-reinaras-el-plan-del-pacto-para-el-valle/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 17 Oct 2026 00:05:22 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Daniel Viáfara Barona]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442158</guid>
+
+					<description><![CDATA[<p>En junio, Cali hizo lo que pocas ciudades: le entregó a Iván Cepeda 682.000 votos, casi seis de cada diez. El Valle entero le dio más del 60 %. Mientras el país se partía por la mitad, esta región votó sin titubeos. Cuatro meses después, la pregunta incómoda no es por qué perdió Cepeda. Es...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/divide-y-no-reinaras-el-plan-del-pacto-para-el-valle/">Divide y no reinarás: el plan del Pacto para el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>En junio, Cali hizo lo que pocas ciudades:</strong> le entregó a Iván Cepeda 682.000 votos, casi seis de cada diez.</p>
+<p>El Valle entero le dio más del 60 %. Mientras el país se partía por la mitad, esta región votó sin titubeos.</p>
+<p>Cuatro meses después, la pregunta incómoda no es por qué perdió Cepeda. Es qué ha hecho la izquierda vallecaucana con semejante mandato.</p>
+<p>La respuesta pasó por la calle Quinta el 14 de octubre. La marcha salió de la Plazoleta Jairo Varela y terminó en el Parque de las Banderas, sin desmanes y sin gran afluencia en la primera hora, según los reportes de la mañana.</p>
+<p><strong>En Bogotá, cuando le preguntaron a Cepeda por el motivo, respondió:</strong> “<em>Las razones son muchas. Es De la Espriella</em>”. Un apellido no es una consigna.</p>
+<p><strong>¿La razón de fondo? No hay una que se entienda. Hace cinco años, cuando el paro contra Iván Duque terminó en estallido, al menos había un objetivo:</strong> frenar la reforma tributaria del Ejecutivo.</p>
+<p>Hoy el discurso divaga. Petro habló del “<em>fascismo mafioso</em>” detrás del nuevo presidente, insinuó nexos con narcotraficantes y lo llama ilegítimo sin presentar pruebas.</p>
+<p>Con ese libreto, y todos los hechos de corrupción con que carga en anterior gobierno, el resultado era previsible.</p>
+<p>Cali conoce bien la diferencia entre una causa y un desahogo. En 2021 fue el epicentro del estallido.</p>
+<p>Puerto Resistencia, Siloé y la Loma de la Dignidad entraron a la fuerza en el mapa del país. Para muchos caleños, aquellos meses fueron bloqueos, desabastecimiento y miedo; para otros, la primera vez que alguien los miró.</p>
+<p>Las dos memorias son ciertas, y la ciudad todavía no termina de reconciliarlas.</p>
+<p>Lo que nadie discute es que esos barrios pusieron la calle y los muertos en 2021, y los votos en 2026.</p>
+<p>Hoy ven el desfile desde la ventana del MIO, preguntándose qué parte de todo eso es para ellos.</p>
+<p>Miremos a quienes recibieron ese voto. Alejandro Ocampo y Kevin Gómez llegaron al Senado; Alfredo Mondragón y Ana Erazo, a la Cámara.</p>
+<p>Son las caras más visibles del Pacto en el Valle y tienen los números, pero cada exposición digital parece restarles.</p>
+<p><strong>Lo que más se les ve es la crítica:</strong> a Eder, a Dilian Francisca, al gobierno nacional.</p>
+<p>Lo que menos, un plan para la seguridad de los barrios de ladera, el empleo de los jóvenes de Aguablanca o un hospital que funcione. Se están desconectando, rápido, de la realidad de su gente.</p>
+<p>Y mientras tanto, la calculadora. En marzo, Ocampo ya hablaba de la Alcaldía de Cali sin haberse posesionado como senador.</p>
+<p>Mondragón se declaró dispuesto a dejar su curul para ser el candidato único del petrismo.</p>
+<p>En mayo, Gómez anunció que “<em>Dilian está derrotada</em>” y que Cali es una ciudad petrista.</p>
+<p><strong>Su propuesta más concreta para la ciudad fue una industria cultural del trap inspirada en Medellín. Una idea suelta no es un programa:</strong> ni plazos, ni plata, ni plan.</p>
+<p><strong>Es el “<em>divide y reinarás</em>”, pero al revés:</strong> no dividen al adversario, se dividen ellos.</p>
+<p>El Pacto en el Valle ya tiene dos facciones disputándose 2027 sin haber reinado en nada. Votos prestados convertidos en trampolín personal.</p>
+<p><strong>Hay una objeción justa:</strong> son oposición, y oponerse es su trabajo. Cierto. Eder carga una desaprobación alta y alguien tiene que hacerle control político.</p>
+<p>Pero el caleño de Potrero Grande no necesita que un senador le cuente en un video que la ciudad está mal.</p>
+<p>Lo sabe cuando espera el bus a las cinco de la mañana.</p>
+<p>Lo que necesita es alguien que le diga cómo arreglarlo, y que se quede en el cargo para el que fue elegido mientras lo intenta.</p>
+<p>La izquierda llegó a gobernar porque le habló al hambre, al rebusque, a la rabia de los que nunca son escuchados.</p>
+<p>Hoy confunde escuchar con publicar. Los trinos le dan aplausos inmediatos y le quitan el oído.</p>
+<p><strong>El Pacto se equivoca:</strong> Cali no es una ciudad petrista. Es una ciudad que votó por una esperanza y se quedó esperando resultados.</p>
+<p>El pueblo no es bobo, y el voto de la esperanza, cuando se cansa, no se vuelve rabia. Se vuelve abstención.</p>
+<p>O, peor para ellos, se vuelve voto del otro lado. En octubre de 2027, el oriente de Cali no va a votar por trinos ni por contenidos en redes sociales.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/divide-y-no-reinaras-el-plan-del-pacto-para-el-valle/">Divide y no reinarás: el plan del Pacto para el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/divide-y-no-reinaras-el-plan-del-pacto-para-el-valle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Once mil millones</title>
+		<link>https://occidente.co/opinion/columnistas/once-mil-millones/</link>
+					<comments>https://occidente.co/opinion/columnistas/once-mil-millones/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 16 Oct 2026 23:50:56 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Daniella Plaza Saldarriaga]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442156</guid>
+
+					<description><![CDATA[<p>El presupuesto de Cali para el año entrante tiene ocho billones de pesos. Dentro de ese documento hay una línea que dice once mil millones: es la inversión social para las mujeres de la ciudad. Era casi tres veces más grande. La caída es del 64 %. Hay que decir primero lo que es justo....</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/once-mil-millones/">Once mil millones</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El presupuesto de Cali para el año entrante tiene ocho billones de pesos.</p>
+<p><strong>Dentro de ese documento hay una línea que dice once mil millones:</strong> es la inversión social para las mujeres de la ciudad. Era casi tres veces más grande. La caída es del 64 %.</p>
+<p><strong>Hay que decir primero lo que es justo. Este presupuesto tiene cosas buenas:</strong> salud sube 28 %, educación 17 %, vivienda 68 %.</p>
+<p>En una ciudad que todavía está levantando escombros eso no es poca cosa y merece reconocerse.</p>
+<p>Lo digo porque es cierto, y porque deja sin piso el argumento más cómodo. Aquí no faltó plata ni faltó criterio para priorizar. Hubo priorización. Las mujeres quedaron por fuera de ella.</p>
+<p><strong>Y antes de que alguien me lo responda, lo digo yo:</strong> los feminicidios en Cali bajaron. Cinco en 2025, la cifra más baja en once años.</p>
+<p>Es un resultado real y detrás hay gente que lleva años trabajando para lograrlo.</p>
+<p>Pero ese mismo año mataron a 68 mujeres en esta ciudad, un 11 % más que el anterior, y fuimos la única de las grandes capitales del país donde esa cifra subió.</p>
+<p>Las dos cosas son ciertas. La segunda es la que no estamos mirando.</p>
+<p>Ahora haga la cuenta conmigo, que cabe en una servilleta.</p>
+<p>Once mil millones repartidos entre el millón doscientas mil mujeres que viven en Cali dan menos de diez mil pesos por mujer.</p>
+<p>Al año. Menos de ochocientos pesos al mes.</p>
+<p><strong>En el mismo documento, la modernización del alumbrado público tiene 187.000 millones —<em>diecisiete veces más</em>— y el recorrido patrimonial de la salsa, 39.000 millones:</strong> tres veces y media.</p>
+<p>No estoy diciendo que esas obras no sirvan. Estoy diciendo lo que dicen los números cuando uno los pone en fila.</p>
+<p>Conviene saber qué se paga con esa línea, porque no son afiches ni días conmemorativos. Es Casa Matria.</p>
+<p>Es la línea que atiende las veinticuatro horas y que solo entre enero y abril recibió 2.740 solicitudes de ayuda.</p>
+<p>Es el Hogar de Acogida, el refugio para mujeres en riesgo de feminicidio, donde en esos mismos cuatro meses durmieron 191 mujeres y 33 personas que dependen de ellas.</p>
+<p><strong>Un recorte del 64 % no es una cifra:</strong> es la pregunta de cuántas de esas 191 van a caber el año entrante.</p>
+<p>Alguien dirá que la seguridad de las mujeres se arregla con más policía en la calle.</p>
+<p>El ochenta por ciento de las agresiones contra mujeres en Cali ocurrió dentro de la casa de la víctima, y en el 54 % de los casos el agresor fue una expareja.</p>
+<p>No hay operativo que entre ahí. Lo que entra ahí es exactamente lo que financia esa línea que estamos recortando.</p>
+<p><strong>Hay algo más, y no es un reclamo a la Administración:</strong> es un recordatorio para nosotros.</p>
+<p>Hace cuatro años este Concejo aprobó el Acuerdo 0539, la política pública de mujeres de Cali, con un horizonte de diez años.</p>
+<p><strong>Una política pública sin presupuesto no es una política:</strong> es una declaración de intenciones con membrete. Y nosotros no aprobamos una declaración de intenciones.</p>
+<p>Escribo esto antes de la votación y no después, porque después ya no sería una columna. Sería una autopsia firmada por quien presidía la sesión.</p>
+<p>Le pedí por escrito a la Secretaría de Bienestar Social la explicación técnica de esa caída. Es posible que parte de esos recursos se haya trasladado a otro rubro y que la atención se mantenga intacta.</p>
+<p>Si es así, lo diré en esta misma columna y con el mismo tamaño de letra.</p>
+<p>Si no es así, entonces lo que sigue es sencillo.</p>
+<p>Yo presido el concejo que vota este presupuesto.</p>
+<p><strong>Esa línea, repartida entre las mujeres de Cali, da nueve mil pesos al año por cada una:</strong> no alcanza para un almuerzo. No voy a levantar la mano por eso. Esa línea no va a pasar como está.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/once-mil-millones/">Once mil millones</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/once-mil-millones/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Dos pumas regresaron a la libertad en Cauca</title>
+		<link>https://occidente.co/medio-ambiente/rescate-de-puma-y-cria-en-miranda-cauca/</link>
+					<comments>https://occidente.co/medio-ambiente/rescate-de-puma-y-cria-en-miranda-cauca/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 16 Oct 2026 23:46:14 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442153</guid>
+
+					<description><![CDATA[<p>¿Una alerta de la comunidad permitió rescatar a una hembra adulta de puma y su cría, que regresaron a su hábitat natural el pasado 12 de octubre, en las montañas del municipio de Miranda, norte del Cauca. Los dos ejemplares de Puma concolor habían sido encontrados cerca de viviendas en la vereda Cañas Arriba, donde...</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/rescate-de-puma-y-cria-en-miranda-cauca/">Dos pumas regresaron a la libertad en Cauca</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>¿Una alerta de la comunidad permitió rescatar a una hembra adulta de puma y su cría, que regresaron a su hábitat natural el pasado 12 de octubre, en las montañas del municipio de Miranda, norte del Cauca.</strong></p>
+<p>Los dos ejemplares de Puma concolor habían sido encontrados cerca de viviendas en la vereda Cañas Arriba, donde quedaron acorralados por perros domésticos, una situación que representaba riesgos tanto para los animales como para los habitantes de la zona.</p>
+<p>La Corporación Autónoma Regional del Cauca CRC atendió el llamado ciudadano y coordinó las labores de rescate, que se extendieron durante aproximadamente diez horas.</p>
+<p><strong>Los felinos fueron anestesiados, estabilizados y trasladados al Hogar de Paso del Departamento Administrativo de Gestión del Medio Ambiente (Dagma), en Cali.</strong></p>
+<p>Allí, un equipo multidisciplinario de médicos veterinarios, biólogos y profesionales técnicos realizó exámenes y valoraciones para determinar su estado de salud y comportamiento.</p>
+<p><strong>Los resultados confirmaron que ambos estaban aptos para regresar a la vida silvestre.</strong></p>
+<p>La liberación se efectuó a más de 2.050 metros sobre el nivel del mar, bajo criterios técnicos orientados a favorecer su adaptación y supervivencia.</p>
+<p>Durante la atención, se procuró reducir el contacto y la manipulación para minimizar el estrés.</p>
+<p>En el proceso participaron también el Zoológico de Cali, el Instituto Humboldt, las universidades del Valle y El Bosque, la Alcaldía de Miranda, las guardias indígenas y campesinas y las comunidades locales.</p>
+<p>El caso destaca la importancia de reportar la presencia de fauna silvestre en riesgo y evitar intentar capturarla.</p>
+<p><strong>La conservación del puma también exige proteger su hábitat y promover una convivencia segura entre las comunidades y la biodiversidad.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/rescate-de-puma-y-cria-en-miranda-cauca/">Dos pumas regresaron a la libertad en Cauca</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/rescate-de-puma-y-cria-en-miranda-cauca/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Coalición internacional para recuperar las especies amenazadas</title>
+		<link>https://occidente.co/medio-ambiente/colombia-entrega-presidencia-de-la-cop16-coalicion-cares/</link>
+					<comments>https://occidente.co/medio-ambiente/colombia-entrega-presidencia-de-la-cop16-coalicion-cares/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 16 Oct 2026 23:42:31 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442150</guid>
+
+					<description><![CDATA[<p>En el marco de la 17 Conferencia de las Partes del Convenio sobre la Diversidad Biológica de la ONU que se realiza hasta el 20 de octubre, en Ereván, capital de Armenia, Colombia entrega oficialmente al país anfitrión la presidencia de la COP16 y traza junto con la comunidad internacional los compromisos a asumir para...</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/colombia-entrega-presidencia-de-la-cop16-coalicion-cares/">Coalición internacional para recuperar las especies amenazadas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>En el marco de la 17 Conferencia de las Partes del Convenio sobre la Diversidad Biológica de la ONU que se realiza hasta el 20 de octubre, en Ereván, capital de Armenia, Colombia entrega oficialmente al país anfitrión la presidencia de la COP16 y traza junto con la comunidad internacional los compromisos a asumir para proteger la biodiversidad del planeta en los próximos años.</strong></p>
+<p>Como se recordará, Colombia asumió la presidencia de la COP16 en el encuentro realizado entre el 21 de octubre y el 1 de noviembre de 2024.</p>
+<p><strong>La conferencia celebrada en Cali concluyó sin consenso, por lo que las negociaciones continuaron en Roma, en febrero de 2025.</strong></p>
+<p>Ahora, en el marco de este nuevo encuentro Colombia y Armenia dieron uno de los primeros pasos concretos de la COP17 de biodiversidad con el lanzamiento de la Coalición de Acción para Recuperar Especies Amenazadas (CARES), una iniciativa que reúne a 16 gobiernos para acelerar las acciones de conservación y cumplir las metas mundiales de biodiversidad.</p>
+<p>CARES busca impulsar la recuperación de especies amenazadas, en línea con la Meta 4 del Marco Mundial de Biodiversidad de Kunming-Montreal, adoptado en 2022, que plantea detener las extinciones provocadas por actividades humanas y reducir el riesgo de desaparición de especies.</p>
+<p>Entre los países fundadores figuran Colombia, Armenia, Brasil, Canadá, China, México, Reino Unido y Perú, junto con otras ocho naciones.</p>
+<p>Ambos países ejercerán como copresidentes de la coalición, mientras Reverse the Red asumirá la secretaría para coordinar esfuerzos y facilitar el intercambio de conocimientos especializados.</p>
+<p>El ministro colombiano de Ambiente, Fabio Arjona Hincapié, destacó que el desafío no consiste únicamente en evitar extinciones, sino en recuperar las especies en sus hábitats naturales y mencionó los esfuerzos nacionales con el cocodrilo del Orinoco, el paujil de pico azul y el loro orejiamarillo.</p>
+<p>Paralelamente, Colombia anunció que presentará iniciativas para movilizar cooperación internacional y financiación ambiental durante la cumbre, que se celebra del 19 al 30 de octubre en Ereván.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/colombia-entrega-presidencia-de-la-cop16-coalicion-cares/">Coalición internacional para recuperar las especies amenazadas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/colombia-entrega-presidencia-de-la-cop16-coalicion-cares/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Buscan recertificación de &#8220;Ciudades de las Aves&#8221; en el Valle</title>
+		<link>https://occidente.co/medio-ambiente/ciudades-de-las-aves-recertificacion-valle-del-cauca/</link>
+					<comments>https://occidente.co/medio-ambiente/ciudades-de-las-aves-recertificacion-valle-del-cauca/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 16 Oct 2026 23:12:20 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442147</guid>
+
+					<description><![CDATA[<p>Doce municipios del Valle del Cauca buscan la recertificación como &#8220;Ciudades de las Aves&#8221;. Se trata de Cartago, El Dovio, Caicedonia, La Unión, La Cumbre, Sevilla, Alcalá, Yumbo, Buenaventura, Candelaria, Calima El Darién y Palmira, que fueron los municipios certificados inicialmente, los cuáles ahora buscan mantener este reconocimiento. La estrategia departamental promueve la protección de...</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/ciudades-de-las-aves-recertificacion-valle-del-cauca/">Buscan recertificación de &#8220;Ciudades de las Aves&#8221; en el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Doce municipios del Valle del Cauca buscan la recertificación como &#8220;Ciudades de las Aves&#8221;.</strong></p>
+<p>Se trata de Cartago, El Dovio, Caicedonia, La Unión, La Cumbre, Sevilla, Alcalá, Yumbo, Buenaventura, Candelaria, Calima El Darién y Palmira, que fueron los municipios certificados inicialmente, los cuáles ahora buscan mantener este reconocimiento.</p>
+<p>La estrategia departamental promueve la protección de los ecosistemas, la educación ambiental y el avistamiento de aves como oportunidades para el desarrollo sostenible.</p>
+<p>Los doce municipios del Valle del Cauca avanzan en el proceso para obtener la recertificación como ‘Ciudades de las Aves’, una iniciativa que busca fortalecer la conservación de la biodiversidad e impulsar el turismo de naturaleza en el departamento.</p>
+<p>Como parte de este proceso, el Gobierno departamental realizó la primera reunión virtual con los municipios que integran la red, con el propósito de evaluar las acciones implementadas y revisar los compromisos necesarios para avanzar en la recertificación.</p>
+<p>La secretaria de Ambiente y Desarrollo Sostenible, Francia Elena Obando, explicó que la estrategia contempla acciones para conservar humedales, parques urbanos y bosques, además de promover la conciencia ambiental entre los niños y generar oportunidades de empleo verde mediante el turismo de naturaleza y el avistamiento de aves.</p>
+<p>La funcionaria también destacó la importancia de fortalecer la gobernanza y articular el trabajo entre comunidades, academia, empresas e instituciones para proteger las aves y los ecosistemas que habitan.</p>
+<p><strong>La iniciativa está enmarcada en la Ordenanza 517 de 2019, mediante la cual se adoptó el Plan Departamental de Protección y Conservación de las Aves y sus Ecosistemas.</strong></p>
+<p>Para alcanzar la recertificación, los municipios deben trabajar en cuatro ejes de Bird City Network: hábitat, amenazas para las aves, educación y participación, y sostenibilidad.</p>
+<p>Con este proceso, el departamento busca consolidar su red de municipios comprometidos con la protección de las aves, integrando la conservación ambiental y el turismo responsable como componentes del desarrollo sostenible.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/ciudades-de-las-aves-recertificacion-valle-del-cauca/">Buscan recertificación de &#8220;Ciudades de las Aves&#8221; en el Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/ciudades-de-las-aves-recertificacion-valle-del-cauca/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cali se convierte en una gran sala de cine</title>
+		<link>https://occidente.co/secciones/espectaculo/festival-internacional-de-cine-de-cali-inauguracion-2026/</link>
+					<comments>https://occidente.co/secciones/espectaculo/festival-internacional-de-cine-de-cali-inauguracion-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 16 Oct 2026 22:57:52 +0000</pubDate>
+				<category><![CDATA[Espectáculo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442142</guid>
+
+					<description><![CDATA[<p>El Festival Internacional de Cine de Cali comienza este viernes 16 de octubre con una función gratuita en el Teatro al Aire Libre Los Cristales. Hasta el 25 de octubre habrá proyecciones, cine-conciertos, experiencias inmersivas y espacios dedicados al talento cinematográfico local. Las historias volverán a tomarse las pantallas, los teatros y los espacios culturales...</p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/festival-internacional-de-cine-de-cali-inauguracion-2026/">Cali se convierte en una gran sala de cine</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El Festival Internacional de Cine de Cali comienza este viernes 16 de octubre con una función gratuita en el Teatro al Aire Libre Los Cristales.</strong></p>
+<p>Hasta el 25 de octubre habrá proyecciones, cine-conciertos, experiencias inmersivas y espacios dedicados al talento cinematográfico local.</p>
+<p>Las historias volverán a tomarse las pantallas, los teatros y los espacios culturales de Cali.</p>
+<p>Durante diez días, la ciudad tendrá una programación que permitirá disfrutar desde películas de autor hasta experiencias cinematográficas acompañadas de música en vivo, en una edición del Festival Internacional de Cine de Cali (FICCALI) que busca acercar el séptimo arte a públicos de diferentes edades y sectores de la capital vallecaucana.</p>
+<p>La edición número 18 comenzará este viernes 16 de octubre, a las 6:00 p. m., en el Teatro al Aire Libre Los Cristales, con la proyección de MU-KI-RA, una película animada dirigida por la colombiana Estefanía Piñeres, que aborda temas como el duelo y la superación del miedo.</p>
+<p><strong>La entrada a la inauguración será gratuita hasta completar el aforo.</strong></p>
+<p>Esta será la primera vez que el festival abra con una película animada, una elección que adquiere un significado particular en una ciudad que todavía enfrenta las consecuencias emocionales y sociales del terremoto del pasado 10 de agosto.</p>
+<p><em>“Hoy, más que nunca, después de que la ciudad atravesó un evento como el terremoto del pasado 10 de agosto, este encuentro nos permite ir a juntarnos, escuchar historias, conocer visiones de mundo y fortalecer lazos entre los agentes sectoriales”</em>,<strong> señaló Gerylee Polanco, directora del festival.</strong></p>
+<h2>El cine sale de las salas tradicionales</h2>
+<p>Bajo el lema El cine para encontrarnos, el festival desarrollará actividades en cuatro escenarios principales: la Cinemateca del Museo La Tertulia, Cine Colombia, el Teatro Municipal y Comfandi.</p>
+<p>Sin embargo, una de sus apuestas será llevar la programación a otros espacios de la ciudad, entre ellos el Centro de Ciencia, Tecnología e Innovación Yawa, la Fundación Lugar a Dudas, Casa Espectra y la casa cultural Curador.</p>
+<p>En Yawa, por ejemplo, el público podrá acercarse al llamado cine expandido, una propuesta que combina las imágenes en movimiento con nuevas tecnologías y experiencias sensoriales.</p>
+<p>Allí se realizarán proyecciones inmersivas en el cine domo y se presentará Domolab, un espectáculo que integra cine y música en vivo.</p>
+<p>Otra de las actividades especiales será un cine-concierto de Metrópolis, el clásico cinematográfico que se proyectará con acompañamiento musical original interpretado en directo, ofreciendo una manera diferente de disfrutar una obra fundamental de la historia del cine.</p>
+<h2>Un espacio para el talento caleño</h2>
+<p>El FICCALI también será una vitrina para realizadores colombianos y extranjeros que participarán en sus tres secciones competitivas: Nacional, Internacional y Cortometrajes Nacionales.</p>
+<p>En estas categorías se entregarán los tradicionales premios María y Luis Ospina, reconocimientos que hacen parte de la identidad del festival.</p>
+<p>La competencia de cortometrajes nacionales contará con una selección de talentos caleños, mientras que la franja Cali Abierta ofrecerá un recorrido por la memoria audiovisual de la ciudad.</p>
+<p>Entre sus actividades se encuentra la conmemoración de los 40 años del reestreno de La mansión de Araucaima, así como la proyección del documental Todo comenzó por el fin.</p>
+<p>Estas producciones permitirán acercarse a distintas etapas de la cinematografía colombiana y a la trayectoria de creadores que han contribuido a construir su identidad.</p>
+<h2>Cine afro e indígena y funciones en las comunas</h2>
+<p>La diversidad cultural también tendrá un lugar dentro de la programación mediante la sección Vanguardias Afro e Indígenas, que reunirá a once invitados de pueblos originarios para compartir sus perspectivas sobre el cine étnico y la representación de sus comunidades.</p>
+<p>A esta propuesta se suma la estrategia Cine sin límites, que llevará actividades cinematográficas a 17 espacios urbanos, bibliotecas públicas y centros culturales de las comunas.</p>
+<p>La iniciativa busca que la experiencia del festival no se concentre únicamente en las salas convencionales y pueda llegar a públicos que habitualmente tienen menos oportunidades de acceder a este tipo de programación.</p>
+<p>De esta manera, durante diez días Cali tendrá la posibilidad de encontrarse alrededor de historias que hablan de memoria, diversidad, emociones y nuevas formas de ver el mundo.</p>
+<h2>Lo que debe saber para asistir</h2>
+<p><strong>Festival:</strong> del 16 al 25 de octubre de 2026.</p>
+<p><strong>Inauguración:</strong> viernes 16 de octubre, 6:00 p. m.</p>
+<p><strong>Lugar de apertura:</strong> Teatro al Aire Libre Los Cristales.</p>
+<p><strong>Ingreso a la inauguración:</strong> gratuito hasta completar aforo.</p>
+<p><strong>Programación completa:</strong> ficcali.com.</p>
+<p>El festival propone algo más que sentarse frente a una pantalla: recuperar los espacios de encuentro, compartir historias y descubrir que el cine también puede ser una manera de volver a reunirse como ciudad.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/espectaculo/festival-internacional-de-cine-de-cali-inauguracion-2026/">Cali se convierte en una gran sala de cine</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/espectaculo/festival-internacional-de-cine-de-cali-inauguracion-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Más de 500 cámaras se instalarán en la región</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/camaras-de-videovigilancia-en-el-valle-del-cauca-2026/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/camaras-de-videovigilancia-en-el-valle-del-cauca-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 16 Oct 2026 22:52:52 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442133</guid>
+
+					<description><![CDATA[<p>Más de 500 cámaras de videovigilancia serán instaladas en todo el Valle del Cauca con el fin de fortalecer las capacidades de la Fuerza Pública y estrategias de las autoridades, en la lucha contra la violencia generada por la delincuencia común, el narcotráfico y los grupos armados ilegales. Las cámaras hacen parte de las inversiones...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/camaras-de-videovigilancia-en-el-valle-del-cauca-2026/">Más de 500 cámaras se instalarán en la región</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Más de 500 cámaras de videovigilancia serán instaladas en todo el Valle del Cauca con el fin de fortalecer las capacidades de la Fuerza Pública y estrategias de las autoridades, en la lucha contra la violencia generada por la delincuencia común, el narcotráfico y los grupos armados ilegales.</strong></p>
+<p>Las cámaras hacen parte de las inversiones de la Tasa de Seguridad que permitirá la ampliación del sistema de cámaras de vigilancia y la modernización de la red de comunicaciones de la Policía.</p>
+<p><strong>En estas cámaras se invierten más de $50 mil millones.</strong></p>
+<p><strong>Así lo confirmó la gobernadora del Valle del Valle del Cauca, Dilian Francisca Toro, quien señaló que</strong> <em>“vamos a instalar más o menos 500, 600 videocámaras en el departamento, pero también vamos a entregar toda la red de comunicaciones de la Policía en Cali y el Valle del Cauca, la cual nos cuesta 50.000 millones de pesos y que hace 30 años no se actualiza. Ya se están formando los policías y ya fueron a Estados Unidos”.</em></p>
+<p>Además, como ha venido haciendo desde el 2024, el Gobierno departamental realizará nuevas entregas de vehículos a la Policía y Ejército, además de una plataforma especial para combatir el secuestro y la extorsión.</p>
+<p><em>“También, en la vía a Buenaventura, la vía a Jamundí y las entradas a Cali, vamos a tener unos arcos de seguridad que identifican hasta las placas de los carros. Eso nos va a dar mucha más seguridad en estos puntos y contener actos terroristas”</em>, <strong>añadió la mandataria de los vallecaucanos.</strong></p>
+<p>Antidrones para el Ejército, Policía y Armada son otras de las inversiones con recursos de la Tasa de Seguridad que ha ejecutado la Gobernación para contrarrestar el terrorismo y proteger tanto a la Fuerza Pública como la ciudadanía y que aumentarían ahora con el apoyo del Gobierno nacional.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/camaras-de-videovigilancia-en-el-valle-del-cauca-2026/">Más de 500 cámaras se instalarán en la región</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/camaras-de-videovigilancia-en-el-valle-del-cauca-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
