@@ -1,12 +1,12 @@
 {
- "generado": "2026-10-19",
- "fecha": "2026-10-19",
+ "generado": "2026-10-20",
+ "fecha": "2026-10-20",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "81 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 81
+   "texto": "87 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 87
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -43,12 +43,13 @@
   {
    "tipo": "fuente_deja_de_honrar_condicionales",
    "nivel": "media",
-   "texto": "1 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.0 MB). Ejemplo: https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID",
+   "texto": "2 URL(s) que antes contestaban 304 volvieron a mandar el cuerpo entero sin haber cambiado (0.1 MB). Ejemplo: https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
    "urls": [
+    "https://colombia.un.org/es/320793-informaci%C3%B3n-y-actualizaciones-sobre-el-terremoto-en-colombia",
     "https://services3.arcgis.com/Rv2iYa4TcJdIHIfq/arcgis/rest/services/SISE202608_Priorizadas_Final/FeatureServer/0/query?where=1%3D1&f=json&outFields=OBJECTID%2CCOD_DANE%2CCORREO_INS%2CSEDE_PRINC%2CSECTOR%2CCONFIA_GEO%2CC%C3%B3digo_Establecimiento%2CNombre_Establecimiento%2CNombre_Sede%2CZona_1%2CDirecci%C3%B3n%2CTel%C3%A9fono%2CNiveles%2CNOM_REG%2CCOD_DEP%2CNOM_DEP%2CCOD_MUN%2CNOM_MUN%2CCAT_MUN%2CMUN_PDET%2CMUN_ZOMAC%2CCOD_ETC%2CNOM_ETC%2CTOTAL_MATRICULA%2CMATRICULA_PREL%2CESTADO_FISICO&outSR=4326&resultOffset=0&resultRecordCount=2000&orderByFields=OBJECTID"
    ],
-   "n": 1,
-   "bytes": 72
+   "n": 2,
+   "bytes": 65742
   },
   {
    "tipo": "manifiesto_r2_con_objetos_sin_reporte",
@@ -70,20 +71,20 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 53 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 53
+   "texto": "La OPS lleva 54 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 54
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-10-18",
+  "fecha": "2026-10-19",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
    "municipios_afectados": 496,
-   "personas_afectadas": 487000,
-   "familias_afectadas": 303934,
+   "personas_afectadas": 490000,
+   "familias_afectadas": 305791,
    "viviendas_averiadas": 243000,
-   "viviendas_destruidas": 36327,
+   "viviendas_destruidas": 36478,
    "heridos": 4611,
    "fallecidos": 335,
    "desaparecidos": 103,
@@ -101,14 +102,14 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-hoy-martes-25-de-agosto-ultimas-noticias-balance-de-la-emergencia-y-nuevos-temblores-en-el-pais-3581395"
    },
    "personas_afectadas": {
-    "fecha": "2026-10-09",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+    "fecha": "2026-10-10",
+    "medio": "La FM",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-dos-menses-ultimo-balance-ungrd-octubre-10-413627"
    },
    "familias_afectadas": {
-    "fecha": "2026-10-09",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+    "fecha": "2026-10-10",
+    "medio": "La FM",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-dos-menses-ultimo-balance-ungrd-octubre-10-413627"
    },
    "viviendas_averiadas": {
     "fecha": "2026-10-09",
@@ -116,9 +117,9 @@
     "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "viviendas_destruidas": {
-    "fecha": "2026-09-10",
-    "medio": "\n\t\n\t356 personas rescatadas: la respuesta de la UNGRD continúa un mes después del terremoto\n\n",
-    "url": "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/2026/356-personas-rescatadas-la-respuesta-de-la-UNGRD-continua-un-mes-despues-del-terremoto.aspx"
+    "fecha": "2026-10-10",
+    "medio": "La FM",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-dos-menses-ultimo-balance-ungrd-octubre-10-413627"
    },
    "heridos": {
     "fecha": "2026-08-23",
@@ -131,9 +132,9 @@
     "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "desaparecidos": {
-    "fecha": "2026-10-09",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+    "fecha": "2026-10-10",
+    "medio": "La FM",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-dos-menses-ultimo-balance-ungrd-octubre-10-413627"
    },
    "rescatados": {
     "fecha": "2026-08-20",
@@ -141,55 +142,27 @@
     "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    }
   },
-  "ultimo_balance": "2026-10-09",
+  "ultimo_balance": "2026-10-10",
   "ignoradas_del_balance": [
    {
-    "cifra": "viviendas_destruidas",
-    "valor": 243000,
-    "motivo": "salto de más de 5 veces el máximo informado",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 243000,
-    "motivo": "salto de más de 5 veces el máximo informado",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
-   },
-   {
-    "cifra": "viviendas_destruidas",
-    "valor": 243000,
-    "motivo": "salto de más de 5 veces el máximo informado",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+    "cifra": "viviendas_averiadas",
+    "valor": 207889,
+    "motivo": "retrocede sobre el máximo informado",
+    "medio": "La FM",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-dos-menses-ultimo-balance-ungrd-octubre-10-413627"
    },
    {
     "cifra": "heridos",
     "valor": 4516,
     "motivo": "retrocede sobre el máximo informado",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
-   },
-   {
-    "cifra": "heridos",
-    "valor": 4516,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
-   },
-   {
-    "cifra": "heridos",
-    "valor": 4516,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "www.vanguardia.com",
-    "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
+    "medio": "La FM",
+    "url": "https://www.lafm.com.co/sociedad/terremoto-colombia-dos-menses-ultimo-balance-ungrd-octubre-10-413627"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-10-19/oficiales_feed.json",
-   "items": 197,
+   "snapshot": "data/snapshots/2026-10-20/oficiales_feed.json",
+   "items": 200,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
