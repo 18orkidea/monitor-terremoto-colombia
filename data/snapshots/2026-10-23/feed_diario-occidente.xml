@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Fri, 23 Oct 2026 13:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Anthropic publica fondo de beneficio público</title>
+		<link>https://occidente.co/secciones/tecnologia/anthropic-fondo-beneficio-publico/</link>
+					<comments>https://occidente.co/secciones/tecnologia/anthropic-fondo-beneficio-publico/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2026 13:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442302</guid>
+
+					<description><![CDATA[<p>Anthropic destina 5% de sus acciones a un fondo de beneficio público Anthropic anunció la creación de un fondo de beneficio público al que destinará inicialmente el 5% de sus acciones. El anuncio plantea una vía para financiar proyectos de utilidad social y abre la posibilidad de ampliar la contribución si el valor de la...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/anthropic-fondo-beneficio-publico/">Anthropic publica fondo de beneficio público</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Anthropic destina 5% de sus acciones a un fondo de beneficio público</h2>
+<p>Anthropic anunció la creación de un fondo de beneficio público al que destinará inicialmente el 5% de sus acciones. El anuncio plantea una vía para financiar proyectos de utilidad social y abre la posibilidad de ampliar la contribución si el valor de la empresa crece.</p>
+<h2></h2>
+<p>La empresa informó hoy que estructurará el fondo como una entidad de su propiedad y que la contribución inicial será del 5% de sus acciones. Además, contempló una fórmula para aumentar ese porcentaje: 2% adicional por cada 50% de incremento en su valor. La compañía sugirió usos generales para los recursos, como grandes donaciones a organizaciones sin ánimo de lucro o distribuciones directas a poblaciones específicas. El anuncio llega en un momento de mayor escrutinio público sobre la industria de la inteligencia artificial y busca dar una respuesta concreta al debate sobre el impacto social de la tecnología.</p>
+<h2>Qué cambia para las personas</h2>
+<h3>Apoyo a proyectos sociales concretos</h3>
+<p>El fondo podrá financiar donaciones a organizaciones tradicionales, lo que podría traducirse en más recursos para programas sociales ya existentes y beneficiarios identificados por esas organizaciones.</p>
+<h3>Distribuciones directas a comunidades</h3>
+<p>Anthropic mencionó la opción de hacer distribuciones directas a poblaciones específicas; eso significa que parte de los fondos podría llegar directamente a colectivos afectados por cambios tecnológicos.</p>
+<h3>Mayor inversión en estudios sobre empleo</h3>
+<p>La compañía ya ha comprometido 200 millones de dólares para estudiar el impacto de la IA en el mercado laboral; el nuevo fondo podría complementar ese trabajo con recursos para mitigación o programas de apoyo.</p>
+<h2>Aspectos que siguen pendientes</h2>
+<p>Anthropic dijo que ofrecerá más detalles sobre la estructura y la gobernanza del fondo en los próximos meses. No informó todavía quién decidirá en la práctica cuáles proyectos recibirán fondos ni los criterios específicos de selección. Tampoco detalló el calendario de aportes ni el mecanismo legal preciso para las futuras contribuciones vinculadas al aumento de valor de la empresa.</p>
+<h2>Contexto y alcance</h2>
+<p>La medida se enmarca en un clima de opinión pública más crítica respecto a la inteligencia artificial y en la búsqueda de respuestas corporativas que generen confianza. La creación del fondo muestra un intento por institucionalizar recursos para fines sociales, aunque su alcance dependerá de las reglas de gobierno que Anthropic publique más adelante.</p>
+<p>El anuncio puede leerse como parte de una tendencia donde compañías tecnológicas buscan canales formales para canalizar recursos hacia asuntos públicos y sociales, ligado tanto a responsabilidad corporativa como a gestión de percepción pública.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Posible acceso a recursos y programas financiados por el fondo.</p>
+<p><strong>Negocio:</strong> Permite a Anthropic gestionar parte de su responsabilidad social con una herramienta propia.</p>
+<p><strong>Industria:</strong> Podría incentivar a otras empresas de IA a crear mecanismos similares.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/anthropic-fondo-beneficio-publico/">Anthropic publica fondo de beneficio público</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/anthropic-fondo-beneficio-publico/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Desplazados o rescatados? El dilema de El Calvario</title>
+		<link>https://occidente.co/opinion/columnistas/desplazados-o-rescatados-el-dilema-de-el-calvario/</link>
+					<comments>https://occidente.co/opinion/columnistas/desplazados-o-rescatados-el-dilema-de-el-calvario/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2026 02:31:48 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Daniel Viáfara Barona]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442703</guid>
+
+					<description><![CDATA[<p>Durante años, el centro de Cali tuvo una frontera que nadie dibujó en un mapa, pero que todos respetaban. Entre las calles 12 y 15, El Calvario y San Pascual eran territorio de ollas, de bandas de microtráfico y de una regla no escrita: ahí el Estado no entra. Esa frontera empezó a romperse la...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/desplazados-o-rescatados-el-dilema-de-el-calvario/">¿Desplazados o rescatados? El dilema de El Calvario</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Durante años, el centro de Cali tuvo una frontera que nadie dibujó en un mapa, pero que todos respetaban.</p>
+<p><strong>Entre las calles 12 y 15, El Calvario y San Pascual eran territorio de ollas, de bandas de microtráfico y de una regla no escrita:</strong> ahí el Estado no entra. Esa frontera empezó a romperse la madrugada del 24 de septiembre, cuando más de 1.200 uniformados entraron a seis comunas, el centro entre ellas, con la Operación Iron. Hubo 80 capturas y siete estructuras desarticuladas.</p>
+<p>Lo que apareció detrás de algunas puertas explica por qué intervenir no era opcional.</p>
+<p>Según el alcalde Alejandro Eder, se encontraron 11 niñas indígenas presuntamente retenidas y obligadas a “<em>actos indebidos</em>”, cuatro mujeres rescatadas de un hombre que las abusaba y dos niños, de ocho y diez años, solos en una vivienda fumando bazuco. Todo debate sobre el centro empieza ahí. Dejar las cosas como estaban también era una decisión, y la pagaban los más indefensos.</p>
+<p>Por eso cuesta entender la denuncia penal que anunció el abogado Elmer Montaña contra Eder por presunto desplazamiento forzado.</p>
+<p>Está en su derecho; la Fiscalía decidirá. Pero el artículo 180 del Código Penal castiga a quien, <em>“de manera arbitraria, mediante violencia u otros actos coactivos</em>”, obligue a una población a cambiar de residencia.</p>
+<p>Y aclara que no es desplazamiento el movimiento que realice la fuerza pública “<em>cuando tenga por objeto la seguridad de la población</em>”.</p>
+<p>Desmontar expendios donde había niños consumiendo droga difícilmente cabe en esa figura.</p>
+<p>El contexto tampoco ayuda. Montaña fue precandidato del Pacto Histórico a la Alcaldía en 2023 y aspirante sin éxito a la Cámara por la Alianza Verde en marzo.</p>
+<p>Nada de eso lo inhabilita para opinar.</p>
+<p>Pero a un año de las elecciones locales, convertir una política de seguridad en un expediente penal contra el alcalde tiene más de tribuna que de tribunal; ni hablar del “<em>estás muy linda Juanita</em>” supremamente bajo y fuera de contexto. Su choque con la secretaria Juana Eloísa Cataño, que terminó en denuncias cruzadas, confirma que la discusión ya se está jugando en ese terreno, y no debe ser.</p>
+<p>Sería un error, sin embargo, despachar con la denuncia la preocupación que la acompaña.</p>
+<p>El propio Montaña dice apoyar el proyecto Ciudad Paraíso y reclama que la gestión social debió llegar primero.</p>
+<p>La inquietud que deja no es jurídica, es humana: a dónde se fue la gente.</p>
+<p>Los vecinos de San Bosco, Alameda, Bretaña, Junín y San Fernando Viejo ya tienen la respuesta: antejardines ocupados, consumo a plena calle, basura revuelta.</p>
+<p>Alrededor del colegio Antonio José Camacho, padres y estudiantes protestaron después de que se robaran las letras de bronce de la fachada.</p>
+<p><strong>Es el viejo efecto globo:</strong> se aprieta en un punto y el problema se infla en otro. Bogotá lo aprendió con El Cartucho, cuyo final alimentó el Bronx.</p>
+<p>La Alcaldía caracterizó a unas 750 personas en situación de calle en el centro y atiende a 450 con alimentación, dormitorio y apoyo psicosocial, y anunció el traslado de hasta 300 casos críticos a sitios de larga estancia.</p>
+<p>Pero entre 750 y 450 quedan 300 personas que no desaparecen: duermen en algún andén de la Comuna 9.</p>
+<p>Ahí está el verdadero examen para Eder, y no se lo pondrá un juez, sino el tiempo.</p>
+<p>La fase de los fusiles era la más fácil. La difícil es la que viene: sostener la oferta social cuando se apaguen las cámaras, demoler las 23 estructuras identificadas sin dejar a nadie a la intemperie, impedir que los niños rescatados terminen en otra olla y medir el éxito no solo en homicidios evitados, sino en personas que salen de la calle.</p>
+<p>Recuperar el centro era necesario. Recuperar a quienes lo habitaban es lo que convertirá un operativo exitoso en una política pública.</p>
+<p>Cali ya demostró que puede ganar la calle con patrullas y retroexcavadoras. ¿Será capaz de ganar también a las 300 personas que esta noche duermen en el andén de al lado.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/desplazados-o-rescatados-el-dilema-de-el-calvario/">¿Desplazados o rescatados? El dilema de El Calvario</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/desplazados-o-rescatados-el-dilema-de-el-calvario/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Los olmecas eran negros y vivieron en América 1.500 años a. C.</title>
+		<link>https://occidente.co/opinion/columnistas/los-olmecas-eran-negros-y-vivieron-en-america-1-500-anos-a-c/</link>
+					<comments>https://occidente.co/opinion/columnistas/los-olmecas-eran-negros-y-vivieron-en-america-1-500-anos-a-c/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2026 02:29:18 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Célimo Sinisterra]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442701</guid>
+
+					<description><![CDATA[<p>Durante 500 años se ha dicho que los negros que hoy pueblan el continente americano fueron traídos de África a través del océano Atlántico, en la llamada trata de negros y el malungaje. Pues bien, esa es una historia, sobre todo, mal contada, que está presente en los contenidos educativos y que durante años ha...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/los-olmecas-eran-negros-y-vivieron-en-america-1-500-anos-a-c/">Los olmecas eran negros y vivieron en América 1.500 años a. C.</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Durante 500 años se ha dicho que los negros que hoy pueblan el continente americano fueron traídos de África a través del océano Atlántico, en la llamada trata de negros y el malungaje.</p>
+<p>Pues bien, esa es una historia, sobre todo, mal contada, que está presente en los contenidos educativos y que durante años ha sido impartida en la cátedra de Historia.</p>
+<p>Sin embargo, al echar un vistazo al pasado, descubrimos que no fue exactamente así.</p>
+<p>Esta parte del mundo, es decir, el continente americano, antes de la llegada de Colón a estas tierras, ya estaba habitada.</p>
+<p>Por lo menos 30.000 años antes de Cristo ya vivían los Caral en lo que hoy es Perú; los zapotecas, toltecas y olmecas, en lo que actualmente conocemos como Mesoamérica.</p>
+<p>Estas civilizaciones ocuparon gran parte del hemisferio y eran autónomas, con sus propias leyes, hábitos y costumbres.</p>
+<p>También se dice que existían sabios a quienes llamaban amautas o calmécac, según las distintas tradiciones y culturas.</p>
+<h3>Los olmecas</h3>
+<p>La cultura olmeca fue una civilización que se desarrolló durante el período Preclásico de Mesoamérica.</p>
+<p>Sus primeras manifestaciones se remontan aproximadamente a 1.500 años antes de Cristo.</p>
+<p>Aunque se han encontrado vestigios de su presencia en amplias zonas de Mesoamérica, se considera que el área cultural olmeca abarcó principalmente el sureste del actual estado de Veracruz y el oeste de Tabasco, en México.</p>
+<p>En este sentido, es necesario hacer la aclaración de que el etnónimo «olmeca» fue empleado por los arqueólogos para identificar a esta cultura y no debe confundirse con el de los olmeca-xicalancas, un grupo que floreció durante el período Epiclásico en sitios del centro de México, como Cacaxtla.</p>
+<p>Muchos etnólogos e investigadores se han ocupado de estudiar las enormes cabezas olmecas que han sido encontradas en diferentes sitios arqueológicos y que constituyen uno de los mayores legados escultóricos de esta civilización.</p>
+<p>Resulta interesante comparar los rasgos de los rostros humanos de personas negras contemporáneas con las expresiones faciales representadas en las cabezas olmecas.</p>
+<p>Para algunos investigadores, las similitudes son de gran importancia y permiten plantear la hipótesis de que, miles de años antes de la llegada de Colón a esta parte del mundo, poblaciones de origen africano o con rasgos que hoy asociamos con pueblos africanos pudieron haber ocupado estos territorios.</p>
+<p>Se estima que los indicios más antiguos de la cultura olmeca son de alrededor del año 3000 a. C., mientras que los más recientes corresponden aproximadamente al año 400 a.</p>
+<p>C. La civilización olmeca se constituyó principalmente alrededor de tres grandes centros ceremoniales: San Lorenzo, La Venta y Tres Zapotes, además de manifestarse en otros sitios, como Laguna de los Cerros.</p>
+<p>El centro olmeca más antiguo es San Lorenzo, cuya etapa de mayor desarrollo se sitúa aproximadamente hacia el año 1150 a. C. Se encuentra en el municipio de Texistepec, en la cuenca del río Coatzacoalcos, en el estado de Veracruz.</p>
+<p>El florecimiento de la cultura olmeca en este sitio comenzó alrededor del año 1150 a. C., época de la que datan gran parte de las esculturas y elementos arquitectónicos que caracterizan a esta cultura, muchos de los cuales todavía se conservan.</p>
+<p>San Lorenzo fue saqueado alrededor del año 900 a. C., y las esculturas monumentales sufrieron intentos de destrucción.</p>
+<p>Algunas fueron enterradas y otras trasladadas al centro ceremonial.</p>
+<p>No obstante, todavía se conservan numerosas figuras con las características expresiones olmecas, las cuales dan cuenta de una civilización cuya representación artística ha sido objeto de numerosos debates sobre su posible relación con poblaciones africanas.</p>
+<p>Poco o nada se habla de esta interpretación en algunos espacios de la historiografía tradicional, restándole importancia a una cultura cuyo legado tiene un enorme significado para la historia y, especialmente, para las comunidades afrodescendientes.</p>
+<p>El centro ceremonial de Tres Zapotes fue el último en desarrollarse.</p>
+<p>Es también el más conocido porque sobrevivió hasta una época más cercana.</p>
+<p>Sin embargo, la civilización olmeca que se desarrolló allí correspondió a una cultura que ya se encontraba en decadencia y no al período de esplendor que habían vivido los centros ceremoniales anteriores.</p>
+<p>Sin duda alguna, la apariencia de las enormes cabezas olmecas ha llevado a algunos investigadores y autores a sostener que los olmecas eran negros.</p>
+<p>Esta conclusión se basa, principalmente, en la observación de sus rasgos faciales y en comparaciones con poblaciones africanas contemporáneas.</p>
+<p>Asimismo, al investigar algunos de los vestigios arqueológicos encontrados en Mesoamérica, se pueden identificar representaciones, hábitos y costumbres que algunos autores consideran semejantes a los que todavía se evidencian en determinados pueblos africanos.</p>
+<p>La discusión continúa abierta. Lo que sí resulta indiscutible es que la civilización olmeca dejó un legado extraordinario que merece ser estudiado con mayor profundidad y desde diferentes perspectivas, sin prejuicios y sin excluir las preguntas sobre el origen, la diversidad y las posibles conexiones de los pueblos que habitaron América mucho antes de la llegada de los europeos.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/los-olmecas-eran-negros-y-vivieron-en-america-1-500-anos-a-c/">Los olmecas eran negros y vivieron en América 1.500 años a. C.</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/los-olmecas-eran-negros-y-vivieron-en-america-1-500-anos-a-c/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Los “arrimados”, el drama de los damnificados del terremoto que no se ven en la calle y siguen esperado ayuda</title>
+		<link>https://occidente.co/secciones/tendencias/terremoto-en-cali-damnificados-arrimados-historias-2026/</link>
+					<comments>https://occidente.co/secciones/tendencias/terremoto-en-cali-damnificados-arrimados-historias-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2026 02:22:11 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442698</guid>
+
+					<description><![CDATA[<p>Pocos días después del terremoto del 10 de agosto en Cali, el escritor Gustavo Álvarez Gardeazábal escribió una columna titulada “Los arrimados”, en la que advirtió sobre la situación que enfrentarían quienes buscaran refugio en casas de familiares o amigos. Casi dos meses y medio después, los testimonios de damnificados alojados en viviendas ajenas dan...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/terremoto-en-cali-damnificados-arrimados-historias-2026/">Los “arrimados”, el drama de los damnificados del terremoto que no se ven en la calle y siguen esperado ayuda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Pocos días después del terremoto del 10 de agosto en Cali, el escritor Gustavo Álvarez Gardeazábal escribió una columna titulada “<em>Los arrimados</em>”, en la que advirtió sobre la situación que enfrentarían quienes buscaran refugio en casas de familiares o amigos</strong>.</p>
+<p>Casi dos meses y medio después, los testimonios de damnificados alojados en viviendas ajenas dan cuenta de las dificultades que afrontan quienes viven en estas condiciones.</p>
+<p>Son los “<em>arrimados</em>”, personas que tienen dónde dormir, pero aún no pueden recuperar su vida cotidiana.</p>
+<p>No están en carpas ni pasan las noches en la calle, su emergencia transcurre dentro de otros hogares, entre espacios compartidos, gastos adicionales y la incertidumbre sobre cuánto durará una estancia que comenzó como algo provisional.</p>
+<p>María, como llamaremos a una mujer que pidió mantener su identidad en reserva, duerme con sus dos hijos adolescentes en el estudio del apartamento de una prima.</p>
+<p>Su vivienda, en el barrio El Refugio, sufrió graves daños y la unidad residencial quedó inhabitable.</p>
+<h2>Vivir procurando no incomodar</h2>
+<p>Su prima comparte el apartamento con su esposo y su hija de diez años.</p>
+<p>María agradece que los recibieran, pero siente que su permanencia altera las rutinas de una familia que ya tenía organizada su vida en un espacio pequeño.</p>
+<p>Procura hacer poco ruido, ayudar cuanto puede con los oficios y limitar sus actividades.</p>
+<p>Según relata, no existen problemas de convivencia, aunque percibe un cansancio que no sentía al comienzo.</p>
+<p>Le incomoda especialmente ver al esposo de su prima trabajando hasta tarde en la mesa del comedor, porque el estudio que ahora ocupan ella y sus hijos era su lugar de trabajo.</p>
+<p>La dificultad también es económica. María confeccionaba y reparaba prendas en su apartamento.</p>
+<p>Rescató la máquina de coser, pero donde está alojada no puede atender clientes ni instalar la mesa de corte.</p>
+<h3>Un subsidio que no resuelve todo</h3>
+<p>Según cuenta, recibió un subsidio de arrendamiento del Gobierno por $1.050.000. Sin embargo, calcula que alquilar un apartamento en condiciones similares al suyo cuesta entre $1.500.000 y $1.700.000 mensuales.</p>
+<p>A esa diferencia se suma otra barrera: como trabajadora independiente, dice que tiene dificultades para demostrar ingresos y acceder a un contrato.</p>
+<p>Su apartamento no tenía un seguro particular, aunque la unidad residencial sí cuenta con pólizas.</p>
+<p>La incertidumbre sobre su patrimonio se mezcla con la urgencia de recuperar ingresos y encontrar vivienda. Además, el alojamiento actual queda lejos del colegio de sus hijos y complica sus desplazamientos.</p>
+<p>María contempla trasladarse a la casa de sus padres, en un municipio del Cauca, pero le preocupan la situación de orden público y la continuidad escolar de los adolescentes.</p>
+<h4>Una pensión y otro gasto</h4>
+<p>Otro caso es el de Antonio, que tiene 80 años y vivía con su hermana en su apartamento propio, en el barrio Champagnat.</p>
+<p>El edificio, de estrato cinco, no se desplomó, pero quedó inhabitable. Dentro de su vivienda cayeron paredes y se produjeron daños graves.</p>
+<p>Según explica, el seguro de la copropiedad se encargará de la reconstrucción.</p>
+<p>Mientras tanto, ambos permanecen en el apartamento de su hijo.</p>
+<p>Antonio vive de una pensión y afirma que no recibió ayudas ni subsidios gubernamentales para arrendamiento.</p>
+<p>Tener vivienda propia le permitía organizar sus gastos y pagar ahora un alquiler implicaría reducir el dinero disponible para alimentación y salud.</p>
+<p>Aun sin arrendar una vivienda, tiene un gasto adicional: la bodega donde guarda muebles, electrodomésticos y demás pertenencias.</p>
+<p>Deberá pagarla mientras espera una fecha de regreso que desconoce. Aunque cuenta con el apoyo de su hijo, también le preocupa incomodar.</p>
+<h2>Volver a empezar después de diez años</h2>
+<p><strong>Carlos y Paola, una pareja de Cuarto de Legua, describen su situación tras el terremoto con dos palabras:</strong> “<em>sin nada</em>”.</p>
+<p>Perdieron su apartamento y sus enseres. Para ellos, mudarse implica conseguir otro techo y también camas, muebles y los elementos necesarios para habitarlo.</p>
+<p>Tras diez años de matrimonio, viven en casa de los padres de Paola.</p>
+<p>Él tiene empleo; ella estaba desempleada desde antes de la tragedia, no cuentan con ahorros y también perdieron el vehículo que pagaban a crédito, aunque este sí estaba asegurado.</p>
+<p>Se preguntan a qué ayudas pueden acceder para empezar de nuevo.</p>
+<p>Están agradecidos con los padres de Paola, quienes les dicen que pueden quedarse cuanto necesiten.</p>
+<p>Sin embargo, volver a compartir las rutinas del hogar paterno después de construir una vida independiente resulta difícil, además la pareja, que tiene planes de tener hijos, quiere recuperar su propio espacio.</p>
+<h3>Una emergencia puertas adentro</h3>
+<p>Los tres testimonios muestran que recibir alojamiento no resuelve todas las consecuencias del terremoto.</p>
+<p>También están el trabajo interrumpido, la pérdida de privacidad, el hacinamiento y el esfuerzo cotidiano por adaptarse sin incomodar.</p>
+<p>Que los llamados “<em>arrimados</em>” no estén en carpas, visibles en la calle, no quiere decir que no sean damnificados.</p>
+<p>La convivencia prolongada cambia las rutinas de quienes llegan y de quienes reciben.</p>
+<p><strong> Quedan muchas preguntas:</strong> <em>¿Qué efectos tiene esa incertidumbre sobre el bienestar emocional de unos y otros? ¿Cómo acompañar a familias cuya emergencia transcurre dentro de una casa prestada? ¿Cuántos “arrimados” dejó el terremoto en Cali? ¿Quién reúne información sobre ellos? ¿Saben las autoridades cuántas personas tienen hoy un techo, pero siguen sin una solución para recuperar su hogar?</em></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/terremoto-en-cali-damnificados-arrimados-historias-2026/">Los “arrimados”, el drama de los damnificados del terremoto que no se ven en la calle y siguen esperado ayuda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/terremoto-en-cali-damnificados-arrimados-historias-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Los gatos corren peligro en Halloween? Lo que hay detrás de las supersticiones y cómo protegerlos</title>
+		<link>https://occidente.co/secciones/mascotas/proteccion-de-los-gatos-en-halloween-mitos-y-cuidados-2026/</link>
+					<comments>https://occidente.co/secciones/mascotas/proteccion-de-los-gatos-en-halloween-mitos-y-cuidados-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2026 02:08:56 +0000</pubDate>
+				<category><![CDATA[Mascotas]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442695</guid>
+
+					<description><![CDATA[<p>Con la llegada de Halloween, cada 31 de octubre, vuelve a circular una preocupación entre los propietarios de gatos: ¿es cierto que estos animales, especialmente los de color negro, corren mayor peligro durante esta celebración? La asociación de los felinos con las brujas, la magia y las supersticiones ha alimentado durante siglos una serie de...</p>
+<p>The post <a href="https://occidente.co/secciones/mascotas/proteccion-de-los-gatos-en-halloween-mitos-y-cuidados-2026/">¿Los gatos corren peligro en Halloween? Lo que hay detrás de las supersticiones y cómo protegerlos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Con la llegada de Halloween, cada 31 de octubre, vuelve a circular una preocupación entre los propietarios de gatos:</strong> ¿es cierto que estos animales, especialmente los de color negro, corren mayor peligro durante esta celebración? La asociación de los felinos con las brujas, la magia y las supersticiones ha alimentado durante siglos una serie de creencias que todavía generan temor.</p>
+<p>En redes sociales aparecen advertencias sobre posibles maltratos, sacrificios y desapariciones de gatos durante esta época.</p>
+<p>Sin embargo, es importante diferenciar las historias que circulan alrededor de Halloween de los riesgos que realmente están documentados.</p>
+<p>Aunque el maltrato animal constituye una amenaza que debe tomarse en serio, no existe evidencia estadística sólida que permita afirmar que durante esta celebración se produce un aumento generalizado de ataques contra gatos negros.</p>
+<p>Esto no significa que los propietarios deban descuidar a sus mascotas.</p>
+<p>Halloween introduce situaciones que pueden afectar su seguridad, desde el ruido y la presencia de desconocidos hasta la posibilidad de escapar de casa.</p>
+<p>Por eso, más que promover el miedo, los especialistas recomiendan adoptar medidas preventivas.</p>
+<h2>¿Por qué se relaciona a los gatos negros con Halloween?</h2>
+<p>La asociación entre los gatos negros y las brujas tiene raíces en antiguas supersticiones europeas.</p>
+<p>Durante determinados periodos históricos, estos animales fueron vinculados con prácticas de hechicería y considerados símbolos de mala suerte.</p>
+<p>Con el paso del tiempo, esa imagen se incorporó a las representaciones populares de Halloween, hasta convertir al gato negro en uno de sus símbolos más reconocidos, junto con las calabazas, los murciélagos y las brujas.</p>
+<p>Sin embargo, el color del pelaje no determina el comportamiento, la personalidad ni representa alguna característica sobrenatural.</p>
+<p>Los gatos negros son animales domésticos con las mismas necesidades de protección y bienestar que cualquier otro felino.</p>
+<p>Las advertencias sobre supuestos rituales durante Halloween deben manejarse con responsabilidad.</p>
+<p>La existencia de casos individuales de crueldad animal no demuestra que haya una práctica generalizada ni que todos los gatos negros enfrenten un riesgo extraordinario durante octubre.</p>
+<h3>Los peligros reales que enfrentan los gatos</h3>
+<p>Más allá de las supersticiones, existen amenazas concretas durante las celebraciones.</p>
+<p>La Asociación Estadounidense de Medicina Veterinaria (AVMA) recomienda mantener a las mascotas en espacios seguros cuando hay reuniones, visitantes frecuentes y actividades que puedan generarles estrés.</p>
+<p>Los gatos pueden asustarse con los disfraces, los ruidos intensos o la entrada constante de personas desconocidas.</p>
+<p>Una puerta abierta puede convertirse en una oportunidad de escape, especialmente para animales nerviosos.</p>
+<p>También existen riesgos asociados con los dulces, particularmente el chocolate, que contiene sustancias tóxicas para los gatos.</p>
+<p>Las decoraciones con velas encendidas, cables eléctricos y objetos pequeños representan otros peligros por posibles quemaduras, descargas eléctricas o ingestión accidental.</p>
+<h4>¿Cómo proteger a los gatos durante Halloween?</h4>
+<p>La principal recomendación consiste en mantener a los gatos dentro de casa durante las celebraciones, preferiblemente en un lugar tranquilo donde tengan acceso a agua, alimento, arenero y un espacio para esconderse.</p>
+<p>También conviene verificar que las puertas y ventanas permanezcan cerradas, evitar disfraces que les produzcan incomodidad y mantener los dulces y adornos peligrosos fuera de su alcance.</p>
+<p>La identificación mediante microchip, cuando esté disponible, facilita la recuperación de una mascota extraviada.</p>
+<p>Si existen sospechas concretas de maltrato animal, lo adecuado es informar a las autoridades competentes, sin difundir acusaciones o rumores no comprobados.</p>
+<p>Halloween no debe convertirse en motivo de alarma injustificada, pero sí representa una oportunidad para recordar que la protección de los gatos depende de cuidados responsables durante todo el año.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/mascotas/proteccion-de-los-gatos-en-halloween-mitos-y-cuidados-2026/">¿Los gatos corren peligro en Halloween? Lo que hay detrás de las supersticiones y cómo protegerlos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/mascotas/proteccion-de-los-gatos-en-halloween-mitos-y-cuidados-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>En Cali, presidente De la Espriella anunció recursos para demoliciones y bonos de vivienda</title>
+		<link>https://occidente.co/cali/reconstruccion-de-cali-inversion-fondo-milagro-demoliciones-eder-2026/</link>
+					<comments>https://occidente.co/cali/reconstruccion-de-cali-inversion-fondo-milagro-demoliciones-eder-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2026 01:59:13 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442692</guid>
+
+					<description><![CDATA[<p>El presidente Abelardo de la Espriella anunció una inversión de $50.000 millones para avanzar en la reconstrucción de Cali, mediante la demolición de 82 edificaciones afectadas por el terremoto del pasado 10 de agosto. Además, confirmó la entrega de 150 bonos de vivienda y recursos para apoyar a comerciantes damnificados. Los anuncios se realizaron durante...</p>
+<p>The post <a href="https://occidente.co/cali/reconstruccion-de-cali-inversion-fondo-milagro-demoliciones-eder-2026/">En Cali, presidente De la Espriella anunció recursos para demoliciones y bonos de vivienda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El presidente Abelardo de la Espriella anunció</strong> una inversión de $50.000 millones para avanzar en la reconstrucción de Cali, mediante la demolición de 82 edificaciones afectadas por el terremoto del pasado 10 de agosto.</p>
+<p>Además, confirmó la entrega de 150 bonos de vivienda y recursos para apoyar a comerciantes damnificados.</p>
+<p>Los anuncios se realizaron durante una jornada de trabajo con el alcalde Alejandro Eder, quien también presentó medidas para atender a las familias que perdieron sus hogares.</p>
+<p>Los recursos del Gobierno Nacional se ejecutarán a través del Fondo Milagro, mecanismo que financiará las demoliciones contempladas en el proceso de recuperación de la ciudad.</p>
+<p>El mandatario confirmó la disponibilidad del dinero durante una visita al Edificio Arábico, donde comenzó la demolición de una de las estructuras afectadas por el sismo.</p>
+<p>“<em>El Fondo Milagro ya está listo, tiene recursos y tiene una hoja de ruta para empezar a ejecutarse. Dispone de $50.000 millones de pesos para financiar demoliciones en las zonas afectadas</em>”, <strong>expresó De la Espriella</strong>.</p>
+<p>El anuncio presidencial se produjo después del encuentro Milagro de las Regiones &#8211; Gobierno en Territorio, realizado en la Arena USC.</p>
+<p>Durante la jornada, el mandatario también destacó la coordinación entre el Gobierno Nacional, la Alcaldía de Cali y la Gobernación del Valle del Cauca para atender las consecuencias del terremoto.</p>
+<h2>Bonos para vivienda</h2>
+<p>Además de los recursos para demoliciones en Cali, el presidente Abelardo de la Espriella anunció la entrega de 150 bonos para facilitar la compra de vivienda a familias damnificadas.</p>
+<p>Cada bono tendrá un valor de $157 millones, según la información presentada.</p>
+<p>El Fondo Milagro también apoyará el mejoramiento de hogares afectados por el movimiento sísmico.</p>
+<p><strong>Por su parte, el alcalde Alejandro Eder confirmó</strong> que el Fondo Cali Somos Todos destinará $10.000 millones para entregar otros 200 bonos de $50 millones cada uno.</p>
+<p>Con estos aportes, el Gobierno Nacional y la administración distrital contemplan 350 soluciones de vivienda para familias que perdieron sus hogares durante la emergencia.<br />
+El mandatario local explicó que aproximadamente 700 familias quedaron sin vivienda por las afectaciones en los edificios que requieren demolición.</p>
+<p>Asimismo, señaló que las 200 soluciones financiadas por el Distrito están listas para iniciar el proceso de asignación a los beneficiarios.</p>
+<h3>Apoyo a comerciantes</h3>
+<p><strong>Los anuncios del presidente Abelardo de la Espriella también incluyeron $4.600 millones para entregar 920 apoyos económicos de $5 millones a pequeños negocios y actividades productivas afectadas por el terremoto en Cali y el Valle del Cauca</strong>.</p>
+<p>Estos recursos buscan contribuir a la recuperación de las actividades comerciales que sufrieron pérdidas durante la emergencia.</p>
+<p>A esta inversión se suman $7.300 millones del Fondo Cali Somos Todos, destinados a beneficiar a 1.200 negocios mediante aportes de $5 millones, $10 millones o $20 millones, según las condiciones establecidas para acceder a las ayudas.</p>
+<p>El Gobierno Nacional informó que el Plan de Acción Específico contempla intervenciones en vivienda, acueducto, alcantarillado, salud, educación y reactivación económica.</p>
+<p>La reconstrucción de Cali tendrá una duración aproximada de cuatro años e incluirá las demoliciones autorizadas por el Consejo Distrital de Gestión del Riesgo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/reconstruccion-de-cali-inversion-fondo-milagro-demoliciones-eder-2026/">En Cali, presidente De la Espriella anunció recursos para demoliciones y bonos de vivienda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/reconstruccion-de-cali-inversion-fondo-milagro-demoliciones-eder-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Felipe López será ponente del proyecto que busca convertir Valle Oro Puro en política pública</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/valle-oro-puro-politica-publica-asamblea-valle-carlos-felipe-lopez-2026/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/valle-oro-puro-politica-publica-asamblea-valle-carlos-felipe-lopez-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2026 01:49:06 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442689</guid>
+
+					<description><![CDATA[<p>El diputado Carlos Felipe López será uno de los ponentes en segundo debate del proyecto de ordenanza que busca convertir el programa Valle Oro Puro en una política pública del Valle del Cauca, con el propósito de garantizar su continuidad más allá de los cambios de administración departamental. La iniciativa, que avanza en la Asamblea...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/valle-oro-puro-politica-publica-asamblea-valle-carlos-felipe-lopez-2026/">Felipe López será ponente del proyecto que busca convertir Valle Oro Puro en política pública</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El diputado Carlos Felipe López será uno de los ponentes en segundo debate del proyecto de ordenanza que busca convertir el programa Valle Oro Puro en una política pública del Valle del Cauca, con el propósito de garantizar su continuidad más allá de los cambios de administración departamental</strong>.</p>
+<p>La iniciativa, que avanza en la Asamblea del Valle, plantea establecer un modelo permanente para la preparación y el desarrollo de los deportistas de rendimiento y alto rendimiento, incorporando componentes de bienestar, formación, acompañamiento técnico y sostenibilidad financiera.</p>
+<p>López tiene una relación directa con el programa, pues durante su gestión como gerente de Indervalle participó en la estructuración y fortalecimiento de esta estrategia, creada en 2016 con el objetivo de recuperar el liderazgo deportivo del departamento.</p>
+<h2>¿Qué propone el proyecto de ordenanza?</h2>
+<p>La propuesta contempla cinco ejes rectores, 23 líneas estratégicas y 91 acciones relacionadas con la preparación de los deportistas, su desarrollo integral y el fortalecimiento del sistema deportivo departamental.</p>
+<p>Entre los componentes previstos se encuentran el acompañamiento científico y académico, la atención biomédica y psicosocial, la formación deportiva y el fortalecimiento institucional.</p>
+<p>El proyecto también plantea reconocer a los atletas y paraatletas como sujetos de especial protección social y bienestar, mediante acciones relacionadas con la salud física y mental, el proyecto de vida, la inserción laboral y la transición deportiva.</p>
+<p>Otro de los objetivos es establecer mecanismos de seguimiento, participación, rendición de cuentas y sostenibilidad financiera que permitan mantener el programa independientemente de las prioridades de cada gobierno.</p>
+<p>De esta manera, Valle Oro Puro pasaría de ser una estrategia desarrollada por las administraciones departamentales a contar con un marco de política pública que oriente su funcionamiento a largo plazo.</p>
+<h3>Los resultados de Valle Oro Puro</h3>
+<p>El programa nació en 2016 como una estrategia para fortalecer la preparación de los deportistas vallecaucanos y recuperar el protagonismo del departamento en las competencias nacionales.</p>
+<p>Entre sus acciones se encuentran la repatriación de talentos, la contratación continua de entrenadores, el acompañamiento técnico y biomédico, los incentivos económicos, el fortalecimiento del deporte paralímpico y el apoyo a las ligas deportivas.</p>
+<p>Según el documento presentado ante la Asamblea Departamental, el Valle del Cauca obtuvo el título de los Juegos Nacionales en 2019 y 2023, mientras que en 2024 alcanzó el subcampeonato de los Juegos Nacionales Juveniles.</p>
+<p>Actualmente, el departamento adelanta su preparación para los próximos Juegos Nacionales y Paranacionales, en los que buscará nuevamente disputar los primeros lugares.</p>
+<p>Estos antecedentes hacen parte de los argumentos que respaldan la propuesta de establecer un marco institucional permanente para el programa.</p>
+<h4>Felipe López participará en el segundo debate</h4>
+<p>La designación de Carlos Felipe López como ponente se produce después de su experiencia al frente de Indervalle, desde donde participó en el desarrollo del modelo que ahora se busca institucionalizar.</p>
+<p>En el segundo debate, el diputado tendrá la responsabilidad de sustentar la iniciativa ante la Asamblea Departamental, que deberá discutir su contenido y decidir sobre su aprobación.</p>
+<p>La discusión estará centrada en la posibilidad de establecer reglas y mecanismos que permitan dar continuidad a la preparación deportiva, el acompañamiento a los atletas y el funcionamiento de los programas de alto rendimiento.</p>
+<p>De aprobarse el proyecto de ordenanza, Valle Oro Puro contaría con un marco departamental orientado a mantener sus componentes deportivos, sociales e institucionales a largo plazo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/valle-oro-puro-politica-publica-asamblea-valle-carlos-felipe-lopez-2026/">Felipe López será ponente del proyecto que busca convertir Valle Oro Puro en política pública</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/valle-oro-puro-politica-publica-asamblea-valle-carlos-felipe-lopez-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Norte del Valle se une para impulsar el desarrollo</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/norte-del-valle-proyecto-integracion-un-mismo-norte/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/norte-del-valle-proyecto-integracion-un-mismo-norte/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 22 Oct 2026 23:50:13 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442683</guid>
+
+					<description><![CDATA[<p>Con el propósito de articular esfuerzos y consolidar proyectos estratégicos para el desarrollo regional, alcaldes, concejales y delegados de las administraciones municipales del norte del Valle del Cauca dieron inicio oficial a la iniciativa “Un mismo norte”, una apuesta de integración que busca fortalecer la representación de la subregión ante los gobiernos departamental y nacional....</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/norte-del-valle-proyecto-integracion-un-mismo-norte/">Norte del Valle se une para impulsar el desarrollo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Con el propósito de articular esfuerzos y consolidar proyectos estratégicos para el desarrollo regional, alcaldes, concejales y delegados de las administraciones municipales del norte del Valle del Cauca dieron inicio oficial a la iniciativa “Un mismo norte”, una apuesta de integración que busca fortalecer la representación de la subregión ante los gobiernos departamental y nacional.</strong></p>
+<p>La iniciativa, promovida por el concejal de Cartago Luis Fernando Giraldo y la comisión accidental del Concejo Municipal, con el respaldo del alcalde Juan David Piedrahíta López, se concretó con la firma del acuerdo regional en las instalaciones de la Cámara de Comercio de Cartago. El documento fue denominado “Un compromiso por el Norte del Valle”.</p>
+<p>El proceso surgió en septiembre de 2026, en el marco de la Comisión Accidental de Diálogo con el Bloque Parlamentario del Valle, mediante una mesa de trabajo que reunió a representantes de distintos municipios de la región.</p>
+<p>Entre los objetivos planteados están impulsar proyectos de turismo, salud, educación superior e infraestructura vial, además de promover acciones para la reconstrucción de las zonas afectadas por el sismo del 10 de agosto de 2026.</p>
+<p><strong>La propuesta busca que los municipios articulen sus necesidades y presenten iniciativas conjuntas para gestionar inversiones y responder a los desafíos compartidos.</strong></p>
+<p>Como siguiente paso, está programado un encuentro para el 30 de octubre de 2026, cuando el Bloque Parlamentario del Valle, integrado por nueve senadores y 13 representantes a la Cámara, junto con la gobernadora del departamento y representantes de los gremios, sesionará en el norte del Valle para escuchar las propuestas regionales.</p>
+<p><strong>La jornada será una oportunidad para exponer las prioridades de la subregión y avanzar en la construcción de una agenda común.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/norte-del-valle-proyecto-integracion-un-mismo-norte/">Norte del Valle se une para impulsar el desarrollo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/norte-del-valle-proyecto-integracion-un-mismo-norte/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Destruyen centro de acopio de sustancias ilícitas en el Pacífico</title>
+		<link>https://occidente.co/colombia/armada-nacional-incauta-cocaina-jurado-choco-clan-del-golfo/</link>
+					<comments>https://occidente.co/colombia/armada-nacional-incauta-cocaina-jurado-choco-clan-del-golfo/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 22 Oct 2026 23:43:25 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442680</guid>
+
+					<description><![CDATA[<p>Un centro de acopio de sustancias ilícitas que pertenecería presuntamente al Grupo Armado Organizado (GAO) “Clan del Golfo”, subestructura “Wilmar de Jesús Úsuga Castaño” fue desmantelado por la Armada Nacional en el sector de Juradó, en el Pacífico norte chocoano. En el sitio se almacenaban más de 1.6 toneladas de clorhirato de cocaína y su...</p>
+<p>The post <a href="https://occidente.co/colombia/armada-nacional-incauta-cocaina-jurado-choco-clan-del-golfo/">Destruyen centro de acopio de sustancias ilícitas en el Pacífico</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un centro de acopio de sustancias ilícitas que pertenecería presuntamente al Grupo Armado Organizado (GAO) “Clan del Golfo”, subestructura “Wilmar de Jesús Úsuga Castaño” fue desmantelado por la Armada Nacional en el sector de Juradó, en el Pacífico norte chocoano.</strong></p>
+<p>En el sitio se almacenaban más de 1.6 toneladas de clorhirato de cocaína y su destrucción evitó el el ingreso de más de 76 millones de dólares a las finanzas de las organizaciones narcotraficantes e impidió la distribución de más de 4.1 millones de dosis de estupefacientes en el mercado ilegal internacional.</p>
+<p>Las tropas del Batallón de Infantería de Marina No. 23 se desplegaron hasta el área general de Playa Octavia, en zona rural del municipio de Juradó, donde localizaron una estructura que sería utilizada para el almacenamiento de sustancias ilícitas.</p>
+<p><strong>En su interior encontraron 56 bultos que contenían 1.646 paquetes rectangulares con características similares a las de sustancias estupefacientes.</strong></p>
+<p>Una vez asegurado el material, uniformados de la Dirección de Antinarcóticos de la Policía Nacional (DIRAN) realizaron la Prueba de Identificación Preliminar Homologada (PIPH), cuyo resultado fue positivo para clorhidrato de cocaína, con un peso de 1.645 kilogramos.</p>
+<p>Con este resultado, la Armada Nacional afectó s las finanzas de las organizaciones narcotraficantes, al impedir la comercialización de más de 4.1 millones de dosis de estupefacientes y evitar el ingreso de más de 76 millones de dólares a sus economías ilícitas.</p>
+<p><strong>La Armada Nacional anunció que mantiene el despliegue permanente de sus unidades fluviales y terrestres para combatir el narcotráfico y otras actividades ilícitas que amenazan la tranquilidad de las comunidades de la región.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/armada-nacional-incauta-cocaina-jurado-choco-clan-del-golfo/">Destruyen centro de acopio de sustancias ilícitas en el Pacífico</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/armada-nacional-incauta-cocaina-jurado-choco-clan-del-golfo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cartago y Buenaventura tienen puntos de almacenamiento de ayudas</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/gobernacion-del-valle-centros-acopio-cartago-buenaventura-terremoto/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/gobernacion-del-valle-centros-acopio-cartago-buenaventura-terremoto/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 22 Oct 2026 23:39:56 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=442677</guid>
+
+					<description><![CDATA[<p>Con el fin de llegar más cerca y rápido a familias afectadas por el terremoto, la Gobernación del Valle habilitó puntos de almacenamientos en Cartago y Buenaventura y así descentralizar las ayudas. Oscar Trujillo, director del Departamento Administrativo de Desarrollo Institucional de la Gobernación, al señalar que “contar con estos dos puntos de almacenamiento en...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/gobernacion-del-valle-centros-acopio-cartago-buenaventura-terremoto/">Cartago y Buenaventura tienen puntos de almacenamiento de ayudas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Con el fin de llegar más cerca y rápido a familias afectadas por el terremoto, la Gobernación del Valle habilitó puntos de almacenamientos en Cartago y Buenaventura y así descentralizar las ayudas.</strong></p>
+<p><strong>Oscar Trujillo, director del Departamento Administrativo de Desarrollo Institucional de la Gobernación, al señalar que</strong> <em>“contar con estos dos puntos de almacenamiento en Buenaventura y Cartago nos permitirá descentralizar la logística, tener los materiales más cerca de las comunidades y responder con mayor agilidad a las necesidades de las familias”.</em></p>
+<p><strong>Trujillo resaltó que</strong> <em>“nuestro propósito es contar con la capacidad logística para que la reconstrucción avance y las ayudas lleguen a quienes más las necesitan y nuestra prioridad son las familias, su bienestar y la recuperación de sus hogares y comunidades”.</em></p>
+<p>Durante los dos meses de atención de la emergencia, el Gobierno del Valle ha mantenido la entrega permanente de ayudas humanitarias y ha distribuido más de 790 toneladas de donaciones en el Valle del Cauca.</p>
+<p>Con estos puntos de almacenamiento descentralizados se busca fortalecer la labor que se viene desarrollando en el centro de acopio en la Licorera, en Cali, donde se siguen esperando las ayudas.</p>
+<p><strong>La entrega de las donaciones se ha establecido con criterios de transparencia y trazabilidad.</strong></p>
+<p><em>“Cada decisión contractual debe estar debidamente sustentada, ajustarse a la ley y permitir que los ciudadanos conozcan cómo se utilizan los recursos públicos”</em>,<strong> afirmó Trujillo</strong>, al reiterar que los procesos pueden ser revisados mediante los mecanismos de publicidad y control correspondientes.</p>
+<p>El gobierno departamental recordó que a través de la plataforma “Al Valle lo reconstruimos juntos”, la ciudadanía puede hacer seguimiento a las ayudas entregadas y consultar las necesidades actuales de donaciones para apoyar la atención de las familias afectadas.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/gobernacion-del-valle-centros-acopio-cartago-buenaventura-terremoto/">Cartago y Buenaventura tienen puntos de almacenamiento de ayudas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/gobernacion-del-valle-centros-acopio-cartago-buenaventura-terremoto/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Contaminación y temperatura afectan la glucemia</title>
+		<link>https://occidente.co/secciones/salud/contaminacion-temperatura-glucemia/</link>
+					<comments>https://occidente.co/secciones/salud/contaminacion-temperatura-glucemia/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 22 Oct 2026 23:39:00 +0000</pubDate>
+				<category><![CDATA[Salud]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/contaminacion-temperatura-glucemia/</guid>
+
+					<description><![CDATA[<p>La contaminación y la temperatura se asocian con mayor glucemia Un estudio multicohorte europeo encontró que una mayor exposición a la contaminación atmosférica y un aumento de la temperatura y su variabilidad se asocian con niveles más elevados de hemoglobina glicosilada (HbA1c), un marcador que refleja la glucemia media de los últimos dos o tres...</p>
+<p>The post <a href="https://occidente.co/secciones/salud/contaminacion-temperatura-glucemia/">Contaminación y temperatura afectan la glucemia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>La contaminación y la temperatura se asocian con mayor glucemia</h2>
+</p>
+<p>Un estudio multicohorte europeo encontró que una mayor exposición a la contaminación atmosférica y un aumento de la temperatura y su variabilidad se asocian con niveles más elevados de hemoglobina glicosilada (HbA1c), un marcador que refleja la glucemia media de los últimos dos o tres meses. La palabra clave &#8220;contaminación y temperatura&#8221; aparece en los primeros párrafos del artículo.</p>
+</p>
+<h2>Contaminación y temperatura: qué encontró el estudio</h2>
+</p>
+<p>La investigación, liderada por equipos del Swiss Tropical and Public Health Institute y la Universidad de Basilea y enmarcada en el proyecto europeo EXPANSE, analizó datos de 21.259 participantes procedentes de nueve cohortes europeas, entre ellas 5.464 participantes del estudio GCAT del Instituto de Investigación Germans Trias i Pujol (IGTP). Los autores examinaron la relación entre la contaminación atmosférica (con especial atención a las partículas PM10), la temperatura, la variabilidad térmica y la presencia de espacios verdes, frente a los niveles de HbA1c en personas sin diabetes.</p>
+</p>
+<p>Los resultados muestran asociaciones entre mayor exposición a contaminación y a temperaturas más altas o más variables con niveles superiores de HbA1c. Además, el análisis detectó interacciones entre exposiciones ambientales, lo que refuerza la necesidad de evaluar conjuntamente varios factores. En cambio, no se observaron asociaciones consistentes relacionadas con la presencia de espacios verdes.</p>
+</p>
+<h2>Qué significa esto para las personas</h2>
+</p>
+<h3>Relación observada entre exposiciones y glucemia</h3>
+</p>
+<p>El estudio informa de asociaciones entre contaminación (especialmente PM10) y temperaturas elevadas o variables con HbA1c más alta en personas que todavía no presentan diabetes. HbA1c es un indicador utilizado para estimar la glucemia media de los últimos meses.</p>
+</p>
+<h3>Relevancia para la salud individual</h3>
+</p>
+<p>Los resultados señalan que factores ambientales urbanos podrían influir en marcadores metabólicos antes de la aparición de diabetes. El artículo analiza personas sin diagnóstico de diabetes para estudiar alteraciones de glucemia en fases previas a la enfermedad.</p>
+</p>
+<h3>Implicaciones en un contexto de cambio climático</h3>
+</p>
+<p>Los autores estiman que mejorar la calidad del aire podría asociarse con reducciones en HbA1c, mientras que ciertos cambios de temperatura vinculados al cambio climático podrían tener el efecto contrario. Además, la misma reducción de contaminación produce efectos más beneficiosos sobre la glucemia en escenarios con temperaturas más altas, según los análisis presentados.</p>
+</p>
+<h2>Limitaciones y aspectos pendientes</h2>
+</p>
+<p>El trabajo es analítico y observa asociaciones; no establece causalidad. No se analizó directamente la función de las células β pancreáticas ni la secreción de insulina, y las explicaciones mecanísticas propuestas —como la inflamación y la resistencia a la insulina— se basan en evidencia previa y en hipótesis, no en resultados directos de este estudio. También se señala la ausencia de asociaciones consistentes con espacios verdes, lo que sugiere que faltan más investigaciones para entender posibles efectos protectores o moduladores.</p>
+</p>
+<h2>Conclusión</h2>
+</p>
+<p>El estudio suma evidencia de que exposiciones ambientales urbanas —contaminación y variaciones de temperatura— se relacionan con niveles más altos de HbA1c en personas sin diabetes y subraya la importancia de considerar las exposiciones de forma conjunta, especialmente en el contexto del cambio climático. Los autores concluyen que los resultados refuerzan la relevancia de mejorar la calidad del aire en entornos urbanos donde coinciden altas temperaturas y contaminación.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Personas:</strong> Indica que factores ambientales urbanos pueden asociarse a alteraciones de la glucemia antes de la diabetes.</p>
+</p>
+<p><strong>Salud pública:</strong> Refuerza la importancia de medidas sobre calidad del aire en ciudades, especialmente con el desafío del cambio climático.</p>
+</p>
+<p><strong>Evidencia:</strong> El estudio muestra asociaciones en múltiples cohortes, pero no prueba causalidad y requiere más investigación.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Este artículo fue generada con IA, a partir de información del Servicio de Información y Noticias Científicas, SINC. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/salud/contaminacion-temperatura-glucemia/">Contaminación y temperatura afectan la glucemia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/salud/contaminacion-temperatura-glucemia/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
