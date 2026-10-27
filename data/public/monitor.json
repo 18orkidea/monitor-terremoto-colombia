@@ -1,6 +1,6 @@
 {
- "generado": "2026-10-26",
- "fecha": "2026-10-26",
+ "generado": "2026-10-27",
+ "fecha": "2026-10-27",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1789,
-    "n_oficial": 70,
+    "n_prensa": 1798,
+    "n_oficial": 71,
     "n_ciudadano": 492,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1697,
-    "n_oficial": 70,
+    "n_prensa": 1707,
+    "n_oficial": 71,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -254,7 +254,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 802,
-    "n_oficial": 67,
+    "n_oficial": 68,
     "n_ciudadano": 379,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1697,
-    "n_oficial": 70,
+    "n_prensa": 1707,
+    "n_oficial": 71,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 136,
-    "n_oficial": 70,
+    "n_prensa": 137,
+    "n_oficial": 71,
     "n_ciudadano": 51,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -512,8 +512,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 137,
-    "n_oficial": 70,
+    "n_prensa": 139,
+    "n_oficial": 71,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 373,
-    "n_oficial": 69,
+    "n_prensa": 376,
+    "n_oficial": 70,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 1193
+   "feeds": 1195
   },
   {
    "fecha": "2026-08-11",
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 928
+   "feeds": 931
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 679
+   "feeds": 680
   },
   {
    "fecha": "2026-08-13",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 667
+   "feeds": 668
   },
   {
    "fecha": "2026-08-14",
@@ -675,7 +675,7 @@
    "gdelt": 0.848,
    "fuentes": 71,
    "chatmap": 77,
-   "feeds": 617
+   "feeds": 619
   },
   {
    "fecha": "2026-08-15",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 348
+   "feeds": 350
   },
   {
    "fecha": "2026-08-18",
@@ -723,7 +723,7 @@
    "gdelt": 0.3937,
    "fuentes": null,
    "chatmap": 55,
-   "feeds": 380
+   "feeds": 381
   },
   {
    "fecha": "2026-08-21",
@@ -763,7 +763,7 @@
    "gdelt": 0.2535,
    "fuentes": null,
    "chatmap": 12,
-   "feeds": 324
+   "feeds": 325
   },
   {
    "fecha": "2026-08-26",
@@ -771,7 +771,7 @@
    "gdelt": 0.198,
    "fuentes": null,
    "chatmap": 21,
-   "feeds": 298
+   "feeds": 300
   },
   {
    "fecha": "2026-08-27",
@@ -803,7 +803,7 @@
    "gdelt": 0.1727,
    "fuentes": null,
    "chatmap": 45,
-   "feeds": 155
+   "feeds": 156
   },
   {
    "fecha": "2026-08-31",
@@ -859,7 +859,7 @@
    "gdelt": 0.0588,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 95
+   "feeds": 96
   },
   {
    "fecha": "2026-09-07",
@@ -931,7 +931,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 165
+   "feeds": 166
   },
   {
    "fecha": "2026-09-16",
@@ -963,7 +963,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 105
+   "feeds": 106
   },
   {
    "fecha": "2026-09-20",
@@ -987,7 +987,7 @@
    "gdelt": 0.0646,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 144
+   "feeds": 145
   },
   {
    "fecha": "2026-09-23",
@@ -1011,7 +1011,7 @@
    "gdelt": 0.0782,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 123
+   "feeds": 124
   },
   {
    "fecha": "2026-09-26",
@@ -1019,7 +1019,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 95
+   "feeds": 96
   },
   {
    "fecha": "2026-09-27",
@@ -1027,7 +1027,7 @@
    "gdelt": 0.0375,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 71
+   "feeds": 72
   },
   {
    "fecha": "2026-09-28",
@@ -1051,7 +1051,7 @@
    "gdelt": 0.0467,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 86
+   "feeds": 87
   },
   {
    "fecha": "2026-10-01",
@@ -1059,7 +1059,7 @@
    "gdelt": 0.0846,
    "fuentes": null,
    "chatmap": 11,
-   "feeds": 67
+   "feeds": 68
   },
   {
    "fecha": "2026-10-02",
@@ -1075,7 +1075,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 45
+   "feeds": 47
   },
   {
    "fecha": "2026-10-04",
@@ -1091,7 +1091,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 63
+   "feeds": 65
   },
   {
    "fecha": "2026-10-06",
@@ -1115,7 +1115,7 @@
    "gdelt": 0.0,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 63
+   "feeds": 64
   },
   {
    "fecha": "2026-10-09",
@@ -1147,7 +1147,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 63
+   "feeds": 64
   },
   {
    "fecha": "2026-10-13",
@@ -1227,7 +1227,7 @@
    "gdelt": 0.0485,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 51
+   "feeds": 52
   },
   {
    "fecha": "2026-10-23",
@@ -1235,7 +1235,7 @@
    "gdelt": 0.0532,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 64
+   "feeds": 66
   },
   {
    "fecha": "2026-10-24",
@@ -1243,7 +1243,7 @@
    "gdelt": 0.0528,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 49
+   "feeds": 51
   },
   {
    "fecha": "2026-10-25",
@@ -1258,8 +1258,16 @@
    "emm": null,
    "gdelt": 0.0892,
    "fuentes": null,
+   "chatmap": 0,
+   "feeds": 42
+  },
+  {
+   "fecha": "2026-10-27",
+   "emm": null,
+   "gdelt": 0.0451,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 20
+   "feeds": 23
   }
  ],
  "entregas": [
@@ -7560,7 +7568,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-10-26"
+  "generado": "2026-10-27"
  },
  "citizen": {
   "chatmap_total": 1007,
