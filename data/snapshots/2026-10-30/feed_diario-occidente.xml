@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Fri, 30 Oct 2026 13:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Amazon Q3 2026: Anuncios y novedades clave</title>
+		<link>https://occidente.co/secciones/tecnologia/amazon-q3-2026-anuncios-novedades/</link>
+					<comments>https://occidente.co/secciones/tecnologia/amazon-q3-2026-anuncios-novedades/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2026 13:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443275</guid>
+
+					<description><![CDATA[<p>Amazon Q3 2026: anuncios y novedades clave Amazon presentó durante el tercer trimestre una serie de productos y servicios que empiezan a cambiar cómo consumidores, desarrolladores y comercios usan sus plataformas. Entre los anuncios estuvieron nuevos dispositivos para el hogar y wearables, avances en inteligencia artificial y compromisos de inversión en comunidades y empleo. Amazon...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/amazon-q3-2026-anuncios-novedades/">Amazon Q3 2026: Anuncios y novedades clave</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Amazon Q3 2026: anuncios y novedades clave</h2>
+<p>Amazon presentó durante el tercer trimestre una serie de productos y servicios que empiezan a cambiar cómo consumidores, desarrolladores y comercios usan sus plataformas. Entre los anuncios estuvieron nuevos dispositivos para el hogar y wearables, avances en inteligencia artificial y compromisos de inversión en comunidades y empleo. Amazon Q3 2026 aparece como un periodo con múltiples lanzamientos pensados en ahorro, seguridad y productividad.</p>
+<h2>Qué ocurrió, quién lo anunció y por qué importa: Amazon Q3 2026</h2>
+<p>Amazon comunicó una serie de novedades que se conocieron antes de sus resultados financieros del tercer trimestre, anunciados para el 29 de octubre. La compañía lanzó nuevos dispositivos (como el wearable Bee y tablets con Alexa integrado), amplió modelos de IA en Amazon Bedrock (incluyendo modelos de OpenAI, Anthropic y otros), presentó TorchNeuron para usar PyTorch en sus chips Trainium y puso en marcha herramientas de seguridad y gobernanza para código y agentes IA. Además anunció inversiones comunitarias por más de 1.000 millones de dólares y opciones para ahorrar en productos y servicios. Todo esto es relevante porque combina tecnología de consumo, servicios para desarrolladores y medidas económicas que afectan gastos y empleos.</p>
+<h2>Cambios prácticos para las personas</h2>
+<h3>Más opciones de dispositivos personales</h3>
+<p>Los nuevos productos, como el wearable Bee y las tablets con Alexa+, ofrecen formas distintas de interactuar con asistentes y servicios. Para usuarios esto significa disponer de dispositivos pensados para llevar asistentes personales siempre disponibles y acceso más integrado a contenido y compras.</p>
+<h3>Acceso a servicios médicos y ahorro en compras</h3>
+<p>Amazon amplió opciones de gestión de salud con programas de manejo de peso y mejoró la experiencia de Amazon Pharmacy en español. También anunció descuentos en gasolina y precios bajos en productos esenciales, lo que puede reducir costos cotidianos para clientes y empleados.</p>
+<h3>Herramientas que facilitan el trabajo de desarrolladores y vendedores</h3>
+<p>Con TorchNeuron, Trainium acepta código PyTorch sin reescrituras; Amazon Bedrock sumó modelos de vanguardia y Seller Assistant y nuevas integraciones ayudan a automatizar tareas de comercio. Eso agiliza el desarrollo de IA y la gestión de ventas para empresas y emprendedores.</p>
+<h2>Aspectos pendientes o por confirmar</h2>
+<p>Aunque se detallaron múltiples lanzamientos, quedan por confirmar fechas exactas de disponibilidad masiva y precios de algunos dispositivos y servicios. La efectividad práctica de herramientas como AWS Continuum y Dogwood dependerá de su adopción en entornos reales y de la integración con flujos de trabajo ya existentes. Tampoco se han precisado todos los detalles sobre cómo se distribuirán las inversiones comunitarias ni el alcance final de algunos beneficios para empleados y comerciantes.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Mayor acceso a dispositivos, ahorro y servicios en español.</p>
+<p><strong>Negocio:</strong> Nuevas herramientas para crear, vender y optimizar campañas y operaciones.</p>
+<p><strong>Industria:</strong> Avance en adopción de IA y mayor oferta de modelos y hardware especializado.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/amazon-q3-2026-anuncios-novedades/">Amazon Q3 2026: Anuncios y novedades clave</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/amazon-q3-2026-anuncios-novedades/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Está Colombia preparada para envejecer? Proyecto de ley plantea nuevos desafíos</title>
+		<link>https://occidente.co/colombia/santiago-castro-proyectos-educacion-financiera-economia-plateada-2026/</link>
+					<comments>https://occidente.co/colombia/santiago-castro-proyectos-educacion-financiera-economia-plateada-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2026 02:04:22 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443378</guid>
+
+					<description><![CDATA[<p>Enseñar a los niños a manejar su dinero desde el colegio y preparar a Colombia para el envejecimiento de su población son los objetivos de dos proyectos de ley impulsados por el representante a la Cámara Santiago Castro. Las iniciativas buscan incorporar la educación financiera en la formación de los estudiantes y generar oportunidades laborales,...</p>
+<p>The post <a href="https://occidente.co/colombia/santiago-castro-proyectos-educacion-financiera-economia-plateada-2026/">¿Está Colombia preparada para envejecer? Proyecto de ley plantea nuevos desafíos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Enseñar a los niños a manejar su dinero desde el colegio y preparar a Colombia para el envejecimiento de su población son los objetivos de dos proyectos de ley impulsados por el representante a la Cámara Santiago Castro</strong>.</p>
+<p>Las iniciativas buscan incorporar la educación financiera en la formación de los estudiantes y generar oportunidades laborales, económicas y de participación para las personas mayores.</p>
+<p>El congresista vallecaucano presentó estos proyectos como parte del balance de sus primeros 100 días en la Cámara de Representantes.</p>
+<p>Durante ese periodo, reportó su participación como autor o coautor de 11 iniciativas legislativas y como ponente de otras siete, además de su trabajo relacionado con la atención y reconstrucción de las zonas afectadas por el terremoto del 10 de agosto.</p>
+<p>Los dos proyectos se encuentran en diferentes etapas legislativas.</p>
+<p>Mientras la iniciativa de educación financiera fue aprobada por unanimidad en primer debate y está lista para su discusión en la plenaria de la Cámara, la propuesta sobre economía plateada ya fue radicada y continúa su trámite en el Congreso.</p>
+<h2>Educación financiera desde el colegio</h2>
+<p>La primera iniciativa pretende que los niños y jóvenes adquieran conocimientos básicos sobre el manejo del dinero antes de llegar a la vida adulta.</p>
+<p>El proyecto contempla que los estudiantes aprendan conceptos relacionados con el ahorro, el endeudamiento y la toma de decisiones financieras informadas.</p>
+<p>La propuesta parte de la importancia de preparar a las nuevas generaciones para administrar sus recursos y comprender las consecuencias de sus decisiones económicas.</p>
+<p>Tras superar su primer debate por unanimidad, el proyecto deberá continuar su discusión en la plenaria de la Cámara de Representantes.</p>
+<p>Su eventual aplicación dependerá de que complete el trámite legislativo y se convierta en ley.</p>
+<h3>Preparar a Colombia para el envejecimiento de la población</h3>
+<p>La segunda iniciativa aborda los desafíos económicos y sociales derivados del envejecimiento de la población colombiana.</p>
+<p>El proyecto se relaciona con la denominada economía plateada, un concepto que comprende las actividades económicas, los servicios y las oportunidades vinculadas con las personas mayores.</p>
+<p>La propuesta plantea promover el empleo, el emprendimiento y la participación de esta población, con el propósito de evitar que la edad se convierta en una barrera para continuar desarrollando actividades productivas.</p>
+<p><strong>El representante Santiago Castro considera necesario que Colombia se prepare para una sociedad en la que las personas viven más años y requieren nuevas alternativas de inclusión económica y social</strong>.</p>
+<p>Aunque el proyecto ya fue radicado, todavía debe superar las etapas de discusión y aprobación correspondientes en el Congreso.</p>
+<p>“<em>Con estos dos proyectos, el Congreso volvió a mirar a los niños y a los adultos mayores del país</em>”, <strong>aseguró el representante</strong>.</p>
+<h4>Participación en la atención del terremoto</h4>
+<p>Otro de los asuntos incluidos en el balance del congresista fue su participación en las gestiones relacionadas con la emergencia ocasionada por el terremoto del 10 de agosto en el Valle del Cauca.</p>
+<p>Castro hizo parte de la Comisión Accidental Bicameral de Seguimiento a la Atención del Terremoto, creada para ejercer control político y acompañar la reconstrucción de las zonas afectadas.</p>
+<p>Entre las propuestas que destacó se encuentra la destinación de bienes administrados por la Sociedad de Activos Especiales para albergues, centros de acopio y espacios de reasentamiento de damnificados, medida que, según informó, fue acogida por el Gobierno Nacional.</p>
+<p>También promovió que la Comisión Tercera de la Cámara sesionara en Cali para evaluar la respuesta institucional a la emergencia.</p>
+<p>La solicitud fue aprobada por unanimidad.</p>
+<p>En materia económica, señaló que impulsó beneficios tributarios para incentivar la inversión y la generación de empleo en los departamentos afectados.</p>
+<h2>Reconstrucción y seguimiento a los recursos</h2>
+<p>En el ámbito regional, Castro participó en el Puesto de Mando Unificado de Cali y en las gestiones relacionadas con la financiación de la reconstrucción y el Fondo Milagro.</p>
+<p>Asimismo, promovió el mecanismo de Obras por Impuestos con el sector empresarial para facilitar proyectos de reconstrucción en los municipios afectados.</p>
+<p>De acuerdo con su balance, contribuyó a canalizar más de diez toneladas de ayudas destinadas a 19 municipios del Valle del Cauca.</p>
+<p>El representante también destacó su participación en la iniciativa que busca declarar el 10 de agosto como el Día de la Unión por Colombia, en memoria de las víctimas del terremoto.</p>
+<p>Castro señaló que durante los próximos meses concentrará parte de su trabajo en lograr que los proyectos de educación financiera y economía plateada avancen hasta convertirse en ley, mientras continúa el seguimiento a los recursos destinados a la reconstrucción.</p>
+<p>“<em>Presentar proyectos no es suficiente, hay que trabajar hasta que se conviertan en resultados que mejoren la vida de las personas</em>”, <strong>manifestó</strong>.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/santiago-castro-proyectos-educacion-financiera-economia-plateada-2026/">¿Está Colombia preparada para envejecer? Proyecto de ley plantea nuevos desafíos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/santiago-castro-proyectos-educacion-financiera-economia-plateada-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cali, las caravanas del terror</title>
+		<link>https://occidente.co/opinion/columnistas/cali-las-caravanas-del-terror/</link>
+					<comments>https://occidente.co/opinion/columnistas/cali-las-caravanas-del-terror/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2026 01:09:35 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Miguel Yusty]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443376</guid>
+
+					<description><![CDATA[<p>¡Qué se iban a imaginar quienes inventaron hace muchos años en Europa el Halloween, su fiesta más querida, que esta celebración iba a convertirse en un ejercicio de caos en ciudades y países donde, como en el nuestro, se copiaría esa costumbre que no corresponde a nuestras tradiciones! En el primer mundo, Halloween es un...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cali-las-caravanas-del-terror/">Cali, las caravanas del terror</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>¡Qué se iban a imaginar quienes inventaron hace muchos años en Europa el Halloween, su fiesta más querida, que esta celebración iba a convertirse en un ejercicio de caos en ciudades y países donde, como en el nuestro, se copiaría esa costumbre que no corresponde a nuestras tradiciones! En el primer mundo, Halloween es un motivo de celebración familiar, que da cuenta de cómo las familias y los niños se unen de manera simbólica y reverencial para cantar el trick or treat de Halloween, tocando las puertas de los vecinos y recibir dulces.</p>
+<p>Esa cara de la moneda, típicamente anglosajona, ha sido recogida por la cinematografía desde hace varias décadas.</p>
+<p>Cuando John Carpenter dio inicio a la saga cinematográfica que lleva el nombre de Halloween y creó una de las secuelas de terror más famosas.</p>
+<p>Sin embargo, una cosa son esos dos escenarios —<strong><em>el de la fiesta hogareña y el de la cinematografía</em></strong>— y otra muy distinta es el que nos inventamos aquí.</p>
+<p>En nuestro país, esta celebración, es una caricatura dantesca, que se ha desbordado y criminalizado, al ser secuestrada con las bandas del crimen organizado, la marginalidad y el desarraigo, dando lugar a una expresión que tiene como consigna organizar caravanas montar bloqueos y sumir a nuestras ciudades, y en particular a Cali, en un estado de pánico que desnaturaliza los imaginarios fundacionales.</p>
+<p>Ya llevamos casi dos décadas viviendo esta situación en Cali, donde la criminalidad se ha apoderado del caos y ha dejado su impronta en un mundo confuso mundo donde los motociclistas, embriagados, drogados con su parrillero a bordo.</p>
+<p>Realizan cada año, ante los ojos de los caleños una orgía, que produce decenas de muertes en accidentes de tránsito, especialmente el conductor el parrillero de las motos, dejando como herencia un aumento en número de homicidios, accidentes de peatones, motociclistas, que es sin lugar a dudas la razón e ser de estas movilizaciones.</p>
+<p>Durante estos días, desde anoche y, en especial, hoy viernes y mañana sábado, la ciudad será escenario, a pesar de todas las prohibiciones, de estas caravanas del terror.</p>
+<p>Esta mañana hablé un momentico con el alcalde Eder y le manifesté la importancia de liderar las medidas de control de la ciudad.</p>
+<p>Pues según algunos rumores, estas caravanas podrían ser utilizadas políticamente por las primeras líneas de las FARC y el ELN, y con apoyo de los circuitos del microtráfico lo que podría generar una situación similar a la vivida en 2021.</p>
+<p>En ese escenario, podrían producirse confrontaciones en el túnel y en las distintas avenidas del oriente de Cali, convirtiendo estos sectores en un verdadero maremágnum de disputas por el control territorial, en medio de un despliegue de nuestra Policía.</p>
+<p>La situación exige que las medidas adoptadas sean lo suficientemente contundentes para que la ciudad se sienta militarizada para que el orden, la movilidad y el control del territorio sean una realidad.</p>
+<p>Los datos de inteligencia están disponibles e indican los puntos de encuentro de las motos y los motonetos, así como las rutas que, presuntamente, tienen planeadas para bloquear la ciudad.</p>
+<p>La prevención y la acción oportuna de las autoridades serán fundamentales para evitar que estas caravanas terminen paralizando a Cali.</p>
+<p>Los caleños esperamos que la presencia de nuestra Policía, coordinada con el Ejército, permita que, cuando termine este puente festivo, no tengamos que lamentar nuevas víctimas ni registrar hechos de violencia.</p>
+<p>Esperamos, por el contrario, que nuestro alcalde pueda decir que Cali estuvo debidamente controlada y que la ciudadanía pudo disfrutar de estos días sin temor ni zozobra.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/cali-las-caravanas-del-terror/">Cali, las caravanas del terror</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/cali-las-caravanas-del-terror/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Policía y grupo ilegal se enfrentaron en Morales</title>
+		<link>https://occidente.co/regionales/cauca/municipio-de-morales-enfrentamiento-armado-policia-cauca-2026/</link>
+					<comments>https://occidente.co/regionales/cauca/municipio-de-morales-enfrentamiento-armado-policia-cauca-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2026 00:59:18 +0000</pubDate>
+				<category><![CDATA[Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443373</guid>
+
+					<description><![CDATA[<p>Momentos de tensión se presentaron en el parque principal del municipio de Morales, al norte del Cauca, cuando un grupo de presuntos guerrilleros se topó de frente con la policía y de inmediato se enfrentaron con armas de fuego. Según testigos de los hechos, los guerrilleros se encontraban patrullando el municipio cuando se encontraron frente...</p>
+<p>The post <a href="https://occidente.co/regionales/cauca/municipio-de-morales-enfrentamiento-armado-policia-cauca-2026/">Policía y grupo ilegal se enfrentaron en Morales</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Momentos de tensión se presentaron en el parque principal del municipio de Morales, al norte del Cauca, cuando un grupo de presuntos guerrilleros se topó de frente con la policía y de inmediato se enfrentaron con armas de fuego.</p>
+<p>Según testigos de los hechos, los guerrilleros se encontraban patrullando el municipio cuando se encontraron frente a frente con un grupo especial de la policía.</p>
+<p>La escena quedó registrada en video y se divulgó a través de redes sociales.</p>
+<p>En las imágenes aparece el momento en que los presuntos miembros de un grupo armado ilegal y los uniformados de la Policía Nacional se encuentran mientras patrulla el centro urbano.</p>
+<p>Testigos de los hechos expresaron su preocupación por los riesgos que estos enfrentamientos genera en la población civil.</p>
+<p>Este hecho ocurre luego de las tensiones que en las últimas semanas se han presentado en esta localidad por los problemas de orden público.</p>
+<p>Como se recordará, recientemente un grupo armado ilegal que vestía prendas oscuras atacó la estación de Policía y la base militar en Morales.</p>
+<p>En esa ocasión por lo menos 70 vehículos de carga quedaron atrapados en medio del fuego cruzado.</p>
+<p>La comunidad del norte del Cauca expresó su preocupación por las constantes acciones terroristas que se vienen presentando en esta región y pidieron a los actores armados cesar las hostilidades.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/cauca/municipio-de-morales-enfrentamiento-armado-policia-cauca-2026/">Policía y grupo ilegal se enfrentaron en Morales</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/cauca/municipio-de-morales-enfrentamiento-armado-policia-cauca-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Rayo afectó suministro de energía en Buenaventura</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/lineas-de-transmision-de-energia-falla-buenaventura-celsia-2026/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/lineas-de-transmision-de-energia-falla-buenaventura-celsia-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2026 00:56:46 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<category><![CDATA[Buenaventura]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443370</guid>
+
+					<description><![CDATA[<p>Una falla en las líneas de transmisión de energía hacia Buenaventura, dejó sin el servicio este jueves a la ciudad portuaria. Así lo dio a conocer la empresa de energía Celsia, que anunció que dicha falla afectó tanto a la zona urbana como rural y que de inmediato se conoció la afectación comenzaron los trabajos...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/lineas-de-transmision-de-energia-falla-buenaventura-celsia-2026/">Rayo afectó suministro de energía en Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Una falla en las líneas de transmisión de energía hacia Buenaventura, dejó sin el servicio este jueves a la ciudad portuaria.</p>
+<p>Así lo dio a conocer la empresa de energía Celsia, que anunció que dicha falla afectó tanto a la zona urbana como rural y que de inmediato se conoció la afectación comenzaron los trabajos para el restablecimiento del servicio.</p>
+<p>Según la entidad, al parecer la falla se generó por un rayo que impactó una de las líneas de transmisión cerca del sector de El Danubio.</p>
+<p>Inmediatamente se presentó el imprevisto, el Centro de control de la empresa realizó las maniobras para reconectar el servicio pero el sistema no aceptó la reconexión.</p>
+<p>Los técnicos indicaron que esto pasa cuando las protecciones de la red detectan que la falla sigue presente y bloquean el paso de la energía para evitar daños mayores.</p>
+<p>Luego de los primeros intentos por restablecer el servicio se desplazó hacia la zona del Danubio un equipo especializado para arreglar el daño.</p>
+<p>La compañía informó que inicialmente se aisla el tramo afectado y se revisa en terreno si hay otros daños, para luego trabajar en el restablecimiento del servicio.</p>
+<p>La compañía pidió a la comunidad bonarense tranquilidad mientras se restablecía el servicio.</p>
+<p>La falla dejó sin el servicio de energía por varias horas a cientos de familias de esta localidad del Pacífico.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/lineas-de-transmision-de-energia-falla-buenaventura-celsia-2026/">Rayo afectó suministro de energía en Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/lineas-de-transmision-de-energia-falla-buenaventura-celsia-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Café caucano consolida ventas en Europa</title>
+		<link>https://occidente.co/colombia/cafe-en-el-departamento-del-cauca-exportacion-europa-2026/</link>
+					<comments>https://occidente.co/colombia/cafe-en-el-departamento-del-cauca-exportacion-europa-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2026 00:44:37 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443367</guid>
+
+					<description><![CDATA[<p>La producción de café en el departamento del Cauca consolida su presencia en Europa con envío histórico de 50 contenedores con café especial al viejo continente. Con este envío los caficultores caucanos continúan fortaleciendo su posicionamiento internacional. Los 50 contenedores fueron enviados a compradores directos de Alemania, Países Bajos y Bélgica. Lo anterior fue posible...</p>
+<p>The post <a href="https://occidente.co/colombia/cafe-en-el-departamento-del-cauca-exportacion-europa-2026/">Café caucano consolida ventas en Europa</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La producción de café en el departamento del Cauca consolida su presencia en Europa con envío histórico de 50 contenedores con café especial al viejo continente</strong>.</p>
+<p>Con este envío los caficultores caucanos continúan fortaleciendo su posicionamiento internacional.</p>
+<p>Los 50 contenedores fueron enviados a compradores directos de Alemania, Países Bajos y Bélgica.</p>
+<p>Lo anterior fue posible por el trabajo articulado de cooperativas agrícolas de varios municipios del Cauca, el Comité Departamental de Cafeteros y la Federación Nacional de Cafeteros de Colombia.</p>
+<p>La operación reúne a productores de Inzá, Caldono, Piendamó y Timbío, cuyos cafés llegan a mercados exigentes por su calidad y características diferenciadas.</p>
+<p>El envío beneficia a más de 700 familias caficultoras y representa un avance para la comercialización internacional del grano producido en pequeñas fincas del departamento.</p>
+<p>Según los caficultores, los cafés exportados cuentan con procesos de fermentación controlada y secado solar, además de protocolos de sostenibilidad ambiental y trazabilidad comunitaria, aspectos que respaldan su diferenciación en los mercados especializados.</p>
+<p>A este resultado se suma la participación del Cauca en Cafés de Colombia Expo 2026, realizada del 15 al 18 de octubre en Bogotá.</p>
+<p>Durante la subasta del evento, un lote producido en el municipio de Rosas alcanzó un precio de 400 dólares por libra, un resultado que destaca el potencial de los cafés especiales de la región.</p>
+<p>La Gobernación del Cauca apoyó la participación de siete empresas cafeteras del departamento en esta feria, mientras que la administración departamental anunció inversiones superiores a los 65 mil millones de pesos para fortalecer la caficultura, incluidos más de 19.500 millones destinados a cafés especiales.</p>
+<p>Los recursos contemplan acciones para la renovación de cafetales y el desarrollo de proyectos productivos en 33 municipios cafeteros.</p>
+<p>Con estas iniciativas comerciales y de fortalecimiento productivo, el café caucano continúa consolidándose en el escenario internacional, abriendo oportunidades para los productores y ampliando su presencia en mercados europeos.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/cafe-en-el-departamento-del-cauca-exportacion-europa-2026/">Café caucano consolida ventas en Europa</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/cafe-en-el-departamento-del-cauca-exportacion-europa-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Ante anuncios de caravanas en Halloween en Cali, autoridades anuncian operativos, vea las medidas</title>
+		<link>https://occidente.co/cali/caravanas-de-motos-durante-halloween-en-cali-operativo-2026/</link>
+					<comments>https://occidente.co/cali/caravanas-de-motos-durante-halloween-en-cali-operativo-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2026 00:03:53 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443364</guid>
+
+					<description><![CDATA[<p>Las caravanas de motos durante Halloween en Cali estarán entre las prioridades de las autoridades este 31 de octubre, cuando la ciudad celebrará el Día de los Niños. La Alcaldía anunció un operativo que contará con 500 agentes de tránsito y 1.600 policías para regular la movilidad, prevenir alteraciones del orden público y acompañar las...</p>
+<p>The post <a href="https://occidente.co/cali/caravanas-de-motos-durante-halloween-en-cali-operativo-2026/">Ante anuncios de caravanas en Halloween en Cali, autoridades anuncian operativos, vea las medidas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Las caravanas de motos durante Halloween en Cali estarán entre las prioridades de las autoridades este 31 de octubre, cuando la ciudad celebrará el Día de los Niños.</p>
+<p>La Alcaldía anunció un operativo que contará con 500 agentes de tránsito y 1.600 policías para regular la movilidad, prevenir alteraciones del orden público y acompañar las actividades programadas en diferentes sectores de la capital vallecaucana.</p>
+<p>El dispositivo estará concentrado principalmente en los recorridos de motociclistas, las vías de mayor circulación y los lugares donde se desarrollarán actividades familiares.</p>
+<p>Por su parte, la Policía Metropolitana informó que cerca de 2.000 uniformados participarán en el despliegue previsto para el Día de los Dulces.</p>
+<p>Las autoridades implementarán controles vehiculares, patrullajes y vigilancia en puntos de concentración para prevenir congestiones, bloqueos y comportamientos que puedan afectar la seguridad ciudadana.</p>
+<h2>Controles a caravanas</h2>
+<p>Uno de los principales componentes del operativo de Halloween en Cali será el acompañamiento a las caravanas de motocicletas que se desarrollarán durante la celebración.</p>
+<p>El secretario de Seguridad y Justicia, Javier Garcés, informó que las autoridades acompañarán una caravana oficial y mantendrán presencia institucional para atender las situaciones que puedan presentarse durante los recorridos.</p>
+<p>El funcionario también invitó a los participantes a respetar las normas de tránsito y contribuir al desarrollo de la jornada.</p>
+<p>En cuanto a las restricciones y recomendaciones para los motociclistas, la Policía Nacional pidió no transportar parrillero hombre, evitar maniobras peligrosas y cumplir las disposiciones de tránsito.</p>
+<p>Asimismo, solicitó a los participantes abstenerse de bloquear vías, afectar la circulación de otros vehículos o causar daños a bienes públicos y privados.</p>
+<p>Estas medidas forman parte del decálogo de corresponsabilidad presentado por la institución para prevenir situaciones de riesgo durante las celebraciones.</p>
+<p>Además, el operativo contempla patrullajes a lo largo de los trayectos de las caravanas, puestos de control en las salidas de la ciudad y vigilancia en puntos priorizados.</p>
+<p>Los uniformados contarán con capacidad de respuesta ante eventualidades reportadas por la ciudadanía.</p>
+<p>Las autoridades también realizarán actividades de prevención para evitar riñas, lesiones personales y conductas que puedan comprometer la integridad de quienes participan en los recorridos.</p>
+<h3>Movilidad en Cali</h3>
+<p>La Secretaría de Movilidad Distrital dispondrá de 500 agentes de tránsito para atender los desplazamientos relacionados con las celebraciones de Halloween en Cali.</p>
+<p>El personal operativo estará distribuido en diferentes sectores para regular la circulación y responder ante posibles afectaciones.</p>
+<p><strong>El secretario de Movilidad, Sergio Javier Moncayo, explicó</strong> que la entidad mantendrá presencia durante las actividades programadas con el propósito de evitar que las concentraciones ciudadanas generen dificultades en los desplazamientos.</p>
+<p>De manera complementaria, la Policía Metropolitana implementará un esquema de regulación en las principales vías y puntos de concentración.</p>
+<p>La estrategia contempla controles de tránsito y acompañamiento institucional en los corredores donde se desarrollen las caravanas.</p>
+<p>Las autoridades recomendaron a los conductores planear sus recorridos, atender las indicaciones del personal operativo y evitar comportamientos que puedan afectar la movilidad durante la jornada del 31 de octubre.</p>
+<h4>Seguridad en parques</h4>
+<p>Mientras los agentes de tránsito atienden la movilidad y las caravanas de motos en Cali, otros equipos policiales estarán encargados de acompañar las celebraciones familiares.</p>
+<p>La Alcaldía anunció vigilancia en 15 parques priorizados donde se desarrollarán actividades para niños.</p>
+<p>El dispositivo también incluirá centros comerciales, zonas gastronómicas, corredores turísticos, cementerios y otros espacios públicos donde se espera concentración de ciudadanos durante el Día de los Dulces.</p>
+<p>Para estas labores, la Policía contará con unidades de Infancia y Adolescencia, Turismo, Policía Comunitaria, Investigación Criminal, Inteligencia y Tránsito y Transporte.</p>
+<p>Además, utilizará el helicóptero Halcón y sistemas aéreos no tripulados como apoyo a la vigilancia.</p>
+<p>Las autoridades también mantendrán patrullajes y monitoreo mediante cámaras de seguridad para identificar situaciones que requieran intervención durante las actividades programadas.</p>
+<h3>Recomendaciones para Halloween</h3>
+<p>La Policía Nacional hizo un llamado a los padres y cuidadores para que acompañen permanentemente a los menores durante los recorridos para pedir dulces.</p>
+<p>También recomendó evitar el consumo excesivo de alcohol, no conducir en estado de embriaguez y abstenerse de portar objetos cortopunzantes.</p>
+<p>La institución pidió respetar los espacios públicos, prevenir riñas, evitar el ruido excesivo y no participar en actividades que impliquen violencia o maltrato animal.</p>
+<p><strong>El coronel Luis González Olmos, subcomandante de la Policía Metropolitana de Cali, señaló</strong> que los uniformados acompañarán a quienes participen en las celebraciones y actuarán frente a comportamientos que comprometan la seguridad ciudadana.</p>
+<p>Por su parte, el alcalde Alejandro Eder destacó la coordinación institucional para atender las actividades del fin de semana e invitó a los ciudadanos a celebrar con responsabilidad.</p>
+<p>Finalmente, las autoridades recordaron que cualquier emergencia, situación de riesgo o alteración del orden público podrá reportarse mediante la línea 123 de la Policía Nacional.</p>
+<p>El dispositivo de seguridad y movilidad permanecerá enfocado en el acompañamiento a las caravanas, la vigilancia de los espacios de celebración y la prevención de situaciones que puedan afectar el desarrollo de Halloween en Cali.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/caravanas-de-motos-durante-halloween-en-cali-operativo-2026/">Ante anuncios de caravanas en Halloween en Cali, autoridades anuncian operativos, vea las medidas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/caravanas-de-motos-durante-halloween-en-cali-operativo-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Cuándo pagan el subsidio de arriendo en Cali? Vea fechas</title>
+		<link>https://occidente.co/cali/subsidio-de-arriendo-en-cali-pagos-segundo-corte-2026/</link>
+					<comments>https://occidente.co/cali/subsidio-de-arriendo-en-cali-pagos-segundo-corte-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 29 Oct 2026 23:52:42 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443361</guid>
+
+					<description><![CDATA[<p>Los damnificados por el terremoto en Cali que todavía no reciben el subsidio de arriendo podrían acceder a los recursos durante los próximos días. El Gobierno nacional aprobó el dinero necesario para realizar el primer desembolso a 11.000 personas incluidas en el segundo corte de beneficiarios. Además, confirmó que prepara la entrega de la segunda...</p>
+<p>The post <a href="https://occidente.co/cali/subsidio-de-arriendo-en-cali-pagos-segundo-corte-2026/">¿Cuándo pagan el subsidio de arriendo en Cali? Vea fechas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Los damnificados por el terremoto en Cali que todavía no reciben el subsidio de arriendo podrían acceder a los recursos durante los próximos días.</p>
+<p>El Gobierno nacional aprobó el dinero necesario para realizar el primer desembolso a 11.000 personas incluidas en el segundo corte de beneficiarios.</p>
+<p>Además, confirmó que prepara la entrega de la segunda cuota para las 21.000 personas que califican para este apoyo económico.</p>
+<p>El anuncio llega después de las denuncias de familias afectadas por el terremoto del 10 de agosto de 2026, quienes reclamaron por las demoras en la entrega de los recursos.</p>
+<p>Mientras algunos ciudadanos recibieron únicamente el primer pago, otros aseguraron que todavía no acceden a ninguna transferencia, pese a encontrarse registrados como damnificados.</p>
+<h2>Fechas de los pagos</h2>
+<p>En Cali, 21.000 personas cumplen los requisitos para recibir el apoyo económico destinado a los afectados por el terremoto.</p>
+<p>De ese grupo, 10.000 ya recibieron la primera cuota, mientras que las otras 11.000 esperan el desembolso correspondiente al segundo corte.</p>
+<p>Los pagos para este último grupo comenzarían entre el viernes 30 y el sábado 31 de octubre y continuarían durante los días siguientes.</p>
+<p>De esta manera, la Alcaldía busca avanzar en la entrega de los recursos a quienes todavía no reciben la primera transferencia del programa.</p>
+<p>Asimismo, la segunda cuota del subsidio de arriendo en Cali está prevista para la semana del 2 al 8 de noviembre.</p>
+<p>Según sus declaraciones, esta transferencia cubrirá a las 21.000 personas que califican para recibir el apoyo económico.</p>
+<h3>Tercera cuota pendiente</h3>
+<p>El Apoyo Económico Temporal de Vivienda contempla tres pagos mensuales consecutivos para los hogares que cumplen los requisitos establecidos.</p>
+<p>En Cali, cada cuota corresponde a $1.050.543, por lo que el monto total previsto durante los tres meses alcanza $3.151.629 por hogar beneficiario.</p>
+<p>Sin embargo, la tercera transferencia todavía depende de una confirmación.</p>
+<p>El alcalde explicó que la Administración distrital adelanta gestiones para obtener la aprobación de ese desembolso, debido a que el programa ya se encuentra en su tercer mes.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/subsidio-de-arriendo-en-cali-pagos-segundo-corte-2026/">¿Cuándo pagan el subsidio de arriendo en Cali? Vea fechas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/subsidio-de-arriendo-en-cali-pagos-segundo-corte-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Con las últimas renuncias, ahora sí arranca el año electoral</title>
+		<link>https://occidente.co/politica/graffiti/elecciones-de-2027-cali-valle-renuncias-lesmes-castrillon-2026/</link>
+					<comments>https://occidente.co/politica/graffiti/elecciones-de-2027-cali-valle-renuncias-lesmes-castrillon-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 29 Oct 2026 23:45:16 +0000</pubDate>
+				<category><![CDATA[Graffiti]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443357</guid>
+
+					<description><![CDATA[<p>Con las últimas renuncias de funcionarios que se alistan para participar en las elecciones de 2027 y la presentación del calendario electoral por parte de la Registraduría Nacional, comienza ahora sí la campaña para las elecciones territoriales de 2027. Las dos renuncias que estaban pendientes y que generaban mayor expectativa en Cali y el Valle...</p>
+<p>The post <a href="https://occidente.co/politica/graffiti/elecciones-de-2027-cali-valle-renuncias-lesmes-castrillon-2026/">Con las últimas renuncias, ahora sí arranca el año electoral</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Con las últimas renuncias de funcionarios que se alistan para participar en las elecciones de 2027 y la presentación del calendario electoral por parte de la Registraduría Nacional, comienza ahora sí la campaña para las elecciones territoriales de 2027.</p>
+<p>Las dos renuncias que estaban pendientes y que generaban mayor expectativa en Cali y el Valle del Cauca eran las de María Cristina Lesmes, hasta ahora secretaria de Salud del Valle, y Milton Castrillón, quien se desempeñaba como asesor del alcalde de Cali, Alejandro Eder.</p>
+<p>En el caso de Lesmes, su salida de la Gobernación deja claro cuál será la carta del Partido de la U para buscar conservar el poder departamental por cuarto período consecutivo.</p>
+<p>Y es que María Cristina Lesmes no es una figura cualquiera dentro de la administración departamental.</p>
+<p>Durante las tres últimas administraciones del Valle estuvo al frente de la Secretaría de Salud, fue gobernadora encargada en varias oportunidades y alcanzó reconocimiento por su manejo de la pandemia.</p>
+<p>Se trata de una funcionaria seria, bien calificada y con una trayectoria administrativa que le da perfil para aspirar a la Gobernación del Valle del Cauca.</p>
+<p>Sin embargo, una cosa es el buen desempeño en un cargo y otra, muy distinta, salir a hacer campaña.</p>
+<p><strong>Allí aparece el principal reto de Lesmes:</strong> ¿cómo le irá en la política electoral?</p>
+<h2>El regreso de Milton</h2>
+<p>En Cali, por su parte, la renuncia que se esperaba era la de Milton Castrillón, quien dejó su cargo como asesor del alcalde Alejandro Eder y se prepara para participar en las elecciones de 2027.</p>
+<p>Castrillón, que hace varios meses también renunció al Partido Conservador, vuelve así al sonajero político de la capital del Valle.</p>
+<p>Como se recordará, ya fue candidato a la Alcaldía de Cali en 2011, cuando resultó elegido Rodrigo Guerrero Velasco.</p>
+<p>Aunque hay quienes consideran que Castrillón tendría altas posibilidades de regresar al Concejo de Cali, también hay sectores que lo animan a buscar nuevamente la Alcaldía, ante la falta de figuras posicionadas en esa competencia.</p>
+<p>La decisión del escenario al que le apostará –<em>y el partido por el que lo hará</em>&#8211; la tomará a comienzos del año entrante.</p>
+<h3>Fechas claves</h3>
+<p>Pero las renuncias no son el único hecho que marca el comienzo de esta nueva etapa política.</p>
+<p>El registrador nacional, Hernán Penagos, presentó el calendario para las elecciones territoriales del 31 de octubre de 2027, en las que se elegirán gobernadores, alcaldes, diputados, concejales y ediles para el período 2028-2031.</p>
+<p>El calendario comienza a correr este sábado 31 de octubre, cuando se abrirá el registro de los comités de quienes buscarán candidaturas mediante firmas y comenzará la inscripción de ciudadanos que necesitan cambiar su puesto de votación por cambio de residencia.</p>
+<p><strong>Hay otras fechas que los aspirantes deberán tener muy presentes:</strong></p>
+<p>El 30 de junio de 2027 comenzará la inscripción de candidatos y listas, que se extenderá hasta el 31 de julio.</p>
+<p>Ese último día también vencerá el plazo para entregar las firmas de respaldo a las candidaturas independientes.</p>
+<p>El 31 de agosto terminará el período de inscripción de ciudadanos para cambiar su puesto de votación y el 31 de octubre se realizarán las elecciones.</p>
+<p>Así las cosas, con las últimas renuncias y las reglas del calendario electoral sobre la mesa, ahora sí comienza el año político que conducirá a las elecciones regionales de 2027.</p>
+<p>A partir de este momento tendrán que comenzar a alinearse las fuerzas políticas, definirse las aspiraciones y tomar forma las alianzas.</p>
+<p>Por ahora, el sonajero para los diferentes cargos de elección popular sigue siendo muy amplio, pero el vencimiento del plazo para las renuncias comienza a dejar por fuera de las posibilidades a varias figuras que ocupan cargos públicos y que aparecían entre los posibles aspirantes.</p>
+<p>Es decir, el largo listado de nombres que circula en los mentideros políticos empezará a depurarse.</p>
+<p>Porque una cosa es sonar como candidato cuando falta más de un año para las elecciones y otra muy distinta tomar las decisiones necesarias para entrar realmente en la competencia.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/politica/graffiti/elecciones-de-2027-cali-valle-renuncias-lesmes-castrillon-2026/">Con las últimas renuncias, ahora sí arranca el año electoral</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/politica/graffiti/elecciones-de-2027-cali-valle-renuncias-lesmes-castrillon-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Por qué tienen que amarnos de la misma forma en la que amamos?</title>
+		<link>https://occidente.co/opinion/columnistas/por-que-tienen-que-amarnos-de-la-misma-forma-en-la-que-amamos/</link>
+					<comments>https://occidente.co/opinion/columnistas/por-que-tienen-que-amarnos-de-la-misma-forma-en-la-que-amamos/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 29 Oct 2026 23:26:42 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Johana Caicedo Sinisterra]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443355</guid>
+
+					<description><![CDATA[<p>A veces esperamos que el amor llegue con nuestras palabras, nuestros gestos y nuestros tiempos. Si abrazamos, queremos abrazos. Si preguntamos cómo estás, sentimos que el silencio del otro significa desinterés. Medimos el cariño con una regla que solo contempla nuestra manera de querer. Me pregunto cuánto sufrimiento nace de esa expectativa. Cuántas conversaciones pendientes...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/por-que-tienen-que-amarnos-de-la-misma-forma-en-la-que-amamos/">¿Por qué tienen que amarnos de la misma forma en la que amamos?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>A veces esperamos que el amor llegue con nuestras palabras, nuestros gestos y nuestros tiempos.</p>
+<p>Si abrazamos, queremos abrazos. Si preguntamos cómo estás, sentimos que el silencio del otro significa desinterés.</p>
+<p>Medimos el cariño con una regla que solo contempla nuestra manera de querer.</p>
+<p>Me pregunto cuánto sufrimiento nace de esa expectativa.</p>
+<p>Cuántas conversaciones pendientes con nuestros seres queridos afectan el presente porque esperamos recibir hoy aquello que nos faltó ayer.</p>
+<p>Hay ausencias que duelen y palabras que nunca debieron decirse.</p>
+<p>Reconocerlo permite entender nuestra historia.</p>
+<p>Pero también necesitamos preguntarnos qué vivieron esas personas para llegar a ser quienes son.</p>
+<p><strong>En el análisis filosófico, comprender a un autor exige más que leer sus contribuciones:</strong> necesitamos conocer la época en la que vivió, sus circunstancias y las preguntas de su tiempo.</p>
+<p>Ese contexto amplía nuestra comprensión. ¿Por qué nos cuesta ofrecer esa misma mirada a quienes amamos?</p>
+<p>Nuestras madres tuvieron una vida antes de nosotros. Fueron niñas, sintieron miedo y aprendieron a amar en circunstancias que a veces desconocemos.</p>
+<p>Nuestros padres también crecieron entre silencios, exigencias y formas de crianza que dejaron marcas.</p>
+<p>Comprender ese contexto permite reconocer lo que dolió y los esfuerzos que hicieron por cuidarnos con las herramientas que tenían.</p>
+<p>Con los años adquirimos conocimientos y aprendemos a nombrar nuestras emociones.</p>
+<p>Ojalá ese aprendizaje nos dé humildad para escuchar, sin creernos superiores a quienes tuvieron otras oportunidades y experiencias.</p>
+<p>El amor necesita escucha, responsabilidad y disposición para cambiar. A veces necesita límites.</p>
+<p><strong>También necesita preguntas:</strong> esto me dolió, esto necesité, esto todavía me cuesta. Y después, espacio para escuchar.</p>
+<p>No tengo todas las respuestas. Quiero reconocer el amor sin exigirle encajar en mi propio molde.</p>
+<p>Quizás reconciliarnos también consista en comprender que quienes amamos tienen una historia que merece ser escuchada, así como nosotros necesitamos que escuchen la nuestra.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/por-que-tienen-que-amarnos-de-la-misma-forma-en-la-que-amamos/">¿Por qué tienen que amarnos de la misma forma en la que amamos?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/por-que-tienen-que-amarnos-de-la-misma-forma-en-la-que-amamos/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>De preservar saberes ancestrales a apoyar damnificados: así trabajan María Fernanda Martínez y Pacho en la Fundación Alpamanda</title>
+		<link>https://occidente.co/lideres-que-construyen/fundacion-alpamanda-saberes-ancestrales-ayuda-terremoto-2026/</link>
+					<comments>https://occidente.co/lideres-que-construyen/fundacion-alpamanda-saberes-ancestrales-ayuda-terremoto-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 29 Oct 2026 23:18:39 +0000</pubDate>
+				<category><![CDATA[Líderes que construyen]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443348</guid>
+
+					<description><![CDATA[<p>Lo que comenzó como una reunión familiar para recuperar las tradiciones de una comunidad indígena se convirtió en la Fundación Alpamanda, una organización que desarrolla actividades culturales, educativas y sociales. María Fernanda Martínez, directora y fundadora, inició este proceso después de que su familia fuera desplazada del resguardo indígena Inga de Aponte, en Nariño. A...</p>
+<p>The post <a href="https://occidente.co/lideres-que-construyen/fundacion-alpamanda-saberes-ancestrales-ayuda-terremoto-2026/">De preservar saberes ancestrales a apoyar damnificados: así trabajan María Fernanda Martínez y Pacho en la Fundación Alpamanda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><a href="https://occidente.co/lideres-que-construyen/" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid size-full wp-image-144260 alignleft" src="https://occidente.co/wp-content/uploads/2024/10/logo-lideres-notas.png" alt="Logo líderes que construyen" width="180" height="86" /></a></p>
+<p><strong>Lo que comenzó como una reunión familiar para recuperar las tradiciones de una comunidad indígena se convirtió en la Fundación Alpamanda, una organización que desarrolla actividades culturales, educativas y sociales. </strong></p>
+<p><strong>María Fernanda Martínez, directora y fundadora, inició este proceso después de que su familia fuera desplazada del resguardo indígena Inga de Aponte, en Nariño</strong>.</p>
+<p><strong>A este proyecto se sumó Francisco Gutiérrez, conocido como Pacho</strong>, quien pasó de acompañar a sus hijas a los talleres de danza a participar en la gestión de apoyos y actividades comunitarias.</p>
+<p>Actualmente, ambos forman parte de las labores que adelanta la fundación para recuperar saberes ancestrales, acompañar a niños y familias, y atender necesidades de comunidades afectadas por el terremoto.</p>
+<p>Mientras Martínez dirige las actividades culturales y educativas, Gutiérrez contribuye a establecer contactos con voluntarios, gestionar donaciones y articular acciones con otras organizaciones.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Lider-1-1.jpg" alt="María Fernanda Martínez y Francisco 'Pacho' Gutiérrez orientando actividades comunitarias en la Fundación Alpamanda" /></p>
+<p>Su trabajo se desarrolla junto con familias de diferentes orígenes que participan en los espacios de encuentro de Alpamanda.</p>
+<h2>Una historia familiar</h2>
+<p>La creación de Alpamanda está relacionada con la experiencia de desplazamiento de María Fernanda y su familia.</p>
+<p>Al establecerse en la ciudad, comenzaron a dejar de practicar algunas de las costumbres de su comunidad indígena Inga.</p>
+<p>Martínez explicó que, en medio del proceso de adaptación, identificaron la necesidad de recuperar conocimientos relacionados con la danza, los tejidos y la gastronomía tradicional, especialmente para transmitirlos a sus hijos.</p>
+<p>“<em>Vamos a empezar a fortalecer nuestra identidad cultural por medio de la danza, por medio del tejido, recuperar lo que son, digamos, la comida tradicional y enseñarle eso a nuestros hijos</em>”,<strong> recordó la fundadora</strong>.</p>
+<p>Las primeras reuniones se realizaron en el patio de una vivienda, pero la participación de otros niños y familiares llevó a trasladar las actividades a una cancha del barrio.</p>
+<p>Posteriormente, el colectivo comenzó a desarrollar encuentros en instituciones educativas y amplió su trabajo hacia otras comunidades.</p>
+<p>Hace más de dos años, el colectivo se constituyó legalmente como fundación.</p>
+<p><strong>Su nombre, Alpamanda, significa</strong> “<em>de la tierra</em>” en Inga y representa el propósito de mantener la relación con sus raíces.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Lider-2-1.jpg" alt="María Fernanda Martínez y Francisco 'Pacho' Gutiérrez orientando actividades comunitarias en la Fundación Alpamanda" /></p>
+<p>La organización también abrió sus actividades a familias afrodescendientes, campesinas y de otros pueblos indígenas, algunas provenientes de territorios como Nariño, Cauca, Putumayo y Chocó.</p>
+<h3>El papel de Pacho</h3>
+<p>Francisco Gutiérrez llegó a Alpamanda cuando sus dos hijas comenzaron a participar en el grupo de danza.</p>
+<p>Lo que inicialmente era un vínculo como padre de familia se transformó en una participación dentro de las actividades de la organización.</p>
+<p>Según Martínez, aunque lleva menos de un año vinculado, ha asumido responsabilidades relacionadas con la comunicación, la elaboración de videos y el contacto con personas interesadas en colaborar.</p>
+<p>La directora explicó que Pacho ha contribuido especialmente a las relaciones públicas de la fundación.</p>
+<p>Su disposición para conversar con otras personas y establecer contactos ha facilitado la búsqueda de apoyos para las diferentes iniciativas.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Lider-3-1.jpg" alt="María Fernanda Martínez y Francisco 'Pacho' Gutiérrez orientando actividades comunitarias en la Fundación Alpamanda" /></p>
+<p>Estas labores complementan el trabajo que realiza Martínez en la organización de talleres, el acompañamiento de los participantes y la coordinación de actividades culturales.</p>
+<h4>Saberes entre generaciones</h4>
+<p>La fundación desarrolla talleres de artesanías los lunes, danza los martes y jueves, y actividades de arte y lectura los miércoles y viernes.</p>
+<p>Martínez explicó que cada encuentro busca relacionar las expresiones artísticas con los conocimientos familiares.</p>
+<p>Por ejemplo, al enseñar danzas sobre las labores campesinas, algunos niños reconocen movimientos que han observado en sus abuelos.</p>
+<p>En otras actividades se abordan tradiciones afrodescendientes, como la recolección de piangua en el Pacífico.</p>
+<p>Con los adultos, Alpamanda realiza círculos de la palabra alrededor de una representación de la tulpa, donde se comparten experiencias sobre medicina tradicional, prácticas culturales e historias familiares.</p>
+<p>Además, la organización ha brindado acompañamiento escolar a niños con dificultades académicas y contempla ampliar sus talleres mediante la participación de voluntarios que puedan enseñar pintura, música u otras disciplinas.</p>
+<h2>Ayuda tras el terremoto</h2>
+<p>El trabajo de María Fernanda y Pacho también se ha extendido a la atención de familias afectadas por el terremoto.</p>
+<p>La fundación ha participado en la recepción y distribución de donaciones, además de organizar encuentros recreativos y culturales.</p>
+<p>Martínez explicó que estas actividades buscan complementar la entrega de suministros mediante espacios de acompañamiento para adultos y niños.</p>
+<p>En esta labor, Francisco participa a través de la Red de Alimentos Preparados en Cali, organización con la que ha articulado entregas de mercados, proteínas, ropa y otros elementos.</p>
+<p>También mencionó jornadas de salud, cine comunitario, acompañamiento psicosocial y actividades recreativas desarrolladas con diferentes colectivos.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Lider-4.jpg" alt="María Fernanda Martínez y Francisco 'Pacho' Gutiérrez orientando actividades comunitarias en la Fundación Alpamanda" /></p>
+<p>La colaboración con esta red ha permitido canalizar aportes de personas interesadas en apoyar a las comunidades afectadas.</p>
+<p>Por su parte, Martínez destacó la realización de actividades de danza comunitaria, encuentros de tejido y presentaciones culturales para las familias damnificadas.</p>
+<p>La organización también ha coordinado acciones con otros grupos que aportan servicios y conocimientos.</p>
+<p>Entre las iniciativas mencionadas figura una jornada programada para el 18 de octubre en la vereda La Pulida, en Dagua, con juegos y actividades dirigidas a los niños.</p>
+<h3>Una labor compartida</h3>
+<p>Uno de los principales desafíos de Alpamanda ha sido conseguir recursos para sostener sus actividades.</p>
+<p>Martínez explicó que la fundación ha organizado rifas, bingos y otras iniciativas familiares para comprar materiales y confeccionar vestuarios.</p>
+<p>Durante este año también consiguió una sede en el sector de El Quilero, después de funcionar en espacios prestados.</p>
+<p>Allí dispone de máquinas de coser, una biblioteca y elementos utilizados en sus talleres.</p>
+<p>Además del trabajo cultural, la organización realiza jornadas de limpieza de parques, recuperación de espacios públicos y elaboración de murales.</p>
+<p>Estas actividades forman parte de las iniciativas comunitarias que Martínez coordina y que Pacho contribuye a difundir mediante sus contactos y las redes de apoyo.</p>
+<p>Ambos continúan vinculados a un proyecto que recibe voluntarios sin requisitos específicos y mantiene abiertos sus canales de comunicación en Instagram, Facebook y TikTok.</p>
+<p>Mientras María Fernanda Martínez trabaja en la continuidad de los procesos de recuperación cultural que dieron origen a Alpamanda, Francisco Gutiérrez participa en la articulación de personas y recursos para desarrollar sus actividades sociales.</p>
+<p><strong>Así, la fundación mantiene dos líneas de trabajo:</strong> la transmisión de conocimientos entre generaciones y el acompañamiento a comunidades que participan en sus iniciativas.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/lideres-que-construyen/fundacion-alpamanda-saberes-ancestrales-ayuda-terremoto-2026/">De preservar saberes ancestrales a apoyar damnificados: así trabajan María Fernanda Martínez y Pacho en la Fundación Alpamanda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/lideres-que-construyen/fundacion-alpamanda-saberes-ancestrales-ayuda-terremoto-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
