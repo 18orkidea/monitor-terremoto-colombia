@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Mon, 02 Nov 2026 13:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Herramientas para admins de Forum</title>
+		<link>https://occidente.co/secciones/tecnologia/herramientas-admins-forum/</link>
+					<comments>https://occidente.co/secciones/tecnologia/herramientas-admins-forum/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Mon, 02 Nov 2026 13:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443287</guid>
+
+					<description><![CDATA[<p>Admins de Forum reciben nuevas herramientas para gestionar grupos Los administradores de grupos ahora pueden automatizar tareas de moderación y coordinación gracias a las nuevas herramientas de Forum, la app dedicada a Facebook Groups. Estas funciones ya fueron anunciadas por Meta y buscan reducir el trabajo manual en la gestión diaria de comunidades. Herramientas Forum:...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/herramientas-admins-forum/">Herramientas para admins de Forum</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Admins de Forum reciben nuevas herramientas para gestionar grupos</h2>
+</p>
+<p>Los administradores de grupos ahora pueden automatizar tareas de moderación y coordinación gracias a las nuevas herramientas de Forum, la app dedicada a Facebook Groups. Estas funciones ya fueron anunciadas por Meta y buscan reducir el trabajo manual en la gestión diaria de comunidades.</p>
+</p>
+<h2>Herramientas Forum: qué ocurrió y por qué importa</h2>
+</p>
+<p>Meta presentó mejoras en Forum el 23 de octubre de 2026 que incluyen una versión integrada de Admin AI y una expansión de Admin Assist. Admin AI ahora etiqueta publicaciones pendientes según si cumplen las reglas del grupo y puede ayudar a redactar borradores que los admins pueden editar y publicar. Admin Assist permite crear reglas automáticas más flexibles, combinando condiciones como longitud de post, uso de enlaces o acciones de moderación previas. La compañía también incorporó una vista de insights adaptada al estado del grupo y un calendario compartido para equipos de moderación.</p>
+</p>
+<h2>Cambios prácticos para las personas</h2>
+</p>
+<h3>Menos tiempo en revisar publicaciones</h3>
+</p>
+<p>La etiqueta que muestra si una publicación probablemente cumple o no las reglas facilita decidir en el listado de pendientes, por lo que los admins gastarán menos tiempo en evaluar cada mensaje manualmente.</p>
+</p>
+<h3>Publicaciones más rápidas y coherentes</h3>
+</p>
+<p>Admin AI puede generar borradores y programar hasta cinco posts de una sola vez. Eso ayuda a mantener la conversación activa sin que un administrador deba escribir cada publicación desde cero.</p>
+</p>
+<h3>Mejor coordinación entre moderadores</h3>
+</p>
+<p>El calendario compartido evita duplicidades y permite ver lo que otros moderadores ya programaron, lo que mejora la organización del equipo y reduce errores en la publicación de contenido.</p>
+</p>
+<h2>Aspectos que aún quedan por resolver</h2>
+</p>
+<p>No todos los detalles sobre la disponibilidad internacional quedaron claros en el anuncio: la nota indica que Forum está disponible en Estados Unidos y muestra mejoras generales, pero no especifica fechas de lanzamiento en otros países ni idiomas. Tampoco se detallan los límites técnicos de las etiquetas de Admin AI ni cuánto control tendrán los admins sobre decisiones automatizadas más allá de las reglas combinadas de Admin Assist. Finalmente, la compañía menciona que todas las publicaciones siguen sujetas a los Community Standards, pero no profundiza en cómo se armonizarán esas normas con las reglas internas de cada grupo cuando haya conflictos.</p>
+</p>
+<p>Las mejoras buscan reducir tareas repetitivas y dar herramientas de colaboración, pero la adopción y el ajuste fino dependerán de pruebas y retroalimentación de los administradores.</p>
+</p>
+<p>En contexto, estas novedades siguen la tendencia de ofrecer funciones de automatización para gestores de comunidades y de facilitar la colaboración en equipos de moderación.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Menos tiempo en moderación y respuestas más rápidas.</p>
+</p>
+<p><strong>Negocio:</strong> Organizaciones pueden mantener comunidades activas con menos recursos humanos.</p>
+</p>
+<p><strong>Industria:</strong> Refuerza la demanda de herramientas AI aplicadas a la gestión de comunidades en redes sociales.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/herramientas-admins-forum/">Herramientas para admins de Forum</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/herramientas-admins-forum/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>SpaceX financiamiento GPU con Apollo</title>
+		<link>https://occidente.co/secciones/tecnologia/spacex-financiamiento-gpu-apollo/</link>
+					<comments>https://occidente.co/secciones/tecnologia/spacex-financiamiento-gpu-apollo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sun, 01 Nov 2026 15:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443283</guid>
+
+					<description><![CDATA[<p>SpaceX financiamiento: un acuerdo para pagar GPUs y equipos de data center SpaceX anunció un compromiso de financiamiento de aproximadamente $40.000 millones con una entidad gestionada por Apollo Global Management para comprar GPUs y equipos de servidores que luego serán arrendados a la compañía. El acuerdo, divulgado en un documento regulatorio, prevé contratos de arrendamiento...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/spacex-financiamiento-gpu-apollo/">SpaceX financiamiento GPU con Apollo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>SpaceX financiamiento: un acuerdo para pagar GPUs y equipos de data center</h2>
+</p>
+<p>SpaceX anunció un compromiso de financiamiento de aproximadamente $40.000 millones con una entidad gestionada por Apollo Global Management para comprar GPUs y equipos de servidores que luego serán arrendados a la compañía. El acuerdo, divulgado en un documento regulatorio, prevé contratos de arrendamiento de alrededor de cinco a cinco años y medio que comenzarán cuando se entreguen los tramos de equipo.</p>
+</p>
+<h2>SpaceX financiamiento: qué ocurrió y por qué importa</h2>
+</p>
+<p>La compañía informó el acuerdo en un archivo regulatorio publicado el lunes. Según el documento y la declaración de SpaceX, Apollo comprará el hardware —incluidas las futuras GPUs Vera Rubin de Nvidia— y lo arrendará a SpaceX. La empresa espera cerrar el trato antes de fin de año y que los arrendamientos inicien en la primera mitad de 2027, a medida que los equipos lleguen. SpaceX dijo que el financiamiento diversifica sus fuentes y cubre una porción notable de lo necesario para sus planes de expansión en infraestructura de IA.</p>
+</p>
+<h2>Qué cambia para las personas</h2>
+</p>
+<h3>Mayor oferta de servicios de IA accesibles</h3>
+</p>
+<p>Al financiar la compra de GPUs y equipos, SpaceX podrá ampliar su capacidad de cómputo que alimenta servicios como el chatbot Grok y herramientas de nube. Para usuarios esto puede traducirse en mayor disponibilidad y rendimiento de esos servicios a medida que se desplegue la infraestructura.</p>
+</p>
+<h3>Posible estabilización de precios de servicios en nube</h3>
+</p>
+<p>Al asegurar equipamiento con un gran contrato de arrendamiento, SpaceX reduce el riesgo financiero asociado a compras masivas. Eso puede ayudar a mantener o moderar precios de sus ofertas de nube y productos de IA, aunque el efecto directo sobre precios finales dependerá de decisiones comerciales futuras.</p>
+</p>
+<h3>Menos riesgo para proyectos vinculados a Starlink y lanzamientos</h3>
+</p>
+<p>El financiamiento permite a SpaceX separar parte de la inversión en IA de su deuda tradicional. Para clientes y usuarios de otros servicios de la compañía, como Starlink, esto implica que la expansión en infraestructura de IA no dependa exclusivamente de mercados de deuda, lo que podría reducir la presión sobre otras líneas de negocio.</p>
+</p>
+<h2>Aspectos que siguen pendientes</h2>
+</p>
+<p>Falta la confirmación final del cierre del acuerdo, sujeto a condiciones de cierre mencionadas en el archivo regulatorio. También queda por verse cómo y en qué ritmo se entregarán las distintas tranches de equipos y cuándo exactamente comenzarán los arrendamientos. No hay detalles públicos sobre los términos financieros completos del contrato de arrendamiento ni sobre cómo se reflejará este financiamiento en la estructura de precios de los servicios de SpaceX.</p>
+</p>
+<h2>Explicación contextual</h2>
+</p>
+<p>Comprar GPUs en tramos y arrendarlas mediante un tercero significa que SpaceX no tiene que desembolsar todo el capital por adelantado. Es similar a cuando una empresa prefiere alquilar maquinaria pesada en lugar de comprarla: reduce el impacto inicial en caja y distribuye el gasto en el tiempo, aunque implica pagos periódicos por el arrendamiento.</p>
+</p>
+<p>El acuerdo llega tras un trimestre fuerte para la unidad de IA de SpaceX, que aportó gran parte de los ingresos recientes de la compañía y elevó sus gastos de capital. El financiamiento permitirá acelerar la llegada de los equipos necesarios para sostener ese crecimiento.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Mayor disponibilidad y rendimiento de servicios de IA y nube.</p>
+</p>
+<p><strong>Negocio:</strong> SpaceX diversifica financiamiento y reduce presión sobre deuda tradicional.</p>
+</p>
+<p><strong>Industria:</strong> El acuerdo marca una referencia para cómo se financia la expansión de infraestructura de IA.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/spacex-financiamiento-gpu-apollo/">SpaceX financiamiento GPU con Apollo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/spacex-financiamiento-gpu-apollo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Anthropic presenta su IPO</title>
+		<link>https://occidente.co/secciones/tecnologia/anthropic-presenta-su-ipo/</link>
+					<comments>https://occidente.co/secciones/tecnologia/anthropic-presenta-su-ipo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 15:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443285</guid>
+
+					<description><![CDATA[<p>Anthropic presenta su IPO y revela cifras sorprendentes La compañía de inteligencia artificial Anthropic presentó oficialmente su solicitud de salida a bolsa (IPO) el lunes, informando ingresos y pérdidas que llaman la atención del mercado. En el primer semestre de 2026 la empresa registró 16.3 mil millones de dólares en ingresos, una cifra muy superior...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/anthropic-presenta-su-ipo/">Anthropic presenta su IPO</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Anthropic presenta su IPO y revela cifras sorprendentes</h2>
+</p>
+<p>La compañía de inteligencia artificial Anthropic presentó oficialmente su solicitud de salida a bolsa (IPO) el lunes, informando ingresos y pérdidas que llaman la atención del mercado. En el primer semestre de 2026 la empresa registró 16.3 mil millones de dólares en ingresos, una cifra muy superior a los 1.2 mil millones del mismo periodo del año anterior.</p>
+</p>
+<h2>Anthropic IPO: qué ocurrió y por qué importa</h2>
+</p>
+<p>Anthropic, que planea cotizar con el símbolo &#8220;ANT&#8221;, presentó su formulario ante la comisión de valores estadounidense. La empresa detalló tanto sus ingresos como sus pérdidas: registró una pérdida operativa de 693 millones de dólares en el primer semestre de 2026, mejor que los 2.1 mil millones del mismo período de 2025, pero reportó una pérdida neta de 80.7 mil millones impulsada principalmente por ajustes contables no monetarios ligados a deuda convertible. La compañía advierte que podría no alcanzar o mantener la rentabilidad en el futuro.</p>
+</p>
+<h2>Cambios prácticos para las personas</h2>
+</p>
+<h3>Más clientes empresariales grandes</h3>
+</p>
+<p>Anthropic informó que, a finales de septiembre, tenía más de 11.900 clientes que pagan 100.000 dólares o más al año; 1.900 clientes con facturación anual de 1 millón o más; y alrededor de 250 clientes que gastan 10 millones o más. Esto sugiere una adopción significativa de sus servicios por empresas grandes, lo que puede traducirse en mayor disponibilidad de herramientas de IA en el mercado empresarial.</p>
+</p>
+<h3>Publicidad sobre la salud financiera</h3>
+</p>
+<p>Los números muestran crecimiento de ingresos pero también pérdidas relevantes. Para usuarios, esto significa que la empresa puede priorizar contratos grandes y desarrollos que generen ingresos recurrentes antes que productos de consumo masivo. Para clientes actuales, la continuidad del servicio parece respaldada por la escala empresarial reportada.</p>
+</p>
+<h3>Control de los fundadores</h3>
+</p>
+<p>Los siete cofundadores formarán una entidad llamada &#8220;Founder LLC&#8221; que controlará el 50.1% del poder de voto, según el documento. Eso implica que los accionistas públicos tendrán poca influencia práctica sobre decisiones clave, incluido el rumbo en política de seguridad y gobernanza de la empresa.</p>
+</p>
+<h2>Aspectos pendientes y dudas por resolver</h2>
+</p>
+<p>Anthropic no ha revelado cuánto espera recaudar ni el precio por acción propuesto. Tampoco se han aclarado plenamente las implicaciones prácticas del alto poder de voto de los fundadores para la toma de decisiones futuras. Además, la advertencia sobre la posible incapacidad de alcanzar la rentabilidad coloca incertidumbre sobre la sostenibilidad financiera a mediano plazo.</p>
+</p>
+<h2>Explicación contextual</h2>
+</p>
+<p>Cuando una empresa presenta una IPO describe su situación financiera para potenciales inversores. En este caso, el contraste entre rápido aumento de ingresos y una pérdida neta enorme refleja que hay ajustes contables (por ejemplo, vinculados a deuda convertible) que afectan las cifras finales sin ser salidas de caja inmediatas. Esos ajustes pueden distorsionar la percepción de la salud operativa real.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Mayor disponibilidad de soluciones empresariales de IA y posible concentración en clientes grandes.</p>
+</p>
+<p><strong>Negocio:</strong> Inversores y clientes revisarán la rentabilidad real y la gobernanza antes de comprometer capital.</p>
+</p>
+<p><strong>Industria:</strong> El caso subraya tensiones entre rápido crecimiento, modelos de ingresos y estructuras de control en empresas de IA.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/anthropic-presenta-su-ipo/">Anthropic presenta su IPO</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/anthropic-presenta-su-ipo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Busca empleo en el Valle del Cauca? Sacyr ofrece seis vacantes en Buga y Buenaventura</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/oportunidades-laborales-en-buga-y-buenaventura-sacyr-camino-del-pacifico-2026/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/oportunidades-laborales-en-buga-y-buenaventura-sacyr-camino-del-pacifico-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 03:38:04 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443513</guid>
+
+					<description><![CDATA[<p>La empresa Sacyr, vinculada al proyecto vial Unión Vial Camino del Pacífico, anunció seis oportunidades laborales para profesionales, técnicos y tecnólogos en los municipios de Buga y Buenaventura, Valle del Cauca. Las vacantes están dirigidas a personas con experiencia en infraestructura vial, topografía, diseño, seguridad vial y gestión social. La convocatoria incluye cuatro cargos en...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/oportunidades-laborales-en-buga-y-buenaventura-sacyr-camino-del-pacifico-2026/">¿Busca empleo en el Valle del Cauca? Sacyr ofrece seis vacantes en Buga y Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La empresa Sacyr, vinculada al proyecto vial Unión Vial Camino del Pacífico, anunció seis oportunidades laborales para profesionales, técnicos y tecnólogos en los municipios de Buga y Buenaventura, Valle del Cauca</strong>.</p>
+<p>Las vacantes están dirigidas a personas con experiencia en infraestructura vial, topografía, diseño, seguridad vial y gestión social.</p>
+<p>La convocatoria incluye cuatro cargos en Buga y dos en Buenaventura.</p>
+<p>Los requisitos de experiencia varían entre uno y cinco años, dependiendo del puesto, y las personas interesadas pueden presentar su postulación a través de los canales de contacto habilitados por la empresa.</p>
+<p>La Unión Vial Camino del Pacífico aclaró que todos sus procesos de selección son gratuitos y que no realiza cobros por participar en ninguna de sus etapas.</p>
+<h2>¿Cuáles son las vacantes disponibles en Buga?</h2>
+<p><strong>En Buga, la convocatoria contempla cuatro perfiles:</strong></p>
+<p><strong>Ingeniero de diseño:</strong> profesional en ingeniería civil con especialización en vías o geotecnia en pavimentos, licencia de conducción B1 y experiencia de tres a cinco años en cargos similares dentro de empresas de infraestructura vial.</p>
+<p>Entre sus responsabilidades están el desarrollo y la gestión de diseños geométricos de corredores, intersecciones, puentes y otros elementos del proyecto.</p>
+<p><strong>Delineante:</strong> técnico o tecnólogo en diseño gráfico, arquitectura o ingeniería, con conocimientos de AutoCAD, Civil 3D, Revit y MS Project.</p>
+<p>Se requiere experiencia de dos a tres años en funciones afines.</p>
+<p>El cargo incluye elaboración, actualización y revisión de planos.</p>
+<p><strong>Profesional sociopredial júnior:</strong> profesional en trabajo social, comunicación social, sociología, antropología, derecho, psicología o disciplinas afines.</p>
+<p>Debe contar con conocimientos en manejo de comunidades y resolución de conflictos, además de un año de experiencia en cargos similares, preferiblemente en infraestructura vial. Sus funciones incluyen acompañamiento a procesos de gestión y adquisición predial.</p>
+<p><strong>Jefe de seguridad vial:</strong> profesional en seguridad y salud en el trabajo, ingeniería civil, vías o áreas afines, con posgrado en tránsito o transporte.</p>
+<p>Se exige conocimiento del Manual Invías 2015, certificación como inspector vial, licencia de conducción B1 o B2 y cinco años de experiencia como residente, coordinador o jefe de seguridad vial en empresas de infraestructura vial.</p>
+<h3>Oportunidades de empleo en Buenaventura</h3>
+<p>Para Buenaventura, la empresa busca dos perfiles relacionados con actividades topográficas.</p>
+<p>La primera vacante es para cadenero primero, dirigida a técnicos o tecnólogos en topografía con conocimientos en manejo de estaciones y equipos topográficos.</p>
+<p>Se requieren dos años de experiencia en cargos de cadenero primero o segundo en empresas de infraestructura vial.</p>
+<p>Entre sus funciones están la toma de medidas, el apoyo a levantamientos topográficos, la instalación de equipos y la colocación de marcas en los sitios de construcción.</p>
+<p>La segunda oportunidad corresponde al cargo de topógrafo, para tecnólogos en topografía con conocimientos en lectura de planos y AutoCAD, además de dos a tres años de experiencia en cargos similares.</p>
+<p>Las responsabilidades incluyen levantamientos topográficos, nivelación de terrenos, mediciones, replanteos de obras, elaboración de dibujos técnicos y mantenimiento de los equipos utilizados.</p>
+<h4>¿Cómo postularse a las vacantes de Sacyr?</h4>
+<p>Las personas interesadas pueden consultar la información de los cargos y sus requisitos a través de los canales publicados por la Unión Vial Camino del Pacífico.</p>
+<p><strong>Los datos de contacto son:</strong></p>
+<p><strong>Correo electrónico: <span style="color: #03bfa5;"><a style="color: #03bfa5;" href="http://empleo@caminodelpacifico.com" target="_blank" rel="noopener">empleo@caminodelpacifico.com</a></span></strong></p>
+<p><strong>Teléfono: <span style="color: #03bfa5;">310 299 2837</span></strong></p>
+<p><strong>Página web: <span style="color: #03bfa5;"><a style="color: #03bfa5;" href="https://www.caminodelpacifico.com/empleo" target="_blank" rel="noopener">https://www.caminodelpacifico.com/empleo</a></span></strong></p>
+<p>La empresa reiteró que la participación en sus procesos de selección no tiene ningún costo.</p>
+<p>Por lo tanto, los aspirantes no deben realizar pagos para postularse ni para avanzar en las etapas de contratación.</p>
+<p>Los avisos de la convocatoria no especifican salarios, fechas límite de postulación ni número de plazas por cargo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/oportunidades-laborales-en-buga-y-buenaventura-sacyr-camino-del-pacifico-2026/">¿Busca empleo en el Valle del Cauca? Sacyr ofrece seis vacantes en Buga y Buenaventura</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/oportunidades-laborales-en-buga-y-buenaventura-sacyr-camino-del-pacifico-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Con vigilancia satelital protegen islas Malpelo y Gorgona</title>
+		<link>https://occidente.co/medio-ambiente/pesca-ilegal-pacifico-colombiano-parques-nacionales-monitoreo-2026/</link>
+					<comments>https://occidente.co/medio-ambiente/pesca-ilegal-pacifico-colombiano-parques-nacionales-monitoreo-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 01:57:48 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443510</guid>
+
+					<description><![CDATA[<p>La pesca ilegal continúa amenazando la biodiversidad y el equilibrio de los ecosistemas marinos del Pacífico colombiano. Frente a esta problemática, Parques Nacionales Naturales de Colombia viene fortaleciendo sus estrategias de vigilancia satelital, investigación científica y coordinación interinstitucional para proteger zonas como el Santuario de Fauna y Flora Malpelo y el Parque Nacional Natural Gorgona....</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/pesca-ilegal-pacifico-colombiano-parques-nacionales-monitoreo-2026/">Con vigilancia satelital protegen islas Malpelo y Gorgona</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La pesca ilegal continúa amenazando la biodiversidad y el equilibrio de los ecosistemas marinos del Pacífico colombiano.</p>
+<p><strong>Frente a esta problemática, Parques Nacionales Naturales de Colombia viene fortaleciendo sus estrategias de vigilancia satelital, investigación científica y coordinación interinstitucional para proteger zonas como el Santuario de Fauna y Flora Malpelo y el Parque Nacional Natural Gorgona</strong>.</p>
+<p>Desde diciembre de 2025, el Centro de Monitoreo Yubarta utiliza herramientas tecnológicas como Dark Vessel Detection, Skylight y Global Fishing Watch para identificar patrones sospechosos de navegación, incluso cuando las embarcaciones apagan sus sistemas de identificación automática (AIS).</p>
+<p>Entre 2023 y 2026, estas herramientas permitieron analizar 742 alertas de posible actividad irregular.</p>
+<p>De estas, 402 correspondieron al Distrito Nacional de Manejo Integrado Yuruparí –Malpelo, 203 al Santuario de Malpelo, 118 al Distrito Nacional de Manejo Integrado Colinas y Lomas Submarinas y 19 al Parque Gorgona.</p>
+<p>Los reportes han facilitado verificaciones en campo, controles portuarios y la revisión de bitácoras para sustentar posibles sanciones ambientales.</p>
+<p><strong>Según la entidad, entre 2024 y septiembre de 2026 se abrieron 21 procesos sancionatorios por pesca ilegal:</strong> 19 siguen en trámite y dos fueron archivados.</p>
+<p>La estrategia articula esfuerzos con la Armada Nacional, Guardacostas, DIMAR, AUNAP y Fiscalía.</p>
+<p>Aunque la tecnología permite detectar embarcaciones sospechosas, las intervenciones requieren pruebas adicionales que respalden las actuaciones administrativas y judiciales.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/pesca-ilegal-pacifico-colombiano-parques-nacionales-monitoreo-2026/">Con vigilancia satelital protegen islas Malpelo y Gorgona</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/pesca-ilegal-pacifico-colombiano-parques-nacionales-monitoreo-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Bosques Urbanos para mitigar el cambio climático en la región</title>
+		<link>https://occidente.co/medio-ambiente/bosques-urbanos-valle-del-cauca-encuentro-cartago-mitigacion-climatica-2026/</link>
+					<comments>https://occidente.co/medio-ambiente/bosques-urbanos-valle-del-cauca-encuentro-cartago-mitigacion-climatica-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 01:54:29 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443507</guid>
+
+					<description><![CDATA[<p>Con la consolidación y protección de los Bosques Urbanos el Valle del Cauca se viene preparando desde hace varios años en la mitigación del cambio climático en la región. Así lo manifestó Nasly Vidales, secretaria encargado de Ambiente y Desarrollo Sostenible del Valle durante el sexto Encuentro de Bosques Urbanos realizado en Cartago. Con los...</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/bosques-urbanos-valle-del-cauca-encuentro-cartago-mitigacion-climatica-2026/">Bosques Urbanos para mitigar el cambio climático en la región</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Con la consolidación y protección de los Bosques Urbanos el Valle del Cauca se viene preparando desde hace varios años en la mitigación del cambio climático en la región.</p>
+<p><strong>Así lo manifestó Nasly Vidales, secretaria encargado de Ambiente y Desarrollo Sostenible del Valle durante el sexto Encuentro de Bosques Urbanos realizado en Cartago</strong>.</p>
+<p>Con los bosques urbanos, el gobierno departamental busca fortalecer la conservación de la biodiversidad integrando zonas verdes de los municipios para mitigar las islas de calor, mejorar la calidad de vida y garantizar el bienestar de los ciudadanos.</p>
+<p><strong>Vidales indicó que durante el encuentro</strong> &#8220;<em>hubo intercambio de experiencias, conocimientos, con diferentes actores entre ellos instituciones educativas, corporaciones autónomas regionales, comunidades que vienen conservando y apoyando la estrategia y por supuesto nosotros como Gobernación</em>”.</p>
+<p><strong>La funcionaria explicó que</strong> “<em>el Valle del Cauca se ha preparado para el Fenómeno de El Niño, es así como desde años anteriores se viene trabajando la estrategia de Bosques Urbanos. Ya hemos venido haciendo el trabajo en Candelaria, Roldanillo, Jamundí, Cali, Yumbo y Vijes</em>”.</p>
+<p>La estrategia Bosques Urbanos busca mitigar la problemática de las islas de calor y las altas temperaturas en los municipios del departamento, a través de la creación de más espacios verdes y un mayor arbolado, todo ligado a estrategias de planificación.</p>
+<p>“<em>Acompañamos este espacio desde la alcaldía de Cartago, fortaleciendo la iniciativa de la Gobernación que permite un intercambio de conocimiento y así fortalecer esta alianza de red a nivel departamental, para cuidar los bosques y en especial entrelazar esfuerzos entre las comunidades y el sector productivo, empresarial e institucional</em>”, <strong>dijo Santiago López, de la subsecretaría de Medio Ambiente y</strong>.</p>
+<p>Desarrollo sustentable Agropecuario de Cartago.</p>
+<p>El evento se llevó a cabo en el bosque urbano Eco-Sofia. “<em>Conservamos más de cien árboles nativos y este encuentro se hizo en nuestro bosque, un pequeño ecosistema que custodia a las abejas sin aguijón, hacemos pedagogía con ellas</em>”, <strong>señaló Julián Alberto Giraldo, propietario del bosque urbano Eco-Sofia</strong>.</p>
+<p>La Gobernación del Valle ha priorizado diez municipios dentro de esta iniciativa, contribuyendo a mejorar la sostenibilidad y calidad de vida de las poblaciones.</p>
+<p>Durante la jornada se presentaron experiencias, como bosques urbanos, pulmones de vida, refugio de biodiversidad y aula abierta para la educación ambiental.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/bosques-urbanos-valle-del-cauca-encuentro-cartago-mitigacion-climatica-2026/">Bosques Urbanos para mitigar el cambio climático en la región</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/bosques-urbanos-valle-del-cauca-encuentro-cartago-mitigacion-climatica-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Valle refuerza protección a la biodiversidad</title>
+		<link>https://occidente.co/medio-ambiente/areas-protegidas-valle-del-cauca-humedales-rio-cauca-venado-2026/</link>
+					<comments>https://occidente.co/medio-ambiente/areas-protegidas-valle-del-cauca-humedales-rio-cauca-venado-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 01:46:22 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443504</guid>
+
+					<description><![CDATA[<p>El Valle del Cauca cierra 2026 con dos nuevas áreas protegidas que suman 2.580,7 hectáreas destinadas a conservar la biodiversidad, los ecosistemas estratégicos y el patrimonio biocultural del departamento. En el centro del Valle fue declarado el Distrito de Conservación de Suelos Complejo de Humedales Asociados al río Cauca, con una extensión de 1.882,29 hectáreas...</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/areas-protegidas-valle-del-cauca-humedales-rio-cauca-venado-2026/">Valle refuerza protección a la biodiversidad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El Valle del Cauca cierra 2026 con dos nuevas áreas protegidas que suman 2.580,7 hectáreas destinadas a conservar la biodiversidad, los ecosistemas estratégicos y el patrimonio biocultural del departamento.</p>
+<p><strong>En el centro del Valle fue declarado el Distrito de Conservación de Suelos Complejo de Humedales Asociados al río Cauca, con una extensión de 1.882,29 hectáreas que comprenden 20 humedales distribuidos entre Bugalagrande, Andalucía y Tuluá</strong>.</p>
+<p>El área alberga ecosistemas acuáticos, zonas forestales protectoras y relictos de bosque seco tropical, uno de los ecosistemas más escasos de la región.</p>
+<p>Su conservación busca proteger la riqueza natural y contribuir al equilibrio ambiental de estos tres municipios.</p>
+<p>La segunda declaratoria corresponde al Distrito Regional de Manejo Integrado (DRMI) CCCORYSAN–Venado, ubicado en el Pacífico vallecaucano, que incorpora 698,41 hectáreas de bosques densos, quebradas y hábitats de aves, mamíferos, anfibios y felinos. Allí se destacan especies como la pava del Baudó y el sábalo.</p>
+<p>Este territorio también integra el potencial ecoturístico de Venado Verde, donde las comunidades impulsan desde hace años la conservación de senderos, cascadas y quebradas, junto con actividades de turismo de naturaleza y educación ambiental.</p>
+<p>Ambas declaratorias reconocen la importancia de proteger los ecosistemas y fortalecer la participación comunitaria. Con estas incorporaciones, el Valle del Cauca alcanza la meta de tener el 33 % de su territorio bajo áreas protegidas.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/areas-protegidas-valle-del-cauca-humedales-rio-cauca-venado-2026/">Valle refuerza protección a la biodiversidad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/areas-protegidas-valle-del-cauca-humedales-rio-cauca-venado-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Resonancias: cuerpos, música y legado</title>
+		<link>https://occidente.co/secciones/tendencias/prebienal-internacional-de-danza-de-cali-exposicion-francois-dolmetsch-2026/</link>
+					<comments>https://occidente.co/secciones/tendencias/prebienal-internacional-de-danza-de-cali-exposicion-francois-dolmetsch-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 01:11:50 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443500</guid>
+
+					<description><![CDATA[<p>La exposición Resonancias: cuerpos, música y legado se inaugurará el 4 de noviembre, en el marco de la Prebienal Internacional de Danza de Cali. La muestra recorre varias décadas de creación de un fotógrafo y músico vinculado a la ciudad desde 1962. La fotografía, la música y la danza se encuentran en Resonancias: cuerpos, música...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/prebienal-internacional-de-danza-de-cali-exposicion-francois-dolmetsch-2026/">Resonancias: cuerpos, música y legado</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La exposición Resonancias:</strong> cuerpos, música y legado se inaugurará el 4 de noviembre, en el marco de la Prebienal Internacional de Danza de Cali.</p>
+<p>La muestra recorre varias décadas de creación de un fotógrafo y músico vinculado a la ciudad desde 1962.</p>
+<p><strong>La fotografía, la música y la danza se encuentran en Resonancias:</strong> cuerpos, música y legado, la exposición de François Dolmetsch que llegará a la Sala Alterna del Museo La Tertulia.</p>
+<p><strong>La muestra reúne dos series realizadas en diferentes momentos de su trayectoria:</strong> Cadenza (1968-1975) y Homenaje a Isadora (2000), que exploran las posibilidades expresivas del cuerpo y el movimiento.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/Resonancias-cuerpos-musica-y-legado-1.jpg" alt="Asistentes contemplando la obra fotográfica en la exposición de François Dolmetsch en el Museo La Tertulia en el marco de la Prebienal Internacional de Danza de Cali" /></p>
+<p>En Cadenza, Dolmetsch experimentó con exposiciones múltiples sobre un mismo negativo, creando fotografías en las que los cuerpos parecen multiplicarse.</p>
+<p>Homenaje a Isadora, por su parte, recupera una historia familiar relacionada con Isadora Duncan, pionera de la danza moderna, quien mantuvo vínculos con sus abuelos, Arnold y Mabel Dolmetsch.</p>
+<p>La exposición también incluirá ilustraciones de Mabel, negativos, hojas de contacto y documentos del archivo del artista.</p>
+<p><strong>Mariana Garcés Córdoba, directora general del Centro de Danza y Coreografía del Valle del Cauca La Licorera, destacó el significado de esta exposición:</strong> «<em>En esta ocasión rendimos homenaje, con mucho aprecio, al trabajo fotográfico de François Dolmetsch</em>».</p>
+<p>Sobre las series, señaló que «ambas rinden homenaje a las diversas posibilidades del cuerpo femenino, entre el ballet, el currulao y la danza moderna».</p>
+<p>La exposición forma parte de la Prebienal Internacional de Danza de Cali 2026, camino a su octava edición en 2027.</p>
+<p>La inauguración será el miércoles 4 de noviembre, a las 6:30 p. m., en el Museo La Tertulia, avenida Colombia n.º 5-105.</p>
+<p>La muestra estará abierta hasta el 28 de noviembre, con entrada libre, gracias al trabajo conjunto de Proartes, el Centro de Danza y Coreografía del Valle del Cauca La Licorera, la Colección François Dolmetsch y el Museo La Tertulia, con el apoyo del Ministerio de las Culturas, las Artes y los Saberes.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/prebienal-internacional-de-danza-de-cali-exposicion-francois-dolmetsch-2026/">Resonancias: cuerpos, música y legado</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/prebienal-internacional-de-danza-de-cali-exposicion-francois-dolmetsch-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Fortaleza Valle abre sus puertas a partir del 7 de noviembre</title>
+		<link>https://occidente.co/deportes/academia-fortaleza-valle-escuela-de-futbol-cali-2026/</link>
+					<comments>https://occidente.co/deportes/academia-fortaleza-valle-escuela-de-futbol-cali-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 00:54:30 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443497</guid>
+
+					<description><![CDATA[<p>El presidente del Club Fortaleza, Francisco Serrano destacó los diferenciales que traerá la Academia Fortaleza Valle a la región: Entender el fútbol como familia y amistad, el acompañamiento psicológico y el famoso hincha miti miti, se puede ser hincha de un equipo y la formación la puede liderar Fortaleza. Con un horario que le permita...</p>
+<p>The post <a href="https://occidente.co/deportes/academia-fortaleza-valle-escuela-de-futbol-cali-2026/">Fortaleza Valle abre sus puertas a partir del 7 de noviembre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El presidente del Club Fortaleza, Francisco Serrano destacó los diferenciales que traerá la Academia Fortaleza Valle a la región: Entender el fútbol como familia y amistad, el acompañamiento psicológico y el famoso hincha miti miti, se puede ser hincha de un equipo y la formación la puede liderar Fortaleza</strong>.</p>
+<p>Con un horario que le permita a los padres de familia acompañar a sus hijos en los entrenamientos como parte de la formación humana se anunció que los entrenos serán de lunes a viernes de 6:30 pm a 8:30 pm en categorías que van desde Sub5 hasta Sub17 incluyendo la formación en fútbol femenino.</p>
+<p>Edumente es otro de los socios en este proyecto de Fortaleza Valle que brindará a los niños, niñas y jóvenes el acompañamiento psicológico no sólo a los jugadores sino también a sus acudientes.</p>
+<p><strong>Ricardo Cruz, Director administrativo y deportivo, Cristian Truque director de operaciones y Juan Diego Andrade, Director</strong> de campo serán los encargados de liderar Fortaleza Valle buscando aportar al fútbol vallecaucano y aunque su primera sede quedará en el sur de Cali entre sus siguientes fases está el proyecto de expandirse a municipios cercanos.</p>
+<p>Andres Camilo Paz, Director Administrativo de Academias Fortaleza recalcó que el acompañamiento será constante desde el Club y su staff de Bogotá estará realizando capacitaciones permanentes porque lo más importante será dejar huella en esta región y cuidar que el ADN de la marca Fortaleza se mantenga presente desde los entrenamientos hasta la participación en campeonatos locales, nacionales hasta internacionales.</p>
+<p>Los niños, niñas y jóvenes que se inscriban durante noviembre les servirá para acoplarse y así participar en la temporada 2027.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/deportes/academia-fortaleza-valle-escuela-de-futbol-cali-2026/">Fortaleza Valle abre sus puertas a partir del 7 de noviembre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/academia-fortaleza-valle-escuela-de-futbol-cali-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>De las pandillas a los cultivos</title>
+		<link>https://occidente.co/regionales/cauca/puerto-tejada-programa-resocializacion-vidas-para-la-paz-cosecha-2026/</link>
+					<comments>https://occidente.co/regionales/cauca/puerto-tejada-programa-resocializacion-vidas-para-la-paz-cosecha-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 00:48:56 +0000</pubDate>
+				<category><![CDATA[Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443489</guid>
+
+					<description><![CDATA[<p>En un municipio donde se han identificado 27 grupos juveniles en conflicto, un programa de resocialización está ofreciendo alternativas de generación de ingresos a jóvenes que buscan cambiar de vida. Ya se han implementado 28 unidades productivas y nueve participantes realizaron su primera cosecha de tomate y maíz. En Puerto Tejada, Cauca, nueve jóvenes que...</p>
+<p>The post <a href="https://occidente.co/regionales/cauca/puerto-tejada-programa-resocializacion-vidas-para-la-paz-cosecha-2026/">De las pandillas a los cultivos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>En un municipio donde se han identificado 27 grupos juveniles en conflicto, un programa de resocialización está ofreciendo alternativas de generación de ingresos a jóvenes que buscan cambiar de vida.</p>
+<p>Ya se han implementado 28 unidades productivas y nueve participantes realizaron su primera cosecha de tomate y maíz.</p>
+<p>En Puerto Tejada, Cauca, nueve jóvenes que crecieron en un entorno marcado por la violencia encontraron en el cultivo de tomate y maíz una oportunidad para comenzar a construir una historia diferente.</p>
+<p>Su primera cosecha no solo representó la posibilidad de comercializar productos agrícolas, sino también un paso hacia la generación de ingresos por medios legales.</p>
+<p>La experiencia forma parte de Vidas para la Paz, un programa de resocialización y paz urbana que desde hace dos años trabaja con jóvenes vinculados a contextos de violencia en este municipio del norte del Cauca.</p>
+<p>De acuerdo con información de la Alcaldía, la iniciativa ha vinculado voluntariamente a 202 jóvenes y ha establecido acercamientos con 21 de los 27 grupos juveniles en conflicto identificados en el territorio.</p>
+<p>Las cifras reflejan la dimensión del desafío que enfrenta Puerto Tejada, donde la presencia de pandillas y las dificultades de acceso a oportunidades han afectado las posibilidades de desarrollo de parte de su población juvenil.</p>
+<h2>Del conflicto a las oportunidades de trabajo</h2>
+<p>Uno de los componentes centrales del programa es la creación de alternativas económicas que permitan a los participantes desarrollar actividades productivas.</p>
+<p>Hasta el momento se han implementado 28 unidades productivas relacionadas con agricultura, cría de cerdos, producción avícola y piscicultura.</p>
+<p>La primera experiencia de comercialización de tomate y maíz, protagonizada por nueve jóvenes de zonas rurales, fue denominada por sus organizadores como la «cosecha de la paz».</p>
+<p>Aunque se trata de una experiencia inicial, representa una oportunidad para que los participantes se acerquen al trabajo productivo y exploren posibilidades de sustento distintas de las economías asociadas con la violencia.</p>
+<p>Sin embargo, uno de los desafíos de estas iniciativas es lograr que los emprendimientos sean sostenibles, generen ingresos suficientes y puedan mantenerse más allá del acompañamiento institucional.</p>
+<h3>La resocialización no depende solamente del empleo</h3>
+<p>La estrategia también contempla atención psicosocial, asesoría jurídica y acompañamiento espiritual, este último respetando la libre elección de credo de cada participante.</p>
+<p>Según la información suministrada por la administración municipal, algunos jóvenes han optado voluntariamente por presentarse ante la justicia como parte de sus procesos individuales.</p>
+<p>Estos componentes buscan atender una realidad compleja: abandonar un entorno de violencia no siempre depende únicamente de encontrar una ocupación.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/10/De-las-pandillas-a-los-cultivos-1-1.jpg" alt="Jóvenes participantes del programa Vidas para la Paz en las huertas agrícolas de Puerto Tejada" /></p>
+<p>También puede requerir reconstruir relaciones familiares, desarrollar habilidades para resolver conflictos, afrontar experiencias difíciles y contar con condiciones de seguridad que permitan sostener el cambio.</p>
+<p><strong>Uno de los participantes resumió así el significado de esta oportunidad:</strong> «<em>Hoy sentimos que tenemos una oportunidad real de salir adelante honradamente. Con el apoyo en los proyectos productivos y la guía que recibimos, podemos pensar en un futuro diferente para nosotros y nuestras familias</em>».</p>
+<h4>Los homicidios disminuyeron durante el primer semestre</h4>
+<p>El municipio también reportó una reducción en el número de homicidios durante el primer semestre de 2026.</p>
+<p>Según las cifras presentadas en el comunicado oficial, entre enero y junio de este año se registraron 21 homicidios, frente a 42 casos durante el mismo período de 2025, lo que representa una disminución del 50 %.</p>
+<p>La reducción se produjo en el marco de una estrategia municipal de seguridad y convivencia de la que forma parte Vidas para la Paz.</p>
+<p>No obstante, estos datos por sí solos no permiten establecer cuánto de esa disminución puede atribuirse directamente al programa, pues los resultados en materia de seguridad pueden estar relacionados con diferentes factores.</p>
+<p>La evaluación de su impacto será fundamental para determinar qué acciones están produciendo resultados y cuáles necesitan fortalecerse.</p>
+<h2>El reto de que el programa sobreviva a los gobiernos</h2>
+<p>La alcaldesa de Puerto Tejada, Luz Adiela Salazar, destacó la importancia de ofrecer oportunidades a jóvenes que han estado expuestos a contextos de violencia.</p>
+<p>«<em>Cada proyecto productivo, cada oportunidad laboral y cada proceso de acompañamiento constituyen herramientas fundamentales para fortalecer el tejido social y abrir caminos distintos a la violencia</em>», <strong>señaló la mandataria</strong>.</p>
+<p>Uno de los principales retos será garantizar la continuidad de estas acciones y evitar que los procesos iniciados se interrumpan con los cambios de administración.</p>
+<p>Por esta razón, el municipio trabaja en la construcción de una política pública de resocialización y paz urbana que se espera presentar para aprobación mediante un acuerdo del Concejo Municipal antes de finalizar el actual período de gobierno.</p>
+<p>La intención es establecer una base institucional que permita mantener y ampliar las oportunidades de formación, emprendimiento y acompañamiento para los jóvenes.</p>
+<p>En un territorio donde la violencia ha condicionado las posibilidades de muchas familias, el proceso todavía enfrenta importantes desafíos.</p>
+<p>La sostenibilidad de los proyectos productivos, la permanencia voluntaria de los participantes y la reducción de los riesgos de reincidencia serán aspectos decisivos para evaluar sus resultados.</p>
+<p>Por ahora, la experiencia de los nueve jóvenes que lograron comercializar su primera cosecha ofrece una imagen distinta de Puerto Tejada: la de muchachos que, después de crecer en medio del conflicto, intentan encontrar en la tierra una oportunidad para vivir de otra manera.</p>
+<p>Porque el verdadero resultado de una iniciativa de resocialización no está solamente en cuántos jóvenes ingresan a ella, sino en cuántos consiguen construir y sostener una vida lejos de la violencia.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/cauca/puerto-tejada-programa-resocializacion-vidas-para-la-paz-cosecha-2026/">De las pandillas a los cultivos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/cauca/puerto-tejada-programa-resocializacion-vidas-para-la-paz-cosecha-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Después del terremoto, los niños del Instituto para Ciegos y Sordos volverán a sus salones de clase</title>
+		<link>https://occidente.co/cali/instituto-para-ninos-ciegos-y-sordos-regreso-a-clases-terremoto-2026/</link>
+					<comments>https://occidente.co/cali/instituto-para-ninos-ciegos-y-sordos-regreso-a-clases-terremoto-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 31 Oct 2026 00:32:21 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=443486</guid>
+
+					<description><![CDATA[<p>Casi tres meses después del terremoto del 10 de agosto, que afectó gravemente las instalaciones del Instituto para Niños Ciegos y Sordos del Valle del Cauca, comienzan a llegar noticias alentadoras para las familias que dependen de sus servicios educativos y de salud. Una de las más importantes es el regreso a clases presenciales de...</p>
+<p>The post <a href="https://occidente.co/cali/instituto-para-ninos-ciegos-y-sordos-regreso-a-clases-terremoto-2026/">Después del terremoto, los niños del Instituto para Ciegos y Sordos volverán a sus salones de clase</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Casi tres meses después del terremoto del 10 de agosto, que afectó gravemente las instalaciones del Instituto para Niños Ciegos y Sordos del Valle del Cauca, comienzan a llegar noticias alentadoras para las familias que dependen de sus servicios educativos y de salud.</p>
+<p>Una de las más importantes es el regreso a clases presenciales de los niños que asistían al Centro de Rehabilitación y Educación, cuyas instalaciones resultaron afectadas por el movimiento sísmico.</p>
+<p>A partir del martes 3 de noviembre, los estudiantes volverán a encontrarse en un aula, gracias a un convenio entre el Instituto y el Club de Leones Cali San Fernando, que facilitará las instalaciones del Instituto de Terapia Especial de los Sentidos, ubicado en la calle 3 #26-51, en el barrio San Fernando.</p>
+<p>La decisión permitirá retomar las actividades educativas en un espacio cercano a la sede original, evitando mayores interrupciones en los procesos de aprendizaje y rehabilitación de los menores.</p>
+<p>“<em>Nuestra gratitud inmensa a los directivos del Club de Leones por permitirnos reanudar la labor educativa de manera presencial y no afectar el aprendizaje de los niños</em>”, <strong>expresó Pedro Pablo Perea Mafla, director del Instituto</strong>.</p>
+<h2>Dos jornadas para garantizar la atención</h2>
+<p>Para aprovechar las instalaciones disponibles, las actividades se organizarán en dos jornadas.</p>
+<p>En la mañana, entre las 8:00 a. m. y el mediodía, asistirán cinco grupos correspondientes a las aulas ConSentidos, Caminantes y Maternal, y Jardín B.</p>
+<p>En la tarde, entre la 1:00 p. m. y las 5:00 p. m., participarán nueve grupos de prejardín, jardín, transición, primaria y las aulas Explora y Taller.</p>
+<p>La reorganización busca mantener la continuidad educativa sin descuidar las condiciones de seguridad y bienestar que requieren los estudiantes.</p>
+<h3>La clínica recupera 25 servicios</h3>
+<p>La recuperación también avanza en el área asistencial. La Clínica Visual y Auditiva del Instituto ya cuenta con 25 servicios en operación, ubicados en espacios que no resultaron afectados por el terremoto y que fueron autorizados para su funcionamiento.</p>
+<p>Entre ellos se encuentran oftalmología, optometría, otorrinolaringología, audiología, terapias de lenguaje, baja visión y rehabilitación vestibular, así como el Programa de Implante Coclear.</p>
+<p>También se han restablecido diferentes exámenes diagnósticos y procedimientos especializados, entre ellos tomografía de coherencia óptica, campo visual, ecografía ocular, topografía corneal y angiografía.</p>
+<p>La institución continúa evaluando alternativas para abrir una sede adicional que permita ampliar la cobertura de atención y contribuir a su sostenibilidad económica.</p>
+<p>Aunque todavía queda un camino importante para recuperar completamente la infraestructura del Instituto, el regreso a clases y la reapertura progresiva de los servicios médicos representan avances concretos en su reconstrucción.</p>
+<p>Para las familias, cada aula recuperada y cada consulta habilitada significan algo esencial: la posibilidad de retomar la cotidianidad y continuar los procesos de educación, salud y rehabilitación de sus hijos.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/instituto-para-ninos-ciegos-y-sordos-regreso-a-clases-terremoto-2026/">Después del terremoto, los niños del Instituto para Ciegos y Sordos volverán a sus salones de clase</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/instituto-para-ninos-ciegos-y-sordos-regreso-a-clases-terremoto-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

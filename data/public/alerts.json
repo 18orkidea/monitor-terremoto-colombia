@@ -1,12 +1,12 @@
 {
- "generado": "2026-11-01",
- "fecha": "2026-11-01",
+ "generado": "2026-11-02",
+ "fecha": "2026-11-02",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "86 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 86
+   "texto": "98 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 98
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -71,12 +71,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 66 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 66
+   "texto": "La OPS lleva 67 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 67
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-10-31",
+  "fecha": "2026-11-01",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -142,48 +142,12 @@
     "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
    }
   },
-  "ultimo_balance": "2026-10-16",
-  "ignoradas_del_balance": [
-   {
-    "cifra": "personas_afectadas",
-    "valor": 2000,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Portal Alcaldía de Santiago de Cali",
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
-   },
-   {
-    "cifra": "familias_afectadas",
-    "valor": 400,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Portal Alcaldía de Santiago de Cali",
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 28,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Portal Alcaldía de Santiago de Cali",
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
-   },
-   {
-    "cifra": "fallecidos",
-    "valor": 154,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Portal Alcaldía de Santiago de Cali",
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
-   },
-   {
-    "cifra": "rescatados",
-    "valor": 88,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Portal Alcaldía de Santiago de Cali",
-    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
-   }
-  ],
+  "ultimo_balance": "2026-11-01",
+  "ignoradas_del_balance": [],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-11-01/oficiales_feed.json",
-   "items": 236,
+   "snapshot": "data/snapshots/2026-11-02/oficiales_feed.json",
+   "items": 239,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
