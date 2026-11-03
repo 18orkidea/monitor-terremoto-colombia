@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Tue, 03 Nov 26 06:15:32 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 3 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-3-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 3 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4191" typeof="schema:Person" property="schema:name" datatype&gt;Manuela Cortés&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-03T06:15:32-05:00" title="Martes, Noviembre 3, 2026 - 06:15" class="datetime"&gt;Mar, 03/11/2026 - 06:15&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=96784&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="SAUydwFghJVV7Xws24JTYhMGhwZar_bLcycfsLiotjI"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-03-11-26_page-0001%20%281%29.jpg" width="460" height="600" alt="Portada 3 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 3 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 03 Nov 2026 11:15:32 +0000</pubDate>
+          <dc:creator>Manuela Cortés</dc:creator>
+          <guid isPermaLink="false">96784 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Veteranos de la Fuerza Pública recibieron condecoraciones en celebración en Manizales</title>
+  <link>https://www.lapatria.com/galerias/veteranos-de-la-fuerza-publica-recibieron-condecoraciones-en-celebracion-en-manizales</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Veteranos de la Fuerza Pública recibieron condecoraciones en celebración en Manizales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/26" typeof="schema:Person" property="schema:name" datatype&gt;wilson.gonzalez&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-03T00:00:00-05:00" title="Martes, Noviembre 3, 2026 - 00:00" class="datetime"&gt;Mar, 03/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Fotos | Argemiro Idárraga | LA PATRIA&lt;/p&gt;&lt;p&gt;En la Escuela de Carabineros Alejandro Gutiérrez se realizó la celebración del Día Cívico del Veterano de la Fuerza Pública. Durante el evento algunos de ellos recibieron condecoraciones.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/veteranos-de-la-fuerza-publica-recibieron-condecoraciones-en-celebracion-en-manizales" data-a2a-title="Veteranos de la Fuerza Pública recibieron condecoraciones en celebración en Manizales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fveteranos-de-la-fuerza-publica-recibieron-condecoraciones-en-celebracion-en-manizales&amp;amp;title=Veteranos%20de%20la%20Fuerza%20P%C3%BAblica%20recibieron%20condecoraciones%20en%20celebraci%C3%B3n%20en%20Manizales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Tue, 03 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>wilson.gonzalez</dc:creator>
+          <guid isPermaLink="false">96613 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Club Rotario: Fabio Enrique Vejar Montañez llegó a Manizales para compartir con sus compañeros</title>
+  <link>https://www.lapatria.com/galerias/club-rotario-fabio-enrique-vejar-montanez-llego-manizales-para-compartir-con-sus</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Club Rotario: Fabio Enrique Vejar Montañez llegó a Manizales para compartir con sus compañeros&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-02T00:00:00-05:00" title="Lunes, Noviembre 2, 2026 - 00:00" class="datetime"&gt;Lun, 02/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Fabio Enrique Vejar Montañez, gobernador distrital del Club Rotario Interncional, estuvo de visita en Manizales en donde compartió con sus compañeros en diferentes eventos de la ciudad.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/club-rotario-fabio-enrique-vejar-montanez-llego-manizales-para-compartir-con-sus" data-a2a-title="Club Rotario: Fabio Enrique Vejar Montañez llegó a Manizales para compartir con sus compañeros"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fclub-rotario-fabio-enrique-vejar-montanez-llego-manizales-para-compartir-con-sus&amp;amp;title=Club%20Rotario%3A%20Fabio%20Enrique%20Vejar%20Monta%C3%B1ez%20lleg%C3%B3%20a%20Manizales%20para%20compartir%20con%20sus%20compa%C3%B1eros"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Mon, 02 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">96601 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 02 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-02-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 02 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4553" typeof="schema:Person" property="schema:name" datatype&gt;Mariana Marín&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-01T22:19:27-05:00" title="Domingo, Noviembre 1, 2026 - 22:19" class="datetime"&gt;Dom, 01/11/2026 - 22:19&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=96727&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="fQDpDKsE1kscWa3w5X8fmPoZTHM4Rm4tYErBLrM8ZII"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/Portada-02-11-2026-LAPATRIA_0.jpg" width="600" height="782" alt="Portada 02 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 02 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Mon, 02 Nov 2026 03:19:27 +0000</pubDate>
+          <dc:creator>Mariana Marín</dc:creator>
+          <guid isPermaLink="false">96727 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>5.700 visitantes llegaron a la Autoferia de LA PATRIA para descubrir las novedades del sector automotor</title>
+  <link>https://www.lapatria.com/galerias/5700-visitantes-llegaron-la-autoferia-de-la-patria-para-descubrir-las-novedades-del-sector</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;5.700 visitantes llegaron a la Autoferia de LA PATRIA para descubrir las novedades del sector automotor&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-01T00:00:00-05:00" title="Domingo, Noviembre 1, 2026 - 00:00" class="datetime"&gt;Dom, 01/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;El pasado fin de semana 5.700 personas visitaron la Autoferia para conocer de primera mano las tendencias de la industria automotriz. El evento fue organizado por LA PATRIA en Expoferias.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/5700-visitantes-llegaron-la-autoferia-de-la-patria-para-descubrir-las-novedades-del-sector" data-a2a-title="5.700 visitantes llegaron a la Autoferia de LA PATRIA para descubrir las novedades del sector automotor"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2F5700-visitantes-llegaron-la-autoferia-de-la-patria-para-descubrir-las-novedades-del-sector&amp;amp;title=5.700%20visitantes%20llegaron%20a%20la%20Autoferia%20de%20LA%20PATRIA%20para%20descubrir%20las%20novedades%20del%20sector%20automotor"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sun, 01 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">96600 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 01 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-01-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 01 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4553" typeof="schema:Person" property="schema:name" datatype&gt;Mariana Marín&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-31T17:15:54-05:00" title="Sábado, Octubre 31, 2026 - 17:15" class="datetime"&gt;Sáb, 31/10/2026 - 17:15&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=96677&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="WIfUKukJ-JUGo0yT_qZtT66cHeRzL3ScJmqM7QvNLi0"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/Portada-LAPATRIA.jpg" width="921" height="1200" alt="Portada 01 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 01 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 31 Oct 2026 22:15:54 +0000</pubDate>
+          <dc:creator>Mariana Marín</dc:creator>
+          <guid isPermaLink="false">96677 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON OCTUBRE 31 - 2026</title>
+  <link>https://www.lapatria.com/publicacion/papel-salmon-octubre-31-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;PAPEL SALMON OCTUBRE 31 - 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/38" typeof="schema:Person" property="schema:name" datatype&gt;GLORIA LUZ ANGEL&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-31T10:28:16-05:00" title="Sábado, Octubre 31, 2026 - 10:28" class="datetime"&gt;Sáb, 31/10/2026 - 10:28&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=96654&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="2L6Klf36ZDz3hXX0ZwG-AqfwQ1Q4Hx969sHovie4bPc"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/Portada%20PAPEL%20SALMON%20OCTUBRE%2031%20-%202026.jpg" width="345" height="450" alt="PAPEL SALMON OCTUBRE 31 - 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Tunja guardián de la historia eclesiástica de Colombia.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 31 Oct 2026 15:28:16 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">96654 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 31 de octubre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-31-de-octubre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 31 de octubre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4553" typeof="schema:Person" property="schema:name" datatype&gt;Mariana Marín&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-31T00:05:16-05:00" title="Sábado, Octubre 31, 2026 - 00:05" class="datetime"&gt;Sáb, 31/10/2026 - 00:05&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=96646&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="HHU_9Jhm7WMdP2Ji3609FP1S16C9fTceSLvjYFjQXu8"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-10/Portada-31-octubre-LAPATRIA.jpg" width="600" height="782" alt="Portada 31 de octubre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 31 de octubre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 31 Oct 2026 05:05:16 +0000</pubDate>
+          <dc:creator>Mariana Marín</dc:creator>
+          <guid isPermaLink="false">96646 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Venta de vehículo</title>
+  <link>https://www.lapatria.com/clasificados/venta-de-vehiculo-36</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Venta de vehículo&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-10-30T15:24:50-05:00" title="Viernes, Octubre 30, 2026 - 15:24" class="datetime"&gt;Vie, 30/10/2026 - 15:24&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=96580&amp;amp;2=bookmark&amp;amp;3=rss" token="lFNewI9J7Z3_OqDL3n7-BYrEb6m2pZEIRp6p6f7b4vs"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3365" hreflang="es"&gt;Carros / Motos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;312-8577150&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 30 Oct 2026 20:24:50 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">96580 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
