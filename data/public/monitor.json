@@ -1,6 +1,6 @@
 {
- "generado": "2026-11-05",
- "fecha": "2026-11-05",
+ "generado": "2026-11-06",
+ "fecha": "2026-11-06",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,9 +63,9 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1856,
-    "n_oficial": 80,
-    "n_ciudadano": 492,
+    "n_prensa": 1864,
+    "n_oficial": 81,
+    "n_ciudadano": 498,
     "etiqueta": "No comparable 1:1"
    },
    "n_productos": 1
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1802,
-    "n_oficial": 80,
+    "n_prensa": 1803,
+    "n_oficial": 81,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -254,7 +254,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 838,
-    "n_oficial": 77,
+    "n_oficial": 78,
     "n_ciudadano": 379,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1802,
-    "n_oficial": 80,
+    "n_prensa": 1803,
+    "n_oficial": 81,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 146,
-    "n_oficial": 80,
+    "n_prensa": 147,
+    "n_oficial": 81,
     "n_ciudadano": 51,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -513,7 +513,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 146,
-    "n_oficial": 80,
+    "n_oficial": 81,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 387,
-    "n_oficial": 79,
+    "n_prensa": 388,
+    "n_oficial": 80,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -651,7 +651,7 @@
    "gdelt": 2.6773,
    "fuentes": 467,
    "chatmap": 93,
-   "feeds": 962
+   "feeds": 964
   },
   {
    "fecha": "2026-08-12",
@@ -659,7 +659,7 @@
    "gdelt": 1.5606,
    "fuentes": 344,
    "chatmap": 84,
-   "feeds": 693
+   "feeds": 696
   },
   {
    "fecha": "2026-08-13",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 351
+   "feeds": 352
   },
   {
    "fecha": "2026-08-17",
@@ -699,7 +699,7 @@
    "gdelt": 0.4561,
    "fuentes": null,
    "chatmap": 3,
-   "feeds": 356
+   "feeds": 357
   },
   {
    "fecha": "2026-08-18",
@@ -947,7 +947,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 76,
-   "feeds": 152
+   "feeds": 153
   },
   {
    "fecha": "2026-09-18",
@@ -1171,7 +1171,7 @@
    "gdelt": 0.0651,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 81
+   "feeds": 82
   },
   {
    "fecha": "2026-10-16",
@@ -1227,7 +1227,7 @@
    "gdelt": 0.0485,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 55
+   "feeds": 56
   },
   {
    "fecha": "2026-10-23",
@@ -1259,7 +1259,7 @@
    "gdelt": 0.0892,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 48
+   "feeds": 49
   },
   {
    "fecha": "2026-10-27",
@@ -1307,7 +1307,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 25
+   "feeds": 26
   },
   {
    "fecha": "2026-11-02",
@@ -1323,7 +1323,7 @@
    "gdelt": 0.0882,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 304
+   "feeds": 307
   },
   {
    "fecha": "2026-11-04",
@@ -1331,15 +1331,23 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 55
+   "feeds": 57
   },
   {
    "fecha": "2026-11-05",
    "emm": null,
    "gdelt": null,
    "fuentes": null,
+   "chatmap": 7,
+   "feeds": 50
+  },
+  {
+   "fecha": "2026-11-06",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 24
+   "feeds": 23
   }
  ],
  "entregas": [
@@ -7640,11 +7648,11 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-11-05"
+  "generado": "2026-11-06"
  },
  "citizen": {
-  "chatmap_total": 1007,
-  "en_aoi": 931
+  "chatmap_total": 1014,
+  "en_aoi": 937
  },
  "municipios": {
   "total": 409,

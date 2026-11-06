@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Fri, 06 Nov 26 07:41:13 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA APARTAESTUDIO</title>
+  <link>https://www.lapatria.com/clasificados/venta-apartaestudio-17</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA APARTAESTUDIO&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-06T07:41:13-05:00" title="Viernes, Noviembre 6, 2026 - 07:41" class="datetime"&gt;Vie, 06/11/2026 - 07:41&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=97042&amp;amp;2=bookmark&amp;amp;3=rss" token="ncLTvfczlDpuru-oxrE_1xibn7V69RCUBqaa_KJ-04A"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;311-8121089&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;On&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 06 Nov 2026 12:41:13 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">97042 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA APARTAESTUDIO</title>
+  <link>https://www.lapatria.com/clasificados/venta-apartaestudio-16</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA APARTAESTUDIO&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-06T07:34:39-05:00" title="Viernes, Noviembre 6, 2026 - 07:34" class="datetime"&gt;Vie, 06/11/2026 - 07:34&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt; $270.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=97041&amp;amp;2=bookmark&amp;amp;3=rss" token="e7DlG4zHIATO7hOio_HRQnlNDRZ0jwkicV6Ygfd_GgY"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;310-3826919&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 06 Nov 2026 12:34:39 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">97041 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 6 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-6-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 6 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4191" typeof="schema:Person" property="schema:name" datatype&gt;Manuela Cortés&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-06T06:26:59-05:00" title="Viernes, Noviembre 6, 2026 - 06:26" class="datetime"&gt;Vie, 06/11/2026 - 06:26&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=97038&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="kaHd7ieqpCRCG0-8zZIRiecegLWK7h3vcPlJT151A_o"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-06-11-26%20%281%29.jpg" width="461" height="600" alt="Portada 6 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 6 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 06 Nov 2026 11:26:59 +0000</pubDate>
+          <dc:creator>Manuela Cortés</dc:creator>
+          <guid isPermaLink="false">97038 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Ánderson Osorio Aguirre se graduó como abogado y celebra este logro junto a su familia y amigos</title>
+  <link>https://www.lapatria.com/galerias/anderson-osorio-aguirre-se-graduo-como-abogado-y-celebra-este-logro-junto-su-familia-y</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Ánderson Osorio Aguirre se graduó como abogado y celebra este logro junto a su familia y amigos&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-06T00:00:00-05:00" title="Viernes, Noviembre 6, 2026 - 00:00" class="datetime"&gt;Vie, 06/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Ánderson Osorio Aguirre recibió su título como abogado de la Universidad Católica Luis Amigó. Su familia y amigos le hacen llegar sinceras felicitaciones por su logro y dedicación en sus estudios.&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/anderson-osorio-aguirre-se-graduo-como-abogado-y-celebra-este-logro-junto-su-familia-y" data-a2a-title="Ánderson Osorio Aguirre se graduó como abogado y celebra este logro junto a su familia y amigos"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fanderson-osorio-aguirre-se-graduo-como-abogado-y-celebra-este-logro-junto-su-familia-y&amp;amp;title=%C3%81nderson%20Osorio%20Aguirre%20se%20gradu%C3%B3%20como%20abogado%20y%20celebra%20este%20logro%20junto%20a%20su%20familia%20y%20amigos"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Fri, 06 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97017 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Cupcakes de Halloween: así despertaron su creatividad los niños en un taller de LA PATRIA</title>
+  <link>https://www.lapatria.com/galerias/cupcakes-de-halloween-asi-despertaron-su-creatividad-los-ninos-en-un-taller-de-la-patria</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Cupcakes de Halloween: así despertaron su creatividad los niños en un taller de LA PATRIA&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-06T00:00:00-05:00" title="Viernes, Noviembre 6, 2026 - 00:00" class="datetime"&gt;Vie, 06/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;6 niños que participaron en el Taller de Halloween del Club de Suscriptores de LA PATRIA que se realizó el pasado miércoles 28 de octubre. Allí pusieron a prueba su creatividad para crear sus propios cupcakes de Halloween.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/cupcakes-de-halloween-asi-despertaron-su-creatividad-los-ninos-en-un-taller-de-la-patria" data-a2a-title="Cupcakes de Halloween: así despertaron su creatividad los niños en un taller de LA PATRIA"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fcupcakes-de-halloween-asi-despertaron-su-creatividad-los-ninos-en-un-taller-de-la-patria&amp;amp;title=Cupcakes%20de%20Halloween%3A%20as%C3%AD%20despertaron%20su%20creatividad%20los%20ni%C3%B1os%20en%20un%20taller%20de%20LA%20PATRIA"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Fri, 06 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97015 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Flow Caldas: el grupo de la Universidad de Caldas que conquistó el campeonato nacional de danzas urbanas</title>
+  <link>https://www.lapatria.com/galerias/flow-caldas-el-grupo-de-la-universidad-de-caldas-que-conquisto-el-campeonato-nacional-de</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Flow Caldas: el grupo de la Universidad de Caldas que conquistó el campeonato nacional de danzas urbanas&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-06T00:00:00-05:00" title="Viernes, Noviembre 6, 2026 - 00:00" class="datetime"&gt;Vie, 06/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Flow Caldas, grupo estudiantil de la Universidad de Caldas, ganó en Barranquilla el campeonato nacional de danzas urbanas de Ascun, imponiéndose entre 16 universidades con una arriesgada mezcla de funk brasileño y champeta.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/flow-caldas-el-grupo-de-la-universidad-de-caldas-que-conquisto-el-campeonato-nacional-de" data-a2a-title="Flow Caldas: el grupo de la Universidad de Caldas que conquistó el campeonato nacional de danzas urbanas"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fflow-caldas-el-grupo-de-la-universidad-de-caldas-que-conquisto-el-campeonato-nacional-de&amp;amp;title=Flow%20Caldas%3A%20el%20grupo%20de%20la%20Universidad%20de%20Caldas%20que%20conquist%C3%B3%20el%20campeonato%20nacional%20de%20danzas%20urbanas"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Fri, 06 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97013 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Su amor y sus enseñanzas siguen presentes: el homenaje de la familia Castrillón Grajales</title>
+  <link>https://www.lapatria.com/galerias/su-amor-y-sus-ensenanzas-siguen-presentes-el-homenaje-de-la-familia-castrillon-grajales</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Su amor y sus enseñanzas siguen presentes: el homenaje de la familia Castrillón Grajales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-06T00:00:00-05:00" title="Viernes, Noviembre 6, 2026 - 00:00" class="datetime"&gt;Vie, 06/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Dos años desde tu partida y una eternidad de tus enseñanzas; fuiste padre, esposo, abuelo, educador y sobre todo un hombre sabio.&lt;br&gt;Hoy la vida nos recuerda, que la muerte se lleva el cuerpo, pero jamás la sabiduría, el amor y la huella de un hombre extraordinario, porque los sabios no desaparecen, se convierten en eternidad, en la memoria de quienes lo amamos por siempre, gracias por todo.&lt;br&gt;Familia Castrillón Grajales&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/su-amor-y-sus-ensenanzas-siguen-presentes-el-homenaje-de-la-familia-castrillon-grajales" data-a2a-title="Su amor y sus enseñanzas siguen presentes: el homenaje de la familia Castrillón Grajales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fsu-amor-y-sus-ensenanzas-siguen-presentes-el-homenaje-de-la-familia-castrillon-grajales&amp;amp;title=Su%20amor%20y%20sus%20ense%C3%B1anzas%20siguen%20presentes%3A%20el%20homenaje%20de%20la%20familia%20Castrill%C3%B3n%20Grajales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Fri, 06 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97010 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>VENTA CASA</title>
+  <link>https://www.lapatria.com/clasificados/venta-casa-99</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA CASA&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-05T08:32:10-05:00" title="Jueves, Noviembre 5, 2026 - 08:32" class="datetime"&gt;Jue, 05/11/2026 - 08:32&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=96954&amp;amp;2=bookmark&amp;amp;3=rss" token="aUwfIIeqHTMjEBneiJ1MVGsZ1mvuf2WiHoI_5MWG0OY"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;8850038, 304-3618424&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Thu, 05 Nov 2026 13:32:10 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">96954 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>venta taxi</title>
+  <link>https://www.lapatria.com/clasificados/venta-taxi-0</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;venta taxi&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-05T08:29:47-05:00" title="Jueves, Noviembre 5, 2026 - 08:29" class="datetime"&gt;Jue, 05/11/2026 - 08:29&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=96953&amp;amp;2=bookmark&amp;amp;3=rss" token="mvRJKAIGKZ4-CdaJZvELZfgW1fFCnEAmnH-xa7U-mO0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3365" hreflang="es"&gt;Carros / Motos&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;301-3908347&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Thu, 05 Nov 2026 13:29:47 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">96953 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>

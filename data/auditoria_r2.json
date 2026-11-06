@@ -1,8 +1,8 @@
 {
- "fecha": "2026-11-05",
+ "fecha": "2026-11-06",
  "auditado": true,
- "objetos_en_bucket": 100,
- "objetos_en_manifiesto": 100,
+ "objetos_en_bucket": 101,
+ "objetos_en_manifiesto": 101,
  "faltan_en_r2": [],
  "difieren_en_tamano": [],
  "sobran_en_r2": [],
