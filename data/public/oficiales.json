@@ -1,8 +1,93 @@
 {
- "generated_at": "2026-11-09T04:02:05.817Z",
- "run_date": "2026-11-08",
- "total": 256,
+ "generated_at": "2026-11-10T04:01:26.599Z",
+ "run_date": "2026-11-09",
+ "total": 258,
  "items": [
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
+   "title": "Balance oficial de la UNGRD este 15 de agosto tras ...",
+   "snapshot_id": "2026-11-09:https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
+   "search_date": "2026-11-09",
+   "search_query": "UNGRD SGC terremoto Colombia 09-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "079f685c7fd344539a4940e8a9791958f9cedc09010897fe37acf0adc725db19",
+   "captured_at": "2026-11-10T04:01:25.421Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1c39d-777c-7689-a9c9-48d7c71482c6",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Balance oficial de la UNGRD este 15 de agosto tras terremoto de 7,4 en Colombia: 294 fallecidos, 3.935 heridos y 320 desaparecidos\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/14/6a7f4d88d64ed.r_d.572-268.png)\n\nLa **Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)** actualizó este sábado 15 de agosto el balance tras el terremoto de magnitud 7,4 con epicentro en San José del Palmar, en el departamento del Chocó, Colombia.\n\nEl reporte, con corte a las 6:30 de la mañana, incluye información sobre el **número de personas afectadas y los daños ocasionados.**  \n\n## **Balance oficial de víctimas y población afectada por el terremoto**  \nEl nuevo consolidado nacional establece:\n- **Personas fallecidas:** 294  \n- **Personas heridas:** 3.935  \n- **Personas desaparecidas:** 320  \n- **Personas rescatadas:** 353  \n- **Departamentos afectados:** 15  \n- **Municipios afectados:** 448  \n- **Familias afectadas:** 54.008  \n- **Personas afectadas:** 115.461\n\n## **Viviendas destruidas y daños en infraestructura tras el fuerte sismo**  \nEl informe también registra **daños en viviendas, edificaciones, infraestructura** y servicios esenciales:\n- **Viviendas averiadas:** 81.506  \n- **Viviendas destruidas:** 14.493  \n- **Edificios colapsados:** 66  \n- **Centros de salud afectados:** 241  \n- **Centros educativos afectados:** 2.612  \n- **Centros comunitarios afectados:** 3.621  \n- **Vías afectadas:** 298  \n- **Acueductos afectados:** 59  \n- **Puentes vehiculares afectados:** 44  \n- **Puentes peatonales afectados:** 5  \n- **Aeropuertos afectados:** 5.\n\nEl reporte oficial también **da cuenta de 578 animales afectados y 188 rescatados.**\n\n## **Gobierno prepara plan de reconstrucción**  \nEl plan se desarrollará bajo las directrices del **presidente de la República** y articulará las capacidades de la **Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD)**, el **Ministerio de Vivienda**, los **empresarios** y las **entidades territoriales**, junto con otros actores públicos y privados, entidades financieras y organismos de cooperación.\n\nLa **coordinación de las acciones y los recursos** se llevará a cabo en el marco del **Fondo Milagro**, creado por el Gobierno Nacional como instrumento para **articular los esfuerzos destinados a la reconstrucción** de las zonas afectadas.\n\nEl **terremoto** afectó a los departamentos de Caldas, Quindío y Chocó, región del Pacífico colombiano donde se ubicó el epicentro, en el municipio de San José del Palmar.\n\nSegún el SGC, hasta la noche del viernes se habían producido **256 réplicas** del temblor, **17 de ellas con magnitud mayor a 3,0 y dos superiores a 4,0.**\n\n**GERALDINE BAJONERO VÁSQUEZ**  \nPeriodista Últimas Noticias de EL TIEMPO",
+   "publicado_en": "2026-08-15T10:18:42-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-15",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 448,
+    "personas_afectadas": 115461,
+    "familias_afectadas": 54008,
+    "viviendas_averiadas": 81506,
+    "viviendas_destruidas": 14493,
+    "heridos": 3935,
+    "fallecidos": 294,
+    "desaparecidos": 320,
+    "rescatados": 188
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Balance oficial de la UNGRD este 15 de agosto tras terremoto de 7,4 en Colombia: 294 fallecidos, 3.935 heridos y 320 desaparecidos\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/14/6a7f4d88d64ed.r_d.572-268.png)\n\nLa **Unidad Nacional ",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "http://portal.gestiondelriesgo.gov.co/Paginas/Noticias/2026/356-personas-rescatadas-la-respuesta-de-la-UNGRD-continua-un-mes-despues-del-terremoto.aspx",
    "publication_url": "http://portal.gestiondelriesgo.gov.co/Paginas/Noticias/2026/356-personas-rescatadas-la-respuesta-de-la-UNGRD-continua-un-mes-despues-del-terremoto.aspx",
@@ -15383,9 +15468,9 @@
    "url": "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
    "publication_url": "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
    "title": "Decreto 1261 de 2026 Nivel Nacional",
-   "snapshot_id": "2026-11-08:https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
-   "search_date": "2026-11-08",
-   "search_query": "Gobernación Alcaldía terremoto Colombia 08-11-2026 personas familias viviendas municipios departamentos afectados",
+   "snapshot_id": "2026-11-09:https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
+   "search_date": "2026-11-09",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 09-11-2026 personas familias viviendas municipios departamentos afectados",
    "publisher": {
     "name": "Decreto  1261 de 2026 Nivel Nacional",
     "domain": "alcaldiabogota.gov.co",
@@ -15421,9 +15506,9 @@
    "temporal_source_policy": "institucion_oficial_no_edan",
    "original_source_level": "oficial_institucional",
    "content_sha256": "7425a436fefbed4fee0ac526791b02d47807b69dfb158436cad2eba56d55976c",
-   "captured_at": "2026-11-09T04:02:04.108Z",
+   "captured_at": "2026-11-10T04:01:25.421Z",
    "extraction_method": "firecrawl_search_then_scrape",
-   "firecrawl_job_id": "01a1be76-dd6c-772b-b71f-a8833cbda261",
+   "firecrawl_job_id": "01a1c39d-8bdd-76cb-8323-95f269a72cfc",
    "firecrawl_scrape_status": 200,
    "firecrawl_scrape_error": null,
    "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
@@ -22103,6 +22188,87 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "publication_url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "title": "OIM Respuesta al Terremoto en Colombia - Reporte de ...",
+   "snapshot_id": "2026-11-09:https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "search_date": "2026-11-09",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 09-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "ReliefWeb",
+    "domain": "reliefweb.int",
+    "channel": "web",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   "reported_data_source": [
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "3489f7ad431138aa544bfb4f0ae83387fb2fb06fa41a6a5205a703cac107fe95",
+   "captured_at": "2026-11-10T04:01:25.421Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1c39d-8bdd-76cb-8323-95f269a72cfc",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Attachments\n\n- [![Preview of Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/83/3d/833dcc84-be04-5fcb-a3d7-694b3f76689f.png?2737805-1-0)**Download Report**(PDF \\| 723.95 KB)](https://reliefweb.int/attachments/833dcc84-be04-5fcb-a3d7-694b3f76689f/Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf)\n\n**CONTEXTO GENERAL**\n\nEl 10 de agosto de 2026, a las 7:34 a.m. se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó. El Gobierno nacional declaró la situación de desastre nacional mediante el Decreto Presidencial 1171 de 2026. En los días posteriores, la atención y respuesta se ha concentrado principalmente en los departamentos con mayores afectaciones son Valle del Cauca, Chocó, Risaralda, Caldas y Quindío.\n\n**AFECTACIONES**\n\n304 personas fallecidas  \n426 personas desaparecidas  \n357 personas rescatadas  \n186.182 personas afectadas  \n4.400 personas heridas  \n127.266 viviendas afectadas  \n26.558 viviendas destruidas  \n5 aeropuertos afectados  \n300 establecimientos de salud afectados  \n3.074 instituciones educativas afectadas  \n4.043 centros comunitarios afectados  \n197 edificios colapsados  \n15 departamentos afectados  \n472 municipios afectados\n\n**EVOLUCIÓN DE LA SITUACIÓN**\n\n• El Servicio Geológico Colombiano ha reportado 183 réplicas, 15 superiores a magnitud 3 y dos superiores a magnitud 4.\n\n• La información sobre daños y población afectada continúa consolidándose, incorporando nuevos territorios y actualizando las estimaciones iniciales a medida que avanzan los EDAN y los reportes territoriales.\n\n• Desde el evento se han realizado evaluaciones de daños y afectaciones en los territorios impactados, identificándose impactos diferenciados entre municipios y departamentos.\n\n• El aumento de las lluvias en varios departamentos, especialmente en Chocó, ha agravado la situación de los afectados.",
+   "publicado_en": null,
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 472,
+    "personas_afectadas": 186182,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 127266,
+    "viviendas_destruidas": 26558,
+    "heridos": 4400,
+    "fallecidos": 304,
+    "desaparecidos": 426,
+    "rescatados": 357
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -22282,8 +22448,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1be76-d6bf-7799-9147-65fb021e7c40",
-       "query": "UNGRD SGC terremoto Colombia 08-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a1c39d-777c-7689-a9c9-48d7c71482c6",
+       "query": "UNGRD SGC terremoto Colombia 09-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -22291,8 +22457,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1be76-dd6c-772b-b71f-a8833cbda261",
-       "query": "Gobernación Alcaldía terremoto Colombia 08-11-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a1c39d-8bdd-76cb-8323-95f269a72cfc",
+       "query": "Gobernación Alcaldía terremoto Colombia 09-11-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -22300,8 +22466,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1be76-e566-76e6-bcc2-c6d0412f4113",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 08-11-2026 reporte oficial afectados",
+       "id": "01a1c39d-9ccc-7278-8b9f-d718005bce19",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 09-11-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -22349,11 +22515,9 @@
      "type": "html",
      "url": "https://www.gestiondelriesgo.gov.co/snigrd/alertas.aspx",
      "note": "Portal SNIGRD; útil solo si enlaza alertas o páginas con evento específico.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 53,
-     "candidates": 0,
-     "result": "no_event_specific_links"
+     "http_status": 526,
+     "ok": false,
+     "result": "no_usable"
     }
    ]
   },
@@ -22476,6 +22640,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-11-09/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-11-10/oficiales_feed.json"
  }
 }
