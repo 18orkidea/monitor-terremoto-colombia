@@ -1,0 +1,771 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Wed, 11 Nov 2026 14:30:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Shop Direct Merchant Workspace facilita connection</title>
+		<link>https://occidente.co/secciones/tecnologia/shop-direct-merchant-workspace/</link>
+					<comments>https://occidente.co/secciones/tecnologia/shop-direct-merchant-workspace/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 14:30:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444209</guid>
+
+					<description><![CDATA[<p>Merchant Workspace facilita la conexión de tiendas a Shop Direct Amazon lanzó el Shop Direct Merchant Workspace, un portal gratuito que permite a comerciantes elegibles conectar sus tiendas y catálogos a Alexa for Shopping y al sitio y app de Amazon. Shop Direct es la función que muestra productos de otras tiendas en búsquedas de...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/shop-direct-merchant-workspace/">Shop Direct Merchant Workspace facilita connection</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Merchant Workspace facilita la conexión de tiendas a Shop Direct</h2>
+</p>
+<p>Amazon lanzó el Shop Direct Merchant Workspace, un portal gratuito que permite a comerciantes elegibles conectar sus tiendas y catálogos a Alexa for Shopping y al sitio y app de Amazon. Shop Direct es la función que muestra productos de otras tiendas en búsquedas de Amazon y en Alexa; según la compañía, ya ha permitido que decenas de millones de clientes descubran cientos de millones de productos únicos.</p>
+</p>
+<h2>Shop Direct: qué ocurrió y por qué importa</h2>
+</p>
+<p>Amazon anunció el lanzamiento del Merchant Workspace, un espacio de auto-servicio donde los comerciantes pueden registrarse, verificar su sitio y subir o enlazar catálogos para que sus productos sean visibles en Amazon y en Alexa for Shopping. El anuncio, realizado en la comunicación pública de Amazon, destaca que el portal soporta formatos de feeds ya usados por comerciantes y permite la conexión mediante proveedores como Feedonomics, Salsify, CEDCommerce y VersaFeed. La novedad es relevante porque reduce el trabajo técnico para listar productos y amplía la posibilidad de que clientes encuentren artículos que Amazon no vende directamente.</p>
+</p>
+<h2>Qué cambia para los usuarios y vendedores</h2>
+</p>
+<h3>Productos encontrados fuera de Amazon aparecen en búsquedas</h3>
+</p>
+<p>Los clientes podrán ver resultados etiquetados como &#8220;Shop Direct&#8221; al buscar en Amazon o al usar Alexa for Shopping, con un botón que dirige al usuario a la tienda del comerciante para completar la compra.</p>
+</p>
+<h3>Compra asistida por la función &#8220;Buy for Me&#8221;</h3>
+</p>
+<p>Cuando estén disponibles, algunos productos de Shop Direct podrán comprarse con la función &#8220;Buy for Me&#8221;, que permite a la IA de Amazon completar la compra en nombre del usuario usando la dirección, el pago y los datos confirmados en la interfaz de Amazon.</p>
+</p>
+<h3>Los comerciantes mantienen operaciones propias</h3>
+</p>
+<p>Quienes se unan gestionan inventario, precios, envíos y atención al cliente con sus procesos habituales; Amazon solo facilita la descubribilidad y el enlace hacia la tienda del comerciante.</p>
+</p>
+<h2>Aspectos pendientes y limitaciones por confirmar</h2>
+</p>
+<p>No todos los detalles técnicos están detallados en el comunicado: por ejemplo, los criterios exactos de elegibilidad para comerciantes no se especifican en la nota y dependerán de la verificación que exige el Merchant Workspace. Tampoco se indican límites geográficos claros: la comunicación señala disponibilidad para clientes en Estados Unidos, sin detallar pasos para otros mercados. Además, aunque el portal acepta formatos de feed comunes y ofrece integraciones con proveedores mencionados, la disponibilidad de integraciones adicionales dependerá de desarrollos futuros con la API Selling Partner (SP-API).</p>
+</p>
+<p>Por último, la comunicación no menciona tarifas por transacción ni cambios en las políticas de devoluciones o garantía, por lo que esas condiciones seguirán dependiendo de cada comerciante participante.</p>
+</p>
+<p>En conjunto, la herramienta busca que más comercios aprovechen la exposición en Amazon y Alexa sin migrar totalmente sus operaciones, pero algunos requisitos y la expansión internacional quedan por confirmar.</p>
+</p>
+<p>El lanzamiento se inserta en una tendencia mayor de Amazon por integrar tiendas externas a su experiencia de búsqueda y por potenciar funcionalidades de compra asistida mediante IA.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Más opciones de productos disponibles desde Amazon y Alexa, con posibilidad de compra asistida.</p>
+</p>
+<p><strong>Negocio:</strong> Comerciantes pueden ganar visibilidad sin cambiar sus procesos ni crear catálogos nuevos.</p>
+</p>
+<p><strong>Industria:</strong> Aumenta la integración entre plataformas de comercio y asistentes de voz, y presiona a otros actores a facilitar conexiones similares.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/shop-direct-merchant-workspace/">Shop Direct Merchant Workspace facilita connection</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/shop-direct-merchant-workspace/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El ministro Ordóñez</title>
+		<link>https://occidente.co/opinion/columnistas/el-ministro-ordonez/</link>
+					<comments>https://occidente.co/opinion/columnistas/el-ministro-ordonez/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 01:23:05 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[Omar Nicolás Ordóñez Ruiz]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444300</guid>
+
+					<description><![CDATA[<p>Hay nombramientos que se explican por la coyuntura y otros por la persona. El de Alejandro Ordóñez Maldonado en el Ministerio del Interior tiene un poco de ambos. Llega cuando el Gobierno necesita al Congreso más que nunca, y cuando el presidente Abelardo de la Espriella ya decidió que esa relación no se va a...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-ministro-ordonez/">El ministro Ordóñez</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Hay nombramientos que se explican por la coyuntura y otros por la persona.</p>
+<p>El de Alejandro Ordóñez Maldonado en el Ministerio del Interior tiene un poco de ambos.</p>
+<p>Llega cuando el Gobierno necesita al Congreso más que nunca, y cuando el presidente Abelardo de la Espriella ya decidió que esa relación no se va a construir con cuotas, puestos ni favores.</p>
+<p><strong>El presidente lo dijo desde el comienzo:</strong> la relación con el Legislativo se haría a la luz del día, sin prebendas y sin intermediarios. Por eso Ordóñez tiene sentido.</p>
+<p>Fue concejal de Bucaramanga, magistrado y presidente del Tribunal Administrativo de Santander, y llegó al Consejo de Estado, que también presidió.</p>
+<p>En 2008 el Congreso lo eligió procurador general con votos de sectores muy distintos, y ejerció el cargo hasta 2016.</p>
+<p>Después representó a Colombia ante la OEA durante el gobierno del Presidente Iván Duque y volvió a esa embajada este año, de donde el presidente lo trajo al Interior.</p>
+<p>De su paso por la Procuraduría se ha dicho de todo, y él nunca ha pretendido caerle bien a todo el mundo.</p>
+<p>Lo que pocos pueden negarle es que no midió las sanciones por el color político del investigado.</p>
+<p>Por su despacho pasaron exministros de la derecha y congresistas de la izquierda, y con todos sostuvo la misma firmeza. Esa coherencia incomoda, y es justo lo que necesita un ministerio donde la tentación de negociar principios es diaria.</p>
+<p>Lo digo con la franqueza de quien lo admira desde hace mucho.</p>
+<p>Yo era muy joven cuando lo veía ejercer como procurador, y me llamaba la atención que alguien con tanto poder estuviera tan poco dispuesto a usarlo para quedar bien.</p>
+<p><strong>Años después trabajé con él en la Cancillería y confirmé de cerca lo que había visto de lejos:</strong> un hombre estudioso, que prepara cada intervención, que escucha más de lo que la gente supone y que trata con el mismo respeto a un embajador y al funcionario más nuevo.</p>
+<p>No escribo como observador imparcial, porque nos une una relación cercana. Por eso mismo sé que no llega a improvisar.</p>
+<p>Los retos tienen fecha. El primero es la Ley de Rescate Económico, radicada en la Cámara el 29 de octubre y con mensaje de urgencia.</p>
+<p>Propone un ajuste cercano a los 45 billones de pesos en el gasto de 2027, y el Gobierno asegura que siete de cada diez pesos saldrán del propio Estado.</p>
+<p>Aprobarla sin entregar el ministerio a cambio de votos será la primera prueba de que otra forma de relacionarse con el Congreso es posible.</p>
+<p>El segundo es el Plan Nacional de Desarrollo. Bien hecho, puede saldar una deuda vieja con las regiones: más autonomía en el manejo de las regalías, más recursos para lo que cada territorio define como prioridad y más Estado donde hoy apenas llega.</p>
+<p>Ahí Ordóñez tendrá que ser también el articulador con gobernadores y alcaldes.</p>
+<p>Le deseo al ministro Alejandro Ordóñez Maldonado muchos éxitos.</p>
+<p>Que tenga paciencia para escuchar, firmeza para no ceder en lo esencial y sabiduría para distinguir una cosa de la otra.</p>
+<p><strong>Y que Dios lo acompañe y lo ampare en cada decisión. De su gestión depende algo más que la agenda de un gobierno:</strong> la prueba de que en este país todavía se puede gobernar de frente.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-ministro-ordonez/">El ministro Ordóñez</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/el-ministro-ordonez/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Hugo Salas llega a la Casa de Nariño como asesor digital de comunicaciones de la Presidencia</title>
+		<link>https://occidente.co/colombia/hugo-salas-presidencia-de-la-republica-asesor-digital-2026/</link>
+					<comments>https://occidente.co/colombia/hugo-salas-presidencia-de-la-republica-asesor-digital-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 01:14:30 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444297</guid>
+
+					<description><![CDATA[<p>El comunicador social caleño Hugo Salas asumirá un nuevo reto profesional como asesor digital en el área de comunicaciones de la Presidencia de la República, después de una trayectoria de 32 años en medios de comunicación, entidades públicas, docencia universitaria y asesoría en comunicación estratégica. Salas, quien recientemente estuvo encargado de las comunicaciones de la...</p>
+<p>The post <a href="https://occidente.co/colombia/hugo-salas-presidencia-de-la-republica-asesor-digital-2026/">Hugo Salas llega a la Casa de Nariño como asesor digital de comunicaciones de la Presidencia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El comunicador social caleño Hugo Salas asumirá un nuevo reto profesional como asesor digital en el área de comunicaciones de la Presidencia de la República, después de una trayectoria de 32 años en medios de comunicación, entidades públicas, docencia universitaria y asesoría en comunicación estratégica</strong>.</p>
+<p>Salas, quien recientemente estuvo encargado de las comunicaciones de la Personería de Cali, llegará a la Casa de Nariño por solicitud directa del presidente Abelardo de la Espriella, según la información conocida sobre su vinculación.</p>
+<p>Su trayectoria incluye cargos directivos en comunicaciones de la Gobernación del Valle del Cauca y la Alcaldía de Palmira, así como una amplia experiencia en televisión y en el manejo de estrategias de comunicación institucional.</p>
+<h2>De los medios de comunicación a las entidades públicas</h2>
+<p>Hugo Salas construyó buena parte de su carrera en el periodismo regional, especialmente en televisión, donde trabajó durante varios años en el Noticiero del Pacífico y participó en diferentes programas.</p>
+<p>Esa experiencia en los medios le permitió ampliar su campo profesional hacia la comunicación pública, la asesoría institucional y el diseño de estrategias para relacionar a las entidades con la ciudadanía.</p>
+<p>En la Gobernación del Valle del Cauca estuvo al frente de la oficina de comunicaciones, responsabilidad que también desempeñó en la Alcaldía de Palmira.</p>
+<p>Más recientemente, estuvo vinculado a la Personería de Cali, donde se encargó de las comunicaciones de este organismo de control.</p>
+<h3>Una trayectoria de 32 años en comunicaciones</h3>
+<p>Además de su experiencia en el sector público y los medios de comunicación, Salas ha desarrollado actividades de docencia universitaria, formación de nuevos profesionales y asesoría en campañas electorales.</p>
+<p>Su trayectoria también comprende el manejo de crisis comunicacionales, la construcción de estrategias de imagen reputacional y la comunicación institucional.</p>
+<p>Estos campos de experiencia forman parte del recorrido profesional que ahora lo llevará al equipo de comunicaciones de la Presidencia de la República.</p>
+<h4>Su nuevo papel en la Casa de Nariño</h4>
+<p>La llegada de Hugo Salas al Gobierno nacional representa un cambio de escenario para el comunicador caleño, quien pasará de desempeñar responsabilidades en entidades territoriales a trabajar en el ámbito de las comunicaciones presidenciales.</p>
+<p>Su nueva función estará relacionada con la asesoría digital, un campo que comprende el uso de plataformas y canales tecnológicos para la difusión de información y el desarrollo de estrategias comunicativas.</p>
+<p>Con este nombramiento, Salas sumará una nueva experiencia a una carrera que ha combinado el ejercicio periodístico, la dirección de oficinas de comunicaciones, la docencia y la asesoría estratégica.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/hugo-salas-presidencia-de-la-republica-asesor-digital-2026/">Hugo Salas llega a la Casa de Nariño como asesor digital de comunicaciones de la Presidencia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/hugo-salas-presidencia-de-la-republica-asesor-digital-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Conciliar no es perder: conozca por qué negociar a tiempo puede evitarle años de pleitos, gastos y una sentencia desfavorable</title>
+		<link>https://occidente.co/area-legal/citacion-audiencia-de-conciliacion-ley-2220-derecho-colombia-2026/</link>
+					<comments>https://occidente.co/area-legal/citacion-audiencia-de-conciliacion-ley-2220-derecho-colombia-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 01:07:02 +0000</pubDate>
+				<category><![CDATA[Área Legal]]></category>
+		<category><![CDATA[Abogada Ángela Caicedo]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444293</guid>
+
+					<description><![CDATA[<p>Por Ángela María Caicedo ÁNGELA MARÍA CAICEDO Abogada, Conciliadora y Comunicador Social-Periodista Escritora Apasionada y Exploradora del Conocimiento Jurídico. Una citación a conciliación no es una condena ni significa que usted haya perdido un pleito. Puede ser la oportunidad de solucionar un conflicto antes de terminar enfrentado a un proceso judicial que dure años. Conozca...</p>
+<p>The post <a href="https://occidente.co/area-legal/citacion-audiencia-de-conciliacion-ley-2220-derecho-colombia-2026/">Conciliar no es perder: conozca por qué negociar a tiempo puede evitarle años de pleitos, gastos y una sentencia desfavorable</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><img decoding="async" class="img-fluid size-full wp-image-144260 alignleft" src="https://occidente.co/wp-content/uploads/2024/01/abogada-angela-maria-caicedo.jpg" alt="Abogada Ángela María Caicedo" width="150" /><em>Por <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://occidente.co/tag/abogada-angela-caicedo/" target="_blank" rel="noopener">Ángela María Caicedo</a></span></em></p>
+<h4><span style="color: #00bfa5;">ÁNGELA MARÍA CAICEDO</span></h4>
+<p>Abogada, Conciliadora y Comunicador Social-Periodista<br />
+Escritora Apasionada y Exploradora del Conocimiento Jurídico.</p>
+<p>Una citación a conciliación no es una condena ni significa que usted haya perdido un pleito.</p>
+<p>Puede ser la oportunidad de solucionar un conflicto antes de terminar enfrentado a un proceso judicial que dure años.</p>
+<p>Conozca cómo aprovechar este mecanismo y por qué negociar no significa perder.</p>
+<h2>Por: Especialista en conciliación extrajudicial en derecho</h2>
+<p>La historia de quien prefirió pelear durante años antes que sentarse a negociar<br />
+Imagínese esta escena.</p>
+<p>Un hombre recibe una citación para asistir a una audiencia de conciliación.</p>
+<p><strong>Abre el documento, lo lee rápidamente y, sin terminar de entender de qué se trata, exclama indignado:</strong></p>
+<p>—<em>¡Yo no voy a conciliar nada! ¡Que me demande! ¡Nos vemos en los juzgados!</em></p>
+<p>Su familia intenta hacerlo entrar en razón, pero él está convencido de que asistir a una conciliación es demostrar debilidad.</p>
+<p>—<em>¡Yo no tengo por qué ceder! ¡Si quiere algo, que lo decida un juez!</em></p>
+<p>Y así, con esa frase llena de orgullo, acaba de cerrar una puerta que posiblemente le habría permitido solucionar su problema de manera mucho más rápida, económica y tranquila.</p>
+<p>Pasan los meses. Después, los años.</p>
+<p>Llegan las notificaciones judiciales, los gastos de abogados, las pruebas, las audiencias, los aplazamientos y esa incertidumbre que no deja dormir.</p>
+<p>Mientras tanto, el conflicto sigue ahí, robándole la tranquilidad.</p>
+<p>Hasta que finalmente llega el día de la sentencia.</p>
+<p>El hombre abre la decisión judicial y descubre que el resultado no era precisamente el que esperaba.</p>
+<h3>¡Ahora tiene que cumplir una orden que no le gusta!</h3>
+<p>Y entonces recuerda aquella citación que un día rechazó con tanta arrogancia.</p>
+<p>Tal vez, si hubiera asistido, habría podido negociar los plazos, discutir las condiciones, proponer alternativas y construir un acuerdo que también protegiera sus intereses.</p>
+<p>Pero esa oportunidad ya pasó.</p>
+<p>Porque mientras en la conciliación las partes pueden construir la solución, en un proceso judicial es el juez quien decide conforme a las pruebas y a la ley.</p>
+<p><strong>Y aquí viene la pregunta que quiero hacerle:</strong></p>
+<p>¿A usted le gusta que otras personas decidan por usted?</p>
+<p>Yo creo que a nadie.</p>
+<p>No hay nada más incómodo que sentir que alguien está tomando decisiones que afectan nuestra vida, nuestro bolsillo o nuestra familia sin que podamos determinar el resultado.</p>
+<p>Y, paradójicamente, muchas personas desperdician la oportunidad de participar directamente en la solución de sus conflictos porque creen que negociar es perder.</p>
+<p>¡Qué equivocación!</p>
+<p>La historia anterior es de la vida real, y refleja una situación que puede presentarse en numerosos conflictos jurídicos.</p>
+<h3>Conciliar no es perder: es tener el poder de decidir</h3>
+<p>En Colombia existe un mecanismo legal que permite resolver determinados conflictos mediante el diálogo, sin necesidad de esperar una sentencia judicial.</p>
+<p>Se llama conciliación extrajudicial en derecho y está regulado principalmente por la Ley 2220 de 2022, conocida como el Estatuto de Conciliación.</p>
+<p><strong>Su esencia es sencilla:</strong> dos o más personas que tienen un conflicto buscan una solución con la intervención de un conciliador autorizado, que facilita el diálogo y puede proponer fórmulas de arreglo, pero no impone la solución.</p>
+<h2>¿Y sabe cuál es su mayor ventaja?</h2>
+<p>Que usted puede participar en la construcción del acuerdo.</p>
+<p>Puede escuchar, plantear propuestas, negociar condiciones y decidir si acepta o no una solución, dentro de los límites establecidos por la ley.</p>
+<p>En cambio, cuando un conflicto llega a juicio y termina en una sentencia, el juez adopta una decisión que las partes deben cumplir una vez sea exigible, sin perjuicio de los recursos legales procedentes.</p>
+<h4>Por eso siempre insisto en algo:</h4>
+<p>En la conciliación usted negocia; en la sentencia, el juez ordena.</p>
+<p>La Ley 2220 de 2022 también establece que el acta que contiene un acuerdo conciliatorio válido presta mérito ejecutivo y tiene efectos de cosa juzgada.</p>
+<p>Esto significa que no estamos hablando de simples promesas, sino de compromisos con importantes consecuencias jurídicas.</p>
+<p>¿Lo citaron a una audiencia de conciliación? ¡No llegue sin preparar su estrategia!<br />
+Cuando usted recibe una citación de conciliación, lo primero que debe hacer es conservar la calma.</p>
+<h3>¡No lo están condenando!</h3>
+<p>Tampoco significa, por sí solo, que exista una demanda judicial en su contra, mucho menos una orden de captura.</p>
+<p>Lo están convocando a participar en un espacio para intentar resolver un conflicto.</p>
+<p><strong>Pero tenga cuidado:</strong> eso no significa que deba presentarse sin preparación.</p>
+<p>Antes de asistir, revise detenidamente la solicitud de conciliación.</p>
+<p>Identifique quién lo está citando, cuáles son los hechos, qué le están reclamando y qué documentos respaldan esas pretensiones.</p>
+<p><strong>Después, haga algo muy importante:</strong> prepare su estrategia.</p>
+<p>Piense en una persona que desea vender un automóvil. Antes de sentarse a negociar, sabe cuánto quiere recibir, cuál es el precio mínimo que estaría dispuesto a aceptar y cuáles condiciones podrían facilitar el negocio.</p>
+<p>¡Pues con una conciliación sucede algo parecido!</p>
+<p>Usted también puede llegar con un plan A, un plan B y hasta un plan C.</p>
+<p>Por ejemplo, si existe una deuda, podría evaluar la posibilidad de pagarla por cuotas, establecer fechas de cumplimiento o negociar condiciones razonables.</p>
+<p>Si se trata de un conflicto familiar, podría analizar alternativas relacionadas con las obligaciones o compromisos que la ley permite conciliar.</p>
+<p>La clave es conocer sus derechos, comprender sus obligaciones y tener claridad sobre aquello que puede negociar y aquello que no debe aceptar.</p>
+<p>Una persona preparada tiene mejores herramientas para defender sus intereses y construir un acuerdo conveniente.</p>
+<p>¡No confunda la voluntad de conciliar con la obligación de aceptar cualquier propuesta!<br />
+Aquí quiero hacer una aclaración fundamental.</p>
+<p>La conciliación requiere voluntad de las partes.</p>
+<p>Eso significa que nadie puede obligarlo a aceptar una propuesta que considere injusta o perjudicial.</p>
+<p>¡Una cosa es querer solucionar un problema y otra muy diferente es permitir que vulneren sus derechos!</p>
+<p>Pensemos en un ejemplo.</p>
+<p>Una madre acude a una audiencia de conciliación para establecer la cuota alimentaria de su hijo.</p>
+<p><strong>El padre, muy convencido de que está haciendo una magnífica propuesta, anuncia:</strong><br />
+—<em>¡Yo puedo dar $50.000 mensuales!</em></p>
+<p><strong>Y, como si fuera poco, agrega:</strong></p>
+<p>—<em>¡O si quiere le llevo un bulto de naranjas!</em></p>
+<p>¡No, señor!</p>
+<p>Las necesidades de un niño no se resuelven con propuestas improvisadas que desconozcan sus derechos.</p>
+<p>La cuota alimentaria debe analizarse teniendo en cuenta, entre otros aspectos, las necesidades del beneficiario y la capacidad económica del obligado.</p>
+<p>Si la propuesta no garantiza adecuadamente esos derechos, no tiene por qué ser aceptada.</p>
+<p>Además, en asuntos relacionados con menores de edad, cualquier acuerdo debe respetar el interés superior del niño.</p>
+<p>Cuando no se alcanza una solución, pueden intervenir las autoridades competentes conforme al procedimiento aplicable.</p>
+<p>Porque conciliar no significa renunciar a los derechos ni aceptar cualquier cosa para evitar un juicio.</p>
+<p>Significa buscar un acuerdo legal, razonable y voluntario.</p>
+<h3>¿Todos los problemas se pueden solucionar mediante conciliación?</h3>
+<p>No todos, pero muchos conflictos pueden ser objeto de conciliación extrajudicial en derecho.</p>
+<p>Entre los asuntos que pueden ser conciliables, dependiendo de sus características y de lo permitido por la legislación, encontramos controversias sobre obligaciones económicas, incumplimientos contractuales, conflictos familiares relacionados con alimentos, custodia y visitas, y determinadas diferencias civiles y comerciales.</p>
+<p>Sin embargo, existen derechos indisponibles, materias excluidas y situaciones que requieren un procedimiento especial.</p>
+<p>Por eso, antes de iniciar una solicitud, es importante verificar si el conflicto puede resolverse por esta vía y cuál es la autoridad o el conciliador competente.</p>
+<p>Incluso, en determinados procesos judiciales, la conciliación constituye un requisito previo para presentar la demanda, salvo las excepciones establecidas por la ley.</p>
+<h2>¿Tiene un problema y no sabe si puede conciliarlo?</h2>
+<p>No se quede con la duda. Llámeme o escríbame al (316) 212 4646 y revisemos su situación.</p>
+<p>¡Se acaba el 2026! No cargue hasta el próximo año ese problema que le roba la tranquilidad</p>
+<p>Estamos en noviembre.</p>
+<p>Faltan pocas semanas para despedir el 2026 y muchas personas todavía tienen pendientes conflictos que vienen arrastrando desde hace meses o incluso años.</p>
+<p>Deudas entre familiares, dinero prestado que nunca regresó, incumplimientos de contratos, cuotas alimentarias sin definir y diferencias que terminaron destruyendo amistades.</p>
+<h3>Y aquí viene mi recomendación:</h3>
+<p>¿Para qué llevarse ese problema hasta el 2027 si existe la posibilidad de intentar solucionarlo desde ahora?</p>
+<p>No espere a que un conflicto pequeño se convierta en un proceso judicial costoso.<br />
+No deje que el orgullo tome decisiones por usted.</p>
+<p>No convierta una diferencia económica en una guerra interminable.</p>
+<p>En muchos casos, una audiencia de conciliación puede abrir el camino para un acuerdo que devuelva la tranquilidad a las personas involucradas.</p>
+<p>Y lo mejor es que puede recibir orientación para iniciar el trámite con prontitud, siempre teniendo en cuenta los tiempos legales, la disponibilidad del servicio y la adecuada citación de las partes.</p>
+<p>Mi propósito es ayudarle a buscar una salida jurídica, organizada y amigable, evitando que el conflicto se prolongue innecesariamente.</p>
+<p><strong>¡Llegaron los regalos anticipados de Navidad! Dos oportunidades para intentar cerrar el año en paz</strong></p>
+<p>Este año quiero ofrecerles dos regalos anticipados de Navidad a quienes están cansados de vivir entre problemas, discusiones y amenazas de demandas.</p>
+<p>Primer regalo: una tarifa especial para iniciar su conciliación.</p>
+<p>Si necesita solicitar una audiencia de conciliación, contácteme y consulte por el precio de oportunidad que he preparado para esta temporada.</p>
+<p><strong>Y como estamos en Navidad, voy a llamarlo de una manera más llamativa:</strong></p>
+<p>¡Un precio de locura para buscar soluciones con inteligencia!</p>
+<p>Porque resolver un conflicto no debería convertirse en otro problema para su bolsillo.<br />
+Segundo regalo: gestión ágil de su solicitud y de la citación.</p>
+<p>Uno de los mayores temores de quienes tienen un conflicto es pensar que todo trámite jurídico necesariamente tardará meses o años.</p>
+<p>Por eso, mi compromiso es brindarle atención oportuna y gestionar con diligencia la solicitud y la citación correspondiente, de acuerdo con los requisitos legales.</p>
+<p>En los casos en que las condiciones lo permitan, podría ser posible programar una audiencia en pocos días.</p>
+<p>Sin embargo, el tiempo depende de factores como la disponibilidad de agenda, la correcta notificación y las circunstancias del caso.</p>
+<p><strong>Y aquí viene la ñapa navideña, tal vez la más importante:</strong></p>
+<p>Si le llega una citación a una audiencia de conciliación, no entre en pánico.</p>
+<p>No piense inmediatamente que lo demandaron.</p>
+<p>No crea que lo están esperando afuera para llevarlo a la cárcel.</p>
+<h2>¡Y mucho menos ignore la citación por miedo!</h2>
+<p>Revise de qué se trata, infórmese sobre sus derechos y prepare su participación.</p>
+<p>Porque esa carta que hoy le produce preocupación podría convertirse en el primer paso para recuperar su tranquilidad.</p>
+<h3>LLAMADO A LA ACCIÓN:</h3>
+<p>¡El poder de solucionar su conflicto puede estar en sus manos!</p>
+<p>No permita que el orgullo, el desconocimiento o el miedo le hagan perder una oportunidad de solucionar sus diferencias.</p>
+<p>Si tiene un conflicto económico, familiar, civil o contractual, busque orientación antes de tomar una decisión.</p>
+<p>Aproveche estas últimas semanas de 2026 para evaluar la posibilidad de alcanzar un acuerdo.</p>
+<p>Llámeme o escríbame por WhatsApp al (316) 212 4646. Podemos revisar si su caso es conciliable y cómo iniciar el trámite.</p>
+<h3>MORALEJA JURÍDICA:</h3>
+<p>¡Es mejor construir un acuerdo que lamentar una sentencia!</p>
+<p>En la conciliación, usted participa en la construcción de la solución; en un juicio, la decisión final corresponde al juez, conforme a la ley.</p>
+<p>Negociar no es rendirse, ceder razonablemente no significa perder y escuchar a la otra parte tampoco implica darle la razón.</p>
+<p>La verdadera inteligencia jurídica consiste en saber cuándo defender una posición y cuándo construir un acuerdo que evite años de desgaste.</p>
+<p>Antes de decir «<em>¡que me demande!</em>», piense en todo lo que podría ganar si logra conciliar.</p>
+<h3>PROTEJA SUS DERECHOS:</h3>
+<p>¡No acepte cualquier propuesta, pero tampoco rechace la oportunidad de negociar!</p>
+<p>Una conciliación debe ser voluntaria, legal y respetuosa de los derechos de las personas involucradas.</p>
+<p>Por eso, antes de firmar un acuerdo, asegúrese de comprender sus consecuencias, los compromisos asumidos y los mecanismos para exigir su cumplimiento.</p>
+<p>Recuerde que un acta de conciliación válida puede producir efectos jurídicos importantes.</p>
+<p>Si recibió una citación o necesita convocar a otra persona, comuníquese al (316) 212 4646 y solicite orientación para proteger sus intereses.</p>
+<h3>El último consejo de 2026:</h3>
+<p>¡No espere a que otro decida lo que usted todavía puede negociar!</p>
+<p>La Navidad es una época para cerrar ciclos, recuperar la tranquilidad y comenzar de nuevo.</p>
+<p>¿Por qué no aprovecharla también para intentar resolver ese conflicto que lleva tanto tiempo afectando su vida? No podemos garantizar que todas las controversias terminen en acuerdo, pero sí podemos dar el primer paso para buscar una solución.</p>
+<p>Llámeme o escríbame al (316) 212 4646, consulte por las condiciones especiales de fin de año y conozca las posibilidades jurídicas de su caso.</p>
+<p>¡Que el 2027 lo encuentre buscando soluciones y no alimentando conflictos!</p>
+<p>¿Necesita orientación jurídica sobre cuota alimentaria, REDAM o permisos de viaje?<br />
+(316) 212 4646.</p>
+<h3>¿Cómo solicitar asesoría?</h3>
+<p><strong>Si necesita orientación jurídica, escriba al WhatsApp (316) 212 4646 y deje un mensaje con:</strong></p>
+<ul style="list-style-type: square;">
+<li>Sus datos completos.</li>
+<li>El horario en que lo podemos contactar.</li>
+<li>La palabra clave relacionada con su caso.</li>
+</ul>
+<p><strong>Puede escribir palabras como:</strong><em> &#8220;insolvencia&#8221;, &#8220;deudas&#8221;, &#8220;embargo&#8221;, &#8220;hipoteca&#8221;, &#8220;casa familiar&#8221;, &#8220;ocultamiento de bienes&#8221;, &#8220;acreedores&#8221;, &#8220;liquidación patrimonial&#8221;, &#8220;divorcio&#8221;, &#8220;cuota alimentaria&#8221;, &#8220;custodia&#8221;, &#8220;sucesión&#8221;, &#8220;accidente de tránsito&#8221;, &#8220;registro de marca&#8221; o &#8220;conciliación&#8221;</em>.</p>
+<p>Así podremos identificar más rápido su necesidad y brindarle una atención personalizada.</p>
+<h3>Visite La Abogada Periodista</h3>
+<p>¿Está buscando abogada en Colombia, asesoría jurídica confiable, soluciones para divorcio, custodia de hijos, cuota alimentaria, sucesiones, conciliaciones, insolvencia de persona natural, accidentes de tránsito, registro de marca, deudas, embargos o protección de vivienda familiar?</p>
+<p>Entonces visite hoy mismo <strong><span style="color: #03bfa5;"><a style="color: #03bfa5;" href="http://www.laabogadaperiodista.com" target="_blank" rel="noopener">www.laabogadaperiodista.com</a></span></strong>.</p>
+<p>Allí encontrará una plataforma creada para orientar, informar y acompañar a quienes necesitan defender sus derechos con claridad, estrategia y respaldo profesional.</p>
+<blockquote class="instagram-media" style="background: #FFF; border: 0; border-radius: 3px; box-shadow: 0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width: 540px; min-width: 326px; padding: 0; width: calc(100% - 2px);" data-instgrm-captioned="" data-instgrm-permalink="https://www.instagram.com/reel/DflREh4s63P/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+<div style="padding: 16px;">
+<p>&nbsp;</p>
+<div style="display: flex; flex-direction: row; align-items: center;">
+<div style="background-color: #f4f4f4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
+</div>
+</div>
+<div style="padding: 19% 0;"></div>
+<div style="display: block; height: 50px; margin: 0 auto 12px; width: 50px;"></div>
+<div style="padding-top: 8px;">
+<div style="color: #3897f0; font-family: Arial,sans-serif; font-size: 14px; font-style: normal; font-weight: 550; line-height: 18px;">Ver esta publicación en Instagram</div>
+</div>
+<div style="padding: 12.5% 0;"></div>
+<div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
+<div>
+<div style="background-color: #f4f4f4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div>
+<div style="background-color: #f4f4f4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div>
+</div>
+<div style="margin-left: 8px;">
+<div style="background-color: #f4f4f4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div>
+<div style="width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg);"></div>
+</div>
+<div style="margin-left: auto;">
+<div style="width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div>
+<div style="background-color: #f4f4f4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div>
+<div style="width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
+</div>
+<p>&nbsp;</p>
+<p style="color: #c9c8cd; font-family: Arial,sans-serif; font-size: 14px; line-height: 17px; margin-bottom: 0; margin-top: 8px; overflow: hidden; padding: 8px 0 7px; text-align: center; text-overflow: ellipsis; white-space: nowrap;"><a style="color: #c9c8cd; font-family: Arial,sans-serif; font-size: 14px; font-style: normal; font-weight: normal; line-height: 17px; text-decoration: none;" href="https://www.instagram.com/reel/DflREh4s63P/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener">Una publicación compartida por Diario Occidente (@diariooccidente)</a></p>
+</div>
+</blockquote>
+<p><script async src="//www.instagram.com/embed.js"></script></p>
+<h3>ÁNGELA MARÍA CAICEDO</h3>
+<p>Abogada, Conciliadora y Comunicador Social-Periodista<br />
+Escritora Apasionada y Exploradora del Conocimiento Jurídico.</p>
+<p><img src="https://s.w.org/images/core/emoji/17.0.2/72x72/1f4cd.png" alt="📍" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Cali-Colombia</p>
+<h4>Sígueme en las Redes:</h4>
+<p><strong>Tiktok:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.tiktok.com/@laabogadaperiodista?is_from_webapp=1&amp;sender_device=pc" target="_blank" rel="noopener">@laabogadaperiodista</a></span></p>
+<p><strong>Instagram:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.instagram.com/_angelacaicedo/" target="_blank" rel="noopener">@angelacaicedo</a></span></p>
+<p><strong>Facebook:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.facebook.com/angelamaria.caicedo.9" target="_blank" rel="noopener">Angela Maria Caicedo</a></span></p>
+<p><strong>LinkedIn:</strong> <span style="color: #00bfa5;"><a style="color: #00bfa5;" href="https://www.linkedin.com/in/angelamaria-caicedo-3a27b2250?" target="_blank" rel="noopener">https://www.linkedin.com/in/angelamaria-caicedo-3a27b2250?</a></span></p>
+<p><strong>Numero telefónico;</strong> (316) 2124646</p>
+<h4>Acerca de Mí:</h4>
+<p>¡Hola! Soy Ángela María Caicedo, comunicador social-periodista, Abogada y Conciliadora y me encanta sumergirme en el fascinante mundo de la escritura y el descubrimiento.</p>
+<p>Como apasionada de los temas jurídicos, mi objetivo es compartir ideas, inspiración y conocimiento a través de mis palabras.</p>
+<p>Y aunque parezca que los abogados nos expresamos con un lenguaje de otro planeta, es nuestra responsabilidad acortar la brecha comunicativa entre abogados y no abogados, teniendo en cuenta que ambos lenguajes tanto el jurídico como el común coexisten.</p>
+<p>También como abogada conciliadora de la organización sin ánimo de lucro &#8220;<em>Convivencia Ciudadana</em>&#8221; me apasiona acompañar a las personas en el proceso de buscar soluciones pacíficas a sus problemas y que sea un &#8216;gana-gana&#8217; para las partes, porque otro tipo de justicia es posible.</p>
+<p>Por eso este espacio es mi plataforma para conectar contigo.</p>
+<p>Mis artículos están diseñados para informar, entretener y desafiar tus pensamientos.</p>
+<p>¡Espero que los disfrutes!</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Régimen de visitas en Colombia: qué hacer si no le permiten ver a sus hijos en Navidad" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/area-legal/citacion-audiencia-de-conciliacion-ley-2220-derecho-colombia-2026/">Conciliar no es perder: conozca por qué negociar a tiempo puede evitarle años de pleitos, gastos y una sentencia desfavorable</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/area-legal/citacion-audiencia-de-conciliacion-ley-2220-derecho-colombia-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¡Volvió el calor! Colombia rompe récords de temperatura: el Ideam revela dónde se registró el calor más alto y qué podría pasar en los próximos días</title>
+		<link>https://occidente.co/colombia/records-de-temperatura-en-colombia-ideam-noviembre-2026/</link>
+					<comments>https://occidente.co/colombia/records-de-temperatura-en-colombia-ideam-noviembre-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 00:54:34 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444290</guid>
+
+					<description><![CDATA[<p>Colombia registra nuevos récords de temperatura. El Instituto de Hidrología, Meteorología y Estudios Ambientales, Ideam, informó que 17 estaciones meteorológicas superaron sus máximos históricos para noviembre, con registros que alcanzaron los 41,2 grados Celsius en algunas zonas del país. La entidad también advirtió que este comportamiento del calor podría continuar durante los próximos días. El...</p>
+<p>The post <a href="https://occidente.co/colombia/records-de-temperatura-en-colombia-ideam-noviembre-2026/">¡Volvió el calor! Colombia rompe récords de temperatura: el Ideam revela dónde se registró el calor más alto y qué podría pasar en los próximos días</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Colombia registra nuevos récords de temperatura. El Instituto de Hidrología, Meteorología y Estudios Ambientales, Ideam, informó que 17 estaciones meteorológicas superaron sus máximos históricos para noviembre, con registros que alcanzaron los 41,2 grados Celsius en algunas zonas del país.</p>
+<p>La entidad también advirtió que este comportamiento del calor podría continuar durante los próximos días.</p>
+<p>El reporte del Ideam identificó a Natagaima, en Tolima, como el municipio con la temperatura más alta, al alcanzar 41,2 grados Celsius.</p>
+<p>Esta medición superó el anterior máximo de 40 grados que registró la estación Anchique.</p>
+<p>Otros municipios también presentaron temperaturas superiores a los 36 grados, según los datos recopilados por la entidad.</p>
+<p>Entre ellos aparece Villavieja, en Huila, con 39,4 grados Celsius, seguido de Pailitas, en Cesar, con 38,6 grados.</p>
+<p>San José de Cúcuta, en Norte de Santander, registró 37,8 grados, mientras Neiva alcanzó 36,8 grados.</p>
+<p>A estos municipios se sumaron El Guamo, en Bolívar, con 36,6 grados, y Urumita, en La Guajira, con 36,4 grados.</p>
+<h2>Ciudades con nuevos récords</h2>
+<p>Los récords de temperatura en Colombia también se presentaron en ciudades como Medellín, Palmira, Armenia y Quibdó, donde las estaciones meteorológicas superaron sus registros anteriores para noviembre.</p>
+<p>Sin embargo, el informe diferencia las temperaturas más altas del país de aquellas que representan nuevos máximos históricos mensuales.</p>
+<p>En el Valle del Cauca, la estación Palmira ICA registró 33 grados Celsius, por encima de los 32,4 grados que constituían su anterior máximo.</p>
+<p><strong>Medellín también superó sus antecedentes en dos puntos de medición:</strong> La Aldea alcanzó 28,6 grados y el aeropuerto Olaya Herrera llegó a 32,8 grados Celsius.</p>
+<p>Por su parte, el aeropuerto El Edén, en Armenia, reportó 32,9 grados, frente a su anterior máximo de 31 grados.</p>
+<p>En Quibdó, la estación del aeropuerto El Caraño alcanzó 35 grados, superando los 34,2 grados registrados anteriormente.</p>
+<p>Estas mediciones forman parte de las 17 estaciones que reportaron nuevos máximos para noviembre.</p>
+<p>El listado también incluye estaciones ubicadas en Ibagué, Ragonvalia, Salazar, Lebrija, Corozal, Arauca, Samaniego, Guadalupe, Buenavista, Ataco y Pereira.</p>
+<p>El Ideam aclaró que algunas estaciones se encuentran alejadas de los centros municipales o de las zonas donde se concentra la población.</p>
+<h3>Pronóstico del Ideam</h3>
+<p>Ante los récords de temperatura en Colombia, el Ideam señaló que las condiciones de calor podrían mantenerse durante los próximos días.</p>
+<p>No obstante, el pronóstico meteorológico también contempla lluvias en diferentes regiones, por lo que las condiciones atmosféricas no serán iguales en todo el territorio nacional.</p>
+<p>En la región Andina, la entidad prevé predominio de tiempo seco, aunque también contempla precipitaciones en sectores de Antioquia, Risaralda, Cundinamarca, Boyacá y Huila.</p>
+<p>Mientras tanto, para la región Pacífica pronostica lluvias entre moderadas y fuertes en áreas de Chocó, Valle del Cauca, Cauca y Nariño.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/records-de-temperatura-en-colombia-ideam-noviembre-2026/">¡Volvió el calor! Colombia rompe récords de temperatura: el Ideam revela dónde se registró el calor más alto y qué podría pasar en los próximos días</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/records-de-temperatura-en-colombia-ideam-noviembre-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Jonathan Velásquez entra al sonajero para la Gobernación del Valle</title>
+		<link>https://occidente.co/politica/graffiti/gobernacion-del-valle-del-cauca-jonathan-velasquez-candidatura-2027/</link>
+					<comments>https://occidente.co/politica/graffiti/gobernacion-del-valle-del-cauca-jonathan-velasquez-candidatura-2027/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 00:48:48 +0000</pubDate>
+				<category><![CDATA[Graffiti]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444286</guid>
+
+					<description><![CDATA[<p>Todavía no se han destapado todas las cartas que entrarán en la competencia por la Gobernación del Valle del Cauca en 2027… Prueba de ello es que en diferentes círculos políticos comenzó a sonar el nombre del diputado Jonathan Velásquez como posible candidato al primer cargo del departamento. Aunque el asambleísta del Partido Liberal no...</p>
+<p>The post <a href="https://occidente.co/politica/graffiti/gobernacion-del-valle-del-cauca-jonathan-velasquez-candidatura-2027/">Jonathan Velásquez entra al sonajero para la Gobernación del Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Todavía no se han destapado todas las cartas que entrarán en la competencia por la Gobernación del Valle del Cauca en 2027…</strong></p>
+<p>Prueba de ello es que en diferentes círculos políticos comenzó a sonar el nombre del diputado Jonathan Velásquez como posible candidato al primer cargo del departamento.</p>
+<p>Aunque el asambleísta del Partido Liberal no ha anunciado públicamente una aspiración, ha sido mencionado en varias conversaciones en las que se especula sobre quiénes podrían competir por el codiciado despacho del piso 16 del Palacio de San Francisco.</p>
+<p>Velásquez llegó a la Asamblea del Valle en 2024, luego de obtener cerca de 31 mil votos en las elecciones de octubre de 2023.</p>
+<p><strong>El diputado es comunicador social de la Universidad Autónoma de Occidente, especialista en Gerencia Social de la Universidad Javeriana y magister en Gobierno de la Universidad Icesi</strong>.</p>
+<p>El Partido Liberal no tiene candidato propio a la Gobernación del Valle desde las elecciones de 2015, cuando el aval de la colectividad fue para Óscar Gamboa. Sin embargo, en esa campaña el grueso de la dirigencia roja votó por Dilian Francisca Toro.</p>
+<p><strong>En las elecciones de 2019, cuando fue elegida Clara Luz Roldán, y en las de 2023, cuando fue reelegida Dilian Francisca Toro</strong>, el Partido Liberal no presentó candidato propio, sino que se sumó a las campañas de las ganadoras, quienes tuvieron el respaldo de coaliciones pluripartidistas.</p>
+<p><strong><em>¿Se animará Jonathan Velásquez a meterse en la contienda por la Gobernación o buscará la reelección como diputado?</em></strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/politica/graffiti/gobernacion-del-valle-del-cauca-jonathan-velasquez-candidatura-2027/">Jonathan Velásquez entra al sonajero para la Gobernación del Valle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/politica/graffiti/gobernacion-del-valle-del-cauca-jonathan-velasquez-candidatura-2027/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Fundescov en Cali: así trabajan Gilbert Candelo y Markgero López para facilitar el acceso a la educación y al empleo</title>
+		<link>https://occidente.co/lideres-que-construyen/fundescov-en-cali-trabajo-comunitario-educacion-gratuita-empleo-2026/</link>
+					<comments>https://occidente.co/lideres-que-construyen/fundescov-en-cali-trabajo-comunitario-educacion-gratuita-empleo-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 10 Nov 2026 23:48:14 +0000</pubDate>
+				<category><![CDATA[Líderes que construyen]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444278</guid>
+
+					<description><![CDATA[<p>Un aguacero en un asentamiento cercano al barrio Mojica, en Cali, marcó la vida de Gilbert Hermann Candelo. Tenía aproximadamente 20 años y estudiaba Medicina en la Universidad Libre cuando llegó con otros universitarios para entregar alimentos y ropa a familias desalojadas. Durante la jornada comenzó a llover y tuvieron que refugiarse en viviendas improvisadas....</p>
+<p>The post <a href="https://occidente.co/lideres-que-construyen/fundescov-en-cali-trabajo-comunitario-educacion-gratuita-empleo-2026/">Fundescov en Cali: así trabajan Gilbert Candelo y Markgero López para facilitar el acceso a la educación y al empleo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><a href="https://occidente.co/lideres-que-construyen/" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid size-full wp-image-144260 alignleft" src="https://occidente.co/wp-content/uploads/2024/10/logo-lideres-notas.png" alt="Logo líderes que construyen" width="180" height="86" /></a><strong>Un aguacero en un asentamiento cercano al barrio Mojica, en Cali, marcó la vida de Gilbert Hermann Candelo</strong>.</p>
+<p>Tenía aproximadamente 20 años y estudiaba Medicina en la Universidad Libre cuando llegó con otros universitarios para entregar alimentos y ropa a familias desalojadas.</p>
+<p>Durante la jornada comenzó a llover y tuvieron que refugiarse en viviendas improvisadas.</p>
+<p>Allí observó cómo sus habitantes movían colchones y colocaban ollas para recoger el agua que entraba por los techos.</p>
+<p>Aquella experiencia lo llevó a involucrarse en el trabajo comunitario.</p>
+<p>Años después, ese proceso daría paso a la Fundación para el Desarrollo de las Comunidades Vulnerables (Fundescov), organización que actualmente representa legalmente.</p>
+<p>En ese recorrido conoció a Markgero López, líder de la comuna 18, con quien comenzó a extender las actividades educativas y sociales hacia la ladera de Cali.</p>
+<p>Ambos han participado en iniciativas para facilitar el acceso al bachillerato, la formación técnica y las oportunidades laborales.</p>
+<h2>De Buenaventura a Cali</h2>
+<p>Candelo llegó de Buenaventura a Cali en 1998, después de terminar el colegio a los 15 años.</p>
+<p>Durante sus primeros semestres de Medicina se concentró en sus estudios, aunque también ofrecía clases gratuitas a compañeros provenientes del Pacífico que necesitaban reforzar sus conocimientos.</p>
+<p>Posteriormente ingresó a Unidad Fraternal Palenque, una organización estudiantil afrodescendiente de la Universidad Libre, donde sumió la presidencia y comenzó a participar en actividades sociales.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/Lideres-2.jpg" alt="Gilbert Candelo y Markgero López durante jornadas comunitarias de Fundescov en Cali" /></p>
+<p>Con el tiempo, Candelo y otros colaboradores decidieron ampliar su trabajo hacia diferentes poblaciones vulnerables.</p>
+<p>Así nació Fundescov, que comenzó con proyectos de promoción y prevención en salud, formación sobre derechos constitucionales y participación ciudadana, y orientación administrativa para emprendimientos.</p>
+<p><strong>Sin embargo, durante las jornadas comunitarias encontraron una dificultad recurrente:</strong> muchas personas necesitaban empleo, pero no habían terminado el bachillerato.</p>
+<h3>Educación y empleo</h3>
+<p>La situación se hizo evidente durante las jornadas de empleabilidad organizadas con empresas.</p>
+<p>Algunos aspirantes no podían continuar los procesos de selección porque carecían del título de bachiller.</p>
+<p>Ante esto, la fundación comenzó a gestionar alternativas para que jóvenes y adultos completaran sus estudios secundarios.</p>
+<p>Inicialmente trabajaron con la Subsecretaría de Cobertura Educativa para facilitar el ingreso a colegios públicos.</p>
+<p>Cuando faltaban cupos o las instituciones quedaban demasiado lejos, buscaron alianzas con establecimientos privados. Algunos estudiantes accedían gratuitamente y otros recibían apoyo económico gestionado mediante colaboradores.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/Lideres-3.jpg" alt="Gilbert Candelo y Markgero López durante jornadas comunitarias de Fundescov en Cali" /></p>
+<p>Posteriormente, la organización amplió sus actividades hacia cursos y carreras técnicas.</p>
+<h4>El encuentro con Markgero</h4>
+<p>Hace aproximadamente diez años, Candelo conoció a Markgero López mientras trabajaba como coordinador de responsabilidad social del SESEP.</p>
+<p>López estudiaba una tecnología en esa institución y se preparaba para aspirar a una Junta Administradora Local.</p>
+<p>Su conocimiento de la comuna 18 permitió comenzar recorridos por sectores donde Fundescov todavía no desarrollaba actividades.</p>
+<p>Para Candelo, acostumbrado al Distrito de Aguablanca, trabajar en la ladera significó adaptarse a condiciones geográficas y comunitarias diferentes.</p>
+<p>Con López comenzaron a desarrollar iniciativas en sectores como Las Palmas, Los Chorros, Alto Nápoles, Alto Meléndez y La Choclona, estableciendo relaciones con habitantes, instituciones y negocios de barrio.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/Lideres-4.jpg" alt="Gilbert Candelo y Markgero López durante jornadas comunitarias de Fundescov en Cali" /></p>
+<h2>Mujeres que estudiaban</h2>
+<p>López recuerda que, hace aproximadamente siete u ocho años, algunos participantes de los programas de bachillerato pagaban una mensualidad de 5.000 pesos, destinada principalmente al transporte de profesores voluntarios.</p>
+<p>Entre los estudiantes había mujeres dedicadas al hogar, algunas víctimas de violencia, y adultos de 50 y 60 años que buscaban terminar sus estudios.</p>
+<p>Durante ese proceso presenció una situación en la que la pareja de una estudiante ingresó al lugar donde se desarrollaban las clases y la agredió.</p>
+<p>El episodio permitió conocer otras dificultades que enfrentaban las participantes fuera del aula y reforzó el acompañamiento comunitario que realizaban.</p>
+<h3>Formación sin matrícula</h3>
+<p>Actualmente, mediante una institución educativa aliada, Fundescov facilita el acceso a programas técnicos laborales de auxiliar de enfermería, auxiliar administrativo, auxiliar contable y spa y belleza, sin cobro de matrícula ni mensualidades, según explicó Candelo.</p>
+<p>La organización también comparte ofertas laborales y acompaña a estudiantes afrodescendientes en procesos relacionados con créditos condonables para educación superior.</p>
+<p>Además, orienta sobre becas, convocatorias, política de gratuidad universitaria y preparación para las pruebas Icfes.</p>
+<h4>Permanecer en las aulas</h4>
+<p>Sin embargo, Candelo reconoce que uno de los principales obstáculos es la deserción.</p>
+<p>Explica que algunos estudiantes deben abandonar sus cursos porque necesitan trabajar para sostener sus hogares.</p>
+<p>Según su experiencia, un grupo que comienza con 25 personas puede terminar con aproximadamente 12.</p>
+<p>Por eso, la fundación procura ofrecer horarios nocturnos o de fin de semana.</p>
+<p>También entrega mercados donados a estudiantes con dificultades económicas, aunque estos apoyos son temporales.<br />
+<img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/Lideres-5.jpg" alt="Gilbert Candelo y Markgero López durante jornadas comunitarias de Fundescov en Cali" /></p>
+<p>Candelo plantea la necesidad de establecer alianzas con empresas que puedan contratar personas que cumplan los perfiles requeridos.</p>
+<h2>Redes comunitarias</h2>
+<p>Además de la educación, Candelo y López han participado en jornadas de salud, entrega de donaciones y acompañamiento a familias afectadas por emergencias.</p>
+<p>Para estas actividades han contado con panaderías, ferreterías, pañaleras, iglesias y pequeños empresarios que aportan alimentos, ropa, medicamentos y otros elementos.</p>
+<p>López también ha impulsado cadenas de WhatsApp para compartir información comunitaria y oportunidades laborales.</p>
+<p>Entre los resultados que ambos recuerdan están estudiantes que terminaron el bachillerato y posteriormente continuaron carreras profesionales, ingresaron a la Policía o al Ejército.</p>
+<p>Actualmente, Fundescov cuenta con seis colaboradores permanentes. Su equipo directivo incluye a Candelo como representante legal, López como subdirector ejecutivo y Andrea Nathaly Jurado Mena como directora ejecutiva.</p>
+<p>Quienes deseen conocer sus actividades o apoyar sus programas pueden comunicarse al 314 624 3685 o al 314 648 7460, y consultar la página institucional de Fundescov.</p>
+<p>La organización mantiene como lema «<strong><em>La educación es el camino</em></strong>», que acompaña el trabajo que ambos continúan desarrollando en las comunidades de Cali.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/lideres-que-construyen/fundescov-en-cali-trabajo-comunitario-educacion-gratuita-empleo-2026/">Fundescov en Cali: así trabajan Gilbert Candelo y Markgero López para facilitar el acceso a la educación y al empleo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/lideres-que-construyen/fundescov-en-cali-trabajo-comunitario-educacion-gratuita-empleo-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Presupuesto de Cali para 2027: concejales alertan por recortes millonarios en programas sociales para niños, mujeres y adultos mayores</title>
+		<link>https://occidente.co/cali/presupuesto-de-cali-para-2027-alertan-recortes-inversion-social-concejo-2026/</link>
+					<comments>https://occidente.co/cali/presupuesto-de-cali-para-2027-alertan-recortes-inversion-social-concejo-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 10 Nov 2026 23:32:46 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444275</guid>
+
+					<description><![CDATA[<p>El presupuesto de Cali para 2027 genera preocupación entre varios concejales por las reducciones proyectadas en programas sociales dirigidos a niños, mujeres, adultos mayores y habitantes de calle. Durante el estudio del Proyecto de Acuerdo 105, que contempla recursos superiores a $8 billones, los cabildantes advirtieron que algunas dependencias enfrentarían disminuciones en sus asignaciones y...</p>
+<p>The post <a href="https://occidente.co/cali/presupuesto-de-cali-para-2027-alertan-recortes-inversion-social-concejo-2026/">Presupuesto de Cali para 2027: concejales alertan por recortes millonarios en programas sociales para niños, mujeres y adultos mayores</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El presupuesto de Cali para 2027 genera preocupación entre varios concejales por las reducciones proyectadas en programas sociales dirigidos a niños, mujeres, adultos mayores y habitantes de calle.</p>
+<p>Durante el estudio del Proyecto de Acuerdo 105, que contempla recursos superiores a $8 billones, los cabildantes advirtieron que algunas dependencias enfrentarían disminuciones en sus asignaciones y solicitaron explicaciones sobre la continuidad de los servicios destinados a las poblaciones vulnerables.</p>
+<p><strong>La discusión se desarrolla en la Comisión de Presupuesto del Concejo Distrital, donde la coordinadora de ponentes, Tania Fernández Sánchez, señaló</strong> que el proyecto presenta una reducción superior a $247.000 millones.</p>
+<p><strong>La concejal pidió garantizar los recursos para los programas de atención social y recordó</strong> que durante 2027 las secretarías deberán demostrar resultados en la ejecución de sus presupuestos.</p>
+<p><strong>Por su parte, el concejal Sergio Mauricio Zamora Betancur cuestionó</strong> el incremento del 16 % en el gasto social anunciado por el Gobierno Distrital.</p>
+<p><strong>Según explicó</strong>, de un rubro de $649.000 millones, aproximadamente $629.000 millones corresponden a transferencias de la Nación mediante el Sistema General de Participaciones (SGP).</p>
+<p>En ese sentido, sostuvo que el crecimiento de esta inversión depende principalmente de recursos nacionales y no de ingresos propios del Distrito.</p>
+<h2>Programas con menos recursos</h2>
+<p>Uno de los puntos que concentra las observaciones es la Secretaría de Bienestar Social, cuyo presupuesto total registraría una reducción superior a $165.000 millones.</p>
+<p>De acuerdo con Zamora, el componente social de esta dependencia tendría una disminución de más de $45.000 millones, con recortes proyectados en diferentes programas de atención.</p>
+<p>Entre las partidas señaladas aparecen atención a mujeres, con $20.825 millones menos; primera infancia, con más de $10.000 millones; y el programa Cuidarte, con $6.912 millones.</p>
+<p>También figuran atención a habitantes de calle, con $5.000 millones; adulto mayor, con $4.966 millones; y pobreza extrema, con $3.036 millones.</p>
+<p>A estas reducciones se suman CaliAfro, discapacidad y personas cuidadoras, y atención integral a víctimas.</p>
+<p><strong>La situación de la primera infancia también generó cuestionamientos frente a las metas de la administración del alcalde Alejandro Eder</strong>.</p>
+<p><strong>Zamora advirtió</strong> que la reducción de $10.620 millones podría comprometer el propósito de atender entre 15.000 y 20.000 niños durante el cuatrienio.</p>
+<p>Según cifras del Departamento Administrativo de Planeación, hasta noviembre de 2026 Cali registraba 10.314 menores atendidos.</p>
+<h3>Continuidad de servicios sciales</h3>
+<p><strong>Ante estas cifras, la concejal Alexandra Hernández Cedeño solicitó</strong> aclaraciones sobre el funcionamiento de los centros de desarrollo infantil, los comedores comunitarios y los programas dirigidos a mujeres y familias.</p>
+<p>También preguntó si las reducciones presupuestales modificarían los horarios de atención o afectarían el cumplimiento de las metas establecidas para las poblaciones beneficiarias.</p>
+<p>A estas inquietudes se sumó el presidente de la Comisión de Presupuesto, Carlos Ariel Patiño, quien advirtió que los Centros Vida podrían pasar de prestar servicios durante doce meses a funcionar solamente seis meses en 2027.</p>
+<p>El concejal pidió tener en cuenta la atención que reciben los adultos mayores desde comienzos de cada año.</p>
+<p>James Junior Agudelo Arévalo cuestionó la contratación de servicios en centros de desarrollo infantil mediante cupos disponibles y no según la cantidad de menores efectivamente atendidos.</p>
+<p>El cabildante solicitó revisar este mecanismo mientras continúa el trámite del presupuesto de Cali para 2027 en la Comisión de Presupuesto.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/presupuesto-de-cali-para-2027-alertan-recortes-inversion-social-concejo-2026/">Presupuesto de Cali para 2027: concejales alertan por recortes millonarios en programas sociales para niños, mujeres y adultos mayores</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/presupuesto-de-cali-para-2027-alertan-recortes-inversion-social-concejo-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Ediles de Cali piden más recursos para las JAL: denuncian que deben sesionar en parques por falta de sedes</title>
+		<link>https://occidente.co/cali/ediles-de-cali-solicitan-presupuesto-jal-concejo-distrital-2027/</link>
+					<comments>https://occidente.co/cali/ediles-de-cali-solicitan-presupuesto-jal-concejo-distrital-2027/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 10 Nov 2026 23:24:40 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444272</guid>
+
+					<description><![CDATA[<p>Los ediles de Cali solicitaron un presupuesto de $7.000 millones para 2027, con el fin de garantizar el funcionamiento de las 37 Juntas Administradoras Locales, JAL. Durante una sesión del Concejo Distrital, los representantes denunciaron que no cuentan con sedes propias ni recursos suficientes para cumplir sus funciones en los territorios. También pidieron mayor acompañamiento...</p>
+<p>The post <a href="https://occidente.co/cali/ediles-de-cali-solicitan-presupuesto-jal-concejo-distrital-2027/">Ediles de Cali piden más recursos para las JAL: denuncian que deben sesionar en parques por falta de sedes</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Los ediles de Cali solicitaron un presupuesto de $7.000 millones para 2027, con el fin de garantizar el funcionamiento de las 37 Juntas Administradoras Locales, JAL.</p>
+<p><strong>Durante una sesión del Concejo Distrital, los representantes denunciaron que no cuentan con sedes propias ni recursos suficientes para cumplir sus funciones en los territorios</strong>.</p>
+<p>También pidieron mayor acompañamiento de la Administración Distrital y explicaciones sobre el dinero asignado durante 2026.</p>
+<p>La solicitud llegó a la plenaria y a la Comisión de Presupuesto del Concejo de Cali el lunes 9 de noviembre de 2026.</p>
+<p>Varios ediles participaron en representación de los 304 integrantes de estas corporaciones, según informó el Concejo.</p>
+<p>Durante sus intervenciones, expusieron las dificultades que enfrentan para realizar sesiones, recorrer las comunas y atender las necesidades de las comunidades.</p>
+<h2>Piden mayor presupuesto</h2>
+<p><strong>Nilson Torres, edil de la comuna 15, explicó</strong> que actualmente las JAL disponen de recursos que oscilan entre $800 millones y $1.000 millones.</p>
+<p>Por esta razón, solicitó aumentar la asignación a $7.000 millones para la vigencia 2027.</p>
+<p><strong> Según indicó</strong>, este dinero permitiría cubrir gastos de funcionamiento, desplazamientos, elementos de oficina y actividades relacionadas con la representación ciudadana.</p>
+<p><strong>A esta petición se sumó Jhon Anderson Home, edil de la comuna 6, quien describió las condiciones en las que algunos representantes desarrollan sus actividades</strong>.</p>
+<p><strong>Señaló</strong> <strong>que</strong> varias Juntas Administradoras Locales no tienen instalaciones para reunirse y deben utilizar parques o zonas verdes.</p>
+<p>Además, advirtió sobre los riesgos que enfrentan algunos ediles durante el ejercicio de sus funciones.</p>
+<p><strong>Por su parte, Óscar Emilio Barbosa, representante de la comuna 20, respaldó el incremento presupuestal y planteó otra necesidad administrativa</strong>.</p>
+<p><strong>Solicitó</strong> <strong>que</strong> cada una de las 37 JAL de Cali cuente con un funcionario encargado de ejercer las labores de secretario, como parte de las condiciones necesarias para desarrollar sus actividades.</p>
+<h3>Reclaman autonomía institucional</h3>
+<p>Además del presupuesto, los ediles de Cali cuestionaron decisiones relacionadas con la participación ciudadana.</p>
+<p><strong>Stella Molina Almeida, representante de la comuna 4, solicitó</strong> derogar la Circular 00876 de 2026, expedida por la Secretaría de Desarrollo Territorial y Participación Ciudadana.</p>
+<p><strong>Según explicó</strong>, esta disposición afecta la participación de las JAL y las organizaciones sociales en los comités de planificación de las 37 comunas.</p>
+<p>Molina recordó que las Juntas Administradoras Locales son corporaciones autónomas y no están subordinadas a esa secretaría.</p>
+<p>Asimismo, propuso realizar una plenaria conjunta entre concejales y ediles para fortalecer el control político en los territorios.</p>
+<p>También cuestionó que algunos secretarios del Gobierno Distrital deleguen su asistencia a las citaciones realizadas por estas corporaciones.</p>
+<p>En esa misma línea, Nilson Torres pidió que los funcionarios distritales atiendan los llamados de las JAL.</p>
+<p>El representante también cuestionó los recursos destinados al presupuesto participativo y su manejo desde la Secretaría de Desarrollo Territorial y Participación Ciudadana.</p>
+<p>Finalmente, Torres y Molina solicitaron un informe sobre la ejecución del presupuesto asignado a las JAL durante 2026.</p>
+<p>Ambos pidieron conocer la destinación e inversión de esos recursos, mientras reiteraron la necesidad de contar con respaldo institucional para ejercer sus funciones en las comunas de Santiago de Cali.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/ediles-de-cali-solicitan-presupuesto-jal-concejo-distrital-2027/">Ediles de Cali piden más recursos para las JAL: denuncian que deben sesionar en parques por falta de sedes</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/ediles-de-cali-solicitan-presupuesto-jal-concejo-distrital-2027/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cali espera a Colombia vs. Chile este viernes en el Pascual Guerrero</title>
+		<link>https://occidente.co/cali/colombia-vs-chile-en-cali-impacto-economico-estadio-pascual-guerrero-2026/</link>
+					<comments>https://occidente.co/cali/colombia-vs-chile-en-cali-impacto-economico-estadio-pascual-guerrero-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 10 Nov 2026 23:17:07 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444269</guid>
+
+					<description><![CDATA[<p>El partido Colombia vs. Chile en Cali, programado para el viernes 13 de noviembre, proyecta un movimiento económico de $10.500 millones. El encuentro amistoso se disputará a las 7:00 p. m. en el estadio Olímpico Pascual Guerrero y reunirá a miles de aficionados. Según la Alcaldía, la llegada de turistas, la venta de entradas y...</p>
+<p>The post <a href="https://occidente.co/cali/colombia-vs-chile-en-cali-impacto-economico-estadio-pascual-guerrero-2026/">Cali espera a Colombia vs. Chile este viernes en el Pascual Guerrero</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El partido Colombia vs. Chile en Cali, programado para el viernes 13 de noviembre, proyecta un movimiento económico de $10.500 millones.</p>
+<p>El encuentro amistoso se disputará a las 7:00 p. m. en el estadio Olímpico Pascual Guerrero y reunirá a miles de aficionados.</p>
+<p>Según la Alcaldía, la llegada de turistas, la venta de entradas y el consumo en establecimientos comerciales contribuirían a la actividad económica de la ciudad.</p>
+<p>Las estimaciones de la Secretaría de Desarrollo Económico indican que aproximadamente 4.500 visitantes llegarían a Cali con motivo del encuentro.</p>
+<p>Su presencia representaría cerca de $4.000 millones en consumo local, distribuidos entre alojamiento, transporte, alimentación y servicios turísticos.</p>
+<p>A esta cifra se sumarían $6.500 millones correspondientes a la venta de boletería, uno de los componentes de la proyección económica del evento.</p>
+<h2>Impacto en el comercio</h2>
+<p>El sector gastronómico también figura entre las actividades que registrarían cambios durante la jornada.</p>
+<p>De acuerdo con las proyecciones oficiales, bares y restaurantes podrían aumentar sus ventas entre un 30 % y un 50 % frente a un día habitual.</p>
+<p>Además, los establecimientos ubicados alrededor del Pascual Guerrero recibirían el flujo de aficionados que asistirán al compromiso entre las selecciones de Colombia y Chile.</p>
+<p>La secretaria de Desarrollo Económico de Cali, Laura Loreto Arias, explicó que los efectos del partido también se relacionan con los gastos realizados fuera del escenario deportivo.</p>
+<p>Según sus estimaciones, un residente caleño podría gastar aproximadamente $90.000 adicionales, mientras que el consumo de un turista o visitante alcanzaría los $450.000.</p>
+<p>Estas cifras incluyen actividades relacionadas con transporte, gastronomía,entretenimiento y otros servicios.</p>
+<p>Asimismo, la funcionaria mencionó la participación de los sectores textil y de confecciones mediante la comercialización de camisetas de la selección Colombia.</p>
+<p>La administración distrital considera que el encuentro representa una oportunidad para conectar las actividades deportivas con el turismo y el comercio, además de promover a Cali como sede de eventos nacionales e internacionales.</p>
+<h3>Preparativos del Pascual Guerrero</h3>
+<p><strong>Mientras se acerca el Colombia vs. Chile en Cali, la Secretaría del Deporte y la Recreación adelanta labores de mantenimiento en el estadio</strong>.</p>
+<p>La entidad informó que la gramilla híbrida se encuentra al 100 % para el compromiso. Esta superficie, renovada durante los preparativos de la Copa Mundial Femenina Sub-20 de 2024, está compuesta por un 95 % de césped natural y un 5 % de fibra sintética.</p>
+<p>El secretario del Deporte, Alexander Camacho, explicó que ingenieros agrónomos y personal técnico realizan tratamientos permanentes para conservar la cancha.</p>
+<p>Las labores incluyen aplicación de nutrientes, entre ellos nitrato de calcio, para fortalecer el césped y mantener las condiciones de juego durante las lluvias.</p>
+<p>Como antecedente, mencionó el clásico entre América de Cali y Deportivo Cali, disputado el 7 de noviembre bajo la lluvia.</p>
+<p>La Alcaldía ejecuta trabajos de pintura, reposición de sillas y recuperación del entorno del estadio.</p>
+<p>Las proyecciones oficiales contemplan una asistencia mínima de 30.000 personas, mientras que la Secretaría del Deporte estima aproximadamente 38.000 espectadores.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/colombia-vs-chile-en-cali-impacto-economico-estadio-pascual-guerrero-2026/">Cali espera a Colombia vs. Chile este viernes en el Pascual Guerrero</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/colombia-vs-chile-en-cali-impacto-economico-estadio-pascual-guerrero-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Terremoto: más de 776.000 afectados siguen sin soluciones</title>
+		<link>https://occidente.co/colombia/terremoto-en-choco-tres-meses-brecha-financiera-damnificados-2026/</link>
+					<comments>https://occidente.co/colombia/terremoto-en-choco-tres-meses-brecha-financiera-damnificados-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Tue, 10 Nov 2026 22:57:10 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444264</guid>
+
+					<description><![CDATA[<p>Tres meses después del terremoto en Chocó, más de 776.000 personas continúan enfrentando dificultades para acceder a vivienda, salud, educación y ayudas económicas. La Defensoría del Pueblo advirtió que el proceso de recuperación también enfrenta una brecha de financiación de $50,08 billones, mientras las comunidades afectadas esperan soluciones para restablecer sus condiciones de vida. El...</p>
+<p>The post <a href="https://occidente.co/colombia/terremoto-en-choco-tres-meses-brecha-financiera-damnificados-2026/">Terremoto: más de 776.000 afectados siguen sin soluciones</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Tres meses después del terremoto en Chocó, más de 776.000 personas continúan enfrentando dificultades para acceder a vivienda, salud, educación y ayudas económicas.</p>
+<p>La Defensoría del Pueblo advirtió que el proceso de recuperación también enfrenta una brecha de financiación de $50,08 billones, mientras las comunidades afectadas esperan soluciones para restablecer sus condiciones de vida.</p>
+<p>El sismo de magnitud 7,4, ocurrido el 10 de agosto de 2026 con epicentro en San José del Palmar, dejó afectaciones en diferentes departamentos.</p>
+<p>Según el Registro Único de Damnificados, con corte al 3 de noviembre, la emergencia perjudicó a 363.791 familias, equivalentes a 776.119 personas.</p>
+<p>Las cifras también muestran 104.049 viviendas inhabitables, 19.149 destruidas y 119.748 con daños.</p>
+<p>Por su parte, la Unidad Nacional para la Gestión del Riesgo de Desastres reportó 334 fallecidos, 4.516 heridos y 102 desaparecidos.</p>
+<p>A esto se suman afectaciones en 406 centros de salud, 4.438 establecimientos educativos y 6.087 centros comunitarios.</p>
+<h2>Dificultades para damnificados</h2>
+<p>Uno de los problemas identificados por la Defensoría corresponde al Registro Único de Damnificados, requisito para acceder a las ayudas.</p>
+<p>Actualmente, las familias encuentran barreras para incorporar nuevos registros, corregir información o reportar daños posteriores al cierre del sistema.</p>
+<p>En Risaralda se identificaron más de 70.000 inconsistencias y, hasta el 7 de octubre, 3.098 familias de Pereira todavía no cobraban los apoyos económicos.</p>
+<p>La situación también afecta a quienes perdieron sus viviendas. Aunque el subsidio de arrendamiento contempla $1.050.000 mensuales durante tres meses, los tiempos estimados de reconstrucción oscilan entre 12 y 18 meses.</p>
+<p>Además, la falta de inmuebles disponibles llevó a algunas familias a regresar a lugares sin condiciones adecuadas de seguridad.</p>
+<p>En materia de salud, el seguimiento identificó dificultades para acceder a medicamentos, consultas y autorizaciones.</p>
+<p>En Calarcá, Quindío, el Hospital La Misericordia continuaba funcionando con daños en su infraestructura y una reducción cercana al 50 % de su capacidad.</p>
+<p>Por otra parte, en el Valle del Cauca, 69.106 de los 121.175 estudiantes afectados permanecían en modalidades no presenciales hasta el 15 de octubre.</p>
+<p>En Calarcá, más de 1.000 alumnos de la institución San Bernardo recibían clases en 81 carpas, con dificultades relacionadas con energía, baños y drenaje.</p>
+<h2>Recursos para reconstrucción</h2>
+<p>Además de las dificultades sociales, la recuperación tras el terremoto en Chocó enfrenta obstáculos presupuestales.</p>
+<p>El Plan de Acción Específico contempla inversiones por $58,29 billones, pero los recursos inicialmente identificados alcanzan $8,21 billones.</p>
+<p>Esto representa una brecha de $50,08 billones que todavía requiere financiación.</p>
+<p>La Defensoría explicó que los recursos anunciados por entidades públicas, empresas y cooperantes no cuentan con información suficiente sobre su disponibilidad y ejecución.</p>
+<p>Asimismo, identificó dificultades de articulación entre el Fondo Milagro y las entidades encargadas de gestionar la emergencia.</p>
+<p>Ante este panorama, la entidad solicitó garantizar los subsidios, actualizar el registro de damnificados y recuperar los servicios de salud y educación.</p>
+<p>También pidió fortalecer la atención a comunidades étnicas, mujeres, menores de edad, personas mayores y víctimas del conflicto armado.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/terremoto-en-choco-tres-meses-brecha-financiera-damnificados-2026/">Terremoto: más de 776.000 afectados siguen sin soluciones</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/terremoto-en-choco-tres-meses-brecha-financiera-damnificados-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
