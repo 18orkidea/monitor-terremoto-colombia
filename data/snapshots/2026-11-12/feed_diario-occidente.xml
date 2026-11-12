@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Thu, 12 Nov 2026 13:30:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Gemini 4 y novedades de IA en octubre 2026</title>
+		<link>https://occidente.co/secciones/tecnologia/gemini-4-novedades-ia-octubre-2026/</link>
+					<comments>https://occidente.co/secciones/tecnologia/gemini-4-novedades-ia-octubre-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 13:30:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444213</guid>
+
+					<description><![CDATA[<p>Gemini 4 lidera el paquete de anuncios de octubre Google presentó varias novedades en inteligencia artificial encabezadas por la familia Gemini: la llegada de Gemini 4 Argon y el anuncio de Gemini 4 Carbon, además del nuevo modelo de mundo Genie 4. Gemini 4 Argon se lanzó para desarrolladores, empresas, científicos y consumidores y está...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/gemini-4-novedades-ia-octubre-2026/">Gemini 4 y novedades de IA en octubre 2026</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Gemini 4 lidera el paquete de anuncios de octubre</h2>
+<p> Google presentó varias novedades en inteligencia artificial encabezadas por la familia Gemini: la llegada de Gemini 4 Argon y el anuncio de Gemini 4 Carbon, además del nuevo modelo de mundo Genie 4. Gemini 4 Argon se lanzó para desarrolladores, empresas, científicos y consumidores y está pensado para tareas de razonamiento complejo. Dos semanas después Google presentó Gemini 4 Carbon, orientado a proyectos de ingeniería a largo plazo y defensa en ciberseguridad; Carbon está en pruebas limitadas con el gobierno y defensores de ciberseguridad.</p>
+<h2>Gemini 4: qué ocurre y por qué importa</h2>
+<p>Google informó que Gemini 4 Argon ya está disponible en productos como Google AI Studio, la API de Gemini, Google Cloud, Search y la app Gemini, y que también tiene una versión para robótica que mejora el razonamiento en el mundo físico. Genie 4, por su parte, está diseñado para simulaciones en tiempo real con audio nativo y físicas avanzadas. Estas presentaciones muestran un avance en capacidades de modelos avanzados y en su integración práctica en herramientas que usan usuarios y desarrolladores.</p>
+<h2>Qué cambia en el día a día</h2>
+<h3>Mejor apoyo en tareas complejas</h3>
+<p>Usuarios y empresas podrán recurrir a Gemini 4 Argon para análisis complejos como programación, revisiones financieras y flujos legales, lo que facilita trabajos que antes requerían más tiempo o especialistas.</p>
+<h3>Simulaciones interactivas más realistas</h3>
+<p>Con Genie 4 se podrán crear entornos interactivos con audio y físicas realistas, útiles para entrenar robots, diseñar escenarios educativos o probar prototipos sin salir del ordenador.</p>
+<h3>Mayor protección y verificación</h3>
+<p>Google amplió herramientas de seguridad: un detector SynthID para identificar contenidos generados por IA y nuevas protecciones en Android para detectar estafas conversacionales, lo que mejora la seguridad en llamadas y mensajes.</p>
+<h2>Aspectos pendientes</h2>
+<p>Varios anuncios están en fases de despliegue o prueba: Gemini 4 Carbon está en pre-lanzamiento con socios seleccionados y sus guardrails de seguridad se están afinando antes de una liberación más amplia. Asimismo, la expansión global del detector SynthID se realiza inicialmente en inglés; su cobertura y precisión frente a nuevas técnicas de generación de contenido deberán confirmarse con uso real. Tampoco están cerradas las condiciones de disponibilidad de algunas funciones que requieren suscripciones o dispositivos compatibles.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Acceden a asistentes más capaces para tareas complejas y mejor seguridad en móviles.</p>
+<p><strong>Negocio:</strong> Empresas ganan herramientas para automatizar análisis, simulación y defensa cibernética.</p>
+<p><strong>Industria:</strong> El sector avanza hacia modelos de mayor alcance y nuevas pruebas en entornos reales.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/gemini-4-novedades-ia-octubre-2026/">Gemini 4 y novedades de IA en octubre 2026</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/gemini-4-novedades-ia-octubre-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>De Miami a Cali: Más de siete toneladas de solidaridad</title>
+		<link>https://occidente.co/colombia/cristhian-mancera-mejia-exaltacion-concejo-de-cali-ayudas-terremoto-2026/</link>
+					<comments>https://occidente.co/colombia/cristhian-mancera-mejia-exaltacion-concejo-de-cali-ayudas-terremoto-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 03:23:52 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444380</guid>
+
+					<description><![CDATA[<p>Cuando el terremoto del pasado 10 de agosto golpeó a Cali y otras regiones del suroccidente colombiano, la solidaridad comenzó a cruzar fronteras. Desde West Kendall, en Miami-Dade, el abogado vallecaucano Cristhian Mancera Mejía puso en marcha una movilización comunitaria para llevar ayuda a las familias que habían perdido sus viviendas, sus pertenencias y, en...</p>
+<p>The post <a href="https://occidente.co/colombia/cristhian-mancera-mejia-exaltacion-concejo-de-cali-ayudas-terremoto-2026/">De Miami a Cali: Más de siete toneladas de solidaridad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Cuando el terremoto del pasado 10 de agosto golpeó a Cali y otras regiones del suroccidente colombiano, la solidaridad comenzó a cruzar fronteras.</p>
+<p>Desde West Kendall, en Miami-Dade, el abogado vallecaucano Cristhian Mancera Mejía puso en marcha una movilización comunitaria para llevar ayuda a las familias que habían perdido sus viviendas, sus pertenencias y, en muchos casos, la tranquilidad de sus vidas.</p>
+<p>Tres meses después, ese esfuerzo recibió un reconocimiento de su ciudad natal.</p>
+<p>El Concejo Distrital de Santiago de Cali le otorgó una Exaltación de Honor, durante la sesión plenaria del 3 de noviembre, por su liderazgo social y su labor humanitaria en favor de los damnificados del terremoto y de los colombianos residentes en el exterior.</p>
+<p>La distinción fue promovida por el concejal Rafael Andrés Escobar González, primer vicepresidente de la corporación, quien destacó la trayectoria de Mancera y su capacidad para convertir los vínculos entre la comunidad colombiana de Miami y el Valle del Cauca en acciones concretas de solidaridad.</p>
+<h2>La cruzada humanitaria</h2>
+<p>La respuesta humanitaria liderada por Mancera comenzó en West Kendall, donde convocó a empresarios, comerciantes, organizaciones y ciudadanos de distintas nacionalidades para recolectar elementos de primera necesidad destinados a las familias afectadas.</p>
+<p>La campaña logró reunir más de siete toneladas de ayuda humanitaria, gracias al respaldo de aliados como Servicolex, Cali Bakery, Pro-Kel Mobility, Greater Kendall Business Association, La Esquinita Colombiana y Best Western Plus Kendall.</p>
+<p>Pero su compromiso no se limitó a coordinar donaciones desde Estados Unidos.</p>
+<p>En septiembre viajó personalmente a Cali para acompañar la distribución de las ayudas y garantizar que llegaran directamente a las comunidades.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/De-Miami-a-Cali-Mas-de-siete-toneladas-de-solidaridad-2.jpg" alt="El abogado Cristhian Mancera Mejía durante la entrega de ayudas humanitarias y su exaltación en Cali" /></p>
+<p>Una de las primeras jornadas se desarrolló en Altos de Santa Elena, en el sector de Meléndez, al sur de Cali, donde se entregó más de una tonelada de elementos a familias damnificadas.</p>
+<p>Posteriormente, el 23 de septiembre, se realizó una segunda jornada de distribución, manteniendo como prioridad la entrega directa y la transparencia en el proceso.</p>
+<p><strong>La iniciativa también buscó contrarrestar una preocupación que Mancera había expresado desde el comienzo de la emergencia:</strong> la percepción de que Cali ya había recibido suficientes donaciones y que, por lo tanto, no era necesario continuar enviando ayuda desde el exterior.</p>
+<p>Para el dirigente comunitario, esa idea podía desestimular la solidaridad precisamente cuando muchas familias comenzaban a enfrentar la etapa más difícil de la recuperación.</p>
+<p><strong>Su mensaje ha sido constante:</strong> que el terremoto haya dejado de ser titular de los noticieros no significa que las víctimas hayan dejado de necesitar ayuda.</p>
+<h3>Una causa que no termina con la emergencia</h3>
+<p>Desde el inicio de la campaña, Mancera insistió en que las necesidades de los damnificados no desaparecerían cuando terminaran las primeras jornadas de atención.</p>
+<p>Recuperar una vivienda, reconstruir un negocio, volver a trabajar o conseguir nuevamente los elementos indispensables para vivir son procesos que pueden extenderse durante meses.</p>
+<p>Por eso, además de las entregas realizadas en Cali, promovió nuevas actividades para mantener activa la movilización de los colombianos y latinoamericanos residentes en el sur de la Florida.</p>
+<p>Entre ellas estuvo el Miami Beach Salsa Fest 12, programado para el 11 de octubre en el Miami Beach Bandshell, que fue incorporado a la estrategia de recolección de donaciones a través de Servicolex.</p>
+<p>La apuesta de Mancera ha sido mantener un canal de cooperación entre West Kendall y las comunidades afectadas del Valle del Cauca, demostrando que los colombianos residentes en el exterior pueden desempeñar un papel importante en la recuperación de sus territorios de origen.</p>
+<h4>Un caleño que construyó liderazgo en Miami</h4>
+<p>Cristhian Mancera Mejía nació en Cali el 9 de octubre de 1978.</p>
+<p>Es abogado de la Universidad Jorge Tadeo Lozano, cuenta con una maestría en Derecho Americano de Washington University in St. Louis y una maestría en Liderazgo de Keiser University.</p>
+<p>Su trayectoria profesional se ha desarrollado entre el derecho, la docencia, la participación ciudadana y el servicio comunitario en Estados Unidos.</p>
+<p>Actualmente es presidente del Concejo Comunitario del Área 11 de Miami-Dade, responsabilidad para la cual fue reelegido durante el periodo 2026-2027.</p>
+<p>Desde esta posición ha trabajado en iniciativas relacionadas con desarrollo económico, fortalecimiento de pequeños negocios, infraestructura, movilidad y participación ciudadana en West Kendall.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/De-Miami-a-Cali-Mas-de-siete-toneladas-de-solidaridad-3.jpg" alt="El abogado Cristhian Mancera Mejía durante la entrega de ayudas humanitarias y su exaltación en Cali" /></p>
+<p>También es fundador de Servicolex, organización dedicada al acompañamiento de colombianos en el exterior, y ha impulsado iniciativas para estrechar las relaciones económicas, culturales y sociales entre Miami y el Valle del Cauca.</p>
+<p>Entre ellas se destacan su participación en la Feria del Valle del Cauca Miami 2025 y en la Feria de Cali en Doral, espacios que han permitido promover la identidad vallecaucana y generar conexiones entre empresarios y comunidades de ambos territorios.</p>
+<h2>Un reconocimiento que trasciende las fronteras</h2>
+<p><strong>La Exaltación de Honor entregada por el Concejo de Cali reconoce precisamente esa doble dimensión de su trayectoria:</strong> la de un colombiano que ha construido espacios de liderazgo en Estados Unidos y la de un vallecaucano que mantiene un vínculo activo con su tierra.</p>
+<p>En la proposición presentada ante la corporación se destacó su contribución al servicio público, el apoyo al emprendimiento y la solidaridad efectiva con las familias damnificadas por el terremoto de 2026.</p>
+<p><strong>Más allá de la distinción, la movilización humanitaria deja un mensaje que Mancera ha buscado mantener vigente desde agosto:</strong> la reconstrucción no termina cuando desaparecen las cámaras ni cuando las noticias dejan de hablar de una tragedia.</p>
+<p>Las familias necesitan acompañamiento hasta que puedan recuperar sus proyectos de vida y encontrar nuevamente un camino para seguir adelante.</p>
+<p><strong>Ese es también el sentido de las ayudas que llegaron desde Miami:</strong> recordarles a quienes lo perdieron todo que, incluso a miles de kilómetros de distancia, hay colombianos que no los han olvidado.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/cristhian-mancera-mejia-exaltacion-concejo-de-cali-ayudas-terremoto-2026/">De Miami a Cali: Más de siete toneladas de solidaridad</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/cristhian-mancera-mejia-exaltacion-concejo-de-cali-ayudas-terremoto-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Obras en la avenida Roosevelt de Cali generan quejas: comerciantes denuncian dificultades para recibir clientes y conductores reportan trancones</title>
+		<link>https://occidente.co/cali/obras-en-la-avenida-roosevelt-cali-quejas-comerciantes-movilidad-2026/</link>
+					<comments>https://occidente.co/cali/obras-en-la-avenida-roosevelt-cali-quejas-comerciantes-movilidad-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 00:15:53 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444375</guid>
+
+					<description><![CDATA[<p>Las obras en la avenida Roosevelt de Cali comenzaron a generar quejas entre comerciantes y residentes del sector, quienes denuncian dificultades para ingresar a sus negocios, restricciones vehiculares y problemas de movilidad. La instalación de cerramientos como parte del proyecto Parque Alameda Avenida Roosevelt preocupa a quienes desarrollan actividades comerciales en este corredor, debido a...</p>
+<p>The post <a href="https://occidente.co/cali/obras-en-la-avenida-roosevelt-cali-quejas-comerciantes-movilidad-2026/">Obras en la avenida Roosevelt de Cali generan quejas: comerciantes denuncian dificultades para recibir clientes y conductores reportan trancones</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Las obras en la avenida Roosevelt de Cali comenzaron a generar quejas entre comerciantes y residentes del sector, quienes denuncian dificultades para ingresar a sus negocios, restricciones vehiculares y problemas de movilidad.</p>
+<p>La instalación de cerramientos como parte del proyecto Parque Alameda Avenida Roosevelt preocupa a quienes desarrollan actividades comerciales en este corredor, debido a los obstáculos que enfrentan sus clientes para llegar a los locales.</p>
+<p>Las inconformidades se conocieron a través de testimonios difundidos por el medio TuBarco, en los que varios comerciantes señalaron que las barreras instaladas reducen la visibilidad de sus establecimientos e impiden el ingreso de motocicletas y automóviles.</p>
+<p>Además, manifestaron preocupación por las condiciones de circulación peatonal y las dificultades para acceder a diferentes puntos de la zona.</p>
+<h2>Comerciantes reportan afectaciones</h2>
+<p>Uno de los comerciantes que expresó su inconformidad fue Julián Pérez, propietario de un establecimiento ubicado en la avenida Roosevelt.</p>
+<p>En declaraciones a TuBarco, explicó que el cerramiento dejó un espacio reducido para el tránsito peatonal y bloqueó el acceso de vehículos y motocicletas.</p>
+<p>También advirtió que en el sector funciona una institución prestadora de servicios de salud (IPS), a la que acuden personas con movilidad reducida.</p>
+<p>Por su parte, la propietaria de la Casa del Terror, establecimiento con más de 20 años de funcionamiento, manifestó que las restricciones complican el ingreso de clientes.</p>
+<p>Según explicó al mismo medio, anteriormente podían acceder por debajo del puente, pero las intervenciones también limitaron las posibilidades de entrada desde la calle 7.</p>
+<p>La comerciante señaló que actualmente enfrenta dificultades para estacionar y mantener visible su negocio.</p>
+<p>Asimismo, explicó que su establecimiento desarrolla actividades durante todo el año, entre ellas presentaciones escolares, cumpleaños temáticos, campañas de marca y eventos de temporada.</p>
+<p>La mujer también indicó que reside en el sector, por lo que las restricciones no solo afectan su actividad comercial, sino también sus desplazamientos cotidianos.</p>
+<h3>Cierres y alternativas</h3>
+<p>De acuerdo con la Alcaldía de Cali, el proyecto Parque Alameda Avenida Roosevelt contempla aproximadamente 2,1 kilómetros de intervención entre la calle 5 y la carrera 36.</p>
+<p>Las obras incluyen recuperación vial, mejoramiento de andenes, construcción de cicloinfraestructura, arborización y renovación de redes de servicios públicos.</p>
+<p>La administración distrital informó que el Plan de Manejo de Tránsito establece inicialmente el cierre parcial de dos carriles de la calle 6, entre las carreras 24 y 27.</p>
+<p>Como alternativa, los conductores podrán ingresar a estas carreras desde la calle 7. También se contemplan desvíos por las carreras 25 y 28, según el recorrido de los vehículos.</p>
+<p>Frente al acceso a los establecimientos, la Alcaldía indicó que el proyecto contempla senderos peatonales demarcados y coordinación de espacios temporales para cargue y descargue de mercancías.</p>
+<p>Además, anunció que continuará las reuniones con residentes y comerciantes para atender inquietudes durante la ejecución.</p>
+<p>La administración proyecta el ingreso de maquinaria durante la semana del 17 de noviembre.</p>
+<p>Mientras tanto, los comerciantes mantienen sus solicitudes relacionadas con la movilidad, la visibilidad de los negocios y las condiciones de acceso durante las obras.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/obras-en-la-avenida-roosevelt-cali-quejas-comerciantes-movilidad-2026/">Obras en la avenida Roosevelt de Cali generan quejas: comerciantes denuncian dificultades para recibir clientes y conductores reportan trancones</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/obras-en-la-avenida-roosevelt-cali-quejas-comerciantes-movilidad-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El necio</title>
+		<link>https://occidente.co/opinion/columnistas/el-necio/</link>
+					<comments>https://occidente.co/opinion/columnistas/el-necio/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 00:06:52 +0000</pubDate>
+				<category><![CDATA[Columnistas]]></category>
+		<category><![CDATA[William Sánchez Lenis]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444372</guid>
+
+					<description><![CDATA[<p>Cuando hablamos de fe, automáticamente pensamos en templos que van desde los más lujosos hasta los más modestos, como un garaje. Pensamos en formas de vestir, discursos plagados de sonrisas, amén y expresiones religiosas. Sin embargo, pocas veces nos detenemos a pensar en nuestra manera de vivir fuera de los espacios celebrativos. Cuando hablamos de...</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-necio/">El necio</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Cuando hablamos de fe, automáticamente pensamos en templos que van desde los más lujosos hasta los más modestos, como un garaje.</p>
+<p>Pensamos en formas de vestir, discursos plagados de sonrisas, amén y expresiones religiosas.</p>
+<p>Sin embargo, pocas veces nos detenemos a pensar en nuestra manera de vivir fuera de los espacios celebrativos.</p>
+<p><strong>Cuando hablamos de Iglesia, sucede algo parecido:</strong> pensamos en imágenes asociadas a estructuras, vestiduras y dignidades, como sacerdotes, pastores, monjas y frailes.</p>
+<p>Pero, nuevamente, dejamos por fuera lo fundamental.</p>
+<p>Nos han enseñado que la fe es un asunto privado y que, en nuestros lugares de trabajo, debemos respetar las expresiones y decisiones religiosas de los demás.</p>
+<p>Por eso, utilizar expresiones como hermano, hermana o amén puede resultar extraño en el trabajo, en el gimnasio o en otros espacios cotidianos.</p>
+<p>A veces pareciera que a los cristianos se les reconoce por su forma de vestir y a los católicos por sus signos externos o porque incluyen a la Virgen en cada conversación.</p>
+<p>Pero mucho de fachada y poca realidad; mucha apariencia y poca coherencia.</p>
+<p>Y no se trata de juzgar, sino de preguntarnos qué significa realmente ser cristiano en nuestro tiempo.</p>
+<p>¿No fumar? ¿No beber? ¿Aprender de memoria un montón de versículos bíblicos? ¿No ser infiel? ¿Vestir con faldas largas?</p>
+<p>A veces olvidamos que el mensaje de Jesús, el Evangelio, que significa buena noticia, no consiste simplemente en andar sonriendo y repitiendo que Dios nos ama y que Jesucristo puede salvarnos.</p>
+<p>Jesús anunció el Reino de Dios con su vida, sus palabras y sus acciones.</p>
+<p>Entregó su propia vida para mostrarnos hasta dónde puede llegar el amor y qué significa vivir de acuerdo con ese mensaje. No es la apariencia, sino la práctica la que revela el verdadero sentido de la fe.</p>
+<p>Entonces, ¿cuál es el camino?, ¿qué debemos hacer? La respuesta es sencilla y, al mismo tiempo, compleja: estamos llamados a defender la dignidad humana, a ser cada uno de nosotros un rostro visible de Dios en el mundo.</p>
+<p>No se trata de limitarnos a rezar por los pecados de los demás ni de gritar frases vacías en las plazas.</p>
+<p>Se trata de denunciar el mal, promover el amor, la fraternidad y el derecho de todos a vivir en paz.</p>
+<p>Cuando usted y yo trabajamos desde nuestro lugar para construir una sociedad más justa, cuando denunciamos lo que está mal y apoyamos las iniciativas que nos unen, comenzamos a hacer presente el Reino de Dios en la tierra.</p>
+<p>Estamos llegando al final del año y, durante estos días, resuena en nuestras lecturas del Evangelio una expresión: «Estén pendientes, porque no saben el día ni la hora».</p>
+<p>No es una frase para vivir con miedo, sino una invitación a vivir con esperanza, a buscar la felicidad, a ser nosotros mismos y, sobre todo, a dejar una huella de bondad, solidaridad y fraternidad en nuestro entorno, cualquiera que sea.</p>
+<p>Es ahí donde el verdadero cristiano se convierte en un necio.</p>
+<p>Un necio porque Jesús no nos invita a construir un reinado de fuerza, poder, tiranía o guerra.</p>
+<p><strong>El Reino de Dios que anuncia Jesús parece una auténtica necedad en nuestro tiempo:</strong> pensar en el otro, cuidar la naturaleza que tenemos como hogar, defender lo que nos une y no alimentar aquello que nos divide.</p>
+<p>Parece una necedad ir contra la corriente, pero es precisamente ahí donde Dios se hace presente: en medio de quienes son capaces de mirar más allá de lo inmediato y comprender que la vida es el mejor de los regalos.</p>
+<p>Así que la justicia, la misericordia, la solidaridad y la denuncia de los abusos pueden parecer hoy verdaderas necedades.</p>
+<p>Pero quizás sea esa misma necedad la que nos permite reconocernos como hijos de Dios.</p>
+<p>The post <a href="https://occidente.co/opinion/columnistas/el-necio/">El necio</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/columnistas/el-necio/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Rayan El Barkachi, el primero en dar el paso por la Alcaldía de Cali</title>
+		<link>https://occidente.co/politica/graffiti/rayan-el-barkachi-inscripcion-firmas-alcaldia-de-cali-2027/</link>
+					<comments>https://occidente.co/politica/graffiti/rayan-el-barkachi-inscripcion-firmas-alcaldia-de-cali-2027/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 23:35:45 +0000</pubDate>
+				<category><![CDATA[Graffiti]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444368</guid>
+
+					<description><![CDATA[<p>Aunque en el sonajero de posibles candidatos a la Alcaldía de Cali para las elecciones de 2027 hay cerca de 25 nombres, hasta ahora solo uno ha dado el paso de inscribir ante la Registraduría el comité promotor para recoger firmas: Rayan El Barkachi. Se trata de un médico epidemiólogo, que fue embajador de Colombia...</p>
+<p>The post <a href="https://occidente.co/politica/graffiti/rayan-el-barkachi-inscripcion-firmas-alcaldia-de-cali-2027/">Rayan El Barkachi, el primero en dar el paso por la Alcaldía de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Aunque en el sonajero de posibles candidatos a la Alcaldía de Cali para las elecciones de 2027 hay cerca de 25 nombres, hasta ahora solo uno ha dado el paso de inscribir ante la Registraduría el comité promotor para recoger firmas:</strong> Rayan El Barkachi.</p>
+<p>Se trata de un médico epidemiólogo, que fue embajador de Colombia en Arabia Saudita durante el gobierno del expresidente Gustavo Petro y que también se desempeñó como director regional de Prosperidad Social en el Valle del Cauca durante la misma administración.</p>
+<p>También fue candidato a la Alcaldía de Florida en 2019.</p>
+<p>Con la inscripción de su comité, El Barkachi se convierte en el primer aspirante a la Alcaldía de Cali que formaliza su intención de participar en las elecciones de 2027, mientras los demás nombres que aparecen en el sonajero siguen entre anuncios, conversaciones y expectativas.</p>
+<p>Por eso, Graffiti lo buscó para conocer de dónde surgió su candidatura, por qué decidió lanzarse por firmas y qué relación tendrá su proyecto político con el petrismo.</p>
+<p>El Barkachi contó que desde hace varios meses venía recibiendo invitaciones de diferentes sectores para que considerara la posibilidad de aspirar a la Alcaldía, pero inicialmente no tomó la idea como una opción seria.</p>
+<p>La situación cambió cuando terminó su misión diplomática en Arabia Saudita y regresó a Cali.</p>
+<p>“<em>Continúo recibiendo esos mensajes de varios sectores</em>”, <strong>explicó el médico, quien mencionó personas vinculadas a la salud, empresarios, comerciantes, académicos y estudiantes</strong>.</p>
+<p>Sin embargo, aseguró que hubo un hecho que terminó de convencerlo:</p>
+<p>“<em>Después del terremoto yo dije: bueno, pues creo que definitivamente la ciudad sí requiere una alternativa distinta y decidí aceptar esa posibilidad de arrancar este proyecto</em>”, <strong>contó</strong>.</p>
+<p>¿Y cómo se llama el movimiento? “<em>Cali con Voz</em>”, con z, respondió El Barkachi, quien explicó que el nombre busca expresar que la voz de los ciudadanos será la que oriente la construcción de su propuesta.</p>
+<p>Como Rayan El Barkachi ha sido cercano al expresidente Gustavo Petro y ocupó dos cargos importantes durante su gobierno, Graffiti le preguntó por qué no busca el aval del Pacto Histórico…</p>
+<p>“<em>Yo sí he apoyado al expresidente Gustavo Petro durante varios años. De hecho, he estado acompañando el proceso más o menos desde el 2018. Sin embargo, siempre lo he hecho de manera independiente</em>”,<strong> respondió</strong>.</p>
+<p>El médico explicó que nunca ha pertenecido a una tendencia interna del Pacto Histórico y que su relación con el gobierno de Petro surgió de su trayectoria profesional y de su interés en las propuestas del exmandatario.</p>
+<p>Por eso, El Barkachi insiste en que su candidatura no debe interpretarse como una aspiración del petrismo.</p>
+<p>“<em>Yo lo pondría como una candidatura independiente y progresista</em>”,<strong> afirmó</strong>.</p>
+<p><strong>Y fue más allá al explicar su posición ideológica:</strong> “<em>Quiero que quede claro que soy un socialdemócrata y progresista</em>”, <strong>dijo, pero agregó que eso no significa estar</strong> “<em>encasillado en ningún sectarismo ideológico ni de un lado ni del otro</em>”.</p>
+<p><strong>Incluso definió su propuesta como un</strong> “<em>progresismo realmente técnico</em>”.</p>
+<p>“<em>Aquí no van a haber distinciones de si usted es de derecha, de izquierda, de centro, de que si usted es rico, si usted es pobre</em>”, <strong>agregó</strong>.</p>
+<p>¿Y por qué comenzó tan temprano? El Barkachi explicó que, después de permanecer cerca de un año y medio fuera del país, necesita tiempo para recorrer la ciudad, escuchar a los ciudadanos y conocer las problemáticas actuales en seguridad, movilidad, salud, empleo y economía.</p>
+<p>“<em>Esto no se puede hacer corriendo, esto es un proyecto serio, amplio, diverso</em>”,<strong> afirmó</strong>.</p>
+<p>Hay dos respuestas de Rayan El Barkachi que permiten entender mejor el enfoque que quiere darle a su candidatura:</p>
+<p>La primera tiene que ver con el alcalde Alejandro Eder. Cuando Graffiti le preguntó cómo evalúa su administración, evitó hacer una descalificación general del gobierno municipal.</p>
+<p>“<em>Las cosas buenas que él haya realizado les vamos a dar continuidad. Las cosas que nosotros creamos que han hecho mal, las vamos a parar y lo que haga falta por hacer lo vamos a hacer realidad</em>”,<strong> respondió</strong>.</p>
+<p>La segunda respuesta fue sobre el peso electoral del petrismo en Cali. El Barkachi considera que no es suficiente definir a la ciudad como petrista.</p>
+<p>“<em>Yo diría que Cali es una ciudad progresista, es una ciudad por naturaleza históricamente revolucionaria</em>”, <strong>afirmó</strong>.</p>
+<p>Según su interpretación, la ciudad tiene una tradición de identificación con las ideas progresistas y Petro ha sido quien las ha representado en los últimos años, pero eso no significa que todo ese electorado deba identificarse exclusivamente con el expresidente.</p>
+<p>Con la inscripción del comité recolector de firmas de Rayan El Barkachi la contienda por la Alcaldía de Cali comienza a tomar forma.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/politica/graffiti/rayan-el-barkachi-inscripcion-firmas-alcaldia-de-cali-2027/">Rayan El Barkachi, el primero en dar el paso por la Alcaldía de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/politica/graffiti/rayan-el-barkachi-inscripcion-firmas-alcaldia-de-cali-2027/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Ultraprocesados y etiquetado: sistemas que no coinciden</title>
+		<link>https://occidente.co/secciones/salud/ultraprocesados-etiquetado-sistemas-no-coinciden/</link>
+					<comments>https://occidente.co/secciones/salud/ultraprocesados-etiquetado-sistemas-no-coinciden/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 23:08:00 +0000</pubDate>
+				<category><![CDATA[Salud]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/ultraprocesados-etiquetado-sistemas-no-coinciden/</guid>
+
+					<description><![CDATA[<p>Los sistemas de etiquetado identifican menos de la mitad de los ultraprocesados ‘insanos’ Un análisis publicado en BMJ Medicine muestra que los modelos oficiales de perfilado nutricional empleados en Reino Unido detectan como no saludables solo a alrededor de la mitad de los alimentos ultraprocesados que constan como nocivos en la guía dietética oficial. La...</p>
+<p>The post <a href="https://occidente.co/secciones/salud/ultraprocesados-etiquetado-sistemas-no-coinciden/">Ultraprocesados y etiquetado: sistemas que no coinciden</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Los sistemas de etiquetado identifican menos de la mitad de los ultraprocesados ‘insanos’</h2>
+</p>
+<p>Un análisis publicado en BMJ Medicine muestra que los modelos oficiales de perfilado nutricional empleados en Reino Unido detectan como no saludables solo a alrededor de la mitad de los alimentos ultraprocesados que constan como nocivos en la guía dietética oficial. La palabra clave &#8220;ultraprocesados etiquetado&#8221; aparece desde el inicio del texto para facilitar su identificación.</p>
+</p>
+<h2>Qué revela el estudio sobre ultraprocesados y etiquetado</h2>
+</p>
+<p>Investigadores del University College de Londres (UCL) y la Universidad de Cambridge compararon la clasificación nutricional de 262 productos procesados y 1.636 ultraprocesados consumidos con frecuencia. Enfrentaron los criterios del modelo de la Agencia de Estándares Alimentarios (FSA) y el etiquetado frontal de semáforo contra tres nuevos modelos de perfilado nutricional alineados con la Eatwell Guide, la guía dietética británica.</p>
+</p>
+<p>Los resultados mostraron discrepancias importantes: el FSA NPM clasificó como menos saludables al 57,6 % de los ultraprocesados y al 50 % de los procesados. El semáforo frontal etiquetó con al menos un rojo al 48,2 % de los ultraprocesados y al 46,2 % de los procesados. En cambio, los modelos basados estrictamente en los topes de la Eatwell Guide —centrados en grasas saturadas, azúcares libres y sodio— elevaron la proporción de ultraprocesados identificados como insanos hasta el 91,5 %, y al 98,7 % al añadir la densidad energética.</p>
+</p>
+<p>El estudio destaca ejemplos concretos: productos como pastas en lata con salsa de tomate pueden no recibir advertencias en sistemas como el semáforo o el FSA NPM, pese a superar límites de nutrientes marcados por la guía oficial. Al contrario, alimentos nutritivos como frutos secos pueden recibir alertas por su contenido en grasa o azúcares, según ciertos criterios.</p>
+</p>
+<h2>Qué significa para las personas</h2>
+</p>
+<h3>Confusión del consumidor</h3>
+</p>
+<p>La coexistencia de sistemas con criterios distintos puede llevar a que un mismo alimento sea considerado saludable por un sistema y no por otro, lo que dificulta interpretar la información disponible en el envase.</p>
+</p>
+<h3>Riesgo de exposición a nutrientes no recomendados</h3>
+</p>
+<p>Si la dieta de una persona incluye en gran medida productos que pasan como aceptables en los sistemas más permisivos, existe la posibilidad de superar las ingestas recomendadas de azúcar, sal y grasas saturadas según la guía oficial, según los autores del estudio.</p>
+</p>
+<h3>Necesidad de criterios uniformes</h3>
+</p>
+<p>Los investigadores y comentaristas citados en el artículo reclaman un sistema único y desarrollado de forma independiente de la industria para clasificar alimentos y bebidas, y señalan que gobiernos y reguladores deben decidir si basarse en nutrientes, grado de procesamiento o una combinación de ambos.</p>
+</p>
+<h2>Limitaciones y aspectos pendientes</h2>
+</p>
+<p>El artículo y el editorial asociado señalan que la clasificación es solo una parte de la política de salud pública y que corresponde a los gobiernos decidir el mejor enfoque. No todos los sistemas considerados son obligatorios: el semáforo sigue siendo voluntario para fabricantes y el FSA NPM excluye categorías enteras de alimentos procesados. Queda por resolver cómo armonizar criterios científicos y regulatorios para cerrar vacíos legales que permitan la promoción de productos potencialmente nocivos.</p>
+</p>
+<p>El estudio se basa en el análisis comparativo de modelos de perfilado nutricional aplicados a una base de datos representativa de productos; no propone cambios regulatorios específicos ni presenta datos clínicos sobre efectos en salud individual fuera de las diferencias de clasificación.</p>
+</p>
+<p>En síntesis, la investigación demuestra una desconexión entre algunas herramientas de etiquetado y la guía dietética oficial, y plantea la necesidad de unificar criterios para mejorar la coherencia entre recomendaciones de salud pública y regulación del mercado alimentario.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Personas:</strong> La discrepancia entre sistemas puede confundir a consumidores sobre qué productos son verdaderamente menos saludables.</p>
+</p>
+<p><strong>Salud pública:</strong> Los autores sostienen que la falta de un criterio unificado genera vacíos regulatorios que dificultan orientar políticas y proteger la dieta poblacional.</p>
+</p>
+<p><strong>Evidencia:</strong> El estudio compara modelos y muestra diferencias claras en detección; la unificación de criterios requiere decisiones políticas y científicas adicionales.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Este artículo fue generada con IA, a partir de información del Servicio de Información y Noticias Científicas, SINC. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/salud/ultraprocesados-etiquetado-sistemas-no-coinciden/">Ultraprocesados y etiquetado: sistemas que no coinciden</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/salud/ultraprocesados-etiquetado-sistemas-no-coinciden/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Buchitolo ya cuenta con agua potable</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/acueducto-en-buchitolo-agua-potable-tras-50-anos-de-espera/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/acueducto-en-buchitolo-agua-potable-tras-50-anos-de-espera/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 23:02:53 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444365</guid>
+
+					<description><![CDATA[<p>Después de más de cinco décadas de espera, los habitantes del corregimiento de Buchitolo celebran la llegada del agua potable a sus hogares. La puesta en funcionamiento del sistema de acueducto beneficia a más de 2.400 candelareños y representa un avance en salud, bienestar y calidad de vida. “Es un sueño hecho realidad, un anhelo...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/acueducto-en-buchitolo-agua-potable-tras-50-anos-de-espera/">Buchitolo ya cuenta con agua potable</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Después de más de cinco décadas de espera, los habitantes del corregimiento de Buchitolo celebran la llegada del agua potable a sus hogares.</strong></p>
+<p>La puesta en funcionamiento del sistema de acueducto beneficia a más de 2.400 candelareños y representa un avance en salud, bienestar y calidad de vida.</p>
+<p><em>“Es un sueño hecho realidad, un anhelo de muchos años”</em>, expresó emocionada Trinidad Oviedo, quien ahora puede abrir el grifo y beber agua con la tranquilidad de proteger la salud de su familia.</p>
+<p><strong>La obra fue posible gracias al trabajo articulado de la Gobernación del Valle del Cauca, Acuavalle y la cooperación internacional de los Países Bajos.</strong></p>
+<p>El proyecto contempló la ampliación del tanque de almacenamiento y la construcción de la red de distribución, además de las acometidas domiciliarias gratuitas.</p>
+<p><strong>La gobernadora Dilian Francisca Toro destacó que esta intervención responde a un compromiso adquirido con la comunidad y permite saldar una deuda histórica con sus habitantes.</strong></p>
+<p>La inversión superó los ocho mil millones de pesos. Además, el grupo VEI de los Países Bajos aportó 750 mil pesos por cada suscriptor para financiar las instalaciones domiciliarias, sin costo para las familias.</p>
+<p>Antes, los habitantes debían recoger agua del río Fraile, recurrir a pozos artesanales o comprarla. Hoy, esa realidad cambia.</p>
+<p><strong>Para la comunidad, la inauguración no solo significa abrir una llave: representa dignidad, salud y mejores oportunidades para las nuevas generaciones.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/acueducto-en-buchitolo-agua-potable-tras-50-anos-de-espera/">Buchitolo ya cuenta con agua potable</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/acueducto-en-buchitolo-agua-potable-tras-50-anos-de-espera/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Presidente visitó Roldanillo para hablar de reconstrucción tras el sismo</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/abelardo-de-la-espriella-anuncia-inversiones-en-roldanillo/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/abelardo-de-la-espriella-anuncia-inversiones-en-roldanillo/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 22:54:25 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444341</guid>
+
+					<description><![CDATA[<p>Durante su visita a Roldanillo, uno de los municipios del norte del Valle más afectados por el sismo del pasado 10 de agosto, el presidente de la República, Abelardo De La Espriella, encabezó la jornada denominada Reconstruyendo Oportunidades, acompañado de la gobernadora del Valle del Cauca, Dilian Francisca Toro. Durante el encuentro anunció inversiones y...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/abelardo-de-la-espriella-anuncia-inversiones-en-roldanillo/">Presidente visitó Roldanillo para hablar de reconstrucción tras el sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Durante su visita a Roldanillo, uno de los municipios del norte del Valle más afectados por el sismo del pasado 10 de agosto, el presidente de la República, Abelardo De La Espriella, encabezó la jornada denominada Reconstruyendo Oportunidades, acompañado de la gobernadora del Valle del Cauca, Dilian Francisca Toro.</strong></p>
+<p>Durante el encuentro anunció inversiones y medidas para avanzar en la recuperación de las zonas afectadas por el terremoto del pasado 10 de agosto.</p>
+<p>Uno de los momentos centrales de la visita fue la entrega de las llaves de sus nuevas viviendas a Angie Natalia Ruiz y Neleida de Jesús Garzón, dos mujeres damnificadas que acudieron al evento sin conocer que recibirían sus casas listas para habitar.</p>
+<p><strong>En materia de infraestructura hospitalaria, el mandatario anunció que el Hospital Departamental San Antonio recibirá una inversión de $12.721 millones para su recuperación.</strong></p>
+<p>De estos recursos, $5.800 millones ya fueron girados.</p>
+<p>Las obras contemplan la intervención del bloque de hospitalización y la habilitación de 42 camas, con un plazo estimado de diez meses.</p>
+<p><strong>La agenda también incluyó anuncios para dinamizar la economía local.</strong></p>
+<p>El Gobierno destinará $500 millones para apoyar 40 emprendimientos turísticos afectados y proyecta capitalizar hasta 1.800 negocios en el departamento.</p>
+<p>Así mismo, se anunció la adecuación de 40 espacios comerciales en el coliseo de ferias, con una inversión de $350 millones.</p>
+<p><strong>La visita estuvo enfocada en vivienda, salud y recuperación económica, tres frentes de intervención para atender las consecuencias del sismo en Roldanillo y el Valle del Cauca.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/abelardo-de-la-espriella-anuncia-inversiones-en-roldanillo/">Presidente visitó Roldanillo para hablar de reconstrucción tras el sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/abelardo-de-la-espriella-anuncia-inversiones-en-roldanillo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Inflación en Cali: la papa subió 115,95% y la ciudad registró el mayor aumento en alimentos de Colombia</title>
+		<link>https://occidente.co/cali/inflacion-en-cali-octubre-alimentos-servicios-publicos-dane-2026/</link>
+					<comments>https://occidente.co/cali/inflacion-en-cali-octubre-alimentos-servicios-publicos-dane-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 22:50:59 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444360</guid>
+
+					<description><![CDATA[<p>La inflación en Cali alcanzó el 6,68% anual en octubre de 2026, pero el incremento fue mayor en los alimentos y bebidas no alcohólicas, cuyos precios subieron un 10,34%. Con este resultado, la capital del Valle del Cauca ocupó el primer lugar nacional en inflación de alimentos y se convirtió en la única ciudad colombiana...</p>
+<p>The post <a href="https://occidente.co/cali/inflacion-en-cali-octubre-alimentos-servicios-publicos-dane-2026/">Inflación en Cali: la papa subió 115,95% y la ciudad registró el mayor aumento en alimentos de Colombia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La inflación en Cali alcanzó el 6,68% anual en octubre de 2026, pero el incremento fue mayor en los alimentos y bebidas no alcohólicas, cuyos precios subieron un 10,34%.</p>
+<p>Con este resultado, la capital del Valle del Cauca ocupó el primer lugar nacional en inflación de alimentos y se convirtió en la única ciudad colombiana donde este grupo de gasto superó el 10%.</p>
+<p>El informe de Cali Cómo Vamos, elaborado con información del Departamento Administrativo Nacional de Estadística, Dane, reveló que la inflación de la ciudad superó el promedio nacional del 6,30%.</p>
+<p>Además, Cali ocupó el octavo puesto entre las 23 ciudades analizadas.</p>
+<p>El reporte también identificó aumentos en los servicios públicos y otros gastos de los hogares.</p>
+<h2>Alimentos más costosos</h2>
+<p>La papa encabezó la lista de productos con mayores incrementos, al registrar una variación anual del 115,95%.</p>
+<p>Esto significa que su precio aumentó más del doble entre octubre de 2025 y octubre de 2026.</p>
+<p>Le siguieron la arracacha, el ñame y otros tubérculos, con un 81,59%, mientras el tomate subió un 71,62% y el tomate de árbol alcanzó un 65,02%.</p>
+<p>Otros alimentos también registraron aumentos.</p>
+<p>Las moras presentaron una variación del 32,89%, las hortalizas y legumbres frescas del 29,10% y las naranjas del 27,22%.</p>
+<p>Según el informe, ocho de las diez subclases con mayores incrementos de precios correspondieron a alimentos, mientras las legumbres y las frutas registraron variaciones del 26,93% y 24,01%, respectivamente.</p>
+<p><strong>Sobre este comportamiento, Danny Angarita, director de Cali Cómo Vamos, señaló</strong> que el incremento de los alimentos puede generar dificultades para acceder a prácticas alimenticias y nutritivas.</p>
+<p>Asimismo, citó un informe del Banco de la República que relaciona el aumento de precios de productos perecederos con mayores costos de producción y problemas de oferta.</p>
+<p>En particular, la entidad reportó una reducción del 20,2% en la oferta de papa durante el primer semestre de 2026.</p>
+<p>Sin embargo, algunos productos presentaron reducciones de precios.</p>
+<p>La zanahoria registró una caída anual del 38,72%, mientras los dulces, confites, caramelos, bombones, chocolatinas, chicles y masmelos disminuyeron un 20,41%.</p>
+<h3>Servicios públicos aumentaron</h3>
+<p>El incremento del costo de vida en Cali también incluyó los servicios públicos.</p>
+<p>La recolección de basuras registró una variación anual del 22,87%, seguida de la electricidad, con un 12,39%.</p>
+<p>Por su parte, el gas aumentó un 7,99%, el alcantarillado un 4,10% y el suministro de agua un 2,83%.</p>
+<p>Todos los servicios analizados presentaron incrementos frente al mismo periodo del año anterior.</p>
+<p>En otros grupos de gasto, restaurantes y hoteles registraron una inflación del 9,50%, mientras salud alcanzó el 6,99%.</p>
+<p>En contraste, transporte presentó una variación del 3,97%, prendas de vestir y calzado del 3,38% y recreación y cultura del 1,59%.</p>
+<p>No obstante, dentro del transporte, los pasajes aéreos aumentaron un 16,63% y el transporte intermunicipal, interveredal e internacional por carretera subió un 14,56%.</p>
+<p>En total, 156 de las 188 subclases que mide el Dane en Cali registraron incrementos anuales.</p>
+<p>Para explicar el comportamiento de la inflación en Cali, el informe señaló que una canasta de bienes y servicios que costaba un millón de pesos en octubre de 2025 pasó a costar 1.066.800 pesos en octubre de 2026.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/inflacion-en-cali-octubre-alimentos-servicios-publicos-dane-2026/">Inflación en Cali: la papa subió 115,95% y la ciudad registró el mayor aumento en alimentos de Colombia</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/inflacion-en-cali-octubre-alimentos-servicios-publicos-dane-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Advierten por fármacos para adelgazar: puede quedar ciego</title>
+		<link>https://occidente.co/secciones/salud/medicamentos-para-bajar-de-peso-alerta-fda-secretaria-de-salud-cali-2026/</link>
+					<comments>https://occidente.co/secciones/salud/medicamentos-para-bajar-de-peso-alerta-fda-secretaria-de-salud-cali-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 22:44:27 +0000</pubDate>
+				<category><![CDATA[Salud]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444357</guid>
+
+					<description><![CDATA[<p>La Secretaría de Salud de Cali advirtió sobre los riesgos de los medicamentos para bajar de peso, mientras la FDA de Estados Unidos anunció una advertencia por posibles afectaciones visuales asociadas con estos tratamientos. Ambas comunicaciones se refieren a productos como Ozempic y otras terapias utilizadas en pacientes con obesidad y determinadas condiciones metabólicas. El...</p>
+<p>The post <a href="https://occidente.co/secciones/salud/medicamentos-para-bajar-de-peso-alerta-fda-secretaria-de-salud-cali-2026/">Advierten por fármacos para adelgazar: puede quedar ciego</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>La Secretaría de Salud de Cali advirtió sobre los riesgos de los medicamentos para bajar de peso, mientras la FDA de Estados Unidos anunció una advertencia por posibles afectaciones visuales asociadas con estos tratamientos</strong>.</p>
+<p>Ambas comunicaciones se refieren a productos como Ozempic y otras terapias utilizadas en pacientes con obesidad y determinadas condiciones metabólicas.</p>
+<p>El pronunciamiento de la autoridad sanitaria de Cali, se concentra en el uso de semaglutida, tirzepatida y otras terapias incretínicas sin indicación médica.</p>
+<p>La entidad recordó que estos medicamentos no constituyen tratamientos estéticos y que su utilización requiere una valoración clínica, debido a los efectos adversos que pueden presentarse durante su administración.</p>
+<h2>Alerta por pérdida visual</h2>
+<p>La Administración de Alimentos y Medicamentos de Estados Unidos (FDA) anunció el 9 de noviembre de 2026 que medicamentos GLP-1 deberán incorporar advertencias sobre un posible aumento del riesgo de neuropatía óptica isquémica anterior no arterítica, conocida como NAION.</p>
+<p>La medida comprende Ozempic, Wegovy y Rybelsus, de Novo Nordisk, además de Mounjaro y Zepbound, de Eli Lilly.</p>
+<p>Esta enfermedad se produce cuando disminuye el flujo sanguíneo hacia la parte anterior del nervio óptico.</p>
+<p>Puede ocasionar una pérdida repentina de visión, generalmente sin dolor, y en determinados casos sus consecuencias son permanentes.</p>
+<p>Según la información divulgada, la FDA revisó 126 ensayos clínicos que incluyeron a más de 134.000 participantes antes de anunciar la actualización de las etiquetas.</p>
+<p>Sin embargo, la advertencia no significa que estos medicamentos salgan del mercado. Su propósito consiste en informar a pacientes y profesionales sanitarios sobre el posible riesgo.</p>
+<p><strong>Además, el antecedente no es reciente en Europa:</strong> durante 2025, la Agencia Europea de Medicamentos clasificó la NAION como un efecto adverso muy raro asociado con la semaglutida, principio activo de Ozempic y Wegovy.</p>
+<p>Ante síntomas como visión borrosa, aparición de zonas oscuras o pérdida repentina de la vista, la recomendación es buscar atención médica inmediata.</p>
+<p>Las personas que utilizan estos tratamientos tampoco deben suspenderlos por cuenta propia, sino consultar con su médico para evaluar los riesgos según sus condiciones de salud.</p>
+<h3>Recomendaciones en Cali</h3>
+<p>En este contexto, la Secretaría de Salud pidió evitar la automedicación y el uso de medicamentos para bajar de peso exclusivamente con fines estéticos.</p>
+<p><strong>Aunque reconoció sus beneficios en pacientes con indicaciones clínicas, señaló que también pueden ocasionar problemas gastrointestinales, deshidratación y otras complicaciones que requieren seguimiento médico periódico</strong>.</p>
+<p>La entidad recomendó que un profesional, preferiblemente especializado en endocrinología, medicina interna o manejo de obesidad, realice la valoración antes de iniciar el tratamiento.</p>
+<p>También advirtió sobre los riesgos de adquirir estos productos mediante redes sociales o establecimientos no autorizados, y recordó la importancia de verificar el registro sanitario del Invima.</p>
+<p>Esta recomendación se relaciona con otro antecedente sanitario.</p>
+<p>En junio de 2024, la Organización Mundial de la Salud alertó sobre lotes falsificados de Ozempic detectados en Brasil, Reino Unido y Estados Unidos durante 2023.</p>
+<p>En Colombia, el Invima también emitió la alerta 200-2024 por falsificaciones de este medicamento.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/salud/medicamentos-para-bajar-de-peso-alerta-fda-secretaria-de-salud-cali-2026/">Advierten por fármacos para adelgazar: puede quedar ciego</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/salud/medicamentos-para-bajar-de-peso-alerta-fda-secretaria-de-salud-cali-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Habrá un apagón mundial el 17 de noviembre de 2026? Conozca qué pasará con la electricidad y el internet</title>
+		<link>https://occidente.co/internacionales/apagon-mundial-del-17-de-noviembre-desmentido-fema-fake-news-2026/</link>
+					<comments>https://occidente.co/internacionales/apagon-mundial-del-17-de-noviembre-desmentido-fema-fake-news-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2026 22:32:21 +0000</pubDate>
+				<category><![CDATA[Internacionales]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444354</guid>
+
+					<description><![CDATA[<p>El supuesto apagón mundial del 17 de noviembre de 2026 circula en redes sociales con publicaciones que anuncian cortes de electricidad, internet y servicios bancarios durante 72 horas. Sin embargo, ninguna autoridad confirmó una interrupción global para esa fecha. El rumor relaciona una prueba de emergencia en Estados Unidos con recomendaciones de prevención de diferentes...</p>
+<p>The post <a href="https://occidente.co/internacionales/apagon-mundial-del-17-de-noviembre-desmentido-fema-fake-news-2026/">¿Habrá un apagón mundial el 17 de noviembre de 2026? Conozca qué pasará con la electricidad y el internet</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>El supuesto apagón mundial del 17 de noviembre de 2026 circula en redes sociales con publicaciones que anuncian cortes de electricidad, internet y servicios bancarios durante 72 horas.</p>
+<p>Sin embargo, ninguna autoridad confirmó una interrupción global para esa fecha.</p>
+<p>El rumor relaciona una prueba de emergencia en Estados Unidos con recomendaciones de prevención de diferentes países y escenas de la serie Los Simpson.</p>
+<p>Las versiones comenzaron a difundirse a finales de octubre y presentan diferentes escenarios.</p>
+<p>Algunas publicaciones mencionan tres días sin electricidad, mientras otras aseguran que internet dejaría de funcionar durante tres meses.</p>
+<p>También circulan mensajes sobre un posible ciberataque internacional que afectaría los sistemas financieros y provocaría la pérdida de información bancaria.</p>
+<h2>Prueba de emergencia</h2>
+<p>Una de las principales explicaciones del rumor corresponde a una actividad programada por la Agencia Federal para el Manejo de Emergencias de Estados Unidos, FEMA.</p>
+<p>La Comisión Federal de Comunicaciones, FCC, anunció el 16 de septiembre que el país realizará una prueba nacional del Sistema de Alertas de Emergencia el martes 17 de noviembre.</p>
+<p>El ejercicio comenzará a las 2:20 p. m., hora del este de Estados Unidos, equivalente a la 1:20 p. m. en Colombia.</p>
+<p>Durante aproximadamente un minuto, las estaciones de radio y televisión participantes interrumpirán su programación para transmitir un mensaje de prueba en inglés y español.</p>
+<p>Esta actividad no contempla suspensiones del suministro eléctrico, interrupciones de internet ni bloqueos bancarios.</p>
+<p>Tampoco incluye alertas en teléfonos celulares. En caso de que las autoridades no puedan realizarla durante la fecha prevista, utilizarán el 3 de diciembre como alternativa.</p>
+<p>Por otra parte, las publicaciones sobre el apagón mundial del 17 de noviembre también mencionan recomendaciones de almacenamiento de agua y alimentos en 33 países.</p>
+<p>Sin embargo, estas medidas corresponden a campañas de prevención frente a emergencias.</p>
+<p>La Comisión Europea, por ejemplo, recomienda contar con suministros para 72 horas, sin relacionar esa preparación con una fecha específica.</p>
+<h3>Predicciones y versiones</h3>
+<p>Otra explicación que circula en internet involucra a Los Simpson.</p>
+<p>Algunas publicaciones aseguran que un episodio de noviembre de 2023 anticipó un apagón para el 17 de noviembre.</p>
+<p>La historia corresponde a un corte eléctrico en Springfield, pero no menciona 2026 ni anuncia una interrupción mundial.</p>
+<p>Además, verificadores no lograron confirmar la escena del diario de Lisa que aparece en las publicaciones.</p>
+<p>A estas versiones se suma el proyecto militar FORTRESS, anunciado por Estados Unidos en septiembre.</p>
+<p>La iniciativa busca que unas 500 instalaciones militares puedan funcionar hasta 90 días sin suministros externos.</p>
+<p>No existe evidencia que relacione este programa con un apagón mundial programado.</p>
+<p>Asimismo, publicaciones atribuidas a un usuario de redes anuncian fallas bancarias y de internet por un supuesto ciberataque.</p>
+<p>Los verificadores citados en la información descartaron estas afirmaciones por falta de pruebas.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/internacionales/apagon-mundial-del-17-de-noviembre-desmentido-fema-fake-news-2026/">¿Habrá un apagón mundial el 17 de noviembre de 2026? Conozca qué pasará con la electricidad y el internet</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/internacionales/apagon-mundial-del-17-de-noviembre-desmentido-fema-fake-news-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
