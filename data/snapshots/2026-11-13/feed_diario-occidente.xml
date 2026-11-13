@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Fri, 13 Nov 2026 13:30:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>BioBasicsBench: Cómo evalúa la IA análisis de laboratorio</title>
+		<link>https://occidente.co/secciones/tecnologia/biobasicsbench-evalua-ia-laboratorio/</link>
+					<comments>https://occidente.co/secciones/tecnologia/biobasicsbench-evalua-ia-laboratorio/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 13 Nov 2026 13:30:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444203</guid>
+
+					<description><![CDATA[<p>Una prueba muestra límites y avances en el análisis de laboratorio por IA BioBasicsBench, un nuevo conjunto de 100 tareas diseñado por OpenAI con la empresa Ligo, puso a prueba cómo distintos modelos de inteligencia artificial interpretan datos crudos de laboratorio, como imágenes de geles, placas de cultivo y lecturas de instrumentos. En la evaluación...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/biobasicsbench-evalua-ia-laboratorio/">BioBasicsBench: Cómo evalúa la IA análisis de laboratorio</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Una prueba muestra límites y avances en el análisis de laboratorio por IA</h2>
+</p>
+<p>BioBasicsBench, un nuevo conjunto de 100 tareas diseñado por OpenAI con la empresa Ligo, puso a prueba cómo distintos modelos de inteligencia artificial interpretan datos crudos de laboratorio, como imágenes de geles, placas de cultivo y lecturas de instrumentos. En la evaluación más exigente, GPT‑6 Astra obtuvo 66,7% del crédito disponible frente al 43,8% de GPT‑5.6 Sol, lo que muestra mejoras claras, pero también fallas relevantes en análisis rutinarios.</p>
+</p>
+<h2>BioBasicsBench IA: qué ocurrió y por qué importa</h2>
+</p>
+<p>El anuncio se publicó el 6 de noviembre de 2026 y describe un benchmark con preguntas reales extraídas de experimentos de laboratorio. Cada tarea incluye la evidencia original y un criterio de calificación escrito por científicos. Los modelos respondieron a 100 tareas con cinco intentos cada una, y los resultados muestran que algunos modelos, sobre todo GPT‑6 Astra, interpretan mejor imágenes y detección de errores, pero aún cometen juicios erróneos cuando la evidencia es ambigua o los controles son incorrectos.</p>
+</p>
+<h2>Qué cambia para las personas</h2>
+</p>
+<h3>Mejor apoyo en tareas rutinarias</h3>
+</p>
+<p>Herramientas con mejor capacidad multimodal pueden ayudar a los técnicos a leer imágenes de gel, cuentas de colonias o pantallas de instrumentos más rápido, reduciendo parte del trabajo repetitivo.</p>
+</p>
+<h3>Más cuidado al interpretar resultados</h3>
+</p>
+<p>Los resultados muestran que las IA aún pueden sobreinterpretar datos o ignorar controles defectuosos; por eso los científicos deben seguir verificando las conclusiones y no depender exclusivamente de la salida del modelo.</p>
+</p>
+<h3>Influencia en decisiones de investigación</h3>
+</p>
+<p>Si las IA mejoran en estas tareas, podrían acelerar el ciclo experimental. Pero los errores (por ejemplo, conteos de colonias incorrectos o identificación errónea de bandas en geles) afectan qué experimentos se realizan después.</p>
+</p>
+<h2>Qué queda pendiente</h2>
+</p>
+<p>BioBasicsBench revela áreas sin resolver: interpretar imágenes con señales superpuestas, distinguir cuándo la evidencia es insuficiente y seguir controles erróneos o etiquetados incorrectos. Los modelos necesitan mejorar la consistencia al aplicar contexto experimental y reducir sesgos que llevan a conclusiones no justificadas por los datos.</p>
+</p>
+<p>Los autores advierten que mejores puntuaciones en el benchmark no significan que las IA sean capaces de tomar decisiones de laboratorio sin supervisión humana; persisten errores que pueden afectar resultados científicos.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Usuarios:</strong> Mayor rapidez en tareas rutinarias, pero con necesidad de supervisión humana.</p>
+</p>
+<p><strong>Negocio:</strong> Herramientas más precisas pueden optimizar recursos y reducir costos en investigación.</p>
+</p>
+<p><strong>Industria:</strong> La biotecnología gana un indicador para medir y mejorar la asistencia automatizada en laboratorio.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/biobasicsbench-evalua-ia-laboratorio/">BioBasicsBench: Cómo evalúa la IA análisis de laboratorio</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/biobasicsbench-evalua-ia-laboratorio/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Mapas funcionales de receptores GPCR para diseñar fármacos</title>
+		<link>https://occidente.co/secciones/salud/mapas-funcionales-receptores-gpcr/</link>
+					<comments>https://occidente.co/secciones/salud/mapas-funcionales-receptores-gpcr/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 13 Nov 2026 00:15:00 +0000</pubDate>
+				<category><![CDATA[Salud]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/mapas-funcionales-receptores-gpcr/</guid>
+
+					<description><![CDATA[<p>Investigadores crean mapas funcionales de receptores GPCR que podrían guiar fármacos más precisos Un equipo del Centro de Regulación Genómica (CRG) ha desarrollado un método para producir mapas funcionales de los receptores acoplados a proteínas G (GPCR), una familia de proteínas en la superficie celular que son diana de aproximadamente uno de cada tres fármacos...</p>
+<p>The post <a href="https://occidente.co/secciones/salud/mapas-funcionales-receptores-gpcr/">Mapas funcionales de receptores GPCR para diseñar fármacos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Investigadores crean mapas funcionales de receptores GPCR que podrían guiar fármacos más precisos</h2>
+<p>Un equipo del Centro de Regulación Genómica (CRG) ha desarrollado un método para producir mapas funcionales de los receptores acoplados a proteínas G (GPCR), una familia de proteínas en la superficie celular que son diana de aproximadamente uno de cada tres fármacos aprobados.</p>
+<h2>Qué son los receptores GPCR y qué descubrió el estudio</h2>
+<p>Los receptores GPCR son proteínas de membrana que permiten a las células detectar señales externas —como neurotransmisores, hormonas o metabolitos— y desencadenar respuestas dentro de la célula. Según el estudio publicado en Nature Structural &amp; Molecular Biology, el equipo del CRG construyó un mapa del receptor beta-2 adrenérgico mediante miles de variantes: 7.500 versiones de la proteína introducidas en células humanas y evaluadas con distintas dosis de fármacos, lo que generó más de 150.000 mediciones para un solo receptor.</p>
+<p>Los resultados identificaron regiones del receptor que antes estaban poco observadas y que podrían usarse como objetivos farmacológicos. Muchas posiciones en esas regiones pueden modificarse para ajustar el comportamiento del receptor, lo que abriría la posibilidad de controlar con mayor precisión la respuesta celular. El grupo aplicó además el método a una segunda proteína implicada en la regulación del agua en los riñones y obtuvo resultados prometedores, con la meta de extender los mapas a más miembros de la familia GPCR.</p>
+<h2>Qué significa esto para las personas</h2>
+<h3>Diseño de fármacos con mayor selectividad</h3>
+<p>El mapa funcional ayuda a identificar partes concretas del receptor que influyen en su actividad. Esto podría permitir diseñar fármacos que actúen sobre objetivos específicos dentro de la misma familia molecular, reduciendo el impacto involuntario sobre receptores similares y, con ello, los efectos secundarios asociados.</p>
+<h3>Medicina de precisión más informada</h3>
+<p>Los autores describen el trabajo como el inicio de una nueva era en el descubrimiento de fármacos de precisión: además de conocer la estructura tridimensional de un receptor, ahora sería posible entender la función de sus distintas regiones y por qué un fármaco provoca una determinada actividad.</p>
+<h3>Aplicaciones potenciales y alcance</h3>
+<p>El estudio muestra que el enfoque puede revelar dianas terapéuticas previamente ocultas —por ejemplo, regiones donde actúa el salmeterol— y sugiere que la técnica podría aplicarse a otros GPCR, una familia que incluye alrededor de 800 tipos distintos.</p>
+<h2>Qué queda por confirmar</h2>
+<p>El trabajo presentado es un avance metodológico; sin embargo, la fuente informa que la ambición del equipo es construir mapas para muchos más receptores, lo que requiere tiempo y validación adicional. Aunque el método identificó regiones relevantes y funcionó en al menos una segunda proteína, la eficacia de los objetivos propuestos como dianas terapéuticas deberá probarse en estudios posteriores y en contextos experimentales y clínicos distintos a las mediciones celulares iniciales.</p>
+<p>Además, conocer la posición exacta donde un compuesto se une y cómo modifica la función del receptor no implica automáticamente que un fármaco derivado de ese conocimiento sea seguro o eficaz en pacientes; esos pasos requieren fases de desarrollo y pruebas que no se abordan en la fuente.</p>
+<h3>Por qué importa</h3>
+<p><strong>Personas:</strong> Mejores mapas podrían dar lugar a fármacos más selectivos con menos efectos secundarios.</p>
+<p><strong>Salud pública:</strong> Facilita el desarrollo de medicinas de precisión al ofrecer objetivos farmacológicos más claros.</p>
+<p><strong>Evidencia:</strong> El método proporcionó numerosos datos celulares (más de 150.000 mediciones) y resultados prometedores, pero requiere validación adicional en más receptores y contextos.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generada con IA, a partir de información del Servicio de Información y Noticias Científicas, SINC. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/salud/mapas-funcionales-receptores-gpcr/">Mapas funcionales de receptores GPCR para diseñar fármacos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/salud/mapas-funcionales-receptores-gpcr/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Buga tendrá Gran Feria Campesina este 15 de noviembre para apoyar a productores de la región</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/gran-feria-campesina-en-buga-parque-fuenmayor-reactivacion-2026/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/gran-feria-campesina-en-buga-parque-fuenmayor-reactivacion-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 23:53:44 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444433</guid>
+
+					<description><![CDATA[<p>El municipio de Guadalajara de Buga será escenario de la Gran Feria Campesina, una jornada que reunirá a productores del campo, artesanos y emprendedores locales el próximo domingo 15 de noviembre de 2026, en el parque Fuenmayor, entre las 9:00 de la mañana y las 4:00 de la tarde. La actividad busca promover la compra...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/gran-feria-campesina-en-buga-parque-fuenmayor-reactivacion-2026/">Buga tendrá Gran Feria Campesina este 15 de noviembre para apoyar a productores de la región</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El municipio de Guadalajara de Buga será escenario de la Gran Feria Campesina, una jornada que reunirá a productores del campo, artesanos y emprendedores locales el próximo domingo 15 de noviembre de 2026, en el parque Fuenmayor, entre las 9:00 de la mañana y las 4:00 de la tarde</strong>.</p>
+<p>La actividad busca promover la compra de productos locales y respaldar a las familias campesinas y emprendedoras de la región, especialmente en esta etapa de reconstrucción que atraviesan los territorios afectados por el terremoto del pasado 10 de agosto.</p>
+<p>La feria es impulsada por la Concesionaria Unión Vial Camino del Pacífico, junto con las alcaldías de Buga, Yotoco y Restrepo, Postobón y el Instituto Mayor Campesino (IMCA), con el propósito de generar un espacio de encuentro entre productores y consumidores.</p>
+<h2>Productos del campo, artesanías y emprendimientos locales</h2>
+<p>Bajo el lema «<em>¡De nuestra tierra a tu mesa!</em>», la Gran Feria Campesina ofrecerá a los visitantes la oportunidad de conocer y adquirir productos frescos del campo, así como artesanías y artículos elaborados por emprendedores de la región.</p>
+<p>La jornada está dirigida a toda la familia y busca acercar a los consumidores a quienes trabajan en la producción agrícola y en diferentes actividades productivas de los municipios participantes.</p>
+<p>Los organizadores destacan la importancia de fortalecer el consumo local como una manera de respaldar el trabajo campesino y contribuir a la generación de oportunidades económicas en el territorio.</p>
+<p>La iniciativa también pretende visibilizar los productos y emprendimientos de las comunidades, mediante un espacio en el que puedan establecer contacto directo con los compradores.</p>
+<h3>Una iniciativa para apoyar la reconstrucción económica</h3>
+<p>La realización de la Gran Feria Campesina tiene un componente especial debido al proceso de recuperación que enfrentan diferentes municipios del Valle del Cauca después del terremoto del 10 de agosto.</p>
+<p>En este contexto, los organizadores buscan que la jornada contribuya a respaldar las actividades económicas de campesinos y emprendedores que forman parte de las comunidades de la región.</p>
+<p>La propuesta parte de la importancia de estimular la comercialización de productos locales y fortalecer las oportunidades de quienes dependen de sus actividades agrícolas y emprendimientos.</p>
+<p>La Concesionaria Unión Vial Camino del Pacífico y las entidades participantes invitaron a los ciudadanos a sumarse a esta iniciativa mediante la compra de productos del territorio.</p>
+<h4>¿Dónde y a qué hora será la Gran Feria Campesina?</h4>
+<p>La jornada se desarrollará el domingo 15 de noviembre, en el parque Fuenmayor de Guadalajara de Buga, desde las 9:00 a. m. hasta las 4:00 p. m.</p>
+<p>Los organizadores esperan que la comunidad acompañe esta actividad y aproveche la oportunidad para adquirir productos del campo y apoyar a los emprendedores locales durante el proceso de recuperación económica de la región.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/gran-feria-campesina-en-buga-parque-fuenmayor-reactivacion-2026/">Buga tendrá Gran Feria Campesina este 15 de noviembre para apoyar a productores de la región</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/gran-feria-campesina-en-buga-parque-fuenmayor-reactivacion-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>NASA pide cautela por llegada del fenómeno de El Niño</title>
+		<link>https://occidente.co/secciones/tendencias/fenomeno-de-el-nino-alerta-de-la-nasa-por-su-intensidad/</link>
+					<comments>https://occidente.co/secciones/tendencias/fenomeno-de-el-nino-alerta-de-la-nasa-por-su-intensidad/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 23:50:05 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444437</guid>
+
+					<description><![CDATA[<p>Ante los anuncios del fortalecimiento del fenómeno de El Niño para finales de este año y comienzos del próximo, la NASA sigue de cerca la evolución del fenómeno mediante observaciones satelitales que muestran una creciente acumulación de agua cálida en el océano Pacífico. Aunque las condiciones recuerdan al episodio de hace casi 30 años, los...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/fenomeno-de-el-nino-alerta-de-la-nasa-por-su-intensidad/">NASA pide cautela por llegada del fenómeno de El Niño</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Ante los anuncios del fortalecimiento del fenómeno de El Niño para finales de este año y comienzos del próximo, la NASA sigue de cerca la evolución del fenómeno mediante observaciones satelitales que muestran una creciente acumulación de agua cálida en el océano Pacífico.</strong></p>
+<p>Aunque las condiciones recuerdan al episodio de hace casi 30 años, los científicos advierten que cada evento tiene características particulares.</p>
+<p>Según informó la entidad, el fenómeno de El Niño continúa intensificándose en el océano Pacífico y podría alcanzar una magnitud superior a la registrada en 1997, uno de los episodios más fuertes de los que se tiene registro.</p>
+<p>El evento regresó en junio de 2026 y fue declarado oficialmente por la Administración Nacional Oceánica y Atmosférica de Estados Unidos (NOAA) el día 11 de ese mes, después de que las temperaturas superficiales del Pacífico ecuatorial central y oriental superaran en al menos 0,5 grados Celsius el promedio durante varios meses consecutivos.</p>
+<p><strong>Uno de los principales instrumentos de observación es el satélite Sentinel-6 Michael Freilich, lanzado en 2020.</strong></p>
+<p>Sus mediciones de la altura de la superficie del mar permiten identificar acumulaciones de agua cálida: cuando el océano se calienta, el agua se expande y eleva su nivel.</p>
+<p><strong>Los mapas elaborados por científicos del Laboratorio de Propulsión a Chorro (JPL) de la NASA muestran anomalías positivas en el Pacífico central y oriental.</strong></p>
+<p>Además, desde comienzos de la primavera de 2026, el satélite detectó ondas de Kelvin, grandes masas de agua cálida que se desplazan hacia el este y contribuyen al desarrollo del fenómeno.</p>
+<p><strong>Las condiciones observadas en el Pacífico occidental el 8 de junio guardaban similitudes con las de 1997.</strong></p>
+<p>Sin embargo, el calentamiento en el sector oriental se ha desarrollado con retraso.</p>
+<p>Por ello, los investigadores advierten que todavía es prematuro anticipar si se superará aquel récord.</p>
+<p><strong>La NASA ha señalado que las comparaciones históricas son útiles, pero recordó que ningún fenómeno de El Niño es igual a otro.</strong></p>
+<p>El evento podría modificar los patrones de lluvia y sequía en diferentes regiones.</p>
+<p>Mientras continúan las observaciones, la NASA insiste en que las próximas semanas serán determinantes para establecer su verdadera intensidad y sus posibles consecuencias climáticas.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/fenomeno-de-el-nino-alerta-de-la-nasa-por-su-intensidad/">NASA pide cautela por llegada del fenómeno de El Niño</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/fenomeno-de-el-nino-alerta-de-la-nasa-por-su-intensidad/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Buenaventura acumula 110 mil  contenedores vacíos</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/contenedores-vacios-en-buenaventura-plan-de-evacuacion/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/contenedores-vacios-en-buenaventura-plan-de-evacuacion/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 23:42:10 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444434</guid>
+
+					<description><![CDATA[<p>Buenaventura enfrenta un desafío logístico que mantiene en alerta a las autoridades, empresarios y transportadores: la acumulación de 110.000 contenedores vacíos en el distrito, una situación que agrava la congestión vehicular y dificulta el ingreso y la salida de vehículos de carga hacia las terminales portuarias. Por eso, el Gobierno nacional reunió a los diferentes...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/contenedores-vacios-en-buenaventura-plan-de-evacuacion/">Buenaventura acumula 110 mil  contenedores vacíos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Buenaventura enfrenta un desafío logístico que mantiene en alerta a las autoridades, empresarios y transportadores: la acumulación de 110.000 contenedores vacíos en el distrito, una situación que agrava la congestión vehicular y dificulta el ingreso y la salida de vehículos de carga hacia las terminales portuarias.</strong></p>
+<p>Por eso, el Gobierno nacional reunió a los diferentes actores de la cadena logística para buscar soluciones que permitan agilizar su evacuación y mejorar la competitividad del comercio exterior.</p>
+<p>La dimensión del problema quedó expuesta durante una agenda de trabajo de dos días liderada por el Ministerio de Transporte, en la que participaron gremios, operadores portuarios, empresarios, generadores de carga, transportadores y autoridades nacionales y locales.</p>
+<p><strong>Durante los encuentros, la ministra de Transporte, Elsa Noguera, advirtió sobre el desequilibrio en el movimiento de contenedores.</strong></p>
+<p>Según explicó, por cada cuatro unidades que ingresan a Buenaventura, solamente sale una, lo que ha provocado una acumulación que requiere medidas urgentes de evacuación.</p>
+<p>La preocupación no es menor según indicó la funcionaria al recordr que por este puerto se moviliza el 42% de la carga del comercio internacional colombiano, por lo que cualquier dificultad en su operación tiene repercusiones en la cadena logística y en la competitividad del país.</p>
+<p><strong>Entre las prioridades acordadas está coordinar acciones para retirar los contenedores vacíos, descongestionar los accesos y mejorar la eficiencia de las operaciones.</strong></p>
+<p>La Ministra también se realizó un recorrido por la bahía interna para conocer el funcionamiento de la Sociedad Portuaria de Buenaventura, Aguadulce y Muelle 13, que próximamente entrará en operación.</p>
+<p>A estas medidas se suman los trabajos de la doble calzada de la vía Alterna Interna, el fortalecimiento de los controles de tránsito mediante un convenio con la Policía Nacional y la reactivación del sistema de información #767 de Invías, prevista para el 29 de noviembre.</p>
+<p>Aunque el Gobierno reportó avances en movilidad y una reducción de los bloqueos en el corredor Buga-Buenaventura, persiste el reto de convertir los compromisos institucionales en soluciones concretas.</p>
+<p><strong>La evacuación de los 110 mil contenedores será determinante para aliviar la congestión y garantizar que Buenaventura continúe siendo una puerta estratégica del comercio exterior colombiano.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/contenedores-vacios-en-buenaventura-plan-de-evacuacion/">Buenaventura acumula 110 mil  contenedores vacíos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/contenedores-vacios-en-buenaventura-plan-de-evacuacion/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Albeiro Echeverry quiere ser alcalde de Cali y anuncia que recogerá firmas</title>
+		<link>https://occidente.co/politica/graffiti/albeiro-echeverry-bustamante-candidatura-alcaldia-de-cali-2027/</link>
+					<comments>https://occidente.co/politica/graffiti/albeiro-echeverry-bustamante-candidatura-alcaldia-de-cali-2027/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 23:30:33 +0000</pubDate>
+				<category><![CDATA[Graffiti]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444429</guid>
+
+					<description><![CDATA[<p>Por estos días anda muy visible el exconcejal de Cali Albeiro Echeverry Bustamante, razón por la cual Graffiti lo contactó para saber en qué anda y cuáles son sus planes políticos de cara a las elecciones de 2027. Echeverry, a quien durante sus cinco períodos en el Concejo de Cali apodaban el “Mudo”, ya de...</p>
+<p>The post <a href="https://occidente.co/politica/graffiti/albeiro-echeverry-bustamante-candidatura-alcaldia-de-cali-2027/">Albeiro Echeverry quiere ser alcalde de Cali y anuncia que recogerá firmas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Por estos días anda muy visible el exconcejal de Cali Albeiro Echeverry Bustamante, razón por la cual Graffiti lo contactó para saber en qué anda y cuáles son sus planes políticos de cara a las elecciones de 2027.</p>
+<p>Echeverry, a quien durante sus cinco períodos en el Concejo de Cali apodaban el “<em>Mudo</em>”, ya de mudo no tiene nada, pues habló de todo un poco sobre política y temas de ciudad.</p>
+<p>Lo primero que confirmó es que está preparando un proyecto electoral independiente con el propósito de ser candidato a la Alcaldía de Cali y presentar listas al Concejo, a la Asamblea del Valle y a las juntas administradoras locales.</p>
+<p>Según el exconcejal, la iniciativa surge de conversaciones con líderes, empresarios, fundaciones y personas que consideran que Cali necesita un alcalde con experiencia en trabajo social.</p>
+<p><strong>Echeverry aseguró</strong> que su candidatura no será para negociar con otros aspirantes. “<em>Esta campaña, esta aspiración no va a ser para negociar ni para contarme, va a ser para ganar</em>”, <strong>dijo</strong>.</p>
+<p>Ahora bien, hay una pregunta que resulta inevitable.</p>
+<p>Si en las pasadas elecciones Echeverry fue candidato al Concejo de Cali y no consiguió una curul, ¿qué le hace pensar que ahora podría alcanzar la Alcaldía? Graffiti se lo preguntó.</p>
+<p>“<em>Las circunstancias son diferentes, yo sigo haciendo mi trabajo y estoy recogiendo el sentir de todos los habitantes de esta ciudad</em>”, <strong>respondió el exconcejal, quien considera que el ambiente político ha cambiado</strong>.</p>
+<p>Y en ese cambio incluye el desgaste de los partidos tradicionales.</p>
+<p>Aunque Echeverri hizo buena parte de su carrera política en el Partido Conservador y también fue candidato por el Partido de la U, ahora considera que las colectividades están perdiendo terreno.</p>
+<p>“<em>Los partidos políticos están como de salida</em>”, afirmó. Por eso quiere organizar un movimiento independiente, que define como una propuesta de centro, enfocada en el trabajo social y las necesidades de las familias.</p>
+<p><strong>Pero lo más contundente de la conversación con Albeiro Echeverri fueron sus cuestionamientos al alcalde Alejandro Eder</strong>.</p>
+<p>“<em>El alcalde no me parece bien</em>”, <strong>dijo, y aseguró que existe gran descontento ciudadano con el mandatario</strong>.</p>
+<p>Echeverry cuestionó los resultados de la recuperación vial y afirmó que, pese al empréstito que mencionó por 3,5 billones de pesos, “<em>no se ha recuperado ni el 10 % de las calles</em>”.</p>
+<p>También criticó las actuaciones de la administración frente a los vendedores ambulantes desalojado cuando está a punto de comenzar la temporada de diciembre y expresó preocupación por una posible reducción del presupuesto de los comedores comunitarios.</p>
+<p>“<em>Este alcalde no es social, este alcalde no le ha quedado bien a la ciudad</em>”, <strong>sostuvo</strong>.</p>
+<p>Y sus cuestionamientos no se limitaron a la Alcaldía. Al preguntarle por el actual Concejo de Cali, Echeverry fue igualmente crítico.</p>
+<p>“<em>No se ven los debates, todo lo que el alcalde les propone a pupitrazo limpio lo sacan</em>”, <strong>afirmó</strong>.</p>
+<p>Según el exconcejal, hace falta mayor control político a la administración municipal y cuestionó que los concejales aprueben las iniciativas del gobierno sin suficiente discusión.</p>
+<h2>Ahora bien, ¿qué tan avanzado está el proyecto electoral de Echeverri?</h2>
+<p>El exconcejal aseguró que espera comenzar la recolección de firmas la próxima semana y que cuenta con una estructura de líderes dispuestos a participar en ese trabajo.</p>
+<p>“<em>Tengo 1.290 líderes listos para recoger firmas</em>”, <strong>dijo y agregó que el movimiento se llamará Primero lo social, mismo nombre que lleva su fundación</strong>.</p>
+<p>Su propósito es reunir entre 220.000 y 250.000 firmas durante diciembre para avanzar en la presentación de sus candidatos en enero.</p>
+<p><strong>Al cierre de la entrevista con Graffiti, Albeiro Echeverry dijo una frase que parece será su eslogan de campaña en 2027:</strong> “<em>A mí me dicen el Mudo de la política, porque yo no quiero que me conozcan por lo que digo, sino por lo que hago</em>”.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/politica/graffiti/albeiro-echeverry-bustamante-candidatura-alcaldia-de-cali-2027/">Albeiro Echeverry quiere ser alcalde de Cali y anuncia que recogerá firmas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/politica/graffiti/albeiro-echeverry-bustamante-candidatura-alcaldia-de-cali-2027/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Qué pasará el viernes 13 de noviembre de 2026? Una antigua predicción sobre el fin del mundo revive el temor a una catástrofe global</title>
+		<link>https://occidente.co/secciones/tendencias/viernes-13-de-noviembre-de-2026-desmienten-teorias-fin-del-mundo/</link>
+					<comments>https://occidente.co/secciones/tendencias/viernes-13-de-noviembre-de-2026-desmienten-teorias-fin-del-mundo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 23:04:06 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444426</guid>
+
+					<description><![CDATA[<p>Una investigación científica de hace 66 años, las recomendaciones de varios gobiernos para almacenar provisiones y los rumores sobre un apagón mundial alimentan la incertidumbre en redes sociales. El viernes 13 de noviembre de 2026 se ha convertido en una fecha rodeada de inquietud, especulaciones y teorías sobre el fin del mundo. Una predicción formulada...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/viernes-13-de-noviembre-de-2026-desmienten-teorias-fin-del-mundo/">¿Qué pasará el viernes 13 de noviembre de 2026? Una antigua predicción sobre el fin del mundo revive el temor a una catástrofe global</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Una investigación científica de hace 66 años, las recomendaciones de varios gobiernos para almacenar provisiones y los rumores sobre un apagón mundial alimentan la incertidumbre en redes sociales.</p>
+<p>El viernes 13 de noviembre de 2026 se ha convertido en una fecha rodeada de inquietud, especulaciones y teorías sobre el fin del mundo.</p>
+<p>Una predicción formulada por científicos hace más de seis décadas ha vuelto a circular en internet y, aunque no existe evidencia de que vaya a ocurrir una catástrofe, la coincidencia con otras advertencias sobre posibles emergencias ha despertado preguntas sobre lo que podría suceder.</p>
+<p>La expectativa no gira únicamente alrededor de una fecha considerada de mala suerte en algunas culturas.</p>
+<p>En distintos países se han difundido recomendaciones oficiales para que las familias dispongan de agua potable, alimentos no perecederos, linternas y otros suministros básicos ante posibles crisis.</p>
+<p>A esto se suma otro rumor que señala el 17 de noviembre como el día de un supuesto apagón mundial que dejaría a millones de personas sin electricidad, internet y comunicaciones.</p>
+<p>La combinación de estos mensajes ha creado un escenario propicio para el miedo.</p>
+<p><strong>Sin embargo, detrás de las versiones que circulan existen acontecimientos de naturaleza muy diferente:</strong> una investigación demográfica de 1960, medidas reales de prevención de emergencias y teorías difundidas en redes sociales que no cuentan con respaldo científico.</p>
+<h2>¿Por qué se habla del fin del mundo el 13 de noviembre?</h2>
+<p><strong>El origen de la inquietud se remonta al 4 de noviembre de 1960, cuando la revista científica Science publicó un estudio titulado Doomsday: Friday, 13 November, A.D. 2026, que puede traducirse como Día del Juicio Final:</strong> viernes 13 de noviembre de 2026.</p>
+<p>La investigación fue realizada por Heinz von Foerster, Patricia M. Mora y Lawrence W.</p>
+<p>Amiot, de la Universidad de Illinois, quienes estudiaron el crecimiento de la población mundial a lo largo de aproximadamente dos mil años.</p>
+<p><strong>Sus cálculos identificaron una fecha sorprendente:</strong> el 13 de noviembre de 2026.</p>
+<p>Según el modelo matemático, si la población continuaba creciendo al ritmo observado durante los siglos anteriores, alcanzaría ese día un valor teóricamente infinito.</p>
+<p>La expresión resultaba alarmante, pero no significaba que los investigadores hubieran descubierto cuándo desaparecería la humanidad.</p>
+<p>El estudio examinaba los límites de una tendencia demográfica, no la posibilidad de un impacto de asteroide, una guerra nuclear o una destrucción repentina del planeta.</p>
+<p>La diferencia es fundamental. El crecimiento de la población comenzó a desacelerarse y las condiciones sobre las que se construyó aquella proyección dejaron de cumplirse.</p>
+<p>Según las estimaciones de Naciones Unidas, la población mundial alcanzaría su máximo alrededor de 10.300 millones de habitantes hacia mediados de la década de 2080.</p>
+<p>Medios internacionales como Euronews y The Week han retomado la historia de esta investigación, mientras verificadores como Ecuador Chequea han explicado por qué no constituye una predicción científica del apocalipsis.</p>
+<h3>Los gobiernos que recomiendan prepararse para una emergencia</h3>
+<p>Otro elemento que ha contribuido a alimentar las especulaciones son las recomendaciones de distintos gobiernos para que sus ciudadanos mantengan reservas de alimentos, agua potable y otros elementos de supervivencia.</p>
+<p>En marzo de 2025, la Comisión Europea presentó una estrategia de preparación ante crisis que contempla impulsar la autosuficiencia de la población durante al menos 72 horas.</p>
+<p>La iniciativa responde a amenazas como conflictos armados, ciberataques, fenómenos climáticos extremos y posibles interrupciones de servicios esenciales.</p>
+<p>El asunto ha cobrado nueva actualidad porque la Comisión Europea publicó el 3 de noviembre de 2026 nuevas directrices sobre preparación de la población, incluidas orientaciones para afrontar las primeras 72 horas de una emergencia.</p>
+<p>En Países Bajos, el Gobierno también ha recomendado mantener reservas de agua y alimentos para tres días.</p>
+<p>Incluso distribuyó una guía de preparación para emergencias entre más de 8,5 millones de hogares, con instrucciones para enfrentar situaciones en las que puedan fallar la electricidad, el suministro de agua o las comunicaciones.</p>
+<p>Estas medidas son reales, pero tienen una explicación diferente de la que sugieren algunas publicaciones alarmistas.</p>
+<p>Ninguna de las recomendaciones consultadas establece el 13 de noviembre de 2026 como fecha de una catástrofe.</p>
+<p>Se trata de políticas de prevención frente a riesgos que pueden presentarse en cualquier momento.</p>
+<h4>El supuesto apagón mundial del 17 de noviembre</h4>
+<p><strong>Como si las especulaciones alrededor del viernes 13 no fueran suficientes, otra fecha ha comenzado a generar inquietud:</strong> el martes 17 de noviembre de 2026.</p>
+<p>En redes sociales circulan mensajes que anuncian un supuesto apagón mundial de 72 horas, acompañado de interrupciones de internet, fallas bancarias y problemas en las comunicaciones.</p>
+<p>Según informaron medios como El Mundo, 20minutos y Ecuavisa, una de las circunstancias que ha alimentado estas versiones es una prueba del Sistema de Alerta de Emergencia de Estados Unidos, prevista para esa fecha.</p>
+<p>La confusión se ha intensificado con referencias a la serie animada Los Simpson.</p>
+<p>Algunos usuarios relacionan el rumor con un episodio en el que se representa un apagón y aparece una referencia al 17 de noviembre.</p>
+<p>Sin embargo, no existe evidencia de que esté previsto un corte eléctrico mundial.</p>
+<p>La prueba estadounidense corresponde a un ejercicio de comunicaciones de emergencia y no supone la interrupción de los servicios eléctricos.</p>
+<p>Pese a ello, la proximidad entre el viernes 13, las recomendaciones de preparación de varios gobiernos y el rumor del apagón ha contribuido a que acontecimientos independientes sean interpretados por algunos usuarios como señales de una misma amenaza.</p>
+<h2>Las otras fechas en las que se anunció el fin del mundo</h2>
+<p>La humanidad ha vivido anteriormente episodios de temor colectivo por supuestas fechas del apocalipsis.</p>
+<p>En 1910, el paso del cometa Halley provocó alarma después de que circularan advertencias sobre la posibilidad de que los gases de su cola afectaran a la Tierra.</p>
+<p>Incluso se comercializaron productos que prometían protección frente a una eventual catástrofe.</p>
+<p>Más de un siglo después, el predicador estadounidense Harold Camping anunció que el Juicio Final ocurriría el 21 de mayo de 2011.</p>
+<p>Cuando la fecha pasó sin que sucediera lo anunciado, trasladó su predicción al 21 de octubre del mismo año.</p>
+<p>Otro episodio ampliamente recordado ocurrió el 21 de diciembre de 2012, cuando el cierre de un ciclo del calendario maya fue interpretado por algunos sectores como una señal del fin de la humanidad.</p>
+<p>Ninguna de estas predicciones se cumplió. Sin embargo, todas lograron captar la atención pública y provocar debates sobre la posibilidad de una catástrofe global.</p>
+<h2>¿Qué puede pasar realmente el viernes 13?</h2>
+<p>La pregunta que permanece es qué ocurrirá el 13 de noviembre de 2026.</p>
+<p><strong>La fecha reúne tres elementos que explican la expectativa:</strong> la coincidencia con un viernes 13, la existencia de un estudio científico que la mencionó hace 66 años y un ambiente de preocupación alimentado por advertencias sobre emergencias y rumores de apagones.</p>
+<p>No obstante, ninguna de las fuentes científicas y oficiales consultadas aporta evidencia de que ese día vaya a producirse un acontecimiento capaz de poner fin a la humanidad.</p>
+<p>Los riesgos de guerras, ciberataques, desastres naturales o interrupciones de servicios públicos existen y forman parte de las preocupaciones de numerosos gobiernos.</p>
+<p>Pero reconocer esos riesgos no equivale a afirmar que una catástrofe tenga una fecha determinada.</p>
+<p>Así, el viernes 13 de noviembre de 2026 llega acompañado de una expectativa que mezcla ciencia, superstición, prevención y desinformación.</p>
+<p>Una combinación que ha sido suficiente para convertir una fecha del calendario en motivo de inquietud, aunque hasta ahora no exista fundamento para anunciar el fin del mundo.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/viernes-13-de-noviembre-de-2026-desmienten-teorias-fin-del-mundo/">¿Qué pasará el viernes 13 de noviembre de 2026? Una antigua predicción sobre el fin del mundo revive el temor a una catástrofe global</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/viernes-13-de-noviembre-de-2026-desmienten-teorias-fin-del-mundo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Colombia Mayor en Cali: 4.756 personas no han cobrado el subsidio y el plazo vence este 13 de noviembre</title>
+		<link>https://occidente.co/cali/beneficiarios-de-colombia-mayor-en-cali-plazo-cobro-ciclo-8-2026/</link>
+					<comments>https://occidente.co/cali/beneficiarios-de-colombia-mayor-en-cali-plazo-cobro-ciclo-8-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 22:54:39 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444422</guid>
+
+					<description><![CDATA[<p>Un total de 4.756 beneficiarios de Colombia Mayor en Cali todavía no cobran el subsidio correspondiente al ciclo 8, cuyo plazo de pago finaliza el 13 de noviembre de 2026. La Secretaría de Bienestar Social de la Alcaldía de Cali hizo un llamado a las personas que tienen pendiente esta transferencia para que reclamen los...</p>
+<p>The post <a href="https://occidente.co/cali/beneficiarios-de-colombia-mayor-en-cali-plazo-cobro-ciclo-8-2026/">Colombia Mayor en Cali: 4.756 personas no han cobrado el subsidio y el plazo vence este 13 de noviembre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Un total de 4.756 beneficiarios de Colombia Mayor en Cali todavía no cobran el subsidio correspondiente al ciclo 8, cuyo plazo de pago finaliza el 13 de noviembre de 2026.</p>
+<p>La Secretaría de Bienestar Social de la Alcaldía de Cali hizo un llamado a las personas que tienen pendiente esta transferencia para que reclamen los recursos antes de la fecha establecida.</p>
+<p>La administración distrital informó sobre esta situación el 11 de noviembre y recordó que los beneficiarios deben cumplir con los periodos de cobro definidos por Prosperidad Social.</p>
+<p>La entidad nacional advirtió que dejar de recibir el subsidio durante tres ciclos consecutivos puede ocasionar la suspensión del beneficio, una medida que afecta a quienes no realizan el trámite dentro de los plazos correspondientes.</p>
+<p>Ante esta situación, la Secretaría de Bienestar Social reiteró la importancia de que los adultos mayores vinculados al programa consulten su estado y adelanten el cobro pendiente.</p>
+<p>El llamado está dirigido específicamente a los 4.756 participantes que todavía no reciben el dinero del octavo ciclo, mientras continúa vigente el calendario de pagos anunciado para noviembre.</p>
+<h2>Suspensión del subsidio</h2>
+<p>Prosperidad Social explicó que la falta de cobro durante tres periodos consecutivos puede generar una suspensión dentro del programa Colombia Mayor.</p>
+<p>Por esta razón, la entidad recordó a los beneficiarios la necesidad de reclamar las transferencias en las fechas establecidas y mantener al día los procedimientos relacionados con la entrega de los recursos.</p>
+<p>Sin embargo, algunas personas pueden enfrentar dificultades para realizar el cobro debido a hospitalizaciones o enfermedades.</p>
+<p>Para estos casos, el Centro de Atención para las Personas Mayores en Cali informó que existe un procedimiento mediante el cual los beneficiarios suspendidos por estas circunstancias pueden presentar la documentación necesaria para solicitar el levantamiento de la suspensión.</p>
+<p>Luisa Fernanda Benítez, líder del Centro de Atención para las Personas Mayores en Cali, explicó que el beneficiario puede enviar a un representante a la sede ubicada en la avenida 6 Norte #45N-47, barrio El Bosque.</p>
+<p>Esta persona debe presentar una fotocopia del documento de identidad del beneficiario y de su historia clínica para adelantar el trámite correspondiente.</p>
+<p>Una vez entregados los documentos, Colombia Mayor debe revisar si se cumplen las condiciones exigidas para levantar la suspensión.</p>
+<p>Posteriormente, el beneficiario tendrá que esperar la respuesta del programa, pues la presentación de los soportes médicos forma parte del procedimiento y no representa una reactivación inmediata del subsidio.</p>
+<h3>Alternativas de pago</h3>
+<p>Además del llamado a reclamar los recursos pendientes, Prosperidad Social recordó que los beneficiarios de Colombia Mayor en Cali pueden registrar una cuenta bancaria o un depósito electrónico para recibir las transferencias de los próximos ciclos.</p>
+<p>Este procedimiento se realiza mediante el Gestor de Información Financiera, GIF, una herramienta que permite vincular productos financieros al programa.</p>
+<p>Con esta modalidad, los participantes pueden recibir el subsidio directamente en la cuenta o depósito electrónico registrado, sin necesidad de desplazarse para reclamar el dinero.</p>
+<p><strong> Prosperidad Social también señaló</strong> que este mecanismo permite acceder a los recursos de manera anticipada, de acuerdo con las fechas establecidas en el cronograma de Colombia Mayor.</p>
+<p>Para acceder a esta opción, los beneficiarios que todavía no registran un producto financiero pueden ingresar a la página web de Prosperidad Social.</p>
+<p>Allí podrán registrar, consultar o actualizar la información correspondiente a su cuenta bancaria o depósito electrónico, según el procedimiento dispuesto por la entidad para las transferencias del programa.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/beneficiarios-de-colombia-mayor-en-cali-plazo-cobro-ciclo-8-2026/">Colombia Mayor en Cali: 4.756 personas no han cobrado el subsidio y el plazo vence este 13 de noviembre</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/beneficiarios-de-colombia-mayor-en-cali-plazo-cobro-ciclo-8-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Ejército halló 104 cilindros de gas en un depósito ilegal en Yumbo</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/cilindros-de-gas-en-yumbo-ejercito-incauta-104-unidades/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/cilindros-de-gas-en-yumbo-ejercito-incauta-104-unidades/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 22:42:47 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444417</guid>
+
+					<description><![CDATA[<p>Un total de 104 cilindros de gas fueron hallados e incautados por tropas del Ejército Nacional en un depósito ilegal ubicado en el municipio de Yumbo. El material fue localizado por tropas de la Tercera Brigada mediante labores de inteligencia militar y colaboración ciudadana. Las autoridades lo relacionaron preliminarmente con el frente Jaime Martínez de...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/cilindros-de-gas-en-yumbo-ejercito-incauta-104-unidades/">Ejército halló 104 cilindros de gas en un depósito ilegal en Yumbo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un total de 104 cilindros de gas fueron hallados e incautados por tropas del Ejército Nacional en un depósito ilegal ubicado en el municipio de Yumbo.</strong></p>
+<p>El material fue localizado por tropas de la Tercera Brigada mediante labores de inteligencia militar y colaboración ciudadana.</p>
+<p><strong>Las autoridades lo relacionaron preliminarmente con el frente Jaime Martínez de las disidencias de las Farc.</strong></p>
+<p>El descubrimiento encendió las alertas de las autoridades ante las hipótesis sobre el posible uso que tendría este material por parte de grupos armados ilegales que delinquen en la región.</p>
+<p>De acuerdo con la información entregada por el Ejército, el operativo fue desarrollado por la Tercera Brigada, con apoyo de labores de inteligencia militar adelantadas por el Batallón de Policía Militar N.° 3 y datos suministrados por la ciudadanía, que permitieron identificar el lugar donde permanecían almacenados los recipientes.</p>
+<p>La principal hipótesis de las autoridades apunta a que los cilindros presuntamente serían utilizados por integrantes del Grupo Armado Organizado Residual (GAOr) Jaime Martínez, estructura vinculada a las disidencias de las Farc, para fortalecer su capacidad delictiva en el departamento.</p>
+<p>Entre las posibilidades que se investigan está que estos elementos pudieran ser destinados a la fabricación de artefactos explosivos o a la preparación de posibles acciones terroristas contra la población y la Fuerza Pública.</p>
+<p>Sin embargo, hasta el momento no existe confirmación oficial de que los cilindros estuvieran acondicionados para ser utilizados como explosivos.</p>
+<p>Tras el hallazgo, las tropas procedieron a incautar y destruir los 104 recipientes, con el propósito de evitar que pudieran terminar en manos de esta estructura armada ilegal.</p>
+<p><strong>Las autoridades también buscan establecer la procedencia del material, las circunstancias en las que llegó al depósito clandestino y cuál sería su verdadero destino.</strong></p>
+<p>Hasta ahora, no se han reportado capturas relacionadas con este procedimiento.</p>
+<p>Ante las sospechas sobre posibles actividades terroristas, el Ejército hizo un llamado a la comunidad para que denuncie cualquier situación sospechosa a través de la línea 107.</p>
+<p><strong>La institución destacó que la colaboración ciudadana es fundamental para prevenir hechos que pongan en riesgo la seguridad de los habitantes del Valle del Cauca.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/cilindros-de-gas-en-yumbo-ejercito-incauta-104-unidades/">Ejército halló 104 cilindros de gas en un depósito ilegal en Yumbo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/cilindros-de-gas-en-yumbo-ejercito-incauta-104-unidades/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Retiran 944 toneladas de residuos en los ríos de Cali</title>
+		<link>https://occidente.co/cali/limpieza-de-rios-y-quebradas-en-cali-dagma-recicladores-residuos-2026/</link>
+					<comments>https://occidente.co/cali/limpieza-de-rios-y-quebradas-en-cali-dagma-recicladores-residuos-2026/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 22:39:08 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444415</guid>
+
+					<description><![CDATA[<p>La limpieza de ríos y quebradas en Cali dejó un balance de más de 944 toneladas de residuos retirados durante el primer mes de intervención. El Departamento Administrativo de Gestión del Medio Ambiente (Dagma), junto con 15 organizaciones de recicladores de oficio, adelanta trabajos de extracción manual en 42 fuentes hídricas de la ciudad. Las...</p>
+<p>The post <a href="https://occidente.co/cali/limpieza-de-rios-y-quebradas-en-cali-dagma-recicladores-residuos-2026/">Retiran 944 toneladas de residuos en los ríos de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La limpieza de ríos y quebradas en Cali dejó un balance de más de 944 toneladas de residuos retirados durante el primer mes de intervención.</p>
+<p>El Departamento Administrativo de Gestión del Medio Ambiente (Dagma), junto con 15 organizaciones de recicladores de oficio, adelanta trabajos de extracción manual en 42 fuentes hídricas de la ciudad.</p>
+<p>Las actividades incluyen cinco ríos, 37 quebradas y, por primera vez, derivaciones del río Pance.</p>
+<p>El reporte, presentado el 12 de noviembre de 2026, corresponde a las primeras jornadas del convenio que vincula a las organizaciones de recicladores con la autoridad ambiental.</p>
+<p>La iniciativa contempla la recolección de materiales depositados en los cauces y el mantenimiento de sus zonas protectoras.</p>
+<p>Además, busca reducir los riesgos ambientales asociados con la acumulación de residuos y recuperar las condiciones ecológicas de estos espacios.</p>
+<p>De acuerdo con el Grupo de Gestión Integral de Residuos Sólidos, los trabajos permitieron extraer más de 370 metros cúbicos de residuos de los ríos Cali, Aguacatal, Meléndez, Cañaveralejo y Lili.</p>
+<p>Estas fuentes hídricas forman parte del cronograma de intervención que ejecutan las organizaciones vinculadas al convenio, mediante actividades manuales de recolección y mantenimiento.</p>
+<p>Por otra parte, las cuadrillas retiraron más de 480 metros cúbicos de materiales de 37 quebradas ubicadas en las comunas 1, 2, 18, 19 y 20.</p>
+<p>A estas cifras se suman más de 90 metros cúbicos recogidos en las derivaciones del río Pance, un sector que ingresa por primera vez a las actividades contempladas dentro de este programa ambiental.</p>
+<h2>Zonas de intervención</h2>
+<p>El plan de limpieza de ríos y quebradas en Cali contempla aproximadamente 17.900 metros lineales de intervención en los cinco ríos incluidos en el convenio.</p>
+<p>Asimismo, establece trabajos sobre más de 5.600 metros lineales distribuidos entre las 37 quebradas. Las actividades también comprenden diferentes derivaciones del río Pance, donde los recicladores participan en la extracción de residuos.</p>
+<p>Las labores no se limitan a retirar objetos del agua. Los trabajadores también realizan poda de vegetación en las márgenes protectoras y descolmatación de algunas estructuras que permiten el paso de las quebradas por debajo de las carreteras.</p>
+<p>Estas estructuras, conocidas como culverts, forman parte de los puntos atendidos durante las jornadas de mantenimiento.</p>
+<p>Entre los materiales encontrados figuran colchones, plásticos, llantas y escombros.</p>
+<p>Jaime Gutiérrez, coordinador de las organizaciones de recicladores en la zona alta del río Meléndez, explicó que estos elementos aparecen durante las actividades de extracción y pidió a la ciudadanía evitar que terminen en los cuerpos de agua.</p>
+<p>El representante también solicitó utilizar los servicios de los operadores de aseo, los transportadores conocidos como &#8216;chaneros&#8217; o las organizaciones de recicladores para gestionar los materiales.</p>
+<p>Su llamado se concentra en evitar que los residuos lleguen a los cauces y permanezcan acumulados en las zonas protectoras de las fuentes hídricas.</p>
+<h3>Participación de recicladores</h3>
+<p>El convenio actual da continuidad a las intervenciones desarrolladas durante el año anterior.</p>
+<p>En ese periodo, el Dagma trabajó con 32 organizaciones de recicladores de oficio y logró retirar manualmente más de 1.600 metros cúbicos de residuos de diferentes cuerpos de agua de Cali.</p>
+<p>Según el balance institucional, ese volumen supera la capacidad de carga de al menos 96 volquetas de tipo doble troque.</p>
+<p>Además de las actividades ambientales, el programa busca reconocer el trabajo de los recicladores de oficio desde una perspectiva social y económica.</p>
+<p>La iniciativa contempla espacios de articulación y participación con estas organizaciones, en cumplimiento de las medidas de protección y acciones afirmativas establecidas por la Corte Constitucional mediante la Sentencia T-291 de 2009.</p>
+<p>De esta manera, la limpieza de ríos y quebradas en Cali reúne actividades de extracción de residuos, mantenimiento de cauces y participación de organizaciones dedicadas al reciclaje.</p>
+<p>El Dagma reiteró su llamado a la ciudadanía para que evite arrojar basura y escombros en las fuentes hídricas y sus zonas protectoras, mientras continúa la ejecución del convenio.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/limpieza-de-rios-y-quebradas-en-cali-dagma-recicladores-residuos-2026/">Retiran 944 toneladas de residuos en los ríos de Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/limpieza-de-rios-y-quebradas-en-cali-dagma-recicladores-residuos-2026/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>En más del 8% disminuyen homicidios en el Valle del Cauca</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/homicidios-en-el-valle-del-cauca-cayeron-un-8-en-octubre/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/homicidios-en-el-valle-del-cauca-cayeron-un-8-en-octubre/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Thu, 12 Nov 2026 22:31:38 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=444411</guid>
+
+					<description><![CDATA[<p>Durante el mes de octubre, los homicidios en el Valle del Cauca disminuyeron en un 8%. Así lo dio a conocer el secretario de Convivencia y Seguridad Ciudadana del Valle del Cauca, Guillermo Londoño, en el marco de un debate de control político de la Asamblea Departamental. Según indicó Londoño en octubre pasado, se registraron...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/homicidios-en-el-valle-del-cauca-cayeron-un-8-en-octubre/">En más del 8% disminuyen homicidios en el Valle del Cauca</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Durante el mes de octubre, los homicidios en el Valle del Cauca disminuyeron en un 8%.</strong></p>
+<p>Así lo dio a conocer el secretario de Convivencia y Seguridad Ciudadana del Valle del Cauca, Guillermo Londoño, en el marco de un debate de control político de la Asamblea Departamental.</p>
+<p>Según indicó Londoño en octubre pasado, se registraron 179 casos, 16 menos respecto al mismo mes del 2025, en los municipios del Valle, sin incluir a Cali.</p>
+<p><em>“Hay una reducción muy importante de más del 8% en homicidios en toda la geografía vallecaucana durante octubre, pero también una tendencia a la baja en otros 10 indicadores de seguridad ciudadana que tenemos en nuestro departamento. Sin embargo, esto no es suficiente, debemos seguir redoblando esfuerzos para tener mejores resultados y para llevarle mayor seguridad a todos los vallecaucanos”</em>, <strong>afirmó el secretario.</strong></p>
+<p>Guillermo Londoño añadió que, junto con la Fuerza Pública, el apoyo del Gobierno nacional y en sinergia con las alcaldías, se seguirá enfrentando con determinación las amenazas criminales en la región.</p>
+<p><strong>Además, resaltó que es</strong> <em>“muy positivo asistir siempre a las citaciones que a bien considera hacernos la Asamblea y seguir trabajando hombro a hombro por la seguridad de todos los vallecaucanos”</em>.</p>
+<p>Durante la sesión, la Asamblea del Valle del Cauca reconoció la tendencia a la baja en los índices de criminalidad en el departamento y las estrategias impulsadas desde la Gobernación por la seguridad ciudadana y las inversiones para fortalecer las capacidades de la Fuerza Pública, gracias a los recursos de la Tasa de Seguridad que pagan los vallecaucanos.</p>
+<p><em>“Dentro de los aspectos a destacar se caracteriza también la modernización tecnológica y de capacidades operativas, sobre todo cómo se consolida la modernización tecnológica de la Policía Nacional, del Gaula Militar mediante analítica de video funciones inteligentes en la plataforma del Centro de Gestión de Emergencias y Seguridad del Valle del Cauca, CGES, y la actualización de la red de comunicaciones de misión crítica. </em><em>Esto también lleva a que podamos fortalecer la institucionalidad y la gobernanza”</em>, indicó Julio César García, <strong>diputado del Valle del Cauca.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/homicidios-en-el-valle-del-cauca-cayeron-un-8-en-octubre/">En más del 8% disminuyen homicidios en el Valle del Cauca</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/homicidios-en-el-valle-del-cauca-cayeron-un-8-en-octubre/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

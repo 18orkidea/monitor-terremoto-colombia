@@ -1,8 +1,160 @@
 {
- "generated_at": "2026-11-12T04:01:12.115Z",
- "run_date": "2026-11-11",
- "total": 262,
+ "generated_at": "2026-11-13T04:02:29.061Z",
+ "run_date": "2026-11-12",
+ "total": 264,
  "items": [
+  {
+   "url": "https://valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
+   "publication_url": "https://valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
+   "title": "Gobierno Nacional, Gobernación del Valle y Alcaldía de ...",
+   "snapshot_id": "2026-11-12:https://valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
+   "search_date": "2026-11-12",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 12-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "Gobernación del valle",
+    "domain": "valledelcauca.gov.co",
+    "channel": "web",
+    "url": "https://valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
+   },
+   "reported_data_source": [
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - fuente institucional oficial encontrada",
+   "source_level": "oficial_institucional",
+   "official": true,
+   "temporal_source_policy": "institucion_oficial_no_edan",
+   "original_source_level": "oficial_institucional",
+   "content_sha256": "53c9f42318e55840a6d8d1ef405e69c8b14a3fa8b4d6072714c08619170805a9",
+   "captured_at": "2026-11-13T04:02:27.629Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1d310-b5c1-70f6-a7b7-f3fe77f39607",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto\n\n![Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto](https://www.valledelcauca.gov.co/info/gobvalle/media/pubInt/thumbs/thpubInt_700X400_90168.webp)\n\n**Santiago de Cali, agosto 10 de 2026.** El presidente de la República, Abelardo De La Espriella; [la gobernadora del Valle del Cauca](http://www.valledelcauca.gov.co/), Dilian Francisca Toro; y el alcalde de Cali, Alejandro Eder, se reunieron en el Puesto de Mando Unificado, con el propósito de buscar soluciones a las necesidades más urgentes en los municipios impactados por el sismo de esta mañana.\n\n“Todo nos preocupa, pero en este punto en particular, las 188 personas desaparecidas. Hemos estado en contacto desde el inicio con la señora [Gobernadora](http://www.valledelcauca.gov.co/) y el señor Alcalde, y ellos nos solicitaron rescatistas. Ya tenemos en Cali 228 rescatistas y caninos que nos van a ayudar en esa búsqueda de los desaparecidos. Tenemos también, por solicitud de la señora [Gobernadora](http://www.valledelcauca.gov.co/) y el señor Alcalde, 105 ingenieros militares. **Ha habido saqueos y problemas de orden público. Por eso, al amanecer de mañana tendremos más de 1.000 hombres en la ciudad para protegerla y evitar situaciones que afecten el orden público**”, señaló De La Espriella.\n\nAgregó que a los damnificados “vamos a darles un subsidio para que puedan mudarse a otro lado y luego viene la recuperación de esas viviendas. **Por supuesto, se necesita agua, plantas eléctricas y carpas, estamos en la construcción de todo ello y debo decir que el sector privado, los empresarios, se han portado muy bien**”.\n\nPor su parte, la gobernadora del Valle del Cauca, Dilian Francisca Toro, explicó que “El Cairo, que es un municipio cercano a San José del Palmar, el 80% está completamente colapsado y destruido. En El Águila, el hospital se cayó completamente al igual que el hospital de Argelia. **Necesitamos hospitales de campaña. El Hospital Universitario colapsó el ala de pediatría. Ya logramos evacuar a las personas. Desafortunadamente, entre los fallecidos hay cuatro niñas y dos que estaban en estado crítico. Estaban en el colegio; les cayó una pared y eso les causó el fallecimiento**”.\n\nLa mandataria agregó que en Buenaventura, “mañana también se dirigirán 7 vuelos, apoyados por los empresarios del Valle del Cauca, para llevar medicamentos, carpas e insumos, tras todas las comunas afectadas y el colapso de las viviendas y un edificio. **Todas estas personas que fueron afectadas en sus viviendas ahora están en los coliseos y necesitamos enviarles kits de alimentación, aseo**”. Por primera vez el Gobierno Nacional, nos apoya inmediatamente y de verdad que estamos muy agradecidos”, puntualizó.\n\nEl alcalde Alejandro Eder, informó que “ordené la militarización de Cali esta noche y, con el apoyo del Gobierno Nacional, lo vamos a lograr. **Ya se están desplegando 600 tropas iniciales; de aquí a la madrugada llegarán las 400 o 500 que quedan faltando. Tenemos los equipos rescatistas de Cali trabajando. Ya están en proceso de llegar los 232 que le solicitamos al Gobierno Nacional**”, puntualizó.\n\nDe acuerdo con la actualización de daños y afectaciones, se registran cerca de 5.000 viviendas averiadas y colapsadas, 55 personas fallecidas y aproximadamente 700 heridas. Además, tres hospitales se encuentran colapsados y 18 presentan afectaciones, mientras que 39 centros educativos han resultado afectados. **El Aeropuerto Internacional ‘Alfonso Bonilla Aragón’ presenta averías y mantiene una operación restringida.**\n\n**_Lorena Ramírez_**\n\n**Gobernación del Valle del Cauca**",
+   "publicado_en": "2026-08-11T10:35:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": null,
+   "departamentos": [
+    "Chocó",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Buenaventura",
+    "Cali",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": null,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 5000,
+    "viviendas_destruidas": null,
+    "heridos": 700,
+    "fallecidos": 55,
+    "desaparecidos": 188,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto\n\n![Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto](https://www.valledelcauca.gov.co/info/gobvalle",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026",
+   "publication_url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026",
+   "title": "Respuesta al terremoto en Colombia Reporte de situación ...",
+   "snapshot_id": "2026-11-12:https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026",
+   "search_date": "2026-11-12",
+   "search_query": "Presidencia Colombia UNGRD SGC terremoto 12-11-2026 reporte oficial afectados",
+   "publisher": {
+    "name": "ReliefWeb",
+    "domain": "reliefweb.int",
+    "channel": "web",
+    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
+   },
+   "reported_data_source": [],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "81128dec3155bc02d38e47c795a3f04aee53cc67405a2540b246a84ba3750add",
+   "captured_at": "2026-11-13T04:02:27.629Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1d310-c380-711d-aee4-328d45e149cd",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Presidencia reporte oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Attachments\n\n- [![Preview of COL_SitRep14_031126_ES_.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/aa/2c/aa2c68a0-e3c6-5f9e-98d0-fd374df171b9.png?2752039-1-0)**Download Report**(PDF \\| 490.71 KB)](https://reliefweb.int/attachments/aa2c68a0-e3c6-5f9e-98d0-fd374df171b9/COL_SitRep14_031126_ES_.pdf)\n\n**CONTEXTO GENERAL**\n\nDe acuerdo con la información consolidada del Registro Único de Damnificados – RUD, información sectorial y la evaluación EDANPRI a corte de octubre hay 778.281 personas afectadas registradas, 326.648 jefes de hogar, 255.079 viviendas afectadas entre las que se cuentan 203.301 averiadas y 51.778 destruidas, 5.309 sedes educativas afectadas con 1.042.228 estudiantes y de ellas 547 sedes requieren reconstrucción total, y 4.238 personas heridas, 358 fallecidas y 98 desaparecidos en 409 municipios de 16 departamentos.\n\nDurante las dos últimas semanas, la respuesta frente al terremoto ha continuado desplazándose hacia acciones de recuperación y reconstrucción, con énfasis en vivienda, infraestructura de salud, reactivación económica y recuperación de equipamientos afectados. Este 30 de octubre, el Gobierno anunció una inversión inicial estimada de $1,7 billones para la reconstrucción del sector vivienda y una meta de entregar hasta 5.000 viviendas nuevas a familias damnificadas, la estrategia contempla adquirir y entregar viviendas que ya están construidas y disponibles en el inventario de los constructores. Sin embargo, resulta necesario mantener el seguimiento a las familias que permanecen en alojamientos temporales y a las comunidades rurales y étnicas que enfrentan mayores dificultades de acceso a servicios y asistencia.\n\nAdemás, en esta última semana el Ministerio de Educación Nacional socializó el mecanismo de Obras por Impuestos para la Reconstrucción (OXI-R), orientado a financiar la recuperación de sedes educativas afectadas por el terremoto, aunque se han desarrollado acciones para restablecer la prestación del servicio educativo, persiste una necesidad importante de recuperación física de las escuelas, particularmente en los territorios más afectados.",
+   "publicado_en": null,
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": null,
+   "departamentos": [],
+   "municipios": [],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 778281,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 255079,
+    "viviendas_destruidas": null,
+    "heridos": 4238,
+    "fallecidos": 358,
+    "desaparecidos": 98,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "ninguna",
+   "cita": "## Attachments\n\n- [![Preview of COL_SitRep14_031126_ES_.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/aa/2c/aa2c68a0-e3c6-5f9e-98d0-fd374df171b9.png?2752039-1-0)**Download Report**(PDF \\| 490.71 KB)](https://reliefweb.int/attachments/aa2c68a0-e3c6-5f",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
    "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-15-de-agosto-tras-terremoto-de-7-4-en-colombia-294-fallecidos-3-935-heridos-320-desaparecidos-y-353-rescatados-3578602",
@@ -15850,9 +16002,9 @@
    "url": "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
    "publication_url": "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
    "title": "Decreto 1261 de 2026 Nivel Nacional",
-   "snapshot_id": "2026-11-11:https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
-   "search_date": "2026-11-11",
-   "search_query": "Gobernación Alcaldía terremoto Colombia 11-11-2026 personas familias viviendas municipios departamentos afectados",
+   "snapshot_id": "2026-11-12:https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S",
+   "search_date": "2026-11-12",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 12-11-2026 personas familias viviendas municipios departamentos afectados",
    "publisher": {
     "name": "Decreto  1261 de 2026 Nivel Nacional",
     "domain": "alcaldiabogota.gov.co",
@@ -15888,9 +16040,9 @@
    "temporal_source_policy": "institucion_oficial_no_edan",
    "original_source_level": "oficial_institucional",
    "content_sha256": "7425a436fefbed4fee0ac526791b02d47807b69dfb158436cad2eba56d55976c",
-   "captured_at": "2026-11-12T04:01:11.052Z",
+   "captured_at": "2026-11-13T04:02:27.629Z",
    "extraction_method": "firecrawl_search_then_scrape",
-   "firecrawl_job_id": "01a1cde9-bd96-73dc-9126-1a7c550fec84",
+   "firecrawl_job_id": "01a1d310-b5c1-70f6-a7b7-f3fe77f39607",
    "firecrawl_scrape_status": 200,
    "firecrawl_scrape_error": null,
    "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
@@ -22830,8 +22982,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1cde9-b453-7084-8519-97ddd8d4c9d5",
-       "query": "UNGRD SGC terremoto Colombia 11-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a1d310-aa4a-729a-910d-7a0b1ef995a2",
+       "query": "UNGRD SGC terremoto Colombia 12-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -22839,8 +22991,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1cde9-bd96-73dc-9126-1a7c550fec84",
-       "query": "Gobernación Alcaldía terremoto Colombia 11-11-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a1d310-b5c1-70f6-a7b7-f3fe77f39607",
+       "query": "Gobernación Alcaldía terremoto Colombia 12-11-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -22848,8 +23000,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1cde9-c906-716a-ad57-acacb07851db",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 11-11-2026 reporte oficial afectados",
+       "id": "01a1d310-c380-711d-aee4-328d45e149cd",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 12-11-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -22915,22 +23067,18 @@
      "type": "html",
      "url": "https://www.valledelcauca.gov.co/riesgo/",
      "note": "Sección de Gestión del Riesgo; puede devolver 502, se considera fuente inestable.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 0,
-     "candidates": 0,
-     "result": "no_event_specific_links"
+     "http_status": 502,
+     "ok": false,
+     "result": "no_usable"
     },
     {
      "role": "noticias",
      "type": "html",
      "url": "https://www.valledelcauca.gov.co/publicaciones/noticias/",
      "note": "Listado de publicaciones/noticias del dominio oficial.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 0,
-     "candidates": 0,
-     "result": "no_event_specific_links"
+     "http_status": 502,
+     "ok": false,
+     "result": "no_usable"
     }
    ]
   },
@@ -23028,6 +23176,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-11-12/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-11-13/oficiales_feed.json"
  }
 }
