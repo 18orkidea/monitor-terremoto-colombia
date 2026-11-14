@@ -1,6 +1,6 @@
 {
- "generado": "2026-11-13",
- "fecha": "2026-11-13",
+ "generado": "2026-11-14",
+ "fecha": "2026-11-14",
  "evento": {
   "codigo": "EMSR916",
   "usgs_id": "us6000tjl2",
@@ -63,8 +63,8 @@
    ],
    "cruce": {
     "estado": "no_comparable",
-    "n_prensa": 1897,
-    "n_oficial": 88,
+    "n_prensa": 1903,
+    "n_oficial": 89,
     "n_ciudadano": 499,
     "etiqueta": "No comparable 1:1"
    },
@@ -149,8 +149,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1879,
-    "n_oficial": 88,
+    "n_prensa": 1886,
+    "n_oficial": 89,
     "n_ciudadano": 1,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -253,8 +253,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 866,
-    "n_oficial": 85,
+    "n_prensa": 871,
+    "n_oficial": 86,
     "n_ciudadano": 407,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -339,8 +339,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 1879,
-    "n_oficial": 88,
+    "n_prensa": 1886,
+    "n_oficial": 89,
     "n_ciudadano": 3,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -427,8 +427,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 152,
-    "n_oficial": 88,
+    "n_prensa": 154,
+    "n_oficial": 89,
     "n_ciudadano": 51,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -513,7 +513,7 @@
    "cruce": {
     "estado": "coincide",
     "n_prensa": 148,
-    "n_oficial": 88,
+    "n_oficial": 89,
     "n_ciudadano": 0,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -612,8 +612,8 @@
    ],
    "cruce": {
     "estado": "coincide",
-    "n_prensa": 403,
-    "n_oficial": 87,
+    "n_prensa": 405,
+    "n_oficial": 88,
     "n_ciudadano": 5,
     "etiqueta": "Coincide cualitativamente"
    },
@@ -643,7 +643,7 @@
    "gdelt": 1.8642,
    "fuentes": 409,
    "chatmap": 45,
-   "feeds": 1242
+   "feeds": 1246
   },
   {
    "fecha": "2026-08-11",
@@ -667,7 +667,7 @@
    "gdelt": 1.08,
    "fuentes": 200,
    "chatmap": 123,
-   "feeds": 680
+   "feeds": 682
   },
   {
    "fecha": "2026-08-14",
@@ -691,7 +691,7 @@
    "gdelt": 0.7414,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 353
+   "feeds": 354
   },
   {
    "fecha": "2026-08-17",
@@ -827,7 +827,7 @@
    "gdelt": 0.0798,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 180
+   "feeds": 181
   },
   {
    "fecha": "2026-09-03",
@@ -883,7 +883,7 @@
    "gdelt": 0.1076,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 166
+   "feeds": 167
   },
   {
    "fecha": "2026-09-10",
@@ -891,7 +891,7 @@
    "gdelt": 0.1096,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 375
+   "feeds": 376
   },
   {
    "fecha": "2026-09-11",
@@ -1307,7 +1307,7 @@
    "gdelt": null,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 28
+   "feeds": 29
   },
   {
    "fecha": "2026-11-02",
@@ -1323,7 +1323,7 @@
    "gdelt": 0.0882,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 325
+   "feeds": 326
   },
   {
    "fecha": "2026-11-04",
@@ -1331,7 +1331,7 @@
    "gdelt": 0.045,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 64
+   "feeds": 65
   },
   {
    "fecha": "2026-11-05",
@@ -1339,7 +1339,7 @@
    "gdelt": 0.0936,
    "fuentes": null,
    "chatmap": 7,
-   "feeds": 60
+   "feeds": 61
   },
   {
    "fecha": "2026-11-06",
@@ -1360,15 +1360,15 @@
   {
    "fecha": "2026-11-08",
    "emm": null,
-   "gdelt": 0.0275,
+   "gdelt": 0.0319,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 34
+   "feeds": 35
   },
   {
    "fecha": "2026-11-09",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.0448,
    "fuentes": null,
    "chatmap": 0,
    "feeds": 77
@@ -1376,34 +1376,42 @@
   {
    "fecha": "2026-11-10",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.0516,
    "fuentes": null,
    "chatmap": 15,
-   "feeds": 116
+   "feeds": 119
   },
   {
    "fecha": "2026-11-11",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.0563,
    "fuentes": null,
    "chatmap": 14,
-   "feeds": 92
+   "feeds": 95
   },
   {
    "fecha": "2026-11-12",
    "emm": null,
-   "gdelt": null,
+   "gdelt": 0.0507,
    "fuentes": null,
    "chatmap": 0,
-   "feeds": 64
+   "feeds": 67
   },
   {
    "fecha": "2026-11-13",
    "emm": null,
    "gdelt": null,
    "fuentes": null,
+   "chatmap": 0,
+   "feeds": 83
+  },
+  {
+   "fecha": "2026-11-14",
+   "emm": null,
+   "gdelt": null,
+   "fuentes": null,
    "chatmap": null,
-   "feeds": 25
+   "feeds": 44
   }
  ],
  "entregas": [
@@ -7704,7 +7712,7 @@
    }
   },
   "criterio": "Cada edificio se cuenta una vez. Dos puntos de servicios distintos a menos de 20 m son el mismo edificio; dos puntos del mismo servicio, nunca. No se suman las cifras de dos satélites sobre el mismo municipio ni se elige la mayor.",
-  "generado": "2026-11-13"
+  "generado": "2026-11-14"
  },
  "citizen": {
   "chatmap_total": 1043,
