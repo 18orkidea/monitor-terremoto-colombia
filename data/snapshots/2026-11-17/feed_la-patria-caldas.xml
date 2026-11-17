@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Tue, 17 Nov 26 06:01:50 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 17 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-17-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 17 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4191" typeof="schema:Person" property="schema:name" datatype&gt;Manuela Cortés&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-17T06:01:50-05:00" title="Martes, Noviembre 17, 2026 - 06:01" class="datetime"&gt;Mar, 17/11/2026 - 06:01&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=97823&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="V9FvTdVhkgv4I90Fb0qmbIwColo1TxNyBXJqkL7WJpo"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-17-11-26%20%281%29.jpg" width="600" height="782" alt="Portada 17 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 17 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Tue, 17 Nov 2026 11:01:50 +0000</pubDate>
+          <dc:creator>Manuela Cortés</dc:creator>
+          <guid isPermaLink="false">97823 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Posesión de Danilo Fernández como nuevo concejal de Manizales</title>
+  <link>https://www.lapatria.com/galerias/posesion-de-danilo-fernandez-como-nuevo-concejal-de-manizales</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Posesión de Danilo Fernández como nuevo concejal de Manizales&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-17T00:00:00-05:00" title="Martes, Noviembre 17, 2026 - 00:00" class="datetime"&gt;Mar, 17/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;El pasado seis de noviembre, Danilo Eduardo Fernández Becerra se posesionó como nuevo concejal de Manizales. Llegó a ocupar la curul que dejó Héctor Fabio Delgado Londoño por el Partido Liberal. Fernández Becerra logró en las pasadas elecciones territoriales 1.439 votos.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/posesion-de-danilo-fernandez-como-nuevo-concejal-de-manizales" data-a2a-title="Posesión de Danilo Fernández como nuevo concejal de Manizales"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fposesion-de-danilo-fernandez-como-nuevo-concejal-de-manizales&amp;amp;title=Posesi%C3%B3n%20de%20Danilo%20Fern%C3%A1ndez%20como%20nuevo%20concejal%20de%20Manizales"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Tue, 17 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97672 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Celebración de Día de la Policía</title>
+  <link>https://www.lapatria.com/galerias/celebracion-de-dia-de-la-policia</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Celebración de Día de la Policía&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-16T00:00:00-05:00" title="Lunes, Noviembre 16, 2026 - 00:00" class="datetime"&gt;Lun, 16/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;El pasado cinco de noviembre se conmemoraron los 135 años de la Policía Nacional. En Manizales festejaron con una ofrenda floral y diferentes actividades en la Escuela de Carabineros Alejandro Gutiérrez.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/celebracion-de-dia-de-la-policia" data-a2a-title="Celebración de Día de la Policía"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fcelebracion-de-dia-de-la-policia&amp;amp;title=Celebraci%C3%B3n%20de%20D%C3%ADa%20de%20la%20Polic%C3%ADa"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Mon, 16 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97668 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 16 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-16-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 16 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/23" typeof="schema:Person" property="schema:name" datatype&gt;david.munoz&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-15T22:24:47-05:00" title="Domingo, Noviembre 15, 2026 - 22:24" class="datetime"&gt;Dom, 15/11/2026 - 22:24&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=97776&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="VI9A7Npu7e64RpJ08MMvpp8-LJvHC9mBBJ9ehAWCKbU"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-16-11-26.jpg" width="600" height="782" alt="Portada 16 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 16 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Mon, 16 Nov 2026 03:24:47 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">97776 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Lanzamiento de la Feria de Manizales 2027</title>
+  <link>https://www.lapatria.com/galerias/lanzamiento-de-la-feria-de-manizales-2027</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Lanzamiento de la Feria de Manizales 2027&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-15T00:00:00-05:00" title="Domingo, Noviembre 15, 2026 - 00:00" class="datetime"&gt;Dom, 15/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En el Ecoparque Los Yarumos se hizo el lanzamiento de la versión 70 de la Feria de Manizales que se realizará del 3 al 10 de enero de 2027.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/lanzamiento-de-la-feria-de-manizales-2027" data-a2a-title="Lanzamiento de la Feria de Manizales 2027"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Flanzamiento-de-la-feria-de-manizales-2027&amp;amp;title=Lanzamiento%20de%20la%20Feria%20de%20Manizales%202027"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sun, 15 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97664 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>CASALUKER RECIBE GALARDÓN DE PARTE DE LA ANDI POR SUS 120 AÑOS.</title>
+  <link>https://www.lapatria.com/galerias/casaluker-recibe-galardon-de-parte-de-la-andi-por-sus-120-anos</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;CASALUKER RECIBE GALARDÓN DE PARTE DE LA ANDI POR SUS 120 AÑOS.&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-15T00:00:00-05:00" title="Domingo, Noviembre 15, 2026 - 00:00" class="datetime"&gt;Dom, 15/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;CASALUKER RECIBE GALARDÓN DE PARTE DE LA ANDI POR SUS 120 AÑOS.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/casaluker-recibe-galardon-de-parte-de-la-andi-por-sus-120-anos" data-a2a-title="CASALUKER RECIBE GALARDÓN DE PARTE DE LA ANDI POR SUS 120 AÑOS."&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fcasaluker-recibe-galardon-de-parte-de-la-andi-por-sus-120-anos&amp;amp;title=CASALUKER%20RECIBE%20GALARD%C3%93N%20DE%20PARTE%20DE%20LA%20ANDI%20POR%20SUS%20120%20A%C3%91OS."&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sun, 15 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">97658 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 15 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-15-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 15 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/23" typeof="schema:Person" property="schema:name" datatype&gt;david.munoz&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-14T23:12:33-05:00" title="Sábado, Noviembre 14, 2026 - 23:12" class="datetime"&gt;Sáb, 14/11/2026 - 23:12&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=97742&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="3sS5LoMb7HR2n1UriKTbmBTW3CLn1dzDi1PQVLRS7_U"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-15-11-26ok%20%281%29.jpg" width="600" height="782" alt="Portada 15 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 15 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sun, 15 Nov 2026 04:12:33 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">97742 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON NOVIEMBRE 14 - 2026</title>
+  <link>https://www.lapatria.com/publicacion/papel-salmon-noviembre-14-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;PAPEL SALMON NOVIEMBRE 14 - 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/38" typeof="schema:Person" property="schema:name" datatype&gt;GLORIA LUZ ANGEL&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-14T10:44:35-05:00" title="Sábado, Noviembre 14, 2026 - 10:44" class="datetime"&gt;Sáb, 14/11/2026 - 10:44&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=97705&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="Ib36l9kfpkDJuEoQ1E9azoOJdMaW63ZLRh0X7iIYBD0"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/Portada%20PAPEL%20SALMON%20NOVIEMBRE%2014%20-%202026.jpg" width="690" height="450" alt="PAPEL SALMON NOVIEMBRE 14 - 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Alfred Hitchcock el maestro del suspenso.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 14 Nov 2026 15:44:35 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">97705 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 14 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-14-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 14 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/23" typeof="schema:Person" property="schema:name" datatype&gt;david.munoz&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-14T08:56:33-05:00" title="Sábado, Noviembre 14, 2026 - 08:56" class="datetime"&gt;Sáb, 14/11/2026 - 08:56&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=97697&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="64LNtMIEA9uv9WmMd_4p47Ax09Wze9aZlsUjmolgwx8"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-14-11-26.jpg" width="600" height="782" alt="Portada 14 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 14 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 14 Nov 2026 13:56:33 +0000</pubDate>
+          <dc:creator>david.munoz</dc:creator>
+          <guid isPermaLink="false">97697 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>

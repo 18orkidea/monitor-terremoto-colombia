@@ -1,12 +1,12 @@
 {
- "generado": "2026-11-15",
- "fecha": "2026-11-15",
+ "generado": "2026-11-17",
+ "fecha": "2026-11-17",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "52 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 52
+   "texto": "97 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 97
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -71,15 +71,15 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 80 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 80
+   "texto": "La OPS lleva 82 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 82
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-11-14",
+  "fecha": "2026-11-16",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
-   "departamentos_afectados": 30,
+   "departamentos_afectados": 16,
    "municipios_afectados": 496,
    "personas_afectadas": 490000,
    "familias_afectadas": 305791,
@@ -88,13 +88,13 @@
    "heridos": 4611,
    "fallecidos": 335,
    "desaparecidos": 188,
-   "rescatados": 364
+   "rescatados": 496
   },
   "origen": {
    "departamentos_afectados": {
-    "fecha": "2026-08-19",
-    "medio": "Decreto  1261 de 2026 Nivel Nacional",
-    "url": "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=193990&dt=S"
+    "fecha": "2026-08-24",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/terremoto-en-colombia-ultimas-noticias-de-hoy-24-de-agosto-balance-y-seguimiento-tras-el-fuerte-movimiento-3580500"
    },
    "municipios_afectados": {
     "fecha": "2026-08-27",
@@ -132,45 +132,24 @@
     "url": "https://www.vanguardia.com/colombia/2026/10/10/terremoto-en-colombia-estas-son-las-cifras-de-muertos-heridos-y-viviendas-afectadas-tras-dos-meses/"
    },
    "desaparecidos": {
-    "fecha": "2026-11-12",
+    "fecha": "2026-11-16",
     "medio": "Gobernación del valle",
     "url": "https://valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
    },
    "rescatados": {
-    "fecha": "2026-08-20",
-    "medio": "Diario La República",
-    "url": "https://www.larepublica.co/especiales/catastrofe-nacional/terremoto-ha-dejado-319-muertos-4-506-heridos-y-31-416-viviendas-danadas-4462815"
+    "fecha": "2026-08-16",
+    "medio": "El Tiempo",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-16-de-agosto-tras-terremoto-de-7-4-en-colombia-289-fallecidos-4-187-heridos-y-143-desaparecidos-3578742"
    }
   },
-  "ultimo_balance": "2026-11-12",
+  "ultimo_balance": "2026-11-16",
   "ignoradas_del_balance": [
-   {
-    "cifra": "personas_afectadas",
-    "valor": 778281,
-    "motivo": "sin atribución oficial trazable",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
-   },
-   {
-    "cifra": "viviendas_averiadas",
-    "valor": 255079,
-    "motivo": "sin atribución oficial trazable",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
-   },
    {
     "cifra": "viviendas_averiadas",
     "valor": 5000,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "Gobernación del valle",
     "url": "https://valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
-   },
-   {
-    "cifra": "heridos",
-    "valor": 4238,
-    "motivo": "sin atribución oficial trazable",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
    },
    {
     "cifra": "heridos",
@@ -181,30 +160,16 @@
    },
    {
     "cifra": "fallecidos",
-    "valor": 358,
-    "motivo": "sin atribución oficial trazable",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
-   },
-   {
-    "cifra": "fallecidos",
     "valor": 55,
     "motivo": "retrocede sobre el máximo informado",
     "medio": "Gobernación del valle",
     "url": "https://valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
-   },
-   {
-    "cifra": "desaparecidos",
-    "valor": 98,
-    "motivo": "sin atribución oficial trazable",
-    "medio": "ReliefWeb",
-    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-11-15/oficiales_feed.json",
-   "items": 268,
+   "snapshot": "data/snapshots/2026-11-17/oficiales_feed.json",
+   "items": 272,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }
