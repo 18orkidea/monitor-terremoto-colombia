@@ -1,8 +1,171 @@
 {
- "generated_at": "2026-11-19T04:01:54.156Z",
- "run_date": "2026-11-18",
- "total": 278,
+ "generated_at": "2026-11-20T04:01:45.895Z",
+ "run_date": "2026-11-19",
+ "total": 281,
  "items": [
+  {
+   "url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
+   "publication_url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
+   "title": "Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen ...",
+   "snapshot_id": "2026-11-19:https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
+   "search_date": "2026-11-19",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 19-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "Gobernación del valle",
+    "domain": "valledelcauca.gov.co",
+    "channel": "web",
+    "url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
+   },
+   "reported_data_source": [
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - fuente institucional oficial encontrada",
+   "source_level": "oficial_institucional",
+   "official": true,
+   "temporal_source_policy": "institucion_oficial_no_edan",
+   "original_source_level": "oficial_institucional",
+   "content_sha256": "53c9f42318e55840a6d8d1ef405e69c8b14a3fa8b4d6072714c08619170805a9",
+   "captured_at": "2026-11-20T04:01:43.246Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1f71c-dd17-73b8-a4db-54848b28fac4",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto\n\n![Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto](https://www.valledelcauca.gov.co/info/gobvalle/media/pubInt/thumbs/thpubInt_700X400_90168.webp)\n\n**Santiago de Cali, agosto 10 de 2026.** El presidente de la República, Abelardo De La Espriella; [la gobernadora del Valle del Cauca](http://www.valledelcauca.gov.co/), Dilian Francisca Toro; y el alcalde de Cali, Alejandro Eder, se reunieron en el Puesto de Mando Unificado, con el propósito de buscar soluciones a las necesidades más urgentes en los municipios impactados por el sismo de esta mañana.\n\n“Todo nos preocupa, pero en este punto en particular, las 188 personas desaparecidas. Hemos estado en contacto desde el inicio con la señora [Gobernadora](http://www.valledelcauca.gov.co/) y el señor Alcalde, y ellos nos solicitaron rescatistas. Ya tenemos en Cali 228 rescatistas y caninos que nos van a ayudar en esa búsqueda de los desaparecidos. Tenemos también, por solicitud de la señora [Gobernadora](http://www.valledelcauca.gov.co/) y el señor Alcalde, 105 ingenieros militares. **Ha habido saqueos y problemas de orden público. Por eso, al amanecer de mañana tendremos más de 1.000 hombres en la ciudad para protegerla y evitar situaciones que afecten el orden público**”, señaló De La Espriella.\n\nAgregó que a los damnificados “vamos a darles un subsidio para que puedan mudarse a otro lado y luego viene la recuperación de esas viviendas. **Por supuesto, se necesita agua, plantas eléctricas y carpas, estamos en la construcción de todo ello y debo decir que el sector privado, los empresarios, se han portado muy bien**”.\n\nPor su parte, la gobernadora del Valle del Cauca, Dilian Francisca Toro, explicó que “El Cairo, que es un municipio cercano a San José del Palmar, el 80% está completamente colapsado y destruido. En El Águila, el hospital se cayó completamente al igual que el hospital de Argelia. **Necesitamos hospitales de campaña. El Hospital Universitario colapsó el ala de pediatría. Ya logramos evacuar a las personas. Desafortunadamente, entre los fallecidos hay cuatro niñas y dos que estaban en estado crítico. Estaban en el colegio; les cayó una pared y eso les causó el fallecimiento**”.\n\nLa mandataria agregó que en Buenaventura, “mañana también se dirigirán 7 vuelos, apoyados por los empresarios del Valle del Cauca, para llevar medicamentos, carpas e insumos, tras todas las comunas afectadas y el colapso de las viviendas y un edificio. **Todas estas personas que fueron afectadas en sus viviendas ahora están en los coliseos y necesitamos enviarles kits de alimentación, aseo**”. Por primera vez el Gobierno Nacional, nos apoya inmediatamente y de verdad que estamos muy agradecidos”, puntualizó.\n\nEl alcalde Alejandro Eder, informó que “ordené la militarización de Cali esta noche y, con el apoyo del Gobierno Nacional, lo vamos a lograr. **Ya se están desplegando 600 tropas iniciales; de aquí a la madrugada llegarán las 400 o 500 que quedan faltando. Tenemos los equipos rescatistas de Cali trabajando. Ya están en proceso de llegar los 232 que le solicitamos al Gobierno Nacional**”, puntualizó.\n\nDe acuerdo con la actualización de daños y afectaciones, se registran cerca de 5.000 viviendas averiadas y colapsadas, 55 personas fallecidas y aproximadamente 700 heridas. Además, tres hospitales se encuentran colapsados y 18 presentan afectaciones, mientras que 39 centros educativos han resultado afectados. **El Aeropuerto Internacional ‘Alfonso Bonilla Aragón’ presenta averías y mantiene una operación restringida.**\n\n**_Lorena Ramírez_**\n\n**Gobernación del Valle del Cauca**",
+   "publicado_en": "2026-08-11T10:35:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": null,
+   "departamentos": [
+    "Chocó",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Buenaventura",
+    "Cali",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": null,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 5000,
+    "viviendas_destruidas": null,
+    "heridos": 700,
+    "fallecidos": 55,
+    "desaparecidos": 188,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto\n\n![Gobierno Nacional, Gobernación del Valle y Alcaldía de Cali unen esfuerzos para atender emergencia tras terremoto](https://www.valledelcauca.gov.co/info/gobvalle",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
+   "publication_url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
+   "title": "UNGRD entrega nuevo balance oficial este 24 de agosto tras ...",
+   "snapshot_id": "2026-11-19:https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
+   "search_date": "2026-11-19",
+   "search_query": "UNGRD SGC terremoto Colombia 19-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "e4faec4598b787d420bf9e7ddeae6f2938f65a47c9ec15b98fd96fb93c233ed1",
+   "captured_at": "2026-11-20T04:01:43.246Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1f71c-cbc1-7671-806f-c9398e85688a",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# UNGRD entrega nuevo balance oficial este 24 de agosto tras terremoto de magnitud 7,4 en Colombia: 329 fallecidos, 4.592 heridos y 234 desaparecidos\n\nLa actualización de la entidad detalla el impacto de la emergencia en distintos departamentos y municipios.\n\n![Autoconstrucción terremoto](https://imagenes2.eltiempo.com/files/image_1200_535/uploads/2026/08/18/6a84954137b5d.png)\n\n**De acuerdo con el reporte, con corte al 24 de agosto, el movimiento telúrico deja 329 personas fallecidas, 4.592 heridas y 234 desaparecidas.**\n\nLa información fue actualizada por la entidad a las 6:30 de la mañana y da cuenta de la magnitud que ha alcanzado la emergencia en diferentes regiones del país.\n\n![Terremoto en Pereira.](https://imagenes2.eltiempo.com/files/image_600_455/uploads/2026/08/18/6a8469f5759a6.jpeg)\n\nEl balance nacional señala que **16 departamentos y 494 municipios resultaron afectados,** mientras que el número de familias impactadas asciende a **159.924,** correspondientes a **324.157 personas.**\n\nEn el apartado relacionado con la población, la UNGRD también reportó que **364 personas han sido rescatadas durante las labores desarrolladas después del sismo**. Estas cifras hacen parte del consolidado oficial que continúa recopilando información sobre las consecuencias del terremoto registrado en San José del Palmar, Chocó.\n\nLa emergencia también ha dejado daños en viviendas y edificaciones. Según la actualización de la UNGRD, **178.236 viviendas presentan averías y otras 31.519 quedaron destruidas**. A esto se suman 5.884 edificios averiados y 591 que colapsaron como consecuencia del movimiento telúrico.\n\nEl reporte también incluye las afectaciones registradas en sectores fundamentales para la atención de las comunidades. En total, **378 centros de salud presentan daños, mientras que 3.726 centros educativos y 4.140 centros comunitarios** también fueron afectados. La infraestructura vial registra 435 vías con algún tipo de afectación.\n\nEn cuanto a los servicios y las conexiones terrestres y aéreas, la entidad contabilizó 115 acueductos afectados, además de 70 puentes vehiculares y 15 puentes peatonales. **También se reportaron daños en cinco aeropuertos.**\n\nLa UNGRD informó que 1.764 animales resultaron afectados y que 2.847 fueron rescatados durante las labores posteriores al terremoto.\n\n## Últimas decisiones para ayudar a damnificados por el terremoto: crédito de vivienda y millonarias donaciones\n\nEl nuevo balance fue conocido después de que en Bogotá se desarrollara **el concierto benéfico 'Voces por la Vida', una jornada destinada a recaudar recursos para las personas afectadas por el terremoto**.  La cantante Karol G participó desde Los Ángeles, Estados Unidos, mediante 'streaming', y anunció **una donación de un millón de dólares a través de su fundación Con Cora.**\n\nDurante su intervención, la artista se dirigió a los cerca de 40.000 asistentes que acudieron al escenario del Vive Claro y a quienes siguieron la transmisión por televisión y plataformas digitales. \"Desde lejos, pero mi corazón con ustedes, vinimos a cantar un ratico y a compartir este espacio todos juntos\", dijo.\n\nTras finalizar dicho evento, se dio a conocer que en la jornada se logró recaudar **$11.193 millones en donaciones,** cifra que superó el balance registrado durante el desarrollo del concierto.\n\nLas acciones anunciadas para la recuperación también han incluido **medidas relacionadas con el acceso a la vivienda.** El presidente Abelardo De la Espriella informó el sábado 22 de agosto que sostuvo una reunión en la sede de la Presidencia en Barranquilla con empresarios, entre ellos Jaime y Gabriel Gilinski, Alejandro Santo Domingo, Luis Carlos Sarmiento, Fuad Char, Juan Carlos Mora, César Caicedo y Miguel Cortés.\n\nSegún explicó el mandatario, durante el encuentro se planteó modificar las condiciones de los créditos de vivienda destinados a personas afectadas por el terremoto.\n\nEl presidente también anunció **una visita al Chocó junto con los empresarios pa",
+   "publicado_en": "2026-08-24T08:01:03-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-24",
+   "departamentos": [
+    "Chocó"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 324157,
+    "familias_afectadas": null,
+    "viviendas_averiadas": null,
+    "viviendas_destruidas": null,
+    "heridos": 4592,
+    "fallecidos": 329,
+    "desaparecidos": 234,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# UNGRD entrega nuevo balance oficial este 24 de agosto tras terremoto de magnitud 7,4 en Colombia: 329 fallecidos, 4.592 heridos y 234 desaparecidos\n\nLa actualización de la entidad detalla el impacto de la emergencia en distintos departamentos y municipios.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/",
    "publication_url": "https://www.infobae.com/colombia/2026/08/17/terremoto-en-colombia-ungrd-explica-la-reduccion-en-el-registro-de-fallecidos-y-desaparecidos/",
@@ -23956,6 +24119,87 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "publication_url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "title": "OIM Respuesta al Terremoto en Colombia - Reporte de Situación #3 ...",
+   "snapshot_id": "2026-11-19:https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "search_date": "2026-11-19",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 19-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "ReliefWeb",
+    "domain": "reliefweb.int",
+    "channel": "web",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   "reported_data_source": [
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "9b7d5d318e5b8e8227e292b3dc04d862c2e3e0d1fa1c5a9e3ad1341b5b6ad724",
+   "captured_at": "2026-11-20T04:01:43.246Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1f71c-dd17-73b8-a4db-54848b28fac4",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Attachments\n\n- [![Preview of Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/83/3d/833dcc84-be04-5fcb-a3d7-694b3f76689f.png?2737805-1-0)**Download Report**(PDF \\| 723.95 KB)](https://reliefweb.int/attachments/833dcc84-be04-5fcb-a3d7-694b3f76689f/Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf)\n\n**CONTEXTO GENERAL**  \nEl 10 de agosto de 2026, a las 7:34 a.m. se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó. El Gobierno nacional declaró la situación de desastre nacional mediante el Decreto Presidencial 1171 de 2026. En los días posteriores, la atención y respuesta se ha concentrado principalmente en los departamentos con mayores afectaciones son Valle del Cauca, Chocó, Risaralda, Caldas y Quindío.\n\n**AFECTACIONES**  \n304 personas fallecidas  \n426 personas desaparecidas  \n357 personas rescatadas  \n186.182 personas afectadas  \n4.400 personas heridas  \n127.266 viviendas afectadas  \n26.558 viviendas destruidas  \n5 aeropuertos afectados  \n300 establecimientos de salud afectados  \n3.074 instituciones educativas afectadas  \n4.043 centros comunitarios afectados  \n197 edificios colapsados  \n15 departamentos afectados  \n472 municipios afectados\n\n**EVOLUCIÓN DE LA SITUACIÓN**  \n• El Servicio Geológico Colombiano ha reportado 183 réplicas, 15 superiores a magnitud 3 y dos superiores a magnitud 4.  \n• La información sobre daños y población afectada continúa consolidándose, incorporando nuevos territorios y actualizando las estimaciones iniciales a medida que avanzan los EDAN y los reportes territoriales.  \n• Desde el evento se han realizado evaluaciones de daños y afectaciones en los territorios impactados, identificándose impactos diferenciados entre municipios y departamentos.  \n• El aumento de las lluvias en varios departamentos, especialmente en Chocó, ha agravado la situación de los afectados.",
+   "publicado_en": null,
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 472,
+    "personas_afectadas": 186182,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 127266,
+    "viviendas_destruidas": 26558,
+    "heridos": 4400,
+    "fallecidos": 304,
+    "desaparecidos": 426,
+    "rescatados": 357
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -24135,8 +24379,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1f1f6-6ffc-73c1-9636-a571961670eb",
-       "query": "UNGRD SGC terremoto Colombia 18-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a1f71c-cbc1-7671-806f-c9398e85688a",
+       "query": "UNGRD SGC terremoto Colombia 19-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -24144,8 +24388,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1f1f6-7b7d-7208-8807-0d74d157e9b2",
-       "query": "Gobernación Alcaldía terremoto Colombia 18-11-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a1f71c-dd17-73b8-a4db-54848b28fac4",
+       "query": "Gobernación Alcaldía terremoto Colombia 19-11-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -24153,8 +24397,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1f1f6-90f0-70b8-abea-7dd14ab92079",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 18-11-2026 reporte oficial afectados",
+       "id": "01a1f71c-ed2c-731e-bc52-a4af5593a233",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 19-11-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -24232,8 +24476,8 @@
      "http_status": 200,
      "ok": true,
      "links_found": 75,
-     "candidates": 0,
-     "result": "no_event_specific_links"
+     "candidates": 1,
+     "result": "candidate_links"
     }
    ]
   },
@@ -24295,8 +24539,8 @@
      "http_status": 200,
      "ok": true,
      "links_found": 120,
-     "candidates": 1,
-     "result": "candidate_links"
+     "candidates": 0,
+     "result": "no_event_specific_links"
     }
    ]
   },
@@ -24310,9 +24554,11 @@
      "type": "html",
      "url": "https://www.choco.gov.co/noticias",
      "note": "Sitio SPA Angular; requiere descubrir API interna desde bundles si el HTML no trae noticias.",
-     "ok": false,
-     "result": "error",
-     "error": "The operation was aborted due to timeout"
+     "http_status": 200,
+     "ok": true,
+     "links_found": 0,
+     "candidates": 0,
+     "result": "no_event_specific_links"
     }
    ]
   }
@@ -24329,6 +24575,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-11-19/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-11-20/oficiales_feed.json"
  }
 }
