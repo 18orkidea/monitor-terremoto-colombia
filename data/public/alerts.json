@@ -1,12 +1,12 @@
 {
- "generado": "2026-11-20",
- "fecha": "2026-11-20",
+ "generado": "2026-11-21",
+ "fecha": "2026-11-21",
  "alertas": [
   {
    "tipo": "titulares_nuevos",
    "nivel": "info",
-   "texto": "142 titular(es) nuevos sobre el terremoto en los feeds de prensa",
-   "n": 142
+   "texto": "153 titular(es) nuevos sobre el terremoto en los feeds de prensa",
+   "n": 153
   },
   {
    "tipo": "hueco_de_captura_documentado",
@@ -71,12 +71,12 @@
   {
    "tipo": "ops_serie_silenciosa",
    "nivel": "media",
-   "texto": "La OPS lleva 85 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
-   "dias": 85
+   "texto": "La OPS lleva 86 día(s) sin publicar un sitrep nuevo del terremoto. Puede haber cerrado la serie sin anunciarlo — si se confirma, marcar ops_salud.SERIE_CERRADA con la fecha y el porqué.",
+   "dias": 86
   }
  ],
  "balance_consolidado": {
-  "fecha": "2026-11-19",
+  "fecha": "2026-11-20",
   "regla": "serie_consolidada_ui_js",
   "cifras": {
    "departamentos_afectados": 16,
@@ -142,34 +142,48 @@
     "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-este-16-de-agosto-tras-terremoto-de-7-4-en-colombia-289-fallecidos-4-187-heridos-y-143-desaparecidos-3578742"
    }
   },
-  "ultimo_balance": "2026-11-19",
+  "ultimo_balance": "2026-11-20",
   "ignoradas_del_balance": [
    {
+    "cifra": "personas_afectadas",
+    "valor": 778281,
+    "motivo": "sin atribución oficial trazable",
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
+   },
+   {
     "cifra": "viviendas_averiadas",
-    "valor": 5000,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Gobernación del valle",
-    "url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
+    "valor": 255079,
+    "motivo": "sin atribución oficial trazable",
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
    },
    {
     "cifra": "heridos",
-    "valor": 700,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Gobernación del valle",
-    "url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
+    "valor": 4238,
+    "motivo": "sin atribución oficial trazable",
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
    },
    {
     "cifra": "fallecidos",
-    "valor": 55,
-    "motivo": "retrocede sobre el máximo informado",
-    "medio": "Gobernación del valle",
-    "url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/"
+    "valor": 358,
+    "motivo": "sin atribución oficial trazable",
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
+   },
+   {
+    "cifra": "desaparecidos",
+    "valor": 98,
+    "motivo": "sin atribución oficial trazable",
+    "medio": "ReliefWeb",
+    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
    }
   ],
   "derivado_de": {
    "url": "https://monitor-terremoto-colombia-oficiales-ai.inforesidencias.workers.dev/oficiales.json",
-   "snapshot": "data/snapshots/2026-11-20/oficiales_feed.json",
-   "items": 281,
+   "snapshot": "data/snapshots/2026-11-21/oficiales_feed.json",
+   "items": 284,
    "regla_sha256": "b839e452fab2655d4d87ca25d417b846f15724df0bef931d7f299050b085dc1b"
   }
  }

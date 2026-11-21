@@ -1,8 +1,159 @@
 {
- "generated_at": "2026-11-20T04:01:45.895Z",
- "run_date": "2026-11-19",
- "total": 281,
+ "generated_at": "2026-11-21T04:02:06.703Z",
+ "run_date": "2026-11-20",
+ "total": 284,
  "items": [
+  {
+   "url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
+   "publication_url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
+   "title": "UNGRD entrega nuevo balance oficial este 24 de agosto tras ...",
+   "snapshot_id": "2026-11-20:https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
+   "search_date": "2026-11-20",
+   "search_query": "UNGRD SGC terremoto Colombia 20-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "383e5513412e78f0cf42d7dc3a5491614d4a369641729b176db7fa9f6e67f2ef",
+   "captured_at": "2026-11-21T04:02:06.703Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1fc43-4523-7637-bcf7-169fdd961cc1",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# UNGRD entrega nuevo balance oficial este 24 de agosto tras terremoto de magnitud 7,4 en Colombia: 329 fallecidos, 4.592 heridos y 234 desaparecidos\n\n## La actualización de la entidad detalla el impacto de la emergencia en distintos departamentos y municipios.\n\n![Autoconstrucción terremoto](https://imagenes2.eltiempo.com/files/image_1200_535/uploads/2026/08/18/6a84954137b5d.png)\n\nExpertos alertan por autoconstrucción tras los daños que dejó el terremoto del pasado 10 de agosto. Foto: Redes sociales y archivo particular\n\n[Laura Nathalia Quintero](https://www.eltiempo.com/autor/laura-nathalia-quintero)\n\n**PERIODISTA** 24.08.2026 08:01 Actualizado: 24.08.2026 16:01\n\nLa Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD) entregó una nueva actualización sobre la emergencia provocada por el terremoto de magnitud 7,4 que sacudió a Colombia el pasado 10 de agosto.\n\n**De acuerdo con el reporte, con corte al 24 de agosto, el movimiento telúrico deja 329 personas fallecidas, 4.592 heridas y 234 desaparecidas.**\n\nLa información fue actualizada por la entidad a las 6:30 de la mañana y da cuenta de la magnitud que ha alcanzado la emergencia en diferentes regiones del país.\n\n![Terremoto en Pereira.](https://imagenes2.eltiempo.com/files/image_600_455/uploads/2026/08/18/6a8469f5759a6.jpeg)\n\nTerremoto en Pereira. Foto:Sergio Cárdenas / EL TIEMPO.\n\nEl balance nacional señala que **16 departamentos y 494 municipios resultaron afectados,** mientras que el número de familias impactadas asciende a **159.924,** correspondientes a **324.157 personas.**\n\nEn el apartado relacionado con la población, la UNGRD también reportó que **364 personas han sido rescatadas durante las labores desarrolladas después del sismo.** Estas cifras hacen parte del consolidado oficial que continúa recopilando información sobre las consecuencias del terremoto registrado en San José del Palmar, Chocó.\n\nLa emergencia también ha dejado daños en viviendas y edificaciones. Según la actualización de la UNGRD, **178.236 viviendas presentan averías y otras 31.519 quedaron destruidas.** A esto se suman 5.884 edificios averiados y 591 que colapsaron como consecuencia del movimiento telúrico.\n\nEl reporte también incluye las afectaciones registradas en sectores fundamentales para la atención de las comunidades. En total, **378 centros de salud presentan daños, mientras que 3.726 centros educativos y 4.140 centros comunitarios** también fueron afectados. La infraestructura vial registra 435 vías con algún tipo de afectación.\n\nEn cuanto a los servicios y las conexiones terrestres y aéreas, la entidad contabilizó 115 acueductos afectados, además de 70 puentes vehiculares y 15 puentes peatonales. **También se reportaron daños en cinco aeropuertos,** de acuerdo con el consolidado entregado por la entidad encargada de coordinar la respuesta ante la emergencia. La afectación no se limita a las personas y la infraestructura. La UNGRD informó que 1.764 animales resultaron afectados y que 2.847 fueron rescatados durante las labores posteriores al terremoto.\n\n## Últimas decisiones para ayudar a damnificados por el terremoto: crédito de vivienda y millonarias donaciones\n\nEl nuevo balance fue conocido después de que en Bogotá se desarrollara **el concierto benéfico 'Voces por la Vida', una jornada destinada a recaudar recursos para las personas afectadas por el terremoto.** La cantante Karol G participó desde Los Ángeles, Estados Unidos, mediante 'streaming', y anunció **una donación de un millón de dólares a través de su fundación Con Cora.**  \n\nDurante su intervención, la artista se dirigió a los cerca de 40.000 asistentes que acudieron al escenario del Vive Claro y a quienes siguieron la transmisión por televisión y plataformas digitales. \"Desde lejos, pero mi corazón con ustedes, vinimos a cantar un ratico y a compartir este espacio todos juntos\", dijo.\n\nTras finalizar dicho evento, se dio a conocer que en la jornada se logró recaudar los **$11.193 millones en donaciones**, cifra qu",
+   "publicado_en": "2026-08-24T08:01:03-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-24",
+   "departamentos": [
+    "Chocó",
+    "Risaralda"
+   ],
+   "municipios": [
+    "Pereira",
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 324157,
+    "familias_afectadas": null,
+    "viviendas_averiadas": null,
+    "viviendas_destruidas": null,
+    "heridos": 4592,
+    "fallecidos": 329,
+    "desaparecidos": 234,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# UNGRD entrega nuevo balance oficial este 24 de agosto tras terremoto de magnitud 7,4 en Colombia: 329 fallecidos, 4.592 heridos y 234 desaparecidos\n\n## La actualización de la entidad detalla el impacto de la emergencia en distintos departamentos y municipios.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026",
+   "publication_url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026",
+   "title": "Respuesta al terremoto en Colombia Reporte de situación #14",
+   "snapshot_id": "2026-11-20:https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026",
+   "search_date": "2026-11-20",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 20-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "ReliefWeb",
+    "domain": "reliefweb.int",
+    "channel": "web",
+    "url": "https://reliefweb.int/report/colombia/respuesta-al-terremoto-en-colombia-reporte-de-situacion-14-3-de-noviembre-de-2026"
+   },
+   "reported_data_source": [],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "81128dec3155bc02d38e47c795a3f04aee53cc67405a2540b246a84ba3750add",
+   "captured_at": "2026-11-21T04:02:06.703Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1fc43-549f-75b2-83f5-0b2276372ad4",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Attachments\n\n- [![Preview of COL_SitRep14_031126_ES_.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/aa/2c/aa2c68a0-e3c6-5f9e-98d0-fd374df171b9.png?2752039-1-0)**Download Report**(PDF \\| 490.71 KB)](https://reliefweb.int/attachments/aa2c68a0-e3c6-5f9e-98d0-fd374df171b9/COL_SitRep14_031126_ES_.pdf)\n\n**CONTEXTO GENERAL**\n\nDe acuerdo con la información consolidada del Registro Único de Damnificados – RUD, información sectorial y la evaluación EDANPRI a corte de octubre hay 778.281 personas afectadas registradas, 326.648 jefes de hogar, 255.079 viviendas afectadas entre las que se cuentan 203.301 averiadas y 51.778 destruidas, 5.309 sedes educativas afectadas con 1.042.228 estudiantes y de ellas 547 sedes requieren reconstrucción total, y 4.238 personas heridas, 358 fallecidas y 98 desaparecidos en 409 municipios de 16 departamentos.\n\nDurante las dos últimas semanas, la respuesta frente al terremoto ha continuado desplazándose hacia acciones de recuperación y reconstrucción, con énfasis en vivienda, infraestructura de salud, reactivación económica y recuperación de equipamientos afectados. Este 30 de octubre, el Gobierno anunció una inversión inicial estimada de $1,7 billones para la reconstrucción del sector vivienda y una meta de entregar hasta 5.000 viviendas nuevas a familias damnificadas, la estrategia contempla adquirir y entregar viviendas que ya están construidas y disponibles en el inventario de los constructores. Sin embargo, resulta necesario mantener el seguimiento a las familias que permanecen en alojamientos temporales y a las comunidades rurales y étnicas que enfrentan mayores dificultades de acceso a servicios y asistencia.\n\nAdemás, en esta última semana el Ministerio de Educación Nacional socializó el mecanismo de Obras por Impuestos para la Reconstrucción (OXI-R), orientado a financiar la recuperación de sedes educativas afectadas por el terremoto, aunque se han desarrollado acciones para restablecer la prestación del servicio educativo, persiste una necesidad importante de recuperación física de las escuelas, particularmente en los territorios más afectados.",
+   "publicado_en": null,
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": null,
+   "departamentos": [],
+   "municipios": [],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 778281,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 255079,
+    "viviendas_destruidas": null,
+    "heridos": 4238,
+    "fallecidos": 358,
+    "desaparecidos": 98,
+    "rescatados": null
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "ninguna",
+   "cita": "## Attachments\n\n- [![Preview of COL_SitRep14_031126_ES_.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/aa/2c/aa2c68a0-e3c6-5f9e-98d0-fd374df171b9.png?2752039-1-0)**Download Report**(PDF \\| 490.71 KB)](https://reliefweb.int/attachments/aa2c68a0-e3c6-5f",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
    "publication_url": "https://www.valledelcauca.gov.co/publicaciones/90168/gobierno-nacional-gobernacion-del-valle-y-alcaldia-de-cali-unen-esfuerzos-para-atender-emergencia-tras-terremoto/",
@@ -24200,6 +24351,108 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://caracol.com.co/2026/09/10/un-mes-despues-del-terremoto-74-en-colombia-asi-estan-las-zonas-mas-afectadas/",
+   "publication_url": "https://caracol.com.co/2026/09/10/un-mes-despues-del-terremoto-74-en-colombia-asi-estan-las-zonas-mas-afectadas/",
+   "title": "Un mes después del terremoto 7,4 en Colombia: así están las zonas más ...",
+   "snapshot_id": "2026-11-20:https://caracol.com.co/2026/09/10/un-mes-despues-del-terremoto-74-en-colombia-asi-estan-las-zonas-mas-afectadas/",
+   "search_date": "2026-11-20",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 20-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "Caracol Radio",
+    "domain": "caracol.com.co",
+    "channel": "web",
+    "url": "https://caracol.com.co/2026/09/10/un-mes-despues-del-terremoto-74-en-colombia-asi-estan-las-zonas-mas-afectadas/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "d7c41cca3abad13c7557f54d4d044ead60492db552c4c7657b934f10a97b7cbf",
+   "captured_at": "2026-11-21T04:02:06.703Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a1fc43-549f-75b2-83f5-0b2276372ad4",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "![Imágenes de Pereira, La carbonera, El Cairo y Cartago tras el terremoto de 7,4. Foto: @rico_nicolas_](https://caracol.com.co/resizer/v2/HPZ7KYEVRVG7DB5TOX73D4MBQM.jpeg?auth=5e46a067e0b0ec5a96db54d8a4a5ff1516f38c8c910fda03faaa9218a18cc401&quality=70&width=650&height=487&smart=true)\n\nImágenes de Pereira, La carbonera, El Cairo y Cartago tras el terremoto de 7,4. Foto: @rico_nicolas_\n\nEl 10 de agosto de 2026, a las 7:34 de la mañana, un [**terremoto de magnitud 7,4 con epicentro en San José del Palmar, Chocó**,](https://caracol.com.co/2026/09/10/gobierno-de-la-espriella-firma-11-decretos-para-acelerar-la-reconstruccion-tras-el-terremoto/ \"https://caracol.com.co/2026/09/10/gobierno-de-la-espriella-firma-11-decretos-para-acelerar-la-reconstruccion-tras-el-terremoto/\") sacudió a Colombia. Las zonas más afectadas se concentraron en Chocó, Risaralda y Valle del Cauca, especialmente en Pereira, Cali y municipios del occidente del país.\n\nA un mes de la tragedia, la Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD) registró 3 **31 personas fallecidas, 4.505 heridas**, 111 desaparecidas y 364 rescatadas. En total, se reportó afectación en [**16 departamentos y 498 municipios**.](https://caracol.com.co/2026/09/09/que-balance-tiene-el-municipio-de-salento-quindio-a-un-mes-del-terremoto/ \"https://caracol.com.co/2026/09/09/que-balance-tiene-el-municipio-de-salento-quindio-a-un-mes-del-terremoto/\")\n\n## **Cifras del terremoto en Colombia**\n\n- **Vivienda:** 202.002 viviendas averiadas y 36.326 destruidas; 6.005 edificios averiados y 743 colapsados.\n- **Infraestructura:** 400 centros de salud, 4.313 centros educativos, 6.033 centros comunitarios, 521 vías, 5 aeropuertos, 141 acueductos, 102 puentes vehiculares y 13 puentes peatonales afectados.\n- **Animales:** 3.277 afectados y 3.003 rescatados.\n\nLa emergencia ya entró en una nueva etapa: la **reconstrucción**.\n\nEn Chocó, se han contabilizado [**más de 110.000 damnificados**,](https://caracol.com.co/2026/09/08/municipios-afectados-por-el-terremoto-ya-tenian-graves-brechas-de-salud-antes-de-la-emergencia/ \"https://caracol.com.co/2026/09/08/municipios-afectados-por-el-terremoto-ya-tenian-graves-brechas-de-salud-antes-de-la-emergencia/\") 5.221 viviendas destruidas, 365 instituciones educativas y 80 centros de salud afectados.\n\nEn **Pereira, más de 54.000 personas resultaron damnificadas**, mientras que en Cali y Valle del Cauca continúan con trabajos de evaluación y atención a las familias damnificadas.\n\nEn cuanto a atención a las víctimas, la Unidad Nacional para la Gestión del Riesgo de Desastres (UNGRD) anunció que a partir de este 9 de septiembre y durante tres meses **entregará hasta $1.050.543 mensuales** a los hogares cuyas viviendas fueron destruidas o declaradas no habitables. Los requisitos para acceder a esta ayuda consisten en estar inscrito en el **Registro Único de Damnificados (RUD)** y que las autoridades hayan **ratificado la condición del inmueble**.\n\n## **Panorama de las zonas más afectadas en Colombia por el terremoto**\n\n## **Chocó**  \nEl departamento inicia el día con un ambiente de optimismo, a un mes del devastador terremoto. Se han implementado ayudas psicosociales en las áreas más afectadas, incluyendo **Pogodó, Santa Bárbara, Quibdó, Unión Panamericana y Tadó.**  \nEl terremoto tuvo un impacto severo en el departamento de Chocó, **agravando la vulnerabilidad social e infraestructura de la región**. La [gobernadora de la región, Nubia Carolina Córdoba](https://caracol.com.co/2026/09/08/gobernadora-del-choco-destaco-alianza-publico-privada-para-reconstruir-departamento-tras-terremoto/ \"https://caracol.com.co/2026/09/08/gobernadora-del-choco-destaco-alianza-publico-privada-para-reconstruir-departamento-tras-terremoto/\") confirmó un total de 14 personas fallecidas y al menos 139 heridas.\n\nMás de **17.000 familias resultaron damnificadas y cerca de 23.400 personas afectadas**. También se registró la afectación severa de más de 365 centros educativos y 80 centros d",
+   "publicado_en": "2026-09-10T11:29:08.354Z",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": "2026-09-07",
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Buenaventura",
+    "Cali",
+    "Cartago",
+    "Manizales",
+    "Montenegro",
+    "Palmira",
+    "Pereira",
+    "Quibdó",
+    "San José del Palmar",
+    "Villamaría"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 23400,
+    "familias_afectadas": 17000,
+    "viviendas_averiadas": 202002,
+    "viviendas_destruidas": 5221,
+    "heridos": 4505,
+    "fallecidos": 31,
+    "desaparecidos": 111,
+    "rescatados": 364
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "![Imágenes de Pereira, La carbonera, El Cairo y Cartago tras el terremoto de 7,4.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -24379,8 +24632,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1f71c-cbc1-7671-806f-c9398e85688a",
-       "query": "UNGRD SGC terremoto Colombia 19-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a1fc43-4523-7637-bcf7-169fdd961cc1",
+       "query": "UNGRD SGC terremoto Colombia 20-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -24388,8 +24641,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1f71c-dd17-73b8-a4db-54848b28fac4",
-       "query": "Gobernación Alcaldía terremoto Colombia 19-11-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a1fc43-549f-75b2-83f5-0b2276372ad4",
+       "query": "Gobernación Alcaldía terremoto Colombia 20-11-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -24397,8 +24650,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a1f71c-ed2c-731e-bc52-a4af5593a233",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 19-11-2026 reporte oficial afectados",
+       "id": "01a1fc43-64b5-761d-99ea-d83409dc04d3",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 20-11-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -24417,9 +24670,11 @@
      "type": "html",
      "url": "https://portal.gestiondelriesgo.gov.co/Paginas/Noticias/",
      "note": "Listado SharePoint de noticias; los datos útiles están en /Paginas/Noticias/2026/*.aspx.",
-     "ok": false,
-     "result": "error",
-     "error": "The operation was aborted due to timeout"
+     "http_status": 200,
+     "ok": true,
+     "links_found": 189,
+     "candidates": 0,
+     "result": "no_event_specific_links"
     },
     {
      "role": "vista_sharepoint",
@@ -24462,22 +24717,18 @@
      "type": "html",
      "url": "https://www.valledelcauca.gov.co/riesgo/",
      "note": "Sección de Gestión del Riesgo; puede devolver 502, se considera fuente inestable.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 92,
-     "candidates": 1,
-     "result": "candidate_links"
+     "http_status": 502,
+     "ok": false,
+     "result": "no_usable"
     },
     {
      "role": "noticias",
      "type": "html",
      "url": "https://www.valledelcauca.gov.co/publicaciones/noticias/",
      "note": "Listado de publicaciones/noticias del dominio oficial.",
-     "http_status": 200,
-     "ok": true,
-     "links_found": 75,
-     "candidates": 1,
-     "result": "candidate_links"
+     "http_status": 502,
+     "ok": false,
+     "result": "no_usable"
     }
    ]
   },
@@ -24575,6 +24826,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-11-20/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-11-21/oficiales_feed.json"
  }
 }
