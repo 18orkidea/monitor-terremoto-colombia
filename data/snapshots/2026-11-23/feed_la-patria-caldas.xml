@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.lapatria.com/">
+  <channel>
+    <title>La Patria</title>
+    <link>https://www.lapatria.com/</link>
+    <description><![CDATA[]]></description>
+    <language>es</language>
+        <pubDate>Mon, 23 Nov 26 06:00:00 -0500</pubDate>
+<item>
+  <title>VENTA LOTES</title>
+  <link>https://www.lapatria.com/clasificados/venta-lotes-2</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;VENTA LOTES&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-04-22T08:27:38-05:00" title="Miércoles, Abril 22, 2026 - 08:27" class="datetime"&gt;Mié, 22/04/2026 - 08:27&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;div class="field field--name-field-lp-price field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Precio&lt;/div&gt;
+              &lt;div class="field__item"&gt;4.500.000.000&lt;/div&gt;
+          &lt;/div&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=81819&amp;amp;2=bookmark&amp;amp;3=rss" token="Tub1nbbQ8uBXraJbv5OadmdavOhMp2LKhGj_OTW6GX0"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-lp-subtitle field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Subtítulo&lt;/div&gt;
+              &lt;div class="field__item"&gt;A 5 KM DE ZONA FRANCA LA VIRGINIA &lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;3122612255&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;Off&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Wed, 22 Apr 2026 13:27:38 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">81819 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 23 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-23-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 23 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4553" typeof="schema:Person" property="schema:name" datatype&gt;Mariana Marín&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-23T06:00:00-05:00" title="Lunes, Noviembre 23, 2026 - 06:00" class="datetime"&gt;Lun, 23/11/2026 - 06:00&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=98243&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="jOKbpwke-BXMpN2PEFifpFXw2RD6pOayiwa5WqYgTY4"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-23-11-26.jpg" width="600" height="782" alt="Portada 23 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 23 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Mon, 23 Nov 2026 11:00:00 +0000</pubDate>
+          <dc:creator>Mariana Marín</dc:creator>
+          <guid isPermaLink="false">98243 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Mega cumple 10 años: así ha acompañado a empresas de Caldas a fortalecer sus equipos</title>
+  <link>https://www.lapatria.com/galerias/mega-cumple-10-anos-asi-ha-acompanado-empresas-de-caldas-fortalecer-sus-equipos</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Mega cumple 10 años: así ha acompañado a empresas de Caldas a fortalecer sus equipos&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-23T00:00:00-05:00" title="Lunes, Noviembre 23, 2026 - 00:00" class="datetime"&gt;Lun, 23/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En la Universidad Autónoma de Manizales se realizó la celebración de los 10 años de Mega, una iniciativa de la Cámara de Comercio de Manizales por Caldas la cual ha asesorado a 208 empresas y entidades sin ánimo de lucro que quieran potenciar sus organizaciones con sus equipos de trabajo.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/mega-cumple-10-anos-asi-ha-acompanado-empresas-de-caldas-fortalecer-sus-equipos" data-a2a-title="Mega cumple 10 años: así ha acompañado a empresas de Caldas a fortalecer sus equipos"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fmega-cumple-10-anos-asi-ha-acompanado-empresas-de-caldas-fortalecer-sus-equipos&amp;amp;title=Mega%20cumple%2010%20a%C3%B1os%3A%20as%C3%AD%20ha%20acompa%C3%B1ado%20a%20empresas%20de%20Caldas%20a%20fortalecer%20sus%20equipos"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Mon, 23 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">98165 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 22 de noviembre del 2026</title>
+  <link>https://www.lapatria.com/publicacion/portada-22-de-noviembre-del-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 22 de noviembre del 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4553" typeof="schema:Person" property="schema:name" datatype&gt;Mariana Marín&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-22T00:00:00-05:00" title="Domingo, Noviembre 22, 2026 - 00:00" class="datetime"&gt;Dom, 22/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=98213&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="oT19iyDxY1w3R32ZXrSojFH4cET8i0oW_bcd8krBh9U"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/Portada%2022%20de%20noviembre%20del%202026.jpg" width="600" height="782" alt="Portada 22 de noviembre del 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 22 de noviembre del 2026&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sun, 22 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Mariana Marín</dc:creator>
+          <guid isPermaLink="false">98213 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Concierto de Yo Me Llamo Raphael</title>
+  <link>https://www.lapatria.com/galerias/concierto-de-yo-me-llamo-raphael</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Concierto de Yo Me Llamo Raphael&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-22T00:00:00-05:00" title="Domingo, Noviembre 22, 2026 - 00:00" class="datetime"&gt;Dom, 22/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;En el auditorio de Batuta Caldas se realizó el concierto tributo de Yo Me Llamo Raphael.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/concierto-de-yo-me-llamo-raphael" data-a2a-title="Concierto de Yo Me Llamo Raphael"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fconcierto-de-yo-me-llamo-raphael&amp;amp;title=Concierto%20de%20Yo%20Me%20Llamo%20Raphael"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sun, 22 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">98155 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>PAPEL SALMON NOVIEMBRE 21 - 2026</title>
+  <link>https://www.lapatria.com/publicacion/papel-salmon-noviembre-21-2026</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;PAPEL SALMON NOVIEMBRE 21 - 2026&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/38" typeof="schema:Person" property="schema:name" datatype&gt;GLORIA LUZ ANGEL&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-21T10:32:24-05:00" title="Sábado, Noviembre 21, 2026 - 10:32" class="datetime"&gt;Sáb, 21/11/2026 - 10:32&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=98181&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="Eppvgdg9m0OL_5ViHuK00g6w0Ssf8vbnofrE7GnG094"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/Portada%20PAPEL%20SALMON%20NOVIEMBRE%2021%20-%202026.jpg" width="345" height="450" alt="PAPEL SALMON NOVIEMBRE 21 - 2026" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;"Cervantes de muere" libro de Philip Potdevin.&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 21 Nov 2026 15:32:24 +0000</pubDate>
+          <dc:creator>GLORIA LUZ ANGEL</dc:creator>
+          <guid isPermaLink="false">98181 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Portada 21 de noviembre</title>
+  <link>https://www.lapatria.com/publicacion/portada-21-de-noviembre</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Portada 21 de noviembre&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/4553" typeof="schema:Person" property="schema:name" datatype&gt;Mariana Marín&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-21T00:11:54-05:00" title="Sábado, Noviembre 21, 2026 - 00:11" class="datetime"&gt;Sáb, 21/11/2026 - 00:11&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="Drupal\node\NodeViewBuilder::renderLinks" arguments="0=98173&amp;amp;1=rss&amp;amp;2=es&amp;amp;3=&amp;amp;4" token="8dBEXUKyxVD1bdi0EnblDkNdqwKloAl2g47P5pKAvl0"&gt;&lt;/drupal-render-placeholder&gt;
+            &lt;div class="field field--name-field-imagen-principal field--type-image field--label-hidden field__item"&gt;  &lt;img loading="lazy" src="https://www.lapatria.com/sites/default/files/portadas/2026-11/LP-01A-21-11-26.jpg" width="600" height="782" alt="Portada 21 de noviembre" typeof="foaf:Image" class="img-fluid"&gt;
+
+&lt;/div&gt;
+      
+  &lt;div class="clearfix text-formatted field field--name-field-metadescripcion field--type-text-long field--label-above"&gt;
+    &lt;div class="field__label"&gt;Metadescripción&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;p&gt;Portada 21 de noviembre&lt;/p&gt;&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Sat, 21 Nov 2026 05:11:54 +0000</pubDate>
+          <dc:creator>Mariana Marín</dc:creator>
+          <guid isPermaLink="false">98173 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>La Sociedad de Mejoras Públicas de Manizales reconoce a Gonzalo Duque Escobar</title>
+  <link>https://www.lapatria.com/galerias/la-sociedad-de-mejoras-publicas-de-manizales-reconoce-gonzalo-duque-escobar</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;La Sociedad de Mejoras Públicas de Manizales reconoce a Gonzalo Duque Escobar&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/59" typeof="schema:Person" property="schema:name" datatype&gt;Alejandro Calderin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-21T00:00:00-05:00" title="Sábado, Noviembre 21, 2026 - 00:00" class="datetime"&gt;Sáb, 21/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;La Sociedad de Mejoras Públicas de Manizales eligió a Gonzalo Duque Escobar como Socio del Año 2026.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/la-sociedad-de-mejoras-publicas-de-manizales-reconoce-gonzalo-duque-escobar" data-a2a-title="La Sociedad de Mejoras Públicas de Manizales reconoce a Gonzalo Duque Escobar"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fla-sociedad-de-mejoras-publicas-de-manizales-reconoce-gonzalo-duque-escobar&amp;amp;title=La%20Sociedad%20de%20Mejoras%20P%C3%BAblicas%20de%20Manizales%20reconoce%20a%20Gonzalo%20Duque%20Escobar"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Sat, 21 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>Alejandro Calderin</dc:creator>
+          <guid isPermaLink="false">98151 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>ARRIENDO LOCAL</title>
+  <link>https://www.lapatria.com/clasificados/arriendo-local-16</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;ARRIENDO LOCAL&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/64" typeof="schema:Person" property="schema:name" datatype&gt;clasificadoslp&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-20T15:43:14-05:00" title="Viernes, Noviembre 20, 2026 - 15:43" class="datetime"&gt;Vie, 20/11/2026 - 15:43&lt;/time&gt;
+&lt;/span&gt;
+&lt;drupal-render-placeholder callback="flag.link_builder:build" arguments="0=node&amp;amp;1=98105&amp;amp;2=bookmark&amp;amp;3=rss" token="ayIKp7-ixRB3PWAQHAnBReB2USHA3yDCDnlsB7xA7Yk"&gt;&lt;/drupal-render-placeholder&gt;
+  &lt;div class="field field--name-field-categoria-clasificados field--type-entity-reference field--label-above"&gt;
+    &lt;div class="field__label"&gt;Categoría de clasificados&lt;/div&gt;
+              &lt;div class="field__item"&gt;&lt;a href="https://www.lapatria.com/taxonomy/term/3363" hreflang="es"&gt;Inmuebles&lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-phone-contact field--type-string field--label-above"&gt;
+    &lt;div class="field__label"&gt;Celular de contacto&lt;/div&gt;
+              &lt;div class="field__item"&gt;315-8665104, 315-5400497&lt;/div&gt;
+          &lt;/div&gt;
+
+  &lt;div class="field field--name-field-activar-whatsapp field--type-boolean field--label-above"&gt;
+    &lt;div class="field__label"&gt;Activar Whatsapp&lt;/div&gt;
+              &lt;div class="field__item"&gt;On&lt;/div&gt;
+          &lt;/div&gt;
+</description>
+  <pubDate>Fri, 20 Nov 2026 20:43:14 +0000</pubDate>
+          <dc:creator>clasificadoslp</dc:creator>
+          <guid isPermaLink="false">98105 at https://www.lapatria.com</guid>
+          </item>
+<item>
+  <title>Mensajes y oraciones acompañaron a la familia Arango Ferrer tras la muerte de Ilsa Ferrer</title>
+  <link>https://www.lapatria.com/galerias/mensajes-y-oraciones-acompanaron-la-familia-arango-ferrer-tras-la-muerte-de-ilsa-ferrer</link>
+  <description>&lt;span class="field field--name-title field--type-string field--label-hidden"&gt;Mensajes y oraciones acompañaron a la familia Arango Ferrer tras la muerte de Ilsa Ferrer&lt;/span&gt;
+&lt;span class="field field--name-uid field--type-entity-reference field--label-hidden"&gt;&lt;span lang about="https://www.lapatria.com/user/26" typeof="schema:Person" property="schema:name" datatype&gt;wilson.gonzalez&lt;/span&gt;&lt;/span&gt;
+&lt;span class="field field--name-created field--type-created field--label-hidden"&gt;&lt;time datetime="2026-11-20T00:00:00-05:00" title="Viernes, Noviembre 20, 2026 - 00:00" class="datetime"&gt;Vie, 20/11/2026 - 00:00&lt;/time&gt;
+&lt;/span&gt;
+
+            &lt;div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"&gt;&lt;p&gt;Foto | Cortesía | LA PATRIA&lt;/p&gt;&lt;p&gt;La familia Arango Ferrer expresa su más sincero agradecimiento a todas las personas que, con sus mensajes, llamadas, oraciones y manifestaciones de afecto, nos han acompañado y expresado su solidaridad con motivo del fallecimiento de nuestra querida madre y abuela Ilsa Ferrer de Arango.&lt;br&gt;Sus palabras y gestos de solidaridad han sido un gran consuelo en estos momentos.&lt;br&gt;Gracias por su cercanía, generosidad y compañía. Que Dios los bendiga. Familia Arango Ferrer.&lt;/p&gt;&lt;/div&gt;
+      &lt;span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.lapatria.com/galerias/mensajes-y-oraciones-acompanaron-la-familia-arango-ferrer-tras-la-muerte-de-ilsa-ferrer" data-a2a-title="Mensajes y oraciones acompañaron a la familia Arango Ferrer tras la muerte de Ilsa Ferrer"&gt;&lt;a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.lapatria.com%2Fgalerias%2Fmensajes-y-oraciones-acompanaron-la-familia-arango-ferrer-tras-la-muerte-de-ilsa-ferrer&amp;amp;title=Mensajes%20y%20oraciones%20acompa%C3%B1aron%20a%20la%20familia%20Arango%20Ferrer%20tras%20la%20muerte%20de%20Ilsa%20Ferrer"&gt;&lt;/a&gt;&lt;a class="a2a_button_facebook"&gt;&lt;/a&gt;&lt;a class="a2a_button_whatsapp"&gt;&lt;/a&gt;&lt;a class="a2a_button_x"&gt;&lt;/a&gt;&lt;a class="a2a_button_linkedin"&gt;&lt;/a&gt;&lt;a class="a2a_button_email"&gt;&lt;/a&gt;&lt;/span&gt;
+</description>
+  <pubDate>Fri, 20 Nov 2026 05:00:00 +0000</pubDate>
+          <dc:creator>wilson.gonzalez</dc:creator>
+          <guid isPermaLink="false">98065 at https://www.lapatria.com</guid>
+          </item>
+</channel>
+</rss>
