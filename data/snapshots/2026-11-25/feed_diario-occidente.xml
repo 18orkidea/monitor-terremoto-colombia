@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Wed, 25 Nov 2026 19:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Google Search personalización Wallet y Drive</title>
+		<link>https://occidente.co/secciones/tecnologia/google-search-personalizacion-wallet-drive/</link>
+					<comments>https://occidente.co/secciones/tecnologia/google-search-personalizacion-wallet-drive/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 19:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445274</guid>
+
+					<description><![CDATA[<p>Conexión de Wallet y Drive cambia cómo responde Google Search Google Search ahora permite conectar Google Wallet y Google Drive a Personal Intelligence en AI Mode, una opción que mejora las respuestas al usar datos personales como gastos y documentos. La novedad aparece en el primer tercio del anuncio y la palabra clave Google Search...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/google-search-personalizacion-wallet-drive/">Google Search personalización Wallet y Drive</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Conexión de Wallet y Drive cambia cómo responde Google Search</h2>
+<p>Google Search ahora permite conectar Google Wallet y Google Drive a Personal Intelligence en AI Mode, una opción que mejora las respuestas al usar datos personales como gastos y documentos. La novedad aparece en el primer tercio del anuncio y la palabra clave Google Search figura desde el inicio.</p>
+<h2>Google Search: qué anunció y por qué importa</h2>
+<p>El anuncio, publicado por Robby Stein, vicepresidente de producto de Google Search, informa que a partir del despliegue inicial los usuarios pueden optar por conectar Google Wallet a Personal Intelligence en AI Mode, y que pronto se añadirá soporte para Drive y la aplicación Gemini. La función permite que Search use contexto personal —como transacciones, archivos y chats— para generar respuestas más relevantes. La empresa destaca que los usuarios mantienen el control y pueden activar o desactivar las conexiones en cualquier momento desde la configuración de Search Personalization.</p>
+<h2>Cambios prácticos para las personas</h2>
+<h3>Mejor seguimiento de gastos y beneficios de tarjetas</h3>
+<p>Al conectar Google Wallet, Search puede analizar consumos registrados para mostrar patrones de gasto, proponer maneras de reducir gastos y sugerir cómo maximizar beneficios de tarjetas, como categorías de devolución y ventajas de viaje. Google aclara que AI Mode solo puede leer información y no puede mover ni gestionar dinero.</p>
+<h3>Acceso directo a información en documentos</h3>
+<p>Con Drive conectado, Search puede usar el contenido disperso en documentos, hojas y PDFs para ofrecer planes personalizados —por ejemplo, preparar trámites fiscales— sin que el usuario tenga que recopilar manualmente la información.</p>
+<h3>Continuidad entre Gemini y Search</h3>
+<p>En las próximas semanas será posible compartir contexto entre la aplicación Gemini y AI Mode en Search, de modo que la investigación o ideas desarrolladas en una herramienta puedan retomarse y ampliarse en la otra cuando el usuario lo autorice.</p>
+<h2>Aspectos pendientes y limitaciones</h2>
+<p>Queda por confirmar el calendario exacto para la integración total de Drive y Gemini en todos los países y dispositivos. Además, aunque Google asegura control del usuario sobre la personalización, no se detallan aquí los límites técnicos precisos sobre qué datos específicos se usan en cada tipo de respuesta ni los mecanismos de auditoría disponibles para el usuario. La compañía también señaló que pronto se podrá ver el contexto que AI Mode usa mediante un icono de &#8220;Personalization&#8221;, pero la disponibilidad de esa vista aún depende de próximas actualizaciones.</p>
+<h2>Cierre</h2>
+<p>La ampliación de Personal Intelligence con Wallet y Drive es parte de una tendencia mayor: integrar fuentes personales para ofrecer respuestas más útiles en buscadores. El cambio reduce la necesidad de repetir contexto entre búsquedas y aplicaciones, aunque su alcance final dependerá de las implementaciones futuras y de las opciones de control que Google haga efectivas para los usuarios.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Mayor personalización en respuestas que puede facilitar finanzas y organización personal.</p>
+<p><strong>Negocio:</strong> Empresas tecnológicas refuerzan integración de servicios para retener usuarios.</p>
+<p><strong>Industria:</strong> Avanza la incorporación de datos personales como fuente para IA en buscadores.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/google-search-personalizacion-wallet-drive/">Google Search personalización Wallet y Drive</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/google-search-personalizacion-wallet-drive/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>El caso Verónica Estrada: la honestidad no puede ser negociable</title>
+		<link>https://occidente.co/opinion/editorial/titulos-falsos-de-veronica-estrada-un-problema-etico/</link>
+					<comments>https://occidente.co/opinion/editorial/titulos-falsos-de-veronica-estrada-un-problema-etico/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 18:28:15 +0000</pubDate>
+				<category><![CDATA[Editorial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445389</guid>
+
+					<description><![CDATA[<p>Se equivocan quienes pretenden restarle gravedad al escándalo por los presuntos títulos falsos de la congresista Verónica Estrada, del Pacto Histórico. El problema no radica en si para llegar al Congreso se requieren títulos profesionales ni tampoco en si tuvo o no tuvo recursos para estudiar. El problema es ético y tiene que ver con...</p>
+<p>The post <a href="https://occidente.co/opinion/editorial/titulos-falsos-de-veronica-estrada-un-problema-etico/">El caso Verónica Estrada: la honestidad no puede ser negociable</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Se equivocan quienes pretenden restarle gravedad al escándalo por los presuntos títulos falsos de la congresista Verónica Estrada, del Pacto Histórico.</strong></p>
+<p>El problema no radica en si para llegar al Congreso se requieren títulos profesionales ni tampoco en si tuvo o no tuvo recursos para estudiar.</p>
+<p>El problema es ético y tiene que ver con la honestidad de quien ejerce la representación de los ciudadanos.</p>
+<p>Verónica Estrada debe renunciar al Congreso. Ante la gravedad de los hallazgos sobre sus credenciales académicas, resulta éticamente impresentable que siga aferrada al cargo.</p>
+<p>¿Con qué autoridad moral pretende legislar una persona que enfrenta semejantes cuestionamientos sobre su apego a la verdad?</p>
+<p>El Pacto Histórico tampoco puede eludir su responsabilidad.</p>
+<p>Los partidos políticos deben revisar exhaustivamente las hojas de vida de quienes reciben sus avales.</p>
+<p>Esta responsabilidad es todavía mayor cuando se trata de listas cerradas, pues son las colectividades las que seleccionan a los candidatos y determinan su ubicación.</p>
+<p>Este episodio también obliga a formular una pregunta incómoda: ¿cuántos congresistas, diputados y concejales superarían una revisión exhaustiva de sus credenciales académicas?</p>
+<p>Es una vergüenza que estos escándalos sean recurrentes en la política colombiana.</p>
+<p>A las corporaciones públicas y a los cargos de elección popular deberían llegar las mejores hojas de vida.</p>
+<p>Esto no significa necesariamente acumular títulos académicos, sino acreditar las condiciones éticas que exige la representación ciudadana.</p>
+<p>Carecer de un título profesional no descalifica a nadie para ejercer un cargo de elección popular.</p>
+<p>Pero que alguien esté dispuesto a falsificar documentos para acreditar una formación que no tiene dice mucho de sus valores y de la confianza que merece.</p>
+<p>¿Qué ejemplo reciben los colombianos cuando desde la propia clase política se intenta relativizar la gravedad de estas conductas? ¿Dónde queda la autoridad moral de quienes deben expedir las leyes y velar por su cumplimiento?</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/opinion/editorial/titulos-falsos-de-veronica-estrada-un-problema-etico/">El caso Verónica Estrada: la honestidad no puede ser negociable</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/opinion/editorial/titulos-falsos-de-veronica-estrada-un-problema-etico/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Gobierno confirma atentado que dejó sin energía a cinco departamentos</title>
+		<link>https://occidente.co/colombia/apagon-en-cinco-departamentos-ataque-torres-de-energia/</link>
+					<comments>https://occidente.co/colombia/apagon-en-cinco-departamentos-ataque-torres-de-energia/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 18:17:18 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445386</guid>
+
+					<description><![CDATA[<p>El apagón que dejó a oscuras a cinco departamentos del sur del país fue consecuencia de un atentado contra la infraestructura energética. Así lo confirmó el Gobierno nacional quien anunció medias para proteger el Sistema Interconectado Nacional. El atentado provocó un apagón que afectó a cinco departamentos del suroccidente colombiano: Nariño, Cauca, Putumayo, Huila y...</p>
+<p>The post <a href="https://occidente.co/colombia/apagon-en-cinco-departamentos-ataque-torres-de-energia/">Gobierno confirma atentado que dejó sin energía a cinco departamentos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>El apagón que dejó a oscuras a cinco departamentos del sur del país fue consecuencia de un atentado contra la infraestructura energética.</strong></p>
+<p>Así lo confirmó el Gobierno nacional quien anunció medias para proteger el Sistema Interconectado Nacional.</p>
+<p><strong>El atentado provocó un apagón que afectó a cinco departamentos del suroccidente colombiano: Nariño, Cauca, Putumayo, Huila y Caquetá.</strong></p>
+<p>La emergencia se registró al caer la noche de este martes, luego de que dos circuitos de transmisión eléctrica quedaran fuera de servicio por daños ocasionados en el sector de El Remolino, municipio de Taminango, al norte de Nariño.</p>
+<p>De acuerdo con la información oficial, el ataque comprometió la conexión de esta zona con el Sistema Interconectado Nacional.</p>
+<p><strong>Los primeros reportes señalaron la destrucción de dos torres de energía.</strong></p>
+<p>Ante la gravedad de los hechos, el presidente Abelardo De La Espriella ordenó implementar un plan especial para reforzar la protección de la infraestructura eléctrica y de gas en todo el territorio nacional.</p>
+<p>Además, instruyó a los ministerios de Minas y Energía y de Defensa a evaluar los daños y coordinar las acciones para recuperar el servicio.</p>
+<p>Por su parte, el gobernador de Nariño, Luis Alfonso Escobar, informó que el departamento había recuperado cerca del 70% de sus conexiones eléctricas, aunque sectores de la costa pacífica, especialmente Tumaco, continuaban sin energía.</p>
+<p>El mandatario también advirtió sobre la posible presencia de explosivos alrededor de la torre 245, en Taminango, y explicó que la Fuerza Pública avanzaba con precaución hacia el lugar.</p>
+<p>Escobar señaló que la reparación dependería de las condiciones de seguridad y de las labores técnicas necesarias para restablecer completamente el suministro.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/apagon-en-cinco-departamentos-ataque-torres-de-energia/">Gobierno confirma atentado que dejó sin energía a cinco departamentos</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/apagon-en-cinco-departamentos-ataque-torres-de-energia/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Tu gato se cansó del concentrado? Descubre por qué rechaza su comida y qué alternativas saludables puedes ofrecerle</title>
+		<link>https://occidente.co/secciones/mascotas/gatos-que-rechazan-el-concentrado-causas-y-soluciones/</link>
+					<comments>https://occidente.co/secciones/mascotas/gatos-que-rechazan-el-concentrado-causas-y-soluciones/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 18:05:47 +0000</pubDate>
+				<category><![CDATA[Mascotas]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445383</guid>
+
+					<description><![CDATA[<p>Un plato lleno de concentrado que permanece intacto durante horas puede generar preocupación entre los propietarios de gatos. Especialmente cuando el animal, que antes comía con entusiasmo, parece haber perdido el interés por su alimento habitual. ¿Es posible que los gatos se aburran de comer siempre lo mismo? Aunque algunos felinos disfrutan consumir el mismo...</p>
+<p>The post <a href="https://occidente.co/secciones/mascotas/gatos-que-rechazan-el-concentrado-causas-y-soluciones/">¿Tu gato se cansó del concentrado? Descubre por qué rechaza su comida y qué alternativas saludables puedes ofrecerle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un plato lleno de concentrado que permanece intacto durante horas puede generar preocupación entre los propietarios de gatos.</strong></p>
+<p>Especialmente cuando el animal, que antes comía con entusiasmo, parece haber perdido el interés por su alimento habitual. ¿Es posible que los gatos se aburran de comer siempre lo mismo?</p>
+<p>Aunque algunos felinos disfrutan consumir el mismo alimento durante años, otros desarrollan preferencias por determinadas texturas, sabores, aromas y temperaturas.</p>
+<p>Sin embargo, el rechazo del concentrado no siempre significa aburrimiento. También puede estar relacionado con problemas de salud, estrés o cambios en las condiciones de alimentación.</p>
+<p>Antes de cambiar la dieta de un gato, es importante identificar las posibles causas de su comportamiento y conocer las alternativas que permiten ofrecerle variedad sin comprometer su nutrición.</p>
+<h2>¿Por qué los gatos se cansan de comer lo mismo?</h2>
+<p>La Facultad de Medicina Veterinaria de la Universidad de Cornell, en Estados Unidos, explica que algunos gatos desarrollan hábitos alimentarios muy selectivos.</p>
+<p>Ofrecerles dos o tres alimentos nutricionalmente equilibrados puede proporcionarles variedad y evitar que acepten exclusivamente un tipo de comida.</p>
+<p>También ocurre lo contrario: algunos felinos se acostumbran tanto a determinado concentrado que rechazan cualquier alimento nuevo.</p>
+<p>La pérdida de frescura del concentrado, los recipientes sucios, la presencia de otros animales y la cercanía del arenero al comedero también pueden provocar rechazo hacia la comida.</p>
+<p>Por eso, antes de comprar otro alimento, conviene revisar las condiciones en las que se conservan y sirven las croquetas.</p>
+<h2>¿Qué alternativas existen al concentrado para gatos?</h2>
+<p><strong>Existen diferentes opciones para proporcionar variedad a la alimentación felina sin descuidar sus necesidades nutricionales:</strong></p>
+<p><strong>Alimento húmedo:</strong> las conservas y los sobres formulados para gatos ofrecen diferentes sabores y texturas, además de contribuir a la hidratación.</p>
+<p><strong>Alimentación mixta:</strong> combinar concentrado con alimento húmedo permite introducir variedad y conservar las ventajas de ambos formatos.</p>
+<p><strong>Pollo, pavo o pescado cocido:</strong> pueden ofrecerse ocasionalmente, en pequeñas porciones, sin sal, condimentos, huesos ni espinas.</p>
+<p><strong>Concentrado humedecido:</strong> agregar un poco de agua tibia a las croquetas puede intensificar su aroma y modificar su textura.</p>
+<p><strong>Alimentación casera formulada:</strong> constituye una alternativa cuando un especialista en nutrición veterinaria diseña una dieta que cubre todos los requerimientos del animal.</p>
+<p>Los gatos necesitan nutrientes específicos, como la taurina. Por eso, alimentarlos exclusivamente con carne, pollo o pescado puede ocasionar deficiencias nutricionales.</p>
+<p>Los cambios de alimentación deben introducirse gradualmente, ajustando las porciones para evitar el exceso de calorías.</p>
+<p>Si el gato recibe una dieta veterinaria especial, cualquier modificación requiere autorización profesional.</p>
+<p>También deben evitarse la carne cruda, los alimentos condimentados, la cebolla, el ajo y el consumo habitual de atún enlatado para humanos.</p>
+<h2>Cuidado: dejar de comer puede indicar una enfermedad</h2>
+<p>No siempre que un gato rechaza el concentrado está cansado de su sabor.</p>
+<p>Los problemas dentales, las enfermedades renales y las alteraciones digestivas pueden provocar pérdida del apetito.</p>
+<p>La Universidad de Cornell advierte que la falta de alimentación durante apenas 24 horas puede tener consecuencias importantes para la salud de un gato adulto.</p>
+<p>Uno de los mayores peligros es la lipidosis hepática, una enfermedad potencialmente mortal que se caracteriza por la acumulación excesiva de grasa en el hígado y que afecta especialmente a gatos con sobrepeso.</p>
+<p>Por esta razón, nunca se debe dejar a un gato sin comer para obligarlo a aceptar determinado alimento. Si rechaza toda la comida, debe recibir atención veterinaria cuanto antes.</p>
+<p>Ofrecer variedad puede ser una buena alternativa para estimular el apetito de los felinos, siempre que se garantice una nutrición equilibrada y no se confundan las preferencias alimentarias con los síntomas de una enfermedad.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/mascotas/gatos-que-rechazan-el-concentrado-causas-y-soluciones/">¿Tu gato se cansó del concentrado? Descubre por qué rechaza su comida y qué alternativas saludables puedes ofrecerle</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/mascotas/gatos-que-rechazan-el-concentrado-causas-y-soluciones/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Fondo Milagro abre en Cali su primera feria de vivienda para damnificados del sismo</title>
+		<link>https://occidente.co/cali/feria-de-vivienda-en-cali-tendra-50000-millones/</link>
+					<comments>https://occidente.co/cali/feria-de-vivienda-en-cali-tendra-50000-millones/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 17:32:10 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445380</guid>
+
+					<description><![CDATA[<p>Durante su participación en el Congreso Nacional de Infraestructura en Cartagena, el gerente Luis Felipe Henao del Fondo Milagro anunció 50.000 millones de pesos para la feria de Cali y una oferta cercana a 2.000 viviendas en el Valle. Las familias que perdieron su casa en el sismo ya tienen una primera salida en Cali....</p>
+<p>The post <a href="https://occidente.co/cali/feria-de-vivienda-en-cali-tendra-50000-millones/">Fondo Milagro abre en Cali su primera feria de vivienda para damnificados del sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Durante su participación en el Congreso Nacional de Infraestructura en Cartagena, el gerente Luis Felipe Henao del Fondo Milagro anunció 50.000 millones de pesos para la feria de Cali y una oferta cercana a 2.000 viviendas en el Valle.</strong></p>
+<p>Las familias que perdieron su casa en el sismo ya tienen una primera salida en Cali.</p>
+<p><strong>Luis Felipe Henao, gerente del Fondo Milagro</strong>, anunció que la primera de tres ferias de vivienda se realiza en la capital del Valle con un presupuesto de 50.000 millones de pesos.</p>
+<p>Según dijo, esos recursos se lograron desentrabar con el Ministerio de Hacienda, la Unidad de Gestión del Riesgo y la Alcaldía de Cali.</p>
+<p>En la feria habrá subsidios complementarios del Gobierno nacional. El funcionario afirmó que por ahora solo hay 289 viviendas terminadas.</p>
+<p>Sin embargo, Henao aseguró que, sumando los proyectos en construcción en Cali, Jamundí, Buga y el área metropolitana, la oferta puede llegar a unas 2.000 viviendas.</p>
+<p>Las próximas ferias serían en Manizales y Pereira durante diciembre. La meta es comprar antes del 31 de diciembre el inventario disponible para empezar a entregar.</p>
+<p><em>&#8220;Yo no voy a escoger dónde van a vivir&#8221;</em>, <strong>afirmó el gerente.</strong></p>
+<p>Explicó que serán las familias las que elijan el proyecto, el constructor y el plazo de entrega, que puede ir de 3 a 18 meses.</p>
+<p>El fondo comprará directamente vivienda nueva y abrirá también una convocatoria de vivienda usada para quienes necesiten una solución inmediata.</p>
+<h2>Más recursos y un fondo más pequeño</h2>
+<p>Henao informó que el Senado aprobó 2,7 billones de pesos para la reconstrucción. Agregó que la próxima semana firmará un convenio por cerca de 700.000 millones de pesos con el Ministerio de Vivienda, a través de Fonvivienda.</p>
+<p>Sobre la operación del fondo, dijo que la nómina máxima será de 50 personas, frente a las 250 que se habían proyectado, y que la escala salarial será la mitad de la anunciada.</p>
+<p>El fondo se apoyará en funcionarios del INVÍAS, los ministerios de Vivienda y Salud y la Unidad de Gestión del Riesgo. Henao reiteró además que donará su sueldo a una Fundación para atender a Risaralda.</p>
+<h2>Las donaciones, en manos de privados</h2>
+<p>Henao precisó que el Gobierno no ejecutará los recursos de las donaciones.</p>
+<p>Ese papel lo tiene una &#8220;torre de control&#8221; formada por fundaciones y empresas, con el liderazgo de la Fundación Santo Domingo.</p>
+<p><strong>En el Chocó ya hay identificadas más de 50 obras, entre ellas 500 viviendas, un centro cultural y dos malecones en Quibdó.</strong></p>
+<p>En Pereira, un privado adelanta los estudios para reconstruir el área pediátrica del hospital.</p>
+<p>Sobre la Fundación de la Primera Dama, Henao dijo que su trabajo &#8220;va muy bien&#8221; y que ella misma informará al país sobre el avance de las obras.</p>
+<p><strong>El gerente también se refirió a los casos en que las familias tienen póliza de seguro, como el del edificio Colombia en Pereira.</strong></p>
+<p>Allí, dijo, el fondo puede ayudar con la demolición para que la póliza no se vea afectada y las familias usen ese dinero para comprar vivienda.</p>
+<p>Para eso mantiene mesas de trabajo con las aseguradoras y con la Superintendencia Financiera.</p>
+<p>Henao pidió que la reconstrucción no se convierta en &#8220;una bandera política irracional&#8221;.</p>
+<p><strong>Recordó que el sismo dejó más de 335 muertos, más de 255.000 personas sin vivienda y cerca de 500.000 damnificados.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/feria-de-vivienda-en-cali-tendra-50000-millones/">Fondo Milagro abre en Cali su primera feria de vivienda para damnificados del sismo</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/feria-de-vivienda-en-cali-tendra-50000-millones/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Reconstrucción tras el sismo: el Valle necesita $19 billones y Cali abre feria de vivienda</title>
+		<link>https://occidente.co/empresario/reconstruccion-tras-el-sismo-costaria-54-billones/</link>
+					<comments>https://occidente.co/empresario/reconstruccion-tras-el-sismo-costaria-54-billones/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 17:04:15 +0000</pubDate>
+				<category><![CDATA[Empresario]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445377</guid>
+
+					<description><![CDATA[<p>Rosa Maria Agudelo Ayerbe &#8211; Directora Diario Occidente CARTAGENA. La reconstrucción del país tras el sismo del 10 de agosto costaría cerca de $54 billones, pero hoy el Fondo Milagro cuenta con $15,3 billones. &#8220;De cada cuatro pesos que necesito, solamente tengo uno&#8221;, reconoció su gerente, Luis Felipe Henao, durante el panel &#8220;Reconstruir a Colombia:...</p>
+<p>The post <a href="https://occidente.co/empresario/reconstruccion-tras-el-sismo-costaria-54-billones/">Reconstrucción tras el sismo: el Valle necesita $19 billones y Cali abre feria de vivienda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em>Rosa Maria Agudelo Ayerbe &#8211; Directora Diario Occidente</em></p>
+<p>CARTAGENA. La reconstrucción del país tras el sismo del 10 de agosto costaría cerca de $54 billones, pero hoy el Fondo Milagro cuenta con $15,3 billones.</p>
+<p><em>&#8220;De cada cuatro pesos que necesito, solamente tengo uno&#8221;</em>, <strong>reconoció su gerente, Luis Felipe Henao</strong>, durante el panel &#8220;Reconstruir a Colombia: infraestructura para unir territorios y oportunidades&#8221;, en el Congreso de Infraestructura de la Cámara Colombiana de la Infraestructura (CCI).</p>
+<p>El panel, moderado por Érika Fontalvo, directora de El Heraldo, reunió también a la gobernadora del Valle, Dilian Francisca Toro, y al presidente de Grupo Argos, Juan Esteban Calle.</p>
+<h2>La cuenta del Valle</h2>
+<p>La gobernadora explicó que la reconstrucción del Valle del Cauca, incluida Cali, costaría unos $19 billones, según cálculos del Comité Intergremial.</p>
+<p>En Cali los daños se concentraron en los estratos 4, 5 y 6.</p>
+<p>En el resto del departamento golpearon sobre todo a los estratos 1, 2 y 3, especialmente en el norte, el centro y Buenaventura, que según Toro &#8220;se afectó como todo el Chocó&#8221;.</p>
+<p>Sin contar a Cali, el balance es de 105.000 viviendas averiadas y 370.000 personas afectadas. De esas viviendas, 7.800 colapsaron y 26.000 quedaron inhabitables; cerca del 20% de estas últimas tendrá que ser demolido.</p>
+<p>Para decidir a dónde llegar primero, la Gobernación cruzó dos criterios: la proporción de viviendas destruidas en cada municipio y su vulnerabilidad, medida por pobreza multidimensional y capacidad de respuesta.</p>
+<p>Así identificó 22 municipios críticos. Hoy adelanta 9.200 mejoramientos de vivienda y 2.200 casas nuevas, con recursos propios y aportes privados.</p>
+<h2>Colegios, hospitales y emprendedores</h2>
+<p>En educación, el departamento ya ejecuta cuatro colegios y diseña otros 52 que comenzarían en enero; ocho más se harán con el Gobierno Nacional y seis fueron donados por el sector privado.</p>
+<p>En Buenaventura, donde se destruyeron casi todos los colegios, la Gobernación y la Fundación Sarmiento construyen uno cada una, y un puerto se comprometió con cuatro más.</p>
+<p>En salud, la Fundación Sarmiento aportó $62.000 millones para recuperar 148 camas de cuidados intensivos y hospitalización del Hospital Universitario del Valle.</p>
+<p>El hospital de Roldanillo recibirá $12.000 millones del Gobierno Nacional y $15.000 millones de la misma fundación. ProPacífico apoya la reconstrucción de ese municipio.</p>
+<p>Con el Ministerio de Comercio, 1.800 emprendedores ya reciben capital semilla. &#8220;No se trata solamente de reparar. La reconstrucción del Valle tiene que ser más resiliente, más segura, más competitiva y con oportunidades para la gente&#8221;, dijo Toro.</p>
+<p>La gobernadora pidió además normas especiales de obras por impuestos para el terremoto, porque el mecanismo actual &#8220;se demora mucho&#8221; y solo aplica en municipios PDET y Zomac, mientras hay afectados que no están en esas categorías. <em>&#8220;Necesitamos los colegios ya, los hospitales ya&#8221;</em>, <strong>afirmó.</strong></p>
+<h2>Feria de vivienda en Cali</h2>
+<p>Henao anunció que las ferias de vivienda del Fondo Milagro se harán la primera y segunda semana de diciembre, que la primera arranca en Cali con $50.000 millones y que se ampliarán a familias que no son de interés social.</p>
+<p>También mencionó la meta, planteada con la Gobernación, de que cada vivienda le cueste al Fondo $80 millones y no $200 millones, complementando con otras fuentes.</p>
+<h2>En qué se gastarán los $2,7 billones</h2>
+<p>Sobre la adición presupuestal de $2,7 billones que aprobó el Congreso, Henao explicó que el 77% irá a vivienda, salud, educación e infraestructura y el 23% al sector productivo, a través de las cámaras de comercio.</p>
+<p>Dijo haber encontrado obras sobredimensionadas por casi $1,5 billones y anunció una carta pública con los criterios de transparencia del Fondo, que contratará a través del Secop.</p>
+<p><em>&#8220;La mayor transparencia me permite andar más rápido. La opacidad sí lo impide&#8221;, afirmó. Bajo la regla de &#8220;casa entregada, casa pagada&#8221;</em>,<strong> advirtió que no permitirá constructores sin experiencia.</strong></p>
+<h2>El aporte privado</h2>
+<p>Juan Esteban Calle contó que el programa Adopta un Hogar, de Grupo Argos y su fundación, se comprometió con al menos 1.000 viviendas y ya suma cerca de 7.000 donantes.</p>
+<p>El 20 de diciembre entregarán en el Chocó el primer barrio reconstruido del país, de 92 casas, que la comunidad bautizó &#8220;Milagro de Dios&#8221;.</p>
+<p>El decreto 1422 de Minvivienda permite levantar estas viviendas industrializadas sin licencia de construcción.</p>
+<p>Calle dijo que el modelo podría replicarse en el Valle del Cauca. &#8220;Una noche es eterna sin un techo&#8221;, resumió.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/empresario/reconstruccion-tras-el-sismo-costaria-54-billones/">Reconstrucción tras el sismo: el Valle necesita $19 billones y Cali abre feria de vivienda</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/empresario/reconstruccion-tras-el-sismo-costaria-54-billones/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Cómo lograron liberar a los secuestrados en el Éxito de Cartagena? Así se desarrolló el operativo de la Fuerza Pública</title>
+		<link>https://occidente.co/colombia/secuestro-en-el-exito-de-cartagena-asi-fue-el-rescate/</link>
+					<comments>https://occidente.co/colombia/secuestro-en-el-exito-de-cartagena-asi-fue-el-rescate/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 16:44:20 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445333</guid>
+
+					<description><![CDATA[<p>Un intento de robo a un carro transportador de valores desencadenó el secuestro masivo en el Éxito de Cartagena, una emergencia que se prolongó durante 18 horas y movilizó a la Policía Nacional, las Fuerzas Militares y el Gobierno nacional. Entre negociaciones, liberaciones parciales, reuniones de inteligencia y un ultimátum presidencial, las autoridades consiguieron rescatar...</p>
+<p>The post <a href="https://occidente.co/colombia/secuestro-en-el-exito-de-cartagena-asi-fue-el-rescate/">¿Cómo lograron liberar a los secuestrados en el Éxito de Cartagena? Así se desarrolló el operativo de la Fuerza Pública</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un intento de robo a un carro transportador de valores desencadenó el secuestro masivo en el Éxito de Cartagena, una emergencia que se prolongó durante 18 horas y movilizó a la Policía Nacional, las Fuerzas Militares y el Gobierno nacional.</strong></p>
+<p>Entre negociaciones, liberaciones parciales, reuniones de inteligencia y un ultimátum presidencial, las autoridades consiguieron rescatar a todos los rehenes durante la madrugada del miércoles 25 de noviembre de 2026.</p>
+<p><strong>La jornada del martes comenzó con las actividades comerciales habituales en el centro comercial La Castellana, ubicado sobre la avenida Pedro de Heredia.</strong></p>
+<p>Sin embargo, el intento de hurto frustrado cambió el panorama para decenas de trabajadores y clientes, quienes quedaron atrapados dentro de las instalaciones, mientras sus familiares esperaban noticias en medio de un dispositivo de seguridad que se mantuvo durante todo el día.</p>
+<p>¿Qué ocurrió durante esas horas? ¿Cómo avanzaron las negociaciones y qué llevó al presidente Abelardo de la Espriella a autorizar la intervención de la Fuerza Pública? Esta es la reconstrucción cronológica de los acontecimientos que permitieron poner fin a la toma de rehenes.</p>
+<h2>Un robo frustrado</h2>
+<p>Según la versión del presidente de la República, los presuntos delincuentes pretendían apoderarse del dinero que recogería un carro transportador de valores en el establecimiento comercial.</p>
+<p><strong>Los operadores de las cámaras de seguridad detectaron la situación y activaron los botones de pánico, lo que permitió alertar a la Policía sobre el intento de hurto.</strong></p>
+<p>La respuesta de las autoridades frustró el robo y, según explicó el Ministerio de Defensa, los hombres tomaron como rehenes a varias personas que permanecían dentro del almacén.</p>
+<p>Los primeros testimonios de quienes consiguieron salir daban cuenta de la presencia de varios asaltantes, aunque todavía no existía claridad sobre cuántos participaban en el secuestro.</p>
+<p>Entretanto, comenzaron a circular videos en redes sociales que mostraban a grupos de ciudadanos retenidos.</p>
+<p>Uno de los familiares aseguró que su hija permanecía atada dentro del establecimiento, una versión que las autoridades no confirmaron en ese momento.</p>
+<h2>Comienza la negociación</h2>
+<p>Durante la mañana, la Policía Metropolitana de Cartagena emitió un comunicado en el que estableció como prioridad la protección de la vida de los secuestrados.</p>
+<p><strong>La institución activó sus capacidades especializadas y recibió el respaldo de las Fuerzas Militares.</strong></p>
+<p>Además, instaló un Puesto de Mando Unificado (PMU), bajo la dirección del subdirector general de la Policía, Norberto Mujica Jaime.</p>
+<p>En medio de la incertidumbre, el presidente Abelardo de la Espriella entregó el primer balance sobre el secuestro masivo en el Éxito de Cartagena.</p>
+<p><strong>El mandatario informó que los captores mantenían retenidas a 30 personas, de las cuales cinco mujeres mayores recuperaron su libertad.</strong></p>
+<p>Las autoridades continuaron las negociaciones para conseguir la salida de los demás ciudadanos.</p>
+<p>Mientras tanto, los familiares comenzaron a concentrarse en los alrededores del centro comercial.</p>
+<p>Grupo Éxito suspendió las actividades del establecimiento y manifestó que su prioridad consistía en garantizar la vida y la integridad de las personas involucradas en la emergencia.</p>
+<h2>Rumores y exigencias económicas</h2>
+<p>Hacia el mediodía, la información que circulaba en redes sociales comenzó a generar confusión entre los ciudadanos.</p>
+<p>La Policía de Cartagena desmintió un video que anunciaba una supuesta liberación de los secuestrados y aclaró que todavía permanecían personas retenidas dentro del almacén.</p>
+<p>También circuló una supuesta carta en la que los captores exigían 7.000 millones de pesos y aseguraban mantener bajo su poder a unas 170 personas.</p>
+<p>Aunque las autoridades no confirmaron la autenticidad del documento.</p>
+<p><strong>La emergencia también tuvo repercusiones en otros sectores de Cartagena.</strong></p>
+<p>El aeropuerto internacional Rafael Núñez suspendió temporalmente algunas operaciones, mientras el cierre de la avenida Pedro de Heredia se prolongó durante la jornada.</p>
+<h2>Nuevas liberaciones</h2>
+<p>Hacia las 2:00 p. m., las autoridades confirmaron que otras cuatro personas recuperaron su libertad, con lo que el número de rehenes descendió a 21, según los reportes disponibles en ese momento.</p>
+<p>Las negociaciones continuaban, pero todavía no existía un acuerdo que permitiera resolver la totalidad del secuestro.</p>
+<p>Ante la continuidad de la emergencia, el presidente Abelardo de la Espriella viajó a Cartagena acompañado por el ministro de Defensa, Jorge Mora, y representantes de la cúpula militar.</p>
+<p>Desde la base naval, las autoridades analizaron la información recopilada durante la jornada y evaluaron la situación de los ciudadanos que permanecían retenidos.</p>
+<p>Posteriormente, el Ministerio de Defensa actualizó el balance: diez personas recuperaron su libertad y otras 20 continuaban secuestradas.</p>
+<p>El Gobierno también dispuso el envío de refuerzos especializados, mientras el alcalde Dumek Turbay solicitaba paciencia y prudencia a la ciudadanía.</p>
+<h2>Sin acuerdo de entrega</h2>
+<p>Con la llegada de la noche, los familiares continuaban esperando noticias y las autoridades mantenían los esfuerzos para conseguir una salida negociada.</p>
+<p>Según las versiones oficiales, los responsables del operativo buscaron interlocutores entre los captores para establecer un diálogo que permitiera garantizar la libertad de todos los ciudadanos.</p>
+<p>El presidente solicitó a los presuntos secuestradores que se entregaran y liberaran a los rehenes.</p>
+<p>Sin embargo, estos rechazaron la solicitud. Entretanto, las diferencias entre los reportes sobre el número de personas retenidas dificultaban conocer el balance definitivo de la emergencia.</p>
+<h2>El ultimátum presidencial</h2>
+<p>Cerca de la medianoche, De la Espriella se reunió con los responsables del operativo en el Puesto de Mando Unificado.</p>
+<p>Allí, junto con el ministro de Defensa y los mandos policiales y militares, evaluó la situación y estableció un ultimátum para conseguir la entrega de los captores y la liberación de los secuestrados.</p>
+<p>Ante la falta de una respuesta, el mandatario autorizó personalmente la intervención de la Fuerza Pública.</p>
+<p>Según explicó posteriormente, la decisión surgió después de revisar la situación con los integrantes de la cúpula militar y policial.</p>
+<h2>El rescate de rehenes</h2>
+<p>Durante la madrugada del miércoles, mientras las autoridades adelantaban la operación, la madre de uno de los secuestrados, contó que su hijo consiguió comunicarse con ella para informarle que ya se encontraba bajo custodia de la Fuerza Pública.</p>
+<p>La intervención conjunta del Ejército Nacional, la Policía y la Armada permitió recuperar el control del establecimiento.</p>
+<p>Posteriormente, el presidente confirmó la liberación de todos los rehenes, la captura de cuatro presuntos secuestradores y la muerte de otro durante el operativo.</p>
+<h2>¿Cuántas personas rescataron?</h2>
+<p>Los balances posteriores al secuestro masivo en el Éxito de Cartagena superaron las cifras iniciales.</p>
+<p>Además de los rehenes, decenas de ciudadanos permanecieron refugiados dentro del centro comercial.</p>
+<p>Los reportes preliminares señalaron que alrededor de 50 personas abandonaron las instalaciones, aunque el número definitivo todavía requiere confirmación.</p>
+<p>Ninguno de los rehenes murió o sufrió heridas de gravedad, según las autoridades.</p>
+<p>No obstante, varios trabajadores presentaron crisis nerviosas y ataques de pánico, por lo que recibieron atención médica.</p>
+<p>Hacia las 6:07 a. m. del miércoles, los ciudadanos comenzaron a salir del comando de la Policía Metropolitana para reencontrarse con sus familias, después de los chequeos médicos y las declaraciones ante las autoridades.</p>
+<h2>¿Quiénes eran los secuestradores?</h2>
+<p>Según el presidente Abelardo de la Espriella, cinco hombres participaron en el secuestro masivo en el Éxito de Cartagena, de los cuales cuatro terminaron capturados y uno murió durante la intervención.</p>
+<p>El mandatario aseguró que los captores rechazaron la oportunidad de entregarse y liberar a los rehenes.</p>
+<p>Sin embargo, todavía existen diferencias entre los balances oficiales, pues la Policía Nacional informó inicialmente sobre dos capturas y un fallecido.</p>
+<p>Hasta el momento, la Fiscalía no entrega una cifra definitiva ni las autoridades esclarecen las circunstancias de la muerte del presunto delincuente.</p>
+<p>Asimismo, los primeros reportes señalaron que un coronel del Comando de Operaciones Especiales (COPES) de la Policía resultó herido durante la intervención, sin que hasta ahora se conozca su estado de salud.</p>
+<p>En materia judicial, los capturados podrían enfrentar cargos por secuestro extorsivo agravado o secuestro simple agravado, porte ilegal de armas de uso privativo de las Fuerzas Armadas, hurto calificado agravado en grado de tentativa y uso ilegal de uniformes e insignias.</p>
+<p>No obstante, la Fiscalía todavía no confirma la imputación formal de estos delitos.</p>
+<p><strong>Las investigaciones también deberán establecer si otras personas participaron en la planeación del robo y si los implicados pertenecen a alguna organización criminal.</strong></p>
+<blockquote class="instagram-media" style="background: #FFF; border: 0; border-radius: 3px; box-shadow: 0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width: 540px; min-width: 326px; padding: 0; width: calc(100% - 2px);" data-instgrm-captioned="" data-instgrm-permalink="https://www.instagram.com/reel/DgK_gLHh1kf/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+<div style="padding: 16px;">
+<p>&nbsp;</p>
+<div style="display: flex; flex-direction: row; align-items: center;">
+<div style="background-color: #f4f4f4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
+</div>
+</div>
+<div style="padding: 19% 0;"></div>
+<div style="display: block; height: 50px; margin: 0 auto 12px; width: 50px;"></div>
+<div style="padding-top: 8px;">
+<div style="color: #3897f0; font-family: Arial,sans-serif; font-size: 14px; font-style: normal; font-weight: 550; line-height: 18px;">Ver esta publicación en Instagram</div>
+</div>
+<div style="padding: 12.5% 0;"></div>
+<div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
+<div>
+<div style="background-color: #f4f4f4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div>
+<div style="background-color: #f4f4f4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div>
+</div>
+<div style="margin-left: 8px;">
+<div style="background-color: #f4f4f4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div>
+<div style="width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg);"></div>
+</div>
+<div style="margin-left: auto;">
+<div style="width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div>
+<div style="background-color: #f4f4f4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div>
+<div style="width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div>
+<div style="background-color: #f4f4f4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
+</div>
+<p>&nbsp;</p>
+<p style="color: #c9c8cd; font-family: Arial,sans-serif; font-size: 14px; line-height: 17px; margin-bottom: 0; margin-top: 8px; overflow: hidden; padding: 8px 0 7px; text-align: center; text-overflow: ellipsis; white-space: nowrap;"><a style="color: #c9c8cd; font-family: Arial,sans-serif; font-size: 14px; font-style: normal; font-weight: normal; line-height: 17px; text-decoration: none;" href="https://www.instagram.com/reel/DgK_gLHh1kf/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener">Una publicación compartida por Diario Occidente (@diariooccidente)</a></p>
+</div>
+</blockquote>
+<p><script async src="//www.instagram.com/embed.js"></script></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/secuestro-en-el-exito-de-cartagena-asi-fue-el-rescate/">¿Cómo lograron liberar a los secuestrados en el Éxito de Cartagena? Así se desarrolló el operativo de la Fuerza Pública</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/secuestro-en-el-exito-de-cartagena-asi-fue-el-rescate/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>América de Cali venció 2-1 a Deportivo Cali</title>
+		<link>https://occidente.co/deportes/america-de-cali-vencio-2-1-a-deportivo-cali/</link>
+					<comments>https://occidente.co/deportes/america-de-cali-vencio-2-1-a-deportivo-cali/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 16:00:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/america-de-cali-vencio-2-1-a-deportivo-cali/</guid>
+
+					<description><![CDATA[<p>América de Cali derrotó 2-1 a Deportivo Cali en la segunda fecha del Grupo B de la Liga BetPlay Colombia, en un clásico vallecaucano disputado en el Estadio Olímpico Pascual Guerrero de Cali el martes 24 de noviembre de 2026. Tomás Ángel fue la figura del partido al marcar los dos goles del equipo escarlata....</p>
+<p>The post <a href="https://occidente.co/deportes/america-de-cali-vencio-2-1-a-deportivo-cali/">América de Cali venció 2-1 a Deportivo Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>América de Cali derrotó 2-1 a Deportivo Cali en la segunda fecha del Grupo B de la Liga BetPlay Colombia, en un clásico vallecaucano disputado en el Estadio Olímpico Pascual Guerrero de Cali el martes 24 de noviembre de 2026. Tomás Ángel fue la figura del partido al marcar los dos goles del equipo escarlata.</p>
+<h2>América de Cali ganó el clásico con doblete de Tomás Ángel</h2>
+<p>El triunfo de América de Cali se construyó en dos momentos clave. En el minuto 37, Tomás Ángel abrió el marcador de cabeza tras una asistencia de Marcos David Mina Lucumí. Ya en el segundo tiempo, al minuto 47, el mismo delantero amplió la ventaja con otro gol de cabeza, nuevamente con pase de Mina Lucumí.</p>
+<p>Deportivo Cali reaccionó rápido y descontó al minuto 50 por intermedio de Andrés Steven Rodríguez Ossa, quien definió de jugada tras asistencia de Johan Andrés Martínez Agudelo. A partir de allí, el partido se mantuvo con alta intensidad y varias amonestaciones en ambos equipos.</p>
+<h2>Un partido intenso en el Pascual Guerrero</h2>
+<h3>Tarjetas en un primer tiempo disputado</h3>
+<p>La primera mitad estuvo marcada por el juego fuerte y las amonestaciones. Jhon Eduard Murillo Romaña vio la amarilla al minuto 19 para América de Cali, mientras que Ronaldo Ismael Pájaro Beltrán fue amonestado al 24 para Deportivo Cali.</p>
+<h3>Más llegadas para el equipo azucarero</h3>
+<p>Según las estadísticas publicadas, Deportivo Cali tuvo 52% de posesión, frente al 48% de América de Cali. El equipo local además registró 19 remates, 11 al arco, mientras que América de Cali terminó con 10 intentos y 6 a puerta.</p>
+<h3>Figuras y sanciones del encuentro</h3>
+<p>Antes del descanso también fueron amonestados Rafael Andrés Carrascal Avilez, al 41, y Fabián Alexis Viáfara Alarcón, al 44. En la segunda parte recibieron tarjeta Johan Andrés Martínez Agudelo, al 72, y Yani David Quintero Rivas, al 88. Tomás Ángel fue calificado con 7.9, mientras que Steven Rodríguez obtuvo 6.5.</p>
+<h2>Así quedó el panorama del Grupo B</h2>
+<p>La victoria le dio a América de Cali un resultado clave en la segunda fecha del Grupo B de la Liga BetPlay Colombia. El equipo escarlata aprovechó la eficacia de Tomás Ángel para quedarse con un clásico que tuvo momentos de dominio alternado y una alta exigencia física.</p>
+<p>Deportivo Cali, pese a la posesión y al volumen de remates, no logró sostener la ventaja mínima construida tras el descuento y terminó cediendo en casa de su rival. El partido dejó a Tomás Ángel como el nombre más destacado de la noche en Cali.</p>
+<h3>Por qué importa</h3>
+<p><strong>Deportivo:</strong> América de Cali sumó una victoria relevante en el Grupo B y Tomás Ángel resolvió el clásico con dos goles.</p>
+<p><strong>Actualidad:</strong> El partido se jugó en el Pascual Guerrero y terminó 2-1 a favor de América de Cali.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+<p></p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/america-de-cali-vencio-2-1-a-deportivo-cali/">América de Cali venció 2-1 a Deportivo Cali</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/america-de-cali-vencio-2-1-a-deportivo-cali/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Millonarios goleó 4-1 a Bucaramanga y Gamero pidió ajustar errores</title>
+		<link>https://occidente.co/deportes/millonarios-goleo-4-1-a-bucaramanga-y-gamero-pidio-ajustar-errores/</link>
+					<comments>https://occidente.co/deportes/millonarios-goleo-4-1-a-bucaramanga-y-gamero-pidio-ajustar-errores/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 16:00:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/millonarios-goleo-4-1-a-bucaramanga-y-gamero-pidio-ajustar-errores/</guid>
+
+					<description><![CDATA[<p>Millonarios Bucaramanga dejó una victoria amplia de Milllarios por 4-1 sobre Atlético Bucaramanga en El Campín, pero Alberto Gamero pidió mesura y ajustes tras el partido de la segunda fecha de los cuadrangulares semifinales de la Liga BetPlay 2026-II. El técnico de Millonarios valoró el resultado conseguido este martes 25 de noviembre de 2026 en...</p>
+<p>The post <a href="https://occidente.co/deportes/millonarios-goleo-4-1-a-bucaramanga-y-gamero-pidio-ajustar-errores/">Millonarios goleó 4-1 a Bucaramanga y Gamero pidió ajustar errores</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Millonarios Bucaramanga dejó una victoria amplia de Milllarios por 4-1 sobre Atlético Bucaramanga en El Campín, pero Alberto Gamero pidió mesura y ajustes tras el partido de la segunda fecha de los cuadrangulares semifinales de la Liga BetPlay 2026-II.</h2>
+<p>El técnico de Millonarios valoró el resultado conseguido este martes 25 de noviembre de 2026 en Bogotá, aunque insistió en que el equipo todavía tuvo errores por corregir. Según explicó en rueda de prensa, el partido fue cerrado y no estuvo exento de fallas, incluso en momentos en los que Bucaramanga encontró espacios y generó riesgo.</p>
+<p>Gamero destacó como uno de los puntos positivos el uso de dos delanteros, una decisión que, a su juicio, le dio más volumen ofensivo al equipo. Sin embargo, también advirtió que esa apuesta táctica exige compromiso en defensa para que el funcionamiento no se resienta cuando Millonarios no tiene el balón.</p>
+<p>El entrenador añadió que una de las acciones que más le preocupó fue la pelota quieta, una fase del juego que, según dijo, el equipo había trabajado por considerar que Bucaramanga es fuerte en ese apartado. Aun así, consideró que hubo un porcentaje importante del encuentro en el que le gustó lo que vio de su plantel.</p>
+<h2>Las claves del triunfo de Millonarios Bucaramanga</h2>
+<h3>La apuesta por dos delanteros</h3>
+<p>Gamero explicó que buscó un equipo con mayor presencia en ataque para generar más opciones de gol. Esa idea, afirmó, funcionó en varios pasajes del compromiso y le permitió a Millonarios llegar con más frecuencia al arco rival.</p>
+<h3>Los errores que no pasaron inadvertidos</h3>
+<p>Pese al 4-1, el entrenador reconoció que hubo desajustes defensivos y momentos en los que Bucaramanga logró quitarle el balón a su equipo. También señaló que, en el primer tiempo, el rival encontró protagonismo a través de Aldaír Zárate.</p>
+<h3>El desgaste físico del equipo</h3>
+<p>Gamero atribuyó parte de las molestias de Jhomier Guerrero y Rodrigo Contreras al cansancio. Recordó que Millonarios venía de jugar el viernes en Cali y de afrontar un viaje, además de una cancha pesada, lo que terminó pesando en el desgaste físico.</p>
+<h2>Lo que viene para Millonarios</h2>
+<p>El entrenador también habló sobre la situación física de Juan Guillermo Cuadrado, Daniel Ruiz y Mackalister Silva, quienes siguen en trabajos diferenciados. Dijo que Ruiz ya trota y trabaja en campo, mientras que Cuadrado mantiene un proceso similar.</p>
+<p>De cara al partido frente a América de Cali, programado para el viernes 27 de noviembre a las 8:40 p. m. en El Campín, Gamero fue prudente y aseguró que no cree que alguno de los tres pueda estar disponible. Para el técnico, la prioridad pasa por esperar la evolución médica y mantener la planificación del equipo sin apresurar regresos.</p>
+<h3>Por qué importa</h3>
+<p><strong>Deportivo:</strong> Millonarios sumó una victoria amplia en los cuadrangulares, pero su técnico dejó claro que aún hay aspectos por corregir.</p>
+<p><strong>Actualidad:</strong> Cuadrado, Ruiz y Mackalister Silva siguen en recuperación y no parecen listos para el próximo partido.</p>
+<p><strong>Próximos pasos:</strong> El equipo afrontará el duelo ante América de Cali este viernes en El Campín.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+<p></p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/millonarios-goleo-4-1-a-bucaramanga-y-gamero-pidio-ajustar-errores/">Millonarios goleó 4-1 a Bucaramanga y Gamero pidió ajustar errores</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/millonarios-goleo-4-1-a-bucaramanga-y-gamero-pidio-ajustar-errores/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Atlético Nacional vs. Medellín: hora, TV y bajas</title>
+		<link>https://occidente.co/deportes/atletico-nacional-vs-medellin-hora-tv-y-bajas/</link>
+					<comments>https://occidente.co/deportes/atletico-nacional-vs-medellin-hora-tv-y-bajas/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 16:00:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/atletico-nacional-vs-medellin-hora-tv-y-bajas/</guid>
+
+					<description><![CDATA[<p>Atlético Nacional e Independiente Medellín se enfrentarán este miércoles 25 de noviembre en una nueva edición del clásico paisa, por la segunda jornada del cuadrangular A de la Liga BetPlay II-2026. El partido se jugará en el estadio Atanasio Girardot y puede empezar a marcar diferencias en la pelea por la final. Atlético Nacional vs....</p>
+<p>The post <a href="https://occidente.co/deportes/atletico-nacional-vs-medellin-hora-tv-y-bajas/">Atlético Nacional vs. Medellín: hora, TV y bajas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Atlético Nacional e Independiente Medellín se enfrentarán este miércoles 25 de noviembre en una nueva edición del clásico paisa, por la segunda jornada del cuadrangular A de la Liga BetPlay II-2026. El partido se jugará en el estadio Atanasio Girardot y puede empezar a marcar diferencias en la pelea por la final.</p>
+<h2>Atlético Nacional vs. Medellín en la Liga BetPlay II-2026</h2>
+<p>El compromiso llega con realidades distintas. Nacional, dirigido por Lucas González, empató 0-0 ante Once Caldas en Manizales y buscará su primer triunfo en esta fase. Medellín, bajo la conducción de Luis Amaranto Perea, debutó con victoria 1-0 sobre Independiente Santa Fe, gracias a un gol de Jeison Medina.</p>
+<p>La noticia del clásico se concentra también en las ausencias y en las posibles nóminas que alista cada equipo para un duelo con alta exigencia en Medellín.</p>
+<h2>Las claves del clásico paisa</h2>
+<h3>La baja confirmada en Nacional</h3>
+<p>Atlético Nacional no podrá contar con Felipe Marín, quien recibió una fecha de suspensión tras su expulsión frente a Once Caldas. La Dimayor rechazó el recurso presentado por el club, pese a que la Comisión Arbitral reconoció el error de Jhon Ospina en esa decisión.</p>
+<h3>La opción que maneja Lucas González</h3>
+<p>Su reemplazo sería Matheus Uribe, quien acompañaría a Jorman Campuzano en la primera línea de volantes. Además, Nacional tampoco tendrá disponible al asistente técnico Alexis Henríquez, sancionado con tres fechas por el Comité Disciplinario.</p>
+<h3>Los puntos en juego en el grupo A</h3>
+<p>Independiente Medellín lidera el cuadrangular con tres puntos, seguido por Nacional y Once Caldas, ambos con una unidad. Santa Fe cierra el grupo sin puntos. Un triunfo verdolaga lo llevaría a cuatro unidades y lo pondría por encima del DIM de manera provisional; un empate mantendría al equipo rojo arriba; y una victoria visitante lo dejaría con ventaja relevante en la tabla.</p>
+<h2>Hora, señal y contexto del partido</h2>
+<p>El clásico paisa está programado para las 8:30 p. m., hora colombiana. Se verá por Win+ Fútbol y también por Win Play. El árbitro designado es Carlos Betancur, de Valle.</p>
+<p>Nacional conserva además el punto invisible por haber terminado primero en la fase regular. Ese elemento puede ser decisivo si el cuadrangular termina con igualdad en puntos al cierre de la serie. Por eso, el duelo de este miércoles tiene impacto directo en la lucha por el liderato del grupo A.</p>
+<h3>Por qué importa</h3>
+<p><strong>Deportivo:</strong> define el pulso entre dos candidatos del grupo A en la Liga BetPlay II-2026.</p>
+<p><strong>Actualidad:</strong> Medellín llega líder y Nacional necesita sumar para no ceder terreno.</p>
+<p><strong>Próximos pasos:</strong> el resultado modificará la tabla y la pelea por el primer lugar.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+<p></p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/atletico-nacional-vs-medellin-hora-tv-y-bajas/">Atlético Nacional vs. Medellín: hora, TV y bajas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/atletico-nacional-vs-medellin-hora-tv-y-bajas/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Llaneros denuncia salarios atrasados e irregularidades</title>
+		<link>https://occidente.co/deportes/llaneros-denuncia-salarios-atrasados-irregularidades/</link>
+					<comments>https://occidente.co/deportes/llaneros-denuncia-salarios-atrasados-irregularidades/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 16:00:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/llaneros-denuncia-salarios-atrasados-irregularidades/</guid>
+
+					<description><![CDATA[<p>La plantilla profesional de Llaneros FC denunció salarios atrasados e irregularidades en el modelo de contratación que, según el plantel, se viene aplicando en el club. En un comunicado, los futbolistas señalaron que la directiva no cumplió con el compromiso de ponerse al día en los pagos durante la jornada prevista. Llaneros denuncia salarios atrasados...</p>
+<p>The post <a href="https://occidente.co/deportes/llaneros-denuncia-salarios-atrasados-irregularidades/">Llaneros denuncia salarios atrasados e irregularidades</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La plantilla profesional de Llaneros FC denunció salarios atrasados e irregularidades en el modelo de contratación que, según el plantel, se viene aplicando en el club. En un comunicado, los futbolistas señalaron que la directiva no cumplió con el compromiso de ponerse al día en los pagos durante la jornada prevista.</p>
+</p>
+<h2>Llaneros denuncia salarios atrasados y pide intervención oficial</h2>
+</p>
+<p>El plantel profesional de Llaneros FC hizo pública su inconformidad por la crisis financiera que atraviesa con la directiva. De acuerdo con los jugadores, el club se había comprometido a cancelar las deudas en esta jornada, pero el acuerdo volvió a incumplirse.</p>
+</p>
+<p>Según el comunicado difundido por los futbolistas, a la fecha acumulan entre dos y tres meses de salarios pendientes, además de premios por objetivos deportivos que ya habían sido pactados y firmados. La situación, afirmaron, generó una profunda preocupación dentro del grupo.</p>
+</p>
+<p>El reclamo también incluyó una advertencia sobre la forma en que reciben su remuneración. Los jugadores explicaron que una parte del salario se formaliza mediante un contrato laboral directo con Llaneros FC, mientras que otro porcentaje se canaliza a través de una corporación llamada Futuros Llaneros.</p>
+</p>
+<h2>El reclamo del plantel</h2>
+</p>
+<h3>Pagos pendientes</h3>
+</p>
+<p>Los futbolistas afirmaron que el club les adeuda entre dos y tres meses de salario, además de premios deportivos previamente acordados.</p>
+</p>
+<h3>Esquema de contratación</h3>
+</p>
+<p>El plantel señaló que el uso de una corporación para pagar parte de los ingresos podría estar siendo utilizado para eludir obligaciones laborales y de seguridad social.</p>
+</p>
+<h3>Pedido a las autoridades</h3>
+</p>
+<p>Los jugadores solicitaron la intervención del Ministerio del Trabajo, el Ministerio del Deporte, la Dimayor y la Superintendencia de Sociedades.</p>
+</p>
+<h2>Los futbolistas exigen respuestas</h2>
+</p>
+<p>En su pronunciamiento, los deportistas calificaron como inaceptable que deban soportar incumplimientos reiterados en el pago de sus salarios y, al mismo tiempo, quedar expuestos a un esquema que podría afectar sus aportes al sistema de seguridad social y sus futuras prestaciones.</p>
+</p>
+<p>El plantel pidió que se investigue la legalidad de la modalidad contractual y reiteró su exigencia de que Llaneros FC cumpla de inmediato con todas sus obligaciones económicas.</p>
+</p>
+<h3>Por qué importa</h3>
+</p>
+<p><strong>Deportivo:</strong> La denuncia afecta al plantel de Llaneros FC y pone bajo revisión su relación contractual y laboral.</p>
+</p>
+<p><strong>Actualidad:</strong> Los jugadores aseguran que siguen pendientes entre dos y tres meses de salario y premios pactados.</p>
+</p>
+<p><strong>Próximos pasos:</strong> Pidieron la intervención de varias entidades para que investiguen la situación.</p>
+</p>
+<h3>Nota de Transparencia</h3>
+</p>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/llaneros-denuncia-salarios-atrasados-irregularidades/">Llaneros denuncia salarios atrasados e irregularidades</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/llaneros-denuncia-salarios-atrasados-irregularidades/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
