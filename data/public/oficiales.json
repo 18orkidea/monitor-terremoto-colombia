@@ -1,8 +1,81 @@
 {
- "generated_at": "2026-11-25T04:02:47.630Z",
- "run_date": "2026-11-24",
- "total": 296,
+ "generated_at": "2026-11-26T04:01:08.215Z",
+ "run_date": "2026-11-25",
+ "total": 299,
  "items": [
+  {
+   "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "publication_url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "title": "Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos",
+   "snapshot_id": "2026-11-25:https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196",
+   "search_date": "2026-11-25",
+   "search_query": "UNGRD SGC terremoto Colombia 25-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+   "publisher": {
+    "name": "El Tiempo",
+    "domain": "eltiempo.com",
+    "channel": "web",
+    "url": "https://www.eltiempo.com/colombia/otras-ciudades/balance-oficial-de-la-ungrd-tras-terremoto-de-magnitud-7-4-en-colombia-273-fallecidos-3-824-heridos-y-377-desaparecidos-3578196"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - prensa temporal encontrada",
+   "source_level": "temporal_prensa",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "temporal_prensa",
+   "content_sha256": "ccdef87adf8531aa37d7824f913c07174a2d0cc88b3860362e37e9e05e40c10b",
+   "captured_at": "2026-11-26T04:01:06.528Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a21602-d03b-743d-a060-2d177dc0d370",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:UNGRD SGC balance oficial por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.\n\n![UNGRD/EFE](https://imagenes2.eltiempo.com/files/image_1200_535/files/fp/uploads/2026/08/13/6a7e0293687cb.r_d.600-268.png)\n\nEl Gobierno presentó el balance oficial de la emergencia este jueves 13 de agosto. Foto: UNGRD/EFE\n\n### Cifras oficiales de víctimas que deja el terremoto en Colombia\n\nEl consolidado presentado por la UNGRD, con corte de las 5 de la tarde, reporta las siguientes cifras de afectación a la población:\n\n- **Familias afectadas:** 44.936.\n- **Personas afectadas:** 102.105.\n- **Fallecidos:** 281.\n- **Heridos:** 3.971.\n- **Desaparecidos:** 379, según cifras de la Fiscalía General de la Nación.\n- **Departamentos afectados:** 15.\n- **Municipios afectados:** 426.\n- **Personas rescatadas:** 348.\n\nDe los fallecidos, **260 han ingresado a Medicina Legal**, **246 han sido reconocidos** y **222 cuerpos han sido entregados a sus familias.**\n\n![Tragedia en Colombia tras fuerte terremoto.](https://imagenes2.eltiempo.com/files/image_600_455/files/fp/uploads/2026/08/13/6a7dd9020bf6e.r_d.640-360-6316.jpeg)\n\n### Daños en viviendas e infraestructura por el terremoto en Colombia\n\nEl balance presentado por la entidad también da cuenta de **daños en viviendas, edificaciones y servicios esenciales**:\n\n- **Viviendas destruidas:** 10.677.\n- **Viviendas averiadas:** 65.841.\n- **Edificios colapsados:** 127.\n- **Centros educativos afectados:** 2.136.\n- **Centros de salud afectados:** 236.\n- **Centros comunitarios afectados:** 825.\n- **Vías:** 198.\n- **Puentes vehiculares:** 34.\n- **Puentes peatonales:** 12.\n- **Acueductos afectados:** 71.\n- **Entidades bancarias afectadas:** 29.\n- **Aeropuertos afectados:** 5.\n\nEl reporte oficial también registra **243 animales afectados** y **169 rescatados**, que permanecen en **albergues con atención veterinaria**.\n\n### Imágenes satelitales y drones respaldan monitoreo de municipios afectados\n\nDurante una rueda de prensa este jueves, David Santiago Tamayo Roldán, **director de la UNGRD**, también se refirió a las herramientas tecnológicas utilizadas **para evaluar las zonas afectadas por el terremoto**. Explicó que, mediante alianzas con la **NASA** y otras entidades, **se han procesado 166 imágenes satelitales de alta definición.**\n\n### Gobierno mantiene monitoreo del volcán Puracé en alerta naranja\n\nAunque el terremoto **constituye la prioridad nacional**, Tamayo precisó que la UNGRD mantiene la **atención sobre otras situaciones críticas** que permanecen activas en el territorio.\n\nLa entidad trabaja de manera simultánea frente al sismo, la **actividad volcánica y los incendios forestales**. En el caso del **volcán Puracé**, que continúa en **alerta naranja**, una **comisión técnica de la UNGRD** permanece en la zona desde el pasado fin de semana **para evaluar su actividad.**",
+   "publicado_en": "2026-08-13T13:05:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": null,
+   "fecha_corte": "2026-08-13",
+   "departamentos": [],
+   "municipios": [],
+   "estado": "oficial_con_posibles_cifras",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 426,
+    "personas_afectadas": 102105,
+    "familias_afectadas": 44936,
+    "viviendas_averiadas": 65841,
+    "viviendas_destruidas": 10677,
+    "heridos": 3971,
+    "fallecidos": 281,
+    "desaparecidos": 379,
+    "rescatados": 169
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "# Balance oficial de la UNGRD tras terremoto de magnitud 7,4 en Colombia: 281 fallecidos, 3.971 heridos y 379 desaparecidos\n\n## El consolidado contempla, además, daños en viviendas, centros educativos y servicios esenciales en las zonas impactadas.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
   {
    "url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
    "publication_url": "https://www.eltiempo.com/politica/gobierno/ungrd-entrega-nuevo-balance-oficial-este-24-de-agosto-tras-terremoto-de-magnitud-7-4-en-colombia-329-fallecidos-4-592-heridos-y-234-desaparecidos-3580536",
@@ -6295,6 +6368,100 @@
    "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
    "discovery_role": "busqueda_diaria_fecha",
    "text_excerpt": "- [Inicio](https://www.cali.gov.co/gobierno/)\n- Terremoto de Cali \\| Repositorio Oficial de Información\n\n# Terremoto de Cali \\| Repositorio Oficial de Información\n\n## Compartir en:\n\n- [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Facebook\")\n- [Twitter](https://twitter.com/intent/tweet?url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Twitter\")\n- [Linkedin](https://www.linkedin.com/shareArticle?mini=true&url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Linkedin\")\n- [Whatsapp](whatsapp://send?text=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Whatsapp\")\n\n- [Buscar](https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/# \"Buscar\")\n\n## Compartir en:\n\n- [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Facebook\")\n- [Twitter](https://twitter.com/intent/tweet?url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Twitter\")\n- [Linkedin](https://www.linkedin.com/shareArticle?mini=true&url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Linkedin\")\n- [Whatsapp](whatsapp://send?text=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Whatsapp\")\n\nBuscarPalabras...\n\nPalabras...\n\nBuscar\n\nVistas 84792\n\nPublicación:\n11/08/2026\n\n\nModificación: 07/10/2026\n\nEsta página proporciona información verificada de la Alcaldía de Santiago de Cali sobre el terremoto, sus impactos, la respuesta de emergencia y las recomendaciones para residentes y visitantes.\n\n## Balance del sismo\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349453.png)154 Fallecidos\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349543.png) 88  Personas rescatadas\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349450.png)14\\*Reportes de desaparecidos\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349451.png) 1.657 Lesionados\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349452.png)24 Edificaciones con colapso total\n\nVer notas sobre las cifras\n\n(\\*) La cifra corresponde al proceso de validación y depuración de los registros de personas reportadas como desaparecidas que lidera la Cruz Roja Colombiana, mediante el cruce de información con entidades de salud, Medicina Legal y el contacto directo con las familias. Este proceso permite establecer cuáles reportes continúan activos y cuáles ya fueron verificados o descartados. Por esta razón, la cifra disminuyó de 15 a 14. El reporte puede disminuir y continuará actualizándose conforme avance el proceso de verificación.\n\n[Descargar último reporte oficial](https://www.cali.gov.co/loader.php?lServicio=Tools2&lTipo=descargas&lFuncion=descargar&idFile=112180&id_comunidad=gobierno)\n\nÚltima actualización: 03:00 p.m. · Viernes 16 de octubre de 2026\n\nConsulte sus reportes de daños y su RUD. Ya no se reciben nuevos reportes por este canal.\n\n[Consultar mi reporte de daños y RUD](https://atencionsismo.cali.gov.co/)\n\nLunes\n\n0 · 9\n\nMartes\n\n1 · 2\n\nMiércoles\n\n3 · 4\n\nJueves\n\n5 · 6\n\nViernes\n\n7 · 8\n\nSi tienes un  familiar o ser querido desaparecido  tras el sismo, puedes  reportarlo  a través de estas líneas de atención 24/7:\n\n- Personería de Cali [318 335 5722](tel:+573183355722)\n- WhatsApp de la Cruz Roja [321 213 9525](https://wa.me/573212139525)\n- Correo de la Cruz Roja Colombiana [rcf@cruzrojacolombiana.org](mailto:rcf@cruzrojacolombiana.org)\n\n## Boletines de prensa\n\n[![Plazoleta Jairo Varela funcionará como centro de acopio para recibir donaciones tras",
+   "publicado_en": "2026-08-11T12:18:00-05:00",
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-10-16",
+   "fecha_corte": "2026-10-16",
+   "departamentos": [
+    "Chocó",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "Buenaventura",
+    "Cali",
+    "Jamundí",
+    "Palmira",
+    "Quibdó"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": null,
+    "municipios_afectados": null,
+    "personas_afectadas": 2000,
+    "familias_afectadas": 400,
+    "viviendas_averiadas": 28,
+    "viviendas_destruidas": null,
+    "heridos": null,
+    "fallecidos": 154,
+    "desaparecidos": null,
+    "rescatados": 88
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "- [Inicio](https://www.cali.gov.co/gobierno/)\n- Terremoto de Cali \\| Repositorio Oficial de Información\n\n# Terremoto de Cali \\| Repositorio Oficial de Información\n\n## Compartir en:\n\n- [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.cali.gov.co/gobierno/publica",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
+  },
+  {
+   "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/",
+   "publication_url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/",
+   "title": "Terremoto de Cali | Repositorio Oficial de Información",
+   "snapshot_id": "2026-11-25:https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/",
+   "search_date": "2026-11-25",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 25-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "Portal Alcaldía de Santiago de Cali",
+    "domain": "cali.gov.co",
+    "channel": "web",
+    "url": "https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/"
+   },
+   "reported_data_source": [
+    {
+     "id": "UNGRD",
+     "name": "Unidad Nacional para la Gestión del Riesgo de Desastres",
+     "type": "oficial_nacional",
+     "url": "https://portal.gestiondelriesgo.gov.co/"
+    },
+    {
+     "id": "gobernacion",
+     "name": "Gobernación citada en el texto",
+     "type": "oficial_departamental_por_verificar",
+     "url": null
+    },
+    {
+     "id": "alcaldia",
+     "name": "Alcaldía citada en el texto",
+     "type": "oficial_municipal_por_verificar",
+     "url": null
+    }
+   ],
+   "is_liveblog": true,
+   "historical_reliability": "baja",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - fuente institucional oficial encontrada",
+   "source_level": "oficial_institucional",
+   "official": true,
+   "temporal_source_policy": "institucion_oficial_no_edan",
+   "original_source_level": "oficial_institucional",
+   "content_sha256": "7ea9894e04229488b08485fbe0b296a0b1a6a73da45fb3796d6f4a5087d59c9e",
+   "captured_at": "2026-11-26T04:01:06.528Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a21602-de03-721b-a97c-5b9073015eb3",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "- [Inicio](https://www.cali.gov.co/gobierno/)\n- Terremoto de Cali \\| Repositorio Oficial de Información\n\n# Terremoto de Cali \\| Repositorio Oficial de Información\n\n## Compartir en:\n\n- [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Facebook\")\n- [Twitter](https://twitter.com/intent/tweet?url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Twitter\")\n- [Linkedin](https://www.linkedin.com/shareArticle?mini=true&url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Linkedin\")\n- [Whatsapp](whatsapp://send?text=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Whatsapp\")\n\n- [Buscar](https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/# \"Buscar\")\n\n## Compartir en:\n\n- [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Facebook\")\n- [Twitter](https://twitter.com/intent/tweet?url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Twitter\")\n- [Linkedin](https://www.linkedin.com/shareArticle?mini=true&url=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Linkedin\")\n- [Whatsapp](whatsapp://send?text=https://www.cali.gov.co/gobierno/publicaciones/193607/terremoto-de-cali-repositorio-oficial-de-informacion/ \"Whatsapp\")\n\nBuscarPalabras...\n\nPalabras...\n\nBuscar\n\nVistas 92852\n\nPublicación:\n11/08/2026\n\n\nModificación: 07/10/2026\n\nEsta página proporciona información verificada de la Alcaldía de Santiago de Cali sobre el terremoto, sus impactos, la respuesta de emergencia y las recomendaciones para residentes y visitantes.\n\n## Balance del sismo\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349453.png)154 Fallecidos\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349543.png) 88  Personas rescatadas\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349450.png)14\\*Reportes de desaparecidos\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349451.png) 1.657 Lesionados\n\n![](https://www.cali.gov.co/info/caligovco_se/media/galeria349452.png)24 Edificaciones con colapso total\n\nVer notas sobre las cifras\n\n(\\*) La cifra corresponde al proceso de validación y depuración de los registros de personas reportadas como desaparecidas que lidera la Cruz Roja Colombiana, mediante el cruce de información con entidades de salud, Medicina Legal y el contacto directo con las familias. Este proceso permite establecer cuáles reportes continúan activos y cuáles ya fueron verificados o descartados. Por esta razón, la cifra disminuyó de 15 a 14. El reporte puede disminuir y continuará actualizándose conforme avance el proceso de verificación.\n\n[Descargar último reporte oficial](https://www.cali.gov.co/loader.php?lServicio=Tools2&lTipo=descargas&lFuncion=descargar&idFile=112180&id_comunidad=gobierno)\n\nÚltima actualización: 03:00 p.m. · Viernes 16 de octubre de 2026\n\nConsulte sus reportes de daños y su RUD. Ya no se reciben nuevos reportes por este canal.\n\n[Consultar mi reporte de daños y RUD](https://atencionsismo.cali.gov.co/)\n\nLunes\n\n0 · 9\n\nMartes\n\n1 · 2\n\nMiércoles\n\n3 · 4\n\nJueves\n\n5 · 6\n\nViernes\n\n7 · 8\n\nSi tienes un  familiar o ser querido desaparecido  tras el sismo, puedes  reportarlo  a través de estas líneas de atención 24/7:\n\n- Personería de Cali [318 335 5722](tel:+573183355722)\n- WhatsApp de la Cruz Roja [321 213 9525](https://wa.me/573212139525)\n- Correo de la Cruz Roja Colombiana [rcf@cruzrojacolombiana.org](mailto:rcf@cruzrojacolombiana.org)\n\n## Boletines de prensa\n\n[![Plazoleta Jairo Varela funcionará como centro de acopio para recibir donaciones tras",
    "publicado_en": "2026-08-11T12:18:00-05:00",
    "evidencia_evento_especifico": true,
    "relacionado_evento": true,
@@ -25485,6 +25652,87 @@
    "atribucion_lugares": "limite_palabra_sin_enlaces",
    "cifras_desde": "texto_sin_enlaces_v2",
    "extraccion_version": 2
+  },
+  {
+   "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "publication_url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "title": "OIM Respuesta al Terremoto en Colombia - Reporte de Situación #3 (17 agosto 2026)",
+   "snapshot_id": "2026-11-25:https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026",
+   "search_date": "2026-11-25",
+   "search_query": "Gobernación Alcaldía terremoto Colombia 25-11-2026 personas familias viviendas municipios departamentos afectados",
+   "publisher": {
+    "name": "ReliefWeb",
+    "domain": "reliefweb.int",
+    "channel": "web",
+    "url": "https://reliefweb.int/report/colombia/oim-respuesta-al-terremoto-en-colombia-reporte-de-situacion-3-17-agosto-2026"
+   },
+   "reported_data_source": [
+    {
+     "id": "SGC",
+     "name": "Servicio Geológico Colombiano",
+     "type": "oficial_nacional",
+     "url": "https://www.sgc.gov.co/"
+    }
+   ],
+   "is_liveblog": false,
+   "historical_reliability": "media",
+   "source_id": "firecrawl-busqueda-diaria",
+   "source_name": "Firecrawl - búsqueda diaria por fecha",
+   "source_level": "busqueda_web_temporal",
+   "official": false,
+   "temporal_source_policy": "fuente_temporal_no_oficial_requiere_verificacion",
+   "original_source_level": "busqueda_web_temporal",
+   "content_sha256": "3489f7ad431138aa544bfb4f0ae83387fb2fb06fa41a6a5205a703cac107fe95",
+   "captured_at": "2026-11-26T04:01:06.528Z",
+   "extraction_method": "firecrawl_search_then_scrape",
+   "firecrawl_job_id": "01a21602-de03-721b-a97c-5b9073015eb3",
+   "firecrawl_scrape_status": 200,
+   "firecrawl_scrape_error": null,
+   "discovered_from": "firecrawl:Gobernacion Alcaldia afectacion por fecha",
+   "discovery_role": "busqueda_diaria_fecha",
+   "text_excerpt": "## Attachments\n\n- [![Preview of Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf](https://reliefweb.int/sites/default/files/styles/small/public/previews/83/3d/833dcc84-be04-5fcb-a3d7-694b3f76689f.png?2737805-1-0)**Download Report**(PDF \\| 723.95 KB)](https://reliefweb.int/attachments/833dcc84-be04-5fcb-a3d7-694b3f76689f/Colombia-Earthquake-Sitrep-3-17-Aug-2026-ES.pdf)\n\n**CONTEXTO GENERAL**\n\nEl 10 de agosto de 2026, a las 7:34 a.m. se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó. El Gobierno nacional declaró la situación de desastre nacional mediante el Decreto Presidencial 1171 de 2026. En los días posteriores, la atención y respuesta se ha concentrado principalmente en los departamentos con mayores afectaciones son Valle del Cauca, Chocó, Risaralda, Caldas y Quindío.\n\n**AFECTACIONES**\n\n304 personas fallecidas  \n426 personas desaparecidas  \n357 personas rescatadas  \n186.182 personas afectadas  \n4.400 personas heridas  \n127.266 viviendas afectadas  \n26.558 viviendas destruidas  \n5 aeropuertos afectados  \n300 establecimientos de salud afectados  \n3.074 instituciones educativas afectadas  \n4.043 centros comunitarios afectados  \n197 edificios colapsados  \n15 departamentos afectados  \n472 municipios afectados\n\n**EVOLUCIÓN DE LA SITUACIÓN**\n\n• El Servicio Geológico Colombiano ha reportado 183 réplicas, 15 superiores a magnitud 3 y dos superiores a magnitud 4.\n\n• La información sobre daños y población afectada continúa consolidándose, incorporando nuevos territorios y actualizando las estimaciones iniciales a medida que avanzan los EDAN y los reportes territoriales.\n\n• Desde el evento se han realizado evaluaciones de daños y afectaciones en los territorios impactados, identificándose impactos diferenciados entre municipios y departamentos.\n\n• El aumento de las lluvias en varios departamentos, especialmente en Chocó, ha agravado la situación de los afectados.",
+   "publicado_en": null,
+   "evidencia_evento_especifico": true,
+   "relacionado_evento": true,
+   "fecha": "2026-08-10",
+   "fecha_corte": null,
+   "departamentos": [
+    "Caldas",
+    "Chocó",
+    "Quindío",
+    "Risaralda",
+    "Valle del Cauca"
+   ],
+   "municipios": [
+    "San José del Palmar"
+   ],
+   "estado": "oficial_posible_edan_rud",
+   "cifras": {
+    "departamentos_afectados": 15,
+    "municipios_afectados": 472,
+    "personas_afectadas": 186182,
+    "familias_afectadas": null,
+    "viviendas_averiadas": 127266,
+    "viviendas_destruidas": 26558,
+    "heridos": 4400,
+    "fallecidos": 304,
+    "desaparecidos": 426,
+    "rescatados": 357
+   },
+   "extraccion_intentos": [
+    {
+     "intento": 1,
+     "sobre": "texto_sin_enlaces",
+     "incoherencias": []
+    }
+   ],
+   "extraccion_descartada": null,
+   "requiere_revision_humana": true,
+   "confianza": "media",
+   "cita": "se presentó un terremoto de magnitud 7,4 en la escala de Richter, con epicentro en San José del Palmar, departamento del Chocó.",
+   "atribucion_lugares": "limite_palabra_sin_enlaces",
+   "cifras_desde": "texto_sin_enlaces_v2",
+   "extraccion_version": 2
   }
  ],
  "sources": [
@@ -25664,8 +25912,8 @@
        "label": "UNGRD SGC balance oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a210dc-74a1-74ba-a573-961188bf4683",
-       "query": "UNGRD SGC terremoto Colombia 24-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
+       "id": "01a21602-d03b-743d-a060-2d177dc0d370",
+       "query": "UNGRD SGC terremoto Colombia 25-11-2026 fallecidos heridos desaparecidos rescatados balance oficial",
        "results": 10,
        "warning": null
       },
@@ -25673,8 +25921,8 @@
        "label": "Gobernacion Alcaldia afectacion por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a210dc-8249-764b-8d34-b7887e39f172",
-       "query": "Gobernación Alcaldía terremoto Colombia 24-11-2026 personas familias viviendas municipios departamentos afectados",
+       "id": "01a21602-de03-721b-a97c-5b9073015eb3",
+       "query": "Gobernación Alcaldía terremoto Colombia 25-11-2026 personas familias viviendas municipios departamentos afectados",
        "results": 10,
        "warning": null
       },
@@ -25682,8 +25930,8 @@
        "label": "Presidencia reporte oficial por fecha",
        "ok": true,
        "http_status": 200,
-       "id": "01a210dc-9023-70b9-ad12-8996460c3b8c",
-       "query": "Presidencia Colombia UNGRD SGC terremoto 24-11-2026 reporte oficial afectados",
+       "id": "01a21602-eea6-764f-b3b0-21787fbfd7db",
+       "query": "Presidencia Colombia UNGRD SGC terremoto 25-11-2026 reporte oficial afectados",
        "results": 10,
        "warning": null
       }
@@ -25858,6 +26106,6 @@
  },
  "archivado_de": {
   "fuente": "worker de extracción de balances (cuenta ajena)",
-  "snapshot": "data/snapshots/2026-11-25/oficiales_feed.json"
+  "snapshot": "data/snapshots/2026-11-26/oficiales_feed.json"
  }
 }
