@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Diario Occidente</title>
+	<atom:link href="https://occidente.co/feed/" rel="self" type="application/rss+xml" />
+	<link>https://occidente.co/</link>
+	<description>Noticias de Cali, Valle y Colombia.</description>
+	<lastBuildDate>Sat, 28 Nov 2026 14:00:00 +0000</lastBuildDate>
+	<language>es-CO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://occidente.co/wp-content/uploads/2024/06/cropped-ico-occide-32x32.png</url>
+	<title>Diario Occidente</title>
+	<link>https://occidente.co/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Claude Ship de Anthropic automatiza aprobaciones de código</title>
+		<link>https://occidente.co/secciones/tecnologia/claude-ship-anthropic-aprobaciones-codigo/</link>
+					<comments>https://occidente.co/secciones/tecnologia/claude-ship-anthropic-aprobaciones-codigo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2026 14:00:00 +0000</pubDate>
+				<category><![CDATA[Tecnología]]></category>
+		<category><![CDATA[Inteligencia Artificial]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445278</guid>
+
+					<description><![CDATA[<p>Claude Ship introduce aprobaciones automáticas en flujos de trabajo de código Anthropic presentó Claude Ship, una colección de agentes de IA diseñada para revisar, corregir y, en ciertos casos, aprobar cambios de código de forma automática. El lanzamiento ocurrió el lunes y busca acelerar el proceso posterior a una pull request (PR) cuando gran parte...</p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/claude-ship-anthropic-aprobaciones-codigo/">Claude Ship de Anthropic automatiza aprobaciones de código</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h2>Claude Ship introduce aprobaciones automáticas en flujos de trabajo de código</h2>
+<p>Anthropic presentó Claude Ship, una colección de agentes de IA diseñada para revisar, corregir y, en ciertos casos, aprobar cambios de código de forma automática. El lanzamiento ocurrió el lunes y busca acelerar el proceso posterior a una pull request (PR) cuando gran parte del código es generado por herramientas automatizadas.</p>
+<h2>Claude Ship: qué ocurrió y por qué importa</h2>
+<p>Anthropic anunció una nueva oferta llamada Claude Ship que agrupa funcionalidades de revisión de código ya disponibles y dos agentes nuevos en beta: PR Steward y Claude Approvals. Code Review, la función de revisión de código, está ya disponible de forma general; PR Steward y Claude Approvals entran en beta y pueden encargarse de arreglar errores como fallas en la integración continua o conflictos de fusión, y aplicar políticas de aprobación escritas por los equipos en el repositorio.</p>
+<p>El aspecto relevante es que Claude Approvals puede aprobar cambios automáticamente según políticas definidas por el equipo, lo que delega parte de la autoridad de aprobación a un agente de IA. Anthropic recomienda comenzar en modo observación antes de permitir aprobaciones automáticas y ofrece controles como límites de gasto mensual y la posibilidad de ejecutar las revisiones en repositorios seleccionados.</p>
+<h2>Qué cambia para desarrolladores y equipos</h2>
+<h3>Mayor velocidad en la integración</h3>
+<p>Equipos que ya usan agentes para generar código pueden ver menos demoras entre la creación de una PR y su fusión, porque Claude Ship puede resolver comprobaciones fallidas y aplicar aprobaciones cuando las políticas lo permiten.</p>
+<h3>Menos trabajo manual de revisión</h3>
+<p>PR Steward puede encargarse de resolver conflictos, responder a comentarios de revisión y documentar los cambios realizados, reduciendo tareas repetitivas para los desarrolladores humanos.</p>
+<h3>Control y supervisión ajustables</h3>
+<p>Los equipos mantienen control sobre dónde corre Claude Ship, qué nivel de revisión usar (rápida, estándar o profunda) y cuáles cambios deben escalarse a humanos, lo que permite ajustes según la confianza y el riesgo.</p>
+<h2>Aspectos pendientes y límites actuales</h2>
+<p>Claude Ship está en beta para PR Steward y Claude Approvals; por tanto, su funcionamiento y alcance real dependen de pruebas con equipos reales. Anthropic aconseja usar inicialmente la función de aprobaciones en modo de observación para validar políticas escritas en lenguaje natural y evaluar su efectividad antes de delegar decisiones. Además, la oferta actual está dirigida a planes Team y Enterprise y a repositorios en GitHub, por lo que su disponibilidad no es universal.</p>
+<h2>Explicación contextual</h2>
+<p>Cuando muchas líneas de código las escribe una IA, surge un cuello de botella: revisar manualmente cada PR consume tiempo. Imagínese un equipo donde un asistente corrige automáticamente errores menores en un documento antes de entregarlo; Claude Ship actúa de forma similar sobre cambios de código, automatizando tareas repetitivas para que los humanos se concentren en decisiones más complejas.</p>
+<h2>Cierre</h2>
+<p>Claude Ship amplía la tendencia de incorporar agentes de IA en la cadena de desarrollo, moviendo responsabilidades rutinarias de humanos a sistemas automatizados con controles configurables. Su adopción dependerá de pruebas en beta y de la confianza que los equipos le otorguen para aprobar cambios en producción.</p>
+<h3>Por qué importa</h3>
+<p><strong>Usuarios:</strong> Menos retrasos en desplegar actualizaciones.</p>
+<p><strong>Negocio:</strong> Reducción de costos operativos en revisiones repetitivas.</p>
+<p><strong>Industria:</strong> Acelera la integración de IA en procesos de desarrollo.</p>
+<h3>Nota de Transparencia</h3>
+<p>Esta nota fue generada 100% con IA. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+</p>
+<p></p>
+</p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/secciones/tecnologia/claude-ship-anthropic-aprobaciones-codigo/">Claude Ship de Anthropic automatiza aprobaciones de código</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tecnologia/claude-ship-anthropic-aprobaciones-codigo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Roldanillo se levanta: el Valle del Cauca invita a redescubrir este Pueblo Mágico</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-roldanillo-reactivan-comercio-y-turismo/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-roldanillo-reactivan-comercio-y-turismo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2026 01:52:30 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445697</guid>
+
+					<description><![CDATA[<p>Luego del sismo del pasado 10 de agosto, que afectó considerablemente su infraestructura y actividad comercial, Roldanillo avanza en un proceso de reconstrucción que tiene como prioridad recuperar la economía local y devolverles la confianza a sus habitantes y visitantes. Con inversiones de la Gobernación del Valle del Cauca, la nación y aportes del sector...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-roldanillo-reactivan-comercio-y-turismo/">Roldanillo se levanta: el Valle del Cauca invita a redescubrir este Pueblo Mágico</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Luego del sismo del pasado 10 de agosto, que afectó considerablemente su infraestructura y actividad comercial, Roldanillo avanza en un proceso de reconstrucción que tiene como prioridad recuperar la economía local y devolverles la confianza a sus habitantes y visitantes.</p>
+<p>Con inversiones de la Gobernación del Valle del Cauca, la nación y aportes del sector privado, destinados a la recuperación urbana y rural de este Pueblo Mágico, el municipio no se detiene y desde ya se prepara para recibir a propios y visitantes en la temporada decembrina y una cita inaplazable: el Mundial de Parapente 2027.</p>
+<p>“<em>Estamos trabajando en la recuperación de Roldanillo y del Valle del Cauca. Estamos abriendo espacios para los comerciantes y emprendedores, para que vuelvan a reactivar sus negocios, para que generen ingresos que es lo que necesitamos, al tiempo que vamos reconstruyendo</em>”, <strong>dijo la gobernadora Dilian Francisca Toro, quien invitó a turistas nacionales e internacionales a visitar Roldanillo, disfrutar de sus atractivos y contribuir a la reactivación económica</strong>.</p>
+<h2>Prioridad</h2>
+<p>De acuerdo con la secretaria de Turismo del Valle, Miyerlandi Torres, este municipio hace parte de los Pueblos Mágicos y ocupa el cuarto lugar entre los destinos que más turistas reciben en el departamento, después de Buga, Buenaventura y Calima, sin incluir a Cali.</p>
+<p>El impacto del movimiento sísmico fue significativo en Roldanillo con más de 875 establecimientos comerciales afectados, de los cuales 111 cuentan con Registro Nacional de Turismo.</p>
+<p>“<em>Desde la Secretaría de Turismo lideramos y acompañamos la recuperación de esta actividad en el municipio con dos estrategias: un acompañamiento en la reconstrucción y reactivación económica, especialmente en la construcción y recuperación de locales, y un segundo componente enfocado en la promoción del destino</em>”, <strong>explicó Torres</strong>.</p>
+<h3>Recuperar la confianza</h3>
+<p>Una de las principales intervenciones se concentró en el parque principal y sus alrededores, corazón de la estrategia de Pueblos Mágicos, así como en la emblemática Calle 8, donde se encuentra el Museo Rayo y donde más de 15 establecimientos comerciales resultaron afectados.</p>
+<p>Para transformar estos espacios y evitar que los visitantes llegaran a un municipio con lotes vacíos y los escombros, la Gobernación implementó una estrategia marcada por el urbanismo táctico y la arquitectura efímera.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/Roldanillo-se-levanta-el-Valle-del-Cauca-invita-a-redescubrir-este-Pueblo-Magico-2.jpg" alt="Reconstrucción de Roldanillo y reactivación comercial y turística tras el sismo del 10 de agosto" /></p>
+<p>Esta contempla la recuperación del mobiliario urbano, la iluminación, el embellecimiento con materas y la intervención de fachadas, conservando la identidad y las paletas de colores características de este Pueblo Mágico.</p>
+<p>La iniciativa cuenta con el respaldo del sector privado. Propacífico y Bancolombia aportaron diez contenedores completamente dotados para beneficiar alrededor de 12 empresarios y negocios afectados en la zona del parque principal, mientras que Bavaria dispuso cinco contenedores para apoyar otros establecimientos comerciales.</p>
+<h4>Nuevos espacios</h4>
+<p>La segunda intervención se desarrolló en el Coliseo de Ferias, donde fueron recuperados cuatro hangares para instalar más de 30 stands destinados a empresarios y emprendedores afectados por el sismo.</p>
+<p>En este espacio tienen cabida diferentes actividades de la cadena de valor del turismo, entre ellas artesanías, gastronomía, comercio y otros emprendimientos locales.</p>
+<p>Como parte de las acciones para dinamizar estos espacios, la Clásica El Valle Renace, dirigida por Jarlinso Pantano, presidente de la Liga Vallecaucana de Ciclismo, reunió a cientos de ciclistas y sus familias que aportaron a la dinámica del municipio.</p>
+<h2>Caravanas solidarias</h2>
+<p>A estas acciones se suman las caravanas solidarias, una estrategia de promoción turística que busca demostrar que los municipios afectados están preparados para recibir visitantes.</p>
+<p>Después de las experiencias desarrolladas en Sevilla y Buenaventura, Roldanillo también fue incluido en esta iniciativa, con una jornada programada para el 5 de diciembre y el 19 de diciembre será el turno para La Unión.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/Roldanillo-se-levanta-el-Valle-del-Cauca-invita-a-redescubrir-este-Pueblo-Magico-3.jpg" alt="Reconstrucción de Roldanillo y reactivación comercial y turística tras el sismo del 10 de agosto" /></p>
+<p>Para la gobernadora del Valle, Dilian Francisca Toro, las caravanas han demostrado resultados positivos.</p>
+<p>En Sevilla, por ejemplo, se registraron más de 700 visitantes y más de 150 millones de pesos en ingresos económicos durante un solo día.</p>
+<p>La estrategia articula diferentes dependencias de la Gobernación, entre ellas Cultura del Valle y Movilidad, para garantizar el acompañamiento y la seguridad de los recorridos.</p>
+<h3>Un destino que espera al mundo</h3>
+<p>La temporada de parapente que arranca en enero con certámenes de alto impacto como el Open Roldanillo, la Copa Niviuk y la Copa de Las Américas Roldanillo, que convocan a pilotos y turistas de todo el mundo, representan oportunidades fundamentales para consolidar su recuperación.</p>
+<p><strong>La secretaria de Turismo del Valle, Miyerlandi Torres destacó</strong> que, en un periodo de dos meses, el municipio puede recibir más de 10 mil visitantes, una cifra que representa una oportunidad importante para la economía local.</p>
+<p>En este proceso se cuenta con el acompañamiento de los gobiernos departamental y nacional, con la dotación diferentes stands para la exposición de emprendimientos y han dispuesto créditos condonables de hasta 5 millones para empresarios afectados por el sismo, en Roldanillo y otros seis municipios.</p>
+<h4>Visitar también es reconstruir</h4>
+<p>La invitación de la gobernadora Dilian Francisca Toro es a que los vallecaucanos, colombianos y turistas extranjeros hagan de Roldanillo uno de sus destinos durante las vacaciones de fin de año y la temporada de parapente.</p>
+<p>Hoy, cada reserva hotelera, cada compra en un establecimiento comercial y cada comida en un restaurante local representan una oportunidad para apoyar a quienes no han dejado de trabajar por su municipio.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-roldanillo-reactivan-comercio-y-turismo/">Roldanillo se levanta: el Valle del Cauca invita a redescubrir este Pueblo Mágico</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-roldanillo-reactivan-comercio-y-turismo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>&#8220;El Valle lo reconstruimos juntos&#8221;: de la emergencia a la recuperación de las comunidades</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/reconstruccion-del-valle-del-cauca-balance-a-tres-meses/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/reconstruccion-del-valle-del-cauca-balance-a-tres-meses/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2026 01:40:10 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445689</guid>
+
+					<description><![CDATA[<p>“Aquí estamos trabajando, no nos detenemos, nuestro propósito es salir adelante. La esperanza de quienes lo perdieron todo, de quienes tuvieron que cerrar sus negocios, de quienes se quedaron sin empleo, no se puede perder, y ahora vamos a reconstruir mejor el Valle del Cauca, esa es la idea y lo vamos a hacer juntos”....</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/reconstruccion-del-valle-del-cauca-balance-a-tres-meses/">&#8220;El Valle lo reconstruimos juntos&#8221;: de la emergencia a la recuperación de las comunidades</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>“<em>Aquí estamos trabajando, no nos detenemos, nuestro propósito es salir adelante. La esperanza de quienes lo perdieron todo, de quienes tuvieron que cerrar sus negocios, de quienes se quedaron sin empleo, no se puede perder, y ahora vamos a reconstruir mejor el Valle del Cauca, esa es la idea y lo vamos a hacer juntos</em>”.</p>
+<p><strong>Así, la gobernadora del Valle del Cauca, Dilian Francisca Toro, resume tres meses sin descanso por la reconstrucción</strong>.</p>
+<p>Desde la hora cero, el Gobierno departamental inició la atención de los damnificados con una estrategia que articula vivienda, educación, salud, reactivación económica y atención social.</p>
+<p>Lo primero en la respuesta a la emergencia fue la asistencia humanitaria y trazar el camino para la reconstrucción temprana a través de la estrategia “<em>El Valle lo reconstruimos juntos</em>”, un proceso que combina atención a los damnificados, recuperación de viviendas, intervención de instituciones educativas y hospitales, apoyo a los sectores productivos y acompañamiento integral a las familias.</p>
+<p><strong>Según indicó la mandataria</strong>, &#8220;l<em>a reconstrucción no se mide solamente en obras terminadas. También se refleja en los niños que regresan a sus colegios, las familias que recuperan sus hogares, los comerciantes que vuelven a abrir sus negocios y las comunidades que encuentran nuevamente motivos para seguir adelante</em>&#8220;.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/El-Valle-lo-reconstruimos-juntos-de-la-emergencia-a-la-recuperacion-de-las-comunidades.jpg" alt="Balance a tres meses de la reconstrucción del Valle del Cauca tras el terremoto del 10 de agosto" /></p>
+<h3>Avanza la reconstrucción</h3>
+<p>Las acciones no se están se desarrollan de manera aislada.</p>
+<p>Por el contrario, asistencia humanitaria y reconstrucción avanzan casi en paralelo con el propósito de acelerar la recuperación de los territorios.</p>
+<p><strong>Adrián Zamora, gerente para la reconstrucción del Valle del Cauca, recordó que esta hoja de ruta responde a los lineamientos del marco Sendai, los acuerdos de Naciones Unidas y la legislación colombiana en gestión del riesgo, que establecen tres momentos:</strong> respuesta, rehabilitación temprana y reconstrucción.</p>
+<p>Cabe recordar que de los 41 municipios del Valle, sin contar Cali, cerca de 23 concentran el 80 % de los daños.</p>
+<h3>Vivienda, punto de partida</h3>
+<p>Uno de los principales componentes de la estrategia es la vivienda, identificada como la afectación más significativa de la emergencia.</p>
+<p>Para responder a esta necesidad, la Gobernación del Valle estructuró un programa que contempla la construcción de cinco mil viviendas nuevas y el mejoramiento de 30 mil viviendas en el departamento.</p>
+<p>De acuerdo con Zamora, de esas 30 mil viviendas, 9.238 hacen parte de la primera fase.</p>
+<p>Hasta esta semana ya se han entregado cinco mil mejoramientos en diferentes municipios del Valle.</p>
+<p>En cuanto a las viviendas nuevas, de las 2.219 previstas en el proceso que actualmente se encuentra en marcha, se adelantan estudios de suelo en más de 700 lotes.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/2-1.jpg" alt="Balance a tres meses de la reconstrucción del Valle del Cauca tras el terremoto del 10 de agosto" /></p>
+<p>Además, se requiere acelerar las obras es la demolición de las estructuras que quedaron comprometidas, una responsabilidad que corresponde a las administraciones municipales.</p>
+<h3>Regreso a las aulas</h3>
+<p><strong>Otra de las prioridades establecidas por la gobernadora Dilian Francisca Toro es garantizar que los niños, niñas y jóvenes cuyos planteles educativos resultaron afectados</strong> por el sismo puedan regresar a las clases presenciales en el menor tiempo posible.</p>
+<p>El diagnóstico departamental identificó aproximadamente 512 sedes educativas afectadas, de las cuales más de 200 presentaron daños que comprometieron su habitabilidad.</p>
+<p>Ante esta situación, los estudiantes reciben actualmente el servicio educativo mediante modalidades híbridas, combinando actividades virtuales con encuentros presenciales en albergues educativos.</p>
+<p>Para acelerar la recuperación, se priorizaron 60 sedes educativas teniendo en cuenta el número de estudiantes que atiende cada institución.</p>
+<p>De estas, 52 serán intervenidas con recursos directos de la Gobernación y ocho mediante cofinanciación con el Fondo de Financiamiento de la Infraestructura Educativa (FFIE).</p>
+<p>A este esfuerzo se suman seis sedes que serán reconstruidas por el sector privado.</p>
+<p>Según Zamora, los procesos de contratación ya están en marcha y se adelantan los estudios y diseños necesarios para avanzar con las obras.</p>
+<p>La meta es que, una vez reconstruidas estas instituciones, se pueda atender aproximadamente al 70 % de los estudiantes que actualmente permanecen en modalidades mixtas o híbridas.</p>
+<h3>Infraestructura hospitalaria</h3>
+<p>En materia de salud, uno de los proyectos más importantes es la reconstrucción de una nueva torre del Hospital Universitario del Valle, cuya infraestructura resultó afectada por el terremoto.</p>
+<p>La intervención permitirá recuperar 148 camas especializadas, incluidas 78 de unidades de cuidados intensivos, además de seis servicios médicos adicionales.</p>
+<p>Así mismo, mediante la gestión de la Gobernación con la Fundación Sarmiento Angulo, se proyecta la reconstrucción del Hospital San Antonio de Roldanillo y el trabajo de recuperación del Hospital de El Águila.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/3-1.jpg" alt="Balance a tres meses de la reconstrucción del Valle del Cauca tras el terremoto del 10 de agosto" /></p>
+<p>A estas intervenciones se suma la recuperación de siete cubiertas de hospitales locales afectados por el movimiento sísmico, obras que adelanta directamente el departamento para contribuir a la continuidad y el fortalecimiento de los servicios de salud.</p>
+<h3>Reactivar la economía</h3>
+<p>La reconstrucción también contempla la recuperación de los negocios, los emprendimientos y las actividades agropecuarias.</p>
+<p>En este frente, a través de Valle INN y Fonder Valle, se asignaron 1.858 créditos condonables para micronegocios de los seis municipios más afectados del norte del departamento.</p>
+<p>Adicionalmente, se estructura un programa dirigido a empresarios damnificados para facilitar recursos destinados a reconstruir sus establecimientos, recuperar inventarios y restablecer el capital de trabajo.</p>
+<p>El sector agrícola también ocupa un lugar importante.</p>
+<p>Según el gerente para la reconstrucción, el Valle concentra más del 50 % de los daños agrícolas registrados entre los departamentos afectados por el terremoto, principalmente en cultivos de café de ladera y plátano de ladera.</p>
+<p>Para atender esta situación se ajustó un programa de apoyo al sector cafetero que contempla beneficiar a 2.333 caficultores en 180 hectáreas, mediante la recuperación de activos productivos y de infraestructura como secaderos y marquesinas, fundamentales para el procesamiento del grano.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/4-1.jpg" alt="Balance a tres meses de la reconstrucción del Valle del Cauca tras el terremoto del 10 de agosto" /></p>
+<h3>Sanar el tejido social</h3>
+<p><strong>Uno de los aspectos que la gobernadora Dilian Francisca Toro enfatizó</strong> es que la reconstrucción no puede entenderse únicamente como un proceso de recuperación de infraestructura.</p>
+<p>Detrás de cada vivienda averiada, cada escuela afectada y cada negocio que tuvo que cerrar, hay familias que experimentaron pérdidas, incertidumbre y cambios profundos en sus condiciones de vida.</p>
+<p>En esa dirección, el departamento incorporó el enfoque del Marco de Sendai, que plantea la necesidad de fortalecer la resiliencia de las comunidades y atender las consecuencias sociales de los desastres.</p>
+<p>Para ello, la Gobernación puso en marcha el Modelo de Atención Poblacional Territorial, una estrategia que integra a las diferentes secretarías y dependencias departamentales para ofrecer acompañamiento integral a las personas damnificadas.</p>
+<p>La intervención contempla las necesidades de las comunidades, la atención psicosocial y la recuperación del capital social.</p>
+<p><strong>Como lo ha planteado la gobernadora Dilian Francisca Toro</strong>, el proceso debe avanzar sin perder de vista a las personas.</p>
+<p>Porque reconstruir el Valle significa levantar nuevamente las viviendas, recuperar la economía y restablecer los servicios, pero también acompañar a quienes vivieron la emergencia, recuperar la confianza y fortalecer los lazos que mantienen unidas a las comunidades.</p>
+<h3>Transparencia y participación ciudadana</h3>
+<p>La información transparente y oportuna es fundamental para avanzar en la recuperación del Valle del Cauca.</p>
+<p>Por eso, la Gobernación del departamento cuenta con el micrositio &#8220;<em>El Valle lo reconstruimos juntos</em>&#8220;, una plataforma digital que concentra información oficial sobre las afectaciones, la atención de la emergencia y las acciones encaminadas a la reconstrucción de los territorios.</p>
+<p><strong>La gobernadora del Valle del Cauca, Dilian Francisca Toro, destacó</strong> la importancia de esta herramienta como un espacio de consulta para que la ciudadanía, el sector privado y los organismos de cooperación internacional conozcan de primera mano la situación del departamento y las necesidades identificadas.</p>
+<p>En el micrositio se encuentra el estado de situación del Valle, con cifras e indicadores sobre las afectaciones, así como los informes de corte que el departamento realiza mensualmente.</p>
+<p>También está disponible la información sobre la gestión de las ayudas humanitarias durante la fase de respuesta, que está próxima a culminar.</p>
+<p>Otro de sus componentes es un portafolio de proyectos de reconstrucción, diseñado para facilitar que el sector privado y la cooperación internacional identifiquen las iniciativas requeridas, las necesidades de las comunidades y las oportunidades para contribuir a la recuperación, sin tener que buscar información en diferentes fuentes.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2026/11/5.jpg" alt="Balance a tres meses de la reconstrucción del Valle del Cauca tras el terremoto del 10 de agosto" /></p>
+<p>La mandataria también hizo un llamado a los vallecaucanos para que se informen mediante los canales institucionales oficiales y confiables.</p>
+<p>“<em>Lo más importante es que la población esté informada a través de los canales institucionales serios, que no tienen agendas políticas</em>”, <strong>señaló, al advertir sobre la circulación de desinformación y mensajes que pueden generar zozobra en la ciudadanía</strong>.</p>
+<p>El micrositio está disponible en <span style="color: #03bfa5;"><a style="color: #03bfa5;" href="http://www.valledelcauca.gov.co" target="_blank" rel="noopener"><strong>www.valledelcauca.gov.co</strong></a></span>, donde la comunidad puede consultar información sobre la emergencia y conocer cómo avanza el proceso de reconstrucción del departamento.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/reconstruccion-del-valle-del-cauca-balance-a-tres-meses/">&#8220;El Valle lo reconstruimos juntos&#8221;: de la emergencia a la recuperación de las comunidades</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/reconstruccion-del-valle-del-cauca-balance-a-tres-meses/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>¿Siente que no cumplió sus metas del año? Así puede retomar el rumbo sin castigarse</title>
+		<link>https://occidente.co/secciones/tendencias/propositos-de-fin-de-ano-cierre-sin-culpa-y-con-rumbo/</link>
+					<comments>https://occidente.co/secciones/tendencias/propositos-de-fin-de-ano-cierre-sin-culpa-y-con-rumbo/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2026 01:28:04 +0000</pubDate>
+				<category><![CDATA[Tendencias]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445686</guid>
+
+					<description><![CDATA[<p>Todavía hay tiempo para avanzar, reconocer los logros alcanzados y replantear aquellos propósitos que deberán esperar. El cierre del año también es una oportunidad para aprender. Cuando falta poco más de un mes para terminar el año, muchas personas comienzan a experimentar una sensación de frustración al recordar los propósitos que establecieron en enero. Bajar...</p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/propositos-de-fin-de-ano-cierre-sin-culpa-y-con-rumbo/">¿Siente que no cumplió sus metas del año? Así puede retomar el rumbo sin castigarse</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Todavía hay tiempo para avanzar, reconocer los logros alcanzados y replantear aquellos propósitos que deberán esperar.</p>
+<p>El cierre del año también es una oportunidad para aprender.</p>
+<p>Cuando falta poco más de un mes para terminar el año, muchas personas comienzan a experimentar una sensación de frustración al recordar los propósitos que establecieron en enero.</p>
+<p>Bajar de peso, ahorrar dinero, cambiar de empleo, estudiar, emprender o mejorar las relaciones personales son algunas de las metas que pueden permanecer pendientes.</p>
+<p>La cercanía de diciembre puede generar ansiedad, sentimientos de culpa e incluso la percepción de haber desperdiciado el tiempo.</p>
+<p>Esta sensación suele intensificarse cuando las personas comparan sus resultados con los de familiares, amigos o conocidos, especialmente a través de las redes sociales.</p>
+<p>Sin embargo, no cumplir todos los objetivos planteados al comenzar el año no significa necesariamente haber fracasado.</p>
+<p>Las circunstancias cambian, surgen responsabilidades inesperadas y aparecen dificultades que obligan a modificar las prioridades.</p>
+<p>Reconocer esta realidad es fundamental para realizar un balance saludable y aprovechar las semanas restantes.</p>
+<p>En lugar de convertir el cierre del año en un ejercicio de recriminación personal, conviene utilizarlo como una oportunidad para evaluar, corregir, avanzar y tomar decisiones más conscientes sobre el futuro.</p>
+<h2>Evalúe sus metas sin castigarse</h2>
+<p>El primer paso consiste en revisar los propósitos establecidos al comenzar el año, pero desde una perspectiva diferente.</p>
+<p>En lugar de preguntarse únicamente por qué no los cumplió, analice qué ocurrió durante estos meses y cuáles fueron las circunstancias que influyeron en sus resultados.</p>
+<p>Es importante distinguir entre aquello que dependía de sus decisiones y aquello que escapaba de su control.</p>
+<p>Una dificultad económica, una enfermedad, una responsabilidad familiar inesperada o un cambio laboral pueden modificar considerablemente las posibilidades de alcanzar determinados objetivos.</p>
+<p>También es necesario reconocer los avances parciales.</p>
+<p>Una persona que pretendía ahorrar determinada cantidad de dinero, pero consiguió reunir solamente la mitad, no necesariamente fracasó.</p>
+<p>Quien quería hacer ejercicio cinco veces por semana y logró establecer una rutina de tres días también obtuvo un resultado positivo.</p>
+<p>La tendencia a evaluar los resultados en términos absolutos, como éxito o fracaso, impide reconocer el valor de los pequeños progresos.</p>
+<p>Otro ejercicio recomendable consiste en identificar los logros que no estaban contemplados en los planes iniciales.</p>
+<p>Quizás durante el año adquirió nuevas habilidades, superó una dificultad personal, fortaleció una relación o resolvió problemas que no esperaba enfrentar.</p>
+<p>Practicar la autocompasión implica reconocer las propias limitaciones sin renunciar a la responsabilidad.</p>
+<p>No se trata de justificar todas las decisiones, sino de aprender de los errores sin convertirlos en motivos de descalificación personal.</p>
+<h3>Identifique qué puede hacer</h3>
+<p>Aunque el calendario avanza, todavía quedan varias semanas que pueden aprovecharse.</p>
+<p>El problema aparece cuando las personas intentan recuperar en un mes todo aquello que no consiguieron durante los once anteriores.</p>
+<p>Esta actitud puede conducir a establecer exigencias desproporcionadas, asumir compromisos excesivos y terminar el año con una sensación todavía mayor de agotamiento.</p>
+<p>Lo recomendable es seleccionar uno o dos objetivos que puedan alcanzarse, o al menos experimentar avances significativos, durante el tiempo disponible.</p>
+<p>Si su propósito era mejorar la condición física, probablemente no resulte realista pretender alcanzar en diciembre todos los resultados esperados desde enero.</p>
+<p>Sin embargo, sí puede comenzar una rutina de actividad física que le permita llegar al próximo año con un hábito establecido.</p>
+<p>Si quería organizar sus finanzas, quizás no consiga eliminar todas sus deudas, pero puede revisar sus gastos, establecer un presupuesto y definir una estrategia de ahorro.</p>
+<p>Dividir los objetivos en acciones pequeñas y concretas facilita su ejecución.</p>
+<p>También permite recuperar la sensación de control y fortalecer la motivación.</p>
+<p>No espere a que llegue enero para comenzar aquello que puede iniciar hoy.</p>
+<p>En ocasiones, el mejor resultado de diciembre no consiste en alcanzar una meta, sino en establecer las condiciones necesarias para conseguirla posteriormente.</p>
+<h4>Decida qué abandonar y qué reprogramar</h4>
+<p>No todos los propósitos pendientes deben trasladarse automáticamente al próximo año.</p>
+<p>Algunas metas pueden perder importancia porque las necesidades, los intereses y las circunstancias personales evolucionan.</p>
+<p>Pregúntese si aquello que deseaba en enero sigue siendo importante actualmente. También examine si responde a una aspiración propia o a las expectativas que otras personas depositaron sobre usted.</p>
+<p>Renunciar conscientemente a un objetivo que dejó de tener sentido no constituye una derrota.</p>
+<p>Puede representar una decisión madura que permita dedicar tiempo y energía a prioridades más relevantes.</p>
+<p>En cuanto a las metas que conservan su importancia, pero requieren más tiempo, recursos o preparación, conviene reprogramarlas con plazos realistas y acciones específicas.</p>
+<p>Antes de incluirlas nuevamente en la lista de propósitos, identifique qué obstáculos dificultaron su cumplimiento.</p>
+<p>Repetir exactamente el mismo plan, sin modificar las condiciones que limitaron sus resultados, puede conducir a una nueva frustración.</p>
+<p>Finalmente, recuerde que el 31 de diciembre es una referencia del calendario, no una fecha límite para el crecimiento personal.</p>
+<p>Los proyectos importantes no siempre coinciden con los ciclos anuales y cada persona enfrenta circunstancias diferentes.</p>
+<p>Terminar el año con objetivos pendientes no invalida los esfuerzos realizados.</p>
+<p>Reconocer lo conseguido, aceptar lo que no fue posible y decidir cómo continuar puede ser mucho más valioso que completar una lista de propósitos a cualquier precio.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/secciones/tendencias/propositos-de-fin-de-ano-cierre-sin-culpa-y-con-rumbo/">¿Siente que no cumplió sus metas del año? Así puede retomar el rumbo sin castigarse</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/secciones/tendencias/propositos-de-fin-de-ano-cierre-sin-culpa-y-con-rumbo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Pólvora en el Valle del Cauca: conozca las medidas que recomienda la Gobernación para las fiestas decembrinas</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/lesiones-por-polvora-decreto-de-toro-busca-frenar-casos/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/lesiones-por-polvora-decreto-de-toro-busca-frenar-casos/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2026 01:25:04 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445683</guid>
+
+					<description><![CDATA[<p>Con el propósito de prevenir las lesiones por pólvora durante las celebraciones de Navidad y fin de año, la gobernadora del Valle del Cauca, Dilian Francisca Toro, expidió un decreto que recomienda a los alcaldes de los 40 municipios y los dos distritos especiales del departamento adoptar medidas encaminadas a prohibir la producción, comercialización, almacenamiento...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/lesiones-por-polvora-decreto-de-toro-busca-frenar-casos/">Pólvora en el Valle del Cauca: conozca las medidas que recomienda la Gobernación para las fiestas decembrinas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Con el propósito de prevenir las lesiones por pólvora durante las celebraciones de Navidad y fin de año, la gobernadora del Valle del Cauca, Dilian Francisca Toro, expidió un decreto que recomienda a los alcaldes de los 40 municipios y los dos distritos especiales del departamento adoptar medidas encaminadas a prohibir la producción, comercialización, almacenamiento y manipulación de estos elementos</strong>.</p>
+<p>La disposición busca proteger la vida, la integridad y la salud de los habitantes del departamento, especialmente de los menores de edad.</p>
+<p>Según cifras del Observatorio de Salud del Valle del Cauca, durante la anterior temporada decembrina y los primeros días de 2026, las autoridades registraron 68 personas lesionadas con estos artefactos, entre ellas 25 niños, niñas y adolescentes.</p>
+<p>Frente a estas cifras, la mandataria departamental hizo un llamado a los padres de familia para que eviten que sus hijos tengan contacto con productos pirotécnicos durante las festividades.</p>
+<p>Asimismo, recordó que su manipulación debe estar a cargo de personas especializadas y destacó la importancia de la educación y el cuidado de los menores.</p>
+<p>“<em>Por favor, padres de familia, esto es de educación y de cuidar a nuestros niños</em>&#8220;, <strong>manifestó Toro, quien insistió en la necesidad de evitar tragedias durante los espacios de encuentro familiar y comunitario</strong>.</p>
+<h2>Controles sobre la pólvora</h2>
+<p>Además de las recomendaciones dirigidas a las familias, la Gobernación del Valle del Cauca adelanta una articulación de acciones preventivas para mitigar los riesgos en todo el territorio.</p>
+<p>Entre ellas se encuentra el fortalecimiento de los controles sobre la distribución y utilización ilegal de artículos pirotécnicos durante las celebraciones decembrinas.</p>
+<p>“<em>Vamos a reforzar el seguimiento al uso ilegal y a la venta ilegal de la pólvora</em>”, <strong>señaló la gobernadora, quien explicó que los mandatarios locales establecerán los actos administrativos correspondientes para atender las disposiciones del decreto departamental</strong>.</p>
+<p>Por otra parte, el documento contempla recomendaciones específicas para los municipios donde las autoridades permiten la fabricación y comercialización de estos productos.</p>
+<p>En dichos territorios, la administración departamental solicita que su manipulación quede exclusivamente en manos de personas con conocimientos especializados en la materia.</p>
+<h3>Vigilancia y prevención</h3>
+<p>Las disposiciones también incluyen la activación de los comités intersectoriales encargados de vigilar y responder ante eventos relacionados con el uso de pólvora.</p>
+<p>A estas acciones se suma la participación de los Consejos Municipales de Gestión del Riesgo, a los cuales la Gobernación recomienda implementar estrategias para prevenir, controlar y manejar las lesiones ocasionadas por estos artefactos.</p>
+<p>En cuanto a la incautación de productos pirotécnicos, el decreto establece que esta labor corresponde a la Policía Nacional y a las autoridades municipales.</p>
+<p>Estas últimas también tendrán la responsabilidad de determinar la destinación final de los elementos decomisados.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/lesiones-por-polvora-decreto-de-toro-busca-frenar-casos/">Pólvora en el Valle del Cauca: conozca las medidas que recomienda la Gobernación para las fiestas decembrinas</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/lesiones-por-polvora-decreto-de-toro-busca-frenar-casos/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Salario mínimo 2027 en Colombia: comienza la negociación y estas son las cifras que marcarán la discusión</title>
+		<link>https://occidente.co/colombia/salario-minimo-2027-en-colombia-instalan-mesa-con-datos-dane/</link>
+					<comments>https://occidente.co/colombia/salario-minimo-2027-en-colombia-instalan-mesa-con-datos-dane/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2026 01:21:44 +0000</pubDate>
+				<category><![CDATA[Colombia]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445680</guid>
+
+					<description><![CDATA[<p>La negociación del salario mínimo 2027 en Colombia comenzó formalmente este viernes 27 de noviembre, en un contexto de crecimiento económico del 2,1 % y una reducción de la tasa de desempleo. La ministra del Trabajo, Natalia López Fuentes, instaló la mesa de concertación en Cafam La Floresta, en Bogotá, donde representantes del Gobierno nacional,...</p>
+<p>The post <a href="https://occidente.co/colombia/salario-minimo-2027-en-colombia-instalan-mesa-con-datos-dane/">Salario mínimo 2027 en Colombia: comienza la negociación y estas son las cifras que marcarán la discusión</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La negociación del salario mínimo 2027 en Colombia comenzó formalmente este viernes 27 de noviembre, en un contexto de crecimiento económico del 2,1 % y una reducción de la tasa de desempleo.</p>
+<p><strong>La ministra del Trabajo, Natalia López Fuentes, instaló la mesa de concertación en Cafam La Floresta, en Bogotá, donde representantes del Gobierno nacional, empresarios, trabajadores y pensionados discutirán el incremento que regirá durante el próximo año.</strong></p>
+<p>Durante la primera jornada, el Departamento Administrativo Nacional de Estadística (DANE) presentó los indicadores económicos y laborales que servirán como insumos para las conversaciones.</p>
+<p>Por su parte, el Gobierno manifestó su intención de alcanzar un acuerdo que permita proteger el poder adquisitivo de los trabajadores, promover la generación de empleo formal y garantizar la sostenibilidad de las empresas.</p>
+<p>“<em>El Gobierno de la Patria Milagro no llega a esta mesa con una cifra que imponer. Llega con la voluntad política de propiciar un acuerdo, con la responsabilidad de cuidar la economía y con el compromiso de defender la dignidad del trabajo</em>”, <strong>afirmó López Fuentes</strong>.</p>
+<h2>Panorama económico y laboral</h2>
+<p>Entre enero y septiembre de 2026, las actividades relacionadas con la administración pública, defensa, educación y salud registraron una variación del 5,8 %, ubicándose entre las principales contribuyentes al crecimiento económico del país.</p>
+<p>Asimismo, el comercio, la reparación de vehículos, el transporte, el almacenamiento, el alojamiento y los servicios de comida presentaron un incremento del 2 %.</p>
+<p>En contraste, las actividades agrícolas, ganaderas, de caza, silvicultura y pesca experimentaron una disminución del 4,1 %, mientras que la construcción registró una caída del 0,7 %.</p>
+<p>Estos resultados forman parte del panorama económico que acompañará la negociación del salario mínimo 2027.</p>
+<p>Respecto al mercado laboral, Colombia sumó 526.000 personas ocupadas durante los primeros nueve meses del año, frente al mismo periodo de 2025.</p>
+<p>La tasa de desempleo disminuyó del 9,3 % al 8,8 %, mientras que la ocupación aumentó del 58,2 % al 58,7 %. Además, el número de personas desocupadas se redujo en 89.000.</p>
+<p>En el caso de las mujeres, la tasa de ocupación pasó del 46,4 % al 47,4 %, mientras que el desempleo descendió del 11,9 % al 11 %.</p>
+<p>Por otro lado, la informalidad laboral disminuyó del 55,7 % al 54,8 %.</p>
+<p>Sin embargo, las cifras del DANE también muestran que 12.681.000 personas ocupadas reportaron ingresos inferiores a un salario mínimo, lo que representa el 53,4 % de la población contemplada en esta medición.</p>
+<h3>Participación de nuevos sectores</h3>
+<p>La mesa de concertación reúne a las centrales obreras CUT, CGT y CTC, organizaciones de pensionados, gremios empresariales y entidades gubernamentales.</p>
+<p>El proceso también cuenta con el acompañamiento del Banco de la República, la Organización Internacional del Trabajo (OIT) y la Procuraduría General de la Nación.</p>
+<p>Para esta oportunidad, el Ministerio del Trabajo amplió los espacios de participación a representantes del servicio doméstico, recicladores, campesinos, repartidores de plataformas digitales y mototaxistas, además de integrantes de la academia y otras organizaciones sociales, sindicales y gremiales.</p>
+<p>“<em>Nuestra tarea es encontrar el punto en el que los ingresos de los trabajadores mejoren y la economía tenga la capacidad de sostenerlos. Ese equilibrio no es una concesión de unos a otros: es una responsabilidad compartida con Colombia</em>”, <strong>puntualizó la ministra</strong>.</p>
+<p>De esta manera, el Gobierno del presidente Abelardo De La Espriella buscará orientar la negociación del salario mínimo 2027 hacia un acuerdo que contemple las necesidades económicas de los hogares colombianos, las capacidades del sector empresarial y las expectativas de quienes buscan acceder a un empleo formal.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/colombia/salario-minimo-2027-en-colombia-instalan-mesa-con-datos-dane/">Salario mínimo 2027 en Colombia: comienza la negociación y estas son las cifras que marcarán la discusión</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/colombia/salario-minimo-2027-en-colombia-instalan-mesa-con-datos-dane/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>James Rodríguez sueña con títulos en Nacional</title>
+		<link>https://occidente.co/deportes/james-rodriguez-suenia-con-titulos-en-nacional/</link>
+					<comments>https://occidente.co/deportes/james-rodriguez-suenia-con-titulos-en-nacional/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2026 00:00:00 +0000</pubDate>
+				<category><![CDATA[Deportes]]></category>
+		<guid isPermaLink="false">https://occidente.co/uncategorized/james-rodriguez-suenia-con-titulos-en-nacional/</guid>
+
+					<description><![CDATA[<p>James Rodríguez dejó claro que su objetivo con Atlético Nacional es ganar títulos. Tras la victoria 3-1 sobre Independiente Medellín en el clásico antioqueño, el volante valoró el rendimiento del equipo, destacó el ambiente en el Atanasio Girardot y afirmó que sueña con ser campeón con la camiseta verdolaga. James Rodríguez y su meta con...</p>
+<p>The post <a href="https://occidente.co/deportes/james-rodriguez-suenia-con-titulos-en-nacional/">James Rodríguez sueña con títulos en Nacional</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>James Rodríguez dejó claro que su objetivo con Atlético Nacional es ganar títulos. Tras la victoria 3-1 sobre Independiente Medellín en el clásico antioqueño, el volante valoró el rendimiento del equipo, destacó el ambiente en el Atanasio Girardot y afirmó que sueña con ser campeón con la camiseta verdolaga.</p>
+<h2>James Rodríguez y su meta con Atlético Nacional</h2>
+<p>El mediocampista cucuteño fue uno de los protagonistas del triunfo de Atlético Nacional sobre Independiente Medellín en la fecha de los cuadrangulares semifinales de la Liga BetPlay 2026-II. En el compromiso disputado el miércoles 25 de noviembre, el jugador aportó dos asistencias en la remontada 3-1 del conjunto verdolaga, resultado que le permitió tomar el liderato del grupo A.</p>
+<p>Después del partido, Rodríguez habló con WIN Sports y resaltó la respuesta del equipo luego de empezar en desventaja. También valoró el marco de público en el estadio y la exigencia que implicó enfrentar a un rival con futbolistas de calidad.</p>
+<p>“Feliz porque hicimos un gran partido y eso es algo importante”, expresó de entrada el volante, al referirse al desempeño colectivo de Nacional.</p>
+<h2>Lo que dijo tras el clásico paisa</h2>
+<h3>La reacción de Nacional</h3>
+<p>Rodríguez explicó que Independiente Medellín comenzó mejor y abrió el marcador, pero sostuvo que Nacional reaccionó rápido y encontró espacios tras la expulsión de Jeison Medina. Para el jugador, ese contexto facilitó el desarrollo del segundo tiempo.</p>
+<h3>El papel del público en el Atanasio</h3>
+<p>El mediocampista también destacó el ambiente en el estadio y agradeció el acompañamiento de los aficionados. Según dijo, el gran marco en el Atanasio Girardot fue un factor importante en un partido de alta exigencia.</p>
+<h3>La exigencia de estos partidos</h3>
+<p>James remarcó que en encuentros de este tipo no hay margen para bajar la intensidad. Afirmó que el Medellín cuenta con excelentes jugadores y que Nacional fue un justo ganador por lo hecho en el campo.</p>
+<h2>El mensaje que dejó para lo que viene</h2>
+<p>El volante cerró sus declaraciones con una definición clara sobre lo que espera en Atlético Nacional. “Sueño con ganar títulos; Nacional exige ser campeón y vamos paso a paso”, afirmó, al dejar ver que su meta es aportar para que el club conquiste trofeos.</p>
+<p>Con este triunfo, Nacional llegó a cuatro puntos y quedó primero del grupo A. Santa Fe y Medellín suman tres unidades cada uno, mientras que Once Caldas tiene un punto. El equipo antioqueño sigue en carrera por llegar a la final de la Liga BetPlay 2026-II.</p>
+<h3>Por qué importa</h3>
+<p><strong>Deportivo:</strong> James Rodríguez reafirmó que su meta en Nacional es ganar títulos, en medio del liderato del grupo A.</p>
+<p><strong>Actualidad:</strong> El volante fue clave en el 3-1 sobre Medellín con dos asistencias.</p>
+<p><strong>Próximos pasos:</strong> Nacional continuará su camino en los cuadrangulares semifinales.</p>
+<h3>Nota de Transparencia</h3>
+<p>Este artículo fue generado con IA, a partir de información de una fuente periodística o institucional. La fuente fue aprobada por <span style="color: #00bfa5;"><strong><a style="color: #00bfa5;" href="https://occidente.co/" target="_blank" rel="noopener">Diario Occidente</a></strong></span> y el contenido final fue revisado por un miembro del equipo de redacción.</p>
+<p><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2025/08/Sello-IA.jpg" alt="Sello IA"></p>
+<p></p>
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750"></a></p>
+<p>The post <a href="https://occidente.co/deportes/james-rodriguez-suenia-con-titulos-en-nacional/">James Rodríguez sueña con títulos en Nacional</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/deportes/james-rodriguez-suenia-con-titulos-en-nacional/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cali y Valle del Cauca unen esfuerzos para ampliar las ayudas de vivienda y gestionar recursos para los damnificados del terremoto</title>
+		<link>https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-cali-y-el-valle-del-cauca-buscan-mas-vivienda/</link>
+					<comments>https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-cali-y-el-valle-del-cauca-buscan-mas-vivienda/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 27 Nov 2026 23:58:36 +0000</pubDate>
+				<category><![CDATA[Valle del Cauca]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445675</guid>
+
+					<description><![CDATA[<p>La reconstrucción de Cali y el Valle del Cauca tras el terremoto del 10 de agosto avanza con nuevas propuestas para ampliar el acceso a vivienda y gestionar recursos destinados a las familias damnificadas. La Gobernación del Valle, la Alcaldía de Cali y el senador Christian Garcés plantearon diferentes mecanismos de articulación con el Gobierno...</p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-cali-y-el-valle-del-cauca-buscan-mas-vivienda/">Cali y Valle del Cauca unen esfuerzos para ampliar las ayudas de vivienda y gestionar recursos para los damnificados del terremoto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>La reconstrucción de Cali y el Valle del Cauca tras el terremoto del 10 de agosto avanza con nuevas propuestas para ampliar el acceso a vivienda y gestionar recursos destinados a las familias damnificadas.</p>
+<p><strong>La Gobernación del Valle, la Alcaldía de Cali y el senador Christian Garcés plantearon diferentes mecanismos de articulación con el Gobierno Nacional, que incluyen la cofinanciación de proyectos habitacionales, subsidios y seguimiento a las inversiones</strong>.</p>
+<p>Uno de los escenarios de concertación fue la sesión del Bloque Regional y Parlamentario del Valle del Cauca, que contó con la participación del director del Fondo Milagro, Luis Felipe Henao.</p>
+<p><strong>Durante el encuentro, la gobernadora Dilian Francisca Toro propuso distribuir los costos de construcción y mejoramiento de inmuebles</strong> entre el departamento y dicha entidad, con el propósito de incrementar la cobertura y acelerar las entregas.</p>
+<p>La administración departamental adelanta actualmente la ejecución de 2.219 viviendas nuevas y 9.238 mejoramientos.</p>
+<p>No obstante, mediante la financiación conjunta, la mandataria estima que sería posible aumentar la construcción hasta alcanzar entre 3.500 y 4.000 unidades habitacionales.</p>
+<p>Además, explicó que el departamento utiliza inteligencia artificial y geovisores para identificar las necesidades de reparación de cada inmueble afectado.</p>
+<h2>Soluciones de vivienda</h2>
+<p>A esta propuesta se suma el trabajo de la Alcaldía de Cali, que impulsa el programa Casa Mía, mediante el cual ofrece subsidios de hasta $50 millones para la adquisición de vivienda nueva.</p>
+<p>La convocatoria permanece abierta para los propietarios damnificados por el terremoto que perdieron su única propiedad.</p>
+<p>Por su parte, el Gobierno Nacional presentó un programa de adquisición de inmuebles para las familias afectadas y firmó un convenio de reconstrucción con el Fondo Milagro.</p>
+<p><strong>La secretaria de Vivienda Social y Hábitat de Cali, María del Mar Mozo, destacó</strong> que esta articulación permitirá ampliar el alcance de las iniciativas distritales.</p>
+<p><strong>En esa misma línea, el ministro de Vivienda, Jaime Andrés Beltrán, explicó</strong> que las alternativas de atención incluyen mejoramientos, construcción en sitio propio, vivienda rural y adquisición de nuevas propiedades.</p>
+<p>También anunció la implementación del mecanismo de obras por impuestos en el sector habitacional, para vincular a empresarios y fundaciones.</p>
+<p>Mientras tanto, la Gobernación del Valle y el Fondo Milagro realizarán una mesa técnica la próxima semana para consolidar la información sobre las afectaciones y determinar los municipios prioritarios para iniciar los proyectos.</p>
+<h3>Recursos y seguimiento</h3>
+<p><strong>Frente a la financiación de la reconstrucción, el senador Christian Garcés, presidente del Bloque Regional y de Congresistas del Valle del Cauca, insistió</strong> en la necesidad de conocer el alcance de las ayudas, garantizar información sobre la destinación de los recursos y ejercer control político y seguimiento ciudadano.</p>
+<p>El congresista también solicitó actualizar el Plan Especial de Atención del Gobierno Nacional, estimado en cerca de $58 billones, para incorporar nuevas afectaciones, entre ellas las registradas en el terminal de Buenaventura.</p>
+<p>Asimismo, recordó los $2,7 billones aprobados en el presupuesto de 2026 para la reconstrucción y planteó la necesidad de recuperar los recursos correspondientes a 2027.</p>
+<p><strong> Según Garcés, la meta consiste en gestionar aproximadamente $15 billones mediante aportes públicos y privados</strong>.</p>
+<p><strong>En cuanto al Fondo Milagro, su director indicó</strong> que la entidad comenzará con cerca de $3,5 billones y estimó que el Valle del Cauca concentrará alrededor del 60 % de la inversión.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-cali-y-el-valle-del-cauca-buscan-mas-vivienda/">Cali y Valle del Cauca unen esfuerzos para ampliar las ayudas de vivienda y gestionar recursos para los damnificados del terremoto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/regionales/valle-del-cauca/reconstruccion-de-cali-y-el-valle-del-cauca-buscan-mas-vivienda/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Damnificados del terremoto en Cali denuncian trabas en las ayudas: ¿qué respuestas recibieron del Gobierno?</title>
+		<link>https://occidente.co/cali/damnificados-del-terremoto-en-cali-exponen-fallas-ante-congreso/</link>
+					<comments>https://occidente.co/cali/damnificados-del-terremoto-en-cali-exponen-fallas-ante-congreso/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 27 Nov 2026 23:52:43 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445672</guid>
+
+					<description><![CDATA[<p>Los damnificados del terremoto en Cali expusieron ante el Congreso de la República las dificultades que enfrentan para acceder a subsidios, indemnizaciones y soluciones de vivienda. Durante una audiencia pública realizada este 27 de noviembre en el Teatro Calima, las comunidades también denunciaron el incremento de los arriendos y las inconsistencias en los registros oficiales...</p>
+<p>The post <a href="https://occidente.co/cali/damnificados-del-terremoto-en-cali-exponen-fallas-ante-congreso/">Damnificados del terremoto en Cali denuncian trabas en las ayudas: ¿qué respuestas recibieron del Gobierno?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Los damnificados del terremoto en Cali expusieron ante el Congreso de la República las dificultades que enfrentan para acceder a subsidios, indemnizaciones y soluciones de vivienda.</p>
+<p>Durante una audiencia pública realizada este 27 de noviembre en el Teatro Calima, las comunidades también denunciaron el incremento de los arriendos y las inconsistencias en los registros oficiales de afectados.</p>
+<p>La Comisión Accidental Bicameral de seguimiento a la atención del terremoto del 10 de agosto reunió a representantes del Gobierno nacional, la Alcaldía de Cali, la Gobernación del Valle del Cauca, el Fondo Milagro y el sector asegurador.</p>
+<p>Más de 30 voceros de barrios, colectivos y comunas participaron en el encuentro para presentar sus necesidades y conocer el balance de las instituciones.</p>
+<p><strong>La senadora Norma Hurtado Sánchez, coordinadora de la comisión, explicó</strong> que las intervenciones de los ciudadanos servirán como sustento para ejercer control político y respaldar proyectos de ley.</p>
+<p>Además, indicó que el seguimiento a la emergencia permitió identificar dificultades en la atención de las entidades públicas y del sector asegurador.</p>
+<h2>Barreras para recibir ayudas</h2>
+<p>Entre las situaciones que denunciaron los damnificados del terremoto en Cali figuran los errores en los censos que impiden acceder a los subsidios gubernamentales.</p>
+<p>Gloria Lineros, administradora del conjunto residencial Multicentro, también manifestó la incertidumbre que existe entre las familias frente al pago de los deducibles que exigen las aseguradoras para entregar las indemnizaciones.</p>
+<p>A esto se suma el incremento de los arriendos que, según habitantes de barrios y corregimientos, afecta a las familias que perdieron sus viviendas.</p>
+<p>Por su parte, Isabel Hernández, residente de La Buitrera, señaló que algunos afectados debieron trasladarse a zonas de alto riesgo y de reserva forestal, por lo que solicitó agilizar la entrega de títulos de propiedad.</p>
+<p><strong>Frente a las soluciones habitacionales, el gerente del Fondo Milagro, Luis Felipe Henao, anunció que las familias beneficiarias podrán escoger el proyecto de vivienda de interés social donde desean vivir</strong>.</p>
+<p><strong>Asimismo, explicó</strong> que solicitó al Gobierno nacional exonerar a los beneficiarios del pago de los gastos de escrituración.</p>
+<h3>Balance de la reconstrucción</h3>
+<p><strong>Durante la audiencia, el secretario de Gestión del Riesgo de Cali, Ricardo Peñuela, presentó</strong> los avances en la atención de la emergencia.</p>
+<p>El funcionario propuso establecer mecanismos con el Gobierno nacional para corregir los errores del Registro Único de Damnificados (RUD) e incluir a quienes quedaron inscritos en el Registro Único de Familias en Emergencia (RUFE).</p>
+<p>Según las cifras de la Alcaldía, Cali registra 45.138 familias damnificadas y 12.103 edificaciones caracterizadas.</p>
+<p>El Distrito también reportó el acompañamiento a 2.753 familias, equivalentes a 8.244 personas, mientras que 40 ciudadanos permanecen en alojamientos temporales.</p>
+<p>En materia de vivienda, contabilizó 200 subsidios distritales de $50 millones cada uno, 16 viviendas donadas y 22 resoluciones del Fondo Milagro.</p>
+<p>La recuperación económica de la región también ocupó un espacio en la agenda del Congreso.</p>
+<p>Durante otra audiencia en Cali, gremios, sindicatos y sectores políticos discutieron el proyecto de Ley de Rescate Económico y sus posibles efectos tributarios.</p>
+<p>Los congresistas del Valle del Cauca y la región Pacífica señalaron las dificultades económicas que enfrenta el territorio tras el terremoto.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/damnificados-del-terremoto-en-cali-exponen-fallas-ante-congreso/">Damnificados del terremoto en Cali denuncian trabas en las ayudas: ¿qué respuestas recibieron del Gobierno?</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/damnificados-del-terremoto-en-cali-exponen-fallas-ante-congreso/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Registran jaguar en el Chocó</title>
+		<link>https://occidente.co/medio-ambiente/jaguar-en-el-parque-nacional-natural-los-katios-captado-en-video/</link>
+					<comments>https://occidente.co/medio-ambiente/jaguar-en-el-parque-nacional-natural-los-katios-captado-en-video/#respond</comments>
+		
+		<dc:creator><![CDATA[Eduardo Andres Osma Solano]]></dc:creator>
+		<pubDate>Fri, 27 Nov 2026 23:45:47 +0000</pubDate>
+				<category><![CDATA[Medio Ambiente]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445663</guid>
+
+					<description><![CDATA[<p>Un nuevo registro audiovisual confirma que el jaguar continúa recorriendo los bosques y ecosistemas del Parque Nacional Natural Los Katíos, en el departamento del Chocó. El felino fue captado recientemente por una cámara del equipo del parque mientras atravesaba las aguas del río Atrato, una imagen que destaca la importancia de este territorio para la...</p>
+<p>The post <a href="https://occidente.co/medio-ambiente/jaguar-en-el-parque-nacional-natural-los-katios-captado-en-video/">Registran jaguar en el Chocó</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>Un nuevo registro audiovisual confirma que el jaguar continúa recorriendo los bosques y ecosistemas del Parque Nacional Natural Los Katíos, en el departamento del Chocó.</strong></p>
+<p>El felino fue captado recientemente por una cámara del equipo del parque mientras atravesaba las aguas del río Atrato, una imagen que destaca la importancia de este territorio para la conservación de la especie.</p>
+<p>El avistamiento se suma a los resultados de una investigación realizada entre 2021 y 2023, que integró herramientas científicas y conocimientos ancestrales del pueblo indígena Wounaan para estudiar los mamíferos terrestres del área protegida.</p>
+<p>Durante el estudio se instalaron 34 cámaras trampa en los sectores de Cacarica y Sautatá, con la participación de la comunidad indígena Juin Phubuur.</p>
+<p><strong>El monitoreo permitió identificar más de 30 especies de mamíferos y obtener 24 registros de jaguar.</strong></p>
+<p>Además, se documentaron 471 registros de guaguas y 103 de venados, animales que hacen parte de la alimentación de este gran depredador.</p>
+<p><strong>La investigación también evidenció que no se presentaban conflictos directos entre los jaguares y las comunidades indígenas que habitan el parque.</strong></p>
+<p>Los Katíos, declarado Patrimonio Mundial Natural por la Unesco en 1994, representa un territorio estratégico para la biodiversidad.</p>
+<p>Allí, el jaguar cumple una función esencial en el equilibrio ecológico.</p>
+<p><strong>Los nuevos registros permitirán fortalecer el monitoreo y orientar futuras acciones para proteger esta emblemática especie.</strong></p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/medio-ambiente/jaguar-en-el-parque-nacional-natural-los-katios-captado-en-video/">Registran jaguar en el Chocó</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/medio-ambiente/jaguar-en-el-parque-nacional-natural-los-katios-captado-en-video/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Sandra Velásquez, gerente de la Red de Salud del Oriente, presentó los avances en la recuperación del Hospital Carlos Holmes Trujillo tras el sismo del 10 de agosto</title>
+		<link>https://occidente.co/cali/hospital-carlos-holmes-trujillo-avances-tras-sismo-en-cali/</link>
+					<comments>https://occidente.co/cali/hospital-carlos-holmes-trujillo-avances-tras-sismo-en-cali/#respond</comments>
+		
+		<dc:creator><![CDATA[Arturo Ceballos]]></dc:creator>
+		<pubDate>Fri, 27 Nov 2026 23:45:30 +0000</pubDate>
+				<category><![CDATA[Cali]]></category>
+		<guid isPermaLink="false">https://occidente.co/?p=445667</guid>
+
+					<description><![CDATA[<p>En el marco de la audiencia pública convocada por la Comisión Bicameral de Seguimiento al Terremoto, realizada en el Teatro Calima, la gerente de la Red de Salud del Oriente E.S.E., Sandra Liliana Velásquez Naranjo, presentó los avances, las gestiones y las necesidades para la recuperación del Hospital Carlos Holmes Trujillo y otras sedes de...</p>
+<p>The post <a href="https://occidente.co/cali/hospital-carlos-holmes-trujillo-avances-tras-sismo-en-cali/">Sandra Velásquez, gerente de la Red de Salud del Oriente, presentó los avances en la recuperación del Hospital Carlos Holmes Trujillo tras el sismo del 10 de agosto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>En el marco de la audiencia pública convocada por la Comisión Bicameral de Seguimiento al Terremoto, realizada en el Teatro Calima, la gerente de la Red de Salud del Oriente E.S.E., Sandra Liliana Velásquez Naranjo, presentó los avances, las gestiones y las necesidades para la recuperación del Hospital Carlos Holmes Trujillo y otras sedes de la institución, afectadas por el sismo del pasado 10 de agosto</strong>.</p>
+<p>El encuentro contó con la participación de congresistas de la República, representantes de entidades nacionales y territoriales, ciudadanos afectados por el sismo y habitantes de las comunidades del oriente de Cali, quienes tuvieron la oportunidad de expresar sus inquietudes y conocer los avances de las acciones de recuperación.</p>
+<p>Durante su intervención, la gerente explicó que uno de los principales retos ha sido garantizar la continuidad de los servicios de salud.</p>
+<p><strong>En el Hospital Carlos Holmes Trujillo, los daños registrados en la torre de Consulta Externa, un edificio de cuatro pisos con 40 consultorios donde se atendían más de 1.300 consultas diarias</strong>, hicieron necesario trasladar estos servicios a las otras 26 IPS de la Red, que continúan prestando atención a los usuarios.</p>
+<p>Por su parte, el hospital mantiene en funcionamiento servicios como urgencias, hospitalización de adultos y pediátrica, atención de partos, laboratorio clínico, mamografías, rehabilitación y terapia, imágenes diagnósticas, vacunación y el programa de tuberculosis, entre otros.</p>
+<p>En cuanto a la recuperación de la infraestructura, Velásquez destacó la gestión de la primera dama de la Nación, Ana Lucía Pineda, quien anunció una donación de $10.000 millones, proveniente del Grupo Gilinski, a través de la Fundación Vida, junto con la Fundación Solidaridad por Colombia y la Fundación Luz y Sonrisas.</p>
+<p>Actualmente, se avanza en la formalización del convenio con la Fundación Solidaridad por Colombia, entidad encargada de ejecutar los recursos y desarrollar las intervenciones contempladas para atender los daños ocasionados por el sismo en el hospital.</p>
+<p>El proceso también ha contado con el acompañamiento de organizaciones nacionales e internacionales, entre ellas Miyamoto International, Propacífico y la Iglesia de Jesucristo de los Santos de los Últimos Días, en acciones relacionadas con la evaluación de daños, la identificación de necesidades y la definición de intervenciones en diferentes sedes de la Red.</p>
+<p>Las obras proyectadas para el Hospital Carlos Holmes Trujillo contemplan reparaciones en cubiertas, pisos, baños, cielos falsos, acabados y fachadas, además de la demolición controlada y reconstrucción de muros que presentan pérdida de estabilidad.</p>
+<p>De igual manera, se estima una inversión adicional de $7.714 millones para el reforzamiento estructural y la interventoría del hospital.</p>
+<p>La evaluación de las necesidades de infraestructura también contempla otras sedes de la Red.</p>
+<p>Entre las estimaciones se encuentran $12.055 millones para estudios, diseños y reforzamiento estructural de las IPS Marroquín Cauquita, Potrero Grande y Desepaz, y $5.631,7 millones para reparaciones en otras 13 sedes.</p>
+<p>Estas cifras corresponden a valores estimados de las intervenciones requeridas y no a recursos ejecutados.</p>
+<p>En materia de seguridad de la infraestructura, la aseguradora del Distrito realizó el cerramiento interno y externo del Hospital Carlos Holmes Trujillo y reconstruyó un muro de culata en el Centro de Salud El Diamante.</p>
+<p>Por su parte, la reclamación presentada ante la aseguradora de la E.S.E. continúa pendiente de respuesta, teniendo en cuenta que la póliza institucional cubre únicamente los contenidos.</p>
+<p>Adicionalmente, se identificaron 54 equipos tecnológicos afectados por el sismo, entre computadores, impresoras, UPS y switches de red, cuya valoración se estima en $327,8 millones.</p>
+<p>La Red de Salud del Oriente E.S.E. continúa trabajando en la gestión y articulación institucional para avanzar en la recuperación de la infraestructura afectada, garantizando la prestación de los servicios de salud y el bienestar de las comunidades del oriente de Cali.</p>
+<hr />
+<p><a href="https://whatsapp.com/channel/0029Va5yD0m6buMAUPRRLJ1O" target="_blank" rel="dofollow noopener"><img decoding="async" class="img-fluid aligncenter size-full wp-image-144260" src="https://occidente.co/wp-content/uploads/2024/01/Banner-Canal-WhatsApp-1024x390.jpg" alt="Banner Canal WhatsApp" width="750" /></a></p>
+<p>The post <a href="https://occidente.co/cali/hospital-carlos-holmes-trujillo-avances-tras-sismo-en-cali/">Sandra Velásquez, gerente de la Red de Salud del Oriente, presentó los avances en la recuperación del Hospital Carlos Holmes Trujillo tras el sismo del 10 de agosto</a> appeared first on <a href="https://occidente.co">Diario Occidente</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://occidente.co/cali/hospital-carlos-holmes-trujillo-avances-tras-sismo-en-cali/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
